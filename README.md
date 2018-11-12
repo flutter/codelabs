@@ -1,2 +1,2 @@
-# flutter-codelabs
+# codelabs
 Flutter codelab examples
