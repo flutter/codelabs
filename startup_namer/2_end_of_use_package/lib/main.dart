@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           title: Text('Welcome to Flutter'),
         ),
-        body:  Center(
+        body: Center(
           child: Text(wordPair.asPascalCase),
         ),
       ),

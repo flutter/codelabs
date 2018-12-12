@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           title: Text('Welcome to Flutter'),
         ),
-        body:  Center(
+        body: Center(
           child: RandomWords(),
         ),
       ),
@@ -25,7 +25,8 @@ class RandomWordsState extends State<RandomWords> {
   Widget build(BuildContext context) {
     final wordPair = WordPair.random();
     return Text(wordPair.asPascalCase);
-  }}
+  }
+}
 
 class RandomWords extends StatefulWidget {
   @override
