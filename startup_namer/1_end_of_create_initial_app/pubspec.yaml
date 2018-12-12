@@ -1,6 +1,5 @@
 name: startup_namer
-description: A new Flutter application.
-
+description: A startup-namer app.
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
 # followed by an optional build number separated by a +.
@@ -20,7 +19,6 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
