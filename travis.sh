@@ -6,7 +6,7 @@ set -e -o pipefail
 FLUTTER_VERS=`$FLUTTER --version | head -1`
 
 declare -a  PROJECT_PATHS=(
-  startup_namer/[1-1]* \
+  startup_namer/[1-4]* \
 )
 
 echo "== USING $FLUTTER_VERS"
