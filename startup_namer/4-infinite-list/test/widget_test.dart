@@ -1,8 +1,4 @@
-// This is a basic Flutter widget test.
-// To perform an interaction with a widget in your test, use the WidgetTester utility that Flutter
-// provides. For example, you can send tap and scroll gestures. You can also use WidgetTester to
-// find child widgets in the widget tree, read text, and verify that the values of widget properties
-// are correct.
+// Basic Flutter widget test. Learn more at https://flutter.io/docs/testing.
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -10,20 +6,18 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:startup_namer/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
+  testWidgets('Codelab smoke test', (WidgetTester tester) async {
     await tester.pumpWidget(new MyApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    final textWidgets = tester.widgetList<Text>(find.byType(Text));
+    expect(textWidgets.length, greaterThan(2));
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    expect(textWidgets.last.data, 'Startup Name Generator');
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    final wordPairRegExp = RegExp(r'^[A-Z]\w*[A-Z]\w*$');
+    final isWordPair = predicate((s) => wordPairRegExp.hasMatch(s));
+    for (final widget in textWidgets.take(textWidgets.length - 1)) {
+      expect(widget.data, isWordPair);
+    }
   });
 }
