@@ -2,14 +2,18 @@
 
 set -e -o pipefail
 
-: ${FLUTTER:=flutter}
-FLUTTER_VERS=`$FLUTTER --version | head -1`
+if  [[ -n "$(type -t flutter)" ]]; then
+  : ${FLUTTER:=flutter}
+fi
+echo "== FLUTTER: $FLUTTER"
 
-declare -a  PROJECT_PATHS=(
+FLUTTER_VERS=`$FLUTTER --version | head -1`
+echo "== FLUTTER_VERS: $FLUTTER_VERS"
+
+declare -a PROJECT_PATHS=(
   startup_namer/[1-4]* \
 )
 
-echo "== USING $FLUTTER_VERS"
 for PROJECT in "${PROJECT_PATHS[@]}"; do
   echo "== TESTING $PROJECT"
   pushd "$PROJECT" > /dev/null
