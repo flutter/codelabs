@@ -1,6 +1,8 @@
 .DS_Store
 pubspec.lock
 
-**/android
-**/ios
-**/pubspec.lock
+*/**/android
+*/**/ios
+*/**/.gitignore
+*/**/.metadata
+*/**/README.md
