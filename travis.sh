@@ -11,7 +11,7 @@ FLUTTER_VERS=`$FLUTTER --version | head -1`
 echo "== FLUTTER_VERS: $FLUTTER_VERS"
 
 declare -a PROJECT_PATHS=(
-  startup_namer/[1-4]* \
+  startup_namer/step[0-9]* \
 )
 
 for PROJECT in "${PROJECT_PATHS[@]}"; do
