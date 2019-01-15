@@ -16,13 +16,14 @@ declare -a PROJECT_PATHS=(
 
 for PROJECT in "${PROJECT_PATHS[@]}"; do
   echo "== TESTING $PROJECT"
-  pushd "$PROJECT" > /dev/null
-
-  $FLUTTER analyze
-  $FLUTTER format --dry-run --set-exit-if-changed .
-  $FLUTTER test
-
-  popd > /dev/null
+  $FLUTTER create --no-overwrite "$PROJECT"
+  (
+    cd "$PROJECT";
+    set -x;
+    $FLUTTER analyze;
+    $FLUTTER format --dry-run --set-exit-if-changed .;
+    $FLUTTER test
+  )
 done
 
 echo "== END OF TESTS"
