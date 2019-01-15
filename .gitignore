@@ -1,2 +1,6 @@
 .DS_Store
 pubspec.lock
+
+**/android
+**/ios
+**/pubspec.lock
