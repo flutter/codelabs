@@ -35,5 +35,5 @@ class RandomWordsState extends State<RandomWords> {
 // #docregion RandomWords
 class RandomWords extends StatefulWidget {
   @override
-  RandomWordsState createState() => new RandomWordsState();
+  RandomWordsState createState() => RandomWordsState();
 }
