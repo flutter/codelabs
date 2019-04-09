@@ -1,4 +1,8 @@
-// Basic Flutter widget test. Learn more at https://flutter.io/docs/testing.
+// Copyright 2018 The Flutter team. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
+// Basic Flutter widget test. Learn more at https://flutter.dev/docs/testing.
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -7,7 +11,7 @@ import 'package:startup_namer/main.dart';
 
 void main() {
   testWidgets('Codelab smoke test', (WidgetTester tester) async {
-    await tester.pumpWidget(new MyApp());
+    await tester.pumpWidget(MyApp());
 
     final textWidgets = tester.widgetList<Text>(find.byType(Text));
     expect(textWidgets.length, 2);
