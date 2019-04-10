@@ -7,6 +7,7 @@ addons:
   apt:
     packages:
       - libstdc++6
+      - lib32stdc++6
       - fonts-droid
     sources:
       - ubuntu-toolchain-r-test
