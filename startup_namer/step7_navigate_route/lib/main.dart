@@ -77,7 +77,8 @@ class RandomWordsState extends State<RandomWords> {
 
   void _pushSaved() {
     Navigator.of(context).push(
-      MaterialPageRoute<void>(   // Add 20 lines from here...
+      MaterialPageRoute<void>(
+        // Add 20 lines from here...
         builder: (BuildContext context) {
           final Iterable<ListTile> tiles = _saved.map(
             (WordPair pair) {
@@ -89,21 +90,19 @@ class RandomWordsState extends State<RandomWords> {
               );
             },
           );
-          final List<Widget> divided = ListTile
-            .divideTiles(
-              context: context,
-              tiles: tiles,
-            )
-            .toList();
+          final List<Widget> divided = ListTile.divideTiles(
+            context: context,
+            tiles: tiles,
+          ).toList();
 
           return Scaffold(
             appBar: AppBar(
               title: Text('Saved Suggestions'),
             ),
             body: ListView(children: divided),
-          ); 
+          );
         },
-      ), 
+      ),
     );
   }
   // #docregion RWS-var

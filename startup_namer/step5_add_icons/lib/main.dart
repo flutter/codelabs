@@ -60,9 +60,9 @@ class RandomWordsState extends State<RandomWords> {
         setState(() {
           if (alreadySaved) {
             _saved.remove(pair);
-          } else { 
-            _saved.add(pair); 
-          } 
+          } else {
+            _saved.add(pair);
+          }
         });
       },
     );
