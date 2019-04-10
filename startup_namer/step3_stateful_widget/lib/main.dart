@@ -1,3 +1,7 @@
+// Copyright 2018 The Flutter team. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
 
@@ -35,5 +39,5 @@ class RandomWordsState extends State<RandomWords> {
 // #docregion RandomWords
 class RandomWords extends StatefulWidget {
   @override
-  RandomWordsState createState() => new RandomWordsState();
+  RandomWordsState createState() => RandomWordsState();
 }
