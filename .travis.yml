@@ -5,16 +5,17 @@ sudo: false
 # https://github.com/flutter/flutter/issues/6207
 addons:
   apt:
-    packages: [libstdc++6]
-    # Specify sources otherwise we get the wrong version of libstdc++6
-    sources: [ubuntu-toolchain-r-test]
+    packages:
+      - libstdc++6
+      - fonts-droid
+    sources:
+      - ubuntu-toolchain-r-test
 
 cache:
   directories:
-    - $HOME/.pub-cache
-
-git: { depth: 2 }
-
+    - $HOME/shared/.pub-cache
+git:
+  depth: 2
 env:
   global:
     - FLUTTER_BIN=$PWD/flutter/bin
@@ -27,12 +28,17 @@ matrix:
   allow_failures:
     - env: FLUTTER_BRANCH=dev
 
-install:
+before_script:
   - git clone https://github.com/flutter/flutter.git -b $FLUTTER_BRANCH
-  - $FLUTTER doctor
+  - ./flutter/bin/flutter doctor
+  - chmod +x travis.sh
 
 script: ./travis.sh
 
 # Only run Travis jobs for named branches (to avoid double builds for each PR)
 branches:
   only: [master, /^\d\.x$/, /^\d-dev$/, /travis-build/]
+
+  notifications:
+  email:
+    brett.morgan+github@gmail.com
