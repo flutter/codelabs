@@ -2,8 +2,8 @@
 pubspec.lock
 .packages
 
-*/**/android
-*/**/ios
-*/**/.gitignore
+# */**/android
+# */**/ios
+# */**/.gitignore
 */**/.metadata
 */**/README.md
