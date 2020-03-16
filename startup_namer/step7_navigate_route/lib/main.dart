@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
 // #docregion RWS-var
 class RandomWordsState extends State<RandomWords> {
   final _suggestions = <WordPair>[];
-  final Set<WordPair> _saved = Set<WordPair>();
+  final Set<WordPair> _saved = <WordPair>{};
   final _biggerFont = const TextStyle(fontSize: 18.0);
   // #enddocregion RWS-var
 
@@ -46,7 +46,7 @@ class RandomWordsState extends State<RandomWords> {
 
   // #docregion _buildRow
   Widget _buildRow(WordPair pair) {
-    final bool alreadySaved = _saved.contains(pair);
+    final alreadySaved = _saved.contains(pair);
     return ListTile(
       title: Text(
         pair.asPascalCase,
@@ -89,7 +89,7 @@ class RandomWordsState extends State<RandomWords> {
       MaterialPageRoute<void>(
         // Add 20 lines from here...
         builder: (BuildContext context) {
-          final Iterable<ListTile> tiles = _saved.map(
+          final tiles = _saved.map(
             (WordPair pair) {
               return ListTile(
                 title: Text(
@@ -99,7 +99,7 @@ class RandomWordsState extends State<RandomWords> {
               );
             },
           );
-          final List<Widget> divided = ListTile.divideTiles(
+          final divided = ListTile.divideTiles(
             context: context,
             tiles: tiles,
           ).toList();
