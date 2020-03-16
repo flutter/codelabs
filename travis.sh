@@ -10,7 +10,7 @@ echo "== FLUTTER: $FLUTTER"
 FLUTTER_VERS=`$FLUTTER --version | head -1`
 echo "== FLUTTER_VERS: $FLUTTER_VERS"
 
-declare -a PROJECT_PATHS=($(find . -name pubspec.yaml -exec dirname {} \;))
+declare -a PROJECT_PATHS=($(find . -not -path './flutter/*' -name pubspec.yaml -exec dirname {} \;))
 
 for PROJECT in "${PROJECT_PATHS[@]}"; do
   echo "== TESTING $PROJECT"
