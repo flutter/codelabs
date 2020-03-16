@@ -7,3 +7,5 @@ pubspec.lock
 # */**/.gitignore
 */**/.metadata
 */**/README.md
+
+.dart_tool/
