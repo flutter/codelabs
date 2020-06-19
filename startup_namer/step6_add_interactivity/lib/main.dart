@@ -22,16 +22,16 @@ class MyApp extends StatelessWidget {
 // #enddocregion MyApp
 
 // #docregion RWS-var
-class RandomWordsState extends State<RandomWords> {
+class _RandomWordsState extends State<RandomWords> {
   final _suggestions = <WordPair>[];
   final Set<WordPair> _saved = <WordPair>{};
-  final _biggerFont = const TextStyle(fontSize: 18.0);
+  final _biggerFont = TextStyle(fontSize: 18.0);
   // #enddocregion RWS-var
 
   // #docregion _buildSuggestions
   Widget _buildSuggestions() {
     return ListView.builder(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(16.0),
         itemBuilder: /*1*/ (context, i) {
           if (i.isOdd) return Divider(); /*2*/
 
@@ -86,5 +86,5 @@ class RandomWordsState extends State<RandomWords> {
 
 class RandomWords extends StatefulWidget {
   @override
-  RandomWordsState createState() => RandomWordsState();
+  State<RandomWords> createState() => _RandomWordsState();
 }

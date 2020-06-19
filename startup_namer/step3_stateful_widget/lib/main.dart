@@ -24,8 +24,8 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// #docregion RandomWordsState, RWS-class-only
-class RandomWordsState extends State<RandomWords> {
+// #docregion _RandomWordsState, RWS-class-only
+class _RandomWordsState extends State<RandomWords> {
   // #enddocregion RWS-class-only
   @override
   Widget build(BuildContext context) {
@@ -34,10 +34,10 @@ class RandomWordsState extends State<RandomWords> {
   }
   // #docregion RWS-class-only
 }
-// #enddocregion RandomWordsState, RWS-class-only
+// #enddocregion _RandomWordsState, RWS-class-only
 
 // #docregion RandomWords
 class RandomWords extends StatefulWidget {
   @override
-  RandomWordsState createState() => RandomWordsState();
+  State<RandomWords> createState() => _RandomWordsState();
 }
