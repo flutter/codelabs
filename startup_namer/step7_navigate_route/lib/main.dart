@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
 // #docregion RWS-var
 class _RandomWordsState extends State<RandomWords> {
   final _suggestions = <WordPair>[];
-  final Set<WordPair> _saved = <WordPair>{};
+  final _saved = <WordPair>{};
   final _biggerFont = TextStyle(fontSize: 18.0);
   // #enddocregion RWS-var
 
@@ -75,7 +75,7 @@ class _RandomWordsState extends State<RandomWords> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Startup Name Generator'),
-        actions: <Widget>[
+        actions: [
           IconButton(icon: Icon(Icons.list), onPressed: _pushSaved),
         ],
       ),
@@ -87,7 +87,7 @@ class _RandomWordsState extends State<RandomWords> {
   void _pushSaved() {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
-        // Add 20 lines from here...
+        // Add lines from here...
         builder: (BuildContext context) {
           final tiles = _saved.map(
             (WordPair pair) {
@@ -110,7 +110,7 @@ class _RandomWordsState extends State<RandomWords> {
             ),
             body: ListView(children: divided),
           );
-        },
+        }, // ...to here.
       ),
     );
   }
