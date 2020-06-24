@@ -10,11 +10,10 @@ echo "== FLUTTER: $FLUTTER"
 FLUTTER_VERS=`$FLUTTER --version | head -1`
 echo "== FLUTTER_VERS: $FLUTTER_VERS"
 
-# PluginCodelab is a special case since it's a plugin.
+# PluginCodelab is a special case since it's a plugin.  Analysis doesn't seem to be working.
 pushd $PWD
 echo "== TESTING PluginCodelab"
 cd ./PluginCodelab
-$FLUTTER analyze;
 $FLUTTER format --dry-run --set-exit-if-changed .;
 popd
 
