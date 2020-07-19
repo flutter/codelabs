@@ -84,6 +84,7 @@ class _RandomWordsState extends State<RandomWords> {
   }
   // #enddocregion RWS-build
 
+  // #docregion RWS-var
   void _pushSaved() {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
@@ -114,9 +115,7 @@ class _RandomWordsState extends State<RandomWords> {
       ),
     );
   }
-  // #docregion RWS-var
-}
-// #enddocregion RWS-var
+  // #enddocregion RWS-var
 
 class RandomWords extends StatefulWidget {
   @override
