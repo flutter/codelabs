@@ -2,7 +2,6 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
@@ -21,9 +20,9 @@ Widget createFavoritesScreen() => ChangeNotifierProvider<Favorites>(
       ),
     );
 
-void addRandomItems() {
+void addItems() {
   for (var i = 0; i < 10; i += 2) {
-    favoritesList.add(Random().nextInt(50));
+    favoritesList.add(i);
   }
 }
 
@@ -31,27 +30,20 @@ void main() {
   group('Favorites Page Widget Tests', () {
     testWidgets('Test if ListView shows up', (tester) async {
       await tester.pumpWidget(createFavoritesScreen());
-
-      addRandomItems();
+      addItems();
       await tester.pumpAndSettle();
-
       expect(find.byType(ListView), findsOneWidget);
     });
 
     testWidgets('Testing Remove Button', (tester) async {
       await tester.pumpWidget(createFavoritesScreen());
-
-      addRandomItems();
+      addItems();
       await tester.pumpAndSettle();
-
       var totalItems = tester.widgetList(find.byIcon(Icons.close)).length;
-
       await tester.tap(find.byIcon(Icons.close).first);
       await tester.pumpAndSettle();
-
       expect(tester.widgetList(find.byIcon(Icons.close)).length,
           lessThan(totalItems));
-
       expect(find.text('Removed from favorites.'), findsOneWidget);
     });
   });
