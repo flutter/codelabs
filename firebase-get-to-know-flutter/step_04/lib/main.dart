@@ -20,7 +20,7 @@ class GTKApp extends StatelessWidget {
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: GtkHomePage(),
+      home: GTKHomePage(),
     );
   }
 }
