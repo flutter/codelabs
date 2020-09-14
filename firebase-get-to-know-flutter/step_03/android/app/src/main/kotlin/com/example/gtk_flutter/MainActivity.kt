@@ -1,4 +1,4 @@
-package com.example.gtk_firebase
+package com.example.gtk_flutter
 
 import io.flutter.embedding.android.FlutterActivity
 

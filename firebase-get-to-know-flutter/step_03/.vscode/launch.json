@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "gtk_firebase",
+            "name": "gtk_flutter",
             "request": "launch",
             "type": "dart"
         }
