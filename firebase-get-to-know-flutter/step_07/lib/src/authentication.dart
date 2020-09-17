@@ -1,82 +1,119 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuthException;
 
-import 'application_state.dart';
 import 'widgets.dart';
 
+enum GTKApplicationLoginState {
+  loggedOut,
+  emailAddress,
+  register,
+  password,
+  loggedIn,
+}
+
 class GTKAuthentication extends StatelessWidget {
+  const GTKAuthentication({
+    @required this.loginState,
+    @required this.email,
+    @required this.startLoginFlow,
+    @required this.verifyEmail,
+    @required this.signInWithEmailAndPassword,
+    @required this.cancelRegistration,
+    @required this.registerAccount,
+    @required this.signOut,
+  });
+
+  final GTKApplicationLoginState loginState;
+  final String email;
+  final void Function() startLoginFlow;
+  final void Function(
+    String email,
+    void Function(FirebaseAuthException e) error,
+  ) verifyEmail;
+  final void Function(
+    String email,
+    String password,
+    void Function(FirebaseAuthException e) error,
+  ) signInWithEmailAndPassword;
+  final void Function() cancelRegistration;
+  final void Function(
+    String email,
+    String displayName,
+    String password,
+    void Function(FirebaseAuthException e) error,
+  ) registerAccount;
+  final void Function() signOut;
+
   @override
-  Widget build(BuildContext context) => Consumer<GTKApplicationState>(
-        builder: (context, appState, _) {
-          switch (appState.loginState) {
-            case GTKApplicationLoginState.loggedOut:
-              return Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 24, bottom: 8),
-                    child: GTKButton(
-                      child: Text('RSVP'),
-                      onPressed: () {
-                        appState.startLoginFlow();
-                      },
-                    ),
-                  ),
-                ],
-              );
-            case GTKApplicationLoginState.emailAddress:
-              return GTKEmailForm(
-                  callback: (email) => appState.verifyEmail(email,
-                      (e) => _showErrorDialog(context, 'Invalid email', e)));
-            case GTKApplicationLoginState.password:
-              return GTKPasswordForm(
-                email: appState.email,
-                login: (email, password) {
-                  appState.signInWithEmailAndPassword(email, password,
-                      (e) => _showErrorDialog(context, 'Failed to sign in', e));
+  Widget build(BuildContext context) {
+    switch (loginState) {
+      case GTKApplicationLoginState.loggedOut:
+        return Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 24, bottom: 8),
+              child: GTKButton(
+                child: Text('RSVP'),
+                onPressed: () {
+                  startLoginFlow();
                 },
-              );
-            case GTKApplicationLoginState.register:
-              return GTKRegisterForm(
-                email: appState.email,
-                cancel: () {
-                  appState.cancelRegistration();
+              ),
+            ),
+          ],
+        );
+      case GTKApplicationLoginState.emailAddress:
+        return GTKEmailForm(
+            callback: (email) => verifyEmail(
+                email, (e) => _showErrorDialog(context, 'Invalid email', e)));
+      case GTKApplicationLoginState.password:
+        return GTKPasswordForm(
+          email: email,
+          login: (email, password) {
+            signInWithEmailAndPassword(email, password,
+                (e) => _showErrorDialog(context, 'Failed to sign in', e));
+          },
+        );
+      case GTKApplicationLoginState.register:
+        return GTKRegisterForm(
+          email: email,
+          cancel: () {
+            cancelRegistration();
+          },
+          registerAccount: (
+            email,
+            displayName,
+            password,
+          ) {
+            registerAccount(
+                email,
+                displayName,
+                password,
+                (e) =>
+                    _showErrorDialog(context, 'Failed to create account', e));
+          },
+        );
+      case GTKApplicationLoginState.loggedIn:
+        return Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 24, bottom: 8),
+              child: GTKButton(
+                child: Text('LOGOUT'),
+                onPressed: () {
+                  signOut();
                 },
-                registerAccount: (
-                  email,
-                  displayName,
-                  password,
-                ) {
-                  appState.registerAccount(
-                      email,
-                      displayName,
-                      password,
-                      (e) => _showErrorDialog(
-                          context, 'Failed to create account', e));
-                },
-              );
-            case GTKApplicationLoginState.loggedIn:
-              return Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 24, bottom: 8),
-                    child: GTKButton(
-                      child: Text('LOGOUT'),
-                      onPressed: () {
-                        appState.signOut();
-                      },
-                    ),
-                  ),
-                ],
-              );
-            default:
-              return Row(
-                children: [
-                  Text("Internal error, this shouldn't happen..."),
-                ],
-              );
-          }
-        },
-      );
+              ),
+            ),
+          ],
+        );
+      default:
+        return Row(
+          children: [
+            Text("Internal error, this shouldn't happen..."),
+          ],
+        );
+    }
+  }
 
   void _showErrorDialog(
       BuildContext context, String title, FirebaseAuthException e) {

@@ -52,7 +52,18 @@ class GTKHomePage extends StatelessWidget {
           SizedBox(height: 8),
           GTKIconAndDetail(Icons.calendar_today, 'October 30'),
           GTKIconAndDetail(Icons.location_city, 'San Francisco'),
-          GTKAuthentication(),
+          Consumer<GTKApplicationState>(
+            builder: (context, appState, _) => GTKAuthentication(
+              email: appState.email,
+              loginState: appState.loginState,
+              startLoginFlow: appState.startLoginFlow,
+              verifyEmail: appState.verifyEmail,
+              signInWithEmailAndPassword: appState.signInWithEmailAndPassword,
+              cancelRegistration: appState.cancelRegistration,
+              registerAccount: appState.registerAccount,
+              signOut: appState.signOut,
+            ),
+          ),
           Divider(
             height: 8,
             thickness: 1,

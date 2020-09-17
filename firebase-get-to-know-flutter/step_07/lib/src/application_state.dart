@@ -2,16 +2,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 
+import 'authentication.dart';
+
 export 'package:firebase_auth/firebase_auth.dart'
     show User, FirebaseAuthException;
-
-enum GTKApplicationLoginState {
-  loggedOut,
-  emailAddress,
-  register,
-  password,
-  loggedIn,
-}
 
 class GTKApplicationState extends ChangeNotifier {
   GTKApplicationState() {
@@ -75,7 +69,7 @@ class GTKApplicationState extends ChangeNotifier {
         email: email,
         password: password,
       );
-      // If sign in succeeds, FirebaseAuth.instance.authStateChanges() will fire
+      // If sign in succeeds, FirebaseAuth.instance.userChanges() will fire
       // with new state. Alternatively, a FirebaseAuthException will be thrown
       // with an explanation as to why sign in failed.
     } on FirebaseAuthException catch (e) {
@@ -94,7 +88,7 @@ class GTKApplicationState extends ChangeNotifier {
       var credential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
       await credential.user.updateProfile(displayName: displayName);
-      // If registration succeeds, FirebaseAuth.instance.authStateChanges() will
+      // If registration succeeds, FirebaseAuth.instance.userChanges() will
       // fire with new state. Alternatively, a FirebaseAuthException will be
       // thrown with an explanation as to why registration failed.
     } on FirebaseAuthException catch (e) {
