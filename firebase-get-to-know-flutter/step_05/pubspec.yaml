@@ -9,6 +9,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  cloud_firestore: ^0.14.0+2
+  firebase_auth: ^0.18.0+1
   google_fonts: ^1.1.0
   provider: ^4.3.2+2
 
