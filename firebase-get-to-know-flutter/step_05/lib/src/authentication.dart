@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuthException;
 
 import 'widgets.dart';
 
@@ -28,19 +27,19 @@ class GTKAuthentication extends StatelessWidget {
   final void Function() startLoginFlow;
   final void Function(
     String email,
-    void Function(FirebaseAuthException e) error,
+    void Function(Exception e) error,
   ) verifyEmail;
   final void Function(
     String email,
     String password,
-    void Function(FirebaseAuthException e) error,
+    void Function(Exception e) error,
   ) signInWithEmailAndPassword;
   final void Function() cancelRegistration;
   final void Function(
     String email,
     String displayName,
     String password,
-    void Function(FirebaseAuthException e) error,
+    void Function(Exception e) error,
   ) registerAccount;
   final void Function() signOut;
 
@@ -115,8 +114,7 @@ class GTKAuthentication extends StatelessWidget {
     }
   }
 
-  void _showErrorDialog(
-      BuildContext context, String title, FirebaseAuthException e) {
+  void _showErrorDialog(BuildContext context, String title, Exception e) {
     showDialog<void>(
       context: context,
       builder: (BuildContext context) {
@@ -129,7 +127,7 @@ class GTKAuthentication extends StatelessWidget {
             child: ListBody(
               children: <Widget>[
                 Text(
-                  '${e.message}',
+                  '${(e as dynamic).message}',
                   style: TextStyle(fontSize: 18),
                 ),
               ],
