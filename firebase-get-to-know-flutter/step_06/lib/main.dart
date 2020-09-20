@@ -46,9 +46,7 @@ class GTKHomePage extends StatelessWidget {
       ),
       body: ListView(
         children: <Widget>[
-          Image.network('https://firebasestorage.googleapis.com/v0/b'
-              '/fir-images-a61c9.appspot.com/o/codelab.png'
-              '?alt=media&token=f45f808c-ce40-4b34-944c-8d8fac00e13d'),
+          Image.asset('assets/codelab.png'),
           SizedBox(height: 8),
           GTKIconAndDetail(Icons.calendar_today, 'October 30'),
           GTKIconAndDetail(Icons.location_city, 'San Francisco'),
