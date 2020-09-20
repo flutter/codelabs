@@ -22,6 +22,7 @@ env:
     - FLUTTER=$FLUTTER_BIN/flutter
   matrix:
     - FLUTTER_BRANCH=stable
+    - FLUTTER_BRANCH=beta
     - FLUTTER_BRANCH=dev
 
 matrix:
