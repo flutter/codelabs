@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -98,5 +99,17 @@ class GTKApplicationState extends ChangeNotifier {
 
   void signOut() {
     FirebaseAuth.instance.signOut();
+  }
+
+  Future<DocumentReference> addMessageToGuestBook(String message) {
+    if (_loginState != GTKApplicationLoginState.loggedIn)
+      throw Exception('Must be logged in');
+
+    return FirebaseFirestore.instance.collection('guestbook').add({
+      'text': message,
+      'timestamp': DateTime.now().millisecondsSinceEpoch,
+      'name': FirebaseAuth.instance.currentUser.displayName,
+      'userId': FirebaseAuth.instance.currentUser.uid,
+    });
   }
 }

@@ -73,8 +73,77 @@ class GTKHomePage extends StatelessWidget {
           GTKParagraph(
             'Join us for a day full of Firebase Workshops and Pizza!',
           ),
+          Consumer<GTKApplicationState>(
+            builder: (context, appState, _) => Column(
+              children: [
+                if (appState.loginState ==
+                    GTKApplicationLoginState.loggedIn) ...[
+                  GTKHeader('Discussion'),
+                  GTKGuestBook(
+                    addMessage: (String message) =>
+                        appState.addMessageToGuestBook(message),
+                  ),
+                ]
+              ],
+            ),
+          ),
         ],
       ),
     );
   }
+}
+
+class GTKGuestBook extends StatefulWidget {
+  GTKGuestBook({@required this.addMessage});
+  final Future<void> Function(String message) addMessage;
+
+  @override
+  _GTKGuestBookState createState() => _GTKGuestBookState();
+}
+
+class _GTKGuestBookState extends State<GTKGuestBook> {
+  final _formKey = GlobalKey<FormState>(debugLabel: '_GTKGuestBookState');
+  final _controller = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Form(
+          key: _formKey,
+          child: Row(
+            children: [
+              Expanded(
+                child: TextFormField(
+                  controller: _controller,
+                  decoration: const InputDecoration(
+                    hintText: 'Leave a message',
+                  ),
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Enter your message to continue';
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              SizedBox(width: 8),
+              GTKButton(
+                child: Row(
+                  children: [
+                    Icon(Icons.send),
+                    SizedBox(width: 4),
+                    Text('SEND'),
+                  ],
+                ),
+                onPressed: () async {
+                  if (_formKey.currentState.validate()) {
+                    await widget.addMessage(_controller.text);
+                    _controller.clear();
+                  }
+                },
+              ),
+            ],
+          ),
+        ),
+      );
 }
