@@ -6,9 +6,6 @@ import 'package:flutter/foundation.dart';
 
 import 'authentication.dart';
 
-export 'package:firebase_auth/firebase_auth.dart'
-    show User, FirebaseAuthException;
-
 class GTKApplicationState extends ChangeNotifier {
   GTKApplicationState() {
     init();
@@ -18,7 +15,6 @@ class GTKApplicationState extends ChangeNotifier {
     await Firebase.initializeApp();
 
     FirebaseAuth.instance.userChanges().listen((user) {
-      _user = user;
       if (user != null) {
         _loginState = GTKApplicationLoginState.loggedIn;
         _guestBookSubscription = FirebaseFirestore.instance
@@ -51,9 +47,6 @@ class GTKApplicationState extends ChangeNotifier {
 
   String _email;
   String get email => _email;
-
-  User _user;
-  User get user => _user;
 
   StreamSubscription<QuerySnapshot> _guestBookSubscription;
   List<GTKGuestBookMessage> _guestBookMessages = [];
