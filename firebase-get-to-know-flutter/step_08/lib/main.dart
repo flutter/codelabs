@@ -75,6 +75,7 @@ class GTKHomePage extends StatelessWidget {
           ),
           Consumer<GTKApplicationState>(
             builder: (context, appState, _) => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (appState.loginState ==
                     GTKApplicationLoginState.loggedIn) ...[
