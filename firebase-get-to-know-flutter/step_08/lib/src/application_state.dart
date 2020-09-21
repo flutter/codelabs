@@ -36,7 +36,7 @@ class GTKApplicationState extends ChangeNotifier {
       } else {
         _loginState = GTKApplicationLoginState.loggedOut;
         _guestBookMessages = [];
-        _guestBookSubscription.cancel();
+        _guestBookSubscription?.cancel();
       }
       notifyListeners();
     });
