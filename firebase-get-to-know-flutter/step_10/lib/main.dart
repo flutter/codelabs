@@ -75,9 +75,20 @@ class GTKHomePage extends StatelessWidget {
           ),
           Consumer<GTKApplicationState>(
             builder: (context, appState, _) => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                if (appState.attendees > 2)
+                  GTKParagraph('${appState.attendees} people going')
+                else if (appState.attendees == 1)
+                  GTKParagraph('1 person going')
+                else
+                  GTKParagraph('No one going'),
                 if (appState.loginState ==
                     GTKApplicationLoginState.loggedIn) ...[
+                  GTKYesNoSelection(
+                    state: appState.attending,
+                    onSelection: (attending) => appState.attending = attending,
+                  ),
                   GTKHeader('Discussion'),
                   GTKGuestBook(
                     addMessage: (String message) =>
@@ -157,4 +168,75 @@ class _GTKGuestBookState extends State<GTKGuestBook> {
           SizedBox(height: 8),
         ],
       );
+}
+
+class GTKYesNoSelection extends StatelessWidget {
+  const GTKYesNoSelection({@required this.state, @required this.onSelection});
+  final GTKAttending state;
+  final void Function(GTKAttending selection) onSelection;
+
+  @override
+  Widget build(BuildContext context) {
+    switch (state) {
+      case GTKAttending.yes:
+        return Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              MaterialButton(
+                color: Colors.deepPurple,
+                textColor: Colors.white,
+                elevation: 0,
+                child: Text('YES'),
+                onPressed: () => onSelection(GTKAttending.yes),
+              ),
+              SizedBox(width: 8),
+              FlatButton(
+                textColor: Colors.deepPurple,
+                child: Text('NO'),
+                onPressed: () => onSelection(GTKAttending.no),
+              ),
+            ],
+          ),
+        );
+      case GTKAttending.no:
+        return Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              FlatButton(
+                textColor: Colors.deepPurple,
+                child: Text('YES'),
+                onPressed: () => onSelection(GTKAttending.yes),
+              ),
+              SizedBox(width: 8),
+              MaterialButton(
+                color: Colors.deepPurple,
+                textColor: Colors.white,
+                elevation: 0,
+                child: Text('NO'),
+                onPressed: () => onSelection(GTKAttending.no),
+              ),
+            ],
+          ),
+        );
+      default:
+        return Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              GTKButton(
+                child: Text('YES'),
+                onPressed: () => onSelection(GTKAttending.yes),
+              ),
+              SizedBox(width: 8),
+              GTKButton(
+                child: Text('NO'),
+                onPressed: () => onSelection(GTKAttending.no),
+              ),
+            ],
+          ),
+        );
+    }
+  }
 }

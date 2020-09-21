@@ -14,6 +14,15 @@ class GTKApplicationState extends ChangeNotifier {
   Future<void> init() async {
     await Firebase.initializeApp();
 
+    FirebaseFirestore.instance
+        .collection('attendees')
+        .where('attending', isEqualTo: true)
+        .snapshots()
+        .listen((snapshot) {
+      _attendees = snapshot.docs.length;
+      notifyListeners();
+    });
+
     FirebaseAuth.instance.userChanges().listen((user) {
       if (user != null) {
         _loginState = GTKApplicationLoginState.loggedIn;
@@ -33,10 +42,27 @@ class GTKApplicationState extends ChangeNotifier {
           });
           notifyListeners();
         });
+        _attendingSubscription = FirebaseFirestore.instance
+            .collection('attendees')
+            .doc(user.uid)
+            .snapshots()
+            .listen((snapshot) {
+          if (snapshot.data() != null) {
+            if (snapshot.data()['attending']) {
+              _attending = GTKAttending.yes;
+            } else {
+              _attending = GTKAttending.no;
+            }
+          } else {
+            _attending = GTKAttending.unknown;
+          }
+          notifyListeners();
+        });
       } else {
         _loginState = GTKApplicationLoginState.loggedOut;
         _guestBookMessages = [];
         _guestBookSubscription?.cancel();
+        _attendingSubscription?.cancel();
       }
       notifyListeners();
     });
@@ -51,6 +77,23 @@ class GTKApplicationState extends ChangeNotifier {
   StreamSubscription<QuerySnapshot> _guestBookSubscription;
   List<GTKGuestBookMessage> _guestBookMessages = [];
   List<GTKGuestBookMessage> get guestBookMessages => _guestBookMessages;
+
+  int _attendees = 0;
+  int get attendees => _attendees;
+
+  GTKAttending _attending = GTKAttending.unknown;
+  StreamSubscription<DocumentSnapshot> _attendingSubscription;
+  GTKAttending get attending => _attending;
+  set attending(GTKAttending attending) {
+    final userDoc = FirebaseFirestore.instance
+        .collection('attendees')
+        .doc(FirebaseAuth.instance.currentUser.uid);
+    if (attending == GTKAttending.yes) {
+      userDoc.set({'attending': true});
+    } else {
+      userDoc.set({'attending': false});
+    }
+  }
 
   void startLoginFlow() {
     _loginState = GTKApplicationLoginState.emailAddress;
@@ -135,3 +178,5 @@ class GTKGuestBookMessage {
   final String name;
   final String message;
 }
+
+enum GTKAttending { yes, no, unknown }
