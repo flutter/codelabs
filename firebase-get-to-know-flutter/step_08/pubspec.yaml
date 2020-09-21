@@ -1,0 +1,24 @@
+name: gtk_flutter
+description: Get to know Firebase with Flutter
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cloud_firestore: ^0.14.0+2
+  firebase_auth: ^0.18.0+1
+  google_fonts: ^1.1.0
+  provider: ^4.3.2+2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+  assets:
+   - assets/codelab.png
