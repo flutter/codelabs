@@ -77,7 +77,7 @@ class GTKHomePage extends StatelessWidget {
             builder: (context, appState, _) => Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (appState.attendees > 2)
+                if (appState.attendees >= 2)
                   GTKParagraph('${appState.attendees} people going')
                 else if (appState.attendees == 1)
                   GTKParagraph('1 person going')
