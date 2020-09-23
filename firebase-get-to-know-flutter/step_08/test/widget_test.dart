@@ -8,8 +8,8 @@ void main() {
     // Build our app and trigger a frame.
     await tester.pumpWidget(
       ChangeNotifierProvider(
-        create: (context) => GTKApplicationState(),
-        builder: (context, _) => GTKApp(),
+        create: (context) => ApplicationState(),
+        builder: (context, _) => App(),
       ),
     );
 

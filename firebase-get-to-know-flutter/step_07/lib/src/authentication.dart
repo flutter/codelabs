@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'widgets.dart';
 
-enum GTKApplicationLoginState {
+enum ApplicationLoginState {
   loggedOut,
   emailAddress,
   register,
@@ -10,8 +10,8 @@ enum GTKApplicationLoginState {
   loggedIn,
 }
 
-class GTKAuthentication extends StatelessWidget {
-  const GTKAuthentication({
+class Authentication extends StatelessWidget {
+  const Authentication({
     @required this.loginState,
     @required this.email,
     @required this.startLoginFlow,
@@ -22,7 +22,7 @@ class GTKAuthentication extends StatelessWidget {
     @required this.signOut,
   });
 
-  final GTKApplicationLoginState loginState;
+  final ApplicationLoginState loginState;
   final String email;
   final void Function() startLoginFlow;
   final void Function(
@@ -46,12 +46,12 @@ class GTKAuthentication extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     switch (loginState) {
-      case GTKApplicationLoginState.loggedOut:
+      case ApplicationLoginState.loggedOut:
         return Row(
           children: [
             Padding(
               padding: const EdgeInsets.only(left: 24, bottom: 8),
-              child: GTKButton(
+              child: StyledButton(
                 child: Text('RSVP'),
                 onPressed: () {
                   startLoginFlow();
@@ -60,20 +60,20 @@ class GTKAuthentication extends StatelessWidget {
             ),
           ],
         );
-      case GTKApplicationLoginState.emailAddress:
-        return GTKEmailForm(
+      case ApplicationLoginState.emailAddress:
+        return EmailForm(
             callback: (email) => verifyEmail(
                 email, (e) => _showErrorDialog(context, 'Invalid email', e)));
-      case GTKApplicationLoginState.password:
-        return GTKPasswordForm(
+      case ApplicationLoginState.password:
+        return PasswordForm(
           email: email,
           login: (email, password) {
             signInWithEmailAndPassword(email, password,
                 (e) => _showErrorDialog(context, 'Failed to sign in', e));
           },
         );
-      case GTKApplicationLoginState.register:
-        return GTKRegisterForm(
+      case ApplicationLoginState.register:
+        return RegisterForm(
           email: email,
           cancel: () {
             cancelRegistration();
@@ -91,12 +91,12 @@ class GTKAuthentication extends StatelessWidget {
                     _showErrorDialog(context, 'Failed to create account', e));
           },
         );
-      case GTKApplicationLoginState.loggedIn:
+      case ApplicationLoginState.loggedIn:
         return Row(
           children: [
             Padding(
               padding: const EdgeInsets.only(left: 24, bottom: 8),
-              child: GTKButton(
+              child: StyledButton(
                 child: Text('LOGOUT'),
                 onPressed: () {
                   signOut();
@@ -134,7 +134,7 @@ class GTKAuthentication extends StatelessWidget {
             ),
           ),
           actions: <Widget>[
-            GTKButton(
+            StyledButton(
               child: Text(
                 'OK',
                 style: TextStyle(color: Colors.deepPurple),
@@ -150,14 +150,14 @@ class GTKAuthentication extends StatelessWidget {
   }
 }
 
-class GTKEmailForm extends StatefulWidget {
-  GTKEmailForm({@required this.callback});
+class EmailForm extends StatefulWidget {
+  EmailForm({@required this.callback});
   final void Function(String email) callback;
   @override
-  _GTKEmailFormState createState() => _GTKEmailFormState();
+  _EmailFormState createState() => _EmailFormState();
 }
 
-class _GTKEmailFormState extends State<GTKEmailForm> {
+class _EmailFormState extends State<EmailForm> {
   final _formKey = GlobalKey<FormState>(debugLabel: '_EmailFormState');
   final _controller = TextEditingController();
 
@@ -165,7 +165,7 @@ class _GTKEmailFormState extends State<GTKEmailForm> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        GTKHeader('Sign in with email'),
+        Header('Sign in with email'),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Form(
@@ -194,7 +194,7 @@ class _GTKEmailFormState extends State<GTKEmailForm> {
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           vertical: 16.0, horizontal: 30),
-                      child: GTKButton(
+                      child: StyledButton(
                         onPressed: () async {
                           if (_formKey.currentState.validate()) {
                             widget.callback(_controller.text);
@@ -214,8 +214,8 @@ class _GTKEmailFormState extends State<GTKEmailForm> {
   }
 }
 
-class GTKRegisterForm extends StatefulWidget {
-  GTKRegisterForm({
+class RegisterForm extends StatefulWidget {
+  RegisterForm({
     @required this.registerAccount,
     @required this.cancel,
     @required this.email,
@@ -225,10 +225,10 @@ class GTKRegisterForm extends StatefulWidget {
       registerAccount;
   final void Function() cancel;
   @override
-  _GTKRegisterFormState createState() => _GTKRegisterFormState();
+  _RegisterFormState createState() => _RegisterFormState();
 }
 
-class _GTKRegisterFormState extends State<GTKRegisterForm> {
+class _RegisterFormState extends State<RegisterForm> {
   final _formKey = GlobalKey<FormState>(debugLabel: '_RegisterFormState');
   final _emailController = TextEditingController();
   final _displayNameController = TextEditingController();
@@ -244,7 +244,7 @@ class _GTKRegisterFormState extends State<GTKRegisterForm> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        GTKHeader('Create account'),
+        Header('Create account'),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Form(
@@ -309,7 +309,7 @@ class _GTKRegisterFormState extends State<GTKRegisterForm> {
                         child: Text('CANCEL'),
                       ),
                       SizedBox(width: 16),
-                      GTKButton(
+                      StyledButton(
                         onPressed: () {
                           if (_formKey.currentState.validate()) {
                             widget.registerAccount(
@@ -334,18 +334,18 @@ class _GTKRegisterFormState extends State<GTKRegisterForm> {
   }
 }
 
-class GTKPasswordForm extends StatefulWidget {
-  GTKPasswordForm({
+class PasswordForm extends StatefulWidget {
+  PasswordForm({
     @required this.login,
     @required this.email,
   });
   final String email;
   final void Function(String email, String password) login;
   @override
-  _GTKPasswordFormState createState() => _GTKPasswordFormState();
+  _PasswordFormState createState() => _PasswordFormState();
 }
 
-class _GTKPasswordFormState extends State<GTKPasswordForm> {
+class _PasswordFormState extends State<PasswordForm> {
   final _formKey = GlobalKey<FormState>(debugLabel: '_PasswordFormState');
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -360,7 +360,7 @@ class _GTKPasswordFormState extends State<GTKPasswordForm> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        GTKHeader('Sign in'),
+        Header('Sign in'),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Form(
@@ -405,7 +405,7 @@ class _GTKPasswordFormState extends State<GTKPasswordForm> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       SizedBox(width: 16),
-                      GTKButton(
+                      StyledButton(
                         onPressed: () {
                           if (_formKey.currentState.validate()) {
                             widget.login(

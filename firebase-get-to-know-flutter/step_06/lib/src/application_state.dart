@@ -4,8 +4,8 @@ import 'package:flutter/foundation.dart';
 
 import 'authentication.dart';
 
-class GTKApplicationState extends ChangeNotifier {
-  GTKApplicationState() {
+class ApplicationState extends ChangeNotifier {
+  ApplicationState() {
     init();
   }
 
@@ -14,22 +14,22 @@ class GTKApplicationState extends ChangeNotifier {
 
     FirebaseAuth.instance.userChanges().listen((user) {
       if (user != null) {
-        _loginState = GTKApplicationLoginState.loggedIn;
+        _loginState = ApplicationLoginState.loggedIn;
       } else {
-        _loginState = GTKApplicationLoginState.loggedOut;
+        _loginState = ApplicationLoginState.loggedOut;
       }
       notifyListeners();
     });
   }
 
-  GTKApplicationLoginState _loginState;
-  GTKApplicationLoginState get loginState => _loginState;
+  ApplicationLoginState _loginState;
+  ApplicationLoginState get loginState => _loginState;
 
   String _email;
   String get email => _email;
 
   void startLoginFlow() {
-    _loginState = GTKApplicationLoginState.emailAddress;
+    _loginState = ApplicationLoginState.emailAddress;
     notifyListeners();
   }
 
@@ -41,9 +41,9 @@ class GTKApplicationState extends ChangeNotifier {
       var methods =
           await FirebaseAuth.instance.fetchSignInMethodsForEmail(email);
       if (methods.contains('password')) {
-        _loginState = GTKApplicationLoginState.password;
+        _loginState = ApplicationLoginState.password;
       } else {
-        _loginState = GTKApplicationLoginState.register;
+        _loginState = ApplicationLoginState.register;
       }
       _email = email;
       notifyListeners();
@@ -62,16 +62,13 @@ class GTKApplicationState extends ChangeNotifier {
         email: email,
         password: password,
       );
-      // If sign in succeeds, FirebaseAuth.instance.userChanges() will fire
-      // with new state. Alternatively, a FirebaseAuthException will be thrown
-      // with an explanation as to why sign in failed.
     } on FirebaseAuthException catch (e) {
       errorCallback(e);
     }
   }
 
   void cancelRegistration() {
-    _loginState = GTKApplicationLoginState.emailAddress;
+    _loginState = ApplicationLoginState.emailAddress;
     notifyListeners();
   }
 
@@ -81,9 +78,6 @@ class GTKApplicationState extends ChangeNotifier {
       var credential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
       await credential.user.updateProfile(displayName: displayName);
-      // If registration succeeds, FirebaseAuth.instance.userChanges() will
-      // fire with new state. Alternatively, a FirebaseAuthException will be
-      // thrown with an explanation as to why registration failed.
     } on FirebaseAuthException catch (e) {
       errorCallback(e);
     }

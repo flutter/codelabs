@@ -4,10 +4,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'src/widgets.dart';
 
 void main() {
-  runApp(GTKApp());
+  runApp(App());
 }
 
-class GTKApp extends StatelessWidget {
+class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -22,13 +22,13 @@ class GTKApp extends StatelessWidget {
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: GTKHomePage(),
+      home: HomePage(),
     );
   }
 }
 
-class GTKHomePage extends StatelessWidget {
-  GTKHomePage({Key key}) : super(key: key);
+class HomePage extends StatelessWidget {
+  HomePage({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +40,8 @@ class GTKHomePage extends StatelessWidget {
         children: <Widget>[
           Image.asset('assets/codelab.png'),
           SizedBox(height: 8),
-          GTKIconAndDetail(Icons.calendar_today, 'October 30'),
-          GTKIconAndDetail(Icons.location_city, 'San Francisco'),
+          IconAndDetail(Icons.calendar_today, 'October 30'),
+          IconAndDetail(Icons.location_city, 'San Francisco'),
           Divider(
             height: 8,
             thickness: 1,
@@ -49,8 +49,8 @@ class GTKHomePage extends StatelessWidget {
             endIndent: 8,
             color: Colors.grey,
           ),
-          GTKHeader("What we'll be doing"),
-          GTKParagraph(
+          Header("What we'll be doing"),
+          Paragraph(
             'Join us for a day full of Firebase Workshops and Pizza!',
           ),
         ],

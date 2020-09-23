@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class GTKHeader extends StatelessWidget {
-  const GTKHeader(this.heading);
+class Header extends StatelessWidget {
+  const Header(this.heading);
   final String heading;
 
   @override
@@ -14,8 +14,8 @@ class GTKHeader extends StatelessWidget {
       );
 }
 
-class GTKParagraph extends StatelessWidget {
-  const GTKParagraph(this.content);
+class Paragraph extends StatelessWidget {
+  const Paragraph(this.content);
   final String content;
   @override
   Widget build(BuildContext context) => Padding(
@@ -27,8 +27,8 @@ class GTKParagraph extends StatelessWidget {
       );
 }
 
-class GTKIconAndDetail extends StatelessWidget {
-  const GTKIconAndDetail(this.icon, this.detail);
+class IconAndDetail extends StatelessWidget {
+  const IconAndDetail(this.icon, this.detail);
   final IconData icon;
   final String detail;
 
@@ -48,8 +48,8 @@ class GTKIconAndDetail extends StatelessWidget {
       );
 }
 
-class GTKButton extends StatelessWidget {
-  const GTKButton({@required this.child, @required this.onPressed});
+class StyledButton extends StatelessWidget {
+  const StyledButton({@required this.child, @required this.onPressed});
   final Widget child;
   final void Function() onPressed;
 

@@ -9,13 +9,13 @@ import 'src/widgets.dart';
 void main() {
   runApp(
     ChangeNotifierProvider(
-      create: (context) => GTKApplicationState(),
-      builder: (context, _) => GTKApp(),
+      create: (context) => ApplicationState(),
+      builder: (context, _) => App(),
     ),
   );
 }
 
-class GTKApp extends StatelessWidget {
+class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -30,13 +30,13 @@ class GTKApp extends StatelessWidget {
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: GTKHomePage(),
+      home: HomePage(),
     );
   }
 }
 
-class GTKHomePage extends StatelessWidget {
-  GTKHomePage({Key key}) : super(key: key);
+class HomePage extends StatelessWidget {
+  HomePage({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -48,10 +48,10 @@ class GTKHomePage extends StatelessWidget {
         children: <Widget>[
           Image.asset('assets/codelab.png'),
           SizedBox(height: 8),
-          GTKIconAndDetail(Icons.calendar_today, 'October 30'),
-          GTKIconAndDetail(Icons.location_city, 'San Francisco'),
-          Consumer<GTKApplicationState>(
-            builder: (context, appState, _) => GTKAuthentication(
+          IconAndDetail(Icons.calendar_today, 'October 30'),
+          IconAndDetail(Icons.location_city, 'San Francisco'),
+          Consumer<ApplicationState>(
+            builder: (context, appState, _) => Authentication(
               email: appState.email,
               loginState: appState.loginState,
               startLoginFlow: appState.startLoginFlow,
@@ -69,8 +69,8 @@ class GTKHomePage extends StatelessWidget {
             endIndent: 8,
             color: Colors.grey,
           ),
-          GTKHeader("What we'll be doing"),
-          GTKParagraph(
+          Header("What we'll be doing"),
+          Paragraph(
             'Join us for a day full of Firebase Workshops and Pizza!',
           ),
         ],

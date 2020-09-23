@@ -9,13 +9,13 @@ import 'src/widgets.dart';
 void main() {
   runApp(
     ChangeNotifierProvider(
-      create: (context) => GTKApplicationState(),
-      builder: (context, _) => GTKApp(),
+      create: (context) => ApplicationState(),
+      builder: (context, _) => App(),
     ),
   );
 }
 
-class GTKApp extends StatelessWidget {
+class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -30,13 +30,13 @@ class GTKApp extends StatelessWidget {
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: GTKHomePage(),
+      home: HomePage(),
     );
   }
 }
 
-class GTKHomePage extends StatelessWidget {
-  GTKHomePage({Key key}) : super(key: key);
+class HomePage extends StatelessWidget {
+  HomePage({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -48,10 +48,10 @@ class GTKHomePage extends StatelessWidget {
         children: <Widget>[
           Image.asset('assets/codelab.png'),
           SizedBox(height: 8),
-          GTKIconAndDetail(Icons.calendar_today, 'October 30'),
-          GTKIconAndDetail(Icons.location_city, 'San Francisco'),
-          Consumer<GTKApplicationState>(
-            builder: (context, appState, _) => GTKAuthentication(
+          IconAndDetail(Icons.calendar_today, 'October 30'),
+          IconAndDetail(Icons.location_city, 'San Francisco'),
+          Consumer<ApplicationState>(
+            builder: (context, appState, _) => Authentication(
               email: appState.email,
               loginState: appState.loginState,
               startLoginFlow: appState.startLoginFlow,
@@ -69,18 +69,17 @@ class GTKHomePage extends StatelessWidget {
             endIndent: 8,
             color: Colors.grey,
           ),
-          GTKHeader("What we'll be doing"),
-          GTKParagraph(
+          Header("What we'll be doing"),
+          Paragraph(
             'Join us for a day full of Firebase Workshops and Pizza!',
           ),
-          Consumer<GTKApplicationState>(
+          Consumer<ApplicationState>(
             builder: (context, appState, _) => Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (appState.loginState ==
-                    GTKApplicationLoginState.loggedIn) ...[
-                  GTKHeader('Discussion'),
-                  GTKGuestBook(
+                if (appState.loginState == ApplicationLoginState.loggedIn) ...[
+                  Header('Discussion'),
+                  GuestBook(
                     addMessage: (String message) =>
                         appState.addMessageToGuestBook(message),
                   ),
@@ -94,57 +93,59 @@ class GTKHomePage extends StatelessWidget {
   }
 }
 
-class GTKGuestBook extends StatefulWidget {
-  GTKGuestBook({@required this.addMessage});
+class GuestBook extends StatefulWidget {
+  GuestBook({@required this.addMessage});
   final Future<void> Function(String message) addMessage;
 
   @override
-  _GTKGuestBookState createState() => _GTKGuestBookState();
+  _GuestBookState createState() => _GuestBookState();
 }
 
-class _GTKGuestBookState extends State<GTKGuestBook> {
-  final _formKey = GlobalKey<FormState>(debugLabel: '_GTKGuestBookState');
+class _GuestBookState extends State<GuestBook> {
+  final _formKey = GlobalKey<FormState>(debugLabel: '_GuestBookState');
   final _controller = TextEditingController();
 
   @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Form(
-          key: _formKey,
-          child: Row(
-            children: [
-              Expanded(
-                child: TextFormField(
-                  controller: _controller,
-                  decoration: const InputDecoration(
-                    hintText: 'Leave a message',
-                  ),
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'Enter your message to continue';
-                    }
-                    return null;
-                  },
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Form(
+        key: _formKey,
+        child: Row(
+          children: [
+            Expanded(
+              child: TextFormField(
+                controller: _controller,
+                decoration: const InputDecoration(
+                  hintText: 'Leave a message',
                 ),
-              ),
-              SizedBox(width: 8),
-              GTKButton(
-                child: Row(
-                  children: [
-                    Icon(Icons.send),
-                    SizedBox(width: 4),
-                    Text('SEND'),
-                  ],
-                ),
-                onPressed: () async {
-                  if (_formKey.currentState.validate()) {
-                    await widget.addMessage(_controller.text);
-                    _controller.clear();
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Enter your message to continue';
                   }
+                  return null;
                 },
               ),
-            ],
-          ),
+            ),
+            SizedBox(width: 8),
+            StyledButton(
+              child: Row(
+                children: [
+                  Icon(Icons.send),
+                  SizedBox(width: 4),
+                  Text('SEND'),
+                ],
+              ),
+              onPressed: () async {
+                if (_formKey.currentState.validate()) {
+                  await widget.addMessage(_controller.text);
+                  _controller.clear();
+                }
+              },
+            ),
+          ],
         ),
-      );
+      ),
+    );
+  }
 }
