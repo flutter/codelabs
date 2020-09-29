@@ -1,5 +1,3 @@
-import 'dart:async';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -17,26 +15,8 @@ class ApplicationState extends ChangeNotifier {
     FirebaseAuth.instance.userChanges().listen((user) {
       if (user != null) {
         _loginState = ApplicationLoginState.loggedIn;
-        _guestBookSubscription = FirebaseFirestore.instance
-            .collection('guestbook')
-            .orderBy('timestamp', descending: true)
-            .snapshots()
-            .listen((snapshot) {
-          _guestBookMessages = [];
-          snapshot.docs.forEach((document) {
-            _guestBookMessages.add(
-              GuestBookMessage(
-                name: document.data()['name'],
-                message: document.data()['text'],
-              ),
-            );
-          });
-          notifyListeners();
-        });
       } else {
         _loginState = ApplicationLoginState.loggedOut;
-        _guestBookMessages = [];
-        _guestBookSubscription?.cancel();
       }
       notifyListeners();
     });
@@ -47,10 +27,6 @@ class ApplicationState extends ChangeNotifier {
 
   String _email;
   String get email => _email;
-
-  StreamSubscription<QuerySnapshot> _guestBookSubscription;
-  List<GuestBookMessage> _guestBookMessages = [];
-  List<GuestBookMessage> get guestBookMessages => _guestBookMessages;
 
   void startLoginFlow() {
     _loginState = ApplicationLoginState.emailAddress;
@@ -110,22 +86,4 @@ class ApplicationState extends ChangeNotifier {
   void signOut() {
     FirebaseAuth.instance.signOut();
   }
-
-  Future<DocumentReference> addMessageToGuestBook(String message) {
-    if (_loginState != ApplicationLoginState.loggedIn)
-      throw Exception('Must be logged in');
-
-    return FirebaseFirestore.instance.collection('guestbook').add({
-      'text': message,
-      'timestamp': DateTime.now().millisecondsSinceEpoch,
-      'name': FirebaseAuth.instance.currentUser.displayName,
-      'userId': FirebaseAuth.instance.currentUser.uid,
-    });
-  }
-}
-
-class GuestBookMessage {
-  GuestBookMessage({@required this.name, @required this.message});
-  final String name;
-  final String message;
 }

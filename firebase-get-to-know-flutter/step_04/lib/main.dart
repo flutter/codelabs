@@ -1,18 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
-import 'src/application_state.dart';
-import 'src/authentication.dart';
 import 'src/widgets.dart';
 
 void main() {
-  runApp(
-    ChangeNotifierProvider(
-      create: (context) => ApplicationState(),
-      builder: (context, _) => App(),
-    ),
-  );
+  runApp(App());
 }
 
 class App extends StatelessWidget {
@@ -50,18 +42,6 @@ class HomePage extends StatelessWidget {
           SizedBox(height: 8),
           IconAndDetail(Icons.calendar_today, 'October 30'),
           IconAndDetail(Icons.location_city, 'San Francisco'),
-          Consumer<ApplicationState>(
-            builder: (context, appState, _) => Authentication(
-              email: appState.email,
-              loginState: appState.loginState,
-              startLoginFlow: appState.startLoginFlow,
-              verifyEmail: appState.verifyEmail,
-              signInWithEmailAndPassword: appState.signInWithEmailAndPassword,
-              cancelRegistration: appState.cancelRegistration,
-              registerAccount: appState.registerAccount,
-              signOut: appState.signOut,
-            ),
-          ),
           Divider(
             height: 8,
             thickness: 1,
