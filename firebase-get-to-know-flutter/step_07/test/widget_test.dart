@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gtk_flutter/main.dart';
-import 'package:gtk_flutter/src/application_state.dart';
 import 'package:provider/provider.dart';
 
 void main() {
