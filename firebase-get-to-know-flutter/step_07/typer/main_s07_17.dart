@@ -85,7 +85,6 @@ class HomePage extends StatelessWidget {
                   GuestBook(
                     addMessage: (String message) =>
                         appState.addMessageToGuestBook(message),
-                    messages: appState.guestBookMessages,
                   ),
                 ],
               ],
@@ -280,10 +279,8 @@ class _GuestBookState extends State<GuestBook> {
             ),
           ),
         ),
-        SizedBox(height: 8),
         for (var message in widget.messages)
           Paragraph('${message.name}: ${message.message}'),
-        SizedBox(height: 8),
       ],
     );
   }

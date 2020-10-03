@@ -94,5 +94,9 @@
     {
         "file": "lib/main.dart",
         "content": "typer/main_s06_23.dart"
+    },
+    {
+        "file": "lib/main.dart",
+        "content": "typer/main_s06_24.dart"
     }
 ]
