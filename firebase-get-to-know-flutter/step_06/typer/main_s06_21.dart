@@ -172,8 +172,9 @@ class ApplicationState extends ChangeNotifier {
   }
 
   Future<DocumentReference> addMessageToGuestBook(String message) {
-    if (_loginState != ApplicationLoginState.loggedIn)
+    if (_loginState != ApplicationLoginState.loggedIn) {
       throw Exception('Must be logged in');
+    }
 
     return FirebaseFirestore.instance.collection('guestbook').add({
       'text': message,
