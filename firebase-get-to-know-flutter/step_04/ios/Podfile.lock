@@ -1,5 +1,5 @@
 PODS:
-  - cloud_firestore (0.14.0-2):
+  - cloud_firestore (0.14.1-2):
     - Firebase/CoreOnly (~> 6.26.0)
     - Firebase/Firestore (~> 6.26.0)
     - firebase_core
@@ -12,7 +12,7 @@ PODS:
   - Firebase/Firestore (6.26.0):
     - Firebase/CoreOnly
     - FirebaseFirestore (~> 1.15.0)
-  - firebase_auth (0.18.1):
+  - firebase_auth (0.18.1-1):
     - Firebase/Auth (~> 6.26.0)
     - Firebase/CoreOnly (~> 6.26.0)
     - firebase_core
@@ -110,9 +110,9 @@ CHECKOUT OPTIONS:
     :tag: 6.26.0
 
 SPEC CHECKSUMS:
-  cloud_firestore: b054ccc068b5907645c32b669d38e82db2a11fc7
+  cloud_firestore: d800bcc818ca2307beaeb697a94aa76341bc661d
   Firebase: 7cf5f9c67f03cb3b606d1d6535286e1080e57eb6
-  firebase_auth: 148f122f852361f9548e63e3dc1e84c888c751d1
+  firebase_auth: 7263cdea1ab32345b00be89bed437e6f427363b7
   firebase_core: 3134fe79d257d430f163b558caf52a10a87efe8a
   FirebaseAuth: 7047aec89c0b17ecd924a550c853f0c27ac6015e
   FirebaseAuthInterop: a0f37ae05833af156e72028f648d313f7e7592e9
