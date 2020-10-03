@@ -64,31 +64,9 @@ class HomePage extends StatelessWidget {
 }
 
 class ApplicationState extends ChangeNotifier {
-  ApplicationState() {
-    init();
-  }
-
-  Future<void> init() async {
-    await Firebase.initializeApp();
-
-    FirebaseAuth.instance.userChanges().listen((user) {
-      if (user != null) {
-        _loginState = ApplicationLoginState.loggedIn;
-      } else {
-        _loginState = ApplicationLoginState.loggedOut;
-      }
-      notifyListeners();
-    });
-  }
-
   ApplicationLoginState _loginState;
   ApplicationLoginState get loginState => _loginState;
 
   String _email;
   String get email => _email;
-
-  void startLoginFlow() {
-    _loginState = ApplicationLoginState.emailAddress;
-    notifyListeners();
-  }
 }

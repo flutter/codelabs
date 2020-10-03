@@ -63,10 +63,4 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class ApplicationState extends ChangeNotifier {
-  ApplicationLoginState _loginState;
-  ApplicationLoginState get loginState => _loginState;
-
-  String _email;
-  String get email => _email;
-}
+class ApplicationState extends ChangeNotifier {}

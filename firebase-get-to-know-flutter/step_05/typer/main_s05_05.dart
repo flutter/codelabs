@@ -62,5 +62,3 @@ class HomePage extends StatelessWidget {
     );
   }
 }
-
-class ApplicationState extends ChangeNotifier {}
