@@ -80,7 +80,7 @@ class HomePage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Header('Discussion'),
-                GuestBook(addMessage: (String message) => print(message)),
+                GuestBook(addMessage: (String message) async => print(message)),
               ],
             ),
           ),
