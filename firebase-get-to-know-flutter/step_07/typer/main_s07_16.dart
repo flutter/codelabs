@@ -279,6 +279,8 @@ class _GuestBookState extends State<GuestBook> {
             ),
           ),
         ),
+        for (var message in widget.messages)
+          Paragraph('${message.name}: ${message.message}'),
       ],
     );
   }
