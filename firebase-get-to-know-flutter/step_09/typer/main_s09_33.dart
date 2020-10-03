@@ -87,10 +87,6 @@ class HomePage extends StatelessWidget {
                 else
                   Paragraph('No one going'),
                 if (appState.loginState == ApplicationLoginState.loggedIn) ...[
-                  YesNoSelection(
-                    state: appState.attending,
-                    onSelection: (attending) => appState.attending = attending,
-                  ),
                   Header('Discussion'),
                   GuestBook(
                     addMessage: (String message) =>
@@ -395,22 +391,8 @@ class YesNoSelection extends StatelessWidget {
           ),
         );
       default:
-        return Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              StyledButton(
-                child: Text('YES'),
-                onPressed: () => onSelection(Attending.yes),
-              ),
-              SizedBox(width: 8),
-              StyledButton(
-                child: Text('NO'),
-                onPressed: () => onSelection(Attending.no),
-              ),
-            ],
-          ),
-        );
+        // TODO: implement build
+        throw UnimplementedError();
     }
   }
 }

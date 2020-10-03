@@ -87,10 +87,6 @@ class HomePage extends StatelessWidget {
                 else
                   Paragraph('No one going'),
                 if (appState.loginState == ApplicationLoginState.loggedIn) ...[
-                  YesNoSelection(
-                    state: appState.attending,
-                    onSelection: (attending) => appState.attending = attending,
-                  ),
                   Header('Discussion'),
                   GuestBook(
                     addMessage: (String message) =>
@@ -143,7 +139,7 @@ class ApplicationState extends ChangeNotifier {
           });
           notifyListeners();
         });
-        _attendingSubscription = FirebaseFirestore.instance
+        FirebaseFirestore.instance
             .collection('attendees')
             .doc(user.uid)
             .snapshots()
@@ -151,19 +147,13 @@ class ApplicationState extends ChangeNotifier {
           if (snapshot.data() != null) {
             if (snapshot.data()['attending']) {
               _attending = Attending.yes;
-            } else {
-              _attending = Attending.no;
             }
-          } else {
-            _attending = Attending.unknown;
           }
-          notifyListeners();
         });
       } else {
         _loginState = ApplicationLoginState.loggedOut;
         _guestBookMessages = [];
         _guestBookSubscription?.cancel();
-        _attendingSubscription?.cancel();
       }
       notifyListeners();
     });
@@ -341,76 +331,5 @@ class _GuestBookState extends State<GuestBook> {
         SizedBox(height: 8),
       ],
     );
-  }
-}
-
-class YesNoSelection extends StatelessWidget {
-  const YesNoSelection({@required this.state, @required this.onSelection});
-  final Attending state;
-  final void Function(Attending selection) onSelection;
-
-  @override
-  Widget build(BuildContext context) {
-    switch (state) {
-      case Attending.yes:
-        return Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              MaterialButton(
-                color: Colors.deepPurple,
-                textColor: Colors.white,
-                elevation: 0,
-                child: Text('YES'),
-                onPressed: () => onSelection(Attending.yes),
-              ),
-              SizedBox(width: 8),
-              FlatButton(
-                textColor: Colors.deepPurple,
-                child: Text('NO'),
-                onPressed: () => onSelection(Attending.no),
-              ),
-            ],
-          ),
-        );
-      case Attending.no:
-        return Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              FlatButton(
-                textColor: Colors.deepPurple,
-                child: Text('YES'),
-                onPressed: () => onSelection(Attending.yes),
-              ),
-              SizedBox(width: 8),
-              MaterialButton(
-                color: Colors.deepPurple,
-                textColor: Colors.white,
-                elevation: 0,
-                child: Text('NO'),
-                onPressed: () => onSelection(Attending.no),
-              ),
-            ],
-          ),
-        );
-      default:
-        return Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              StyledButton(
-                child: Text('YES'),
-                onPressed: () => onSelection(Attending.yes),
-              ),
-              SizedBox(width: 8),
-              StyledButton(
-                child: Text('NO'),
-                onPressed: () => onSelection(Attending.no),
-              ),
-            ],
-          ),
-        );
-    }
   }
 }

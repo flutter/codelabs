@@ -87,10 +87,6 @@ class HomePage extends StatelessWidget {
                 else
                   Paragraph('No one going'),
                 if (appState.loginState == ApplicationLoginState.loggedIn) ...[
-                  YesNoSelection(
-                    state: appState.attending,
-                    onSelection: (attending) => appState.attending = attending,
-                  ),
                   Header('Discussion'),
                   GuestBook(
                     addMessage: (String message) =>

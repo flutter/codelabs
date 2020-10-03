@@ -87,10 +87,6 @@ class HomePage extends StatelessWidget {
                 else
                   Paragraph('No one going'),
                 if (appState.loginState == ApplicationLoginState.loggedIn) ...[
-                  YesNoSelection(
-                    state: appState.attending,
-                    onSelection: (attending) => appState.attending = attending,
-                  ),
                   Header('Discussion'),
                   GuestBook(
                     addMessage: (String message) =>
@@ -353,64 +349,14 @@ class YesNoSelection extends StatelessWidget {
   Widget build(BuildContext context) {
     switch (state) {
       case Attending.yes:
-        return Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              MaterialButton(
-                color: Colors.deepPurple,
-                textColor: Colors.white,
-                elevation: 0,
-                child: Text('YES'),
-                onPressed: () => onSelection(Attending.yes),
-              ),
-              SizedBox(width: 8),
-              FlatButton(
-                textColor: Colors.deepPurple,
-                child: Text('NO'),
-                onPressed: () => onSelection(Attending.no),
-              ),
-            ],
-          ),
-        );
+        // TODO: implement build
+        throw UnimplementedError();
       case Attending.no:
-        return Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              FlatButton(
-                textColor: Colors.deepPurple,
-                child: Text('YES'),
-                onPressed: () => onSelection(Attending.yes),
-              ),
-              SizedBox(width: 8),
-              MaterialButton(
-                color: Colors.deepPurple,
-                textColor: Colors.white,
-                elevation: 0,
-                child: Text('NO'),
-                onPressed: () => onSelection(Attending.no),
-              ),
-            ],
-          ),
-        );
+        // TODO: implement build
+        throw UnimplementedError();
       default:
-        return Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              StyledButton(
-                child: Text('YES'),
-                onPressed: () => onSelection(Attending.yes),
-              ),
-              SizedBox(width: 8),
-              StyledButton(
-                child: Text('NO'),
-                onPressed: () => onSelection(Attending.no),
-              ),
-            ],
-          ),
-        );
+        // TODO: implement build
+        throw UnimplementedError();
     }
   }
 }
