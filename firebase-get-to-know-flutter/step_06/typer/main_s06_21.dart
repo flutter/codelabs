@@ -75,19 +75,12 @@ class HomePage extends StatelessWidget {
           Paragraph(
             'Join us for a day full of Firebase Workshops and Pizza!',
           ),
-          Consumer<ApplicationState>(
-            builder: (context, appState, _) => Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (appState.loginState == ApplicationLoginState.loggedIn) ...[
-                  Header('Discussion'),
-                  GuestBook(
-                    addMessage: (String message) =>
-                        appState.addMessageToGuestBook(message),
-                  ),
-                ],
-              ],
-            ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Header('Discussion'),
+              GuestBook(addMessage: (String message) async => print(message)),
+            ],
           ),
         ],
       ),

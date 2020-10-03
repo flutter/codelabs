@@ -79,13 +79,8 @@ class HomePage extends StatelessWidget {
             builder: (context, appState, _) => Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (appState.loginState == ApplicationLoginState.loggedIn) ...[
-                  Header('Discussion'),
-                  GuestBook(
-                    addMessage: (String message) =>
-                        appState.addMessageToGuestBook(message),
-                  ),
-                ],
+                Header('Discussion'),
+                GuestBook(addMessage: (String message) async => print(message)),
               ],
             ),
           ),

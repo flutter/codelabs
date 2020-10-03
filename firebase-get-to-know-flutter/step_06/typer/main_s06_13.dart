@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -74,20 +73,6 @@ class HomePage extends StatelessWidget {
           Header("What we'll be doing"),
           Paragraph(
             'Join us for a day full of Firebase Workshops and Pizza!',
-          ),
-          Consumer<ApplicationState>(
-            builder: (context, appState, _) => Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (appState.loginState == ApplicationLoginState.loggedIn) ...[
-                  Header('Discussion'),
-                  GuestBook(
-                    addMessage: (String message) =>
-                        appState.addMessageToGuestBook(message),
-                  ),
-                ],
-              ],
-            ),
           ),
         ],
       ),
@@ -177,18 +162,6 @@ class ApplicationState extends ChangeNotifier {
   void signOut() {
     FirebaseAuth.instance.signOut();
   }
-
-  Future<DocumentReference> addMessageToGuestBook(String message) {
-    if (_loginState != ApplicationLoginState.loggedIn)
-      throw Exception('Must be logged in');
-
-    return FirebaseFirestore.instance.collection('guestbook').add({
-      'text': message,
-      'timestamp': DateTime.now().millisecondsSinceEpoch,
-      'name': FirebaseAuth.instance.currentUser.displayName,
-      'userId': FirebaseAuth.instance.currentUser.uid,
-    });
-  }
 }
 
 class GuestBook extends StatefulWidget {
@@ -211,21 +184,18 @@ class _GuestBookState extends State<GuestBook> {
         key: _formKey,
         child: Row(
           children: [
-            Expanded(
-              child: TextFormField(
-                controller: _controller,
-                decoration: const InputDecoration(
-                  hintText: 'Leave a message',
-                ),
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Enter your message to continue';
-                  }
-                  return null;
-                },
+            TextFormField(
+              controller: _controller,
+              decoration: const InputDecoration(
+                hintText: 'Leave a message',
               ),
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Enter your message to continue';
+                }
+                return null;
+              },
             ),
-            SizedBox(width: 8),
             StyledButton(
               child: Row(
                 children: [

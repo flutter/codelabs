@@ -75,20 +75,8 @@ class HomePage extends StatelessWidget {
           Paragraph(
             'Join us for a day full of Firebase Workshops and Pizza!',
           ),
-          Consumer<ApplicationState>(
-            builder: (context, appState, _) => Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (appState.loginState == ApplicationLoginState.loggedIn) ...[
-                  Header('Discussion'),
-                  GuestBook(
-                    addMessage: (String message) =>
-                        appState.addMessageToGuestBook(message),
-                  ),
-                ],
-              ],
-            ),
-          ),
+          Header('Discussion'),
+          GuestBook(addMessage: (String message) async => print(message)),
         ],
       ),
     );
@@ -178,17 +166,7 @@ class ApplicationState extends ChangeNotifier {
     FirebaseAuth.instance.signOut();
   }
 
-  Future<DocumentReference> addMessageToGuestBook(String message) {
-    if (_loginState != ApplicationLoginState.loggedIn)
-      throw Exception('Must be logged in');
-
-    return FirebaseFirestore.instance.collection('guestbook').add({
-      'text': message,
-      'timestamp': DateTime.now().millisecondsSinceEpoch,
-      'name': FirebaseAuth.instance.currentUser.displayName,
-      'userId': FirebaseAuth.instance.currentUser.uid,
-    });
-  }
+  Future<DocumentReference> addMessageToGuestBook(String message) {}
 }
 
 class GuestBook extends StatefulWidget {

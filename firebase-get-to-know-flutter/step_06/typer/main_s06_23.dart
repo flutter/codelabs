@@ -82,9 +82,7 @@ class HomePage extends StatelessWidget {
                 if (appState.loginState == ApplicationLoginState.loggedIn) ...[
                   Header('Discussion'),
                   GuestBook(
-                    addMessage: (String message) =>
-                        appState.addMessageToGuestBook(message),
-                  ),
+                      addMessage: (String message) async => print(message)),
                 ],
               ],
             ),
