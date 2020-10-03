@@ -76,7 +76,7 @@ class HomePage extends StatelessWidget {
             'Join us for a day full of Firebase Workshops and Pizza!',
           ),
           Header('Discussion'),
-          GuestBook(addMessage: (String message) async => print(message)),
+          GuestBook(addMessage: (String message) => print(message)),
         ],
       ),
     );
