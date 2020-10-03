@@ -1,0 +1,18 @@
+[
+    {
+        "file": "pubspec.yaml",
+        "content": "typer/pubspec_01.yaml"
+    },
+    {
+        "file": "pubspec.yaml",
+        "content": "typer/pubspec_02.yaml"
+    },
+    {
+        "file": "pubspec.yaml",
+        "content": "typer/pubspec_03.yaml"
+    },
+    {
+        "file": "pubspec.yaml",
+        "content": "typer/pubspec_04.yaml"
+    }
+]
