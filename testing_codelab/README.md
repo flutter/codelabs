@@ -11,4 +11,3 @@ The naming of the step directories follows the steps of the associated code lab.
 - `step_05` contains the code as at the end of Unit testing the provider
 - `step_06` contains the code as at the end of Widget testing
 - `step_07` contains the code as at the end of Testing app UI and performance with Flutter Driver (Integration testing)
-- `step_08` contains the code as at the end of Testing state using Flutter Driver
