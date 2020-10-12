@@ -353,10 +353,8 @@ class YesNoSelection extends StatelessWidget {
           padding: EdgeInsets.all(8.0),
           child: Row(
             children: [
-              MaterialButton(
-                color: Colors.deepPurple,
-                textColor: Colors.white,
-                elevation: 0,
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(elevation: 0),
                 child: Text('YES'),
                 onPressed: () => onSelection(Attending.yes),
               ),
