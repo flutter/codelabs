@@ -24,9 +24,6 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: 'Firebase Meetup',
       theme: ThemeData(
-        buttonTheme: Theme.of(context).buttonTheme.copyWith(
-              highlightColor: Colors.deepPurple,
-            ),
         primarySwatch: Colors.deepPurple,
         textTheme: GoogleFonts.robotoTextTheme(
           Theme.of(context).textTheme,
@@ -357,16 +354,13 @@ class YesNoSelection extends StatelessWidget {
           padding: EdgeInsets.all(8.0),
           child: Row(
             children: [
-              MaterialButton(
-                color: Colors.deepPurple,
-                textColor: Colors.white,
-                elevation: 0,
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(elevation: 0),
                 child: Text('YES'),
                 onPressed: () => onSelection(Attending.yes),
               ),
               SizedBox(width: 8),
-              FlatButton(
-                textColor: Colors.deepPurple,
+              TextButton(
                 child: Text('NO'),
                 onPressed: () => onSelection(Attending.no),
               ),
@@ -378,16 +372,13 @@ class YesNoSelection extends StatelessWidget {
           padding: EdgeInsets.all(8.0),
           child: Row(
             children: [
-              FlatButton(
-                textColor: Colors.deepPurple,
+              TextButton(
                 child: Text('YES'),
                 onPressed: () => onSelection(Attending.yes),
               ),
               SizedBox(width: 8),
-              MaterialButton(
-                color: Colors.deepPurple,
-                textColor: Colors.white,
-                elevation: 0,
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(elevation: 0),
                 child: Text('NO'),
                 onPressed: () => onSelection(Attending.no),
               ),
