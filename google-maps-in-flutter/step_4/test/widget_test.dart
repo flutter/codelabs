@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:google_maps_in_flutter/main.dart';
