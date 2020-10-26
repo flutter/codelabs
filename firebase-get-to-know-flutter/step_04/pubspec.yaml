@@ -9,10 +9,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  cloud_firestore: ^0.14.0+2
-  firebase_auth: ^0.18.0+1
+  cloud_firestore: ^0.14.0+2  # new
+  firebase_auth: ^0.18.0+1    # new
   google_fonts: ^1.1.0
-  provider: ^4.3.2+2
+  provider: ^4.3.2+2          # new
 
 dev_dependencies:
   flutter_test:
