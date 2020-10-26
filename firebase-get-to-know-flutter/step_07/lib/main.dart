@@ -239,7 +239,7 @@ class GuestBook extends StatefulWidget {
 }
 
 class _GuestBookState extends State<GuestBook> {
-  final _formKey = GlobalKey<FormState>(debugLabel: '_GTKGuestBookState');
+  final _formKey = GlobalKey<FormState>(debugLabel: '_GuestBookState');
   final _controller = TextEditingController();
 
   @override
