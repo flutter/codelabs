@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart'; // new
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -75,6 +75,7 @@ class HomePage extends StatelessWidget {
           Paragraph(
             'Join us for a day full of Firebase Workshops and Pizza!',
           ),
+          // Modify from here
           Consumer<ApplicationState>(
             builder: (context, appState, _) => Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -89,6 +90,7 @@ class HomePage extends StatelessWidget {
               ],
             ),
           ),
+          // To here.
         ],
       ),
     );
@@ -178,6 +180,7 @@ class ApplicationState extends ChangeNotifier {
     FirebaseAuth.instance.signOut();
   }
 
+  // Add from here
   Future<DocumentReference> addMessageToGuestBook(String message) {
     if (_loginState != ApplicationLoginState.loggedIn) {
       throw Exception('Must be logged in');
@@ -190,6 +193,7 @@ class ApplicationState extends ChangeNotifier {
       'userId': FirebaseAuth.instance.currentUser.uid,
     });
   }
+  // To here
 }
 
 class GuestBook extends StatefulWidget {
