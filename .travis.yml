@@ -27,6 +27,7 @@ env:
 
 matrix:
   allow_failures:
+    - env: FLUTTER_BRANCH=beta
     - env: FLUTTER_BRANCH=dev
 
 before_script:
