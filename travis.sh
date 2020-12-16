@@ -17,7 +17,14 @@ cd ./PluginCodelab
 $FLUTTER format --dry-run --set-exit-if-changed .;
 popd
 
-declare -a PROJECT_PATHS=($(find . -not -path './flutter/*' -not -path './PluginCodelab/pubspec.yaml' -name pubspec.yaml -exec dirname {} \;))
+pushd $PWD
+echo "== TESTING plugin_codelab"
+cd ./plugin_codelab
+$FLUTTER format --dry-run --set-exit-if-changed .;
+popd
+
+
+declare -a PROJECT_PATHS=($(find . -not -path './flutter/*' -not -path './PluginCodelab/pubspec.yaml' -not -path './plugin_codelab/pubspec.yaml' -name pubspec.yaml -exec dirname {} \;))
 
 for PROJECT in "${PROJECT_PATHS[@]}"; do
   echo "== TESTING $PROJECT"
