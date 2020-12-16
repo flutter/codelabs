@@ -26,5 +26,5 @@ jobs:
       - run: dart --version
       - run: flutter --version
       - name: Run travis
-        run: ./tool/travis.sh
+        run: ./travis.sh
 
