@@ -1,0 +1,44 @@
+# Copyright 2020 Google LLC
+# 
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     https://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+name: github_graphql_client
+description: Github client using Github API V4 (GraphQL)
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  gql: ^0.12.3
+  gql_exec: ^0.2.4
+  gql_link: ^0.3.0
+  gql_http_link: ^0.2.9
+  http: ^0.12.1
+  oauth2: ^1.6.1
+  url_launcher: ^5.4.10
+  window_to_front:
+    path: '../window_to_front'
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  build_runner: ^1.10.0
+  gql_build: ^0.0.11
+  pedantic: ^1.9.0
+
+flutter:
+  uses-material-design: true
