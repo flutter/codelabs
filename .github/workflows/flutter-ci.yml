@@ -2,9 +2,9 @@ name: Flutter CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
   workflow_dispatch:
 
 jobs:
@@ -13,18 +13,19 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        channel: [stable, beta]
+        #  os: [ubuntu-latest, windows-latest, macos-latest]
+        #  channel: [stable, beta]
+        os: [ubuntu-latest]
+        channel: [stable]
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-java@v1
         with:
-          java-version: '12.x'
+          java-version: "12.x"
       - uses: subosito/flutter-action@v1
         with:
           channel: ${{ matrix.channel }}
       - run: dart --version
       - run: flutter --version
       - name: Run travis
-        run: ./tool/travis.sh
-
+        run: ./travis.sh
