@@ -31,7 +31,7 @@ class _ShoppingCartTabState extends State<ShoppingCartTab> {
       builder: (context, model, child) {
         return const CustomScrollView(
           slivers: <Widget>[
-             CupertinoSliverNavigationBar(
+            CupertinoSliverNavigationBar(
               largeTitle: Text('Shopping Cart'),
             ),
           ],

@@ -78,10 +78,10 @@ class _SearchTabState extends State<SearchTab> {
             Expanded(
               child: ListView.builder(
                 itemBuilder: (context, index) => ProductRowItem(
-                      index: index,
-                      product: results[index],
-                      lastItem: index == results.length - 1,
-                    ),
+                  index: index,
+                  product: results[index],
+                  lastItem: index == results.length - 1,
+                ),
                 itemCount: results.length,
               ),
             ),
