@@ -13,8 +13,8 @@
 // limitations under the License.
 
 import 'package:flutter/material.dart';
-import 'package:vgv_flutter_cookbook/app.dart';
-import 'package:vgv_flutter_cookbook/items.dart';
+import 'package:flutter_cookbook/app.dart';
+import 'package:flutter_cookbook/items.dart';
 
 void main() {
   runApp(App());
@@ -25,7 +25,7 @@ class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
 
   void _navigate(BuildContext context, WidgetBuilder builder) {
-    Navigator.of(context).push(MaterialPageRoute(builder: builder));
+    Navigator.of(context).push(MaterialPageRoute<void>(builder: builder));
   }
 
   @override
@@ -42,15 +42,12 @@ class Home extends StatelessWidget {
             onTap: item.builder == null
                 ? null
                 : () => _navigate(context, item.builder!),
-            leading: UnconstrainedBox(
-              constrainedAxis: Axis.vertical,
-              child: Icon(
-                (item.recommendation == Recommendation.yes)
-                    ? const IconData(0x2705)
-                    : (item.recommendation == Recommendation.maybe
-                        ? const IconData(0x2734)
-                        : const IconData(0x26D4)),
-              ),
+            leading: Icon(
+              (item.recommendation == Recommendation.yes)
+                  ? const IconData(0x2705)
+                  : (item.recommendation == Recommendation.maybe
+                      ? const IconData(0x2734)
+                      : const IconData(0x26D4)),
             ),
             title: Text(item.name),
             subtitle: Text(item.type),

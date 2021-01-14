@@ -15,7 +15,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:vgv_flutter_cookbook/app.dart';
+import 'package:flutter_cookbook/app.dart';
 
 void main() {
   runApp(App(
@@ -25,14 +25,16 @@ void main() {
 
 @immutable
 class ExampleExpandableFab extends StatelessWidget {
+  static const _actionTitles = ['Create Post', 'Upload Photo', 'Upload Video'];
+
   const ExampleExpandableFab({Key? key}) : super(key: key);
 
   void _showAction(BuildContext context, int index) {
-    showDialog(
+    showDialog<void>(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          content: Text(['Create Post', 'Upload Photo', 'Upload Video'][index]),
+          content: Text(_actionTitles[index]),
           actions: [
             FlatButton(
               onPressed: () => Navigator.of(context).pop(),

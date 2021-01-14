@@ -19,7 +19,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:vgv_flutter_cookbook/app.dart';
+import 'package:flutter_cookbook/app.dart';
 
 void main() {
   runApp(App(
@@ -189,8 +189,6 @@ class BubblePainter extends CustomPainter {
   }
 }
 
-// --- Mock Data Generation ---
-
 enum MessageOwner { myself, other }
 
 @immutable
@@ -209,7 +207,7 @@ class Message {
 class MessageGenerator {
   static List<Message> generate(int count, [int? seed]) {
     final random = Random(seed);
-    return List.unmodifiable(List.generate(count, (int index) {
+    return List.unmodifiable(List<Message>.generate(count, (int index) {
       return Message(
         owner: random.nextBool() ? MessageOwner.myself : MessageOwner.other,
         text: _exampleData[random.nextInt(_exampleData.length)],

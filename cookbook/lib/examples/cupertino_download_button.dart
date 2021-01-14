@@ -14,7 +14,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:vgv_flutter_cookbook/app.dart';
+import 'package:flutter_cookbook/app.dart';
 
 void main() {
   runApp(App(
@@ -205,7 +205,7 @@ class SimulatedDownloadController extends DownloadController
     notifyListeners();
 
     // Wait a second to simulate fetch time.
-    await Future.delayed(const Duration(seconds: 1));
+    await Future<void>.delayed(const Duration(seconds: 1));
 
     // If the user chose to cancel the download, stop the simulation.
     if (!_isDownloading) {
@@ -219,7 +219,7 @@ class SimulatedDownloadController extends DownloadController
     const downloadProgressStops = [0.0, 0.15, 0.45, 0.80, 1.0];
     for (final stop in downloadProgressStops) {
       // Wait a second to simulate varying download speeds.
-      await Future.delayed(const Duration(seconds: 1));
+      await Future<void>.delayed(const Duration(seconds: 1));
 
       // If the user chose to cancel the download, stop the simulation.
       if (!_isDownloading) {
@@ -232,7 +232,7 @@ class SimulatedDownloadController extends DownloadController
     }
 
     // Wait a second to simulate a final delay.
-    await Future.delayed(const Duration(seconds: 1));
+    await Future<void>.delayed(const Duration(seconds: 1));
 
     // If the user chose to cancel the download, stop the simulation.
     if (!_isDownloading) {
