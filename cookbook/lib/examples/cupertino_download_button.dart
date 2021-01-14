@@ -137,7 +137,6 @@ class DemoAppIcon extends StatelessWidget {
   }
 }
 
-///------- BEGIN BUTTON IMPLEMENTATION ------
 enum DownloadStatus {
   notDownloaded,
   fetchingDownload,
@@ -248,7 +247,7 @@ class SimulatedDownloadController extends DownloadController
 }
 
 @immutable
-class DownloadButton extends StatefulWidget {
+class DownloadButton extends StatelessWidget {
   const DownloadButton({
     Key? key,
     required this.status,
@@ -266,30 +265,25 @@ class DownloadButton extends StatefulWidget {
   final VoidCallback onOpen;
   final Duration transitionDuration;
 
-  @override
-  _DownloadButtonState createState() => _DownloadButtonState();
-}
+  bool get _isDownloading => status == DownloadStatus.downloading;
 
-class _DownloadButtonState extends State<DownloadButton> {
-  bool get _isDownloading => widget.status == DownloadStatus.downloading;
+  bool get _isFetching => status == DownloadStatus.fetchingDownload;
 
-  bool get _isFetching => widget.status == DownloadStatus.fetchingDownload;
-
-  bool get _isDownloaded => widget.status == DownloadStatus.downloaded;
+  bool get _isDownloaded => status == DownloadStatus.downloaded;
 
   void _onPressed() {
-    switch (widget.status) {
+    switch (status) {
       case DownloadStatus.notDownloaded:
-        widget.onDownload();
+        onDownload();
         break;
       case DownloadStatus.fetchingDownload:
         // do nothing.
         break;
       case DownloadStatus.downloading:
-        widget.onCancel();
+        onCancel();
         break;
       case DownloadStatus.downloaded:
-        widget.onOpen();
+        onOpen();
         break;
     }
   }
@@ -301,7 +295,7 @@ class _DownloadButtonState extends State<DownloadButton> {
       child: Stack(
         children: [
           _buildButtonShape(
-            child: _buildText(),
+            child: _buildText(context),
           ),
           _buildDownloadingProgress(),
         ],
@@ -313,7 +307,7 @@ class _DownloadButtonState extends State<DownloadButton> {
     required Widget child,
   }) {
     return AnimatedContainer(
-      duration: widget.transitionDuration,
+      duration: transitionDuration,
       curve: Curves.ease,
       width: double.infinity,
       decoration: _isDownloading || _isFetching
@@ -329,14 +323,14 @@ class _DownloadButtonState extends State<DownloadButton> {
     );
   }
 
-  Widget _buildText() {
+  Widget _buildText(BuildContext context) {
     final text = _isDownloaded ? 'OPEN' : 'GET';
     final opacity = _isDownloading || _isFetching ? 0.0 : 1.0;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: AnimatedOpacity(
-        duration: widget.transitionDuration,
+        duration: transitionDuration,
         opacity: opacity,
         curve: Curves.ease,
         child: Text(
@@ -354,7 +348,7 @@ class _DownloadButtonState extends State<DownloadButton> {
   Widget _buildDownloadingProgress() {
     return Positioned.fill(
       child: AnimatedOpacity(
-        duration: widget.transitionDuration,
+        duration: transitionDuration,
         opacity: _isDownloading || _isFetching ? 1.0 : 0.0,
         curve: Curves.ease,
         child: Stack(
@@ -377,7 +371,7 @@ class _DownloadButtonState extends State<DownloadButton> {
     return AspectRatio(
       aspectRatio: 1.0,
       child: TweenAnimationBuilder<double>(
-        tween: Tween(begin: 0.0, end: widget.downloadProgress),
+        tween: Tween(begin: 0.0, end: downloadProgress),
         duration: const Duration(milliseconds: 200),
         builder: (BuildContext context, double progress, Widget? child) {
           return CircularProgressIndicator(
