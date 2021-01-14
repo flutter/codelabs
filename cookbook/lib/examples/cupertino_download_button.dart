@@ -1,3 +1,17 @@
+// Copyright 2019 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vgv_flutter_cookbook/app.dart';
@@ -13,10 +27,12 @@ class ExampleCupertinoDownloadButton extends StatefulWidget {
   const ExampleCupertinoDownloadButton({Key? key}) : super(key: key);
 
   @override
-  _ExampleCupertinoDownloadButtonState createState() => _ExampleCupertinoDownloadButtonState();
+  _ExampleCupertinoDownloadButtonState createState() =>
+      _ExampleCupertinoDownloadButtonState();
 }
 
-class _ExampleCupertinoDownloadButtonState extends State<ExampleCupertinoDownloadButton> {
+class _ExampleCupertinoDownloadButtonState
+    extends State<ExampleCupertinoDownloadButton> {
   late final List<DownloadController> _downloadControllers;
 
   @override
@@ -138,7 +154,8 @@ abstract class DownloadController implements ChangeNotifier {
   void openDownload();
 }
 
-class SimulatedDownloadController extends DownloadController with ChangeNotifier {
+class SimulatedDownloadController extends DownloadController
+    with ChangeNotifier {
   SimulatedDownloadController({
     DownloadStatus downloadStatus = DownloadStatus.notDownloaded,
     double progress = 0.0,
@@ -364,9 +381,12 @@ class _DownloadButtonState extends State<DownloadButton> {
         duration: const Duration(milliseconds: 200),
         builder: (BuildContext context, double progress, Widget? child) {
           return CircularProgressIndicator(
-            backgroundColor: _isDownloading ? CupertinoColors.lightBackgroundGray : Colors.white.withOpacity(0.0),
-            valueColor:
-                AlwaysStoppedAnimation(_isFetching ? CupertinoColors.lightBackgroundGray : CupertinoColors.activeBlue),
+            backgroundColor: _isDownloading
+                ? CupertinoColors.lightBackgroundGray
+                : Colors.white.withOpacity(0.0),
+            valueColor: AlwaysStoppedAnimation(_isFetching
+                ? CupertinoColors.lightBackgroundGray
+                : CupertinoColors.activeBlue),
             strokeWidth: 2.0,
             value: _isFetching ? null : progress,
           );

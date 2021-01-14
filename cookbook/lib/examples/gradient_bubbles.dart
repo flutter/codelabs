@@ -1,3 +1,17 @@
+// Copyright 2019 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 import 'dart:math';
 import 'dart:ui' as ui;
 
@@ -71,7 +85,8 @@ class MessageBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final messageAlignment = message.isMine ? Alignment.topLeft : Alignment.topRight;
+    final messageAlignment =
+        message.isMine ? Alignment.topLeft : Alignment.topRight;
 
     return FractionallySizedBox(
       alignment: messageAlignment,
@@ -84,8 +99,12 @@ class MessageBubble extends StatelessWidget {
             borderRadius: const BorderRadius.all(Radius.circular(16.0)),
             child: BubbleBackground(
               colors: [
-                message.isMine ? const Color(0xFF6C7689) : const Color(0xFF19B7FF),
-                message.isMine ? const Color(0xFF3A364B) : const Color(0xFF491CCB),
+                message.isMine
+                    ? const Color(0xFF6C7689)
+                    : const Color(0xFF19B7FF),
+                message.isMine
+                    ? const Color(0xFF3A364B)
+                    : const Color(0xFF491CCB),
               ],
               child: DefaultTextStyle.merge(
                 style: const TextStyle(
@@ -148,7 +167,8 @@ class BubblePainter extends CustomPainter {
     final scrollableRect = Offset.zero & scrollableBox.size;
     final bubbleBox = _bubbleContext.findRenderObject() as RenderBox;
 
-    final origin = bubbleBox.localToGlobal(Offset.zero, ancestor: scrollableBox);
+    final origin =
+        bubbleBox.localToGlobal(Offset.zero, ancestor: scrollableBox);
     final paint = Paint()
       ..shader = ui.Gradient.linear(
         scrollableRect.topCenter,
