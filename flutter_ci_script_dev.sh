@@ -18,7 +18,8 @@ $FLUTTER format --dry-run --set-exit-if-changed .;
 popd
 
 declare -ar PROJECT_PATHS=(
-  "add_flutter_to_android_app/add_flutter_to_android" \
+  # Tracking issue: https://github.com/flutter/flutter/issues/74174
+  # "add_flutter_to_android_app/add_flutter_to_android" \
   \
   "cupertino_store/step_00" \
   "cupertino_store/step_01" \
