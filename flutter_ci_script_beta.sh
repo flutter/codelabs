@@ -51,7 +51,8 @@ declare -ar PROJECT_PATHS=(
   # "google-maps-in-flutter/step_4" \
   # "google-maps-in-flutter/step_5" \
   \
-  "plugin_codelab/example" \
+  # Tracking issue: https://github.com/flutter/flutter/issues/74207
+  # "plugin_codelab/example" \
   \
   "startup_namer/step1_base" \
   "startup_namer/step2_use_package" \
