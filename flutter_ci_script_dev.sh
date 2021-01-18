@@ -46,9 +46,10 @@ declare -ar PROJECT_PATHS=(
   # "github-graphql-client/step_07" \
   # "github-graphql-client/window_to_front" \
   \
-  "google-maps-in-flutter/step_3" \
-  "google-maps-in-flutter/step_4" \
-  "google-maps-in-flutter/step_5" \
+  # Tracking issue: https://github.com/flutter/flutter/issues/74206
+  # "google-maps-in-flutter/step_3" \
+  # "google-maps-in-flutter/step_4" \
+  # "google-maps-in-flutter/step_5" \
   \
   "plugin_codelab/example" \
   \
