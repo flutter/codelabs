@@ -38,12 +38,13 @@ declare -ar PROJECT_PATHS=(
   # "firebase-get-to-know-flutter/step_07" \
   # "firebase-get-to-know-flutter/step_09" \
   \
-  "github-graphql-client/step_03" \
-  "github-graphql-client/step_04" \
-  "github-graphql-client/step_05" \
-  "github-graphql-client/step_06" \
-  "github-graphql-client/step_07" \
-  "github-graphql-client/window_to_front" \
+  # Tracking issue: https://github.com/flutter/flutter/issues/74205
+  # "github-graphql-client/step_03" \
+  # "github-graphql-client/step_04" \
+  # "github-graphql-client/step_05" \
+  # "github-graphql-client/step_06" \
+  # "github-graphql-client/step_07" \
+  # "github-graphql-client/window_to_front" \
   \
   "google-maps-in-flutter/step_3" \
   "google-maps-in-flutter/step_4" \
