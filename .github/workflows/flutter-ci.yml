@@ -10,16 +10,9 @@ on:
     - cron: '0 0 * * *' # Every day at midnight
 
 jobs:
-  test:
-    name: Test Flutter ${{ matrix.flutter_version }}
+  test-stable:
+    name: Test Flutter stable
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - flutter_version: dev
-          - flutter_version: beta
-          - flutter_version: stable
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-java@v1
@@ -27,7 +20,35 @@ jobs:
           java-version: "12.x"
       - uses: subosito/flutter-action@v1
         with:
-          channel: ${{ matrix.flutter_version }}
+          channel: stable
       - run: dart --version
       - run: flutter --version
-      - run: flutter_ci_script_${{matrix.flutter_version}}.sh
+      - run: flutter_ci_script_stable.sh
+  test-beta:
+    name: Test Flutter beta
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: "12.x"
+      - uses: subosito/flutter-action@v1
+        with:
+          channel: beta
+      - run: dart --version
+      - run: flutter --version
+      - run: flutter_ci_script_beta.sh
+  test-dev:
+    name: Test Flutter dev
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: "12.x"
+      - uses: subosito/flutter-action@v1
+        with:
+          channel: dev
+      - run: dart --version
+      - run: flutter --version
+      - run: flutter_ci_script_dev.sh
