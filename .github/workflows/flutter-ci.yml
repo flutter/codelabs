@@ -14,6 +14,7 @@ jobs:
     name: Test Flutter ${{ matrix.flutter_version }}
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         include:
           - flutter_version: dev

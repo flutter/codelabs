@@ -21,13 +21,14 @@ declare -ar PROJECT_PATHS=(
   # Tracking issue: https://github.com/flutter/flutter/issues/74174
   # "add_flutter_to_android_app/add_flutter_to_android" \
   \
-  "cupertino_store/step_00" \
-  "cupertino_store/step_01" \
-  "cupertino_store/step_02" \
-  "cupertino_store/step_03" \
-  "cupertino_store/step_04" \
-  "cupertino_store/step_05" \
-  "cupertino_store/step_06" \
+  # Tracking issue: https://github.com/flutter/flutter/issues/74203
+  # "cupertino_store/step_00" \
+  # "cupertino_store/step_01" \
+  # "cupertino_store/step_02" \
+  # "cupertino_store/step_03" \
+  # "cupertino_store/step_04" \
+  # "cupertino_store/step_05" \
+  # "cupertino_store/step_06" \
   \
   "firebase-get-to-know-flutter/step_02" \
   "firebase-get-to-know-flutter/step_04" \
