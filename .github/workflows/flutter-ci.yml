@@ -30,4 +30,4 @@ jobs:
           channel: ${{ matrix.flutter_version }}
       - run: dart --version
       - run: flutter --version
-      - run: flutter_ci_script_${{matrix.flutter_version}}.sh
+      - run: ./flutter_ci_script_${{matrix.flutter_version}}.sh
