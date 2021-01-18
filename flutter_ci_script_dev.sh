@@ -54,14 +54,15 @@ declare -ar PROJECT_PATHS=(
   # Tracking issue: https://github.com/flutter/flutter/issues/74207
   # "plugin_codelab/example" \
   \
-  "startup_namer/step1_base" \
-  "startup_namer/step2_use_package" \
-  "startup_namer/step3_stateful_widget" \
-  "startup_namer/step4_infinite_list" \
-  "startup_namer/step5_add_icons" \
-  "startup_namer/step6_add_interactivity" \
-  "startup_namer/step7_navigate_route" \
-  "startup_namer/step8_themes" \
+  # Tracking issue: https://github.com/flutter/flutter/issues/74208
+  # "startup_namer/step1_base" \
+  # "startup_namer/step2_use_package" \
+  # "startup_namer/step3_stateful_widget" \
+  # "startup_namer/step4_infinite_list" \
+  # "startup_namer/step5_add_icons" \
+  # "startup_namer/step6_add_interactivity" \
+  # "startup_namer/step7_navigate_route" \
+  # "startup_namer/step8_themes" \
   \
   "testing_codelab/step_03" \
   "testing_codelab/step_04" \
