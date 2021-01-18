@@ -30,12 +30,13 @@ declare -ar PROJECT_PATHS=(
   # "cupertino_store/step_05" \
   # "cupertino_store/step_06" \
   \
-  "firebase-get-to-know-flutter/step_02" \
-  "firebase-get-to-know-flutter/step_04" \
-  "firebase-get-to-know-flutter/step_05" \
-  "firebase-get-to-know-flutter/step_06" \
-  "firebase-get-to-know-flutter/step_07" \
-  "firebase-get-to-know-flutter/step_09" \
+  # Tracking issue: https://github.com/flutter/flutter/issues/74204
+  # "firebase-get-to-know-flutter/step_02" \
+  # "firebase-get-to-know-flutter/step_04" \
+  # "firebase-get-to-know-flutter/step_05" \
+  # "firebase-get-to-know-flutter/step_06" \
+  # "firebase-get-to-know-flutter/step_07" \
+  # "firebase-get-to-know-flutter/step_09" \
   \
   "github-graphql-client/step_03" \
   "github-graphql-client/step_04" \
