@@ -64,11 +64,12 @@ declare -ar PROJECT_PATHS=(
   # "startup_namer/step7_navigate_route" \
   # "startup_namer/step8_themes" \
   \
-  "testing_codelab/step_03" \
-  "testing_codelab/step_04" \
-  "testing_codelab/step_05" \
-  "testing_codelab/step_06" \
-  "testing_codelab/step_07" \
+  # Tracking issue: https://github.com/flutter/flutter/issues/74209
+  # "testing_codelab/step_03" \
+  # "testing_codelab/step_04" \
+  # "testing_codelab/step_05" \
+  # "testing_codelab/step_06" \
+  # "testing_codelab/step_07" \
 )
 
 for PROJECT in "${PROJECT_PATHS[@]}"; do
