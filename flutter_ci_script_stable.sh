@@ -17,8 +17,17 @@ cd ./plugin_codelab
 $FLUTTER format --dry-run --set-exit-if-changed .;
 popd
 
+declare -ar CODELABS=(
+  "add_flutter_to_android_app" "cupertino_store" "firebase-get-to-know-flutter" "github-graphql-client"
+  "google-maps-in-flutter" "plugin_codelab" "startup_namer" "testing_codelab"
+  )
 
-declare -a PROJECT_PATHS=($(find . -not -path './flutter/*' -not -path './plugin_codelab/pubspec.yaml' -name pubspec.yaml -exec dirname {} \;))
+declare -a PROJECT_PATHS=($(
+  for CODELAB in "${CODELABS[@]}"
+  do 
+    find $CODELAB -not -path './flutter/*' -not -path './plugin_codelab/pubspec.yaml' -name pubspec.yaml -exec dirname {} \; 
+  done
+  ))
 
 for PROJECT in "${PROJECT_PATHS[@]}"; do
   echo "== TESTING $PROJECT"
