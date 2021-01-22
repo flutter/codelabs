@@ -18,8 +18,15 @@ $FLUTTER format --dry-run --set-exit-if-changed .;
 popd
 
 declare -ar CODELABS=(
-  "add_flutter_to_android_app" "cupertino_store" "firebase-get-to-know-flutter" "github-graphql-client"
-  "google-maps-in-flutter" "plugin_codelab" "startup_namer" "testing_codelab"
+  "add_flutter_to_android_app"
+  "cupertino_store"
+  "firebase-get-to-know-flutter"
+  "github-graphql-client"
+  "google-maps-in-flutter"
+  # Plugin codelab's example project is unhappy with stable 
+  # "plugin_codelab"
+  "startup_namer"
+  "testing_codelab"
   )
 
 declare -a PROJECT_PATHS=($(
