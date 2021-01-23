@@ -26,7 +26,8 @@ declare -ar CODELABS=(
   # Plugin codelab's example project is unhappy with ubuntu-latest 
   # "plugin_codelab"
   "startup_namer"
-  "testing_codelab"
+  # Tracking issue: https://github.com/flutter/flutter/issues/74209	
+  # "testing_codelab"  
   )
 
 declare -a PROJECT_PATHS=($(
