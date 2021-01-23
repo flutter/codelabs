@@ -26,7 +26,7 @@ declare -ar CODELABS=(
   # Plugin codelab's example project is unhappy with ubuntu-latest 
   # "plugin_codelab"
   "startup_namer"
-  "testing_codelab"  
+  "testing_codelab"
   )
 
 declare -a PROJECT_PATHS=($(
