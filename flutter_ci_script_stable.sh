@@ -38,7 +38,6 @@ declare -a PROJECT_PATHS=($(
 
 for PROJECT in "${PROJECT_PATHS[@]}"; do
   echo "== TESTING $PROJECT"
-  $FLUTTER create --no-overwrite "$PROJECT"
   (
     cd "$PROJECT";
     set -x;
