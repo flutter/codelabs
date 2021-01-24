@@ -23,8 +23,7 @@ declare -ar CODELABS=(
   "firebase-get-to-know-flutter"
   "github-graphql-client"
   "google-maps-in-flutter"
-  # Plugin codelab's example project is unhappy with stable 
-  # "plugin_codelab"
+  "plugin_codelab"
   "startup_namer"
   "testing_codelab"
   )
