@@ -1,6 +1,6 @@
-# PluginCodelab_example
+# plugin_codelab_example
 
-Demonstrates how to use the PluginCodelab plugin.
+Demonstrates how to use the plugin_codelab plugin.
 
 ## Getting Started
 

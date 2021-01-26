@@ -17,18 +17,21 @@ cd ./plugin_codelab
 $FLUTTER format --dry-run --set-exit-if-changed .;
 popd
 
-declare -ar CODELABS=(
+declare -a CODELABS=(
   "add_flutter_to_android_app"
   "cupertino_store"
   "firebase-get-to-know-flutter"
   "github-graphql-client"
   "google-maps-in-flutter"
-  # Plugin codelab's example project is unhappy with ubuntu-latest 
-  # "plugin_codelab"
   "startup_namer"
-  # Tracking issue: https://github.com/flutter/flutter/issues/74209	
-  # "testing_codelab"  
+  # Tracking issue: https://github.com/flutter/flutter/issues/74209
+  # "testing_codelab"
   )
+
+# Plugin codelab is failing on ubuntu-latest in CI.
+if [[ "$OSTYPE" != "linux-gnu"* ]]; then
+  CODELABS+=("plugin_codelab")
+fi
 
 declare -a PROJECT_PATHS=($(
   for CODELAB in "${CODELABS[@]}"
