@@ -23,7 +23,7 @@ declare -ar CODELABS=(
   "firebase-get-to-know-flutter"
   "github-graphql-client"
   "google-maps-in-flutter"
-  # Plugin codelab's example project is unhappy with stable 
+  # Plugin codelab's example project is unhappy with ubuntu-latest 
   # "plugin_codelab"
   "startup_namer"
   "testing_codelab"
@@ -38,7 +38,6 @@ declare -a PROJECT_PATHS=($(
 
 for PROJECT in "${PROJECT_PATHS[@]}"; do
   echo "== TESTING $PROJECT"
-  $FLUTTER create --no-overwrite "$PROJECT"
   (
     cd "$PROJECT";
     set -x;

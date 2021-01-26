@@ -7,8 +7,8 @@ on:
     branches: [master]
   workflow_dispatch:
   schedule:
-    - cron: '0 0 * * *' # Every day at midnight
-      
+    - cron: "0 0 * * *" # Every day at midnight
+
 defaults:
   run:
     shell: bash
@@ -20,7 +20,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        flutter_version: [dev, beta, stable]
+        flutter_version: [stable, beta, dev]
         os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
       - uses: actions/checkout@v2
@@ -32,4 +32,4 @@ jobs:
           channel: ${{ matrix.flutter_version }}
       - run: dart --version
       - run: flutter --version
-      - run: ./flutter_ci_script_${{matrix.flutter_version}}.sh
+      - run: ./flutter_ci_script_${{ matrix.flutter_version }}.sh
