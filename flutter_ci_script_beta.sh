@@ -18,22 +18,16 @@ $FLUTTER format --dry-run --set-exit-if-changed .;
 popd
 
 declare -ar CODELABS=(
-  # Tracking issue: https://github.com/flutter/flutter/issues/74174
-  # "add_flutter_to_android_app" 
-  # Tracking issue: https://github.com/flutter/flutter/issues/74203
-  # "cupertino_store" 
-  # Tracking issue: https://github.com/flutter/flutter/issues/74204
-  # "firebase-get-to-know-flutter" 
-  # Tracking issue: https://github.com/flutter/flutter/issues/74205
-  # "github-graphql-client"
-  # Tracking issue: https://github.com/flutter/flutter/issues/74206
-  # "google-maps-in-flutter" 
-  # Tracking issue: https://github.com/flutter/flutter/issues/74207
-  # "plugin_codelab" 
-  # Tracking issue: https://github.com/flutter/flutter/issues/74208
-  # "startup_namer" 
-  # Tracking issue: https://github.com/flutter/flutter/issues/74209
-  # "testing_codelab"
+  "add_flutter_to_android_app"
+  "cupertino_store"
+  "firebase-get-to-know-flutter"
+  "github-graphql-client"
+  "google-maps-in-flutter"
+  # Plugin codelab's example project is unhappy with ubuntu-latest 
+  # "plugin_codelab"
+  "startup_namer"
+  # Tracking issue: https://github.com/flutter/flutter/issues/74209	
+  # "testing_codelab"  
   )
 
 declare -a PROJECT_PATHS=($(
@@ -45,7 +39,6 @@ declare -a PROJECT_PATHS=($(
 
 for PROJECT in "${PROJECT_PATHS[@]}"; do
   echo "== TESTING $PROJECT"
-  $FLUTTER create --no-overwrite "$PROJECT"
   (
     cd "$PROJECT";
     set -x;
