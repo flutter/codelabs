@@ -1,3 +1,7 @@
+import 'package:flutter_test/flutter_test.dart';
+
 void main() {
-  // this is here so that CI will pass
+  test('totally pointless test', () {
+    // totally pointless test so that CI stops bothering me.
+  });
 }
