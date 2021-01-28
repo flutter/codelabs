@@ -1,3 +1,7 @@
+// Copyright 2020, the Flutter project authors. Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -16,14 +20,18 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: Center(
-          child: ParallaxRecipe(),
+          child: ExampleParallax(),
         ),
       ),
     );
   }
 }
 
-class ParallaxRecipe extends StatelessWidget {
+class ExampleParallax extends StatelessWidget {
+  const ExampleParallax({
+    Key? key,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -89,13 +97,6 @@ class LocationListItem extends StatelessWidget {
         ),
       ],
     );
-
-    // return Parallax(
-    //   background: Image.network(
-    //     imageUrl,
-    //     fit: BoxFit.cover,
-    //   ),
-    // );
   }
 
   Widget _buildGradient() {

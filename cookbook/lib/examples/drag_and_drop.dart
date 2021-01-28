@@ -1,3 +1,7 @@
+// Copyright 2020, the Flutter project authors. Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
 import 'package:flutter/material.dart';
 import 'package:flutter_cookbook/app.dart';
 
@@ -11,22 +15,25 @@ void main() {
 
 final List<Item> _items = const [
   Item(
-    name: 'Chicken Club & Chips',
-    totalPriceCents: 899,
-    uid: '1',
-    imageProvider: AssetImage('assets/chicken-club-chips.png'),
-  ),
-  Item(
-    name: 'Smokehouse Burger',
+    name: 'Spinach Pizza',
     totalPriceCents: 1299,
-    uid: '2',
-    imageProvider: AssetImage('assets/smokehouse-burger.png'),
+    uid: '1',
+    imageProvider: NetworkImage('https://flutter'
+        '.dev/docs/cookbook/img-files/effects/split-check/Food1.jpg'),
   ),
   Item(
-    name: 'Avocado & Spinach Toast',
-    totalPriceCents: 699,
+    name: 'Veggie Delight',
+    totalPriceCents: 799,
+    uid: '2',
+    imageProvider: NetworkImage('https://flutter'
+        '.dev/docs/cookbook/img-files/effects/split-check/Food2.jpg'),
+  ),
+  Item(
+    name: 'Chicken Parmesan',
+    totalPriceCents: 1499,
     uid: '3',
-    imageProvider: AssetImage('assets/avocado-spinach-toast.png'),
+    imageProvider: NetworkImage('https://flutter'
+        '.dev/docs/cookbook/img-files/effects/split-check/Food3.jpg'),
   ),
 ];
 
@@ -43,15 +50,18 @@ class _ExampleDragAndDropState extends State<ExampleDragAndDrop>
   final List<Customer> _people = [
     Customer(
       name: 'Makayla',
-      imageProvider: const AssetImage('assets/makayla-profile.png'),
+      imageProvider: NetworkImage('https://flutter'
+          '.dev/docs/cookbook/img-files/effects/split-check/Avatar1.jpg'),
     ),
     Customer(
       name: 'Nathan',
-      imageProvider: const AssetImage('assets/nathan-profile.png'),
+      imageProvider: NetworkImage('https://flutter'
+          '.dev/docs/cookbook/img-files/effects/split-check/Avatar2.jpg'),
     ),
     Customer(
       name: 'Emilio',
-      imageProvider: const AssetImage('assets/emilo-profile.png'),
+      imageProvider: NetworkImage('https://flutter'
+          '.dev/docs/cookbook/img-files/effects/split-check/Avatar3.jpg'),
     ),
   ];
 
