@@ -22,7 +22,7 @@ class ExampleExpandableFab extends StatelessWidget {
   void _showAction(BuildContext context, int index) {
     showDialog<void>(
       context: context,
-      builder: (BuildContext context) {
+      builder: (context) {
         return AlertDialog(
           content: Text(_actionTitles[index]),
           actions: [
@@ -45,7 +45,7 @@ class ExampleExpandableFab extends StatelessWidget {
       body: ListView.builder(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         itemCount: 25,
-        itemBuilder: (BuildContext context, int index) {
+        itemBuilder: (context, index) {
           return FakeItem(isBig: index.isOdd);
         },
       ),
@@ -229,7 +229,7 @@ class _ExpandingActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: progress,
-      builder: (BuildContext context, Widget? child) {
+      builder: (context, child) {
         final offset = Offset.fromDirection(
           directionInDegrees * (math.pi / 180.0),
           progress.value * maxDistance,

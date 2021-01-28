@@ -55,7 +55,7 @@ class _ExampleCupertinoDownloadButtonState
   Widget _buildList() {
     return ListView.separated(
       itemCount: _downloadControllers.length,
-      separatorBuilder: (BuildContext context, int index) => const Divider(),
+      separatorBuilder: (context, index) => const Divider(),
       itemBuilder: _buildListItem,
     );
   }
@@ -363,7 +363,7 @@ class DownloadButton extends StatelessWidget {
       child: TweenAnimationBuilder<double>(
         tween: Tween(begin: 0.0, end: downloadProgress),
         duration: const Duration(milliseconds: 200),
-        builder: (BuildContext context, double progress, Widget? child) {
+        builder: (context, progress, child) {
           return CircularProgressIndicator(
             backgroundColor: _isDownloading
                 ? CupertinoColors.lightBackgroundGray

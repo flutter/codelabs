@@ -59,7 +59,7 @@ class _ExampleIsTypingState extends State<ExampleIsTyping> {
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       itemCount: 25,
       reverse: true,
-      itemBuilder: (BuildContext context, int index) {
+      itemBuilder: (context, index) {
         return Padding(
           padding: const EdgeInsets.only(left: 100.0),
           child: FakeMessage(isBig: index.isOdd),

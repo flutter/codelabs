@@ -49,7 +49,7 @@ class _ExampleGradientBubblesState extends State<ExampleGradientBubbles> {
           padding: const EdgeInsets.symmetric(vertical: 16.0),
           reverse: true,
           itemCount: data.length,
-          itemBuilder: (BuildContext context, int index) {
+          itemBuilder: (context, index) {
             final message = data[index];
             return MessageBubble(
               message: message,
@@ -197,7 +197,7 @@ class Message {
 class MessageGenerator {
   static List<Message> generate(int count, [int? seed]) {
     final random = Random(seed);
-    return List.unmodifiable(List<Message>.generate(count, (int index) {
+    return List.unmodifiable(List<Message>.generate(count, (index) {
       return Message(
         owner: random.nextBool() ? MessageOwner.myself : MessageOwner.other,
         text: _exampleData[random.nextInt(_exampleData.length)],
