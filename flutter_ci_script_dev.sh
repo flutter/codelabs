@@ -19,6 +19,7 @@ popd
 
 declare -a CODELABS=(
   "add_flutter_to_android_app"
+  "cookbook"
   "cupertino_store"
   "firebase-get-to-know-flutter"
   "github-graphql-client"
