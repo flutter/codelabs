@@ -26,7 +26,7 @@ class ExampleExpandableFab extends StatelessWidget {
         return AlertDialog(
           content: Text(_actionTitles[index]),
           actions: [
-            FlatButton(
+            TextButton(
               onPressed: () => Navigator.of(context).pop(),
               child: const Text('CLOSE'),
             ),

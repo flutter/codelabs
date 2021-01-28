@@ -294,10 +294,12 @@ class _MenuState extends State<Menu> with SingleTickerProviderStateMixin {
               ),
             );
           },
-          child: RaisedButton(
-            shape: const StadiumBorder(),
-            color: Colors.blue,
-            padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 14),
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              shape: const StadiumBorder(),
+              primary: Colors.blue,
+              padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 14),
+            ),
             onPressed: () {},
             child: const Text(
               'Get started',
