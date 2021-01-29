@@ -56,7 +56,7 @@ class _GithubLoginState extends State<GithubLoginWidget> {
         title: const Text('Github Login'),
       ),
       body: Center(
-        child: RaisedButton(
+        child: ElevatedButton(
           onPressed: () async {
             await _redirectServer?.close();
             // Bind to an ephemeral port on localhost

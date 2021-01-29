@@ -1,12 +1,10 @@
 .DS_Store
-pubspec.lock
 .packages
 
 # */**/android
 # */**/ios
 # */**/.gitignore
 */**/.metadata
-*/**/README.md
 
 .dart_tool/
 firebase-get-to-know-flutter/step_04/typer/steps.json

@@ -276,7 +276,7 @@ Future<void> _launchUrl(BuildContext context, String url) async {
         title: Text('Navigation error'),
         content: Text('Could not launch $url'),
         actions: <Widget>[
-          FlatButton(
+          TextButton(
             child: Text('Close'),
             onPressed: () {
               Navigator.of(context).pop();
