@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 
 void main() {
   runApp(
@@ -13,6 +12,22 @@ void main() {
     ),
   );
 }
+
+const _shimmerGradient = LinearGradient(
+  colors: [
+    Color(0xFFEBEBF4),
+    Color(0xFFF4F4F4),
+    Color(0xFFEBEBF4),
+  ],
+  stops: [
+    0.1,
+    0.3,
+    0.4,
+  ],
+  begin: Alignment(-1.0, -0.3),
+  end: Alignment(1.0, 0.3),
+  tileMode: TileMode.clamp,
+);
 
 class ExampleUiLoadingAnimation extends StatefulWidget {
   const ExampleUiLoadingAnimation({
@@ -25,22 +40,6 @@ class ExampleUiLoadingAnimation extends StatefulWidget {
 }
 
 class _ExampleUiLoadingAnimationState extends State<ExampleUiLoadingAnimation> {
-  static const _shimmerGradient = LinearGradient(
-    colors: [
-      Color(0xFFEBEBF4),
-      Color(0xFFF4F4F4),
-      Color(0xFFEBEBF4),
-    ],
-    stops: [
-      0.1,
-      0.3,
-      0.4,
-    ],
-    begin: Alignment(-1.0, -0.3),
-    end: Alignment(1.0, 0.3),
-    tileMode: TileMode.clamp,
-  );
-
   bool _isLoading = true;
 
   void _toggleLoading() {
@@ -113,8 +112,8 @@ class _ExampleUiLoadingAnimationState extends State<ExampleUiLoadingAnimation> {
 }
 
 class Shimmer extends StatefulWidget {
-  static _ShimmerState? of(BuildContext context) {
-    return context.findAncestorStateOfType<_ShimmerState>();
+  static ShimmerState? of(BuildContext context) {
+    return context.findAncestorStateOfType<ShimmerState>();
   }
 
   const Shimmer({
@@ -127,10 +126,10 @@ class Shimmer extends StatefulWidget {
   final Widget? child;
 
   @override
-  _ShimmerState createState() => _ShimmerState();
+  ShimmerState createState() => ShimmerState();
 }
 
-class _ShimmerState extends State<Shimmer> with SingleTickerProviderStateMixin {
+class ShimmerState extends State<Shimmer> with SingleTickerProviderStateMixin {
   late AnimationController _shimmerController;
 
   @override
@@ -147,7 +146,7 @@ class _ShimmerState extends State<Shimmer> with SingleTickerProviderStateMixin {
     super.dispose();
   }
 
-  Gradient get gradient => LinearGradient(
+  LinearGradient get gradient => LinearGradient(
         colors: widget.linearGradient.colors,
         stops: widget.linearGradient.stops,
         begin: widget.linearGradient.begin,
@@ -155,6 +154,20 @@ class _ShimmerState extends State<Shimmer> with SingleTickerProviderStateMixin {
         transform:
             _SlidingGradientTransform(slidePercent: _shimmerController.value),
       );
+
+  bool get isSized => (context.findRenderObject() as RenderBox).hasSize;
+
+  Size get size => (context.findRenderObject() as RenderBox).size;
+
+  Offset getDescendantOffset({
+    required RenderBox descendant,
+    Offset offset = Offset.zero,
+  }) {
+    final shimmerBox = context.findRenderObject() as RenderBox;
+    return descendant.localToGlobal(offset, ancestor: shimmerBox);
+  }
+
+  Listenable get shimmerChanges => _shimmerController;
 
   @override
   Widget build(BuildContext context) {
@@ -189,40 +202,33 @@ class ShimmerLoading extends StatefulWidget {
   _ShimmerLoadingState createState() => _ShimmerLoadingState();
 }
 
-class _ShimmerLoadingState extends State<ShimmerLoading>
-    with SingleTickerProviderStateMixin {
-  late Ticker _ticker;
+class _ShimmerLoadingState extends State<ShimmerLoading> {
+  Listenable? _shimmerChanges;
 
   @override
-  void initState() {
-    super.initState();
-
-    _ticker = createTicker((elapsed) {
-      setState(() {});
-    });
-
-    if (widget.isLoading) {
-      _ticker.start();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_shimmerChanges != null) {
+      _shimmerChanges!.removeListener(_onShimmerChange);
     }
-  }
-
-  @override
-  void didUpdateWidget(ShimmerLoading oldWidget) {
-    super.didUpdateWidget(oldWidget);
-
-    if (widget.isLoading != oldWidget.isLoading) {
-      if (widget.isLoading) {
-        _ticker.start();
-      } else {
-        _ticker.stop();
-      }
+    _shimmerChanges = Shimmer.of(context)?.shimmerChanges;
+    if (_shimmerChanges != null) {
+      _shimmerChanges!.addListener(_onShimmerChange);
     }
   }
 
   @override
   void dispose() {
-    _ticker.dispose();
+    _shimmerChanges?.removeListener(_onShimmerChange);
     super.dispose();
+  }
+
+  void _onShimmerChange() {
+    if (widget.isLoading) {
+      setState(() {
+        // update the shimmer painting.
+      });
+    }
   }
 
   @override
@@ -233,21 +239,16 @@ class _ShimmerLoadingState extends State<ShimmerLoading>
 
     // Collect ancestor shimmer info.
     final shimmer = Shimmer.of(context)!;
-    final shimmerBox = shimmer.context.findRenderObject()! as RenderBox;
-    if (!shimmerBox.hasSize) {
-      return const SizedBox();
+    if (!shimmer.isSized) {
+      // The ancestor Shimmer widget has not laid
+      // itself out yet. Return an empty box.
+      return SizedBox();
     }
-    final shimmerWidth = shimmerBox.size.width;
-    final shimmerHeight = shimmerBox.size.height;
+    final shimmerSize = shimmer.size;
     final gradient = shimmer.gradient;
-
-    // Determine our position within the ancestor Shimmer.
-    final renderBox = context.findRenderObject() as RenderBox?;
-    if (renderBox == null) {
-      return const SizedBox();
-    }
-    final offsetWithinShimmer =
-        renderBox.localToGlobal(Offset.zero, ancestor: shimmerBox);
+    final offsetWithinShimmer = shimmer.getDescendantOffset(
+      descendant: context.findRenderObject() as RenderBox,
+    );
 
     return ShaderMask(
       blendMode: BlendMode.srcATop,
@@ -256,8 +257,8 @@ class _ShimmerLoadingState extends State<ShimmerLoading>
           Rect.fromLTWH(
             -offsetWithinShimmer.dx,
             -offsetWithinShimmer.dy,
-            shimmerWidth,
-            shimmerHeight,
+            shimmerSize.width,
+            shimmerSize.height,
           ),
         );
       },
