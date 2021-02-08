@@ -23,6 +23,7 @@ dev_dependencies:
     sdk: flutter
   flutter_driver: # new
     sdk: flutter # new
+  integration_test: ^1.0.1    # new
   test: ^1.14.4 # new
 
 flutter:
