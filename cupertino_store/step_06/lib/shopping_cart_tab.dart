@@ -30,10 +30,10 @@ class ShoppingCartTab extends StatefulWidget {
 }
 
 class _ShoppingCartTabState extends State<ShoppingCartTab> {
-  String name;
-  String email;
-  String location;
-  String pin;
+  String? name;
+  String? email;
+  String? location;
+  String? pin;
   DateTime dateTime = DateTime.now();
   final _currencyFormat = NumberFormat.currency(symbol: '\$');
 
@@ -251,11 +251,11 @@ class _ShoppingCartTabState extends State<ShoppingCartTab> {
 
 class ShoppingCartItem extends StatelessWidget {
   const ShoppingCartItem({
-    @required this.index,
-    @required this.product,
-    @required this.lastItem,
-    @required this.quantity,
-    @required this.formatter,
+    required this.index,
+    required this.product,
+    required this.lastItem,
+    required this.quantity,
+    required this.formatter,
   });
 
   final Product product;
