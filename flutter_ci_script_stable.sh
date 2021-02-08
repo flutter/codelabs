@@ -21,7 +21,8 @@ declare -a CODELABS=(
   "add_flutter_to_android_app"
   # TODO(domesticmouse): Uncomment at next Flutter stable roll
   # "cookbook"
-  "cupertino_store"
+  # TODO(domesticmouse): Uncomment once null safety becomes stable
+  # "cupertino_store"
   "firebase-get-to-know-flutter"
   "github-graphql-client"
   "google-maps-in-flutter"
