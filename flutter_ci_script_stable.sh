@@ -31,7 +31,8 @@ declare -a CODELABS=(
 
 # Plugin codelab is failing on ubuntu-latest in CI.
 if [[ "$OSTYPE" != "linux-gnu"* ]]; then
-  CODELABS+=("plugin_codelab")
+# TODO(domesticmouse): re-introduce plugin_codelab once null safety goes stable.
+#   CODELABS+=("plugin_codelab")
 fi
 
 declare -a PROJECT_PATHS=($(
