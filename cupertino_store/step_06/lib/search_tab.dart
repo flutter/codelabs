@@ -28,8 +28,8 @@ class SearchTab extends StatefulWidget {
 }
 
 class _SearchTabState extends State<SearchTab> {
-  late TextEditingController _controller;
-  late FocusNode _focusNode;
+  late final TextEditingController _controller;
+  late final FocusNode _focusNode;
   String _terms = '';
 
   @override
