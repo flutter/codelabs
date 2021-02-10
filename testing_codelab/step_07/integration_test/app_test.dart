@@ -18,22 +18,13 @@ void main() {
       await tester.pumpWidget(TestingApp());
 
       final listFinder = find.byType(ListView);
-      final scroller = tester.widget<ListView>(listFinder).controller;
 
       await binding.traceAction(() async {
         await binding.watchPerformance(() async {
-          await scroller.animateTo(
-            7000,
-            duration: const Duration(seconds: 1),
-            curve: Curves.linear,
-          );
+          await tester.fling(listFinder, Offset(0, -500), 10000);
           await tester.pumpAndSettle();
 
-          await scroller.animateTo(
-            -7000,
-            duration: const Duration(seconds: 1),
-            curve: Curves.linear,
-          );
+          await tester.fling(listFinder, Offset(0, 500), 10000);
           await tester.pumpAndSettle();
         }, reportKey: 'scrolling_summary');
       }, reportKey: 'scrolling_timeline');
