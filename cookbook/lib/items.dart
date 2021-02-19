@@ -7,8 +7,7 @@ import 'package:flutter_cookbook/examples/cupertino_download_button.dart';
 import 'package:flutter_cookbook/examples/drag_and_drop.dart';
 import 'package:flutter_cookbook/examples/expandable_fab.dart';
 import 'package:flutter_cookbook/examples/gradient_bubbles.dart';
-// import 'package:flutter_cookbook/examples/hero_transitions.dart';
-// import 'package:flutter_cookbook/examples/instagram_filter.dart';
+import 'package:flutter_cookbook/examples/instagram_filter.dart';
 import 'package:flutter_cookbook/examples/typing_indicator.dart';
 // import 'package:flutter_cookbook/examples/nested_nav.dart';
 import 'package:flutter_cookbook/examples/parallax.dart';
@@ -16,7 +15,6 @@ import 'package:flutter_cookbook/examples/staggered_animation.dart';
 // import 'package:flutter_cookbook/examples/ui_loading_animation.dart';
 
 final items = <CookbookItem>[
-  // @formatter:off
   CookbookItem('Parallax Scrolling', 'Scrolling', Recommendation.yes,
       (_) => const ExampleParallax()),
   // CookbookItem('Nested Navigation',               'Progress',   Recommendation.yes, (_) => const OnboardingFlow()),
@@ -24,7 +22,8 @@ final items = <CookbookItem>[
       (_) => const ExampleGradientBubbles()),
   CookbookItem('Download Button', 'Button', Recommendation.yes,
       (_) => const ExampleCupertinoDownloadButton()),
-  // CookbookItem('Instagram Camera Buttons',        'Button',     Recommendation.yes, (_) => const ExampleInstagramFilterSelection()),
+  CookbookItem('Instagram Camera Buttons', 'Button', Recommendation.yes,
+      (_) => const ExampleInstagramFilterSelection()),
   CookbookItem('Order Food Draggable', 'UI Pattern', Recommendation.yes,
       (_) => const ExampleDragAndDrop()),
   CookbookItem('Expandable FAB', 'Button', Recommendation.yes,
@@ -33,9 +32,7 @@ final items = <CookbookItem>[
       (_) => const ExampleStaggeredAnimations()),
   CookbookItem('Is Typing Animation', 'Animation', Recommendation.yes,
       (_) => const ExampleIsTyping()),
-  // CookbookItem('Advanced Hero Animation',         'Transition', Recommendation.yes, (_) => const ExampleHeroTransition()),
   // CookbookItem('Animated Accordion',              'UI Pattern', Recommendation.yes),
-
   // CookbookItem('Wallet Cards',                    'UI Pattern', Recommendation.maybe),
   // CookbookItem('Accelerometer Example',           'Utility',    Recommendation.maybe),
   // CookbookItem('Custom Painter / Equalizer',      'Utility',    Recommendation.maybe),

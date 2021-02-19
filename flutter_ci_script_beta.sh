@@ -25,6 +25,7 @@ declare -a CODELABS=(
   "github-graphql-client"
   "google-maps-in-flutter"
   "startup_namer"
+  "startup_namer_null_safety"
   # Tracking issue: https://github.com/flutter/flutter/issues/74209
   # "testing_codelab"
   )
