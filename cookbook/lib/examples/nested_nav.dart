@@ -32,7 +32,8 @@ void main() {
         } else if (settings.name == routeSettings) {
           page = SettingsScreen();
         } else if (settings.name!.startsWith(routePrefixDeviceSetup)) {
-          final subRoute = settings.name!.substring(routePrefixDeviceSetup.length);
+          final subRoute =
+              settings.name!.substring(routePrefixDeviceSetup.length);
           page = SetupFlow(
             setupPageRoute: subRoute,
           );
@@ -103,7 +104,8 @@ class SetupFlowState extends State<SetupFlow> {
             builder: (context) {
               return AlertDialog(
                 title: Text('Are you sure?'),
-                content: Text('If you exit device setup, your progress will be lost.'),
+                content: Text(
+                    'If you exit device setup, your progress will be lost.'),
                 actions: [
                   TextButton(
                     onPressed: () {
@@ -332,7 +334,8 @@ class FinishedPage extends StatelessWidget {
               ElevatedButton(
                 style: ButtonStyle(
                   padding: MaterialStateProperty.resolveWith((states) {
-                    return const EdgeInsets.symmetric(horizontal: 24, vertical: 12);
+                    return const EdgeInsets.symmetric(
+                        horizontal: 24, vertical: 12);
                   }),
                   backgroundColor: MaterialStateColor.resolveWith((states) {
                     return const Color(0xFF222222);
