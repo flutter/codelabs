@@ -12,14 +12,14 @@ enum ApplicationLoginState {
 
 class Authentication extends StatelessWidget {
   const Authentication({
-    @required this.loginState,
-    @required this.email,
-    @required this.startLoginFlow,
-    @required this.verifyEmail,
-    @required this.signInWithEmailAndPassword,
-    @required this.cancelRegistration,
-    @required this.registerAccount,
-    @required this.signOut,
+    required this.loginState,
+    required this.email,
+    required this.startLoginFlow,
+    required this.verifyEmail,
+    required this.signInWithEmailAndPassword,
+    required this.cancelRegistration,
+    required this.registerAccount,
+    required this.signOut,
   });
 
   final ApplicationLoginState loginState;
@@ -151,7 +151,7 @@ class Authentication extends StatelessWidget {
 }
 
 class EmailForm extends StatefulWidget {
-  EmailForm({@required this.callback});
+  EmailForm({required this.callback});
   final void Function(String email) callback;
   @override
   _EmailFormState createState() => _EmailFormState();
@@ -181,7 +181,7 @@ class _EmailFormState extends State<EmailForm> {
                       hintText: 'Enter your email',
                     ),
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return 'Enter your email address to continue';
                       }
                       return null;
@@ -196,7 +196,7 @@ class _EmailFormState extends State<EmailForm> {
                           vertical: 16.0, horizontal: 30),
                       child: StyledButton(
                         onPressed: () async {
-                          if (_formKey.currentState.validate()) {
+                          if (_formKey.currentState!.validate()) {
                             widget.callback(_controller.text);
                           }
                         },
@@ -216,9 +216,9 @@ class _EmailFormState extends State<EmailForm> {
 
 class RegisterForm extends StatefulWidget {
   RegisterForm({
-    @required this.registerAccount,
-    @required this.cancel,
-    @required this.email,
+    required this.registerAccount,
+    required this.cancel,
+    required this.email,
   });
   final String email;
   final void Function(String email, String displayName, String password)
@@ -260,7 +260,7 @@ class _RegisterFormState extends State<RegisterForm> {
                       hintText: 'Enter your email',
                     ),
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return 'Enter your email address to continue';
                       }
                       return null;
@@ -275,7 +275,7 @@ class _RegisterFormState extends State<RegisterForm> {
                       hintText: 'First & last name',
                     ),
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return 'Enter your account name';
                       }
                       return null;
@@ -291,7 +291,7 @@ class _RegisterFormState extends State<RegisterForm> {
                     ),
                     obscureText: true,
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return 'Enter your password';
                       }
                       return null;
@@ -310,7 +310,7 @@ class _RegisterFormState extends State<RegisterForm> {
                       SizedBox(width: 16),
                       StyledButton(
                         onPressed: () {
-                          if (_formKey.currentState.validate()) {
+                          if (_formKey.currentState!.validate()) {
                             widget.registerAccount(
                               _emailController.text,
                               _displayNameController.text,
@@ -335,8 +335,8 @@ class _RegisterFormState extends State<RegisterForm> {
 
 class PasswordForm extends StatefulWidget {
   PasswordForm({
-    @required this.login,
-    @required this.email,
+    required this.login,
+    required this.email,
   });
   final String email;
   final void Function(String email, String password) login;
@@ -375,7 +375,7 @@ class _PasswordFormState extends State<PasswordForm> {
                       hintText: 'Enter your email',
                     ),
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return 'Enter your email address to continue';
                       }
                       return null;
@@ -391,7 +391,7 @@ class _PasswordFormState extends State<PasswordForm> {
                     ),
                     obscureText: true,
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return 'Enter your password';
                       }
                       return null;
@@ -406,7 +406,7 @@ class _PasswordFormState extends State<PasswordForm> {
                       SizedBox(width: 16),
                       StyledButton(
                         onPressed: () {
-                          if (_formKey.currentState.validate()) {
+                          if (_formKey.currentState!.validate()) {
                             widget.login(
                               _emailController.text,
                               _passwordController.text,
