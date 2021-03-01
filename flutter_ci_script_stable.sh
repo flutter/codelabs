@@ -22,7 +22,8 @@ declare -a CODELABS=(
   # TODO(domesticmouse): Uncomment at next Flutter stable roll
   # "cookbook"
   "cupertino_store"
-  "firebase-get-to-know-flutter"
+  # TODO(domesticmouse): Uncomment at next Flutter stable roll
+  # "firebase-get-to-know-flutter"
   "github-graphql-client"
   "google-maps-in-flutter"
   "startup_namer"
