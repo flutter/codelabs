@@ -12,7 +12,7 @@ dependencies:
   cloud_firestore: ^1.0.0
   firebase_auth: ^1.0.0
   google_fonts: ^2.0.0
-  provider: ^5.0.0-nullsafety.5
+  provider: ^5.0.0-0
 
 dev_dependencies:
   flutter_test:
