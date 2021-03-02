@@ -25,7 +25,7 @@ dependencies:
   flutter:
     sdk: flutter
   intl: ^0.17.0
-  provider: ^5.0.0-nullsafety.4
+  provider: ^5.0.0-0
   shrine_images: ^2.0.1
 
 dev_dependencies:
