@@ -19,24 +19,20 @@ popd
 
 declare -a CODELABS=(
   "add_flutter_to_android_app"
-  # TODO(domesticmouse): Uncomment at next Flutter stable roll
-  # "cookbook"
-  # TODO(domesticmouse): Uncomment once null safety becomes stable
-  # "cupertino_store"
+  "cookbook"
+  "cupertino_store"
   "firebase-get-to-know-flutter"
   "github-graphql-client"
   "google-maps-in-flutter"
   "startup_namer"
-  # TODO(domesticmouse): uncomment when null safety goes stable
-  # "startup_namer_null_safety"
+  "startup_namer_null_safety"
   "testing_codelab"
   )
 
 # Plugin codelab is failing on ubuntu-latest in CI.
-# TODO(domesticmouse): re-introduce plugin_codelab once null safety goes stable.
-# if [[ "$OSTYPE" != "linux-gnu"* ]]; then
-#   CODELABS+=("plugin_codelab")
-# fi
+if [[ "$OSTYPE" != "linux-gnu"* ]]; then
+  CODELABS+=("plugin_codelab")
+fi
 
 declare -a PROJECT_PATHS=($(
   for CODELAB in "${CODELABS[@]}"
