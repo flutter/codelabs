@@ -28,8 +28,8 @@ class SearchTab extends StatefulWidget {
 }
 
 class _SearchTabState extends State<SearchTab> {
-  TextEditingController _controller;
-  FocusNode _focusNode;
+  late final TextEditingController _controller;
+  late final FocusNode _focusNode;
   String _terms = '';
 
   @override
@@ -78,7 +78,6 @@ class _SearchTabState extends State<SearchTab> {
             Expanded(
               child: ListView.builder(
                 itemBuilder: (context, index) => ProductRowItem(
-                  index: index,
                   product: results[index],
                   lastItem: index == results.length - 1,
                 ),

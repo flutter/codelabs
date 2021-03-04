@@ -22,7 +22,7 @@ double _shippingCostPerItem = 7;
 
 class AppStateModel extends foundation.ChangeNotifier {
   // All the available products.
-  List<Product> _availableProducts;
+  List<Product> _availableProducts = [];
 
   // The currently selected category of products.
   Category _selectedCategory = Category.all;
@@ -49,7 +49,7 @@ class AppStateModel extends foundation.ChangeNotifier {
   double get subtotalCost {
     return _productsInCart.keys.map((id) {
       // Extended price for product line
-      return getProductById(id).price * _productsInCart[id];
+      return getProductById(id).price * _productsInCart[id]!;
     }).fold(0, (accumulator, extendedPrice) {
       return accumulator + extendedPrice;
     });
@@ -75,10 +75,6 @@ class AppStateModel extends foundation.ChangeNotifier {
 
   // Returns a copy of the list of available products, filtered by category.
   List<Product> getProducts() {
-    if (_availableProducts == null) {
-      return [];
-    }
-
     if (_selectedCategory == Category.all) {
       return List.from(_availableProducts);
     } else {
@@ -100,7 +96,7 @@ class AppStateModel extends foundation.ChangeNotifier {
     if (!_productsInCart.containsKey(productId)) {
       _productsInCart[productId] = 1;
     } else {
-      _productsInCart[productId]++;
+      _productsInCart[productId] = _productsInCart[productId]! + 1;
     }
 
     notifyListeners();
@@ -112,7 +108,7 @@ class AppStateModel extends foundation.ChangeNotifier {
       if (_productsInCart[productId] == 1) {
         _productsInCart.remove(productId);
       } else {
-        _productsInCart[productId]--;
+        _productsInCart[productId] = _productsInCart[productId]! - 1;
       }
     }
 
