@@ -30,10 +30,9 @@ declare -a CODELABS=(
   )
 
 # Plugin codelab is failing on ubuntu-latest in CI.
-# TODO(domesticmouse): re-introduce plugin_codelab once null safety goes stable.
-# if [[ "$OSTYPE" != "linux-gnu"* ]]; then
-#   CODELABS+=("plugin_codelab")
-# fi
+if [[ "$OSTYPE" != "linux-gnu"* ]]; then
+  CODELABS+=("plugin_codelab")
+fi
 
 declare -a PROJECT_PATHS=($(
   for CODELAB in "${CODELABS[@]}"
