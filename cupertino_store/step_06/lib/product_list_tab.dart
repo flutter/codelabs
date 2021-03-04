@@ -38,7 +38,6 @@ class ProductListTab extends StatelessWidget {
                   (context, index) {
                     if (index < products.length) {
                       return ProductRowItem(
-                        index: index,
                         product: products[index],
                         lastItem: index == products.length - 1,
                       );

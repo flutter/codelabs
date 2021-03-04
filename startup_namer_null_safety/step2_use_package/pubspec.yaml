@@ -10,13 +10,13 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
-  english_words: ^4.0.0-nullsafety
+  english_words: ^4.0.0-0
 # #enddocregion dependencies
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  pedantic: ^1.10.0-nullsafety
+  pedantic: ^1.10.0
 
 flutter:
   uses-material-design: true

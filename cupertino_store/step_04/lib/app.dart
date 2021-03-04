@@ -54,7 +54,7 @@ class CupertinoStoreHomePage extends StatelessWidget {
         ],
       ),
       tabBuilder: (context, index) {
-        CupertinoTabView returnValue;
+        late final CupertinoTabView returnValue;
         switch (index) {
           case 0:
             returnValue = CupertinoTabView(builder: (context) {

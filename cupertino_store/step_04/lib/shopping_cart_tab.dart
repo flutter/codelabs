@@ -25,10 +25,10 @@ class ShoppingCartTab extends StatefulWidget {
 }
 
 class _ShoppingCartTabState extends State<ShoppingCartTab> {
-  String name;
-  String email;
-  String location;
-  String pin;
+  String? name;
+  String? email;
+  String? location;
+  String? pin;
   DateTime dateTime = DateTime.now();
 
   Widget _buildNameField() {
