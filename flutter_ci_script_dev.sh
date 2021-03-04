@@ -21,7 +21,8 @@ declare -a CODELABS=(
   "add_flutter_to_android_app"
   "cookbook"
   "cupertino_store"
-  "firebase-get-to-know-flutter"
+  # TODO(domesticmouse): Figure out why this broken on dev only
+  # "firebase-get-to-know-flutter"
   "github-graphql-client"
   "google-maps-in-flutter"
   "startup_namer"
