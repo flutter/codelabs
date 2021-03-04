@@ -21,13 +21,11 @@ import 'styles.dart';
 
 class ProductRowItem extends StatelessWidget {
   const ProductRowItem({
-    this.index,
-    this.product,
-    this.lastItem,
+    required this.product,
+    required this.lastItem,
   });
 
   final Product product;
-  final int index;
   final bool lastItem;
 
   @override
