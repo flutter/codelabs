@@ -277,10 +277,10 @@ Future<void> _launchUrl(BuildContext context, String url) async {
         content: Text('Could not launch $url'),
         actions: <Widget>[
           TextButton(
-            child: Text('Close'),
             onPressed: () {
               Navigator.of(context).pop();
             },
+            child: Text('Close'),
           ),
         ],
       ),

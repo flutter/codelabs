@@ -1,8 +1,7 @@
-# Uncomment this line to define a global platform for your project
-# platform :ios, '9.0'
-
+# Firebase iOS requires iOS 10: https://firebase.google.com/support/release-notes/ios#version_700_-_october_26_2020
+platform :ios, '10.0'
 # https://firebase.flutter.dev/docs/overview#improve-ios-build-times
-pod 'FirebaseFirestore', :git => 'https://github.com/invertase/firestore-ios-sdk-frameworks.git', :tag => '6.26.0'
+pod 'FirebaseFirestore', :git => 'https://github.com/invertase/firestore-ios-sdk-frameworks.git', :tag => '7.3.0'
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
