@@ -271,6 +271,12 @@ class _GuestBookState extends State<GuestBook> {
                 ),
                 SizedBox(width: 8),
                 StyledButton(
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      await widget.addMessage(_controller.text);
+                      _controller.clear();
+                    }
+                  },
                   child: Row(
                     children: [
                       Icon(Icons.send),
@@ -278,12 +284,6 @@ class _GuestBookState extends State<GuestBook> {
                       Text('SEND'),
                     ],
                   ),
-                  onPressed: () async {
-                    if (_formKey.currentState!.validate()) {
-                      await widget.addMessage(_controller.text);
-                      _controller.clear();
-                    }
-                  },
                 ),
               ],
             ),

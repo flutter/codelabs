@@ -52,10 +52,10 @@ class Authentication extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 24, bottom: 8),
               child: StyledButton(
-                child: Text('RSVP'),
                 onPressed: () {
                   startLoginFlow();
                 },
+                child: Text('RSVP'),
               ),
             ),
           ],
@@ -97,10 +97,10 @@ class Authentication extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 24, bottom: 8),
               child: StyledButton(
-                child: Text('LOGOUT'),
                 onPressed: () {
                   signOut();
                 },
+                child: Text('LOGOUT'),
               ),
             ),
           ],
@@ -135,13 +135,13 @@ class Authentication extends StatelessWidget {
           ),
           actions: <Widget>[
             StyledButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
               child: Text(
                 'OK',
                 style: TextStyle(color: Colors.deepPurple),
               ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
             ),
           ],
         );

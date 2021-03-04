@@ -325,6 +325,12 @@ class _GuestBookState extends State<GuestBook> {
                 ),
                 SizedBox(width: 8),
                 StyledButton(
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      await widget.addMessage(_controller.text);
+                      _controller.clear();
+                    }
+                  },
                   child: Row(
                     children: [
                       Icon(Icons.send),
@@ -332,12 +338,6 @@ class _GuestBookState extends State<GuestBook> {
                       Text('SEND'),
                     ],
                   ),
-                  onPressed: () async {
-                    if (_formKey.currentState!.validate()) {
-                      await widget.addMessage(_controller.text);
-                      _controller.clear();
-                    }
-                  },
                 ),
               ],
             ),
@@ -367,13 +367,13 @@ class YesNoSelection extends StatelessWidget {
             children: [
               ElevatedButton(
                 style: ElevatedButton.styleFrom(elevation: 0),
-                child: Text('YES'),
                 onPressed: () => onSelection(Attending.yes),
+                child: Text('YES'),
               ),
               SizedBox(width: 8),
               TextButton(
-                child: Text('NO'),
                 onPressed: () => onSelection(Attending.no),
+                child: Text('NO'),
               ),
             ],
           ),
@@ -384,14 +384,14 @@ class YesNoSelection extends StatelessWidget {
           child: Row(
             children: [
               TextButton(
-                child: Text('YES'),
                 onPressed: () => onSelection(Attending.yes),
+                child: Text('YES'),
               ),
               SizedBox(width: 8),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(elevation: 0),
-                child: Text('NO'),
                 onPressed: () => onSelection(Attending.no),
+                child: Text('NO'),
               ),
             ],
           ),
@@ -402,13 +402,13 @@ class YesNoSelection extends StatelessWidget {
           child: Row(
             children: [
               StyledButton(
-                child: Text('YES'),
                 onPressed: () => onSelection(Attending.yes),
+                child: Text('YES'),
               ),
               SizedBox(width: 8),
               StyledButton(
-                child: Text('NO'),
                 onPressed: () => onSelection(Attending.no),
+                child: Text('NO'),
               ),
             ],
           ),
