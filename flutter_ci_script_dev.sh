@@ -25,8 +25,8 @@ declare -a CODELABS=(
   "github-graphql-client"
   "google-maps-in-flutter"
   "startup_namer"
-  # Tracking issue: https://github.com/flutter/flutter/issues/74209
-  # "testing_codelab"
+  "startup_namer_null_safety"
+  "testing_codelab"
   )
 
 # Plugin codelab is failing on ubuntu-latest in CI.

@@ -19,13 +19,13 @@ popd
 
 declare -a CODELABS=(
   "add_flutter_to_android_app"
-  # TODO(domesticmouse): Uncomment at next Flutter stable roll
-  # "cookbook"
+  "cookbook"
   "cupertino_store"
   "firebase-get-to-know-flutter"
   "github-graphql-client"
   "google-maps-in-flutter"
   "startup_namer"
+  "startup_namer_null_safety"
   "testing_codelab"
   )
 

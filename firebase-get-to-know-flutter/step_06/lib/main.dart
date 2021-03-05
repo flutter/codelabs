@@ -38,7 +38,7 @@ class App extends StatelessWidget {
 }
 
 class HomePage extends StatelessWidget {
-  HomePage({Key key}) : super(key: key);
+  HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -115,11 +115,11 @@ class ApplicationState extends ChangeNotifier {
     });
   }
 
-  ApplicationLoginState _loginState;
+  ApplicationLoginState _loginState = ApplicationLoginState.loggedOut;
   ApplicationLoginState get loginState => _loginState;
 
-  String _email;
-  String get email => _email;
+  String? _email;
+  String? get email => _email;
 
   void startLoginFlow() {
     _loginState = ApplicationLoginState.emailAddress;
@@ -170,7 +170,7 @@ class ApplicationState extends ChangeNotifier {
     try {
       var credential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
-      await credential.user.updateProfile(displayName: displayName);
+      await credential.user!.updateProfile(displayName: displayName);
     } on FirebaseAuthException catch (e) {
       errorCallback(e);
     }
@@ -189,15 +189,15 @@ class ApplicationState extends ChangeNotifier {
     return FirebaseFirestore.instance.collection('guestbook').add({
       'text': message,
       'timestamp': DateTime.now().millisecondsSinceEpoch,
-      'name': FirebaseAuth.instance.currentUser.displayName,
-      'userId': FirebaseAuth.instance.currentUser.uid,
+      'name': FirebaseAuth.instance.currentUser!.displayName,
+      'userId': FirebaseAuth.instance.currentUser!.uid,
     });
   }
   // To here
 }
 
 class GuestBook extends StatefulWidget {
-  GuestBook({@required this.addMessage});
+  GuestBook({required this.addMessage});
   final Future<void> Function(String message) addMessage;
 
   @override
@@ -223,7 +223,7 @@ class _GuestBookState extends State<GuestBook> {
                   hintText: 'Leave a message',
                 ),
                 validator: (value) {
-                  if (value.isEmpty) {
+                  if (value == null || value.isEmpty) {
                     return 'Enter your message to continue';
                   }
                   return null;
@@ -232,6 +232,12 @@ class _GuestBookState extends State<GuestBook> {
             ),
             SizedBox(width: 8),
             StyledButton(
+              onPressed: () async {
+                if (_formKey.currentState!.validate()) {
+                  await widget.addMessage(_controller.text);
+                  _controller.clear();
+                }
+              },
               child: Row(
                 children: [
                   Icon(Icons.send),
@@ -239,12 +245,6 @@ class _GuestBookState extends State<GuestBook> {
                   Text('SEND'),
                 ],
               ),
-              onPressed: () async {
-                if (_formKey.currentState.validate()) {
-                  await widget.addMessage(_controller.text);
-                  _controller.clear();
-                }
-              },
             ),
           ],
         ),

@@ -24,6 +24,9 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: 'Firebase Meetup',
       theme: ThemeData(
+        buttonTheme: Theme.of(context).buttonTheme.copyWith(
+              highlightColor: Colors.deepPurple,
+            ),
         primarySwatch: Colors.deepPurple,
         textTheme: GoogleFonts.robotoTextTheme(
           Theme.of(context).textTheme,
@@ -36,7 +39,7 @@ class App extends StatelessWidget {
 }
 
 class HomePage extends StatelessWidget {
-  HomePage({Key key}) : super(key: key);
+  HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -139,8 +142,8 @@ class ApplicationState extends ChangeNotifier {
           snapshot.docs.forEach((document) {
             _guestBookMessages.add(
               GuestBookMessage(
-                name: document.data()['name'],
-                message: document.data()['text'],
+                name: document.data()!['name'],
+                message: document.data()!['text'],
               ),
             );
           });
@@ -153,7 +156,7 @@ class ApplicationState extends ChangeNotifier {
             .snapshots()
             .listen((snapshot) {
           if (snapshot.data() != null) {
-            if (snapshot.data()['attending']) {
+            if (snapshot.data()!['attending']) {
               _attending = Attending.yes;
             } else {
               _attending = Attending.no;
@@ -174,13 +177,13 @@ class ApplicationState extends ChangeNotifier {
     });
   }
 
-  ApplicationLoginState _loginState;
+  ApplicationLoginState _loginState = ApplicationLoginState.loggedOut;
   ApplicationLoginState get loginState => _loginState;
 
-  String _email;
-  String get email => _email;
+  String? _email;
+  String? get email => _email;
 
-  StreamSubscription<QuerySnapshot> _guestBookSubscription;
+  StreamSubscription<QuerySnapshot>? _guestBookSubscription;
   List<GuestBookMessage> _guestBookMessages = [];
   List<GuestBookMessage> get guestBookMessages => _guestBookMessages;
 
@@ -188,12 +191,12 @@ class ApplicationState extends ChangeNotifier {
   int get attendees => _attendees;
 
   Attending _attending = Attending.unknown;
-  StreamSubscription<DocumentSnapshot> _attendingSubscription;
+  StreamSubscription<DocumentSnapshot>? _attendingSubscription;
   Attending get attending => _attending;
   set attending(Attending attending) {
     final userDoc = FirebaseFirestore.instance
         .collection('attendees')
-        .doc(FirebaseAuth.instance.currentUser.uid);
+        .doc(FirebaseAuth.instance.currentUser!.uid);
     if (attending == Attending.yes) {
       userDoc.set({'attending': true});
     } else {
@@ -250,7 +253,7 @@ class ApplicationState extends ChangeNotifier {
     try {
       var credential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
-      await credential.user.updateProfile(displayName: displayName);
+      await credential.user!.updateProfile(displayName: displayName);
     } on FirebaseAuthException catch (e) {
       errorCallback(e);
     }
@@ -268,14 +271,14 @@ class ApplicationState extends ChangeNotifier {
     return FirebaseFirestore.instance.collection('guestbook').add({
       'text': message,
       'timestamp': DateTime.now().millisecondsSinceEpoch,
-      'name': FirebaseAuth.instance.currentUser.displayName,
-      'userId': FirebaseAuth.instance.currentUser.uid,
+      'name': FirebaseAuth.instance.currentUser!.displayName,
+      'userId': FirebaseAuth.instance.currentUser!.uid,
     });
   }
 }
 
 class GuestBookMessage {
-  GuestBookMessage({@required this.name, @required this.message});
+  GuestBookMessage({required this.name, required this.message});
   final String name;
   final String message;
 }
@@ -283,7 +286,7 @@ class GuestBookMessage {
 enum Attending { yes, no, unknown }
 
 class GuestBook extends StatefulWidget {
-  GuestBook({@required this.addMessage, @required this.messages});
+  GuestBook({required this.addMessage, required this.messages});
   final Future<void> Function(String message) addMessage;
   final List<GuestBookMessage> messages;
 
@@ -313,7 +316,7 @@ class _GuestBookState extends State<GuestBook> {
                       hintText: 'Leave a message',
                     ),
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value == null || value.isEmpty) {
                         return 'Enter your message to continue';
                       }
                       return null;
@@ -322,6 +325,12 @@ class _GuestBookState extends State<GuestBook> {
                 ),
                 SizedBox(width: 8),
                 StyledButton(
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      await widget.addMessage(_controller.text);
+                      _controller.clear();
+                    }
+                  },
                   child: Row(
                     children: [
                       Icon(Icons.send),
@@ -329,12 +338,6 @@ class _GuestBookState extends State<GuestBook> {
                       Text('SEND'),
                     ],
                   ),
-                  onPressed: () async {
-                    if (_formKey.currentState.validate()) {
-                      await widget.addMessage(_controller.text);
-                      _controller.clear();
-                    }
-                  },
                 ),
               ],
             ),
@@ -350,7 +353,7 @@ class _GuestBookState extends State<GuestBook> {
 }
 
 class YesNoSelection extends StatelessWidget {
-  const YesNoSelection({@required this.state, @required this.onSelection});
+  const YesNoSelection({required this.state, required this.onSelection});
   final Attending state;
   final void Function(Attending selection) onSelection;
 
@@ -364,13 +367,13 @@ class YesNoSelection extends StatelessWidget {
             children: [
               ElevatedButton(
                 style: ElevatedButton.styleFrom(elevation: 0),
-                child: Text('YES'),
                 onPressed: () => onSelection(Attending.yes),
+                child: Text('YES'),
               ),
               SizedBox(width: 8),
               TextButton(
-                child: Text('NO'),
                 onPressed: () => onSelection(Attending.no),
+                child: Text('NO'),
               ),
             ],
           ),
@@ -381,14 +384,14 @@ class YesNoSelection extends StatelessWidget {
           child: Row(
             children: [
               TextButton(
-                child: Text('YES'),
                 onPressed: () => onSelection(Attending.yes),
+                child: Text('YES'),
               ),
               SizedBox(width: 8),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(elevation: 0),
-                child: Text('NO'),
                 onPressed: () => onSelection(Attending.no),
+                child: Text('NO'),
               ),
             ],
           ),
@@ -399,13 +402,13 @@ class YesNoSelection extends StatelessWidget {
           child: Row(
             children: [
               StyledButton(
-                child: Text('YES'),
                 onPressed: () => onSelection(Attending.yes),
+                child: Text('YES'),
               ),
               SizedBox(width: 8),
               StyledButton(
-                child: Text('NO'),
                 onPressed: () => onSelection(Attending.no),
+                child: Text('NO'),
               ),
             ],
           ),

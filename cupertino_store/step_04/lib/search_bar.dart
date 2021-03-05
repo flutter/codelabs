@@ -8,8 +8,8 @@ import 'styles.dart';
 
 class SearchBar extends StatelessWidget {
   const SearchBar({
-    @required this.controller,
-    @required this.focusNode,
+    required this.controller,
+    required this.focusNode,
   });
 
   final TextEditingController controller;

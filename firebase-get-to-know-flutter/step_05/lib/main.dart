@@ -39,7 +39,7 @@ class App extends StatelessWidget {
 }
 
 class HomePage extends StatelessWidget {
-  HomePage({Key key}) : super(key: key);
+  HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -102,11 +102,11 @@ class ApplicationState extends ChangeNotifier {
     });
   }
 
-  ApplicationLoginState _loginState;
+  ApplicationLoginState _loginState = ApplicationLoginState.loggedOut;
   ApplicationLoginState get loginState => _loginState;
 
-  String _email;
-  String get email => _email;
+  String? _email;
+  String? get email => _email;
 
   void startLoginFlow() {
     _loginState = ApplicationLoginState.emailAddress;
@@ -157,7 +157,7 @@ class ApplicationState extends ChangeNotifier {
     try {
       var credential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
-      await credential.user.updateProfile(displayName: displayName);
+      await credential.user!.updateProfile(displayName: displayName);
     } on FirebaseAuthException catch (e) {
       errorCallback(e);
     }
