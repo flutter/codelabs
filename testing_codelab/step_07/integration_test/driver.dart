@@ -4,18 +4,4 @@
 
 import 'package:integration_test/integration_test_driver.dart';
 
-Future<void> main() {
-  return integrationDriver(
-    responseDataCallback: (data) async {
-      if (data != null) {
-        for (var entry in data.entries) {
-          print('Writing ${entry.key} to the disk.');
-          await writeResponseData(
-            entry.value as Map<String, dynamic>,
-            testOutputFilename: entry.key,
-          );
-        }
-      }
-    },
-  );
-}
+Future<void> main() => integrationDriver();
