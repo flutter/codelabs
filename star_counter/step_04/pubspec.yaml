@@ -11,5 +11,9 @@ dependencies:
   github: ^8.0.0
   intl: ^0.17.0
 
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
 flutter:
   uses-material-design: true
