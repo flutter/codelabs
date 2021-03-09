@@ -49,11 +49,13 @@ class _GitHubStarCounterState extends State<GitHubStarCounter> {
       errorMessage = null;
     });
 
-    var repo = await github.repositories
-        .getRepository(RepositorySlug.full(widget.repositoryName));
-    setState(() {
-      repository = repo;
-    });
+    if (widget.repositoryName.isNotEmpty) {
+      var repo = await github.repositories
+          .getRepository(RepositorySlug.full(widget.repositoryName));
+      setState(() {
+        repository = repo;
+      });
+    }
   }
 
   @override
