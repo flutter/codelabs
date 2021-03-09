@@ -19,15 +19,13 @@ void main() {
 
       final listFinder = find.byType(ListView);
 
-      await binding.traceAction(() async {
-        await binding.watchPerformance(() async {
-          await tester.fling(listFinder, Offset(0, -500), 10000);
-          await tester.pumpAndSettle();
+      await binding.watchPerformance(() async {
+        await tester.fling(listFinder, Offset(0, -500), 10000);
+        await tester.pumpAndSettle();
 
-          await tester.fling(listFinder, Offset(0, 500), 10000);
-          await tester.pumpAndSettle();
-        }, reportKey: 'scrolling_summary');
-      }, reportKey: 'scrolling_timeline');
+        await tester.fling(listFinder, Offset(0, 500), 10000);
+        await tester.pumpAndSettle();
+      }, reportKey: 'scrolling_summary');
     });
 
     testWidgets('Favorites operations test', (tester) async {
@@ -41,7 +39,7 @@ void main() {
 
       for (var icon in iconKeys) {
         await tester.tap(find.byKey(ValueKey(icon)));
-        await tester.pumpAndSettle();
+        await tester.pumpAndSettle(Duration(seconds: 1));
 
         expect(find.text('Added to favorites.'), findsOneWidget);
       }
@@ -57,7 +55,7 @@ void main() {
 
       for (final iconKey in removeIconKeys) {
         await tester.tap(find.byKey(ValueKey(iconKey)));
-        await tester.pumpAndSettle();
+        await tester.pumpAndSettle(Duration(seconds: 1));
 
         expect(find.text('Removed from favorites.'), findsOneWidget);
       }
