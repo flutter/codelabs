@@ -161,6 +161,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.0"
+  integration_test:
+    dependency: "direct dev"
+    description:
+      name: integration_test
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.2+2"
   io:
     dependency: transitive
     description:
