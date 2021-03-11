@@ -127,7 +127,7 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
 
   void _handleSubmitted(String text) {
     _textController.clear();
-    ChatMessage message = ChatMessage(
+    var message = ChatMessage(
       text: text,
       animationController: AnimationController(
         duration: const Duration(milliseconds: 700),
@@ -143,8 +143,9 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    for (ChatMessage message in _messages)
+    for (var message in _messages) {
       message.animationController.dispose();
+    }
     super.dispose();
   }
 }
