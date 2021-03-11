@@ -22,6 +22,7 @@ declare -a CODELABS=(
   "cookbook"
   "cupertino_store"
   "firebase-get-to-know-flutter"
+  "friendly_chat"
   "github-graphql-client"
   "google-maps-in-flutter"
   "startup_namer"
