@@ -98,30 +98,31 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
         elevation: Theme.of(context).platform == TargetPlatform.iOS ? 0.0 : 4.0,
       ),
       body: Container(
-          child: Column(
-            children: [
-              Flexible(
-                child: ListView.builder(
-                  padding: EdgeInsets.all(8.0),
-                  reverse: true,
-                  itemBuilder: (_, int index) => _messages[index],
-                  itemCount: _messages.length,
+        decoration: Theme.of(context).platform == TargetPlatform.iOS //new
+            ? BoxDecoration(
+                border: Border(
+                  top: BorderSide(color: Colors.grey[200]!),
                 ),
+              )
+            : null,
+        child: Column(
+          children: [
+            Flexible(
+              child: ListView.builder(
+                padding: EdgeInsets.all(8.0),
+                reverse: true,
+                itemBuilder: (_, int index) => _messages[index],
+                itemCount: _messages.length,
               ),
-              Divider(height: 1.0),
-              Container(
-                decoration: BoxDecoration(color: Theme.of(context).cardColor),
-                child: _buildTextComposer(),
-              ),
-            ],
-          ),
-          decoration: Theme.of(context).platform == TargetPlatform.iOS //new
-              ? BoxDecoration(
-                  border: Border(
-                    top: BorderSide(color: Colors.grey[200]!),
-                  ),
-                )
-              : null),
+            ),
+            Divider(height: 1.0),
+            Container(
+              decoration: BoxDecoration(color: Theme.of(context).cardColor),
+              child: _buildTextComposer(),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -137,7 +138,7 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
                 controller: _textController,
                 onChanged: (String text) {
                   setState(() {
-                    _isComposing = text.length > 0;
+                    _isComposing = text.isNotEmpty;
                   });
                 },
                 onSubmitted: _isComposing ? _handleSubmitted : null,
@@ -150,10 +151,10 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
                 margin: EdgeInsets.symmetric(horizontal: 4.0),
                 child: Theme.of(context).platform == TargetPlatform.iOS
                     ? CupertinoButton(
-                        child: Text('Send'),
                         onPressed: _isComposing
                             ? () => _handleSubmitted(_textController.text)
                             : null,
+                        child: Text('Send'),
                       )
                     : IconButton(
                         icon: const Icon(Icons.send),
@@ -172,7 +173,7 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
     setState(() {
       _isComposing = false;
     });
-    ChatMessage message = ChatMessage(
+    var message = ChatMessage(
       text: text,
       animationController: AnimationController(
         duration: const Duration(milliseconds: 700),
@@ -188,8 +189,9 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    for (ChatMessage message in _messages)
+    for (var message in _messages) {
       message.animationController.dispose();
+    }
     super.dispose();
   }
 }
