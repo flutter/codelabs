@@ -13,9 +13,7 @@ void main() {
 String _name = 'Your Name';
 
 class FriendlyChatApp extends StatelessWidget {
-  const FriendlyChatApp({
-    Key key,
-  }) : super(key: key);
+  const FriendlyChatApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +25,7 @@ class FriendlyChatApp extends StatelessWidget {
 }
 
 class ChatMessage extends StatelessWidget {
-  ChatMessage({this.text, this.animationController});
+  ChatMessage({required this.text, required this.animationController});
   final String text;
   final AnimationController animationController;
 
