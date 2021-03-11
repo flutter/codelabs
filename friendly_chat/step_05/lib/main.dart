@@ -11,9 +11,7 @@ void main() {
 }
 
 class FriendlyChatApp extends StatelessWidget {
-  const FriendlyChatApp({
-    Key key,
-  }) : super(key: key);
+  const FriendlyChatApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +24,11 @@ class FriendlyChatApp extends StatelessWidget {
 
 class ChatScreen extends StatefulWidget {
   @override
-  State createState() => _ChatScreenState();
+  _ChatScreenState createState() => _ChatScreenState();
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  final TextEditingController _textController = TextEditingController();
+  final _textController = TextEditingController();
 
   void _handleSubmitted(String text) {
     _textController.clear();
@@ -48,7 +46,7 @@ class _ChatScreenState extends State<ChatScreen> {
     return IconTheme(
       data: IconThemeData(color: Theme.of(context).accentColor),
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 8.0),
+        margin: EdgeInsets.symmetric(horizontal: 8.0),
         child: Row(
           children: [
             Flexible(
@@ -60,11 +58,11 @@ class _ChatScreenState extends State<ChatScreen> {
               ),
             ),
             Container(
-              margin: const EdgeInsets.symmetric(horizontal: 4.0),
+              margin: EdgeInsets.symmetric(horizontal: 4.0),
               child: IconButton(
-                  icon: Icon(Icons.send),
+                  icon: const Icon(Icons.send),
                   onPressed: () => _handleSubmitted(_textController.text)),
-            ),
+            )
           ],
         ),
       ),
