@@ -287,7 +287,7 @@ enum Attending { yes, no, unknown }
 
 class GuestBook extends StatefulWidget {
   GuestBook({required this.addMessage, required this.messages});
-  final Future<void> Function(String message) addMessage;
+  final FutureOr<void> Function(String message) addMessage;
   final List<GuestBookMessage> messages;
 
   @override

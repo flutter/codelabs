@@ -1,4 +1,4 @@
-import 'dart:async'; // new
+import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -231,7 +231,7 @@ class GuestBookMessage {
 class GuestBook extends StatefulWidget {
   // Modify the following line
   GuestBook({required this.addMessage, required this.messages});
-  final Future<void> Function(String message) addMessage;
+  final FutureOr<void> Function(String message) addMessage;
   final List<GuestBookMessage> messages; // new
 
   @override

@@ -1,3 +1,4 @@
+import 'dart:async'; // new
 import 'package:cloud_firestore/cloud_firestore.dart'; // new
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -198,7 +199,7 @@ class ApplicationState extends ChangeNotifier {
 
 class GuestBook extends StatefulWidget {
   GuestBook({required this.addMessage});
-  final Future<void> Function(String message) addMessage;
+  final FutureOr<void> Function(String message) addMessage;
 
   @override
   _GuestBookState createState() => _GuestBookState();
