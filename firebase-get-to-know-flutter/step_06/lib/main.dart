@@ -1,4 +1,4 @@
-import 'dart:async';                                   // new
+import 'dart:async'; // new
 import 'package:cloud_firestore/cloud_firestore.dart'; // new
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
