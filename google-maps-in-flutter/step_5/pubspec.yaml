@@ -17,7 +17,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-# Add the following two lines
+  # Add the following two lines
   pedantic: ^1.11.0
   build_runner: ^1.10.0
 
