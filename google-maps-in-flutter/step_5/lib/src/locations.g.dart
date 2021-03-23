@@ -6,7 +6,7 @@
  * You may obtain a copy of the License at
  * 
  *     https://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,8 +24,8 @@ part of 'locations.dart';
 
 LatLng _$LatLngFromJson(Map<String, dynamic> json) {
   return LatLng(
-    lat: (json['lat'] as num)?.toDouble(),
-    lng: (json['lng'] as num)?.toDouble(),
+    lat: (json['lat'] as num).toDouble(),
+    lng: (json['lng'] as num).toDouble(),
   );
 }
 
@@ -36,12 +36,10 @@ Map<String, dynamic> _$LatLngToJson(LatLng instance) => <String, dynamic>{
 
 Region _$RegionFromJson(Map<String, dynamic> json) {
   return Region(
-    coords: json['coords'] == null
-        ? null
-        : LatLng.fromJson(json['coords'] as Map<String, dynamic>),
+    coords: LatLng.fromJson(json['coords'] as Map<String, dynamic>),
     id: json['id'] as String,
     name: json['name'] as String,
-    zoom: (json['zoom'] as num)?.toDouble(),
+    zoom: (json['zoom'] as num).toDouble(),
   );
 }
 
@@ -57,8 +55,8 @@ Office _$OfficeFromJson(Map<String, dynamic> json) {
     address: json['address'] as String,
     id: json['id'] as String,
     image: json['image'] as String,
-    lat: (json['lat'] as num)?.toDouble(),
-    lng: (json['lng'] as num)?.toDouble(),
+    lat: (json['lat'] as num).toDouble(),
+    lng: (json['lng'] as num).toDouble(),
     name: json['name'] as String,
     phone: json['phone'] as String,
     region: json['region'] as String,
@@ -78,14 +76,12 @@ Map<String, dynamic> _$OfficeToJson(Office instance) => <String, dynamic>{
 
 Locations _$LocationsFromJson(Map<String, dynamic> json) {
   return Locations(
-    offices: (json['offices'] as List)
-        ?.map((e) =>
-            e == null ? null : Office.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    regions: (json['regions'] as List)
-        ?.map((e) =>
-            e == null ? null : Region.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    offices: (json['offices'] as List<dynamic>)
+        .map((e) => Office.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    regions: (json['regions'] as List<dynamic>)
+        .map((e) => Region.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
