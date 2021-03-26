@@ -8,5 +8,5 @@ build/
 
 .flutter-plugins
 .flutter-plugins-dependencies
-macos/Flutter/ephemeral/flutter_export_environment.sh
-macos/Flutter/ephemeral/Flutter-Generated.xcconfig
+/macos/Flutter/ephemeral/
+/linux/flutter/ephemeral/

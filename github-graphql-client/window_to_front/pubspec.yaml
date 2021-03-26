@@ -31,11 +31,6 @@ dev_dependencies:
 flutter:
   plugin:
     platforms:
-      # android:
-      #   package: com.example.window_to_front
-      #   pluginClass: WindowToFrontPlugin
-      # ios:
-      #   pluginClass: WindowToFrontPlugin
       linux:
         pluginClass: WindowToFrontPlugin
       macos:
