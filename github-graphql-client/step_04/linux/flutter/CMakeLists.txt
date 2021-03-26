@@ -1,17 +1,3 @@
-# Copyright 2020 Google LLC
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     https://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 cmake_minimum_required(VERSION 3.10)
 
 set(EPHEMERAL_DIR "${CMAKE_CURRENT_SOURCE_DIR}/ephemeral")
@@ -39,6 +25,7 @@ pkg_check_modules(GTK REQUIRED IMPORTED_TARGET gtk+-3.0)
 pkg_check_modules(GLIB REQUIRED IMPORTED_TARGET glib-2.0)
 pkg_check_modules(GIO REQUIRED IMPORTED_TARGET gio-2.0)
 pkg_check_modules(BLKID REQUIRED IMPORTED_TARGET blkid)
+pkg_check_modules(LZMA REQUIRED IMPORTED_TARGET liblzma)
 
 set(FLUTTER_LIBRARY "${EPHEMERAL_DIR}/libflutter_linux_gtk.so")
 
@@ -81,6 +68,7 @@ target_link_libraries(flutter INTERFACE
   PkgConfig::GLIB
   PkgConfig::GIO
   PkgConfig::BLKID
+  PkgConfig::LZMA
 )
 add_dependencies(flutter flutter_assemble)
 
@@ -95,6 +83,7 @@ add_custom_command(
     ${FLUTTER_TOOL_ENVIRONMENT}
     "${FLUTTER_ROOT}/packages/flutter_tools/bin/tool_backend.sh"
       linux-x64 ${CMAKE_BUILD_TYPE}
+  VERBATIM
 )
 add_custom_target(flutter_assemble DEPENDS
   "${FLUTTER_LIBRARY}"

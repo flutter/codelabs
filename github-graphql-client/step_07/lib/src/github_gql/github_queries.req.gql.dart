@@ -1,54 +1,94 @@
-// Copyright 2020 Google LLC
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     https://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-import 'package:gql_exec/gql_exec.dart' as _i1;
-import 'package:github_graphql_client/src/github_gql/github_queries.var.gql.dart'
+import 'package:built_value/built_value.dart';
+import 'package:built_value/serializer.dart';
+import 'package:github_graphql_client/src/github_gql/github_queries.ast.gql.dart'
     as _i2;
-import 'package:github_graphql_client/src/github_gql/github_queries.op.gql.dart'
+import 'package:github_graphql_client/src/github_gql/github_queries.var.gql.dart'
     as _i3;
+import 'package:github_graphql_client/third_party/github_graphql_schema/serializers.gql.dart'
+    as _i4;
+import 'package:gql_exec/gql_exec.dart' as _i1;
 
-class ViewerDetail extends _i1.Request {
-  ViewerDetail(
-      _i2.ViewerDetailVarBuilder Function(_i2.ViewerDetailVarBuilder) buildVars)
-      : super(
-            operation: _i3.ViewerDetail,
-            variables: buildVars(_i2.ViewerDetailVarBuilder()).variables);
+part 'github_queries.req.gql.g.dart';
+
+abstract class GViewerDetail
+    implements Built<GViewerDetail, GViewerDetailBuilder> {
+  GViewerDetail._();
+
+  factory GViewerDetail([Function(GViewerDetailBuilder b) updates]) =
+      _$GViewerDetail;
+
+  static void _initializeBuilder(GViewerDetailBuilder b) => b
+    ..operation =
+        _i1.Operation(document: _i2.document, operationName: 'ViewerDetail');
+  _i3.GViewerDetailVars get vars;
+  _i1.Operation get operation;
+  static Serializer<GViewerDetail> get serializer => _$gViewerDetailSerializer;
+  Map<String, dynamic> toJson() =>
+      (_i4.serializers.serializeWith(GViewerDetail.serializer, this)
+          as Map<String, dynamic>);
+  static GViewerDetail? fromJson(Map<String, dynamic> json) =>
+      _i4.serializers.deserializeWith(GViewerDetail.serializer, json);
 }
 
-class PullRequests extends _i1.Request {
-  PullRequests(
-      _i2.PullRequestsVarBuilder Function(_i2.PullRequestsVarBuilder) buildVars)
-      : super(
-            operation: _i3.PullRequests,
-            variables: buildVars(_i2.PullRequestsVarBuilder()).variables);
+abstract class GPullRequests
+    implements Built<GPullRequests, GPullRequestsBuilder> {
+  GPullRequests._();
+
+  factory GPullRequests([Function(GPullRequestsBuilder b) updates]) =
+      _$GPullRequests;
+
+  static void _initializeBuilder(GPullRequestsBuilder b) => b
+    ..operation =
+        _i1.Operation(document: _i2.document, operationName: 'PullRequests');
+  _i3.GPullRequestsVars get vars;
+  _i1.Operation get operation;
+  static Serializer<GPullRequests> get serializer => _$gPullRequestsSerializer;
+  Map<String, dynamic> toJson() =>
+      (_i4.serializers.serializeWith(GPullRequests.serializer, this)
+          as Map<String, dynamic>);
+  static GPullRequests? fromJson(Map<String, dynamic> json) =>
+      _i4.serializers.deserializeWith(GPullRequests.serializer, json);
 }
 
-class AssignedIssues extends _i1.Request {
-  AssignedIssues(
-      _i2.AssignedIssuesVarBuilder Function(_i2.AssignedIssuesVarBuilder)
-          buildVars)
-      : super(
-            operation: _i3.AssignedIssues,
-            variables: buildVars(_i2.AssignedIssuesVarBuilder()).variables);
+abstract class GAssignedIssues
+    implements Built<GAssignedIssues, GAssignedIssuesBuilder> {
+  GAssignedIssues._();
+
+  factory GAssignedIssues([Function(GAssignedIssuesBuilder b) updates]) =
+      _$GAssignedIssues;
+
+  static void _initializeBuilder(GAssignedIssuesBuilder b) => b
+    ..operation =
+        _i1.Operation(document: _i2.document, operationName: 'AssignedIssues');
+  _i3.GAssignedIssuesVars get vars;
+  _i1.Operation get operation;
+  static Serializer<GAssignedIssues> get serializer =>
+      _$gAssignedIssuesSerializer;
+  Map<String, dynamic> toJson() =>
+      (_i4.serializers.serializeWith(GAssignedIssues.serializer, this)
+          as Map<String, dynamic>);
+  static GAssignedIssues? fromJson(Map<String, dynamic> json) =>
+      _i4.serializers.deserializeWith(GAssignedIssues.serializer, json);
 }
 
-class Repositories extends _i1.Request {
-  Repositories(
-      _i2.RepositoriesVarBuilder Function(_i2.RepositoriesVarBuilder) buildVars)
-      : super(
-            operation: _i3.Repositories,
-            variables: buildVars(_i2.RepositoriesVarBuilder()).variables);
+abstract class GRepositories
+    implements Built<GRepositories, GRepositoriesBuilder> {
+  GRepositories._();
+
+  factory GRepositories([Function(GRepositoriesBuilder b) updates]) =
+      _$GRepositories;
+
+  static void _initializeBuilder(GRepositoriesBuilder b) => b
+    ..operation =
+        _i1.Operation(document: _i2.document, operationName: 'Repositories');
+  _i3.GRepositoriesVars get vars;
+  _i1.Operation get operation;
+  static Serializer<GRepositories> get serializer => _$gRepositoriesSerializer;
+  Map<String, dynamic> toJson() =>
+      (_i4.serializers.serializeWith(GRepositories.serializer, this)
+          as Map<String, dynamic>);
+  static GRepositories? fromJson(Map<String, dynamic> json) =>
+      _i4.serializers.deserializeWith(GRepositories.serializer, json);
 }

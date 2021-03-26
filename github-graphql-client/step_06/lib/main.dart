@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatelessWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key? key, required this.title}) : super(key: key);
   final String title;
 
   @override
@@ -53,7 +53,7 @@ class MyHomePage extends StatelessWidget {
           'https://api.github.com/graphql',
           httpClient: httpClient,
         );
-        return FutureBuilder<$ViewerDetail$viewer>(
+        return FutureBuilder<GViewerDetailData_viewer>(
           future: viewerDetail(link),
           builder: (context, snapshot) {
             return Scaffold(
@@ -63,7 +63,7 @@ class MyHomePage extends StatelessWidget {
               body: Center(
                 child: Text(
                   snapshot.hasData
-                      ? 'Hello ${snapshot.data.login}!'
+                      ? 'Hello ${snapshot.data!.login}!'
                       : 'Retrieving viewer login details...',
                 ),
               ),
@@ -78,12 +78,19 @@ class MyHomePage extends StatelessWidget {
   }
 }
 
-Future<$ViewerDetail$viewer> viewerDetail(Link link) async {
-  var result = await link.request(ViewerDetail((b) => b)).first;
-  if (result.errors != null && result.errors.isNotEmpty) {
-    throw QueryException(result.errors);
+Future<GViewerDetailData_viewer> viewerDetail(Link link) async {
+  final req = GViewerDetail((b) => b);
+  final result = await link
+      .request(Request(
+        operation: req.operation,
+        variables: req.vars.toJson(),
+      ))
+      .first;
+  final errors = result.errors;
+  if (errors != null && errors.isNotEmpty) {
+    throw QueryException(errors);
   }
-  return $ViewerDetail(result.data).viewer;
+  return GViewerDetailData.fromJson(result.data!)!.viewer;
 }
 
 class QueryException implements Exception {

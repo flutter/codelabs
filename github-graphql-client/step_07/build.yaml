@@ -15,19 +15,19 @@
 targets:
   $default:
     builders:
-      gql_build|schema_builder:
-        enabled: true
       gql_build|ast_builder:
         enabled: true
-      gql_build|op_builder:
-        enabled: true
-        options:
-          schema: github_graphql_client|lib/third_party/github_graphql_schema/schema.docs.graphql
-      gql_build|data_builder:
-        enabled: true
-        options:
-          schema: github_graphql_client|lib/third_party/github_graphql_schema/schema.docs.graphql
       gql_build|req_builder:
+        enabled: true
+        options:
+          schema: github_graphql_client|lib/third_party/github_graphql_schema/schema.docs.graphql
+      gql_build|serializer_builder:
+        enabled: true
+        options:
+          schema: github_graphql_client|lib/third_party/github_graphql_schema/schema.docs.graphql
+      gql_build|schema_builder:
+        enabled: true
+      gql_build|data_builder:
         enabled: true
         options:
           schema: github_graphql_client|lib/third_party/github_graphql_schema/schema.docs.graphql

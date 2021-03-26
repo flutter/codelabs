@@ -23,7 +23,7 @@ import 'github_gql/github_queries.data.gql.dart';
 import 'github_gql/github_queries.req.gql.dart';
 
 class GitHubSummary extends StatefulWidget {
-  GitHubSummary({@required http.Client client})
+  GitHubSummary({required http.Client client})
       : _link = HttpLink(
           'https://api.github.com/graphql',
           httpClient: client,
@@ -81,30 +81,41 @@ class _GitHubSummaryState extends State<GitHubSummary> {
 }
 
 class RepositoriesList extends StatefulWidget {
-  const RepositoriesList({@required this.link});
+  const RepositoriesList({required this.link});
   final Link link;
   @override
   _RepositoriesListState createState() => _RepositoriesListState(link: link);
 }
 
 class _RepositoriesListState extends State<RepositoriesList> {
-  _RepositoriesListState({@required Link link}) {
+  _RepositoriesListState({required Link link}) {
     _repositories = _retreiveRespositories(link);
   }
-  Future<List<$Repositories$viewer$repositories$nodes>> _repositories;
+  late Future<List<GRepositoriesData_viewer_repositories_nodes>> _repositories;
 
-  Future<List<$Repositories$viewer$repositories$nodes>> _retreiveRespositories(
-      Link link) async {
-    var result = await link.request(Repositories((b) => b..count = 100)).first;
-    if (result.errors != null && result.errors.isNotEmpty) {
-      throw QueryException(result.errors);
+  Future<List<GRepositoriesData_viewer_repositories_nodes>>
+      _retreiveRespositories(Link link) async {
+    final req = GRepositories((b) => b..vars.count = 100);
+    final result = await link
+        .request(Request(
+          operation: req.operation,
+          variables: req.vars.toJson(),
+        ))
+        .first;
+    final errors = result.errors;
+    if (errors != null && errors.isNotEmpty) {
+      throw QueryException(errors);
     }
-    return $Repositories(result.data).viewer.repositories.nodes;
+    return GRepositoriesData.fromJson(result.data!)!
+        .viewer
+        .repositories
+        .nodes!
+        .asList();
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<$Repositories$viewer$repositories$nodes>>(
+    return FutureBuilder<List<GRepositoriesData_viewer_repositories_nodes>>(
       future: _repositories,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
@@ -116,14 +127,14 @@ class _RepositoriesListState extends State<RepositoriesList> {
         var repositories = snapshot.data;
         return ListView.builder(
           itemBuilder: (context, index) {
-            var repository = repositories[index];
+            var repository = repositories![index];
             return ListTile(
               title: Text('${repository.owner.login}/${repository.name}'),
               subtitle: Text(repository.description ?? 'No description'),
               onTap: () => _launchUrl(context, repository.url.value),
             );
           },
-          itemCount: repositories.length,
+          itemCount: repositories!.length,
         );
       },
     );
@@ -131,7 +142,7 @@ class _RepositoriesListState extends State<RepositoriesList> {
 }
 
 class AssignedIssuesList extends StatefulWidget {
-  const AssignedIssuesList({@required this.link});
+  const AssignedIssuesList({required this.link});
   final Link link;
   @override
   _AssignedIssuesListState createState() =>
@@ -139,39 +150,53 @@ class AssignedIssuesList extends StatefulWidget {
 }
 
 class _AssignedIssuesListState extends State<AssignedIssuesList> {
-  _AssignedIssuesListState({@required Link link}) {
+  _AssignedIssuesListState({required Link link}) {
     _assignedIssues = _retrieveAssignedIssues(link);
   }
 
-  Future<List<$AssignedIssues$search$edges$node$asIssue>> _assignedIssues;
+  late Future<List<GAssignedIssuesData_search_edges_node__asIssue>>
+      _assignedIssues;
 
-  Future<List<$AssignedIssues$search$edges$node$asIssue>>
+  Future<List<GAssignedIssuesData_search_edges_node__asIssue>>
       _retrieveAssignedIssues(Link link) async {
-    var result = await link.request(ViewerDetail((b) => b)).first;
-    if (result.errors != null && result.errors.isNotEmpty) {
-      throw QueryException(result.errors);
+    final viewerReq = GViewerDetail((b) => b);
+    var result = await link
+        .request(Request(
+          operation: viewerReq.operation,
+          variables: viewerReq.vars.toJson(),
+        ))
+        .first;
+    var errors = result.errors;
+    if (errors != null && errors.isNotEmpty) {
+      throw QueryException(errors);
     }
-    var _viewer = $ViewerDetail(result.data).viewer;
+    final _viewer = GViewerDetailData.fromJson(result.data!)!.viewer;
+
+    final issuesReq = GAssignedIssues((b) => b
+      ..vars.count = 100
+      ..vars.query = 'is:open assignee:${_viewer.login} archived:false');
 
     result = await link
-        .request(AssignedIssues((b) => b
-          ..count = 100
-          ..query = 'is:open assignee:${_viewer.login} archived:false'))
+        .request(Request(
+          operation: issuesReq.operation,
+          variables: issuesReq.vars.toJson(),
+        ))
         .first;
-    if (result.errors != null && result.errors.isNotEmpty) {
-      throw QueryException(result.errors);
+    errors = result.errors;
+    if (errors != null && errors.isNotEmpty) {
+      throw QueryException(errors);
     }
-    return $AssignedIssues(result.data)
+    return GAssignedIssuesData.fromJson(result.data!)!
         .search
-        .edges
+        .edges!
         .map((e) => e.node)
-        .whereType<$AssignedIssues$search$edges$node$asIssue>()
+        .whereType<GAssignedIssuesData_search_edges_node__asIssue>()
         .toList();
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<$AssignedIssues$search$edges$node$asIssue>>(
+    return FutureBuilder<List<GAssignedIssuesData_search_edges_node__asIssue>>(
       future: _assignedIssues,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
@@ -183,16 +208,16 @@ class _AssignedIssuesListState extends State<AssignedIssuesList> {
         var assignedIssues = snapshot.data;
         return ListView.builder(
           itemBuilder: (context, index) {
-            var assignedIssue = assignedIssues[index];
+            var assignedIssue = assignedIssues![index];
             return ListTile(
               title: Text('${assignedIssue.title}'),
               subtitle: Text('${assignedIssue.repository.nameWithOwner} '
                   'Issue #${assignedIssue.number} '
-                  'opened by ${assignedIssue.author.login}'),
+                  'opened by ${assignedIssue.author!.login}'),
               onTap: () => _launchUrl(context, assignedIssue.url.value),
             );
           },
-          itemCount: assignedIssues.length,
+          itemCount: assignedIssues!.length,
         );
       },
     );
@@ -200,35 +225,45 @@ class _AssignedIssuesListState extends State<AssignedIssuesList> {
 }
 
 class PullRequestsList extends StatefulWidget {
-  const PullRequestsList({@required this.link});
+  const PullRequestsList({required this.link});
   final Link link;
   @override
   _PullRequestsListState createState() => _PullRequestsListState(link: link);
 }
 
 class _PullRequestsListState extends State<PullRequestsList> {
-  _PullRequestsListState({@required Link link}) {
+  _PullRequestsListState({required Link link}) {
     _pullRequests = _retrievePullRequests(link);
   }
-  Future<List<$PullRequests$viewer$pullRequests$edges$node>> _pullRequests;
+  late Future<List<GPullRequestsData_viewer_pullRequests_edges_node>>
+      _pullRequests;
 
-  Future<List<$PullRequests$viewer$pullRequests$edges$node>>
+  Future<List<GPullRequestsData_viewer_pullRequests_edges_node>>
       _retrievePullRequests(Link link) async {
-    var result = await link.request(PullRequests((b) => b..count = 100)).first;
-    if (result.errors != null && result.errors.isNotEmpty) {
-      throw QueryException(result.errors);
+    final req = GPullRequests((b) => b..vars.count = 100);
+    final result = await link
+        .request(Request(
+          operation: req.operation,
+          variables: req.vars.toJson(),
+        ))
+        .first;
+    final errors = result.errors;
+    if (errors != null && errors.isNotEmpty) {
+      throw QueryException(errors);
     }
-    return $PullRequests(result.data)
+    return GPullRequestsData.fromJson(result.data!)!
         .viewer
         .pullRequests
-        .edges
+        .edges!
         .map((e) => e.node)
+        .whereType<GPullRequestsData_viewer_pullRequests_edges_node>()
         .toList();
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<$PullRequests$viewer$pullRequests$edges$node>>(
+    return FutureBuilder<
+        List<GPullRequestsData_viewer_pullRequests_edges_node>>(
       future: _pullRequests,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
@@ -240,17 +275,17 @@ class _PullRequestsListState extends State<PullRequestsList> {
         var pullRequests = snapshot.data;
         return ListView.builder(
           itemBuilder: (context, index) {
-            var pullRequest = pullRequests[index];
+            var pullRequest = pullRequests![index];
             return ListTile(
               title: Text('${pullRequest.title}'),
               subtitle: Text('${pullRequest.repository.nameWithOwner} '
                   'PR #${pullRequest.number} '
-                  'opened by ${pullRequest.author.login} '
-                  '(${pullRequest.state.value.toLowerCase()})'),
+                  'opened by ${pullRequest.author!.login} '
+                  '(${pullRequest.state.name.toLowerCase()})'),
               onTap: () => _launchUrl(context, pullRequest.url.value),
             );
           },
-          itemCount: pullRequests.length,
+          itemCount: pullRequests!.length,
         );
       },
     );

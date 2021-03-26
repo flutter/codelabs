@@ -24,10 +24,10 @@ final _tokenEndpoint = Uri.parse('https://github.com/login/oauth/access_token');
 
 class GithubLoginWidget extends StatefulWidget {
   const GithubLoginWidget({
-    @required this.builder,
-    @required this.githubClientId,
-    @required this.githubClientSecret,
-    @required this.githubScopes,
+    required this.builder,
+    required this.githubClientId,
+    required this.githubClientSecret,
+    required this.githubScopes,
   });
   final AuthenticatedBuilder builder;
   final String githubClientId;
@@ -42,13 +42,14 @@ typedef AuthenticatedBuilder = Widget Function(
     BuildContext context, oauth2.Client client);
 
 class _GithubLoginState extends State<GithubLoginWidget> {
-  HttpServer _redirectServer;
-  oauth2.Client _client;
+  HttpServer? _redirectServer;
+  oauth2.Client? _client;
 
   @override
   Widget build(BuildContext context) {
-    if (_client != null) {
-      return widget.builder(context, _client);
+    final client = _client;
+    if (client != null) {
+      return widget.builder(context, client);
     }
 
     return Scaffold(
@@ -62,7 +63,7 @@ class _GithubLoginState extends State<GithubLoginWidget> {
             // Bind to an ephemeral port on localhost
             _redirectServer = await HttpServer.bind('localhost', 0);
             var authenticatedHttpClient = await _getOAuth2Client(
-                Uri.parse('http://localhost:${_redirectServer.port}/auth'));
+                Uri.parse('http://localhost:${_redirectServer!.port}/auth'));
             setState(() {
               _client = authenticatedHttpClient;
             });
@@ -106,13 +107,13 @@ class _GithubLoginState extends State<GithubLoginWidget> {
   }
 
   Future<Map<String, String>> _listen() async {
-    var request = await _redirectServer.first;
+    var request = await _redirectServer!.first;
     var params = request.uri.queryParameters;
     request.response.statusCode = 200;
     request.response.headers.set('content-type', 'text/plain');
     request.response.writeln('Authenticated! You can close this tab.');
     await request.response.close();
-    await _redirectServer.close();
+    await _redirectServer!.close();
     _redirectServer = null;
     return params;
   }

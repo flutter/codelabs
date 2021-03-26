@@ -1,370 +1,815 @@
-// Copyright 2020 Google LLC
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     https://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
+import 'package:built_collection/built_collection.dart';
+import 'package:built_value/built_value.dart';
+import 'package:built_value/serializer.dart';
 import 'package:github_graphql_client/third_party/github_graphql_schema/schema.docs.schema.gql.dart'
+    as _i2;
+import 'package:github_graphql_client/third_party/github_graphql_schema/serializers.gql.dart'
     as _i1;
+import 'package:gql_code_builder/src/serializers/inline_fragment_serializer.dart'
+    as _i3;
 
-class $ViewerDetail {
-  const $ViewerDetail(this.data);
+part 'github_queries.data.gql.g.dart';
 
-  final Map<String, dynamic> data;
+abstract class GViewerDetailData
+    implements Built<GViewerDetailData, GViewerDetailDataBuilder> {
+  GViewerDetailData._();
 
-  $ViewerDetail$viewer get viewer => data['viewer'] == null
-      ? null
-      : $ViewerDetail$viewer((data['viewer'] as Map<String, dynamic>));
+  factory GViewerDetailData([Function(GViewerDetailDataBuilder b) updates]) =
+      _$GViewerDetailData;
+
+  static void _initializeBuilder(GViewerDetailDataBuilder b) =>
+      b..G__typename = 'Query';
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  GViewerDetailData_viewer get viewer;
+  static Serializer<GViewerDetailData> get serializer =>
+      _$gViewerDetailDataSerializer;
+  Map<String, dynamic> toJson() =>
+      (_i1.serializers.serializeWith(GViewerDetailData.serializer, this)
+          as Map<String, dynamic>);
+  static GViewerDetailData? fromJson(Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(GViewerDetailData.serializer, json);
 }
 
-class $ViewerDetail$viewer {
-  const $ViewerDetail$viewer(this.data);
+abstract class GViewerDetailData_viewer
+    implements
+        Built<GViewerDetailData_viewer, GViewerDetailData_viewerBuilder> {
+  GViewerDetailData_viewer._();
 
-  final Map<String, dynamic> data;
+  factory GViewerDetailData_viewer(
+          [Function(GViewerDetailData_viewerBuilder b) updates]) =
+      _$GViewerDetailData_viewer;
 
-  String get login => (data['login'] as String);
+  static void _initializeBuilder(GViewerDetailData_viewerBuilder b) =>
+      b..G__typename = 'User';
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  String get login;
+  static Serializer<GViewerDetailData_viewer> get serializer =>
+      _$gViewerDetailDataViewerSerializer;
+  Map<String, dynamic> toJson() =>
+      (_i1.serializers.serializeWith(GViewerDetailData_viewer.serializer, this)
+          as Map<String, dynamic>);
+  static GViewerDetailData_viewer? fromJson(Map<String, dynamic> json) =>
+      _i1.serializers
+          .deserializeWith(GViewerDetailData_viewer.serializer, json);
 }
 
-class $PullRequests {
-  const $PullRequests(this.data);
+abstract class GPullRequestsData
+    implements Built<GPullRequestsData, GPullRequestsDataBuilder> {
+  GPullRequestsData._();
 
-  final Map<String, dynamic> data;
+  factory GPullRequestsData([Function(GPullRequestsDataBuilder b) updates]) =
+      _$GPullRequestsData;
 
-  $PullRequests$viewer get viewer => data['viewer'] == null
-      ? null
-      : $PullRequests$viewer((data['viewer'] as Map<String, dynamic>));
+  static void _initializeBuilder(GPullRequestsDataBuilder b) =>
+      b..G__typename = 'Query';
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  GPullRequestsData_viewer get viewer;
+  static Serializer<GPullRequestsData> get serializer =>
+      _$gPullRequestsDataSerializer;
+  Map<String, dynamic> toJson() =>
+      (_i1.serializers.serializeWith(GPullRequestsData.serializer, this)
+          as Map<String, dynamic>);
+  static GPullRequestsData? fromJson(Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(GPullRequestsData.serializer, json);
 }
 
-class $PullRequests$viewer {
-  const $PullRequests$viewer(this.data);
+abstract class GPullRequestsData_viewer
+    implements
+        Built<GPullRequestsData_viewer, GPullRequestsData_viewerBuilder> {
+  GPullRequestsData_viewer._();
 
-  final Map<String, dynamic> data;
+  factory GPullRequestsData_viewer(
+          [Function(GPullRequestsData_viewerBuilder b) updates]) =
+      _$GPullRequestsData_viewer;
 
-  $PullRequests$viewer$pullRequests get pullRequests => data['pullRequests'] ==
-          null
-      ? null
-      : $PullRequests$viewer$pullRequests(
-          (data['pullRequests'] as Map<String, dynamic>));
+  static void _initializeBuilder(GPullRequestsData_viewerBuilder b) =>
+      b..G__typename = 'User';
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  GPullRequestsData_viewer_pullRequests get pullRequests;
+  static Serializer<GPullRequestsData_viewer> get serializer =>
+      _$gPullRequestsDataViewerSerializer;
+  Map<String, dynamic> toJson() =>
+      (_i1.serializers.serializeWith(GPullRequestsData_viewer.serializer, this)
+          as Map<String, dynamic>);
+  static GPullRequestsData_viewer? fromJson(Map<String, dynamic> json) =>
+      _i1.serializers
+          .deserializeWith(GPullRequestsData_viewer.serializer, json);
 }
 
-class $PullRequests$viewer$pullRequests {
-  const $PullRequests$viewer$pullRequests(this.data);
+abstract class GPullRequestsData_viewer_pullRequests
+    implements
+        Built<GPullRequestsData_viewer_pullRequests,
+            GPullRequestsData_viewer_pullRequestsBuilder> {
+  GPullRequestsData_viewer_pullRequests._();
 
-  final Map<String, dynamic> data;
+  factory GPullRequestsData_viewer_pullRequests(
+          [Function(GPullRequestsData_viewer_pullRequestsBuilder b) updates]) =
+      _$GPullRequestsData_viewer_pullRequests;
 
-  List<$PullRequests$viewer$pullRequests$edges> get edges =>
-      data['edges'] == null
-          ? null
-          : (data['edges'] as List)
-              .map((dynamic e) => $PullRequests$viewer$pullRequests$edges(
-                  (e as Map<String, dynamic>)))
-              .toList();
+  static void _initializeBuilder(
+          GPullRequestsData_viewer_pullRequestsBuilder b) =>
+      b..G__typename = 'PullRequestConnection';
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  BuiltList<GPullRequestsData_viewer_pullRequests_edges>? get edges;
+  static Serializer<GPullRequestsData_viewer_pullRequests> get serializer =>
+      _$gPullRequestsDataViewerPullRequestsSerializer;
+  Map<String, dynamic> toJson() => (_i1.serializers
+          .serializeWith(GPullRequestsData_viewer_pullRequests.serializer, this)
+      as Map<String, dynamic>);
+  static GPullRequestsData_viewer_pullRequests? fromJson(
+          Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+          GPullRequestsData_viewer_pullRequests.serializer, json);
 }
 
-class $PullRequests$viewer$pullRequests$edges {
-  const $PullRequests$viewer$pullRequests$edges(this.data);
+abstract class GPullRequestsData_viewer_pullRequests_edges
+    implements
+        Built<GPullRequestsData_viewer_pullRequests_edges,
+            GPullRequestsData_viewer_pullRequests_edgesBuilder> {
+  GPullRequestsData_viewer_pullRequests_edges._();
 
-  final Map<String, dynamic> data;
+  factory GPullRequestsData_viewer_pullRequests_edges(
+      [Function(GPullRequestsData_viewer_pullRequests_edgesBuilder b)
+          updates]) = _$GPullRequestsData_viewer_pullRequests_edges;
 
-  $PullRequests$viewer$pullRequests$edges$node get node => data['node'] == null
-      ? null
-      : $PullRequests$viewer$pullRequests$edges$node(
-          (data['node'] as Map<String, dynamic>));
+  static void _initializeBuilder(
+          GPullRequestsData_viewer_pullRequests_edgesBuilder b) =>
+      b..G__typename = 'PullRequestEdge';
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  GPullRequestsData_viewer_pullRequests_edges_node? get node;
+  static Serializer<GPullRequestsData_viewer_pullRequests_edges>
+      get serializer => _$gPullRequestsDataViewerPullRequestsEdgesSerializer;
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+          GPullRequestsData_viewer_pullRequests_edges.serializer, this)
+      as Map<String, dynamic>);
+  static GPullRequestsData_viewer_pullRequests_edges? fromJson(
+          Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+          GPullRequestsData_viewer_pullRequests_edges.serializer, json);
 }
 
-class $PullRequests$viewer$pullRequests$edges$node {
-  const $PullRequests$viewer$pullRequests$edges$node(this.data);
+abstract class GPullRequestsData_viewer_pullRequests_edges_node
+    implements
+        Built<GPullRequestsData_viewer_pullRequests_edges_node,
+            GPullRequestsData_viewer_pullRequests_edges_nodeBuilder> {
+  GPullRequestsData_viewer_pullRequests_edges_node._();
 
-  final Map<String, dynamic> data;
+  factory GPullRequestsData_viewer_pullRequests_edges_node(
+      [Function(GPullRequestsData_viewer_pullRequests_edges_nodeBuilder b)
+          updates]) = _$GPullRequestsData_viewer_pullRequests_edges_node;
 
-  $PullRequests$viewer$pullRequests$edges$node$repository get repository =>
-      data['repository'] == null
-          ? null
-          : $PullRequests$viewer$pullRequests$edges$node$repository(
-              (data['repository'] as Map<String, dynamic>));
-  $PullRequests$viewer$pullRequests$edges$node$author get author =>
-      data['author'] == null
-          ? null
-          : $PullRequests$viewer$pullRequests$edges$node$author(
-              (data['author'] as Map<String, dynamic>));
-  int get number => (data['number'] as int);
-  _i1.URI get url => _i1.URI((data['url'] as String));
-  String get title => (data['title'] as String);
-  _i1.DateTime get updatedAt => _i1.DateTime((data['updatedAt'] as String));
-  _i1.PullRequestState get state =>
-      _i1.PullRequestState((data['state'] as String));
-  bool get isDraft => (data['isDraft'] as bool);
-  $PullRequests$viewer$pullRequests$edges$node$comments get comments =>
-      data['comments'] == null
-          ? null
-          : $PullRequests$viewer$pullRequests$edges$node$comments(
-              (data['comments'] as Map<String, dynamic>));
-  $PullRequests$viewer$pullRequests$edges$node$files get files =>
-      data['files'] == null
-          ? null
-          : $PullRequests$viewer$pullRequests$edges$node$files(
-              (data['files'] as Map<String, dynamic>));
+  static void _initializeBuilder(
+          GPullRequestsData_viewer_pullRequests_edges_nodeBuilder b) =>
+      b..G__typename = 'PullRequest';
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  GPullRequestsData_viewer_pullRequests_edges_node_repository get repository;
+  GPullRequestsData_viewer_pullRequests_edges_node_author? get author;
+  int get number;
+  _i2.GURI get url;
+  String get title;
+  _i2.GDateTime get updatedAt;
+  _i2.GPullRequestState get state;
+  bool get isDraft;
+  GPullRequestsData_viewer_pullRequests_edges_node_comments get comments;
+  GPullRequestsData_viewer_pullRequests_edges_node_files? get files;
+  static Serializer<GPullRequestsData_viewer_pullRequests_edges_node>
+      get serializer =>
+          _$gPullRequestsDataViewerPullRequestsEdgesNodeSerializer;
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+          GPullRequestsData_viewer_pullRequests_edges_node.serializer, this)
+      as Map<String, dynamic>);
+  static GPullRequestsData_viewer_pullRequests_edges_node? fromJson(
+          Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+          GPullRequestsData_viewer_pullRequests_edges_node.serializer, json);
 }
 
-class $PullRequests$viewer$pullRequests$edges$node$repository {
-  const $PullRequests$viewer$pullRequests$edges$node$repository(this.data);
+abstract class GPullRequestsData_viewer_pullRequests_edges_node_repository
+    implements
+        Built<GPullRequestsData_viewer_pullRequests_edges_node_repository,
+            GPullRequestsData_viewer_pullRequests_edges_node_repositoryBuilder> {
+  GPullRequestsData_viewer_pullRequests_edges_node_repository._();
 
-  final Map<String, dynamic> data;
+  factory GPullRequestsData_viewer_pullRequests_edges_node_repository(
+      [Function(
+              GPullRequestsData_viewer_pullRequests_edges_node_repositoryBuilder
+                  b)
+          updates]) = _$GPullRequestsData_viewer_pullRequests_edges_node_repository;
 
-  String get nameWithOwner => (data['nameWithOwner'] as String);
-  _i1.URI get url => _i1.URI((data['url'] as String));
+  static void _initializeBuilder(
+          GPullRequestsData_viewer_pullRequests_edges_node_repositoryBuilder
+              b) =>
+      b..G__typename = 'Repository';
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  String get nameWithOwner;
+  _i2.GURI get url;
+  static Serializer<GPullRequestsData_viewer_pullRequests_edges_node_repository>
+      get serializer =>
+          _$gPullRequestsDataViewerPullRequestsEdgesNodeRepositorySerializer;
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+      GPullRequestsData_viewer_pullRequests_edges_node_repository.serializer,
+      this) as Map<String, dynamic>);
+  static GPullRequestsData_viewer_pullRequests_edges_node_repository? fromJson(
+          Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+          GPullRequestsData_viewer_pullRequests_edges_node_repository
+              .serializer,
+          json);
 }
 
-class $PullRequests$viewer$pullRequests$edges$node$author {
-  const $PullRequests$viewer$pullRequests$edges$node$author(this.data);
+abstract class GPullRequestsData_viewer_pullRequests_edges_node_author
+    implements
+        Built<GPullRequestsData_viewer_pullRequests_edges_node_author,
+            GPullRequestsData_viewer_pullRequests_edges_node_authorBuilder> {
+  GPullRequestsData_viewer_pullRequests_edges_node_author._();
 
-  final Map<String, dynamic> data;
+  factory GPullRequestsData_viewer_pullRequests_edges_node_author(
+      [Function(
+              GPullRequestsData_viewer_pullRequests_edges_node_authorBuilder b)
+          updates]) = _$GPullRequestsData_viewer_pullRequests_edges_node_author;
 
-  String get login => (data['login'] as String);
-  _i1.URI get url => _i1.URI((data['url'] as String));
+  static void _initializeBuilder(
+          GPullRequestsData_viewer_pullRequests_edges_node_authorBuilder b) =>
+      b..G__typename = 'Actor';
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  String get login;
+  _i2.GURI get url;
+  static Serializer<GPullRequestsData_viewer_pullRequests_edges_node_author>
+      get serializer =>
+          _$gPullRequestsDataViewerPullRequestsEdgesNodeAuthorSerializer;
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+      GPullRequestsData_viewer_pullRequests_edges_node_author.serializer,
+      this) as Map<String, dynamic>);
+  static GPullRequestsData_viewer_pullRequests_edges_node_author? fromJson(
+          Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+          GPullRequestsData_viewer_pullRequests_edges_node_author.serializer,
+          json);
 }
 
-class $PullRequests$viewer$pullRequests$edges$node$comments {
-  const $PullRequests$viewer$pullRequests$edges$node$comments(this.data);
+abstract class GPullRequestsData_viewer_pullRequests_edges_node_comments
+    implements
+        Built<GPullRequestsData_viewer_pullRequests_edges_node_comments,
+            GPullRequestsData_viewer_pullRequests_edges_node_commentsBuilder> {
+  GPullRequestsData_viewer_pullRequests_edges_node_comments._();
 
-  final Map<String, dynamic> data;
+  factory GPullRequestsData_viewer_pullRequests_edges_node_comments(
+      [Function(
+              GPullRequestsData_viewer_pullRequests_edges_node_commentsBuilder
+                  b)
+          updates]) = _$GPullRequestsData_viewer_pullRequests_edges_node_comments;
 
-  int get totalCount => (data['totalCount'] as int);
+  static void _initializeBuilder(
+          GPullRequestsData_viewer_pullRequests_edges_node_commentsBuilder b) =>
+      b..G__typename = 'IssueCommentConnection';
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  int get totalCount;
+  static Serializer<GPullRequestsData_viewer_pullRequests_edges_node_comments>
+      get serializer =>
+          _$gPullRequestsDataViewerPullRequestsEdgesNodeCommentsSerializer;
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+      GPullRequestsData_viewer_pullRequests_edges_node_comments.serializer,
+      this) as Map<String, dynamic>);
+  static GPullRequestsData_viewer_pullRequests_edges_node_comments? fromJson(
+          Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+          GPullRequestsData_viewer_pullRequests_edges_node_comments.serializer,
+          json);
 }
 
-class $PullRequests$viewer$pullRequests$edges$node$files {
-  const $PullRequests$viewer$pullRequests$edges$node$files(this.data);
+abstract class GPullRequestsData_viewer_pullRequests_edges_node_files
+    implements
+        Built<GPullRequestsData_viewer_pullRequests_edges_node_files,
+            GPullRequestsData_viewer_pullRequests_edges_node_filesBuilder> {
+  GPullRequestsData_viewer_pullRequests_edges_node_files._();
 
-  final Map<String, dynamic> data;
+  factory GPullRequestsData_viewer_pullRequests_edges_node_files(
+      [Function(GPullRequestsData_viewer_pullRequests_edges_node_filesBuilder b)
+          updates]) = _$GPullRequestsData_viewer_pullRequests_edges_node_files;
 
-  int get totalCount => (data['totalCount'] as int);
+  static void _initializeBuilder(
+          GPullRequestsData_viewer_pullRequests_edges_node_filesBuilder b) =>
+      b..G__typename = 'PullRequestChangedFileConnection';
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  int get totalCount;
+  static Serializer<GPullRequestsData_viewer_pullRequests_edges_node_files>
+      get serializer =>
+          _$gPullRequestsDataViewerPullRequestsEdgesNodeFilesSerializer;
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+      GPullRequestsData_viewer_pullRequests_edges_node_files.serializer,
+      this) as Map<String, dynamic>);
+  static GPullRequestsData_viewer_pullRequests_edges_node_files? fromJson(
+          Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+          GPullRequestsData_viewer_pullRequests_edges_node_files.serializer,
+          json);
 }
 
-class $AssignedIssues {
-  const $AssignedIssues(this.data);
+abstract class GAssignedIssuesData
+    implements Built<GAssignedIssuesData, GAssignedIssuesDataBuilder> {
+  GAssignedIssuesData._();
 
-  final Map<String, dynamic> data;
+  factory GAssignedIssuesData(
+      [Function(GAssignedIssuesDataBuilder b) updates]) = _$GAssignedIssuesData;
 
-  $AssignedIssues$search get search => data['search'] == null
-      ? null
-      : $AssignedIssues$search((data['search'] as Map<String, dynamic>));
+  static void _initializeBuilder(GAssignedIssuesDataBuilder b) =>
+      b..G__typename = 'Query';
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  GAssignedIssuesData_search get search;
+  static Serializer<GAssignedIssuesData> get serializer =>
+      _$gAssignedIssuesDataSerializer;
+  Map<String, dynamic> toJson() =>
+      (_i1.serializers.serializeWith(GAssignedIssuesData.serializer, this)
+          as Map<String, dynamic>);
+  static GAssignedIssuesData? fromJson(Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(GAssignedIssuesData.serializer, json);
 }
 
-class $AssignedIssues$search {
-  const $AssignedIssues$search(this.data);
+abstract class GAssignedIssuesData_search
+    implements
+        Built<GAssignedIssuesData_search, GAssignedIssuesData_searchBuilder> {
+  GAssignedIssuesData_search._();
 
-  final Map<String, dynamic> data;
+  factory GAssignedIssuesData_search(
+          [Function(GAssignedIssuesData_searchBuilder b) updates]) =
+      _$GAssignedIssuesData_search;
 
-  List<$AssignedIssues$search$edges> get edges => data['edges'] == null
-      ? null
-      : (data['edges'] as List)
-          .map((dynamic e) =>
-              $AssignedIssues$search$edges((e as Map<String, dynamic>)))
-          .toList();
+  static void _initializeBuilder(GAssignedIssuesData_searchBuilder b) =>
+      b..G__typename = 'SearchResultItemConnection';
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  BuiltList<GAssignedIssuesData_search_edges>? get edges;
+  static Serializer<GAssignedIssuesData_search> get serializer =>
+      _$gAssignedIssuesDataSearchSerializer;
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+      GAssignedIssuesData_search.serializer, this) as Map<String, dynamic>);
+  static GAssignedIssuesData_search? fromJson(Map<String, dynamic> json) =>
+      _i1.serializers
+          .deserializeWith(GAssignedIssuesData_search.serializer, json);
 }
 
-class $AssignedIssues$search$edges {
-  const $AssignedIssues$search$edges(this.data);
+abstract class GAssignedIssuesData_search_edges
+    implements
+        Built<GAssignedIssuesData_search_edges,
+            GAssignedIssuesData_search_edgesBuilder> {
+  GAssignedIssuesData_search_edges._();
 
-  final Map<String, dynamic> data;
+  factory GAssignedIssuesData_search_edges(
+          [Function(GAssignedIssuesData_search_edgesBuilder b) updates]) =
+      _$GAssignedIssuesData_search_edges;
 
-  $AssignedIssues$search$edges$node get node => data['node'] == null
-      ? null
-      : $AssignedIssues$search$edges$node(
-          (data['node'] as Map<String, dynamic>));
+  static void _initializeBuilder(GAssignedIssuesData_search_edgesBuilder b) =>
+      b..G__typename = 'SearchResultItemEdge';
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  GAssignedIssuesData_search_edges_node? get node;
+  static Serializer<GAssignedIssuesData_search_edges> get serializer =>
+      _$gAssignedIssuesDataSearchEdgesSerializer;
+  Map<String, dynamic> toJson() => (_i1.serializers
+          .serializeWith(GAssignedIssuesData_search_edges.serializer, this)
+      as Map<String, dynamic>);
+  static GAssignedIssuesData_search_edges? fromJson(
+          Map<String, dynamic> json) =>
+      _i1.serializers
+          .deserializeWith(GAssignedIssuesData_search_edges.serializer, json);
 }
 
-class $AssignedIssues$search$edges$node {
-  const $AssignedIssues$search$edges$node.fromData(this.data);
-
-  factory $AssignedIssues$search$edges$node(data) {
-    switch (data['__typename']) {
-      case "Issue":
-        return $AssignedIssues$search$edges$node$asIssue(data);
-      default:
-        return $AssignedIssues$search$edges$node.fromData(data);
-    }
-  }
-
-  final Map<String, dynamic> data;
+abstract class GAssignedIssuesData_search_edges_node {
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  static Serializer<GAssignedIssuesData_search_edges_node> get serializer =>
+      _i3.InlineFragmentSerializer<GAssignedIssuesData_search_edges_node>(
+          'GAssignedIssuesData_search_edges_node',
+          GAssignedIssuesData_search_edges_node__base,
+          [GAssignedIssuesData_search_edges_node__asIssue]);
+  Map<String, dynamic> toJson() => (_i1.serializers
+          .serializeWith(GAssignedIssuesData_search_edges_node.serializer, this)
+      as Map<String, dynamic>);
+  static GAssignedIssuesData_search_edges_node? fromJson(
+          Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+          GAssignedIssuesData_search_edges_node.serializer, json);
 }
 
-class $AssignedIssues$search$edges$node$asIssue
-    implements $AssignedIssues$search$edges$node {
-  const $AssignedIssues$search$edges$node$asIssue(this.data);
+abstract class GAssignedIssuesData_search_edges_node__base
+    implements
+        Built<GAssignedIssuesData_search_edges_node__base,
+            GAssignedIssuesData_search_edges_node__baseBuilder>,
+        GAssignedIssuesData_search_edges_node {
+  GAssignedIssuesData_search_edges_node__base._();
 
-  final Map<String, dynamic> data;
+  factory GAssignedIssuesData_search_edges_node__base(
+      [Function(GAssignedIssuesData_search_edges_node__baseBuilder b)
+          updates]) = _$GAssignedIssuesData_search_edges_node__base;
 
-  String get $__typename => (data['__typename'] as String);
-  $AssignedIssues$search$edges$node$asIssue$repository get repository =>
-      data['repository'] == null
-          ? null
-          : $AssignedIssues$search$edges$node$asIssue$repository(
-              (data['repository'] as Map<String, dynamic>));
-  int get number => (data['number'] as int);
-  _i1.URI get url => _i1.URI((data['url'] as String));
-  String get title => (data['title'] as String);
-  $AssignedIssues$search$edges$node$asIssue$author get author =>
-      data['author'] == null
-          ? null
-          : $AssignedIssues$search$edges$node$asIssue$author(
-              (data['author'] as Map<String, dynamic>));
-  $AssignedIssues$search$edges$node$asIssue$labels get labels =>
-      data['labels'] == null
-          ? null
-          : $AssignedIssues$search$edges$node$asIssue$labels(
-              (data['labels'] as Map<String, dynamic>));
-  $AssignedIssues$search$edges$node$asIssue$comments get comments =>
-      data['comments'] == null
-          ? null
-          : $AssignedIssues$search$edges$node$asIssue$comments(
-              (data['comments'] as Map<String, dynamic>));
+  static void _initializeBuilder(
+          GAssignedIssuesData_search_edges_node__baseBuilder b) =>
+      b..G__typename = 'SearchResultItem';
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  static Serializer<GAssignedIssuesData_search_edges_node__base>
+      get serializer => _$gAssignedIssuesDataSearchEdgesNodeBaseSerializer;
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+          GAssignedIssuesData_search_edges_node__base.serializer, this)
+      as Map<String, dynamic>);
+  static GAssignedIssuesData_search_edges_node__base? fromJson(
+          Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+          GAssignedIssuesData_search_edges_node__base.serializer, json);
 }
 
-class $AssignedIssues$search$edges$node$asIssue$repository {
-  const $AssignedIssues$search$edges$node$asIssue$repository(this.data);
+abstract class GAssignedIssuesData_search_edges_node__asIssue
+    implements
+        Built<GAssignedIssuesData_search_edges_node__asIssue,
+            GAssignedIssuesData_search_edges_node__asIssueBuilder>,
+        GAssignedIssuesData_search_edges_node {
+  GAssignedIssuesData_search_edges_node__asIssue._();
 
-  final Map<String, dynamic> data;
+  factory GAssignedIssuesData_search_edges_node__asIssue(
+      [Function(GAssignedIssuesData_search_edges_node__asIssueBuilder b)
+          updates]) = _$GAssignedIssuesData_search_edges_node__asIssue;
 
-  String get nameWithOwner => (data['nameWithOwner'] as String);
-  _i1.URI get url => _i1.URI((data['url'] as String));
+  static void _initializeBuilder(
+          GAssignedIssuesData_search_edges_node__asIssueBuilder b) =>
+      b..G__typename = 'Issue';
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  GAssignedIssuesData_search_edges_node__asIssue_repository get repository;
+  int get number;
+  _i2.GURI get url;
+  String get title;
+  GAssignedIssuesData_search_edges_node__asIssue_author? get author;
+  GAssignedIssuesData_search_edges_node__asIssue_labels? get labels;
+  GAssignedIssuesData_search_edges_node__asIssue_comments get comments;
+  static Serializer<GAssignedIssuesData_search_edges_node__asIssue>
+      get serializer => _$gAssignedIssuesDataSearchEdgesNodeAsIssueSerializer;
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+          GAssignedIssuesData_search_edges_node__asIssue.serializer, this)
+      as Map<String, dynamic>);
+  static GAssignedIssuesData_search_edges_node__asIssue? fromJson(
+          Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+          GAssignedIssuesData_search_edges_node__asIssue.serializer, json);
 }
 
-class $AssignedIssues$search$edges$node$asIssue$author {
-  const $AssignedIssues$search$edges$node$asIssue$author(this.data);
+abstract class GAssignedIssuesData_search_edges_node__asIssue_repository
+    implements
+        Built<GAssignedIssuesData_search_edges_node__asIssue_repository,
+            GAssignedIssuesData_search_edges_node__asIssue_repositoryBuilder> {
+  GAssignedIssuesData_search_edges_node__asIssue_repository._();
 
-  final Map<String, dynamic> data;
+  factory GAssignedIssuesData_search_edges_node__asIssue_repository(
+      [Function(
+              GAssignedIssuesData_search_edges_node__asIssue_repositoryBuilder
+                  b)
+          updates]) = _$GAssignedIssuesData_search_edges_node__asIssue_repository;
 
-  String get login => (data['login'] as String);
-  _i1.URI get url => _i1.URI((data['url'] as String));
+  static void _initializeBuilder(
+          GAssignedIssuesData_search_edges_node__asIssue_repositoryBuilder b) =>
+      b..G__typename = 'Repository';
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  String get nameWithOwner;
+  _i2.GURI get url;
+  static Serializer<GAssignedIssuesData_search_edges_node__asIssue_repository>
+      get serializer =>
+          _$gAssignedIssuesDataSearchEdgesNodeAsIssueRepositorySerializer;
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+      GAssignedIssuesData_search_edges_node__asIssue_repository.serializer,
+      this) as Map<String, dynamic>);
+  static GAssignedIssuesData_search_edges_node__asIssue_repository? fromJson(
+          Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+          GAssignedIssuesData_search_edges_node__asIssue_repository.serializer,
+          json);
 }
 
-class $AssignedIssues$search$edges$node$asIssue$labels {
-  const $AssignedIssues$search$edges$node$asIssue$labels(this.data);
+abstract class GAssignedIssuesData_search_edges_node__asIssue_author
+    implements
+        Built<GAssignedIssuesData_search_edges_node__asIssue_author,
+            GAssignedIssuesData_search_edges_node__asIssue_authorBuilder> {
+  GAssignedIssuesData_search_edges_node__asIssue_author._();
 
-  final Map<String, dynamic> data;
+  factory GAssignedIssuesData_search_edges_node__asIssue_author(
+      [Function(GAssignedIssuesData_search_edges_node__asIssue_authorBuilder b)
+          updates]) = _$GAssignedIssuesData_search_edges_node__asIssue_author;
 
-  List<$AssignedIssues$search$edges$node$asIssue$labels$nodes> get nodes =>
-      data['nodes'] == null
-          ? null
-          : (data['nodes'] as List)
-              .map((dynamic e) =>
-                  $AssignedIssues$search$edges$node$asIssue$labels$nodes(
-                      (e as Map<String, dynamic>)))
-              .toList();
+  static void _initializeBuilder(
+          GAssignedIssuesData_search_edges_node__asIssue_authorBuilder b) =>
+      b..G__typename = 'Actor';
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  String get login;
+  _i2.GURI get url;
+  static Serializer<GAssignedIssuesData_search_edges_node__asIssue_author>
+      get serializer =>
+          _$gAssignedIssuesDataSearchEdgesNodeAsIssueAuthorSerializer;
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+      GAssignedIssuesData_search_edges_node__asIssue_author.serializer,
+      this) as Map<String, dynamic>);
+  static GAssignedIssuesData_search_edges_node__asIssue_author? fromJson(
+          Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+          GAssignedIssuesData_search_edges_node__asIssue_author.serializer,
+          json);
 }
 
-class $AssignedIssues$search$edges$node$asIssue$labels$nodes {
-  const $AssignedIssues$search$edges$node$asIssue$labels$nodes(this.data);
+abstract class GAssignedIssuesData_search_edges_node__asIssue_labels
+    implements
+        Built<GAssignedIssuesData_search_edges_node__asIssue_labels,
+            GAssignedIssuesData_search_edges_node__asIssue_labelsBuilder> {
+  GAssignedIssuesData_search_edges_node__asIssue_labels._();
 
-  final Map<String, dynamic> data;
+  factory GAssignedIssuesData_search_edges_node__asIssue_labels(
+      [Function(GAssignedIssuesData_search_edges_node__asIssue_labelsBuilder b)
+          updates]) = _$GAssignedIssuesData_search_edges_node__asIssue_labels;
 
-  String get name => (data['name'] as String);
-  String get color => (data['color'] as String);
+  static void _initializeBuilder(
+          GAssignedIssuesData_search_edges_node__asIssue_labelsBuilder b) =>
+      b..G__typename = 'LabelConnection';
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  BuiltList<GAssignedIssuesData_search_edges_node__asIssue_labels_nodes>?
+      get nodes;
+  static Serializer<GAssignedIssuesData_search_edges_node__asIssue_labels>
+      get serializer =>
+          _$gAssignedIssuesDataSearchEdgesNodeAsIssueLabelsSerializer;
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+      GAssignedIssuesData_search_edges_node__asIssue_labels.serializer,
+      this) as Map<String, dynamic>);
+  static GAssignedIssuesData_search_edges_node__asIssue_labels? fromJson(
+          Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+          GAssignedIssuesData_search_edges_node__asIssue_labels.serializer,
+          json);
 }
 
-class $AssignedIssues$search$edges$node$asIssue$comments {
-  const $AssignedIssues$search$edges$node$asIssue$comments(this.data);
+abstract class GAssignedIssuesData_search_edges_node__asIssue_labels_nodes
+    implements
+        Built<GAssignedIssuesData_search_edges_node__asIssue_labels_nodes,
+            GAssignedIssuesData_search_edges_node__asIssue_labels_nodesBuilder> {
+  GAssignedIssuesData_search_edges_node__asIssue_labels_nodes._();
 
-  final Map<String, dynamic> data;
+  factory GAssignedIssuesData_search_edges_node__asIssue_labels_nodes(
+      [Function(
+              GAssignedIssuesData_search_edges_node__asIssue_labels_nodesBuilder
+                  b)
+          updates]) = _$GAssignedIssuesData_search_edges_node__asIssue_labels_nodes;
 
-  int get totalCount => (data['totalCount'] as int);
+  static void _initializeBuilder(
+          GAssignedIssuesData_search_edges_node__asIssue_labels_nodesBuilder
+              b) =>
+      b..G__typename = 'Label';
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  String get name;
+  String get color;
+  static Serializer<GAssignedIssuesData_search_edges_node__asIssue_labels_nodes>
+      get serializer =>
+          _$gAssignedIssuesDataSearchEdgesNodeAsIssueLabelsNodesSerializer;
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+      GAssignedIssuesData_search_edges_node__asIssue_labels_nodes.serializer,
+      this) as Map<String, dynamic>);
+  static GAssignedIssuesData_search_edges_node__asIssue_labels_nodes? fromJson(
+          Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+          GAssignedIssuesData_search_edges_node__asIssue_labels_nodes
+              .serializer,
+          json);
 }
 
-class $Repositories {
-  const $Repositories(this.data);
+abstract class GAssignedIssuesData_search_edges_node__asIssue_comments
+    implements
+        Built<GAssignedIssuesData_search_edges_node__asIssue_comments,
+            GAssignedIssuesData_search_edges_node__asIssue_commentsBuilder> {
+  GAssignedIssuesData_search_edges_node__asIssue_comments._();
 
-  final Map<String, dynamic> data;
+  factory GAssignedIssuesData_search_edges_node__asIssue_comments(
+      [Function(
+              GAssignedIssuesData_search_edges_node__asIssue_commentsBuilder b)
+          updates]) = _$GAssignedIssuesData_search_edges_node__asIssue_comments;
 
-  $Repositories$viewer get viewer => data['viewer'] == null
-      ? null
-      : $Repositories$viewer((data['viewer'] as Map<String, dynamic>));
+  static void _initializeBuilder(
+          GAssignedIssuesData_search_edges_node__asIssue_commentsBuilder b) =>
+      b..G__typename = 'IssueCommentConnection';
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  int get totalCount;
+  static Serializer<GAssignedIssuesData_search_edges_node__asIssue_comments>
+      get serializer =>
+          _$gAssignedIssuesDataSearchEdgesNodeAsIssueCommentsSerializer;
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+      GAssignedIssuesData_search_edges_node__asIssue_comments.serializer,
+      this) as Map<String, dynamic>);
+  static GAssignedIssuesData_search_edges_node__asIssue_comments? fromJson(
+          Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+          GAssignedIssuesData_search_edges_node__asIssue_comments.serializer,
+          json);
 }
 
-class $Repositories$viewer {
-  const $Repositories$viewer(this.data);
+abstract class GRepositoriesData
+    implements Built<GRepositoriesData, GRepositoriesDataBuilder> {
+  GRepositoriesData._();
 
-  final Map<String, dynamic> data;
+  factory GRepositoriesData([Function(GRepositoriesDataBuilder b) updates]) =
+      _$GRepositoriesData;
 
-  $Repositories$viewer$repositories get repositories => data['repositories'] ==
-          null
-      ? null
-      : $Repositories$viewer$repositories(
-          (data['repositories'] as Map<String, dynamic>));
+  static void _initializeBuilder(GRepositoriesDataBuilder b) =>
+      b..G__typename = 'Query';
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  GRepositoriesData_viewer get viewer;
+  static Serializer<GRepositoriesData> get serializer =>
+      _$gRepositoriesDataSerializer;
+  Map<String, dynamic> toJson() =>
+      (_i1.serializers.serializeWith(GRepositoriesData.serializer, this)
+          as Map<String, dynamic>);
+  static GRepositoriesData? fromJson(Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(GRepositoriesData.serializer, json);
 }
 
-class $Repositories$viewer$repositories {
-  const $Repositories$viewer$repositories(this.data);
+abstract class GRepositoriesData_viewer
+    implements
+        Built<GRepositoriesData_viewer, GRepositoriesData_viewerBuilder> {
+  GRepositoriesData_viewer._();
 
-  final Map<String, dynamic> data;
+  factory GRepositoriesData_viewer(
+          [Function(GRepositoriesData_viewerBuilder b) updates]) =
+      _$GRepositoriesData_viewer;
 
-  List<$Repositories$viewer$repositories$nodes> get nodes =>
-      data['nodes'] == null
-          ? null
-          : (data['nodes'] as List)
-              .map((dynamic e) => $Repositories$viewer$repositories$nodes(
-                  (e as Map<String, dynamic>)))
-              .toList();
+  static void _initializeBuilder(GRepositoriesData_viewerBuilder b) =>
+      b..G__typename = 'User';
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  GRepositoriesData_viewer_repositories get repositories;
+  static Serializer<GRepositoriesData_viewer> get serializer =>
+      _$gRepositoriesDataViewerSerializer;
+  Map<String, dynamic> toJson() =>
+      (_i1.serializers.serializeWith(GRepositoriesData_viewer.serializer, this)
+          as Map<String, dynamic>);
+  static GRepositoriesData_viewer? fromJson(Map<String, dynamic> json) =>
+      _i1.serializers
+          .deserializeWith(GRepositoriesData_viewer.serializer, json);
 }
 
-class $Repositories$viewer$repositories$nodes {
-  const $Repositories$viewer$repositories$nodes(this.data);
+abstract class GRepositoriesData_viewer_repositories
+    implements
+        Built<GRepositoriesData_viewer_repositories,
+            GRepositoriesData_viewer_repositoriesBuilder> {
+  GRepositoriesData_viewer_repositories._();
 
-  final Map<String, dynamic> data;
+  factory GRepositoriesData_viewer_repositories(
+          [Function(GRepositoriesData_viewer_repositoriesBuilder b) updates]) =
+      _$GRepositoriesData_viewer_repositories;
 
-  String get name => (data['name'] as String);
-  String get description => (data['description'] as String);
-  bool get isFork => (data['isFork'] as bool);
-  bool get isPrivate => (data['isPrivate'] as bool);
-  $Repositories$viewer$repositories$nodes$stargazers get stargazers =>
-      data['stargazers'] == null
-          ? null
-          : $Repositories$viewer$repositories$nodes$stargazers(
-              (data['stargazers'] as Map<String, dynamic>));
-  _i1.URI get url => _i1.URI((data['url'] as String));
-  $Repositories$viewer$repositories$nodes$issues get issues =>
-      data['issues'] == null
-          ? null
-          : $Repositories$viewer$repositories$nodes$issues(
-              (data['issues'] as Map<String, dynamic>));
-  $Repositories$viewer$repositories$nodes$owner get owner =>
-      data['owner'] == null
-          ? null
-          : $Repositories$viewer$repositories$nodes$owner(
-              (data['owner'] as Map<String, dynamic>));
+  static void _initializeBuilder(
+          GRepositoriesData_viewer_repositoriesBuilder b) =>
+      b..G__typename = 'RepositoryConnection';
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  BuiltList<GRepositoriesData_viewer_repositories_nodes>? get nodes;
+  static Serializer<GRepositoriesData_viewer_repositories> get serializer =>
+      _$gRepositoriesDataViewerRepositoriesSerializer;
+  Map<String, dynamic> toJson() => (_i1.serializers
+          .serializeWith(GRepositoriesData_viewer_repositories.serializer, this)
+      as Map<String, dynamic>);
+  static GRepositoriesData_viewer_repositories? fromJson(
+          Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+          GRepositoriesData_viewer_repositories.serializer, json);
 }
 
-class $Repositories$viewer$repositories$nodes$stargazers {
-  const $Repositories$viewer$repositories$nodes$stargazers(this.data);
+abstract class GRepositoriesData_viewer_repositories_nodes
+    implements
+        Built<GRepositoriesData_viewer_repositories_nodes,
+            GRepositoriesData_viewer_repositories_nodesBuilder> {
+  GRepositoriesData_viewer_repositories_nodes._();
 
-  final Map<String, dynamic> data;
+  factory GRepositoriesData_viewer_repositories_nodes(
+      [Function(GRepositoriesData_viewer_repositories_nodesBuilder b)
+          updates]) = _$GRepositoriesData_viewer_repositories_nodes;
 
-  int get totalCount => (data['totalCount'] as int);
+  static void _initializeBuilder(
+          GRepositoriesData_viewer_repositories_nodesBuilder b) =>
+      b..G__typename = 'Repository';
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  String get name;
+  String? get description;
+  bool get isFork;
+  bool get isPrivate;
+  GRepositoriesData_viewer_repositories_nodes_stargazers get stargazers;
+  _i2.GURI get url;
+  GRepositoriesData_viewer_repositories_nodes_issues get issues;
+  GRepositoriesData_viewer_repositories_nodes_owner get owner;
+  static Serializer<GRepositoriesData_viewer_repositories_nodes>
+      get serializer => _$gRepositoriesDataViewerRepositoriesNodesSerializer;
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+          GRepositoriesData_viewer_repositories_nodes.serializer, this)
+      as Map<String, dynamic>);
+  static GRepositoriesData_viewer_repositories_nodes? fromJson(
+          Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+          GRepositoriesData_viewer_repositories_nodes.serializer, json);
 }
 
-class $Repositories$viewer$repositories$nodes$issues {
-  const $Repositories$viewer$repositories$nodes$issues(this.data);
+abstract class GRepositoriesData_viewer_repositories_nodes_stargazers
+    implements
+        Built<GRepositoriesData_viewer_repositories_nodes_stargazers,
+            GRepositoriesData_viewer_repositories_nodes_stargazersBuilder> {
+  GRepositoriesData_viewer_repositories_nodes_stargazers._();
 
-  final Map<String, dynamic> data;
+  factory GRepositoriesData_viewer_repositories_nodes_stargazers(
+      [Function(GRepositoriesData_viewer_repositories_nodes_stargazersBuilder b)
+          updates]) = _$GRepositoriesData_viewer_repositories_nodes_stargazers;
 
-  int get totalCount => (data['totalCount'] as int);
+  static void _initializeBuilder(
+          GRepositoriesData_viewer_repositories_nodes_stargazersBuilder b) =>
+      b..G__typename = 'StargazerConnection';
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  int get totalCount;
+  static Serializer<GRepositoriesData_viewer_repositories_nodes_stargazers>
+      get serializer =>
+          _$gRepositoriesDataViewerRepositoriesNodesStargazersSerializer;
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+      GRepositoriesData_viewer_repositories_nodes_stargazers.serializer,
+      this) as Map<String, dynamic>);
+  static GRepositoriesData_viewer_repositories_nodes_stargazers? fromJson(
+          Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+          GRepositoriesData_viewer_repositories_nodes_stargazers.serializer,
+          json);
 }
 
-class $Repositories$viewer$repositories$nodes$owner {
-  const $Repositories$viewer$repositories$nodes$owner(this.data);
+abstract class GRepositoriesData_viewer_repositories_nodes_issues
+    implements
+        Built<GRepositoriesData_viewer_repositories_nodes_issues,
+            GRepositoriesData_viewer_repositories_nodes_issuesBuilder> {
+  GRepositoriesData_viewer_repositories_nodes_issues._();
 
-  final Map<String, dynamic> data;
+  factory GRepositoriesData_viewer_repositories_nodes_issues(
+      [Function(GRepositoriesData_viewer_repositories_nodes_issuesBuilder b)
+          updates]) = _$GRepositoriesData_viewer_repositories_nodes_issues;
 
-  String get login => (data['login'] as String);
-  _i1.URI get avatarUrl => _i1.URI((data['avatarUrl'] as String));
+  static void _initializeBuilder(
+          GRepositoriesData_viewer_repositories_nodes_issuesBuilder b) =>
+      b..G__typename = 'IssueConnection';
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  int get totalCount;
+  static Serializer<GRepositoriesData_viewer_repositories_nodes_issues>
+      get serializer =>
+          _$gRepositoriesDataViewerRepositoriesNodesIssuesSerializer;
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+          GRepositoriesData_viewer_repositories_nodes_issues.serializer, this)
+      as Map<String, dynamic>);
+  static GRepositoriesData_viewer_repositories_nodes_issues? fromJson(
+          Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+          GRepositoriesData_viewer_repositories_nodes_issues.serializer, json);
+}
+
+abstract class GRepositoriesData_viewer_repositories_nodes_owner
+    implements
+        Built<GRepositoriesData_viewer_repositories_nodes_owner,
+            GRepositoriesData_viewer_repositories_nodes_ownerBuilder> {
+  GRepositoriesData_viewer_repositories_nodes_owner._();
+
+  factory GRepositoriesData_viewer_repositories_nodes_owner(
+      [Function(GRepositoriesData_viewer_repositories_nodes_ownerBuilder b)
+          updates]) = _$GRepositoriesData_viewer_repositories_nodes_owner;
+
+  static void _initializeBuilder(
+          GRepositoriesData_viewer_repositories_nodes_ownerBuilder b) =>
+      b..G__typename = 'RepositoryOwner';
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  String get login;
+  _i2.GURI get avatarUrl;
+  static Serializer<GRepositoriesData_viewer_repositories_nodes_owner>
+      get serializer =>
+          _$gRepositoriesDataViewerRepositoriesNodesOwnerSerializer;
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+          GRepositoriesData_viewer_repositories_nodes_owner.serializer, this)
+      as Map<String, dynamic>);
+  static GRepositoriesData_viewer_repositories_nodes_owner? fromJson(
+          Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+          GRepositoriesData_viewer_repositories_nodes_owner.serializer, json);
 }
