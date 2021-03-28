@@ -29,7 +29,7 @@ void main() {
         await driver?.scroll(listFinder, 0, 7000, Duration(seconds: 1));
       });
 
-      final scrollingSummary = TimelineSummary.summarize(scrollingTimeline);
+      final scrollingSummary = TimelineSummary.summarize(scrollingTimeline!);
       await scrollingSummary.writeSummaryToFile('scrolling', pretty: true);
       await scrollingSummary.writeTimelineToFile('scrolling', pretty: true);
     });
@@ -61,7 +61,7 @@ void main() {
         }
       });
 
-      final operationsSummary = TimelineSummary.summarize(operationsTimeline);
+      final operationsSummary = TimelineSummary.summarize(operationsTimeline!);
       await operationsSummary.writeSummaryToFile('favorites_operations',
           pretty: true);
       await operationsSummary.writeTimelineToFile('favorites_operations',
