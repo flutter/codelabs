@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+// Fix for flutter_driver in https://github.com/flutter/flutter/pull/74856
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_driver/flutter_driver.dart';
 import 'package:test/test.dart';
 
