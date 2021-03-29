@@ -15,6 +15,29 @@
       "request": "launch",
       "type": "dart",
       "deviceId": "Android"
+    },
+    {
+      "name": "Chrome",
+      "request": "launch",
+      "type": "dart",
+      "deviceId": "Chrome"
+    },
+    {
+      "name": "macOS",
+      "request": "launch",
+      "type": "dart",
+      "deviceId": "macOS"
+    },
+  ],
+  "compounds": [
+    {
+      "name": "All devices",
+      "configurations": [
+        "Android",
+        "iPhone",
+        "Chrome",
+        "macOS"
+      ]
     }
   ]
 }
