@@ -8,5 +8,5 @@ Codelabs in this directory are displayed using DartPad.
 - [Dart example](http://localhost:8080/codelabs.html?webserver=https://dartpad-codelabs-experimental1.web.app/example_dart)
 
 ## Deploying 
-In the parent directory, run `firebase deploy`:
 
+Run `firebase deploy` to deploy a new version.

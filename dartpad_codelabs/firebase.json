@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dartpad_codelabs",
+    "public": "src",
     "ignore": [
       "firebase.json",
       "**/.*",
