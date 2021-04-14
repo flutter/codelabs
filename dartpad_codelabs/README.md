@@ -4,8 +4,8 @@ Codelabs in this directory are displayed using DartPad.
 
 ## Open a codelab
 
-- [Flutter example](http://localhost:8080/codelabs.html?webserver=https://dartpad-codelabs-experimental1.web.app/example_flutter)
-- [Dart example](http://localhost:8080/codelabs.html?webserver=https://dartpad-codelabs-experimental1.web.app/example_dart)
+- [Flutter example](https://20210412t145652-dot-dart-pad.appspot.com/codelabs.html?webserver=https://dartpad-codelabs-experimental1.web.app/example_flutter)
+- [Dart example](https://20210412t145652-dot-dart-pad.appspot.com/codelabs.html?webserver=https://dartpad-codelabs-experimental1.web.app/example_dart)
 
 ## Deploying 
 

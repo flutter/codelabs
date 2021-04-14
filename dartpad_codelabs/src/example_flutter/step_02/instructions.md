@@ -1,3 +1,3 @@
-# Step 2
+# Step 3
 
-You're done! Have a coffee ☕️.
+Here's how to use NetworkImage to display an image.
