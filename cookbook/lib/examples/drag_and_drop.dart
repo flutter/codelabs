@@ -141,7 +141,7 @@ class _ExampleDragAndDropState extends State<ExampleDragAndDrop>
   }) {
     return LongPressDraggable<Item>(
       data: item,
-      dragAnchor: DragAnchor.pointer,
+      dragAnchorStrategy: pointerDragAnchorStrategy,
       feedback: DraggingListItem(
         dragKey: _draggableKey,
         photoProvider: item.imageProvider,
