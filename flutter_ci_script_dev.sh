@@ -19,7 +19,9 @@ popd
 
 declare -a CODELABS=(
   "add_flutter_to_android_app"
-  "cookbook"
+# Work around for https://github.com/flutter/flutter/issues/80552
+# Revert when Flutter 2.2 goes stable, and land https://github.com/flutter/codelabs/pull/92
+#  "cookbook"
   "cupertino_store"
   "firebase-get-to-know-flutter"
   "friendly_chat"
