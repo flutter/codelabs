@@ -142,8 +142,8 @@ class ApplicationState extends ChangeNotifier {
           snapshot.docs.forEach((document) {
             _guestBookMessages.add(
               GuestBookMessage(
-                name: document.data()!['name'],
-                message: document.data()!['text'],
+                name: document.data()['name'],
+                message: document.data()['text'],
               ),
             );
           });
