@@ -118,8 +118,8 @@ class ApplicationState extends ChangeNotifier {
           snapshot.docs.forEach((document) {
             _guestBookMessages.add(
               GuestBookMessage(
-                name: document.data()!['name'],
-                message: document.data()!['text'],
+                name: document.data()['name'],
+                message: document.data()['text'],
               ),
             );
           });
@@ -294,8 +294,8 @@ class _GuestBookState extends State<GuestBook> {
         for (var message in widget.messages)
           Paragraph('${message.name}: ${message.message}'),
         SizedBox(height: 8),
-        // to here.
       ],
+      // to here.
     );
   }
 }
