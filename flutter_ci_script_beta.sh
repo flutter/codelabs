@@ -48,8 +48,9 @@ for PROJECT in "${PROJECT_PATHS[@]}"; do
   (
     cd "$PROJECT";
     set -x;
+    # Only warn about analysis and format issues for dev and beta
     $FLUTTER analyze --no-fatal-infos;
-    $FLUTTER format --dry-run --set-exit-if-changed .;
+    $FLUTTER format --dry-run .;
     $FLUTTER test
   )
 done
