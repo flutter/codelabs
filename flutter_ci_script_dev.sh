@@ -19,9 +19,7 @@ popd
 
 declare -a CODELABS=(
   "add_flutter_to_android_app"
-# Work around for https://github.com/flutter/flutter/issues/80552
-# Revert when Flutter 2.2 goes stable, and land https://github.com/flutter/codelabs/pull/92
-#  "cookbook"
+  "cookbook"
   "cupertino_store"
   "firebase-get-to-know-flutter"
   "friendly_chat"
@@ -50,7 +48,7 @@ for PROJECT in "${PROJECT_PATHS[@]}"; do
   (
     cd "$PROJECT";
     set -x;
-    $FLUTTER analyze;
+    $FLUTTER analyze --no-fatal-infos;
     $FLUTTER format --dry-run --set-exit-if-changed .;
     $FLUTTER test
   )
