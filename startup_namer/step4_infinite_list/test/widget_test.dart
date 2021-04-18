@@ -19,7 +19,7 @@ void main() {
     expect(textWidgets.last.data, 'Startup Name Generator');
 
     final wordPairRegExp = RegExp(r'^[A-Z]\w*[A-Z]\w*$');
-    final isWordPair = predicate((s) => wordPairRegExp.hasMatch(s));
+    final isWordPair = predicate<String>((s) => wordPairRegExp.hasMatch(s));
     for (final widget in textWidgets.take(textWidgets.length - 1)) {
       expect(widget.data, isWordPair);
     }

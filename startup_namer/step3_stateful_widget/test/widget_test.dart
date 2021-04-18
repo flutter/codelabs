@@ -19,7 +19,7 @@ void main() {
     expect(textWidgets.last.data, 'Welcome to Flutter');
 
     final wordPairRegExp = RegExp(r'^[A-Z]\w*[A-Z]\w*$');
-    final isWordPair = predicate((s) => wordPairRegExp.hasMatch(s));
+    final isWordPair = predicate<String>((s) => wordPairRegExp.hasMatch(s));
     expect(textWidgets.first.data, isWordPair);
   });
 }
