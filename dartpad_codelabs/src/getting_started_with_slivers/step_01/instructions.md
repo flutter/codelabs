@@ -25,8 +25,29 @@ the workshop. For now, let's take a tour of our starter code.
 ## A Simple Scrolling UI
 
 Here we have a weather forecasting application, called **Horizons**.
-This little app consists of a simple `SingleChildScrollView` with the next
-seven day's forecast.
+
+This `MaterialApp` consists of a `Scaffold` with a  `WeeklyForecastList` as the body. This widget consistes of a `SignleChildScrollView` that contains a `Column` featuring the next 7-day forecast.
+
+```dart
+SingleChildScrollView(
+  child: Column(
+      children: <Widget>[ /* Our 7 day forecast */],
+  ),
+);
+```
+
+We also have our own `ScrollBehavior` set for our application. 
+
+```dart
+MaterialApp(
+  scrollBehavior: ConstantScrollBehavior(),
+  // ...
+)
+```
+
+ScrollBehaviors are inherited by descendent `Scrollable`s. They inform a Scrollable's `ScrollPhysics` and apply decorations like `Scrollbar`s and `GlowingOverscrollIndicator`s. 
+
+By default, ScrollBehaviors are dynamic and change depending on the current platform you may be running this codelab on, so we've added a custom ScrollBehavior to provide a consistent experience for everyone taking this codelab.
 
 
 
