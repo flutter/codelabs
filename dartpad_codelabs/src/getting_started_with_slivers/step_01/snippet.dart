@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'server.dart';
+import '${baseAssetURL}assets/server.dart';
+
+const String baseAssetURL = 'http://localhost:8000/example/codelabs/getting_started_with_slivers/';
 
 void main() {
   runApp(HorizonsApp());
