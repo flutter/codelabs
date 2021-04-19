@@ -80,7 +80,7 @@ packages:
       name: github
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "8.0.1"
+    version: "8.1.0"
   http:
     dependency: transitive
     description:
@@ -155,7 +155,7 @@ packages:
       name: source_span
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.8.0"
+    version: "1.8.1"
   stack_trace:
     dependency: transitive
     description:
@@ -190,7 +190,7 @@ packages:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.19"
+    version: "0.3.0"
   typed_data:
     dependency: transitive
     description:
