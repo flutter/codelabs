@@ -40,20 +40,20 @@ class WeeklyForecastList extends StatelessWidget {
     // Let's make this a more efficient Scrollable before we add more widgets.
     return SingleChildScrollView(
       child: Column(
-        children: forecasts.map((DailyForecast forecast) {
+        children: forecasts.map((DailyForecast dailyForecast) {
           return Card(
             child: ListTile(
               title: Text(
-                forecast.getWeekday(currentDate.weekday),
+                dailyForecast.getWeekday(currentDate.weekday),
                 style: textTheme.headline5,
               ),
-              subtitle: Text(forecast.description),
+              subtitle: Text(dailyForecast.description),
               leading: Text(
-                forecast.getDate(currentDate.day).toString(),
+                dailyForecast.getDate(currentDate.day).toString(),
                 style: textTheme.headline4,
               ),
               trailing: Text(
-                '${forecast.highTemp}° H / ${forecast.lowTemp}° L',
+                '${dailyForecast.highTemp}° H / ${dailyForecast.lowTemp}° L',
                 style: textTheme.subtitle2,
               ),
             ),

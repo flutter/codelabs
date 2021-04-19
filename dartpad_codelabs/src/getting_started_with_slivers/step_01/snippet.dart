@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '${baseAssetURL}assets/server.dart';
-
-const String baseAssetURL = 'http://localhost:8000/example/codelabs/getting_started_with_slivers/';
-
 void main() {
   runApp(HorizonsApp());
 }
@@ -69,6 +65,9 @@ class WeeklyForecastList extends StatelessWidget {
 
 // -----------------------------------------------------------------------------
 // Below this line are helper classes and data.
+
+// TODO(Piinks): Change this to final image destination.
+const String baseAssetURL = 'http://localhost:8000/example/codelabs/getting_started_with_slivers/';
 
 const Map<int, DailyForecast> _kDummyData = {
   0 : DailyForecast(
