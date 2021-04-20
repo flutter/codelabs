@@ -46,5 +46,4 @@ return SliverList(
 ```
 
 You are now working directly with slivers - hooray! In the next step
-we'll explore the SliverAppBar.
-  
+we'll explore the SliverAppBar.  

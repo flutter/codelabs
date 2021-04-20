@@ -25,3 +25,4 @@ steps:
   - name: Completion
     directory: step_08
     has_solution: false
+    
