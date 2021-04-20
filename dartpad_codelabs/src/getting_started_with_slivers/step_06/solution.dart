@@ -26,28 +26,18 @@ class HorizonsApp extends StatelessWidget {
               pinned: true,
               backgroundColor: Colors.teal[800],
               expandedHeight: 200.0,
-              stretch: true,
-              onStretchTrigger: () async {
-                print('Load new data!');
-                // await Server.requestNewData();
-              },
               flexibleSpace: FlexibleSpaceBar(
-                stretchModes: [
-                  StretchMode.zoomBackground,
-                  StretchMode.fadeTitle,
-                  StretchMode.blurBackground,
-                ],
                 title: Text('Horizons'),
                 background: Stack(
                   fit: StackFit.expand,
                   children: <Widget>[
-                    Image.asset('assets/header.jpeg', fit: BoxFit.cover),
+                    Image.asset(baseAssetURL + 'assets/header.jpeg', fit: BoxFit.cover),
                     DecoratedBox(
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           begin: Alignment.bottomCenter,
                           end: Alignment.center,
-                          colors: <Color>[ Colors.teal[800], Colors.transparent ],
+                          colors: <Color>[ Colors.teal[800]!, Colors.transparent ],
                         ),
                       ),
                     ),

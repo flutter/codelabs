@@ -26,7 +26,9 @@ the workshop. For now, let's take a tour of our starter code.
 
 Here we have a weather forecasting application, called **Horizons**.
 
-This `MaterialApp` consists of a `Scaffold` with a  `WeeklyForecastList` as the body. This widget consists of a `SignleChildScrollView` that contains a `Column` featuring the next 7-day forecast.
+This `MaterialApp` consists of a `Scaffold` with a  `WeeklyForecastList`
+as the body. This widget consists of a `SignleChildScrollView` that
+contains a `Column` featuring the next 7-day forecast.
 
 ```dart
 SingleChildScrollView(
@@ -45,18 +47,22 @@ MaterialApp(
 )
 ```
 
-ScrollBehaviors are inherited by descendent `Scrollable`s. They inform a Scrollable's `ScrollPhysics` and apply decorations like `Scrollbar`s and `GlowingOverscrollIndicator`s. 
+`ScrollBehavior`s are inherited by descendent `Scrollable`s. They inform
+a `Scrollable`'s `ScrollPhysics` and apply decorations like `Scrollbar`s
+and `GlowingOverscrollIndicator`s. 
 
-By default, ScrollBehaviors are dynamic and change depending on the current platform you may be running this codelab on, so we've added a custom ScrollBehavior to provide a consistent experience for everyone taking this codelab.
+By default, `ScrollBehavior`s are dynamic and change depending on the
+current platform you may be running this codelab on, so we've added
+a custom `ScrollBehavior` to provide a consistent experience for
+everyone taking this codelab.
 
 ## Where to next?
 
 Throughout this codelab, we'll build on this code.
-We'll convert our `SingleChildScrollView` to be a more efficient, lazy loading `ListView`. This will allow us to add more to our application
-and remain performant.
+We'll convert our `SingleChildScrollView` to be a more efficient,
+lazy loading `ListView`. This will allow us to add more to our
+application and remain performant.
 
-We'll then dive a little deeper and transform our code to use slivers directly, and experiment with dynamic scrolling effects like floating app bars. Move on to the next step to begin!
-
-
-
-
+We'll then dive a little deeper and transform our code to use
+slivers directly, and experiment with dynamic scrolling effects
+like floating app bars. Move on to the next step to begin!

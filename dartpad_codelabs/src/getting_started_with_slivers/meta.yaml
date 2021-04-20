@@ -20,3 +20,9 @@ steps:
   - name: Explore the SliverAppBar Further
     directory: step_06
     has_solution: true
+  - name: Using the FlexibleSpaceBar
+    directory: step_07
+    has_solution: true
+  - name: Completion
+    directory: step_08
+    has_solution: false

@@ -24,26 +24,9 @@ class HorizonsApp extends StatelessWidget {
           slivers: <Widget>[
             SliverAppBar(
               pinned: true,
+              title: Text('Horizons'),
               backgroundColor: Colors.teal[800],
               expandedHeight: 200.0,
-              flexibleSpace: FlexibleSpaceBar(
-                title: Text('Horizons'),
-                background: Stack(
-                  fit: StackFit.expand,
-                  children: <Widget>[
-                    Image.asset('assets/header.jpeg', fit: BoxFit.cover),
-                    DecoratedBox(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.bottomCenter,
-                          end: Alignment.center,
-                          colors: <Color>[ Colors.teal[800]!, Colors.transparent ],
-                        ),
-                      ),
-                    ),
-                  ],
-                )
-              ),
             ),
             WeeklyForecastList(),
           ],
