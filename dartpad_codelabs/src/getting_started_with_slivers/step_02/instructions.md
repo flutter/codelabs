@@ -4,7 +4,7 @@ Our first task is to convert our `SingleChildScrollView` to make our scrolling U
 
 Currently, our UI is pretty simple. The scrolling seven day forecast is likely to fit on most screens. This is ok for now, but as we add to our UI, we'll want to remain performant.
 
-If we were to remove the `SingleChildScrollView`, we could end up with an error from the `Colummn` overflowing. Try if you like to see what this looks like, and resize the window so that the contents of the Column don't fit in the screen.
+If we were to remove the `SingleChildScrollView`, we could end up with an error from the `Column` overflowing. Try if you like to see what this looks like, and resize the window so that the contents of the Column don't fit in the screen.
 
 This is where we can see how the layout protocol of slivers differs from their relative, the box layout protocol. A `Column` is laid out using `BoxConstraints`. It has a height and width, and a position within the window. A Column can not lay out beyond the bounds of the window.
 
@@ -38,5 +38,7 @@ final List<DailyForecast> forecasts = Server.getDailyForecastList();
 // And add this in our ListView itemBuilder
 final DailyForecast dailyForecast = Server.getDailyForecastListByID(index);
 ```
+
+Now that we are building more efficiently, let's add more to our ListView.
 
 
