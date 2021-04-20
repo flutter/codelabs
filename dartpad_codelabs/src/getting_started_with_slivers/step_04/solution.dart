@@ -59,7 +59,7 @@ class WeeklyForecastList extends StatelessWidget {
                       DecoratedBox(
                         decoration: BoxDecoration(
                           gradient: RadialGradient(
-                            colors: <Color>[ Color(0xBB000000), Color(0x00000000) ],
+                            colors: <Color>[ Colors.grey[800]!, Colors.transparent ],
                           ),
                         ),
                       ),
