@@ -8,10 +8,6 @@ export const productDataMap: { [productId: string]: ProductData } = {
     productId: "consumable",
     type: "NON_SUBSCRIPTION",
   },
-  "subscription_silver1": {
-    productId: "subscription_silver1",
-    type: "SUBSCRIPTION",
-  },
   "subscription_silver": {
     productId: "subscription_silver",
     type: "SUBSCRIPTION",

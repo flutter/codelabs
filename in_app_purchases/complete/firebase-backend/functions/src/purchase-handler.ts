@@ -1,6 +1,5 @@
 import {ProductData} from "./products";
 
-// eslint-disable-next-line require-jsdoc
 export abstract class PurchaseHandler {
   async verifyPurchase(
       userId: string,
