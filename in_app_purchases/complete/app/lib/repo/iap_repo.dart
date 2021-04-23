@@ -41,6 +41,7 @@ class IAPRepo extends ChangeNotifier {
     var user = _user;
     if (user == null) {
       purchases = [];
+      hasActiveSubscription = false;
       return;
     }
     var purchaseStream = _firestore
@@ -48,7 +49,6 @@ class IAPRepo extends ChangeNotifier {
         .where('userId', isEqualTo: user.uid)
         .snapshots();
     _purchaseSubscription = purchaseStream.listen((snapshot) {
-      print('got ${snapshot.docs.length} purchases');
       purchases = snapshot.docs.map((DocumentSnapshot document) {
         var data = document.data();
         if (data == null) throw Exception('Queried document has no data');

@@ -15,13 +15,13 @@ const storeKeySubscription = 'subscription_silver1';
 
 class DashPurchases extends ChangeNotifier {
   DashCounter counter;
-  FirebaseNotifier firebaseNotififier;
+  FirebaseNotifier firebaseNotifier;
   IAPRepo iapRepo;
   StoreState storeState = StoreState.notAvailable;
   late StreamSubscription<List<PurchaseDetails>> _subscription;
   List<PurchasableProduct> products = [];
 
-  DashPurchases(this.counter, this.firebaseNotififier, this.iapRepo) {
+  DashPurchases(this.counter, this.firebaseNotifier, this.iapRepo) {
     final purchaseUpdated =
         InAppPurchaseConnection.instance.purchaseUpdatedStream;
     _subscription = purchaseUpdated.listen(
@@ -100,7 +100,7 @@ class DashPurchases extends ChangeNotifier {
   }
 
   Future<bool> _verifyPurchase(PurchaseDetails purchaseDetails) async {
-    var functions = await firebaseNotififier.functions;
+    var functions = await firebaseNotifier.functions;
     final callable = functions.httpsCallable('verifyPurchase');
     final results = await callable({
       'source':
@@ -139,23 +139,27 @@ class DashPurchases extends ChangeNotifier {
   }
 
   void purchasesUpdate() {
-    PurchasableProduct? subscription;
+    var subscriptions = <PurchasableProduct>[];
     if (products.isNotEmpty) {
-      subscription = products.firstWhere(
-          (element) => element.productDetails.id == storeKeySubscription);
+      subscriptions = products
+          .where((element) => element.productDetails.id == storeKeySubscription)
+          .toList();
     }
     if (iapRepo.hasActiveSubscription) {
       counter.applyPaidMultiplier();
-      if (subscription?.status != ProductStatus.purchased) {
-        subscription?.status = ProductStatus.purchased;
-        notifyListeners();
-      }
+      subscriptions
+          .forEach((element) => _updateStatus(element, ProductStatus.purchased));
     } else {
       counter.removePaidMultiplier();
-      if (subscription?.status != ProductStatus.purchasable) {
-        subscription?.status = ProductStatus.purchasable;
-        notifyListeners();
-      }
+      subscriptions
+          .forEach((element) => _updateStatus(element, ProductStatus.purchasable));
+    }
+  }
+
+  void _updateStatus(PurchasableProduct product, ProductStatus status) {
+    if (product.status != ProductStatus.purchased) {
+      product.status = ProductStatus.purchased;
+      notifyListeners();
     }
   }
 }
