@@ -12,6 +12,6 @@ class ProductListWidget extends StatefulWidget {
 Remove the global key usage.
 
 ```dart
-// TODO: remove the usage of productList globalkey.
+// TODO: remove the usage of productList Globalkey.
 final GlobalKey<ProductListWidgetState> productList = GlobalKey<ProductListWidgetState>();
 ```

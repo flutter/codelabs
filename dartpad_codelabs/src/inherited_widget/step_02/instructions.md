@@ -1,6 +1,6 @@
 # Create a InheritedWidget
 
-We have our own data structure to store the states. The next thing we want
+Now, we have our own data structure to store the states. The next thing we want
 to do is to host the data above the widgets that need it, so the entire
 widget subtree has the access to the data.
 

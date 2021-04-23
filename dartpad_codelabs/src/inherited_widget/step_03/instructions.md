@@ -3,7 +3,7 @@
 The `AppStateScope` itself does not have state, it only hosts the data
 that it receives. We still need to create a `StatefulWidget` to store
 the data. The goal of this `StatefulWidget` is to create the `StateData`
-, provide APIs to mutate the data and host the data using the
+, provide APIs to mutate the data, and host the data using the
 `AppStateScope`.
 
 ```dart

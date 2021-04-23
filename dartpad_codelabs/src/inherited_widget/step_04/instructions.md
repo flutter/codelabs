@@ -9,7 +9,7 @@ void main() {
     MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Store',
-      home: MySorePage(),
+      home: MyStorePage(),
     )
   );
 }

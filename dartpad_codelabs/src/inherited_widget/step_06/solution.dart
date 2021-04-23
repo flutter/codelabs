@@ -93,7 +93,7 @@ void main() {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Store',
-        home: MySorePage(),
+        home: MyStorePage(),
       )
     )
   );
@@ -173,13 +173,13 @@ class AppStateWidgetState extends State<AppStateWidget> {
   }
 }
 
-class MySorePage extends StatefulWidget {
-  MySorePage({Key? key}) : super(key: key);
+class MyStorePage extends StatefulWidget {
+  MyStorePage({Key? key}) : super(key: key);
   @override
-  MySorePageState createState() => MySorePageState();
+  MyStorePageState createState() => MyStorePageState();
 }
 
-class MySorePageState extends State<MySorePage> {
+class MyStorePageState extends State<MyStorePage> {
 
   bool _inSearch = false;
   late TextEditingController _controller;
@@ -201,7 +201,7 @@ class MySorePageState extends State<MySorePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
-        slivers: <Widget>[
+        slivers: [
           SliverAppBar(
             leading: Padding(
                 padding: EdgeInsets.all(16.0),
@@ -220,7 +220,7 @@ class MySorePageState extends State<MySorePage> {
                 )
             )
                 : null,
-            actions: <Widget>[
+            actions: [
               if (!_inSearch) IconButton(onPressed: _toggleSearch, icon: Icon(Icons.search, color: Colors.black)),
               ShoppingCartIcon(),
             ],
@@ -245,7 +245,7 @@ class ShoppingCartIcon extends StatelessWidget {
     final bool hasPurchase = purchaseList.length > 0;
     return Stack(
       alignment: Alignment.center,
-      children: <Widget>[
+      children: [
         Padding(
           padding: EdgeInsets.only(right: hasPurchase ? 17.0 : 0.0),
           child: Icon(

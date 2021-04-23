@@ -93,7 +93,7 @@ void main() {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Store',
-        home: MySorePage(),
+        home: MyStorePage(),
       )
     )
   );
@@ -201,8 +201,8 @@ class AppStateWidgetState extends State<AppStateWidget> {
   }
 }
 
-class MySorePage extends StatelessWidget {
-  MySorePage({Key? key}) : super(key: key);
+class MyStorePage extends StatelessWidget {
+  MyStorePage({Key? key}) : super(key: key);
 
   void _toggleSearch(BuildContext context) {
     StateData data = AppStateScope.of(context);
@@ -223,7 +223,7 @@ class MySorePage extends StatelessWidget {
     StateData data = AppStateScope.of(context);
     return Scaffold(
       body: CustomScrollView(
-        slivers: <Widget>[
+        slivers: [
           SliverAppBar(
             leading: Padding(
               padding: EdgeInsets.all(16.0),
@@ -242,7 +242,7 @@ class MySorePage extends StatelessWidget {
                   )
                 )
               : null,
-            actions: <Widget>[
+            actions: [
               if (!data.inSearch) IconButton(onPressed: () => _toggleSearch(context), icon: Icon(Icons.search, color: Colors.black)),
               ShoppingCartIcon(),
             ],
@@ -267,7 +267,7 @@ class ShoppingCartIcon extends StatelessWidget {
     final bool hasPurchase = purchaseList.length > 0;
     return Stack(
       alignment: Alignment.center,
-      children: <Widget>[
+      children: [
         Padding(
           padding: EdgeInsets.only(right: hasPurchase ? 17.0 : 0.0),
           child: Icon(

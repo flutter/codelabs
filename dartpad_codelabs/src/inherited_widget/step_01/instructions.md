@@ -1,9 +1,9 @@
 # Define the State Data Structure
 
-The first thing to do is defining a data structure to store your app state.
-To do that, we need to find what should be considered as the app state.
+The first thing to do is define a data structure to store your app state.
+To do that, we need to determine what should be considered as the app state.
 
-We know there are at least two components requires state, the product list
+We know there are at least two components require state, the product list
 and the cart icon.
 
 In the source code, the product list corresponds to the `ProductListWidget` widget,
