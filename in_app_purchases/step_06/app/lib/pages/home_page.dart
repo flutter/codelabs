@@ -1,3 +1,4 @@
+import 'package:dashclicker/logic/dash_purchases.dart';
 import 'package:flutter/material.dart';
 import 'package:dashclicker/logic/dash_counter.dart';
 import 'package:dashclicker/logic/dash_upgrades.dart';
@@ -30,7 +31,9 @@ class DashClickerWidget extends StatelessWidget {
           InkWell(
             // Don't listen as we don't need a rebuild when the count changes
             onTap: Provider.of<DashCounter>(context, listen: false).increment,
-            child: Image.asset('assets/dash.png'),
+            child: Image.asset(context.read<DashPurchases>().beautifiedDash
+                ? 'assets/dash.png'
+                : 'assets/dash_old.png'),
           )
         ],
       ),

@@ -8,8 +8,9 @@ import 'package:dashclicker/logic/firebase_notifier.dart';
 import 'package:dashclicker/model/purchasable_product.dart';
 import 'package:dashclicker/model/store_state.dart';
 
-const storeKeyConsumable = 'consumable';
-const storeKeySubscription = 'subscription_silver1';
+const storeKeyConsumable = 'dash_consumable_2k';
+const storeKeyUpgrade = 'dash_upgrade_3d';
+const storeKeySubscription = 'dash_subscription_doubler';
 
 class DashPurchases extends ChangeNotifier {
   DashCounter counter;
@@ -26,6 +27,9 @@ class DashPurchases extends ChangeNotifier {
       '\$1.99',
     ),
   ];
+
+  bool get beautifiedDash => _beautifiedDashUpgrade;
+  bool _beautifiedDashUpgrade = false;
 
   DashPurchases(this.counter);
 
