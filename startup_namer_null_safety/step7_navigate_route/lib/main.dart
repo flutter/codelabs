@@ -100,8 +100,8 @@ class _RandomWordsState extends State<RandomWords> {
             },
           );
           final divided = tiles.isNotEmpty
-              ? ListTile.divideTiles(context: context, tiles: tiles).toList()
-              : <Widget>[];
+            ? ListTile.divideTiles(context: context, tiles: tiles).toList()
+            : <Widget>[];
 
           return Scaffold(
             appBar: AppBar(
