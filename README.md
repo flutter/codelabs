@@ -1,5 +1,7 @@
 # Flutter codelabs
 
+[![Build Status](https://github.com/flutter/codelabs/workflows/Flutter%20CI/badge.svg)](https://github.com/flutter/codelabs/actions?workflow=Flutter%20CI)
+
 To analyze, test and run individual apps, execute the following commands from
 the repo root (`$PROJECT` represents the app project path,
 such as `startup_namer/step1_base`):
