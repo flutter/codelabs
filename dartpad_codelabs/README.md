@@ -11,6 +11,8 @@ Alternatively, these codelabs can be loaded from GitHub directly:
 
 - [Dart example][flutter-github]
 - [Flutter example][dart-github]
+- [Getting started with Slivers][slivers]
+- [Inherted Widget][inherited-widget]
 
 ## Deploying 
 
@@ -28,5 +30,7 @@ firebase deploy
 
 [flutter-webserver]: https://dartpad.dev/codelabs.html?webserver=https://dartpad-workshops-io2021.web.app/example_flutter
 [dart-webserver]: https://dartpad.dev/codelabs.html?webserver=https://dartpad-workshops-io2021.web.app/example_dart
+[slivers]: https://dartpad.dev/codelabs.html?webserver=https://dartpad-workshops-io2021.web.app/getting_started_with_slivers
+[inherted-widget]: https://dartpad.dev/codelabs.html?webserver=https://dartpad-workshops-io2021.web.app/inherited_widget
 [flutter-github]: https://dartpad.dev/codelabs.html?gh_owner=flutter&gh_repo=codelabs&gh_ref=main&gh_path=dartpad_codelabs/src/example_dart
 [dart-github]: https://dartpad.dev/codelabs.html?gh_owner=flutter&gh_repo=codelabs&gh_ref=main&gh_path=dartpad_codelabs/src/example_flutter
