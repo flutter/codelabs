@@ -21,8 +21,6 @@ const functions = Functions.region(CLOUD_REGION);
 export class GooglePlayPurchaseHandler extends PurchaseHandler {
   private androidPublisher: AndroidPublisherApi.Androidpublisher;
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
   constructor(private iapRepository: IapRepository) {
     super();
     this.androidPublisher = new AndroidPublisherApi.Androidpublisher({
