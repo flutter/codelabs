@@ -32,7 +32,7 @@ class HorizonsApp extends StatelessWidget {
                   fit: StackFit.expand,
                   children: <Widget>[
                     Image.network(
-                      baseAssetURL + 'assets/header.jpeg',
+                      '${baseAssetURL}assets/header.jpeg',
                       fit: BoxFit.cover,
                     ),
                     DecoratedBox(
