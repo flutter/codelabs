@@ -15,7 +15,7 @@ class HorizonsApp extends StatelessWidget {
       // Scrolling in Flutter behaves differently depending on the ScrollBehavior.
       // By default, ScrollBehavior changes depending on the current platform.
       // For the purposes of this scrolling codelab, we're using a custom
-      // ScrollBehavior so that the experience is the same for everyone
+      // ScrollBehavior so that the experience is the same for everyone -
       // regardless of the platform they are using.
       scrollBehavior: const ConstantScrollBehavior(),
       title: 'Horizons Weather',
@@ -28,7 +28,7 @@ class HorizonsApp extends StatelessWidget {
               onStretchTrigger: () async {
                 print('Load new data!');
                 // await Server.requestNewData();
-              }
+              },
               backgroundColor: Colors.teal[800],
               expandedHeight: 200.0,
               flexibleSpace: FlexibleSpaceBar(
@@ -41,7 +41,10 @@ class HorizonsApp extends StatelessWidget {
                 background: Stack(
                   fit: StackFit.expand,
                   children: <Widget>[
-                    Image.asset(baseAssetURL + 'assets/header.jpeg', fit: BoxFit.cover),
+                    Image.network(
+                      '${baseAssetURL}assets/header.jpeg',
+                      fit: BoxFit.cover,
+                    ),
                     DecoratedBox(
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
@@ -72,7 +75,7 @@ class WeeklyForecastList extends StatelessWidget {
     return SliverList(
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {
-          final DailyForecast dailyForecast = Server.getDailyForecastListByID(index);
+          final DailyForecast dailyForecast = Server.getDailyForecastByID(index);
           return Card(
             child: Row(
               children: <Widget>[
@@ -120,7 +123,7 @@ class WeeklyForecastList extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.all(10.0),
                   child: Text(
-                    '${dailyForecast.highTemp}° H / ${dailyForecast.lowTemp}° L',
+                    '${dailyForecast.highTemp} H / ${dailyForecast.lowTemp} L',
                     style: textTheme.subtitle1,
                   ),
                 ),
@@ -194,7 +197,7 @@ const Map<int, DailyForecast> _kDummyData = {
 class Server {
   static List<DailyForecast> getDailyForecastList() => _kDummyData.values.toList();
 
-  static DailyForecast getDailyForecastListByID(int id) {
+  static DailyForecast getDailyForecastByID(int id) {
     assert(id >= 0 && id <= 6);
     return _kDummyData[id]!;
   }

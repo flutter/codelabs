@@ -19,7 +19,7 @@ If you've used a `ListView` or `GridView` before, congratulations!
 You have already used a sliver somewhere in your Flutter application.
 Most often, slivers are wrapped in convenience classes such as these.
 This is because slivers use a different layout protocol from most
-other widgets in the Flutter framework. We'll dicsuss this later in
+other widgets in the Flutter framework. We'll discuss this later in
 the workshop. For now, let's take a tour of our starter code.
 
 ## A Simple Scrolling UI
@@ -27,7 +27,7 @@ the workshop. For now, let's take a tour of our starter code.
 Here we have a weather forecasting application, called **Horizons**.
 
 This `MaterialApp` consists of a `Scaffold` with a  `WeeklyForecastList`
-as the body. This widget consists of a `SignleChildScrollView` that
+as the body. This widget consists of a `SingleChildScrollView` that
 contains a `Column` featuring the next 7-day forecast.
 
 ```dart

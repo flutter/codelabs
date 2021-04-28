@@ -6,7 +6,7 @@ UI.
 We can do this by using the `FlexibleSpaceBar`, this widget is designed
 to stretch and collapse its contents. Let's try it out.
 
-Add a FlexibleSpaceBar to your `SliverAppBar`. You can move your title
+Add a `FlexibleSpaceBar` to your `SliverAppBar`. You can move your title
 here, and we can add an image as the background.
 
 ```dart
@@ -16,7 +16,7 @@ SliverAppBar(
   expandedHeight: 200.0,
   flexibleSpace: FlexibleSpaceBar(
     title: Text('Horizons'),
-    background: Image.asset(
+    background: Image.network(
       baseAssetURL + 'assets/header.jpeg',
       fit: BoxFit.cover,
     ),
@@ -41,7 +41,7 @@ FlexibleSpaceBar(
   background: Stack(
     fit: StackFit.expand,
     children: <Widget>[
-      Image.asset(
+      Image.network(
         baseAssetURL + 'assets/header.jpeg',
         fit: BoxFit.cover,
       ),

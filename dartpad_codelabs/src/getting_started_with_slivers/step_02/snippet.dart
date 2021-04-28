@@ -15,7 +15,7 @@ class HorizonsApp extends StatelessWidget {
       // Scrolling in Flutter behaves differently depending on the ScrollBehavior.
       // By default, ScrollBehavior changes depending on the current platform.
       // For the purposes of this scrolling codelab, we're using a custom
-      // ScrollBehavior so that the experience is the same for everyone
+      // ScrollBehavior so that the experience is the same for everyone -
       // regardless of the platform they are using.
       scrollBehavior: const ConstantScrollBehavior(),
       title: 'Horizons Weather',
@@ -43,17 +43,17 @@ class WeeklyForecastList extends StatelessWidget {
         children: forecasts.map((DailyForecast dailyForecast) {
           return Card(
             child: ListTile(
+              leading: Text(
+                dailyForecast.getDate(currentDate.day).toString(),
+                style: textTheme.headline4,
+              ),
               title: Text(
                 dailyForecast.getWeekday(currentDate.weekday),
                 style: textTheme.headline5,
               ),
               subtitle: Text(dailyForecast.description),
-              leading: Text(
-                dailyForecast.getDate(currentDate.day).toString(),
-                style: textTheme.headline4,
-              ),
               trailing: Text(
-                '${dailyForecast.highTemp}° H / ${dailyForecast.lowTemp}° L',
+                '${dailyForecast.highTemp} H / ${dailyForecast.lowTemp} L',
                 style: textTheme.subtitle2,
               ),
             ),
@@ -124,7 +124,7 @@ const Map<int, DailyForecast> _kDummyData = {
 class Server {
   static List<DailyForecast> getDailyForecastList() => _kDummyData.values.toList();
 
-  static DailyForecast getDailyForecastListByID(int id) {
+  static DailyForecast getDailyForecastByID(int id) {
     assert(id >= 0 && id <= 6);
     return _kDummyData[id]!;
   }

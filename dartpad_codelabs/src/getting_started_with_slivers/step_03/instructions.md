@@ -15,7 +15,7 @@ Rows, and make a few adjustments.
 Let's remove the `ListTile`, and instead, create a `Row`. The contents
 of `leading` and `trailing` can become children of our Row. Since the
 `title` and `subtitle` were stacked vertically, let's wrap those in a
-`Column` and place it in bewteen.
+`Column` and place it in between.
 
 ```dart
 Row( 
@@ -54,12 +54,10 @@ Great! Let's see about adding our images now, maybe they'll add more
 context to our forecasts. Using a `Stack`, we can use the image as a
 background for the date.
 
-// TODO(Piinks): Consider breaking this next part out into a separate step
-
-Add a `SizedBox` around the `Stack`. The children of a Stack are stacked
-with the first listed on the bottom, so place the Image first, followed
-by the Text. We'll set a fit for our Stack and Image so that it will
-fill the whole space of the SizedBox.
+Add a `SizedBox` around the `Stack`. The children of a `Stack` are stacked
+with the first listed on the bottom, so place the `Image` first, followed
+by the `Text`. We'll set a fit for our `Stack` and `Image` so that it will
+fill the whole space of the `SizedBox`.
 
 ```dart
 SizedBox(
@@ -81,9 +79,9 @@ SizedBox(
 ),
 ```
 
-To add some contrast between the Text and the Image, let's place a
+To add some contrast between the `Text` and the `Image`, let's place a
 gradient in between for a nice visual effect. We can do this with a
-DecoratedBox and a RadialGradient. Center the Text as well so it lines
+`DecoratedBox` and a `RadialGradient`. `Center` the `Text` as well, so it lines
 up with the gradient.
 
 ```dart

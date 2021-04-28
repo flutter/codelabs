@@ -5,7 +5,7 @@ can add a `SliverAppBar` for a more dynamic header.
 
 In our `HorizonsApp`, add a `SliverAppBar` at the top of our
 `CustomScrollView` and remove the `AppBar` in the `Scaffold`. This
-widget shares similar properties to our existing AppBar, so let's
+widget shares similar properties to our existing `AppBar`, so let's
 migrate those too.
 
 ```dart
@@ -37,7 +37,7 @@ SliverAppBar(
 ```
 
 A floating app bar will scroll out of view, but then scroll back into
-view when the users scrolls back in that direction, reagrdless of
+view when the users scrolls back in that direction, regardless of
 the current position in the scroll view.
 
 ```dart
@@ -49,7 +49,7 @@ SliverAppBar(
 ```
 
 Floating app bars also support a snap animation. This will snap the
-app bar in and out of view as the users scrolls, eather than floating
+app bar in and out of view as the users scrolls, rather than floating
 in with the user input.
 
 ```dart
@@ -62,10 +62,9 @@ SliverAppBar(
 ```
 
 Lastly, let's see how the `SliverAppBar` behaves when we use an
-`expandedHeight`. This adds to the size of the app bar. This
-expanded area will collapse as the user scrolls. This can be
-combined with the floating, pinned and snap features we
-discussed above.
+`expandedHeight`. This adds to the size of the app bar and will
+collapse as the user scrolls. This can be combined with the
+floating, pinned and snap features we discussed above.
 
 ```dart
 SliverAppBar(
@@ -77,4 +76,4 @@ SliverAppBar(
 ```
 
 We can fill this extra space using a `FlexibleSpaceBar`, let's explore
-that in our last step.
+that in our next step.
