@@ -11,12 +11,26 @@ Alternatively, these codelabs can be loaded from GitHub directly:
 
 - [Dart example][flutter-github]
 - [Flutter example][dart-github]
+- [Getting started with Slivers][slivers]
+- [Inherted Widget][inherited-widget]
 
 ## Deploying 
 
-Run `firebase deploy` to deploy a new version.
+Configure the Firebase project you want to deploy to:
 
-[flutter-webserver]: https://20210412t145652-dot-dart-pad.appspot.com/codelabs.html?webserver=https://dartpad-codelabs-experimental1.web.app/example_flutter
-[dart-webserver]: https://20210412t145652-dot-dart-pad.appspot.com/codelabs.html?webserver=https://dartpad-codelabs-experimental1.web.app/example_dart
-[flutter-github]: https://20210412t145652-dot-dart-pad.appspot.com/codelabs.html?gh_owner=flutter&gh_repo=codelabs&gh_ref=main&gh_path=dartpad_codelabs/src/example_dart
-[dart-github]: https://20210412t145652-dot-dart-pad.appspot.com/codelabs.html?gh_owner=flutter&gh_repo=codelabs&gh_ref=main&gh_path=dartpad_codelabs/src/example_flutter
+```
+firebase use dartpad-workshops-io2021
+```
+
+Run the deploy command to upload the files:
+
+```
+firebase deploy
+```
+
+[flutter-webserver]: https://dartpad.dev/codelabs.html?webserver=https://dartpad-workshops-io2021.web.app/example_flutter
+[dart-webserver]: https://dartpad.dev/codelabs.html?webserver=https://dartpad-workshops-io2021.web.app/example_dart
+[slivers]: https://dartpad.dev/codelabs.html?webserver=https://dartpad-workshops-io2021.web.app/getting_started_with_slivers
+[inherted-widget]: https://dartpad.dev/codelabs.html?webserver=https://dartpad-workshops-io2021.web.app/inherited_widget
+[flutter-github]: https://dartpad.dev/codelabs.html?gh_owner=flutter&gh_repo=codelabs&gh_ref=main&gh_path=dartpad_codelabs/src/example_dart
+[dart-github]: https://dartpad.dev/codelabs.html?gh_owner=flutter&gh_repo=codelabs&gh_ref=main&gh_path=dartpad_codelabs/src/example_flutter

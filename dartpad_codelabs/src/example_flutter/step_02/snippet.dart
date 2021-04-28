@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+static const hostingUrl = 'https://dartpad-workshops-io2021.web.app';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -13,7 +15,7 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           title: Text(title),
         ),
-        body: Image.network('https://dartpad-codelabs-experimental1.web.app/example_flutter/images/dash.png'),
+        body: Image.network('$hostingUrl/example_flutter/images/dash.png'),
       ),
     );
   }
