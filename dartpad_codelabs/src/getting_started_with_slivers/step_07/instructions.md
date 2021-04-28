@@ -2,7 +2,7 @@
 
 In order to stretch our `SliverAppBar`, we must be using
 `BouncingScrollPhysics`. This is part of the `ConstantScrollBehavior`
-we had set up in the very beginning of this codelab.
+we had set up in the very beginning of this workshop.
 `BouncingScrollPhysics` allows us to overscroll, revealing empty
 space at the end of a scrollable area.
 
@@ -52,4 +52,4 @@ FlexibleSpaceBar(
   // ...
 ```
 
-Let's review everything that we have done in this codelab.
+Let's review everything that we have done in this workshop.

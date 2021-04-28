@@ -14,7 +14,7 @@ class HorizonsApp extends StatelessWidget {
       theme: ThemeData.dark(),
       // Scrolling in Flutter behaves differently depending on the ScrollBehavior.
       // By default, ScrollBehavior changes depending on the current platform.
-      // For the purposes of this scrolling codelab, we're using a custom
+      // For the purposes of this scrolling workshop, we're using a custom
       // ScrollBehavior so that the experience is the same for everyone -
       // regardless of the platform they are using.
       scrollBehavior: const ConstantScrollBehavior(),
