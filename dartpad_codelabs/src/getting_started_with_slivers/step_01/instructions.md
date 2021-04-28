@@ -1,11 +1,11 @@
 # Introduction
 
-Welcome to the introductory sliver codelab for Flutter!
+Welcome to the introductory sliver workshop for Flutter!
 In this workshop, you will learn how to efficiently build
 scrolling widgets and use slivers directly to create a rich
 scrolling experience for users.
 
-This codelab is best for folks already familiar with building simple
+This workshop is best for folks already familiar with building simple
 Flutter applications. If this is your first time using Flutter,
 check out [Writing Your First Flutter App](https://flutter.dev/docs/get-started/codelab)
 to get started using Flutter.
@@ -52,13 +52,13 @@ a `Scrollable`'s `ScrollPhysics` and apply decorations like `Scrollbar`s
 and `GlowingOverscrollIndicator`s. 
 
 By default, `ScrollBehavior`s are dynamic and change depending on the
-current platform you may be running this codelab on, so we've added
+current platform you may be running this workshop on, so we've added
 a custom `ScrollBehavior` to provide a consistent experience for
-everyone taking this codelab.
+everyone taking this workshop.
 
 ## Where to next?
 
-Throughout this codelab, we'll build on this code.
+Throughout this workshop, we'll build on this code.
 We'll convert our `SingleChildScrollView` to be a more efficient,
 lazy loading `ListView`. This will allow us to add more to our
 application and remain performant.

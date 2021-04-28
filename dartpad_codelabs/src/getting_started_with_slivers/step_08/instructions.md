@@ -1,8 +1,8 @@
 # Completion
 
-Congratulations! You have reached the end of the codelab.
+Congratulations! You have reached the end of the workshop.
 
-In this codelab we learned to build scroll views efficiently,
+In this workshop we learned to build scroll views efficiently,
 using lazy loading for our scrollable.
 
 We converted our scroll view to work directly with slivers,
