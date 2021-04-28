@@ -74,6 +74,7 @@ class DashPurchases extends ChangeNotifier {
             .buyConsumable(purchaseParam: purchaseParam);
         break;
       case storeKeySubscription:
+      case storeKeyUpgrade:
         await InAppPurchaseConnection.instance
             .buyNonConsumable(purchaseParam: purchaseParam);
         break;
@@ -103,6 +104,9 @@ class DashPurchases extends ChangeNotifier {
             break;
           case storeKeyConsumable:
             counter.addBoughtDashes(1000);
+            break;
+          case storeKeyUpgrade:
+            _beautifiedDashUpgrade = true;
             break;
         }
       }
