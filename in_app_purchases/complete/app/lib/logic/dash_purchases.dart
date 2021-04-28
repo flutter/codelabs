@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:dashclicker/logic/dash_counter.dart';
@@ -10,16 +9,20 @@ import 'package:dashclicker/model/store_state.dart';
 import 'package:dashclicker/repo/iap_repo.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 
-const storeKeyConsumable = 'consumable';
-const storeKeySubscription = 'subscription_silver1';
+const storeKeyConsumable = 'dash_consumable_2k';
+const storeKeyUpgrade = 'dash_upgrade_3d';
+const storeKeySubscription = 'dash_subscription_doubler';
 
 class DashPurchases extends ChangeNotifier {
   DashCounter counter;
   FirebaseNotifier firebaseNotifier;
   IAPRepo iapRepo;
-  StoreState storeState = StoreState.notAvailable;
+  StoreState storeState = StoreState.loading;
   late StreamSubscription<List<PurchaseDetails>> _subscription;
   List<PurchasableProduct> products = [];
+
+  bool get beautifiedDash => _beautifiedDashUpgrade;
+  bool _beautifiedDashUpgrade = false;
 
   DashPurchases(this.counter, this.firebaseNotifier, this.iapRepo) {
     final purchaseUpdated =
@@ -42,7 +45,7 @@ class DashPurchases extends ChangeNotifier {
     }
 
     try {
-      await Firebase.initializeApp();
+      await firebaseNotifier.functions;
     } catch (e) {
       storeState = StoreState.notAvailable;
       notifyListeners();
@@ -69,20 +72,20 @@ class DashPurchases extends ChangeNotifier {
   }
 
   Future<void> buy(PurchasableProduct product) async {
-    var productDetails = product.productDetails;
-    final purchaseParam = PurchaseParam(productDetails: productDetails);
-    switch (productDetails.id) {
+    final purchaseParam = PurchaseParam(productDetails: product.productDetails);
+    switch (product.id) {
       case storeKeyConsumable:
         await InAppPurchaseConnection.instance
             .buyConsumable(purchaseParam: purchaseParam);
         break;
       case storeKeySubscription:
+      case storeKeyUpgrade:
         await InAppPurchaseConnection.instance
             .buyNonConsumable(purchaseParam: purchaseParam);
         break;
       default:
         throw ArgumentError.value(
-            productDetails, '${productDetails.id} is not a known product');
+            product.productDetails, '${product.id} is not a known product');
     }
   }
 
@@ -107,6 +110,9 @@ class DashPurchases extends ChangeNotifier {
             break;
           case storeKeyConsumable:
             counter.addBoughtDashes(1000);
+            break;
+          case storeKeyUpgrade:
+            _beautifiedDashUpgrade = true;
             break;
         }
       }

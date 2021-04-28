@@ -41,7 +41,6 @@ class IAPRepo extends ChangeNotifier {
     var user = _user;
     if (user == null) {
       purchases = [];
-      hasActiveSubscription = false;
       return;
     }
     var purchaseStream = _firestore
