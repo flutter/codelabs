@@ -68,6 +68,24 @@ class DashPurchases extends ChangeNotifier {
     super.dispose();
   }
 
+  Future<void> buy(PurchasableProduct product) async {
+    var productDetails = product.productDetails;
+    final purchaseParam = PurchaseParam(productDetails: productDetails);
+    switch (productDetails.id) {
+      case storeKeyConsumable:
+        await InAppPurchaseConnection.instance
+            .buyConsumable(purchaseParam: purchaseParam);
+        break;
+      case storeKeySubscription:
+        await InAppPurchaseConnection.instance
+            .buyNonConsumable(purchaseParam: purchaseParam);
+        break;
+      default:
+        throw ArgumentError.value(
+            productDetails, '${productDetails.id} is not a known product');
+    }
+  }
+
   Future<void> _onPurchaseUpdate(
       List<PurchaseDetails> purchaseDetailsList) async {
     for (var purchaseDetails in purchaseDetailsList) {
@@ -120,24 +138,6 @@ class DashPurchases extends ChangeNotifier {
     print(error);
   }
 
-  Future<void> buy(PurchasableProduct product) async {
-    var productDetails = product.productDetails;
-    final purchaseParam = PurchaseParam(productDetails: productDetails);
-    switch (productDetails.id) {
-      case storeKeyConsumable:
-        await InAppPurchaseConnection.instance
-            .buyConsumable(purchaseParam: purchaseParam);
-        break;
-      case storeKeySubscription:
-        await InAppPurchaseConnection.instance
-            .buyNonConsumable(purchaseParam: purchaseParam);
-        break;
-      default:
-        throw ArgumentError.value(
-            productDetails, '${productDetails.id} is not a known product');
-    }
-  }
-
   void purchasesUpdate() {
     var subscriptions = <PurchasableProduct>[];
     if (products.isNotEmpty) {
@@ -147,12 +147,12 @@ class DashPurchases extends ChangeNotifier {
     }
     if (iapRepo.hasActiveSubscription) {
       counter.applyPaidMultiplier();
-      subscriptions
-          .forEach((element) => _updateStatus(element, ProductStatus.purchased));
+      subscriptions.forEach(
+          (element) => _updateStatus(element, ProductStatus.purchased));
     } else {
       counter.removePaidMultiplier();
-      subscriptions
-          .forEach((element) => _updateStatus(element, ProductStatus.purchasable));
+      subscriptions.forEach(
+          (element) => _updateStatus(element, ProductStatus.purchasable));
     }
   }
 

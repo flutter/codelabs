@@ -12,6 +12,7 @@ const storeKeyConsumable = 'dash_consumable_2k';
 const storeKeyUpgrade = 'dash_upgrade_3d';
 const storeKeySubscription = 'dash_subscription_doubler';
 
+
 class DashPurchases extends ChangeNotifier {
   DashCounter counter;
   StoreState storeState = StoreState.available;
