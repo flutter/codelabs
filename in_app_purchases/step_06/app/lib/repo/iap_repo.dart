@@ -14,6 +14,7 @@ class IAPRepo extends ChangeNotifier {
   bool get isLoggedIn => _user != null;
   User? _user;
   bool hasActiveSubscription = false;
+  bool hasUpgrade = false;
   List<PastPurchase> purchases = [];
 
   late StreamSubscription<User?> _userSubscription;
@@ -41,6 +42,8 @@ class IAPRepo extends ChangeNotifier {
     var user = _user;
     if (user == null) {
       purchases = [];
+      hasActiveSubscription = false;
+      hasUpgrade = false;
       return;
     }
     var purchaseStream = _firestore
@@ -48,7 +51,6 @@ class IAPRepo extends ChangeNotifier {
         .where('userId', isEqualTo: user.uid)
         .snapshots();
     _purchaseSubscription = purchaseStream.listen((snapshot) {
-      print('got ${snapshot.docs.length} purchases');
       purchases = snapshot.docs.map((DocumentSnapshot document) {
         var data = document.data();
         if (data == null) throw Exception('Queried document has no data');
@@ -58,6 +60,11 @@ class IAPRepo extends ChangeNotifier {
       hasActiveSubscription = purchases.any((element) =>
           element.productId == storeKeySubscription &&
           element.status != Status.expired);
+
+      hasUpgrade = purchases.any(
+        (element) => element.productId == storeKeyUpgrade,
+      );
+
       notifyListeners();
     });
   }
