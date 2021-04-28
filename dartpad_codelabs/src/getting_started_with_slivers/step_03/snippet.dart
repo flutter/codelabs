@@ -66,7 +66,7 @@ class WeeklyForecastList extends StatelessWidget {
 // -----------------------------------------------------------------------------
 // Below this line are helper classes and data.
 
-const String baseAssetURL = 'http://localhost:8000/example/codelabs/slivers/';
+const String baseAssetURL = 'https://dartpad-workshops-io2021.web.app/getting_started_with_slivers/';
 
 const Map<int, DailyForecast> _kDummyData = {
   0 : DailyForecast(

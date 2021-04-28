@@ -5,7 +5,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 
-const String baseAssetURL = 'http://localhost:8000/example/codelabs/inherited_widget/assets';
+const String baseAssetURL = 'https://dartpad-workshops-io2021.web.app/inherited_widget/assets';
 
 const Map<String, Product> kDummyData = {
   '0' : Product(
