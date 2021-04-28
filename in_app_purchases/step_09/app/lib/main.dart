@@ -3,6 +3,7 @@ import 'package:dashclicker/logic/dash_purchases.dart';
 import 'package:dashclicker/logic/firebase_notifier.dart';
 import 'package:dashclicker/repo/iap_repo.dart';
 import 'package:provider/provider.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
 
 import 'logic/dash_upgrades.dart';
 import 'logic/dash_counter.dart';
@@ -10,6 +11,7 @@ import 'pages/home_page.dart';
 import 'pages/purchase_page.dart';
 
 void main() {
+  InAppPurchaseConnection.enablePendingPurchases();
   runApp(MyApp());
 }
 
@@ -64,6 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
           create: (context) => DashPurchases(
             context.read<DashCounter>(),
           ),
+          lazy: false,
         ),
       ],
       child: Scaffold(
