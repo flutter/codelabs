@@ -25,6 +25,7 @@ declare -a CODELABS=(
   "friendly_chat"
   "github-graphql-client"
   "google-maps-in-flutter"
+  "in_app_purchases"
   "startup_namer"
   "star_counter"
   "startup_namer_null_safety"
