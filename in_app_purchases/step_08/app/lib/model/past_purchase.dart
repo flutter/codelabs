@@ -1,5 +1,5 @@
+import 'package:dashclicker/constants.dart';
 import 'package:flutter/widgets.dart';
-import 'package:dashclicker/logic/dash_purchases.dart';
 
 enum PurchaseType {
   subscriptionPurchase,

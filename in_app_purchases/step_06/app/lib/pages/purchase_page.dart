@@ -94,11 +94,15 @@ class _PurchaseWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var title = product.title;
+    if(product.status == ProductStatus.purchased){
+      title += ' (purchased)';
+    }
     return InkWell(
         onTap: onPressed,
         child: ListTile(
           title: Text(
-            product.title,
+            title,
           ),
           subtitle: Text(product.description),
           trailing: Text(_trailing()),

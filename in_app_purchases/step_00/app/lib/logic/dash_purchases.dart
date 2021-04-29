@@ -1,16 +1,12 @@
 import 'dart:async';
 
-import 'package:firebase_core/firebase_core.dart';
+import 'package:dashclicker/constants.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:dashclicker/logic/dash_counter.dart';
 import 'package:dashclicker/logic/firebase_notifier.dart';
 import 'package:dashclicker/model/purchasable_product.dart';
 import 'package:dashclicker/model/store_state.dart';
-
-const storeKeyConsumable = 'dash_consumable_2k';
-const storeKeyUpgrade = 'dash_upgrade_3d';
-const storeKeySubscription = 'dash_subscription_doubler';
 
 
 class DashPurchases extends ChangeNotifier {
