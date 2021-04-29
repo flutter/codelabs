@@ -50,7 +50,11 @@ class DashPurchases extends ChangeNotifier {
       return;
     }
 
-    const ids = <String>{storeKeyConsumable, storeKeySubscription};
+    const ids = <String>{
+      storeKeyConsumable,
+      storeKeySubscription,
+      storeKeyUpgrade,
+    };
     final response =
         await InAppPurchaseConnection.instance.queryProductDetails(ids);
     response.notFoundIDs.forEach((element) {
@@ -107,7 +111,7 @@ class DashPurchases extends ChangeNotifier {
             counter.applyPaidMultiplier();
             break;
           case storeKeyConsumable:
-            counter.addBoughtDashes(1000);
+            counter.addBoughtDashes(2000);
             break;
           case storeKeyUpgrade:
             _beautifiedDashUpgrade = true;
