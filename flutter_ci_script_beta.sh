@@ -29,6 +29,7 @@ declare -a CODELABS=(
   "star_counter"
   "startup_namer_null_safety"
   "testing_codelab"
+  "in_app_purchases"
   )
 
 # Plugin codelab is failing on ubuntu-latest in CI.
