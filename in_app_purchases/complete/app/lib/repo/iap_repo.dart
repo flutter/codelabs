@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dashclicker/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:dashclicker/logic/dash_purchases.dart';
 import 'package:dashclicker/logic/firebase_notifier.dart';
 import 'package:dashclicker/model/past_purchase.dart';
 
@@ -20,8 +20,8 @@ class IAPRepo extends ChangeNotifier {
   late StreamSubscription<User?> _userSubscription;
   StreamSubscription<QuerySnapshot>? _purchaseSubscription;
 
-  IAPRepo(FirebaseNotifier firebaseNotififier) {
-    firebaseNotififier.firestore.then((value) {
+  IAPRepo(FirebaseNotifier firebaseNotifier) {
+    firebaseNotifier.firestore.then((value) {
       _auth = FirebaseAuth.instance;
       _firestore = value;
       updatePurchases();

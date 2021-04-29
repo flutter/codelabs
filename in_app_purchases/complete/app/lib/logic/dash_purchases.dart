@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dashclicker/constants.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:dashclicker/logic/dash_counter.dart';
@@ -9,9 +10,6 @@ import 'package:dashclicker/model/store_state.dart';
 import 'package:dashclicker/repo/iap_repo.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 
-const storeKeyConsumable = 'dash_consumable_2k';
-const storeKeyUpgrade = 'dash_upgrade_3d';
-const storeKeySubscription = 'dash_subscription_doubler';
 
 class DashPurchases extends ChangeNotifier {
   DashCounter counter;
