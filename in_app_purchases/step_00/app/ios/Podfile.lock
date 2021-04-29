@@ -79,8 +79,6 @@ PODS:
     - AppAuth/Core (~> 1.4)
     - GTMSessionFetcher/Core (~> 1.5)
   - GTMSessionFetcher/Core (1.5.0)
-  - in_app_purchase (0.0.1):
-    - Flutter
   - nanopb (2.30908.0):
     - nanopb/decode (= 2.30908.0)
     - nanopb/encode (= 2.30908.0)
@@ -96,7 +94,6 @@ DEPENDENCIES:
   - FirebaseFirestore (from `https://github.com/invertase/firestore-ios-sdk-frameworks.git`, tag `7.3.0`)
   - Flutter (from `Flutter`)
   - google_sign_in (from `.symlinks/plugins/google_sign_in/ios`)
-  - in_app_purchase (from `.symlinks/plugins/in_app_purchase/ios`)
 
 SPEC REPOS:
   trunk:
@@ -130,8 +127,6 @@ EXTERNAL SOURCES:
     :path: Flutter
   google_sign_in:
     :path: ".symlinks/plugins/google_sign_in/ios"
-  in_app_purchase:
-    :path: ".symlinks/plugins/in_app_purchase/ios"
 
 CHECKOUT OPTIONS:
   FirebaseFirestore:
@@ -157,7 +152,6 @@ SPEC CHECKSUMS:
   GoogleUtilities: e1d9ed4e544fc32a93e00e721400cbc3f377200d
   GTMAppAuth: 5b53231ef6920f149ab84b2969cb0ab572da3077
   GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
-  in_app_purchase: 3e2155afa9d03d4fa32d9e62d567885080ce97d6
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
 
