@@ -10,7 +10,6 @@ import 'package:dashclicker/model/store_state.dart';
 import 'package:dashclicker/repo/iap_repo.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 
-
 class DashPurchases extends ChangeNotifier {
   DashCounter counter;
   FirebaseNotifier firebaseNotifier;
