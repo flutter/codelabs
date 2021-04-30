@@ -1,13 +1,13 @@
 import 'dart:async';
 
 import 'package:dashclicker/constants.dart';
+import 'package:dashclicker/main.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:dashclicker/logic/dash_counter.dart';
 import 'package:dashclicker/model/purchasable_product.dart';
 import 'package:dashclicker/model/store_state.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
-
 
 class DashPurchases extends ChangeNotifier {
   DashCounter counter;
@@ -17,10 +17,10 @@ class DashPurchases extends ChangeNotifier {
 
   bool get beautifiedDash => _beautifiedDashUpgrade;
   bool _beautifiedDashUpgrade = false;
+  final iapConnection = IAPConnection.instance;
 
   DashPurchases(this.counter) {
-    final purchaseUpdated =
-        InAppPurchaseConnection.instance.purchaseUpdatedStream;
+    final purchaseUpdated = iapConnection.purchaseUpdatedStream;
     _subscription = purchaseUpdated.listen(
       _onPurchaseUpdate,
       onDone: _updateStreamOnDone,
@@ -30,7 +30,7 @@ class DashPurchases extends ChangeNotifier {
   }
 
   Future<void> loadPurchases() async {
-    final available = await InAppPurchaseConnection.instance.isAvailable();
+    final available = await iapConnection.isAvailable();
     if (!available) {
       storeState = StoreState.notAvailable;
       notifyListeners();
@@ -41,8 +41,7 @@ class DashPurchases extends ChangeNotifier {
       storeKeySubscription,
       storeKeyUpgrade,
     };
-    final response =
-        await InAppPurchaseConnection.instance.queryProductDetails(ids);
+    final response = await iapConnection.queryProductDetails(ids);
     response.notFoundIDs.forEach((element) {
       print('Purchase $element not found');
     });
@@ -62,13 +61,11 @@ class DashPurchases extends ChangeNotifier {
     final purchaseParam = PurchaseParam(productDetails: product.productDetails);
     switch (product.id) {
       case storeKeyConsumable:
-        await InAppPurchaseConnection.instance
-            .buyConsumable(purchaseParam: purchaseParam);
+        await iapConnection.buyConsumable(purchaseParam: purchaseParam);
         break;
       case storeKeySubscription:
       case storeKeyUpgrade:
-        await InAppPurchaseConnection.instance
-            .buyNonConsumable(purchaseParam: purchaseParam);
+        await iapConnection.buyNonConsumable(purchaseParam: purchaseParam);
         break;
       default:
         throw ArgumentError.value(
@@ -97,7 +94,7 @@ class DashPurchases extends ChangeNotifier {
     }
 
     if (purchaseDetails.pendingCompletePurchase) {
-      InAppPurchaseConnection.instance.completePurchase(purchaseDetails);
+      iapConnection.completePurchase(purchaseDetails);
     }
   }
 

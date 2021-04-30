@@ -24,8 +24,7 @@ class DashPurchases extends ChangeNotifier {
   final iapConnection = IAPConnection.instance;
 
   DashPurchases(this.counter, this.firebaseNotifier, this.iapRepo) {
-    final purchaseUpdated =
-        iapConnection.purchaseUpdatedStream;
+    final purchaseUpdated = iapConnection.purchaseUpdatedStream;
     _subscription = purchaseUpdated.listen(
       _onPurchaseUpdate,
       onDone: _updateStreamOnDone,
@@ -56,8 +55,7 @@ class DashPurchases extends ChangeNotifier {
       storeKeySubscription,
       storeKeyUpgrade,
     };
-    final response =
-        await iapConnection.queryProductDetails(ids);
+    final response = await iapConnection.queryProductDetails(ids);
     response.notFoundIDs.forEach((element) {
       print('Purchase $element not found');
     });
@@ -78,13 +76,11 @@ class DashPurchases extends ChangeNotifier {
     final purchaseParam = PurchaseParam(productDetails: product.productDetails);
     switch (product.id) {
       case storeKeyConsumable:
-        await iapConnection
-            .buyConsumable(purchaseParam: purchaseParam);
+        await iapConnection.buyConsumable(purchaseParam: purchaseParam);
         break;
       case storeKeySubscription:
       case storeKeyUpgrade:
-        await iapConnection
-            .buyNonConsumable(purchaseParam: purchaseParam);
+        await iapConnection.buyNonConsumable(purchaseParam: purchaseParam);
         break;
       default:
         throw ArgumentError.value(

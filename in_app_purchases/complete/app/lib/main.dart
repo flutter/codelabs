@@ -16,6 +16,7 @@ class IAPConnection {
   static set instance(InAppPurchaseConnection value) {
     _instance = value;
   }
+
   static InAppPurchaseConnection get instance {
     _instance ??= InAppPurchaseConnection.instance;
     return _instance!;

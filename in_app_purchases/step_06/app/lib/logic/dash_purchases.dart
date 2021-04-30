@@ -1,12 +1,12 @@
 import 'dart:async';
 
+import 'package:dashclicker/main.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:dashclicker/logic/dash_counter.dart';
 import 'package:dashclicker/model/purchasable_product.dart';
 import 'package:dashclicker/model/store_state.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
-
 
 class DashPurchases extends ChangeNotifier {
   DashCounter counter;
@@ -24,14 +24,14 @@ class DashPurchases extends ChangeNotifier {
       '\$1.99',
     ),
   ];
-  
+
   bool get beautifiedDash => _beautifiedDashUpgrade;
   // ignore: prefer_final_fields
   bool _beautifiedDashUpgrade = false;
+  final iapConnection = IAPConnection.instance;
 
-  DashPurchases(this.counter){
-    final purchaseUpdated =
-        InAppPurchaseConnection.instance.purchaseUpdatedStream;
+  DashPurchases(this.counter) {
+    final purchaseUpdated = iapConnection.purchaseUpdatedStream;
     _subscription = purchaseUpdated.listen(
       _onPurchaseUpdate,
       onDone: _updateStreamOnDone,

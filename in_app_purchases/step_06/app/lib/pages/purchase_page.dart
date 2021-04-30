@@ -80,7 +80,7 @@ class _PurchaseWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var title = product.title;
-    if(product.status == ProductStatus.purchased){
+    if (product.status == ProductStatus.purchased) {
       title += ' (purchased)';
     }
     return InkWell(
