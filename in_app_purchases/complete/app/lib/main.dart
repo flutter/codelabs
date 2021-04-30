@@ -10,6 +10,18 @@ import 'logic/dash_counter.dart';
 import 'pages/home_page.dart';
 import 'pages/purchase_page.dart';
 
+// Gives the option to override in tests.
+class IAPConnection {
+  static InAppPurchaseConnection? _instance;
+  static set instance(InAppPurchaseConnection value) {
+    _instance = value;
+  }
+  static InAppPurchaseConnection get instance {
+    _instance ??= InAppPurchaseConnection.instance;
+    return _instance!;
+  }
+}
+
 void main() {
   InAppPurchaseConnection.enablePendingPurchases();
   runApp(MyApp());
