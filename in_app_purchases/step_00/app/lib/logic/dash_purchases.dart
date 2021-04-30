@@ -23,6 +23,7 @@ class DashPurchases extends ChangeNotifier {
   ];
 
   bool get beautifiedDash => _beautifiedDashUpgrade;
+  // ignore: prefer_final_fields
   bool _beautifiedDashUpgrade = false;
 
   DashPurchases(this.counter);

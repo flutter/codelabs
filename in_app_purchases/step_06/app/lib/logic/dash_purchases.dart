@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:dashclicker/constants.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:dashclicker/logic/dash_counter.dart';
@@ -27,6 +26,7 @@ class DashPurchases extends ChangeNotifier {
   ];
   
   bool get beautifiedDash => _beautifiedDashUpgrade;
+  // ignore: prefer_final_fields
   bool _beautifiedDashUpgrade = false;
 
   DashPurchases(this.counter){

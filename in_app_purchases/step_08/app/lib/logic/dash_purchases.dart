@@ -8,7 +8,6 @@ import 'package:dashclicker/model/purchasable_product.dart';
 import 'package:dashclicker/model/store_state.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 
-
 class DashPurchases extends ChangeNotifier {
   DashCounter counter;
   StoreState storeState = StoreState.loading;
@@ -88,6 +87,9 @@ class DashPurchases extends ChangeNotifier {
           break;
         case storeKeyConsumable:
           counter.addBoughtDashes(2000);
+          break;
+        case storeKeyUpgrade:
+          _beautifiedDashUpgrade = true;
           break;
       }
     }
