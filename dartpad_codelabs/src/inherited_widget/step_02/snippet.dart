@@ -107,8 +107,8 @@ class StateData {
     this.purchaseList = const <String>{},
   });
 
-  List<String> productList;
-  Set<String> purchaseList;
+  final List<String> productList;
+  final Set<String> purchaseList;
 }
 
 class AppStateScope extends InheritedWidget {

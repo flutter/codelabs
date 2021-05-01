@@ -9,7 +9,6 @@ import 'package:flutter/foundation.dart';
 const String baseAssetURL = 'https://dartpad-workshops-io2021.web.app/inherited_widget/assets';
 
 const Map<String, Product> kDummyData = {
-const Map<String, Product> kDummyData = {
   '0' : Product(
     id: '0',
     title: 'Explore Pixel phones',
@@ -103,15 +102,21 @@ void main() {
 class StateData {
   StateData({
     required this.productList,
+    required this.controller,
+    required this.focusNode,
     this.purchaseList = const <String>{},
+    this.inSearch = false,
   });
 
-  List<String> productList;
-  Set<String> purchaseList;
+  final List<String> productList;
+  final Set<String> purchaseList;
+  final bool inSearch;
+  final TextEditingController controller;
+  final FocusNode focusNode;
 }
 
 class AppStateScope extends InheritedWidget {
-  AppStateScope(this.data, {required Widget child}) : super(child: child);
+  AppStateScope(this.data, {Key? key, required Widget child}) : super(key: key, child: child);
 
   final StateData data;
 
@@ -141,14 +146,19 @@ class AppStateWidget extends StatefulWidget {
 class AppStateWidgetState extends State<AppStateWidget> {
   StateData _data = StateData(
     productList: Server.getProductList(),
+    controller: TextEditingController(),
+    focusNode: FocusNode(),
   );
 
   void setProductList(List<String> newProductList) {
     if (newProductList != _data.productList) {
       setState(() {
         _data = StateData(
+          controller: _data.controller,
+          focusNode: _data.focusNode,
           productList: newProductList,
           purchaseList: _data.purchaseList,
+          inSearch: _data.inSearch,
         );
       });
     }
@@ -158,8 +168,25 @@ class AppStateWidgetState extends State<AppStateWidget> {
     if (newPurchaseList != _data.purchaseList) {
       setState(() {
         _data = StateData(
+          controller: _data.controller,
+          focusNode: _data.focusNode,
           productList: _data.productList,
           purchaseList: newPurchaseList,
+          inSearch: _data.inSearch,
+        );
+      });
+    }
+  }
+
+  void setInSearch(bool inSearch) {
+    if (inSearch != _data.inSearch) {
+      setState(() {
+        _data = StateData(
+          controller: _data.controller,
+          focusNode: _data.focusNode,
+          productList: _data.productList,
+          purchaseList: _data.purchaseList,
+          inSearch: inSearch,
         );
       });
     }
@@ -174,57 +201,49 @@ class AppStateWidgetState extends State<AppStateWidget> {
   }
 }
 
-// TODO: convert MyStorePage into StatelessWidget
-class MyStorePage extends StatefulWidget {
+class MyStorePage extends StatelessWidget {
   MyStorePage({Key? key}) : super(key: key);
-  @override
-  MyStorePageState createState() => MyStorePageState();
-}
 
-class MyStorePageState extends State<MyStorePage> {
-
-  bool _inSearch = false;
-  late TextEditingController _controller;
-  final FocusNode _focusNode = FocusNode();
   void _toggleSearch(BuildContext context) {
-    setState(() {
-      _inSearch = !_inSearch;
-    });
+    StateData data = AppStateScope.of(context);
+    AppStateWidget.of(context).setInSearch(!data.inSearch);
     AppStateWidget.of(context).setProductList(Server.getProductList());
-    _controller = TextEditingController();
+    data.controller.clear();
   }
 
   void _handleSearch(BuildContext context) {
-    _focusNode.unfocus();
-    final String filter = _controller.text;
+    StateData data = AppStateScope.of(context);
+    data.focusNode.unfocus();
+    final String filter = data.controller.text;
     AppStateWidget.of(context).setProductList(Server.getProductList(filter: filter));
   }
 
   @override
   Widget build(BuildContext context) {
+    StateData data = AppStateScope.of(context);
     return Scaffold(
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
             leading: Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Image.network('$baseAssetURL/google-logo.png')
+                padding: EdgeInsets.all(16.0),
+                child: Image.network('$baseAssetURL/google-logo.png')
             ),
-            title: _inSearch
-              ? TextField(
-                  autofocus: true,
-                  focusNode: _focusNode,
-                  controller: _controller,
-                  onSubmitted: (_) => _handleSearch(context),
-                  decoration: InputDecoration(
-                    hintText: 'Search Google Store',
-                    prefixIcon: IconButton(icon: Icon(Icons.search), onPressed: () => _handleSearch(context)),
-                    suffixIcon: IconButton(icon: Icon(Icons.close), onPressed: () => _toggleSearch(context)),
-                  )
+            title: data.inSearch
+                ? TextField(
+                autofocus: true,
+                focusNode: data.focusNode,
+                controller: data.controller,
+                onSubmitted: (_) => _handleSearch(context),
+                decoration: InputDecoration(
+                  hintText: 'Search Google Store',
+                  prefixIcon: IconButton(icon: Icon(Icons.search), onPressed: () => _handleSearch(context)),
+                  suffixIcon: IconButton(icon: Icon(Icons.close), onPressed: () => _toggleSearch(context)),
                 )
-              : null,
+            )
+                : null,
             actions: [
-              if (!_inSearch) IconButton(onPressed: () => _toggleSearch(context), icon: Icon(Icons.search, color: Colors.black)),
+              if (!data.inSearch) IconButton(onPressed: () => _toggleSearch(context), icon: Icon(Icons.search, color: Colors.black)),
               ShoppingCartIcon(),
             ],
             backgroundColor: Colors.white,
