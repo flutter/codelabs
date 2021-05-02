@@ -108,15 +108,15 @@ class StateData {
     this.inSearch = false,
   });
 
-  List<String> productList;
-  Set<String> purchaseList;
-  bool inSearch;
-  TextEditingController controller;
-  FocusNode focusNode;
+  final List<String> productList;
+  final Set<String> purchaseList;
+  final bool inSearch;
+  final TextEditingController controller;
+  final FocusNode focusNode;
 }
 
 class AppStateScope extends InheritedWidget {
-  AppStateScope(this.data, {required Widget child}) : super(child: child);
+  AppStateScope(this.data, {Key? key, required Widget child}) : super(key: key, child: child);
 
   final StateData data;
 
