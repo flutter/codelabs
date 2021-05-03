@@ -2,7 +2,6 @@ import {PurchaseHandler} from "./purchase-handler";
 import {ProductData, productDataMap} from "./products";
 import * as appleReceiptVerify from "node-apple-receipt-verify";
 import {APP_STORE_SHARED_SECRET} from "./constants";
-import {PurchasedProducts} from "node-apple-receipt-verify";
 import {IapRepository} from "./iap.repository";
 import {firestore} from "firebase-admin/lib/firestore";
 
@@ -46,7 +45,7 @@ export class AppStorePurchaseHandler extends PurchaseHandler {
       token: string,
   ): Promise<boolean> {
     // Validate receipt and fetch the products
-    let products: PurchasedProducts[];
+    let products: appleReceiptVerify.PurchasedProducts[];
     try {
       products = await appleReceiptVerify.validate({receipt: token});
     } catch (e) {
