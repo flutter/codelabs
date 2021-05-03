@@ -72,7 +72,7 @@ export class GooglePlayPurchaseHandler extends PurchaseHandler {
                 } as Purchase);
           } else {
             // If we do not know the user id, a previous entry must already,
-            // exist, and thus will we'll only update it.
+            // exist, and thus we'll only update it.
             await this.iapRepository.updatePurchase(purchaseData);
           }
         } catch (e) {
@@ -142,7 +142,7 @@ export class GooglePlayPurchaseHandler extends PurchaseHandler {
                 } as Purchase);
           } else {
             // If we do not know the user id, a previous entry must already
-            // exit, and thus will we'll only update it.
+            // exist, and thus we'll only update it.
             await this.iapRepository.updatePurchase(purchaseData);
           }
         } catch (e) {
