@@ -5,7 +5,6 @@ import {
 } from "./constants";
 import {GoogleAuth} from "google-auth-library";
 import {androidpublisher_v3 as AndroidPublisherApi} from "googleapis";
-import assert from "assert";
 import credentials from "./assets/service-account.json";
 import {
   IapRepository, NonSubscriptionPurchase,
@@ -33,7 +32,6 @@ export class GooglePlayPurchaseHandler extends PurchaseHandler {
         productData: ProductData,
         token: string,
     ): Promise<boolean> {
-      assert(productData.type === "NON_SUBSCRIPTION");
       try {
         // Verify purchase with Google
         const response = await this.androidPublisher.purchases.products.get(
@@ -92,7 +90,6 @@ export class GooglePlayPurchaseHandler extends PurchaseHandler {
         productData: ProductData,
         token: string,
     ): Promise<boolean> {
-      assert(productData.type === "SUBSCRIPTION");
       try {
         // Verify the purchase with Google
         const response = await this.androidPublisher.purchases.subscriptions
@@ -151,7 +148,6 @@ export class GooglePlayPurchaseHandler extends PurchaseHandler {
         } catch (e) {
           console.log("Could not create or update purchase", {orderId, productId: productData.productId});
         }
-        console.log("FINISHED VERFIFY PURCHASE FOR SUBSCRIPTION");
         return true;
       } catch (e) {
         console.error(e);
