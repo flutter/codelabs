@@ -38,24 +38,20 @@ class HorizonsApp extends StatelessWidget {
                   StretchMode.blurBackground,
                 ],
                 title: Text('Horizons'),
-                background: Stack(
-                  fit: StackFit.expand,
-                  children: <Widget>[
-                    Image.network(
-                      headerImage,
-                      fit: BoxFit.cover,
+                background: DecoratedBox(
+                  position: DecorationPosition.foreground,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.center,
+                      colors: <Color>[ Colors.teal[800]!, Colors.transparent ],
                     ),
-                    DecoratedBox(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.bottomCenter,
-                          end: Alignment.center,
-                          colors: <Color>[ Colors.teal[800]!, Colors.transparent ],
-                        ),
-                      ),
-                    ),
-                  ],
-                )
+                  ),
+                  child: Image.network(
+                    headerImage,
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
             ),
             WeeklyForecastList(),
