@@ -2,7 +2,7 @@
 
 Now that we are lazily building our UI, let's add some complexity. Our
 `DailyForecast` object comes with an image for each day, and we can
-polish this up a bit more.
+use that to polish this up a bit more.
 
 Currently, we are using a `ListTile` in our `Card`. This is a super
 handy widget that handles a lot of layout and padding for you. Let's
@@ -67,7 +67,7 @@ SizedBox(
     fit: StackFit.expand,
     children: <Widget>[
       Image.network(
-        baseAssetURL + dailyForecast.imageId,
+        dailyForecast.imageId,
         fit: BoxFit.cover,
       ),
       Text(
@@ -80,9 +80,9 @@ SizedBox(
 ```
 
 To add some contrast between the `Text` and the `Image`, let's place a
-gradient in between for a nice visual effect. We can do this with a
-`DecoratedBox` and a `RadialGradient`. `Center` the `Text` as well, so it lines
-up with the gradient.
+gradient in between for a nice visual effect. We can do this with by wrapping
+our `Image` in a `DecoratedBox` with a `RadialGradient`. `Center` the `Text`
+as well, so it lines up with the gradient.
 
 ```dart
 SizedBox(
@@ -91,15 +91,16 @@ SizedBox(
   child: Stack(
     fit: StackFit.expand,
     children: <Widget>[
-      Image.network(
-        baseAssetURL + dailyForecast.imageId,
-        fit: BoxFit.cover,
-      ),
       DecoratedBox(
+        position: DecorationPosition.foreground,
         decoration: BoxDecoration(
           gradient: RadialGradient(
             colors: <Color>[ Colors.grey[800]!, Colors.transparent ],
           ),
+        ),
+        child: Image.network(
+          dailyForecast.imageId,
+          fit: BoxFit.cover,
         ),
       ),
       Center(

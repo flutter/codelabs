@@ -17,7 +17,7 @@ SliverAppBar(
   flexibleSpace: FlexibleSpaceBar(
     title: Text('Horizons'),
     background: Image.network(
-      baseAssetURL + 'assets/header.jpeg',
+      headerImage,
       fit: BoxFit.cover,
     ),
   ),
@@ -32,30 +32,26 @@ For better contrast, let's add another gradient effect behind our
 title. We can do this like we did before, but let's use a
 `LinearGradient` instead.
 
-Place your image in a `Stack` and add a `DecoratedBox` with the
-`LinearGradient` over the `Image`.
+Place your image in a`DecoratedBox` with the `LinearGradient` over
+the `Image`.
 
 ```dart
 FlexibleSpaceBar(
   title: Text('Horizons'),
-  background: Stack(
-    fit: StackFit.expand,
-    children: <Widget>[
-      Image.network(
-        baseAssetURL + 'assets/header.jpeg',
-        fit: BoxFit.cover,
+  background: DecoratedBox(
+    position: DecorationPosition.foreground,
+    decoration: BoxDecoration(
+      gradient: LinearGradient(
+        begin: Alignment.bottomCenter,
+        end: Alignment.center,
+        colors: <Color>[ Colors.teal[800]!, Colors.transparent ],
       ),
-      DecoratedBox(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.bottomCenter,
-            end: Alignment.center,
-            colors: <Color>[ Colors.teal[800]!, Colors.transparent ],
-          ),
-        ),
-      ),
-    ],
-  )
+    ),
+    child: Image.network(
+      headerImage,
+      fit: BoxFit.cover,
+    ),
+  ),
 ),
 ```
 
