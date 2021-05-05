@@ -95,7 +95,7 @@ SizedBox(
         position: DecorationPosition.foreground,
         decoration: BoxDecoration(
           gradient: RadialGradient(
-            colors: <Color>[ Colors.grey[800]!, Colors.transparent, Colors.transparent ],
+            colors: <Color>[ Colors.grey[800]!, Colors.transparent ],
           ),
         ),
         child: Image.network(

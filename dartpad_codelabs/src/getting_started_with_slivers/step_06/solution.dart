@@ -34,7 +34,7 @@ class HorizonsApp extends StatelessWidget {
                     gradient: LinearGradient(
                       begin: Alignment.bottomCenter,
                       end: Alignment.center,
-                      colors: <Color>[Colors.teal[800]!, Colors.transparent],
+                      colors: <Color>[ Colors.teal[800]!, Colors.transparent ],
                     ),
                   ),
                   child: Image.network(
@@ -75,7 +75,7 @@ class WeeklyForecastList extends StatelessWidget {
                         position: DecorationPosition.foreground,
                         decoration: BoxDecoration(
                           gradient: RadialGradient(
-                            colors: <Color>[ Colors.grey[800]!, Colors.transparent, Colors.transparent, ],
+                            colors: <Color>[ Colors.grey[800]!, Colors.transparent ],
                           ),
                         ),
                         child: Image.network(

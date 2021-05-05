@@ -44,7 +44,7 @@ FlexibleSpaceBar(
       gradient: LinearGradient(
         begin: Alignment.bottomCenter,
         end: Alignment.center,
-        colors: <Color>[Colors.teal[800]!, Colors.transparent],
+        colors: <Color>[ Colors.teal[800]!, Colors.transparent ],
       ),
     ),
     child: Image.network(
