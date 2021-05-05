@@ -6,13 +6,13 @@ Workshops in this directory are displayed using DartPad.
 
 - [Flutter example][flutter-webserver]
 - [Dart example][dart-webserver]
+- [Getting started with Slivers][slivers]
+- [Inherted Widget][inherited-widget]
 
 Alternatively, these workshops can be loaded from GitHub directly:
 
-- [Dart example][flutter-github]
-- [Flutter example][dart-github]
-- [Getting started with Slivers][slivers]
-- [Inherted Widget][inherited-widget]
+- [Dart example (GitHub)][flutter-github]
+- [Flutter example (GitHub)][dart-github]
 
 ## Deploying
 
