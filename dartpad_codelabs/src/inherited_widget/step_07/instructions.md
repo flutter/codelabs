@@ -1,6 +1,6 @@
 # Migrate search TextField
 
-We also need to migrate the search query to update the `StateData`.
+We also need to migrate the search query to update the `AppState`.
 
 ```dart
   void _toggleSearch() {

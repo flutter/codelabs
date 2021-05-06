@@ -2,7 +2,7 @@
 
 The `AppStateScope` itself does not have state, it only hosts the data
 that it receives. We still need to create a `StatefulWidget` to store
-the data. The goal of this `StatefulWidget` is to create the `StateData`
+the data. The goal of this `StatefulWidget` is to create the `AppState`
 , provide APIs to mutate the data, and host the data using the
 `AppStateScope`.
 
@@ -20,7 +20,7 @@ class AppStateWidget extends StatefulWidget {
 }
 
 class AppStateWidgetState extends State<AppStateWidget> {
-  StateData _data = StateData(
+  AppState _data = AppState(
     productList: Server.getProductList(),
   );
 

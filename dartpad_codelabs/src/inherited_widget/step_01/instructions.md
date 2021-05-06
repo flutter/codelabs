@@ -66,7 +66,13 @@ Now let's pull these states out of the widgets.
 You can find the class by searching `TODO` in the IDE
 
 ```dart
-class StateData {
+class AppState {
   // TODO: fill in this data structure.
+
+  AppState copyWith({
+    //..
+  }) {
+    // TODO: implement copy method
+  }
 }
 ```
