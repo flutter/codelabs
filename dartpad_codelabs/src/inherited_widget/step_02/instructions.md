@@ -13,7 +13,7 @@ The next step is to create our own `InheritedWidget` that hosts the data.
 class AppStateScope extends InheritedWidget {
   // TODO: implement this class.
 
-  static StateData of(BuildContext context) {
+  static AppState of(BuildContext context) {
     // TODO: implement this method.
   }
   
