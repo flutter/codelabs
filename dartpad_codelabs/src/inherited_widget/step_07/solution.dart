@@ -21,19 +21,19 @@ void main() {
 class AppState {
   AppState({
     required this.productList,
-    this.purchaseList = const <String>{},
+    this.itemsInCart = const <String>{},
   });
 
   final List<String> productList;
-  final Set<String> purchaseList;
+  final Set<String> itemsInCart;
 
   AppState copyWith({
     List<String>? productList,
-    Set<String>? purchaseList,
+    Set<String>? itemsInCart,
   }) {
     return AppState(
       productList: productList ?? this.productList,
-      purchaseList: purchaseList ?? this.purchaseList,
+      itemsInCart: itemsInCart ?? this.itemsInCart,
     );
   }
 }
@@ -81,11 +81,11 @@ class AppStateWidgetState extends State<AppStateWidget> {
     }
   }
 
-  void setPurchaseList(Set<String> newPurchaseList) {
-    if (newPurchaseList != _data.purchaseList) {
+  void setItemsInCart(Set<String> newItemsInCart) {
+    if (newItemsInCart != _data.itemsInCart) {
       setState(() {
         _data = _data.copyWith(
-          purchaseList: newPurchaseList,
+          itemsInCart: newItemsInCart,
         );
       });
     }
@@ -169,8 +169,8 @@ class ShoppingCartIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Set<String> purchaseList = AppStateScope.of(context).purchaseList;
-    final bool hasPurchase = purchaseList.length > 0;
+    final Set<String> itemsInCart = AppStateScope.of(context).itemsInCart;
+    final bool hasPurchase = itemsInCart.length > 0;
     return Stack(
       alignment: Alignment.center,
       children: [
@@ -189,7 +189,7 @@ class ShoppingCartIcon extends StatelessWidget {
               backgroundColor: Colors.lightBlue,
               foregroundColor: Colors.white,
               child: Text(
-                purchaseList.length.toString(),
+                itemsInCart.length.toString(),
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 12.0,
@@ -205,25 +205,25 @@ class ShoppingCartIcon extends StatelessWidget {
 class ProductListWidget extends StatelessWidget {
   ProductListWidget({Key? key}) : super(key: key);
 
-  void _handleAddToCart(String id, Set<String> purchaseList, BuildContext context) {
-    Set<String> newPurchaseList = Set<String>.from(purchaseList);
-    newPurchaseList.add(id);
-    AppStateWidget.of(context).setPurchaseList(newPurchaseList);
+  void _handleAddToCart(String id, Set<String> itemsInCart, BuildContext context) {
+    Set<String> newItemsInCart = Set<String>.from(itemsInCart);
+    newItemsInCart.add(id);
+    AppStateWidget.of(context).setItemsInCart(newItemsInCart);
   }
 
-  void _handleRemoveFromCart(String id, Set<String> purchaseList, BuildContext context) {
-    Set<String> newPurchaseList = Set<String>.from(purchaseList);
-    newPurchaseList.remove(id);
-    AppStateWidget.of(context).setPurchaseList(newPurchaseList);
+  void _handleRemoveFromCart(String id, Set<String> itemsInCart, BuildContext context) {
+    Set<String> newItemsInCart = Set<String>.from(itemsInCart);
+    newItemsInCart.remove(id);
+    AppStateWidget.of(context).setItemsInCart(newItemsInCart);
   }
 
   Widget _buildProductTile(String id, BuildContext context) {
-    final Set<String> purchaseList = AppStateScope.of(context).purchaseList;
+    final Set<String> itemsInCart = AppStateScope.of(context).itemsInCart;
     return ProductTile(
       product: Server.getProductById(id),
-      purchased: purchaseList.contains(id),
-      onAddToCart: () => _handleAddToCart(id, purchaseList, context),
-      onRemoveFromCart: () => _handleRemoveFromCart(id, purchaseList, context),
+      purchased: itemsInCart.contains(id),
+      onAddToCart: () => _handleAddToCart(id, itemsInCart, context),
+      onRemoveFromCart: () => _handleRemoveFromCart(id, itemsInCart, context),
     );
   }
 

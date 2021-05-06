@@ -21,19 +21,19 @@ void main() {
 class AppState {
   AppState({
     required this.productList,
-    this.purchaseList = const <String>{},
+    this.itemsInCart = const <String>{},
   });
 
   final List<String> productList;
-  final Set<String> purchaseList;
+  final Set<String> itemsInCart;
 
   AppState copyWith({
     List<String>? productList,
-    Set<String>? purchaseList,
+    Set<String>? itemsInCart,
   }) {
     return AppState(
       productList: productList ?? this.productList,
-      purchaseList: purchaseList ?? this.purchaseList,
+      itemsInCart: itemsInCart ?? this.itemsInCart,
     );
   }
 }
@@ -110,17 +110,17 @@ class ShoppingCartIcon extends StatefulWidget {
 }
 
 class ShoppingCartIconState extends State<ShoppingCartIcon> {
-  Set<String> get purchaseList => _purchaseList;
-  Set<String> _purchaseList = <String>{};
-  set purchaseList(Set<String> value) {
+  Set<String> get itemsInCart => _itemsInCart;
+  Set<String> _itemsInCart = <String>{};
+  set itemsInCart(Set<String> value) {
     setState(() {
-      _purchaseList = value;
+      _itemsInCart = value;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final bool hasPurchase = purchaseList.length > 0;
+    final bool hasPurchase = itemsInCart.length > 0;
     return Stack(
       alignment: Alignment.center,
       children: [
@@ -139,7 +139,7 @@ class ShoppingCartIconState extends State<ShoppingCartIcon> {
               backgroundColor: Colors.lightBlue,
               foregroundColor: Colors.white,
               child: Text(
-                purchaseList.length.toString(),
+                itemsInCart.length.toString(),
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 12.0,
@@ -167,28 +167,28 @@ class ProductListWidgetState extends State<ProductListWidget> {
     });
   }
 
-  Set<String> get purchaseList => _purchaseList;
-  Set<String> _purchaseList = <String>{};
-  set purchaseList(Set<String> value) {
+  Set<String> get itemsInCart => _itemsInCart;
+  Set<String> _itemsInCart = <String>{};
+  set itemsInCart(Set<String> value) {
     setState(() {
-      _purchaseList = value;
+      _itemsInCart = value;
     });
   }
 
   void _handleAddToCart(String id) {
-    purchaseList = _purchaseList..add(id);
-    shoppingCart.currentState!.purchaseList = purchaseList;
+    itemsInCart = _itemsInCart..add(id);
+    shoppingCart.currentState!.itemsInCart = itemsInCart;
   }
 
   void _handleRemoveFromCart(String id) {
-    purchaseList = _purchaseList..remove(id);
-    shoppingCart.currentState!.purchaseList = purchaseList;
+    itemsInCart = _itemsInCart..remove(id);
+    shoppingCart.currentState!.itemsInCart = itemsInCart;
   }
 
   Widget _buildProductTile(String id) {
     return ProductTile(
       product: Server.getProductById(id),
-      purchased: purchaseList.contains(id),
+      purchased: itemsInCart.contains(id),
       onAddToCart: () => _handleAddToCart(id),
       onRemoveFromCart: () => _handleRemoveFromCart(id),
     );

@@ -28,7 +28,7 @@ class AppStateWidgetState extends State<AppStateWidget> {
     // TODO: implement this method
   }
 
-  void setPurchaseList(Set<String> newPurchaseList) {
+  void setItemsInCart(Set<String> newItemsInCart) {
     // TODO: implement this method
   }
 
