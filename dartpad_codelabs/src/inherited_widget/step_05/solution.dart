@@ -83,8 +83,22 @@ class AppStateWidgetState extends State<AppStateWidget> {
     }
   }
 
-  void setItemsInCart(Set<String> newItemsInCart) {
-    if (newItemsInCart != _data.itemsInCart) {
+  void addToCart(String id) {
+    if (!_data.itemsInCart.contains(id)) {
+      final Set<String> newItemsInCart = Set<String>.from(_data.itemsInCart);
+      newItemsInCart.add(id);
+      setState(() {
+        _data = _data.copyWith(
+          itemsInCart: newItemsInCart,
+        );
+      });
+    }
+  }
+
+  void removeFromCart(String id) {
+    if (_data.itemsInCart.contains(id)) {
+      final Set<String> newItemsInCart = Set<String>.from(_data.itemsInCart);
+      newItemsInCart.remove(id);
       setState(() {
         _data = _data.copyWith(
           itemsInCart: newItemsInCart,

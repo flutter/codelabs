@@ -95,8 +95,22 @@ class AppStateWidgetState extends State<AppStateWidget> {
     }
   }
 
-  void setItemsInCart(Set<String> newItemsInCart) {
-    if (newItemsInCart != _data.itemsInCart) {
+  void addToCart(String id) {
+    if (!_data.itemsInCart.contains(id)) {
+      final Set<String> newItemsInCart = Set<String>.from(_data.itemsInCart);
+      newItemsInCart.add(id);
+      setState(() {
+        _data = _data.copyWith(
+          itemsInCart: newItemsInCart,
+        );
+      });
+    }
+  }
+
+  void removeFromCart(String id) {
+    if (_data.itemsInCart.contains(id)) {
+      final Set<String> newItemsInCart = Set<String>.from(_data.itemsInCart);
+      newItemsInCart.remove(id);
       setState(() {
         _data = _data.copyWith(
           itemsInCart: newItemsInCart,
@@ -222,25 +236,20 @@ class ShoppingCartIcon extends StatelessWidget {
 class ProductListWidget extends StatelessWidget {
   ProductListWidget({Key? key}) : super(key: key);
 
-  void _handleAddToCart(String id, Set<String> itemsInCart, BuildContext context) {
-    Set<String> newItemsInCart = Set<String>.from(itemsInCart);
-    newItemsInCart.add(id);
-    AppStateWidget.of(context).setItemsInCart(newItemsInCart);
+  void _handleAddToCart(String id, BuildContext context) {
+    AppStateWidget.of(context).addToCart(id);
   }
 
-  void _handleRemoveFromCart(String id, Set<String> itemsInCart, BuildContext context) {
-    Set<String> newItemsInCart = Set<String>.from(itemsInCart);
-    newItemsInCart.remove(id);
-    AppStateWidget.of(context).setItemsInCart(newItemsInCart);
+  void _handleRemoveFromCart(String id, BuildContext context) {
+    AppStateWidget.of(context).removeFromCart(id);
   }
 
   Widget _buildProductTile(String id, BuildContext context) {
-    final Set<String> itemsInCart = AppStateScope.of(context).itemsInCart;
     return ProductTile(
       product: Server.getProductById(id),
-      purchased: itemsInCart.contains(id),
-      onAddToCart: () => _handleAddToCart(id, itemsInCart, context),
-      onRemoveFromCart: () => _handleRemoveFromCart(id, itemsInCart, context),
+      purchased: AppStateScope.of(context).itemsInCart.contains(id),
+      onAddToCart: () => _handleAddToCart(id, context),
+      onRemoveFromCart: () => _handleRemoveFromCart(id, context),
     );
   }
 
