@@ -243,8 +243,6 @@ class ProductTile extends StatelessWidget {
     );
   }
 }
-
-
 // The code below is for the dummy server, and you should not need to modify it
 // in this workshop.
 

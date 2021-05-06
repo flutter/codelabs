@@ -51,8 +51,6 @@ class ShoppingCartIconState extends State<ShoppingCartIcon> {
 
   //...
 }
-
-
 ```
 
 This is where things get interesting. Both `ShoppingCartIcon` and `ProductListWidget` store their own

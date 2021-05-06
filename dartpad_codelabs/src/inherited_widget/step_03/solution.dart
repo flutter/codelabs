@@ -425,5 +425,3 @@ class Product {
   final String title;
   final TextSpan description;
 }
-
-
