@@ -9,11 +9,11 @@ handy widget that handles a lot of layout and padding for you. Let's
 change it up to reflect our own style. Feel free to diverge here, this
 is a fun side mission to add to our UI now that it is more efficient.
 
-If we look at our current UI, we can break this up into Columns and
+If we look at our current layout, we can break this up into Columns and
 Rows, and make a few adjustments.
 
 Let's remove the `ListTile`, and instead, create a `Row`. The contents
-of `leading` and `trailing` can become children of our Row. Since the
+of `leading` and `trailing` can become children of our `Row`. Since the
 `title` and `subtitle` were stacked vertically, let's wrap those in a
 `Column` and place it in between.
 
@@ -34,9 +34,9 @@ Row(
 )
 ```
 
-This is pretty close to what our ListTile generated for us. Add some
+This is pretty close to what our `ListTile` generated for us. Add some
 `Padding` to neaten up as you like and put an `Expanded` widget around
-the Column to handle any overflow of our forecast description.
+the `Column` to handle any overflow of our forecast description.
 
 ```dart
 Expanded(
@@ -71,7 +71,9 @@ SizedBox(
         fit: BoxFit.cover,
       ),
       Text(
-        dailyForecast.getDate(currentDate.day).toString(),
+        dailyForecast
+          .getDate(currentDate.day)
+          .toString(),
         style: textTheme.headline2,
       ),
     ],
@@ -95,7 +97,10 @@ SizedBox(
         position: DecorationPosition.foreground,
         decoration: BoxDecoration(
           gradient: RadialGradient(
-            colors: <Color>[ Colors.grey[800]!, Colors.transparent ],
+            colors: <Color>[
+              Colors.grey[800]!,
+              Colors.transparent,
+            ],
           ),
         ),
         child: Image.network(
@@ -105,7 +110,9 @@ SizedBox(
       ),
       Center(
         child: Text(
-          dailyForecast.getDate(currentDate.day).toString(),
+          dailyForecast
+            .getDate(currentDate.day)
+            .toString(),
           style: textTheme.headline2,
         ),
       ),

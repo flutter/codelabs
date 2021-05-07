@@ -8,7 +8,7 @@ space at the end of a scrollable area.
 
 With `SliverAppBar`, we can stretch to fill this empty space, creating
 a cool visual, while also providing a callback. This feature is often
-used to reload data, the weather is constantly changing after all, so
+used to reload data - the weather is constantly changing after all - so
 let's see how we can use this to refresh our forecast.
 
 First we'll want to set `SliverAppBar.stretch` to true. We can provide
@@ -33,7 +33,7 @@ Now we can pull down from the top edge of our scroll view and see
 the `FlexibleSpaceBar` stretch into the overscroll space, and if we
 check the console, we can see our print statement from our callback.
 
-The `FlexibleSpaceBar` can add a few finishing touches here though.
+The `FlexibleSpaceBar` can add a few finishing touches here too.
 By default, the `FlexibleSpaceBar` has a `StretchMode` that will
 transform the background to fill the overscrolled space. There are
 other `StretchMode`s though, and you can combine them for neat

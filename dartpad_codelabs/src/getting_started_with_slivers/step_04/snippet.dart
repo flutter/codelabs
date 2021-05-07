@@ -12,11 +12,12 @@ class HorizonsApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       // This is the theme of your application.
       theme: ThemeData.dark(),
-      // Scrolling in Flutter behaves differently depending on the ScrollBehavior.
-      // By default, ScrollBehavior changes depending on the current platform.
-      // For the purposes of this scrolling workshop, we're using a custom
-      // ScrollBehavior so that the experience is the same for everyone -
-      // regardless of the platform they are using.
+      // Scrolling in Flutter behaves differently depending on the
+      // ScrollBehavior. By default, ScrollBehavior changes depending
+      // on the current platform. For the purposes of this scrolling
+      // workshop, we're using a custom ScrollBehavior so that the
+      // experience is the same for everyone - regardless of the
+      // platform they are using.
       scrollBehavior: const ConstantScrollBehavior(),
       title: 'Horizons Weather',
       home: Scaffold(
@@ -24,6 +25,7 @@ class HorizonsApp extends StatelessWidget {
           title: Text('Horizons'),
           backgroundColor: Colors.teal[800],
         ),
+        // TODO: Add a CustomScrollView
         body: WeeklyForecastList(),
       )
     );
@@ -36,7 +38,7 @@ class WeeklyForecastList extends StatelessWidget {
     final DateTime currentDate = DateTime.now();
     final TextTheme textTheme = Theme.of(context).textTheme;
     
-    // Let's convert this to a SliverList
+    // TODO: Convert this to a SliverList
     return ListView.builder(
       itemCount: 7,
       itemBuilder: (BuildContext context, int index) {
@@ -102,7 +104,7 @@ class WeeklyForecastList extends StatelessWidget {
   }
 }
 
-// -----------------------------------------------------------------------------
+// --------------------------------------------
 // Below this line are helper classes and data.
 
 const String baseAssetURL = 'https://dartpad-workshops-io2021.web.app/getting_started_with_slivers/';
