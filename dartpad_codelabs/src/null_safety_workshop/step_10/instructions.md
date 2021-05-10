@@ -1,18 +1,14 @@
-# The late keyword
-Sometimes variables — fields in a class, or top-level variables — _should_ be
-non-nullable, but they can’t be assigned a value immediately. For cases like
-that, use the `late` keyword.
+# Another tricky object property example
+Even if a class doesn't define a getter for its property, it's possible for a
+subclass to implement one anyway. In this case, what looks like a
+straightforward property in `StringProvider` gets turned into a random value in
+`RandomStringProvider`.
 
-When you put `late` in front of a variable declaration, that tells Dart the
-following:
+When the code in `main` goes to access the value, even though `provider` is
+typed as `StringProvider`, it's holding a `RandomStringProvider`, illustrating
+why the value can't easily be promoted.
 
-* Don’t assign that variable a value yet.
-* You will assign it a value later.
-* You’ll make sure that the variable has a value before the variable is used.
-
-Be wary, though -- if you declare a variable late and that variable is read
-before it’s assigned a value, an error is thrown.
-
-## Exercise
-Try using the `late` keyword to correct the following code. For a little extra
-fun afterward, try commenting out the line that sets description!
+## Exercise: 
+This exercise is really just an illustration of how overridable getters affect
+null safety, but it can be solved the same way as the previous one: by caching
+the value of the `provider.value` in a local variable.

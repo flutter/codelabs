@@ -1,14 +1,13 @@
-# Another tricky object property example
-Even if a class doesn't define a getter for its property, it's possible for a
-subclass to implement one anyway. In this case, what looks like a
-straightforward property in `StringProvider` gets turned into a random value in
-`RandomStringProvider`.
+# Object properties aren't promotable
+A common "Huh?" moment when first learning to use Dart's null safety arrives the
+first time you do a null check on an object field. This is due to the fact that
+in Dart, object properties have getters and setters (either real or implied),
+and so something that looks like a typical value property can return different
+things when read twice in the same code block.
 
-When the code in `main` goes to access the value, even though `provider` is
-typed as `StringProvider`, it's holding a `RandomStringProvider`, illustrating
-why the value can't easily be promoted.
+Fortunately, there's a simple trick to handle this: read the variable once and
+cache it in a local variable@
 
 ## Exercise: 
-This exercise is really just an illustration of how overridable getters affect
-null safety, but it can be solved the same way as the previous one: by caching
-the value of the `provider.value` in a local variable.
+Try adding a local variable to store the value returned by `provider.value` in
+the example, then check and print that variable instead.

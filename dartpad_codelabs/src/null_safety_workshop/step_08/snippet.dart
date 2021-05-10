@@ -1,18 +1,9 @@
-import 'dart:math';
+int getLength(String? str) {
+  // Try throwing an exception here if `str` is null.
 
-class RandomStringProvider {
-  String? get value =>
-    Random().nextBool() ? 'A String!' : null;
+  return str.length;
 }
 
-void printString(String str) => print(str);
-
 void main() {
-  final provider = RandomStringProvider();
-
-  if (provider.value == null) {
-    print('The value is null.');
-  }
-
-  printString(provider.value);
+  print(getLength(null));
 }
