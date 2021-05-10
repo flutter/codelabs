@@ -64,7 +64,8 @@ SliverAppBar(
 Lastly, let's see how the `SliverAppBar` behaves when we use an
 `expandedHeight`. This adds to the size of the app bar and will
 collapse as the user scrolls. This can be combined with the
-floating, pinned and snap features we discussed above.
+floating, pinned and snap features we discussed above for more
+unique behaviors.
 
 ```dart
 SliverAppBar(

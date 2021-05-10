@@ -1,13 +1,14 @@
 # Introduction
 
-Welcome to the introductory sliver workshop for Flutter!
+Welcome to the introductory sliver workshop for Flutter! 👋
+
 In this workshop, you will learn how to efficiently build
 scrolling widgets and use slivers directly to create a rich
 scrolling experience for users.
 
 This workshop is best for folks already familiar with building simple
 Flutter applications. If this is your first time using Flutter,
-check out [Writing Your First Flutter App](https://flutter.dev/docs/get-started/codelab)
+check out **[Writing Your First Flutter App](https://flutter.dev/docs/get-started/codelab)**
 to get started using Flutter.
 
 
@@ -33,7 +34,9 @@ contains a `Column` featuring the next 7-day forecast.
 ```dart
 SingleChildScrollView(
   child: Column(
-      children: <Widget>[ /* Our 7 day forecast */],
+    children: <Widget>[
+      /* Our 7 day forecast */
+    ],
   ),
 );
 ```
@@ -52,9 +55,12 @@ a `Scrollable`'s `ScrollPhysics` and apply decorations like `Scrollbar`s
 and `GlowingOverscrollIndicator`s. 
 
 By default, `ScrollBehavior`s are dynamic and change depending on the
-current platform you may be running this workshop on, so we've added
-a custom `ScrollBehavior` to provide a consistent experience for
-everyone taking this workshop.
+current platform you may be running this workshop on, such as
+`ScrollPhysics`. On Mac and iOS platforms, you'll see
+`BouncingScrollPhysics` by default, while on others you'll see
+`ClampingScrollPhysics`. So we've added a custom
+`ScrollBehavior` to provide the same behavior for everyone taking
+this workshop.
 
 ## Where to next?
 

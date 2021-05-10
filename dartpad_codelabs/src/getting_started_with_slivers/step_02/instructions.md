@@ -5,13 +5,15 @@ scrolling UI more efficient, but first, let's talk about why and when
 this widget may not be the most efficient choice.
 
 Currently, our UI is pretty simple. The scrolling seven day forecast is
-likely to fit on most screens. This is ok for now, but as we add to our
-UI, we'll want to remain performant.
+likely to fit on most screens. This is ok for cases such as these, but
+as we add to our UI, we'll want to remain performant.
 
 If we were to remove the `SingleChildScrollView`, we could end up with
-an error from the `Column` overflowing. Try if you like to see what
+an error from the `Column` overflowing. Try it out to see what
 this looks like, and resize the window so that the contents of the
-Column don't fit in the screen.
+`Column` don't fit in the screen.
+
+![A render overflow error caused by our Column exceeding the window size](https://dartpad-workshops-io2021.web.app/getting_started_with_slivers/assets/overflow.png)
 
 This is where we can see how the layout protocol of slivers differs
 from their relative, the box layout protocol. A `Column` is laid out
@@ -22,7 +24,7 @@ the window.
 When we wrap our `Column` in a `SingleChildScrollView`, we are
 essentially wrapping our `Column` in a sliver. Slivers lay out using
 `SliverConstraints` and have a `SliverGeometry`. When working with
-slivers, the window pane we were constricted to previously becomes
+slivers, the window pane we were constricted to previously, becomes
 an infinite amount of space in the given axis, and so we use language
 different from height, width and position. As a sliver, we need to
 know things like how much is visible, and how far to the next sliver,
@@ -50,17 +52,17 @@ weekly forecast.
 
 ```dart
 return ListView.builder(
-    itemCount: 7,
-    itemBuilder: (BuildContext context, int index) {
-        return Card(
-          // This remains unchanged.
-        );
-    }
+  itemCount: 7,
+  itemBuilder: (BuildContext context, int index) {
+    return Card(
+      // This remains unchanged.
+    );
+  }
 );
 ```
 
-Now each of our `Card`s are individually wrapped in a sliver, and
-only being built as needed.
+Now each of our `Card`s will individually be wrapped in a sliver, and
+therefore, only built as needed.
 
 We are also going to change our access to our mock `Server` class here.
 Rather than request all of the data at once, we have the ability to
@@ -68,10 +70,12 @@ access our forecasts by index in our builder.
 
 ```dart
 // Remove this:
-final List<DailyForecast> forecasts = Server.getDailyForecastList();
+final List<DailyForecast> forecasts =
+    Server.getDailyForecastList();
 
 // And add this in our ListView itemBuilder
-final DailyForecast dailyForecast = Server.getDailyForecastByID(index);
+final DailyForecast dailyForecast =
+    Server.getDailyForecastByID(index);
 ```
 
 Now that we are building more efficiently, let's add more to our

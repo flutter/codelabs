@@ -18,7 +18,9 @@ home: Scaffold(
     backgroundColor: Colors.teal[800],
   ),
   body: CustomScrollView(
-    slivers: <Widget>[ WeeklyForecastList(), ],
+    slivers: <Widget>[
+      WeeklyForecastList(),
+    ],
   ),
 ),
 ```
@@ -26,8 +28,9 @@ home: Scaffold(
 Now for our `WeeklyForecastList`, let's change it to use a `SliverList`
 instead of a `ListView`. A `SliverList` takes a `SliverChildDelegate`,
 which provides the children. One kind of `SliverChildDelegate` is a
-`SliverChildBuilderDelegate` - which is the same as the builder provided
-to the `ListView`! We can keep our existing builder, and instead provide
+`SliverChildBuilderDelegate`. This delegate requires a  widget builder
+function - which is the same as the builder we provided
+to our `ListView`! We can keep our existing builder, and instead provide
 it to the delegate. The delegate also takes a `childCount`, similar to
 our ListView's `itemCount`.
 
@@ -35,7 +38,8 @@ our ListView's `itemCount`.
 return SliverList(
   delegate: SliverChildBuilderDelegate(
     (BuildContext context, int index) {
-      final DailyForecast dailyForecast = Server.getDailyForecastListByID(index);
+      final DailyForecast dailyForecast =
+          Server.getDailyForecastListByID(index);
       return Card(
         // Remains the same
       );
@@ -45,5 +49,6 @@ return SliverList(
 );
 ```
 
-You are now working directly with slivers - hooray! In the next step
-we'll explore the `SliverAppBar`.  
+You are now working directly with slivers - hooray! 🎉 
+
+In the next step we'll explore the `SliverAppBar`.  
