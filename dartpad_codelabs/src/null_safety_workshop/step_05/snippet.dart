@@ -1,12 +1,17 @@
+int addThreeValues({
+  int first,
+  int second,
+  int third,
+}) {
+  return first + second + third;
+}
+
 void main() {
-  String text;
+  final sum = addThreeValues(
+    first: 2,
+    second: 5,
+    third: 3,
+  );
 
-  // if (DateTime.now().hour < 12) {
-  //  text = "It's morning! Let's make aloo paratha!";
-  // } else {
-  //  text = "It's afternoon! Let's make biryani!";
-  // }
-
-  print(text);
-  print(text.length);
+  print(sum);
 }

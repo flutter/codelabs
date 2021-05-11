@@ -1,16 +1,16 @@
-int _computeValue() {
-  print('In _computeValue...');
-  return 3;
+class Team {
+  final Coach coach;
 }
 
-class CachedValueProvider {
-  final _cache = _computeValue();
-  int get value => _cache;
+class Coach {
+  final Team team;
 }
 
 void main() {
-  print('Calling constructor...');
-  var provider = CachedValueProvider();
-  print('Getting value...');
-  print('The value is ${provider.value}!');
+  final myTeam = Team();
+  final myCoach = Coach();
+  myTeam.coach = myCoach;
+  myCoach.team = myTeam;
+
+  print('All done!');
 }

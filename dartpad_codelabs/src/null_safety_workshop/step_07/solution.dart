@@ -1,11 +1,11 @@
 int getLength(String? str) {
   if (str == null) {
-    throw Exception('The value is null!');
+  	return 0;
   }
 
   return str.length;
 }
 
 void main() {
-  print(getLength(null));
+  print(getLength('This is a string!'));
 }

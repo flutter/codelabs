@@ -1,9 +1,18 @@
-# An advanced pattern: late circular references
-The `late` keyword is helpful for tricky patterns like circular references. This
-code has two objects that need to maintain non-nullable references to each
-other.
+# The late keyword
+Sometimes variables — fields in a class, or top-level variables — _should_ be
+non-nullable, but they can’t be assigned a value immediately. For cases like
+that, use the `late` keyword.
+
+When you put `late` in front of a variable declaration, that tells Dart the
+following:
+
+* Don’t assign that variable a value yet.
+* You will assign it a value later.
+* You’ll make sure that the variable has a value before the variable is used.
+
+Be wary, though -- if you declare a variable late and that variable is read
+before it’s assigned a value, an error is thrown.
 
 ## Exercise
-Try using the `late` keyword to fix this code.
-
-_(Note that you don’t need to remove final. You can create late final variables: you set their values once, and after that they’re read-only.)_
+Try using the `late` keyword to correct the following code. For a little extra
+fun afterward, try commenting out the line that sets description!
