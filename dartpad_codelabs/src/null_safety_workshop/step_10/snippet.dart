@@ -20,6 +20,7 @@ void main() {
 
   if (provider.value == null) {
     print('The value is null.');
+    return;
   }
 
   printString(provider.value);

@@ -1,5 +1,5 @@
 void main() {
-  String text;
+  String? text;
 
   // if (DateTime.now().hour < 12) {
   //  text = "It's morning! Let's make aloo paratha!";

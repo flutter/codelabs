@@ -14,6 +14,8 @@ void main() {
 
   if (str == null) {
     print('The value is null.');
+  } else {
+    print('The value is not null.');
   }
 
   printString(str);

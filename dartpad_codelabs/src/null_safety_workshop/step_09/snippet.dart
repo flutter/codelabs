@@ -12,6 +12,8 @@ void main() {
 
   if (provider.value == null) {
     print('The value is null.');
+  } else {
+    print('The value is not null.');
   }
 
   printString(provider.value);

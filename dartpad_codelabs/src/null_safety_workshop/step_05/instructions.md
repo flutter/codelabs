@@ -22,7 +22,7 @@ printThreeValues(first: 1, second: 4, third: 2);
 Any parameters that aren't supplied are given a value of `null`. Since the
 function uses nullable types (`int?`), this isn't a problem. What do you do,
 though, if you want to declare a function with named parameters of non-nullable
-types? Use the required keyword!
+types? Use the `required` keyword!
 
 ```dart
 void printThreeValues({
@@ -32,9 +32,9 @@ void printThreeValues({
 });
 ```
 
-When declared that way, all three of the parameters for `printThreeValues` are
-required, and any code that calls the function must provide all three -- 
-otherwise, it's a compile-time error.
+When declared this way, all three of the parameters for `printThreeValues` are
+required, and any code that calls the function must provide all three.
+Otherwise, it's a compile-time error.
 
 That means that this example from earlier would still work:
 

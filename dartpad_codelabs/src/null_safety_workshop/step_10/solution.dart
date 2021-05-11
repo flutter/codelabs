@@ -18,11 +18,14 @@ void printString(String str) => print(str);
 void main() {
   StringProvider provider = RandomStringProvider();
 
-  final str = provider.value;
+  final value = provider.value;
 
-  if (str == null) {
+  if (value == null) {
     print('The value is null.');
+    return;
+  } else {
+    print('The value is not null, so print it!');
   }
 
-  printString(str);
+  printString(value);
 }
