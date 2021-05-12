@@ -1,10 +1,10 @@
 # Create a StatefulWidget around the AppStateScope
 
-The `AppStateScope` itself does not have state, it only hosts the data
-that it receives. We still need to create a `StatefulWidget` to store
-the data. The goal of this `StatefulWidget` is to create the `AppState`
-, provide APIs to mutate the data, and host the data using the
-`AppStateScope`.
+The <span style="font-family: 'Courier New';">AppStateScope</span> doesn't have state, it only hosts the data
+that it receives. We still need to create a <span style="font-family: 'Courier New';">StatefulWidget</span> to store
+the data. The goal of this <span style="font-family: 'Courier New';">StatefulWidget</span> is to create the <span style="font-family: 'Courier New';">AppState</span>
+, provide APIs to modify the data, and host the data using the
+<span style="font-family: 'Courier New';">AppStateScope</span>.
 
 ```dart
 class AppStateWidget extends StatefulWidget {

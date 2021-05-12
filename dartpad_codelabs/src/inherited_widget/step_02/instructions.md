@@ -1,13 +1,12 @@
-# Create a InheritedWidget
+# Create an InheritedWidget
 
-Now, we have our own data structure to store the states. The next thing we want
-to do is to host the data above the widgets that need it, so the entire
-widget subtree has the access to the data.
+Now, we have our own data structure to store the states. The next thing we want to do is to place
+the data above the widgets that need it, so the entire widget subtree has access to the data.
 
-This is where the `InheritedWidget` comes in handy. This widget has the ability
-to host the data for the subtree and notify them to rebuild when the data changes.
+This is where the <span style="font-family: 'Courier New';">InheritedWidget</span> comes in handy. The widget has the ability
+to host the data for the subtree and notify the subtree to rebuild when the data changes.
 
-The next step is to create our own `InheritedWidget` that hosts the data.
+The next step is to create our own <span style="font-family: 'Courier New';">InheritedWidget</span> to host the data.
 
 ```dart
 class AppStateScope extends InheritedWidget {
