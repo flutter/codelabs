@@ -4,6 +4,7 @@ import 'package:dashclicker/logic/firebase_notifier.dart';
 import 'package:dashclicker/repo/iap_repo.dart';
 import 'package:provider/provider.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 
 import 'logic/dash_upgrades.dart';
 import 'logic/dash_counter.dart';
@@ -12,19 +13,19 @@ import 'pages/purchase_page.dart';
 
 // Gives the option to override in tests.
 class IAPConnection {
-  static InAppPurchaseConnection? _instance;
-  static set instance(InAppPurchaseConnection value) {
+  static InAppPurchase? _instance;
+  static set instance(InAppPurchase value) {
     _instance = value;
   }
 
-  static InAppPurchaseConnection get instance {
-    _instance ??= InAppPurchaseConnection.instance;
+  static InAppPurchase get instance {
+    _instance ??= InAppPurchase.instance;
     return _instance!;
   }
 }
 
 void main() {
-  InAppPurchaseConnection.enablePendingPurchases();
+  InAppPurchaseAndroidPlatformAddition.enablePendingPurchases();
   runApp(MyApp());
 }
 

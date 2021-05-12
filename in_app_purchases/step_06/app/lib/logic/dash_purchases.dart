@@ -31,7 +31,7 @@ class DashPurchases extends ChangeNotifier {
   final iapConnection = IAPConnection.instance;
 
   DashPurchases(this.counter) {
-    final purchaseUpdated = iapConnection.purchaseUpdatedStream;
+    final purchaseUpdated = iapConnection.purchaseStream;
     _subscription = purchaseUpdated.listen(
       _onPurchaseUpdate,
       onDone: _updateStreamOnDone,

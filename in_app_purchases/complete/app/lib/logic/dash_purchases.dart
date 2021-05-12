@@ -24,7 +24,7 @@ class DashPurchases extends ChangeNotifier {
   final iapConnection = IAPConnection.instance;
 
   DashPurchases(this.counter, this.firebaseNotifier, this.iapRepo) {
-    final purchaseUpdated = iapConnection.purchaseUpdatedStream;
+    final purchaseUpdated = iapConnection.purchaseStream;
     _subscription = purchaseUpdated.listen(
       _onPurchaseUpdate,
       onDone: _updateStreamOnDone,
@@ -127,7 +127,7 @@ class DashPurchases extends ChangeNotifier {
     final callable = functions.httpsCallable('verifyPurchase');
     final results = await callable({
       'source':
-          purchaseDetails.verificationData.source.toString().split('.')[1],
+          purchaseDetails.verificationData.source,
       'verificationData':
           purchaseDetails.verificationData.serverVerificationData,
       'productId': purchaseDetails.productID,
