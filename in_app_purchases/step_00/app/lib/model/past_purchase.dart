@@ -62,9 +62,9 @@ PurchaseType _typeFromString(String type) {
 
 Store _storeFromString(String store) {
   switch (store) {
-    case 'GooglePlay':
+    case 'google_play':
       return Store.googlePlay;
-    case 'AppStore':
+    case 'app_store':
       return Store.appStore;
     default:
       throw ArgumentError.value(store, '$store is not a supported store');
