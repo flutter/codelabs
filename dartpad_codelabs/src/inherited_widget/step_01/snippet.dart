@@ -24,7 +24,7 @@ class AppState {
   AppState copyWith({
     //..
   }) {
-    // TODO: implement copy method
+    // TODO: implement copy method.
   }
 }
 

@@ -1,6 +1,6 @@
 # Migrate search TextField
 
-We also need to migrate the search query to update the `AppState`.
+We also need to migrate the search query so that it updates the <span style="font-family: 'Courier New';">AppState</span>.
 
 ```dart
   void _toggleSearch() {
