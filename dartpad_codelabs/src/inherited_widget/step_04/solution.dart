@@ -1,7 +1,3 @@
-// Copyright (c) 2019, the Dart project authors.  Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
-
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
@@ -126,14 +122,14 @@ class MyStorePage extends StatefulWidget {
 class MyStorePageState extends State<MyStorePage> {
 
   bool _inSearch = false;
-  late TextEditingController _controller;
+  final TextEditingController _controller = TextEditingController();
   final FocusNode _focusNode = FocusNode();
   void _toggleSearch() {
     setState(() {
       _inSearch = !_inSearch;
     });
 
-    _controller = TextEditingController();
+    _controller.clear();
     productList.currentState!.productList = Server.getProductList();
   }
 
@@ -204,7 +200,7 @@ class ShoppingCartIconState extends State<ShoppingCartIcon> {
       alignment: Alignment.center,
       children: [
         Padding(
-          padding: EdgeInsets.only(right: hasPurchase ? 17.0 : 0.0),
+          padding: EdgeInsets.only(right: hasPurchase ? 17.0 : 10.0),
           child: Icon(
             Icons.shopping_cart,
             color: Colors.black,
@@ -378,15 +374,6 @@ const Map<String, Product> kDummyData = {
   ),
   '3' : Product(
     id: '3',
-    title: 'Nest Video Entertainment packages',
-    description: TextSpan(children: <TextSpan>[
-      TextSpan(text: 'So much to watch.\n', style: TextStyle(color: Colors.black)),
-      TextSpan(text: 'So easy to find.', style: TextStyle(color: Colors.blue)),
-    ]),
-    pictureURL: '$baseAssetURL/nest-video-packages.png',
-  ),
-  '4' : Product(
-    id: '4',
     title: 'Nest Home Security packages',
     description: TextSpan(children: <TextSpan>[
       TextSpan(text: 'Your home,\n', style: TextStyle(color: Colors.black)),

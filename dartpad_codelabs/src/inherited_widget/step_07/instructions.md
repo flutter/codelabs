@@ -7,7 +7,7 @@ We also need to migrate the search query so that it updates the <span style="fon
     setState(() {
       _inSearch = !_inSearch;
     });
-    _controller = TextEditingController();
+    _controller.clear();
     // TODO: set productList to Server.getProductList().
   }
 

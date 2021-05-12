@@ -1,7 +1,3 @@
-// Copyright (c) 2019, the Dart project authors.  Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
-
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
@@ -21,8 +17,6 @@ void main() {
 class AppState {
   AppState({
     required this.productList,
-    required this.controller,
-    required this.focusNode,
     this.itemsInCart = const <String>{},
     this.inSearch = false,
   });
@@ -30,8 +24,6 @@ class AppState {
   final List<String> productList;
   final Set<String> itemsInCart;
   final bool inSearch;
-  final TextEditingController controller;
-  final FocusNode focusNode;
 
   AppState copyWith({
     List<String>? productList,
@@ -44,8 +36,6 @@ class AppState {
       productList: productList ?? this.productList,
       itemsInCart: itemsInCart ?? this.itemsInCart,
       inSearch: inSearch ?? this.inSearch,
-      controller: controller ?? this.controller,
-      focusNode: focusNode ?? this.focusNode,
     );
   }
 }
@@ -81,8 +71,6 @@ class AppStateWidget extends StatefulWidget {
 class AppStateWidgetState extends State<AppStateWidget> {
   AppState _data = AppState(
     productList: Server.getProductList(),
-    controller: TextEditingController(),
-    focusNode: FocusNode(),
   );
 
   void setProductList(List<String> newProductList) {
@@ -141,17 +129,19 @@ class AppStateWidgetState extends State<AppStateWidget> {
 class MyStorePage extends StatelessWidget {
   MyStorePage({Key? key}) : super(key: key);
 
+  final TextEditingController _controller = TextEditingController();
+  final FocusNode _focusNode = FocusNode();
+
   void _toggleSearch(BuildContext context) {
-    AppState data = AppStateScope.of(context);
-    AppStateWidget.of(context).setInSearch(!data.inSearch);
-    AppStateWidget.of(context).setProductList(Server.getProductList());
-    data.controller.clear();
+    AppStateWidgetState state = AppStateWidget.of(context);
+    state.setInSearch(!AppStateScope.of(context).inSearch);
+    state.setProductList(Server.getProductList());
+    _controller.clear();
   }
 
   void _handleSearch(BuildContext context) {
-    AppState data = AppStateScope.of(context);
-    data.focusNode.unfocus();
-    final String filter = data.controller.text;
+    _focusNode.unfocus();
+    final String filter = _controller.text;
     AppStateWidget.of(context).setProductList(Server.getProductList(filter: filter));
   }
 
@@ -169,8 +159,8 @@ class MyStorePage extends StatelessWidget {
             title: data.inSearch
                 ? TextField(
                 autofocus: true,
-                focusNode: data.focusNode,
-                controller: data.controller,
+                focusNode: _focusNode,
+                controller: _controller,
                 onSubmitted: (_) => _handleSearch(context),
                 decoration: InputDecoration(
                   hintText: 'Search Google Store',
@@ -206,7 +196,7 @@ class ShoppingCartIcon extends StatelessWidget {
       alignment: Alignment.center,
       children: [
         Padding(
-          padding: EdgeInsets.only(right: hasPurchase ? 17.0 : 0.0),
+          padding: EdgeInsets.only(right: hasPurchase ? 17.0 : 10.0),
           child: Icon(
             Icons.shopping_cart,
             color: Colors.black,
@@ -359,15 +349,6 @@ const Map<String, Product> kDummyData = {
   ),
   '3' : Product(
     id: '3',
-    title: 'Nest Video Entertainment packages',
-    description: TextSpan(children: <TextSpan>[
-      TextSpan(text: 'So much to watch.\n', style: TextStyle(color: Colors.black)),
-      TextSpan(text: 'So easy to find.', style: TextStyle(color: Colors.blue)),
-    ]),
-    pictureURL: '$baseAssetURL/nest-video-packages.png',
-  ),
-  '4' : Product(
-    id: '4',
     title: 'Nest Home Security packages',
     description: TextSpan(children: <TextSpan>[
       TextSpan(text: 'Your home,\n', style: TextStyle(color: Colors.black)),
