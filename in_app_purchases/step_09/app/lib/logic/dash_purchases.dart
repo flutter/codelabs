@@ -120,8 +120,7 @@ class DashPurchases extends ChangeNotifier {
     var functions = await firebaseNotifier.functions;
     final callable = functions.httpsCallable('verifyPurchase');
     final results = await callable({
-      'source':
-          purchaseDetails.verificationData.source,
+      'source': purchaseDetails.verificationData.source,
       'verificationData':
           purchaseDetails.verificationData.serverVerificationData,
       'productId': purchaseDetails.productID,

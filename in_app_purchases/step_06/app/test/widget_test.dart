@@ -49,7 +49,8 @@ class TestIAPConnection implements InAppPurchase {
   }
 
   @override
-  Stream<List<PurchaseDetails>> get purchaseStream => Stream.value(<PurchaseDetails>[]);
+  Stream<List<PurchaseDetails>> get purchaseStream =>
+      Stream.value(<PurchaseDetails>[]);
 
   @override
   Future<void> restorePurchases({String? applicationUserName}) {
