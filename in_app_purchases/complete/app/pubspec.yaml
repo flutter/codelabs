@@ -26,11 +26,7 @@ dependencies:
   cloud_functions: "^1.0.3"
   cloud_firestore: "^1.0.4"
   google_sign_in: "^5.0.1"
-  in_app_purchase:
-    git:
-      url: git@github.com:flutter/plugins.git
-      ref: c62a445c1d13bd54d7e4f5a77ec8cea40773d898
-      path: packages/in_app_purchase/in_app_purchase
+  in_app_purchase: "^0.6.0"
 
 
   flutter:
