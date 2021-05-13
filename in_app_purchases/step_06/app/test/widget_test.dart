@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:dashclicker/main.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:in_app_purchase_platform_interface/src/in_app_purchase_platform_addition.dart';
 
 void main() {
   testWidgets('App starts', (WidgetTester tester) async {
@@ -11,7 +12,7 @@ void main() {
   });
 }
 
-class TestIAPConnection implements InAppPurchaseConnection {
+class TestIAPConnection implements InAppPurchase {
   @override
   Future<bool> buyConsumable(
       {required PurchaseParam purchaseParam, bool autoConsume = true}) {
@@ -24,42 +25,13 @@ class TestIAPConnection implements InAppPurchaseConnection {
   }
 
   @override
-  Future<BillingResultWrapper> completePurchase(PurchaseDetails purchase) {
-    return Future.value(BillingResultWrapper(
-      debugMessage: 'test connection',
-      responseCode: BillingResponse.featureNotSupported,
-    ));
-  }
-
-  @override
-  Future<BillingResultWrapper> consumePurchase(PurchaseDetails purchase) {
-    return Future.value(BillingResultWrapper(
-      debugMessage: 'test connection',
-      responseCode: BillingResponse.featureNotSupported,
-    ));
+  Future<void> completePurchase(PurchaseDetails purchase) {
+    return Future.value();
   }
 
   @override
   Future<bool> isAvailable() {
     return Future.value(false);
-  }
-
-  @override
-  Future<void> presentCodeRedemptionSheet() {
-    return Future.value();
-  }
-
-  @override
-  // TODO: implement purchaseUpdatedStream
-  Stream<List<PurchaseDetails>> get purchaseUpdatedStream =>
-      Stream.value(<PurchaseDetails>[]);
-
-  @override
-  Future<QueryPurchaseDetailsResponse> queryPastPurchases(
-      {String? applicationUserName}) {
-    return Future.value(QueryPurchaseDetailsResponse(
-      pastPurchases: <PurchaseDetails>[],
-    ));
   }
 
   @override
@@ -71,7 +43,18 @@ class TestIAPConnection implements InAppPurchaseConnection {
   }
 
   @override
-  Future<PurchaseVerificationData?> refreshPurchaseVerificationData() {
-    return Future.value(null);
+  T getPlatformAddition<T extends InAppPurchasePlatformAddition?>() {
+    // TODO: implement getPlatformAddition
+    throw UnimplementedError();
+  }
+
+  @override
+  Stream<List<PurchaseDetails>> get purchaseStream =>
+      Stream.value(<PurchaseDetails>[]);
+
+  @override
+  Future<void> restorePurchases({String? applicationUserName}) {
+    // TODO: implement restorePurchases
+    throw UnimplementedError();
   }
 }
