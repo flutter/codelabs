@@ -257,23 +257,25 @@ packages:
   in_app_purchase:
     dependency: "direct main"
     description:
-      path: "../../../../flutter-plugins/packages/in_app_purchase/in_app_purchase"
-      relative: true
-    source: path
+      path: "packages/in_app_purchase/in_app_purchase"
+      ref: c62a445c1d13bd54d7e4f5a77ec8cea40773d898
+      resolved-ref: c62a445c1d13bd54d7e4f5a77ec8cea40773d898
+      url: "git@github.com:flutter/plugins.git"
+    source: git
     version: "0.6.0"
   in_app_purchase_android:
     dependency: transitive
     description:
-      path: "../../../../flutter-plugins/packages/in_app_purchase/in_app_purchase_android"
-      relative: true
-    source: path
+      name: in_app_purchase_android
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.1.0"
   in_app_purchase_ios:
     dependency: transitive
     description:
-      path: "../../../../flutter-plugins/packages/in_app_purchase/in_app_purchase_ios"
-      relative: true
-    source: path
+      name: in_app_purchase_ios
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.1.0"
   in_app_purchase_platform_interface:
     dependency: transitive
