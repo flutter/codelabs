@@ -1,7 +1,7 @@
 # Introduction
 
 State management is an important topic in mobile development.
-In Flutter, <span style="font-family: 'Courier New';">InheritedWidget</span> makes the process of building
+In Flutter, `InheritedWidget` makes the process of building
 the state management system easier. In this workshop,
 you will learn how to handle your app state by using InheritedWidget.
 
@@ -19,7 +19,7 @@ click the **Run** button in the top, right corner of the IDE.
 Try to scroll through different google products, and add or remove products from
 the cart. The small cart icon on the right side of the app bar changes based on number
 of products in the cart. You can also perform search queries by clicking the
-search icon in the app bar and typing <span style="font-family: 'Courier New';">nest</span> to filter nest products.
+search icon in the app bar and typing `nest` to filter nest products.
 
 There are two components that require stateful objects:
 

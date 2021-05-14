@@ -5,12 +5,12 @@ To do that, we must determine what’s considered to be the app’s state.
 
 We know there are at least two components that require state: the product list and the cart icon.
 
-In the source code, the product list corresponds to the <span style="font-family: 'Courier New';">ProductListWidget</span>,
-and the cart icon corresponds to the <span style="font-family: 'Courier New';">ShoppingCartIcon</span>.
+In the source code, the product list corresponds to the `ProductListWidget`,
+and the cart icon corresponds to the `ShoppingCartIcon`.
 
-Let's look at the <span style="font-family: 'Courier New';">ProductListWidget</span> widget first. This widget builds the
+Let's look at the `ProductListWidget` widget first. This widget builds the
 scrollable body and displays Google products.  Because the widget needs to know which products to display and which products are already in the cart, the
-<span style="font-family: 'Courier New';">ProductListState</span> stores the <span style="font-family: 'Courier New';">productList</span> and the <span style="font-family: 'Courier New';">itemsInCart</span>.
+`ProductListState` stores the `productList` and the `itemsInCart`.
 
 ```dart
 class ProductListWidgetState extends State<ProductListWidget> {
@@ -34,7 +34,7 @@ class ProductListWidgetState extends State<ProductListWidget> {
 }
 ```
 
-On the other hand, the <span style="font-family: 'Courier New';">ShoppingCartIcon</span> also stores <span style="font-family: 'Courier New';">itemsInCart</span> because
+On the other hand, the `ShoppingCartIcon` also stores `itemsInCart` because
 it needs to know number of products that are in the cart.
 
 ```dart
@@ -51,14 +51,14 @@ class ShoppingCartIconState extends State<ShoppingCartIcon> {
 }
 ```
 
-This is where things get interesting. Both <span style="font-family: 'Courier New';">ShoppingCartIcon</span> and <span style="font-family: 'Courier New';">ProductListWidget</span> store their own
-versions of <span style="font-family: 'Courier New';">itemsInCart</span>, and the <span style="font-family: 'Courier New';">itemsInCart</span> must be kept in sync. When the <span style="font-family: 'Courier New';">itemsInCart</span> is updated
-in the <span style="font-family: 'Courier New';">ProductListWidget</span>, the <span style="font-family: 'Courier New';">ProductListWidget</span> also needs to update the <span style="font-family: 'Courier New';">itemsInCart</span> in the <span style="font-family: 'Courier New';">ShoppingCartIcon</span>. Things can
-can get out of hand very quickly if we added more widgets that depends on the <span style="font-family: 'Courier New';">itemsInCart</span>.
+This is where things get interesting. Both `ShoppingCartIcon` and `ProductListWidget` store their own
+versions of `itemsInCart`, and the `itemsInCart` must be kept in sync. When the `itemsInCart` is updated
+in the `ProductListWidget`, the `ProductListWidget` also needs to update the `itemsInCart` in the `ShoppingCartIcon`. Things can
+can get out of hand very quickly if we added more widgets that depends on the `itemsInCart`.
 
 Now, let's pull these states out of the widgets.
 
-You can find the class by searching for <span style="font-family: 'Courier New';">TODO</span> in the IDE
+You can find the class by searching for `TODO` in the IDE
 
 ```dart
 class AppState {
