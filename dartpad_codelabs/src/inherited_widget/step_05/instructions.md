@@ -1,7 +1,7 @@
 # Migrate the ShoppingCartIcon
 
-Every widget should have access to the <span style="font-family: 'Courier New';">AppStateWidget</span> and <span style="font-family: 'Courier New';">AppStateScope</span>.
-Let's migrate the <span style="font-family: 'Courier New';">ShoppingCartIcon</span> so that it uses <span style="font-family: 'Courier New';">AppStateScope</span> instead of storing
+Every widget should have access to the `AppStateWidget` and `AppStateScope`.
+Let's migrate the `ShoppingCartIcon` so that it uses `AppStateScope` instead of storing
 the state locally.
 
 **Note:** The app won’t work properly until we migrate all the widgets.

@@ -1,6 +1,6 @@
 # Migrate the ProductListWidget
 
-Let's do the same thing for the <span style="font-family: 'Courier New';">ProductListWidget</span> so that it also uses <span style="font-family: 'Courier New';">AppStateScope</span>.
+Let's do the same thing for the `ProductListWidget` so that it also uses `AppStateScope`.
 
 ```dart
 // TODO: convert ProductListWidget into StatelessWidget.

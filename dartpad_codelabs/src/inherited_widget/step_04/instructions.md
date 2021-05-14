@@ -1,6 +1,6 @@
 # Insert the AppStateWidget into the widget tree
 
-Now, we’ll insert the <span style="font-family: 'Courier New';">AppStateWidgetState</span> into the widget tree.
+Now, we’ll insert the `AppStateWidgetState` into the widget tree.
 
 ```dart
 void main() {
