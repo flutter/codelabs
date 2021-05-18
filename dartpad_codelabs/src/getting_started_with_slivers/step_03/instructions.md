@@ -1,21 +1,23 @@
 # Adding To Our UI
 
-Now that we are lazily building our UI, let's add some complexity. Our
-`DailyForecast` object comes with an image for each day, and we can
-use that to polish this up a bit more.
+Now that we’re lazily building the UI, let’s add some complexity.
+The `DailyForecast` object comes with an image for each day, but
+we can polish this a bit more. 
 
-Currently, we are using a `ListTile` in our `Card`. This is a super
-handy widget that handles a lot of layout and padding for you. Let's
-change it up to reflect our own style. Feel free to diverge here, this
-is a fun side mission to add to our UI now that it is more efficient.
+Currently, we’re using a `ListTile` in the `Card`. This is a
+handy widget that handles a lot of layout and padding for you.
+Let’s change the widget to reflect our own style. Feel free to
+diverge here. This is a fun side mission to add to the UI now
+that it’s more efficient. 
 
-If we look at our current layout, we can break this up into Columns and
-Rows, and make a few adjustments.
+If we look at the current UI, then we can break it into
+`Column`s and `Row`s, and make a few adjustments. 
 
-Let's remove the `ListTile`, and instead, create a `Row`. The contents
-of `leading` and `trailing` can become children of our `Row`. Since the
-`title` and `subtitle` were stacked vertically, let's wrap those in a
-`Column` and place it in between.
+Let’s remove the `ListTile` and create a `Row` instead.
+The contents of leading and trailing can become children
+of the `Row`. Because title and subtitle are stacked
+vertically, let’s wrap them in a `Column` and place the
+`Column` in between.
 
 ```dart
 Row( 
@@ -34,9 +36,9 @@ Row(
 )
 ```
 
-This is pretty close to what our `ListTile` generated for us. Add some
-`Padding` to neaten up as you like and put an `Expanded` widget around
-the `Column` to handle any overflow of our forecast description.
+This is pretty close to what the `ListTile` generated. Add some
+`Padding` to neaten the UI, and put an `Expanded` widget around
+the `Column` to handle any overflow from the forecast description.
 
 ```dart
 Expanded(
@@ -50,14 +52,14 @@ Expanded(
 )
 ```
 
-Great! Let's see about adding our images now, maybe they'll add more
-context to our forecasts. Using a `Stack`, we can use the image as a
-background for the date.
+Great! Let’s add our images now. They’ll add more context to the
+forecasts. Using a `Stack`, we can use the image as a background
+for the date. 
 
-Add a `SizedBox` around the `Stack`. The children of a `Stack` are stacked
-with the first listed on the bottom, so place the `Image` first, followed
-by the `Text`. We'll set a fit for our `Stack` and `Image` so that it will
-fill the whole space of the `SizedBox`.
+Add a `SizedBox` around the `Stack`. The children of a `Stack` are
+stacked with the first child listed on the bottom, so place the
+`Image` first, followed by the `Text`. We’ll set a size for the
+`Stack` and `Image` so that they fill the space of the `SizedBox`.
 
 ```dart
 SizedBox(
@@ -81,10 +83,9 @@ SizedBox(
 ),
 ```
 
-To add some contrast between the `Text` and the `Image`, let's place a
-gradient in between for a nice visual effect. We can do this with by wrapping
-our `Image` in a `DecoratedBox` with a `RadialGradient`. `Center` the `Text`
-as well, so it lines up with the gradient.
+To add some contrast between the `Text` and the `Image`, place a gradient
+in between, for a nice visual effect. We can do this with a `DecoratedBox`
+and a `RadialGradient`. `Center` the `Text` so it lines up with the gradient.
 
 ```dart
 SizedBox(

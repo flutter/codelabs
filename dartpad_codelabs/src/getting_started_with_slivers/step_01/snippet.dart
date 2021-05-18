@@ -51,7 +51,7 @@ class WeeklyForecastList extends StatelessWidget {
                 dailyForecast.getWeekday(currentDate.weekday),
                 style: textTheme.headline5,
               ),
-              subtitle: Text(forecast.description),
+              subtitle: Text(dailyForecast.description),
               trailing: Text(
                 '${dailyForecast.highTemp} | ${dailyForecast.lowTemp} F',
                 style: textTheme.subtitle2,
