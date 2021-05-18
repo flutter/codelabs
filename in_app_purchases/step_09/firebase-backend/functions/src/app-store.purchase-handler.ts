@@ -73,7 +73,7 @@ export class AppStorePurchaseHandler extends PurchaseHandler {
         case "SUBSCRIPTION":
           await this.iapRepository.createOrUpdatePurchase({
             type: productData.type,
-            iapSource: "AppStore",
+            iapSource: "app_store",
             orderId: product.originalTransactionId,
             productId: product.productId,
             userId,
@@ -87,7 +87,7 @@ export class AppStorePurchaseHandler extends PurchaseHandler {
         case "NON_SUBSCRIPTION":
           await this.iapRepository.createOrUpdatePurchase({
             type: productData.type,
-            iapSource: "AppStore",
+            iapSource: "app_store",
             orderId: product.originalTransactionId,
             productId: product.productId,
             userId,

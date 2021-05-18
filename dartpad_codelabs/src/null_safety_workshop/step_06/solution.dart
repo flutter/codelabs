@@ -1,11 +1,12 @@
-int getLength(String? str) {
-  if (str == null) {
-  	return 0;
+void main() {
+  String? text;
+
+  if (DateTime.now().hour < 12) {
+    text = "It's morning! Let's make aloo paratha!";
+  } else {
+    text = "It's afternoon! Let's make biryani!";
   }
 
-  return str.length;
-}
-
-void main() {
-  print(getLength('This is a string!'));
+  print(text);
+  print(text.length);
 }

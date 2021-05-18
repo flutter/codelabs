@@ -50,7 +50,7 @@ export class GooglePlayPurchaseHandler extends PurchaseHandler {
         const purchaseData: Omit<NonSubscriptionPurchase, "userId"> =
                 {
                   type: "NON_SUBSCRIPTION",
-                  iapSource: "GooglePlay",
+                  iapSource: "google_play",
                   orderId: response.data.orderId,
                   productId: productData.productId,
                   purchaseDate: firestore.Timestamp.fromMillis(parseInt(response.data.purchaseTimeMillis ?? "0", 10)),
@@ -118,7 +118,7 @@ export class GooglePlayPurchaseHandler extends PurchaseHandler {
         // Construct purchase data for db updates
         const purchaseData: Omit<SubscriptionPurchase, "userId"> = {
           type: "SUBSCRIPTION",
-          iapSource: "GooglePlay",
+          iapSource: "google_play",
           orderId: orderId,
           productId: productData.productId,
           purchaseDate: firestore.Timestamp.fromMillis(parseInt(response.data.startTimeMillis ?? "0", 10)),

@@ -17,8 +17,8 @@ const iapRepository = new IapRepository(admin.firestore());
 // Initialize an instance of each purchase handler,
 // and store them in a map for easy access.
 const purchaseHandlers: { [source in IAPSource]: PurchaseHandler } = {
-  "GooglePlay": new GooglePlayPurchaseHandler(iapRepository),
-  "AppStore": new AppStorePurchaseHandler(iapRepository),
+  "google_play": new GooglePlayPurchaseHandler(iapRepository),
+  "app_store": new AppStorePurchaseHandler(iapRepository),
 };
 // Verify Purchase Function
 interface VerifyPurchaseParams {

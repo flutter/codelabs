@@ -79,7 +79,7 @@ export class AppStorePurchaseHandler extends PurchaseHandler {
         case "SUBSCRIPTION":
           await this.iapRepository.createOrUpdatePurchase({
             type: productData.type,
-            iapSource: "AppStore",
+            iapSource: "app_store",
             orderId: product.originalTransactionId,
             productId: product.productId,
             userId,
@@ -93,7 +93,7 @@ export class AppStorePurchaseHandler extends PurchaseHandler {
         case "NON_SUBSCRIPTION":
           await this.iapRepository.createOrUpdatePurchase({
             type: productData.type,
-            iapSource: "AppStore",
+            iapSource: "app_store",
             orderId: product.originalTransactionId,
             productId: product.productId,
             userId,
@@ -155,7 +155,7 @@ export class AppStorePurchaseHandler extends PurchaseHandler {
         case "SUBSCRIPTION":
           try {
             await this.iapRepository.updatePurchase({
-              iapSource: "AppStore",
+              iapSource: "app_store",
               orderId: iap.originalTransactionId,
               expiryDate: Timestamp.fromMillis(parseInt(iap.expiresDateMs, 10)),
               status: Date.now() >= parseInt(iap.expiresDateMs, 10) ? "EXPIRED" : "ACTIVE",

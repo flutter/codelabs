@@ -1,13 +1,31 @@
-class Meal {
-  late String description;
+import 'dart:math';
 
-  void setDescription(String str) {
-    description = str;
-  }
+class StringProvider {
+  String? value = 'A String!';
 }
 
+class RandomStringProvider extends StringProvider {
+  @override
+  void set value(String? v) {}
+
+  @override
+  String? get value =>
+    Random().nextBool() ? 'A String!' : null;
+}
+
+void printString(String str) => print(str);
+
 void main() {
-  final myMeal = Meal();
-  myMeal.setDescription('Feijoada!');
-  print(myMeal.description);
+  StringProvider provider = RandomStringProvider();
+
+  final value = provider.value;
+
+  if (value == null) {
+    print('The value is null.');
+    return;
+  } else {
+    print('The value is not null, so print it!');
+  }
+
+  printString(value);
 }

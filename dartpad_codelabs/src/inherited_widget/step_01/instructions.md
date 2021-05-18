@@ -1,17 +1,15 @@
-# Define the State Data Structure
+# Define the state data structure
 
-The first thing to do is define a data structure to store your app state.
-To do that, we need to determine what should be considered as the app state.
+The first thing you need to do is to define a structure to store your app’s state.
+To do that, we must determine what’s considered to be the app’s state.
 
-We know there are at least two components require state, the product list
-and the cart icon.
+We know there are at least two components that require state: the product list and the cart icon.
 
-In the source code, the product list corresponds to the `ProductListWidget` widget,
+In the source code, the product list corresponds to the `ProductListWidget`,
 and the cart icon corresponds to the `ShoppingCartIcon`.
 
-Let's first look at the `ProductListWidget` widget. This widget builds the
-scrollable body and displays the google products. Since it needs to know what
-product to display and which products are already in the cart, the
+Let's look at the `ProductListWidget` widget first. This widget builds the
+scrollable body and displays Google products.  Because the widget needs to know which products to display and which products are already in the cart, the
 `ProductListState` stores the `productList` and the `itemsInCart`.
 
 ```dart
@@ -54,14 +52,13 @@ class ShoppingCartIconState extends State<ShoppingCartIcon> {
 ```
 
 This is where things get interesting. Both `ShoppingCartIcon` and `ProductListWidget` store their own
-version of `itemsInCart`, and they need to be kept in sync. When the `itemsInCart` is updated
-in `ProductListWidget` widget, it also needs to update the state in `ShoppingCartIcon` widget. It can
-can get out of hand very quickly if we were to add more widgets that depends on the `itemsInCart`
-in the future.
+versions of `itemsInCart`, and the `itemsInCart` must be kept in sync. When the `itemsInCart` is updated
+in the `ProductListWidget`, the `ProductListWidget` also needs to update the `itemsInCart` in the `ShoppingCartIcon`. Things can
+can get out of hand very quickly if we added more widgets that depends on the `itemsInCart`.
 
-Now let's pull these states out of the widgets.
+Now, let's pull these states out of the widgets.
 
-You can find the class by searching `TODO` in the IDE
+You can find the class by searching for `TODO` in the IDE
 
 ```dart
 class AppState {
@@ -70,7 +67,7 @@ class AppState {
   AppState copyWith({
     //..
   }) {
-    // TODO: implement copy method
+    // TODO: implement copy method.
   }
 }
 ```
