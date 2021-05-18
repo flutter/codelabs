@@ -110,7 +110,6 @@ class AppStateWidgetState extends State<AppStateWidget> {
   }
 }
 
-// TODO: convert MyStorePage into StatelessWidget
 class MyStorePage extends StatefulWidget {
   MyStorePage({Key? key}) : super(key: key);
   @override
@@ -143,22 +142,22 @@ class MyStorePageState extends State<MyStorePage> {
         slivers: [
           SliverAppBar(
             leading: Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Image.network('$baseAssetURL/google-logo.png')
+                padding: EdgeInsets.all(16.0),
+                child: Image.network('$baseAssetURL/google-logo.png')
             ),
             title: _inSearch
-              ? TextField(
-                  autofocus: true,
-                  focusNode: _focusNode,
-                  controller: _controller,
-                  onSubmitted: (_) => _handleSearch(context),
-                  decoration: InputDecoration(
-                    hintText: 'Search Google Store',
-                    prefixIcon: IconButton(icon: Icon(Icons.search), onPressed: () => _handleSearch(context)),
-                    suffixIcon: IconButton(icon: Icon(Icons.close), onPressed: () => _toggleSearch(context)),
-                  )
+                ? TextField(
+                autofocus: true,
+                focusNode: _focusNode,
+                controller: _controller,
+                onSubmitted: (_) => _handleSearch(context),
+                decoration: InputDecoration(
+                  hintText: 'Search Google Store',
+                  prefixIcon: IconButton(icon: Icon(Icons.search), onPressed: () => _handleSearch(context)),
+                  suffixIcon: IconButton(icon: Icon(Icons.close), onPressed: () => _toggleSearch(context)),
                 )
-              : null,
+            )
+                : null,
             actions: [
               if (!_inSearch) IconButton(onPressed: () => _toggleSearch(context), icon: Icon(Icons.search, color: Colors.black)),
               ShoppingCartIcon(),
