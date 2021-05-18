@@ -25,9 +25,6 @@ steps:
   - name: Migrate search TextField
     directory: step_07
     has_solution: true
-  - name: Migrate MyStorePage
-    directory: step_08
-    has_solution: true
   - name: The end of workshop
-    directory: step_09
+    directory: step_08
     has_solution: false

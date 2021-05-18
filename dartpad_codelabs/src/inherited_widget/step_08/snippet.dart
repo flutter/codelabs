@@ -110,7 +110,6 @@ class AppStateWidgetState extends State<AppStateWidget> {
   }
 }
 
-// TODO: convert MyStorePage into StatelessWidget
 class MyStorePage extends StatefulWidget {
   MyStorePage({Key? key}) : super(key: key);
   @override
