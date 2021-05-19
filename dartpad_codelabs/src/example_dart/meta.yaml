@@ -1,0 +1,9 @@
+name: Example codelab
+type: dart # Optional
+steps:
+  - name: Step 1
+    directory: step_01
+    has_solution: true
+  - name: Step 2
+    directory: step_02
+    has_solution: false

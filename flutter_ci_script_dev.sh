@@ -25,6 +25,7 @@ declare -a CODELABS=(
   "friendly_chat"
   "github-graphql-client"
   "google-maps-in-flutter"
+  "in_app_purchases"
   "startup_namer"
   "star_counter"
   "startup_namer_null_safety"
@@ -48,8 +49,9 @@ for PROJECT in "${PROJECT_PATHS[@]}"; do
   (
     cd "$PROJECT";
     set -x;
-    $FLUTTER analyze;
-    $FLUTTER format --dry-run --set-exit-if-changed .;
+    # Only warn about analysis and format issues for dev and beta
+    $FLUTTER analyze --no-fatal-infos;
+    $FLUTTER format --dry-run .;
     $FLUTTER test
   )
 done

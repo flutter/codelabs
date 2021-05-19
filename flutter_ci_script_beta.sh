@@ -29,6 +29,7 @@ declare -a CODELABS=(
   "star_counter"
   "startup_namer_null_safety"
   "testing_codelab"
+  "in_app_purchases"
   )
 
 # Plugin codelab is failing on ubuntu-latest in CI.
@@ -48,8 +49,9 @@ for PROJECT in "${PROJECT_PATHS[@]}"; do
   (
     cd "$PROJECT";
     set -x;
-    $FLUTTER analyze;
-    $FLUTTER format --dry-run --set-exit-if-changed .;
+    # Only warn about analysis and format issues for dev and beta
+    $FLUTTER analyze --no-fatal-infos;
+    $FLUTTER format --dry-run .;
     $FLUTTER test
   )
 done

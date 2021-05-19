@@ -1,0 +1,166 @@
+PODS:
+  - AppAuth (1.4.0):
+    - AppAuth/Core (= 1.4.0)
+    - AppAuth/ExternalUserAgent (= 1.4.0)
+  - AppAuth/Core (1.4.0)
+  - AppAuth/ExternalUserAgent (1.4.0)
+  - cloud_firestore (1.0.4):
+    - Firebase/Firestore (= 7.3.0)
+    - firebase_core
+    - Flutter
+  - cloud_functions (1.0.3):
+    - Firebase/Functions (= 7.3.0)
+    - firebase_core
+    - Flutter
+  - Firebase/Auth (7.3.0):
+    - Firebase/CoreOnly
+    - FirebaseAuth (~> 7.3.0)
+  - Firebase/CoreOnly (7.3.0):
+    - FirebaseCore (= 7.3.0)
+  - Firebase/Firestore (7.3.0):
+    - Firebase/CoreOnly
+    - FirebaseFirestore (~> 7.3.0)
+  - Firebase/Functions (7.3.0):
+    - Firebase/CoreOnly
+    - FirebaseFunctions (~> 7.3.0)
+  - firebase_auth (1.1.0):
+    - Firebase/Auth (= 7.3.0)
+    - firebase_core
+    - Flutter
+  - firebase_core (1.0.3):
+    - Firebase/CoreOnly (= 7.3.0)
+    - Flutter
+  - FirebaseAuth (7.3.0):
+    - FirebaseCore (~> 7.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.0)
+    - GoogleUtilities/Environment (~> 7.0)
+    - GTMSessionFetcher/Core (~> 1.4)
+  - FirebaseCore (7.3.0):
+    - FirebaseCoreDiagnostics (~> 7.0)
+    - GoogleUtilities/Environment (~> 7.0)
+    - GoogleUtilities/Logger (~> 7.0)
+  - FirebaseCoreDiagnostics (7.10.0):
+    - GoogleDataTransport (~> 8.4)
+    - GoogleUtilities/Environment (~> 7.0)
+    - GoogleUtilities/Logger (~> 7.0)
+    - nanopb (~> 2.30908.0)
+  - FirebaseFirestore (7.3.0)
+  - FirebaseFunctions (7.3.0):
+    - FirebaseCore (~> 7.0)
+    - GTMSessionFetcher/Core (~> 1.4)
+  - Flutter (1.0.0)
+  - google_sign_in (0.0.1):
+    - Flutter
+    - GoogleSignIn (~> 5.0)
+  - GoogleDataTransport (8.4.0):
+    - GoogleUtilities/Environment (~> 7.2)
+    - nanopb (~> 2.30908.0)
+    - PromisesObjC (~> 1.2)
+  - GoogleSignIn (5.0.2):
+    - AppAuth (~> 1.2)
+    - GTMAppAuth (~> 1.0)
+    - GTMSessionFetcher/Core (~> 1.1)
+  - GoogleUtilities/AppDelegateSwizzler (7.3.1):
+    - GoogleUtilities/Environment
+    - GoogleUtilities/Logger
+    - GoogleUtilities/Network
+  - GoogleUtilities/Environment (7.3.1):
+    - PromisesObjC (~> 1.2)
+  - GoogleUtilities/Logger (7.3.1):
+    - GoogleUtilities/Environment
+  - GoogleUtilities/Network (7.3.1):
+    - GoogleUtilities/Logger
+    - "GoogleUtilities/NSData+zlib"
+    - GoogleUtilities/Reachability
+  - "GoogleUtilities/NSData+zlib (7.3.1)"
+  - GoogleUtilities/Reachability (7.3.1):
+    - GoogleUtilities/Logger
+  - GTMAppAuth (1.2.1):
+    - AppAuth/Core (~> 1.4)
+    - GTMSessionFetcher/Core (~> 1.5)
+  - GTMSessionFetcher/Core (1.5.0)
+  - in_app_purchase (0.0.1):
+    - Flutter
+  - nanopb (2.30908.0):
+    - nanopb/decode (= 2.30908.0)
+    - nanopb/encode (= 2.30908.0)
+  - nanopb/decode (2.30908.0)
+  - nanopb/encode (2.30908.0)
+  - PromisesObjC (1.2.12)
+
+DEPENDENCIES:
+  - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
+  - cloud_functions (from `.symlinks/plugins/cloud_functions/ios`)
+  - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
+  - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
+  - FirebaseFirestore (from `https://github.com/invertase/firestore-ios-sdk-frameworks.git`, tag `7.3.0`)
+  - Flutter (from `Flutter`)
+  - google_sign_in (from `.symlinks/plugins/google_sign_in/ios`)
+  - in_app_purchase (from `.symlinks/plugins/in_app_purchase/ios`)
+
+SPEC REPOS:
+  trunk:
+    - AppAuth
+    - Firebase
+    - FirebaseAuth
+    - FirebaseCore
+    - FirebaseCoreDiagnostics
+    - FirebaseFunctions
+    - GoogleDataTransport
+    - GoogleSignIn
+    - GoogleUtilities
+    - GTMAppAuth
+    - GTMSessionFetcher
+    - nanopb
+    - PromisesObjC
+
+EXTERNAL SOURCES:
+  cloud_firestore:
+    :path: ".symlinks/plugins/cloud_firestore/ios"
+  cloud_functions:
+    :path: ".symlinks/plugins/cloud_functions/ios"
+  firebase_auth:
+    :path: ".symlinks/plugins/firebase_auth/ios"
+  firebase_core:
+    :path: ".symlinks/plugins/firebase_core/ios"
+  FirebaseFirestore:
+    :git: https://github.com/invertase/firestore-ios-sdk-frameworks.git
+    :tag: 7.3.0
+  Flutter:
+    :path: Flutter
+  google_sign_in:
+    :path: ".symlinks/plugins/google_sign_in/ios"
+  in_app_purchase:
+    :path: ".symlinks/plugins/in_app_purchase/ios"
+
+CHECKOUT OPTIONS:
+  FirebaseFirestore:
+    :git: https://github.com/invertase/firestore-ios-sdk-frameworks.git
+    :tag: 7.3.0
+
+SPEC CHECKSUMS:
+  AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
+  cloud_firestore: d5902cdb3c48c2e8c73cd093fc9471ebe7f44a4c
+  cloud_functions: c4ab28246ffa9b4391e21a7f93ae75171b6c6863
+  Firebase: 26223c695fe322633274198cb19dca8cb7e54416
+  firebase_auth: d09964a120e218411768f5ca2d3ce938abd319f2
+  firebase_core: b5d81dfd4fb2d6f700e67de34d9a633ae325c4e9
+  FirebaseAuth: c224a0cf1afa0949bd5c7bfcf154b4f5ce8ddef2
+  FirebaseCore: 4d3c72622ce0e2106aaa07bb4b2935ba2c370972
+  FirebaseCoreDiagnostics: 5662a3823ffcc0acbaa9a21ba5ed302fac634705
+  FirebaseFirestore: 46e32f479aac127e742b1cf873930f7bb43e7b45
+  FirebaseFunctions: 56b7275ad46d936b77b64ecacd306e77db7be251
+  Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
+  google_sign_in: 6bd214b9c154f881422f5fe27b66aaa7bbd580cc
+  GoogleDataTransport: cd9db2180fcecd8da1b561aea31e3e56cf834aa7
+  GoogleSignIn: 7137d297ddc022a7e0aa4619c86d72c909fa7213
+  GoogleUtilities: e1d9ed4e544fc32a93e00e721400cbc3f377200d
+  GTMAppAuth: 5b53231ef6920f149ab84b2969cb0ab572da3077
+  GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
+  in_app_purchase: 3e2155afa9d03d4fa32d9e62d567885080ce97d6
+  nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
+  PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
+
+PODFILE CHECKSUM: d2c0e3fb80e8332877c1397009766ed7dc40d3f9
+
+COCOAPODS: 1.10.1

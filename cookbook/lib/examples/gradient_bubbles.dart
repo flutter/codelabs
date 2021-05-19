@@ -143,9 +143,10 @@ class BubblePainter extends CustomPainter {
     required ScrollableState scrollable,
     required BuildContext bubbleContext,
     required List<Color> colors,
-  })   : _scrollable = scrollable,
+  })  : _scrollable = scrollable,
         _bubbleContext = bubbleContext,
-        _colors = colors;
+        _colors = colors,
+        super(repaint: scrollable.position);
 
   final ScrollableState _scrollable;
   final BuildContext _bubbleContext;

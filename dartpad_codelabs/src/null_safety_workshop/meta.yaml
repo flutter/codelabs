@@ -1,0 +1,42 @@
+name: Intro to Null Safety
+type: dart
+steps:
+  - name: '1: Non-nullable types'
+    directory: step_01
+    has_solution: true
+  - name: '2: Nullable types'
+    directory: step_02
+    has_solution: true
+  - name: '3: Non-nullable type parameters'
+    directory: step_03
+    has_solution: true
+  - name: '4: The assertion operator'
+    directory: step_04
+    has_solution: true
+  - name: '5: The required keyword'
+    directory: step_05
+    has_solution: true
+  - name: '6: Type promotion and definite assignment'
+    directory: step_06
+    has_solution: true
+  - name: '7: Type promotion with checks'
+    directory: step_07
+    has_solution: true
+  - name: '8: Type promotion with exceptions'
+    directory: step_08
+    has_solution: true
+  - name: "9: Object properties aren't promotable"
+    directory: step_09
+    has_solution: true
+  - name: '10: Another tricky object field example'
+    directory: step_10
+    has_solution: true
+  - name: '11: The late keyword'
+    directory: step_11
+    has_solution: true
+  - name: '12: Late circular references'
+    directory: step_12
+    has_solution: true
+  - name: '13: Late and lazy'
+    directory: step_13
+    has_solution: true
