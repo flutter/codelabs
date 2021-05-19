@@ -1,13 +1,12 @@
-# Flexible Space in a SliverAppBar
+# Flexible space in a SliverAppBar
 
-We can fill the `expandedHeight` of our app bar for even more visual interest.
+We can fill the expandedHeight of our app bar, for an even more dynamic UI.
 
-We can do this by using the `FlexibleSpaceBar`. This widget is designed
-to adapt the layout of its contents as the space changes size. 
-Let's try it out.
+We can do this with the `FlexibleSpaceBar`. This widget is designed to
+stretch and collapse its content. Let’s try it out!
 
-Add a `FlexibleSpaceBar` to your `SliverAppBar`. You can move your title
-here, and we can add an image as the background.
+Add a `FlexibleSpaceBar` to your `SliverAppBar`. You can move the title
+here and add an image as the background.
 
 ```dart
 SliverAppBar(
@@ -24,9 +23,9 @@ SliverAppBar(
 ),
 ```
 
-As the user scrolls now, the app bar will collapse with a parallax
-effect on our image, and it will fade into the pinned app bar once
-fully collapsed. The `FlexibleSpaceBar` supports multiple
+Now, as the user scrolls, the app bar collapses with a parallax effect
+on the image and fades into the pinned `SliverAppBar` after it’s fully collapsed.
+The `FlexibleSpaceBar` supports multiple
 `CollapseMode`s, with this `parallax` behavior being the default.
 You can also try out `pin` and `none` to see how the effect can vary.
 
@@ -38,9 +37,8 @@ FlexibleSpaceBar(
 ),
 ```
 
-For better contrast, let's add another gradient effect behind our
-title. We can do this like we did before, but let's use a
-`LinearGradient` instead.
+For better contrast, let’s add another gradient effect behind the title.
+We can do this as we did before, but let’s use a `LinearGradient` instead.
 
 Wrap your `Image` in a`DecoratedBox`, with the `LinearGradient` in the
 `DecorationPosition.foregound`.

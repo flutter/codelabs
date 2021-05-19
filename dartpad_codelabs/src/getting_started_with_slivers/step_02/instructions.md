@@ -1,19 +1,17 @@
-# Efficient Scrolling in Flutter
+# Efficient scrolling in Flutter
 
-Our first task is to convert our `SingleChildScrollView` to make our
-scrolling UI more efficient, but first, let's talk about why and when
-this widget may not be the most efficient choice.
+The first task is to convert the `SingleChildScrollView` to make our
+scrolling UI more efficient, but first, let's discuss why and when
+this widget might not be the most efficient choice.
 
-Currently, our UI is pretty simple. The scrolling seven day forecast is
-likely to fit on most screens. This is ok for cases such as these, but
-as we add to our UI, we'll want to remain performant.
+Currently, the UI is pretty simple. The scrolling 7-day forecast is
+likely to fit most screens. This is OK for now, but
+as we add to the UI, we want to remain performant.
 
-If we were to remove the `SingleChildScrollView`, we could end up with
-an error from the `Column` overflowing. Try it out to see what
-this looks like, and resize the window so that the contents of the
-`Column` don't fit in the screen.
-
-![A render overflow error caused by our Column exceeding the window size](https://dartpad-workshops-io2021.web.app/getting_started_with_slivers/assets/overflow.png)
+If we remove the `SingleChildScrollView`, then we could get an
+error due to the `Column` overflowing.  If you want to, try
+and see what this looks like by resizing the window so that
+the contents of the `Column` don’t fit in the screen.
 
 This is where we can see how the layout protocol of slivers differs
 from their relative, the box layout protocol. A `Column` is laid out
@@ -21,34 +19,34 @@ using `BoxConstraints`. It has a height and width, and a position
 within the window. A `Column` cannot lay out beyond the bounds of
 the window.
 
-When we wrap our `Column` in a `SingleChildScrollView`, we are
-essentially wrapping our `Column` in a sliver. Slivers lay out using
-`SliverConstraints` and have a `SliverGeometry`. When working with
-slivers, the window pane we were constricted to previously, becomes
-an infinite amount of space in the given axis, and so we use language
-different from height, width and position. As a sliver, we need to
-know things like how much is visible, and how far to the next sliver,
-and, how far have we scrolled? The answers to these questions allow us
-to lazily load slivers, meaning we only build the slivers we can see,
-and a little bit of the ones on either edge. This makes our scrolling
-more efficient as we won't build any slivers we don't need to, since
-we cannot see them.
+When we wrap the `Column` in a `SingleChildScrollView`, we’re
+essentially wrapping the `Column` in a sliver. Slivers lay out
+using `SliverContraints` and have a `SliverGeometry`. When you work
+with slivers, the window size that we were constricted to
+previously becomes an infinite amount of space in the given axis.
+So, we use language different from height, width, and position.
+For a sliver, we need to know things like how much is visible,
+how far to the next sliver, and how far we scrolled. The answers
+enable us to lazily load slivers, meaning we only build slivers
+that we can see and a little bit of the ones on either edge. This
+makes scrolling more efficient because we won’t build slivers that
+we don’t need because the slivers aren’t seen.
 
-## Making the Switch
+## Making the switch
 
-Since a `SingleChildScrollView` is only one sliver, we aren't lazily
-loading our UI. Instead, as our `Column` gets bigger, all of its
-contents are being built. Before we add more to our UI, let's make
-this more efficient by using a `ListView` instead.
+Because a `SingleChildScrollView` is only one sliver, we aren’t
+lazily loading the UI. Instead, as the `Column` gets bigger, all
+of its contents are built. Before we add more to the UI, let’s
+make it more efficient by using `ListView`.
 
-We'll be using the `builder` constructor, which is called on demand
-like we explained above for lazy loading.
+We’ll use the `builder` constructor, which is called on demand,
+for lazy loading.
 
-Replace `SingleChildScrollView` with `ListView.builder`, and remove
-the `Column`. This constructor requires an `itemBuilder`, which
-provides a `BuildContext` as well as the current item index. We
-can also specify the `itemCount` since we know we are displaying a
-weekly forecast.
+Replace the `SingleChildScrollView` with the `ListView.builder`,
+and remove the `Column`. This constructor requires an itemBuilder,
+which provides a `BuildContext` and the current item index. We
+must also specify the itemCount because we know that we’re
+displaying a weekly forecast.
 
 ```dart
 return ListView.builder(
@@ -61,12 +59,11 @@ return ListView.builder(
 );
 ```
 
-Now each of our `Card`s will individually be wrapped in a sliver, and
-therefore, only built as needed.
+Now each of the `Card`s is wrapped in a sliver and only built as it’s needed.
 
-We are also going to change our access to our mock `Server` class here.
-Rather than request all of the data at once, we have the ability to
-access our forecasts by index in our builder.
+We’re also going to change the access to the mock `Server` class. Rather
+than request all of the data at one time, we can access the forecasts by
+index in our builder.
 
 ```dart
 // Remove this:
@@ -78,5 +75,4 @@ final DailyForecast dailyForecast =
     Server.getDailyForecastByID(index);
 ```
 
-Now that we are building more efficiently, let's add more to our
-`ListView`.
+Now that we’re building more efficiently, let’s add more to the `ListView`.

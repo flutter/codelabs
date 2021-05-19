@@ -1,15 +1,16 @@
-# Working Directly with Slivers
+# Working directly with slivers
 
-This is looking really nice now. Although, our `AppBar` does seem a
-little less exciting. Let's make the jump over to work with
-slivers directly, so we can experiment with the `SliverAppBar`.
+This is looking really nice now. Although, the `AppBar`
+seems a little less exciting. Let’s work with slivers directly,
+so we can experiment with the `SliverAppBar`. 
 
-First, we'll need to set ourselves up for working with slivers.
-Slivers are contained within a `ScrollView`. Our `ListView` set some of this
-up for us, so now we need a container for our slivers. Let's use a
-`CustomScrollView`. Go ahead and place one in the body of our `Scaffold`.
-A `CustomScrollView` takes a list of slivers, so let's place our
-`WeeklyForecastList` there and we'll convert that next.
+First, we need to do some setup to work with slivers.
+Slivers are contained in a `ScrollView`. The `ListView`
+set up some of this for us, so now we need a container
+for the slivers. Let’s use a `CustomScrollView`. Go ahead,
+and place one in the body of the `Scaffold`. A custom
+`ScrollView` takes a list of slivers, so place the
+`WeeklyForecastList` there, and we’ll convert that next.
 
 ```dart
 home: Scaffold(
@@ -25,14 +26,14 @@ home: Scaffold(
 ),
 ```
 
-Now for our `WeeklyForecastList`, let's change it to use a `SliverList`
-instead of a `ListView`. A `SliverList` takes a `SliverChildDelegate`,
-which provides the children. One kind of `SliverChildDelegate` is a
-`SliverChildBuilderDelegate`. This delegate requires a  widget builder
-function - which is the same as the builder we provided
-to our `ListView`! We can keep our existing builder, and instead provide
-it to the delegate. The delegate also takes a `childCount`, similar to
-our ListView's `itemCount`.
+Now, for the `WeeklyForecastList`, let’s change it to use a
+`SliverList` instead of a `ListView`. A `SliverList` takes a
+`SliverChildDelegate`, which provides the children. One kind
+of `SliverChildDelegate` is a `SliverChildBuilderDelegate`, which
+is the same as the builder provided in the `ListView`. We can
+keep the existing builder, and provide it to the delegate instead.
+The delegate also takes a childCount, which is similar to the
+`ListView`’s itemCount.
 
 ```dart
 return SliverList(
