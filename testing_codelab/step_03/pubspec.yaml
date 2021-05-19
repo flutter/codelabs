@@ -10,7 +10,7 @@ publish_to: "none"
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -23,7 +23,8 @@ dev_dependencies:
     sdk: flutter
   flutter_driver:             # new
     sdk: flutter              # new
-  integration_test: ^1.0.1    # new
+  integration_test:           # new
+    sdk: flutter              # new
   test: ^1.14.4               # new
 
 flutter:
