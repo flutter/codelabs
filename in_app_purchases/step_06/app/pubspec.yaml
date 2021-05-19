@@ -26,7 +26,7 @@ dependencies:
   cloud_functions: "^1.0.3"
   cloud_firestore: "^1.0.4"
   google_sign_in: "^5.0.1"
-  in_app_purchase: "^0.6.0"
+  in_app_purchase: "^1.0.0"
 
 
   flutter:
