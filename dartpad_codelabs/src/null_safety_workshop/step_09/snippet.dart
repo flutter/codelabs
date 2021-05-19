@@ -13,8 +13,7 @@ void main() {
   if (provider.value == null) {
     print('The value is null.');
   } else {
-    print('The value is not null.');
+    print('The value is not null, so print it!');
+    printString(provider.value);
   }
-
-  printString(provider.value);
 }
