@@ -136,10 +136,13 @@ enum DownloadStatus {
 
 abstract class DownloadController implements ChangeNotifier {
   DownloadStatus get downloadStatus;
+
   double get progress;
 
   void startDownload();
+
   void stopDownload();
+
   void openDownload();
 }
 
@@ -149,15 +152,17 @@ class SimulatedDownloadController extends DownloadController
     DownloadStatus downloadStatus = DownloadStatus.notDownloaded,
     double progress = 0.0,
     required VoidCallback onOpenDownload,
-  })   : _downloadStatus = downloadStatus,
+  })  : _downloadStatus = downloadStatus,
         _progress = progress,
         _onOpenDownload = onOpenDownload;
 
   DownloadStatus _downloadStatus;
+
   @override
   DownloadStatus get downloadStatus => _downloadStatus;
 
   double _progress;
+
   @override
   double get progress => _progress;
 
