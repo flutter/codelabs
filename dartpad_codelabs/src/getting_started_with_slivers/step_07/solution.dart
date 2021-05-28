@@ -29,7 +29,7 @@ class HorizonsApp extends StatelessWidget {
               onStretchTrigger: () async {
                 print('Load new data!');
                 // await Server.requestNewData();
-              }
+              },
               backgroundColor: Colors.teal[800],
               expandedHeight: 200.0,
               flexibleSpace: FlexibleSpaceBar(

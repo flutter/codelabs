@@ -25,11 +25,11 @@ declare -a CODELABS=(
   "friendly_chat"
   "github-graphql-client"
   "google-maps-in-flutter"
-  "startup_namer"
+  "in_app_purchases"
   "star_counter"
+  "startup_namer"
   "startup_namer_null_safety"
   "testing_codelab"
-  "in_app_purchases"
   )
 
 # Plugin codelab is failing on ubuntu-latest in CI.
@@ -53,6 +53,23 @@ for PROJECT in "${PROJECT_PATHS[@]}"; do
     $FLUTTER analyze --no-fatal-infos;
     $FLUTTER format --dry-run .;
     $FLUTTER test
+  )
+done
+
+declare -a WORKSHOP_STEP_PATHS=($(
+    find dartpad_codelabs -name snippet.dart -exec dirname {} \; 
+  ))
+
+for WORKSHOP_STEP_PATH in "${WORKSHOP_STEP_PATHS[@]}"; do
+  echo "== TESTING $WORKSHOP_STEP_PATH"
+  (
+    cd "$WORKSHOP_STEP_PATH";
+    set -x;
+    if [[ -r solution.dart ]]; then
+      $FLUTTER format --dry-run solution.dart;
+    else
+      $FLUTTER format --dry-run snippet.dart;
+    fi
   )
 done
 

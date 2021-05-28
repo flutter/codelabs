@@ -4,15 +4,16 @@ Workshops in this directory are displayed using DartPad.
 
 ## Open a workshop
 
-- [Flutter example][flutter-webserver]
 - [Dart example][dart-webserver]
+- [Flutter example][flutter-webserver]
 - [Getting started with Slivers][slivers]
 - [Inherted Widget][inherited-widget]
+- [Null safety workshop][null-safety-workshop]
 
 Alternatively, these workshops can be loaded from GitHub directly:
 
-- [Dart example (GitHub)][flutter-github]
-- [Flutter example (GitHub)][dart-github]
+- [Dart example (GitHub)][dart-github]
+- [Flutter example (GitHub)][flutter-github]
 
 ## Deploying
 
@@ -32,5 +33,6 @@ firebase deploy
 [dart-webserver]: https://dartpad.dev/workshops.html?webserver=https://dartpad-workshops-io2021.web.app/example_dart
 [slivers]: https://dartpad.dev/workshops.html?webserver=https://dartpad-workshops-io2021.web.app/getting_started_with_slivers
 [inherited-widget]: https://dartpad.dev/workshops.html?webserver=https://dartpad-workshops-io2021.web.app/inherited_widget
-[flutter-github]: https://dartpad.dev/workshops.html?gh_owner=flutter&gh_repo=codelabs&gh_ref=main&gh_path=dartpad_workshops/src/example_dart
-[dart-github]: https://dartpad.dev/workshops.html?gh_owner=flutter&gh_repo=codelabs&gh_ref=main&gh_path=dartpad_workshops/src/example_flutter
+[dart-github]: https://dartpad.dev/workshops.html?gh_owner=flutter&gh_repo=codelabs&gh_ref=master&gh_path=dartpad_codelabs/src/example_dart
+[flutter-github]: https://dartpad.dev/workshops.html?gh_owner=flutter&gh_repo=codelabs&gh_ref=master&gh_path=dartpad_codelabs/src/example_flutter
+[null-safety-workshop]: https://dartpad.dev/workshops.html?webserver=https://dartpad-workshops-io2021.web.app/null_safety_workshop
