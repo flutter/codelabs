@@ -4,8 +4,8 @@ import 'package:dashclicker/logic/firebase_notifier.dart';
 import 'package:dashclicker/repo/iap_repo.dart';
 import 'package:provider/provider.dart';
 
-import 'logic/dash_upgrades.dart';
 import 'logic/dash_counter.dart';
+import 'logic/dash_upgrades.dart';
 import 'pages/home_page.dart';
 import 'pages/purchase_page.dart';
 
@@ -21,13 +21,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Dash Clicker'),
+      home: const MyHomePage(title: 'Dash Clicker'),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
   final String title;
 
   @override

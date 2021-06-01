@@ -10,7 +10,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:startup_namer/main.dart';
 
 void main() {
-  testWidgets('Codelab smoke test', (WidgetTester tester) async {
+  testWidgets('Codelab smoke test', (tester) async {
     await tester.pumpWidget(MyApp());
 
     final textWidgets = tester.widgetList<Text>(find.byType(Text));
@@ -19,7 +19,7 @@ void main() {
     expect(textWidgets.last.data, 'Welcome to Flutter');
 
     final wordPairRegExp = RegExp(r'^[A-Z]\w*[A-Z]\w*$');
-    final isWordPair = predicate((s) => wordPairRegExp.hasMatch(s));
+    final isWordPair = predicate<String>((s) => wordPairRegExp.hasMatch(s));
     expect(textWidgets.first.data, isWordPair);
   });
 }

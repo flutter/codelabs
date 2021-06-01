@@ -5,7 +5,7 @@ import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:in_app_purchase_platform_interface/src/in_app_purchase_platform_addition.dart';
 
 void main() {
-  testWidgets('App starts', (WidgetTester tester) async {
+  testWidgets('App starts', (tester) async {
     IAPConnection.instance = TestIAPConnection();
     await tester.pumpWidget(MyApp());
     expect(find.text('Tim Sneath'), findsOneWidget);

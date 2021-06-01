@@ -17,7 +17,7 @@ import 'package:flutter_cookbook/main.dart';
 
 @immutable
 class App extends StatelessWidget {
-  App({Key? key, this.home}) : super(key: key);
+  const App({Key? key, this.home}) : super(key: key);
 
   final Widget? home;
 

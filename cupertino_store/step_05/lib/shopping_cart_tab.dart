@@ -135,7 +135,7 @@ class _ShoppingCartTabState extends State<ShoppingCartTab> {
             ),
           ],
         ),
-        Container(
+        SizedBox(
           height: _kDateTimePickerHeight,
           child: CupertinoDatePicker(
             mode: CupertinoDatePickerMode.dateAndTime,
