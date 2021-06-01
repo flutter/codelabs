@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-static const hostingUrl = 'https://dartpad-workshops-io2021.web.app';
+const hostingUrl = 'https://dartpad-workshops-io2021.web.app';
 
 void main() => runApp(MyApp());
 
