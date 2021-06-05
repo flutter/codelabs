@@ -33,10 +33,10 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: Center(
         child: ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: 400),
+          constraints: const BoxConstraints(maxWidth: 400),
           child: Card(
             child: Padding(
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -46,7 +46,7 @@ class _HomePageState extends State<HomePage> {
                     style: Theme.of(context).textTheme.headline4,
                   ),
                   TextField(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Enter a GitHub repository',
                       hintText: 'flutter/flutter',
                     ),
@@ -73,7 +73,7 @@ class _HomePageState extends State<HomePage> {
                       enableJavaScript: true,
                       enableDomStorage: true,
                     ),
-                    child: Text('Privacy Policy'),
+                    child: const Text('Privacy Policy'),
                   ),
                 ],
               ),

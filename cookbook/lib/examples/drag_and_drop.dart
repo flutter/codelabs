@@ -7,13 +7,13 @@ import 'package:flutter_cookbook/app.dart';
 
 void main() {
   runApp(
-    App(
-      home: const ExampleDragAndDrop(),
+    const App(
+      home: ExampleDragAndDrop(),
     ),
   );
 }
 
-final List<Item> _items = const [
+const List<Item> _items = [
   Item(
     name: 'Spinach Pizza',
     totalPriceCents: 1299,
@@ -50,17 +50,17 @@ class _ExampleDragAndDropState extends State<ExampleDragAndDrop>
   final List<Customer> _people = [
     Customer(
       name: 'Makayla',
-      imageProvider: NetworkImage('https://flutter'
+      imageProvider: const NetworkImage('https://flutter'
           '.dev/docs/cookbook/img-files/effects/split-check/Avatar1.jpg'),
     ),
     Customer(
       name: 'Nathan',
-      imageProvider: NetworkImage('https://flutter'
+      imageProvider: const NetworkImage('https://flutter'
           '.dev/docs/cookbook/img-files/effects/split-check/Avatar2.jpg'),
     ),
     Customer(
       name: 'Emilio',
-      imageProvider: NetworkImage('https://flutter'
+      imageProvider: const NetworkImage('https://flutter'
           '.dev/docs/cookbook/img-files/effects/split-check/Avatar3.jpg'),
     ),
   ];

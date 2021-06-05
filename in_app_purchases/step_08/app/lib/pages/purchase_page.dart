@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:dashclicker/logic/dash_purchases.dart';
-import 'package:dashclicker/model/purchasable_product.dart';
-import 'package:dashclicker/model/store_state.dart';
-import 'package:dashclicker/repo/iap_repo.dart';
 import 'package:provider/provider.dart';
+
+import '../logic/dash_purchases.dart';
+import '../model/purchasable_product.dart';
+import '../model/store_state.dart';
+import '../repo/iap_repo.dart';
 
 class PurchasePage extends StatelessWidget {
   @override
@@ -24,8 +25,8 @@ class PurchasePage extends StatelessWidget {
     }
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       storeWidget,
-      Padding(
-        padding: const EdgeInsets.fromLTRB(32.0, 32.0, 32.0, 0.0),
+      const Padding(
+        padding: EdgeInsets.fromLTRB(32.0, 32.0, 32.0, 0.0),
         child: Text(
           'Past purchases',
           style: TextStyle(fontWeight: FontWeight.bold),
@@ -39,14 +40,14 @@ class PurchasePage extends StatelessWidget {
 class _PurchasesLoading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text('Store is loading'));
+    return const Center(child: Text('Store is loading'));
   }
 }
 
 class _PurchasesNotAvailable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text('Store not available'));
+    return const Center(child: Text('Store not available'));
   }
 }
 
@@ -71,7 +72,7 @@ class _PurchaseWidget extends StatelessWidget {
   final PurchasableProduct product;
   final VoidCallback onPressed;
 
-  _PurchaseWidget({
+  const _PurchaseWidget({
     Key? key,
     required this.product,
     required this.onPressed,
@@ -117,7 +118,7 @@ class PastPurchasesWidget extends StatelessWidget {
         title: Text(purchases[index].title),
         subtitle: Text(purchases[index].status.toString()),
       ),
-      separatorBuilder: (BuildContext context, int index) => Divider(),
+      separatorBuilder: (context, index) => const Divider(),
     );
   }
 }

@@ -31,10 +31,10 @@ class DashPurchases extends ChangeNotifier {
   Future<void> buy(PurchasableProduct product) async {
     product.status = ProductStatus.pending;
     notifyListeners();
-    await Future.delayed(Duration(seconds: 5));
+    await Future<void>.delayed(const Duration(seconds: 5));
     product.status = ProductStatus.purchased;
     notifyListeners();
-    await Future.delayed(Duration(seconds: 5));
+    await Future<void>.delayed(const Duration(seconds: 5));
     product.status = ProductStatus.purchasable;
     notifyListeners();
   }

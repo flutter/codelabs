@@ -33,26 +33,26 @@ class App extends StatelessWidget {
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: HomePage(),
+      home: const HomePage(),
     );
   }
 }
 
 class HomePage extends StatelessWidget {
-  HomePage({Key? key}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Firebase Meetup'),
+        title: const Text('Firebase Meetup'),
       ),
       body: ListView(
         children: <Widget>[
           Image.asset('assets/codelab.png'),
-          SizedBox(height: 8),
-          IconAndDetail(Icons.calendar_today, 'October 30'),
-          IconAndDetail(Icons.location_city, 'San Francisco'),
+          const SizedBox(height: 8),
+          const IconAndDetail(Icons.calendar_today, 'October 30'),
+          const IconAndDetail(Icons.location_city, 'San Francisco'),
           Consumer<ApplicationState>(
             builder: (context, appState, _) => Authentication(
               email: appState.email,
@@ -65,15 +65,15 @@ class HomePage extends StatelessWidget {
               signOut: appState.signOut,
             ),
           ),
-          Divider(
+          const Divider(
             height: 8,
             thickness: 1,
             indent: 8,
             endIndent: 8,
             color: Colors.grey,
           ),
-          Header("What we'll be doing"),
-          Paragraph(
+          const Header("What we'll be doing"),
+          const Paragraph(
             'Join us for a day full of Firebase Workshops and Pizza!',
           ),
           Consumer<ApplicationState>(
@@ -81,9 +81,9 @@ class HomePage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (appState.loginState == ApplicationLoginState.loggedIn) ...[
-                  Header('Discussion'),
+                  const Header('Discussion'),
                   GuestBook(
-                    addMessage: (String message) =>
+                    addMessage: (message) =>
                         appState.addMessageToGuestBook(message),
                     messages: appState.guestBookMessages, // new
                   ),
@@ -115,14 +115,14 @@ class ApplicationState extends ChangeNotifier {
             .snapshots()
             .listen((snapshot) {
           _guestBookMessages = [];
-          snapshot.docs.forEach((document) {
+          for (final document in snapshot.docs) {
             _guestBookMessages.add(
               GuestBookMessage(
-                name: document.data()['name'],
-                message: document.data()['text'],
+                name: document.data()['name'] as String,
+                message: document.data()['text'] as String,
               ),
             );
-          });
+          }
           notifyListeners();
         });
         // to here.
@@ -154,7 +154,7 @@ class ApplicationState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void verifyEmail(
+  Future<void> verifyEmail(
     String email,
     void Function(FirebaseAuthException e) errorCallback,
   ) async {
@@ -173,7 +173,7 @@ class ApplicationState extends ChangeNotifier {
     }
   }
 
-  void signInWithEmailAndPassword(
+  Future<void> signInWithEmailAndPassword(
     String email,
     String password,
     void Function(FirebaseAuthException e) errorCallback,
@@ -193,7 +193,10 @@ class ApplicationState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void registerAccount(String email, String displayName, String password,
+  Future<void> registerAccount(
+      String email,
+      String displayName,
+      String password,
       void Function(FirebaseAuthException e) errorCallback) async {
     try {
       var credential = await FirebaseAuth.instance
@@ -213,7 +216,9 @@ class ApplicationState extends ChangeNotifier {
       throw Exception('Must be logged in');
     }
 
-    return FirebaseFirestore.instance.collection('guestbook').add({
+    return FirebaseFirestore.instance
+        .collection('guestbook')
+        .add(<String, dynamic>{
       'text': message,
       'timestamp': DateTime.now().millisecondsSinceEpoch,
       'name': FirebaseAuth.instance.currentUser!.displayName,
@@ -230,7 +235,7 @@ class GuestBookMessage {
 
 class GuestBook extends StatefulWidget {
   // Modify the following line
-  GuestBook({required this.addMessage, required this.messages});
+  const GuestBook({required this.addMessage, required this.messages});
   final FutureOr<void> Function(String message) addMessage;
   final List<GuestBookMessage> messages; // new
 
@@ -269,7 +274,7 @@ class _GuestBookState extends State<GuestBook> {
                     },
                   ),
                 ),
-                SizedBox(width: 8),
+                const SizedBox(width: 8),
                 StyledButton(
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
@@ -278,7 +283,7 @@ class _GuestBookState extends State<GuestBook> {
                     }
                   },
                   child: Row(
-                    children: [
+                    children: const [
                       Icon(Icons.send),
                       SizedBox(width: 4),
                       Text('SEND'),
@@ -290,10 +295,10 @@ class _GuestBookState extends State<GuestBook> {
           ),
         ),
         // Modify from here
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         for (var message in widget.messages)
           Paragraph('${message.name}: ${message.message}'),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
       ],
       // to here.
     );

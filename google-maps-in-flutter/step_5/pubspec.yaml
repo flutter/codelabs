@@ -1,10 +1,10 @@
 name: google_maps_in_flutter
 description: A new Flutter project.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -18,7 +18,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   # Add the following two lines
-  pedantic: ^1.11.0
+  flutter_lints: ^1.0.0
   build_runner: ^1.10.0
 
 flutter:

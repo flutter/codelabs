@@ -42,13 +42,13 @@ class _GitHubSummaryState extends State<GitHubSummary> {
       children: [
         NavigationRail(
           selectedIndex: _selectedIndex,
-          onDestinationSelected: (int index) {
+          onDestinationSelected: (index) {
             setState(() {
               _selectedIndex = index;
             });
           },
           labelType: NavigationRailLabelType.selected,
-          destinations: [
+          destinations: const [
             NavigationRailDestination(
               icon: Icon(Octicons.repo),
               label: Text('Repositories'),
@@ -63,7 +63,7 @@ class _GitHubSummaryState extends State<GitHubSummary> {
             ),
           ],
         ),
-        VerticalDivider(thickness: 1, width: 1),
+        const VerticalDivider(thickness: 1, width: 1),
         // This is the main content.
         Expanded(
           child: IndexedStack(
@@ -84,12 +84,12 @@ class RepositoriesList extends StatefulWidget {
   const RepositoriesList({required this.link});
   final Link link;
   @override
-  _RepositoriesListState createState() => _RepositoriesListState(link: link);
+  _RepositoriesListState createState() => _RepositoriesListState();
 }
 
 class _RepositoriesListState extends State<RepositoriesList> {
-  _RepositoriesListState({required Link link}) {
-    _repositories = _retreiveRespositories(link);
+  _RepositoriesListState() {
+    _repositories = _retreiveRespositories(widget.link);
   }
   late Future<List<GRepositoriesData_viewer_repositories_nodes>> _repositories;
 
@@ -122,7 +122,7 @@ class _RepositoriesListState extends State<RepositoriesList> {
           return Center(child: Text('${snapshot.error}'));
         }
         if (!snapshot.hasData) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         }
         var repositories = snapshot.data;
         return ListView.builder(
@@ -145,13 +145,12 @@ class AssignedIssuesList extends StatefulWidget {
   const AssignedIssuesList({required this.link});
   final Link link;
   @override
-  _AssignedIssuesListState createState() =>
-      _AssignedIssuesListState(link: link);
+  _AssignedIssuesListState createState() => _AssignedIssuesListState();
 }
 
 class _AssignedIssuesListState extends State<AssignedIssuesList> {
-  _AssignedIssuesListState({required Link link}) {
-    _assignedIssues = _retrieveAssignedIssues(link);
+  _AssignedIssuesListState() {
+    _assignedIssues = _retrieveAssignedIssues(widget.link);
   }
 
   late Future<List<GAssignedIssuesData_search_edges_node__asIssue>>
@@ -203,14 +202,14 @@ class _AssignedIssuesListState extends State<AssignedIssuesList> {
           return Center(child: Text('${snapshot.error}'));
         }
         if (!snapshot.hasData) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         }
         var assignedIssues = snapshot.data;
         return ListView.builder(
           itemBuilder: (context, index) {
             var assignedIssue = assignedIssues![index];
             return ListTile(
-              title: Text('${assignedIssue.title}'),
+              title: Text(assignedIssue.title),
               subtitle: Text('${assignedIssue.repository.nameWithOwner} '
                   'Issue #${assignedIssue.number} '
                   'opened by ${assignedIssue.author!.login}'),
@@ -228,12 +227,12 @@ class PullRequestsList extends StatefulWidget {
   const PullRequestsList({required this.link});
   final Link link;
   @override
-  _PullRequestsListState createState() => _PullRequestsListState(link: link);
+  _PullRequestsListState createState() => _PullRequestsListState();
 }
 
 class _PullRequestsListState extends State<PullRequestsList> {
-  _PullRequestsListState({required Link link}) {
-    _pullRequests = _retrievePullRequests(link);
+  _PullRequestsListState() {
+    _pullRequests = _retrievePullRequests(widget.link);
   }
   late Future<List<GPullRequestsData_viewer_pullRequests_edges_node>>
       _pullRequests;
@@ -270,14 +269,14 @@ class _PullRequestsListState extends State<PullRequestsList> {
           return Center(child: Text('${snapshot.error}'));
         }
         if (!snapshot.hasData) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         }
         var pullRequests = snapshot.data;
         return ListView.builder(
           itemBuilder: (context, index) {
             var pullRequest = pullRequests![index];
             return ListTile(
-              title: Text('${pullRequest.title}'),
+              title: Text(pullRequest.title),
               subtitle: Text('${pullRequest.repository.nameWithOwner} '
                   'PR #${pullRequest.number} '
                   'opened by ${pullRequest.author!.login} '
@@ -308,14 +307,14 @@ Future<void> _launchUrl(BuildContext context, String url) async {
     return showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Navigation error'),
+        title: const Text('Navigation error'),
         content: Text('Could not launch $url'),
         actions: <Widget>[
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: Text('Close'),
+            child: const Text('Close'),
           ),
         ],
       ),

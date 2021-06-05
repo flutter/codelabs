@@ -4,10 +4,11 @@ import 'package:dashclicker/constants.dart';
 import 'package:dashclicker/main.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:dashclicker/logic/dash_counter.dart';
-import 'package:dashclicker/model/purchasable_product.dart';
-import 'package:dashclicker/model/store_state.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+
+import '../model/purchasable_product.dart';
+import '../model/store_state.dart';
+import 'dash_counter.dart';
 
 class DashPurchases extends ChangeNotifier {
   DashCounter counter;
@@ -42,9 +43,6 @@ class DashPurchases extends ChangeNotifier {
       storeKeyUpgrade,
     };
     final response = await iapConnection.queryProductDetails(ids);
-    response.notFoundIDs.forEach((element) {
-      print('Purchase $element not found');
-    });
     products =
         response.productDetails.map((e) => PurchasableProduct(e)).toList();
     storeState = StoreState.available;
@@ -64,7 +62,6 @@ class DashPurchases extends ChangeNotifier {
         await iapConnection.buyConsumable(purchaseParam: purchaseParam);
         break;
       case storeKeySubscription:
-      case storeKeyUpgrade:
         await iapConnection.buyNonConsumable(purchaseParam: purchaseParam);
         break;
       default:
