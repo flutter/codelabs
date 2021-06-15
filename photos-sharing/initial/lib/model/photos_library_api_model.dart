@@ -133,10 +133,10 @@ class PhotosLibraryApiModel extends Model {
     }
 
     // Add albums from the user's Google Photos account
-     var ownedAlbums = await _loadAlbums();
-     if (ownedAlbums != null) {
-       _albums.addAll(ownedAlbums);
-     }
+    var ownedAlbums = await _loadAlbums();
+    if (ownedAlbums != null) {
+      _albums.addAll(ownedAlbums);
+    }
 
     /*
     // Load albums from owned and shared albums
@@ -151,7 +151,8 @@ class PhotosLibraryApiModel extends Model {
 
   /// Load Albums into the model by retrieving the list of all albums shared
   /// with the user.
-  Future<List<Album>> _loadSharedAlbums() { // ignore: unused_element
+  Future<List<Album>> _loadSharedAlbums() {
+    // ignore: unused_element
     return client.listSharedAlbums().then(
       (ListSharedAlbumsResponse response) {
         return response.sharedAlbums;

@@ -140,9 +140,8 @@ class _ContributePhotoDialogState extends State<ContributePhotoDialog> {
 
     // Make a request to upload the image to Google Photos once it was selected.
 
-
-      // Once the upload process has completed, store the upload token.
-      // This token is used together with the description to create the media
-      // item later.
+    // Once the upload process has completed, store the upload token.
+    // This token is used together with the description to create the media
+    // item later.
   }
 }

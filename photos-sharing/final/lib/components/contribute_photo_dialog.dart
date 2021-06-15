@@ -132,10 +132,9 @@ class _ContributePhotoDialogState extends State<ContributePhotoDialog> {
   Future _getImage(BuildContext context) async {
     // Use the image_picker package to prompt the user for a photo from their
     // device.
-    final pickedImage = await _imagePicker
-        .getImage(
-          source: ImageSource.camera,
-        );
+    final pickedImage = await _imagePicker.getImage(
+      source: ImageSource.camera,
+    );
     final pickedFile = File(pickedImage.path);
 
     // Store the image that was selected.
