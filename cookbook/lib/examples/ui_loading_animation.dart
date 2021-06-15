@@ -242,7 +242,7 @@ class _ShimmerLoadingState extends State<ShimmerLoading> {
     if (!shimmer.isSized) {
       // The ancestor Shimmer widget has not laid
       // itself out yet. Return an empty box.
-      return SizedBox();
+      return const SizedBox();
     }
     final shimmerSize = shimmer.size;
     final gradient = shimmer.gradient;
@@ -361,8 +361,8 @@ class CardListItem extends StatelessWidget {
         ],
       );
     } else {
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      return const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 8.0),
         child: Text(
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do '
           'eiusmod tempor incididunt ut labore et dolore magna aliqua.',

@@ -33,26 +33,26 @@ class App extends StatelessWidget {
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: HomePage(),
+      home: const HomePage(),
     );
   }
 }
 
 class HomePage extends StatelessWidget {
-  HomePage({Key? key}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Firebase Meetup'),
+        title: const Text('Firebase Meetup'),
       ),
       body: ListView(
         children: <Widget>[
           Image.asset('assets/codelab.png'),
-          SizedBox(height: 8),
-          IconAndDetail(Icons.calendar_today, 'October 30'),
-          IconAndDetail(Icons.location_city, 'San Francisco'),
+          const SizedBox(height: 8),
+          const IconAndDetail(Icons.calendar_today, 'October 30'),
+          const IconAndDetail(Icons.location_city, 'San Francisco'),
           // Add from here
           Consumer<ApplicationState>(
             builder: (context, appState, _) => Authentication(
@@ -67,15 +67,15 @@ class HomePage extends StatelessWidget {
             ),
           ),
           // to here
-          Divider(
+          const Divider(
             height: 8,
             thickness: 1,
             indent: 8,
             endIndent: 8,
             color: Colors.grey,
           ),
-          Header("What we'll be doing"),
-          Paragraph(
+          const Header("What we'll be doing"),
+          const Paragraph(
             'Join us for a day full of Firebase Workshops and Pizza!',
           ),
         ],
@@ -113,7 +113,7 @@ class ApplicationState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void verifyEmail(
+  Future<void> verifyEmail(
     String email,
     void Function(FirebaseAuthException e) errorCallback,
   ) async {
@@ -132,7 +132,7 @@ class ApplicationState extends ChangeNotifier {
     }
   }
 
-  void signInWithEmailAndPassword(
+  Future<void> signInWithEmailAndPassword(
     String email,
     String password,
     void Function(FirebaseAuthException e) errorCallback,
@@ -152,7 +152,10 @@ class ApplicationState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void registerAccount(String email, String displayName, String password,
+  Future<void> registerAccount(
+      String email,
+      String displayName,
+      String password,
       void Function(FirebaseAuthException e) errorCallback) async {
     try {
       var credential = await FirebaseAuth.instance

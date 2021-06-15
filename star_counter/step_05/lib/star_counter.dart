@@ -6,7 +6,7 @@ class GitHubStarCounter extends StatefulWidget {
   /// The full repository name, e.g. torvalds/linux
   final String repositoryName;
 
-  GitHubStarCounter({
+  const GitHubStarCounter({
     required this.repositoryName,
   });
 
@@ -24,6 +24,7 @@ class _GitHubStarCounterState extends State<GitHubStarCounter> {
   // A human-readable error when the repository isn't found.
   String? errorMessage;
 
+  @override
   void initState() {
     super.initState();
     github = GitHub();
@@ -31,6 +32,7 @@ class _GitHubStarCounterState extends State<GitHubStarCounter> {
     fetchRepository();
   }
 
+  @override
   void didUpdateWidget(GitHubStarCounter oldWidget) {
     super.didUpdateWidget(oldWidget);
 
@@ -70,16 +72,16 @@ class _GitHubStarCounterState extends State<GitHubStarCounter> {
     }
 
     if (widget.repositoryName.isNotEmpty && repository == null) {
-      return Text('loading...');
+      return const Text('loading...');
     }
 
     if (repository == null) {
       // If no repository is entered, return an empty widget.
-      return SizedBox();
+      return const SizedBox();
     }
 
     return Text(
-      '${numberFormat.format(repository!.stargazersCount)}',
+      numberFormat.format(repository!.stargazersCount),
       style: textStyle,
     );
   }

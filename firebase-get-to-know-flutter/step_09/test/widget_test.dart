@@ -3,7 +3,7 @@ import 'package:gtk_flutter/main.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  testWidgets('Basic rendering', (WidgetTester tester) async {
+  testWidgets('Basic rendering', (tester) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(
       ChangeNotifierProvider(

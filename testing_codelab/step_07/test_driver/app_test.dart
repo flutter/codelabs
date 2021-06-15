@@ -25,8 +25,8 @@ void main() {
       final listFinder = find.byType('ListView');
 
       final scrollingTimeline = await driver?.traceAction(() async {
-        await driver?.scroll(listFinder, 0, -7000, Duration(seconds: 1));
-        await driver?.scroll(listFinder, 0, 7000, Duration(seconds: 1));
+        await driver?.scroll(listFinder, 0, -7000, const Duration(seconds: 1));
+        await driver?.scroll(listFinder, 0, 7000, const Duration(seconds: 1));
       });
 
       final scrollingSummary = TimelineSummary.summarize(scrollingTimeline!);

@@ -9,8 +9,7 @@ class RandomStringProvider extends StringProvider {
   void set value(String? v) {}
 
   @override
-  String? get value =>
-    Random().nextBool() ? 'A String!' : null;
+  String? get value => Random().nextBool() ? 'A String!' : null;
 }
 
 void printString(String str) => print(str);

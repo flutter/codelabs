@@ -25,15 +25,15 @@ class MyApp extends StatelessWidget {
 class _RandomWordsState extends State<RandomWords> {
   final _suggestions = <WordPair>[];
   final _saved = <WordPair>{};
-  final _biggerFont = TextStyle(fontSize: 18.0);
+  final _biggerFont = const TextStyle(fontSize: 18.0);
   // #enddocregion RWS-var
 
   // #docregion _buildSuggestions
   Widget _buildSuggestions() {
     return ListView.builder(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         itemBuilder: /*1*/ (context, i) {
-          if (i.isOdd) return Divider(); /*2*/
+          if (i.isOdd) return const Divider(); /*2*/
 
           final index = i ~/ 2; /*3*/
           if (index >= _suggestions.length) {
@@ -74,9 +74,9 @@ class _RandomWordsState extends State<RandomWords> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Startup Name Generator'),
+        title: const Text('Startup Name Generator'),
         actions: [
-          IconButton(icon: Icon(Icons.list), onPressed: _pushSaved),
+          IconButton(icon: const Icon(Icons.list), onPressed: _pushSaved),
         ],
       ),
       body: _buildSuggestions(),
@@ -88,9 +88,9 @@ class _RandomWordsState extends State<RandomWords> {
     Navigator.of(context).push(
       // Add lines from here...
       MaterialPageRoute<void>(
-        builder: (BuildContext context) {
+        builder: (context) {
           final tiles = _saved.map(
-            (WordPair pair) {
+            (pair) {
               return ListTile(
                 title: Text(
                   pair.asPascalCase,
@@ -106,7 +106,7 @@ class _RandomWordsState extends State<RandomWords> {
 
           return Scaffold(
             appBar: AppBar(
-              title: Text('Saved Suggestions'),
+              title: const Text('Saved Suggestions'),
             ),
             body: ListView(children: divided),
           );

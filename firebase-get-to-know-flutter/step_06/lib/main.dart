@@ -33,26 +33,26 @@ class App extends StatelessWidget {
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: HomePage(),
+      home: const HomePage(),
     );
   }
 }
 
 class HomePage extends StatelessWidget {
-  HomePage({Key? key}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Firebase Meetup'),
+        title: const Text('Firebase Meetup'),
       ),
       body: ListView(
         children: <Widget>[
           Image.asset('assets/codelab.png'),
-          SizedBox(height: 8),
-          IconAndDetail(Icons.calendar_today, 'October 30'),
-          IconAndDetail(Icons.location_city, 'San Francisco'),
+          const SizedBox(height: 8),
+          const IconAndDetail(Icons.calendar_today, 'October 30'),
+          const IconAndDetail(Icons.location_city, 'San Francisco'),
           Consumer<ApplicationState>(
             builder: (context, appState, _) => Authentication(
               email: appState.email,
@@ -65,15 +65,15 @@ class HomePage extends StatelessWidget {
               signOut: appState.signOut,
             ),
           ),
-          Divider(
+          const Divider(
             height: 8,
             thickness: 1,
             indent: 8,
             endIndent: 8,
             color: Colors.grey,
           ),
-          Header("What we'll be doing"),
-          Paragraph(
+          const Header("What we'll be doing"),
+          const Paragraph(
             'Join us for a day full of Firebase Workshops and Pizza!',
           ),
           // Modify from here
@@ -82,9 +82,9 @@ class HomePage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (appState.loginState == ApplicationLoginState.loggedIn) ...[
-                  Header('Discussion'),
+                  const Header('Discussion'),
                   GuestBook(
-                    addMessage: (String message) =>
+                    addMessage: (message) =>
                         appState.addMessageToGuestBook(message),
                   ),
                 ],
@@ -127,7 +127,7 @@ class ApplicationState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void verifyEmail(
+  Future<void> verifyEmail(
     String email,
     void Function(FirebaseAuthException e) errorCallback,
   ) async {
@@ -146,7 +146,7 @@ class ApplicationState extends ChangeNotifier {
     }
   }
 
-  void signInWithEmailAndPassword(
+  Future<void> signInWithEmailAndPassword(
     String email,
     String password,
     void Function(FirebaseAuthException e) errorCallback,
@@ -166,7 +166,10 @@ class ApplicationState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void registerAccount(String email, String displayName, String password,
+  Future<void> registerAccount(
+      String email,
+      String displayName,
+      String password,
       void Function(FirebaseAuthException e) errorCallback) async {
     try {
       var credential = await FirebaseAuth.instance
@@ -187,7 +190,9 @@ class ApplicationState extends ChangeNotifier {
       throw Exception('Must be logged in');
     }
 
-    return FirebaseFirestore.instance.collection('guestbook').add({
+    return FirebaseFirestore.instance
+        .collection('guestbook')
+        .add(<String, dynamic>{
       'text': message,
       'timestamp': DateTime.now().millisecondsSinceEpoch,
       'name': FirebaseAuth.instance.currentUser!.displayName,
@@ -198,7 +203,7 @@ class ApplicationState extends ChangeNotifier {
 }
 
 class GuestBook extends StatefulWidget {
-  GuestBook({required this.addMessage});
+  const GuestBook({required this.addMessage});
   final FutureOr<void> Function(String message) addMessage;
 
   @override
@@ -231,7 +236,7 @@ class _GuestBookState extends State<GuestBook> {
                 },
               ),
             ),
-            SizedBox(width: 8),
+            const SizedBox(width: 8),
             StyledButton(
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
@@ -240,7 +245,7 @@ class _GuestBookState extends State<GuestBook> {
                 }
               },
               child: Row(
-                children: [
+                children: const [
                   Icon(Icons.send),
                   SizedBox(width: 4),
                   Text('SEND'),

@@ -137,7 +137,7 @@ class _ShoppingCartTabState extends State<ShoppingCartTab> {
             ),
           ],
         ),
-        Container(
+        SizedBox(
           height: _kDateTimePickerHeight,
           child: CupertinoDatePicker(
             mode: CupertinoDatePickerMode.dateAndTime,
@@ -303,7 +303,7 @@ class ShoppingCartItem extends StatelessWidget {
                           style: Styles.productRowItemName,
                         ),
                         Text(
-                          '${formatter.format(quantity * product.price)}',
+                          formatter.format(quantity * product.price),
                           style: Styles.productRowItemName,
                         ),
                       ],

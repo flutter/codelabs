@@ -17,7 +17,7 @@ import 'package:flutter_cookbook/app.dart';
 import 'package:flutter_cookbook/items.dart';
 
 void main() {
-  runApp(App());
+  runApp(const App());
 }
 
 @immutable

@@ -3,10 +3,11 @@ import 'dart:async';
 import 'package:dashclicker/main.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:dashclicker/logic/dash_counter.dart';
-import 'package:dashclicker/model/purchasable_product.dart';
-import 'package:dashclicker/model/store_state.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+
+import '../model/purchasable_product.dart';
+import '../model/store_state.dart';
+import 'dash_counter.dart';
 
 class DashPurchases extends ChangeNotifier {
   DashCounter counter;
@@ -48,10 +49,10 @@ class DashPurchases extends ChangeNotifier {
   Future<void> buy(PurchasableProduct product) async {
     product.status = ProductStatus.pending;
     notifyListeners();
-    await Future.delayed(Duration(seconds: 5));
+    await Future<void>.delayed(const Duration(seconds: 5));
     product.status = ProductStatus.purchased;
     notifyListeners();
-    await Future.delayed(Duration(seconds: 5));
+    await Future<void>.delayed(const Duration(seconds: 5));
     product.status = ProductStatus.purchasable;
     notifyListeners();
   }

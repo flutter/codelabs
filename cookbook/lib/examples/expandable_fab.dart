@@ -8,8 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_cookbook/app.dart';
 
 void main() {
-  runApp(App(
-    home: const ExampleExpandableFab(),
+  runApp(const App(
+    home: ExampleExpandableFab(),
   ));
 }
 
@@ -212,7 +212,7 @@ class _ExpandableFabState extends State<ExpandableFab>
 
 @immutable
 class _ExpandingActionButton extends StatelessWidget {
-  _ExpandingActionButton({
+  const _ExpandingActionButton({
     Key? key,
     required this.directionInDegrees,
     required this.maxDistance,

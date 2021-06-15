@@ -12,8 +12,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_cookbook/app.dart';
 
 void main() {
-  runApp(App(
-    home: const ExampleGradientBubbles(),
+  runApp(const App(
+    home: ExampleGradientBubbles(),
   ));
 }
 
