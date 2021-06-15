@@ -83,8 +83,8 @@ class _TripPageState extends State<TripPage> {
     );
   }
 
+  // ignore: unused_element
   Future<void> _shareAlbum(BuildContext context) async {
-    // ignore: unused_element
     // TODO(codelab): Implement this method.
     ToBeImplemented.showMessage();
 
@@ -104,20 +104,20 @@ class _TripPageState extends State<TripPage> {
     ToBeImplemented.showMessage();
   }
 
+  // ignore: unused_element
   void _showTokenDialog(BuildContext context) {
-    // ignore: unused_element
     // TODO(codelab): Implement this method.
     ToBeImplemented.showMessage();
   }
 
+  // ignore: unused_element
   void _showUrlDialog(BuildContext context) {
-    // ignore: unused_element
     // TODO(codelab): Implement this method.
     ToBeImplemented.showMessage();
   }
 
+  // ignore: unused_element
   void _showShareDialog(BuildContext context, String title, String text) {
-    // ignore: unused_element
     showDialog(
         context: context,
         builder: (BuildContext context) {
