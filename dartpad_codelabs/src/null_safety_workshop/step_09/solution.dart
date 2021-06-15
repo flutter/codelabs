@@ -1,8 +1,7 @@
 import 'dart:math';
 
 class RandomStringProvider {
-  String? get value =>
-    Random().nextBool() ? 'A String!' : null;
+  String? get value => Random().nextBool() ? 'A String!' : null;
 }
 
 void printString(String str) => print(str);

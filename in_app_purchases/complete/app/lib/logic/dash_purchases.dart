@@ -56,9 +56,6 @@ class DashPurchases extends ChangeNotifier {
       storeKeyUpgrade,
     };
     final response = await iapConnection.queryProductDetails(ids);
-    response.notFoundIDs.forEach((element) {
-      print('Purchase $element not found');
-    });
     products =
         response.productDetails.map((e) => PurchasableProduct(e)).toList();
     storeState = StoreState.available;
@@ -139,6 +136,7 @@ class DashPurchases extends ChangeNotifier {
   }
 
   void _updateStreamOnError(dynamic error) {
+    // ignore: avoid_print
     print(error);
   }
 
@@ -160,23 +158,27 @@ class DashPurchases extends ChangeNotifier {
     // purchases page.
     if (iapRepo.hasActiveSubscription) {
       counter.applyPaidMultiplier();
-      subscriptions.forEach(
-          (element) => _updateStatus(element, ProductStatus.purchased));
+      for (final element in subscriptions) {
+        _updateStatus(element, ProductStatus.purchased);
+      }
     } else {
       counter.removePaidMultiplier();
-      subscriptions.forEach(
-          (element) => _updateStatus(element, ProductStatus.purchasable));
+      for (final element in subscriptions) {
+        _updateStatus(element, ProductStatus.purchasable);
+      }
     }
 
     // Set the dash beautifier and show/hide purchased on
     // the purchases page.
     if (iapRepo.hasUpgrade != _beautifiedDashUpgrade) {
       _beautifiedDashUpgrade = iapRepo.hasUpgrade;
-      upgrades.forEach((element) => _updateStatus(
-          element,
-          _beautifiedDashUpgrade
-              ? ProductStatus.purchased
-              : ProductStatus.purchasable));
+      for (final element in upgrades) {
+        _updateStatus(
+            element,
+            _beautifiedDashUpgrade
+                ? ProductStatus.purchased
+                : ProductStatus.purchasable);
+      }
       notifyListeners();
     }
   }

@@ -8,8 +8,8 @@ import '../app.dart';
 
 void main() {
   runApp(
-    App(
-      home: const ExampleStaggeredAnimations(),
+    const App(
+      home: ExampleStaggeredAnimations(),
     ),
   );
 }

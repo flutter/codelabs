@@ -16,16 +16,17 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
-  provider: ^5.0.0            # new
+  provider: ^5.0.0 # new
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_driver:             # new
-    sdk: flutter              # new
-  integration_test:           # new
-    sdk: flutter              # new
-  test: ^1.14.4               # new
+  flutter_driver: # new
+    sdk: flutter # new
+  integration_test: # new
+    sdk: flutter # new
+  test: ^1.14.4 # new
+  flutter_lints: ^1.0.0
 
 flutter:
   uses-material-design: true

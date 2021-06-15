@@ -51,9 +51,8 @@ class IAPRepo extends ChangeNotifier {
         .where('userId', isEqualTo: user.uid)
         .snapshots();
     _purchaseSubscription = purchaseStream.listen((snapshot) {
-      purchases = snapshot.docs.map((DocumentSnapshot document) {
+      purchases = snapshot.docs.map((document) {
         var data = document.data();
-        if (data == null) throw Exception('Queried document has no data');
         return PastPurchase.fromJson(data);
       }).toList();
 

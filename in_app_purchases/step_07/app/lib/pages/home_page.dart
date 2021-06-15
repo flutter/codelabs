@@ -1,9 +1,9 @@
 import 'package:dashclicker/logic/dash_purchases.dart';
 import 'package:flutter/material.dart';
-import 'package:dashclicker/logic/dash_counter.dart';
-import 'package:dashclicker/logic/dash_upgrades.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import '../logic/dash_counter.dart';
+import '../logic/dash_upgrades.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -54,8 +54,8 @@ class CounterStateWidget extends StatelessWidget {
         children: <TextSpan>[
           TextSpan(
               text: counter.countString,
-              style: TextStyle(fontWeight: FontWeight.bold)),
-          TextSpan(text: ' times!'),
+              style: const TextStyle(fontWeight: FontWeight.bold)),
+          const TextSpan(text: ' times!'),
         ],
       ),
     );
@@ -81,7 +81,7 @@ class _UpgradeWidget extends StatelessWidget {
   final String title;
   final VoidCallback onPressed;
 
-  _UpgradeWidget({
+  const _UpgradeWidget({
     Key? key,
     required this.upgrade,
     required this.title,
@@ -102,7 +102,7 @@ class _UpgradeWidget extends StatelessWidget {
           title: Text(
             title,
             style: !upgrade.purchasable
-                ? TextStyle(color: Colors.redAccent)
+                ? const TextStyle(color: Colors.redAccent)
                 : null,
           ),
           subtitle: Text('Produces ${upgrade.work} dashes per second'),

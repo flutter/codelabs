@@ -18,9 +18,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'src/locations.dart' as locations;
 
-void main() {
-  runApp(MyApp());
-}
+void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
   @override
@@ -57,8 +55,8 @@ class _MyAppState extends State<MyApp> {
         ),
         body: GoogleMap(
           onMapCreated: _onMapCreated,
-          initialCameraPosition: CameraPosition(
-            target: const LatLng(0, 0),
+          initialCameraPosition: const CameraPosition(
+            target: LatLng(0, 0),
             zoom: 2,
           ),
           markers: _markers.values.toSet(),

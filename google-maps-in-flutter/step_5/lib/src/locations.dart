@@ -100,7 +100,8 @@ Future<Locations> getGoogleOffices() async {
   // Retrieve the locations of Google offices
   final response = await http.get(Uri.parse(googleLocationsURL));
   if (response.statusCode == 200) {
-    return Locations.fromJson(json.decode(response.body));
+    return Locations.fromJson(
+        json.decode(response.body) as Map<String, dynamic>);
   } else {
     throw HttpException(
         'Unexpected status code ${response.statusCode}:'

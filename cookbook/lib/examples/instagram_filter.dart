@@ -7,8 +7,8 @@ import 'package:flutter_cookbook/app.dart';
 
 void main() {
   runApp(
-    App(
-      home: const ExampleInstagramFilterSelection(),
+    const App(
+      home: ExampleInstagramFilterSelection(),
     ),
   );
 }
@@ -181,7 +181,7 @@ class _FilterSelectorState extends State<FilterSelector> {
                     !_controller.position.hasContentDimensions) {
                   // The PageViewController is not connected to the
                   // PageView widget yet. Return an empty box.
-                  return SizedBox();
+                  return const SizedBox();
                 }
 
                 // The integer index of the current page,
@@ -195,7 +195,7 @@ class _FilterSelectorState extends State<FilterSelector> {
 
                 // The page-distance of a filter just before it
                 // moves off screen.
-                final maxScrollDistance = _filtersPerScreen / 2;
+                const maxScrollDistance = _filtersPerScreen / 2;
 
                 // The page-distance of this filter item from the
                 // currently selected filter item.
@@ -252,7 +252,7 @@ class _FilterSelectorState extends State<FilterSelector> {
 
 @immutable
 class FilterItem extends StatelessWidget {
-  FilterItem({
+  const FilterItem({
     Key? key,
     required this.color,
     this.onFilterSelected,

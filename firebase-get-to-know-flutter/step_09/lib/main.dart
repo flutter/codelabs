@@ -33,26 +33,26 @@ class App extends StatelessWidget {
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: HomePage(),
+      home: const HomePage(),
     );
   }
 }
 
 class HomePage extends StatelessWidget {
-  HomePage({Key? key}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Firebase Meetup'),
+        title: const Text('Firebase Meetup'),
       ),
       body: ListView(
         children: <Widget>[
           Image.asset('assets/codelab.png'),
-          SizedBox(height: 8),
-          IconAndDetail(Icons.calendar_today, 'October 30'),
-          IconAndDetail(Icons.location_city, 'San Francisco'),
+          const SizedBox(height: 8),
+          const IconAndDetail(Icons.calendar_today, 'October 30'),
+          const IconAndDetail(Icons.location_city, 'San Francisco'),
           Consumer<ApplicationState>(
             builder: (context, appState, _) => Authentication(
               email: appState.email,
@@ -65,15 +65,15 @@ class HomePage extends StatelessWidget {
               signOut: appState.signOut,
             ),
           ),
-          Divider(
+          const Divider(
             height: 8,
             thickness: 1,
             indent: 8,
             endIndent: 8,
             color: Colors.grey,
           ),
-          Header("What we'll be doing"),
-          Paragraph(
+          const Header("What we'll be doing"),
+          const Paragraph(
             'Join us for a day full of Firebase Workshops and Pizza!',
           ),
           Consumer<ApplicationState>(
@@ -84,9 +84,9 @@ class HomePage extends StatelessWidget {
                 if (appState.attendees >= 2)
                   Paragraph('${appState.attendees} people going')
                 else if (appState.attendees == 1)
-                  Paragraph('1 person going')
+                  const Paragraph('1 person going')
                 else
-                  Paragraph('No one going'),
+                  const Paragraph('No one going'),
                 // To here.
                 if (appState.loginState == ApplicationLoginState.loggedIn) ...[
                   // Add from here
@@ -95,9 +95,9 @@ class HomePage extends StatelessWidget {
                     onSelection: (attending) => appState.attending = attending,
                   ),
                   // To here.
-                  Header('Discussion'),
+                  const Header('Discussion'),
                   GuestBook(
-                    addMessage: (String message) =>
+                    addMessage: (message) =>
                         appState.addMessageToGuestBook(message),
                     messages: appState.guestBookMessages,
                   ),
@@ -139,14 +139,14 @@ class ApplicationState extends ChangeNotifier {
             .snapshots()
             .listen((snapshot) {
           _guestBookMessages = [];
-          snapshot.docs.forEach((document) {
+          for (final document in snapshot.docs) {
             _guestBookMessages.add(
               GuestBookMessage(
-                name: document.data()['name'],
-                message: document.data()['text'],
+                name: document.data()['name'] as String,
+                message: document.data()['text'] as String,
               ),
             );
-          });
+          }
           notifyListeners();
         });
         // Add from here
@@ -156,7 +156,7 @@ class ApplicationState extends ChangeNotifier {
             .snapshots()
             .listen((snapshot) {
           if (snapshot.data() != null) {
-            if (snapshot.data()!['attending']) {
+            if (snapshot.data()!['attending'] as bool) {
               _attending = Attending.yes;
             } else {
               _attending = Attending.no;
@@ -198,9 +198,9 @@ class ApplicationState extends ChangeNotifier {
         .collection('attendees')
         .doc(FirebaseAuth.instance.currentUser!.uid);
     if (attending == Attending.yes) {
-      userDoc.set({'attending': true});
+      userDoc.set(<String, dynamic>{'attending': true});
     } else {
-      userDoc.set({'attending': false});
+      userDoc.set(<String, dynamic>{'attending': false});
     }
   }
 
@@ -209,7 +209,7 @@ class ApplicationState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void verifyEmail(
+  Future<void> verifyEmail(
     String email,
     void Function(FirebaseAuthException e) errorCallback,
   ) async {
@@ -228,7 +228,7 @@ class ApplicationState extends ChangeNotifier {
     }
   }
 
-  void signInWithEmailAndPassword(
+  Future<void> signInWithEmailAndPassword(
     String email,
     String password,
     void Function(FirebaseAuthException e) errorCallback,
@@ -248,7 +248,10 @@ class ApplicationState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void registerAccount(String email, String displayName, String password,
+  Future<void> registerAccount(
+      String email,
+      String displayName,
+      String password,
       void Function(FirebaseAuthException e) errorCallback) async {
     try {
       var credential = await FirebaseAuth.instance
@@ -268,7 +271,9 @@ class ApplicationState extends ChangeNotifier {
       throw Exception('Must be logged in');
     }
 
-    return FirebaseFirestore.instance.collection('guestbook').add({
+    return FirebaseFirestore.instance
+        .collection('guestbook')
+        .add(<String, dynamic>{
       'text': message,
       'timestamp': DateTime.now().millisecondsSinceEpoch,
       'name': FirebaseAuth.instance.currentUser!.displayName,
@@ -286,7 +291,7 @@ class GuestBookMessage {
 enum Attending { yes, no, unknown }
 
 class GuestBook extends StatefulWidget {
-  GuestBook({required this.addMessage, required this.messages});
+  const GuestBook({required this.addMessage, required this.messages});
   final FutureOr<void> Function(String message) addMessage;
   final List<GuestBookMessage> messages;
 
@@ -323,7 +328,7 @@ class _GuestBookState extends State<GuestBook> {
                     },
                   ),
                 ),
-                SizedBox(width: 8),
+                const SizedBox(width: 8),
                 StyledButton(
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
@@ -332,7 +337,7 @@ class _GuestBookState extends State<GuestBook> {
                     }
                   },
                   child: Row(
-                    children: [
+                    children: const [
                       Icon(Icons.send),
                       SizedBox(width: 4),
                       Text('SEND'),
@@ -343,10 +348,10 @@ class _GuestBookState extends State<GuestBook> {
             ),
           ),
         ),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         for (var message in widget.messages)
           Paragraph('${message.name}: ${message.message}'),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
       ],
     );
   }
@@ -362,53 +367,53 @@ class YesNoSelection extends StatelessWidget {
     switch (state) {
       case Attending.yes:
         return Padding(
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           child: Row(
             children: [
               ElevatedButton(
                 style: ElevatedButton.styleFrom(elevation: 0),
                 onPressed: () => onSelection(Attending.yes),
-                child: Text('YES'),
+                child: const Text('YES'),
               ),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               TextButton(
                 onPressed: () => onSelection(Attending.no),
-                child: Text('NO'),
+                child: const Text('NO'),
               ),
             ],
           ),
         );
       case Attending.no:
         return Padding(
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           child: Row(
             children: [
               TextButton(
                 onPressed: () => onSelection(Attending.yes),
-                child: Text('YES'),
+                child: const Text('YES'),
               ),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(elevation: 0),
                 onPressed: () => onSelection(Attending.no),
-                child: Text('NO'),
+                child: const Text('NO'),
               ),
             ],
           ),
         );
       default:
         return Padding(
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           child: Row(
             children: [
               StyledButton(
                 onPressed: () => onSelection(Attending.yes),
-                child: Text('YES'),
+                child: const Text('YES'),
               ),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               StyledButton(
                 onPressed: () => onSelection(Attending.no),
-                child: Text('NO'),
+                child: const Text('NO'),
               ),
             ],
           ),

@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 void main() {
   runApp(
-    FriendlyChatApp(),
+    const FriendlyChatApp(),
   );
 }
 
@@ -26,7 +26,7 @@ class ChatScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('FriendlyChat')),
+      appBar: AppBar(title: const Text('FriendlyChat')),
     );
   }
 }

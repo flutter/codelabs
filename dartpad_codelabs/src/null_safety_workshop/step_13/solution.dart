@@ -13,3 +13,4 @@ void main() {
   var provider = CachedValueProvider();
   print('Getting value...');
   print('The value is ${provider.value}!');
+}
