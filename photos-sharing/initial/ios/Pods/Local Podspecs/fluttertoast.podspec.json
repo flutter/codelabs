@@ -1,0 +1,29 @@
+{
+  "name": "fluttertoast",
+  "version": "0.0.2",
+  "summary": "Toast Library for Flutter",
+  "description": "Toast Library for FLutter",
+  "homepage": "http://example.com",
+  "license": {
+    "file": "../LICENSE"
+  },
+  "authors": {
+    "Karthik Ponnam": "ponnamkarthik3@gmail.com"
+  },
+  "source": {
+    "path": "."
+  },
+  "source_files": "Classes/**/*",
+  "public_header_files": "Classes/**/*.h",
+  "dependencies": {
+    "Flutter": [
+
+    ],
+    "Toast": [
+
+    ]
+  },
+  "platforms": {
+    "ios": "8.0"
+  }
+}

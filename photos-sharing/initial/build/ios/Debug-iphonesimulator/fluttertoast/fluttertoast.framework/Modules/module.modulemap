@@ -1,0 +1,6 @@
+framework module fluttertoast {
+  umbrella header "fluttertoast-umbrella.h"
+
+  export *
+  module * { export * }
+}

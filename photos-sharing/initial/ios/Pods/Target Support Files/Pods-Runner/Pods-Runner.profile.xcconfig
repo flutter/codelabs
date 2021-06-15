@@ -1,0 +1,12 @@
+CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = NO
+FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/AppAuth" "${PODS_CONFIGURATION_BUILD_DIR}/FMDB" "${PODS_CONFIGURATION_BUILD_DIR}/GTMAppAuth" "${PODS_CONFIGURATION_BUILD_DIR}/GTMSessionFetcher" "${PODS_CONFIGURATION_BUILD_DIR}/Toast" "${PODS_CONFIGURATION_BUILD_DIR}/fluttertoast" "${PODS_CONFIGURATION_BUILD_DIR}/google_sign_in" "${PODS_CONFIGURATION_BUILD_DIR}/image_picker" "${PODS_CONFIGURATION_BUILD_DIR}/path_provider" "${PODS_CONFIGURATION_BUILD_DIR}/sqflite" "${PODS_ROOT}/GoogleSignIn/Frameworks"
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
+HEADER_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/AppAuth/AppAuth.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/FMDB/FMDB.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/GTMAppAuth/GTMAppAuth.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/Toast/Toast.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/fluttertoast/fluttertoast.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/google_sign_in/google_sign_in.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/image_picker/image_picker.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/path_provider/path_provider.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/sqflite/sqflite.framework/Headers"
+LD_RUNPATH_SEARCH_PATHS = $(inherited) '@executable_path/Frameworks' '@loader_path/Frameworks'
+OTHER_LDFLAGS = $(inherited) -ObjC -l"sqlite3" -framework "AppAuth" -framework "CoreGraphics" -framework "CoreText" -framework "FMDB" -framework "Foundation" -framework "GTMAppAuth" -framework "GTMSessionFetcher" -framework "GoogleSignIn" -framework "LocalAuthentication" -framework "QuartzCore" -framework "SafariServices" -framework "Security" -framework "SystemConfiguration" -framework "Toast" -framework "UIKit" -framework "fluttertoast" -framework "google_sign_in" -framework "image_picker" -framework "path_provider" -framework "sqflite" -weak_framework "AuthenticationServices"
+PODS_BUILD_DIR = ${BUILD_DIR}
+PODS_CONFIGURATION_BUILD_DIR = ${PODS_BUILD_DIR}/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
+PODS_PODFILE_DIR_PATH = ${SRCROOT}/.
+PODS_ROOT = ${SRCROOT}/Pods
+PODS_XCFRAMEWORKS_BUILD_DIR = $(PODS_CONFIGURATION_BUILD_DIR)/XCFrameworkIntermediates
+USE_RECURSIVE_SCRIPT_INPUTS_IN_SCRIPT_PHASES = YES

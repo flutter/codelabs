@@ -1,0 +1,10 @@
+${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks.sh
+${BUILT_PRODUCTS_DIR}/AppAuth/AppAuth.framework
+${BUILT_PRODUCTS_DIR}/FMDB/FMDB.framework
+${BUILT_PRODUCTS_DIR}/GTMAppAuth/GTMAppAuth.framework
+${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework
+${BUILT_PRODUCTS_DIR}/Toast/Toast.framework
+${BUILT_PRODUCTS_DIR}/fluttertoast/fluttertoast.framework
+${BUILT_PRODUCTS_DIR}/image_picker/image_picker.framework
+${BUILT_PRODUCTS_DIR}/path_provider/path_provider.framework
+${BUILT_PRODUCTS_DIR}/sqflite/sqflite.framework
