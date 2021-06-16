@@ -23,7 +23,7 @@ enable a group of people to share photos during a field trip.
 
 ## Getting started
 
-Check out the `main` branch of this repository and follow the steps on
+Check out the `photos-sharing/initial` directory of this repository and follow the steps on
 http://codelabs.developers.google.com to get started.
 
 ## License
