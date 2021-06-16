@@ -151,8 +151,8 @@ class PhotosLibraryApiModel extends Model {
 
   /// Load Albums into the model by retrieving the list of all albums shared
   /// with the user.
+  // ignore: unused_element
   Future<List<Album>> _loadSharedAlbums() {
-    // ignore: unused_element
     return client.listSharedAlbums().then(
       (ListSharedAlbumsResponse response) {
         return response.sharedAlbums;
