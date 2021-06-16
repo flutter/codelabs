@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dashclicker/constants.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:dashclicker/logic/firebase_notifier.dart';
 import 'package:dashclicker/model/past_purchase.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 
 class IAPRepo extends ChangeNotifier {
   late FirebaseFirestore _firestore;
