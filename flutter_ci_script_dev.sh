@@ -19,7 +19,9 @@ popd
 
 declare -a CODELABS=(
   "add_flutter_to_android_app"
-  "cookbook"
+  # TODO(domesticmouse) re-enable once cookbook is updated for deprecated member usage.
+  # Tracking bug: https://github.com/flutter/flutter/issues/84665
+  # "cookbook"
   "cupertino_store"
   "firebase-get-to-know-flutter"
   "friendly_chat"
