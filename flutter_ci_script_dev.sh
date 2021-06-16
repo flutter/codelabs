@@ -19,10 +19,14 @@ popd
 
 declare -a CODELABS=(
   "add_flutter_to_android_app"
-  "cookbook"
+  # TODO(domesticmouse) re-enable once cookbook is updated for deprecated member usage.
+  # Tracking bug: https://github.com/flutter/flutter/issues/84665
+  # "cookbook"
   "cupertino_store"
   "firebase-get-to-know-flutter"
-  "friendly_chat"
+  # TODO(domesticmouse) re-enable once friendly_chat is updated for deprecated member usage.
+  # Tracking bug: https://github.com/flutter/flutter/issues/84668
+  # "friendly_chat"
   "github-graphql-client"
   "google-maps-in-flutter"
   "in_app_purchases"
@@ -49,9 +53,8 @@ for PROJECT in "${PROJECT_PATHS[@]}"; do
   (
     cd "$PROJECT";
     set -x;
-    # Only warn about analysis and format issues for dev and beta
-    $FLUTTER analyze --no-fatal-infos;
-    $FLUTTER format --dry-run .;
+    $FLUTTER analyze;
+    $FLUTTER format --dry-run --set-exit-if-changed .;
     $FLUTTER test
   )
 done

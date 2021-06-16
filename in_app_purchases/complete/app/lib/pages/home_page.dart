@@ -1,7 +1,7 @@
-import 'package:dashclicker/logic/dash_purchases.dart';
-import 'package:flutter/material.dart';
 import 'package:dashclicker/logic/dash_counter.dart';
+import 'package:dashclicker/logic/dash_purchases.dart';
 import 'package:dashclicker/logic/dash_upgrades.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
