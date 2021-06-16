@@ -8,10 +8,10 @@ import 'package:flutter_cookbook/examples/drag_and_drop.dart';
 import 'package:flutter_cookbook/examples/expandable_fab.dart';
 import 'package:flutter_cookbook/examples/gradient_bubbles.dart';
 import 'package:flutter_cookbook/examples/instagram_filter.dart';
-import 'package:flutter_cookbook/examples/typing_indicator.dart';
 // import 'package:flutter_cookbook/examples/nested_nav.dart';
 import 'package:flutter_cookbook/examples/parallax.dart';
 import 'package:flutter_cookbook/examples/staggered_animation.dart';
+import 'package:flutter_cookbook/examples/typing_indicator.dart';
 // import 'package:flutter_cookbook/examples/ui_loading_animation.dart';
 
 final items = <CookbookItem>[

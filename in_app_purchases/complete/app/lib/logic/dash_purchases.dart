@@ -1,14 +1,14 @@
 import 'dart:async';
 
 import 'package:dashclicker/constants.dart';
-import 'package:dashclicker/main.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:dashclicker/logic/dash_counter.dart';
 import 'package:dashclicker/logic/firebase_notifier.dart';
+import 'package:dashclicker/main.dart';
 import 'package:dashclicker/model/purchasable_product.dart';
 import 'package:dashclicker/model/store_state.dart';
 import 'package:dashclicker/repo/iap_repo.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 
 class DashPurchases extends ChangeNotifier {

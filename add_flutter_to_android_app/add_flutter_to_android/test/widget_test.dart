@@ -4,9 +4,8 @@
 
 // Basic Flutter widget test. Learn more at https://flutter.dev/docs/testing.
 
-import 'package:flutter_test/flutter_test.dart';
-
 import 'package:add_flutter_to_android/main.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   testWidgets('Codelab smoke test', (tester) async {
