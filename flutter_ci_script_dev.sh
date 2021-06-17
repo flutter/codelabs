@@ -30,6 +30,7 @@ declare -a CODELABS=(
   "github-graphql-client"
   "google-maps-in-flutter"
   "in_app_purchases"
+  "photos-sharing"
   "star_counter"
   "startup_namer"
   "startup_namer_null_safety"
