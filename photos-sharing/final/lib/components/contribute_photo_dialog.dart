@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -28,8 +29,8 @@ class ContributePhotoDialog extends StatefulWidget {
 }
 
 class _ContributePhotoDialogState extends State<ContributePhotoDialog> {
-  File _image;
-  String _uploadToken;
+  File? _image;
+  String? _uploadToken;
   bool _isUploading = false;
   final _imagePicker = ImagePicker();
 
@@ -108,7 +109,7 @@ class _ContributePhotoDialogState extends State<ContributePhotoDialog> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Image.file(_image),
+              Image.file(_image!),
               _isUploading ? const LinearProgressIndicator() : Container(),
             ],
           ),
@@ -132,9 +133,9 @@ class _ContributePhotoDialogState extends State<ContributePhotoDialog> {
   Future _getImage(BuildContext context) async {
     // Use the image_picker package to prompt the user for a photo from their
     // device.
-    final pickedImage = await _imagePicker.getImage(
+    final pickedImage = await (_imagePicker.getImage(
       source: ImageSource.camera,
-    );
+    ) as FutureOr<PickedFile>);
     final pickedFile = File(pickedImage.path);
 
     // Store the image that was selected.

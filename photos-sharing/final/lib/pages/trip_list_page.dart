@@ -38,7 +38,7 @@ class TripListPage extends StatelessWidget {
 
   Widget _buildTripList() {
     return ScopedModelDescendant<PhotosLibraryApiModel>(
-      builder: (BuildContext context, Widget child,
+      builder: (BuildContext context, Widget? child,
           PhotosLibraryApiModel photosLibraryApi) {
         if (!photosLibraryApi.hasAlbums) {
           return const Center(
@@ -152,7 +152,7 @@ class TripListPage extends StatelessWidget {
       imageUrl: '${sharedAlbum.coverPhotoBaseUrl}=w346-h160-c',
       progressIndicatorBuilder: (context, url, downloadProgress) =>
           CircularProgressIndicator(value: downloadProgress.progress),
-      errorWidget: (BuildContext context, String url, Object error) {
+      errorWidget: (BuildContext context, String url, Object? error) {
         print(error);
         return const Icon(Icons.error);
       },

@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -27,8 +28,8 @@ class ContributePhotoDialog extends StatefulWidget {
 }
 
 class _ContributePhotoDialogState extends State<ContributePhotoDialog> {
-  File _image;
-  String _uploadToken;
+  File? _image;
+  String? _uploadToken;
   bool _isUploading = false; // ignore: prefer_final_fields
   final _imagePicker = ImagePicker(); // ignore: unused_field
 
@@ -107,7 +108,7 @@ class _ContributePhotoDialogState extends State<ContributePhotoDialog> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Image.file(_image),
+              Image.file(_image!),
               _isUploading ? const LinearProgressIndicator() : Container(),
             ],
           ),

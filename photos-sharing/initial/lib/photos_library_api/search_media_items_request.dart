@@ -29,7 +29,7 @@ class SearchMediaItemsRequest {
 
   Map<String, dynamic> toJson() => _$SearchMediaItemsRequestToJson(this);
 
-  String albumId;
-  int pageSize;
-  String pageToken;
+  String? albumId;
+  int? pageSize;
+  String? pageToken;
 }

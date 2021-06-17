@@ -28,6 +28,6 @@ class ListAlbumsResponse {
 
   Map<String, dynamic> toJson() => _$ListAlbumsResponseToJson(this);
 
-  List<Album> albums;
-  String nextPageToken;
+  List<Album>? albums;
+  String? nextPageToken;
 }

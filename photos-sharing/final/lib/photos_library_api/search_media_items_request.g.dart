@@ -25,9 +25,9 @@ part of 'search_media_items_request.dart';
 SearchMediaItemsRequest _$SearchMediaItemsRequestFromJson(
     Map<String, dynamic> json) {
   return SearchMediaItemsRequest(
-    json['albumId'] as String,
-    json['pageSize'] as int,
-    json['pageToken'] as String,
+    json['albumId'] as String?,
+    json['pageSize'] as int?,
+    json['pageToken'] as String?,
   );
 }
 

@@ -28,6 +28,6 @@ class ListSharedAlbumsResponse {
 
   Map<String, dynamic> toJson() => _$ListSharedAlbumsResponseToJson(this);
 
-  List<Album> sharedAlbums;
-  String nextPageToken;
+  List<Album>? sharedAlbums;
+  String? nextPageToken;
 }

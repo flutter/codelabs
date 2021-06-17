@@ -25,7 +25,7 @@ part of 'join_shared_album_request.dart';
 JoinSharedAlbumRequest _$JoinSharedAlbumRequestFromJson(
     Map<String, dynamic> json) {
   return JoinSharedAlbumRequest(
-    json['shareToken'] as String,
+    json['shareToken'] as String?,
   );
 }
 

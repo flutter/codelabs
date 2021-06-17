@@ -24,16 +24,16 @@ part of 'album.dart';
 
 Album _$AlbumFromJson(Map<String, dynamic> json) {
   return Album(
-    json['id'] as String,
-    json['title'] as String,
-    json['productUrl'] as String,
-    json['isWriteable'] as bool,
+    json['id'] as String?,
+    json['title'] as String?,
+    json['productUrl'] as String?,
+    json['isWriteable'] as bool?,
     json['shareInfo'] == null
         ? null
         : ShareInfo.fromJson(json['shareInfo'] as Map<String, dynamic>),
-    json['mediaItemsCount'] as String,
-    json['coverPhotoBaseUrl'] as String,
-    json['coverPhotoMediaItemId'] as String,
+    json['mediaItemsCount'] as String?,
+    json['coverPhotoBaseUrl'] as String?,
+    json['coverPhotoMediaItemId'] as String?,
   );
 }
 
@@ -54,9 +54,9 @@ ShareInfo _$ShareInfoFromJson(Map<String, dynamic> json) {
         ? null
         : SharedAlbumOptions.fromJson(
             json['sharedAlbumOptions'] as Map<String, dynamic>),
-    json['shareableUrl'] as String,
-    json['shareToken'] as String,
-    json['isJoined'] as bool,
+    json['shareableUrl'] as String?,
+    json['shareToken'] as String?,
+    json['isJoined'] as bool?,
   );
 }
 
@@ -69,8 +69,8 @@ Map<String, dynamic> _$ShareInfoToJson(ShareInfo instance) => <String, dynamic>{
 
 SharedAlbumOptions _$SharedAlbumOptionsFromJson(Map<String, dynamic> json) {
   return SharedAlbumOptions(
-    json['isCollaborative'] as bool,
-    json['isCommentable'] as bool,
+    json['isCollaborative'] as bool?,
+    json['isCommentable'] as bool?,
   );
 }
 
