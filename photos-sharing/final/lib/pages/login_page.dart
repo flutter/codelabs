@@ -32,8 +32,8 @@ class LoginPage extends StatelessWidget {
 
   Widget _buildBody() {
     return ScopedModelDescendant<PhotosLibraryApiModel>(
-      builder:
-          (BuildContext context, Widget? child, PhotosLibraryApiModel apiModel) {
+      builder: (BuildContext context, Widget? child,
+          PhotosLibraryApiModel apiModel) {
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[

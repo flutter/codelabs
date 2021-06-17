@@ -24,8 +24,8 @@ class TripAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<PhotosLibraryApiModel>(
-      builder:
-          (BuildContext context, Widget? child, PhotosLibraryApiModel apiModel) {
+      builder: (BuildContext context, Widget? child,
+          PhotosLibraryApiModel apiModel) {
         return AppBar(
           title: Row(
             children: <Widget>[
