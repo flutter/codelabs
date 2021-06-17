@@ -18,7 +18,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class PrimaryRaisedButton extends StatelessWidget {
-  const PrimaryRaisedButton({this.onPressed, this.label});
+  const PrimaryRaisedButton({this.onPressed, this.label, Key key})
+      : super(key: key);
 
   final Widget label;
   final VoidCallback onPressed;

@@ -21,6 +21,8 @@ import 'package:sharing_codelab/model/photos_library_api_model.dart';
 import 'package:sharing_codelab/pages/login_page.dart';
 
 class TripAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const TripAppBar({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<PhotosLibraryApiModel>(
@@ -55,8 +57,8 @@ class TripAppBar extends StatelessWidget implements PreferredSizeWidget {
 
     if (apiModel.isLoggedIn()) {
       if (apiModel.user.photoUrl != null) {
-        widgets.add(Container(
-          child: CircleAvatar(
+        widgets.add(
+          CircleAvatar(
             radius: 14,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(14),
@@ -65,7 +67,7 @@ class TripAppBar extends StatelessWidget implements PreferredSizeWidget {
               ),
             ),
           ),
-        ));
+        );
       } else {
         // Placeholder to use when there is no photo URL.
         final placeholderCharSources = <String>[
@@ -80,7 +82,7 @@ class TripAppBar extends StatelessWidget implements PreferredSizeWidget {
             .toUpperCase();
 
         widgets.add(
-          Container(
+          SizedBox(
             height: 6,
             child: CircleAvatar(
               child: Text(placeholderChar),
@@ -96,7 +98,7 @@ class TripAppBar extends StatelessWidget implements PreferredSizeWidget {
             await Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (BuildContext context) => LoginPage(),
+                builder: (BuildContext context) => const LoginPage(),
               ),
             );
           },

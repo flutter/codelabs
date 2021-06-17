@@ -45,10 +45,8 @@ class BatchCreateMediaItemsRequest {
 class NewMediaItem {
   NewMediaItem(this.description, this.simpleMediaItem);
 
-  NewMediaItem.simple(String uploadToken, description) {
-    this.description = description;
-    simpleMediaItem = SimpleMediaItem(uploadToken);
-  }
+  NewMediaItem.simple(String uploadToken, this.description)
+      : simpleMediaItem = SimpleMediaItem(uploadToken);
 
   factory NewMediaItem.fromJson(Map<String, dynamic> json) =>
       _$NewMediaItemFromJson(json);

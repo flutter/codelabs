@@ -20,6 +20,8 @@ import 'package:sharing_codelab/components/primary_raised_button.dart';
 import '../util/to_be_implemented.dart';
 
 class CreateTripPage extends StatefulWidget {
+  const CreateTripPage({Key key}) : super(key: key);
+
   @override
   _CreateTripPageState createState() => _CreateTripPageState();
 }
