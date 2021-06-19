@@ -58,6 +58,7 @@ class _RandomWordsState extends State<RandomWords> {
       trailing: Icon(
         alreadySaved ? Icons.favorite : Icons.favorite_border,
         color: alreadySaved ? Colors.red : null,
+        semanticLabel: alreadySaved ? 'Saved' : 'Tap to save',
       ),
       onTap: () {
         setState(() {
