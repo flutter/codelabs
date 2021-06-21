@@ -18,7 +18,7 @@ import 'package:flutter/material.dart';
 import 'package:sharing_codelab/util/to_be_implemented.dart';
 
 class JoinTripPage extends StatefulWidget {
-  const JoinTripPage({Key key}) : super(key: key);
+  const JoinTripPage({Key? key}) : super(key: key);
 
   @override
   _JoinTripPageState createState() => _JoinTripPageState();

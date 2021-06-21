@@ -27,7 +27,7 @@ import 'package:sharing_codelab/pages/trip_page.dart';
 import 'package:sharing_codelab/photos_library_api/album.dart';
 
 class TripListPage extends StatelessWidget {
-  const TripListPage({Key key}) : super(key: key);
+  const TripListPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -23,7 +23,7 @@ import 'package:sharing_codelab/pages/trip_page.dart';
 import 'package:sharing_codelab/util/to_be_implemented.dart';
 
 class ContributePhotoDialog extends StatefulWidget {
-  const ContributePhotoDialog({Key key}) : super(key: key);
+  const ContributePhotoDialog({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _ContributePhotoDialogState();

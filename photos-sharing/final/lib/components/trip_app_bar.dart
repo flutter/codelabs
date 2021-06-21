@@ -21,7 +21,7 @@ import 'package:sharing_codelab/model/photos_library_api_model.dart';
 import 'package:sharing_codelab/pages/login_page.dart';
 
 class TripAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const TripAppBar({Key key}) : super(key: key);
+  const TripAppBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
