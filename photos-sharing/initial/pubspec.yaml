@@ -39,7 +39,7 @@ dev_dependencies:
     sdk: flutter
   build_runner: ^2.0.4
   json_serializable: ^4.1.3
-  pedantic: ^1.11.0
+  flutter_lints: ^1.0.0
 
 flutter:
   uses-material-design: true

@@ -22,10 +22,12 @@ import 'package:sharing_codelab/model/photos_library_api_model.dart';
 import 'package:sharing_codelab/pages/trip_list_page.dart';
 
 class LoginPage extends StatelessWidget {
+  const LoginPage({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TripAppBar(),
+      appBar: const TripAppBar(),
       body: _buildBody(),
     );
   }
@@ -52,7 +54,7 @@ class LoginPage extends StatelessWidget {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.all(15),
+                padding: const EdgeInsets.all(15),
               ),
               onPressed: () async {
                 try {
@@ -85,7 +87,7 @@ class LoginPage extends StatelessWidget {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (BuildContext context) => TripListPage(),
+        builder: (BuildContext context) => const TripListPage(),
       ),
     );
   }

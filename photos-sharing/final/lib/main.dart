@@ -31,6 +31,8 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  MyApp({Key key}) : super(key: key);
+
   final ThemeData _theme = _buildTheme();
 
   @override
@@ -38,7 +40,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Field Trippa',
       theme: _theme,
-      home: HomePage(),
+      home: const HomePage(),
     );
   }
 }
