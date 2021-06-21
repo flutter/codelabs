@@ -34,6 +34,7 @@ class TripPage extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() =>
+      // ignore: no_logic_in_create_state
       _TripPageState(searchResponse: searchResponse, album: album);
 }
 
@@ -54,7 +55,7 @@ class _TripPageState extends State<TripPage> {
       body: Builder(builder: (BuildContext context) {
         return Column(
           children: <Widget>[
-            Container(
+            SizedBox(
               width: 370,
               child: Text(
                 album.title ?? '[no title]',
@@ -184,7 +185,7 @@ class _TripPageState extends State<TripPage> {
     final contributeResult = await showDialog<ContributePhotoResult>(
       context: context,
       builder: (BuildContext context) {
-        return ContributePhotoDialog();
+        return const ContributePhotoDialog();
       },
     );
 
@@ -206,14 +207,14 @@ class _TripPageState extends State<TripPage> {
     }
 
     return Column(children: <Widget>[
-      Container(
+      SizedBox(
         width: 254,
         child: TextButton(
           onPressed: () => _showShareableUrl(context),
           child: const Text('SHARE WITH ANYONE'),
         ),
       ),
-      Container(
+      SizedBox(
         width: 254,
         child: TextButton(
           onPressed: () => _showShareToken(context),

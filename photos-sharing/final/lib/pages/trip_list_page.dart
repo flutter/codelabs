@@ -27,11 +27,13 @@ import 'package:sharing_codelab/pages/trip_page.dart';
 import 'package:sharing_codelab/photos_library_api/album.dart';
 
 class TripListPage extends StatelessWidget {
+  const TripListPage({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: TripAppBar(),
+      appBar: const TripAppBar(),
       body: _buildTripList(),
     );
   }
@@ -171,7 +173,7 @@ class TripListPage extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (BuildContext context) => CreateTripPage(),
+                  builder: (BuildContext context) => const CreateTripPage(),
                 ),
               );
             },
@@ -192,7 +194,7 @@ class TripListPage extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (BuildContext context) => JoinTripPage(),
+                  builder: (BuildContext context) => const JoinTripPage(),
                 ),
               );
             },
