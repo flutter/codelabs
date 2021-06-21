@@ -78,7 +78,7 @@ class _RandomWordsState extends State<RandomWords> {
         title: const Text('Startup Name Generator'),
         actions: [
           IconButton(
-            icon: Icon(Icons.list),
+            icon: const Icon(Icons.list),
             onPressed: _pushSaved,
             tooltip: 'Saved Suggestions',
           ),
