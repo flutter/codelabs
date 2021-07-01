@@ -22,7 +22,7 @@ import 'package:sharing_codelab/pages/login_page.dart';
 import 'package:sharing_codelab/pages/trip_list_page.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key key}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

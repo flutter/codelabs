@@ -19,7 +19,7 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:sharing_codelab/model/photos_library_api_model.dart';
 
 class JoinTripPage extends StatefulWidget {
-  const JoinTripPage({Key key}) : super(key: key);
+  const JoinTripPage({Key? key}) : super(key: key);
 
   @override
   _JoinTripPageState createState() => _JoinTripPageState();

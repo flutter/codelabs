@@ -34,12 +34,12 @@ import 'package:sharing_codelab/photos_library_api/share_album_response.dart';
 
 class PhotosLibraryApiModel extends Model {
   PhotosLibraryApiModel() {
-    _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount account) {
+    _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
       _currentUser = account;
 
       if (_currentUser != null) {
         // Initialize the client with the new user credentials
-        client = PhotosLibraryApiClient(_currentUser.authHeaders);
+        client = PhotosLibraryApiClient(_currentUser!.authHeaders);
       } else {
         // Reset the client
         client = null;
@@ -53,60 +53,60 @@ class PhotosLibraryApiModel extends Model {
 
   final LinkedHashSet<Album> _albums = LinkedHashSet<Album>();
   bool hasAlbums = false;
-  PhotosLibraryApiClient client;
+  PhotosLibraryApiClient? client;
 
-  GoogleSignInAccount _currentUser;
+  GoogleSignInAccount? _currentUser;
 
   final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: <String>[
     'profile',
     'https://www.googleapis.com/auth/photoslibrary',
     'https://www.googleapis.com/auth/photoslibrary.sharing'
   ]);
-  GoogleSignInAccount get user => _currentUser;
+  GoogleSignInAccount? get user => _currentUser;
 
   bool isLoggedIn() {
     return _currentUser != null;
   }
 
-  Future<GoogleSignInAccount> signIn() => _googleSignIn.signIn();
+  Future<GoogleSignInAccount?> signIn() => _googleSignIn.signIn();
 
-  Future<GoogleSignInAccount> signInSilently() =>
+  Future<GoogleSignInAccount?> signInSilently() =>
       _googleSignIn.signInSilently();
 
   Future<void> signOut() => _googleSignIn.disconnect();
 
-  Future<Album> createAlbum(String title) async {
+  Future<Album?> createAlbum(String title) async {
     // TODO(codelab): Implement this call.
 
     return null;
   }
 
-  Future<Album> getAlbum(String id) async =>
-      client.getAlbum(GetAlbumRequest.defaultOptions(id));
+  Future<Album> getAlbum(String? id) async =>
+      client!.getAlbum(GetAlbumRequest.defaultOptions(id));
 
   Future<JoinSharedAlbumResponse> joinSharedAlbum(String shareToken) async {
     final response =
-        await client.joinSharedAlbum(JoinSharedAlbumRequest(shareToken));
+        await client!.joinSharedAlbum(JoinSharedAlbumRequest(shareToken));
     updateAlbums();
     return response;
   }
 
-  Future<ShareAlbumResponse> shareAlbum(String id) async {
+  Future<ShareAlbumResponse> shareAlbum(String? id) async {
     final response =
-        await client.shareAlbum(ShareAlbumRequest.defaultOptions(id));
+        await client!.shareAlbum(ShareAlbumRequest.defaultOptions(id));
     updateAlbums();
     return response;
   }
 
-  Future<SearchMediaItemsResponse> searchMediaItems(String albumId) async =>
-      client.searchMediaItems(SearchMediaItemsRequest.albumId(albumId));
+  Future<SearchMediaItemsResponse> searchMediaItems(String? albumId) async =>
+      client!.searchMediaItems(SearchMediaItemsRequest.albumId(albumId));
 
   Future<String> uploadMediaItem(File image) {
-    return client.uploadMediaItem(image);
+    return client!.uploadMediaItem(image);
   }
 
-  Future<BatchCreateMediaItemsResponse> createMediaItem(
-      String uploadToken, String albumId, String description) async {
+  Future<BatchCreateMediaItemsResponse?> createMediaItem(
+      String? uploadToken, String? albumId, String description) async {
     // TODO(codelab): Implement this method.
 
     return null;
@@ -118,7 +118,7 @@ class PhotosLibraryApiModel extends Model {
   }
 
   UnmodifiableListView<Album> get albums =>
-      UnmodifiableListView<Album>(_albums ?? <Album>[]);
+      UnmodifiableListView<Album>(_albums);
 
   void updateAlbums() async {
     // Reset the flag before loading new albums
@@ -152,8 +152,8 @@ class PhotosLibraryApiModel extends Model {
   /// Load Albums into the model by retrieving the list of all albums shared
   /// with the user.
   // ignore: unused_element
-  Future<List<Album>> _loadSharedAlbums() {
-    return client.listSharedAlbums().then(
+  Future<List<Album>?> _loadSharedAlbums() {
+    return client!.listSharedAlbums().then(
       (ListSharedAlbumsResponse response) {
         return response.sharedAlbums;
       },
@@ -162,8 +162,8 @@ class PhotosLibraryApiModel extends Model {
 
   /// Load albums into the model by retrieving the list of all albums owned
   /// by the user.
-  Future<List<Album>> _loadAlbums() {
-    return client.listAlbums().then(
+  Future<List<Album>?> _loadAlbums() {
+    return client!.listAlbums().then(
       (ListAlbumsResponse response) {
         return response.albums;
       },

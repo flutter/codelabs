@@ -28,7 +28,7 @@ class BatchCreateMediaItemsResponse {
 
   Map<String, dynamic> toJson() => _$BatchCreateMediaItemsResponseToJson(this);
 
-  List<NewMediaItemResult> newMediaItemResults;
+  List<NewMediaItemResult>? newMediaItemResults;
 }
 
 @JsonSerializable()
@@ -40,6 +40,6 @@ class NewMediaItemResult {
 
   Map<String, dynamic> toJson() => _$NewMediaItemResultToJson(this);
 
-  String uploadToken;
-  MediaItem mediaItem;
+  String? uploadToken;
+  MediaItem? mediaItem;
 }

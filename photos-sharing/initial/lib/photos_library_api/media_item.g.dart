@@ -24,10 +24,10 @@ part of 'media_item.dart';
 
 MediaItem _$MediaItemFromJson(Map<String, dynamic> json) {
   return MediaItem(
-    json['id'] as String,
-    json['description'] as String,
-    json['productUrl'] as String,
-    json['baseUrl'] as String,
+    json['id'] as String?,
+    json['description'] as String?,
+    json['productUrl'] as String?,
+    json['baseUrl'] as String?,
   );
 }
 

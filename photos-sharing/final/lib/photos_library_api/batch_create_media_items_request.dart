@@ -24,7 +24,7 @@ class BatchCreateMediaItemsRequest {
       this.albumId, this.newMediaItems, this.albumPosition);
 
   static BatchCreateMediaItemsRequest inAlbum(
-      String uploadToken, String albumId, String description) {
+      String? uploadToken, String? albumId, String description) {
     return BatchCreateMediaItemsRequest(
         albumId,
         <NewMediaItem>[NewMediaItem.simple(uploadToken, description)],
@@ -35,26 +35,26 @@ class BatchCreateMediaItemsRequest {
       _$BatchCreateMediaItemsRequestFromJson(json);
 
   Map<String, dynamic> toJson() => _$BatchCreateMediaItemsRequestToJson(this);
-  String albumId;
-  List<NewMediaItem> newMediaItems;
+  String? albumId;
+  List<NewMediaItem>? newMediaItems;
 
-  AlbumPosition albumPosition;
+  AlbumPosition? albumPosition;
 }
 
 @JsonSerializable()
 class NewMediaItem {
   NewMediaItem(this.description, this.simpleMediaItem);
 
-  NewMediaItem.simple(String uploadToken, this.description)
+  NewMediaItem.simple(String? uploadToken, this.description)
       : simpleMediaItem = SimpleMediaItem(uploadToken);
 
   factory NewMediaItem.fromJson(Map<String, dynamic> json) =>
       _$NewMediaItemFromJson(json);
 
   Map<String, dynamic> toJson() => _$NewMediaItemToJson(this);
-  String description;
+  String? description;
 
-  SimpleMediaItem simpleMediaItem;
+  SimpleMediaItem? simpleMediaItem;
 }
 
 @JsonSerializable()
@@ -66,7 +66,7 @@ class SimpleMediaItem {
 
   Map<String, dynamic> toJson() => _$SimpleMediaItemToJson(this);
 
-  String uploadToken;
+  String? uploadToken;
 }
 
 @JsonSerializable()
@@ -80,9 +80,9 @@ class AlbumPosition {
 
   Map<String, dynamic> toJson() => _$AlbumPositionToJson(this);
 
-  String relativeMediaItemId;
-  String relativeEnrichmentItemId;
-  PositionType position;
+  String? relativeMediaItemId;
+  String? relativeEnrichmentItemId;
+  PositionType? position;
 
   static AlbumPosition lastInAlbum() =>
       AlbumPosition.absolute(PositionType.LAST_IN_ALBUM);

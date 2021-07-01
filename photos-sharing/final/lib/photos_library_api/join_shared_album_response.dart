@@ -28,5 +28,5 @@ class JoinSharedAlbumResponse {
 
   Map<String, dynamic> toJson() => _$JoinSharedAlbumResponseToJson(this);
 
-  Album album;
+  Album? album;
 }

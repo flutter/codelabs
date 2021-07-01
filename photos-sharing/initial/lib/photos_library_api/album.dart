@@ -37,14 +37,14 @@ class Album {
   @override
   int get hashCode => id.hashCode;
 
-  String id;
-  String title;
-  String productUrl;
-  bool isWriteable;
-  ShareInfo shareInfo;
-  String mediaItemsCount;
-  String coverPhotoBaseUrl;
-  String coverPhotoMediaItemId;
+  String? id;
+  String? title;
+  String? productUrl;
+  bool? isWriteable;
+  ShareInfo? shareInfo;
+  String? mediaItemsCount;
+  String? coverPhotoBaseUrl;
+  String? coverPhotoMediaItemId;
 }
 
 @JsonSerializable()
@@ -57,10 +57,10 @@ class ShareInfo {
 
   Map<String, dynamic> toJson() => _$ShareInfoToJson(this);
 
-  SharedAlbumOptions sharedAlbumOptions;
-  String shareableUrl;
-  String shareToken;
-  bool isJoined;
+  SharedAlbumOptions? sharedAlbumOptions;
+  String? shareableUrl;
+  String? shareToken;
+  bool? isJoined;
 }
 
 @JsonSerializable()
@@ -72,6 +72,6 @@ class SharedAlbumOptions {
 
   Map<String, dynamic> toJson() => _$SharedAlbumOptionsToJson(this);
 
-  bool isCollaborative;
-  bool isCommentable;
+  bool? isCollaborative;
+  bool? isCommentable;
 }

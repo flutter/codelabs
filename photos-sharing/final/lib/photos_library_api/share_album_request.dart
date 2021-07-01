@@ -17,5 +17,5 @@
 class ShareAlbumRequest {
   ShareAlbumRequest.defaultOptions(this.albumId);
 
-  String albumId;
+  String? albumId;
 }

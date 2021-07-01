@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -27,9 +28,10 @@ import 'package:sharing_codelab/photos_library_api/search_media_items_response.d
 import 'package:sharing_codelab/util/to_be_implemented.dart';
 
 class TripPage extends StatefulWidget {
-  const TripPage({Key key, this.searchResponse, this.album}) : super(key: key);
+  const TripPage({Key? key, this.searchResponse, required this.album})
+      : super(key: key);
 
-  final Future<SearchMediaItemsResponse> searchResponse;
+  final Future<SearchMediaItemsResponse>? searchResponse;
 
   final Album album;
 
@@ -40,10 +42,10 @@ class TripPage extends StatefulWidget {
 }
 
 class _TripPageState extends State<TripPage> {
-  _TripPageState({this.searchResponse, this.album});
+  _TripPageState({this.searchResponse, required this.album});
 
   Album album;
-  Future<SearchMediaItemsResponse> searchResponse;
+  Future<SearchMediaItemsResponse>? searchResponse;
   bool _inSharingApiCall = false; // ignore: prefer_final_fields
 
   @override
@@ -151,16 +153,16 @@ class _TripPageState extends State<TripPage> {
 
   void _contributePhoto(BuildContext context) async {
     // Show the contribute  dialog and upload a photo.
-    final contributeResult = await showDialog<ContributePhotoResult>(
+    final contributeResult = await (showDialog<ContributePhotoResult>(
       context: context,
       builder: (BuildContext context) {
         return const ContributePhotoDialog();
       },
-    );
+    ) as FutureOr<ContributePhotoResult>);
 
     // Create the media item from the uploaded photo.
     await ScopedModel.of<PhotosLibraryApiModel>(context).createMediaItem(
-        contributeResult.uploadToken, album.id, contributeResult.description);
+        contributeResult.uploadToken!, album.id!, contributeResult.description);
 
     // Do a new search for items inside this album and store its Future for display.
     final response = ScopedModel.of<PhotosLibraryApiModel>(context)
@@ -196,15 +198,15 @@ class _TripPageState extends State<TripPage> {
   Widget _buildMediaItemList(
       BuildContext context, AsyncSnapshot<SearchMediaItemsResponse> snapshot) {
     if (snapshot.hasData) {
-      if (snapshot.data.mediaItems == null) {
+      if (snapshot.data!.mediaItems == null) {
         return Container();
       }
 
       return Expanded(
         child: ListView.builder(
-          itemCount: snapshot.data.mediaItems.length,
+          itemCount: snapshot.data!.mediaItems!.length,
           itemBuilder: (BuildContext context, int index) {
-            return _buildMediaItem(snapshot.data.mediaItems[index]);
+            return _buildMediaItem(snapshot.data!.mediaItems![index]);
           },
         ),
       );
@@ -228,7 +230,7 @@ class _TripPageState extends State<TripPage> {
             imageUrl: '${mediaItem.baseUrl}=w364',
             progressIndicatorBuilder: (context, url, downloadProgress) =>
                 CircularProgressIndicator(value: downloadProgress.progress),
-            errorWidget: (BuildContext context, String url, Object error) {
+            errorWidget: (BuildContext context, String url, Object? error) {
               print(error);
               return const Icon(Icons.error);
             },
@@ -250,6 +252,6 @@ class _TripPageState extends State<TripPage> {
 class ContributePhotoResult {
   ContributePhotoResult(this.uploadToken, this.description);
 
-  String uploadToken;
+  String? uploadToken;
   String description;
 }

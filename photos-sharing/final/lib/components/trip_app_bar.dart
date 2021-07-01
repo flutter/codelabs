@@ -21,13 +21,13 @@ import 'package:sharing_codelab/model/photos_library_api_model.dart';
 import 'package:sharing_codelab/pages/login_page.dart';
 
 class TripAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const TripAppBar({Key key}) : super(key: key);
+  const TripAppBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<PhotosLibraryApiModel>(
-      builder:
-          (BuildContext context, Widget child, PhotosLibraryApiModel apiModel) {
+      builder: (BuildContext context, Widget? child,
+          PhotosLibraryApiModel apiModel) {
         return AppBar(
           title: Row(
             children: <Widget>[
@@ -56,28 +56,28 @@ class TripAppBar extends StatelessWidget implements PreferredSizeWidget {
     final widgets = <Widget>[];
 
     if (apiModel.isLoggedIn()) {
-      if (apiModel.user.photoUrl != null) {
+      if (apiModel.user!.photoUrl != null) {
         widgets.add(
           CircleAvatar(
             radius: 14,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(14),
               child: Image.network(
-                apiModel.user.photoUrl,
+                apiModel.user!.photoUrl!,
               ),
             ),
           ),
         );
       } else {
         // Placeholder to use when there is no photo URL.
-        final placeholderCharSources = <String>[
-          apiModel.user.displayName,
-          apiModel.user.email,
+        final placeholderCharSources = <String?>[
+          apiModel.user!.displayName,
+          apiModel.user!.email,
           '-',
         ];
         final placeholderChar = placeholderCharSources
             .firstWhere(
-                (String str) => str != null && str.trimLeft().isNotEmpty)
+                (String? str) => str != null && str.trimLeft().isNotEmpty)!
             .trimLeft()[0]
             .toUpperCase();
 

@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -26,9 +27,10 @@ import 'package:sharing_codelab/photos_library_api/media_item.dart';
 import 'package:sharing_codelab/photos_library_api/search_media_items_response.dart';
 
 class TripPage extends StatefulWidget {
-  const TripPage({Key key, this.searchResponse, this.album}) : super(key: key);
+  const TripPage({Key? key, this.searchResponse, required this.album})
+      : super(key: key);
 
-  final Future<SearchMediaItemsResponse> searchResponse;
+  final Future<SearchMediaItemsResponse>? searchResponse;
 
   final Album album;
 
@@ -39,10 +41,10 @@ class TripPage extends StatefulWidget {
 }
 
 class _TripPageState extends State<TripPage> {
-  _TripPageState({this.searchResponse, this.album});
+  _TripPageState({this.searchResponse, required this.album});
 
   Album album;
-  Future<SearchMediaItemsResponse> searchResponse;
+  Future<SearchMediaItemsResponse>? searchResponse;
   bool _inSharingApiCall = false;
 
   @override
@@ -107,7 +109,7 @@ class _TripPageState extends State<TripPage> {
   }
 
   Future<void> _showShareableUrl(BuildContext context) async {
-    if (album.shareInfo == null || album.shareInfo.shareableUrl == null) {
+    if (album.shareInfo == null || album.shareInfo!.shareableUrl == null) {
       print('Not shared, sharing album first.');
 
       // Album is not shared yet, share it first, then display dialog
@@ -133,20 +135,20 @@ class _TripPageState extends State<TripPage> {
   }
 
   void _showTokenDialog(BuildContext context) {
-    print('This is the shareToken:\n${album.shareInfo.shareToken}');
+    print('This is the shareToken:\n${album.shareInfo!.shareToken}');
 
     _showShareDialog(
-        context, 'Use this token to share', album.shareInfo.shareToken);
+        context, 'Use this token to share', album.shareInfo!.shareToken!);
   }
 
   void _showUrlDialog(BuildContext context) {
-    print('This is the shareableUrl:\n${album.shareInfo.shareableUrl}');
+    print('This is the shareableUrl:\n${album.shareInfo!.shareableUrl}');
 
     _showShareDialog(
         context,
         'Share this URL with anyone. '
         'Anyone with this URL can access all items.',
-        album.shareInfo.shareableUrl);
+        album.shareInfo!.shareableUrl!);
   }
 
   void _showShareDialog(BuildContext context, String title, String text) {
@@ -182,16 +184,16 @@ class _TripPageState extends State<TripPage> {
 
   void _contributePhoto(BuildContext context) async {
     // Show the contribute  dialog and upload a photo.
-    final contributeResult = await showDialog<ContributePhotoResult>(
+    final contributeResult = await (showDialog<ContributePhotoResult>(
       context: context,
       builder: (BuildContext context) {
         return const ContributePhotoDialog();
       },
-    );
+    ) as FutureOr<ContributePhotoResult>);
 
     // Create the media item from the uploaded photo.
     await ScopedModel.of<PhotosLibraryApiModel>(context).createMediaItem(
-        contributeResult.uploadToken, album.id, contributeResult.description);
+        contributeResult.uploadToken!, album.id!, contributeResult.description);
 
     // Do a new search for items inside this album and store its Future for display.
     final response = ScopedModel.of<PhotosLibraryApiModel>(context)
@@ -227,15 +229,15 @@ class _TripPageState extends State<TripPage> {
   Widget _buildMediaItemList(
       BuildContext context, AsyncSnapshot<SearchMediaItemsResponse> snapshot) {
     if (snapshot.hasData) {
-      if (snapshot.data.mediaItems == null) {
+      if (snapshot.data!.mediaItems == null) {
         return Container();
       }
 
       return Expanded(
         child: ListView.builder(
-          itemCount: snapshot.data.mediaItems.length,
+          itemCount: snapshot.data!.mediaItems!.length,
           itemBuilder: (BuildContext context, int index) {
-            return _buildMediaItem(snapshot.data.mediaItems[index]);
+            return _buildMediaItem(snapshot.data!.mediaItems![index]);
           },
         ),
       );
@@ -259,7 +261,7 @@ class _TripPageState extends State<TripPage> {
             imageUrl: '${mediaItem.baseUrl}=w364',
             progressIndicatorBuilder: (context, url, downloadProgress) =>
                 CircularProgressIndicator(value: downloadProgress.progress),
-            errorWidget: (BuildContext context, String url, Object error) {
+            errorWidget: (BuildContext context, String url, Object? error) {
               print(error);
               return const Icon(Icons.error);
             },
@@ -281,6 +283,6 @@ class _TripPageState extends State<TripPage> {
 class ContributePhotoResult {
   ContributePhotoResult(this.uploadToken, this.description);
 
-  String uploadToken;
+  String? uploadToken;
   String description;
 }

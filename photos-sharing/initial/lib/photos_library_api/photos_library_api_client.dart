@@ -32,7 +32,7 @@ import 'package:sharing_codelab/photos_library_api/search_media_items_request.da
 import 'package:sharing_codelab/photos_library_api/search_media_items_response.dart';
 import 'package:sharing_codelab/photos_library_api/share_album_request.dart';
 import 'package:sharing_codelab/photos_library_api/share_album_response.dart';
-import 'package:path/path.dart' as path; // ignore: unused_import
+import 'package:path/path.dart' as path;
 
 class PhotosLibraryApiClient {
   PhotosLibraryApiClient(this._authHeaders);
@@ -40,8 +40,15 @@ class PhotosLibraryApiClient {
   final Future<Map<String, String>> _authHeaders;
 
   Future<Album> createAlbum(CreateAlbumRequest request) async {
-    // TODO(codelab): Implement this call.
-    return null;
+    final response = await http.post(
+      Uri.parse('https://photoslibrary.googleapis.com/v1/albums'),
+      body: jsonEncode(request),
+      headers: await _authHeaders,
+    );
+
+    printError(response);
+
+    return Album.fromJson(jsonDecode(response.body));
   }
 
   Future<JoinSharedAlbumResponse> joinSharedAlbum(
@@ -105,16 +112,26 @@ class PhotosLibraryApiClient {
   }
 
   Future<String> uploadMediaItem(File image) async {
-    // TODO(codelab): Implement this method.
-
     // Get the filename of the image
+    final filename = path.basename(image.path);
 
     // Set up the headers required for this request.
+    final headers = <String, String>{};
+    headers.addAll(await _authHeaders);
+    headers['Content-type'] = 'application/octet-stream';
+    headers['X-Goog-Upload-Protocol'] = 'raw';
+    headers['X-Goog-Upload-File-Name'] = filename;
 
     // Make the HTTP request to upload the image. The file is sent in the body.
+    final response = await http.post(
+      Uri.parse('https://photoslibrary.googleapis.com/v1/uploads'),
+      body: image.readAsBytesSync(),
+      headers: await _authHeaders,
+    );
 
-    //TODO(codelab): Remove this call in your final implementation.
-    return Future.value('to_be_implemented');
+    printError(response);
+
+    return response.body;
   }
 
   Future<SearchMediaItemsResponse> searchMediaItems(

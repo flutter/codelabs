@@ -25,11 +25,9 @@ part of 'batch_create_media_items_response.dart';
 BatchCreateMediaItemsResponse _$BatchCreateMediaItemsResponseFromJson(
     Map<String, dynamic> json) {
   return BatchCreateMediaItemsResponse(
-    (json['newMediaItemResults'] as List)
-        ?.map((e) => e == null
-            ? null
-            : NewMediaItemResult.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    (json['newMediaItemResults'] as List<dynamic>?)
+        ?.map((e) => NewMediaItemResult.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -41,7 +39,7 @@ Map<String, dynamic> _$BatchCreateMediaItemsResponseToJson(
 
 NewMediaItemResult _$NewMediaItemResultFromJson(Map<String, dynamic> json) {
   return NewMediaItemResult(
-    json['uploadToken'] as String,
+    json['uploadToken'] as String?,
     json['mediaItem'] == null
         ? null
         : MediaItem.fromJson(json['mediaItem'] as Map<String, dynamic>),

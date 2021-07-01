@@ -32,5 +32,5 @@ class CreateAlbumRequest {
 
   Map<String, dynamic> toJson() => _$CreateAlbumRequestToJson(this);
 
-  Album album;
+  Album? album;
 }

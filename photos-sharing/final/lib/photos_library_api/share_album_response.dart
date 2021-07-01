@@ -28,5 +28,5 @@ class ShareAlbumResponse {
 
   Map<String, dynamic> toJson() => _$ShareAlbumResponseToJson(this);
 
-  ShareInfo shareInfo;
+  ShareInfo? shareInfo;
 }

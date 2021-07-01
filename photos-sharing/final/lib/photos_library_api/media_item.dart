@@ -27,8 +27,8 @@ class MediaItem {
 
   Map<String, dynamic> toJson() => _$MediaItemToJson(this);
 
-  String id;
-  String description;
-  String productUrl;
-  String baseUrl;
+  String? id;
+  String? description;
+  String? productUrl;
+  String? baseUrl;
 }

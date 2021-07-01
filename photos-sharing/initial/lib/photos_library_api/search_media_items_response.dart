@@ -28,6 +28,6 @@ class SearchMediaItemsResponse {
 
   Map<String, dynamic> toJson() => _$SearchMediaItemsResponseToJson(this);
 
-  List<MediaItem> mediaItems;
-  String nextPageToken;
+  List<MediaItem>? mediaItems;
+  String? nextPageToken;
 }

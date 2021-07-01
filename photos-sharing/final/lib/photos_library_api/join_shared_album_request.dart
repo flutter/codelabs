@@ -27,5 +27,5 @@ class JoinSharedAlbumRequest {
 
   Map<String, dynamic> toJson() => _$JoinSharedAlbumRequestToJson(this);
 
-  String shareToken;
+  String? shareToken;
 }
