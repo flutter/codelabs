@@ -70,7 +70,7 @@ for WORKSHOP_STEP_PATH in "${WORKSHOP_STEP_PATHS[@]}"; do
     cd "$WORKSHOP_STEP_PATH";
     if [[ -r solution.dart ]]; then DART_FILE=solution.dart; else DART_FILE=snippet.dart; fi
     set -x;
-    $FLUTTER format --dry-run --set-exit-if-changed $DART_FILE;
+    $FLUTTER format --output none --set-exit-if-changed $DART_FILE;
   )
 done
 
