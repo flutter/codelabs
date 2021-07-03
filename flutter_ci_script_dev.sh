@@ -14,7 +14,7 @@ echo "== FLUTTER_VERS: $FLUTTER_VERS"
 pushd $PWD
 echo "== TESTING plugin_codelab"
 cd ./plugin_codelab
-$FLUTTER format --dry-run --set-exit-if-changed .;
+$FLUTTER format --output none --set-exit-if-changed .;
 popd
 
 declare -a CODELABS=(
