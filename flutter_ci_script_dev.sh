@@ -55,7 +55,7 @@ for PROJECT in "${PROJECT_PATHS[@]}"; do
     cd "$PROJECT";
     set -x;
     $FLUTTER analyze;
-    $FLUTTER format --dry-run --set-exit-if-changed .;
+    $FLUTTER format --output none --set-exit-if-changed .;
     $FLUTTER test
   )
 done
