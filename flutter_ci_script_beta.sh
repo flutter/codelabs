@@ -30,7 +30,9 @@ declare -a CODELABS=(
   "github-graphql-client"
   "google-maps-in-flutter"
   "in_app_purchases"
-  "photos-sharing"
+  # TODO(domesticmouse) re-enable one photos-sharing is updated for deprecated member usage.
+  # Tracking bug: https://github.com/flutter/flutter/issues/85824
+  # "photos-sharing"
   "star_counter"
   "startup_namer"
   "startup_namer_null_safety"
