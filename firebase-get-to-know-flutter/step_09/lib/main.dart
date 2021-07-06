@@ -257,7 +257,7 @@ class ApplicationState extends ChangeNotifier {
     try {
       var credential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
-      await credential.user!.updateProfile(displayName: displayName);
+      await credential.user!.updateDisplayName(displayName);
     } on FirebaseAuthException catch (e) {
       errorCallback(e);
     }
