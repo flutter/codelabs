@@ -58,6 +58,7 @@ class _RandomWordsState extends State<RandomWords> {
       trailing: Icon(
         alreadySaved ? Icons.favorite : Icons.favorite_border,
         color: alreadySaved ? Colors.red : null,
+        semanticLabel: alreadySaved ? 'Remove from saved' : 'Save',
       ),
       onTap: () {
         setState(() {
@@ -79,7 +80,11 @@ class _RandomWordsState extends State<RandomWords> {
       appBar: AppBar(
         title: const Text('Startup Name Generator'),
         actions: [
-          IconButton(icon: const Icon(Icons.list), onPressed: _pushSaved),
+          IconButton(
+            icon: const Icon(Icons.list),
+            onPressed: _pushSaved,
+            tooltip: 'Saved Suggestions',
+          ),
         ],
       ),
       body: _buildSuggestions(),
