@@ -35,7 +35,6 @@ declare -a CODELABS=(
   # "photos-sharing"
   "star_counter"
   "startup_namer"
-  "startup_namer_null_safety"
   "testing_codelab"
   )
 
