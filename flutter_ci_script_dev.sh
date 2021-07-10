@@ -43,13 +43,14 @@ declare -a PROJECT_PATHS=($(
   done
   ))
 
-for PROJECT in "${PROJECT_PATHS[@]}"; do
+for PROJECT in "${PROJECT_PATHS[@]}"
+do
   echo "== TESTING $PROJECT"
   (
-    cd "$PROJECT";
-    set -x;
-    dart analyze;
-    dart format --output none --set-exit-if-changed .;
+    cd "$PROJECT"
+    set -x
+    dart analyze
+    dart format --output none --set-exit-if-changed .
     flutter test
   )
 done
@@ -58,13 +59,14 @@ declare -a WORKSHOP_STEP_PATHS=($(
     find dartpad_codelabs -name snippet.dart -exec dirname {} \; 
   ))
 
-for WORKSHOP_STEP_PATH in "${WORKSHOP_STEP_PATHS[@]}"; do
+for WORKSHOP_STEP_PATH in "${WORKSHOP_STEP_PATHS[@]}"
+do
   echo "== TESTING $WORKSHOP_STEP_PATH"
   (
-    cd "$WORKSHOP_STEP_PATH";
+    cd "$WORKSHOP_STEP_PATH"
     if [[ -r solution.dart ]]; then DART_FILE=solution.dart; else DART_FILE=snippet.dart; fi
-    set -x;
-    dart format --output none --set-exit-if-changed $DART_FILE;
+    set -x
+    dart format --output none --set-exit-if-changed $DART_FILE
   )
 done
 
