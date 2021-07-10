@@ -2,14 +2,6 @@
 
 set -e -o pipefail
 
-if  [[ -n "$(type -t flutter)" ]]; then
-  : ${FLUTTER:=flutter}
-fi
-echo "== FLUTTER: $FLUTTER"
-
-FLUTTER_VERS=`$FLUTTER --version | head -1`
-echo "== FLUTTER_VERS: $FLUTTER_VERS"
-
 # plugin_codelab is a special case since it's a plugin.  Analysis doesn't seem to be working.
 pushd $PWD
 echo "== TESTING plugin_codelab"
@@ -56,9 +48,9 @@ for PROJECT in "${PROJECT_PATHS[@]}"; do
   (
     cd "$PROJECT";
     set -x;
-    $FLUTTER analyze;
+    dart analyze;
     dart format --output none --set-exit-if-changed .;
-    $FLUTTER test
+    flutter test
   )
 done
 
