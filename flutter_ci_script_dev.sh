@@ -15,7 +15,8 @@ declare -a CODELABS=(
   # TODO(domesticmouse) re-enable once friendly_chat is updated for deprecated member usage.
   # Tracking bug: https://github.com/flutter/flutter/issues/84668
   # "friendly_chat"
-  "github-graphql-client"
+  # `github-graphql-client` is formatting differently on stable vs dev. 
+  # "github-graphql-client"
   "google-maps-in-flutter"
   "in_app_purchases"
   # TODO(domesticmouse) re-enable one photos-sharing is updated for deprecated member usage.
