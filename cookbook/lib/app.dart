@@ -28,8 +28,10 @@ class App extends StatelessWidget {
       title: 'Cookbook Examples',
       theme: ThemeData(
         brightness: Brightness.light,
-        primaryColor: Colors.blue,
-        accentColor: Colors.indigo,
+        colorScheme: ThemeData().colorScheme.copyWith(
+              primary: Colors.blue,
+              secondary: Colors.indigo,
+            ),
       ),
       home: home ?? const Home(),
     );

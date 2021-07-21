@@ -7,9 +7,7 @@ source "$DIR/flutter_ci_script_shared.sh"
 
 declare -a CODELABS=(
   "add_flutter_to_android_app"
-  # TODO(domesticmouse) re-enable once cookbook is updated for deprecated member usage.
-  # Tracking bug: https://github.com/flutter/flutter/issues/84665
-  # "cookbook"
+  "cookbook"
   "cupertino_store"
   "firebase-get-to-know-flutter"
   # TODO(domesticmouse) re-enable once friendly_chat is updated for deprecated member usage.
