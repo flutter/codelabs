@@ -3,10 +3,9 @@ id: firebase-get-to-know-flutter
 summary: Build a Flutter mobile app from scratch with Firebase. You'll use the FlutterFire packages to talk to Firebase Auth and Cloud Firestore. This is a great introduction to using the Firebase console and integrating Firebase into a Flutter app.
 status: [draft]
 authors: brettmorgan
-categories: firebase,flutter
+categories: Firebase,Flutter
 tags: kiosk,tag-android,tag-firebase,tag-flutter,tag-ios,web
 feedback link: https://github.com/flutter/flutter/issues/new
-source: 1YD3x4dpHKJqYpyVBmb3qlfukfxyVE_qijJlnk4pirsk
 duration: 53
 
 ---
@@ -19,8 +18,10 @@ duration: 53
 ## Before you begin
 Duration: 01:00
 
-
 In this codelab, you'll learn some of the basics of  [Firebase](http://firebase.google.com) to create Flutter mobile apps for Android and iOS. 
+
+<video id="wUSkeTaBonA?start=0&end=105&version=3"></video>
+
 
 ### Prerequisites
 
@@ -46,7 +47,7 @@ In addition to the above, you'll also need:
 
 * A browser of your choice, such as Chrome.
 * An IDE or text editor of your choice, such as  [Android Studio](https://developer.android.com/studio) or  [VS Code](https://code.visualstudio.com/) configured with the Dart and Flutter plugins.
-* The latest `stable` version of  [Flutter](https://flutter.dev/docs/get-started/web#set-up) (or `beta` if you enjoy living on the edge). While  [FlutterFire](https://firebase.flutter.dev/) also supports Web and macOS, these targets are not covered in this codelab.
+* The latest `stable` version of  [Flutter](https://flutter.dev/docs/get-started/web#set-up) (or `beta` if you enjoy living on the edge). 
 * A Google account, like a gmail account, for creating and managing your Firebase project.
 * The codelab's sample code. See the next step for how to get the code.
 
@@ -54,6 +55,9 @@ In addition to the above, you'll also need:
 ## Get the sample code
 Duration: 02:00
 
+Let's start by downloading the initial version of our project from GitHub.
+
+<video id="wUSkeTaBonA?start=105&end=296&version=3"></video>
 
 Clone the  [GitHub repository](https://github.com/flutter/codelabs) from the command line:
 
@@ -111,8 +115,10 @@ Here is what your app looks like on Android, iOS, the Web and macOS:
 ## Create and set up a Firebase project
 Duration: 07:00
 
-
 Displaying the event information is great for your guests, but just showing the events isn't very useful for anybody. Let's add some dynamic functionality to this app. For this, you'll need to hook Firebase up to your app. To get started with Firebase, you'll need to create and set up a Firebase project.
+
+<video id="wUSkeTaBonA?start=296&end=547&version=3"></video>
+
 
 ### **Create a Firebase project**
 
@@ -175,7 +181,6 @@ Enable Cloud Firestore:
 ## Firebase configuration
 Duration: 08:00
 
-
 > aside positive
 > 
 > **Tip:** You only need to do one of the following configurations if you intend to only use iOS or Android. We offer instructions for both here for completeness sake.
@@ -185,6 +190,9 @@ In order to use Firebase with Flutter, you need to follow a process to configure
 * Add the FlutterFire dependencies to `pubspec.yaml`
 * Register the desired platform on the Firebase project
 * Download the platform-specific configuration file, and add it to the code.
+
+<video id="wUSkeTaBonA?start=547&end=963&version=3"></video>
+
 
 > aside negative
 > 
@@ -383,6 +391,8 @@ Duration: 10:00
 
 
 Now that you've added Firebase to the app, you can set up an RSVP button that registers people using  [Firebase Authentication](https://firebase.google.com/docs/auth). For Android native, iOS native, and Web there are pre-built FirebaseUI Auth packages, but for Flutter you will need to build this capability.
+
+<video id="wUSkeTaBonA?start=963&end=1571&version=3"></video>
 
 The project you retrieved in Step 2 included a set of widgets that implements the user interface for most of the authentication flow. You will implement the business logic to integrate Firebase Authentication into the application.
 
@@ -600,6 +610,9 @@ Duration: 10:00
 
 
 Knowing that users are coming is great, but let's give the guests something else to do in the app. What if they could leave messages in a guestbook? They can share why they're excited to come or who they hope to meet.
+
+<video id="wUSkeTaBonA?start=1571&end=1941&version=3"></video>
+
 
 To store the chat messages that users write in the app, you'll use  [Cloud Firestore](https://firebase.google.com/docs/firestore/).
 
@@ -840,10 +853,12 @@ In the Firebase console, in the  [**Database** dashboard](https://console.fireba
 ## Read messages
 Duration: 10:00
 
+It's lovely that guests can write messages to the database, but they can't see them in the app yet. Let's fix that!
+
+<video id="wUSkeTaBonA?start=1941&end=2444&version=3"></video>
+
 
 ### **Synchronize messages**
-
-It's lovely that guests can write messages to the database, but they can't see them in the app yet.
 
 To display messages, you'll need to add listeners that trigger when data changes and then create a UI element that shows new messages. You'll add code to the application state that listens for newly added messages from the app. 
 
@@ -1054,8 +1069,9 @@ Congratulations! You are reading Cloud Firestore documents in your app!
 ## Set up basic security rules
 Duration: 05:00
 
-
 You initially set up Cloud Firestore to use test mode, meaning that your database is open for reads and writes. However, you should only use test mode during very early stages of development. As a best practice, you should set up security rules for your database as you develop your app. Security should be integral to your app's structure and behavior.
+
+<video id="wUSkeTaBonA?start=2444&end=2809&version=3"></video>
 
 Security Rules allow you to control access to documents and collections in your database. The flexible rules syntax allows you to create rules that match anything from all writes to the entire database to operations on a specific document.
 
@@ -1131,10 +1147,12 @@ service cloud.firestore {
 ## Bonus step: Practice what you've learned
 
 
-
 ### **Record an attendee's RSVP status**
 
 Right now, your app just allows people to start chatting if they're interested in the event. Also, the only way you know if someone's coming is if they post it in the chat. Let's get organized and let people know how many people are coming.
+
+<video id="wUSkeTaBonA?start=2809&end=3401&version=3"></video>
+
 
 You are going to add a couple of new capabilities to the application state. The first is the ability for a logged in user to nominate if they are attending or not. The second capability is a counter of how many people are actually attending. 
 
@@ -1392,9 +1410,10 @@ service cloud.firestore {
 
 ## Congratulations!
 
-
-
 You've used Firebase to build an interactive, real-time web application!
+
+<video id="wUSkeTaBonA?start=3401&version=3"></video>
+
 
 ### **What we've covered**
 
@@ -1419,5 +1438,4 @@ You've used Firebase to build an interactive, real-time web application!
 ### **How did it go?**
 
 We would love your feedback! Please fill out a (very) short form  [here](https://forms.gle/vHHkvaGkQbmUm5di9).
-
 
