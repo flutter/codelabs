@@ -23,14 +23,16 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeData = ThemeData(
+      brightness: Brightness.light,
+      primaryColor: Colors.blue,
+    );
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Cookbook Examples',
-      theme: ThemeData(
-        brightness: Brightness.light,
-        primaryColor: Colors.blue,
-        accentColor: Colors.indigo,
-      ),
+      theme: themeData.copyWith(
+          colorScheme:
+              themeData.colorScheme.copyWith(secondary: Colors.indigo)),
       home: home ?? const Home(),
     );
   }
