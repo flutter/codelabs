@@ -12,9 +12,7 @@ declare -a CODELABS=(
   # "cookbook"
   "cupertino_store"
   "firebase-get-to-know-flutter"
-  # TODO(domesticmouse) re-enable once friendly_chat is updated for deprecated member usage.
-  # Tracking bug: https://github.com/flutter/flutter/issues/84668
-  # "friendly_chat"
+  "friendly_chat"
   # `github-graphql-client` is formatting differently on stable vs dev. 
   # "github-graphql-client"
   "google-maps-in-flutter"
