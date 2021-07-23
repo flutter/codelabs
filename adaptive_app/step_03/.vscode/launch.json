@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "step_03",
+            "name": "adaptive_app",
             "request": "launch",
             "type": "dart"
         }
