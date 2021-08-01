@@ -18,3 +18,6 @@ linter:
     throw_in_finally: true
     unnecessary_statements: true
     use_key_in_widget_constructors: false
+
+# Additional information about this file can be found at
+# https://dart.dev/guides/language/analysis-options
