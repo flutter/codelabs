@@ -19,6 +19,7 @@ import 'package:gql_http_link/gql_http_link.dart';
 import 'package:gql_link/gql_link.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
+
 import 'github_gql/github_queries.data.gql.dart';
 import 'github_gql/github_queries.req.gql.dart';
 
@@ -88,9 +89,12 @@ class RepositoriesList extends StatefulWidget {
 }
 
 class _RepositoriesListState extends State<RepositoriesList> {
-  _RepositoriesListState() {
+  @override
+  initState() {
+    super.initState();
     _repositories = _retreiveRespositories(widget.link);
   }
+
   late Future<List<GRepositoriesData_viewer_repositories_nodes>> _repositories;
 
   Future<List<GRepositoriesData_viewer_repositories_nodes>>
@@ -149,7 +153,9 @@ class AssignedIssuesList extends StatefulWidget {
 }
 
 class _AssignedIssuesListState extends State<AssignedIssuesList> {
-  _AssignedIssuesListState() {
+  @override
+  initState() {
+    super.initState();
     _assignedIssues = _retrieveAssignedIssues(widget.link);
   }
 
@@ -231,9 +237,12 @@ class PullRequestsList extends StatefulWidget {
 }
 
 class _PullRequestsListState extends State<PullRequestsList> {
-  _PullRequestsListState() {
+  @override
+  initState() {
+    super.initState();
     _pullRequests = _retrievePullRequests(widget.link);
   }
+
   late Future<List<GPullRequestsData_viewer_pullRequests_edges_node>>
       _pullRequests;
 

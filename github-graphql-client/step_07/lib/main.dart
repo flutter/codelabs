@@ -14,15 +14,18 @@
 
 import 'package:flutter/material.dart';
 import 'package:window_to_front/window_to_front.dart';
+
 import 'github_oauth_credentials.dart';
 import 'src/github_login.dart';
 import 'src/github_summary.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
