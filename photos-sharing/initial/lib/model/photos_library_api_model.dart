@@ -81,7 +81,7 @@ class PhotosLibraryApiModel extends Model {
     return null;
   }
 
-  Future<Album> getAlbum(String? id) async =>
+  Future<Album> getAlbum(String id) async =>
       client!.getAlbum(GetAlbumRequest.defaultOptions(id));
 
   Future<JoinSharedAlbumResponse> joinSharedAlbum(String shareToken) async {
@@ -91,7 +91,7 @@ class PhotosLibraryApiModel extends Model {
     return response;
   }
 
-  Future<ShareAlbumResponse> shareAlbum(String? id) async {
+  Future<ShareAlbumResponse> shareAlbum(String id) async {
     final response =
         await client!.shareAlbum(ShareAlbumRequest.defaultOptions(id));
     updateAlbums();
@@ -106,7 +106,7 @@ class PhotosLibraryApiModel extends Model {
   }
 
   Future<BatchCreateMediaItemsResponse?> createMediaItem(
-      String? uploadToken, String? albumId, String description) async {
+      String uploadToken, String? albumId, String? description) async {
     // TODO(codelab): Implement this method.
 
     return null;

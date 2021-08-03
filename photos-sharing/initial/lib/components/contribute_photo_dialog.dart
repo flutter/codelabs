@@ -92,7 +92,7 @@ class _ContributePhotoDialogState extends State<ContributePhotoDialog> {
       onPressed: () => Navigator.pop(
         context,
         ContributePhotoResult(
-          _uploadToken,
+          _uploadToken!,
           descriptionController.text,
         ),
       ),
