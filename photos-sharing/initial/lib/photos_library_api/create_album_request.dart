@@ -26,7 +26,6 @@ class CreateAlbumRequest {
   factory CreateAlbumRequest.fromTitle(String title) =>
       CreateAlbumRequest(Album.toCreate(title));
 
-
   factory CreateAlbumRequest.fromJson(Map<String, dynamic> json) =>
       _$CreateAlbumRequestFromJson(json);
 

@@ -203,9 +203,9 @@ class _TripPageState extends State<TripPage> {
       },
     ));
 
-    if(contributeResult == null){
+    if (contributeResult == null) {
       // No contribution created or no media items to create.
-      return ;
+      return;
     }
 
     // Create the media item from the uploaded photo.
