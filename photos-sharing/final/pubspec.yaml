@@ -28,7 +28,7 @@ dependencies:
   fluttertoast: ^8.0.7
   google_sign_in: ^5.0.5
   http: ^0.13.3
-  image_picker: ^0.8.0+3
+  image_picker: ^0.8.2
   json_annotation: ^4.0.1
   path: ^1.8.0
   scoped_model: ^2.0.0-0
