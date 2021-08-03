@@ -84,7 +84,7 @@ class PhotosLibraryApiModel extends Model {
     return album;
   }
 
-  Future<Album> getAlbum(String? id) async =>
+  Future<Album> getAlbum(String id) async =>
       client!.getAlbum(GetAlbumRequest.defaultOptions(id));
 
   Future<JoinSharedAlbumResponse> joinSharedAlbum(String shareToken) async {
@@ -94,7 +94,7 @@ class PhotosLibraryApiModel extends Model {
     return response;
   }
 
-  Future<ShareAlbumResponse> shareAlbum(String? id) async {
+  Future<ShareAlbumResponse> shareAlbum(String id) async {
     final response =
         await client!.shareAlbum(ShareAlbumRequest.defaultOptions(id));
     updateAlbums();
@@ -109,7 +109,7 @@ class PhotosLibraryApiModel extends Model {
   }
 
   Future<BatchCreateMediaItemsResponse?> createMediaItem(
-      String? uploadToken, String? albumId, String description) async {
+      String uploadToken, String? albumId, String? description) async {
     // Construct the request with the token, albumId and description.
     final request =
         BatchCreateMediaItemsRequest.inAlbum(uploadToken, albumId, description);
@@ -119,7 +119,7 @@ class PhotosLibraryApiModel extends Model {
     final response = await client!.batchCreateMediaItems(request);
 
     // Print and return the response.
-    print(response.newMediaItemResults![0].toJson());
+    print(response.newMediaItemResults?[0].toJson());
     return response;
   }
 

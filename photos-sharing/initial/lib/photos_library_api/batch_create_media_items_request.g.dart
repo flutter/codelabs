@@ -26,8 +26,8 @@ BatchCreateMediaItemsRequest _$BatchCreateMediaItemsRequestFromJson(
     Map<String, dynamic> json) {
   return BatchCreateMediaItemsRequest(
     json['albumId'] as String?,
-    (json['newMediaItems'] as List<dynamic>?)
-        ?.map((e) => NewMediaItem.fromJson(e as Map<String, dynamic>))
+    (json['newMediaItems'] as List<dynamic>)
+        .map((e) => NewMediaItem.fromJson(e as Map<String, dynamic>))
         .toList(),
     json['albumPosition'] == null
         ? null
@@ -61,7 +61,7 @@ Map<String, dynamic> _$NewMediaItemToJson(NewMediaItem instance) =>
 
 SimpleMediaItem _$SimpleMediaItemFromJson(Map<String, dynamic> json) {
   return SimpleMediaItem(
-    json['uploadToken'] as String?,
+    json['uploadToken'] as String,
   );
 }
 
@@ -74,7 +74,7 @@ AlbumPosition _$AlbumPositionFromJson(Map<String, dynamic> json) {
   return AlbumPosition(
     json['relativeMediaItemId'] as String?,
     json['relativeEnrichmentItemId'] as String?,
-    _$enumDecodeNullable(_$PositionTypeEnumMap, json['position']),
+    _$enumDecode(_$PositionTypeEnumMap, json['position']),
   );
 }
 
@@ -109,17 +109,6 @@ K _$enumDecode<K, V>(
       return MapEntry(unknownValue, enumValues.values.first);
     },
   ).key;
-}
-
-K? _$enumDecodeNullable<K, V>(
-  Map<K, V> enumValues,
-  dynamic source, {
-  K? unknownValue,
-}) {
-  if (source == null) {
-    return null;
-  }
-  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$PositionTypeEnumMap = {

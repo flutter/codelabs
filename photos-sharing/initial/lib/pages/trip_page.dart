@@ -158,11 +158,16 @@ class _TripPageState extends State<TripPage> {
       builder: (BuildContext context) {
         return const ContributePhotoDialog();
       },
-    ) as FutureOr<ContributePhotoResult>);
+    ));
+
+    if (contributeResult == null) {
+      // No contribution created or no media items to create.
+      return;
+    }
 
     // Create the media item from the uploaded photo.
     await ScopedModel.of<PhotosLibraryApiModel>(context).createMediaItem(
-        contributeResult.uploadToken!, album.id!, contributeResult.description);
+        contributeResult.uploadToken, album.id!, contributeResult.description);
 
     // Do a new search for items inside this album and store its Future for display.
     final response = ScopedModel.of<PhotosLibraryApiModel>(context)
@@ -198,15 +203,16 @@ class _TripPageState extends State<TripPage> {
   Widget _buildMediaItemList(
       BuildContext context, AsyncSnapshot<SearchMediaItemsResponse> snapshot) {
     if (snapshot.hasData) {
-      if (snapshot.data!.mediaItems == null) {
+      final List<MediaItem>? items = snapshot.data!.mediaItems;
+      if (items == null) {
         return Container();
       }
 
       return Expanded(
         child: ListView.builder(
-          itemCount: snapshot.data!.mediaItems!.length,
+          itemCount: items.length,
           itemBuilder: (BuildContext context, int index) {
-            return _buildMediaItem(snapshot.data!.mediaItems![index]);
+            return _buildMediaItem(items[index]);
           },
         ),
       );
@@ -252,6 +258,6 @@ class _TripPageState extends State<TripPage> {
 class ContributePhotoResult {
   ContributePhotoResult(this.uploadToken, this.description);
 
-  String? uploadToken;
+  String uploadToken;
   String description;
 }

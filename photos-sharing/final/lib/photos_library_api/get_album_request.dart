@@ -17,5 +17,5 @@
 class GetAlbumRequest {
   GetAlbumRequest.defaultOptions(this.albumId);
 
-  String? albumId;
+  String albumId;
 }

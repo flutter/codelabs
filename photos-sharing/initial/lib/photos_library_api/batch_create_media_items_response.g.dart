@@ -39,7 +39,7 @@ Map<String, dynamic> _$BatchCreateMediaItemsResponseToJson(
 
 NewMediaItemResult _$NewMediaItemResultFromJson(Map<String, dynamic> json) {
   return NewMediaItemResult(
-    json['uploadToken'] as String?,
+    json['uploadToken'] as String,
     json['mediaItem'] == null
         ? null
         : MediaItem.fromJson(json['mediaItem'] as Map<String, dynamic>),
