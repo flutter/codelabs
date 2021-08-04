@@ -31,8 +31,16 @@ ListAlbumsResponse _$ListAlbumsResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$ListAlbumsResponseToJson(ListAlbumsResponse instance) =>
-    <String, dynamic>{
-      'albums': instance.albums,
-      'nextPageToken': instance.nextPageToken,
-    };
+Map<String, dynamic> _$ListAlbumsResponseToJson(ListAlbumsResponse instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('albums', instance.albums);
+  writeNotNull('nextPageToken', instance.nextPageToken);
+  return val;
+}

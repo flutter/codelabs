@@ -33,8 +33,16 @@ SearchMediaItemsResponse _$SearchMediaItemsResponseFromJson(
 }
 
 Map<String, dynamic> _$SearchMediaItemsResponseToJson(
-        SearchMediaItemsResponse instance) =>
-    <String, dynamic>{
-      'mediaItems': instance.mediaItems,
-      'nextPageToken': instance.nextPageToken,
-    };
+    SearchMediaItemsResponse instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('mediaItems', instance.mediaItems);
+  writeNotNull('nextPageToken', instance.nextPageToken);
+  return val;
+}

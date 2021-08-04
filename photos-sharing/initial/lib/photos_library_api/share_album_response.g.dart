@@ -30,7 +30,15 @@ ShareAlbumResponse _$ShareAlbumResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$ShareAlbumResponseToJson(ShareAlbumResponse instance) =>
-    <String, dynamic>{
-      'shareInfo': instance.shareInfo,
-    };
+Map<String, dynamic> _$ShareAlbumResponseToJson(ShareAlbumResponse instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('shareInfo', instance.shareInfo);
+  return val;
+}

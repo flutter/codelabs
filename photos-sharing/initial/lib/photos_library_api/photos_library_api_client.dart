@@ -67,7 +67,8 @@ class PhotosLibraryApiClient {
     final response = await http.post(
         Uri.parse(
             'https://photoslibrary.googleapis.com/v1/albums/${request.albumId}:share'),
-        headers: await _authHeaders);
+        headers: await _authHeaders,
+        body: jsonEncode(request));
 
     printError(response);
 

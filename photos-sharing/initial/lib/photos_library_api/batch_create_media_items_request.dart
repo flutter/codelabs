@@ -20,15 +20,13 @@ part 'batch_create_media_items_request.g.dart';
 
 @JsonSerializable()
 class BatchCreateMediaItemsRequest {
-  BatchCreateMediaItemsRequest(
-      this.albumId, this.newMediaItems, this.albumPosition);
+  BatchCreateMediaItemsRequest(this.albumId, this.newMediaItems,
+      [this.albumPosition]);
 
   static BatchCreateMediaItemsRequest inAlbum(
       String uploadToken, String? albumId, String? description) {
     return BatchCreateMediaItemsRequest(
-        albumId,
-        <NewMediaItem>[NewMediaItem.simple(uploadToken, description)],
-        AlbumPosition.lastInAlbum());
+        albumId, <NewMediaItem>[NewMediaItem.simple(uploadToken, description)]);
   }
 
   factory BatchCreateMediaItemsRequest.fromJson(Map<String, dynamic> json) =>

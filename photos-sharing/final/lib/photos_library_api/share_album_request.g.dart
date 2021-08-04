@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Google LLC
+ * Copyright 2021 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,25 +16,14 @@
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'media_item.dart';
+part of 'share_album_request.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-MediaItem _$MediaItemFromJson(Map<String, dynamic> json) {
-  return MediaItem(
-    json['id'] as String,
-    json['description'] as String?,
-    json['productUrl'] as String?,
-    json['baseUrl'] as String?,
-  );
-}
-
-Map<String, dynamic> _$MediaItemToJson(MediaItem instance) {
-  final val = <String, dynamic>{
-    'id': instance.id,
-  };
+Map<String, dynamic> _$ShareAlbumRequestToJson(ShareAlbumRequest instance) {
+  final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -42,8 +31,6 @@ Map<String, dynamic> _$MediaItemToJson(MediaItem instance) {
     }
   }
 
-  writeNotNull('description', instance.description);
-  writeNotNull('productUrl', instance.productUrl);
-  writeNotNull('baseUrl', instance.baseUrl);
+  writeNotNull('sharedAlbumOptions', instance.sharedAlbumOptions);
   return val;
 }

@@ -32,9 +32,17 @@ SearchMediaItemsRequest _$SearchMediaItemsRequestFromJson(
 }
 
 Map<String, dynamic> _$SearchMediaItemsRequestToJson(
-        SearchMediaItemsRequest instance) =>
-    <String, dynamic>{
-      'albumId': instance.albumId,
-      'pageSize': instance.pageSize,
-      'pageToken': instance.pageToken,
-    };
+    SearchMediaItemsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('albumId', instance.albumId);
+  writeNotNull('pageSize', instance.pageSize);
+  writeNotNull('pageToken', instance.pageToken);
+  return val;
+}
