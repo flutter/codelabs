@@ -1,6 +1,6 @@
 # Google Photos Library API Sharing Codelab
 
-This branch contains the final implemented app.
+This directory contains the final implemented app.
 
 See the `photos-sharing/initial` directory for the initial version of the app that you should 
 check out to begin the codelab.
