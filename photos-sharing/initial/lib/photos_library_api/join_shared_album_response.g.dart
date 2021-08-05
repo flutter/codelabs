@@ -32,7 +32,15 @@ JoinSharedAlbumResponse _$JoinSharedAlbumResponseFromJson(
 }
 
 Map<String, dynamic> _$JoinSharedAlbumResponseToJson(
-        JoinSharedAlbumResponse instance) =>
-    <String, dynamic>{
-      'album': instance.album,
-    };
+    JoinSharedAlbumResponse instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('album', instance.album);
+  return val;
+}

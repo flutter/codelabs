@@ -31,9 +31,19 @@ MediaItem _$MediaItemFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$MediaItemToJson(MediaItem instance) => <String, dynamic>{
-      'id': instance.id,
-      'description': instance.description,
-      'productUrl': instance.productUrl,
-      'baseUrl': instance.baseUrl,
-    };
+Map<String, dynamic> _$MediaItemToJson(MediaItem instance) {
+  final val = <String, dynamic>{
+    'id': instance.id,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('description', instance.description);
+  writeNotNull('productUrl', instance.productUrl);
+  writeNotNull('baseUrl', instance.baseUrl);
+  return val;
+}

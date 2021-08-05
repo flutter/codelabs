@@ -37,16 +37,25 @@ Album _$AlbumFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$AlbumToJson(Album instance) => <String, dynamic>{
-      'id': instance.id,
-      'title': instance.title,
-      'productUrl': instance.productUrl,
-      'isWriteable': instance.isWriteable,
-      'shareInfo': instance.shareInfo,
-      'mediaItemsCount': instance.mediaItemsCount,
-      'coverPhotoBaseUrl': instance.coverPhotoBaseUrl,
-      'coverPhotoMediaItemId': instance.coverPhotoMediaItemId,
-    };
+Map<String, dynamic> _$AlbumToJson(Album instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  writeNotNull('title', instance.title);
+  writeNotNull('productUrl', instance.productUrl);
+  writeNotNull('isWriteable', instance.isWriteable);
+  writeNotNull('shareInfo', instance.shareInfo);
+  writeNotNull('mediaItemsCount', instance.mediaItemsCount);
+  writeNotNull('coverPhotoBaseUrl', instance.coverPhotoBaseUrl);
+  writeNotNull('coverPhotoMediaItemId', instance.coverPhotoMediaItemId);
+  return val;
+}
 
 ShareInfo _$ShareInfoFromJson(Map<String, dynamic> json) {
   return ShareInfo(
@@ -60,12 +69,21 @@ ShareInfo _$ShareInfoFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$ShareInfoToJson(ShareInfo instance) => <String, dynamic>{
-      'sharedAlbumOptions': instance.sharedAlbumOptions,
-      'shareableUrl': instance.shareableUrl,
-      'shareToken': instance.shareToken,
-      'isJoined': instance.isJoined,
-    };
+Map<String, dynamic> _$ShareInfoToJson(ShareInfo instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('sharedAlbumOptions', instance.sharedAlbumOptions);
+  writeNotNull('shareableUrl', instance.shareableUrl);
+  writeNotNull('shareToken', instance.shareToken);
+  writeNotNull('isJoined', instance.isJoined);
+  return val;
+}
 
 SharedAlbumOptions _$SharedAlbumOptionsFromJson(Map<String, dynamic> json) {
   return SharedAlbumOptions(
@@ -74,8 +92,16 @@ SharedAlbumOptions _$SharedAlbumOptionsFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$SharedAlbumOptionsToJson(SharedAlbumOptions instance) =>
-    <String, dynamic>{
-      'isCollaborative': instance.isCollaborative,
-      'isCommentable': instance.isCommentable,
-    };
+Map<String, dynamic> _$SharedAlbumOptionsToJson(SharedAlbumOptions instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('isCollaborative', instance.isCollaborative);
+  writeNotNull('isCommentable', instance.isCommentable);
+  return val;
+}
