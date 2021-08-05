@@ -67,6 +67,9 @@ class ShareInfo {
 class SharedAlbumOptions {
   SharedAlbumOptions(this.isCollaborative, this.isCommentable);
 
+  // Full collaboration enables the addition of media and commenting.
+  SharedAlbumOptions.fullCollaboration() : this(true, true);
+
   factory SharedAlbumOptions.fromJson(Map<String, dynamic> json) =>
       _$SharedAlbumOptionsFromJson(json);
 

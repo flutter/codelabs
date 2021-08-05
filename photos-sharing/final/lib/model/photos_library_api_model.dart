@@ -94,11 +94,9 @@ class PhotosLibraryApiModel extends Model {
     return response;
   }
 
-  Future<ShareAlbumResponse> shareAlbum(String id) async {
-    // Share the album with collaboration and commenting enabled.
-    SharedAlbumOptions options = SharedAlbumOptions(true, true);
-
-    final response = await client!.shareAlbum(ShareAlbumRequest(id, options));
+  Future<ShareAlbumResponse> shareAlbum(String albumId) async {
+    final response = await client!.shareAlbum(
+        ShareAlbumRequest(albumId, SharedAlbumOptions.fullCollaboration()));
 
     updateAlbums();
     return response;
