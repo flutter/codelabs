@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
-project(step4_infinite_list LANGUAGES CXX)
+project(startup_namer LANGUAGES CXX)
 
-set(BINARY_NAME "step4_infinite_list")
+set(BINARY_NAME "startup_namer")
 
 cmake_policy(SET CMP0063 NEW)
 

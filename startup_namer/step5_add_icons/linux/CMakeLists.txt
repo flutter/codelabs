@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
 project(runner LANGUAGES CXX)
 
-set(BINARY_NAME "step5_add_icons")
-set(APPLICATION_ID "com.example.step5_add_icons")
+set(BINARY_NAME "startup_namer")
+set(APPLICATION_ID "com.example.startup_namer")
 
 cmake_policy(SET CMP0063 NEW)
 

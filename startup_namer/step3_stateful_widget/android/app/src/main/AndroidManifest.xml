@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.step3_stateful_widget">
+    package="com.example.startup_namer">
    <application
-        android:label="step3_stateful_widget"
+        android:label="startup_namer"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
