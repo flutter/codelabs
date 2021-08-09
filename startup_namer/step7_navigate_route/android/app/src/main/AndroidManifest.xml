@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.step7_navigate_route">
+    package="com.example.startup_namer">
    <application
-        android:label="step7_navigate_route"
+        android:label="startup_namer"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

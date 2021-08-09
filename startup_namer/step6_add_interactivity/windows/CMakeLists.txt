@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
-project(step6_add_interactivity LANGUAGES CXX)
+project(startup_namer LANGUAGES CXX)
 
-set(BINARY_NAME "step6_add_interactivity")
+set(BINARY_NAME "startup_namer")
 
 cmake_policy(SET CMP0063 NEW)
 
