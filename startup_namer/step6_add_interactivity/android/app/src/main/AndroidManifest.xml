@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.step6_add_interactivity">
+    package="com.example.startup_namer">
    <application
-        android:label="step6_add_interactivity"
+        android:label="startup_namer"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

@@ -18,7 +18,7 @@ duration: 53
 ## Before you begin
 Duration: 01:00
 
-In this codelab, you'll learn some of the basics of  [Firebase](http://firebase.google.com) to create Flutter mobile apps for Android and iOS. 
+In this codelab, you'll learn some of the basics of  [Firebase](http://firebase.google.com) to create Flutter mobile apps for Android and iOS.
 
 <video id="wUSkeTaBonA?start=0&end=105&version=3"></video>
 
@@ -35,7 +35,7 @@ In this codelab you will build an event RSVP and guestbook chat app on Android, 
 | --- | --- |
 | <img style="width: 298.00px" src="img/73245a514a97e5a6.png"> | <img style="width: 298.00px" src="img/ace882b7591fe799.png"> |
 
-### What you'll need 
+### What you'll need
 
 You can run this codelab using any of the following devices:
 
@@ -47,7 +47,7 @@ In addition to the above, you'll also need:
 
 * A browser of your choice, such as Chrome.
 * An IDE or text editor of your choice, such as  [Android Studio](https://developer.android.com/studio) or  [VS Code](https://code.visualstudio.com/) configured with the Dart and Flutter plugins.
-* The latest `stable` version of  [Flutter](https://flutter.dev/docs/get-started/web#set-up) (or `beta` if you enjoy living on the edge). 
+* The latest `stable` version of  [Flutter](https://flutter.dev/docs/get-started/web#set-up) (or `beta` if you enjoy living on the edge).
 * A Google account, like a gmail account, for creating and managing your Firebase project.
 * The codelab's sample code. See the next step for how to get the code.
 
@@ -71,27 +71,27 @@ Alternatively, if you have  [GitHub's cli](https://github.com/cli/cli) tool inst
 gh repo clone flutter/codelabs flutter-codelabs
 ```
 
-The sample code should be cloned into the `flutter-codelabs` directory, which contains the code for a collection of codelabs. The code for this codelab is in `flutter-codelabs/firebase-get-to-know-flutter`. 
+The sample code should be cloned into the `flutter-codelabs` directory, which contains the code for a collection of codelabs. The code for this codelab is in `flutter-codelabs/firebase-get-to-know-flutter`.
 
-The directory structure under `flutter-codelabs/firebase-get-to-know-flutter` is a series of snapshots of where you should be at the end of each named step. This is Step 2, so locating the matching files is as easy as: 
+The directory structure under `flutter-codelabs/firebase-get-to-know-flutter` is a series of snapshots of where you should be at the end of each named step. This is Step 2, so locating the matching files is as easy as:
 
 ```console
 cd flutter-codelabs/firebase-get-to-know-flutter/step_02
 ```
 
-If you want to skip forward, or see what something should look like after a step, look in the directory named after the step you are interested in. 
+If you want to skip forward, or see what something should look like after a step, look in the directory named after the step you are interested in.
 
 ### Import the starter app
 
-Open or import the `flutter-codelabs/firebase-get-to-know-flutter/step_02` directory into your preferred IDE. This directory contains the starting code for the codelab which consists of a not-yet-functional Flutter meetup app. 
+Open or import the `flutter-codelabs/firebase-get-to-know-flutter/step_02` directory into your preferred IDE. This directory contains the starting code for the codelab which consists of a not-yet-functional Flutter meetup app.
 
 ### Locate the files to work on
 
-The code in this app is spread over multiple directories. This split of functionality is designed to make it easier to work on, by grouping code by functionality. 
+The code in this app is spread over multiple directories. This split of functionality is designed to make it easier to work on, by grouping code by functionality.
 
 Locate the following files in the project:
 
-* `lib/main.dart`: This file contains the main entry point and the application widget. 
+* `lib/main.dart`: This file contains the main entry point and the application widget.
 * `lib/src/widgets.dart`: This file contains a handful of widgets to help standardise the styling of the application. These are used to compose the screen of the starter app.
 * `lib/src/authentication.dart`: This file contains a partial implementation of  [FirebaseUI Auth](https://firebase.google.com/docs/auth) with a set of widgets to create a login user experience for Firebase email based authentication. These widgets for the auth flow are not yet used in the starter app, but you will wire them in soon.
 
@@ -161,16 +161,16 @@ Enable Cloud Firestore:
 <img src="img/99e8429832d23fa3.png" alt="99e8429832d23fa3.png"  width="624.00" />
 
 > aside positive
-> 
+>
 > **Important:** Make sure to enable Cloud Firestore and *not* the Realtime Database for this codelab. To understand the difference between the two, please see  [this page](https://firebase.google.com/docs/database/rtdb-vs-firestore).
 
 3. Select the **Start in test mode** option. Read the disclaimer about the security rules. Test mode ensures that you can freely write to the database during development. Click **Next**.
 <img src="img/6be00e26c72ea032.png" alt="6be00e26c72ea032.png"  width="624.00" />
 
 > aside negative
-> 
+>
 > **Caution:** In the first stages of this codelab, you use test mode. Later in the codelab, though, you'll write Firebase Security Rules to secure your database.
-> 
+>
 > For your apps, especially production apps, it's very important that you secure your database using security rules. Learn more about security rules in the  [Firebase documentation](https://firebase.google.com/docs/rules).
 
 4. Select the location for your database (You can just use the default). Note that this location can't be changed later.
@@ -182,7 +182,7 @@ Enable Cloud Firestore:
 Duration: 08:00
 
 > aside positive
-> 
+>
 > **Tip:** You only need to do one of the following configurations if you intend to only use iOS or Android. We offer instructions for both here for completeness sake.
 
 In order to use Firebase with Flutter, you need to follow a process to configure the Flutter project to utilise the FlutterFire libraries correctly:
@@ -195,7 +195,7 @@ In order to use Firebase with Flutter, you need to follow a process to configure
 
 
 > aside negative
-> 
+>
 > **Important**: You need to register all the platforms you want to use within the same Firebase project.
 
 In the top-level directory of your Flutter app, there are subdirectories called `ios` and `android`. These directories hold the platform-specific configuration files for iOS and Android, respectively.
@@ -229,14 +229,14 @@ You should see the following dialog:
 2. The important value to provide is the **iOS bundle ID.** You get the bundle ID  by performing the  next three steps.
 
 > aside positive
-> 
+>
 > **Tip**:  Read  [What are App IDs and Bundle Identifiers](https://cocoacasts.com/what-are-app-ids-and-bundle-identifiers/) for more information about iOS bundle IDs.
 
 3. In the command-line tool, go to the top-level directory of your Flutter app.
 4. Run the command `open ios/Runner.xcworkspace` to open Xcode.
 
 > aside positive
-> 
+>
 > **Tip**: Read  [About Information Property List Files](https://developer.apple.com/library/content/documentation/General/Reference/InfoPlistKeyReference/Articles/AboutInformationPropertyListFiles.html) for more information about Xcode property lists.
 
 5. In Xcode, click the top-level **Runner** in the left pane, then select **Runner** under Targets, to show the **General** tab in the right pane, as shown. Copy the **Bundle Identifier** value.
@@ -246,7 +246,7 @@ You should see the following dialog:
 6. Go back to the Firebase dialog, paste the copied **Bundle Identifier** into the **iOS bundle ID** field, and click **Register App**.
 
 > aside positive
-> 
+>
 > **Note**: The actual values of **Bundle Identifier** depend on what you named your Flutter app.
 
 7. Continuing in Firebase, follow the instructions to download the configuration file **`GoogleService-Info.plist`**.
@@ -264,7 +264,7 @@ You're done configuring your Flutter app for iOS. For more detail, please see  [
 1. In the  [Firebase Console](https://console.firebase.google.com), select **Project Overview** in the left navigation bar, and click the **Android** button under **Get started by adding Firebase to your app**.
 
 > aside positive
-> 
+>
 > **Note**: If you already added an app (for example, the iOS app from the preceding section), click **Add app**.
 
 You'll should see the following dialog :
@@ -273,7 +273,7 @@ You'll should see the following dialog :
 2. The important value to provide is the **Android package name**. You get the package name when you perform the following two steps:
 
 > aside positive
-> 
+>
 > **Tip**: Read  [Set the application ID](https://developer.android.com/studio/build/application-id.html) for more information about package and application IDs.
 
 3. In your Flutter app directory, open the file `android/app/src/main/AndroidManifest.xml`.
@@ -328,7 +328,7 @@ You're done configuring your Flutter app for Android. For more detail, please se
 1. In the  [Firebase Console](https://console.firebase.google.com), select **Project Overview** in the left navigation bar, and click the **Web** button under **Get started by adding Firebase to your app**.
 
 > aside positive
-> 
+>
 > **Note**: If you already added an app (for example, the iOS app and/or the Android app from the preceding sections), click **Add app**.
 
 <img src="img/25b14deff9e589ce.png" alt="25b14deff9e589ce.png"  width="624.00" />
@@ -370,12 +370,12 @@ You're done configuring your Flutter app for the Web. For more detail, please se
 
 ### **Configure macOS**
 
-The configuration steps for macOS are almost identical to iOS. We are going to re-use configuration file **`GoogleService-Info.plist`** from the iOS steps above. 
+The configuration steps for macOS are almost identical to iOS. We are going to re-use configuration file **`GoogleService-Info.plist`** from the iOS steps above.
 
 1. Run the command `open macos/Runner.xcworkspace` to open Xcode.
 
 > aside positive
-> 
+>
 > **Tip**: Read  [About Information Property List Files](https://developer.apple.com/library/content/documentation/General/Reference/InfoPlistKeyReference/Articles/AboutInformationPropertyListFiles.html) for more information about Xcode property lists.
 
 2. Drag the `GoogleService-Info.plist` file into the **Runner** subfolder. This was created in the **Configure iOS** steps above. <img src="img/c2b9229a605fd738.png" alt="c2b9229a605fd738.png"  width="624.00" />
@@ -505,7 +505,7 @@ class ApplicationState extends ChangeNotifier {
 }
 ```
 
-It is worth noting a few key points in this class. The user starts off unauthenticated, the app shows a form requesting the user's email address, depending on whether that email address is on file, the app will either ask the user register, or request their password, and then assuming everything works out, the user is authenticated. 
+It is worth noting a few key points in this class. The user starts off unauthenticated, the app shows a form requesting the user's email address, depending on whether that email address is on file, the app will either ask the user register, or request their password, and then assuming everything works out, the user is authenticated.
 
 It must be noted that this isn't a complete implementation of the FirebaseUI Auth flow, as it does not handle the case of a user with an existing account who is having trouble logging in. Implementing this additional capability is left as an exercise to the motivated reader.
 
@@ -580,7 +580,7 @@ class HomePage extends StatelessWidget {
 }
 ```
 
-You instantiate the `Authentication` widget, and wrap it in a `Consumer` widget. The Consumer widget the usual way that the `provider` package can be used to rebuild part of the tree when the application state changes. The `Authentication` widget is the authentication UI that you will now test. 
+You instantiate the `Authentication` widget, and wrap it in a `Consumer` widget. The Consumer widget the usual way that the `provider` package can be used to rebuild part of the tree when the application state changes. The `Authentication` widget is the authentication UI that you will now test.
 
 #### **Testing the Authentication flow**
 
@@ -623,14 +623,14 @@ Cloud Firestore is a NoSQL database, and data stored in the database is split in
 <img src="img/7c20dc8424bb1d84.png" alt="7c20dc8424bb1d84.png"  width="249.32" />
 
 > aside positive
-> 
+>
 > **Tip**: To learn more about the Cloud Firestore data model, read about documents and collections in  [the Cloud Firestore documentation](https://firebase.google.com/docs/firestore/data-model). You can also watch a  [great series of videos](https://www.youtube.com/playlist?list=PLl-K7zZEsYLluG5MCVEzXAQ7ACZBCuZgZ) that describe the Cloud Firestore NoSQL data model, queries, and other cool things that you can do with Cloud Firestore.
 
 ### Add messages to Firestore
 
 In this section, you'll add the functionality for users to write new messages to the database. First, you add the UI elements (form field and send button), and then you add the code that hooks these elements up to the database.
 
-First, add imports for the `cloud_firestore` package and `dart:async`. 
+First, add imports for the `cloud_firestore` package and `dart:async`.
 
 ####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_06/lib/main.dart)
 
@@ -753,7 +753,7 @@ class ApplicationState extends ChangeNotifier {
       throw Exception('Must be logged in');
     }
 
-    return FirebaseFirestore.instance.collection('guestbook').add({
+    return FirebaseFirestore.instance.collection('guestbook').add(<String, dynamic>{
       'text': message,
       'timestamp': DateTime.now().millisecondsSinceEpoch,
       'name': FirebaseAuth.instance.currentUser!.displayName,
@@ -860,7 +860,7 @@ It's lovely that guests can write messages to the database, but they can't see t
 
 ### **Synchronize messages**
 
-To display messages, you'll need to add listeners that trigger when data changes and then create a UI element that shows new messages. You'll add code to the application state that listens for newly added messages from the app. 
+To display messages, you'll need to add listeners that trigger when data changes and then create a UI element that shows new messages. You'll add code to the application state that listens for newly added messages from the app.
 
 Just above the `GuestBook` widget the following value class. This class exposes a structured view of the data you are storing in Cloud Firestore.
 
@@ -938,7 +938,7 @@ This section is important, as here is where you construct a query over the `gues
 For more information, see the  [Cloud Firestore documentation](https://firebase.google.com/docs/firestore/query-data/listen).
 
 > aside positive
-> 
+>
 > **Tip**: For a faster refresh, you can update only the changed documents, instead of the whole list. Learn more in the  [Cloud Firestore documentation](https://firebase.google.com/docs/firestore/query-data/listen#view_changes_between_snapshots).
 
 In the `GuestBook` widget you need to connect this changing state to the user interface. You modify the widget by adding a list of messages as part of its configuration.
@@ -1083,7 +1083,7 @@ You can write security rules for Cloud Firestore in the Firebase console:
 <img src="img/7767a2d2e64e7275.png" alt="7767a2d2e64e7275.png"  width="624.00" />
 
 > aside positive
-> 
+>
 > Check out the  [Firebase Security Rules documentation](https://firebase.google.com/docs/rules) or this  [YouTube playlist](https://www.youtube.com/watch?v=QEuu9X9L-MU&list=PLl-K7zZEsYLn8h1NyU_OV6dX8mBhH2s_L) to learn more about security rules.
 
 ### Identify collections
@@ -1154,7 +1154,7 @@ Right now, your app just allows people to start chatting if they're interested i
 <video id="wUSkeTaBonA?start=2809&end=3401&version=3"></video>
 
 
-You are going to add a couple of new capabilities to the application state. The first is the ability for a logged in user to nominate if they are attending or not. The second capability is a counter of how many people are actually attending. 
+You are going to add a couple of new capabilities to the application state. The first is the ability for a logged in user to nominate if they are attending or not. The second capability is a counter of how many people are actually attending.
 
 In `lib/main.dart`, add the following to the accessors section to enable the UI code to interact with this state:
 

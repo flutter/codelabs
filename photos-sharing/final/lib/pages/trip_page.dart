@@ -86,6 +86,18 @@ class _TripPageState extends State<TripPage> {
   }
 
   Future<void> _shareAlbum(BuildContext context) async {
+    String? id = album.id;
+
+    if (id == null) {
+      // Album is missing an ID.
+      const snackBar = SnackBar(
+        duration: Duration(seconds: 3),
+        content: Text('Could not share album. Try reopening this page.'),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      return;
+    }
+
     // Show the loading indicator
     setState(() => _inSharingApiCall = true);
 
@@ -96,9 +108,9 @@ class _TripPageState extends State<TripPage> {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
     // Share the album and update the local model
-    await ScopedModel.of<PhotosLibraryApiModel>(context).shareAlbum(album.id);
+    await ScopedModel.of<PhotosLibraryApiModel>(context).shareAlbum(id);
     final updatedAlbum =
-        await ScopedModel.of<PhotosLibraryApiModel>(context).getAlbum(album.id);
+        await ScopedModel.of<PhotosLibraryApiModel>(context).getAlbum(id);
 
     print('Album has been shared.');
     setState(() {
@@ -189,11 +201,16 @@ class _TripPageState extends State<TripPage> {
       builder: (BuildContext context) {
         return const ContributePhotoDialog();
       },
-    ) as FutureOr<ContributePhotoResult>);
+    ));
+
+    if (contributeResult == null) {
+      // No contribution created or no media items to create.
+      return;
+    }
 
     // Create the media item from the uploaded photo.
     await ScopedModel.of<PhotosLibraryApiModel>(context).createMediaItem(
-        contributeResult.uploadToken!, album.id!, contributeResult.description);
+        contributeResult.uploadToken, album.id!, contributeResult.description);
 
     // Do a new search for items inside this album and store its Future for display.
     final response = ScopedModel.of<PhotosLibraryApiModel>(context)
@@ -229,15 +246,16 @@ class _TripPageState extends State<TripPage> {
   Widget _buildMediaItemList(
       BuildContext context, AsyncSnapshot<SearchMediaItemsResponse> snapshot) {
     if (snapshot.hasData) {
-      if (snapshot.data!.mediaItems == null) {
+      final List<MediaItem>? items = snapshot.data!.mediaItems;
+      if (items == null) {
         return Container();
       }
 
       return Expanded(
         child: ListView.builder(
-          itemCount: snapshot.data!.mediaItems!.length,
+          itemCount: items.length,
           itemBuilder: (BuildContext context, int index) {
-            return _buildMediaItem(snapshot.data!.mediaItems![index]);
+            return _buildMediaItem(items[index]);
           },
         ),
       );
@@ -283,6 +301,6 @@ class _TripPageState extends State<TripPage> {
 class ContributePhotoResult {
   ContributePhotoResult(this.uploadToken, this.description);
 
-  String? uploadToken;
+  String uploadToken;
   String description;
 }

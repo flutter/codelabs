@@ -33,8 +33,16 @@ ListSharedAlbumsResponse _$ListSharedAlbumsResponseFromJson(
 }
 
 Map<String, dynamic> _$ListSharedAlbumsResponseToJson(
-        ListSharedAlbumsResponse instance) =>
-    <String, dynamic>{
-      'sharedAlbums': instance.sharedAlbums,
-      'nextPageToken': instance.nextPageToken,
-    };
+    ListSharedAlbumsResponse instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('sharedAlbums', instance.sharedAlbums);
+  writeNotNull('nextPageToken', instance.nextPageToken);
+  return val;
+}

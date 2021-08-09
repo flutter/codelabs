@@ -39,9 +39,7 @@ class Home extends StatelessWidget {
         itemBuilder: (context, index) {
           final item = items[index];
           return ListTile(
-            onTap: item.builder == null
-                ? null
-                : () => _navigate(context, item.builder!),
+            onTap: () => _navigate(context, item.builder),
             leading: Icon(
               (item.recommendation == Recommendation.yes)
                   ? const IconData(0x2705)

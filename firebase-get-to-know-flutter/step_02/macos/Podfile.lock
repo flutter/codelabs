@@ -15,8 +15,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   FlutterMacOS: 57701585bf7de1b3fc2bb61f6378d73bbdea8424
-  path_provider_macos: a0a3fd666cb7cd0448e936fb4abad4052961002b
+  path_provider_macos: 160cab0d5461f0c0e02995469a98f24bdb9a3f1f
 
 PODFILE CHECKSUM: f13dde8d5fdabc2bb73bced0b7c404ee03f48b9c
 
-COCOAPODS: 1.10.0
+COCOAPODS: 1.10.2

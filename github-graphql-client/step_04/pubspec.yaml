@@ -23,9 +23,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  http: ^0.13.1
-  oauth2: ^2.0.0
-  url_launcher: ^6.0.2
+  http: ^0.13.1        # Add this line,
+  oauth2: ^2.0.0       # and this line,
+  url_launcher: ^6.0.2 # and this one too.
 
 dev_dependencies:
   flutter_test:

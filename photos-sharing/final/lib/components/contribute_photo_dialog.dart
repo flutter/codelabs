@@ -93,7 +93,7 @@ class _ContributePhotoDialogState extends State<ContributePhotoDialog> {
       onPressed: () => Navigator.pop(
         context,
         ContributePhotoResult(
-          _uploadToken,
+          _uploadToken!,
           descriptionController.text,
         ),
       ),
@@ -135,9 +135,15 @@ class _ContributePhotoDialogState extends State<ContributePhotoDialog> {
   Future _getImage(BuildContext context) async {
     // Use the image_picker package to prompt the user for a photo from their
     // device.
-    final pickedImage = await (_imagePicker.getImage(
+    final pickedImage = await (_imagePicker.pickImage(
       source: ImageSource.camera,
-    ) as FutureOr<PickedFile>);
+    ));
+
+    if (pickedImage == null) {
+      // No image selected.
+      return;
+    }
+
     final pickedFile = File(pickedImage.path);
 
     // Store the image that was selected.

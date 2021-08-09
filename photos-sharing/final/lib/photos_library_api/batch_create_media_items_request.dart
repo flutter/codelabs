@@ -20,24 +20,22 @@ part 'batch_create_media_items_request.g.dart';
 
 @JsonSerializable()
 class BatchCreateMediaItemsRequest {
-  BatchCreateMediaItemsRequest(
-      this.albumId, this.newMediaItems, this.albumPosition);
+  BatchCreateMediaItemsRequest(this.albumId, this.newMediaItems,
+      [this.albumPosition]);
 
   static BatchCreateMediaItemsRequest inAlbum(
-      String? uploadToken, String? albumId, String description) {
+      String uploadToken, String? albumId, String? description) {
     return BatchCreateMediaItemsRequest(
-        albumId,
-        <NewMediaItem>[NewMediaItem.simple(uploadToken, description)],
-        AlbumPosition.lastInAlbum());
+        albumId, <NewMediaItem>[NewMediaItem.simple(uploadToken, description)]);
   }
 
   factory BatchCreateMediaItemsRequest.fromJson(Map<String, dynamic> json) =>
       _$BatchCreateMediaItemsRequestFromJson(json);
 
   Map<String, dynamic> toJson() => _$BatchCreateMediaItemsRequestToJson(this);
-  String? albumId;
-  List<NewMediaItem>? newMediaItems;
 
+  String? albumId;
+  List<NewMediaItem> newMediaItems;
   AlbumPosition? albumPosition;
 }
 
@@ -45,7 +43,7 @@ class BatchCreateMediaItemsRequest {
 class NewMediaItem {
   NewMediaItem(this.description, this.simpleMediaItem);
 
-  NewMediaItem.simple(String? uploadToken, this.description)
+  NewMediaItem.simple(String uploadToken, this.description)
       : simpleMediaItem = SimpleMediaItem(uploadToken);
 
   factory NewMediaItem.fromJson(Map<String, dynamic> json) =>
@@ -66,7 +64,7 @@ class SimpleMediaItem {
 
   Map<String, dynamic> toJson() => _$SimpleMediaItemToJson(this);
 
-  String? uploadToken;
+  String uploadToken;
 }
 
 @JsonSerializable()
@@ -82,7 +80,7 @@ class AlbumPosition {
 
   String? relativeMediaItemId;
   String? relativeEnrichmentItemId;
-  PositionType? position;
+  PositionType position;
 
   static AlbumPosition lastInAlbum() =>
       AlbumPosition.absolute(PositionType.LAST_IN_ALBUM);

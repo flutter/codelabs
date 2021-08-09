@@ -40,6 +40,6 @@ class NewMediaItemResult {
 
   Map<String, dynamic> toJson() => _$NewMediaItemResultToJson(this);
 
-  String? uploadToken;
+  String uploadToken;
   MediaItem? mediaItem;
 }

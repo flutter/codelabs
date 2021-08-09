@@ -32,22 +32,39 @@ BatchCreateMediaItemsResponse _$BatchCreateMediaItemsResponseFromJson(
 }
 
 Map<String, dynamic> _$BatchCreateMediaItemsResponseToJson(
-        BatchCreateMediaItemsResponse instance) =>
-    <String, dynamic>{
-      'newMediaItemResults': instance.newMediaItemResults,
-    };
+    BatchCreateMediaItemsResponse instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('newMediaItemResults', instance.newMediaItemResults);
+  return val;
+}
 
 NewMediaItemResult _$NewMediaItemResultFromJson(Map<String, dynamic> json) {
   return NewMediaItemResult(
-    json['uploadToken'] as String?,
+    json['uploadToken'] as String,
     json['mediaItem'] == null
         ? null
         : MediaItem.fromJson(json['mediaItem'] as Map<String, dynamic>),
   );
 }
 
-Map<String, dynamic> _$NewMediaItemResultToJson(NewMediaItemResult instance) =>
-    <String, dynamic>{
-      'uploadToken': instance.uploadToken,
-      'mediaItem': instance.mediaItem,
-    };
+Map<String, dynamic> _$NewMediaItemResultToJson(NewMediaItemResult instance) {
+  final val = <String, dynamic>{
+    'uploadToken': instance.uploadToken,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('mediaItem', instance.mediaItem);
+  return val;
+}

@@ -23,14 +23,13 @@ part 'create_album_request.g.dart';
 class CreateAlbumRequest {
   CreateAlbumRequest(this.album);
 
-  CreateAlbumRequest.fromTitle(String title) {
-    album = Album.toCreate(title);
-  }
+  factory CreateAlbumRequest.fromTitle(String title) =>
+      CreateAlbumRequest(Album.toCreate(title));
 
   factory CreateAlbumRequest.fromJson(Map<String, dynamic> json) =>
       _$CreateAlbumRequestFromJson(json);
 
   Map<String, dynamic> toJson() => _$CreateAlbumRequestToJson(this);
 
-  Album? album;
+  Album album;
 }
