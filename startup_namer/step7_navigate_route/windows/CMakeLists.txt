@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
-project(step7_navigate_route LANGUAGES CXX)
+project(startup_namer LANGUAGES CXX)
 
-set(BINARY_NAME "step7_navigate_route")
+set(BINARY_NAME "startup_namer")
 
 cmake_policy(SET CMP0063 NEW)
 
