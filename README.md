@@ -2,15 +2,22 @@
 
 [![Build Status](https://github.com/flutter/codelabs/workflows/Flutter%20CI/badge.svg)](https://github.com/flutter/codelabs/actions?workflow=Flutter%20CI)
 
-To analyze, test and run individual apps, execute the following commands from
-the repo root (`$PROJECT` represents the app project path,
-such as `startup_namer/step1_base`):
+This repository contains the code for a variety of Flutter Codelabs. Here is a list of the codelabs represented here:
 
-1. `flutter create --no-overwrite $PROJECT`
-1. `cd $PROJECT`
-1. `flutter analyze`
-1. `flutter test`
-1. `flutter run`
+  - [Adding Google Maps to a Flutter app](https://codelabs.developers.google.com/codelabs/google-maps-in-flutter) is in `google-maps-in-flutter`
+  - [Adding in-app purchases to your Flutter app](https://codelabs.developers.google.com/codelabs/flutter-in-app-purchases) is in `in_app_purchases`
+  - [Build a Photo Sharing app with Google Photos and Flutter
+](https://codelabs.developers.google.com/codelabs/google-photos-sharing) is in `photos-sharing`
+  - [Building a Cupertino app with Flutter](https://codelabs.developers.google.com/codelabs/flutter-cupertino) is in `cupertino_store`
+  - [Building beautiful UIs with Flutter](https://codelabs.developers.google.com/codelabs/flutter) is in `friendly_chat`
+  - [Get to know Firebase for Flutter](https://firebase.google.com/codelabs/firebase-get-to-know-flutter) is in `firebase-get-to-know-flutter`
+  - [How to test a Flutter app](https://codelabs.developers.google.com/codelabs/flutter-app-testing) is in `testing_codelab`
+  - [How to write a Flutter plugin](https://codelabs.developers.google.com/codelabs/write-flutter-plugin) is in `plugin_codelab`
+  - [Using a plugin with a Flutter web app](https://codelabs.developers.google.com/codelabs/web-url-launcher) is in `star_counter`
+  - [Write a Flutter desktop application](https://codelabs.developers.google.com/codelabs/flutter-github-graphql-client) is in `github_graphql_client`
+  - [Write your first Flutter app, part 1](https://codelabs.developers.google.com/codelabs/first-flutter-app-pt1) and [Write your first Flutter app, part 2](https://codelabs.developers.google.com/codelabs/first-flutter-app-pt2) are in `startup_namer`
+
+
 
 To learn more about setting up Flutter and running apps, see
 [flutter.dev/get-started][].
