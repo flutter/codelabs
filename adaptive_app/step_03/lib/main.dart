@@ -27,6 +27,7 @@ class ResizeablePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mediaQueryData = MediaQuery.of(context);
+    final targetPlatform = Theme.of(context).platform;
     late String platform;
     if (kIsWeb) {
       platform = 'Web';
@@ -59,7 +60,7 @@ class ResizeablePage extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             SizedBox(
-              width: 250,
+              width: 350,
               child: Table(
                 textBaseline: TextBaseline.alphabetic,
                 columnWidths: const {
@@ -70,7 +71,7 @@ class ResizeablePage extends StatelessWidget {
                   _fillTableRow(
                     context,
                     'Size',
-                    '${mediaQueryData.size.width.toStringAsFixed(1)}x'
+                    '${mediaQueryData.size.width.toStringAsFixed(1)} x '
                         '${mediaQueryData.size.height.toStringAsFixed(1)}',
                   ),
                   _fillTableRow(
@@ -82,6 +83,11 @@ class ResizeablePage extends StatelessWidget {
                     context,
                     'Device Platform',
                     platform,
+                  ),
+                  _fillTableRow(
+                    context,
+                    'Target Platform',
+                    targetPlatform.toString(),
                   ),
                 ],
               ),
