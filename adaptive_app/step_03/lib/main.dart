@@ -31,22 +31,20 @@ class ResizeablePage extends StatelessWidget {
     late String platform;
     if (kIsWeb) {
       platform = 'Web';
+    } else if (Platform.isAndroid) {
+      platform = 'Android';
+    } else if (Platform.isIOS) {
+      platform = 'iOS';
+    } else if (Platform.isWindows) {
+      platform = 'Windows';
+    } else if (Platform.isMacOS) {
+      platform = 'macOS';
+    } else if (Platform.isLinux) {
+      platform = 'Linux';
+    } else if (Platform.isFuchsia) {
+      platform = 'Fuchsia';
     } else {
-      if (Platform.isAndroid) {
-        platform = 'Android';
-      } else if (Platform.isIOS) {
-        platform = 'iOS';
-      } else if (Platform.isWindows) {
-        platform = 'Windows';
-      } else if (Platform.isMacOS) {
-        platform = 'macOS';
-      } else if (Platform.isLinux) {
-        platform = 'Linux';
-      } else if (Platform.isFuchsia) {
-        platform = 'Fuchsia';
-      } else {
-        platform = 'Unknown';
-      }
+      platform = 'Unknown';
     }
 
     return Scaffold(
@@ -63,10 +61,6 @@ class ResizeablePage extends StatelessWidget {
               width: 350,
               child: Table(
                 textBaseline: TextBaseline.alphabetic,
-                columnWidths: const {
-                  0: FractionColumnWidth(.55),
-                  1: FractionColumnWidth(.45),
-                },
                 children: <TableRow>[
                   _fillTableRow(
                     context,
@@ -104,7 +98,6 @@ class ResizeablePage extends StatelessWidget {
           TableCell(
             verticalAlignment: TableCellVerticalAlignment.baseline,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
                   prop,
@@ -117,7 +110,6 @@ class ResizeablePage extends StatelessWidget {
           TableCell(
             verticalAlignment: TableCellVerticalAlignment.baseline,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   val,
