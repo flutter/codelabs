@@ -2,8 +2,10 @@
 
 ## Description
 
-This is an example plugin that accompanies the "How to write a Flutter plugin"
+This is an example plugin that accompanies the [How to write a Flutter plugin][]
 codelab.
+
+  [How to write a Flutter plugin]: https://codelabs.developers.google.com/codelabs/write-flutter-plugin
 
 ## How to run
 
