@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:googleapis/youtube/v3.dart';
@@ -40,6 +41,8 @@ class FlutterDevPlaylists extends ChangeNotifier {
       notifyListeners();
     }, onError: (err) {
       _log.warning('Error: $err');
+      _errorMessage = err.message;
+      notifyListeners();
     });
   }
 
@@ -47,6 +50,9 @@ class FlutterDevPlaylists extends ChangeNotifier {
       YouTubeApi(ApiKeyClient(client: http.Client(), key: youTubeApiKey));
   static const _encoder = JsonEncoder.withIndent('  ');
   final _log = Logger('YouTubeFlutterDev');
+
+  String? _errorMessage;
+  String? get errorMessage => _errorMessage;
 
   PlaylistListResponse? _playlistList;
   PlaylistListResponse? get playlistList => _playlistList;
@@ -119,7 +125,41 @@ class Playlists extends StatelessWidget {
       ),
       body: Consumer<FlutterDevPlaylists>(
         builder: (context, flutterDev, child) {
+          final errorMessage = flutterDev.errorMessage;
+          if (errorMessage != null) {
+            return Center(
+              child: SizedBox(
+                width: 350,
+                child: Card(
+                  elevation: 4,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    // crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
+                        child: Text(
+                          'YouTube API Error',
+                          style: Theme.of(context).textTheme.headline6,
+                        ),
+                      ),
+                      const Divider(thickness: 2),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(8, 8, 8, 12),
+                        child: Text(
+                          errorMessage,
+                          style: Theme.of(context).textTheme.bodyText2,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          }
+
           final playlistList = flutterDev.playlistList;
+
           if (playlistList == null) {
             return const Center(
               child: CircularProgressIndicator(),
