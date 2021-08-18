@@ -5,6 +5,7 @@ import 'package:googleapis/youtube/v3.dart';
 import 'package:http/http.dart' as http;
 import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/link.dart';
 
 const youTubeApiKey = 'AIzaNotAnApiKey';
 const flutterDevAccountId = 'UCwXdFgeE9KYzlDdR7TG9cMw';
@@ -36,7 +37,6 @@ class FlutterDevPlaylists extends ChangeNotifier {
       channelId: flutterDevAccountId,
       maxResults: 25,
     ).then((value) {
-      _log.info('Response\n${_encoder.convert(value)}');
       _playlistList = value;
       notifyListeners();
     }, onError: (err) {
@@ -240,7 +240,26 @@ class PlaylistDetails extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: ListTile(
                   title: Text(playlistItem.snippet!.title!),
-                  subtitle: Text(playlistItem.snippet!.description!),
+                  subtitle: Column(
+                    children: [
+                      Text(playlistItem.snippet!.description!),
+                      if (playlistItem.snippet?.resourceId?.videoId != null)
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Link(
+                              uri: Uri.parse(
+                                  'https://www.youtube.com/watch?v=${playlistItem.snippet!.resourceId!.videoId}'),
+                              builder: (context, followLink) => TextButton(
+                                onPressed: followLink,
+                                child: const Text('Play'),
+                              ),
+                            ),
+                            const SizedBox(width: 16),
+                          ],
+                        ),
+                    ],
+                  ),
                   leading: Image.network(
                       playlistItem.snippet!.thumbnails!.default_!.url!),
                 ),
