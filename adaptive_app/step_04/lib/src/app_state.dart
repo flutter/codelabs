@@ -5,15 +5,18 @@ import 'package:logging/logging.dart';
 
 class FlutterDevPlaylists extends ChangeNotifier {
   FlutterDevPlaylists({
-    required this.flutterDevAccountId,
+    required String flutterDevAccountId,
     required String youTubeApiKey,
-  }) : _api = YouTubeApi(_ApiKeyClient(
-          client: http.Client(),
-          key: youTubeApiKey,
-        )) {
+  })  : _api = YouTubeApi(
+          _ApiKeyClient(
+            client: http.Client(),
+            key: youTubeApiKey,
+          ),
+        ),
+        _flutterDevAccountId = flutterDevAccountId {
     _api.playlists.list(
       ['snippet', 'contentDetails', 'id'],
-      channelId: flutterDevAccountId,
+      channelId: _flutterDevAccountId,
       maxResults: 25,
     ).then((value) {
       _playlistList = value;
@@ -25,8 +28,8 @@ class FlutterDevPlaylists extends ChangeNotifier {
     });
   }
 
-  final String flutterDevAccountId;
-  final _api;
+  final String _flutterDevAccountId;
+  final YouTubeApi _api;
   final _log = Logger('YouTubeFlutterDev');
 
   String? _errorMessage;
@@ -36,17 +39,15 @@ class FlutterDevPlaylists extends ChangeNotifier {
   PlaylistListResponse? get playlistList => _playlistList;
 
   final Map<String, List<PlaylistItem>> _playlistItems = {};
-  List<PlaylistItem> playlistItems({required String playlistId}) =>
-      _playlistItems[playlistId] ?? [];
-
-  Future<void> retrievePlaylist({required String playlistId}) async {
-    // prevent double fetching
-    if (_playlistItems.containsKey(playlistId)) {
-      return;
-    } else {
+  List<PlaylistItem> playlistItems({required String playlistId}) {
+    if (!_playlistItems.containsKey(playlistId)) {
       _playlistItems[playlistId] = [];
+      _retrievePlaylist(playlistId);
     }
+    return _playlistItems[playlistId]!;
+  }
 
+  Future<void> _retrievePlaylist(String playlistId) async {
     String? nextPageToken;
     do {
       var response = await _api.playlistItems.list(

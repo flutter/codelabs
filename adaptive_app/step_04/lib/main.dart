@@ -19,12 +19,12 @@ void main() {
       flutterDevAccountId: flutterDevAccountId,
       youTubeApiKey: youTubeApiKey,
     ),
-    child: const MyApp(),
+    child: const PlaylistsApp(),
   ));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class PlaylistsApp extends StatelessWidget {
+  const PlaylistsApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

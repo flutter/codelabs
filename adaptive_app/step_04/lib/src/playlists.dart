@@ -35,10 +35,7 @@ class Playlists extends StatelessWidget {
             );
           }
 
-          return _PlaylistsListView(
-            items: items,
-            retrievePlaylist: flutterDev.retrievePlaylist,
-          );
+          return _PlaylistsListView(items: items);
         },
       ),
     );
@@ -49,11 +46,9 @@ class _PlaylistsListView extends StatelessWidget {
   const _PlaylistsListView({
     Key? key,
     required this.items,
-    required this.retrievePlaylist,
   }) : super(key: key);
 
   final List<Playlist> items;
-  final _PlaylistsListViewCallback retrievePlaylist;
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +72,6 @@ class _PlaylistsListView extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    retrievePlaylist(playlistId: playlist.id!);
                     return PlaylistDetails(
                       playlistId: playlist.id!,
                       playlistName: playlist.snippet!.title!,
@@ -92,9 +86,6 @@ class _PlaylistsListView extends StatelessWidget {
     );
   }
 }
-
-typedef _PlaylistsListViewCallback = void Function(
-    {required String playlistId});
 
 class _ErrorCard extends StatelessWidget {
   const _ErrorCard({Key? key, required this.errorMessage}) : super(key: key);
