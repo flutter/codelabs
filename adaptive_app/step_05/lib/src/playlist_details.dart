@@ -27,18 +27,38 @@ class PlaylistDetails extends StatelessWidget {
   }
 }
 
-class _PlaylistDetailsListView extends StatelessWidget {
+class _PlaylistDetailsListView extends StatefulWidget {
   const _PlaylistDetailsListView({Key? key, required this.playlistItems})
       : super(key: key);
   final List<PlaylistItem> playlistItems;
 
   @override
+  State<_PlaylistDetailsListView> createState() =>
+      _PlaylistDetailsListViewState();
+}
+
+class _PlaylistDetailsListViewState extends State<_PlaylistDetailsListView> {
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      controller: ScrollController(),
-      itemCount: playlistItems.length,
+      controller: _scrollController,
+      itemCount: widget.playlistItems.length,
       itemBuilder: (context, index) {
-        final playlistItem = playlistItems[index];
+        final playlistItem = widget.playlistItems[index];
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: ListTile(

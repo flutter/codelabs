@@ -43,7 +43,7 @@ class Playlists extends StatelessWidget {
 
 typedef PlaylistsListSelected = void Function(Playlist playlist);
 
-class _PlaylistsListView extends StatelessWidget {
+class _PlaylistsListView extends StatefulWidget {
   const _PlaylistsListView({
     Key? key,
     required this.items,
@@ -54,12 +54,31 @@ class _PlaylistsListView extends StatelessWidget {
   final PlaylistsListSelected playlistSelected;
 
   @override
+  State<_PlaylistsListView> createState() => _PlaylistsListViewState();
+}
+
+class _PlaylistsListViewState extends State<_PlaylistsListView> {
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      controller: ScrollController(),
-      itemCount: items.length,
+      controller: _scrollController,
+      itemCount: widget.items.length,
       itemBuilder: (context, index) {
-        var playlist = items[index];
+        var playlist = widget.items[index];
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: ListTile(
@@ -72,7 +91,7 @@ class _PlaylistsListView extends StatelessWidget {
               // overflow: TextOverflow.ellipsis,
             ),
             onTap: () {
-              playlistSelected(playlist);
+              widget.playlistSelected(playlist);
             },
           ),
         );
