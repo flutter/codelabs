@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
@@ -14,6 +16,11 @@ void main() {
   Logger.root.onRecord.listen((record) {
     print('${record.level.name}: ${record.time}: ${record.message}');
   });
+
+  if (youTubeApiKey == 'AIzaNotAnApiKey') {
+    Logger('main').severe('youTubeApiKey has not been configured.');
+    exit(1);
+  }
 
   runApp(ChangeNotifierProvider<FlutterDevPlaylists>(
     create: (BuildContext context) => FlutterDevPlaylists(
