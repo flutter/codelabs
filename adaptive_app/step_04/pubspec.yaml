@@ -8,6 +8,7 @@ environment:
 
 dependencies:
   cupertino_icons: ^1.0.2
+  flex_color_scheme: ^3.0.1
   flutter:
     sdk: flutter
   googleapis: ^4.0.0

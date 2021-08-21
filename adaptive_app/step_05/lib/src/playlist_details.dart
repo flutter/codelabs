@@ -61,34 +61,90 @@ class _PlaylistDetailsListViewState extends State<_PlaylistDetailsListView> {
         final playlistItem = widget.playlistItems[index];
         return Padding(
           padding: const EdgeInsets.all(8.0),
-          child: ListTile(
-            title: Text(playlistItem.snippet!.title!),
-            subtitle: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(4),
+            child: Stack(
+              alignment: Alignment.center,
               children: [
-                Text(playlistItem.snippet!.description!),
-                if (playlistItem.snippet?.resourceId?.videoId != null)
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Link(
-                        uri: Uri.parse(
-                            'https://www.youtube.com/watch?v=${playlistItem.snippet!.resourceId!.videoId}'),
-                        builder: (context, followLink) => TextButton(
-                          onPressed: followLink,
-                          child: const Text('Play'),
-                        ),
-                      ),
-                      const SizedBox(width: 16),
-                    ],
-                  ),
+                Image.network(playlistItem.snippet!.thumbnails!.high!.url!),
+                _buildGradient(context),
+                _buildTitleAndSubtitle(context, playlistItem),
+                _buildPlayButton(context, playlistItem),
               ],
             ),
-            leading:
-                Image.network(playlistItem.snippet!.thumbnails!.default_!.url!),
           ),
         );
       },
+    );
+  }
+
+  Widget _buildGradient(BuildContext context) {
+    return Positioned.fill(
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.transparent, Theme.of(context).backgroundColor],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            stops: const [0.5, 0.95],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTitleAndSubtitle(
+      BuildContext context, PlaylistItem playlistItem) {
+    return Positioned(
+      left: 20,
+      right: 0,
+      bottom: 20,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            playlistItem.snippet!.title!,
+            style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                  fontSize: 18,
+                  // fontWeight: FontWeight.bold,
+                ),
+          ),
+          Text(
+            playlistItem.snippet!.channelTitle!,
+            style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                  fontSize: 12,
+                ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPlayButton(BuildContext context, PlaylistItem playlistItem) {
+    return Container(
+      width: 42,
+      height: 42,
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(
+          Radius.circular(21),
+        ),
+      ),
+      child: Center(
+        child: Transform.scale(
+          scale: 2,
+          child: Link(
+            uri: Uri.parse(
+                'https://www.youtube.com/watch?v=${playlistItem.snippet!.resourceId!.videoId}'),
+            builder: (context, followLink) => IconButton(
+              onPressed: followLink,
+              color: Colors.red,
+              icon: const Icon(Icons.play_circle_fill),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

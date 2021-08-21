@@ -1,3 +1,4 @@
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:googleapis/youtube/v3.dart';
 import 'package:logging/logging.dart';
@@ -33,7 +34,10 @@ class PlaylistsApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'FlutterDev Playlists',
-      theme: ThemeData(primarySwatch: Colors.blue),
+      theme: FlexColorScheme.light(scheme: FlexScheme.red).toTheme,
+      darkTheme: FlexColorScheme.dark(scheme: FlexScheme.red).toTheme,
+      themeMode: ThemeMode.dark, // Or ThemeMode.System if you'd prefer
+      debugShowCheckedModeBanner: false,
       home: const AdaptivePlaylists(),
     );
   }
