@@ -14,7 +14,7 @@ class FakeFlutterDevPlaylists extends ChangeNotifier
   List<PlaylistItem> playlistItems({required String playlistId}) => [];
 
   @override
-  PlaylistListResponse? get playlistList => PlaylistListResponse();
+  List<Playlist> get playlists => [];
 }
 
 void main() {

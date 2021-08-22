@@ -20,22 +20,15 @@ class Playlists extends StatelessWidget {
           return _ErrorCard(errorMessage: errorMessage);
         }
 
-        final playlistList = flutterDev.playlistList;
-        if (playlistList == null) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-
-        final items = playlistList.items;
-        if (items == null || items.isEmpty) {
+        final playlists = flutterDev.playlists;
+        if (playlists.isEmpty) {
           return const Center(
             child: AdaptiveText('There are no playlists to display'),
           );
         }
 
         return _PlaylistsListView(
-          items: items,
+          items: playlists,
           playlistSelected: playlistSelected,
         );
       },

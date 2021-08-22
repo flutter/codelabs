@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
-import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
 
 import 'src/adaptive_playlists.dart';
@@ -12,13 +11,8 @@ const youTubeApiKey = 'AIzaNotAnApiKey';
 const flutterDevAccountId = 'UCwXdFgeE9KYzlDdR7TG9cMw';
 
 void main() {
-  Logger.root.level = Level.ALL;
-  Logger.root.onRecord.listen((record) {
-    print('${record.level.name}: ${record.time}: ${record.message}');
-  });
-
   if (youTubeApiKey == 'AIzaNotAnApiKey') {
-    Logger('main').severe('youTubeApiKey has not been configured.');
+    print('youTubeApiKey has not been configured.');
     exit(1);
   }
 

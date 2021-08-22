@@ -1,42 +1,47 @@
+import 'dart:collection';
+
 import 'package:flutter/foundation.dart';
 import 'package:googleapis/youtube/v3.dart';
 import 'package:http/http.dart' as http;
-import 'package:logging/logging.dart';
 
 class FlutterDevPlaylists extends ChangeNotifier {
   FlutterDevPlaylists({
     required String flutterDevAccountId,
     required String youTubeApiKey,
-  })  : _api = YouTubeApi(
-          _ApiKeyClient(
-            client: http.Client(),
-            key: youTubeApiKey,
-          ),
-        ),
-        _flutterDevAccountId = flutterDevAccountId {
-    _api.playlists.list(
-      ['snippet', 'contentDetails', 'id'],
-      channelId: _flutterDevAccountId,
-      maxResults: 25,
-    ).then((value) {
-      _playlistList = value;
+  }) : _flutterDevAccountId = flutterDevAccountId {
+    _api = YouTubeApi(
+      _ApiKeyClient(
+        client: http.Client(),
+        key: youTubeApiKey,
+      ),
+    );
+    _loadPlaylists();
+  }
+
+  Future<void> _loadPlaylists() async {
+    String? nextPageToken;
+    _playlists.clear();
+
+    do {
+      final response = await _api.playlists.list(
+        ['snippet', 'contentDetails', 'id'],
+        channelId: _flutterDevAccountId,
+        maxResults: 50,
+        pageToken: nextPageToken,
+      );
+      _playlists.addAll(response.items!);
       notifyListeners();
-    }, onError: (err) {
-      _log.warning('Error: $err');
-      _errorMessage = err.message;
-      notifyListeners();
-    });
+    } while (nextPageToken != null);
   }
 
   final String _flutterDevAccountId;
-  final YouTubeApi _api;
-  final _log = Logger('YouTubeFlutterDev');
+  late final YouTubeApi _api;
 
   String? _errorMessage;
   String? get errorMessage => _errorMessage;
 
-  PlaylistListResponse? _playlistList;
-  PlaylistListResponse? get playlistList => _playlistList;
+  final List<Playlist> _playlists = [];
+  List<Playlist> get playlists => UnmodifiableListView(_playlists);
 
   final Map<String, List<PlaylistItem>> _playlistItems = {};
   List<PlaylistItem> playlistItems({required String playlistId}) {
@@ -44,7 +49,7 @@ class FlutterDevPlaylists extends ChangeNotifier {
       _playlistItems[playlistId] = [];
       _retrievePlaylist(playlistId);
     }
-    return _playlistItems[playlistId]!;
+    return UnmodifiableListView(_playlistItems[playlistId]!);
   }
 
   Future<void> _retrievePlaylist(String playlistId) async {
@@ -71,7 +76,6 @@ class _ApiKeyClient extends http.BaseClient {
 
   final String key;
   final http.Client client;
-  final _log = Logger('ApiKeyClient');
 
   @override
   Future<http.StreamedResponse> send(http.BaseRequest request) {
@@ -79,8 +83,6 @@ class _ApiKeyClient extends http.BaseClient {
       ...request.url.queryParametersAll,
       'key': [key]
     });
-
-    _log.info('Requesting $url');
 
     return client.send(http.Request(request.method, url));
   }
