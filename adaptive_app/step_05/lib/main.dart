@@ -24,7 +24,7 @@ void main() {
     Logger('main').severe('youTubeApiKey has not been configured.');
     exit(1);
   }
-  
+
   runApp(ChangeNotifierProvider<FlutterDevPlaylists>(
     create: (BuildContext context) => FlutterDevPlaylists(
       flutterDevAccountId: flutterDevAccountId,
