@@ -1,10 +1,22 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
+import 'package:googleapis_auth/googleapis_auth.dart';
 import 'package:provider/provider.dart';
 
 import 'src/adaptive_login.dart';
 import 'src/adaptive_playlists.dart';
 import 'src/app_state.dart';
+
+// From https://developers.google.com/youtube/v3/guides/auth/installed-apps#identify-access-scopes
+final scopes = [
+  'https://www.googleapis.com/auth/youtube.readonly',
+];
+
+// From your Client ID for Desktop configuration
+final clientId = ClientId(
+  'TODO-Client-ID.apps.googleusercontent.com',
+  'TODO-Client-secret',
+);
 
 void main() {
   runApp(ChangeNotifierProvider<AuthedUserPlaylists>(
@@ -29,6 +41,8 @@ class PlaylistsApp extends StatelessWidget {
           context.read<AuthedUserPlaylists>().authClient = authClient;
           return const AdaptivePlaylists();
         },
+        clientId: clientId,
+        scopes: scopes,
       ),
     );
   }

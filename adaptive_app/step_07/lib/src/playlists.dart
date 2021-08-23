@@ -3,7 +3,6 @@ import 'package:googleapis/youtube/v3.dart';
 import 'package:provider/provider.dart';
 
 import 'adaptive_image.dart';
-import 'adaptive_text.dart';
 import 'app_state.dart';
 
 class Playlists extends StatelessWidget {
@@ -18,7 +17,7 @@ class Playlists extends StatelessWidget {
         final playlists = flutterDev.playlists;
         if (playlists.isEmpty) {
           return const Center(
-            child: AdaptiveText('There are no playlists to display'),
+            child: CircularProgressIndicator(),
           );
         }
 
