@@ -15,11 +15,6 @@ class Playlists extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<AuthedUserPlaylists>(
       builder: (context, flutterDev, child) {
-        final errorMessage = flutterDev.errorMessage;
-        if (errorMessage != null) {
-          return _ErrorCard(errorMessage: errorMessage);
-        }
-
         final playlists = flutterDev.playlists;
         if (playlists.isEmpty) {
           return const Center(
@@ -91,44 +86,6 @@ class _PlaylistsListViewState extends State<_PlaylistsListView> {
           ),
         );
       },
-    );
-  }
-}
-
-class _ErrorCard extends StatelessWidget {
-  const _ErrorCard({Key? key, required this.errorMessage}) : super(key: key);
-  final String errorMessage;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: SizedBox(
-        width: 350,
-        child: Card(
-          elevation: 4,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            // crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
-                child: AdaptiveText(
-                  'YouTube API Error',
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-              ),
-              const Divider(thickness: 2),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(8, 8, 8, 12),
-                child: AdaptiveText(
-                  errorMessage,
-                  style: Theme.of(context).textTheme.bodyText2,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
     );
   }
 }
