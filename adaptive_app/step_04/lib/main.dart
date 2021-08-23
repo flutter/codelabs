@@ -7,8 +7,11 @@ import 'package:provider/provider.dart';
 import 'src/app_state.dart';
 import 'src/playlists.dart';
 
-const youTubeApiKey = 'AIzaNotAnApiKey';
+// From https://www.youtube.com/channel/UCwXdFgeE9KYzlDdR7TG9cMw
 const flutterDevAccountId = 'UCwXdFgeE9KYzlDdR7TG9cMw';
+
+// From your YouTube API Console Project's API Key
+const youTubeApiKey = 'AIzaNotAnApiKey';
 
 void main() {
   if (youTubeApiKey == 'AIzaNotAnApiKey') {

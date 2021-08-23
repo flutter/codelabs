@@ -19,7 +19,7 @@ class Playlists extends StatelessWidget {
           final playlists = flutterDev.playlists;
           if (playlists.isEmpty) {
             return const Center(
-              child: Text('There are no playlists to display'),
+              child: CircularProgressIndicator(),
             );
           }
 
