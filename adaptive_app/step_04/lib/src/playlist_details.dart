@@ -96,7 +96,7 @@ class _PlaylistDetailsListView extends StatelessWidget {
                 ),
           ),
           Text(
-            playlistItem.snippet!.channelTitle!,
+            playlistItem.snippet!.videoOwnerChannelTitle!,
             style: Theme.of(context).textTheme.bodyText2!.copyWith(
                   fontSize: 12,
                 ),

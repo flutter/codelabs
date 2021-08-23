@@ -114,7 +114,7 @@ class _PlaylistDetailsListViewState extends State<_PlaylistDetailsListView> {
                 ),
           ),
           AdaptiveText(
-            playlistItem.snippet!.channelTitle!,
+            playlistItem.snippet!.videoOwnerChannelTitle!,
             style: Theme.of(context).textTheme.bodyText2!.copyWith(
                   fontSize: 12,
                 ),
