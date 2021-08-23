@@ -8,9 +8,6 @@ import 'package:provider/provider.dart';
 class FakeFlutterDevPlaylists extends ChangeNotifier
     implements FlutterDevPlaylists {
   @override
-  String? get errorMessage => null;
-
-  @override
   List<PlaylistItem> playlistItems({required String playlistId}) => [];
 
   @override

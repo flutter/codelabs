@@ -37,9 +37,6 @@ class FlutterDevPlaylists extends ChangeNotifier {
   final String _flutterDevAccountId;
   late final YouTubeApi _api;
 
-  String? _errorMessage;
-  String? get errorMessage => _errorMessage;
-
   final List<Playlist> _playlists = [];
   List<Playlist> get playlists => UnmodifiableListView(_playlists);
 
