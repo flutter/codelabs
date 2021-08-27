@@ -26,8 +26,8 @@ class ResizeablePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mediaQueryData = MediaQuery.of(context);
-    final targetPlatform = Theme.of(context).platform;
+    final mediaQuery = MediaQuery.of(context);
+    final themePlatform = Theme.of(context).platform;
 
     return Scaffold(
       body: Center(
@@ -46,24 +46,24 @@ class ResizeablePage extends StatelessWidget {
                 children: <TableRow>[
                   _fillTableRow(
                     context: context,
-                    property: 'Size',
-                    value: '${mediaQueryData.size.width.toStringAsFixed(1)} x '
-                        '${mediaQueryData.size.height.toStringAsFixed(1)}',
+                    property: 'Window Size',
+                    value: '${mediaQuery.size.width.toStringAsFixed(1)} x '
+                        '${mediaQuery.size.height.toStringAsFixed(1)}',
                   ),
                   _fillTableRow(
                     context: context,
                     property: 'Device Pixel Ratio',
-                    value: mediaQueryData.devicePixelRatio.toStringAsFixed(2),
+                    value: mediaQuery.devicePixelRatio.toStringAsFixed(2),
                   ),
                   _fillTableRow(
                     context: context,
-                    property: 'Device Platform',
-                    value: platformDescripiton(),
+                    property: 'Platform.isXXX',
+                    value: platformDescription(),
                   ),
                   _fillTableRow(
                     context: context,
-                    property: 'Target Platform',
-                    value: targetPlatform.toString(),
+                    property: 'Theme.of(ctx).platform',
+                    value: themePlatform.toString(),
                   ),
                 ],
               ),
@@ -106,7 +106,7 @@ class ResizeablePage extends StatelessWidget {
     );
   }
 
-  String platformDescripiton() {
+  String platformDescription() {
     if (kIsWeb) {
       return 'Web';
     } else if (Platform.isAndroid) {
