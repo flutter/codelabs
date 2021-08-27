@@ -75,35 +75,36 @@ class ResizeablePage extends StatelessWidget {
   }
 
   TableRow _fillTableRow(
-          {required BuildContext context,
-          required String property,
-          required String value}) =>
-      TableRow(
-        children: [
-          TableCell(
-            verticalAlignment: TableCellVerticalAlignment.baseline,
-            child: Row(
-              children: [
-                Text(
-                  property,
-                  style: Theme.of(context).textTheme.bodyText1,
-                ),
-                const SizedBox(width: 8, height: 24),
-              ],
-            ),
+      {required BuildContext context,
+      required String property,
+      required String value}) {
+    return TableRow(
+      children: [
+        TableCell(
+          verticalAlignment: TableCellVerticalAlignment.baseline,
+          child: Row(
+            children: [
+              Text(
+                property,
+                style: Theme.of(context).textTheme.bodyText1,
+              ),
+              const SizedBox(width: 8, height: 24),
+            ],
           ),
-          TableCell(
-            verticalAlignment: TableCellVerticalAlignment.baseline,
-            child: Row(
-              children: [
-                Text(
-                  value,
-                ),
-              ],
-            ),
+        ),
+        TableCell(
+          verticalAlignment: TableCellVerticalAlignment.baseline,
+          child: Row(
+            children: [
+              Text(
+                value,
+              ),
+            ],
           ),
-        ],
-      );
+        ),
+      ],
+    );
+  }
 
   String platformDescripiton() {
     if (kIsWeb) {
