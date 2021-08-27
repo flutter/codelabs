@@ -53,7 +53,7 @@ class ResizeablePage extends StatelessWidget {
                   _fillTableRow(
                     context: context,
                     property: 'Device Pixel Ratio',
-                    value: mediaQueryData.devicePixelRatio.toStringAsFixed(1),
+                    value: mediaQueryData.devicePixelRatio.toStringAsFixed(2),
                   ),
                   _fillTableRow(
                     context: context,
