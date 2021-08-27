@@ -3,6 +3,7 @@ include: package:flutter_lints/flutter.yaml
 linter:
   rules:
     avoid_print: false
+    directives_ordering: true
     prefer_single_quotes: true
     sort_pub_dependencies: true
 

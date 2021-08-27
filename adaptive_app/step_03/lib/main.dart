@@ -1,6 +1,6 @@
 import 'dart:io' show Platform;
-import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/material.dart';
 
 void main() {
   runApp(const MyApp());
@@ -28,7 +28,6 @@ class ResizeablePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final mediaQueryData = MediaQuery.of(context);
     final targetPlatform = Theme.of(context).platform;
-    final platform = platformDescripiton();
 
     return Scaffold(
       body: Center(
@@ -46,25 +45,25 @@ class ResizeablePage extends StatelessWidget {
                 textBaseline: TextBaseline.alphabetic,
                 children: <TableRow>[
                   _fillTableRow(
-                    context,
-                    'Size',
-                    '${mediaQueryData.size.width.toStringAsFixed(1)} x '
+                    context: context,
+                    property: 'Size',
+                    value: '${mediaQueryData.size.width.toStringAsFixed(1)} x '
                         '${mediaQueryData.size.height.toStringAsFixed(1)}',
                   ),
                   _fillTableRow(
-                    context,
-                    'Device Pixel Ratio',
-                    mediaQueryData.devicePixelRatio.toStringAsFixed(1),
+                    context: context,
+                    property: 'Device Pixel Ratio',
+                    value: mediaQueryData.devicePixelRatio.toStringAsFixed(1),
                   ),
                   _fillTableRow(
-                    context,
-                    'Device Platform',
-                    platform,
+                    context: context,
+                    property: 'Device Platform',
+                    value: platformDescripiton(),
                   ),
                   _fillTableRow(
-                    context,
-                    'Target Platform',
-                    targetPlatform.toString(),
+                    context: context,
+                    property: 'Target Platform',
+                    value: targetPlatform.toString(),
                   ),
                 ],
               ),
@@ -75,7 +74,10 @@ class ResizeablePage extends StatelessWidget {
     );
   }
 
-  TableRow _fillTableRow(BuildContext context, String prop, String val) =>
+  TableRow _fillTableRow(
+          {required BuildContext context,
+          required String property,
+          required String value}) =>
       TableRow(
         children: [
           TableCell(
@@ -83,7 +85,7 @@ class ResizeablePage extends StatelessWidget {
             child: Row(
               children: [
                 Text(
-                  prop,
+                  property,
                   style: Theme.of(context).textTheme.bodyText1,
                 ),
                 const SizedBox(width: 8, height: 24),
@@ -95,7 +97,7 @@ class ResizeablePage extends StatelessWidget {
             child: Row(
               children: [
                 Text(
-                  val,
+                  value,
                 ),
               ],
             ),
