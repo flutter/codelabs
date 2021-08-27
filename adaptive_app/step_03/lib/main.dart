@@ -28,24 +28,7 @@ class ResizeablePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final mediaQueryData = MediaQuery.of(context);
     final targetPlatform = Theme.of(context).platform;
-    late String platform;
-    if (kIsWeb) {
-      platform = 'Web';
-    } else if (Platform.isAndroid) {
-      platform = 'Android';
-    } else if (Platform.isIOS) {
-      platform = 'iOS';
-    } else if (Platform.isWindows) {
-      platform = 'Windows';
-    } else if (Platform.isMacOS) {
-      platform = 'macOS';
-    } else if (Platform.isLinux) {
-      platform = 'Linux';
-    } else if (Platform.isFuchsia) {
-      platform = 'Fuchsia';
-    } else {
-      platform = 'Unknown';
-    }
+    final platform = platformDescripiton();
 
     return Scaffold(
       body: Center(
@@ -119,4 +102,24 @@ class ResizeablePage extends StatelessWidget {
           ),
         ],
       );
+
+  String platformDescripiton() {
+    if (kIsWeb) {
+      return 'Web';
+    } else if (Platform.isAndroid) {
+      return 'Android';
+    } else if (Platform.isIOS) {
+      return 'iOS';
+    } else if (Platform.isWindows) {
+      return 'Windows';
+    } else if (Platform.isMacOS) {
+      return 'macOS';
+    } else if (Platform.isLinux) {
+      return 'Linux';
+    } else if (Platform.isFuchsia) {
+      return 'Fuchsia';
+    } else {
+      return 'Unknown';
+    }
+  }
 }
