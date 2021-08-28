@@ -1,6 +1,6 @@
 import 'dart:io' show Platform;
-import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/material.dart';
 
 void main() {
   runApp(const MyApp());
@@ -26,26 +26,8 @@ class ResizeablePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mediaQueryData = MediaQuery.of(context);
-    final targetPlatform = Theme.of(context).platform;
-    late String platform;
-    if (kIsWeb) {
-      platform = 'Web';
-    } else if (Platform.isAndroid) {
-      platform = 'Android';
-    } else if (Platform.isIOS) {
-      platform = 'iOS';
-    } else if (Platform.isWindows) {
-      platform = 'Windows';
-    } else if (Platform.isMacOS) {
-      platform = 'macOS';
-    } else if (Platform.isLinux) {
-      platform = 'Linux';
-    } else if (Platform.isFuchsia) {
-      platform = 'Fuchsia';
-    } else {
-      platform = 'Unknown';
-    }
+    final mediaQuery = MediaQuery.of(context);
+    final themePlatform = Theme.of(context).platform;
 
     return Scaffold(
       body: Center(
@@ -63,25 +45,25 @@ class ResizeablePage extends StatelessWidget {
                 textBaseline: TextBaseline.alphabetic,
                 children: <TableRow>[
                   _fillTableRow(
-                    context,
-                    'Size',
-                    '${mediaQueryData.size.width.toStringAsFixed(1)} x '
-                        '${mediaQueryData.size.height.toStringAsFixed(1)}',
+                    context: context,
+                    property: 'Window Size',
+                    value: '${mediaQuery.size.width.toStringAsFixed(1)} x '
+                        '${mediaQuery.size.height.toStringAsFixed(1)}',
                   ),
                   _fillTableRow(
-                    context,
-                    'Device Pixel Ratio',
-                    mediaQueryData.devicePixelRatio.toStringAsFixed(1),
+                    context: context,
+                    property: 'Device Pixel Ratio',
+                    value: mediaQuery.devicePixelRatio.toStringAsFixed(2),
                   ),
                   _fillTableRow(
-                    context,
-                    'Device Platform',
-                    platform,
+                    context: context,
+                    property: 'Platform.isXXX',
+                    value: platformDescription(),
                   ),
                   _fillTableRow(
-                    context,
-                    'Target Platform',
-                    targetPlatform.toString(),
+                    context: context,
+                    property: 'Theme.of(ctx).platform',
+                    value: themePlatform.toString(),
                   ),
                 ],
               ),
@@ -92,31 +74,55 @@ class ResizeablePage extends StatelessWidget {
     );
   }
 
-  TableRow _fillTableRow(BuildContext context, String prop, String val) =>
-      TableRow(
-        children: [
-          TableCell(
-            verticalAlignment: TableCellVerticalAlignment.baseline,
-            child: Row(
-              children: [
-                Text(
-                  prop,
-                  style: Theme.of(context).textTheme.bodyText1,
-                ),
-                const SizedBox(width: 8, height: 24),
-              ],
-            ),
+  TableRow _fillTableRow(
+      {required BuildContext context,
+      required String property,
+      required String value}) {
+    return TableRow(
+      children: [
+        TableCell(
+          verticalAlignment: TableCellVerticalAlignment.baseline,
+          child: Row(
+            children: [
+              Text(
+                property,
+                style: Theme.of(context).textTheme.bodyText1,
+              ),
+              const SizedBox(width: 8, height: 24),
+            ],
           ),
-          TableCell(
-            verticalAlignment: TableCellVerticalAlignment.baseline,
-            child: Row(
-              children: [
-                Text(
-                  val,
-                ),
-              ],
-            ),
+        ),
+        TableCell(
+          verticalAlignment: TableCellVerticalAlignment.baseline,
+          child: Row(
+            children: [
+              Text(
+                value,
+              ),
+            ],
           ),
-        ],
-      );
+        ),
+      ],
+    );
+  }
+
+  String platformDescription() {
+    if (kIsWeb) {
+      return 'Web';
+    } else if (Platform.isAndroid) {
+      return 'Android';
+    } else if (Platform.isIOS) {
+      return 'iOS';
+    } else if (Platform.isWindows) {
+      return 'Windows';
+    } else if (Platform.isMacOS) {
+      return 'macOS';
+    } else if (Platform.isLinux) {
+      return 'Linux';
+    } else if (Platform.isFuchsia) {
+      return 'Fuchsia';
+    } else {
+      return 'Unknown';
+    }
+  }
 }
