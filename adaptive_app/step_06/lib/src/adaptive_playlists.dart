@@ -15,7 +15,7 @@ class AdaptivePlaylists extends StatelessWidget {
 
     if (targetPlatform == TargetPlatform.android ||
         targetPlatform == TargetPlatform.iOS ||
-        screenWidth <= 800) {
+        screenWidth <= 600) {
       return const NarrowDisplayPlaylists();
     } else {
       return const WideDisplayPlaylists();
