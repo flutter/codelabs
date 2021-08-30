@@ -10,7 +10,7 @@ import 'src/app_state.dart';
 // From https://www.youtube.com/channel/UCwXdFgeE9KYzlDdR7TG9cMw
 const flutterDevAccountId = 'UCwXdFgeE9KYzlDdR7TG9cMw';
 
-// From your YouTube API Console Project's API Key
+// TODO: Replace with your YouTube API Key
 const youTubeApiKey = 'AIzaNotAnApiKey';
 
 void main() {

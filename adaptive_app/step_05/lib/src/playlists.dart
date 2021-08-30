@@ -76,7 +76,6 @@ class _PlaylistsListViewState extends State<_PlaylistsListView> {
             title: Text(playlist.snippet!.title!),
             subtitle: Text(
               playlist.snippet!.description!,
-              // overflow: TextOverflow.ellipsis,
             ),
             onTap: () {
               widget.playlistSelected(playlist);
