@@ -5,10 +5,8 @@ import 'package:googleapis/youtube/v3.dart';
 import 'package:http/http.dart' as http;
 
 class AuthedUserPlaylists extends ChangeNotifier {
-  YouTubeApi? _api;
-
-  set authClient(http.Client authClient) {
-    _api = YouTubeApi(authClient);
+  set authClient(http.Client client) {
+    _api = YouTubeApi(client);
     _loadPlaylists();
   }
 
@@ -30,6 +28,8 @@ class AuthedUserPlaylists extends ChangeNotifier {
       notifyListeners();
     } while (nextPageToken != null);
   }
+
+  YouTubeApi? _api;
 
   final List<Playlist> _playlists = [];
   List<Playlist> get playlists => UnmodifiableListView(_playlists);

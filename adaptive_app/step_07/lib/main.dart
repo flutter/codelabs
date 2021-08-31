@@ -31,7 +31,7 @@ class PlaylistsApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Playlist Explorer',
+      title: 'Your Playlists',
       theme: FlexColorScheme.light(scheme: FlexScheme.red).toTheme,
       darkTheme: FlexColorScheme.dark(scheme: FlexScheme.red).toTheme,
       themeMode: ThemeMode.dark, // Or ThemeMode.System if you'd prefer
