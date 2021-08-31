@@ -53,7 +53,6 @@ class _PlaylistsListView extends StatelessWidget {
             title: Text(playlist.snippet!.title!),
             subtitle: Text(
               playlist.snippet!.description!,
-              // overflow: TextOverflow.ellipsis,
             ),
             onTap: () {
               Navigator.push(

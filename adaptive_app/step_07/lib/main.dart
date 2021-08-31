@@ -12,7 +12,8 @@ final scopes = [
   'https://www.googleapis.com/auth/youtube.readonly',
 ];
 
-// From your Client ID for Desktop configuration
+// TODO: Replace with your Client ID and Client Secret from your
+// Desktop OAuth client
 final clientId = ClientId(
   'TODO-Client-ID.apps.googleusercontent.com',
   'TODO-Client-secret',
@@ -31,7 +32,7 @@ class PlaylistsApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Playlist Explorer',
+      title: 'Your Playlists',
       theme: FlexColorScheme.light(scheme: FlexScheme.red).toTheme,
       darkTheme: FlexColorScheme.dark(scheme: FlexScheme.red).toTheme,
       themeMode: ThemeMode.dark, // Or ThemeMode.System if you'd prefer
@@ -43,6 +44,7 @@ class PlaylistsApp extends StatelessWidget {
         },
         clientId: clientId,
         scopes: scopes,
+        loginButtonChild: const Text('Login to YouTube'),
       ),
     );
   }

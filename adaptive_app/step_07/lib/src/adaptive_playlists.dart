@@ -15,7 +15,7 @@ class AdaptivePlaylists extends StatelessWidget {
 
     if (targetPlatform == TargetPlatform.android ||
         targetPlatform == TargetPlatform.iOS ||
-        screenWidth <= 800) {
+        screenWidth <= 600) {
       return const NarrowDisplayPlaylists();
     } else {
       return const WideDisplayPlaylists();
@@ -31,7 +31,7 @@ class NarrowDisplayPlaylists extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('FlutterDev Playlists')),
+      appBar: AppBar(title: const Text('Your Playlists')),
       body: Playlists(
         playlistSelected: (Playlist playlist) {
           Navigator.push(
@@ -70,8 +70,8 @@ class _WideDisplayPlaylistsState extends State<WideDisplayPlaylists> {
     return Scaffold(
       appBar: AppBar(
         title: selectedPlaylist == null
-            ? const Text('FlutterDev Playlists')
-            : Text('FlutterDev Playlist: ${selectedPlaylist!.snippet!.title!}'),
+            ? const Text('Your Playlists')
+            : Text('Playlist: ${selectedPlaylist!.snippet!.title!}'),
       ),
       body: SplitView(
         viewMode: SplitViewMode.Horizontal,
