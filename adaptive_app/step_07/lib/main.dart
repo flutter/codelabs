@@ -43,6 +43,7 @@ class PlaylistsApp extends StatelessWidget {
         },
         clientId: clientId,
         scopes: scopes,
+        loginButtonChild: const Text('Login to YouTube'),
       ),
     );
   }

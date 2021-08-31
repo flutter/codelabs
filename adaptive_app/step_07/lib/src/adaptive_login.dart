@@ -22,11 +22,13 @@ class AdaptiveLogin extends StatelessWidget {
       {required this.builder,
       required this.clientId,
       required this.scopes,
+      required this.loginButtonChild,
       Key? key})
       : super(key: key);
   final AdaptiveLoginBuilder builder;
   final ClientId clientId;
   final List<String> scopes;
+  final Widget loginButtonChild;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +50,7 @@ class AdaptiveLogin extends StatelessWidget {
 
   Widget _loginButton({required VoidCallback? onPressed}) => ElevatedButton(
         onPressed: onPressed,
-        child: const Text('Login to YouTube'),
+        child: loginButtonChild,
       );
 }
 
