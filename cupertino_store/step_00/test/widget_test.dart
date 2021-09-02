@@ -17,7 +17,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (tester) async {
-    await tester.pumpWidget(CupertinoStoreApp());
+    await tester.pumpWidget(const CupertinoStoreApp());
     expect(find.text('Cupertino Store'), findsOneWidget);
   });
 }

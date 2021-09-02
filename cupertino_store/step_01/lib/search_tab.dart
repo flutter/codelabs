@@ -15,6 +15,8 @@
 import 'package:flutter/cupertino.dart';
 
 class SearchTab extends StatefulWidget {
+  const SearchTab({Key? key}) : super(key: key);
+
   @override
   _SearchTabState createState() {
     return _SearchTabState();

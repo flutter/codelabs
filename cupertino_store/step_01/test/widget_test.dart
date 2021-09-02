@@ -22,7 +22,7 @@ void main() {
     await tester.pumpWidget(
       ChangeNotifierProvider<AppStateModel>(
         create: (context) => AppStateModel()..loadProducts(),
-        child: CupertinoStoreApp(),
+        child: const CupertinoStoreApp(),
       ),
     );
     expect(find.text('Products'), findsOneWidget);
