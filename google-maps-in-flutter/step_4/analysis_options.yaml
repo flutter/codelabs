@@ -1,12 +1,5 @@
 include: package:flutter_lints/flutter.yaml
 
-analyzer:
-  strong-mode:
-    implicit-casts: false
-    implicit-dynamic: false
-  exclude:
-    - lib/src/locations.g.dart
-
 linter:
   rules:
     avoid_print: false
