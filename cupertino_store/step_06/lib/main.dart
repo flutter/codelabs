@@ -21,7 +21,7 @@ import 'model/app_state_model.dart';
 void main() {
   return runApp(
     ChangeNotifierProvider<AppStateModel>(
-      create: (context) => AppStateModel()..loadProducts(),
+      create: (_) => AppStateModel()..loadProducts(),
       child: const CupertinoStoreApp(),
     ),
   );
