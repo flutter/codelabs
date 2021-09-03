@@ -24,8 +24,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/google_maps_flutter/ios"
 
 SPEC CHECKSUMS:
-  Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
-  google_maps_flutter: df4e7de95264aa0a2f11aac0fc7e313acb8ffc7e
+  Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
+  google_maps_flutter: 279865bd07e2d8751f43a3bc64bac7f6075d0c93
   GoogleMaps: 086ae1dab659eaa7339bdb30fc88e2f44e7c597c
 
 PODFILE CHECKSUM: 5815586d21b29dd1224a962d1f16971a6a976875

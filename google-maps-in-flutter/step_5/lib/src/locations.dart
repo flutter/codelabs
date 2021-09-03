@@ -15,9 +15,9 @@
  */
 
 import 'dart:convert';
-import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 part 'locations.g.dart';
 
@@ -98,14 +98,19 @@ Future<Locations> getGoogleOffices() async {
   const googleLocationsURL = 'https://about.google/static/data/locations.json';
 
   // Retrieve the locations of Google offices
-  final response = await http.get(Uri.parse(googleLocationsURL));
-  if (response.statusCode == 200) {
-    return Locations.fromJson(
-        json.decode(response.body) as Map<String, dynamic>);
-  } else {
-    throw HttpException(
-        'Unexpected status code ${response.statusCode}:'
-        ' ${response.reasonPhrase}',
-        uri: Uri.parse(googleLocationsURL));
+  try {
+    final response = await http.get(Uri.parse(googleLocationsURL));
+    if (response.statusCode == 200) {
+      return Locations.fromJson(json.decode(response.body));
+    }
+  } catch (e) {
+    print(e);
   }
+
+  // Fallback for when the above HTTP request fails.
+  return Locations.fromJson(
+    json.decode(
+      await rootBundle.loadString('assets/locations.json'),
+    ),
+  );
 }
