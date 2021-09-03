@@ -23,6 +23,8 @@ import 'styles.dart';
 const double _kDateTimePickerHeight = 216;
 
 class ShoppingCartTab extends StatefulWidget {
+  const ShoppingCartTab({Key? key}) : super(key: key);
+
   @override
   _ShoppingCartTabState createState() {
     return _ShoppingCartTabState();
@@ -256,7 +258,8 @@ class ShoppingCartItem extends StatelessWidget {
     required this.lastItem,
     required this.quantity,
     required this.formatter,
-  });
+    Key? key,
+  }) : super(key: key);
 
   final Product product;
   final int index;
