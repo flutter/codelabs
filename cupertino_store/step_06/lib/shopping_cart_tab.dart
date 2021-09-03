@@ -213,7 +213,7 @@ class _ShoppingCartTabState extends State<ShoppingCartTab> {
                         ),
                         const SizedBox(height: 6),
                         Text(
-                          'Total  ${_currencyFormat.format(model.totalCost)}',
+                          'Total ${_currencyFormat.format(model.totalCost)}',
                           style: Styles.productRowTotal,
                         ),
                       ],
