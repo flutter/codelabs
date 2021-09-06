@@ -32,5 +32,8 @@ Runner/GeneratedPluginRegistrant.*
 !default.pbxuser
 !default.perspectivev3
 
+# Build system generated files
+/build/
+
 # Ignore Firebase configuration file
 Runner/GoogleService-Info.plist
