@@ -187,7 +187,7 @@ Duration: 08:00
 
 In order to use Firebase with Flutter, you need to follow a process to configure the Flutter project to utilise the FlutterFire libraries correctly:
 
-* Add the FlutterFire dependencies to `pubspec.yaml`
+* Add the FlutterFire dependencies to your project
 * Register the desired platform on the Firebase project
 * Download the platform-specific configuration file, and add it to the code.
 
@@ -202,21 +202,77 @@ In the top-level directory of your Flutter app, there are subdirectories called 
 
 ### Configure dependencies
 
-You need to add the FlutterFire libraries for the two Firebase products you are utilizing in this app - Firebase Auth and Cloud Firestore. Edit `pubspec.yaml` and add the following dependencies:
+You need to add the FlutterFire libraries for the two Firebase products you are utilizing in this app - Firebase Auth and Cloud Firestore. Run the following three commands to add the depencies.
 
-####  [pubspec.yaml](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_04/pubspec.yaml#L12)
-
+```console
+$ flutter pub add firebase_core
+Resolving dependencies...
+  async 2.8.1 (2.8.2 available)
++ firebase_core 1.6.0
++ firebase_core_platform_interface 4.0.1
++ firebase_core_web 1.1.0
++ flutter_web_plugins 0.0.0 from sdk flutter
++ js 0.6.3
+  matcher 0.12.10 (0.12.11 available)
+  path_provider 2.0.2 (2.0.3 available)
+  platform 3.0.0 (3.0.2 available)
+  test_api 0.4.2 (0.4.3 available)
+  win32 2.2.5 (2.2.9 available)
+Changed 5 dependencies!
 ```
-dependencies:
-  flutter:
-    sdk: flutter
-  cloud_firestore: ^1.0.0 # new
-  firebase_auth: ^1.0.0   # new
-  google_fonts: ^2.0.0
-  provider: ^5.0.0        # new
+
+The [`firebase_core`](https://pub.dev/packages/firebase_core) is the common code required for all Firebase Flutter plugins.
+
+```console
+$ flutter pub add firebase_auth
+Resolving dependencies...
+  async 2.8.1 (2.8.2 available)
++ firebase_auth 3.1.0
++ firebase_auth_platform_interface 6.1.0
++ firebase_auth_web 3.1.0
++ intl 0.17.0
+  matcher 0.12.10 (0.12.11 available)
+  path_provider 2.0.2 (2.0.3 available)
+  platform 3.0.0 (3.0.2 available)
+  test_api 0.4.2 (0.4.3 available)
+  win32 2.2.5 (2.2.9 available)
+Changed 4 dependencies!
 ```
 
-While you have added the required packages, you also need to configure the iOS, Android, macOS and Web runner projects to appropriately utilise Firebase. You are also using the `provider` package that will enable separation of business logic from display logic.
+The [`firebase_auth`](https://pub.dev/packages/firebase_auth) enables integration with Firebase's Authentication capability.
+
+```console
+$ flutter pub add cloud_firestore
+Resolving dependencies...
+  async 2.8.1 (2.8.2 available)
++ cloud_firestore 2.5.1
++ cloud_firestore_platform_interface 5.4.1
++ cloud_firestore_web 2.4.1
+  matcher 0.12.10 (0.12.11 available)
+  path_provider 2.0.2 (2.0.3 available)
+  platform 3.0.0 (3.0.2 available)
+  test_api 0.4.2 (0.4.3 available)
+  win32 2.2.5 (2.2.9 available)
+Changed 3 dependencies!
+```
+
+The [`cloud_firestore`](https://pub.dev/packages/cloud_firestore) enables access to Cloud Firestore data storage.
+
+```console
+$ flutter pub add provider
+Resolving dependencies...
+  async 2.8.1 (2.8.2 available)
+  matcher 0.12.10 (0.12.11 available)
++ nested 1.0.0
+  path_provider 2.0.2 (2.0.3 available)
+  platform 3.0.0 (3.0.2 available)
++ provider 6.0.0
+  test_api 0.4.2 (0.4.3 available)
+  win32 2.2.5 (2.2.9 available)
+Changed 2 dependencies!
+```
+
+While you have added the required packages, you also need to configure the iOS, Android, macOS and Web runner projects to appropriately utilise Firebase. You are also using the [`provider`](https://pub.dev/packages/provider) package that will enable separation of business logic from display logic.
 
 ### **Configure iOS**
 
