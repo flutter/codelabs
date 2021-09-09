@@ -12,8 +12,7 @@ declare -a CODELABS=(
   "cupertino_store"
   "firebase-get-to-know-flutter"
   "friendly_chat"
-  # `github-graphql-client` is formatting differently on stable vs dev. 
-  # "github-graphql-client"
+  "github-graphql-client"
   "google-maps-in-flutter"
   "in_app_purchases"
   "photos-sharing"
