@@ -15,7 +15,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Startup Name Generator',
       theme: ThemeData(
-        // primaryColor: Colors.white,  /// Does not work for AppBar
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.white,
           foregroundColor: Colors.black,
