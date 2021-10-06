@@ -92,13 +92,13 @@ class _RepositoriesListState extends State<RepositoriesList> {
   @override
   initState() {
     super.initState();
-    _repositories = _retreiveRespositories(widget.link);
+    _repositories = _retrieveRepositories(widget.link);
   }
 
   late Future<List<GRepositoriesData_viewer_repositories_nodes>> _repositories;
 
   Future<List<GRepositoriesData_viewer_repositories_nodes>>
-      _retreiveRespositories(Link link) async {
+      _retrieveRepositories(Link link) async {
     final req = GRepositories((b) => b..vars.count = 100);
     final result = await link
         .request(Request(
