@@ -1,5 +1,6 @@
 name: startup_namer
 description: A startup-namer app.
+publish_to: 'none'
 version: 1.0.0+1
 
 environment:
@@ -9,7 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  cupertino_icons: ^1.0.3
+  cupertino_icons: ^1.0.2
   english_words: ^4.0.0
 # #enddocregion dependencies
 

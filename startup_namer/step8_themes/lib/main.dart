@@ -98,7 +98,6 @@ class _RandomWordsState extends State<RandomWords> {
   void _pushSaved() {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
-        // NEW lines from here...
         builder: (context) {
           final tiles = _saved.map(
             (pair) {
@@ -123,7 +122,7 @@ class _RandomWordsState extends State<RandomWords> {
             ),
             body: ListView(children: divided),
           );
-        }, //...to here.
+        },
       ),
     );
   }
