@@ -30,6 +30,7 @@ declare -a CODELABS=(
   "startup_namer_null_safety"
   "testing_codelab"
   "in_app_purchases"
+  "webview_flutter"
   )
 
 # Plugin codelab is failing on ubuntu-latest in CI.
