@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 void main() {
   runApp(
-    FriendlyChatApp(),
+    const FriendlyChatApp(),
   );
 }
 
