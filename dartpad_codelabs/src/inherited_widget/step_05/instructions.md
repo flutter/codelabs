@@ -1,10 +1,10 @@
 # Migrate the ShoppingCartIcon
 
 Every widget should have access to the `AppStateWidget` and `AppStateScope`.
-Let's migrate `ShoppingCartIcon` to use the `AppStateScope` instead of storing
+Let's migrate the `ShoppingCartIcon` so that it uses `AppStateScope` instead of storing
 the state locally.
 
-**Note:** The app will not work properly until we migrate all of the widgets.)
+**Note:** The app won’t work properly until we migrate all the widgets.
 
 ```dart
 // TODO: convert ShoppingCartIcon into StatelessWidget.

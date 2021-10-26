@@ -9,7 +9,7 @@ class Header extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Text(
           heading,
-          style: TextStyle(fontSize: 24),
+          style: const TextStyle(fontSize: 24),
         ),
       );
 }
@@ -22,7 +22,7 @@ class Paragraph extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         child: Text(
           content,
-          style: TextStyle(fontSize: 18),
+          style: const TextStyle(fontSize: 18),
         ),
       );
 }
@@ -38,10 +38,10 @@ class IconAndDetail extends StatelessWidget {
         child: Row(
           children: [
             Icon(icon),
-            SizedBox(width: 8),
+            const SizedBox(width: 8),
             Text(
               detail,
-              style: TextStyle(fontSize: 18),
+              style: const TextStyle(fontSize: 18),
             )
           ],
         ),
@@ -56,7 +56,7 @@ class StyledButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => OutlinedButton(
         style: OutlinedButton.styleFrom(
-            side: BorderSide(color: Colors.deepPurple)),
+            side: const BorderSide(color: Colors.deepPurple)),
         onPressed: onPressed,
         child: child,
       );

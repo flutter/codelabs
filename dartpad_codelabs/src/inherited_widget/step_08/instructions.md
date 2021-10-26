@@ -1,18 +1,8 @@
-# Migrate MyStorePage
+# Thank you for participating in this workshop
 
-Now we have successfully migrated the app to use a centralized state management system.
-However, there is still one StatefulWidget that contains its own state. That is
-`MyStorePage` widget.
+Congratulations! You successfully completed this workshop!
 
-This widget keeps track of whether it is in a search mode and `TextField` related
-controllers. For the purpose of this workshop, let's see if we can completely eliminate
-any state hanging around the app.
+To learn more about `InheritedWidget`, visit the
+[Flutter API document for InheritedWidget](https://api.flutter.dev/flutter/widgets/InheritedWidget-class.html) or
+the [Flutter Widget 101 for InheritedWidget](https://www.youtube.com/watch?v=Zbm3hjPjQMk)
 
-```dart
-// TODO: convert MyStorePage into StatelessWidget
-class MyStorePage extends StatefulWidget {
-  MyStorePage({Key? key}) : super(key: key);
-  @override
-  MyStorePageState createState() => MyStorePageState();
-}
-```

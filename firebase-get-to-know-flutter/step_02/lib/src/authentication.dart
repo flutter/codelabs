@@ -55,7 +55,7 @@ class Authentication extends StatelessWidget {
                 onPressed: () {
                   startLoginFlow();
                 },
-                child: Text('RSVP'),
+                child: const Text('RSVP'),
               ),
             ),
           ],
@@ -100,14 +100,14 @@ class Authentication extends StatelessWidget {
                 onPressed: () {
                   signOut();
                 },
-                child: Text('LOGOUT'),
+                child: const Text('LOGOUT'),
               ),
             ),
           ],
         );
       default:
         return Row(
-          children: [
+          children: const [
             Text("Internal error, this shouldn't happen..."),
           ],
         );
@@ -117,18 +117,18 @@ class Authentication extends StatelessWidget {
   void _showErrorDialog(BuildContext context, String title, Exception e) {
     showDialog<void>(
       context: context,
-      builder: (BuildContext context) {
+      builder: (context) {
         return AlertDialog(
           title: Text(
             title,
-            style: TextStyle(fontSize: 24),
+            style: const TextStyle(fontSize: 24),
           ),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
                 Text(
                   '${(e as dynamic).message}',
-                  style: TextStyle(fontSize: 18),
+                  style: const TextStyle(fontSize: 18),
                 ),
               ],
             ),
@@ -138,7 +138,7 @@ class Authentication extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text(
+              child: const Text(
                 'OK',
                 style: TextStyle(color: Colors.deepPurple),
               ),
@@ -151,7 +151,7 @@ class Authentication extends StatelessWidget {
 }
 
 class EmailForm extends StatefulWidget {
-  EmailForm({required this.callback});
+  const EmailForm({required this.callback});
   final void Function(String email) callback;
   @override
   _EmailFormState createState() => _EmailFormState();
@@ -165,7 +165,7 @@ class _EmailFormState extends State<EmailForm> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Header('Sign in with email'),
+        const Header('Sign in with email'),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Form(
@@ -200,7 +200,7 @@ class _EmailFormState extends State<EmailForm> {
                             widget.callback(_controller.text);
                           }
                         },
-                        child: Text('NEXT'),
+                        child: const Text('NEXT'),
                       ),
                     ),
                   ],
@@ -215,7 +215,7 @@ class _EmailFormState extends State<EmailForm> {
 }
 
 class RegisterForm extends StatefulWidget {
-  RegisterForm({
+  const RegisterForm({
     required this.registerAccount,
     required this.cancel,
     required this.email,
@@ -244,7 +244,7 @@ class _RegisterFormState extends State<RegisterForm> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Header('Create account'),
+        const Header('Create account'),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Form(
@@ -305,9 +305,9 @@ class _RegisterFormState extends State<RegisterForm> {
                     children: [
                       TextButton(
                         onPressed: widget.cancel,
-                        child: Text('CANCEL'),
+                        child: const Text('CANCEL'),
                       ),
-                      SizedBox(width: 16),
+                      const SizedBox(width: 16),
                       StyledButton(
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
@@ -318,9 +318,9 @@ class _RegisterFormState extends State<RegisterForm> {
                             );
                           }
                         },
-                        child: Text('SAVE'),
+                        child: const Text('SAVE'),
                       ),
-                      SizedBox(width: 30),
+                      const SizedBox(width: 30),
                     ],
                   ),
                 ),
@@ -334,7 +334,7 @@ class _RegisterFormState extends State<RegisterForm> {
 }
 
 class PasswordForm extends StatefulWidget {
-  PasswordForm({
+  const PasswordForm({
     required this.login,
     required this.email,
   });
@@ -359,7 +359,7 @@ class _PasswordFormState extends State<PasswordForm> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Header('Sign in'),
+        const Header('Sign in'),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Form(
@@ -403,7 +403,7 @@ class _PasswordFormState extends State<PasswordForm> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      SizedBox(width: 16),
+                      const SizedBox(width: 16),
                       StyledButton(
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
@@ -413,9 +413,9 @@ class _PasswordFormState extends State<PasswordForm> {
                             );
                           }
                         },
-                        child: Text('SIGN IN'),
+                        child: const Text('SIGN IN'),
                       ),
-                      SizedBox(width: 30),
+                      const SizedBox(width: 30),
                     ],
                   ),
                 ),

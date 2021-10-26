@@ -2,13 +2,13 @@
 // Use of this source code is governed by a BSD-style license
 // that can be found in the LICENSE file.
 
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 void main() {
   runApp(
-    FriendlyChatApp(),
+    const FriendlyChatApp(),
   );
 }
 
@@ -19,8 +19,8 @@ final ThemeData kIOSTheme = ThemeData(
 );
 
 final ThemeData kDefaultTheme = ThemeData(
-  primarySwatch: Colors.purple,
-  accentColor: Colors.orangeAccent[400],
+  colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.purple)
+      .copyWith(secondary: Colors.orangeAccent[400]),
 );
 
 String _name = 'Your Name';
@@ -41,7 +41,7 @@ class FriendlyChatApp extends StatelessWidget {
 }
 
 class ChatMessage extends StatelessWidget {
-  ChatMessage({required this.text, required this.animationController});
+  const ChatMessage({required this.text, required this.animationController});
   final String text;
   final AnimationController animationController;
 
@@ -52,7 +52,7 @@ class ChatMessage extends StatelessWidget {
           CurvedAnimation(parent: animationController, curve: Curves.easeOut),
       axisAlignment: 0.0,
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: 10.0),
+        margin: const EdgeInsets.symmetric(vertical: 10.0),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -66,7 +66,7 @@ class ChatMessage extends StatelessWidget {
                 children: [
                   Text(_name, style: Theme.of(context).textTheme.headline4),
                   Container(
-                    margin: EdgeInsets.only(top: 5.0),
+                    margin: const EdgeInsets.only(top: 5.0),
                     child: Text(text),
                   ),
                 ],
@@ -94,7 +94,7 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('FriendlyChat'),
+        title: const Text('FriendlyChat'),
         elevation: Theme.of(context).platform == TargetPlatform.iOS ? 0.0 : 4.0,
       ),
       body: Container(
@@ -109,13 +109,13 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
           children: [
             Flexible(
               child: ListView.builder(
-                padding: EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
                 reverse: true,
-                itemBuilder: (_, int index) => _messages[index],
+                itemBuilder: (_, index) => _messages[index],
                 itemCount: _messages.length,
               ),
             ),
-            Divider(height: 1.0),
+            const Divider(height: 1.0),
             Container(
               decoration: BoxDecoration(color: Theme.of(context).cardColor),
               child: _buildTextComposer(),
@@ -128,33 +128,33 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
 
   Widget _buildTextComposer() {
     return IconTheme(
-      data: IconThemeData(color: Theme.of(context).accentColor),
+      data: IconThemeData(color: Theme.of(context).colorScheme.secondary),
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 8.0),
+        margin: const EdgeInsets.symmetric(horizontal: 8.0),
         child: Row(
           children: [
             Flexible(
               child: TextField(
                 controller: _textController,
-                onChanged: (String text) {
+                onChanged: (text) {
                   setState(() {
                     _isComposing = text.isNotEmpty;
                   });
                 },
                 onSubmitted: _isComposing ? _handleSubmitted : null,
                 decoration:
-                    InputDecoration.collapsed(hintText: 'Send a message'),
+                    const InputDecoration.collapsed(hintText: 'Send a message'),
                 focusNode: _focusNode,
               ),
             ),
             Container(
-                margin: EdgeInsets.symmetric(horizontal: 4.0),
+                margin: const EdgeInsets.symmetric(horizontal: 4.0),
                 child: Theme.of(context).platform == TargetPlatform.iOS
                     ? CupertinoButton(
                         onPressed: _isComposing
                             ? () => _handleSubmitted(_textController.text)
                             : null,
-                        child: Text('Send'),
+                        child: const Text('Send'),
                       )
                     : IconButton(
                         icon: const Icon(Icons.send),

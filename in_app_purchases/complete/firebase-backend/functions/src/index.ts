@@ -18,8 +18,8 @@ admin.initializeApp();
 
 const iapRepository = new IapRepository(admin.firestore());
 const purchaseHandlers: { [source in IAPSource]: PurchaseHandler } = {
-  "GooglePlay": new GooglePlayPurchaseHandler(iapRepository),
-  "AppStore": new AppStorePurchaseHandler(iapRepository),
+  "google_play": new GooglePlayPurchaseHandler(iapRepository),
+  "app_store": new AppStorePurchaseHandler(iapRepository),
 };
 
 //
@@ -69,12 +69,12 @@ export const verifyPurchase = functions.https.onCall(
 
 // Handling of AppStore server-to-server events
 export const handleAppStoreServerEvent =
-    (purchaseHandlers.AppStore as AppStorePurchaseHandler)
+    (purchaseHandlers.app_store as AppStorePurchaseHandler)
         .handleServerEvent;
 
 // Handling of PlayStore server-to-server events
 export const handlePlayStoreServerEvent =
-    (purchaseHandlers.GooglePlay as GooglePlayPurchaseHandler)
+    (purchaseHandlers.google_play as GooglePlayPurchaseHandler)
         .handleServerEvent;
 
 // Scheduled job for expiring subscriptions in the case of missing store events

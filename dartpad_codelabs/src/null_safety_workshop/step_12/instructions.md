@@ -1,10 +1,9 @@
-# Late and lazy
-Another pattern that `late` can help with is lazy initialization for expensive,
-non-nullable fields. 
+# An advanced pattern: late circular references
+The `late` keyword is helpful for tricky patterns like circular references. This
+code has two objects that need to maintain non-nullable references to each
+other.
 
 ## Exercise
-Try this:
+Try using the `late` keyword to fix this code.
 
-* Run this code without changing it, and note the output.
-* Think: What will change if you make _cache a late field?
-* Make _cache a late field, and run the code. Was your prediction correct?
+_(Note that you don’t need to remove final. You can create late final variables: you set their values once, and after that they’re read-only.)_

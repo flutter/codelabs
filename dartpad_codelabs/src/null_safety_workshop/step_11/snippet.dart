@@ -1,16 +1,13 @@
-class Team {
-  final Coach coach;
-}
+class Meal {
+  String description;
 
-class Coach {
-  final Team team;
+  void setDescription(String str) {
+    description = str;
+  }
 }
 
 void main() {
-  final myTeam = Team();
-  final myCoach = Coach();
-  myTeam.coach = myCoach;
-  myCoach.team = myTeam;
-
-  print('All done!');
+  final myMeal = Meal();
+  myMeal.setDescription('Feijoada!');
+  print(myMeal.description);
 }

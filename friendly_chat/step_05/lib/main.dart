@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 void main() {
   runApp(
-    FriendlyChatApp(),
+    const FriendlyChatApp(),
   );
 }
 
@@ -37,16 +37,16 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('FriendlyChat')),
+      appBar: AppBar(title: const Text('FriendlyChat')),
       body: _buildTextComposer(),
     );
   }
 
   Widget _buildTextComposer() {
     return IconTheme(
-      data: IconThemeData(color: Theme.of(context).accentColor),
+      data: IconThemeData(color: Theme.of(context).colorScheme.secondary),
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 8.0),
+        margin: const EdgeInsets.symmetric(horizontal: 8.0),
         child: Row(
           children: [
             Flexible(
@@ -54,11 +54,11 @@ class _ChatScreenState extends State<ChatScreen> {
                 controller: _textController,
                 onSubmitted: _handleSubmitted,
                 decoration:
-                    InputDecoration.collapsed(hintText: 'Send a message'),
+                    const InputDecoration.collapsed(hintText: 'Send a message'),
               ),
             ),
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 4.0),
+              margin: const EdgeInsets.symmetric(horizontal: 4.0),
               child: IconButton(
                   icon: const Icon(Icons.send),
                   onPressed: () => _handleSubmitted(_textController.text)),

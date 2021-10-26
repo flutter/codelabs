@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import 'package:flutter_test/flutter_test.dart';
 import 'package:cupertino_store/app.dart';
 import 'package:cupertino_store/model/app_state_model.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -22,7 +22,7 @@ void main() {
     await tester.pumpWidget(
       ChangeNotifierProvider<AppStateModel>(
         create: (context) => AppStateModel()..loadProducts(),
-        child: CupertinoStoreApp(),
+        child: const CupertinoStoreApp(),
       ),
     );
     expect(find.text('Products'), findsOneWidget);

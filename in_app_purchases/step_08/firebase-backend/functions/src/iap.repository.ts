@@ -4,7 +4,7 @@ import Timestamp = firestore.Timestamp;
 export type NonSubscriptionStatus = "PENDING" | "COMPLETED" | "CANCELLED";
 export type SubscriptionStatus = "PENDING" | "ACTIVE" | "EXPIRED";
 
-export type IAPSource = "GooglePlay" | "AppStore";
+export type IAPSource = "google_play" | "app_store";
 export type Purchase = NonSubscriptionPurchase | SubscriptionPurchase;
 
 export interface BasePurchase {
