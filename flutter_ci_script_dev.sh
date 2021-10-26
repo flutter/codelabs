@@ -19,6 +19,7 @@ declare -a CODELABS=(
   "star_counter"
   "startup_namer"
   "testing_codelab"
+  "webview_flutter"
   )
 
 # Plugin codelab is failing on ubuntu-latest in CI.
