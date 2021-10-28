@@ -229,7 +229,7 @@ class ApplicationState extends ChangeNotifier {
 }
 
 class GuestBookMessage {
-  GuestBookMessage({required this.name, required this.message});
+  const GuestBookMessage({required this.name, required this.message});
   final String name;
   final String message;
 }
