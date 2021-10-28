@@ -14,19 +14,22 @@
 
 import 'package:flutter/material.dart';
 import 'package:gql_exec/gql_exec.dart';
-import 'package:gql_link/gql_link.dart';
 import 'package:gql_http_link/gql_http_link.dart';
+import 'package:gql_link/gql_link.dart';
 import 'package:window_to_front/window_to_front.dart';
+
 import 'github_oauth_credentials.dart';
 import 'src/github_gql/github_queries.data.gql.dart';
 import 'src/github_gql/github_queries.req.gql.dart';
 import 'src/github_login.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -35,13 +38,13 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'GitHub GraphQL API Client'),
+      home: const MyHomePage(title: 'GitHub GraphQL API Client'),
     );
   }
 }
 
 class MyHomePage extends StatelessWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
   final String title;
 
   @override

@@ -1,5 +1,5 @@
-import 'package:dashclicker/constants.dart';
 import 'package:flutter/widgets.dart';
+import '../constants.dart';
 
 enum PurchaseType {
   subscriptionPurchase,
@@ -40,13 +40,13 @@ class PastPurchase {
   }
 
   PastPurchase.fromJson(Map<String, dynamic> json)
-      : type = _typeFromString(json['type']),
-        store = _storeFromString(json['iapSource']),
-        orderId = json['orderId'],
-        productId = json['productId'],
+      : type = _typeFromString(json['type'] as String),
+        store = _storeFromString(json['iapSource'] as String),
+        orderId = json['orderId'] as String,
+        productId = json['productId'] as String,
         purchaseDate = DateTime.now(),
         expiryDate = null,
-        status = _statusFromString(json['status']);
+        status = _statusFromString(json['status'] as String);
 }
 
 PurchaseType _typeFromString(String type) {
@@ -62,9 +62,9 @@ PurchaseType _typeFromString(String type) {
 
 Store _storeFromString(String store) {
   switch (store) {
-    case 'GooglePlay':
+    case 'google_play':
       return Store.googlePlay;
-    case 'AppStore':
+    case 'app_store':
       return Store.appStore;
     default:
       throw ArgumentError.value(store, '$store is not a supported store');

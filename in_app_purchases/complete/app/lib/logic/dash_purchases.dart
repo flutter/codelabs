@@ -1,14 +1,14 @@
 import 'dart:async';
 
 import 'package:dashclicker/constants.dart';
-import 'package:dashclicker/main.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:dashclicker/logic/dash_counter.dart';
 import 'package:dashclicker/logic/firebase_notifier.dart';
+import 'package:dashclicker/main.dart';
 import 'package:dashclicker/model/purchasable_product.dart';
 import 'package:dashclicker/model/store_state.dart';
 import 'package:dashclicker/repo/iap_repo.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 
 class DashPurchases extends ChangeNotifier {
@@ -24,7 +24,7 @@ class DashPurchases extends ChangeNotifier {
   final iapConnection = IAPConnection.instance;
 
   DashPurchases(this.counter, this.firebaseNotifier, this.iapRepo) {
-    final purchaseUpdated = iapConnection.purchaseUpdatedStream;
+    final purchaseUpdated = iapConnection.purchaseStream;
     _subscription = purchaseUpdated.listen(
       _onPurchaseUpdate,
       onDone: _updateStreamOnDone,
@@ -56,9 +56,6 @@ class DashPurchases extends ChangeNotifier {
       storeKeyUpgrade,
     };
     final response = await iapConnection.queryProductDetails(ids);
-    response.notFoundIDs.forEach((element) {
-      print('Purchase $element not found');
-    });
     products =
         response.productDetails.map((e) => PurchasableProduct(e)).toList();
     storeState = StoreState.available;
@@ -126,8 +123,7 @@ class DashPurchases extends ChangeNotifier {
     var functions = await firebaseNotifier.functions;
     final callable = functions.httpsCallable('verifyPurchase');
     final results = await callable({
-      'source':
-          purchaseDetails.verificationData.source.toString().split('.')[1],
+      'source': purchaseDetails.verificationData.source,
       'verificationData':
           purchaseDetails.verificationData.serverVerificationData,
       'productId': purchaseDetails.productID,
@@ -140,6 +136,7 @@ class DashPurchases extends ChangeNotifier {
   }
 
   void _updateStreamOnError(dynamic error) {
+    // ignore: avoid_print
     print(error);
   }
 
@@ -161,23 +158,27 @@ class DashPurchases extends ChangeNotifier {
     // purchases page.
     if (iapRepo.hasActiveSubscription) {
       counter.applyPaidMultiplier();
-      subscriptions.forEach(
-          (element) => _updateStatus(element, ProductStatus.purchased));
+      for (final element in subscriptions) {
+        _updateStatus(element, ProductStatus.purchased);
+      }
     } else {
       counter.removePaidMultiplier();
-      subscriptions.forEach(
-          (element) => _updateStatus(element, ProductStatus.purchasable));
+      for (final element in subscriptions) {
+        _updateStatus(element, ProductStatus.purchasable);
+      }
     }
 
     // Set the dash beautifier and show/hide purchased on
     // the purchases page.
     if (iapRepo.hasUpgrade != _beautifiedDashUpgrade) {
       _beautifiedDashUpgrade = iapRepo.hasUpgrade;
-      upgrades.forEach((element) => _updateStatus(
-          element,
-          _beautifiedDashUpgrade
-              ? ProductStatus.purchased
-              : ProductStatus.purchasable));
+      for (final element in upgrades) {
+        _updateStatus(
+            element,
+            _beautifiedDashUpgrade
+                ? ProductStatus.purchased
+                : ProductStatus.purchasable);
+      }
       notifyListeners();
     }
   }

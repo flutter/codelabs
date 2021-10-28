@@ -1,0 +1,11 @@
+include: package:lints/recommended.yaml
+
+linter:
+  rules:
+    avoid_print: false
+    directives_ordering: true
+    prefer_single_quotes: true
+    sort_pub_dependencies: true
+
+# For additional information about configuring this file, see
+# https://dart.dev/guides/language/analysis-options

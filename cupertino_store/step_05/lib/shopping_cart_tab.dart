@@ -22,6 +22,8 @@ import 'styles.dart';
 const double _kDateTimePickerHeight = 216;
 
 class ShoppingCartTab extends StatefulWidget {
+  const ShoppingCartTab({Key? key}) : super(key: key);
+
   @override
   _ShoppingCartTabState createState() {
     return _ShoppingCartTabState();
@@ -135,7 +137,7 @@ class _ShoppingCartTabState extends State<ShoppingCartTab> {
             ),
           ],
         ),
-        Container(
+        SizedBox(
           height: _kDateTimePickerHeight,
           child: CupertinoDatePicker(
             mode: CupertinoDatePickerMode.dateAndTime,

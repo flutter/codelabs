@@ -2,11 +2,11 @@ PODS:
   - Flutter (1.0.0)
   - google_maps_flutter (0.0.1):
     - Flutter
-    - GoogleMaps (< 3.10)
-  - GoogleMaps (3.9.0):
-    - GoogleMaps/Maps (= 3.9.0)
-  - GoogleMaps/Base (3.9.0)
-  - GoogleMaps/Maps (3.9.0):
+    - GoogleMaps
+  - GoogleMaps (5.1.0):
+    - GoogleMaps/Maps (= 5.1.0)
+  - GoogleMaps/Base (5.1.0)
+  - GoogleMaps/Maps (5.1.0):
     - GoogleMaps/Base
 
 DEPENDENCIES:
@@ -25,9 +25,9 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
-  google_maps_flutter: c7f9c73576de1fbe152a227bfd6e6c4ae8088619
-  GoogleMaps: 4b5346bddfe6911bb89155d43c903020170523ac
+  google_maps_flutter: 279865bd07e2d8751f43a3bc64bac7f6075d0c93
+  GoogleMaps: 086ae1dab659eaa7339bdb30fc88e2f44e7c597c
 
-PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
+PODFILE CHECKSUM: 5815586d21b29dd1224a962d1f16971a6a976875
 
-COCOAPODS: 1.10.0
+COCOAPODS: 1.11.0

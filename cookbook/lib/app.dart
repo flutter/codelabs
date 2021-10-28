@@ -17,20 +17,22 @@ import 'package:flutter_cookbook/main.dart';
 
 @immutable
 class App extends StatelessWidget {
-  App({Key? key, this.home}) : super(key: key);
+  const App({Key? key, this.home}) : super(key: key);
 
   final Widget? home;
 
   @override
   Widget build(BuildContext context) {
+    final themeData = ThemeData(
+      brightness: Brightness.light,
+      primaryColor: Colors.blue,
+    );
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Cookbook Examples',
-      theme: ThemeData(
-        brightness: Brightness.light,
-        primaryColor: Colors.blue,
-        accentColor: Colors.indigo,
-      ),
+      theme: themeData.copyWith(
+          colorScheme:
+              themeData.colorScheme.copyWith(secondary: Colors.indigo)),
       home: home ?? const Home(),
     );
   }

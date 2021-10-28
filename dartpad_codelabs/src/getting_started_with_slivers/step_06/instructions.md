@@ -1,13 +1,12 @@
-# Flexible Space in a SliverAppBar
+# Flexible space in a SliverAppBar
 
-We can fill the `expandedHeight` of our app bar for an even more dynamic
-UI.
+We can fill the expandedHeight of our app bar, for an even more dynamic UI.
 
-We can do this by using the `FlexibleSpaceBar`, this widget is designed
-to stretch and collapse its contents. Let's try it out.
+We can do this with the `FlexibleSpaceBar`. This widget is designed to
+stretch and collapse its content. Let’s try it out!
 
-Add a `FlexibleSpaceBar` to your `SliverAppBar`. You can move your title
-here, and we can add an image as the background.
+Add a `FlexibleSpaceBar` to your `SliverAppBar`. You can move the title
+here and add an image as the background.
 
 ```dart
 SliverAppBar(
@@ -17,48 +16,58 @@ SliverAppBar(
   flexibleSpace: FlexibleSpaceBar(
     title: Text('Horizons'),
     background: Image.network(
-      baseAssetURL + 'assets/header.jpeg',
+      headerImage,
       fit: BoxFit.cover,
     ),
   ),
 ),
 ```
 
-As the user scrolls now, the app bar will collapse with a parallax
-effect on our image, and it will fade into the pinned app bar once
-fully collapsed.
-
-For better contrast, let's add another gradient effect behind our
-title. We can do this like we did before, but let's use a
-`LinearGradient` instead.
-
-Place your image in a `Stack` and add a `DecoratedBox` with the
-`LinearGradient` over the `Image`.
+Now, as the user scrolls, the app bar collapses with a parallax effect
+on the image and fades into the pinned `SliverAppBar` after it’s fully collapsed.
+The `FlexibleSpaceBar` supports multiple
+`CollapseMode`s, with this `parallax` behavior being the default.
+You can also try out `pin` and `none` to see how the effect can vary.
 
 ```dart
 FlexibleSpaceBar(
   title: Text('Horizons'),
-  background: Stack(
-    fit: StackFit.expand,
-    children: <Widget>[
-      Image.network(
-        baseAssetURL + 'assets/header.jpeg',
-        fit: BoxFit.cover,
-      ),
-      DecoratedBox(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.bottomCenter,
-            end: Alignment.center,
-            colors: <Color>[ Colors.teal[800]!, Colors.transparent ],
-          ),
-        ),
-      ),
-    ],
-  )
+  collapseMode: CollapseMode.pin,
+  // ... 
 ),
 ```
 
-The `FlexibleSpaceBar` also works hand-in-hand with another
-`SliverAppBar` feature - stretch. Let's see how stretching can add
-a nice finishing touch to our app, as well as some extra functionality.
+For better contrast, let’s add another gradient effect behind the title.
+We can do this as we did before, but let’s use a `LinearGradient` instead.
+
+Wrap your `Image` in a`DecoratedBox`, with the `LinearGradient` in the
+`DecorationPosition.foregound`.
+
+```dart
+FlexibleSpaceBar(
+  title: Text('Horizons'),
+  background: DecoratedBox(
+    position: DecorationPosition.foreground,
+    decoration: BoxDecoration(
+      gradient: LinearGradient(
+        begin: Alignment.bottomCenter,
+        end: Alignment.center,
+        colors: <Color>[
+          Colors.teal[800]!,
+          Colors.transparent,
+        ],
+      ),
+    ),
+    child: Image.network(
+      headerImage,
+      fit: BoxFit.cover,
+    ),
+  ),
+),
+```
+
+
+Just as the `FlexibleSpaceBar` supports collapsing our expanded `SliverAppBar`, 
+it also works hand-in-hand with another `SliverAppBar` feature - stretch.
+Let's see how stretching can add a nice finishing touch to our app, as
+well as some extra functionality.

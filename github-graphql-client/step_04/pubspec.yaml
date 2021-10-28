@@ -14,23 +14,23 @@
 
 name: github_graphql_client
 description: Github client using Github API V4 (GraphQL)
-publish_to: 'none' 
+publish_to: "none"
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  http: ^0.13.1
+  http: ^0.13.3
   oauth2: ^2.0.0
-  url_launcher: ^6.0.2
+  url_launcher: ^6.0.12
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  pedantic: ^1.11.0
+  flutter_lints: ^1.0.0
 
 flutter:
   uses-material-design: true
