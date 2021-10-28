@@ -19,6 +19,8 @@ import 'model/app_state_model.dart';
 import 'product_row_item.dart';
 
 class ProductListTab extends StatelessWidget {
+  const ProductListTab({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Consumer<AppStateModel>(

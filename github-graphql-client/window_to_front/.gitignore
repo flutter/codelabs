@@ -5,8 +5,3 @@
 .pub/
 
 build/
-
-.flutter-plugins
-.flutter-plugins-dependencies
-/macos/Flutter/ephemeral/
-/linux/flutter/ephemeral/

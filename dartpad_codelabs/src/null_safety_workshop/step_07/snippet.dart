@@ -1,9 +1,9 @@
 int getLength(String? str) {
-  // Try throwing an exception here if `str` is null.
+  // Add null check here
 
   return str.length;
 }
 
 void main() {
-  print(getLength(null));
+  print(getLength('This is a string!'));
 }

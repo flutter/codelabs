@@ -4,12 +4,11 @@
 
 // Basic Flutter widget test. Learn more at https://flutter.dev/docs/testing.
 
+import 'package:add_flutter_to_android/main.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:add_flutter_to_android/main.dart';
-
 void main() {
-  testWidgets('Codelab smoke test', (WidgetTester tester) async {
+  testWidgets('Codelab smoke test', (tester) async {
     await tester.pumpWidget(MyFragment());
 
     expect(find.text('I am a Flutter-Rendered Fragment!!!'), findsOneWidget);

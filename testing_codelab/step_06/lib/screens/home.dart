@@ -1,4 +1,4 @@
-// Copyright 2020 The Flutter Authors. All rights reserved.
+// Copyright 2020 The Flutter team. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
@@ -14,15 +14,15 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Testing Sample'),
+        title: const Text('Testing Sample'),
         actions: <Widget>[
           TextButton.icon(
             style: TextButton.styleFrom(primary: Colors.white),
             onPressed: () {
               Navigator.pushNamed(context, FavoritesPage.routeName);
             },
-            icon: Icon(Icons.favorite_border),
-            label: Text('Favorites'),
+            icon: const Icon(Icons.favorite_border),
+            label: const Text('Favorites'),
           ),
         ],
       ),
@@ -60,8 +60,8 @@ class ItemTile extends StatelessWidget {
         trailing: IconButton(
           key: Key('icon_$itemNo'),
           icon: favoritesList.items.contains(itemNo)
-              ? Icon(Icons.favorite)
-              : Icon(Icons.favorite_border),
+              ? const Icon(Icons.favorite)
+              : const Icon(Icons.favorite_border),
           onPressed: () {
             !favoritesList.items.contains(itemNo)
                 ? favoritesList.add(itemNo)
@@ -71,7 +71,7 @@ class ItemTile extends StatelessWidget {
                 content: Text(favoritesList.items.contains(itemNo)
                     ? 'Added to favorites.'
                     : 'Removed from favorites.'),
-                duration: Duration(seconds: 1),
+                duration: const Duration(seconds: 1),
               ),
             );
           },

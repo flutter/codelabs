@@ -1,6 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:dashclicker/logic/dash_counter.dart';
 import 'package:dashclicker/logic/firebase_notifier.dart';
+import 'package:flutter/cupertino.dart';
 
 class DashUpgrades extends ChangeNotifier {
   DashCounter counter;

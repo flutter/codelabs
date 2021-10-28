@@ -23,6 +23,8 @@ import 'styles.dart';
 const double _kDateTimePickerHeight = 216;
 
 class ShoppingCartTab extends StatefulWidget {
+  const ShoppingCartTab({Key? key}) : super(key: key);
+
   @override
   _ShoppingCartTabState createState() {
     return _ShoppingCartTabState();
@@ -137,7 +139,7 @@ class _ShoppingCartTabState extends State<ShoppingCartTab> {
             ),
           ],
         ),
-        Container(
+        SizedBox(
           height: _kDateTimePickerHeight,
           child: CupertinoDatePicker(
             mode: CupertinoDatePickerMode.dateAndTime,
@@ -211,7 +213,7 @@ class _ShoppingCartTabState extends State<ShoppingCartTab> {
                         ),
                         const SizedBox(height: 6),
                         Text(
-                          'Total  ${_currencyFormat.format(model.totalCost)}',
+                          'Total ${_currencyFormat.format(model.totalCost)}',
                           style: Styles.productRowTotal,
                         ),
                       ],
@@ -256,7 +258,8 @@ class ShoppingCartItem extends StatelessWidget {
     required this.lastItem,
     required this.quantity,
     required this.formatter,
-  });
+    Key? key,
+  }) : super(key: key);
 
   final Product product;
   final int index;
@@ -303,7 +306,7 @@ class ShoppingCartItem extends StatelessWidget {
                           style: Styles.productRowItemName,
                         ),
                         Text(
-                          '${formatter.format(quantity * product.price)}',
+                          formatter.format(quantity * product.price),
                           style: Styles.productRowItemName,
                         ),
                       ],

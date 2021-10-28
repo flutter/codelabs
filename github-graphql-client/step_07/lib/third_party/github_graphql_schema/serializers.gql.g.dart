@@ -11,6 +11,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GAcceptTopicSuggestionInput.serializer)
       ..add(GAddAssigneesToAssignableInput.serializer)
       ..add(GAddCommentInput.serializer)
+      ..add(GAddDiscussionCommentInput.serializer)
       ..add(GAddEnterpriseSupportEntitlementInput.serializer)
       ..add(GAddLabelsToLabelableInput.serializer)
       ..add(GAddProjectCardInput.serializer)
@@ -20,7 +21,9 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GAddPullRequestReviewThreadInput.serializer)
       ..add(GAddReactionInput.serializer)
       ..add(GAddStarInput.serializer)
+      ..add(GAddUpvoteInput.serializer)
       ..add(GAddVerifiableDomainInput.serializer)
+      ..add(GApproveDeploymentsInput.serializer)
       ..add(GApproveVerifiableDomainInput.serializer)
       ..add(GArchiveRepositoryInput.serializer)
       ..add(GAssignedIssues.serializer)
@@ -39,7 +42,9 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GAssignedIssuesVars.serializer)
       ..add(GAuditLogOrder.serializer)
       ..add(GAuditLogOrderField.serializer)
+      ..add(GBase64String.serializer)
       ..add(GCancelEnterpriseAdminInvitationInput.serializer)
+      ..add(GCancelSponsorshipInput.serializer)
       ..add(GChangeUserStatusInput.serializer)
       ..add(GCheckAnnotationData.serializer)
       ..add(GCheckAnnotationLevel.serializer)
@@ -64,16 +69,22 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GCommitAuthor.serializer)
       ..add(GCommitContributionOrder.serializer)
       ..add(GCommitContributionOrderField.serializer)
+      ..add(GCommitMessage.serializer)
+      ..add(GCommittableBranch.serializer)
       ..add(GContributionLevel.serializer)
       ..add(GContributionOrder.serializer)
       ..add(GConvertProjectCardNoteToIssueInput.serializer)
+      ..add(GConvertPullRequestToDraftInput.serializer)
       ..add(GCreateBranchProtectionRuleInput.serializer)
       ..add(GCreateCheckRunInput.serializer)
       ..add(GCreateCheckSuiteInput.serializer)
+      ..add(GCreateCommitOnBranchInput.serializer)
       ..add(GCreateContentAttachmentInput.serializer)
       ..add(GCreateDeploymentInput.serializer)
       ..add(GCreateDeploymentStatusInput.serializer)
+      ..add(GCreateDiscussionInput.serializer)
       ..add(GCreateEnterpriseOrganizationInput.serializer)
+      ..add(GCreateEnvironmentInput.serializer)
       ..add(GCreateIpAllowListEntryInput.serializer)
       ..add(GCreateIssueInput.serializer)
       ..add(GCreateLabelInput.serializer)
@@ -81,6 +92,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GCreatePullRequestInput.serializer)
       ..add(GCreateRefInput.serializer)
       ..add(GCreateRepositoryInput.serializer)
+      ..add(GCreateSponsorshipInput.serializer)
       ..add(GCreateTeamDiscussionCommentInput.serializer)
       ..add(GCreateTeamDiscussionInput.serializer)
       ..add(GDate.serializer)
@@ -89,6 +101,9 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GDefaultRepositoryPermissionField.serializer)
       ..add(GDeleteBranchProtectionRuleInput.serializer)
       ..add(GDeleteDeploymentInput.serializer)
+      ..add(GDeleteDiscussionCommentInput.serializer)
+      ..add(GDeleteDiscussionInput.serializer)
+      ..add(GDeleteEnvironmentInput.serializer)
       ..add(GDeleteIpAllowListEntryInput.serializer)
       ..add(GDeleteIssueCommentInput.serializer)
       ..add(GDeleteIssueInput.serializer)
@@ -105,10 +120,14 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GDeleteVerifiableDomainInput.serializer)
       ..add(GDeploymentOrder.serializer)
       ..add(GDeploymentOrderField.serializer)
+      ..add(GDeploymentProtectionRuleType.serializer)
+      ..add(GDeploymentReviewState.serializer)
       ..add(GDeploymentState.serializer)
       ..add(GDeploymentStatusState.serializer)
       ..add(GDiffSide.serializer)
       ..add(GDisablePullRequestAutoMergeInput.serializer)
+      ..add(GDiscussionOrder.serializer)
+      ..add(GDiscussionOrderField.serializer)
       ..add(GDismissPullRequestReviewInput.serializer)
       ..add(GDraftPullRequestReviewComment.serializer)
       ..add(GDraftPullRequestReviewThread.serializer)
@@ -134,6 +153,9 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GEnterpriseServerUserAccountsUploadSyncState.serializer)
       ..add(GEnterpriseUserAccountMembershipRole.serializer)
       ..add(GEnterpriseUserDeployment.serializer)
+      ..add(GFileAddition.serializer)
+      ..add(GFileChanges.serializer)
+      ..add(GFileDeletion.serializer)
       ..add(GFileViewedState.serializer)
       ..add(GFollowUserInput.serializer)
       ..add(GFundingPlatform.serializer)
@@ -152,6 +174,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GIpAllowListEnabledSettingValue.serializer)
       ..add(GIpAllowListEntryOrder.serializer)
       ..add(GIpAllowListEntryOrderField.serializer)
+      ..add(GIpAllowListForInstalledAppsEnabledSettingValue.serializer)
       ..add(GIssueCommentOrder.serializer)
       ..add(GIssueCommentOrderField.serializer)
       ..add(GIssueFilters.serializer)
@@ -166,6 +189,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GLinkRepositoryToProjectInput.serializer)
       ..add(GLockLockableInput.serializer)
       ..add(GLockReason.serializer)
+      ..add(GMarkDiscussionCommentAsAnswerInput.serializer)
       ..add(GMarkFileAsViewedInput.serializer)
       ..add(GMarkPullRequestReadyForReviewInput.serializer)
       ..add(GMergeBranchInput.serializer)
@@ -209,6 +233,8 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GPackageVersionOrderField.serializer)
       ..add(GPinIssueInput.serializer)
       ..add(GPinnableItemType.serializer)
+      ..add(GPinnedDiscussionGradient.serializer)
+      ..add(GPinnedDiscussionPattern.serializer)
       ..add(GPreciseDateTime.serializer)
       ..add(GProjectCardArchivedState.serializer)
       ..add(GProjectCardImport.serializer)
@@ -250,6 +276,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GRefUpdate.serializer)
       ..add(GRegenerateEnterpriseIdentityProviderRecoveryCodesInput.serializer)
       ..add(GRegenerateVerifiableDomainTokenInput.serializer)
+      ..add(GRejectDeploymentsInput.serializer)
       ..add(GReleaseOrder.serializer)
       ..add(GReleaseOrderField.serializer)
       ..add(GRemoveAssigneesFromAssignableInput.serializer)
@@ -261,6 +288,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GRemoveOutsideCollaboratorInput.serializer)
       ..add(GRemoveReactionInput.serializer)
       ..add(GRemoveStarInput.serializer)
+      ..add(GRemoveUpvoteInput.serializer)
       ..add(GReopenIssueInput.serializer)
       ..add(GReopenPullRequestInput.serializer)
       ..add(GRepoAccessAuditEntryVisibility.serializer)
@@ -314,11 +342,19 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GSetOrganizationInteractionLimitInput.serializer)
       ..add(GSetRepositoryInteractionLimitInput.serializer)
       ..add(GSetUserInteractionLimitInput.serializer)
+      ..add(GSponsorOrder.serializer)
+      ..add(GSponsorOrderField.serializer)
       ..add(GSponsorableOrder.serializer)
       ..add(GSponsorableOrderField.serializer)
+      ..add(GSponsorsActivityAction.serializer)
+      ..add(GSponsorsActivityOrder.serializer)
+      ..add(GSponsorsActivityOrderField.serializer)
+      ..add(GSponsorsActivityPeriod.serializer)
       ..add(GSponsorsGoalKind.serializer)
       ..add(GSponsorsTierOrder.serializer)
       ..add(GSponsorsTierOrderField.serializer)
+      ..add(GSponsorshipNewsletterOrder.serializer)
+      ..add(GSponsorshipNewsletterOrderField.serializer)
       ..add(GSponsorshipOrder.serializer)
       ..add(GSponsorshipOrderField.serializer)
       ..add(GSponsorshipPrivacy.serializer)
@@ -349,6 +385,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GUnfollowUserInput.serializer)
       ..add(GUnlinkRepositoryFromProjectInput.serializer)
       ..add(GUnlockLockableInput.serializer)
+      ..add(GUnmarkDiscussionCommentAsAnswerInput.serializer)
       ..add(GUnmarkFileAsViewedInput.serializer)
       ..add(GUnmarkIssueAsDuplicateInput.serializer)
       ..add(GUnminimizeCommentInput.serializer)
@@ -357,6 +394,8 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GUpdateBranchProtectionRuleInput.serializer)
       ..add(GUpdateCheckRunInput.serializer)
       ..add(GUpdateCheckSuitePreferencesInput.serializer)
+      ..add(GUpdateDiscussionCommentInput.serializer)
+      ..add(GUpdateDiscussionInput.serializer)
       ..add(GUpdateEnterpriseAdministratorRoleInput.serializer)
       ..add(
           GUpdateEnterpriseAllowPrivateRepositoryForkingSettingInput.serializer)
@@ -381,8 +420,10 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GUpdateEnterpriseTeamDiscussionsSettingInput.serializer)
       ..add(GUpdateEnterpriseTwoFactorAuthenticationRequiredSettingInput
           .serializer)
+      ..add(GUpdateEnvironmentInput.serializer)
       ..add(GUpdateIpAllowListEnabledSettingInput.serializer)
       ..add(GUpdateIpAllowListEntryInput.serializer)
+      ..add(GUpdateIpAllowListForInstalledAppsEnabledSettingInput.serializer)
       ..add(GUpdateIssueCommentInput.serializer)
       ..add(GUpdateIssueInput.serializer)
       ..add(GUpdateLabelInput.serializer)
@@ -396,6 +437,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GUpdateRefInput.serializer)
       ..add(GUpdateRefsInput.serializer)
       ..add(GUpdateRepositoryInput.serializer)
+      ..add(GUpdateSponsorshipPreferencesInput.serializer)
       ..add(GUpdateSubscriptionInput.serializer)
       ..add(GUpdateTeamDiscussionCommentInput.serializer)
       ..add(GUpdateTeamDiscussionInput.serializer)
@@ -417,8 +459,10 @@ Serializers _$serializers = (new Serializers().toBuilder()
               const [const FullType(GAssignedIssuesData_search_edges)]),
           () => new ListBuilder<GAssignedIssuesData_search_edges>())
       ..addBuilderFactory(
-          const FullType(BuiltList,
-              const [const FullType(GAssignedIssuesData_search_edges_node__asIssue_labels_nodes)]),
+          const FullType(BuiltList, const [
+            const FullType(
+                GAssignedIssuesData_search_edges_node__asIssue_labels_nodes)
+          ]),
           () => new ListBuilder<
               GAssignedIssuesData_search_edges_node__asIssue_labels_nodes>())
       ..addBuilderFactory(
@@ -448,43 +492,127 @@ Serializers _$serializers = (new Serializers().toBuilder()
               BuiltList, const [const FullType(GDraftPullRequestReviewThread)]),
           () => new ListBuilder<GDraftPullRequestReviewThread>())
       ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(GFileAddition)]),
+          () => new ListBuilder<GFileAddition>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(GFileDeletion)]),
+          () => new ListBuilder<GFileDeletion>())
+      ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(GProjectCardImport)]),
           () => new ListBuilder<GProjectCardImport>())
       ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(GProjectColumnImport)]),
+          const FullType(
+              BuiltList, const [const FullType(GProjectColumnImport)]),
           () => new ListBuilder<GProjectColumnImport>())
-      ..addBuilderFactory(const FullType(BuiltList, const [const FullType(GPullRequestsData_viewer_pullRequests_edges)]), () => new ListBuilder<GPullRequestsData_viewer_pullRequests_edges>())
-      ..addBuilderFactory(const FullType(BuiltList, const [const FullType(GRefUpdate)]), () => new ListBuilder<GRefUpdate>())
-      ..addBuilderFactory(const FullType(BuiltList, const [const FullType(GRepositoriesData_viewer_repositories_nodes)]), () => new ListBuilder<GRepositoriesData_viewer_repositories_nodes>())
-      ..addBuilderFactory(const FullType(BuiltList, const [const FullType(String)]), () => new ListBuilder<String>())
-      ..addBuilderFactory(const FullType(BuiltList, const [const FullType(String)]), () => new ListBuilder<String>())
-      ..addBuilderFactory(const FullType(BuiltList, const [const FullType(String)]), () => new ListBuilder<String>())
-      ..addBuilderFactory(const FullType(BuiltList, const [const FullType(String)]), () => new ListBuilder<String>())
-      ..addBuilderFactory(const FullType(BuiltList, const [const FullType(String)]), () => new ListBuilder<String>())
-      ..addBuilderFactory(const FullType(BuiltList, const [const FullType(String)]), () => new ListBuilder<String>())
-      ..addBuilderFactory(const FullType(BuiltList, const [const FullType(String)]), () => new ListBuilder<String>())
-      ..addBuilderFactory(const FullType(BuiltList, const [const FullType(String)]), () => new ListBuilder<String>())
-      ..addBuilderFactory(const FullType(BuiltList, const [const FullType(String)]), () => new ListBuilder<String>())
-      ..addBuilderFactory(const FullType(BuiltList, const [const FullType(String)]), () => new ListBuilder<String>())
-      ..addBuilderFactory(const FullType(BuiltList, const [const FullType(String)]), () => new ListBuilder<String>())
-      ..addBuilderFactory(const FullType(BuiltList, const [const FullType(GIssueState)]), () => new ListBuilder<GIssueState>())
-      ..addBuilderFactory(const FullType(BuiltList, const [const FullType(String)]), () => new ListBuilder<String>())
-      ..addBuilderFactory(const FullType(BuiltList, const [const FullType(String)]), () => new ListBuilder<String>())
-      ..addBuilderFactory(const FullType(BuiltList, const [const FullType(String)]), () => new ListBuilder<String>())
-      ..addBuilderFactory(const FullType(BuiltList, const [const FullType(String)]), () => new ListBuilder<String>())
-      ..addBuilderFactory(const FullType(BuiltList, const [const FullType(String)]), () => new ListBuilder<String>())
-      ..addBuilderFactory(const FullType(BuiltList, const [const FullType(String)]), () => new ListBuilder<String>())
-      ..addBuilderFactory(const FullType(BuiltList, const [const FullType(String)]), () => new ListBuilder<String>())
-      ..addBuilderFactory(const FullType(BuiltList, const [const FullType(String)]), () => new ListBuilder<String>())
-      ..addBuilderFactory(const FullType(BuiltList, const [const FullType(String)]), () => new ListBuilder<String>())
-      ..addBuilderFactory(const FullType(BuiltList, const [const FullType(String)]), () => new ListBuilder<String>())
-      ..addBuilderFactory(const FullType(BuiltList, const [const FullType(String)]), () => new ListBuilder<String>())
-      ..addBuilderFactory(const FullType(BuiltList, const [const FullType(String)]), () => new ListBuilder<String>())
-      ..addBuilderFactory(const FullType(BuiltList, const [const FullType(String)]), () => new ListBuilder<String>())
-      ..addBuilderFactory(const FullType(BuiltList, const [const FullType(String)]), () => new ListBuilder<String>())
-      ..addBuilderFactory(const FullType(BuiltList, const [const FullType(String)]), () => new ListBuilder<String>())
-      ..addBuilderFactory(const FullType(BuiltList, const [const FullType(String)]), () => new ListBuilder<String>())
-      ..addBuilderFactory(const FullType(BuiltList, const [const FullType(String)]), () => new ListBuilder<String>()))
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [
+            const FullType(GPullRequestsData_viewer_pullRequests_edges)
+          ]),
+          () => new ListBuilder<GPullRequestsData_viewer_pullRequests_edges>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(GRefUpdate)]),
+          () => new ListBuilder<GRefUpdate>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [
+            const FullType(GRepositoriesData_viewer_repositories_nodes)
+          ]),
+          () => new ListBuilder<GRepositoriesData_viewer_repositories_nodes>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(GIssueState)]),
+          () => new ListBuilder<GIssueState>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>()))
     .build();
 
-// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,lines_longer_than_80_chars,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new
