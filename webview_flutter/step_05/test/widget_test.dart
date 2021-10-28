@@ -14,5 +14,3 @@ void main() {
     await tester.pumpWidget(WebViewExample());
   });
 }
-
-
