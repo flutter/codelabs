@@ -11,11 +11,6 @@ class WebViewExample extends StatefulWidget {
 
 class WebViewExampleState extends State<WebViewExample> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return WebView(
       initialUrl: 'https://flutter.dev',
