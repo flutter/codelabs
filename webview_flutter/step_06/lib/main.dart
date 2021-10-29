@@ -11,7 +11,7 @@ class WebViewExample extends StatefulWidget {
 
 class WebViewExampleState extends State<WebViewExample> {
   final Completer<WebViewController> _controller =
-  Completer<WebViewController>();
+      Completer<WebViewController>();
 
   @override
   Widget build(BuildContext context) {
@@ -26,32 +26,29 @@ class WebViewExampleState extends State<WebViewExample> {
       // We're using a Builder here so we have a context that is below the Scaffold
       // to allow calling Scaffold.of(context) so we can show a snackbar, which
       // will be mentioned later in this CodeLab.
-      body: Builder(
-          builder: (context) {
-            return WebView(
-              initialUrl: 'https://flutter.dev',
-              onWebViewCreated: (WebViewController webViewController) {
-                _controller.complete(webViewController);
-              },
-              onPageStarted: (String url) {
-                print('Page started loading: $url');
-              },
-              onProgress: (int progress) {
-                print("WebView is loading (progress : $progress%)");
-              },
-              onPageFinished: (String url) {
-                print('Page finished loading: $url');
-              },
-            );
-          }
-      ),
+      body: Builder(builder: (context) {
+        return WebView(
+          initialUrl: 'https://flutter.dev',
+          onWebViewCreated: (WebViewController webViewController) {
+            _controller.complete(webViewController);
+          },
+          onPageStarted: (String url) {
+            print('Page started loading: $url');
+          },
+          onProgress: (int progress) {
+            print("WebView is loading (progress : $progress%)");
+          },
+          onPageFinished: (String url) {
+            print('Page finished loading: $url');
+          },
+        );
+      }),
     );
   }
 }
 
 class NavigationControls extends StatelessWidget {
-  const NavigationControls(this._webViewControllerFuture)
-      : assert(_webViewControllerFuture != null);
+  const NavigationControls(this._webViewControllerFuture);
 
   final Future<WebViewController> _webViewControllerFuture;
 
@@ -71,41 +68,41 @@ class NavigationControls extends StatelessWidget {
               onPressed: !webViewReady
                   ? null
                   : () async {
-                if (await controller!.canGoBack()) {
-                  await controller.goBack();
-                } else {
-                  // ignore: deprecated_member_use
-                  Scaffold.of(context).showSnackBar(
-                    const SnackBar(content: Text("No back history item")),
-                  );
-                  return;
-                }
-              },
+                      if (await controller!.canGoBack()) {
+                        await controller.goBack();
+                      } else {
+                        // ignore: deprecated_member_use
+                        Scaffold.of(context).showSnackBar(
+                          const SnackBar(content: Text("No back history item")),
+                        );
+                        return;
+                      }
+                    },
             ),
             IconButton(
               icon: const Icon(Icons.arrow_forward_ios),
               onPressed: !webViewReady
                   ? null
                   : () async {
-                if (await controller!.canGoForward()) {
-                  await controller.goForward();
-                } else {
-                  // ignore: deprecated_member_use
-                  Scaffold.of(context).showSnackBar(
-                    const SnackBar(
-                        content: Text("No forward history item")),
-                  );
-                  return;
-                }
-              },
+                      if (await controller!.canGoForward()) {
+                        await controller.goForward();
+                      } else {
+                        // ignore: deprecated_member_use
+                        Scaffold.of(context).showSnackBar(
+                          const SnackBar(
+                              content: Text("No forward history item")),
+                        );
+                        return;
+                      }
+                    },
             ),
             IconButton(
               icon: const Icon(Icons.replay),
               onPressed: !webViewReady
                   ? null
                   : () {
-                controller!.reload();
-              },
+                      controller!.reload();
+                    },
             ),
           ],
         );
