@@ -15,34 +15,36 @@ class WebViewExampleState extends State<WebViewExample> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Flutter WebView example'),
-        // This drop down menu demonstrates that Flutter widgets can be shown over the web view.
-        actions: <Widget>[
-          NavigationControls(_controller.future),
-        ],
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('Flutter WebView example'),
+          // This drop down menu demonstrates that Flutter widgets can be shown over the web view.
+          actions: <Widget>[
+            NavigationControls(_controller.future),
+          ],
+        ),
+        // We're using a Builder here so we have a context that is below the Scaffold
+        // to allow calling Scaffold.of(context) so we can show a snackbar, which
+        // will be mentioned later in this CodeLab.
+        body: Builder(builder: (context) {
+          return WebView(
+            initialUrl: 'https://flutter.dev',
+            onWebViewCreated: (WebViewController webViewController) {
+              _controller.complete(webViewController);
+            },
+            onPageStarted: (String url) {
+              print('Page started loading: $url');
+            },
+            onProgress: (int progress) {
+              print("WebView is loading (progress : $progress%)");
+            },
+            onPageFinished: (String url) {
+              print('Page finished loading: $url');
+            },
+          );
+        }),
       ),
-      // We're using a Builder here so we have a context that is below the Scaffold
-      // to allow calling Scaffold.of(context) so we can show a snackbar, which
-      // will be mentioned later in this CodeLab.
-      body: Builder(builder: (context) {
-        return WebView(
-          initialUrl: 'https://flutter.dev',
-          onWebViewCreated: (WebViewController webViewController) {
-            _controller.complete(webViewController);
-          },
-          onPageStarted: (String url) {
-            print('Page started loading: $url');
-          },
-          onProgress: (int progress) {
-            print("WebView is loading (progress : $progress%)");
-          },
-          onPageFinished: (String url) {
-            print('Page finished loading: $url');
-          },
-        );
-      }),
     );
   }
 }
