@@ -13,11 +13,13 @@ void main() {
 String _name = 'Your Name';
 
 class FriendlyChatApp extends StatelessWidget {
-  const FriendlyChatApp({Key? key}) : super(key: key);
+  const FriendlyChatApp({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: 'FriendlyChat',
       home: ChatScreen(),
     );
@@ -25,7 +27,10 @@ class FriendlyChatApp extends StatelessWidget {
 }
 
 class ChatMessage extends StatelessWidget {
-  const ChatMessage({required this.text});
+  const ChatMessage({
+    required this.text,
+    Key? key,
+  }) : super(key: key);
   final String text;
 
   @override
@@ -39,17 +44,15 @@ class ChatMessage extends StatelessWidget {
             margin: const EdgeInsets.only(right: 16.0),
             child: CircleAvatar(child: Text(_name[0])),
           ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(_name, style: Theme.of(context).textTheme.headline4),
-                Container(
-                  margin: const EdgeInsets.only(top: 5.0),
-                  child: Text(text),
-                ),
-              ],
-            ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(_name, style: Theme.of(context).textTheme.headline4),
+              Container(
+                margin: const EdgeInsets.only(top: 5.0),
+                child: Text(text),
+              ),
+            ],
           ),
         ],
       ),
@@ -58,14 +61,29 @@ class ChatMessage extends StatelessWidget {
 }
 
 class ChatScreen extends StatefulWidget {
+  const ChatScreen({
+    Key? key,
+  }) : super(key: key);
+
   @override
-  _ChatScreenState createState() => _ChatScreenState();
+  State<ChatScreen> createState() => _ChatScreenState();
 }
 
 class _ChatScreenState extends State<ChatScreen> {
   final List<ChatMessage> _messages = [];
   final _textController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
+
+  void _handleSubmitted(String text) {
+    _textController.clear();
+    var message = ChatMessage(
+      text: text,
+    );
+    setState(() {
+      _messages.insert(0, message);
+    });
+    _focusNode.requestFocus();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -112,21 +130,10 @@ class _ChatScreenState extends State<ChatScreen> {
               child: IconButton(
                   icon: const Icon(Icons.send),
                   onPressed: () => _handleSubmitted(_textController.text)),
-            )
+            ),
           ],
         ),
       ),
     );
-  }
-
-  void _handleSubmitted(String text) {
-    _textController.clear();
-    var message = ChatMessage(
-      text: text,
-    );
-    setState(() {
-      _messages.insert(0, message);
-    });
-    _focusNode.requestFocus();
   }
 }

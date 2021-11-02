@@ -11,11 +11,13 @@ void main() {
 }
 
 class FriendlyChatApp extends StatelessWidget {
-  const FriendlyChatApp({Key? key}) : super(key: key);
+  const FriendlyChatApp({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: 'FriendlyChat',
       home: ChatScreen(),
     );
@@ -23,8 +25,12 @@ class FriendlyChatApp extends StatelessWidget {
 }
 
 class ChatScreen extends StatefulWidget {
+  const ChatScreen({
+    Key? key,
+  }) : super(key: key);
+
   @override
-  _ChatScreenState createState() => _ChatScreenState();
+  State<ChatScreen> createState() => _ChatScreenState();
 }
 
 class _ChatScreenState extends State<ChatScreen> {
@@ -62,7 +68,7 @@ class _ChatScreenState extends State<ChatScreen> {
               child: IconButton(
                   icon: const Icon(Icons.send),
                   onPressed: () => _handleSubmitted(_textController.text)),
-            )
+            ),
           ],
         ),
       ),
