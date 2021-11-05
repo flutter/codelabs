@@ -145,8 +145,7 @@ class Menu extends StatelessWidget {
                 break;
             }
           },
-          itemBuilder: (BuildContext context) =>
-          <PopupMenuItem<_MenuOptions>>[
+          itemBuilder: (BuildContext context) => <PopupMenuItem<_MenuOptions>>[
             const PopupMenuItem<_MenuOptions>(
               value: _MenuOptions.navigationDelegate,
               child: Text('Navigation Delegate example'),
