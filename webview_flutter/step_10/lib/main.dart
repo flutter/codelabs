@@ -142,7 +142,7 @@ enum _MenuOptions {
 }
 
 class Menu extends StatelessWidget {
-  Menu(this.controller);
+  const Menu(this.controller);
 
   final Future<WebViewController> controller;
 
