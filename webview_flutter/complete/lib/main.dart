@@ -171,7 +171,7 @@ class Menu extends StatelessWidget {
                 ));
                 break;
               case _MenuOptions.javascriptChannel:
-                final String javaScript = ''' 
+                const String javaScript = ''' 
     var req = new XMLHttpRequest();
     req.open('GET', "https://api.ipify.org/?format=json");
     req.onload = function() {
@@ -223,7 +223,7 @@ class Menu extends StatelessWidget {
     );
   }
 
-  void _onListCookies(
+  Future<void> _onListCookies(
       WebViewController controller, BuildContext context) async {
     final String cookies =
         await controller.runJavascriptReturningResult('document.cookie');
