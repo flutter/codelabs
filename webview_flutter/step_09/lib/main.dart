@@ -146,9 +146,12 @@ class Menu extends StatelessWidget {
                 controller.data!.loadUrl('https://www.youtube.com');
                 break;
               case _MenuOptions.userAgent:
-                print("User Agent: " +
-                    await controller.data!
-                        .runJavascriptReturningResult('navigator.userAgent'));
+                final userAgent = await controller.data!
+                    .runJavascriptReturningResult('navigator.userAgent');
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(userAgent),
+                ));
+                break;
             }
           },
           itemBuilder: (BuildContext context) => <PopupMenuItem<_MenuOptions>>[
