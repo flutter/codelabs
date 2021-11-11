@@ -159,8 +159,11 @@ class Menu extends StatelessWidget {
                 controller.data!.loadUrl('https://www.youtube.com');
                 break;
               case _MenuOptions.userAgent:
-                await controller.data!
+                final userAgent = await controller.data!
                     .runJavascriptReturningResult('navigator.userAgent');
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(userAgent),
+                ));
                 break;
               case _MenuOptions.javascriptChannel:
                 const String javaScript = ''' 
