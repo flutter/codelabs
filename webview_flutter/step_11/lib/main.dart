@@ -164,8 +164,9 @@ class Menu extends StatelessWidget {
                 controller.data!.loadUrl('https://www.youtube.com');
                 break;
               case _MenuOptions.userAgent:
-                await controller.data!.runJavascriptReturningResult(
-                    'Snackbar.postMessage(navigator.userAgent)');
+                print("User Agent: " +
+                    await controller.data!
+                        .runJavascriptReturningResult('navigator.userAgent'));
                 break;
               case _MenuOptions.JavascriptChannel:
                 final String javaScript = ''' 
