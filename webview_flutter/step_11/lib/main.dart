@@ -164,9 +164,11 @@ class Menu extends StatelessWidget {
                 controller.data!.loadUrl('https://www.youtube.com');
                 break;
               case _MenuOptions.userAgent:
-                print("User Agent: " +
-                    await controller.data!
-                        .runJavascriptReturningResult('navigator.userAgent'));
+                final userAgent = await controller.data!
+                    .runJavascriptReturningResult('navigator.userAgent');
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(userAgent),
+                ));
                 break;
               case _MenuOptions.javascriptChannel:
                 final String javaScript = ''' 
@@ -184,16 +186,16 @@ class Menu extends StatelessWidget {
                 await controller.data!.runJavascript(javaScript);
                 break;
               case _MenuOptions.clearCookies:
-                _onClearCookies();
+                _onClearCookies(context);
                 break;
               case _MenuOptions.listCookies:
-                _onListCookies(controller.data!);
+                _onListCookies(controller.data!, context);
                 break;
               case _MenuOptions.addCookie:
-                _onAddCookie(controller.data!);
+                _onAddCookie(controller.data!, context);
                 break;
               case _MenuOptions.removeCookie:
-                _onRemoveCookie(controller.data!);
+                _onRemoveCookie(controller.data!, context);
                 break;
             }
           },
@@ -221,30 +223,40 @@ class Menu extends StatelessWidget {
     );
   }
 
-  void _onListCookies(WebViewController controller) async {
+  void _onListCookies(
+      WebViewController controller, BuildContext context) async {
     final String cookies =
         await controller.runJavascriptReturningResult('document.cookie');
-    print(cookies);
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(cookies),
+    ));
   }
 
-  void _onClearCookies() async {
+  void _onClearCookies(BuildContext context) async {
     final bool hadCookies = await cookieManager.clearCookies();
     String message = 'There were cookies. Now, they are gone!';
     if (!hadCookies) {
       message = 'There are no cookies.';
     }
-    print(message);
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(message),
+    ));
   }
 
-  void _onAddCookie(WebViewController controller) async {
+  void _onAddCookie(WebViewController controller, BuildContext context) async {
     await controller.runJavascript(
         'document.cookie="FirstName=John; expires=Fri, 12 Nov 2021 12:00:00 UTC"');
-    print("Added a custom cookie!");
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      content: Text("Added a custom cookie."),
+    ));
   }
 
-  void _onRemoveCookie(WebViewController controller) async {
+  void _onRemoveCookie(
+      WebViewController controller, BuildContext context) async {
     await controller.runJavascript(
         'document.cookie="FirstName=John; expires=Thu, 01 Jan 1970 00:00:00 UTC" ');
-    print("Removed custom cookie!");
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      content: Text("Removed custom cookie."),
+    ));
   }
 }
