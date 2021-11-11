@@ -138,7 +138,7 @@ Set<JavascriptChannel> _createJavascriptChannels(BuildContext context) {
 enum _MenuOptions {
   navigationDelegate,
   userAgent,
-  JavascriptChannel,
+  javascriptChannel,
   listCookies,
   clearCookies,
   addCookie,
@@ -168,7 +168,7 @@ class Menu extends StatelessWidget {
                     await controller.data!
                         .runJavascriptReturningResult('navigator.userAgent'));
                 break;
-              case _MenuOptions.JavascriptChannel:
+              case _MenuOptions.javascriptChannel:
                 final String javaScript = ''' 
     var req = new XMLHttpRequest();
     req.open('GET', "https://api.ipify.org/?format=json");
@@ -205,7 +205,7 @@ class Menu extends StatelessWidget {
             const PopupMenuItem<_MenuOptions>(
                 value: _MenuOptions.userAgent, child: Text('Show user-agent')),
             const PopupMenuItem<_MenuOptions>(
-                value: _MenuOptions.JavascriptChannel,
+                value: _MenuOptions.javascriptChannel,
                 child: Text('JavaScript Channel Example')),
             const PopupMenuItem<_MenuOptions>(
                 value: _MenuOptions.clearCookies, child: Text('Clear cookies')),
