@@ -136,12 +136,13 @@ Set<JavascriptChannel> _createJavascriptChannels(BuildContext context) {
 }
 
 enum _MenuOptions {
+  navigationDelegate,
+  userAgent,
+  JavascriptChannel,
   listCookies,
   clearCookies,
   addCookie,
   removeCookie,
-  navigationDelegate,
-  userAgent,
 }
 
 class Menu extends StatelessWidget {
@@ -166,6 +167,21 @@ class Menu extends StatelessWidget {
                 await controller.data!.runJavascriptReturningResult(
                     'Snackbar.postMessage(navigator.userAgent)');
                 break;
+              case _MenuOptions.JavascriptChannel:
+                final String javaScript = ''' 
+    var req = new XMLHttpRequest();
+    req.open('GET', "https://api.ipify.org/?format=json");
+    req.onload = function() {
+      if (req.status == 200) {
+        Snackbar.postMessage(req.responseText);
+      } else {
+        Snackbar.postMessage("Error: " + req.status);
+      }
+    }
+    req.send();
+  ''';
+                await controller.data!.runJavascript(javaScript);
+                break;
               case _MenuOptions.clearCookies:
                 _onClearCookies();
                 break;
@@ -187,6 +203,9 @@ class Menu extends StatelessWidget {
             ),
             const PopupMenuItem<_MenuOptions>(
                 value: _MenuOptions.userAgent, child: Text('Show user-agent')),
+            const PopupMenuItem<_MenuOptions>(
+                value: _MenuOptions.JavascriptChannel,
+                child: Text('JavaScript Channel Example')),
             const PopupMenuItem<_MenuOptions>(
                 value: _MenuOptions.clearCookies, child: Text('Clear cookies')),
             const PopupMenuItem<_MenuOptions>(
