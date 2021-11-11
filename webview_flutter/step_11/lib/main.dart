@@ -248,4 +248,3 @@ class Menu extends StatelessWidget {
   }
 }
 
-typedef void JavascriptMessageHandler(JavascriptMessage message);
