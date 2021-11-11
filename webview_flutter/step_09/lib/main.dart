@@ -148,7 +148,7 @@ class Menu extends StatelessWidget {
               case _MenuOptions.userAgent:
                 print("User Agent: " +
                     await controller.data!
-                        .evaluateJavascript('navigator.userAgent'));
+                        .runJavascriptReturningResult('navigator.userAgent'));
             }
           },
           itemBuilder: (BuildContext context) => <PopupMenuItem<_MenuOptions>>[
