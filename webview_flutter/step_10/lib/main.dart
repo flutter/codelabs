@@ -162,8 +162,8 @@ class Menu extends StatelessWidget {
                 await controller.data!
                     .runJavascriptReturningResult('navigator.userAgent');
                 break;
-              case _MenuOptions.JavascriptChannel:
-                final String javaScript = ''' 
+              case _MenuOptions.javascriptChannel:
+                const String javaScript = ''' 
     var req = new XMLHttpRequest();
     req.open('GET', "https://api.ipify.org/?format=json");
     req.onload = function() {
