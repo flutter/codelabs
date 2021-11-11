@@ -247,4 +247,3 @@ class Menu extends StatelessWidget {
     print("Removed custom cookie!");
   }
 }
-
