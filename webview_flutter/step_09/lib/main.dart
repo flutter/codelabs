@@ -146,7 +146,9 @@ class Menu extends StatelessWidget {
                 controller.data!.loadUrl('https://www.youtube.com');
                 break;
               case _MenuOptions.userAgent:
-                print("User Agent: " + await controller.data!.evaluateJavascript('navigator.userAgent'));
+                print("User Agent: " +
+                    await controller.data!
+                        .evaluateJavascript('navigator.userAgent'));
             }
           },
           itemBuilder: (BuildContext context) => <PopupMenuItem<_MenuOptions>>[
@@ -155,8 +157,7 @@ class Menu extends StatelessWidget {
               child: Text('Navigation Delegate Example'),
             ),
             const PopupMenuItem<_MenuOptions>(
-                value: _MenuOptions.userAgent,
-                child: Text('Show user-agent')),
+                value: _MenuOptions.userAgent, child: Text('Show user-agent')),
           ],
         );
       },
