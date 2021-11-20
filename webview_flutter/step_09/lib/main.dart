@@ -31,19 +31,19 @@ class WebViewExampleState extends State<WebViewExample> {
         body: Builder(builder: (context) {
           return WebView(
             initialUrl: 'https://flutter.dev',
-            onWebViewCreated: (WebViewController webViewController) {
+            onWebViewCreated: (webViewController) {
               _controller.complete(webViewController);
             },
-            onPageStarted: (String url) {
+            onPageStarted: (url) {
               print('Page started loading: $url');
             },
-            onProgress: (int progress) {
-              print("WebView is loading (progress : $progress%)");
+            onProgress: (progress) {
+              print('WebView is loading (progress : $progress%)');
             },
-            onPageFinished: (String url) {
+            onPageFinished: (url) {
               print('Page finished loading: $url');
             },
-            navigationDelegate: (NavigationRequest request) {
+            navigationDelegate: (request) {
               if (request.url.startsWith('https://m.youtube.com/')) {
                 print('blocking navigation to $request}');
                 return NavigationDecision.prevent;
@@ -68,8 +68,7 @@ class NavigationControls extends StatelessWidget {
   Widget build(BuildContext context) {
     return FutureBuilder<WebViewController>(
       future: _webViewControllerFuture,
-      builder:
-          (BuildContext context, AsyncSnapshot<WebViewController> snapshot) {
+      builder: (context, snapshot) {
         final bool webViewReady =
             snapshot.connectionState == ConnectionState.done;
         final WebViewController? controller = snapshot.data;
@@ -84,7 +83,7 @@ class NavigationControls extends StatelessWidget {
                         await controller.goBack();
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text("No back history item")),
+                          const SnackBar(content: Text('No back history item')),
                         );
                         return;
                       }
@@ -100,7 +99,7 @@ class NavigationControls extends StatelessWidget {
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                              content: Text("No forward history item")),
+                              content: Text('No forward history item')),
                         );
                         return;
                       }
@@ -127,7 +126,7 @@ enum _MenuOptions {
 }
 
 class Menu extends StatelessWidget {
-  Menu(this.controller);
+  const Menu(this.controller);
 
   final Future<WebViewController> controller;
 
@@ -135,10 +134,9 @@ class Menu extends StatelessWidget {
   Widget build(BuildContext context) {
     return FutureBuilder<WebViewController>(
       future: controller,
-      builder:
-          (BuildContext context, AsyncSnapshot<WebViewController> controller) {
+      builder: (context, controller) {
         return PopupMenuButton<_MenuOptions>(
-          onSelected: (_MenuOptions value) async {
+          onSelected: (value) async {
             switch (value) {
               case _MenuOptions.navigationDelegate:
                 controller.data!.loadUrl('https://www.youtube.com');
@@ -152,7 +150,7 @@ class Menu extends StatelessWidget {
                 break;
             }
           },
-          itemBuilder: (BuildContext context) => <PopupMenuItem<_MenuOptions>>[
+          itemBuilder: (context) => <PopupMenuItem<_MenuOptions>>[
             const PopupMenuItem<_MenuOptions>(
               value: _MenuOptions.navigationDelegate,
               child: Text('Navigation Delegate Example'),
