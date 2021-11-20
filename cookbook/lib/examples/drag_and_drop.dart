@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:flutter_cookbook/app.dart';
+import '../app.dart';
 
 void main() {
   runApp(

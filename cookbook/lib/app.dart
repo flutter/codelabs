@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import 'package:flutter/material.dart';
-import 'package:flutter_cookbook/main.dart';
+import 'main.dart';
 
 @immutable
 class App extends StatelessWidget {
