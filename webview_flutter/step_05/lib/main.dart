@@ -13,13 +13,13 @@ class WebViewExampleState extends State<WebViewExample> {
   Widget build(BuildContext context) {
     return WebView(
       initialUrl: 'https://flutter.dev',
-      onPageStarted: (String url) {
+      onPageStarted: (url) {
         print('Page started loading: $url');
       },
-      onProgress: (int progress) {
-        print("WebView is loading (progress : $progress%)");
+      onProgress: (progress) {
+        print('WebView is loading (progress : $progress%)');
       },
-      onPageFinished: (String url) {
+      onPageFinished: (url) {
         print('Page finished loading: $url');
       },
     );
