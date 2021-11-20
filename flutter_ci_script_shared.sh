@@ -24,7 +24,7 @@ function ci_codelabs () {
             flutter pub get
 
             # Run the analyzer to find any static analysis issues.
-            dart analyze
+            dart analyze --fatal-infos
 
             # Run the formatter on all the dart files to make sure everything's linted.
             dart format --output none --set-exit-if-changed .
