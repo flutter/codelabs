@@ -20,4 +20,3 @@ linter:
     throw_in_finally: true
     unnecessary_statements: true
     use_key_in_widget_constructors: false
- 
