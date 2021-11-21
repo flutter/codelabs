@@ -25,7 +25,7 @@ function ci_codelabs () {
             flutter pub get
 
             # Run the analyzer to find any static analysis issues.
-            if ["$channel" == 'stable']; then
+            if [ "$channel" == 'stable' ]; then
               dart analyze --fatal-infos
             else
               dart analyze
