@@ -9,6 +9,13 @@ function ci_codelabs () {
     dart format --output none --set-exit-if-changed .;
     popd
 
+    # Grab packages.
+    for dir in `find . -name pubspec.yaml -exec dirname {} \;`; do
+      pushd $dir
+      flutter pub get
+      popd
+    done
+
     local arr=("$@")
     for CODELAB in "${arr[@]}"
     do
@@ -20,9 +27,6 @@ function ci_codelabs () {
         do
             pushd "${PROJECT}"
             echo "== Testing '${PROJECT}'"
-
-            # Grab packages.
-            flutter pub get
 
             # Run the analyzer to find any static analysis issues.
             if [ "$channel" == 'stable' ]; then
