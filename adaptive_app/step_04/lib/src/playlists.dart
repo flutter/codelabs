@@ -57,7 +57,7 @@ class _PlaylistsListView extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
+                MaterialPageRoute<void>(
                   builder: (context) {
                     return PlaylistDetails(
                       playlistId: playlist.id!,
