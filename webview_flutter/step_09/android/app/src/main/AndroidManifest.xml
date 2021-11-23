@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.step_09">
+    package="com.example.webview_in_flutter">
    <application
-        android:label="step_09"
+        android:label="webview_in_flutter"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
