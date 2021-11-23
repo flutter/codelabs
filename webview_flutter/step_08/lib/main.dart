@@ -2,64 +2,60 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-void main() => runApp(MaterialApp(home: WebViewExample()));
+void main() => runApp(const MaterialApp(home: WebViewExample()));
 
 class WebViewExample extends StatefulWidget {
+  const WebViewExample({Key? key}) : super(key: key);
+
   @override
   WebViewExampleState createState() => WebViewExampleState();
 }
 
 class WebViewExampleState extends State<WebViewExample> {
-  final Completer<WebViewController> _controller =
-      Completer<WebViewController>();
+  final _controller = Completer<WebViewController>();
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Flutter WebView example'),
-          // This drop down menu demonstrates that Flutter widgets can be shown over the web view.
-          actions: <Widget>[
-            NavigationControls(_controller.future),
-            Menu(_controller.future)
-          ],
-        ),
-        // We're using a Builder here so we have a context that is below the Scaffold
-        // to allow calling Scaffold.of(context) so we can show a snackbar, which
-        // will be mentioned later in this CodeLab.
-        body: Builder(builder: (context) {
-          return WebView(
-            initialUrl: 'https://flutter.dev',
-            onWebViewCreated: (webViewController) {
-              _controller.complete(webViewController);
-            },
-            onPageStarted: (url) {
-              print('Page started loading: $url');
-            },
-            onProgress: (progress) {
-              print('WebView is loading (progress : $progress%)');
-            },
-            onPageFinished: (url) {
-              print('Page finished loading: $url');
-            },
-            navigationDelegate: (request) {
-              if (request.url.startsWith('https://m.youtube.com/')) {
-                print('blocking navigation to $request}');
-                return NavigationDecision.prevent;
-              }
-              print('allowing navigation to $request');
-              return NavigationDecision.navigate;
-            },
-          );
-        }),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Flutter WebView example'),
+        actions: [
+          NavigationControls(_controller.future),
+          Menu(_controller.future),
+        ],
       ),
+      body: Builder(builder: (context) {
+        return WebView(
+          initialUrl: 'https://flutter.dev',
+          onWebViewCreated: (webViewController) {
+            _controller.complete(webViewController);
+          },
+          onPageStarted: (url) {
+            print('Page started loading: $url');
+          },
+          onProgress: (progress) {
+            print('WebView is loading (progress : $progress%)');
+          },
+          onPageFinished: (url) {
+            print('Page finished loading: $url');
+          },
+          navigationDelegate: (request) {
+            if (request.url.startsWith('https://m.youtube.com/')) {
+              print('blocking navigation to $request}');
+              return NavigationDecision.prevent;
+            }
+            print('allowing navigation to $request');
+            return NavigationDecision.navigate;
+          },
+        );
+      }),
     );
   }
 }
 
 class NavigationControls extends StatelessWidget {
-  const NavigationControls(this._webViewControllerFuture);
+  const NavigationControls(this._webViewControllerFuture, {Key? key})
+      : super(key: key);
 
   final Future<WebViewController> _webViewControllerFuture;
 
@@ -68,8 +64,7 @@ class NavigationControls extends StatelessWidget {
     return FutureBuilder<WebViewController>(
       future: _webViewControllerFuture,
       builder: (context, snapshot) {
-        final bool webViewReady =
-            snapshot.connectionState == ConnectionState.done;
+        final webViewReady = snapshot.connectionState == ConnectionState.done;
         final WebViewController? controller = snapshot.data;
         return Row(
           children: <Widget>[
@@ -137,14 +132,14 @@ class Menu extends StatelessWidget {
           onSelected: (value) {
             switch (value) {
               case _MenuOptions.navigationDelegate:
-                controller.data!.loadUrl('https://www.youtube.com');
+                controller.data!.loadUrl('https://m.youtube.com');
                 break;
             }
           },
-          itemBuilder: (context) => <PopupMenuItem<_MenuOptions>>[
+          itemBuilder: (context) => [
             const PopupMenuItem<_MenuOptions>(
               value: _MenuOptions.navigationDelegate,
-              child: Text('Navigation Delegate example'),
+              child: Text('Navigation Delegate Example'),
             ),
           ],
         );
