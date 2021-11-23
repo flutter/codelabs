@@ -43,8 +43,8 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.example.step_03"
-        minSdkVersion 20        // Change from 16 to either 19 or 20, depending on which Android Platform View you want to use.
+        applicationId "com.example.webview_in_flutter"
+        minSdkVersion 20        // MODIFY
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
