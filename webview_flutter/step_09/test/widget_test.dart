@@ -8,11 +8,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:step_09/main.dart';
+import 'package:webview_in_flutter/main.dart';
 
 void main() {
   testWidgets('Do nothing test', (tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(WebViewExample());
+    await tester.pumpWidget(const MaterialApp(home: WebViewExample()));
   });
 }
