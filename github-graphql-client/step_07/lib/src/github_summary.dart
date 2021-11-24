@@ -20,8 +20,8 @@ import 'package:gql_link/gql_link.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 
-import 'github_gql/github_queries.data.gql.dart';
-import 'github_gql/github_queries.req.gql.dart';
+import 'github_gql/__generated__/github_queries.data.gql.dart';
+import 'github_gql/__generated__/github_queries.req.gql.dart';
 
 class GitHubSummary extends StatefulWidget {
   GitHubSummary({required http.Client client})
