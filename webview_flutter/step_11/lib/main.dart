@@ -254,8 +254,9 @@ req.send();''');
   }
 
   Future<void> _onAddCookie(WebViewController controller) async {
-    await controller.runJavascript(
-        'document.cookie="FirstName=John; expires=Fri, 12 Nov 2021 12:00:00 UTC" ');
+    await controller.runJavascript('''var date = new Date();
+    date.setTime(date.getTime()+(30*24*60*60*1000));
+    document.cookie = "FirstName=John; expires=" + date.toGMTString();''');
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Custom cookie added.'),
