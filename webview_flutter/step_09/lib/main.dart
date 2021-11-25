@@ -24,32 +24,30 @@ class WebViewExampleState extends State<WebViewExample> {
           Menu(_controller.future),
         ],
       ),
-      body: Builder(builder: (context) {
-        return WebView(
-          initialUrl: 'https://flutter.dev',
-          onWebViewCreated: (webViewController) {
-            _controller.complete(webViewController);
-          },
-          onPageStarted: (url) {
-            print('Page started loading: $url');
-          },
-          onProgress: (progress) {
-            print('WebView is loading (progress : $progress%)');
-          },
-          onPageFinished: (url) {
-            print('Page finished loading: $url');
-          },
-          navigationDelegate: (request) {
-            if (request.url.startsWith('https://m.youtube.com/')) {
-              print('blocking navigation to $request}');
-              return NavigationDecision.prevent;
-            }
-            print('allowing navigation to $request');
-            return NavigationDecision.navigate;
-          },
-          javascriptMode: JavascriptMode.unrestricted,
-        );
-      }),
+      body: WebView(
+        initialUrl: 'https://flutter.dev',
+        onWebViewCreated: (webViewController) {
+          _controller.complete(webViewController);
+        },
+        onPageStarted: (url) {
+          print('Page started loading: $url');
+        },
+        onProgress: (progress) {
+          print('WebView is loading (progress : $progress%)');
+        },
+        onPageFinished: (url) {
+          print('Page finished loading: $url');
+        },
+        navigationDelegate: (request) {
+          if (request.url.startsWith('https://m.youtube.com/')) {
+            print('blocking navigation to $request}');
+            return NavigationDecision.prevent;
+          }
+          print('allowing navigation to $request');
+          return NavigationDecision.navigate;
+        },
+        javascriptMode: JavascriptMode.unrestricted,
+      ),
     );
   }
 }
