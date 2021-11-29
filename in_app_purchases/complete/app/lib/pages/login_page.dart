@@ -1,6 +1,6 @@
-import 'package:dashclicker/logic/firebase_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../logic/firebase_notifier.dart';
 
 class LoginPage extends StatelessWidget {
   @override

@@ -1,12 +1,12 @@
-import 'package:dashclicker/logic/dash_purchases.dart';
-import 'package:dashclicker/logic/firebase_notifier.dart';
-import 'package:dashclicker/model/firebase_state.dart';
-import 'package:dashclicker/model/purchasable_product.dart';
-import 'package:dashclicker/model/store_state.dart';
-import 'package:dashclicker/repo/iap_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../logic/dash_purchases.dart';
+import '../logic/firebase_notifier.dart';
+import '../model/firebase_state.dart';
+import '../model/purchasable_product.dart';
+import '../model/store_state.dart';
+import '../repo/iap_repo.dart';
 import 'login_page.dart';
 
 class PurchasePage extends StatelessWidget {

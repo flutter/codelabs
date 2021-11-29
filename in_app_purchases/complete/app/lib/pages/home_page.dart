@@ -1,9 +1,10 @@
-import 'package:dashclicker/logic/dash_counter.dart';
-import 'package:dashclicker/logic/dash_purchases.dart';
-import 'package:dashclicker/logic/dash_upgrades.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+
+import '../logic/dash_counter.dart';
+import '../logic/dash_purchases.dart';
+import '../logic/dash_upgrades.dart';
 
 class HomePage extends StatelessWidget {
   @override
