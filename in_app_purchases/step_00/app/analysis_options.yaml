@@ -16,5 +16,6 @@ linter:
     package_prefixed_library_names: true
     test_types_in_equals: true
     throw_in_finally: true
+    sort_pub_dependencies: true
     unnecessary_statements: true
     use_key_in_widget_constructors: false
