@@ -18,7 +18,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (tester) async {
+  testWidgets('App start test', (tester) async {
     await tester.pumpWidget(
       ChangeNotifierProvider<AppStateModel>(
         create: (context) => AppStateModel()..loadProducts(),
