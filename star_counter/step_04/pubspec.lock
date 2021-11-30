@@ -75,7 +75,7 @@ packages:
       name: flutter_markdown
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.6.7"
+    version: "0.6.8"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -87,7 +87,7 @@ packages:
       name: github
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "8.2.0"
+    version: "8.2.5"
   http:
     dependency: transitive
     description:
@@ -115,7 +115,7 @@ packages:
       name: json_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.2.0"
+    version: "4.3.0"
   lints:
     dependency: transitive
     description:
@@ -129,7 +129,7 @@ packages:
       name: markdown
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.0"
+    version: "4.0.1"
   matcher:
     dependency: transitive
     description:
