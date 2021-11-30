@@ -82,24 +82,16 @@ class ResizeablePage extends StatelessWidget {
       children: [
         TableCell(
           verticalAlignment: TableCellVerticalAlignment.baseline,
-          child: Row(
-            children: [
-              Text(
-                property,
-                style: Theme.of(context).textTheme.bodyText1,
-              ),
-              const SizedBox(width: 8, height: 24),
-            ],
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(property),
           ),
         ),
         TableCell(
           verticalAlignment: TableCellVerticalAlignment.baseline,
-          child: Row(
-            children: [
-              Text(
-                value,
-              ),
-            ],
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(value),
           ),
         ),
       ],
