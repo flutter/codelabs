@@ -27,6 +27,6 @@ if [[ "$OSTYPE" != "linux-gnu"* ]]; then
   CODELABS+=("plugin_codelab")
 fi
 
-ci_codelabs "${CODELABS[@]}"
+ci_codelabs "stable" "${CODELABS[@]}"
 
 echo "== END OF TESTS"
