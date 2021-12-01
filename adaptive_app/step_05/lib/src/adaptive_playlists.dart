@@ -29,11 +29,11 @@ class NarrowDisplayPlaylists extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(context) {
     return Scaffold(
       appBar: AppBar(title: const Text('FlutterDev Playlists')),
       body: Playlists(
-        playlistSelected: (Playlist playlist) {
+        playlistSelected: (playlist) {
           Navigator.push(
             context,
             MaterialPageRoute<void>(
