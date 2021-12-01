@@ -20,7 +20,7 @@ void main() {
   }
 
   runApp(ChangeNotifierProvider<FlutterDevPlaylists>(
-    create: (BuildContext context) => FlutterDevPlaylists(
+    create: (context) => FlutterDevPlaylists(
       flutterDevAccountId: flutterDevAccountId,
       youTubeApiKey: youTubeApiKey,
     ),

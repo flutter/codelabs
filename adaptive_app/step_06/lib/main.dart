@@ -32,7 +32,7 @@ class PlaylistsApp extends StatelessWidget {
   const PlaylistsApp({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(context) {
     return MaterialApp(
       title: 'FlutterDev Playlists',
       theme: FlexColorScheme.light(scheme: FlexScheme.red).toTheme,
