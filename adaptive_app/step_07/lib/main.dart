@@ -21,7 +21,7 @@ final clientId = ClientId(
 
 void main() {
   runApp(ChangeNotifierProvider<AuthedUserPlaylists>(
-    create: (BuildContext context) => AuthedUserPlaylists(),
+    create: (context) => AuthedUserPlaylists(),
     child: const PlaylistsApp(),
   ));
 }
