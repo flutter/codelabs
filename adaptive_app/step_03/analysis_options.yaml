@@ -1,14 +1,5 @@
-include: package:flutter_lints/flutter.yaml
+include: ../../analysis_options.yaml
 
-analyzer:
-  strong-mode:
-    implicit-casts: false
-    implicit-dynamic: false
-    
 linter:
   rules:
     avoid_print: false
-    directives_ordering: true
-    prefer_single_quotes: true
-    sort_pub_dependencies: true
-
