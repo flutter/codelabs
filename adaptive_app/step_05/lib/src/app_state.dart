@@ -79,7 +79,7 @@ class _ApiKeyClient extends http.BaseClient {
 
   @override
   Future<http.StreamedResponse> send(http.BaseRequest request) {
-    final url = request.url.replace(queryParameters: {
+    final url = request.url.replace(queryParameters: <String, List<String>>{
       ...request.url.queryParametersAll,
       'key': [key]
     });
