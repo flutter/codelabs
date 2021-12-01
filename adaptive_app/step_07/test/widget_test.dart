@@ -19,7 +19,7 @@ class FakeAuthedUserPlaylists extends ChangeNotifier
 }
 
 void main() {
-  testWidgets('smoke test', (WidgetTester tester) async {
+  testWidgets('smoke test', (tester) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(
       ChangeNotifierProvider<AuthedUserPlaylists>(

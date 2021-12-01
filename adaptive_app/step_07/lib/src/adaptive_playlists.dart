@@ -33,7 +33,7 @@ class NarrowDisplayPlaylists extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Your Playlists')),
       body: Playlists(
-        playlistSelected: (Playlist playlist) {
+        playlistSelected: (playlist) {
           Navigator.push(
             context,
             MaterialPageRoute<void>(
