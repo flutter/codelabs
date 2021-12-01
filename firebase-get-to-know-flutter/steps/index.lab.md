@@ -969,8 +969,8 @@ And finally, in the initialization section of `ApplicationState`, add the follow
           snapshot.docs.forEach((document) {
             _guestBookMessages.add(
               GuestBookMessage(
-                name: document.data()['name'],
-                message: document.data()['text'],
+                name: document.data()['name'] as String,
+                message: document.data()['text'] as String,
               ),
             );
           });
@@ -1266,8 +1266,8 @@ Update `ApplicationState`'s `init` method as follows:
           snapshot.docs.forEach((document) {
             _guestBookMessages.add(
               GuestBookMessage(
-                name: document.data()['name'],
-                message: document.data()['text'],
+                name: document.data()['name'] as String,
+                message: document.data()['text'] as String,
               ),
             );
           });

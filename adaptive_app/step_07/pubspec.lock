@@ -63,7 +63,7 @@ packages:
       name: cupertino_icons
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.3"
+    version: "1.0.4"
   extension_google_sign_in_as_googleapis_auth:
     dependency: "direct main"
     description:
@@ -113,7 +113,7 @@ packages:
       name: google_sign_in
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.1.1"
+    version: "5.2.1"
   google_sign_in_platform_interface:
     dependency: transitive
     description:
@@ -141,7 +141,7 @@ packages:
       name: googleapis_auth
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.0"
+    version: "1.2.0"
   http:
     dependency: "direct main"
     description:
@@ -218,7 +218,7 @@ packages:
       name: quiver
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.1"
+    version: "3.0.1+1"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -286,7 +286,7 @@ packages:
       name: url_launcher
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.0.12"
+    version: "6.0.14"
   url_launcher_linux:
     dependency: transitive
     description:
