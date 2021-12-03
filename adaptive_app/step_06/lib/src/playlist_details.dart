@@ -17,8 +17,8 @@ class PlaylistDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<FlutterDevPlaylists>(
-      builder: (context, flutterDev, _) {
-        final playlistItems = flutterDev.playlistItems(playlistId: playlistId);
+      builder: (context, playlists, _) {
+        final playlistItems = playlists.playlistItems(playlistId: playlistId);
         if (playlistItems.isEmpty) {
           return const Center(child: CircularProgressIndicator());
         }
@@ -68,8 +68,9 @@ class _PlaylistDetailsListViewState extends State<_PlaylistDetailsListView> {
             child: Stack(
               alignment: Alignment.center,
               children: [
-                AdaptiveImage.network(
-                    playlistItem.snippet!.thumbnails!.high!.url!),
+                if (playlistItem.snippet!.thumbnails!.high != null)
+                  AdaptiveImage.network(
+                      playlistItem.snippet!.thumbnails!.high!.url!),
                 _buildGradient(context),
                 _buildTitleAndSubtitle(context, playlistItem),
                 _buildPlayButton(context, playlistItem),
@@ -113,12 +114,13 @@ class _PlaylistDetailsListViewState extends State<_PlaylistDetailsListView> {
                   // fontWeight: FontWeight.bold,
                 ),
           ),
-          AdaptiveText(
-            playlistItem.snippet!.videoOwnerChannelTitle!,
-            style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                  fontSize: 12,
-                ),
-          ),
+          if (playlistItem.snippet!.videoOwnerChannelTitle != null)
+            AdaptiveText(
+              playlistItem.snippet!.videoOwnerChannelTitle!,
+              style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                    fontSize: 12,
+                  ),
+            ),
         ],
       ),
     );
