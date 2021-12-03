@@ -108,29 +108,30 @@ class _PlaylistDetailsListView extends StatelessWidget {
   }
 
   Widget _buildPlayButton(BuildContext context, PlaylistItem playlistItem) {
-    return Container(
-      width: 42,
-      height: 42,
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(
-          Radius.circular(21),
-        ),
-      ),
-      child: Center(
-        child: Transform.scale(
-          scale: 2,
-          child: Link(
-            uri: Uri.parse(
-                'https://www.youtube.com/watch?v=${playlistItem.snippet!.resourceId!.videoId}'),
-            builder: (context, followLink) => IconButton(
-              onPressed: followLink,
-              color: Colors.red,
-              icon: const Icon(Icons.play_circle_fill),
+    return Stack(
+      alignment: AlignmentDirectional.center,
+      children: [
+        Container(
+          width: 42,
+          height: 42,
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(
+              Radius.circular(21),
             ),
           ),
         ),
-      ),
+        Link(
+          uri: Uri.parse(
+              'https://www.youtube.com/watch?v=${playlistItem.snippet!.resourceId!.videoId}'),
+          builder: (context, followLink) => IconButton(
+            onPressed: followLink,
+            color: Colors.red,
+            icon: const Icon(Icons.play_circle_fill),
+            iconSize: 45,
+          ),
+        ),
+      ],
     );
   }
 }
