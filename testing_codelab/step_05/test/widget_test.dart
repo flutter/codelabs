@@ -15,7 +15,7 @@ import 'package:testing_app/main.dart';
 
 void main() {
   testWidgets('Smoke test', (tester) async {
-    await tester.pumpWidget(TestingApp());
+    await tester.pumpWidget(const TestingApp());
     expect(find.byType(ListView), findsOneWidget);
   });
 }
