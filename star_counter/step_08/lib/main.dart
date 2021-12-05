@@ -3,10 +3,12 @@ import 'privacy_policy.dart';
 import 'star_counter.dart';
 
 void main() {
-  runApp(StarCounterApp());
+  runApp(const StarCounterApp());
 }
 
 class StarCounterApp extends StatelessWidget {
+  const StarCounterApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -14,7 +16,7 @@ class StarCounterApp extends StatelessWidget {
         brightness: Brightness.light,
       ),
       routes: {
-        '/': (context) => HomePage(),
+        '/': (context) => const HomePage(),
         '/privacypolicy': (context) => PrivacyPolicy(),
       },
     );
@@ -22,12 +24,14 @@ class StarCounterApp extends StatelessWidget {
 }
 
 class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
+
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  String _repositoryName = "";
+  String _repositoryName = '';
 
   @override
   Widget build(BuildContext context) {
