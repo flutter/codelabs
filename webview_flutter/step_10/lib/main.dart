@@ -138,7 +138,7 @@ enum _MenuOptions {
 }
 
 class Menu extends StatelessWidget {
-  const Menu(this.controller);
+  const Menu(this.controller, {Key? key}) : super(key: key);
 
   final Future<WebViewController> controller;
 

@@ -19,10 +19,7 @@ class WebViewExampleState extends State<WebViewExample> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Flutter WebView example'),
-        actions: [
-          NavigationControls(_controller.future),
-          Menu(_controller.future),
-        ],
+        actions: [NavigationControls(_controller.future)],
       ),
       body: WebView(
         initialUrl: 'https://flutter.dev',
@@ -107,40 +104,6 @@ class NavigationControls extends StatelessWidget {
               onPressed: () {
                 controller.reload();
               },
-            ),
-          ],
-        );
-      },
-    );
-  }
-}
-
-enum _MenuOptions {
-  navigationDelegate,
-}
-
-class Menu extends StatelessWidget {
-  const Menu(this.controller);
-
-  final Future<WebViewController> controller;
-
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<WebViewController>(
-      future: controller,
-      builder: (context, controller) {
-        return PopupMenuButton<_MenuOptions>(
-          onSelected: (value) {
-            switch (value) {
-              case _MenuOptions.navigationDelegate:
-                controller.data!.loadUrl('https://m.youtube.com');
-                break;
-            }
-          },
-          itemBuilder: (context) => [
-            const PopupMenuItem<_MenuOptions>(
-              value: _MenuOptions.navigationDelegate,
-              child: Text('Navigation Delegate Example'),
             ),
           ],
         );
