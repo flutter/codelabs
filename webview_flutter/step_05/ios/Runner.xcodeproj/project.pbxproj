@@ -125,6 +125,25 @@
 			path = Runner;
 			sourceTree = "<group>";
 		};
+		B6844DC894088F2295C3E2EC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				52B46D5FE058C7DC877D7BB6 /* Pods_Runner.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C56E12C688919114C82E762F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				CA7E6B3A1D9E0AB835E628EC /* Pods-Runner.debug.xcconfig */,
+				AD781BC11FFC073958637AB8 /* Pods-Runner.release.xcconfig */,
+				C6BBEB05D0485393470CD332 /* Pods-Runner.profile.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
