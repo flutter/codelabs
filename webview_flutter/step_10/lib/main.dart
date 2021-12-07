@@ -39,12 +39,12 @@ class WebViewExampleState extends State<WebViewExample> {
           onPageFinished: (url) {
             print('Page finished loading: $url');
           },
-          navigationDelegate: (request) {
-            if (request.url.startsWith('https://m.youtube.com/')) {
-              print('blocking navigation to $request}');
+          navigationDelegate: (navigation) {
+            if (Uri.parse(navigation.url).host.contains('youtube.com')) {
+              print('blocking navigation to $navigation}');
               return NavigationDecision.prevent;
             }
-            print('allowing navigation to $request');
+            print('allowing navigation to $navigation');
             return NavigationDecision.navigate;
           },
           javascriptMode: JavascriptMode.unrestricted,
@@ -57,7 +57,7 @@ class WebViewExampleState extends State<WebViewExample> {
   Set<JavascriptChannel> _createJavascriptChannels(BuildContext context) {
     return {
       JavascriptChannel(
-        name: 'Snackbar',
+        name: 'SnackBar',
         onMessageReceived: (message) {
           ScaffoldMessenger.of(context)
               .showSnackBar(SnackBar(content: Text(message.message)));
@@ -138,7 +138,7 @@ enum _MenuOptions {
 }
 
 class Menu extends StatelessWidget {
-  const Menu(this.controller);
+  const Menu(this.controller, {Key? key}) : super(key: key);
 
   final Future<WebViewController> controller;
 
@@ -166,9 +166,9 @@ var req = new XMLHttpRequest();
 req.open('GET', "https://api.ipify.org/?format=json");
 req.onload = function() {
   if (req.status == 200) {
-    Snackbar.postMessage(req.responseText);
+    SnackBar.postMessage(req.responseText);
   } else {
-    Snackbar.postMessage("Error: " + req.status);
+    SnackBar.postMessage("Error: " + req.status);
   }
 }
 req.send();''');
