@@ -38,12 +38,12 @@ class WebViewExampleState extends State<WebViewExample> {
         onPageFinished: (url) {
           print('Page finished loading: $url');
         },
-        navigationDelegate: (request) {
-          if (request.url.startsWith('https://m.youtube.com/')) {
-            print('blocking navigation to $request}');
+        navigationDelegate: (navigation) {
+          if (Uri.parse(navigation.url).host.contains('youtube.com')) {
+            print('blocking navigation to $navigation}');
             return NavigationDecision.prevent;
           }
-          print('allowing navigation to $request');
+          print('allowing navigation to $navigation');
           return NavigationDecision.navigate;
         },
         javascriptMode: JavascriptMode.unrestricted,
@@ -122,7 +122,7 @@ enum _MenuOptions {
 }
 
 class Menu extends StatelessWidget {
-  const Menu(this.controller);
+  const Menu(this.controller, {Key? key}) : super(key: key);
 
   final Future<WebViewController> controller;
 
