@@ -19,7 +19,10 @@ class WebViewExampleState extends State<WebViewExample> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Flutter WebView example'),
-        actions: [NavigationControls(_controller.future)],
+        actions: [
+          NavigationControls(_controller.future),
+          Menu(_controller.future),
+        ],
       ),
       body: WebView(
         initialUrl: 'https://flutter.dev',
