@@ -2,55 +2,91 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-void main() => runApp(const MaterialApp(home: WebViewExample()));
+void main() => runApp(const MaterialApp(home: WebViewApp()));
 
-class WebViewExample extends StatefulWidget {
-  const WebViewExample({Key? key}) : super(key: key);
+class WebViewApp extends StatefulWidget {
+  const WebViewApp({Key? key}) : super(key: key);
 
   @override
-  WebViewExampleState createState() => WebViewExampleState();
+  State<WebViewApp> createState() => _WebViewAppState();
 }
 
-class WebViewExampleState extends State<WebViewExample> {
-  final _controller = Completer<WebViewController>();
+class _WebViewAppState extends State<WebViewApp> {
+  final controller = Completer<WebViewController>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Flutter WebView example'),
+        title: const Text('Flutter WebView'),
         actions: [
-          NavigationControls(_controller.future),
-          Menu(_controller.future),
+          NavigationControls(controller: controller),
+          Menu(controller: controller),
         ],
       ),
-      body: Builder(builder: (context) {
-        return WebView(
+      body: WebViewStack(controller: controller),
+    );
+  }
+}
+
+class WebViewStack extends StatefulWidget {
+  const WebViewStack({required this.controller, Key? key}) : super(key: key);
+
+  final Completer<WebViewController> controller;
+
+  @override
+  State<WebViewStack> createState() => _WebViewStackState();
+}
+
+class _WebViewStackState extends State<WebViewStack> {
+  var loadingPercentage = 100;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        WebView(
           initialUrl: 'https://flutter.dev',
           onWebViewCreated: (webViewController) {
-            _controller.complete(webViewController);
+            widget.controller.complete(webViewController);
           },
           onPageStarted: (url) {
-            print('Page started loading: $url');
+            setState(() {
+              loadingPercentage = 0;
+            });
           },
           onProgress: (progress) {
-            print('WebView is loading (progress : $progress%)');
+            setState(() {
+              loadingPercentage = progress;
+            });
           },
           onPageFinished: (url) {
-            print('Page finished loading: $url');
+            setState(() {
+              loadingPercentage = 100;
+            });
           },
           navigationDelegate: (navigation) {
-            if (Uri.parse(navigation.url).host.contains('youtube.com')) {
-              print('blocking navigation to $navigation}');
+            final host = Uri.parse(navigation.url).host;
+            if (host.contains('youtube.com')) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    'Blocking navigation to $host',
+                  ),
+                ),
+              );
               return NavigationDecision.prevent;
             }
-            print('allowing navigation to $navigation');
             return NavigationDecision.navigate;
           },
           javascriptMode: JavascriptMode.unrestricted,
           javascriptChannels: _createJavascriptChannels(context),
-        );
-      }),
+        ),
+        if (loadingPercentage < 100)
+          LinearProgressIndicator(
+            value: loadingPercentage / 100.0,
+          ),
+      ],
     );
   }
 
@@ -68,19 +104,19 @@ class WebViewExampleState extends State<WebViewExample> {
 }
 
 class NavigationControls extends StatelessWidget {
-  const NavigationControls(this._webViewControllerFuture, {Key? key})
+  const NavigationControls({required this.controller, Key? key})
       : super(key: key);
 
-  final Future<WebViewController> _webViewControllerFuture;
+  final Completer<WebViewController> controller;
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<WebViewController>(
-      future: _webViewControllerFuture,
+      future: controller.future,
       builder: (context, snapshot) {
-        final webViewReady = snapshot.connectionState == ConnectionState.done;
         final WebViewController? controller = snapshot.data;
-        if (!webViewReady || controller == null) {
+        if (snapshot.connectionState != ConnectionState.done ||
+            controller == null) {
           return Row(
             children: const <Widget>[
               Icon(Icons.arrow_back_ios),
@@ -142,9 +178,9 @@ enum _MenuOptions {
 }
 
 class Menu extends StatefulWidget {
-  const Menu(this.controller, {Key? key}) : super(key: key);
+  const Menu({required this.controller, Key? key}) : super(key: key);
 
-  final Future<WebViewController> controller;
+  final Completer<WebViewController> controller;
 
   @override
   State<Menu> createState() => _MenuState();
@@ -156,13 +192,13 @@ class _MenuState extends State<Menu> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<WebViewController>(
-      future: widget.controller,
+      future: widget.controller.future,
       builder: (context, controller) {
         return PopupMenuButton<_MenuOptions>(
           onSelected: (value) async {
             switch (value) {
               case _MenuOptions.navigationDelegate:
-                controller.data!.loadUrl('https://m.youtube.com');
+                controller.data!.loadUrl('https://youtube.com');
                 break;
               case _MenuOptions.userAgent:
                 final userAgent = await controller.data!
@@ -177,7 +213,8 @@ var req = new XMLHttpRequest();
 req.open('GET', "https://api.ipify.org/?format=json");
 req.onload = function() {
   if (req.status == 200) {
-    SnackBar.postMessage(req.responseText);
+    let response = JSON.parse(req.responseText);
+    SnackBar.postMessage("IP Address: " + response.ip);
   } else {
     SnackBar.postMessage("Error: " + req.status);
   }
@@ -201,7 +238,7 @@ req.send();''');
           itemBuilder: (context) => [
             const PopupMenuItem<_MenuOptions>(
               value: _MenuOptions.navigationDelegate,
-              child: Text('Navigation Delegate Example'),
+              child: Text('Navigate to YouTube'),
             ),
             const PopupMenuItem<_MenuOptions>(
               value: _MenuOptions.userAgent,
@@ -209,7 +246,7 @@ req.send();''');
             ),
             const PopupMenuItem<_MenuOptions>(
               value: _MenuOptions.javascriptChannel,
-              child: Text('JavaScript Channel Example'),
+              child: Text('Lookup IP Address'),
             ),
             const PopupMenuItem<_MenuOptions>(
               value: _MenuOptions.clearCookies,

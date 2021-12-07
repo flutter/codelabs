@@ -2,58 +2,92 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-void main() => runApp(const MaterialApp(home: WebViewExample()));
+void main() => runApp(const MaterialApp(home: WebViewApp()));
 
-class WebViewExample extends StatefulWidget {
-  const WebViewExample({Key? key}) : super(key: key);
+class WebViewApp extends StatefulWidget {
+  const WebViewApp({Key? key}) : super(key: key);
 
   @override
-  WebViewExampleState createState() => WebViewExampleState();
+  State<WebViewApp> createState() => _WebViewAppState();
 }
 
-class WebViewExampleState extends State<WebViewExample> {
-  final _controller = Completer<WebViewController>();
+class _WebViewAppState extends State<WebViewApp> {
+  final controller = Completer<WebViewController>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Flutter WebView example'),
-        actions: [NavigationControls(_controller.future)],
+        actions: [
+          NavigationControls(controller: controller),
+        ],
       ),
-      body: WebView(
-        initialUrl: 'https://flutter.dev',
-        onWebViewCreated: (webViewController) {
-          _controller.complete(webViewController);
-        },
-        onPageStarted: (url) {
-          print('Page started loading: $url');
-        },
-        onProgress: (progress) {
-          print('WebView is loading (progress : $progress%)');
-        },
-        onPageFinished: (url) {
-          print('Page finished loading: $url');
-        },
-      ),
+      body: WebViewStack(controller: controller),
+    );
+  }
+}
+
+class WebViewStack extends StatefulWidget {
+  const WebViewStack({required this.controller, Key? key}) : super(key: key);
+
+  final Completer<WebViewController> controller;
+
+  @override
+  State<WebViewStack> createState() => _WebViewStackState();
+}
+
+class _WebViewStackState extends State<WebViewStack> {
+  var loadingPercentage = 100;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        WebView(
+          initialUrl: 'https://flutter.dev',
+          onWebViewCreated: (webViewController) {
+            widget.controller.complete(webViewController);
+          },
+          onPageStarted: (url) {
+            setState(() {
+              loadingPercentage = 0;
+            });
+          },
+          onProgress: (progress) {
+            setState(() {
+              loadingPercentage = progress;
+            });
+          },
+          onPageFinished: (url) {
+            setState(() {
+              loadingPercentage = 100;
+            });
+          },
+        ),
+        if (loadingPercentage < 100)
+          LinearProgressIndicator(
+            value: loadingPercentage / 100.0,
+          ),
+      ],
     );
   }
 }
 
 class NavigationControls extends StatelessWidget {
-  const NavigationControls(this._webViewControllerFuture, {Key? key})
+  const NavigationControls({required this.controller, Key? key})
       : super(key: key);
 
-  final Future<WebViewController> _webViewControllerFuture;
+  final Completer<WebViewController> controller;
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<WebViewController>(
-      future: _webViewControllerFuture,
+      future: controller.future,
       builder: (context, snapshot) {
-        final webViewReady = snapshot.connectionState == ConnectionState.done;
         final WebViewController? controller = snapshot.data;
-        if (!webViewReady || controller == null) {
+        if (snapshot.connectionState != ConnectionState.done ||
+            controller == null) {
           return Row(
             children: const <Widget>[
               Icon(Icons.arrow_back_ios),
