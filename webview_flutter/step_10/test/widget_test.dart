@@ -13,6 +13,6 @@ import 'package:webview_in_flutter/main.dart';
 void main() {
   testWidgets('Do nothing test', (tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const MaterialApp(home: WebViewExample()));
+    await tester.pumpWidget(const MaterialApp(home: WebViewApp()));
   });
 }
