@@ -9,7 +9,7 @@ class WebViewStack extends StatefulWidget {
 }
 
 class _WebViewStackState extends State<WebViewStack> {
-  var loadingPercentage = 100;
+  var loadingPercentage = 0;
 
   @override
   Widget build(BuildContext context) {
