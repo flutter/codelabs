@@ -4,7 +4,6 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 enum _MenuOptions {
   navigationDelegate,
-  // We will add more menu options here later
 }
 
 class Menu extends StatelessWidget {
