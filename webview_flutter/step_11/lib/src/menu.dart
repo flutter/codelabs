@@ -147,11 +147,9 @@ req.send();''');
     );
   }
 
-  Future<void> _onSetCookie(
-      WebViewController controller) async {
+  Future<void> _onSetCookie(WebViewController controller) async {
     await cookieManager.setCookie(
-      const WebViewCookie(
-          name: 'foo', value: 'bar', domain: 'flutter.dev'),
+      const WebViewCookie(name: 'foo', value: 'bar', domain: 'flutter.dev'),
     );
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
