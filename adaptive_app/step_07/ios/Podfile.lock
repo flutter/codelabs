@@ -15,14 +15,14 @@ PODS:
   - GTMAppAuth (1.2.2):
     - AppAuth/Core (~> 1.4)
     - GTMSessionFetcher/Core (~> 1.5)
-  - GTMSessionFetcher/Core (1.6.1)
-  - url_launcher (0.0.1):
+  - GTMSessionFetcher/Core (1.7.0)
+  - url_launcher_ios (0.0.1):
     - Flutter
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
   - google_sign_in (from `.symlinks/plugins/google_sign_in/ios`)
-  - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
+  - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
 
 SPEC REPOS:
   trunk:
@@ -36,18 +36,18 @@ EXTERNAL SOURCES:
     :path: Flutter
   google_sign_in:
     :path: ".symlinks/plugins/google_sign_in/ios"
-  url_launcher:
-    :path: ".symlinks/plugins/url_launcher/ios"
+  url_launcher_ios:
+    :path: ".symlinks/plugins/url_launcher_ios/ios"
 
 SPEC CHECKSUMS:
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
-  google_sign_in: de494e5e993986afae63e22a32441e30c35c9823
+  google_sign_in: c5cecea71f3be43282263550556e311c4cc03582
   GoogleSignIn: 7137d297ddc022a7e0aa4619c86d72c909fa7213
   GTMAppAuth: ad5c2b70b9a8689e1a04033c9369c4915bfcbe89
-  GTMSessionFetcher: 36689134877faeb055b27dfa4ccc9ceaa42e029e
-  url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
+  GTMSessionFetcher: 43748f93435c2aa068b1cbe39655aaf600652e91
+  url_launcher_ios: 02f1989d4e14e998335b02b67a7590fa34f971af
 
 PODFILE CHECKSUM: 4a481002a52a596e1d080544c44dc5f79670a07b
 
-COCOAPODS: 1.10.2
+COCOAPODS: 1.11.2
