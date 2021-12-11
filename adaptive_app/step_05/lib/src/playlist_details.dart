@@ -15,8 +15,8 @@ class PlaylistDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<FlutterDevPlaylists>(
-      builder: (context, flutterDev, _) {
-        final playlistItems = flutterDev.playlistItems(playlistId: playlistId);
+      builder: (context, playlists, _) {
+        final playlistItems = playlists.playlistItems(playlistId: playlistId);
         if (playlistItems.isEmpty) {
           return const Center(child: CircularProgressIndicator());
         }
@@ -66,7 +66,8 @@ class _PlaylistDetailsListViewState extends State<_PlaylistDetailsListView> {
             child: Stack(
               alignment: Alignment.center,
               children: [
-                Image.network(playlistItem.snippet!.thumbnails!.high!.url!),
+                if (playlistItem.snippet!.thumbnails!.high != null)
+                  Image.network(playlistItem.snippet!.thumbnails!.high!.url!),
                 _buildGradient(context),
                 _buildTitleAndSubtitle(context, playlistItem),
                 _buildPlayButton(context, playlistItem),
@@ -110,41 +111,43 @@ class _PlaylistDetailsListViewState extends State<_PlaylistDetailsListView> {
                   // fontWeight: FontWeight.bold,
                 ),
           ),
-          Text(
-            playlistItem.snippet!.videoOwnerChannelTitle!,
-            style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                  fontSize: 12,
-                ),
-          ),
+          if (playlistItem.snippet!.videoOwnerChannelTitle != null)
+            Text(
+              playlistItem.snippet!.videoOwnerChannelTitle!,
+              style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                    fontSize: 12,
+                  ),
+            ),
         ],
       ),
     );
   }
 
   Widget _buildPlayButton(BuildContext context, PlaylistItem playlistItem) {
-    return Container(
-      width: 42,
-      height: 42,
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(
-          Radius.circular(21),
-        ),
-      ),
-      child: Center(
-        child: Transform.scale(
-          scale: 2,
-          child: Link(
-            uri: Uri.parse(
-                'https://www.youtube.com/watch?v=${playlistItem.snippet!.resourceId!.videoId}'),
-            builder: (context, followLink) => IconButton(
-              onPressed: followLink,
-              color: Colors.red,
-              icon: const Icon(Icons.play_circle_fill),
+    return Stack(
+      alignment: AlignmentDirectional.center,
+      children: [
+        Container(
+          width: 42,
+          height: 42,
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(
+              Radius.circular(21),
             ),
           ),
         ),
-      ),
+        Link(
+          uri: Uri.parse(
+              'https://www.youtube.com/watch?v=${playlistItem.snippet!.resourceId!.videoId}'),
+          builder: (context, followLink) => IconButton(
+            onPressed: followLink,
+            color: Colors.red,
+            icon: const Icon(Icons.play_circle_fill),
+            iconSize: 45,
+          ),
+        ),
+      ],
     );
   }
 }
