@@ -20,7 +20,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        flutter_version: [stable, beta]
+        # Disable until beta catches up with stable
+        # flutter_version: [stable, beta]
+        flutter_version: [stable]
         os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
       - uses: actions/checkout@v2

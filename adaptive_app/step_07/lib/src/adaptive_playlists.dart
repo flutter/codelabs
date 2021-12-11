@@ -71,7 +71,7 @@ class _WideDisplayPlaylistsState extends State<WideDisplayPlaylists> {
       appBar: AppBar(
         title: selectedPlaylist == null
             ? const Text('Your Playlists')
-            : Text('Playlist: ${selectedPlaylist!.snippet!.title!}'),
+            : Text('Your Playlist: ${selectedPlaylist!.snippet!.title!}'),
       ),
       body: SplitView(
         viewMode: SplitViewMode.Horizontal,

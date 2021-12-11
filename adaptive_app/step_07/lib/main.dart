@@ -12,8 +12,7 @@ final scopes = [
   'https://www.googleapis.com/auth/youtube.readonly',
 ];
 
-// TODO: Replace with your Client ID and Client Secret from your
-// Desktop OAuth client
+// TODO: Replace with your Client ID and Client Secret for Desktop configuration
 final clientId = ClientId(
   'TODO-Client-ID.apps.googleusercontent.com',
   'TODO-Client-secret',
