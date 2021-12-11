@@ -4,13 +4,11 @@
 
 name: testing_app
 description: App behind Flutter testing codelab.
-
 publish_to: 'none'
-
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.15.0-268.18.beta <3.0.0"
+  sdk: ">=2.15.0 <3.0.0"
 
 dependencies:
   cupertino_icons: ^1.0.2
