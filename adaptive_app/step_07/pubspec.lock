@@ -84,7 +84,7 @@ packages:
       name: flex_color_scheme
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.1"
+    version: "4.1.1"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -134,7 +134,7 @@ packages:
       name: googleapis
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.0"
+    version: "7.0.0"
   googleapis_auth:
     dependency: "direct main"
     description:
@@ -344,5 +344,5 @@ packages:
     source: hosted
     version: "2.1.1"
 sdks:
-  dart: ">=2.14.0 <3.0.0"
+  dart: ">=2.15.0 <3.0.0"
   flutter: ">=2.5.0"
