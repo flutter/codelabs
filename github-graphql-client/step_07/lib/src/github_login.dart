@@ -28,7 +28,8 @@ class GithubLoginWidget extends StatefulWidget {
     required this.githubClientId,
     required this.githubClientSecret,
     required this.githubScopes,
-  });
+    Key? key,
+  }) : super(key: key);
   final AuthenticatedBuilder builder;
   final String githubClientId;
   final String githubClientSecret;
