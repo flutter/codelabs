@@ -5,7 +5,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_cookbook/app.dart';
+import '../app.dart';
 
 void main() {
   runApp(const App(
