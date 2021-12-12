@@ -17,7 +17,7 @@ class StarCounterApp extends StatelessWidget {
       ),
       routes: {
         '/': (context) => const HomePage(),
-        '/privacypolicy': (context) => PrivacyPolicy(),
+        '/privacypolicy': (context) => const PrivacyPolicy(),
       },
     );
   }
