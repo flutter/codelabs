@@ -20,15 +20,16 @@ import 'package:gql_link/gql_link.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 
-import 'github_gql/github_queries.data.gql.dart';
-import 'github_gql/github_queries.req.gql.dart';
+import 'github_gql/__generated__/github_queries.data.gql.dart';
+import 'github_gql/__generated__/github_queries.req.gql.dart';
 
 class GitHubSummary extends StatefulWidget {
-  GitHubSummary({required http.Client client})
+  GitHubSummary({required http.Client client, Key? key})
       : _link = HttpLink(
           'https://api.github.com/graphql',
           httpClient: client,
-        );
+        ),
+        super(key: key);
   final HttpLink _link;
   @override
   _GitHubSummaryState createState() => _GitHubSummaryState();
@@ -82,7 +83,7 @@ class _GitHubSummaryState extends State<GitHubSummary> {
 }
 
 class RepositoriesList extends StatefulWidget {
-  const RepositoriesList({required this.link});
+  const RepositoriesList({required this.link, Key? key}) : super(key: key);
   final Link link;
   @override
   _RepositoriesListState createState() => _RepositoriesListState();
@@ -146,7 +147,7 @@ class _RepositoriesListState extends State<RepositoriesList> {
 }
 
 class AssignedIssuesList extends StatefulWidget {
-  const AssignedIssuesList({required this.link});
+  const AssignedIssuesList({required this.link, Key? key}) : super(key: key);
   final Link link;
   @override
   _AssignedIssuesListState createState() => _AssignedIssuesListState();
@@ -230,7 +231,7 @@ class _AssignedIssuesListState extends State<AssignedIssuesList> {
 }
 
 class PullRequestsList extends StatefulWidget {
-  const PullRequestsList({required this.link});
+  const PullRequestsList({required this.link, Key? key}) : super(key: key);
   final Link link;
   @override
   _PullRequestsListState createState() => _PullRequestsListState();

@@ -16,6 +16,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GAddLabelsToLabelableInput.serializer)
       ..add(GAddProjectCardInput.serializer)
       ..add(GAddProjectColumnInput.serializer)
+      ..add(GAddProjectNextItemInput.serializer)
       ..add(GAddPullRequestReviewCommentInput.serializer)
       ..add(GAddPullRequestReviewInput.serializer)
       ..add(GAddPullRequestReviewThreadInput.serializer)
@@ -112,6 +113,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GDeleteProjectCardInput.serializer)
       ..add(GDeleteProjectColumnInput.serializer)
       ..add(GDeleteProjectInput.serializer)
+      ..add(GDeleteProjectNextItemInput.serializer)
       ..add(GDeletePullRequestReviewCommentInput.serializer)
       ..add(GDeletePullRequestReviewInput.serializer)
       ..add(GDeleteRefInput.serializer)
@@ -129,6 +131,8 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GDiscussionOrder.serializer)
       ..add(GDiscussionOrderField.serializer)
       ..add(GDismissPullRequestReviewInput.serializer)
+      ..add(GDismissReason.serializer)
+      ..add(GDismissRepositoryVulnerabilityAlertInput.serializer)
       ..add(GDraftPullRequestReviewComment.serializer)
       ..add(GDraftPullRequestReviewThread.serializer)
       ..add(GEnablePullRequestAutoMergeInput.serializer)
@@ -203,6 +207,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GMoveProjectCardInput.serializer)
       ..add(GMoveProjectColumnInput.serializer)
       ..add(GNotificationRestrictionSettingValue.serializer)
+      ..add(GOIDCProviderType.serializer)
       ..add(GOauthApplicationCreateAuditEntryState.serializer)
       ..add(GOperationType.serializer)
       ..add(GOrderDirection.serializer)
@@ -323,6 +328,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GRepositoryVisibility.serializer)
       ..add(GRequestReviewsInput.serializer)
       ..add(GRequestableCheckStatusState.serializer)
+      ..add(GRequiredStatusCheckInput.serializer)
       ..add(GRerequestCheckSuiteInput.serializer)
       ..add(GResolveReviewThreadInput.serializer)
       ..add(GSamlDigestAlgorithm.serializer)
@@ -431,6 +437,8 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GUpdateProjectCardInput.serializer)
       ..add(GUpdateProjectColumnInput.serializer)
       ..add(GUpdateProjectInput.serializer)
+      ..add(GUpdateProjectNextItemFieldInput.serializer)
+      ..add(GUpdatePullRequestBranchInput.serializer)
       ..add(GUpdatePullRequestInput.serializer)
       ..add(GUpdatePullRequestReviewCommentInput.serializer)
       ..add(GUpdatePullRequestReviewInput.serializer)
@@ -575,14 +583,22 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())
       ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(String)]),
-          () => new ListBuilder<String>())
+          const FullType(
+              BuiltList, const [const FullType(GRequiredStatusCheckInput)]),
+          () => new ListBuilder<GRequiredStatusCheckInput>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(GRequiredStatusCheckInput)]),
+          () => new ListBuilder<GRequiredStatusCheckInput>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())

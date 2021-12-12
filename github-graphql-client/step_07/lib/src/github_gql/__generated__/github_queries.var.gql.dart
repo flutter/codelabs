@@ -2,7 +2,7 @@
 
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-import 'package:github_graphql_client/third_party/github_graphql_schema/serializers.gql.dart'
+import 'package:github_graphql_client/third_party/github_graphql_schema/__generated__/serializers.gql.dart'
     as _i1;
 
 part 'github_queries.var.gql.g.dart';
