@@ -4,7 +4,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_cookbook/app.dart';
+import '../app.dart';
 
 void main() {
   runApp(const App(

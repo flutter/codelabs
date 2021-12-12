@@ -10,7 +10,7 @@ import 'package:startup_namer/main.dart';
 
 void main() {
   testWidgets('Codelab smoke test', (tester) async {
-    await tester.pumpWidget(MyApp());
+    await tester.pumpWidget(const MyApp());
     expect(find.text('Hello World'), findsOneWidget);
   });
 }
