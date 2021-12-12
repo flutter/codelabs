@@ -13,8 +13,8 @@
 // limitations under the License.
 
 import 'package:flutter/material.dart';
-import 'package:flutter_cookbook/app.dart';
-import 'package:flutter_cookbook/items.dart';
+import 'app.dart';
+import 'items.dart';
 
 void main() {
   runApp(const App());
