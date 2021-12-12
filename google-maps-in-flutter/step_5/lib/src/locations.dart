@@ -102,7 +102,8 @@ Future<Locations> getGoogleOffices() async {
   try {
     final response = await http.get(Uri.parse(googleLocationsURL));
     if (response.statusCode == 200) {
-      return Locations.fromJson(json.decode(response.body));
+      return Locations.fromJson(
+          json.decode(response.body) as Map<String, dynamic>);
     }
   } catch (e) {
     print(e);
@@ -112,6 +113,6 @@ Future<Locations> getGoogleOffices() async {
   return Locations.fromJson(
     json.decode(
       await rootBundle.loadString('assets/locations.json'),
-    ),
+    ) as Map<String, dynamic>,
   );
 }
