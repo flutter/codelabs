@@ -4,11 +4,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:testing_app/models/favorites.dart';
-import 'package:testing_app/screens/favorites.dart';
+import '../models/favorites.dart';
+import 'favorites.dart';
 
 class HomePage extends StatelessWidget {
   static String routeName = '/';
+
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,9 +41,7 @@ class HomePage extends StatelessWidget {
 class ItemTile extends StatelessWidget {
   final int itemNo;
 
-  const ItemTile(
-    this.itemNo,
-  );
+  const ItemTile(this.itemNo, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
