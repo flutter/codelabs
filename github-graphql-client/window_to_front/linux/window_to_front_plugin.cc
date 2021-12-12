@@ -1,22 +1,10 @@
-// Copyright 2020 Google LLC
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     https://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
 #include "include/window_to_front/window_to_front_plugin.h"
 
 #include <flutter_linux/flutter_linux.h>
 #include <gtk/gtk.h>
 #include <sys/utsname.h>
+
+#include <cstring>
 
 #define WINDOW_TO_FRONT_PLUGIN(obj) \
   (G_TYPE_CHECK_INSTANCE_CAST((obj), window_to_front_plugin_get_type(), \
@@ -24,8 +12,6 @@
 
 struct _WindowToFrontPlugin {
   GObject parent_instance;
-
-  FlPluginRegistrar* registrar;
 };
 
 G_DEFINE_TYPE(WindowToFrontPlugin, window_to_front_plugin, g_object_get_type())
@@ -38,14 +24,12 @@ static void window_to_front_plugin_handle_method_call(
 
   const gchar* method = fl_method_call_get_name(method_call);
 
-  if (strcmp(method, "activate") == 0) {
-    FlView* view = fl_plugin_registrar_get_view(self->registrar);
-    if (view != nullptr) {
-      GtkWindow* window = GTK_WINDOW(gtk_widget_get_toplevel(GTK_WIDGET(view)));
-      gtk_window_present(window);
-    }
-    
-    response = FL_METHOD_RESPONSE(fl_method_success_response_new(nullptr));
+  if (strcmp(method, "getPlatformVersion") == 0) {
+    struct utsname uname_data = {};
+    uname(&uname_data);
+    g_autofree gchar *version = g_strdup_printf("Linux %s", uname_data.version);
+    g_autoptr(FlValue) result = fl_value_new_string(version);
+    response = FL_METHOD_RESPONSE(fl_method_success_response_new(result));
   } else {
     response = FL_METHOD_RESPONSE(fl_method_not_implemented_response_new());
   }
@@ -72,8 +56,6 @@ static void method_call_cb(FlMethodChannel* channel, FlMethodCall* method_call,
 void window_to_front_plugin_register_with_registrar(FlPluginRegistrar* registrar) {
   WindowToFrontPlugin* plugin = WINDOW_TO_FRONT_PLUGIN(
       g_object_new(window_to_front_plugin_get_type(), nullptr));
-
-  plugin->registrar = FL_PLUGIN_REGISTRAR(g_object_ref(registrar));
 
   g_autoptr(FlStandardMethodCodec) codec = fl_standard_method_codec_new();
   g_autoptr(FlMethodChannel) channel =

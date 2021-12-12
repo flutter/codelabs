@@ -2,11 +2,11 @@
 
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-import 'package:github_graphql_client/src/github_gql/github_queries.ast.gql.dart'
+import 'package:github_graphql_client/src/github_gql/__generated__/github_queries.ast.gql.dart'
     as _i2;
-import 'package:github_graphql_client/src/github_gql/github_queries.var.gql.dart'
+import 'package:github_graphql_client/src/github_gql/__generated__/github_queries.var.gql.dart'
     as _i3;
-import 'package:github_graphql_client/third_party/github_graphql_schema/serializers.gql.dart'
+import 'package:github_graphql_client/third_party/github_graphql_schema/__generated__/serializers.gql.dart'
     as _i4;
 import 'package:gql_exec/gql_exec.dart' as _i1;
 

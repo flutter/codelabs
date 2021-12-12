@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.14)
 project(github_graphql_client LANGUAGES CXX)
 
 set(BINARY_NAME "github_graphql_client")

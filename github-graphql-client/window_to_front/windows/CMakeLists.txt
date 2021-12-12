@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.14)
 set(PROJECT_NAME "window_to_front")
 project(${PROJECT_NAME} LANGUAGES CXX)
 
