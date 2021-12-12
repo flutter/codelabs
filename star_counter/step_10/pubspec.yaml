@@ -1,16 +1,17 @@
 name: star_counter
 description: A GitHub Star Counter app
 version: 1.0.0+1
+
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=2.15.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  flutter_markdown: ^0.6.6
-  github: ^8.1.3
+  flutter_markdown: ^0.6.8
+  github: ^8.2.5
   intl: ^0.17.0
-  url_launcher: ^6.0.12
+  url_launcher: ^6.0.17
 
 dev_dependencies:
   flutter_test:
