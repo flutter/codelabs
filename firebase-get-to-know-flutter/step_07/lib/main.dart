@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import 'firebase_options.dart';
 import 'src/authentication.dart';
 import 'src/widgets.dart';
 
@@ -86,7 +87,7 @@ class HomePage extends StatelessWidget {
                   GuestBook(
                     addMessage: (message) =>
                         appState.addMessageToGuestBook(message),
-                    messages: appState.guestBookMessages, // new
+                    messages: appState.guestBookMessages,
                   ),
                 ],
               ],
@@ -104,7 +105,9 @@ class ApplicationState extends ChangeNotifier {
   }
 
   Future<void> init() async {
-    await Firebase.initializeApp();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
 
     FirebaseAuth.instance.userChanges().listen((user) {
       if (user != null) {
@@ -144,11 +147,9 @@ class ApplicationState extends ChangeNotifier {
   String? _email;
   String? get email => _email;
 
-  // Add from here
   StreamSubscription<QuerySnapshot>? _guestBookSubscription;
   List<GuestBookMessage> _guestBookMessages = [];
   List<GuestBookMessage> get guestBookMessages => _guestBookMessages;
-  // to here.
 
   void startLoginFlow() {
     _loginState = ApplicationLoginState.emailAddress;

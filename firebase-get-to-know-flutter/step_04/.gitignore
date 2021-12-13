@@ -44,3 +44,6 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# FlutterFire generated Firebase configuration
+/lib/firebase_options.dart

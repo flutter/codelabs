@@ -5,6 +5,3 @@
 # Xcode-related
 **/dgph
 **/xcuserdata/
-
-# Ignore Firebase configuration file
-GoogleService-Info.plist
