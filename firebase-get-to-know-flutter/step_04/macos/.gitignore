@@ -3,6 +3,8 @@
 **/Pods/
 
 # Xcode-related
+**/dgph
 **/xcuserdata/
 
-/Runner/GoogleService-Info.plist
+# Ignore Firebase configuration file
+GoogleService-Info.plist

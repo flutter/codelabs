@@ -619,6 +619,43 @@ final BuiltSet<GDiscussionOrderField> _$gDiscussionOrderFieldValues =
   _$gDiscussionOrderFieldUPDATED_AT,
 ]);
 
+const GDismissReason _$gDismissReasonFIX_STARTED =
+    const GDismissReason._('FIX_STARTED');
+const GDismissReason _$gDismissReasonINACCURATE =
+    const GDismissReason._('INACCURATE');
+const GDismissReason _$gDismissReasonNOT_USED =
+    const GDismissReason._('NOT_USED');
+const GDismissReason _$gDismissReasonNO_BANDWIDTH =
+    const GDismissReason._('NO_BANDWIDTH');
+const GDismissReason _$gDismissReasonTOLERABLE_RISK =
+    const GDismissReason._('TOLERABLE_RISK');
+
+GDismissReason _$gDismissReasonValueOf(String name) {
+  switch (name) {
+    case 'FIX_STARTED':
+      return _$gDismissReasonFIX_STARTED;
+    case 'INACCURATE':
+      return _$gDismissReasonINACCURATE;
+    case 'NOT_USED':
+      return _$gDismissReasonNOT_USED;
+    case 'NO_BANDWIDTH':
+      return _$gDismissReasonNO_BANDWIDTH;
+    case 'TOLERABLE_RISK':
+      return _$gDismissReasonTOLERABLE_RISK;
+    default:
+      throw new ArgumentError(name);
+  }
+}
+
+final BuiltSet<GDismissReason> _$gDismissReasonValues =
+    new BuiltSet<GDismissReason>(const <GDismissReason>[
+  _$gDismissReasonFIX_STARTED,
+  _$gDismissReasonINACCURATE,
+  _$gDismissReasonNOT_USED,
+  _$gDismissReasonNO_BANDWIDTH,
+  _$gDismissReasonTOLERABLE_RISK,
+]);
+
 const GEnterpriseAdministratorInvitationOrderField
     _$gEnterpriseAdministratorInvitationOrderFieldCREATED_AT =
     const GEnterpriseAdministratorInvitationOrderField._('CREATED_AT');
@@ -1862,6 +1899,23 @@ final BuiltSet<GNotificationRestrictionSettingValue>
         GNotificationRestrictionSettingValue>[
   _$gNotificationRestrictionSettingValueDISABLED,
   _$gNotificationRestrictionSettingValueENABLED,
+]);
+
+const GOIDCProviderType _$gOIDCProviderTypeAAD =
+    const GOIDCProviderType._('AAD');
+
+GOIDCProviderType _$gOIDCProviderTypeValueOf(String name) {
+  switch (name) {
+    case 'AAD':
+      return _$gOIDCProviderTypeAAD;
+    default:
+      throw new ArgumentError(name);
+  }
+}
+
+final BuiltSet<GOIDCProviderType> _$gOIDCProviderTypeValues =
+    new BuiltSet<GOIDCProviderType>(const <GOIDCProviderType>[
+  _$gOIDCProviderTypeAAD,
 ]);
 
 const GOauthApplicationCreateAuditEntryState
@@ -5173,6 +5227,8 @@ Serializer<GAddProjectCardInput> _$gAddProjectCardInputSerializer =
     new _$GAddProjectCardInputSerializer();
 Serializer<GAddProjectColumnInput> _$gAddProjectColumnInputSerializer =
     new _$GAddProjectColumnInputSerializer();
+Serializer<GAddProjectNextItemInput> _$gAddProjectNextItemInputSerializer =
+    new _$GAddProjectNextItemInputSerializer();
 Serializer<GAddPullRequestReviewCommentInput>
     _$gAddPullRequestReviewCommentInputSerializer =
     new _$GAddPullRequestReviewCommentInputSerializer();
@@ -5352,6 +5408,9 @@ Serializer<GDeleteProjectColumnInput> _$gDeleteProjectColumnInputSerializer =
     new _$GDeleteProjectColumnInputSerializer();
 Serializer<GDeleteProjectInput> _$gDeleteProjectInputSerializer =
     new _$GDeleteProjectInputSerializer();
+Serializer<GDeleteProjectNextItemInput>
+    _$gDeleteProjectNextItemInputSerializer =
+    new _$GDeleteProjectNextItemInputSerializer();
 Serializer<GDeletePullRequestReviewCommentInput>
     _$gDeletePullRequestReviewCommentInputSerializer =
     new _$GDeletePullRequestReviewCommentInputSerializer();
@@ -5392,6 +5451,11 @@ Serializer<GDiscussionOrderField> _$gDiscussionOrderFieldSerializer =
 Serializer<GDismissPullRequestReviewInput>
     _$gDismissPullRequestReviewInputSerializer =
     new _$GDismissPullRequestReviewInputSerializer();
+Serializer<GDismissReason> _$gDismissReasonSerializer =
+    new _$GDismissReasonSerializer();
+Serializer<GDismissRepositoryVulnerabilityAlertInput>
+    _$gDismissRepositoryVulnerabilityAlertInputSerializer =
+    new _$GDismissRepositoryVulnerabilityAlertInputSerializer();
 Serializer<GDraftPullRequestReviewComment>
     _$gDraftPullRequestReviewCommentSerializer =
     new _$GDraftPullRequestReviewCommentSerializer();
@@ -5557,6 +5621,8 @@ Serializer<GMoveProjectColumnInput> _$gMoveProjectColumnInputSerializer =
 Serializer<GNotificationRestrictionSettingValue>
     _$gNotificationRestrictionSettingValueSerializer =
     new _$GNotificationRestrictionSettingValueSerializer();
+Serializer<GOIDCProviderType> _$gOIDCProviderTypeSerializer =
+    new _$GOIDCProviderTypeSerializer();
 Serializer<GOauthApplicationCreateAuditEntryState>
     _$gOauthApplicationCreateAuditEntryStateSerializer =
     new _$GOauthApplicationCreateAuditEntryStateSerializer();
@@ -5784,6 +5850,8 @@ Serializer<GRequestReviewsInput> _$gRequestReviewsInputSerializer =
 Serializer<GRequestableCheckStatusState>
     _$gRequestableCheckStatusStateSerializer =
     new _$GRequestableCheckStatusStateSerializer();
+Serializer<GRequiredStatusCheckInput> _$gRequiredStatusCheckInputSerializer =
+    new _$GRequiredStatusCheckInputSerializer();
 Serializer<GRerequestCheckSuiteInput> _$gRerequestCheckSuiteInputSerializer =
     new _$GRerequestCheckSuiteInputSerializer();
 Serializer<GResolveReviewThreadInput> _$gResolveReviewThreadInputSerializer =
@@ -6022,6 +6090,12 @@ Serializer<GUpdateProjectColumnInput> _$gUpdateProjectColumnInputSerializer =
     new _$GUpdateProjectColumnInputSerializer();
 Serializer<GUpdateProjectInput> _$gUpdateProjectInputSerializer =
     new _$GUpdateProjectInputSerializer();
+Serializer<GUpdateProjectNextItemFieldInput>
+    _$gUpdateProjectNextItemFieldInputSerializer =
+    new _$GUpdateProjectNextItemFieldInputSerializer();
+Serializer<GUpdatePullRequestBranchInput>
+    _$gUpdatePullRequestBranchInputSerializer =
+    new _$GUpdatePullRequestBranchInputSerializer();
 Serializer<GUpdatePullRequestInput> _$gUpdatePullRequestInputSerializer =
     new _$GUpdatePullRequestInputSerializer();
 Serializer<GUpdatePullRequestReviewCommentInput>
@@ -6647,6 +6721,70 @@ class _$GAddProjectColumnInputSerializer
           break;
         case 'name':
           result.name = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'projectId':
+          result.projectId = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$GAddProjectNextItemInputSerializer
+    implements StructuredSerializer<GAddProjectNextItemInput> {
+  @override
+  final Iterable<Type> types = const [
+    GAddProjectNextItemInput,
+    _$GAddProjectNextItemInput
+  ];
+  @override
+  final String wireName = 'GAddProjectNextItemInput';
+
+  @override
+  Iterable<Object?> serialize(
+      Serializers serializers, GAddProjectNextItemInput object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      'contentId',
+      serializers.serialize(object.contentId,
+          specifiedType: const FullType(String)),
+      'projectId',
+      serializers.serialize(object.projectId,
+          specifiedType: const FullType(String)),
+    ];
+    Object? value;
+    value = object.clientMutationId;
+    if (value != null) {
+      result
+        ..add('clientMutationId')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    return result;
+  }
+
+  @override
+  GAddProjectNextItemInput deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new GAddProjectNextItemInputBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'clientMutationId':
+          result.clientMutationId = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'contentId':
+          result.contentId = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
         case 'projectId':
@@ -9357,6 +9495,14 @@ class _$GCreateBranchProtectionRuleInputSerializer
             specifiedType:
                 const FullType(BuiltList, const [const FullType(String)])));
     }
+    value = object.requiredStatusChecks;
+    if (value != null) {
+      result
+        ..add('requiredStatusChecks')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(
+                BuiltList, const [const FullType(GRequiredStatusCheckInput)])));
+    }
     value = object.requiresApprovingReviews;
     if (value != null) {
       result
@@ -9487,6 +9633,12 @@ class _$GCreateBranchProtectionRuleInputSerializer
                   specifiedType: const FullType(
                       BuiltList, const [const FullType(String)]))!
               as BuiltList<Object?>);
+          break;
+        case 'requiredStatusChecks':
+          result.requiredStatusChecks.replace(serializers.deserialize(value,
+              specifiedType: const FullType(BuiltList, const [
+                const FullType(GRequiredStatusCheckInput)
+              ]))! as BuiltList<Object?>);
           break;
         case 'requiresApprovingReviews':
           result.requiresApprovingReviews = serializers.deserialize(value,
@@ -12222,6 +12374,70 @@ class _$GDeleteProjectInputSerializer
   }
 }
 
+class _$GDeleteProjectNextItemInputSerializer
+    implements StructuredSerializer<GDeleteProjectNextItemInput> {
+  @override
+  final Iterable<Type> types = const [
+    GDeleteProjectNextItemInput,
+    _$GDeleteProjectNextItemInput
+  ];
+  @override
+  final String wireName = 'GDeleteProjectNextItemInput';
+
+  @override
+  Iterable<Object?> serialize(
+      Serializers serializers, GDeleteProjectNextItemInput object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      'itemId',
+      serializers.serialize(object.itemId,
+          specifiedType: const FullType(String)),
+      'projectId',
+      serializers.serialize(object.projectId,
+          specifiedType: const FullType(String)),
+    ];
+    Object? value;
+    value = object.clientMutationId;
+    if (value != null) {
+      result
+        ..add('clientMutationId')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    return result;
+  }
+
+  @override
+  GDeleteProjectNextItemInput deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new GDeleteProjectNextItemInputBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'clientMutationId':
+          result.clientMutationId = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'itemId':
+          result.itemId = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'projectId':
+          result.projectId = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
 class _$GDeletePullRequestReviewCommentInputSerializer
     implements StructuredSerializer<GDeletePullRequestReviewCommentInput> {
   @override
@@ -12897,6 +13113,88 @@ class _$GDismissPullRequestReviewInputSerializer
           break;
         case 'pullRequestReviewId':
           result.pullRequestReviewId = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$GDismissReasonSerializer
+    implements PrimitiveSerializer<GDismissReason> {
+  @override
+  final Iterable<Type> types = const <Type>[GDismissReason];
+  @override
+  final String wireName = 'GDismissReason';
+
+  @override
+  Object serialize(Serializers serializers, GDismissReason object,
+          {FullType specifiedType = FullType.unspecified}) =>
+      object.name;
+
+  @override
+  GDismissReason deserialize(Serializers serializers, Object serialized,
+          {FullType specifiedType = FullType.unspecified}) =>
+      GDismissReason.valueOf(serialized as String);
+}
+
+class _$GDismissRepositoryVulnerabilityAlertInputSerializer
+    implements StructuredSerializer<GDismissRepositoryVulnerabilityAlertInput> {
+  @override
+  final Iterable<Type> types = const [
+    GDismissRepositoryVulnerabilityAlertInput,
+    _$GDismissRepositoryVulnerabilityAlertInput
+  ];
+  @override
+  final String wireName = 'GDismissRepositoryVulnerabilityAlertInput';
+
+  @override
+  Iterable<Object?> serialize(
+      Serializers serializers, GDismissRepositoryVulnerabilityAlertInput object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      'dismissReason',
+      serializers.serialize(object.dismissReason,
+          specifiedType: const FullType(GDismissReason)),
+      'repositoryVulnerabilityAlertId',
+      serializers.serialize(object.repositoryVulnerabilityAlertId,
+          specifiedType: const FullType(String)),
+    ];
+    Object? value;
+    value = object.clientMutationId;
+    if (value != null) {
+      result
+        ..add('clientMutationId')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    return result;
+  }
+
+  @override
+  GDismissRepositoryVulnerabilityAlertInput deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new GDismissRepositoryVulnerabilityAlertInputBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'clientMutationId':
+          result.clientMutationId = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'dismissReason':
+          result.dismissReason = serializers.deserialize(value,
+              specifiedType: const FullType(GDismissReason)) as GDismissReason;
+          break;
+        case 'repositoryVulnerabilityAlertId':
+          result.repositoryVulnerabilityAlertId = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
       }
@@ -15804,6 +16102,24 @@ class _$GNotificationRestrictionSettingValueSerializer
           Serializers serializers, Object serialized,
           {FullType specifiedType = FullType.unspecified}) =>
       GNotificationRestrictionSettingValue.valueOf(serialized as String);
+}
+
+class _$GOIDCProviderTypeSerializer
+    implements PrimitiveSerializer<GOIDCProviderType> {
+  @override
+  final Iterable<Type> types = const <Type>[GOIDCProviderType];
+  @override
+  final String wireName = 'GOIDCProviderType';
+
+  @override
+  Object serialize(Serializers serializers, GOIDCProviderType object,
+          {FullType specifiedType = FullType.unspecified}) =>
+      object.name;
+
+  @override
+  GOIDCProviderType deserialize(Serializers serializers, Object serialized,
+          {FullType specifiedType = FullType.unspecified}) =>
+      GOIDCProviderType.valueOf(serialized as String);
 }
 
 class _$GOauthApplicationCreateAuditEntryStateSerializer
@@ -18907,6 +19223,63 @@ class _$GRequestableCheckStatusStateSerializer
       GRequestableCheckStatusState.valueOf(serialized as String);
 }
 
+class _$GRequiredStatusCheckInputSerializer
+    implements StructuredSerializer<GRequiredStatusCheckInput> {
+  @override
+  final Iterable<Type> types = const [
+    GRequiredStatusCheckInput,
+    _$GRequiredStatusCheckInput
+  ];
+  @override
+  final String wireName = 'GRequiredStatusCheckInput';
+
+  @override
+  Iterable<Object?> serialize(
+      Serializers serializers, GRequiredStatusCheckInput object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      'context',
+      serializers.serialize(object.context,
+          specifiedType: const FullType(String)),
+    ];
+    Object? value;
+    value = object.appId;
+    if (value != null) {
+      result
+        ..add('appId')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    return result;
+  }
+
+  @override
+  GRequiredStatusCheckInput deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new GRequiredStatusCheckInputBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'appId':
+          result.appId = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'context':
+          result.context = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
 class _$GRerequestCheckSuiteInputSerializer
     implements StructuredSerializer<GRerequestCheckSuiteInput> {
   @override
@@ -21639,6 +22012,14 @@ class _$GUpdateBranchProtectionRuleInputSerializer
             specifiedType:
                 const FullType(BuiltList, const [const FullType(String)])));
     }
+    value = object.requiredStatusChecks;
+    if (value != null) {
+      result
+        ..add('requiredStatusChecks')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(
+                BuiltList, const [const FullType(GRequiredStatusCheckInput)])));
+    }
     value = object.requiresApprovingReviews;
     if (value != null) {
       result
@@ -21769,6 +22150,12 @@ class _$GUpdateBranchProtectionRuleInputSerializer
                   specifiedType: const FullType(
                       BuiltList, const [const FullType(String)]))!
               as BuiltList<Object?>);
+          break;
+        case 'requiredStatusChecks':
+          result.requiredStatusChecks.replace(serializers.deserialize(value,
+              specifiedType: const FullType(BuiltList, const [
+                const FullType(GRequiredStatusCheckInput)
+              ]))! as BuiltList<Object?>);
           break;
         case 'requiresApprovingReviews':
           result.requiresApprovingReviews = serializers.deserialize(value,
@@ -24308,6 +24695,152 @@ class _$GUpdateProjectInputSerializer
   }
 }
 
+class _$GUpdateProjectNextItemFieldInputSerializer
+    implements StructuredSerializer<GUpdateProjectNextItemFieldInput> {
+  @override
+  final Iterable<Type> types = const [
+    GUpdateProjectNextItemFieldInput,
+    _$GUpdateProjectNextItemFieldInput
+  ];
+  @override
+  final String wireName = 'GUpdateProjectNextItemFieldInput';
+
+  @override
+  Iterable<Object?> serialize(
+      Serializers serializers, GUpdateProjectNextItemFieldInput object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      'fieldId',
+      serializers.serialize(object.fieldId,
+          specifiedType: const FullType(String)),
+      'itemId',
+      serializers.serialize(object.itemId,
+          specifiedType: const FullType(String)),
+      'projectId',
+      serializers.serialize(object.projectId,
+          specifiedType: const FullType(String)),
+      'value',
+      serializers.serialize(object.value,
+          specifiedType: const FullType(String)),
+    ];
+    Object? value;
+    value = object.clientMutationId;
+    if (value != null) {
+      result
+        ..add('clientMutationId')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    return result;
+  }
+
+  @override
+  GUpdateProjectNextItemFieldInput deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new GUpdateProjectNextItemFieldInputBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'clientMutationId':
+          result.clientMutationId = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'fieldId':
+          result.fieldId = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'itemId':
+          result.itemId = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'projectId':
+          result.projectId = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'value':
+          result.value = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$GUpdatePullRequestBranchInputSerializer
+    implements StructuredSerializer<GUpdatePullRequestBranchInput> {
+  @override
+  final Iterable<Type> types = const [
+    GUpdatePullRequestBranchInput,
+    _$GUpdatePullRequestBranchInput
+  ];
+  @override
+  final String wireName = 'GUpdatePullRequestBranchInput';
+
+  @override
+  Iterable<Object?> serialize(
+      Serializers serializers, GUpdatePullRequestBranchInput object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      'pullRequestId',
+      serializers.serialize(object.pullRequestId,
+          specifiedType: const FullType(String)),
+    ];
+    Object? value;
+    value = object.clientMutationId;
+    if (value != null) {
+      result
+        ..add('clientMutationId')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.expectedHeadOid;
+    if (value != null) {
+      result
+        ..add('expectedHeadOid')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(GGitObjectID)));
+    }
+    return result;
+  }
+
+  @override
+  GUpdatePullRequestBranchInput deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new GUpdatePullRequestBranchInputBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'clientMutationId':
+          result.clientMutationId = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'expectedHeadOid':
+          result.expectedHeadOid.replace(serializers.deserialize(value,
+              specifiedType: const FullType(GGitObjectID))! as GGitObjectID);
+          break;
+        case 'pullRequestId':
+          result.pullRequestId = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
 class _$GUpdatePullRequestInputSerializer
     implements StructuredSerializer<GUpdatePullRequestInput> {
   @override
@@ -26667,6 +27200,117 @@ class GAddProjectColumnInputBuilder
                 name, 'GAddProjectColumnInput', 'name'),
             projectId: BuiltValueNullFieldError.checkNotNull(
                 projectId, 'GAddProjectColumnInput', 'projectId'));
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$GAddProjectNextItemInput extends GAddProjectNextItemInput {
+  @override
+  final String? clientMutationId;
+  @override
+  final String contentId;
+  @override
+  final String projectId;
+
+  factory _$GAddProjectNextItemInput(
+          [void Function(GAddProjectNextItemInputBuilder)? updates]) =>
+      (new GAddProjectNextItemInputBuilder()..update(updates)).build();
+
+  _$GAddProjectNextItemInput._(
+      {this.clientMutationId, required this.contentId, required this.projectId})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        contentId, 'GAddProjectNextItemInput', 'contentId');
+    BuiltValueNullFieldError.checkNotNull(
+        projectId, 'GAddProjectNextItemInput', 'projectId');
+  }
+
+  @override
+  GAddProjectNextItemInput rebuild(
+          void Function(GAddProjectNextItemInputBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  GAddProjectNextItemInputBuilder toBuilder() =>
+      new GAddProjectNextItemInputBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is GAddProjectNextItemInput &&
+        clientMutationId == other.clientMutationId &&
+        contentId == other.contentId &&
+        projectId == other.projectId;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc($jc($jc(0, clientMutationId.hashCode), contentId.hashCode),
+        projectId.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('GAddProjectNextItemInput')
+          ..add('clientMutationId', clientMutationId)
+          ..add('contentId', contentId)
+          ..add('projectId', projectId))
+        .toString();
+  }
+}
+
+class GAddProjectNextItemInputBuilder
+    implements
+        Builder<GAddProjectNextItemInput, GAddProjectNextItemInputBuilder> {
+  _$GAddProjectNextItemInput? _$v;
+
+  String? _clientMutationId;
+  String? get clientMutationId => _$this._clientMutationId;
+  set clientMutationId(String? clientMutationId) =>
+      _$this._clientMutationId = clientMutationId;
+
+  String? _contentId;
+  String? get contentId => _$this._contentId;
+  set contentId(String? contentId) => _$this._contentId = contentId;
+
+  String? _projectId;
+  String? get projectId => _$this._projectId;
+  set projectId(String? projectId) => _$this._projectId = projectId;
+
+  GAddProjectNextItemInputBuilder();
+
+  GAddProjectNextItemInputBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _clientMutationId = $v.clientMutationId;
+      _contentId = $v.contentId;
+      _projectId = $v.projectId;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(GAddProjectNextItemInput other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$GAddProjectNextItemInput;
+  }
+
+  @override
+  void update(void Function(GAddProjectNextItemInputBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  _$GAddProjectNextItemInput build() {
+    final _$result = _$v ??
+        new _$GAddProjectNextItemInput._(
+            clientMutationId: clientMutationId,
+            contentId: BuiltValueNullFieldError.checkNotNull(
+                contentId, 'GAddProjectNextItemInput', 'contentId'),
+            projectId: BuiltValueNullFieldError.checkNotNull(
+                projectId, 'GAddProjectNextItemInput', 'projectId'));
     replace(_$result);
     return _$result;
   }
@@ -30916,6 +31560,8 @@ class _$GCreateBranchProtectionRuleInput
   @override
   final BuiltList<String>? requiredStatusCheckContexts;
   @override
+  final BuiltList<GRequiredStatusCheckInput>? requiredStatusChecks;
+  @override
   final bool? requiresApprovingReviews;
   @override
   final bool? requiresCodeOwnerReviews;
@@ -30951,6 +31597,7 @@ class _$GCreateBranchProtectionRuleInput
       required this.repositoryId,
       this.requiredApprovingReviewCount,
       this.requiredStatusCheckContexts,
+      this.requiredStatusChecks,
       this.requiresApprovingReviews,
       this.requiresCodeOwnerReviews,
       this.requiresCommitSignatures,
@@ -30991,6 +31638,7 @@ class _$GCreateBranchProtectionRuleInput
         repositoryId == other.repositoryId &&
         requiredApprovingReviewCount == other.requiredApprovingReviewCount &&
         requiredStatusCheckContexts == other.requiredStatusCheckContexts &&
+        requiredStatusChecks == other.requiredStatusChecks &&
         requiresApprovingReviews == other.requiresApprovingReviews &&
         requiresCodeOwnerReviews == other.requiresCodeOwnerReviews &&
         requiresCommitSignatures == other.requiresCommitSignatures &&
@@ -31024,28 +31672,16 @@ class _$GCreateBranchProtectionRuleInput
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc(
-                                                                                $jc(
-                                                                                    0,
-                                                                                    allowsDeletions
-                                                                                        .hashCode),
-                                                                                allowsForcePushes
-                                                                                    .hashCode),
-                                                                            clientMutationId
-                                                                                .hashCode),
-                                                                        dismissesStaleReviews
-                                                                            .hashCode),
-                                                                    isAdminEnforced
-                                                                        .hashCode),
-                                                                pattern
-                                                                    .hashCode),
-                                                            pushActorIds
-                                                                .hashCode),
-                                                        repositoryId.hashCode),
-                                                    requiredApprovingReviewCount
-                                                        .hashCode),
-                                                requiredStatusCheckContexts
-                                                    .hashCode),
+                                                                            $jc($jc($jc(0, allowsDeletions.hashCode), allowsForcePushes.hashCode),
+                                                                                clientMutationId.hashCode),
+                                                                            dismissesStaleReviews.hashCode),
+                                                                        isAdminEnforced.hashCode),
+                                                                    pattern.hashCode),
+                                                                pushActorIds.hashCode),
+                                                            repositoryId.hashCode),
+                                                        requiredApprovingReviewCount.hashCode),
+                                                    requiredStatusCheckContexts.hashCode),
+                                                requiredStatusChecks.hashCode),
                                             requiresApprovingReviews.hashCode),
                                         requiresCodeOwnerReviews.hashCode),
                                     requiresCommitSignatures.hashCode),
@@ -31071,6 +31707,7 @@ class _$GCreateBranchProtectionRuleInput
           ..add('repositoryId', repositoryId)
           ..add('requiredApprovingReviewCount', requiredApprovingReviewCount)
           ..add('requiredStatusCheckContexts', requiredStatusCheckContexts)
+          ..add('requiredStatusChecks', requiredStatusChecks)
           ..add('requiresApprovingReviews', requiresApprovingReviews)
           ..add('requiresCodeOwnerReviews', requiresCodeOwnerReviews)
           ..add('requiresCommitSignatures', requiresCommitSignatures)
@@ -31143,6 +31780,14 @@ class GCreateBranchProtectionRuleInputBuilder
           ListBuilder<String>? requiredStatusCheckContexts) =>
       _$this._requiredStatusCheckContexts = requiredStatusCheckContexts;
 
+  ListBuilder<GRequiredStatusCheckInput>? _requiredStatusChecks;
+  ListBuilder<GRequiredStatusCheckInput> get requiredStatusChecks =>
+      _$this._requiredStatusChecks ??=
+          new ListBuilder<GRequiredStatusCheckInput>();
+  set requiredStatusChecks(
+          ListBuilder<GRequiredStatusCheckInput>? requiredStatusChecks) =>
+      _$this._requiredStatusChecks = requiredStatusChecks;
+
   bool? _requiresApprovingReviews;
   bool? get requiresApprovingReviews => _$this._requiresApprovingReviews;
   set requiresApprovingReviews(bool? requiresApprovingReviews) =>
@@ -31211,6 +31856,7 @@ class GCreateBranchProtectionRuleInputBuilder
       _requiredApprovingReviewCount = $v.requiredApprovingReviewCount;
       _requiredStatusCheckContexts =
           $v.requiredStatusCheckContexts?.toBuilder();
+      _requiredStatusChecks = $v.requiredStatusChecks?.toBuilder();
       _requiresApprovingReviews = $v.requiresApprovingReviews;
       _requiresCodeOwnerReviews = $v.requiresCodeOwnerReviews;
       _requiresCommitSignatures = $v.requiresCommitSignatures;
@@ -31256,6 +31902,7 @@ class GCreateBranchProtectionRuleInputBuilder
               requiredApprovingReviewCount: requiredApprovingReviewCount,
               requiredStatusCheckContexts:
                   _requiredStatusCheckContexts?.build(),
+              requiredStatusChecks: _requiredStatusChecks?.build(),
               requiresApprovingReviews: requiresApprovingReviews,
               requiresCodeOwnerReviews: requiresCodeOwnerReviews,
               requiresCommitSignatures: requiresCommitSignatures,
@@ -31274,6 +31921,8 @@ class GCreateBranchProtectionRuleInputBuilder
 
         _$failedField = 'requiredStatusCheckContexts';
         _requiredStatusCheckContexts?.build();
+        _$failedField = 'requiredStatusChecks';
+        _requiredStatusChecks?.build();
 
         _$failedField = 'reviewDismissalActorIds';
         _reviewDismissalActorIds?.build();
@@ -36005,6 +36654,118 @@ class GDeleteProjectInputBuilder
   }
 }
 
+class _$GDeleteProjectNextItemInput extends GDeleteProjectNextItemInput {
+  @override
+  final String? clientMutationId;
+  @override
+  final String itemId;
+  @override
+  final String projectId;
+
+  factory _$GDeleteProjectNextItemInput(
+          [void Function(GDeleteProjectNextItemInputBuilder)? updates]) =>
+      (new GDeleteProjectNextItemInputBuilder()..update(updates)).build();
+
+  _$GDeleteProjectNextItemInput._(
+      {this.clientMutationId, required this.itemId, required this.projectId})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        itemId, 'GDeleteProjectNextItemInput', 'itemId');
+    BuiltValueNullFieldError.checkNotNull(
+        projectId, 'GDeleteProjectNextItemInput', 'projectId');
+  }
+
+  @override
+  GDeleteProjectNextItemInput rebuild(
+          void Function(GDeleteProjectNextItemInputBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  GDeleteProjectNextItemInputBuilder toBuilder() =>
+      new GDeleteProjectNextItemInputBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is GDeleteProjectNextItemInput &&
+        clientMutationId == other.clientMutationId &&
+        itemId == other.itemId &&
+        projectId == other.projectId;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc($jc($jc(0, clientMutationId.hashCode), itemId.hashCode),
+        projectId.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('GDeleteProjectNextItemInput')
+          ..add('clientMutationId', clientMutationId)
+          ..add('itemId', itemId)
+          ..add('projectId', projectId))
+        .toString();
+  }
+}
+
+class GDeleteProjectNextItemInputBuilder
+    implements
+        Builder<GDeleteProjectNextItemInput,
+            GDeleteProjectNextItemInputBuilder> {
+  _$GDeleteProjectNextItemInput? _$v;
+
+  String? _clientMutationId;
+  String? get clientMutationId => _$this._clientMutationId;
+  set clientMutationId(String? clientMutationId) =>
+      _$this._clientMutationId = clientMutationId;
+
+  String? _itemId;
+  String? get itemId => _$this._itemId;
+  set itemId(String? itemId) => _$this._itemId = itemId;
+
+  String? _projectId;
+  String? get projectId => _$this._projectId;
+  set projectId(String? projectId) => _$this._projectId = projectId;
+
+  GDeleteProjectNextItemInputBuilder();
+
+  GDeleteProjectNextItemInputBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _clientMutationId = $v.clientMutationId;
+      _itemId = $v.itemId;
+      _projectId = $v.projectId;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(GDeleteProjectNextItemInput other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$GDeleteProjectNextItemInput;
+  }
+
+  @override
+  void update(void Function(GDeleteProjectNextItemInputBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  _$GDeleteProjectNextItemInput build() {
+    final _$result = _$v ??
+        new _$GDeleteProjectNextItemInput._(
+            clientMutationId: clientMutationId,
+            itemId: BuiltValueNullFieldError.checkNotNull(
+                itemId, 'GDeleteProjectNextItemInput', 'itemId'),
+            projectId: BuiltValueNullFieldError.checkNotNull(
+                projectId, 'GDeleteProjectNextItemInput', 'projectId'));
+    replace(_$result);
+    return _$result;
+  }
+}
+
 class _$GDeletePullRequestReviewCommentInput
     extends GDeletePullRequestReviewCommentInput {
   @override
@@ -36997,6 +37758,137 @@ class GDismissPullRequestReviewInputBuilder
                 pullRequestReviewId,
                 'GDismissPullRequestReviewInput',
                 'pullRequestReviewId'));
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$GDismissRepositoryVulnerabilityAlertInput
+    extends GDismissRepositoryVulnerabilityAlertInput {
+  @override
+  final String? clientMutationId;
+  @override
+  final GDismissReason dismissReason;
+  @override
+  final String repositoryVulnerabilityAlertId;
+
+  factory _$GDismissRepositoryVulnerabilityAlertInput(
+          [void Function(GDismissRepositoryVulnerabilityAlertInputBuilder)?
+              updates]) =>
+      (new GDismissRepositoryVulnerabilityAlertInputBuilder()..update(updates))
+          .build();
+
+  _$GDismissRepositoryVulnerabilityAlertInput._(
+      {this.clientMutationId,
+      required this.dismissReason,
+      required this.repositoryVulnerabilityAlertId})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(dismissReason,
+        'GDismissRepositoryVulnerabilityAlertInput', 'dismissReason');
+    BuiltValueNullFieldError.checkNotNull(
+        repositoryVulnerabilityAlertId,
+        'GDismissRepositoryVulnerabilityAlertInput',
+        'repositoryVulnerabilityAlertId');
+  }
+
+  @override
+  GDismissRepositoryVulnerabilityAlertInput rebuild(
+          void Function(GDismissRepositoryVulnerabilityAlertInputBuilder)
+              updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  GDismissRepositoryVulnerabilityAlertInputBuilder toBuilder() =>
+      new GDismissRepositoryVulnerabilityAlertInputBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is GDismissRepositoryVulnerabilityAlertInput &&
+        clientMutationId == other.clientMutationId &&
+        dismissReason == other.dismissReason &&
+        repositoryVulnerabilityAlertId == other.repositoryVulnerabilityAlertId;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc(
+        $jc($jc(0, clientMutationId.hashCode), dismissReason.hashCode),
+        repositoryVulnerabilityAlertId.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(
+            'GDismissRepositoryVulnerabilityAlertInput')
+          ..add('clientMutationId', clientMutationId)
+          ..add('dismissReason', dismissReason)
+          ..add(
+              'repositoryVulnerabilityAlertId', repositoryVulnerabilityAlertId))
+        .toString();
+  }
+}
+
+class GDismissRepositoryVulnerabilityAlertInputBuilder
+    implements
+        Builder<GDismissRepositoryVulnerabilityAlertInput,
+            GDismissRepositoryVulnerabilityAlertInputBuilder> {
+  _$GDismissRepositoryVulnerabilityAlertInput? _$v;
+
+  String? _clientMutationId;
+  String? get clientMutationId => _$this._clientMutationId;
+  set clientMutationId(String? clientMutationId) =>
+      _$this._clientMutationId = clientMutationId;
+
+  GDismissReason? _dismissReason;
+  GDismissReason? get dismissReason => _$this._dismissReason;
+  set dismissReason(GDismissReason? dismissReason) =>
+      _$this._dismissReason = dismissReason;
+
+  String? _repositoryVulnerabilityAlertId;
+  String? get repositoryVulnerabilityAlertId =>
+      _$this._repositoryVulnerabilityAlertId;
+  set repositoryVulnerabilityAlertId(String? repositoryVulnerabilityAlertId) =>
+      _$this._repositoryVulnerabilityAlertId = repositoryVulnerabilityAlertId;
+
+  GDismissRepositoryVulnerabilityAlertInputBuilder();
+
+  GDismissRepositoryVulnerabilityAlertInputBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _clientMutationId = $v.clientMutationId;
+      _dismissReason = $v.dismissReason;
+      _repositoryVulnerabilityAlertId = $v.repositoryVulnerabilityAlertId;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(GDismissRepositoryVulnerabilityAlertInput other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$GDismissRepositoryVulnerabilityAlertInput;
+  }
+
+  @override
+  void update(
+      void Function(GDismissRepositoryVulnerabilityAlertInputBuilder)?
+          updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  _$GDismissRepositoryVulnerabilityAlertInput build() {
+    final _$result = _$v ??
+        new _$GDismissRepositoryVulnerabilityAlertInput._(
+            clientMutationId: clientMutationId,
+            dismissReason: BuiltValueNullFieldError.checkNotNull(dismissReason,
+                'GDismissRepositoryVulnerabilityAlertInput', 'dismissReason'),
+            repositoryVulnerabilityAlertId:
+                BuiltValueNullFieldError.checkNotNull(
+                    repositoryVulnerabilityAlertId,
+                    'GDismissRepositoryVulnerabilityAlertInput',
+                    'repositoryVulnerabilityAlertId'));
     replace(_$result);
     return _$result;
   }
@@ -44552,6 +45444,101 @@ class GRequestReviewsInputBuilder
   }
 }
 
+class _$GRequiredStatusCheckInput extends GRequiredStatusCheckInput {
+  @override
+  final String? appId;
+  @override
+  final String context;
+
+  factory _$GRequiredStatusCheckInput(
+          [void Function(GRequiredStatusCheckInputBuilder)? updates]) =>
+      (new GRequiredStatusCheckInputBuilder()..update(updates)).build();
+
+  _$GRequiredStatusCheckInput._({this.appId, required this.context})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        context, 'GRequiredStatusCheckInput', 'context');
+  }
+
+  @override
+  GRequiredStatusCheckInput rebuild(
+          void Function(GRequiredStatusCheckInputBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  GRequiredStatusCheckInputBuilder toBuilder() =>
+      new GRequiredStatusCheckInputBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is GRequiredStatusCheckInput &&
+        appId == other.appId &&
+        context == other.context;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc($jc(0, appId.hashCode), context.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('GRequiredStatusCheckInput')
+          ..add('appId', appId)
+          ..add('context', context))
+        .toString();
+  }
+}
+
+class GRequiredStatusCheckInputBuilder
+    implements
+        Builder<GRequiredStatusCheckInput, GRequiredStatusCheckInputBuilder> {
+  _$GRequiredStatusCheckInput? _$v;
+
+  String? _appId;
+  String? get appId => _$this._appId;
+  set appId(String? appId) => _$this._appId = appId;
+
+  String? _context;
+  String? get context => _$this._context;
+  set context(String? context) => _$this._context = context;
+
+  GRequiredStatusCheckInputBuilder();
+
+  GRequiredStatusCheckInputBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _appId = $v.appId;
+      _context = $v.context;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(GRequiredStatusCheckInput other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$GRequiredStatusCheckInput;
+  }
+
+  @override
+  void update(void Function(GRequiredStatusCheckInputBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  _$GRequiredStatusCheckInput build() {
+    final _$result = _$v ??
+        new _$GRequiredStatusCheckInput._(
+            appId: appId,
+            context: BuiltValueNullFieldError.checkNotNull(
+                context, 'GRequiredStatusCheckInput', 'context'));
+    replace(_$result);
+    return _$result;
+  }
+}
+
 class _$GRerequestCheckSuiteInput extends GRerequestCheckSuiteInput {
   @override
   final String checkSuiteId;
@@ -48267,6 +49254,8 @@ class _$GUpdateBranchProtectionRuleInput
   @override
   final BuiltList<String>? requiredStatusCheckContexts;
   @override
+  final BuiltList<GRequiredStatusCheckInput>? requiredStatusChecks;
+  @override
   final bool? requiresApprovingReviews;
   @override
   final bool? requiresCodeOwnerReviews;
@@ -48302,6 +49291,7 @@ class _$GUpdateBranchProtectionRuleInput
       this.pushActorIds,
       this.requiredApprovingReviewCount,
       this.requiredStatusCheckContexts,
+      this.requiredStatusChecks,
       this.requiresApprovingReviews,
       this.requiresCodeOwnerReviews,
       this.requiresCommitSignatures,
@@ -48340,6 +49330,7 @@ class _$GUpdateBranchProtectionRuleInput
         pushActorIds == other.pushActorIds &&
         requiredApprovingReviewCount == other.requiredApprovingReviewCount &&
         requiredStatusCheckContexts == other.requiredStatusCheckContexts &&
+        requiredStatusChecks == other.requiredStatusChecks &&
         requiresApprovingReviews == other.requiresApprovingReviews &&
         requiresCodeOwnerReviews == other.requiresCodeOwnerReviews &&
         requiresCommitSignatures == other.requiresCommitSignatures &&
@@ -48373,27 +49364,16 @@ class _$GUpdateBranchProtectionRuleInput
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc(
-                                                                                $jc(
-                                                                                    0,
-                                                                                    allowsDeletions
-                                                                                        .hashCode),
-                                                                                allowsForcePushes
-                                                                                    .hashCode),
-                                                                            branchProtectionRuleId
-                                                                                .hashCode),
-                                                                        clientMutationId
-                                                                            .hashCode),
-                                                                    dismissesStaleReviews
-                                                                        .hashCode),
-                                                                isAdminEnforced
-                                                                    .hashCode),
-                                                            pattern.hashCode),
-                                                        pushActorIds.hashCode),
-                                                    requiredApprovingReviewCount
-                                                        .hashCode),
-                                                requiredStatusCheckContexts
-                                                    .hashCode),
+                                                                            $jc($jc($jc(0, allowsDeletions.hashCode), allowsForcePushes.hashCode),
+                                                                                branchProtectionRuleId.hashCode),
+                                                                            clientMutationId.hashCode),
+                                                                        dismissesStaleReviews.hashCode),
+                                                                    isAdminEnforced.hashCode),
+                                                                pattern.hashCode),
+                                                            pushActorIds.hashCode),
+                                                        requiredApprovingReviewCount.hashCode),
+                                                    requiredStatusCheckContexts.hashCode),
+                                                requiredStatusChecks.hashCode),
                                             requiresApprovingReviews.hashCode),
                                         requiresCodeOwnerReviews.hashCode),
                                     requiresCommitSignatures.hashCode),
@@ -48419,6 +49399,7 @@ class _$GUpdateBranchProtectionRuleInput
           ..add('pushActorIds', pushActorIds)
           ..add('requiredApprovingReviewCount', requiredApprovingReviewCount)
           ..add('requiredStatusCheckContexts', requiredStatusCheckContexts)
+          ..add('requiredStatusChecks', requiredStatusChecks)
           ..add('requiresApprovingReviews', requiresApprovingReviews)
           ..add('requiresCodeOwnerReviews', requiresCodeOwnerReviews)
           ..add('requiresCommitSignatures', requiresCommitSignatures)
@@ -48492,6 +49473,14 @@ class GUpdateBranchProtectionRuleInputBuilder
           ListBuilder<String>? requiredStatusCheckContexts) =>
       _$this._requiredStatusCheckContexts = requiredStatusCheckContexts;
 
+  ListBuilder<GRequiredStatusCheckInput>? _requiredStatusChecks;
+  ListBuilder<GRequiredStatusCheckInput> get requiredStatusChecks =>
+      _$this._requiredStatusChecks ??=
+          new ListBuilder<GRequiredStatusCheckInput>();
+  set requiredStatusChecks(
+          ListBuilder<GRequiredStatusCheckInput>? requiredStatusChecks) =>
+      _$this._requiredStatusChecks = requiredStatusChecks;
+
   bool? _requiresApprovingReviews;
   bool? get requiresApprovingReviews => _$this._requiresApprovingReviews;
   set requiresApprovingReviews(bool? requiresApprovingReviews) =>
@@ -48560,6 +49549,7 @@ class GUpdateBranchProtectionRuleInputBuilder
       _requiredApprovingReviewCount = $v.requiredApprovingReviewCount;
       _requiredStatusCheckContexts =
           $v.requiredStatusCheckContexts?.toBuilder();
+      _requiredStatusChecks = $v.requiredStatusChecks?.toBuilder();
       _requiresApprovingReviews = $v.requiresApprovingReviews;
       _requiresCodeOwnerReviews = $v.requiresCodeOwnerReviews;
       _requiresCommitSignatures = $v.requiresCommitSignatures;
@@ -48606,6 +49596,7 @@ class GUpdateBranchProtectionRuleInputBuilder
               requiredApprovingReviewCount: requiredApprovingReviewCount,
               requiredStatusCheckContexts:
                   _requiredStatusCheckContexts?.build(),
+              requiredStatusChecks: _requiredStatusChecks?.build(),
               requiresApprovingReviews: requiresApprovingReviews,
               requiresCodeOwnerReviews: requiresCodeOwnerReviews,
               requiresCommitSignatures: requiresCommitSignatures,
@@ -48624,6 +49615,8 @@ class GUpdateBranchProtectionRuleInputBuilder
 
         _$failedField = 'requiredStatusCheckContexts';
         _requiredStatusCheckContexts?.build();
+        _$failedField = 'requiredStatusChecks';
+        _requiredStatusChecks?.build();
 
         _$failedField = 'reviewDismissalActorIds';
         _reviewDismissalActorIds?.build();
@@ -53073,6 +54066,283 @@ class GUpdateProjectInputBuilder
                 projectId, 'GUpdateProjectInput', 'projectId'),
             public: public,
             state: state);
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$GUpdateProjectNextItemFieldInput
+    extends GUpdateProjectNextItemFieldInput {
+  @override
+  final String? clientMutationId;
+  @override
+  final String fieldId;
+  @override
+  final String itemId;
+  @override
+  final String projectId;
+  @override
+  final String value;
+
+  factory _$GUpdateProjectNextItemFieldInput(
+          [void Function(GUpdateProjectNextItemFieldInputBuilder)? updates]) =>
+      (new GUpdateProjectNextItemFieldInputBuilder()..update(updates)).build();
+
+  _$GUpdateProjectNextItemFieldInput._(
+      {this.clientMutationId,
+      required this.fieldId,
+      required this.itemId,
+      required this.projectId,
+      required this.value})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        fieldId, 'GUpdateProjectNextItemFieldInput', 'fieldId');
+    BuiltValueNullFieldError.checkNotNull(
+        itemId, 'GUpdateProjectNextItemFieldInput', 'itemId');
+    BuiltValueNullFieldError.checkNotNull(
+        projectId, 'GUpdateProjectNextItemFieldInput', 'projectId');
+    BuiltValueNullFieldError.checkNotNull(
+        value, 'GUpdateProjectNextItemFieldInput', 'value');
+  }
+
+  @override
+  GUpdateProjectNextItemFieldInput rebuild(
+          void Function(GUpdateProjectNextItemFieldInputBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  GUpdateProjectNextItemFieldInputBuilder toBuilder() =>
+      new GUpdateProjectNextItemFieldInputBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is GUpdateProjectNextItemFieldInput &&
+        clientMutationId == other.clientMutationId &&
+        fieldId == other.fieldId &&
+        itemId == other.itemId &&
+        projectId == other.projectId &&
+        value == other.value;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc(
+        $jc(
+            $jc($jc($jc(0, clientMutationId.hashCode), fieldId.hashCode),
+                itemId.hashCode),
+            projectId.hashCode),
+        value.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('GUpdateProjectNextItemFieldInput')
+          ..add('clientMutationId', clientMutationId)
+          ..add('fieldId', fieldId)
+          ..add('itemId', itemId)
+          ..add('projectId', projectId)
+          ..add('value', value))
+        .toString();
+  }
+}
+
+class GUpdateProjectNextItemFieldInputBuilder
+    implements
+        Builder<GUpdateProjectNextItemFieldInput,
+            GUpdateProjectNextItemFieldInputBuilder> {
+  _$GUpdateProjectNextItemFieldInput? _$v;
+
+  String? _clientMutationId;
+  String? get clientMutationId => _$this._clientMutationId;
+  set clientMutationId(String? clientMutationId) =>
+      _$this._clientMutationId = clientMutationId;
+
+  String? _fieldId;
+  String? get fieldId => _$this._fieldId;
+  set fieldId(String? fieldId) => _$this._fieldId = fieldId;
+
+  String? _itemId;
+  String? get itemId => _$this._itemId;
+  set itemId(String? itemId) => _$this._itemId = itemId;
+
+  String? _projectId;
+  String? get projectId => _$this._projectId;
+  set projectId(String? projectId) => _$this._projectId = projectId;
+
+  String? _value;
+  String? get value => _$this._value;
+  set value(String? value) => _$this._value = value;
+
+  GUpdateProjectNextItemFieldInputBuilder();
+
+  GUpdateProjectNextItemFieldInputBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _clientMutationId = $v.clientMutationId;
+      _fieldId = $v.fieldId;
+      _itemId = $v.itemId;
+      _projectId = $v.projectId;
+      _value = $v.value;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(GUpdateProjectNextItemFieldInput other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$GUpdateProjectNextItemFieldInput;
+  }
+
+  @override
+  void update(void Function(GUpdateProjectNextItemFieldInputBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  _$GUpdateProjectNextItemFieldInput build() {
+    final _$result = _$v ??
+        new _$GUpdateProjectNextItemFieldInput._(
+            clientMutationId: clientMutationId,
+            fieldId: BuiltValueNullFieldError.checkNotNull(
+                fieldId, 'GUpdateProjectNextItemFieldInput', 'fieldId'),
+            itemId: BuiltValueNullFieldError.checkNotNull(
+                itemId, 'GUpdateProjectNextItemFieldInput', 'itemId'),
+            projectId: BuiltValueNullFieldError.checkNotNull(
+                projectId, 'GUpdateProjectNextItemFieldInput', 'projectId'),
+            value: BuiltValueNullFieldError.checkNotNull(
+                value, 'GUpdateProjectNextItemFieldInput', 'value'));
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$GUpdatePullRequestBranchInput extends GUpdatePullRequestBranchInput {
+  @override
+  final String? clientMutationId;
+  @override
+  final GGitObjectID? expectedHeadOid;
+  @override
+  final String pullRequestId;
+
+  factory _$GUpdatePullRequestBranchInput(
+          [void Function(GUpdatePullRequestBranchInputBuilder)? updates]) =>
+      (new GUpdatePullRequestBranchInputBuilder()..update(updates)).build();
+
+  _$GUpdatePullRequestBranchInput._(
+      {this.clientMutationId,
+      this.expectedHeadOid,
+      required this.pullRequestId})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        pullRequestId, 'GUpdatePullRequestBranchInput', 'pullRequestId');
+  }
+
+  @override
+  GUpdatePullRequestBranchInput rebuild(
+          void Function(GUpdatePullRequestBranchInputBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  GUpdatePullRequestBranchInputBuilder toBuilder() =>
+      new GUpdatePullRequestBranchInputBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is GUpdatePullRequestBranchInput &&
+        clientMutationId == other.clientMutationId &&
+        expectedHeadOid == other.expectedHeadOid &&
+        pullRequestId == other.pullRequestId;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc(
+        $jc($jc(0, clientMutationId.hashCode), expectedHeadOid.hashCode),
+        pullRequestId.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('GUpdatePullRequestBranchInput')
+          ..add('clientMutationId', clientMutationId)
+          ..add('expectedHeadOid', expectedHeadOid)
+          ..add('pullRequestId', pullRequestId))
+        .toString();
+  }
+}
+
+class GUpdatePullRequestBranchInputBuilder
+    implements
+        Builder<GUpdatePullRequestBranchInput,
+            GUpdatePullRequestBranchInputBuilder> {
+  _$GUpdatePullRequestBranchInput? _$v;
+
+  String? _clientMutationId;
+  String? get clientMutationId => _$this._clientMutationId;
+  set clientMutationId(String? clientMutationId) =>
+      _$this._clientMutationId = clientMutationId;
+
+  GGitObjectIDBuilder? _expectedHeadOid;
+  GGitObjectIDBuilder get expectedHeadOid =>
+      _$this._expectedHeadOid ??= new GGitObjectIDBuilder();
+  set expectedHeadOid(GGitObjectIDBuilder? expectedHeadOid) =>
+      _$this._expectedHeadOid = expectedHeadOid;
+
+  String? _pullRequestId;
+  String? get pullRequestId => _$this._pullRequestId;
+  set pullRequestId(String? pullRequestId) =>
+      _$this._pullRequestId = pullRequestId;
+
+  GUpdatePullRequestBranchInputBuilder();
+
+  GUpdatePullRequestBranchInputBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _clientMutationId = $v.clientMutationId;
+      _expectedHeadOid = $v.expectedHeadOid?.toBuilder();
+      _pullRequestId = $v.pullRequestId;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(GUpdatePullRequestBranchInput other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$GUpdatePullRequestBranchInput;
+  }
+
+  @override
+  void update(void Function(GUpdatePullRequestBranchInputBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  _$GUpdatePullRequestBranchInput build() {
+    _$GUpdatePullRequestBranchInput _$result;
+    try {
+      _$result = _$v ??
+          new _$GUpdatePullRequestBranchInput._(
+              clientMutationId: clientMutationId,
+              expectedHeadOid: _expectedHeadOid?.build(),
+              pullRequestId: BuiltValueNullFieldError.checkNotNull(
+                  pullRequestId,
+                  'GUpdatePullRequestBranchInput',
+                  'pullRequestId'));
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'expectedHeadOid';
+        _expectedHeadOid?.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'GUpdatePullRequestBranchInput', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }

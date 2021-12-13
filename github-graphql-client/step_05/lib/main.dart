@@ -18,8 +18,8 @@ import 'package:gql_http_link/gql_http_link.dart';
 import 'package:gql_link/gql_link.dart';
 
 import 'github_oauth_credentials.dart';
-import 'src/github_gql/github_queries.data.gql.dart';
-import 'src/github_gql/github_queries.req.gql.dart';
+import 'src/github_gql/__generated__/github_queries.data.gql.dart';
+import 'src/github_gql/__generated__/github_queries.req.gql.dart';
 import 'src/github_login.dart';
 
 void main() {

@@ -3,7 +3,7 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-import 'package:github_graphql_client/third_party/github_graphql_schema/serializers.gql.dart'
+import 'package:github_graphql_client/third_party/github_graphql_schema/__generated__/serializers.gql.dart'
     as _i1;
 import 'package:gql_code_builder/src/serializers/default_scalar_serializer.dart'
     as _i2;
@@ -202,6 +202,28 @@ abstract class GAddProjectColumnInput
           as Map<String, dynamic>);
   static GAddProjectColumnInput? fromJson(Map<String, dynamic> json) =>
       _i1.serializers.deserializeWith(GAddProjectColumnInput.serializer, json);
+}
+
+abstract class GAddProjectNextItemInput
+    implements
+        Built<GAddProjectNextItemInput, GAddProjectNextItemInputBuilder> {
+  GAddProjectNextItemInput._();
+
+  factory GAddProjectNextItemInput(
+          [Function(GAddProjectNextItemInputBuilder b) updates]) =
+      _$GAddProjectNextItemInput;
+
+  String? get clientMutationId;
+  String get contentId;
+  String get projectId;
+  static Serializer<GAddProjectNextItemInput> get serializer =>
+      _$gAddProjectNextItemInputSerializer;
+  Map<String, dynamic> toJson() =>
+      (_i1.serializers.serializeWith(GAddProjectNextItemInput.serializer, this)
+          as Map<String, dynamic>);
+  static GAddProjectNextItemInput? fromJson(Map<String, dynamic> json) =>
+      _i1.serializers
+          .deserializeWith(GAddProjectNextItemInput.serializer, json);
 }
 
 abstract class GAddPullRequestReviewCommentInput
@@ -1182,6 +1204,7 @@ abstract class GCreateBranchProtectionRuleInput
   String get repositoryId;
   int? get requiredApprovingReviewCount;
   BuiltList<String>? get requiredStatusCheckContexts;
+  BuiltList<GRequiredStatusCheckInput>? get requiredStatusChecks;
   bool? get requiresApprovingReviews;
   bool? get requiresCodeOwnerReviews;
   bool? get requiresCommitSignatures;
@@ -1986,6 +2009,27 @@ abstract class GDeleteProjectInput
       _i1.serializers.deserializeWith(GDeleteProjectInput.serializer, json);
 }
 
+abstract class GDeleteProjectNextItemInput
+    implements
+        Built<GDeleteProjectNextItemInput, GDeleteProjectNextItemInputBuilder> {
+  GDeleteProjectNextItemInput._();
+
+  factory GDeleteProjectNextItemInput(
+          [Function(GDeleteProjectNextItemInputBuilder b) updates]) =
+      _$GDeleteProjectNextItemInput;
+
+  String? get clientMutationId;
+  String get itemId;
+  String get projectId;
+  static Serializer<GDeleteProjectNextItemInput> get serializer =>
+      _$gDeleteProjectNextItemInputSerializer;
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+      GDeleteProjectNextItemInput.serializer, this) as Map<String, dynamic>);
+  static GDeleteProjectNextItemInput? fromJson(Map<String, dynamic> json) =>
+      _i1.serializers
+          .deserializeWith(GDeleteProjectNextItemInput.serializer, json);
+}
+
 abstract class GDeletePullRequestReviewCommentInput
     implements
         Built<GDeletePullRequestReviewCommentInput,
@@ -2327,6 +2371,49 @@ abstract class GDismissPullRequestReviewInput
   static GDismissPullRequestReviewInput? fromJson(Map<String, dynamic> json) =>
       _i1.serializers
           .deserializeWith(GDismissPullRequestReviewInput.serializer, json);
+}
+
+class GDismissReason extends EnumClass {
+  const GDismissReason._(String name) : super(name);
+
+  static const GDismissReason FIX_STARTED = _$gDismissReasonFIX_STARTED;
+
+  static const GDismissReason INACCURATE = _$gDismissReasonINACCURATE;
+
+  static const GDismissReason NOT_USED = _$gDismissReasonNOT_USED;
+
+  static const GDismissReason NO_BANDWIDTH = _$gDismissReasonNO_BANDWIDTH;
+
+  static const GDismissReason TOLERABLE_RISK = _$gDismissReasonTOLERABLE_RISK;
+
+  static Serializer<GDismissReason> get serializer =>
+      _$gDismissReasonSerializer;
+  static BuiltSet<GDismissReason> get values => _$gDismissReasonValues;
+  static GDismissReason valueOf(String name) => _$gDismissReasonValueOf(name);
+}
+
+abstract class GDismissRepositoryVulnerabilityAlertInput
+    implements
+        Built<GDismissRepositoryVulnerabilityAlertInput,
+            GDismissRepositoryVulnerabilityAlertInputBuilder> {
+  GDismissRepositoryVulnerabilityAlertInput._();
+
+  factory GDismissRepositoryVulnerabilityAlertInput(
+      [Function(GDismissRepositoryVulnerabilityAlertInputBuilder b)
+          updates]) = _$GDismissRepositoryVulnerabilityAlertInput;
+
+  String? get clientMutationId;
+  GDismissReason get dismissReason;
+  String get repositoryVulnerabilityAlertId;
+  static Serializer<GDismissRepositoryVulnerabilityAlertInput> get serializer =>
+      _$gDismissRepositoryVulnerabilityAlertInputSerializer;
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+          GDismissRepositoryVulnerabilityAlertInput.serializer, this)
+      as Map<String, dynamic>);
+  static GDismissRepositoryVulnerabilityAlertInput? fromJson(
+          Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+          GDismissRepositoryVulnerabilityAlertInput.serializer, json);
 }
 
 abstract class GDraftPullRequestReviewComment
@@ -3838,6 +3925,18 @@ class GNotificationRestrictionSettingValue extends EnumClass {
       _$gNotificationRestrictionSettingValueValues;
   static GNotificationRestrictionSettingValue valueOf(String name) =>
       _$gNotificationRestrictionSettingValueValueOf(name);
+}
+
+class GOIDCProviderType extends EnumClass {
+  const GOIDCProviderType._(String name) : super(name);
+
+  static const GOIDCProviderType AAD = _$gOIDCProviderTypeAAD;
+
+  static Serializer<GOIDCProviderType> get serializer =>
+      _$gOIDCProviderTypeSerializer;
+  static BuiltSet<GOIDCProviderType> get values => _$gOIDCProviderTypeValues;
+  static GOIDCProviderType valueOf(String name) =>
+      _$gOIDCProviderTypeValueOf(name);
 }
 
 class GOauthApplicationCreateAuditEntryState extends EnumClass {
@@ -5948,6 +6047,27 @@ class GRequestableCheckStatusState extends EnumClass {
       _$gRequestableCheckStatusStateValueOf(name);
 }
 
+abstract class GRequiredStatusCheckInput
+    implements
+        Built<GRequiredStatusCheckInput, GRequiredStatusCheckInputBuilder> {
+  GRequiredStatusCheckInput._();
+
+  factory GRequiredStatusCheckInput(
+          [Function(GRequiredStatusCheckInputBuilder b) updates]) =
+      _$GRequiredStatusCheckInput;
+
+  String? get appId;
+  String get context;
+  static Serializer<GRequiredStatusCheckInput> get serializer =>
+      _$gRequiredStatusCheckInputSerializer;
+  Map<String, dynamic> toJson() =>
+      (_i1.serializers.serializeWith(GRequiredStatusCheckInput.serializer, this)
+          as Map<String, dynamic>);
+  static GRequiredStatusCheckInput? fromJson(Map<String, dynamic> json) =>
+      _i1.serializers
+          .deserializeWith(GRequiredStatusCheckInput.serializer, json);
+}
+
 abstract class GRerequestCheckSuiteInput
     implements
         Built<GRerequestCheckSuiteInput, GRerequestCheckSuiteInputBuilder> {
@@ -7229,6 +7349,7 @@ abstract class GUpdateBranchProtectionRuleInput
   BuiltList<String>? get pushActorIds;
   int? get requiredApprovingReviewCount;
   BuiltList<String>? get requiredStatusCheckContexts;
+  BuiltList<GRequiredStatusCheckInput>? get requiredStatusChecks;
   bool? get requiresApprovingReviews;
   bool? get requiresCodeOwnerReviews;
   bool? get requiresCommitSignatures;
@@ -8038,6 +8159,54 @@ abstract class GUpdateProjectInput
           as Map<String, dynamic>);
   static GUpdateProjectInput? fromJson(Map<String, dynamic> json) =>
       _i1.serializers.deserializeWith(GUpdateProjectInput.serializer, json);
+}
+
+abstract class GUpdateProjectNextItemFieldInput
+    implements
+        Built<GUpdateProjectNextItemFieldInput,
+            GUpdateProjectNextItemFieldInputBuilder> {
+  GUpdateProjectNextItemFieldInput._();
+
+  factory GUpdateProjectNextItemFieldInput(
+          [Function(GUpdateProjectNextItemFieldInputBuilder b) updates]) =
+      _$GUpdateProjectNextItemFieldInput;
+
+  String? get clientMutationId;
+  String get fieldId;
+  String get itemId;
+  String get projectId;
+  String get value;
+  static Serializer<GUpdateProjectNextItemFieldInput> get serializer =>
+      _$gUpdateProjectNextItemFieldInputSerializer;
+  Map<String, dynamic> toJson() => (_i1.serializers
+          .serializeWith(GUpdateProjectNextItemFieldInput.serializer, this)
+      as Map<String, dynamic>);
+  static GUpdateProjectNextItemFieldInput? fromJson(
+          Map<String, dynamic> json) =>
+      _i1.serializers
+          .deserializeWith(GUpdateProjectNextItemFieldInput.serializer, json);
+}
+
+abstract class GUpdatePullRequestBranchInput
+    implements
+        Built<GUpdatePullRequestBranchInput,
+            GUpdatePullRequestBranchInputBuilder> {
+  GUpdatePullRequestBranchInput._();
+
+  factory GUpdatePullRequestBranchInput(
+          [Function(GUpdatePullRequestBranchInputBuilder b) updates]) =
+      _$GUpdatePullRequestBranchInput;
+
+  String? get clientMutationId;
+  GGitObjectID? get expectedHeadOid;
+  String get pullRequestId;
+  static Serializer<GUpdatePullRequestBranchInput> get serializer =>
+      _$gUpdatePullRequestBranchInputSerializer;
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+      GUpdatePullRequestBranchInput.serializer, this) as Map<String, dynamic>);
+  static GUpdatePullRequestBranchInput? fromJson(Map<String, dynamic> json) =>
+      _i1.serializers
+          .deserializeWith(GUpdatePullRequestBranchInput.serializer, json);
 }
 
 abstract class GUpdatePullRequestInput

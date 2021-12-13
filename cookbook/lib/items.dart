@@ -3,15 +3,15 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:flutter_cookbook/examples/cupertino_download_button.dart';
-import 'package:flutter_cookbook/examples/drag_and_drop.dart';
-import 'package:flutter_cookbook/examples/expandable_fab.dart';
-import 'package:flutter_cookbook/examples/gradient_bubbles.dart';
-import 'package:flutter_cookbook/examples/instagram_filter.dart';
-import 'package:flutter_cookbook/examples/parallax.dart';
-import 'package:flutter_cookbook/examples/staggered_animation.dart';
-import 'package:flutter_cookbook/examples/typing_indicator.dart';
-import 'package:flutter_cookbook/examples/ui_loading_animation.dart';
+import 'examples/cupertino_download_button.dart';
+import 'examples/drag_and_drop.dart';
+import 'examples/expandable_fab.dart';
+import 'examples/gradient_bubbles.dart';
+import 'examples/instagram_filter.dart';
+import 'examples/parallax.dart';
+import 'examples/staggered_animation.dart';
+import 'examples/typing_indicator.dart';
+import 'examples/ui_loading_animation.dart';
 
 final items = <CookbookItem>[
   CookbookItem(
