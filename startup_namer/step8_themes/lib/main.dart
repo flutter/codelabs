@@ -5,10 +5,14 @@
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  runApp(const MyApp());
+}
 
 // #docregion MyApp
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   // #docregion build
   @override
   Widget build(BuildContext context) {
@@ -20,7 +24,7 @@ class MyApp extends StatelessWidget {
           foregroundColor: Colors.black,
         ),
       ),
-      home: RandomWords(),
+      home: const RandomWords(),
     );
   }
   // #enddocregion build
@@ -131,6 +135,8 @@ class _RandomWordsState extends State<RandomWords> {
 // #enddocregion RWS-var
 
 class RandomWords extends StatefulWidget {
+  const RandomWords({Key? key}) : super(key: key);
+
   @override
   State<RandomWords> createState() => _RandomWordsState();
 }

@@ -11,7 +11,7 @@ import 'package:startup_namer/main.dart';
 
 void main() {
   testWidgets('Codelab smoke test', (tester) async {
-    await tester.pumpWidget(MyApp());
+    await tester.pumpWidget(const MyApp());
 
     final textWidgets = tester.widgetList<Text>(find.byType(Text));
     expect(textWidgets.length, greaterThan(2));

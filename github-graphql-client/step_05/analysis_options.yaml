@@ -12,30 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-include: package:flutter_lints/flutter.yaml
+include: ../../analysis_options.yaml
 
 analyzer:
-  strong-mode:
-    implicit-casts: false
-    implicit-dynamic: false
   exclude:
     - lib/src/github_gql/**
     - lib/third_party/**
-
-linter:
-  rules:
-    avoid_types_on_closure_parameters: true
-    avoid_void_async: true
-    cancel_subscriptions: true
-    close_sinks: true
-    directives_ordering: true
-    package_api_docs: true
-    package_prefixed_library_names: true
-    prefer_single_quotes: true
-    test_types_in_equals: true
-    throw_in_finally: true
-    unnecessary_statements: true
-    use_key_in_widget_constructors: false
-
-# Additional information about this file can be found at
-# https://dart.dev/guides/language/analysis-options
