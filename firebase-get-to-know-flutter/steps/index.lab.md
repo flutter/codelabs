@@ -49,6 +49,7 @@ In addition to the above, you'll also need:
 * An IDE or text editor of your choice, such as  [Android Studio](https://developer.android.com/studio) or  [VS Code](https://code.visualstudio.com/) configured with the Dart and Flutter plugins.
 * The latest `stable` version of  [Flutter](https://flutter.dev/docs/get-started/web#set-up) (or `beta` if you enjoy living on the edge).
 * A Google account, like a gmail account, for creating and managing your Firebase project.
+* The [`firebase` command line tool](https://firebase.google.com/docs/cli), logged into your gmail account.
 * The codelab's sample code. See the next step for how to get the code.
 
 
@@ -198,26 +199,21 @@ In order to use Firebase with Flutter, you need to follow a process to configure
 >
 > **Important**: You need to register all the platforms you want to use within the same Firebase project.
 
-In the top-level directory of your Flutter app, there are subdirectories called `ios` and `android`. These directories hold the platform-specific configuration files for iOS and Android, respectively.
+In the top-level directory of your Flutter app, there are subdirectories called `android`, `ios`, `macos` and `web`. These directories hold the platform-specific configuration files for iOS and Android, respectively.
 
 ### Configure dependencies
 
 You need to add the FlutterFire libraries for the two Firebase products you are utilizing in this app - Firebase Auth and Cloud Firestore. Run the following three commands to add the depencies.
 
 ```console
-$ flutter pub add firebase_core
+$ flutter pub add firebase_core 
 Resolving dependencies...
-  async 2.8.1 (2.8.2 available)
-+ firebase_core 1.6.0
-+ firebase_core_platform_interface 4.0.1
-+ firebase_core_web 1.1.0
++ firebase_core 1.10.5
++ firebase_core_platform_interface 4.2.2
++ firebase_core_web 1.5.2
 + flutter_web_plugins 0.0.0 from sdk flutter
 + js 0.6.3
-  matcher 0.12.10 (0.12.11 available)
-  path_provider 2.0.2 (2.0.3 available)
-  platform 3.0.0 (3.0.2 available)
-  test_api 0.4.2 (0.4.3 available)
-  win32 2.2.5 (2.2.9 available)
+  test_api 0.4.3 (0.4.8 available)
 Changed 5 dependencies!
 ```
 
@@ -226,16 +222,11 @@ The [`firebase_core`](https://pub.dev/packages/firebase_core) is the common code
 ```console
 $ flutter pub add firebase_auth
 Resolving dependencies...
-  async 2.8.1 (2.8.2 available)
-+ firebase_auth 3.1.0
-+ firebase_auth_platform_interface 6.1.0
-+ firebase_auth_web 3.1.0
++ firebase_auth 3.3.3
++ firebase_auth_platform_interface 6.1.8
++ firebase_auth_web 3.3.4
 + intl 0.17.0
-  matcher 0.12.10 (0.12.11 available)
-  path_provider 2.0.2 (2.0.3 available)
-  platform 3.0.0 (3.0.2 available)
-  test_api 0.4.2 (0.4.3 available)
-  win32 2.2.5 (2.2.9 available)
+  test_api 0.4.3 (0.4.8 available)
 Changed 4 dependencies!
 ```
 
@@ -244,15 +235,10 @@ The [`firebase_auth`](https://pub.dev/packages/firebase_auth) enables integratio
 ```console
 $ flutter pub add cloud_firestore
 Resolving dependencies...
-  async 2.8.1 (2.8.2 available)
-+ cloud_firestore 2.5.1
-+ cloud_firestore_platform_interface 5.4.1
-+ cloud_firestore_web 2.4.1
-  matcher 0.12.10 (0.12.11 available)
-  path_provider 2.0.2 (2.0.3 available)
-  platform 3.0.0 (3.0.2 available)
-  test_api 0.4.2 (0.4.3 available)
-  win32 2.2.5 (2.2.9 available)
++ cloud_firestore 3.1.4
++ cloud_firestore_platform_interface 5.4.9
++ cloud_firestore_web 2.6.4
+  test_api 0.4.3 (0.4.8 available)
 Changed 3 dependencies!
 ```
 
@@ -261,186 +247,82 @@ The [`cloud_firestore`](https://pub.dev/packages/cloud_firestore) enables access
 ```console
 $ flutter pub add provider
 Resolving dependencies...
-  async 2.8.1 (2.8.2 available)
-  matcher 0.12.10 (0.12.11 available)
 + nested 1.0.0
-  path_provider 2.0.2 (2.0.3 available)
-  platform 3.0.0 (3.0.2 available)
-+ provider 6.0.0
-  test_api 0.4.2 (0.4.3 available)
-  win32 2.2.5 (2.2.9 available)
++ provider 6.0.1
+  test_api 0.4.3 (0.4.8 available)
 Changed 2 dependencies!
 ```
 
 While you have added the required packages, you also need to configure the iOS, Android, macOS and Web runner projects to appropriately utilise Firebase. You are also using the [`provider`](https://pub.dev/packages/provider) package that will enable separation of business logic from display logic.
 
-### **Configure iOS**
+### Installing `flutterfire`
 
-1. In the  [Firebase console](https://console.firebase.google.com), select **Project Overview** in the left navigation bar, and click the iOS button under **Get started by adding Firebase to your app**.
+The FlutterFire CLI depends on the underlying Firebase CLI. If you haven't done so already, ensure the [Firebase CLI](https://firebase.google.com/docs/cli) is installed on your machine.
 
-You should see the following dialog:
+Next, install the FlutterFire CLI by running the following command:
 
-<img src="img/c42139f18fb9a2ee.png" alt="c42139f18fb9a2ee.png"  width="624.00" />
-
-2. The important value to provide is the **iOS bundle ID.** You get the bundle ID  by performing the  next three steps.
-
-> aside positive
->
-> **Tip**:  Read  [What are App IDs and Bundle Identifiers](https://cocoacasts.com/what-are-app-ids-and-bundle-identifiers/) for more information about iOS bundle IDs.
-
-3. In the command-line tool, go to the top-level directory of your Flutter app.
-4. Run the command `open ios/Runner.xcworkspace` to open Xcode.
-
-> aside positive
->
-> **Tip**: Read  [About Information Property List Files](https://developer.apple.com/library/content/documentation/General/Reference/InfoPlistKeyReference/Articles/AboutInformationPropertyListFiles.html) for more information about Xcode property lists.
-
-5. In Xcode, click the top-level **Runner** in the left pane, then select **Runner** under Targets, to show the **General** tab in the right pane, as shown. Copy the **Bundle Identifier** value.
-
-<img src="img/9d67acd88c718763.png" alt="9d67acd88c718763.png"  width="534.91" />
-
-6. Go back to the Firebase dialog, paste the copied **Bundle Identifier** into the **iOS bundle ID** field, and click **Register App**.
-
-> aside positive
->
-> **Note**: The actual values of **Bundle Identifier** depend on what you named your Flutter app.
-
-7. Continuing in Firebase, follow the instructions to download the configuration file **`GoogleService-Info.plist`**.
-8. Go back to Xcode. Notice that **Runner** has a subfolder also called **Runner** (shown in the preceding image).
-9. Drag the `GoogleService-Info.plist` file (that you just downloaded) into that **Runner** subfolder.
-10. In the dialog that appears in Xcode, click **Finish**.
-11. Feel free to close out Xcode at this point, as it isn't required going forward.
-12. Go back to the Firebase console. In the setup step, click **Next**, skip the remaining steps, and go back to the main page of the Firebase console.
-
-
-You're done configuring your Flutter app for iOS. For more detail, please see  [the FlutterFire iOS installation documentation](https://firebase.flutter.dev/docs/installation/ios/).
-
-### **Configure Android**
-
-1. In the  [Firebase Console](https://console.firebase.google.com), select **Project Overview** in the left navigation bar, and click the **Android** button under **Get started by adding Firebase to your app**.
-
-> aside positive
->
-> **Note**: If you already added an app (for example, the iOS app from the preceding section), click **Add app**.
-
-You'll should see the following dialog :
-<img src="img/8254fc299e82f528.png" alt="8254fc299e82f528.png"  width="624.00" />
-
-2. The important value to provide is the **Android package name**. You get the package name when you perform the following two steps:
-
-> aside positive
->
-> **Tip**: Read  [Set the application ID](https://developer.android.com/studio/build/application-id.html) for more information about package and application IDs.
-
-3. In your Flutter app directory, open the file `android/app/src/main/AndroidManifest.xml`.
-4. In the `manifest` element, find the string value of the `package` attribute.  This value is the Android package name (something like `com.yourcompany.yourproject`).  Copy this value.
-5. In the Firebase dialog, paste the copied package name into the **Android package name** field.
-6. You don't need the **Debug signing certificate SHA-1** for this codelab. Leave this blank.
-7. Click **Register App**.
-8. Continuing in Firebase, follow the instructions to download the configuration file **`google-services.json`**.
-9. Go to your Flutter app directory, and move the `google-services.json` file (that you just downloaded) into the `android/app` directory.
-10. Back in the Firebase console, skip the remaining steps, and go back to the main page of the Firebase console.
-11. Edit your `android/build.gradle` to add the `google-services` plugin dependency:
-
-####  [android/build.gradle](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_04/android/build.gradle#L11)
-
-```
-dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.0'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'com.google.gms:google-services:4.3.5'  // new
-}
+```console
+$ dart pub global activate flutterfire_cli
 ```
 
-12. Edit your `android/app/build.gradle` to enable the `google-services` plugin:
+Once installed, the `flutterfire` command will be globally available.
 
-####  [android/app/build.gradle](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_04/android/app/build.gradle#L27)
+### Configuring your apps
 
-```
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
-apply plugin: 'com.google.gms.google-services'  // new
-```
+The CLI extracts information from your Firebase project and selected project applications to generate all the configuration for a specific platform.
 
-13. Firebase requires Multidex to be enabled, and one way to do that is set the minimum supported SDK to 21 or above. Edit your `android/app/build.gradle` to update `minSdkVersion`:
+In the root of your application, run the configure command:
 
-####  [android/app/build.gradle](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_04/android/app/build.gradle#L43)
-
-```
-defaultConfig {
-    applicationId "com.example.gtk_flutter"
-    minSdkVersion 21  // Updated
-    targetSdkVersion 30
-    versionCode flutterVersionCode.toInteger()
-    versionName flutterVersionName
-}
+```console
+$ flutterfire configure
 ```
 
-You're done configuring your Flutter app for Android. For more detail, please see  [the FlutterFire Android installation documentation](https://firebase.flutter.dev/docs/installation/android/).
+The configuration command will guide you through a number of processes:
 
-### **Configure for the Web**
+1. Selecting a Firebase project (based on the .firebaserc file or from the Firebase Console).
+1. Prompt what platforms (e.g. Android, iOS, macOS & web) you would like configuration for.
+1. Identify which Firebase applications for the chosen platforms should be used to extract configuration for. By default, the CLI will attempt to automatically match Firebase apps based on your current project configuration.
+1. Generate a firebase_options.dart file in your project.
 
-1. In the  [Firebase Console](https://console.firebase.google.com), select **Project Overview** in the left navigation bar, and click the **Web** button under **Get started by adding Firebase to your app**.
+### Configure macOS
 
-> aside positive
->
-> **Note**: If you already added an app (for example, the iOS app and/or the Android app from the preceding sections), click **Add app**.
+Flutter on macOS builds fully sandboxed applications. As this application is integrating using the network to communicate with the Firebase servers, you will need to configure your application with network client privileges. 
 
-<img src="img/25b14deff9e589ce.png" alt="25b14deff9e589ce.png"  width="624.00" />
-
-2. Give this app a nickname, and click on the **Register app** button. We are going to leave the Firebase Hosting turned off for this tutorial as we will only be running it locally. Feel free to read more about Firebase Hosting here.  <img src="img/9c697cc1b309c806.png" alt="9c697cc1b309c806.png"  width="624.00" />
-3. Edit the body section of your `web/index.html` file as follows. Be sure to add the `firebaseConfig` data from the previous step.
-
-####  [web/index.html](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_04/web/index.html)
-
-```
-<body>
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('flutter-first-frame', function () {
-        navigator.serviceWorker.register('flutter_service_worker.js');
-      });
-    }
-  </script>
-
-  <!-- Add from here -->
-  <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-firestore.js"></script>
-  <script>
-    // Your web app's Firebase configuration
-    var firebaseConfig = {
-      // Replace this with your firebaseConfig
-    };
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-  </script>
-  <!-- to here. -->
-
-  <script src="main.dart.js" type="application/javascript"></script>
-</body>
+####  [macos/Runner/DebugProfile.entitlements](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_04/macos/Runner/DebugProfile.entitlements)
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>com.apple.security.app-sandbox</key>
+	<true/>
+	<key>com.apple.security.cs.allow-jit</key>
+	<true/>
+	<key>com.apple.security.network.server</key>
+	<true/>
+  <!-- Add the following two lines -->
+	<key>com.apple.security.network.client</key>
+	<true/>
+</dict>
+</plist>
 ```
 
-You're done configuring your Flutter app for the Web. For more detail, please see  [the FlutterFire Web installation documentation](https://firebase.flutter.dev/docs/installation/web/).
+####  [macos/Runner/Release.entitlements](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_04/macos/Runner/Release.entitlements)
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>com.apple.security.app-sandbox</key>
+	<true/>
+  <!-- Add the following two lines -->
+	<key>com.apple.security.network.client</key>
+	<true/>
+</dict>
+</plist>
+```
 
-### **Configure macOS**
-
-The configuration steps for macOS are almost identical to iOS. We are going to re-use configuration file **`GoogleService-Info.plist`** from the iOS steps above.
-
-1. Run the command `open macos/Runner.xcworkspace` to open Xcode.
-
-> aside positive
->
-> **Tip**: Read  [About Information Property List Files](https://developer.apple.com/library/content/documentation/General/Reference/InfoPlistKeyReference/Articles/AboutInformationPropertyListFiles.html) for more information about Xcode property lists.
-
-2. Drag the `GoogleService-Info.plist` file into the **Runner** subfolder. This was created in the **Configure iOS** steps above. <img src="img/c2b9229a605fd738.png" alt="c2b9229a605fd738.png"  width="624.00" />
-3. In the `macos/Runner/DebugProfile.entitlements` file, add a `com.apple.security.network.client` entitlement, and set it to `true`. <img src="img/8bee5665e35d3f34.png" alt="8bee5665e35d3f34.png"  width="624.00" />
-4. In the `macos/Runner/Release.entitlements` file, also add a `com.apple.security.network.client` entitlement, and set it to `true`. <img src="img/41e2e23b7928546a.png" alt="41e2e23b7928546a.png"  width="624.00" />
-5. Feel free to close out Xcode at this point, as it isn't required going forward.
-
-You're done configuring your Flutter app for macOS. For more detail, please see  [the FlutterFire macOS installation documentation](https://firebase.flutter.dev/docs/installation/macos/), and the  [Desktop support for Flutter](https://flutter.dev/desktop) page.
-
+See [Entitlements and the App Sandbox](https://docs.flutter.dev/desktop#entitlements-and-the-app-sandbox) for more detail.
 
 ## Add user sign-in (RSVP)
 Duration: 10:00
@@ -458,13 +340,14 @@ You are going to use the  [`provider`](https://pub.dev/packages/provider) packag
 
 ####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_05/lib/main.dart#L1)
 
-```
-import 'package:firebase_core/firebase_core.dart'; // new
+```dart
 import 'package:firebase_auth/firebase_auth.dart'; // new
+import 'package:firebase_core/firebase_core.dart'; // new
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';           // new
 
+import 'firebase_options.dart';                    // new
 import 'src/authentication.dart';                  // new
 import 'src/widgets.dart';
 ```
@@ -475,14 +358,16 @@ This application state object, `ApplicationState`, has two main responsibilities
 
 ####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_05/lib/main.dart#L83)
 
-```
+```dart
 class ApplicationState extends ChangeNotifier {
   ApplicationState() {
     init();
   }
 
   Future<void> init() async {
-    await Firebase.initializeApp();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
 
     FirebaseAuth.instance.userChanges().listen((user) {
       if (user != null) {
@@ -505,7 +390,7 @@ class ApplicationState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void verifyEmail(
+  Future<void> verifyEmail(
     String email,
     void Function(FirebaseAuthException e) errorCallback,
   ) async {
@@ -524,7 +409,7 @@ class ApplicationState extends ChangeNotifier {
     }
   }
 
-  void signInWithEmailAndPassword(
+  Future<void> signInWithEmailAndPassword(
     String email,
     String password,
     void Function(FirebaseAuthException e) errorCallback,
@@ -544,12 +429,15 @@ class ApplicationState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void registerAccount(String email, String displayName, String password,
+  Future<void> registerAccount(
+      String email,
+      String displayName,
+      String password,
       void Function(FirebaseAuthException e) errorCallback) async {
     try {
       var credential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
-      await credential.user!.updateProfile(displayName: displayName);
+      await credential.user!.updateDisplayName(displayName);
     } on FirebaseAuthException catch (e) {
       errorCallback(e);
     }
@@ -571,7 +459,7 @@ Now that you have the start of the application state it is time to wire the appl
 
 ####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_05/lib/main.dart#L10)
 
-```
+```dart
 void main() {
   // Modify from here
   runApp(
@@ -588,22 +476,22 @@ The modification to the `main` function makes the provider package responsible f
 
 ####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_05/lib/main.dart#L54)
 
-```
+```dart
 class HomePage extends StatelessWidget {
-  HomePage({Key? key}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Firebase Meetup'),
+        title: const Text('Firebase Meetup'),
       ),
       body: ListView(
         children: <Widget>[
           Image.asset('assets/codelab.png'),
-          SizedBox(height: 8),
-          IconAndDetail(Icons.calendar_today, 'October 30'),
-          IconAndDetail(Icons.location_city, 'San Francisco'),
+          const SizedBox(height: 8),
+          const IconAndDetail(Icons.calendar_today, 'October 30'),
+          const IconAndDetail(Icons.location_city, 'San Francisco'),
           // Add from here
           Consumer<ApplicationState>(
             builder: (context, appState, _) => Authentication(
@@ -618,15 +506,15 @@ class HomePage extends StatelessWidget {
             ),
           ),
           // to here
-          Divider(
+          const Divider(
             height: 8,
             thickness: 1,
             indent: 8,
             endIndent: 8,
             color: Colors.grey,
           ),
-          Header("What we'll be doing"),
-          Paragraph(
+          const Header("What we'll be doing"),
+          const Paragraph(
             'Join us for a day full of Firebase Workshops and Pizza!',
           ),
         ],
@@ -690,15 +578,17 @@ First, add imports for the `cloud_firestore` package and `dart:async`.
 
 ####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_06/lib/main.dart)
 
-```
+```dart
 import 'dart:async';                                    // new
+
 import 'package:cloud_firestore/cloud_firestore.dart';  // new
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import 'firebase_options.dart';
 import 'src/authentication.dart';
 import 'src/widgets.dart';
 ```
@@ -707,9 +597,9 @@ To construct the UI elements of a message field and a send button, add a new sta
 
 ####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_06/lib/main.dart#L199)
 
-```
+```dart
 class GuestBook extends StatefulWidget {
-  GuestBook({required this.addMessage});
+  const GuestBook({required this.addMessage});
   final FutureOr<void> Function(String message) addMessage;
 
   @override
@@ -742,7 +632,7 @@ class _GuestBookState extends State<GuestBook> {
                 },
               ),
             ),
-            SizedBox(width: 8),
+            const SizedBox(width: 8),
             StyledButton(
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
@@ -751,7 +641,7 @@ class _GuestBookState extends State<GuestBook> {
                 }
               },
               child: Row(
-                children: [
+                children: const [
                   Icon(Icons.send),
                   SizedBox(width: 4),
                   Text('SEND'),
@@ -772,14 +662,14 @@ Also note the way the widgets are laid out, you have a `Row`, with a `TextFormFi
 
 Now that you have a widget that enables the user to enter some text to add to the Guest Book, you need to get it on the screen. To do so, edit the body of `HomePage` to add the following two lines at the bottom of the `ListView`'s children:
 
-```
-Header("What we'll be doing"),
-Paragraph(
+```dart
+const Header("What we'll be doing"),
+const Paragraph(
   'Join us for a day full of Firebase Workshops and Pizza!',
 ),
 // Add the following two lines.
-Header('Discussion'),
-GuestBook(addMessage: (String message) => print(message)),
+const Header('Discussion'),
+GuestBook(addMessage: (message) => print(message)),
 ```
 
 While this is enough to display the Widget, it isn't sufficient to do anything useful. You will update this code shortly to make it functional.
@@ -798,7 +688,7 @@ Make another change to the `lib/main.dart` file. Add the `addMessageToGuestBook`
 
 ####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_06/lib/main.dart#L181)
 
-```
+```dart
 class ApplicationState extends ChangeNotifier {
 
   // Current content of ApplicationState elided ...
@@ -809,7 +699,9 @@ class ApplicationState extends ChangeNotifier {
       throw Exception('Must be logged in');
     }
 
-    return FirebaseFirestore.instance.collection('guestbook').add(<String, dynamic>{
+    return FirebaseFirestore.instance
+        .collection('guestbook')
+        .add(<String, dynamic>{
       'text': message,
       'timestamp': DateTime.now().millisecondsSinceEpoch,
       'name': FirebaseAuth.instance.currentUser!.displayName,
@@ -826,22 +718,22 @@ You have a UI where the user can enter the text they want to add to the Guest Bo
 
 ####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_06/lib/main.dart#L40)
 
-```
+```dart
 class HomePage extends StatelessWidget {
-  HomePage({Key? key}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Firebase Meetup'),
+        title: const Text('Firebase Meetup'),
       ),
       body: ListView(
         children: <Widget>[
           Image.asset('assets/codelab.png'),
-          SizedBox(height: 8),
-          IconAndDetail(Icons.calendar_today, 'October 30'),
-          IconAndDetail(Icons.location_city, 'San Francisco'),
+          const SizedBox(height: 8),
+          const IconAndDetail(Icons.calendar_today, 'October 30'),
+          const IconAndDetail(Icons.location_city, 'San Francisco'),
           Consumer<ApplicationState>(
             builder: (context, appState, _) => Authentication(
               email: appState.email,
@@ -854,15 +746,15 @@ class HomePage extends StatelessWidget {
               signOut: appState.signOut,
             ),
           ),
-          Divider(
+          const Divider(
             height: 8,
             thickness: 1,
             indent: 8,
             endIndent: 8,
             color: Colors.grey,
           ),
-          Header("What we'll be doing"),
-          Paragraph(
+          const Header("What we'll be doing"),
+          const Paragraph(
             'Join us for a day full of Firebase Workshops and Pizza!',
           ),
           // Modify from here
@@ -871,9 +763,9 @@ class HomePage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (appState.loginState == ApplicationLoginState.loggedIn) ...[
-                  Header('Discussion'),
+                  const Header('Discussion'),
                   GuestBook(
-                    addMessage: (String message) =>
+                    addMessage: (message) =>
                         appState.addMessageToGuestBook(message),
                   ),
                 ],
@@ -922,7 +814,7 @@ Just above the `GuestBook` widget the following value class. This class exposes 
 
 ####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_07/lib/main.dart#L225)
 
-```
+```dart
 class GuestBookMessage {
   GuestBookMessage({required this.name, required this.message});
   final String name;
@@ -934,7 +826,7 @@ In the section of `ApplicationState` where you define state and getters, add the
 
 ####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_07/lib/main.dart#L140)
 
-```
+```dart
   ApplicationLoginState _loginState = ApplicationLoginState.loggedOut;
   ApplicationLoginState get loginState => _loginState;
 
@@ -952,9 +844,11 @@ And finally, in the initialization section of `ApplicationState`, add the follow
 
 ####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_07/lib/main.dart#L105)
 
-```
+```dart
   Future<void> init() async {
-    await Firebase.initializeApp();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
 
     FirebaseAuth.instance.userChanges().listen((user) {
       if (user != null) {
@@ -966,14 +860,14 @@ And finally, in the initialization section of `ApplicationState`, add the follow
             .snapshots()
             .listen((snapshot) {
           _guestBookMessages = [];
-          snapshot.docs.forEach((document) {
+          for (final document in snapshot.docs) {
             _guestBookMessages.add(
               GuestBookMessage(
                 name: document.data()['name'] as String,
                 message: document.data()['text'] as String,
               ),
             );
-          });
+          }
           notifyListeners();
         });
         // to here.
@@ -1001,10 +895,10 @@ In the `GuestBook` widget you need to connect this changing state to the user in
 
 ####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_07/lib/main.dart#L231)
 
-```
+```dart
 class GuestBook extends StatefulWidget {
   // Modify the following line
-  GuestBook({required this.addMessage, required this.messages});
+  const GuestBook({required this.addMessage, required this.messages});
   final FutureOr<void> Function(String message) addMessage;
   final List<GuestBookMessage> messages; // new
 
@@ -1017,7 +911,7 @@ Next, we expose this new configuration in `_GuestBookState` by modifying the `bu
 
 ####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_07/lib/main.dart#L241)
 
-```
+```dart
 class _GuestBookState extends State<GuestBook> {
   final _formKey = GlobalKey<FormState>(debugLabel: '_GuestBookState');
   final _controller = TextEditingController();
@@ -1049,7 +943,7 @@ class _GuestBookState extends State<GuestBook> {
                     },
                   ),
                 ),
-                SizedBox(width: 8),
+                const SizedBox(width: 8),
                 StyledButton(
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
@@ -1058,7 +952,7 @@ class _GuestBookState extends State<GuestBook> {
                     }
                   },
                   child: Row(
-                    children: [
+                    children: const [
                       Icon(Icons.send),
                       SizedBox(width: 4),
                       Text('SEND'),
@@ -1070,12 +964,12 @@ class _GuestBookState extends State<GuestBook> {
           ),
         ),
         // Modify from here
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         for (var message in widget.messages)
           Paragraph('${message.name}: ${message.message}'),
-        SizedBox(height: 8),
-        // to here.
+        const SizedBox(height: 8),
       ],
+      // to here.
     );
   }
 }
@@ -1087,15 +981,15 @@ Finally, you now need to update the body of `HomePage` to correctly construct `G
 
 ####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_07/lib/main.dart#L79)
 
-```
+```dart
 Consumer<ApplicationState>(
   builder: (context, appState, _) => Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       if (appState.loginState == ApplicationLoginState.loggedIn) ...[
-        Header('Discussion'),
+        const Header('Discussion'),
         GuestBook(
-          addMessage: (String message) =>
+          addMessage: (message) =>
               appState.addMessageToGuestBook(message),
           messages: appState.guestBookMessages, // new
         ),
@@ -1148,7 +1042,7 @@ First, identify the collections to which the app writes data.
 
 In `match /databases/{database}/documents`, identify the collection that you want to secure:
 
-```
+```javascript
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
@@ -1164,7 +1058,7 @@ Because you used the Authentication UID as a field in each guestbook document, y
 
 Add the read and write rules to your rule set as shown below:
 
-```
+```javascript
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
@@ -1183,7 +1077,7 @@ Now, for the guestbook, only signed-in users can read messages (any message!), b
 
 Add data validation to make sure that all of the expected fields are present in the document:
 
-```
+```javascript
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
@@ -1216,7 +1110,7 @@ In `lib/main.dart`, add the following to the accessors section to enable the UI 
 
 ####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_09/lib/main.dart#L190)
 
-```
+```dart
 int _attendees = 0;
 int get attendees => _attendees;
 
@@ -1228,9 +1122,9 @@ set attending(Attending attending) {
       .collection('attendees')
       .doc(FirebaseAuth.instance.currentUser!.uid);
   if (attending == Attending.yes) {
-    userDoc.set({'attending': true});
+    userDoc.set(<String, dynamic>{'attending': true});
   } else {
-    userDoc.set({'attending': false});
+    userDoc.set(<String, dynamic>{'attending': false});
   }
 }
 ```
@@ -1239,9 +1133,11 @@ Update `ApplicationState`'s `init` method as follows:
 
 ####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_09/lib/main.dart#L119)
 
-```
+```dart
   Future<void> init() async {
-    await Firebase.initializeApp();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
 
     // Add from here
     FirebaseFirestore.instance
@@ -1263,14 +1159,14 @@ Update `ApplicationState`'s `init` method as follows:
             .snapshots()
             .listen((snapshot) {
           _guestBookMessages = [];
-          snapshot.docs.forEach((document) {
+          for (final document in snapshot.docs) {
             _guestBookMessages.add(
               GuestBookMessage(
                 name: document.data()['name'] as String,
                 message: document.data()['text'] as String,
               ),
             );
-          });
+          }
           notifyListeners();
         });
         // Add from here
@@ -1280,7 +1176,7 @@ Update `ApplicationState`'s `init` method as follows:
             .snapshots()
             .listen((snapshot) {
           if (snapshot.data() != null) {
-            if (snapshot.data()!['attending']) {
+            if (snapshot.data()!['attending'] as bool) {
               _attending = Attending.yes;
             } else {
               _attending = Attending.no;
@@ -1306,7 +1202,7 @@ The above adds an always subscribed query to find out the number of attendees, a
 
 ####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_09/lib/main.dart#L279)
 
-```
+```dart
 enum Attending { yes, no, unknown }
 ```
 
@@ -1314,7 +1210,7 @@ You are now going to define a new widget that acts like radio buttons of old. It
 
 ####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_09/lib/main.dart#L355)
 
-```
+```dart
 class YesNoSelection extends StatelessWidget {
   const YesNoSelection({required this.state, required this.onSelection});
   final Attending state;
@@ -1325,53 +1221,53 @@ class YesNoSelection extends StatelessWidget {
     switch (state) {
       case Attending.yes:
         return Padding(
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           child: Row(
             children: [
               ElevatedButton(
                 style: ElevatedButton.styleFrom(elevation: 0),
                 onPressed: () => onSelection(Attending.yes),
-                child: Text('YES'),
+                child: const Text('YES'),
               ),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               TextButton(
                 onPressed: () => onSelection(Attending.no),
-                child: Text('NO'),
+                child: const Text('NO'),
               ),
             ],
           ),
         );
       case Attending.no:
         return Padding(
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           child: Row(
             children: [
               TextButton(
                 onPressed: () => onSelection(Attending.yes),
-                child: Text('YES'),
+                child: const Text('YES'),
               ),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(elevation: 0),
                 onPressed: () => onSelection(Attending.no),
-                child: Text('NO'),
+                child: const Text('NO'),
               ),
             ],
           ),
         );
       default:
         return Padding(
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           child: Row(
             children: [
               StyledButton(
                 onPressed: () => onSelection(Attending.yes),
-                child: Text('YES'),
+                child: const Text('YES'),
               ),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               StyledButton(
                 onPressed: () => onSelection(Attending.no),
-                child: Text('NO'),
+                child: const Text('NO'),
               ),
             ],
           ),
@@ -1385,7 +1281,7 @@ Next, you need to update `HomePage`'s build method to take advantage of `YesNoSe
 
 ####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_09/lib/main.dart#L79)
 
-```
+```dart
 Consumer<ApplicationState>(
   builder: (context, appState, _) => Column(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -1394,9 +1290,9 @@ Consumer<ApplicationState>(
       if (appState.attendees >= 2)
         Paragraph('${appState.attendees} people going')
       else if (appState.attendees == 1)
-        Paragraph('1 person going')
+        const Paragraph('1 person going')
       else
-        Paragraph('No one going'),
+        const Paragraph('No one going'),
       // To here.
       if (appState.loginState == ApplicationLoginState.loggedIn) ...[
         // Add from here
@@ -1405,9 +1301,9 @@ Consumer<ApplicationState>(
           onSelection: (attending) => appState.attending = attending,
         ),
         // To here.
-        Header('Discussion'),
+        const Header('Discussion'),
         GuestBook(
-          addMessage: (String message) =>
+          addMessage: (message) =>
               appState.addMessageToGuestBook(message),
           messages: appState.guestBookMessages,
         ),
@@ -1423,7 +1319,7 @@ Because you already have some rules set up, the new data that you're adding with
 
 For the `attendees` collection, since you used the Authentication UID as the document name, you can grab it and verify that the submitter's `uid` is the same as the document they are writing. You'll allow everyone to read the attendees list (since there is no private data there), but only the creator should be able to update it.
 
-```
+```javascript
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
@@ -1440,7 +1336,7 @@ service cloud.firestore {
 
 Add data validation to make sure that all of the expected fields are present in the document:
 
-```
+```javascript
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {

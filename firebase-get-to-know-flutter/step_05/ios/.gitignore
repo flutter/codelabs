@@ -32,6 +32,3 @@ Runner/GeneratedPluginRegistrant.*
 !default.mode2v3
 !default.pbxuser
 !default.perspectivev3
-
-# Ignore Firebase configuration file
-Runner/GoogleService-Info.plist
