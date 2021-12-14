@@ -1,12 +1,13 @@
-import 'dart:async'; // new
+import 'dart:async';
 
-import 'package:cloud_firestore/cloud_firestore.dart'; // new
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import 'firebase_options.dart';
 import 'src/authentication.dart';
 import 'src/widgets.dart';
 
@@ -77,7 +78,6 @@ class HomePage extends StatelessWidget {
           const Paragraph(
             'Join us for a day full of Firebase Workshops and Pizza!',
           ),
-          // Modify from here
           Consumer<ApplicationState>(
             builder: (context, appState, _) => Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -92,7 +92,6 @@ class HomePage extends StatelessWidget {
               ],
             ),
           ),
-          // To here.
         ],
       ),
     );
@@ -105,7 +104,9 @@ class ApplicationState extends ChangeNotifier {
   }
 
   Future<void> init() async {
-    await Firebase.initializeApp();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
 
     FirebaseAuth.instance.userChanges().listen((user) {
       if (user != null) {
@@ -185,7 +186,6 @@ class ApplicationState extends ChangeNotifier {
     FirebaseAuth.instance.signOut();
   }
 
-  // Add from here
   Future<DocumentReference> addMessageToGuestBook(String message) {
     if (_loginState != ApplicationLoginState.loggedIn) {
       throw Exception('Must be logged in');
@@ -200,7 +200,6 @@ class ApplicationState extends ChangeNotifier {
       'userId': FirebaseAuth.instance.currentUser!.uid,
     });
   }
-  // To here
 }
 
 class GuestBook extends StatefulWidget {
