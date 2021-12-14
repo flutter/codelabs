@@ -17,7 +17,7 @@ class IAPRepo extends ChangeNotifier {
   bool hasUpgrade = false;
   List<PastPurchase> purchases = [];
 
-  late StreamSubscription<User?> _userSubscription;
+  StreamSubscription<User?>? _userSubscription;
   StreamSubscription<QuerySnapshot>? _purchaseSubscription;
 
   IAPRepo(FirebaseNotifier firebaseNotifier) {
@@ -70,7 +70,7 @@ class IAPRepo extends ChangeNotifier {
 
   @override
   void dispose() {
-    _userSubscription.cancel();
+    _userSubscription?.cancel();
     _purchaseSubscription?.cancel();
     super.dispose();
   }

@@ -9,9 +9,11 @@ import 'package:in_app_purchase/in_app_purchase.dart';
 import '../model/purchasable_product.dart';
 import '../model/store_state.dart';
 import 'dash_counter.dart';
+import 'firebase_notifier.dart';
 
 class DashPurchases extends ChangeNotifier {
   DashCounter counter;
+  FirebaseNotifier firebaseNotifier;
   StoreState storeState = StoreState.loading;
   late StreamSubscription<List<PurchaseDetails>> _subscription;
   List<PurchasableProduct> products = [];
@@ -20,7 +22,7 @@ class DashPurchases extends ChangeNotifier {
   bool _beautifiedDashUpgrade = false;
   final iapConnection = IAPConnection.instance;
 
-  DashPurchases(this.counter) {
+  DashPurchases(this.counter, this.firebaseNotifier) {
     final purchaseUpdated = iapConnection.purchaseStream;
     _subscription = purchaseUpdated.listen(
       _onPurchaseUpdate,
@@ -37,6 +39,15 @@ class DashPurchases extends ChangeNotifier {
       notifyListeners();
       return;
     }
+
+    try {
+      await firebaseNotifier.functions;
+    } catch (e) {
+      storeState = StoreState.notAvailable;
+      notifyListeners();
+      return;
+    }
+
     const ids = <String>{
       storeKeyConsumable,
       storeKeySubscription,
@@ -62,6 +73,7 @@ class DashPurchases extends ChangeNotifier {
         await iapConnection.buyConsumable(purchaseParam: purchaseParam);
         break;
       case storeKeySubscription:
+      case storeKeyUpgrade:
         await iapConnection.buyNonConsumable(purchaseParam: purchaseParam);
         break;
       default:
@@ -70,29 +82,49 @@ class DashPurchases extends ChangeNotifier {
     }
   }
 
-  void _onPurchaseUpdate(List<PurchaseDetails> purchaseDetailsList) {
-    purchaseDetailsList.forEach(_handlePurchase);
+  Future<void> _onPurchaseUpdate(
+      List<PurchaseDetails> purchaseDetailsList) async {
+    for (var purchaseDetails in purchaseDetailsList) {
+      await _handlePurchase(purchaseDetails);
+    }
     notifyListeners();
   }
 
-  void _handlePurchase(PurchaseDetails purchaseDetails) {
+  Future<void> _handlePurchase(PurchaseDetails purchaseDetails) async {
     if (purchaseDetails.status == PurchaseStatus.purchased) {
-      switch (purchaseDetails.productID) {
-        case storeKeySubscription:
-          counter.applyPaidMultiplier();
-          break;
-        case storeKeyConsumable:
-          counter.addBoughtDashes(2000);
-          break;
-        case storeKeyUpgrade:
-          _beautifiedDashUpgrade = true;
-          break;
+      // Send to server
+      var validPurchase = await _verifyPurchase(purchaseDetails);
+
+      if (validPurchase) {
+        switch (purchaseDetails.productID) {
+          case storeKeySubscription:
+            counter.applyPaidMultiplier();
+            break;
+          case storeKeyConsumable:
+            counter.addBoughtDashes(2000);
+            break;
+          case storeKeyUpgrade:
+            _beautifiedDashUpgrade = true;
+            break;
+        }
       }
     }
 
     if (purchaseDetails.pendingCompletePurchase) {
-      iapConnection.completePurchase(purchaseDetails);
+      await iapConnection.completePurchase(purchaseDetails);
     }
+  }
+
+  Future<bool> _verifyPurchase(PurchaseDetails purchaseDetails) async {
+    var functions = await firebaseNotifier.functions;
+    final callable = functions.httpsCallable('verifyPurchase');
+    final results = await callable({
+      'source': purchaseDetails.verificationData.source,
+      'verificationData':
+          purchaseDetails.verificationData.serverVerificationData,
+      'productId': purchaseDetails.productID,
+    });
+    return results.data as bool;
   }
 
   void _updateStreamOnDone() {
