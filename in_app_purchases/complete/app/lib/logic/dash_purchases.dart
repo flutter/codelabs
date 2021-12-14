@@ -184,8 +184,8 @@ class DashPurchases extends ChangeNotifier {
   }
 
   void _updateStatus(PurchasableProduct product, ProductStatus status) {
-    if (product.status != ProductStatus.purchased) {
-      product.status = ProductStatus.purchased;
+    if (product.status != status) {
+      product.status = status;
       notifyListeners();
     }
   }
