@@ -341,8 +341,8 @@ You are going to use the  [`provider`](https://pub.dev/packages/provider) packag
 ####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_05/lib/main.dart#L1)
 
 ```dart
-import 'package:firebase_core/firebase_core.dart'; // new
 import 'package:firebase_auth/firebase_auth.dart'; // new
+import 'package:firebase_core/firebase_core.dart'; // new
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';           // new
@@ -580,9 +580,10 @@ First, add imports for the `cloud_firestore` package and `dart:async`.
 
 ```dart
 import 'dart:async';                                    // new
+
 import 'package:cloud_firestore/cloud_firestore.dart';  // new
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -1318,7 +1319,7 @@ Because you already have some rules set up, the new data that you're adding with
 
 For the `attendees` collection, since you used the Authentication UID as the document name, you can grab it and verify that the submitter's `uid` is the same as the document they are writing. You'll allow everyone to read the attendees list (since there is no private data there), but only the creator should be able to update it.
 
-```
+```javascript
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
@@ -1335,7 +1336,7 @@ service cloud.firestore {
 
 Add data validation to make sure that all of the expected fields are present in the document:
 
-```
+```javascript
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {

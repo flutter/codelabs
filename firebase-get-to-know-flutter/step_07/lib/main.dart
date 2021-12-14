@@ -112,7 +112,6 @@ class ApplicationState extends ChangeNotifier {
     FirebaseAuth.instance.userChanges().listen((user) {
       if (user != null) {
         _loginState = ApplicationLoginState.loggedIn;
-        // Add from here
         _guestBookSubscription = FirebaseFirestore.instance
             .collection('guestbook')
             .orderBy('timestamp', descending: true)
@@ -129,13 +128,10 @@ class ApplicationState extends ChangeNotifier {
           }
           notifyListeners();
         });
-        // to here.
       } else {
         _loginState = ApplicationLoginState.loggedOut;
-        // Add from here
         _guestBookMessages = [];
         _guestBookSubscription?.cancel();
-        // to here.
       }
       notifyListeners();
     });
@@ -236,10 +232,9 @@ class GuestBookMessage {
 }
 
 class GuestBook extends StatefulWidget {
-  // Modify the following line
   const GuestBook({required this.addMessage, required this.messages});
   final FutureOr<void> Function(String message) addMessage;
-  final List<GuestBookMessage> messages; // new
+  final List<GuestBookMessage> messages;
 
   @override
   _GuestBookState createState() => _GuestBookState();
@@ -250,12 +245,10 @@ class _GuestBookState extends State<GuestBook> {
   final _controller = TextEditingController();
 
   @override
-  // Modify from here
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // to here.
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Form(
@@ -296,13 +289,11 @@ class _GuestBookState extends State<GuestBook> {
             ),
           ),
         ),
-        // Modify from here
         const SizedBox(height: 8),
         for (var message in widget.messages)
           Paragraph('${message.name}: ${message.message}'),
         const SizedBox(height: 8),
       ],
-      // to here.
     );
   }
 }

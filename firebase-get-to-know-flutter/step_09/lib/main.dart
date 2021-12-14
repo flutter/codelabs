@@ -119,7 +119,6 @@ class ApplicationState extends ChangeNotifier {
       options: DefaultFirebaseOptions.currentPlatform,
     );
 
-    // Add from here
     FirebaseFirestore.instance
         .collection('attendees')
         .where('attending', isEqualTo: true)
@@ -128,7 +127,6 @@ class ApplicationState extends ChangeNotifier {
       _attendees = snapshot.docs.length;
       notifyListeners();
     });
-    // To here
 
     FirebaseAuth.instance.userChanges().listen((user) {
       if (user != null) {
@@ -149,7 +147,6 @@ class ApplicationState extends ChangeNotifier {
           }
           notifyListeners();
         });
-        // Add from here
         _attendingSubscription = FirebaseFirestore.instance
             .collection('attendees')
             .doc(user.uid)
@@ -166,12 +163,11 @@ class ApplicationState extends ChangeNotifier {
           }
           notifyListeners();
         });
-        // to here
       } else {
         _loginState = ApplicationLoginState.loggedOut;
         _guestBookMessages = [];
         _guestBookSubscription?.cancel();
-        _attendingSubscription?.cancel(); // new
+        _attendingSubscription?.cancel();
       }
       notifyListeners();
     });
