@@ -48,7 +48,6 @@ class MyApp extends StatelessWidget {
 ThemeData _buildTheme() {
   final base = ThemeData.light().copyWith(
     primaryColor: Colors.white,
-    primaryColorBrightness: Brightness.light,
     primaryTextTheme: Typography.blackMountainView,
     primaryIconTheme: const IconThemeData(
       color: Colors.grey,
