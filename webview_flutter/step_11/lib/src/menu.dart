@@ -9,6 +9,7 @@ enum _MenuOptions {
   listCookies,
   clearCookies,
   addCookie,
+  setCookie,
   removeCookie,
 }
 
@@ -65,6 +66,9 @@ req.send();''');
               case _MenuOptions.addCookie:
                 _onAddCookie(controller.data!);
                 break;
+              case _MenuOptions.setCookie:
+                _onSetCookie(controller.data!);
+                break;
               case _MenuOptions.removeCookie:
                 _onRemoveCookie(controller.data!);
                 break;
@@ -94,6 +98,10 @@ req.send();''');
             const PopupMenuItem<_MenuOptions>(
               value: _MenuOptions.addCookie,
               child: Text('Add cookie'),
+            ),
+            const PopupMenuItem<_MenuOptions>(
+              value: _MenuOptions.setCookie,
+              child: Text('Set cookie'),
             ),
             const PopupMenuItem<_MenuOptions>(
               value: _MenuOptions.removeCookie,
@@ -135,6 +143,17 @@ req.send();''');
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Custom cookie added.'),
+      ),
+    );
+  }
+
+  Future<void> _onSetCookie(WebViewController controller) async {
+    await cookieManager.setCookie(
+      const WebViewCookie(name: 'foo', value: 'bar', domain: 'flutter.dev'),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Custom cookie is set.'),
       ),
     );
   }
