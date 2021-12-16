@@ -132,6 +132,57 @@ class DashPurchases extends ChangeNotifier {
   }
 
   void _updateStreamOnError(dynamic error) {
-    //Handle error here
+    // ignore: avoid_print
+    print(error);
+  }
+
+  void purchasesUpdate() {
+    var subscriptions = <PurchasableProduct>[];
+    var upgrades = <PurchasableProduct>[];
+    // Get a list of purchasable products for the subscription and upgrade.
+    // This should be 1 per type.
+    if (products.isNotEmpty) {
+      subscriptions = products
+          .where((element) => element.productDetails.id == storeKeySubscription)
+          .toList();
+      upgrades = products
+          .where((element) => element.productDetails.id == storeKeyUpgrade)
+          .toList();
+    }
+
+    // Set the subscription in the counter logic and show/hide purchased on the
+    // purchases page.
+    if (iapRepo.hasActiveSubscription) {
+      counter.applyPaidMultiplier();
+      for (final element in subscriptions) {
+        _updateStatus(element, ProductStatus.purchased);
+      }
+    } else {
+      counter.removePaidMultiplier();
+      for (final element in subscriptions) {
+        _updateStatus(element, ProductStatus.purchasable);
+      }
+    }
+
+    // Set the dash beautifier and show/hide purchased on
+    // the purchases page.
+    if (iapRepo.hasUpgrade != _beautifiedDashUpgrade) {
+      _beautifiedDashUpgrade = iapRepo.hasUpgrade;
+      for (final element in upgrades) {
+        _updateStatus(
+            element,
+            _beautifiedDashUpgrade
+                ? ProductStatus.purchased
+                : ProductStatus.purchasable);
+      }
+      notifyListeners();
+    }
+  }
+
+  void _updateStatus(PurchasableProduct product, ProductStatus status) {
+    if (product.status != status) {
+      product.status = status;
+      notifyListeners();
+    }
   }
 }

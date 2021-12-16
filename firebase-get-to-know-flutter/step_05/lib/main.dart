@@ -1,21 +1,20 @@
-import 'package:firebase_auth/firebase_auth.dart'; // new
-import 'package:firebase_core/firebase_core.dart'; // new
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart'; // new
+import 'package:provider/provider.dart';
 
-import 'src/authentication.dart'; // new
+import 'firebase_options.dart';
+import 'src/authentication.dart';
 import 'src/widgets.dart';
 
 void main() {
-  // Modify from here
   runApp(
     ChangeNotifierProvider(
       create: (context) => ApplicationState(),
       builder: (context, _) => App(),
     ),
   );
-  // to here.
 }
 
 class App extends StatelessWidget {
@@ -53,7 +52,6 @@ class HomePage extends StatelessWidget {
           const SizedBox(height: 8),
           const IconAndDetail(Icons.calendar_today, 'October 30'),
           const IconAndDetail(Icons.location_city, 'San Francisco'),
-          // Add from here
           Consumer<ApplicationState>(
             builder: (context, appState, _) => Authentication(
               email: appState.email,
@@ -66,7 +64,6 @@ class HomePage extends StatelessWidget {
               signOut: appState.signOut,
             ),
           ),
-          // to here
           const Divider(
             height: 8,
             thickness: 1,
@@ -90,7 +87,9 @@ class ApplicationState extends ChangeNotifier {
   }
 
   Future<void> init() async {
-    await Firebase.initializeApp();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
 
     FirebaseAuth.instance.userChanges().listen((user) {
       if (user != null) {
