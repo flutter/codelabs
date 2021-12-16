@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import 'firebase_options.dart';
 import 'src/authentication.dart';
 import 'src/widgets.dart';
 
@@ -81,21 +82,17 @@ class HomePage extends StatelessWidget {
             builder: (context, appState, _) => Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Add from here
                 if (appState.attendees >= 2)
                   Paragraph('${appState.attendees} people going')
                 else if (appState.attendees == 1)
                   const Paragraph('1 person going')
                 else
                   const Paragraph('No one going'),
-                // To here.
                 if (appState.loginState == ApplicationLoginState.loggedIn) ...[
-                  // Add from here
                   YesNoSelection(
                     state: appState.attending,
                     onSelection: (attending) => appState.attending = attending,
                   ),
-                  // To here.
                   const Header('Discussion'),
                   GuestBook(
                     addMessage: (message) =>
@@ -118,9 +115,10 @@ class ApplicationState extends ChangeNotifier {
   }
 
   Future<void> init() async {
-    await Firebase.initializeApp();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
 
-    // Add from here
     FirebaseFirestore.instance
         .collection('attendees')
         .where('attending', isEqualTo: true)
@@ -129,7 +127,6 @@ class ApplicationState extends ChangeNotifier {
       _attendees = snapshot.docs.length;
       notifyListeners();
     });
-    // To here
 
     FirebaseAuth.instance.userChanges().listen((user) {
       if (user != null) {
@@ -150,7 +147,6 @@ class ApplicationState extends ChangeNotifier {
           }
           notifyListeners();
         });
-        // Add from here
         _attendingSubscription = FirebaseFirestore.instance
             .collection('attendees')
             .doc(user.uid)
@@ -167,12 +163,11 @@ class ApplicationState extends ChangeNotifier {
           }
           notifyListeners();
         });
-        // to here
       } else {
         _loginState = ApplicationLoginState.loggedOut;
         _guestBookMessages = [];
         _guestBookSubscription?.cancel();
-        _attendingSubscription?.cancel(); // new
+        _attendingSubscription?.cancel();
       }
       notifyListeners();
     });
