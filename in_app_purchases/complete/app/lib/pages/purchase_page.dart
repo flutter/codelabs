@@ -1,15 +1,17 @@
-import 'package:dashclicker/logic/dash_purchases.dart';
-import 'package:dashclicker/logic/firebase_notifier.dart';
-import 'package:dashclicker/model/firebase_state.dart';
-import 'package:dashclicker/model/purchasable_product.dart';
-import 'package:dashclicker/model/store_state.dart';
-import 'package:dashclicker/repo/iap_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../logic/dash_purchases.dart';
+import '../logic/firebase_notifier.dart';
+import '../model/firebase_state.dart';
+import '../model/purchasable_product.dart';
+import '../model/store_state.dart';
+import '../repo/iap_repo.dart';
 import 'login_page.dart';
 
 class PurchasePage extends StatelessWidget {
+  const PurchasePage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     var firebaseNotifier = context.watch<FirebaseNotifier>();
@@ -20,7 +22,7 @@ class PurchasePage extends StatelessWidget {
     }
 
     if (!firebaseNotifier.loggedIn) {
-      return LoginPage();
+      return const LoginPage();
     }
 
     var upgrades = context.watch<DashPurchases>();
@@ -46,7 +48,7 @@ class PurchasePage extends StatelessWidget {
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
-      PastPurchasesWidget(),
+      const PastPurchasesWidget(),
     ]);
   }
 }
@@ -122,6 +124,8 @@ class _PurchaseWidget extends StatelessWidget {
 }
 
 class PastPurchasesWidget extends StatelessWidget {
+  const PastPurchasesWidget({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     var purchases = context.watch<IAPRepo>().purchases;

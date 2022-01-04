@@ -10,6 +10,8 @@ import '../repo/iap_repo.dart';
 import 'login_page.dart';
 
 class PurchasePage extends StatelessWidget {
+  const PurchasePage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     var firebaseNotifier = context.watch<FirebaseNotifier>();
@@ -20,7 +22,7 @@ class PurchasePage extends StatelessWidget {
     }
 
     if (!firebaseNotifier.loggedIn) {
-      return LoginPage();
+      return const LoginPage();
     }
 
     var upgrades = context.watch<DashPurchases>();
@@ -46,7 +48,7 @@ class PurchasePage extends StatelessWidget {
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
-      PastPurchasesWidget(),
+      const PastPurchasesWidget(),
     ]);
   }
 }
@@ -122,6 +124,8 @@ class _PurchaseWidget extends StatelessWidget {
 }
 
 class PastPurchasesWidget extends StatelessWidget {
+  const PastPurchasesWidget({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     var purchases = context.watch<IAPRepo>().purchases;
