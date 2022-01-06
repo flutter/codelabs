@@ -1,48 +1,51 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(HorizonsApp());
+  runApp(const HorizonsApp());
 }
 
 class HorizonsApp extends StatelessWidget {
+  const HorizonsApp({Key? key}) : super(key: key);
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      // This is the theme of your application.
-      theme: ThemeData.dark(),
-      // Scrolling in Flutter behaves differently depending on the
-      // ScrollBehavior. By default, ScrollBehavior changes depending
-      // on the current platform. For the purposes of this scrolling
-      // workshop, we're using a custom ScrollBehavior so that the
-      // experience is the same for everyone - regardless of the
-      // platform they are using.
-      scrollBehavior: const ConstantScrollBehavior(),
-      title: 'Horizons Weather',
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Horizons'),
-          backgroundColor: Colors.teal[800],
-        ),
-        body: WeeklyForecastList(),
-      )
-    );
+        debugShowCheckedModeBanner: false,
+        // This is the theme of your application.
+        theme: ThemeData.dark(),
+        // Scrolling in Flutter behaves differently depending on the
+        // ScrollBehavior. By default, ScrollBehavior changes depending
+        // on the current platform. For the purposes of this scrolling
+        // workshop, we're using a custom ScrollBehavior so that the
+        // experience is the same for everyone - regardless of the
+        // platform they are using.
+        scrollBehavior: const ConstantScrollBehavior(),
+        title: 'Horizons Weather',
+        home: Scaffold(
+          appBar: AppBar(
+            title: const Text('Horizons'),
+            backgroundColor: Colors.teal[800],
+          ),
+          body: const WeeklyForecastList(),
+        ));
   }
 }
 
 class WeeklyForecastList extends StatelessWidget {
+  const WeeklyForecastList({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final DateTime currentDate = DateTime.now();
     final TextTheme textTheme = Theme.of(context).textTheme;
     final List<DailyForecast> forecasts = Server.getDailyForecastList();
-    
+
     // TODO: Let's make this a more efficient Scrollable before we
     //  add more widgets.
     return SingleChildScrollView(
       child: Column(
-        children: forecasts.map((DailyForecast dailyForecast) {
+        children: forecasts.map((dailyForecast) {
           return Card(
             child: ListTile(
               leading: Text(
@@ -61,7 +64,7 @@ class WeeklyForecastList extends StatelessWidget {
             ),
           );
         }).toList(),
-      )  
+      ),
     );
   }
 }
@@ -69,53 +72,55 @@ class WeeklyForecastList extends StatelessWidget {
 // --------------------------------------------
 // Below this line are helper classes and data.
 
-const String baseAssetURL = 'https://dartpad-workshops-io2021.web.app/getting_started_with_slivers/';
+const String baseAssetURL =
+    'https://dartpad-workshops-io2021.web.app/getting_started_with_slivers/';
 const String headerImage = '${baseAssetURL}assets/header.jpeg';
 
 const Map<int, DailyForecast> _kDummyData = {
-  0 : DailyForecast(
+  0: DailyForecast(
     id: 0,
     imageId: '${baseAssetURL}assets/day_0.jpeg',
     highTemp: 73,
     lowTemp: 52,
-    description: 'Partly cloudy in the morning, with sun appearing in the afternoon.',
+    description:
+        'Partly cloudy in the morning, with sun appearing in the afternoon.',
   ),
-  1 : DailyForecast(
+  1: DailyForecast(
     id: 1,
     imageId: '${baseAssetURL}assets/day_1.jpeg',
     highTemp: 70,
     lowTemp: 50,
     description: 'Partly sunny.',
   ),
-  2 : DailyForecast(
+  2: DailyForecast(
     id: 2,
     imageId: '${baseAssetURL}assets/day_2.jpeg',
     highTemp: 71,
     lowTemp: 55,
     description: 'Party cloudy.',
   ),
-  3 : DailyForecast(
+  3: DailyForecast(
     id: 3,
     imageId: '${baseAssetURL}assets/day_3.jpeg',
     highTemp: 74,
     lowTemp: 60,
     description: 'Thunderstorms in the evening.',
   ),
-  4 : DailyForecast(
+  4: DailyForecast(
     id: 4,
     imageId: '${baseAssetURL}assets/day_4.jpeg',
     highTemp: 67,
     lowTemp: 60,
     description: 'Severe thunderstorm warning.',
   ),
-  5 : DailyForecast(
+  5: DailyForecast(
     id: 5,
     imageId: '${baseAssetURL}assets/day_5.jpeg',
     highTemp: 73,
     lowTemp: 57,
     description: 'Cloudy with showers in the morning.',
   ),
-  6 : DailyForecast(
+  6: DailyForecast(
     id: 6,
     imageId: '${baseAssetURL}assets/day_6.jpeg',
     highTemp: 75,
@@ -125,7 +130,8 @@ const Map<int, DailyForecast> _kDummyData = {
 };
 
 class Server {
-  static List<DailyForecast> getDailyForecastList() => _kDummyData.values.toList();
+  static List<DailyForecast> getDailyForecastList() =>
+      _kDummyData.values.toList();
 
   static DailyForecast getDailyForecastByID(int id) {
     assert(id >= 0 && id <= 6);
@@ -170,14 +176,19 @@ class ConstantScrollBehavior extends ScrollBehavior {
   const ConstantScrollBehavior();
 
   @override
-  Widget buildScrollbar(BuildContext context, Widget child, ScrollableDetails details) => child;
+  Widget buildScrollbar(
+          BuildContext context, Widget child, ScrollableDetails details) =>
+      child;
 
   @override
-  Widget buildOverscrollIndicator(BuildContext context, Widget child, ScrollableDetails details) => child;
+  Widget buildOverscrollIndicator(
+          BuildContext context, Widget child, ScrollableDetails details) =>
+      child;
 
   @override
   TargetPlatform getPlatform(BuildContext context) => TargetPlatform.macOS;
 
   @override
-  ScrollPhysics getScrollPhysics(BuildContext context) => const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics());
+  ScrollPhysics getScrollPhysics(BuildContext context) =>
+      const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics());
 }

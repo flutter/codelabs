@@ -1,3 +1,6 @@
+// TODO: Remove the following line
+// ignore_for_file: argument_type_not_assignable
+
 import 'dart:math';
 
 class StringProvider {
@@ -6,11 +9,10 @@ class StringProvider {
 
 class RandomStringProvider extends StringProvider {
   @override
-  void set value(String? v) {}
+  set value(String? v) {}
 
   @override
-  String? get value =>
-    Random().nextBool() ? 'A String!' : null;
+  String? get value => Random().nextBool() ? 'A String!' : null;
 }
 
 void printString(String str) => print(str);

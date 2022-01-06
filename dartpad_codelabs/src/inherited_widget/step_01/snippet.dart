@@ -1,4 +1,3 @@
-import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 
 final GlobalKey<ShoppingCartIconState> shoppingCart = GlobalKey<ShoppingCartIconState>();
@@ -6,7 +5,7 @@ final GlobalKey<ProductListWidgetState> productList = GlobalKey<ProductListWidge
 
 void main() {
   runApp(
-    MaterialApp(
+    const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Store',
       home: MyStorePage(),
@@ -17,15 +16,16 @@ void main() {
 class AppState {
   // TODO: fill in this data structure.
 
-  AppState copyWith({
+  AppState copyWith(
     //..
-  }) {
+  ) {
     // TODO: implement copy method.
+    throw UnimplementedError();
   }
 }
 
 class MyStorePage extends StatefulWidget {
-  MyStorePage({Key? key}) : super(key: key);
+  const MyStorePage({Key? key}) : super(key: key);
   @override
   MyStorePageState createState() => MyStorePageState();
 }
@@ -57,7 +57,7 @@ class MyStorePageState extends State<MyStorePage> {
         slivers: [
           SliverAppBar(
             leading: Padding(
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               child: Image.network('$baseAssetURL/google-logo.png')
             ),
             title: _inSearch
@@ -68,13 +68,13 @@ class MyStorePageState extends State<MyStorePage> {
                   onSubmitted: (_) => _handleSearch(),
                   decoration: InputDecoration(
                     hintText: 'Search Google Store',
-                    prefixIcon: IconButton(icon: Icon(Icons.search), onPressed: _handleSearch),
-                    suffixIcon: IconButton(icon: Icon(Icons.close), onPressed: _toggleSearch),
+                    prefixIcon: IconButton(icon: const Icon(Icons.search), onPressed: _handleSearch),
+                    suffixIcon: IconButton(icon: const Icon(Icons.close), onPressed: _toggleSearch),
                   )
                 )
               : null,
             actions: [
-              if (!_inSearch) IconButton(onPressed: _toggleSearch, icon: Icon(Icons.search, color: Colors.black)),
+              if (!_inSearch) IconButton(onPressed: _toggleSearch, icon: const Icon(Icons.search, color: Colors.black)),
               ShoppingCartIcon(key: shoppingCart),
             ],
             backgroundColor: Colors.white,
@@ -90,7 +90,7 @@ class MyStorePageState extends State<MyStorePage> {
 }
 
 class ShoppingCartIcon extends StatefulWidget {
-  ShoppingCartIcon({Key? key}) : super(key: key);
+  const ShoppingCartIcon({Key? key}) : super(key: key);
   @override
   ShoppingCartIconState createState() => ShoppingCartIconState();
 }
@@ -106,13 +106,13 @@ class ShoppingCartIconState extends State<ShoppingCartIcon> {
 
   @override
   Widget build(BuildContext context) {
-    final bool hasPurchase = itemsInCart.length > 0;
+    final bool hasPurchase = itemsInCart.isNotEmpty;
     return Stack(
       alignment: Alignment.center,
       children: [
         Padding(
           padding: EdgeInsets.only(right: hasPurchase ? 17.0 : 10.0),
-          child: Icon(
+          child: const Icon(
             Icons.shopping_cart,
             color: Colors.black,
           ),
@@ -126,7 +126,7 @@ class ShoppingCartIconState extends State<ShoppingCartIcon> {
               foregroundColor: Colors.white,
               child: Text(
                 itemsInCart.length.toString(),
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 12.0,
                 ),
@@ -139,7 +139,7 @@ class ShoppingCartIconState extends State<ShoppingCartIcon> {
 }
 
 class ProductListWidget extends StatefulWidget {
-  ProductListWidget({Key? key}) : super(key: key);
+  const ProductListWidget({Key? key}) : super(key: key);
   @override
   ProductListWidgetState createState() => ProductListWidgetState();
 }
@@ -189,7 +189,7 @@ class ProductListWidgetState extends State<ProductListWidget> {
 }
 
 class ProductTile extends StatelessWidget {
-  ProductTile({
+  const ProductTile({
     Key? key,
     required this.product,
     required this.purchased,
@@ -212,30 +212,30 @@ class ProductTile extends StatelessWidget {
       );
     }
     return Container(
-      margin: EdgeInsets.symmetric(
+      margin: const EdgeInsets.symmetric(
         vertical: 15,
         horizontal: 40,
       ),
-      color: Color(0xfff8f8f8),
+      color: const Color(0xfff8f8f8),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             child: Text(product.title),
           ),
           Text.rich(
             product.description,
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
           ),
           Padding(
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             child: OutlinedButton(
-              child: purchased ? const Text("Remove from cart"): const Text("Add to cart"),
+              child: purchased ? const Text('Remove from cart'): const Text('Add to cart'),
               style: ButtonStyle(
                 foregroundColor: MaterialStateProperty.resolveWith(getButtonColor),
                 side: MaterialStateProperty.resolveWith(getButtonSide),
@@ -300,8 +300,9 @@ class Server {
   }
 
   static List<String> getProductList({String? filter}) {
-    if (filter == null)
+    if (filter == null) {
       return kDummyData.keys.toList();
+    }
     final List<String> ids = <String>[];
     for (final Product product in kDummyData.values) {
       if (product.title.toLowerCase().contains(filter.toLowerCase())) {
