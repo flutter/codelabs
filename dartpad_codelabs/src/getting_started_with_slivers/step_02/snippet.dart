@@ -11,24 +11,25 @@ class HorizonsApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        // This is the theme of your application.
-        theme: ThemeData.dark(),
-        // Scrolling in Flutter behaves differently depending on the
-        // ScrollBehavior. By default, ScrollBehavior changes depending
-        // on the current platform. For the purposes of this scrolling
-        // workshop, we're using a custom ScrollBehavior so that the
-        // experience is the same for everyone - regardless of the
-        // platform they are using.
-        scrollBehavior: const ConstantScrollBehavior(),
-        title: 'Horizons Weather',
-        home: Scaffold(
-          appBar: AppBar(
-            title: const Text('Horizons'),
-            backgroundColor: Colors.teal[800],
-          ),
-          body: const WeeklyForecastList(),
-        ));
+      debugShowCheckedModeBanner: false,
+      // This is the theme of your application.
+      theme: ThemeData.dark(),
+      // Scrolling in Flutter behaves differently depending on the
+      // ScrollBehavior. By default, ScrollBehavior changes depending
+      // on the current platform. For the purposes of this scrolling
+      // workshop, we're using a custom ScrollBehavior so that the
+      // experience is the same for everyone - regardless of the
+      // platform they are using.
+      scrollBehavior: const ConstantScrollBehavior(),
+      title: 'Horizons Weather',
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('Horizons'),
+          backgroundColor: Colors.teal[800],
+        ),
+        body: const WeeklyForecastList(),
+      ),
+    );
   }
 }
 
