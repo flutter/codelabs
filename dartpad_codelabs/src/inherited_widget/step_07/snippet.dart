@@ -1,16 +1,17 @@
-import 'package:flutter/widgets.dart';
+// TODO: Remove the following line
+// ignore_for_file: unused_local_variable
+
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
 
 void main() {
   runApp(
-      AppStateWidget(
-          child: MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: 'Store',
-            home: MyStorePage(),
-          )
-      )
+    const AppStateWidget(
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Store',
+        home: MyStorePage(),
+      ),
+    ),
   );
 }
 
@@ -35,7 +36,8 @@ class AppState {
 }
 
 class AppStateScope extends InheritedWidget {
-  AppStateScope(this.data, {Key? key, required Widget child}) : super(key: key, child: child);
+  const AppStateScope(this.data, {Key? key, required Widget child})
+      : super(key: key, child: child);
 
   final AppState data;
 
@@ -50,7 +52,7 @@ class AppStateScope extends InheritedWidget {
 }
 
 class AppStateWidget extends StatefulWidget {
-  AppStateWidget({required this.child});
+  const AppStateWidget({required this.child, Key? key}) : super(key: key);
 
   final Widget child;
 
@@ -111,13 +113,12 @@ class AppStateWidgetState extends State<AppStateWidget> {
 }
 
 class MyStorePage extends StatefulWidget {
-  MyStorePage({Key? key}) : super(key: key);
+  const MyStorePage({Key? key}) : super(key: key);
   @override
   MyStorePageState createState() => MyStorePageState();
 }
 
 class MyStorePageState extends State<MyStorePage> {
-
   bool _inSearch = false;
   final TextEditingController _controller = TextEditingController();
   final FocusNode _focusNode = FocusNode();
@@ -143,30 +144,38 @@ class MyStorePageState extends State<MyStorePage> {
         slivers: [
           SliverAppBar(
             leading: Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Image.network('$baseAssetURL/google-logo.png')
+              padding: const EdgeInsets.all(16.0),
+              child: Image.network('$baseAssetURL/google-logo.png'),
             ),
             title: _inSearch
                 ? TextField(
-                autofocus: true,
-                focusNode: _focusNode,
-                controller: _controller,
-                onSubmitted: (_) => _handleSearch(),
-                decoration: InputDecoration(
-                  hintText: 'Search Google Store',
-                  prefixIcon: IconButton(icon: Icon(Icons.search), onPressed: _handleSearch),
-                  suffixIcon: IconButton(icon: Icon(Icons.close), onPressed: _toggleSearch),
-                )
-            )
+                    autofocus: true,
+                    focusNode: _focusNode,
+                    controller: _controller,
+                    onSubmitted: (_) => _handleSearch(),
+                    decoration: InputDecoration(
+                      hintText: 'Search Google Store',
+                      prefixIcon: IconButton(
+                          icon: const Icon(Icons.search),
+                          onPressed: _handleSearch),
+                      suffixIcon: IconButton(
+                          icon: const Icon(Icons.close),
+                          onPressed: _toggleSearch),
+                    ),
+                  )
                 : null,
             actions: [
-              if (!_inSearch) IconButton(onPressed: _toggleSearch, icon: Icon(Icons.search, color: Colors.black)),
-              ShoppingCartIcon(),
+              if (!_inSearch)
+                IconButton(
+                  onPressed: _toggleSearch,
+                  icon: const Icon(Icons.search, color: Colors.black),
+                ),
+              const ShoppingCartIcon(),
             ],
             backgroundColor: Colors.white,
             pinned: true,
           ),
-          SliverToBoxAdapter(
+          const SliverToBoxAdapter(
             child: ProductListWidget(),
           ),
         ],
@@ -176,18 +185,18 @@ class MyStorePageState extends State<MyStorePage> {
 }
 
 class ShoppingCartIcon extends StatelessWidget {
-  ShoppingCartIcon({Key? key}) : super(key: key);
+  const ShoppingCartIcon({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final Set<String> itemsInCart = AppStateScope.of(context).itemsInCart;
-    final bool hasPurchase = itemsInCart.length > 0;
+    final bool hasPurchase = itemsInCart.isNotEmpty;
     return Stack(
       alignment: Alignment.center,
       children: [
         Padding(
           padding: EdgeInsets.only(right: hasPurchase ? 17.0 : 10.0),
-          child: Icon(
+          child: const Icon(
             Icons.shopping_cart,
             color: Colors.black,
           ),
@@ -201,7 +210,7 @@ class ShoppingCartIcon extends StatelessWidget {
               foregroundColor: Colors.white,
               child: Text(
                 itemsInCart.length.toString(),
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 12.0,
                 ),
@@ -214,7 +223,7 @@ class ShoppingCartIcon extends StatelessWidget {
 }
 
 class ProductListWidget extends StatelessWidget {
-  ProductListWidget({Key? key}) : super(key: key);
+  const ProductListWidget({Key? key}) : super(key: key);
 
   void _handleAddToCart(String id, BuildContext context) {
     AppStateWidget.of(context).addToCart(id);
@@ -237,13 +246,14 @@ class ProductListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<String> productList = AppStateScope.of(context).productList;
     return Column(
-      children: productList.map((String id) =>_buildProductTile(id, context)).toList(),
+      children:
+          productList.map((id) => _buildProductTile(id, context)).toList(),
     );
   }
 }
 
 class ProductTile extends StatelessWidget {
-  ProductTile({
+  const ProductTile({
     Key? key,
     required this.product,
     required this.purchased,
@@ -260,38 +270,43 @@ class ProductTile extends StatelessWidget {
     Color getButtonColor(Set<MaterialState> states) {
       return purchased ? Colors.grey : Colors.black;
     }
+
     BorderSide getButtonSide(Set<MaterialState> states) {
       return BorderSide(
         color: purchased ? Colors.grey : Colors.black,
       );
     }
+
     return Container(
-      margin: EdgeInsets.symmetric(
+      margin: const EdgeInsets.symmetric(
         vertical: 15,
         horizontal: 40,
       ),
-      color: Color(0xfff8f8f8),
+      color: const Color(0xfff8f8f8),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             child: Text(product.title),
           ),
           Text.rich(
             product.description,
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
           ),
           Padding(
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             child: OutlinedButton(
-              child: purchased ? const Text("Remove from cart"): const Text("Add to cart"),
+              child: purchased
+                  ? const Text('Remove from cart')
+                  : const Text('Add to cart'),
               style: ButtonStyle(
-                foregroundColor: MaterialStateProperty.resolveWith(getButtonColor),
+                foregroundColor:
+                    MaterialStateProperty.resolveWith(getButtonColor),
                 side: MaterialStateProperty.resolveWith(getButtonSide),
               ),
               onPressed: purchased ? onRemoveFromCart : onAddToCart,
@@ -307,19 +322,23 @@ class ProductTile extends StatelessWidget {
 // The code below is for the dummy server, and you should not need to modify it
 // in this workshop.
 
-const String baseAssetURL = 'https://dartpad-workshops-io2021.web.app/inherited_widget/assets';
+const String baseAssetURL =
+    'https://dartpad-workshops-io2021.web.app/inherited_widget/assets';
 
 const Map<String, Product> kDummyData = {
-  '0' : Product(
+  '0': Product(
     id: '0',
     title: 'Explore Pixel phones',
     description: TextSpan(children: <TextSpan>[
-      TextSpan(text: 'Capture the details.\n', style: TextStyle(color: Colors.black)),
-      TextSpan(text: 'Capture your world.', style: TextStyle(color: Colors.blue)),
+      TextSpan(
+          text: 'Capture the details.\n',
+          style: TextStyle(color: Colors.black)),
+      TextSpan(
+          text: 'Capture your world.', style: TextStyle(color: Colors.blue)),
     ]),
     pictureURL: '$baseAssetURL/pixels.png',
   ),
-  '1' : Product(
+  '1': Product(
     id: '1',
     title: 'Nest Audio',
     description: TextSpan(children: <TextSpan>[
@@ -328,16 +347,17 @@ const Map<String, Product> kDummyData = {
     ]),
     pictureURL: '$baseAssetURL/nest.png',
   ),
-  '2' : Product(
+  '2': Product(
     id: '2',
     title: 'Nest Audio Entertainment packages',
     description: TextSpan(children: <TextSpan>[
-      TextSpan(text: 'Built for music.\n', style: TextStyle(color: Colors.orange)),
+      TextSpan(
+          text: 'Built for music.\n', style: TextStyle(color: Colors.orange)),
       TextSpan(text: 'Made for you.', style: TextStyle(color: Colors.black)),
     ]),
     pictureURL: '$baseAssetURL/nest-audio-packages.png',
   ),
-  '3' : Product(
+  '3': Product(
     id: '3',
     title: 'Nest Home Security packages',
     description: TextSpan(children: <TextSpan>[
@@ -354,8 +374,7 @@ class Server {
   }
 
   static List<String> getProductList({String? filter}) {
-    if (filter == null)
-      return kDummyData.keys.toList();
+    if (filter == null) return kDummyData.keys.toList();
     final List<String> ids = <String>[];
     for (final Product product in kDummyData.values) {
       if (product.title.toLowerCase().contains(filter.toLowerCase())) {
@@ -371,7 +390,7 @@ class Product {
     required this.id,
     required this.pictureURL,
     required this.title,
-    required this.description
+    required this.description,
   });
 
   final String id;

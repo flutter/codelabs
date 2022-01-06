@@ -10,6 +10,7 @@ declare -a CODELABS=(
   "add_flutter_to_android_app"
   "cookbook"
   "cupertino_store"
+  "dartpad_codelabs"
   "firebase-get-to-know-flutter"
   "friendly_chat"
   "github-graphql-client"
