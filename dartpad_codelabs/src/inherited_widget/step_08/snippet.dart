@@ -49,7 +49,7 @@ class AppStateScope extends InheritedWidget {
 }
 
 class AppStateWidget extends StatefulWidget {
-  const AppStateWidget({required this.child,Key?key}):super(key:key);
+  const AppStateWidget({required this.child, Key? key}) : super(key: key);
 
   final Widget child;
 
@@ -247,9 +247,8 @@ class ProductListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<String> productList = AppStateScope.of(context).productList;
     return Column(
-      children: productList
-          .map((id) => _buildProductTile(id, context))
-          .toList(),
+      children:
+          productList.map((id) => _buildProductTile(id, context)).toList(),
     );
   }
 }

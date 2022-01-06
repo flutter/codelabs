@@ -62,9 +62,11 @@ class MyStorePageState extends State<MyStorePage> {
                     decoration: InputDecoration(
                       hintText: 'Search Google Store',
                       prefixIcon: IconButton(
-                          icon: const Icon(Icons.search), onPressed: _handleSearch),
+                          icon: const Icon(Icons.search),
+                          onPressed: _handleSearch),
                       suffixIcon: IconButton(
-                          icon: const Icon(Icons.close), onPressed: _toggleSearch),
+                          icon: const Icon(Icons.close),
+                          onPressed: _toggleSearch),
                     ),
                   )
                 : null,
