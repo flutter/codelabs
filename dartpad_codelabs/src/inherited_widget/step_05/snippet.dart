@@ -165,7 +165,8 @@ class MyStorePageState extends State<MyStorePage> {
                       suffixIcon: IconButton(
                           icon: const Icon(Icons.close),
                           onPressed: _toggleSearch),
-                    ))
+                    ),
+                  )
                 : null,
             actions: [
               if (!_inSearch)
