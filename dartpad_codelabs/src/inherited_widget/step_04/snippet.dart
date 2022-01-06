@@ -7,11 +7,13 @@ final GlobalKey<ProductListWidgetState> productList =
 
 void main() {
   // TODO: insert AppStateWidget above MaterialApp.
-  runApp(const MaterialApp(
-    debugShowCheckedModeBanner: false,
-    title: 'Store',
-    home: MyStorePage(),
-  ));
+  runApp(
+    const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Store',
+      home: MyStorePage(),
+    ),
+  );
 }
 
 class AppState {
