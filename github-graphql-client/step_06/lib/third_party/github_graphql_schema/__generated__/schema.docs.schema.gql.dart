@@ -1196,6 +1196,8 @@ abstract class GCreateBranchProtectionRuleInput
 
   bool? get allowsDeletions;
   bool? get allowsForcePushes;
+  BuiltList<String>? get bypassForcePushActorIds;
+  BuiltList<String>? get bypassPullRequestActorIds;
   String? get clientMutationId;
   bool? get dismissesStaleReviews;
   bool? get isAdminEnforced;
@@ -1296,29 +1298,6 @@ abstract class GCreateCommitOnBranchInput
   static GCreateCommitOnBranchInput? fromJson(Map<String, dynamic> json) =>
       _i1.serializers
           .deserializeWith(GCreateCommitOnBranchInput.serializer, json);
-}
-
-abstract class GCreateContentAttachmentInput
-    implements
-        Built<GCreateContentAttachmentInput,
-            GCreateContentAttachmentInputBuilder> {
-  GCreateContentAttachmentInput._();
-
-  factory GCreateContentAttachmentInput(
-          [Function(GCreateContentAttachmentInputBuilder b) updates]) =
-      _$GCreateContentAttachmentInput;
-
-  String get body;
-  String? get clientMutationId;
-  String get contentReferenceId;
-  String get title;
-  static Serializer<GCreateContentAttachmentInput> get serializer =>
-      _$gCreateContentAttachmentInputSerializer;
-  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
-      GCreateContentAttachmentInput.serializer, this) as Map<String, dynamic>);
-  static GCreateContentAttachmentInput? fromJson(Map<String, dynamic> json) =>
-      _i1.serializers
-          .deserializeWith(GCreateContentAttachmentInput.serializer, json);
 }
 
 abstract class GCreateDeploymentInput
@@ -3447,6 +3426,9 @@ class GIssueTimelineItemsItemType extends EnumClass {
   static const GIssueTimelineItemsItemType CONVERTED_NOTE_TO_ISSUE_EVENT =
       _$gIssueTimelineItemsItemTypeCONVERTED_NOTE_TO_ISSUE_EVENT;
 
+  static const GIssueTimelineItemsItemType CONVERTED_TO_DISCUSSION_EVENT =
+      _$gIssueTimelineItemsItemTypeCONVERTED_TO_DISCUSSION_EVENT;
+
   static const GIssueTimelineItemsItemType CROSS_REFERENCED_EVENT =
       _$gIssueTimelineItemsItemTypeCROSS_REFERENCED_EVENT;
 
@@ -4691,6 +4673,27 @@ class GProjectColumnPurpose extends EnumClass {
       _$gProjectColumnPurposeValueOf(name);
 }
 
+class GProjectNextOrderField extends EnumClass {
+  const GProjectNextOrderField._(String name) : super(name);
+
+  static const GProjectNextOrderField CREATED_AT =
+      _$gProjectNextOrderFieldCREATED_AT;
+
+  static const GProjectNextOrderField NUMBER = _$gProjectNextOrderFieldNUMBER;
+
+  static const GProjectNextOrderField TITLE = _$gProjectNextOrderFieldTITLE;
+
+  static const GProjectNextOrderField UPDATED_AT =
+      _$gProjectNextOrderFieldUPDATED_AT;
+
+  static Serializer<GProjectNextOrderField> get serializer =>
+      _$gProjectNextOrderFieldSerializer;
+  static BuiltSet<GProjectNextOrderField> get values =>
+      _$gProjectNextOrderFieldValues;
+  static GProjectNextOrderField valueOf(String name) =>
+      _$gProjectNextOrderFieldValueOf(name);
+}
+
 abstract class GProjectOrder
     implements Built<GProjectOrder, GProjectOrderBuilder> {
   GProjectOrder._();
@@ -4959,6 +4962,9 @@ class GPullRequestTimelineItemsItemType extends EnumClass {
 
   static const GPullRequestTimelineItemsItemType CONVERTED_NOTE_TO_ISSUE_EVENT =
       _$gPullRequestTimelineItemsItemTypeCONVERTED_NOTE_TO_ISSUE_EVENT;
+
+  static const GPullRequestTimelineItemsItemType CONVERTED_TO_DISCUSSION_EVENT =
+      _$gPullRequestTimelineItemsItemTypeCONVERTED_TO_DISCUSSION_EVENT;
 
   static const GPullRequestTimelineItemsItemType CONVERT_TO_DRAFT_EVENT =
       _$gPullRequestTimelineItemsItemTypeCONVERT_TO_DRAFT_EVENT;
@@ -6109,6 +6115,25 @@ abstract class GResolveReviewThreadInput
   static GResolveReviewThreadInput? fromJson(Map<String, dynamic> json) =>
       _i1.serializers
           .deserializeWith(GResolveReviewThreadInput.serializer, json);
+}
+
+class GRoleInOrganization extends EnumClass {
+  const GRoleInOrganization._(String name) : super(name);
+
+  static const GRoleInOrganization DIRECT_MEMBER =
+      _$gRoleInOrganizationDIRECT_MEMBER;
+
+  static const GRoleInOrganization OWNER = _$gRoleInOrganizationOWNER;
+
+  static const GRoleInOrganization UNAFFILIATED =
+      _$gRoleInOrganizationUNAFFILIATED;
+
+  static Serializer<GRoleInOrganization> get serializer =>
+      _$gRoleInOrganizationSerializer;
+  static BuiltSet<GRoleInOrganization> get values =>
+      _$gRoleInOrganizationValues;
+  static GRoleInOrganization valueOf(String name) =>
+      _$gRoleInOrganizationValueOf(name);
 }
 
 class GSamlDigestAlgorithm extends EnumClass {
@@ -7342,6 +7367,8 @@ abstract class GUpdateBranchProtectionRuleInput
   bool? get allowsDeletions;
   bool? get allowsForcePushes;
   String get branchProtectionRuleId;
+  BuiltList<String>? get bypassForcePushActorIds;
+  BuiltList<String>? get bypassPullRequestActorIds;
   String? get clientMutationId;
   bool? get dismissesStaleReviews;
   bool? get isAdminEnforced;
@@ -8094,6 +8121,37 @@ abstract class GUpdateNotificationRestrictionSettingInput
           Map<String, dynamic> json) =>
       _i1.serializers.deserializeWith(
           GUpdateNotificationRestrictionSettingInput.serializer, json);
+}
+
+abstract class GUpdateOrganizationAllowPrivateRepositoryForkingSettingInput
+    implements
+        Built<GUpdateOrganizationAllowPrivateRepositoryForkingSettingInput,
+            GUpdateOrganizationAllowPrivateRepositoryForkingSettingInputBuilder> {
+  GUpdateOrganizationAllowPrivateRepositoryForkingSettingInput._();
+
+  factory GUpdateOrganizationAllowPrivateRepositoryForkingSettingInput(
+          [Function(
+                  GUpdateOrganizationAllowPrivateRepositoryForkingSettingInputBuilder
+                      b)
+              updates]) =
+      _$GUpdateOrganizationAllowPrivateRepositoryForkingSettingInput;
+
+  String? get clientMutationId;
+  bool get forkingEnabled;
+  String get organizationId;
+  static Serializer<
+          GUpdateOrganizationAllowPrivateRepositoryForkingSettingInput>
+      get serializer =>
+          _$gUpdateOrganizationAllowPrivateRepositoryForkingSettingInputSerializer;
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+      GUpdateOrganizationAllowPrivateRepositoryForkingSettingInput.serializer,
+      this) as Map<String, dynamic>);
+  static GUpdateOrganizationAllowPrivateRepositoryForkingSettingInput? fromJson(
+          Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+          GUpdateOrganizationAllowPrivateRepositoryForkingSettingInput
+              .serializer,
+          json);
 }
 
 abstract class GUpdateProjectCardInput

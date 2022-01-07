@@ -66,7 +66,6 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GCreateCheckRunInput.serializer)
       ..add(GCreateCheckSuiteInput.serializer)
       ..add(GCreateCommitOnBranchInput.serializer)
-      ..add(GCreateContentAttachmentInput.serializer)
       ..add(GCreateDeploymentInput.serializer)
       ..add(GCreateDeploymentStatusInput.serializer)
       ..add(GCreateDiscussionInput.serializer)
@@ -232,6 +231,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GProjectCardState.serializer)
       ..add(GProjectColumnImport.serializer)
       ..add(GProjectColumnPurpose.serializer)
+      ..add(GProjectNextOrderField.serializer)
       ..add(GProjectOrder.serializer)
       ..add(GProjectOrderField.serializer)
       ..add(GProjectState.serializer)
@@ -295,6 +295,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GRequiredStatusCheckInput.serializer)
       ..add(GRerequestCheckSuiteInput.serializer)
       ..add(GResolveReviewThreadInput.serializer)
+      ..add(GRoleInOrganization.serializer)
       ..add(GSamlDigestAlgorithm.serializer)
       ..add(GSamlSignatureAlgorithm.serializer)
       ..add(GSavedReplyOrder.serializer)
@@ -398,6 +399,8 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GUpdateIssueInput.serializer)
       ..add(GUpdateLabelInput.serializer)
       ..add(GUpdateNotificationRestrictionSettingInput.serializer)
+      ..add(GUpdateOrganizationAllowPrivateRepositoryForkingSettingInput
+          .serializer)
       ..add(GUpdateProjectCardInput.serializer)
       ..add(GUpdateProjectColumnInput.serializer)
       ..add(GUpdateProjectInput.serializer)
@@ -526,6 +529,39 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())
       ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
           const FullType(
               BuiltList, const [const FullType(GRequiredStatusCheckInput)]),
           () => new ListBuilder<GRequiredStatusCheckInput>())
@@ -539,36 +575,15 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())
       ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
           const FullType(
               BuiltList, const [const FullType(GRequiredStatusCheckInput)]),
           () => new ListBuilder<GRequiredStatusCheckInput>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(String)]),
-          () => new ListBuilder<String>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(String)]),
-          () => new ListBuilder<String>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(String)]),
-          () => new ListBuilder<String>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(String)]),
-          () => new ListBuilder<String>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(String)]),
-          () => new ListBuilder<String>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(String)]),
-          () => new ListBuilder<String>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(String)]),
-          () => new ListBuilder<String>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(String)]),
-          () => new ListBuilder<String>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(String)]),
-          () => new ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>()))
