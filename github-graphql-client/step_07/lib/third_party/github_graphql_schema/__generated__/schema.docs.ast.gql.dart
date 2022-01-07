@@ -2494,6 +2494,13 @@ const Bot = _i1.ObjectTypeDefinitionNode(
           type: _i1.NamedTypeNode(
               name: _i1.NameNode(value: 'URI'), isNonNull: true))
     ]);
+const BranchActorAllowanceActor = _i1.UnionTypeDefinitionNode(
+    name: _i1.NameNode(value: 'BranchActorAllowanceActor'),
+    directives: [],
+    types: [
+      _i1.NamedTypeNode(name: _i1.NameNode(value: 'Team'), isNonNull: false),
+      _i1.NamedTypeNode(name: _i1.NameNode(value: 'User'), isNonNull: false)
+    ]);
 const BranchProtectionRule = _i1.ObjectTypeDefinitionNode(
     name: _i1.NameNode(value: 'BranchProtectionRule'),
     directives: [],
@@ -2545,6 +2552,70 @@ const BranchProtectionRule = _i1.ObjectTypeDefinitionNode(
           type: _i1.NamedTypeNode(
               name:
                   _i1.NameNode(value: 'BranchProtectionRuleConflictConnection'),
+              isNonNull: true)),
+      _i1.FieldDefinitionNode(
+          name: _i1.NameNode(value: 'bypassForcePushAllowances'),
+          directives: [],
+          args: [
+            _i1.InputValueDefinitionNode(
+                name: _i1.NameNode(value: 'after'),
+                directives: [],
+                type: _i1.NamedTypeNode(
+                    name: _i1.NameNode(value: 'String'), isNonNull: false),
+                defaultValue: null),
+            _i1.InputValueDefinitionNode(
+                name: _i1.NameNode(value: 'before'),
+                directives: [],
+                type: _i1.NamedTypeNode(
+                    name: _i1.NameNode(value: 'String'), isNonNull: false),
+                defaultValue: null),
+            _i1.InputValueDefinitionNode(
+                name: _i1.NameNode(value: 'first'),
+                directives: [],
+                type: _i1.NamedTypeNode(
+                    name: _i1.NameNode(value: 'Int'), isNonNull: false),
+                defaultValue: null),
+            _i1.InputValueDefinitionNode(
+                name: _i1.NameNode(value: 'last'),
+                directives: [],
+                type: _i1.NamedTypeNode(
+                    name: _i1.NameNode(value: 'Int'), isNonNull: false),
+                defaultValue: null)
+          ],
+          type: _i1.NamedTypeNode(
+              name: _i1.NameNode(value: 'BypassForcePushAllowanceConnection'),
+              isNonNull: true)),
+      _i1.FieldDefinitionNode(
+          name: _i1.NameNode(value: 'bypassPullRequestAllowances'),
+          directives: [],
+          args: [
+            _i1.InputValueDefinitionNode(
+                name: _i1.NameNode(value: 'after'),
+                directives: [],
+                type: _i1.NamedTypeNode(
+                    name: _i1.NameNode(value: 'String'), isNonNull: false),
+                defaultValue: null),
+            _i1.InputValueDefinitionNode(
+                name: _i1.NameNode(value: 'before'),
+                directives: [],
+                type: _i1.NamedTypeNode(
+                    name: _i1.NameNode(value: 'String'), isNonNull: false),
+                defaultValue: null),
+            _i1.InputValueDefinitionNode(
+                name: _i1.NameNode(value: 'first'),
+                directives: [],
+                type: _i1.NamedTypeNode(
+                    name: _i1.NameNode(value: 'Int'), isNonNull: false),
+                defaultValue: null),
+            _i1.InputValueDefinitionNode(
+                name: _i1.NameNode(value: 'last'),
+                directives: [],
+                type: _i1.NamedTypeNode(
+                    name: _i1.NameNode(value: 'Int'), isNonNull: false),
+                defaultValue: null)
+          ],
+          type: _i1.NamedTypeNode(
+              name: _i1.NameNode(value: 'BypassPullRequestAllowanceConnection'),
               isNonNull: true)),
       _i1.FieldDefinitionNode(
           name: _i1.NameNode(value: 'creator'),
@@ -2901,6 +2972,172 @@ const BranchProtectionRuleEdge = _i1.ObjectTypeDefinitionNode(
           args: [],
           type: _i1.NamedTypeNode(
               name: _i1.NameNode(value: 'BranchProtectionRule'),
+              isNonNull: false))
+    ]);
+const BypassForcePushAllowance = _i1.ObjectTypeDefinitionNode(
+    name: _i1.NameNode(value: 'BypassForcePushAllowance'),
+    directives: [],
+    interfaces: [
+      _i1.NamedTypeNode(name: _i1.NameNode(value: 'Node'), isNonNull: false)
+    ],
+    fields: [
+      _i1.FieldDefinitionNode(
+          name: _i1.NameNode(value: 'actor'),
+          directives: [],
+          args: [],
+          type: _i1.NamedTypeNode(
+              name: _i1.NameNode(value: 'BranchActorAllowanceActor'),
+              isNonNull: false)),
+      _i1.FieldDefinitionNode(
+          name: _i1.NameNode(value: 'branchProtectionRule'),
+          directives: [],
+          args: [],
+          type: _i1.NamedTypeNode(
+              name: _i1.NameNode(value: 'BranchProtectionRule'),
+              isNonNull: false)),
+      _i1.FieldDefinitionNode(
+          name: _i1.NameNode(value: 'id'),
+          directives: [],
+          args: [],
+          type: _i1.NamedTypeNode(
+              name: _i1.NameNode(value: 'ID'), isNonNull: true))
+    ]);
+const BypassForcePushAllowanceConnection = _i1.ObjectTypeDefinitionNode(
+    name: _i1.NameNode(value: 'BypassForcePushAllowanceConnection'),
+    directives: [],
+    interfaces: [],
+    fields: [
+      _i1.FieldDefinitionNode(
+          name: _i1.NameNode(value: 'edges'),
+          directives: [],
+          args: [],
+          type: _i1.ListTypeNode(
+              type: _i1.NamedTypeNode(
+                  name: _i1.NameNode(value: 'BypassForcePushAllowanceEdge'),
+                  isNonNull: false),
+              isNonNull: false)),
+      _i1.FieldDefinitionNode(
+          name: _i1.NameNode(value: 'nodes'),
+          directives: [],
+          args: [],
+          type: _i1.ListTypeNode(
+              type: _i1.NamedTypeNode(
+                  name: _i1.NameNode(value: 'BypassForcePushAllowance'),
+                  isNonNull: false),
+              isNonNull: false)),
+      _i1.FieldDefinitionNode(
+          name: _i1.NameNode(value: 'pageInfo'),
+          directives: [],
+          args: [],
+          type: _i1.NamedTypeNode(
+              name: _i1.NameNode(value: 'PageInfo'), isNonNull: true)),
+      _i1.FieldDefinitionNode(
+          name: _i1.NameNode(value: 'totalCount'),
+          directives: [],
+          args: [],
+          type: _i1.NamedTypeNode(
+              name: _i1.NameNode(value: 'Int'), isNonNull: true))
+    ]);
+const BypassForcePushAllowanceEdge = _i1.ObjectTypeDefinitionNode(
+    name: _i1.NameNode(value: 'BypassForcePushAllowanceEdge'),
+    directives: [],
+    interfaces: [],
+    fields: [
+      _i1.FieldDefinitionNode(
+          name: _i1.NameNode(value: 'cursor'),
+          directives: [],
+          args: [],
+          type: _i1.NamedTypeNode(
+              name: _i1.NameNode(value: 'String'), isNonNull: true)),
+      _i1.FieldDefinitionNode(
+          name: _i1.NameNode(value: 'node'),
+          directives: [],
+          args: [],
+          type: _i1.NamedTypeNode(
+              name: _i1.NameNode(value: 'BypassForcePushAllowance'),
+              isNonNull: false))
+    ]);
+const BypassPullRequestAllowance = _i1.ObjectTypeDefinitionNode(
+    name: _i1.NameNode(value: 'BypassPullRequestAllowance'),
+    directives: [],
+    interfaces: [
+      _i1.NamedTypeNode(name: _i1.NameNode(value: 'Node'), isNonNull: false)
+    ],
+    fields: [
+      _i1.FieldDefinitionNode(
+          name: _i1.NameNode(value: 'actor'),
+          directives: [],
+          args: [],
+          type: _i1.NamedTypeNode(
+              name: _i1.NameNode(value: 'BranchActorAllowanceActor'),
+              isNonNull: false)),
+      _i1.FieldDefinitionNode(
+          name: _i1.NameNode(value: 'branchProtectionRule'),
+          directives: [],
+          args: [],
+          type: _i1.NamedTypeNode(
+              name: _i1.NameNode(value: 'BranchProtectionRule'),
+              isNonNull: false)),
+      _i1.FieldDefinitionNode(
+          name: _i1.NameNode(value: 'id'),
+          directives: [],
+          args: [],
+          type: _i1.NamedTypeNode(
+              name: _i1.NameNode(value: 'ID'), isNonNull: true))
+    ]);
+const BypassPullRequestAllowanceConnection = _i1.ObjectTypeDefinitionNode(
+    name: _i1.NameNode(value: 'BypassPullRequestAllowanceConnection'),
+    directives: [],
+    interfaces: [],
+    fields: [
+      _i1.FieldDefinitionNode(
+          name: _i1.NameNode(value: 'edges'),
+          directives: [],
+          args: [],
+          type: _i1.ListTypeNode(
+              type: _i1.NamedTypeNode(
+                  name: _i1.NameNode(value: 'BypassPullRequestAllowanceEdge'),
+                  isNonNull: false),
+              isNonNull: false)),
+      _i1.FieldDefinitionNode(
+          name: _i1.NameNode(value: 'nodes'),
+          directives: [],
+          args: [],
+          type: _i1.ListTypeNode(
+              type: _i1.NamedTypeNode(
+                  name: _i1.NameNode(value: 'BypassPullRequestAllowance'),
+                  isNonNull: false),
+              isNonNull: false)),
+      _i1.FieldDefinitionNode(
+          name: _i1.NameNode(value: 'pageInfo'),
+          directives: [],
+          args: [],
+          type: _i1.NamedTypeNode(
+              name: _i1.NameNode(value: 'PageInfo'), isNonNull: true)),
+      _i1.FieldDefinitionNode(
+          name: _i1.NameNode(value: 'totalCount'),
+          directives: [],
+          args: [],
+          type: _i1.NamedTypeNode(
+              name: _i1.NameNode(value: 'Int'), isNonNull: true))
+    ]);
+const BypassPullRequestAllowanceEdge = _i1.ObjectTypeDefinitionNode(
+    name: _i1.NameNode(value: 'BypassPullRequestAllowanceEdge'),
+    directives: [],
+    interfaces: [],
+    fields: [
+      _i1.FieldDefinitionNode(
+          name: _i1.NameNode(value: 'cursor'),
+          directives: [],
+          args: [],
+          type: _i1.NamedTypeNode(
+              name: _i1.NameNode(value: 'String'), isNonNull: true)),
+      _i1.FieldDefinitionNode(
+          name: _i1.NameNode(value: 'node'),
+          directives: [],
+          args: [],
+          type: _i1.NamedTypeNode(
+              name: _i1.NameNode(value: 'BypassPullRequestAllowance'),
               isNonNull: false))
     ]);
 const CVSS = _i1.ObjectTypeDefinitionNode(
@@ -6216,66 +6453,6 @@ const ConnectedEvent = _i1.ObjectTypeDefinitionNode(
           type: _i1.NamedTypeNode(
               name: _i1.NameNode(value: 'ReferencedSubject'), isNonNull: true))
     ]);
-const ContentAttachment = _i1.ObjectTypeDefinitionNode(
-    name: _i1.NameNode(value: 'ContentAttachment'),
-    directives: [],
-    interfaces: [],
-    fields: [
-      _i1.FieldDefinitionNode(
-          name: _i1.NameNode(value: 'body'),
-          directives: [],
-          args: [],
-          type: _i1.NamedTypeNode(
-              name: _i1.NameNode(value: 'String'), isNonNull: true)),
-      _i1.FieldDefinitionNode(
-          name: _i1.NameNode(value: 'contentReference'),
-          directives: [],
-          args: [],
-          type: _i1.NamedTypeNode(
-              name: _i1.NameNode(value: 'ContentReference'), isNonNull: true)),
-      _i1.FieldDefinitionNode(
-          name: _i1.NameNode(value: 'databaseId'),
-          directives: [],
-          args: [],
-          type: _i1.NamedTypeNode(
-              name: _i1.NameNode(value: 'Int'), isNonNull: true)),
-      _i1.FieldDefinitionNode(
-          name: _i1.NameNode(value: 'id'),
-          directives: [],
-          args: [],
-          type: _i1.NamedTypeNode(
-              name: _i1.NameNode(value: 'ID'), isNonNull: true)),
-      _i1.FieldDefinitionNode(
-          name: _i1.NameNode(value: 'title'),
-          directives: [],
-          args: [],
-          type: _i1.NamedTypeNode(
-              name: _i1.NameNode(value: 'String'), isNonNull: true))
-    ]);
-const ContentReference = _i1.ObjectTypeDefinitionNode(
-    name: _i1.NameNode(value: 'ContentReference'),
-    directives: [],
-    interfaces: [],
-    fields: [
-      _i1.FieldDefinitionNode(
-          name: _i1.NameNode(value: 'databaseId'),
-          directives: [],
-          args: [],
-          type: _i1.NamedTypeNode(
-              name: _i1.NameNode(value: 'Int'), isNonNull: true)),
-      _i1.FieldDefinitionNode(
-          name: _i1.NameNode(value: 'id'),
-          directives: [],
-          args: [],
-          type: _i1.NamedTypeNode(
-              name: _i1.NameNode(value: 'ID'), isNonNull: true)),
-      _i1.FieldDefinitionNode(
-          name: _i1.NameNode(value: 'reference'),
-          directives: [],
-          args: [],
-          type: _i1.NamedTypeNode(
-              name: _i1.NameNode(value: 'String'), isNonNull: true))
-    ]);
 const Contribution = _i1.InterfaceTypeDefinitionNode(
     name: _i1.NameNode(value: 'Contribution'),
     directives: [],
@@ -7266,6 +7443,38 @@ const ConvertedNoteToIssueEvent = _i1.ObjectTypeDefinitionNode(
           type: _i1.NamedTypeNode(
               name: _i1.NameNode(value: 'String'), isNonNull: true))
     ]);
+const ConvertedToDiscussionEvent = _i1.ObjectTypeDefinitionNode(
+    name: _i1.NameNode(value: 'ConvertedToDiscussionEvent'),
+    directives: [],
+    interfaces: [
+      _i1.NamedTypeNode(name: _i1.NameNode(value: 'Node'), isNonNull: false)
+    ],
+    fields: [
+      _i1.FieldDefinitionNode(
+          name: _i1.NameNode(value: 'actor'),
+          directives: [],
+          args: [],
+          type: _i1.NamedTypeNode(
+              name: _i1.NameNode(value: 'Actor'), isNonNull: false)),
+      _i1.FieldDefinitionNode(
+          name: _i1.NameNode(value: 'createdAt'),
+          directives: [],
+          args: [],
+          type: _i1.NamedTypeNode(
+              name: _i1.NameNode(value: 'DateTime'), isNonNull: true)),
+      _i1.FieldDefinitionNode(
+          name: _i1.NameNode(value: 'discussion'),
+          directives: [],
+          args: [],
+          type: _i1.NamedTypeNode(
+              name: _i1.NameNode(value: 'Discussion'), isNonNull: false)),
+      _i1.FieldDefinitionNode(
+          name: _i1.NameNode(value: 'id'),
+          directives: [],
+          args: [],
+          type: _i1.NamedTypeNode(
+              name: _i1.NameNode(value: 'ID'), isNonNull: true))
+    ]);
 const CreateBranchProtectionRuleInput = _i1.InputObjectTypeDefinitionNode(
     name: _i1.NameNode(value: 'CreateBranchProtectionRuleInput'),
     directives: [],
@@ -7281,6 +7490,22 @@ const CreateBranchProtectionRuleInput = _i1.InputObjectTypeDefinitionNode(
           directives: [],
           type: _i1.NamedTypeNode(
               name: _i1.NameNode(value: 'Boolean'), isNonNull: false),
+          defaultValue: null),
+      _i1.InputValueDefinitionNode(
+          name: _i1.NameNode(value: 'bypassForcePushActorIds'),
+          directives: [],
+          type: _i1.ListTypeNode(
+              type: _i1.NamedTypeNode(
+                  name: _i1.NameNode(value: 'ID'), isNonNull: true),
+              isNonNull: false),
+          defaultValue: null),
+      _i1.InputValueDefinitionNode(
+          name: _i1.NameNode(value: 'bypassPullRequestActorIds'),
+          directives: [],
+          type: _i1.ListTypeNode(
+              type: _i1.NamedTypeNode(
+                  name: _i1.NameNode(value: 'ID'), isNonNull: true),
+              isNonNull: false),
           defaultValue: null),
       _i1.InputValueDefinitionNode(
           name: _i1.NameNode(value: 'clientMutationId'),
@@ -7653,64 +7878,6 @@ const CreateCommitOnBranchPayload = _i1.ObjectTypeDefinitionNode(
           args: [],
           type: _i1.NamedTypeNode(
               name: _i1.NameNode(value: 'Ref'), isNonNull: false))
-    ]);
-const CreateContentAttachmentInput = _i1.InputObjectTypeDefinitionNode(
-    name: _i1.NameNode(value: 'CreateContentAttachmentInput'),
-    directives: [],
-    fields: [
-      _i1.InputValueDefinitionNode(
-          name: _i1.NameNode(value: 'body'),
-          directives: [],
-          type: _i1.NamedTypeNode(
-              name: _i1.NameNode(value: 'String'), isNonNull: true),
-          defaultValue: null),
-      _i1.InputValueDefinitionNode(
-          name: _i1.NameNode(value: 'clientMutationId'),
-          directives: [],
-          type: _i1.NamedTypeNode(
-              name: _i1.NameNode(value: 'String'), isNonNull: false),
-          defaultValue: null),
-      _i1.InputValueDefinitionNode(
-          name: _i1.NameNode(value: 'contentReferenceId'),
-          directives: [
-            _i1.DirectiveNode(
-                name: _i1.NameNode(value: 'possibleTypes'),
-                arguments: [
-                  _i1.ArgumentNode(
-                      name: _i1.NameNode(value: 'concreteTypes'),
-                      value: _i1.ListValueNode(values: [
-                        _i1.StringValueNode(
-                            value: 'ContentReference', isBlock: false)
-                      ]))
-                ])
-          ],
-          type: _i1.NamedTypeNode(
-              name: _i1.NameNode(value: 'ID'), isNonNull: true),
-          defaultValue: null),
-      _i1.InputValueDefinitionNode(
-          name: _i1.NameNode(value: 'title'),
-          directives: [],
-          type: _i1.NamedTypeNode(
-              name: _i1.NameNode(value: 'String'), isNonNull: true),
-          defaultValue: null)
-    ]);
-const CreateContentAttachmentPayload = _i1.ObjectTypeDefinitionNode(
-    name: _i1.NameNode(value: 'CreateContentAttachmentPayload'),
-    directives: [],
-    interfaces: [],
-    fields: [
-      _i1.FieldDefinitionNode(
-          name: _i1.NameNode(value: 'clientMutationId'),
-          directives: [],
-          args: [],
-          type: _i1.NamedTypeNode(
-              name: _i1.NameNode(value: 'String'), isNonNull: false)),
-      _i1.FieldDefinitionNode(
-          name: _i1.NameNode(value: 'contentAttachment'),
-          directives: [],
-          args: [],
-          type: _i1.NamedTypeNode(
-              name: _i1.NameNode(value: 'ContentAttachment'), isNonNull: false))
     ]);
 const CreateDeploymentInput = _i1.InputObjectTypeDefinitionNode(
     name: _i1.NameNode(value: 'CreateDeploymentInput'),
@@ -13483,6 +13650,13 @@ const Enterprise = _i1.ObjectTypeDefinitionNode(
                 directives: [],
                 type: _i1.NamedTypeNode(
                     name: _i1.NameNode(value: 'String'), isNonNull: false),
+                defaultValue: null),
+            _i1.InputValueDefinitionNode(
+                name: _i1.NameNode(value: 'viewerOrganizationRole'),
+                directives: [],
+                type: _i1.NamedTypeNode(
+                    name: _i1.NameNode(value: 'RoleInOrganization'),
+                    isNonNull: false),
                 defaultValue: null)
           ],
           type: _i1.NamedTypeNode(
@@ -19070,6 +19244,8 @@ const Issue = _i1.ObjectTypeDefinitionNode(
           name: _i1.NameNode(value: 'Lockable'), isNonNull: false),
       _i1.NamedTypeNode(name: _i1.NameNode(value: 'Node'), isNonNull: false),
       _i1.NamedTypeNode(
+          name: _i1.NameNode(value: 'ProjectNextOwner'), isNonNull: false),
+      _i1.NamedTypeNode(
           name: _i1.NameNode(value: 'Reactable'), isNonNull: false),
       _i1.NamedTypeNode(
           name: _i1.NameNode(value: 'RepositoryNode'), isNonNull: false),
@@ -19420,6 +19596,65 @@ const Issue = _i1.ObjectTypeDefinitionNode(
           ],
           type: _i1.NamedTypeNode(
               name: _i1.NameNode(value: 'ProjectCardConnection'),
+              isNonNull: true)),
+      _i1.FieldDefinitionNode(
+          name: _i1.NameNode(value: 'projectNext'),
+          directives: [],
+          args: [
+            _i1.InputValueDefinitionNode(
+                name: _i1.NameNode(value: 'number'),
+                directives: [],
+                type: _i1.NamedTypeNode(
+                    name: _i1.NameNode(value: 'Int'), isNonNull: true),
+                defaultValue: null)
+          ],
+          type: _i1.NamedTypeNode(
+              name: _i1.NameNode(value: 'ProjectNext'), isNonNull: false)),
+      _i1.FieldDefinitionNode(
+          name: _i1.NameNode(value: 'projectsNext'),
+          directives: [],
+          args: [
+            _i1.InputValueDefinitionNode(
+                name: _i1.NameNode(value: 'after'),
+                directives: [],
+                type: _i1.NamedTypeNode(
+                    name: _i1.NameNode(value: 'String'), isNonNull: false),
+                defaultValue: null),
+            _i1.InputValueDefinitionNode(
+                name: _i1.NameNode(value: 'before'),
+                directives: [],
+                type: _i1.NamedTypeNode(
+                    name: _i1.NameNode(value: 'String'), isNonNull: false),
+                defaultValue: null),
+            _i1.InputValueDefinitionNode(
+                name: _i1.NameNode(value: 'first'),
+                directives: [],
+                type: _i1.NamedTypeNode(
+                    name: _i1.NameNode(value: 'Int'), isNonNull: false),
+                defaultValue: null),
+            _i1.InputValueDefinitionNode(
+                name: _i1.NameNode(value: 'last'),
+                directives: [],
+                type: _i1.NamedTypeNode(
+                    name: _i1.NameNode(value: 'Int'), isNonNull: false),
+                defaultValue: null),
+            _i1.InputValueDefinitionNode(
+                name: _i1.NameNode(value: 'query'),
+                directives: [],
+                type: _i1.NamedTypeNode(
+                    name: _i1.NameNode(value: 'String'), isNonNull: false),
+                defaultValue: null),
+            _i1.InputValueDefinitionNode(
+                name: _i1.NameNode(value: 'sortBy'),
+                directives: [],
+                type: _i1.NamedTypeNode(
+                    name: _i1.NameNode(value: 'ProjectNextOrderField'),
+                    isNonNull: false),
+                defaultValue:
+                    _i1.EnumValueNode(name: _i1.NameNode(value: 'TITLE')))
+          ],
+          type: _i1.NamedTypeNode(
+              name: _i1.NameNode(value: 'ProjectNextConnection'),
               isNonNull: true)),
       _i1.FieldDefinitionNode(
           name: _i1.NameNode(value: 'publishedAt'),
@@ -20402,6 +20637,9 @@ const IssueTimelineItems = _i1.UnionTypeDefinitionNode(
           name: _i1.NameNode(value: 'ConvertedNoteToIssueEvent'),
           isNonNull: false),
       _i1.NamedTypeNode(
+          name: _i1.NameNode(value: 'ConvertedToDiscussionEvent'),
+          isNonNull: false),
+      _i1.NamedTypeNode(
           name: _i1.NameNode(value: 'CrossReferencedEvent'), isNonNull: false),
       _i1.NamedTypeNode(
           name: _i1.NameNode(value: 'DemilestonedEvent'), isNonNull: false),
@@ -20543,6 +20781,9 @@ const IssueTimelineItemsItemType = _i1.EnumTypeDefinitionNode(
           name: _i1.NameNode(value: 'CONNECTED_EVENT'), directives: []),
       _i1.EnumValueDefinitionNode(
           name: _i1.NameNode(value: 'CONVERTED_NOTE_TO_ISSUE_EVENT'),
+          directives: []),
+      _i1.EnumValueDefinitionNode(
+          name: _i1.NameNode(value: 'CONVERTED_TO_DISCUSSION_EVENT'),
           directives: []),
       _i1.EnumValueDefinitionNode(
           name: _i1.NameNode(value: 'CROSS_REFERENCED_EVENT'), directives: []),
@@ -24161,28 +24402,6 @@ const Mutation = _i1.ObjectTypeDefinitionNode(
               name: _i1.NameNode(value: 'CreateCommitOnBranchPayload'),
               isNonNull: false)),
       _i1.FieldDefinitionNode(
-          name: _i1.NameNode(value: 'createContentAttachment'),
-          directives: [
-            _i1.DirectiveNode(name: _i1.NameNode(value: 'preview'), arguments: [
-              _i1.ArgumentNode(
-                  name: _i1.NameNode(value: 'toggledBy'),
-                  value: _i1.StringValueNode(
-                      value: 'corsair-preview', isBlock: false))
-            ])
-          ],
-          args: [
-            _i1.InputValueDefinitionNode(
-                name: _i1.NameNode(value: 'input'),
-                directives: [],
-                type: _i1.NamedTypeNode(
-                    name: _i1.NameNode(value: 'CreateContentAttachmentInput'),
-                    isNonNull: true),
-                defaultValue: null)
-          ],
-          type: _i1.NamedTypeNode(
-              name: _i1.NameNode(value: 'CreateContentAttachmentPayload'),
-              isNonNull: false)),
-      _i1.FieldDefinitionNode(
           name: _i1.NameNode(value: 'createDeployment'),
           directives: [
             _i1.DirectiveNode(name: _i1.NameNode(value: 'preview'), arguments: [
@@ -26094,6 +26313,26 @@ const Mutation = _i1.ObjectTypeDefinitionNode(
           type: _i1.NamedTypeNode(
               name: _i1.NameNode(
                   value: 'UpdateNotificationRestrictionSettingPayload'),
+              isNonNull: false)),
+      _i1.FieldDefinitionNode(
+          name: _i1.NameNode(
+              value: 'updateOrganizationAllowPrivateRepositoryForkingSetting'),
+          directives: [],
+          args: [
+            _i1.InputValueDefinitionNode(
+                name: _i1.NameNode(value: 'input'),
+                directives: [],
+                type: _i1.NamedTypeNode(
+                    name: _i1.NameNode(
+                        value:
+                            'UpdateOrganizationAllowPrivateRepositoryForkingSettingInput'),
+                    isNonNull: true),
+                defaultValue: null)
+          ],
+          type: _i1.NamedTypeNode(
+              name: _i1.NameNode(
+                  value:
+                      'UpdateOrganizationAllowPrivateRepositoryForkingSettingPayload'),
               isNonNull: false)),
       _i1.FieldDefinitionNode(
           name: _i1.NameNode(value: 'updateProject'),
@@ -30877,6 +31116,12 @@ const Organization = _i1.ObjectTypeDefinitionNode(
               name: _i1.NameNode(value: 'UserStatusConnection'),
               isNonNull: true)),
       _i1.FieldDefinitionNode(
+          name: _i1.NameNode(value: 'membersCanForkPrivateRepositories'),
+          directives: [],
+          args: [],
+          type: _i1.NamedTypeNode(
+              name: _i1.NameNode(value: 'Boolean'), isNonNull: true)),
+      _i1.FieldDefinitionNode(
           name: _i1.NameNode(value: 'membersWithRole'),
           directives: [],
           args: [
@@ -31238,7 +31483,21 @@ const Organization = _i1.ObjectTypeDefinitionNode(
                 directives: [],
                 type: _i1.NamedTypeNode(
                     name: _i1.NameNode(value: 'Int'), isNonNull: false),
-                defaultValue: null)
+                defaultValue: null),
+            _i1.InputValueDefinitionNode(
+                name: _i1.NameNode(value: 'query'),
+                directives: [],
+                type: _i1.NamedTypeNode(
+                    name: _i1.NameNode(value: 'String'), isNonNull: false),
+                defaultValue: null),
+            _i1.InputValueDefinitionNode(
+                name: _i1.NameNode(value: 'sortBy'),
+                directives: [],
+                type: _i1.NamedTypeNode(
+                    name: _i1.NameNode(value: 'ProjectNextOrderField'),
+                    isNonNull: false),
+                defaultValue:
+                    _i1.EnumValueNode(name: _i1.NameNode(value: 'TITLE')))
           ],
           type: _i1.NamedTypeNode(
               name: _i1.NameNode(value: 'ProjectNextConnection'),
@@ -35640,6 +35899,19 @@ const ProjectNextItemFieldValueEdge = _i1.ObjectTypeDefinitionNode(
               name: _i1.NameNode(value: 'ProjectNextItemFieldValue'),
               isNonNull: false))
     ]);
+const ProjectNextOrderField = _i1.EnumTypeDefinitionNode(
+    name: _i1.NameNode(value: 'ProjectNextOrderField'),
+    directives: [],
+    values: [
+      _i1.EnumValueDefinitionNode(
+          name: _i1.NameNode(value: 'CREATED_AT'), directives: []),
+      _i1.EnumValueDefinitionNode(
+          name: _i1.NameNode(value: 'NUMBER'), directives: []),
+      _i1.EnumValueDefinitionNode(
+          name: _i1.NameNode(value: 'TITLE'), directives: []),
+      _i1.EnumValueDefinitionNode(
+          name: _i1.NameNode(value: 'UPDATED_AT'), directives: [])
+    ]);
 const ProjectNextOwner = _i1.InterfaceTypeDefinitionNode(
     name: _i1.NameNode(value: 'ProjectNextOwner'),
     directives: [],
@@ -35690,7 +35962,21 @@ const ProjectNextOwner = _i1.InterfaceTypeDefinitionNode(
                 directives: [],
                 type: _i1.NamedTypeNode(
                     name: _i1.NameNode(value: 'Int'), isNonNull: false),
-                defaultValue: null)
+                defaultValue: null),
+            _i1.InputValueDefinitionNode(
+                name: _i1.NameNode(value: 'query'),
+                directives: [],
+                type: _i1.NamedTypeNode(
+                    name: _i1.NameNode(value: 'String'), isNonNull: false),
+                defaultValue: null),
+            _i1.InputValueDefinitionNode(
+                name: _i1.NameNode(value: 'sortBy'),
+                directives: [],
+                type: _i1.NamedTypeNode(
+                    name: _i1.NameNode(value: 'ProjectNextOrderField'),
+                    isNonNull: false),
+                defaultValue:
+                    _i1.EnumValueNode(name: _i1.NameNode(value: 'TITLE')))
           ],
           type: _i1.NamedTypeNode(
               name: _i1.NameNode(value: 'ProjectNextConnection'),
@@ -36006,6 +36292,8 @@ const PullRequest = _i1.ObjectTypeDefinitionNode(
       _i1.NamedTypeNode(
           name: _i1.NameNode(value: 'Lockable'), isNonNull: false),
       _i1.NamedTypeNode(name: _i1.NameNode(value: 'Node'), isNonNull: false),
+      _i1.NamedTypeNode(
+          name: _i1.NameNode(value: 'ProjectNextOwner'), isNonNull: false),
       _i1.NamedTypeNode(
           name: _i1.NameNode(value: 'Reactable'), isNonNull: false),
       _i1.NamedTypeNode(
@@ -36686,6 +36974,65 @@ const PullRequest = _i1.ObjectTypeDefinitionNode(
           ],
           type: _i1.NamedTypeNode(
               name: _i1.NameNode(value: 'ProjectCardConnection'),
+              isNonNull: true)),
+      _i1.FieldDefinitionNode(
+          name: _i1.NameNode(value: 'projectNext'),
+          directives: [],
+          args: [
+            _i1.InputValueDefinitionNode(
+                name: _i1.NameNode(value: 'number'),
+                directives: [],
+                type: _i1.NamedTypeNode(
+                    name: _i1.NameNode(value: 'Int'), isNonNull: true),
+                defaultValue: null)
+          ],
+          type: _i1.NamedTypeNode(
+              name: _i1.NameNode(value: 'ProjectNext'), isNonNull: false)),
+      _i1.FieldDefinitionNode(
+          name: _i1.NameNode(value: 'projectsNext'),
+          directives: [],
+          args: [
+            _i1.InputValueDefinitionNode(
+                name: _i1.NameNode(value: 'after'),
+                directives: [],
+                type: _i1.NamedTypeNode(
+                    name: _i1.NameNode(value: 'String'), isNonNull: false),
+                defaultValue: null),
+            _i1.InputValueDefinitionNode(
+                name: _i1.NameNode(value: 'before'),
+                directives: [],
+                type: _i1.NamedTypeNode(
+                    name: _i1.NameNode(value: 'String'), isNonNull: false),
+                defaultValue: null),
+            _i1.InputValueDefinitionNode(
+                name: _i1.NameNode(value: 'first'),
+                directives: [],
+                type: _i1.NamedTypeNode(
+                    name: _i1.NameNode(value: 'Int'), isNonNull: false),
+                defaultValue: null),
+            _i1.InputValueDefinitionNode(
+                name: _i1.NameNode(value: 'last'),
+                directives: [],
+                type: _i1.NamedTypeNode(
+                    name: _i1.NameNode(value: 'Int'), isNonNull: false),
+                defaultValue: null),
+            _i1.InputValueDefinitionNode(
+                name: _i1.NameNode(value: 'query'),
+                directives: [],
+                type: _i1.NamedTypeNode(
+                    name: _i1.NameNode(value: 'String'), isNonNull: false),
+                defaultValue: null),
+            _i1.InputValueDefinitionNode(
+                name: _i1.NameNode(value: 'sortBy'),
+                directives: [],
+                type: _i1.NamedTypeNode(
+                    name: _i1.NameNode(value: 'ProjectNextOrderField'),
+                    isNonNull: false),
+                defaultValue:
+                    _i1.EnumValueNode(name: _i1.NameNode(value: 'TITLE')))
+          ],
+          type: _i1.NamedTypeNode(
+              name: _i1.NameNode(value: 'ProjectNextConnection'),
               isNonNull: true)),
       _i1.FieldDefinitionNode(
           name: _i1.NameNode(value: 'publishedAt'),
@@ -38896,6 +39243,9 @@ const PullRequestTimelineItems = _i1.UnionTypeDefinitionNode(
           name: _i1.NameNode(value: 'ConvertedNoteToIssueEvent'),
           isNonNull: false),
       _i1.NamedTypeNode(
+          name: _i1.NameNode(value: 'ConvertedToDiscussionEvent'),
+          isNonNull: false),
+      _i1.NamedTypeNode(
           name: _i1.NameNode(value: 'CrossReferencedEvent'), isNonNull: false),
       _i1.NamedTypeNode(
           name: _i1.NameNode(value: 'DemilestonedEvent'), isNonNull: false),
@@ -39100,6 +39450,9 @@ const PullRequestTimelineItemsItemType = _i1.EnumTypeDefinitionNode(
           name: _i1.NameNode(value: 'CONVERTED_NOTE_TO_ISSUE_EVENT'),
           directives: []),
       _i1.EnumValueDefinitionNode(
+          name: _i1.NameNode(value: 'CONVERTED_TO_DISCUSSION_EVENT'),
+          directives: []),
+      _i1.EnumValueDefinitionNode(
           name: _i1.NameNode(value: 'CONVERT_TO_DRAFT_EVENT'), directives: []),
       _i1.EnumValueDefinitionNode(
           name: _i1.NameNode(value: 'CROSS_REFERENCED_EVENT'), directives: []),
@@ -39235,7 +39588,7 @@ const Push = _i1.ObjectTypeDefinitionNode(
           directives: [],
           args: [],
           type: _i1.NamedTypeNode(
-              name: _i1.NameNode(value: 'User'), isNonNull: true)),
+              name: _i1.NameNode(value: 'Actor'), isNonNull: true)),
       _i1.FieldDefinitionNode(
           name: _i1.NameNode(value: 'repository'),
           directives: [],
@@ -45824,6 +46177,12 @@ const Repository = _i1.ObjectTypeDefinitionNode(
                     name: _i1.NameNode(value: 'String'), isNonNull: false),
                 defaultValue: null),
             _i1.InputValueDefinitionNode(
+                name: _i1.NameNode(value: 'filterByAssignable'),
+                directives: [],
+                type: _i1.NamedTypeNode(
+                    name: _i1.NameNode(value: 'Boolean'), isNonNull: false),
+                defaultValue: _i1.BooleanValueNode(value: false)),
+            _i1.InputValueDefinitionNode(
                 name: _i1.NameNode(value: 'first'),
                 directives: [],
                 type: _i1.NamedTypeNode(
@@ -49436,6 +49795,17 @@ const ReviewStatusHovercardContext = _i1.ObjectTypeDefinitionNode(
           type: _i1.NamedTypeNode(
               name: _i1.NameNode(value: 'PullRequestReviewDecision'),
               isNonNull: false))
+    ]);
+const RoleInOrganization = _i1.EnumTypeDefinitionNode(
+    name: _i1.NameNode(value: 'RoleInOrganization'),
+    directives: [],
+    values: [
+      _i1.EnumValueDefinitionNode(
+          name: _i1.NameNode(value: 'DIRECT_MEMBER'), directives: []),
+      _i1.EnumValueDefinitionNode(
+          name: _i1.NameNode(value: 'OWNER'), directives: []),
+      _i1.EnumValueDefinitionNode(
+          name: _i1.NameNode(value: 'UNAFFILIATED'), directives: [])
     ]);
 const SamlDigestAlgorithm = _i1.EnumTypeDefinitionNode(
     name: _i1.NameNode(value: 'SamlDigestAlgorithm'),
@@ -56713,6 +57083,22 @@ const UpdateBranchProtectionRuleInput = _i1.InputObjectTypeDefinitionNode(
               name: _i1.NameNode(value: 'ID'), isNonNull: true),
           defaultValue: null),
       _i1.InputValueDefinitionNode(
+          name: _i1.NameNode(value: 'bypassForcePushActorIds'),
+          directives: [],
+          type: _i1.ListTypeNode(
+              type: _i1.NamedTypeNode(
+                  name: _i1.NameNode(value: 'ID'), isNonNull: true),
+              isNonNull: false),
+          defaultValue: null),
+      _i1.InputValueDefinitionNode(
+          name: _i1.NameNode(value: 'bypassPullRequestActorIds'),
+          directives: [],
+          type: _i1.ListTypeNode(
+              type: _i1.NamedTypeNode(
+                  name: _i1.NameNode(value: 'ID'), isNonNull: true),
+              isNonNull: false),
+          defaultValue: null),
+      _i1.InputValueDefinitionNode(
           name: _i1.NameNode(value: 'clientMutationId'),
           directives: [],
           type: _i1.NamedTypeNode(
@@ -58761,6 +59147,70 @@ const UpdateNotificationRestrictionSettingPayload =
           type: _i1.NamedTypeNode(
               name: _i1.NameNode(value: 'VerifiableDomainOwner'),
               isNonNull: false))
+    ]);
+const UpdateOrganizationAllowPrivateRepositoryForkingSettingInput =
+    _i1.InputObjectTypeDefinitionNode(
+        name: _i1.NameNode(
+            value:
+                'UpdateOrganizationAllowPrivateRepositoryForkingSettingInput'),
+        directives: [],
+        fields: [
+      _i1.InputValueDefinitionNode(
+          name: _i1.NameNode(value: 'clientMutationId'),
+          directives: [],
+          type: _i1.NamedTypeNode(
+              name: _i1.NameNode(value: 'String'), isNonNull: false),
+          defaultValue: null),
+      _i1.InputValueDefinitionNode(
+          name: _i1.NameNode(value: 'forkingEnabled'),
+          directives: [],
+          type: _i1.NamedTypeNode(
+              name: _i1.NameNode(value: 'Boolean'), isNonNull: true),
+          defaultValue: null),
+      _i1.InputValueDefinitionNode(
+          name: _i1.NameNode(value: 'organizationId'),
+          directives: [
+            _i1.DirectiveNode(
+                name: _i1.NameNode(value: 'possibleTypes'),
+                arguments: [
+                  _i1.ArgumentNode(
+                      name: _i1.NameNode(value: 'concreteTypes'),
+                      value: _i1.ListValueNode(values: [
+                        _i1.StringValueNode(
+                            value: 'Organization', isBlock: false)
+                      ]))
+                ])
+          ],
+          type: _i1.NamedTypeNode(
+              name: _i1.NameNode(value: 'ID'), isNonNull: true),
+          defaultValue: null)
+    ]);
+const UpdateOrganizationAllowPrivateRepositoryForkingSettingPayload =
+    _i1.ObjectTypeDefinitionNode(
+        name: _i1.NameNode(
+            value:
+                'UpdateOrganizationAllowPrivateRepositoryForkingSettingPayload'),
+        directives: [],
+        interfaces: [],
+        fields: [
+      _i1.FieldDefinitionNode(
+          name: _i1.NameNode(value: 'clientMutationId'),
+          directives: [],
+          args: [],
+          type: _i1.NamedTypeNode(
+              name: _i1.NameNode(value: 'String'), isNonNull: false)),
+      _i1.FieldDefinitionNode(
+          name: _i1.NameNode(value: 'message'),
+          directives: [],
+          args: [],
+          type: _i1.NamedTypeNode(
+              name: _i1.NameNode(value: 'String'), isNonNull: false)),
+      _i1.FieldDefinitionNode(
+          name: _i1.NameNode(value: 'organization'),
+          directives: [],
+          args: [],
+          type: _i1.NamedTypeNode(
+              name: _i1.NameNode(value: 'Organization'), isNonNull: false))
     ]);
 const UpdateProjectCardInput = _i1.InputObjectTypeDefinitionNode(
     name: _i1.NameNode(value: 'UpdateProjectCardInput'),
@@ -60866,7 +61316,21 @@ const User = _i1.ObjectTypeDefinitionNode(
                 directives: [],
                 type: _i1.NamedTypeNode(
                     name: _i1.NameNode(value: 'Int'), isNonNull: false),
-                defaultValue: null)
+                defaultValue: null),
+            _i1.InputValueDefinitionNode(
+                name: _i1.NameNode(value: 'query'),
+                directives: [],
+                type: _i1.NamedTypeNode(
+                    name: _i1.NameNode(value: 'String'), isNonNull: false),
+                defaultValue: null),
+            _i1.InputValueDefinitionNode(
+                name: _i1.NameNode(value: 'sortBy'),
+                directives: [],
+                type: _i1.NamedTypeNode(
+                    name: _i1.NameNode(value: 'ProjectNextOrderField'),
+                    isNonNull: false),
+                defaultValue:
+                    _i1.EnumValueNode(name: _i1.NameNode(value: 'TITLE')))
           ],
           type: _i1.NamedTypeNode(
               name: _i1.NameNode(value: 'ProjectNextConnection'),
@@ -62745,12 +63209,19 @@ const document = _i1.DocumentNode(definitions: [
   BlameRange,
   Blob,
   Bot,
+  BranchActorAllowanceActor,
   BranchProtectionRule,
   BranchProtectionRuleConflict,
   BranchProtectionRuleConflictConnection,
   BranchProtectionRuleConflictEdge,
   BranchProtectionRuleConnection,
   BranchProtectionRuleEdge,
+  BypassForcePushAllowance,
+  BypassForcePushAllowanceConnection,
+  BypassForcePushAllowanceEdge,
+  BypassPullRequestAllowance,
+  BypassPullRequestAllowanceConnection,
+  BypassPullRequestAllowanceEdge,
   CVSS,
   CWE,
   CWEConnection,
@@ -62821,8 +63292,6 @@ const document = _i1.DocumentNode(definitions: [
   CommitMessage,
   CommittableBranch,
   ConnectedEvent,
-  ContentAttachment,
-  ContentReference,
   Contribution,
   ContributionCalendar,
   ContributionCalendarDay,
@@ -62837,6 +63306,7 @@ const document = _i1.DocumentNode(definitions: [
   ConvertPullRequestToDraftPayload,
   ConvertToDraftEvent,
   ConvertedNoteToIssueEvent,
+  ConvertedToDiscussionEvent,
   CreateBranchProtectionRuleInput,
   CreateBranchProtectionRulePayload,
   CreateCheckRunInput,
@@ -62845,8 +63315,6 @@ const document = _i1.DocumentNode(definitions: [
   CreateCheckSuitePayload,
   CreateCommitOnBranchInput,
   CreateCommitOnBranchPayload,
-  CreateContentAttachmentInput,
-  CreateContentAttachmentPayload,
   CreateDeploymentInput,
   CreateDeploymentPayload,
   CreateDeploymentStatusInput,
@@ -63348,6 +63816,7 @@ const document = _i1.DocumentNode(definitions: [
   ProjectNextItemFieldValue,
   ProjectNextItemFieldValueConnection,
   ProjectNextItemFieldValueEdge,
+  ProjectNextOrderField,
   ProjectNextOwner,
   ProjectOrder,
   ProjectOrderField,
@@ -63556,6 +64025,7 @@ const document = _i1.DocumentNode(definitions: [
   ReviewRequestRemovedEvent,
   ReviewRequestedEvent,
   ReviewStatusHovercardContext,
+  RoleInOrganization,
   SamlDigestAlgorithm,
   SamlSignatureAlgorithm,
   SavedReply,
@@ -63789,6 +64259,8 @@ const document = _i1.DocumentNode(definitions: [
   UpdateLabelPayload,
   UpdateNotificationRestrictionSettingInput,
   UpdateNotificationRestrictionSettingPayload,
+  UpdateOrganizationAllowPrivateRepositoryForkingSettingInput,
+  UpdateOrganizationAllowPrivateRepositoryForkingSettingPayload,
   UpdateProjectCardInput,
   UpdateProjectCardPayload,
   UpdateProjectColumnInput,
