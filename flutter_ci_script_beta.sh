@@ -7,7 +7,6 @@ source "$DIR/flutter_ci_script_shared.sh"
 
 declare -a CODELABS=(
   "adaptive_app"
-  "add_flutter_to_android_app"
   "cookbook"
   "cupertino_store"
   "dartpad_codelabs"
