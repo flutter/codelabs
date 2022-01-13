@@ -225,11 +225,6 @@ req.send();''');
     await controller.loadFile(pathToIndex);
   }
 
-  Future<void> _onLoadHtmlStringExample(
-      WebViewController controller, BuildContext context) async {
-    await controller.loadHtmlString(kExamplePage);
-  }
-
   static Future<String> _prepareLocalFile() async {
     final String tmpDir = (await getTemporaryDirectory()).path;
     final File indexFile = File('$tmpDir/www/index.html');
@@ -238,5 +233,10 @@ req.send();''');
     await indexFile.writeAsString(kExamplePage);
 
     return indexFile.path;
+  }
+
+  Future<void> _onLoadHtmlStringExample(
+      WebViewController controller, BuildContext context) async {
+    await controller.loadHtmlString(kExamplePage);
   }
 }
