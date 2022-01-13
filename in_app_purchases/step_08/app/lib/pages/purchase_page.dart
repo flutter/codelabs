@@ -7,6 +7,8 @@ import '../model/store_state.dart';
 import '../repo/iap_repo.dart';
 
 class PurchasePage extends StatelessWidget {
+  const PurchasePage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     var upgrades = context.watch<DashPurchases>();
@@ -32,7 +34,7 @@ class PurchasePage extends StatelessWidget {
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
-      PastPurchasesWidget(),
+      const PastPurchasesWidget(),
     ]);
   }
 }
@@ -108,6 +110,8 @@ class _PurchaseWidget extends StatelessWidget {
 }
 
 class PastPurchasesWidget extends StatelessWidget {
+  const PastPurchasesWidget({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     var purchases = context.watch<IAPRepo>().purchases;

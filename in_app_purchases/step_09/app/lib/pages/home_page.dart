@@ -1,15 +1,18 @@
-import 'package:dashclicker/logic/dash_purchases.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+
 import '../logic/dash_counter.dart';
+import '../logic/dash_purchases.dart';
 import '../logic/dash_upgrades.dart';
 
 class HomePage extends StatelessWidget {
+  const HomePage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [
+      children: const [
         Expanded(
           flex: 2,
           child: DashClickerWidget(),
@@ -21,13 +24,15 @@ class HomePage extends StatelessWidget {
 }
 
 class DashClickerWidget extends StatelessWidget {
+  const DashClickerWidget({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          CounterStateWidget(),
+          const CounterStateWidget(),
           InkWell(
             // Don't listen as we don't need a rebuild when the count changes
             onTap: Provider.of<DashCounter>(context, listen: false).increment,
@@ -42,6 +47,8 @@ class DashClickerWidget extends StatelessWidget {
 }
 
 class CounterStateWidget extends StatelessWidget {
+  const CounterStateWidget({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     // This widget is the only widget that directly listens to the counter
@@ -63,6 +70,8 @@ class CounterStateWidget extends StatelessWidget {
 }
 
 class UpgradeList extends StatelessWidget {
+  const UpgradeList({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     var upgrades = context.watch<DashUpgrades>();

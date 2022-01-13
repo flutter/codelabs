@@ -3,6 +3,5 @@
 **/Pods/
 
 # Xcode-related
+**/dgph
 **/xcuserdata/
-
-/Runner/GoogleService-Info.plist
