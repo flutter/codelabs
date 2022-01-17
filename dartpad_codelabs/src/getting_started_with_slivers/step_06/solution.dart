@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(HorizonsApp());
+  runApp(const HorizonsApp());
 }
 
 class HorizonsApp extends StatelessWidget {
+  const HorizonsApp({Key? key}) : super(key: key);
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -22,13 +24,13 @@ class HorizonsApp extends StatelessWidget {
       title: 'Horizons Weather',
       home: Scaffold(
         body: CustomScrollView(
-          slivers: <Widget>[
+          slivers: [
             SliverAppBar(
               pinned: true,
               backgroundColor: Colors.teal[800],
               expandedHeight: 200.0,
               flexibleSpace: FlexibleSpaceBar(
-                title: Text('Horizons'),
+                title: const Text('Horizons'),
                 background: DecoratedBox(
                   position: DecorationPosition.foreground,
                   decoration: BoxDecoration(
@@ -45,7 +47,7 @@ class HorizonsApp extends StatelessWidget {
                 ),
               ),
             ),
-            WeeklyForecastList(),
+            const WeeklyForecastList(),
           ],
         ),
       ),
@@ -54,6 +56,8 @@ class HorizonsApp extends StatelessWidget {
 }
 
 class WeeklyForecastList extends StatelessWidget {
+  const WeeklyForecastList({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final DateTime currentDate = DateTime.now();
@@ -61,7 +65,7 @@ class WeeklyForecastList extends StatelessWidget {
 
     return SliverList(
       delegate: SliverChildBuilderDelegate(
-        (BuildContext context, int index) {
+        (context, index) {
           final DailyForecast dailyForecast =
               Server.getDailyForecastByID(index);
           return Card(
@@ -107,14 +111,14 @@ class WeeklyForecastList extends StatelessWidget {
                           dailyForecast.getWeekday(currentDate.weekday),
                           style: textTheme.headline4,
                         ),
-                        SizedBox(height: 10.0),
+                        const SizedBox(height: 10.0),
                         Text(dailyForecast.description),
                       ],
                     ),
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(16.0),
                   child: Text(
                     '${dailyForecast.highTemp} | ${dailyForecast.lowTemp} F',
                     style: textTheme.subtitle1,

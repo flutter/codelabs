@@ -1,8 +1,10 @@
+// TODO: Remove the following line
+// ignore_for_file: argument_type_not_assignable
+
 import 'dart:math';
 
 class RandomStringProvider {
-  String? get value =>
-    Random().nextBool() ? 'A String!' : null;
+  String? get value => Random().nextBool() ? 'A String!' : null;
 }
 
 void printString(String str) => print(str);

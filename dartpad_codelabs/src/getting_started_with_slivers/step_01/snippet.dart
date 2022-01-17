@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(HorizonsApp());
+  runApp(const HorizonsApp());
 }
 
 class HorizonsApp extends StatelessWidget {
+  const HorizonsApp({Key? key}) : super(key: key);
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -22,16 +24,18 @@ class HorizonsApp extends StatelessWidget {
       title: 'Horizons Weather',
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Horizons'),
+          title: const Text('Horizons'),
           backgroundColor: Colors.teal[800],
         ),
-        body: WeeklyForecastList(),
+        body: const WeeklyForecastList(),
       ),
     );
   }
 }
 
 class WeeklyForecastList extends StatelessWidget {
+  const WeeklyForecastList({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final DateTime currentDate = DateTime.now();
@@ -40,7 +44,7 @@ class WeeklyForecastList extends StatelessWidget {
 
     return SingleChildScrollView(
       child: Column(
-        children: forecasts.map((DailyForecast dailyForecast) {
+        children: forecasts.map((dailyForecast) {
           return Card(
             child: ListTile(
               leading: Text(
