@@ -1,3 +1,6 @@
+// TODO: Remove the following line
+// ignore_for_file: invalid_assignment, unchecked_use_of_nullable_value
+
 int? couldReturnNullButDoesnt() => -3;
 
 void main() {
