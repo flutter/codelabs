@@ -1,10 +1,11 @@
 import 'dart:async';
 
-import 'package:dashclicker/logic/dash_counter.dart';
-import 'package:dashclicker/model/purchasable_product.dart';
-import 'package:dashclicker/model/store_state.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
+import '../model/purchasable_product.dart';
+import '../model/store_state.dart';
+import 'dash_counter.dart';
 
 class DashPurchases extends ChangeNotifier {
   DashCounter counter;
