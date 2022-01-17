@@ -21,7 +21,7 @@ function ci_codelabs () {
     do
         echo "== Testing '${CODELAB}' on $channel"
         declare -a PROJECT_PATHS=($(
-        find $CODELAB -not -path './flutter/*' -not -path './plugin_codelab/pubspec.yaml' -name pubspec.yaml -exec dirname {} \;
+        find $CODELAB -not -path './flutter/*' -not -path './plugin_codelab/pubspec.yaml' -name pubspec.yaml -exec dirname {} \; | sort
         ))
         for PROJECT in "${PROJECT_PATHS[@]}"
         do
@@ -42,20 +42,6 @@ function ci_codelabs () {
 
             popd
         done
-    done
-
-    declare -a WORKSHOP_STEP_PATHS=($(
-        find dartpad_codelabs -name snippet.dart -exec dirname {} \; 
-      ))
-
-    for WORKSHOP_STEP_PATH in "${WORKSHOP_STEP_PATHS[@]}"; do
-      echo "== TESTING $WORKSHOP_STEP_PATH"
-      (
-        cd "$WORKSHOP_STEP_PATH"
-        if [[ -r solution.dart ]]; then DART_FILE=solution.dart; else DART_FILE=snippet.dart; fi
-        set -x
-        dart format --output none --set-exit-if-changed $DART_FILE
-      )
     done
 
 }

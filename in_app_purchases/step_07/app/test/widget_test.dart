@@ -6,7 +6,7 @@ import 'package:in_app_purchase_platform_interface/src/in_app_purchase_platform_
 void main() {
   testWidgets('App starts', (tester) async {
     IAPConnection.instance = TestIAPConnection();
-    await tester.pumpWidget(MyApp());
+    await tester.pumpWidget(const MyApp());
     expect(find.text('Tim Sneath'), findsOneWidget);
   });
 }

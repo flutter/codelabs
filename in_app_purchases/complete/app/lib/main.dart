@@ -1,15 +1,14 @@
-import 'package:dashclicker/logic/dash_purchases.dart';
-import 'package:dashclicker/logic/firebase_notifier.dart';
-import 'package:dashclicker/repo/iap_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
-import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 import 'package:provider/provider.dart';
 
 import 'logic/dash_counter.dart';
+import 'logic/dash_purchases.dart';
 import 'logic/dash_upgrades.dart';
+import 'logic/firebase_notifier.dart';
 import 'pages/home_page.dart';
 import 'pages/purchase_page.dart';
+import 'repo/iap_repo.dart';
 
 // Gives the option to override in tests.
 class IAPConnection {
@@ -25,11 +24,12 @@ class IAPConnection {
 }
 
 void main() {
-  InAppPurchaseAndroidPlatformAddition.enablePendingPurchases();
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -56,8 +56,8 @@ class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
 
   static final List<Widget> _widgetOptions = [
-    HomePage(),
-    PurchasePage(),
+    const HomePage(),
+    const PurchasePage(),
   ];
 
   @override
