@@ -63,7 +63,7 @@ class _RandomWordsState extends State<RandomWords> {
             ),
           );
         },
-      );
+      ),
     );
   }
   // #enddocregion RWS-build
