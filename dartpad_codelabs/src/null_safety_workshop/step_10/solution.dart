@@ -6,7 +6,7 @@ class StringProvider {
 
 class RandomStringProvider extends StringProvider {
   @override
-  void set value(String? v) {}
+  set value(String? v) {}
 
   @override
   String? get value => Random().nextBool() ? 'A String!' : null;

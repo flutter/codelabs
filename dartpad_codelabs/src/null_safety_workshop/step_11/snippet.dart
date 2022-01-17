@@ -1,3 +1,6 @@
+// TODO: Remove the following line
+// ignore_for_file: not_initialized_non_nullable_instance_field
+
 class Meal {
   String description;
 
