@@ -49,7 +49,7 @@ class _RandomWordsState extends State<RandomWords> {
             _suggestions.addAll(generateWordPairs().take(10)); /*4*/
           }
           
-          final alreadySaved = _saved.contains(pair);
+          final alreadySaved = _saved.contains(_suggestions[index]);
           
           return ListTile(
             title: Text(
@@ -64,9 +64,9 @@ class _RandomWordsState extends State<RandomWords> {
             onTap: () {
               setState(() {
                 if (alreadySaved) {
-                  _saved.remove(pair);
+                  _saved.remove(_suggestions[index]);
                 } else {
-                  _saved.add(pair);
+                  _saved.add(_suggestions[index]);
                 }
               });
             },
