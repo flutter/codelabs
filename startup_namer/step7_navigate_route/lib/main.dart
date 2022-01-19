@@ -55,9 +55,9 @@ class _RandomWordsState extends State<RandomWords> {
           if (index >= _suggestions.length) {
             _suggestions.addAll(generateWordPairs().take(10)); /*4*/
           }
-          
+
           final alreadySaved = _saved.contains(_suggestions[index]);
-          
+
           return ListTile(
             title: Text(
               _suggestions[index].asPascalCase,
