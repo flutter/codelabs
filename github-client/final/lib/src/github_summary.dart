@@ -1,4 +1,4 @@
-// Copyright 2020 Google LLC
+// Copyright 2022 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,23 +14,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:fluttericon/octicons_icons.dart';
-import 'package:gql_exec/gql_exec.dart';
-import 'package:gql_http_link/gql_http_link.dart';
-import 'package:gql_link/gql_link.dart';
-import 'package:http/http.dart' as http;
+import 'package:github/github.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'github_gql/__generated__/github_queries.data.gql.dart';
-import 'github_gql/__generated__/github_queries.req.gql.dart';
-
 class GitHubSummary extends StatefulWidget {
-  GitHubSummary({required http.Client client, Key? key})
-      : _link = HttpLink(
-          'https://api.github.com/graphql',
-          httpClient: client,
-        ),
-        super(key: key);
-  final HttpLink _link;
+  const GitHubSummary({required this.gitHub, Key? key}) : super(key: key);
+  final GitHub gitHub;
+
   @override
   _GitHubSummaryState createState() => _GitHubSummaryState();
 }
@@ -71,9 +61,9 @@ class _GitHubSummaryState extends State<GitHubSummary> {
           child: IndexedStack(
             index: _selectedIndex,
             children: [
-              RepositoriesList(link: widget._link),
-              AssignedIssuesList(link: widget._link),
-              PullRequestsList(link: widget._link),
+              RepositoriesList(gitHub: widget.gitHub),
+              AssignedIssuesList(gitHub: widget.gitHub),
+              PullRequestsList(gitHub: widget.gitHub),
             ],
           ),
         ),
@@ -83,8 +73,9 @@ class _GitHubSummaryState extends State<GitHubSummary> {
 }
 
 class RepositoriesList extends StatefulWidget {
-  const RepositoriesList({required this.link, Key? key}) : super(key: key);
-  final Link link;
+  const RepositoriesList({required this.gitHub, Key? key}) : super(key: key);
+  final GitHub gitHub;
+
   @override
   _RepositoriesListState createState() => _RepositoriesListState();
 }
@@ -93,34 +84,14 @@ class _RepositoriesListState extends State<RepositoriesList> {
   @override
   initState() {
     super.initState();
-    _repositories = _retrieveRepositories(widget.link);
+    _repositories = widget.gitHub.repositories.listRepositories().toList();
   }
 
-  late Future<List<GRepositoriesData_viewer_repositories_nodes>> _repositories;
-
-  Future<List<GRepositoriesData_viewer_repositories_nodes>>
-      _retrieveRepositories(Link link) async {
-    final req = GRepositories((b) => b..vars.count = 100);
-    final result = await link
-        .request(Request(
-          operation: req.operation,
-          variables: req.vars.toJson(),
-        ))
-        .first;
-    final errors = result.errors;
-    if (errors != null && errors.isNotEmpty) {
-      throw QueryException(errors);
-    }
-    return GRepositoriesData.fromJson(result.data!)!
-        .viewer
-        .repositories
-        .nodes!
-        .asList();
-  }
+  late Future<List<Repository>> _repositories;
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<GRepositoriesData_viewer_repositories_nodes>>(
+    return FutureBuilder<List<Repository>>(
       future: _repositories,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
@@ -134,9 +105,10 @@ class _RepositoriesListState extends State<RepositoriesList> {
           itemBuilder: (context, index) {
             var repository = repositories![index];
             return ListTile(
-              title: Text('${repository.owner.login}/${repository.name}'),
-              subtitle: Text(repository.description ?? 'No description'),
-              onTap: () => _launchUrl(context, repository.url.value),
+              title:
+                  Text('${repository.owner?.login ?? ''}/${repository.name}'),
+              subtitle: Text(repository.description),
+              onTap: () => _launchUrl(context, repository.htmlUrl),
             );
           },
           itemCount: repositories!.length,
@@ -147,8 +119,9 @@ class _RepositoriesListState extends State<RepositoriesList> {
 }
 
 class AssignedIssuesList extends StatefulWidget {
-  const AssignedIssuesList({required this.link, Key? key}) : super(key: key);
-  final Link link;
+  const AssignedIssuesList({required this.gitHub, Key? key}) : super(key: key);
+  final GitHub gitHub;
+
   @override
   _AssignedIssuesListState createState() => _AssignedIssuesListState();
 }
@@ -157,52 +130,14 @@ class _AssignedIssuesListState extends State<AssignedIssuesList> {
   @override
   initState() {
     super.initState();
-    _assignedIssues = _retrieveAssignedIssues(widget.link);
+    _assignedIssues = widget.gitHub.issues.listByUser().toList();
   }
 
-  late Future<List<GAssignedIssuesData_search_edges_node__asIssue>>
-      _assignedIssues;
-
-  Future<List<GAssignedIssuesData_search_edges_node__asIssue>>
-      _retrieveAssignedIssues(Link link) async {
-    final viewerReq = GViewerDetail((b) => b);
-    var result = await link
-        .request(Request(
-          operation: viewerReq.operation,
-          variables: viewerReq.vars.toJson(),
-        ))
-        .first;
-    var errors = result.errors;
-    if (errors != null && errors.isNotEmpty) {
-      throw QueryException(errors);
-    }
-    final _viewer = GViewerDetailData.fromJson(result.data!)!.viewer;
-
-    final issuesReq = GAssignedIssues((b) => b
-      ..vars.count = 100
-      ..vars.query = 'is:open assignee:${_viewer.login} archived:false');
-
-    result = await link
-        .request(Request(
-          operation: issuesReq.operation,
-          variables: issuesReq.vars.toJson(),
-        ))
-        .first;
-    errors = result.errors;
-    if (errors != null && errors.isNotEmpty) {
-      throw QueryException(errors);
-    }
-    return GAssignedIssuesData.fromJson(result.data!)!
-        .search
-        .edges!
-        .map((e) => e.node)
-        .whereType<GAssignedIssuesData_search_edges_node__asIssue>()
-        .toList();
-  }
+  late Future<List<Issue>> _assignedIssues;
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<GAssignedIssuesData_search_edges_node__asIssue>>(
+    return FutureBuilder<List<Issue>>(
       future: _assignedIssues,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
@@ -217,10 +152,10 @@ class _AssignedIssuesListState extends State<AssignedIssuesList> {
             var assignedIssue = assignedIssues![index];
             return ListTile(
               title: Text(assignedIssue.title),
-              subtitle: Text('${assignedIssue.repository.nameWithOwner} '
+              subtitle: Text('${_nameWithOwner(assignedIssue)} '
                   'Issue #${assignedIssue.number} '
-                  'opened by ${assignedIssue.author!.login}'),
-              onTap: () => _launchUrl(context, assignedIssue.url.value),
+                  'opened by ${assignedIssue.user?.login ?? ''}'),
+              onTap: () => _launchUrl(context, assignedIssue.htmlUrl),
             );
           },
           itemCount: assignedIssues!.length,
@@ -228,11 +163,17 @@ class _AssignedIssuesListState extends State<AssignedIssuesList> {
       },
     );
   }
+
+  String _nameWithOwner(Issue assignedIssue) {
+    final endIndex = assignedIssue.url.lastIndexOf('/issue/');
+    return assignedIssue.url.substring(29, endIndex);
+  }
 }
 
 class PullRequestsList extends StatefulWidget {
-  const PullRequestsList({required this.link, Key? key}) : super(key: key);
-  final Link link;
+  const PullRequestsList({required this.gitHub, Key? key}) : super(key: key);
+  final GitHub gitHub;
+
   @override
   _PullRequestsListState createState() => _PullRequestsListState();
 }
@@ -241,38 +182,16 @@ class _PullRequestsListState extends State<PullRequestsList> {
   @override
   initState() {
     super.initState();
-    _pullRequests = _retrievePullRequests(widget.link);
-  }
-
-  late Future<List<GPullRequestsData_viewer_pullRequests_edges_node>>
-      _pullRequests;
-
-  Future<List<GPullRequestsData_viewer_pullRequests_edges_node>>
-      _retrievePullRequests(Link link) async {
-    final req = GPullRequests((b) => b..vars.count = 100);
-    final result = await link
-        .request(Request(
-          operation: req.operation,
-          variables: req.vars.toJson(),
-        ))
-        .first;
-    final errors = result.errors;
-    if (errors != null && errors.isNotEmpty) {
-      throw QueryException(errors);
-    }
-    return GPullRequestsData.fromJson(result.data!)!
-        .viewer
-        .pullRequests
-        .edges!
-        .map((e) => e.node)
-        .whereType<GPullRequestsData_viewer_pullRequests_edges_node>()
+    _pullRequests = widget.gitHub.pullRequests
+        .list(RepositorySlug('flutter', 'flutter'))
         .toList();
   }
 
+  late Future<List<PullRequest>> _pullRequests;
+
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<
-        List<GPullRequestsData_viewer_pullRequests_edges_node>>(
+    return FutureBuilder<List<PullRequest>>(
       future: _pullRequests,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
@@ -286,27 +205,18 @@ class _PullRequestsListState extends State<PullRequestsList> {
           itemBuilder: (context, index) {
             var pullRequest = pullRequests![index];
             return ListTile(
-              title: Text(pullRequest.title),
-              subtitle: Text('${pullRequest.repository.nameWithOwner} '
+              title: Text(pullRequest.title ?? ''),
+              subtitle: Text('flutter/flutter'
                   'PR #${pullRequest.number} '
-                  'opened by ${pullRequest.author!.login} '
-                  '(${pullRequest.state.name.toLowerCase()})'),
-              onTap: () => _launchUrl(context, pullRequest.url.value),
+                  'opened by ${pullRequest.user?.login ?? ''} '
+                  '(${pullRequest.state?.toLowerCase() ?? ''})'),
+              onTap: () => _launchUrl(context, pullRequest.htmlUrl ?? ''),
             );
           },
           itemCount: pullRequests!.length,
         );
       },
     );
-  }
-}
-
-class QueryException implements Exception {
-  QueryException(this.errors);
-  List<GraphQLError> errors;
-  @override
-  String toString() {
-    return 'Query Exception: ${errors.map((err) => '$err').join(',')}';
   }
 }
 

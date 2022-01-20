@@ -46,13 +46,13 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GithubLoginWidget(
-      builder: (context, client) {
+      builder: (context, gitHub) {
         WindowToFront.activate();
         return Scaffold(
           appBar: AppBar(
             title: Text(title),
           ),
-          body: GitHubSummary(client: client),
+          body: GitHubSummary(gitHub: gitHub),
         );
       },
       githubClientId: githubClientId,

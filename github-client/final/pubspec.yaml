@@ -24,13 +24,10 @@ dependencies:
   flutter:
     sdk: flutter
   fluttericon: ^2.0.0
-  gql: ^0.13.0
-  gql_exec: ^0.3.0
-  gql_http_link: ^0.4.0
-  gql_link: ^0.4.0
   http: ^0.13.4
   oauth2: ^2.0.0
   url_launcher: ^6.0.17
+  github: ^9.0.0
   window_to_front: 
     path: ../window_to_front
 
@@ -38,8 +35,6 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^1.0.0
-  build_runner: ^2.1.5
-  gql_build: ^0.3.0-alpha+1635885531736
 
 flutter:
   uses-material-design: true

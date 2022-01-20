@@ -14,6 +14,7 @@
 
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:github/github.dart';
 import 'package:http/http.dart' as http;
 import 'package:oauth2/oauth2.dart' as oauth2;
 import 'package:url_launcher/url_launcher.dart';
@@ -40,7 +41,7 @@ class GithubLoginWidget extends StatefulWidget {
 }
 
 typedef AuthenticatedBuilder = Widget Function(
-    BuildContext context, oauth2.Client client);
+    BuildContext context, GitHub gitHub);
 
 class _GithubLoginState extends State<GithubLoginWidget> {
   HttpServer? _redirectServer;
@@ -50,7 +51,7 @@ class _GithubLoginState extends State<GithubLoginWidget> {
   Widget build(BuildContext context) {
     final client = _client;
     if (client != null) {
-      return widget.builder(context, client);
+      return widget.builder(context, _getGitHubClient(client));
     }
 
     return Scaffold(
@@ -73,6 +74,10 @@ class _GithubLoginState extends State<GithubLoginWidget> {
         ),
       ),
     );
+  }
+
+  GitHub _getGitHubClient(oauth2.Client client) {
+    return GitHub(auth: Authentication.withToken(client.secret));
   }
 
   Future<oauth2.Client> _getOAuth2Client(Uri redirectUrl) async {
@@ -122,6 +127,7 @@ class _GithubLoginState extends State<GithubLoginWidget> {
 
 class _JsonAcceptingHttpClient extends http.BaseClient {
   final _httpClient = http.Client();
+
   @override
   Future<http.StreamedResponse> send(http.BaseRequest request) {
     request.headers['Accept'] = 'application/json';
@@ -131,7 +137,9 @@ class _JsonAcceptingHttpClient extends http.BaseClient {
 
 class GithubLoginException implements Exception {
   const GithubLoginException(this.message);
+
   final String message;
+
   @override
   String toString() => message;
 }
