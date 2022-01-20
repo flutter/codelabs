@@ -1,4 +1,4 @@
-package com.example.step_12
+package com.example.webview_in_flutter
 
 import io.flutter.embedding.android.FlutterActivity
 
