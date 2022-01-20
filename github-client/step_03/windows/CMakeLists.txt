@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
-project(github_graphql_client LANGUAGES CXX)
+project(github_client LANGUAGES CXX)
 
-set(BINARY_NAME "github_graphql_client")
+set(BINARY_NAME "github_client")
 
 cmake_policy(SET CMP0063 NEW)
 
