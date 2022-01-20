@@ -165,7 +165,7 @@ class _AssignedIssuesListState extends State<AssignedIssuesList> {
   }
 
   String _nameWithOwner(Issue assignedIssue) {
-    final endIndex = assignedIssue.url.lastIndexOf('/issue/');
+    final endIndex = assignedIssue.url.lastIndexOf('/issues/');
     return assignedIssue.url.substring(29, endIndex);
   }
 }
@@ -206,7 +206,7 @@ class _PullRequestsListState extends State<PullRequestsList> {
             var pullRequest = pullRequests![index];
             return ListTile(
               title: Text(pullRequest.title ?? ''),
-              subtitle: Text('flutter/flutter'
+              subtitle: Text('flutter/flutter '
                   'PR #${pullRequest.number} '
                   'opened by ${pullRequest.user?.login ?? ''} '
                   '(${pullRequest.state?.toLowerCase() ?? ''})'),

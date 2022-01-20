@@ -77,7 +77,7 @@ class _GithubLoginState extends State<GithubLoginWidget> {
   }
 
   GitHub _getGitHubClient(oauth2.Client client) {
-    return GitHub(auth: Authentication.withToken(client.secret));
+    return GitHub(auth: Authentication.withToken(client.credentials.accessToken));
   }
 
   Future<oauth2.Client> _getOAuth2Client(Uri redirectUrl) async {
