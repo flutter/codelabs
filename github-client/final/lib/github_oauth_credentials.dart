@@ -1,4 +1,4 @@
-// Copyright 2020 Google LLC
+// Copyright 2022 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,8 +13,8 @@
 // limitations under the License.
 
 // TODO(CodelabUser): Create an OAuth App
-const githubClientId = 'YOUR_GITHUB_CLIENT_ID_HERE';
-const githubClientSecret = 'YOUR_GITHUB_CLIENT_SECRET_HERE';
+const githubClientId = '';
+const githubClientSecret = '';
 
 // OAuth scopes for repository and user information
 const githubScopes = ['repo', 'read:org'];
