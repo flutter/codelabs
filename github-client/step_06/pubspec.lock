@@ -287,6 +287,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.1"
+  window_to_front:
+    dependency: "direct main"
+    description:
+      path: "../window_to_front"
+      relative: true
+    source: path
+    version: "0.0.1"
 sdks:
   dart: ">=2.16.0-134.1.beta <3.0.0"
   flutter: ">=2.5.0"
