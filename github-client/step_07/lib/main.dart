@@ -1,5 +1,20 @@
+// Copyright 2022 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 import 'package:flutter/material.dart';
 import 'package:github/github.dart';
+import 'package:github_client/src/github_summary.dart';
 import 'package:window_to_front/window_to_front.dart'; // Add this
 
 import 'github_oauth_credentials.dart';
@@ -34,22 +49,13 @@ class MyHomePage extends StatelessWidget {
     return GithubLoginWidget(
       builder: (context, httpClient) {
         WindowToFront.activate(); // and this.
-        return FutureBuilder<CurrentUser>(
-          future: viewerDetail(httpClient.credentials.accessToken),
-          builder: (context, snapshot) {
-            return Scaffold(
-              appBar: AppBar(
-                title: Text(title),
-              ),
-              body: Center(
-                child: Text(
-                  snapshot.hasData
-                      ? 'Hello ${snapshot.data!.login}!'
-                      : 'Retrieving viewer login details...',
-                ),
-              ),
-            );
-          },
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(title),
+          ),
+          body: GitHubSummary(
+            gitHub: _getGitHub(httpClient.credentials.accessToken),
+          ),
         );
       },
       githubClientId: githubClientId,
@@ -59,7 +65,6 @@ class MyHomePage extends StatelessWidget {
   }
 }
 
-Future<CurrentUser> viewerDetail(String accessToken) async {
-  final gitHub = GitHub(auth: Authentication.withToken(accessToken));
-  return gitHub.users.getCurrentUser();
+GitHub _getGitHub(String accessToken) {
+  return GitHub(auth: Authentication.withToken(accessToken));
 }

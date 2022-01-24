@@ -40,6 +40,7 @@ dependencies:
   github: ^9.0.0
   window_to_front: 
     path: ../window_to_front
+  fluttericon: ^2.0.0
 
 dev_dependencies:
   flutter_test:
