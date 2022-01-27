@@ -1,0 +1,113 @@
+#  Copyright 2020 Google LLC
+# 
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+# 
+#      https://www.apache.org/licenses/LICENSE-2.0
+# 
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+
+query ViewerDetail {
+  viewer {
+    login
+  }
+}
+
+query PullRequests($count: Int!) {
+  viewer {
+    pullRequests(
+      first: $count
+      orderBy: { field: CREATED_AT, direction: DESC }
+    ) {
+      edges {
+        node {
+          repository {
+            nameWithOwner
+            url
+          }
+          author {
+            login
+            url
+          }
+          number
+          url
+          title
+          updatedAt
+          url
+          state
+          isDraft
+          comments {
+            totalCount
+          }
+          files {
+            totalCount
+          }
+        }
+      }
+    }
+  }
+}
+
+query AssignedIssues($query: String!, $count: Int!) {
+  search(query: $query, type: ISSUE, first: $count) {
+    edges {
+      node {
+        ... on Issue {
+          __typename
+          repository {
+            nameWithOwner
+            url
+          }
+          number
+          url
+          title
+          author {
+            login
+            url
+          }
+          labels(last: 10) {
+            nodes {
+              name
+              color
+            }
+          }
+          comments {
+            totalCount
+          }
+        }
+      }
+    }
+  }
+}
+
+query Repositories($count: Int!) {
+  viewer {
+    repositories(
+      first: $count
+      orderBy: { field: UPDATED_AT, direction: DESC }
+    ) {
+      nodes {
+        name
+        description
+        isFork
+        isPrivate
+        stargazers {
+          totalCount
+        }
+        url
+        issues {
+          totalCount
+        }
+        owner {
+          login
+          avatarUrl
+        }
+      }
+    }
+  }
+}
