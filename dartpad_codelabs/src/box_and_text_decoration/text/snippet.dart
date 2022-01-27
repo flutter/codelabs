@@ -9,7 +9,6 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // Create a Text Widget below
-    // return Text(...);
+    return Text("Customize me!"); // Display and style some text of your own!
   }
 }
