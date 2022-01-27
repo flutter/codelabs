@@ -17,7 +17,7 @@ Here is a list of the codelabs represented here:
   - [How to test a Flutter app](https://codelabs.developers.google.com/codelabs/flutter-app-testing) is in `testing_codelab`
   - [How to write a Flutter plugin](https://codelabs.developers.google.com/codelabs/write-flutter-plugin) is in `plugin_codelab`
   - [Using a plugin with a Flutter web app](https://codelabs.developers.google.com/codelabs/web-url-launcher) is in `star_counter`
-  - [Write a Flutter desktop application](https://codelabs.developers.google.com/codelabs/flutter-github-graphql-client) is in `github-graphql-client`
+  - [Write a Flutter desktop application](https://codelabs.developers.google.com/codelabs/flutter-github-client) is in `github-client`
   - [Write your first Flutter app, part 1](https://codelabs.developers.google.com/codelabs/first-flutter-app-pt1) and [Write your first Flutter app, part 2](https://codelabs.developers.google.com/codelabs/first-flutter-app-pt2) are in `startup_namer`
 
 

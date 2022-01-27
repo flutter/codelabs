@@ -12,7 +12,7 @@ declare -a CODELABS=(
   "dartpad_codelabs"
   "firebase-get-to-know-flutter"
   "friendly_chat"
-  "github-graphql-client"
+  "github-client"
   "google-maps-in-flutter"
   "in_app_purchases"
   "photos-sharing"
