@@ -14,11 +14,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:github/github.dart';
-import 'package:github_client/src/github_summary.dart';
-import 'package:window_to_front/window_to_front.dart'; // Add this
+import 'package:window_to_front/window_to_front.dart';
 
 import 'github_oauth_credentials.dart';
 import 'src/github_login.dart';
+import 'src/github_summary.dart';
 
 void main() {
   runApp(const MyApp());
