@@ -12,9 +12,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
-      decoration: BoxDecoration(
-        // Apply a background image. Play around with fit, alignment, and scale.
-      ),
+      // Apply a background image. Play around with fit, alignment, and scale.
+      decoration: BoxDecoration(),
     );
   }
 }

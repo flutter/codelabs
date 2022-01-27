@@ -10,9 +10,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
-      decoration: BoxDecoration(
-        // Add a border here!
-      ),
+      // Add a border to the BoxDecoration!
+      decoration: BoxDecoration(),
     );
   }
 }

@@ -13,7 +13,6 @@ class MyApp extends StatelessWidget {
       padding: EdgeInsets.all(60),
       child: DecoratedBox(
         decoration: BoxDecoration(
-
           color: Colors.blue,
         ),
       ),

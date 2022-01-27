@@ -9,8 +9,7 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      /// Let your imagination run wild :)
-    );
+    /// Let your imagination run wild :)
+    return Container();
   }
 }
