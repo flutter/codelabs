@@ -9,9 +9,11 @@ void main() {
   runApp(const MyApp());
 }
 
+// #docregion MyApp
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
+  // #docregion build
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -26,7 +28,9 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
+  // #enddocregion build
 }
+// #enddocregion MyApp
 
 // #docregion _RandomWordsState, RWS-class-only
 class _RandomWordsState extends State<RandomWords> {
@@ -45,5 +49,6 @@ class RandomWords extends StatefulWidget {
   const RandomWords({Key? key}) : super(key: key);
 
   @override
-  State<RandomWords> createState() => _RandomWordsState();
+  _RandomWordsState createState() => _RandomWordsState();
 }
+// #enddocregion RandomWords
