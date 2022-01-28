@@ -4,7 +4,7 @@ A Flutter desktop Github client using [the `github` library].
 This repository is the code behind the
 [Write a Flutter desktop application] codelab.
 
-[Github pub package]: https://pub.dev/packages/github
+[the `github` library]: https://pub.dev/packages/github
 [Write a Flutter desktop application]: https://codelabs.developers.google.com/codelabs/flutter-github-client/#0
 
 
