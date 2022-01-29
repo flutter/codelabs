@@ -7,3 +7,5 @@ analyzer:
 linter:
   rules:
     avoid_print: false
+    prefer_const_constructors: false 
+    use_key_in_widget_constructors: false
