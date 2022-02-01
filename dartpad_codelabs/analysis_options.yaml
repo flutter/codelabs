@@ -1,11 +1,9 @@
-include: ../analysis_options.yaml
+# Align with DartPad's analysis rules:
+# https://github.com/dart-lang/dart-services/blob/master/lib/src/project_creator.dart#L119
 
-analyzer:
-  strong-mode:
-    implicit-dynamic: true
+include: package:flutter_lints/flutter.yaml
 
 linter:
   rules:
     avoid_print: false
-    prefer_const_constructors: false 
     use_key_in_widget_constructors: false
