@@ -4,18 +4,18 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.15.0 <3.0.0"
+  sdk: ">=2.16.0-0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
-  flex_color_scheme: ^4.1.1
   googleapis: ^7.0.0
   http: ^0.13.4
-  provider: ^6.0.1
-  split_view: ^3.1.0
+  provider: ^6.0.2
   url_launcher: ^6.0.17
+  flex_color_scheme: ^4.1.1
+  split_view: ^3.1.0
 
 dev_dependencies:
   flutter_test:
