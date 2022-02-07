@@ -18,8 +18,8 @@ void main() {
   );
 }
 
-// Convert the CustomButton into a Stateful Widget. Tip: Place the text cursor 
-// inside the word CustomButton. Then, press alt + enter (mac/windows) or 
+// Convert the CustomButton into a Stateful Widget. Tip: Place the text cursor
+// inside the word CustomButton. Then, press alt + enter (mac/windows) or
 // option + return (mac) to bring up a code completion menu. Select the
 // "Convert to StatefulWidget" command.
 class CustomButton extends StatelessWidget {

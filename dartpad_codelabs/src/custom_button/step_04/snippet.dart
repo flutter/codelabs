@@ -28,7 +28,6 @@ class CustomButton extends StatelessWidget {
     // Add constructor parameters for onTap and onLongPress.
   }) : super(key: key);
 
-
   final Color backgroundColor;
   final Widget child;
   // Define two new `VoidCallback` instance variables: onTap and onLongPress.

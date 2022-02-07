@@ -46,9 +46,9 @@ class _CustomButtonState extends State<CustomButton> {
   Widget build(BuildContext context) {
     // Use the MouseRegion to set the cursor
     return MouseRegion(
-      cursor: SystemMouseCursors.click, 
+      cursor: SystemMouseCursors.click,
 
-      // Update the _hovering instance variable when a user starts and stops 
+      // Update the _hovering instance variable when a user starts and stops
       // hovering over the button
       onEnter: (_) => setState(() => _hovering = true),
       onExit: (_) => setState(() => _hovering = false),

@@ -59,7 +59,7 @@ class _CustomButtonState extends State<CustomButton> {
           child: Container(
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: color, 
+              color: color,
               borderRadius: BorderRadius.circular(10),
             ),
             child: widget.child,

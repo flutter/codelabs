@@ -62,7 +62,7 @@ class _CustomButtonState extends State<CustomButton> {
       mouseCursor: SystemMouseCursors.click,
       onShowHoverHighlight: (hovering) => setState(() => _hovering = hovering),
 
-      // Rest of Button code      
+      // Rest of Button code
       child: GestureDetector(
         onTap: widget.onTap,
         onLongPress: widget.onLongPress,

@@ -42,10 +42,10 @@ class _CustomButtonState extends State<CustomButton> {
 
   @override
   Widget build(BuildContext context) {
-    // Wrap the MouseRegion inside a Focus widget. Use the onFocusChange 
+    // Wrap the MouseRegion inside a Focus widget. Use the onFocusChange
     // callback to update the _focusing variable.
     return MouseRegion(
-      cursor: SystemMouseCursors.click, 
+      cursor: SystemMouseCursors.click,
       onEnter: (_) => setState(() => _hovering = true),
       onExit: (_) => setState(() => _hovering = false),
       child: GestureDetector(
@@ -54,7 +54,7 @@ class _CustomButtonState extends State<CustomButton> {
         child: Container(
           padding: EdgeInsets.all(10),
           decoration: BoxDecoration(
-            // Use the _focusing instance variable to change the background 
+            // Use the _focusing instance variable to change the background
             // color. Use a slightly different color than the _hovering state
             // so you can distinguish between focusing & hovering.
             //

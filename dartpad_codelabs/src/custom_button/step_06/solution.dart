@@ -58,7 +58,7 @@ class _CustomButtonState extends State<CustomButton> {
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
               // Use a helper method to determine the bacgkround color
-              color: color, 
+              color: color,
               borderRadius: BorderRadius.circular(10),
             ),
             child: widget.child,

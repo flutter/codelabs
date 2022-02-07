@@ -7,9 +7,9 @@ void main() {
       home: Scaffold(
         body: Center(
           child: CustomButton(
-            // Once you define your instance variables and update your 
-            // constructor background below, use them here!
-          ),
+              // Once you define your instance variables and update your
+              // constructor background below, use them here!
+              ),
         ),
       ),
     ),
@@ -19,9 +19,7 @@ void main() {
 class CustomButton extends StatelessWidget {
   // Create your class constructor here!
 
-
   // Define your instance variables here!
-
 
   @override
   Widget build(BuildContext context) {

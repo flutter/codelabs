@@ -19,7 +19,7 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     // Wrap this Widget inside a GestureDetector!
     //
-    // Tip: Place your cursor on the word "Container" below. Then, press 
+    // Tip: Place your cursor on the word "Container" below. Then, press
     // alt + enter (windows/linux) or option + return (mac) to display a list
     // of options. Then select, "Wrap with Widget..."
     return Container(
