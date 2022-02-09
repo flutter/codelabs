@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors
+// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, undefined_function
 import 'package:flutter/material.dart';
 
 // Runs an app that displays the `CustomButton`
