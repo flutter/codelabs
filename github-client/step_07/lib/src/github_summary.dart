@@ -90,6 +90,14 @@ class _RepositoriesListState extends State<RepositoriesList> {
   late Future<List<Repository>> _repositories;
 
   @override
+  dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  final _controller = ScrollController();
+
+  @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Repository>>(
       future: _repositories,
@@ -102,6 +110,7 @@ class _RepositoriesListState extends State<RepositoriesList> {
         }
         var repositories = snapshot.data;
         return ListView.builder(
+          controller: _controller,
           itemBuilder: (context, index) {
             var repository = repositories![index];
             return ListTile(
@@ -136,6 +145,14 @@ class _AssignedIssuesListState extends State<AssignedIssuesList> {
   late Future<List<Issue>> _assignedIssues;
 
   @override
+  dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  final _controller = ScrollController();
+
+  @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Issue>>(
       future: _assignedIssues,
@@ -148,6 +165,7 @@ class _AssignedIssuesListState extends State<AssignedIssuesList> {
         }
         var assignedIssues = snapshot.data;
         return ListView.builder(
+          controller: _controller,
           itemBuilder: (context, index) {
             var assignedIssue = assignedIssues![index];
             return ListTile(
@@ -190,6 +208,14 @@ class _PullRequestsListState extends State<PullRequestsList> {
   late Future<List<PullRequest>> _pullRequests;
 
   @override
+  dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  final _controller = ScrollController();
+
+  @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<PullRequest>>(
       future: _pullRequests,
@@ -202,6 +228,7 @@ class _PullRequestsListState extends State<PullRequestsList> {
         }
         var pullRequests = snapshot.data;
         return ListView.builder(
+          controller: _controller,
           itemBuilder: (context, index) {
             var pullRequest = pullRequests![index];
             return ListTile(
