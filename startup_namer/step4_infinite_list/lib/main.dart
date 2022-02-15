@@ -28,38 +28,8 @@ class MyApp extends StatelessWidget {
 // #docregion RWS-var
 class _RandomWordsState extends State<RandomWords> {
   final _suggestions = <WordPair>[];
-  final _biggerFont = const TextStyle(fontSize: 18);
+  final _biggerFont = const TextStyle(fontSize: 18.0);
   // #enddocregion RWS-var
-
-  // #docregion _buildSuggestions
-  Widget _buildSuggestions() {
-    return ListView.builder(
-      padding: const EdgeInsets.all(16),
-      itemBuilder: /*1*/ (context, i) {
-        if (i.isOdd) {
-          return const Divider(); /*2*/
-        }
-
-        final index = i ~/ 2; /*3*/
-        if (index >= _suggestions.length) {
-          _suggestions.addAll(generateWordPairs().take(10)); /*4*/
-        }
-        return _buildRow(_suggestions[index]);
-      },
-    );
-  }
-  // #enddocregion _buildSuggestions
-
-  // #docregion _buildRow
-  Widget _buildRow(WordPair pair) {
-    return ListTile(
-      title: Text(
-        pair.asPascalCase,
-        style: _biggerFont,
-      ),
-    );
-  }
-  // #enddocregion _buildRow
 
   // #docregion RWS-build
   @override
@@ -68,7 +38,23 @@ class _RandomWordsState extends State<RandomWords> {
       appBar: AppBar(
         title: const Text('Startup Name Generator'),
       ),
-      body: _buildSuggestions(),
+      body: ListView.builder(
+        padding: const EdgeInsets.all(16.0),
+        itemBuilder: /*1*/ (context, i) {
+          if (i.isOdd) return const Divider(); /*2*/
+
+          final index = i ~/ 2; /*3*/
+          if (index >= _suggestions.length) {
+            _suggestions.addAll(generateWordPairs().take(10)); /*4*/
+          }
+          return ListTile(
+            title: Text(
+              _suggestions[index].asPascalCase,
+              style: _biggerFont,
+            ),
+          );
+        },
+      ),
     );
   }
   // #enddocregion RWS-build
