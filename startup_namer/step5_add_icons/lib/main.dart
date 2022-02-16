@@ -39,6 +39,7 @@ class _RandomWordsState extends State<RandomWords> {
       appBar: AppBar(
         title: const Text('Startup Name Generator'),
       ),
+      // #docregion itemBuilder
       body: ListView.builder(
         padding: const EdgeInsets.all(16.0),
         itemBuilder: /*1*/ (context, i) {
@@ -51,6 +52,7 @@ class _RandomWordsState extends State<RandomWords> {
 
           final alreadySaved = _saved.contains(_suggestions[index]);
 
+          // #docregion listTile
           return ListTile(
             title: Text(
               _suggestions[index].asPascalCase,
@@ -62,8 +64,10 @@ class _RandomWordsState extends State<RandomWords> {
               semanticLabel: alreadySaved ? 'Remove from saved' : 'Save',
             ),
           );
+          // #enddocregion listTile
         },
       ),
+      // #enddocregion itemBuilder
     );
   }
   // #enddocregion RWS-build

@@ -38,6 +38,7 @@ class _RandomWordsState extends State<RandomWords> {
       appBar: AppBar(
         title: const Text('Startup Name Generator'),
       ),
+      // #docregion itemBuilder
       body: ListView.builder(
         padding: const EdgeInsets.all(16.0),
         itemBuilder: /*1*/ (context, i) {
@@ -47,14 +48,17 @@ class _RandomWordsState extends State<RandomWords> {
           if (index >= _suggestions.length) {
             _suggestions.addAll(generateWordPairs().take(10)); /*4*/
           }
+          // #docregion listTile
           return ListTile(
             title: Text(
               _suggestions[index].asPascalCase,
               style: _biggerFont,
             ),
           );
+          // #enddocregion listTile
         },
       ),
+      // #enddocregion itemBuilder
     );
   }
   // #enddocregion RWS-build
