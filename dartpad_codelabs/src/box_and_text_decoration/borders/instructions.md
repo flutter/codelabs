@@ -42,6 +42,8 @@ BoxDecoration(
 );
 ```
 
-Your turn: Apply a border to the `BoxDecoration`! Play with different borders
+## Your Turn
+
+Apply a border to the `BoxDecoration`! Play with different borders
 and sides to get a feel for the various options you can configure, then try 
 the `Border.all` constructor!

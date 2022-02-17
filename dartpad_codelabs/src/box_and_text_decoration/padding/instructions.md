@@ -56,7 +56,7 @@ Finally, you may need to apply unique padding to each side. Use the
 `EdgeInsets.only` constructor to define the padding of the top, left, bottom and
 right sides.
 
-```aidl
+```dart
 Padding(
   padding: EdgeInsets.only(
     top: 20,
@@ -73,5 +73,7 @@ Padding(
 );
 ```
 
-Your turn: Wrap the `DecoratedBox` on with a `Padding` widget. Play around with
+## Your Turn
+
+Wrap the `DecoratedBox` on with a `Padding` widget. Play around with
 the various `EdgeInsets` constructors to create different padding effects.

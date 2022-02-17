@@ -23,6 +23,8 @@ BoxDecoration(
 )
 ```
 
-Your turn: Add a `BoxShadow` to the `BoxDecoration`! Play around with the 
+## Your turn
+
+Add a `BoxShadow` to the `BoxDecoration`! Play around with the 
 various options you can define with a `BoxShadow`. Then, add a second shadow
 to see the effect.

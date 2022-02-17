@@ -23,7 +23,7 @@ Text(
 In order to style text, pass a `TextStyle` object into the `Text` widget
 constructor via the `style` parameter. The `TextStyle` class configures the font
 color, size, weight, style, and more. Use it to make your text bold, italicized,
-and absolutely humungous!
+and absolutely humongous!
 
 ```dart
 Text(
@@ -38,7 +38,9 @@ Text(
 );
 ```
 
-Your turn: Display some text and change the look and feel using the `TextStyle`
+## Your turn
+
+Display some text and change the look and feel using the `TextStyle`
 class! Place your cursor inside the `TextStyle` constructor and press 
 `Ctrl+Space` to see additional settings you can configure. Play around with
 some of these additional settings to get a feel for styling text in Flutter.

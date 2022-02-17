@@ -57,7 +57,9 @@ Container(
 );
 ```
 
-Your turn: Use the `Container` widget to simplify the sample code on the right!
+## Your turn
+
+Use the `Container` widget to simplify the sample code on the right!
 Container not only contains `Padding` and `DecoratedBox` shortcuts, it also
 combines several other Widgets into one. Play around with different arguments
 you can pass to the `Container` constructor!

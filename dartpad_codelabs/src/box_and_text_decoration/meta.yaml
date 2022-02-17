@@ -8,7 +8,7 @@ steps:
   - name: Background Colors & Gradients
     directory: intro
     has_solution: false
-  - name: Padding
+  - name: Images
     directory: images
     has_solution: false
   - name: Borders
@@ -28,6 +28,9 @@ steps:
     has_solution: false
   - name: Text Styles
     directory: text
+    has_solution: false
+  - name: Icons
+    directory: icons
     has_solution: false
   - name: Put it all together
     directory: outro
