@@ -28,7 +28,9 @@ BoxDecoration(
 );
 ```
 
-Your turn: Apply a background image to the `DecoratedBox` and play around with
+### Your Turn
+
+Apply a background image to the `DecoratedBox` and play around with
 various options you can provide to `DecorationImage`.
 
 ## Standalone Images
@@ -63,7 +65,9 @@ Image.network(
 );
 ```
 
-Your turn: Replace the `DecoratedBox` with a `Center` widget that contains an
+### Your turn
+
+Replace the `DecoratedBox` with a `Center` widget that contains an
 `Image` widget! Try out various options: fit, alignment, and so on. Did you try
 width and height? Did you notice they don't work yet! We'll discuss that in the
 Layouts workshop :)

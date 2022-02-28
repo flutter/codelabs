@@ -50,6 +50,8 @@ BoxDecoration(
 )
 ```
 
-Your turn: Give the `DecoratedBox` some rounded corners! First, try using
+## Your turn
+
+Give the `DecoratedBox` some rounded corners! First, try using
 `BorderRadius.all`, then `BorderRadius.circular`, finally `BorderRadius.only`.
 Play around with different types and sizes of `Radius`.

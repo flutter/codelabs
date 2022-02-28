@@ -9,8 +9,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: Colors.blue,
         // Try out various background colors and gradients
+        color: Colors.blue,
       ),
     );
   }

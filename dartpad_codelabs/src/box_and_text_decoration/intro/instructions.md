@@ -1,4 +1,4 @@
-# Introduction
+# Workshop: Box Decoration and Text Styling
 
 Flutter is a toolkit for building User Interfaces, known as UIs. UIs are a
 composition of boxes and text laid out on screen. One box may display an image
@@ -8,6 +8,11 @@ sitting on top of a background gradient.
 Therefore, the first stop on your Flutter journey is to learn how to style
 boxes and text! In the land of Flutter, this is known as Box Decoration and Text
 Styling.
+
+Throughout this workshop, you'll work with several "widgets." A widget is a
+description of part of a UI, and you can combine many widgets together to create
+complex designs. Flutter ships widgets to decorate boxes, display images, render
+text, and much more!
 
 # Decorating Boxes
 
@@ -36,7 +41,9 @@ DecoratedBox(
 );
 ```
 
-Now it's your turn: First, apply a background to the `DecoratedBox` using a few
+### Your turn
+
+First, apply a background to the `DecoratedBox` using a few
 `Colors` provided by Flutter. Then, create your own `Color`!
 
 ## Background Gradients
@@ -56,7 +63,9 @@ DecoratedBox(
 );
 ```
 
-Your turn: Apply a gradient background to the `BoxDecoration`. Place your cursor
+### Your turn
+
+Apply a gradient background to the `BoxDecoration`. Place your cursor
 inside the `BoxDecoration` or `LinearGradient` constructor and type `Ctrl` +
 `Space` to view a list of the parameters you can configure. Play with a few
 combinations to get a feel for how gradients work! 

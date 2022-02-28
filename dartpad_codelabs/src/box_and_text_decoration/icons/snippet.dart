@@ -9,6 +9,6 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // Display and style some text of your own!
+    // Add an Icon Widget here!
   }
 }
