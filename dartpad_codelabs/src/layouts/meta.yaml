@@ -1,0 +1,40 @@
+name: Flutter Layouts
+type: flutter
+steps:
+  - name: SizedBox
+    directory: sized_box
+    has_solution: true
+  - name: Align & Center
+    directory: align
+    has_solution: true
+  - name: Row & Column
+    directory: row_column
+    has_solution: true
+  - name: mainAxisSize
+    directory: main_axis_size
+    has_solution: true
+  - name: mainAxisAlignment
+    directory: main_axis_alignment
+    has_solution: true
+  - name: crossAxisAlignment
+    directory: cross_axis_alignment
+    has_solution: true
+  - name: Flexible widget
+    directory: flexible
+    has_solution: true
+  - name: Flexible fit & Expanded Widget
+    directory: expanded
+    has_solution: true
+  - name: Combining Rows & Columns
+    directory: combine_row_column
+    has_solution: true
+  - name: Stack
+    directory: stack
+    has_solution: true
+  - name: Row & Column Exercise
+    directory: row_column_exercise
+    has_solution: true
+  - name: Stack Exercise
+    directory: stack_exercise
+    has_solution: true
+
