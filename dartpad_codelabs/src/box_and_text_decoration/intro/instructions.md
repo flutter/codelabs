@@ -9,6 +9,11 @@ Therefore, the first stop on your Flutter journey is to learn how to style
 boxes and text! In the land of Flutter, this is known as Box Decoration and Text
 Styling.
 
+Throughout this workshop, you'll work with several "widgets." A widget is a
+description of part of a UI, and you can combine many widgets together to create
+complex designs. Flutter ships widgets to decorate boxes, display images, render
+text, and much more!
+
 # Decorating Boxes
 
 In order style or decorate a portion of the screen with a background color or 
