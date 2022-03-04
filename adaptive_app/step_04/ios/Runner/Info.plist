@@ -42,7 +42,7 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<true/>
+	<false/>
 	<!-- https://pub.dev/packages/url_launcher#ios -->
 	<key>LSApplicationQueriesSchemes</key>
 	<array>

@@ -1,0 +1,33 @@
+name: Create a Custom Button
+type: flutter
+steps:
+  - name: Create a widget
+    directory: step_01
+    has_solution: true
+  - name: Handling Taps and Clicks
+    directory: step_02
+    has_solution: true
+  - name: Configure the Button
+    directory: step_03
+    has_solution: true
+  - name: Callback Functions
+    directory: step_04
+    has_solution: true
+  - name: Desktop Support & Hover States
+    directory: step_05
+    has_solution: true
+  - name: Keyboard Navigation
+    directory: step_06
+    has_solution: true
+  - name: Keyboard Shortcuts
+    directory: step_07
+    has_solution: true
+  - name: Tidy Up
+    directory: step_08
+    has_solution: true
+  - name: Accessibility
+    directory: step_09
+    has_solution: true
+  - name: Review
+    directory: step_10
+    has_solution: false
