@@ -9,7 +9,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_markdown: ^0.6.8
-  github: ^8.2.5
+  github: ^9.0.2
   intl: ^0.17.0
 
 dev_dependencies:
