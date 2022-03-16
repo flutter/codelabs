@@ -8,6 +8,7 @@ void main() {
         // Create a ListView.separated instead of ListView.builder
         body: ListView.separated(
           itemCount: 500,
+          padding: EdgeInsets.all(10),
           itemBuilder: (BuildContext context, int index) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,

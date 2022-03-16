@@ -44,5 +44,6 @@ ListView.builder(
      index. The subtitle may contain dummy text, and may be styled differently
      than the title Text.
   3. Set the `itemCount` really high to see it fly!
-  4. Everything feels scrunched together. What happened to the separators? Find
-     out in the next step!
+  4. Everything feels scrunched together. Try adding some `padding` to the list!
+  5. It's better, but what happened to the separators? Find out in the next
+     step!

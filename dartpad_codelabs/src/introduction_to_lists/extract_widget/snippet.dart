@@ -7,6 +7,7 @@ void main() {
       home: Scaffold(
         body: ListView.separated(
           itemCount: 500,
+          padding: EdgeInsets.all(10),
           itemBuilder: (BuildContext context, int index) {
             // Move or "Extract" this code into a separate widget named ListItem
             return Column(

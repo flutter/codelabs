@@ -7,6 +7,8 @@ void main() {
       home: Scaffold(
         body: ListView.builder(
           itemCount: 500,
+          padding: EdgeInsets.all(10),
+
           // Replace custom ListItem with a Material Design ListTile. Then, wrap
           // it in a Material Design Card!
           itemBuilder: (context, index) => ListItem(index: index),

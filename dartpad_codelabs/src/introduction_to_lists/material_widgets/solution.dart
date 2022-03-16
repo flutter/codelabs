@@ -7,6 +7,7 @@ void main() {
       home: Scaffold(
         body: ListView.builder(
           itemCount: 500,
+          padding: EdgeInsets.all(10),
           itemBuilder: (context, index) {
             return Card(
               child: ListTile(

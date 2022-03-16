@@ -7,8 +7,11 @@ void main() {
       home: Scaffold(
         body: ListView.separated(
           itemCount: 500,
-          // Use the ListItem in place of the longer Column code.
+          padding: EdgeInsets.all(10),
+
+          // Use the ListItem widget in place of Column code.
           itemBuilder: (context, index) => ListItem(index: index),
+
           separatorBuilder: (context, index) => SizedBox(height: 10),
         ),
       ),
@@ -16,8 +19,7 @@ void main() {
   );
 }
 
-// A widget that hides all of the Column code. May also be reused in different
-// parts of your application if need be!
+// A reusable widget that contains all of the code to lay out each item.
 class ListItem extends StatelessWidget {
   const ListItem({
     Key? key,

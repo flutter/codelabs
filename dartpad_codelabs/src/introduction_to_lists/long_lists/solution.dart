@@ -9,6 +9,9 @@ void main() {
           // Create a list with 10000 items
           itemCount: 500,
 
+          // Add some padding around the List
+          padding: EdgeInsets.all(10),
+
           // Every time Flutter scrolls another widget on the screen, it uses
           // the following function to build the correct Text widgets.
           itemBuilder: (BuildContext context, int index) {

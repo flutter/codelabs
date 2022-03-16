@@ -8,6 +8,7 @@ void main() {
         // Add Separators to this ListView!
         body: ListView.builder(
           itemCount: 500,
+          padding: EdgeInsets.all(10),
           itemBuilder: (context, index) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
