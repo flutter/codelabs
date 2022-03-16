@@ -11,4 +11,4 @@ PRODUCT_NAME = friendly_chat
 PRODUCT_BUNDLE_IDENTIFIER = com.example.friendlyChat
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2021 com.example. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2022 com.example. All rights reserved.
