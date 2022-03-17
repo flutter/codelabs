@@ -37,8 +37,6 @@ dependencies:
   http: ^0.13.4
   oauth2: ^2.0.0
   url_launcher: ^6.0.18
-  # Context: https://github.com/flutter/flutter/issues/98097
-  url_launcher_macos: ^2.0.4
 
 dev_dependencies:
   flutter_test:
