@@ -9,8 +9,7 @@ import 'package:testing_app/main.dart';
 
 void main() {
   group('Testing App Performance Tests', () {
-    final binding = IntegrationTestWidgetsFlutterBinding.ensureInitialized()
-        as IntegrationTestWidgetsFlutterBinding;
+    final binding = IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
     binding.framePolicy = LiveTestWidgetsFlutterBindingFramePolicy.fullyLive;
 
