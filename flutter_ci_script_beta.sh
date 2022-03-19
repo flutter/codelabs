@@ -18,6 +18,7 @@ declare -a CODELABS=(
   "photos-sharing"
   "star_counter"
   "startup_namer"
+  "tfserving-flutter"
   "testing_codelab"
   "webview_flutter"
   )
