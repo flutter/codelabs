@@ -15,17 +15,17 @@ import 'proto/generated/tensorflow_serving/apis/prediction_service.pbgrpc.dart';
 
 enum connectionModeType { GRPC, REST }
 
-const kServer = '10.0.2.2';
-const kGRPCPort = 8500;
-const kRESTPort = 8501;
-const kModelName = 'spam-detection';
-const kSignatureName = 'serving_default';
+const server = '10.0.2.2';
+const GRPCPort = 8500;
+const RESTPort = 8501;
+const modelName = 'spam-detection';
+const signatureName = 'serving_default';
 
-const kClassificationThreshold = 0.8;
-const kVocabFile = 'assets/vocab.txt';
-const kMaxSentenceLength = 20;
+const classificationThreshold = 0.8;
+const vocabFile = 'assets/vocab.txt';
+const maxSentenceLength = 20;
 
-const String kInitialPrompt =
+const String initialPrompt =
     'Type some text and tap the button. The spam detection model will determine if the text is spam or not.';
 
 void main() => runApp(const TFServingDemo());
@@ -51,7 +51,7 @@ class _TFServingDemoState extends State<TFServingDemo> {
   @override
   void initState() {
     super.initState();
-    _futurePrediction = Future<String>.value(kInitialPrompt);
+    _futurePrediction = Future<String>.value(initialPrompt);
   }
 
   @override
@@ -125,7 +125,7 @@ class _TFServingDemoState extends State<TFServingDemo> {
                             onPressed: () {
                               setState(() {
                                 _futurePrediction =
-                                    Future<String>.value(kInitialPrompt);
+                                    Future<String>.value(initialPrompt);
                                 _inputSentenceController.clear();
                               });
                             },

@@ -15,17 +15,17 @@ import 'proto/generated/tensorflow_serving/apis/prediction_service.pbgrpc.dart';
 
 enum connectionModeType { GRPC, REST }
 
-const kServer = '10.0.2.2';
-const kGRPCPort = 8500;
-const kRESTPort = 8501;
-const kModelName = 'spam-detection';
-const kSignatureName = 'serving_default';
+const server = '10.0.2.2';
+const GRPCPort = 8500;
+const RESTPort = 8501;
+const modelName = 'spam-detection';
+const signatureName = 'serving_default';
 
-const kClassificationThreshold = 0.8;
-const kVocabFile = 'assets/vocab.txt';
-const kMaxSentenceLength = 20;
+const classificationThreshold = 0.8;
+const vocabFile = 'assets/vocab.txt';
+const maxSentenceLength = 20;
 
-const String kInitialPrompt =
+const String initialPrompt =
     'Type some text and tap the button. The spam detection model will determine if the text is spam or not.';
 
 void main() => runApp(const TFServingDemo());
@@ -51,7 +51,7 @@ class _TFServingDemoState extends State<TFServingDemo> {
   @override
   void initState() {
     super.initState();
-    _futurePrediction = Future<String>.value(kInitialPrompt);
+    _futurePrediction = Future<String>.value(initialPrompt);
   }
 
   @override
@@ -125,7 +125,7 @@ class _TFServingDemoState extends State<TFServingDemo> {
                             onPressed: () {
                               setState(() {
                                 _futurePrediction =
-                                    Future<String>.value(kInitialPrompt);
+                                    Future<String>.value(initialPrompt);
                                 _inputSentenceController.clear();
                               });
                             },
@@ -152,7 +152,7 @@ class _TFServingDemoState extends State<TFServingDemo> {
 
   Future<String> predict() async {
     if (_vocabMap.isEmpty) {
-      final vocabFileString = await rootBundle.loadString(kVocabFile);
+      final vocabFileString = await rootBundle.loadString(vocabFile);
       final lines = vocabFileString.split('\n');
       for (final l in lines) {
         if (l != "") {
@@ -168,7 +168,7 @@ class _TFServingDemoState extends State<TFServingDemo> {
         .replaceAll(RegExp('[^a-z ]'), '')
         .split(' ');
     // Initialize with padding token
-    _tokenIndices = List.filled(kMaxSentenceLength, 0);
+    _tokenIndices = List.filled(maxSentenceLength, 0);
     var i = 0;
     for (final w in inputWords) {
       if ((_vocabMap).containsKey(w)) {
@@ -177,7 +177,7 @@ class _TFServingDemoState extends State<TFServingDemo> {
       }
 
       // Truncate the string if longer than maxSentenceLength.
-      if (i >= kMaxSentenceLength - 1) {
+      if (i >= maxSentenceLength - 1) {
         break;
       }
     }
@@ -185,11 +185,11 @@ class _TFServingDemoState extends State<TFServingDemo> {
     if (_connectionMode == connectionModeType.REST) {
       final response = await http.post(
         Uri.parse('http://' +
-            kServer +
+            server +
             ':' +
-            kRESTPort.toString() +
+            RESTPort.toString() +
             '/v1/models/' +
-            kModelName +
+            modelName +
             ':predict'),
         body: jsonEncode(<String, List<List<int>>>{
           'instances': [_tokenIndices],
@@ -198,7 +198,7 @@ class _TFServingDemoState extends State<TFServingDemo> {
 
       if (response.statusCode == 200) {
         Map<String, dynamic> result = jsonDecode(response.body);
-        if (result['predictions']![0][1] >= kClassificationThreshold) {
+        if (result['predictions']![0][1] >= classificationThreshold) {
           return 'This sentence is spam. Spam score is ' +
               result['predictions']![0][1].toString();
         }
@@ -208,8 +208,8 @@ class _TFServingDemoState extends State<TFServingDemo> {
         throw Exception('Error response');
       }
     } else {
-      final channel = ClientChannel(kServer,
-          port: kGRPCPort,
+      final channel = ClientChannel(server,
+          port: GRPCPort,
           options:
               const ChannelOptions(credentials: ChannelCredentials.insecure()));
       stub = PredictionServiceClient(channel,
@@ -222,7 +222,7 @@ class _TFServingDemoState extends State<TFServingDemo> {
 
       TensorShapeProto_Dim batchDim = TensorShapeProto_Dim(size: Int64(1));
       TensorShapeProto_Dim inputDim =
-          TensorShapeProto_Dim(size: Int64(kMaxSentenceLength));
+          TensorShapeProto_Dim(size: Int64(maxSentenceLength));
       TensorShapeProto inputTensorShape =
           TensorShapeProto(dim: [batchDim, inputDim]);
       TensorProto inputTensor = TensorProto(
@@ -241,7 +241,7 @@ class _TFServingDemoState extends State<TFServingDemo> {
 
       if (response.outputs.containsKey(outputTensorName)) {
         if (response.outputs[outputTensorName]!.floatVal[1] >
-            kClassificationThreshold) {
+            classificationThreshold) {
           return 'This sentence is spam. Spam score is ' +
               response.outputs[outputTensorName]!.floatVal[1].toString();
         } else {
