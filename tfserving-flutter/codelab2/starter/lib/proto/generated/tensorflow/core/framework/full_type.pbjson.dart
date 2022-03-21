@@ -8,6 +8,7 @@
 import 'dart:core' as $core;
 import 'dart:convert' as $convert;
 import 'dart:typed_data' as $typed_data;
+
 @$core.Deprecated('Use fullTypeIdDescriptor instead')
 const FullTypeId$json = const {
   '1': 'FullTypeId',
@@ -47,13 +48,28 @@ const FullTypeId$json = const {
 };
 
 /// Descriptor for `FullTypeId`. Decode as a `google.protobuf.EnumDescriptorProto`.
-final $typed_data.Uint8List fullTypeIdDescriptor = $convert.base64Decode('CgpGdWxsVHlwZUlkEg0KCVRGVF9VTlNFVBAAEgsKB1RGVF9WQVIQARILCgdURlRfQU5ZEAISDwoLVEZUX1BST0RVQ1QQAxINCglURlRfTkFNRUQQBBIQCgxURlRfRk9SX0VBQ0gQFBIQCgxURlRfQ0FMTEFCTEUQZBIPCgpURlRfVEVOU09SEOgHEg4KCVRGVF9BUlJBWRDpBxIRCgxURlRfT1BUSU9OQUwQ6gcSEAoLVEZUX0xJVEVSQUwQ6wcSDQoIVEZUX0JPT0wQyAESDgoJVEZUX1VJTlQ4EMkBEg8KClRGVF9VSU5UMTYQygESDwoKVEZUX1VJTlQzMhDLARIPCgpURlRfVUlOVDY0EMwBEg0KCFRGVF9JTlQ4EM0BEg4KCVRGVF9JTlQxNhDOARIOCglURlRfSU5UMzIQzwESDgoJVEZUX0lOVDY0ENABEg0KCFRGVF9IQUxGENEBEg4KCVRGVF9GTE9BVBDSARIPCgpURlRfRE9VQkxFENMBEhEKDFRGVF9CRkxPQVQxNhDXARISCg1URlRfQ09NUExFWDY0ENQBEhMKDlRGVF9DT01QTEVYMTI4ENUBEg8KClRGVF9TVFJJTkcQ1gESEAoLVEZUX0RBVEFTRVQQ9k4SDwoKVEZUX1JBR0dFRBD3ThITCg5URlRfTVVURVhfTE9DSxDaTxIXChJURlRfTEVHQUNZX1ZBUklBTlQQ208=');
+final $typed_data.Uint8List fullTypeIdDescriptor = $convert.base64Decode(
+    'CgpGdWxsVHlwZUlkEg0KCVRGVF9VTlNFVBAAEgsKB1RGVF9WQVIQARILCgdURlRfQU5ZEAISDwoLVEZUX1BST0RVQ1QQAxINCglURlRfTkFNRUQQBBIQCgxURlRfRk9SX0VBQ0gQFBIQCgxURlRfQ0FMTEFCTEUQZBIPCgpURlRfVEVOU09SEOgHEg4KCVRGVF9BUlJBWRDpBxIRCgxURlRfT1BUSU9OQUwQ6gcSEAoLVEZUX0xJVEVSQUwQ6wcSDQoIVEZUX0JPT0wQyAESDgoJVEZUX1VJTlQ4EMkBEg8KClRGVF9VSU5UMTYQygESDwoKVEZUX1VJTlQzMhDLARIPCgpURlRfVUlOVDY0EMwBEg0KCFRGVF9JTlQ4EM0BEg4KCVRGVF9JTlQxNhDOARIOCglURlRfSU5UMzIQzwESDgoJVEZUX0lOVDY0ENABEg0KCFRGVF9IQUxGENEBEg4KCVRGVF9GTE9BVBDSARIPCgpURlRfRE9VQkxFENMBEhEKDFRGVF9CRkxPQVQxNhDXARISCg1URlRfQ09NUExFWDY0ENQBEhMKDlRGVF9DT01QTEVYMTI4ENUBEg8KClRGVF9TVFJJTkcQ1gESEAoLVEZUX0RBVEFTRVQQ9k4SDwoKVEZUX1JBR0dFRBD3ThITCg5URlRfTVVURVhfTE9DSxDaTxIXChJURlRfTEVHQUNZX1ZBUklBTlQQ208=');
 @$core.Deprecated('Use fullTypeDefDescriptor instead')
 const FullTypeDef$json = const {
   '1': 'FullTypeDef',
   '2': const [
-    const {'1': 'type_id', '3': 1, '4': 1, '5': 14, '6': '.tensorflow.FullTypeId', '10': 'typeId'},
-    const {'1': 'args', '3': 2, '4': 3, '5': 11, '6': '.tensorflow.FullTypeDef', '10': 'args'},
+    const {
+      '1': 'type_id',
+      '3': 1,
+      '4': 1,
+      '5': 14,
+      '6': '.tensorflow.FullTypeId',
+      '10': 'typeId'
+    },
+    const {
+      '1': 'args',
+      '3': 2,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.FullTypeDef',
+      '10': 'args'
+    },
     const {'1': 's', '3': 3, '4': 1, '5': 9, '9': 0, '10': 's'},
     const {'1': 'i', '3': 4, '4': 1, '5': 3, '9': 0, '10': 'i'},
   ],
@@ -63,4 +79,5 @@ const FullTypeDef$json = const {
 };
 
 /// Descriptor for `FullTypeDef`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List fullTypeDefDescriptor = $convert.base64Decode('CgtGdWxsVHlwZURlZhIvCgd0eXBlX2lkGAEgASgOMhYudGVuc29yZmxvdy5GdWxsVHlwZUlkUgZ0eXBlSWQSKwoEYXJncxgCIAMoCzIXLnRlbnNvcmZsb3cuRnVsbFR5cGVEZWZSBGFyZ3MSDgoBcxgDIAEoCUgAUgFzEg4KAWkYBCABKANIAFIBaUIGCgRhdHRy');
+final $typed_data.Uint8List fullTypeDefDescriptor = $convert.base64Decode(
+    'CgtGdWxsVHlwZURlZhIvCgd0eXBlX2lkGAEgASgOMhYudGVuc29yZmxvdy5GdWxsVHlwZUlkUgZ0eXBlSWQSKwoEYXJncxgCIAMoCzIXLnRlbnNvcmZsb3cuRnVsbFR5cGVEZWZSBGFyZ3MSDgoBcxgDIAEoCUgAUgFzEg4KAWkYBCABKANIAFIBaUIGCgRhdHRy');

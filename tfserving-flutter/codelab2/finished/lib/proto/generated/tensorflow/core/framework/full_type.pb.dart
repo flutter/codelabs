@@ -14,26 +14,51 @@ import 'full_type.pbenum.dart';
 
 export 'full_type.pbenum.dart';
 
-enum FullTypeDef_Attr {
-  s, 
-  i, 
-  notSet
-}
+enum FullTypeDef_Attr { s, i, notSet }
 
 class FullTypeDef extends $pb.GeneratedMessage {
   static const $core.Map<$core.int, FullTypeDef_Attr> _FullTypeDef_AttrByTag = {
-    3 : FullTypeDef_Attr.s,
-    4 : FullTypeDef_Attr.i,
-    0 : FullTypeDef_Attr.notSet
+    3: FullTypeDef_Attr.s,
+    4: FullTypeDef_Attr.i,
+    0: FullTypeDef_Attr.notSet
   };
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'FullTypeDef', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'tensorflow'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'FullTypeDef',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'tensorflow'),
+      createEmptyInstance: create)
     ..oo(0, [3, 4])
-    ..e<FullTypeId>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'typeId', $pb.PbFieldType.OE, defaultOrMaker: FullTypeId.TFT_UNSET, valueOf: FullTypeId.valueOf, enumValues: FullTypeId.values)
-    ..pc<FullTypeDef>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'args', $pb.PbFieldType.PM, subBuilder: FullTypeDef.create)
-    ..aOS(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 's')
-    ..aInt64(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'i')
-    ..hasRequiredFields = false
-  ;
+    ..e<FullTypeId>(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'typeId',
+        $pb.PbFieldType.OE,
+        defaultOrMaker: FullTypeId.TFT_UNSET,
+        valueOf: FullTypeId.valueOf,
+        enumValues: FullTypeId.values)
+    ..pc<FullTypeDef>(
+        2,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'args',
+        $pb.PbFieldType.PM,
+        subBuilder: FullTypeDef.create)
+    ..aOS(
+        3,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 's')
+    ..aInt64(
+        4,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'i')
+    ..hasRequiredFields = false;
 
   FullTypeDef._() : super();
   factory FullTypeDef({
@@ -57,25 +82,30 @@ class FullTypeDef extends $pb.GeneratedMessage {
     }
     return _result;
   }
-  factory FullTypeDef.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory FullTypeDef.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
+  factory FullTypeDef.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory FullTypeDef.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
   FullTypeDef clone() => FullTypeDef()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  FullTypeDef copyWith(void Function(FullTypeDef) updates) => super.copyWith((message) => updates(message as FullTypeDef)) as FullTypeDef; // ignore: deprecated_member_use
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  FullTypeDef copyWith(void Function(FullTypeDef) updates) =>
+      super.copyWith((message) => updates(message as FullTypeDef))
+          as FullTypeDef; // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static FullTypeDef create() => FullTypeDef._();
   FullTypeDef createEmptyInstance() => create();
   static $pb.PbList<FullTypeDef> createRepeated() => $pb.PbList<FullTypeDef>();
   @$core.pragma('dart2js:noInline')
-  static FullTypeDef getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<FullTypeDef>(create);
+  static FullTypeDef getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<FullTypeDef>(create);
   static FullTypeDef? _defaultInstance;
 
   FullTypeDef_Attr whichAttr() => _FullTypeDef_AttrByTag[$_whichOneof(0)]!;
@@ -84,7 +114,10 @@ class FullTypeDef extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   FullTypeId get typeId => $_getN(0);
   @$pb.TagNumber(1)
-  set typeId(FullTypeId v) { setField(1, v); }
+  set typeId(FullTypeId v) {
+    setField(1, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasTypeId() => $_has(0);
   @$pb.TagNumber(1)
@@ -96,7 +129,10 @@ class FullTypeDef extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.String get s => $_getSZ(2);
   @$pb.TagNumber(3)
-  set s($core.String v) { $_setString(2, v); }
+  set s($core.String v) {
+    $_setString(2, v);
+  }
+
   @$pb.TagNumber(3)
   $core.bool hasS() => $_has(2);
   @$pb.TagNumber(3)
@@ -105,10 +141,12 @@ class FullTypeDef extends $pb.GeneratedMessage {
   @$pb.TagNumber(4)
   $fixnum.Int64 get i => $_getI64(3);
   @$pb.TagNumber(4)
-  set i($fixnum.Int64 v) { $_setInt64(3, v); }
+  set i($fixnum.Int64 v) {
+    $_setInt64(3, v);
+  }
+
   @$pb.TagNumber(4)
   $core.bool hasI() => $_has(3);
   @$pb.TagNumber(4)
   void clearI() => clearField(4);
 }
-

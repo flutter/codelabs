@@ -16,26 +16,123 @@ import 'resource_handle.pb.dart' as $1;
 import 'types.pbenum.dart' as $2;
 
 class TensorProto extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'TensorProto', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'tensorflow'), createEmptyInstance: create)
-    ..e<$2.DataType>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'dtype', $pb.PbFieldType.OE, defaultOrMaker: $2.DataType.DT_INVALID, valueOf: $2.DataType.valueOf, enumValues: $2.DataType.values)
-    ..aOM<$0.TensorShapeProto>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'tensorShape', subBuilder: $0.TensorShapeProto.create)
-    ..a<$core.int>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'versionNumber', $pb.PbFieldType.O3)
-    ..a<$core.List<$core.int>>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'tensorContent', $pb.PbFieldType.OY)
-    ..p<$core.double>(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'floatVal', $pb.PbFieldType.KF)
-    ..p<$core.double>(6, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'doubleVal', $pb.PbFieldType.KD)
-    ..p<$core.int>(7, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'intVal', $pb.PbFieldType.K3)
-    ..p<$core.List<$core.int>>(8, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'stringVal', $pb.PbFieldType.PY)
-    ..p<$core.double>(9, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'scomplexVal', $pb.PbFieldType.KF)
-    ..p<$fixnum.Int64>(10, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'int64Val', $pb.PbFieldType.K6)
-    ..p<$core.bool>(11, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'boolVal', $pb.PbFieldType.KB)
-    ..p<$core.double>(12, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'dcomplexVal', $pb.PbFieldType.KD)
-    ..p<$core.int>(13, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'halfVal', $pb.PbFieldType.K3)
-    ..pc<$1.ResourceHandleProto>(14, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'resourceHandleVal', $pb.PbFieldType.PM, subBuilder: $1.ResourceHandleProto.create)
-    ..pc<VariantTensorDataProto>(15, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'variantVal', $pb.PbFieldType.PM, subBuilder: VariantTensorDataProto.create)
-    ..p<$core.int>(16, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'uint32Val', $pb.PbFieldType.KU3)
-    ..p<$fixnum.Int64>(17, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'uint64Val', $pb.PbFieldType.KU6)
-    ..hasRequiredFields = false
-  ;
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'TensorProto',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'tensorflow'),
+      createEmptyInstance: create)
+    ..e<$2.DataType>(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'dtype',
+        $pb.PbFieldType.OE,
+        defaultOrMaker: $2.DataType.DT_INVALID,
+        valueOf: $2.DataType.valueOf,
+        enumValues: $2.DataType.values)
+    ..aOM<$0.TensorShapeProto>(
+        2,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'tensorShape',
+        subBuilder: $0.TensorShapeProto.create)
+    ..a<$core.int>(
+        3,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'versionNumber',
+        $pb.PbFieldType.O3)
+    ..a<$core.List<$core.int>>(
+        4,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'tensorContent',
+        $pb.PbFieldType.OY)
+    ..p<$core.double>(
+        5,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'floatVal',
+        $pb.PbFieldType.KF)
+    ..p<$core.double>(
+        6,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'doubleVal',
+        $pb.PbFieldType.KD)
+    ..p<$core.int>(
+        7,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'intVal',
+        $pb.PbFieldType.K3)
+    ..p<$core.List<$core.int>>(
+        8,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'stringVal',
+        $pb.PbFieldType.PY)
+    ..p<$core.double>(
+        9,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'scomplexVal',
+        $pb.PbFieldType.KF)
+    ..p<$fixnum.Int64>(
+        10,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'int64Val',
+        $pb.PbFieldType.K6)
+    ..p<$core.bool>(
+        11,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'boolVal',
+        $pb.PbFieldType.KB)
+    ..p<$core.double>(
+        12,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'dcomplexVal',
+        $pb.PbFieldType.KD)
+    ..p<$core.int>(
+        13,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'halfVal',
+        $pb.PbFieldType.K3)
+    ..pc<$1.ResourceHandleProto>(
+        14,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'resourceHandleVal',
+        $pb.PbFieldType.PM,
+        subBuilder: $1.ResourceHandleProto.create)
+    ..pc<VariantTensorDataProto>(
+        15,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'variantVal',
+        $pb.PbFieldType.PM,
+        subBuilder: VariantTensorDataProto.create)
+    ..p<$core.int>(
+        16,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'uint32Val',
+        $pb.PbFieldType.KU3)
+    ..p<$fixnum.Int64>(
+        17,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'uint64Val',
+        $pb.PbFieldType.KU6)
+    ..hasRequiredFields = false;
 
   TensorProto._() : super();
   factory TensorProto({
@@ -111,31 +208,39 @@ class TensorProto extends $pb.GeneratedMessage {
     }
     return _result;
   }
-  factory TensorProto.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory TensorProto.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
+  factory TensorProto.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory TensorProto.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
   TensorProto clone() => TensorProto()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  TensorProto copyWith(void Function(TensorProto) updates) => super.copyWith((message) => updates(message as TensorProto)) as TensorProto; // ignore: deprecated_member_use
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  TensorProto copyWith(void Function(TensorProto) updates) =>
+      super.copyWith((message) => updates(message as TensorProto))
+          as TensorProto; // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static TensorProto create() => TensorProto._();
   TensorProto createEmptyInstance() => create();
   static $pb.PbList<TensorProto> createRepeated() => $pb.PbList<TensorProto>();
   @$core.pragma('dart2js:noInline')
-  static TensorProto getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<TensorProto>(create);
+  static TensorProto getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<TensorProto>(create);
   static TensorProto? _defaultInstance;
 
   @$pb.TagNumber(1)
   $2.DataType get dtype => $_getN(0);
   @$pb.TagNumber(1)
-  set dtype($2.DataType v) { setField(1, v); }
+  set dtype($2.DataType v) {
+    setField(1, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasDtype() => $_has(0);
   @$pb.TagNumber(1)
@@ -144,7 +249,10 @@ class TensorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $0.TensorShapeProto get tensorShape => $_getN(1);
   @$pb.TagNumber(2)
-  set tensorShape($0.TensorShapeProto v) { setField(2, v); }
+  set tensorShape($0.TensorShapeProto v) {
+    setField(2, v);
+  }
+
   @$pb.TagNumber(2)
   $core.bool hasTensorShape() => $_has(1);
   @$pb.TagNumber(2)
@@ -155,7 +263,10 @@ class TensorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.int get versionNumber => $_getIZ(2);
   @$pb.TagNumber(3)
-  set versionNumber($core.int v) { $_setSignedInt32(2, v); }
+  set versionNumber($core.int v) {
+    $_setSignedInt32(2, v);
+  }
+
   @$pb.TagNumber(3)
   $core.bool hasVersionNumber() => $_has(2);
   @$pb.TagNumber(3)
@@ -164,7 +275,10 @@ class TensorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(4)
   $core.List<$core.int> get tensorContent => $_getN(3);
   @$pb.TagNumber(4)
-  set tensorContent($core.List<$core.int> v) { $_setBytes(3, v); }
+  set tensorContent($core.List<$core.int> v) {
+    $_setBytes(3, v);
+  }
+
   @$pb.TagNumber(4)
   $core.bool hasTensorContent() => $_has(3);
   @$pb.TagNumber(4)
@@ -211,12 +325,34 @@ class TensorProto extends $pb.GeneratedMessage {
 }
 
 class VariantTensorDataProto extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'VariantTensorDataProto', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'tensorflow'), createEmptyInstance: create)
-    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'typeName')
-    ..a<$core.List<$core.int>>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'metadata', $pb.PbFieldType.OY)
-    ..pc<TensorProto>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'tensors', $pb.PbFieldType.PM, subBuilder: TensorProto.create)
-    ..hasRequiredFields = false
-  ;
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'VariantTensorDataProto',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'tensorflow'),
+      createEmptyInstance: create)
+    ..aOS(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'typeName')
+    ..a<$core.List<$core.int>>(
+        2,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'metadata',
+        $pb.PbFieldType.OY)
+    ..pc<TensorProto>(
+        3,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'tensors',
+        $pb.PbFieldType.PM,
+        subBuilder: TensorProto.create)
+    ..hasRequiredFields = false;
 
   VariantTensorDataProto._() : super();
   factory VariantTensorDataProto({
@@ -236,31 +372,42 @@ class VariantTensorDataProto extends $pb.GeneratedMessage {
     }
     return _result;
   }
-  factory VariantTensorDataProto.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory VariantTensorDataProto.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  VariantTensorDataProto clone() => VariantTensorDataProto()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  VariantTensorDataProto copyWith(void Function(VariantTensorDataProto) updates) => super.copyWith((message) => updates(message as VariantTensorDataProto)) as VariantTensorDataProto; // ignore: deprecated_member_use
+  factory VariantTensorDataProto.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory VariantTensorDataProto.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  VariantTensorDataProto clone() =>
+      VariantTensorDataProto()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  VariantTensorDataProto copyWith(
+          void Function(VariantTensorDataProto) updates) =>
+      super.copyWith((message) => updates(message as VariantTensorDataProto))
+          as VariantTensorDataProto; // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static VariantTensorDataProto create() => VariantTensorDataProto._();
   VariantTensorDataProto createEmptyInstance() => create();
-  static $pb.PbList<VariantTensorDataProto> createRepeated() => $pb.PbList<VariantTensorDataProto>();
+  static $pb.PbList<VariantTensorDataProto> createRepeated() =>
+      $pb.PbList<VariantTensorDataProto>();
   @$core.pragma('dart2js:noInline')
-  static VariantTensorDataProto getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<VariantTensorDataProto>(create);
+  static VariantTensorDataProto getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<VariantTensorDataProto>(create);
   static VariantTensorDataProto? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get typeName => $_getSZ(0);
   @$pb.TagNumber(1)
-  set typeName($core.String v) { $_setString(0, v); }
+  set typeName($core.String v) {
+    $_setString(0, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasTypeName() => $_has(0);
   @$pb.TagNumber(1)
@@ -269,7 +416,10 @@ class VariantTensorDataProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.List<$core.int> get metadata => $_getN(1);
   @$pb.TagNumber(2)
-  set metadata($core.List<$core.int> v) { $_setBytes(1, v); }
+  set metadata($core.List<$core.int> v) {
+    $_setBytes(1, v);
+  }
+
   @$pb.TagNumber(2)
   $core.bool hasMetadata() => $_has(1);
   @$pb.TagNumber(2)
@@ -278,4 +428,3 @@ class VariantTensorDataProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.List<TensorProto> get tensors => $_getList(2);
 }
-

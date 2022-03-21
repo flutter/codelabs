@@ -8,4 +8,3 @@
 import 'dart:core' as $core;
 
 export 'types.pbenum.dart';
-

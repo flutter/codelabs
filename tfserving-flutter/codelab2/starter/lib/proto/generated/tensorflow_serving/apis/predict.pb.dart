@@ -13,12 +13,37 @@ import 'model.pb.dart' as $0;
 import '../../tensorflow/core/framework/tensor.pb.dart' as $1;
 
 class PredictRequest extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'PredictRequest', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'tensorflow.serving'), createEmptyInstance: create)
-    ..aOM<$0.ModelSpec>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'modelSpec', subBuilder: $0.ModelSpec.create)
-    ..m<$core.String, $1.TensorProto>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'inputs', entryClassName: 'PredictRequest.InputsEntry', keyFieldType: $pb.PbFieldType.OS, valueFieldType: $pb.PbFieldType.OM, valueCreator: $1.TensorProto.create, packageName: const $pb.PackageName('tensorflow.serving'))
-    ..pPS(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'outputFilter')
-    ..hasRequiredFields = false
-  ;
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'PredictRequest',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'tensorflow.serving'),
+      createEmptyInstance: create)
+    ..aOM<$0.ModelSpec>(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'modelSpec',
+        subBuilder: $0.ModelSpec.create)
+    ..m<$core.String, $1.TensorProto>(
+        2,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'inputs',
+        entryClassName: 'PredictRequest.InputsEntry',
+        keyFieldType: $pb.PbFieldType.OS,
+        valueFieldType: $pb.PbFieldType.OM,
+        valueCreator: $1.TensorProto.create,
+        packageName: const $pb.PackageName('tensorflow.serving'))
+    ..pPS(
+        3,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'outputFilter')
+    ..hasRequiredFields = false;
 
   PredictRequest._() : super();
   factory PredictRequest({
@@ -38,31 +63,40 @@ class PredictRequest extends $pb.GeneratedMessage {
     }
     return _result;
   }
-  factory PredictRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory PredictRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
+  factory PredictRequest.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory PredictRequest.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
   PredictRequest clone() => PredictRequest()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  PredictRequest copyWith(void Function(PredictRequest) updates) => super.copyWith((message) => updates(message as PredictRequest)) as PredictRequest; // ignore: deprecated_member_use
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  PredictRequest copyWith(void Function(PredictRequest) updates) =>
+      super.copyWith((message) => updates(message as PredictRequest))
+          as PredictRequest; // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static PredictRequest create() => PredictRequest._();
   PredictRequest createEmptyInstance() => create();
-  static $pb.PbList<PredictRequest> createRepeated() => $pb.PbList<PredictRequest>();
+  static $pb.PbList<PredictRequest> createRepeated() =>
+      $pb.PbList<PredictRequest>();
   @$core.pragma('dart2js:noInline')
-  static PredictRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<PredictRequest>(create);
+  static PredictRequest getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<PredictRequest>(create);
   static PredictRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
   $0.ModelSpec get modelSpec => $_getN(0);
   @$pb.TagNumber(1)
-  set modelSpec($0.ModelSpec v) { setField(1, v); }
+  set modelSpec($0.ModelSpec v) {
+    setField(1, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasModelSpec() => $_has(0);
   @$pb.TagNumber(1)
@@ -78,11 +112,32 @@ class PredictRequest extends $pb.GeneratedMessage {
 }
 
 class PredictResponse extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'PredictResponse', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'tensorflow.serving'), createEmptyInstance: create)
-    ..m<$core.String, $1.TensorProto>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'outputs', entryClassName: 'PredictResponse.OutputsEntry', keyFieldType: $pb.PbFieldType.OS, valueFieldType: $pb.PbFieldType.OM, valueCreator: $1.TensorProto.create, packageName: const $pb.PackageName('tensorflow.serving'))
-    ..aOM<$0.ModelSpec>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'modelSpec', subBuilder: $0.ModelSpec.create)
-    ..hasRequiredFields = false
-  ;
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'PredictResponse',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'tensorflow.serving'),
+      createEmptyInstance: create)
+    ..m<$core.String, $1.TensorProto>(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'outputs',
+        entryClassName: 'PredictResponse.OutputsEntry',
+        keyFieldType: $pb.PbFieldType.OS,
+        valueFieldType: $pb.PbFieldType.OM,
+        valueCreator: $1.TensorProto.create,
+        packageName: const $pb.PackageName('tensorflow.serving'))
+    ..aOM<$0.ModelSpec>(
+        2,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'modelSpec',
+        subBuilder: $0.ModelSpec.create)
+    ..hasRequiredFields = false;
 
   PredictResponse._() : super();
   factory PredictResponse({
@@ -98,25 +153,31 @@ class PredictResponse extends $pb.GeneratedMessage {
     }
     return _result;
   }
-  factory PredictResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory PredictResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
+  factory PredictResponse.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory PredictResponse.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
   PredictResponse clone() => PredictResponse()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  PredictResponse copyWith(void Function(PredictResponse) updates) => super.copyWith((message) => updates(message as PredictResponse)) as PredictResponse; // ignore: deprecated_member_use
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  PredictResponse copyWith(void Function(PredictResponse) updates) =>
+      super.copyWith((message) => updates(message as PredictResponse))
+          as PredictResponse; // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static PredictResponse create() => PredictResponse._();
   PredictResponse createEmptyInstance() => create();
-  static $pb.PbList<PredictResponse> createRepeated() => $pb.PbList<PredictResponse>();
+  static $pb.PbList<PredictResponse> createRepeated() =>
+      $pb.PbList<PredictResponse>();
   @$core.pragma('dart2js:noInline')
-  static PredictResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<PredictResponse>(create);
+  static PredictResponse getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<PredictResponse>(create);
   static PredictResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -125,7 +186,10 @@ class PredictResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $0.ModelSpec get modelSpec => $_getN(1);
   @$pb.TagNumber(2)
-  set modelSpec($0.ModelSpec v) { setField(2, v); }
+  set modelSpec($0.ModelSpec v) {
+    setField(2, v);
+  }
+
   @$pb.TagNumber(2)
   $core.bool hasModelSpec() => $_has(1);
   @$pb.TagNumber(2)
@@ -133,4 +197,3 @@ class PredictResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $0.ModelSpec ensureModelSpec() => $_ensure(1);
 }
-

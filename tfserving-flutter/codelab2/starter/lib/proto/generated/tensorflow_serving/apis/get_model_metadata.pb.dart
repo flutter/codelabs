@@ -14,10 +14,26 @@ import 'model.pb.dart' as $1;
 import '../../google/protobuf/any.pb.dart' as $2;
 
 class SignatureDefMap extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'SignatureDefMap', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'tensorflow.serving'), createEmptyInstance: create)
-    ..m<$core.String, $0.SignatureDef>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'signatureDef', entryClassName: 'SignatureDefMap.SignatureDefEntry', keyFieldType: $pb.PbFieldType.OS, valueFieldType: $pb.PbFieldType.OM, valueCreator: $0.SignatureDef.create, packageName: const $pb.PackageName('tensorflow.serving'))
-    ..hasRequiredFields = false
-  ;
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'SignatureDefMap',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'tensorflow.serving'),
+      createEmptyInstance: create)
+    ..m<$core.String, $0.SignatureDef>(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'signatureDef',
+        entryClassName: 'SignatureDefMap.SignatureDefEntry',
+        keyFieldType: $pb.PbFieldType.OS,
+        valueFieldType: $pb.PbFieldType.OM,
+        valueCreator: $0.SignatureDef.create,
+        packageName: const $pb.PackageName('tensorflow.serving'))
+    ..hasRequiredFields = false;
 
   SignatureDefMap._() : super();
   factory SignatureDefMap({
@@ -29,25 +45,31 @@ class SignatureDefMap extends $pb.GeneratedMessage {
     }
     return _result;
   }
-  factory SignatureDefMap.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory SignatureDefMap.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
+  factory SignatureDefMap.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory SignatureDefMap.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
   SignatureDefMap clone() => SignatureDefMap()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  SignatureDefMap copyWith(void Function(SignatureDefMap) updates) => super.copyWith((message) => updates(message as SignatureDefMap)) as SignatureDefMap; // ignore: deprecated_member_use
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  SignatureDefMap copyWith(void Function(SignatureDefMap) updates) =>
+      super.copyWith((message) => updates(message as SignatureDefMap))
+          as SignatureDefMap; // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static SignatureDefMap create() => SignatureDefMap._();
   SignatureDefMap createEmptyInstance() => create();
-  static $pb.PbList<SignatureDefMap> createRepeated() => $pb.PbList<SignatureDefMap>();
+  static $pb.PbList<SignatureDefMap> createRepeated() =>
+      $pb.PbList<SignatureDefMap>();
   @$core.pragma('dart2js:noInline')
-  static SignatureDefMap getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<SignatureDefMap>(create);
+  static SignatureDefMap getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<SignatureDefMap>(create);
   static SignatureDefMap? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -55,11 +77,27 @@ class SignatureDefMap extends $pb.GeneratedMessage {
 }
 
 class GetModelMetadataRequest extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'GetModelMetadataRequest', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'tensorflow.serving'), createEmptyInstance: create)
-    ..aOM<$1.ModelSpec>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'modelSpec', subBuilder: $1.ModelSpec.create)
-    ..pPS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'metadataField')
-    ..hasRequiredFields = false
-  ;
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'GetModelMetadataRequest',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'tensorflow.serving'),
+      createEmptyInstance: create)
+    ..aOM<$1.ModelSpec>(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'modelSpec',
+        subBuilder: $1.ModelSpec.create)
+    ..pPS(
+        2,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'metadataField')
+    ..hasRequiredFields = false;
 
   GetModelMetadataRequest._() : super();
   factory GetModelMetadataRequest({
@@ -75,31 +113,42 @@ class GetModelMetadataRequest extends $pb.GeneratedMessage {
     }
     return _result;
   }
-  factory GetModelMetadataRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory GetModelMetadataRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  GetModelMetadataRequest clone() => GetModelMetadataRequest()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  GetModelMetadataRequest copyWith(void Function(GetModelMetadataRequest) updates) => super.copyWith((message) => updates(message as GetModelMetadataRequest)) as GetModelMetadataRequest; // ignore: deprecated_member_use
+  factory GetModelMetadataRequest.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory GetModelMetadataRequest.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  GetModelMetadataRequest clone() =>
+      GetModelMetadataRequest()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  GetModelMetadataRequest copyWith(
+          void Function(GetModelMetadataRequest) updates) =>
+      super.copyWith((message) => updates(message as GetModelMetadataRequest))
+          as GetModelMetadataRequest; // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static GetModelMetadataRequest create() => GetModelMetadataRequest._();
   GetModelMetadataRequest createEmptyInstance() => create();
-  static $pb.PbList<GetModelMetadataRequest> createRepeated() => $pb.PbList<GetModelMetadataRequest>();
+  static $pb.PbList<GetModelMetadataRequest> createRepeated() =>
+      $pb.PbList<GetModelMetadataRequest>();
   @$core.pragma('dart2js:noInline')
-  static GetModelMetadataRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetModelMetadataRequest>(create);
+  static GetModelMetadataRequest getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<GetModelMetadataRequest>(create);
   static GetModelMetadataRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
   $1.ModelSpec get modelSpec => $_getN(0);
   @$pb.TagNumber(1)
-  set modelSpec($1.ModelSpec v) { setField(1, v); }
+  set modelSpec($1.ModelSpec v) {
+    setField(1, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasModelSpec() => $_has(0);
   @$pb.TagNumber(1)
@@ -112,11 +161,32 @@ class GetModelMetadataRequest extends $pb.GeneratedMessage {
 }
 
 class GetModelMetadataResponse extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'GetModelMetadataResponse', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'tensorflow.serving'), createEmptyInstance: create)
-    ..aOM<$1.ModelSpec>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'modelSpec', subBuilder: $1.ModelSpec.create)
-    ..m<$core.String, $2.Any>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'metadata', entryClassName: 'GetModelMetadataResponse.MetadataEntry', keyFieldType: $pb.PbFieldType.OS, valueFieldType: $pb.PbFieldType.OM, valueCreator: $2.Any.create, packageName: const $pb.PackageName('tensorflow.serving'))
-    ..hasRequiredFields = false
-  ;
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'GetModelMetadataResponse',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'tensorflow.serving'),
+      createEmptyInstance: create)
+    ..aOM<$1.ModelSpec>(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'modelSpec',
+        subBuilder: $1.ModelSpec.create)
+    ..m<$core.String, $2.Any>(
+        2,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'metadata',
+        entryClassName: 'GetModelMetadataResponse.MetadataEntry',
+        keyFieldType: $pb.PbFieldType.OS,
+        valueFieldType: $pb.PbFieldType.OM,
+        valueCreator: $2.Any.create,
+        packageName: const $pb.PackageName('tensorflow.serving'))
+    ..hasRequiredFields = false;
 
   GetModelMetadataResponse._() : super();
   factory GetModelMetadataResponse({
@@ -132,31 +202,42 @@ class GetModelMetadataResponse extends $pb.GeneratedMessage {
     }
     return _result;
   }
-  factory GetModelMetadataResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory GetModelMetadataResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  GetModelMetadataResponse clone() => GetModelMetadataResponse()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  GetModelMetadataResponse copyWith(void Function(GetModelMetadataResponse) updates) => super.copyWith((message) => updates(message as GetModelMetadataResponse)) as GetModelMetadataResponse; // ignore: deprecated_member_use
+  factory GetModelMetadataResponse.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory GetModelMetadataResponse.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  GetModelMetadataResponse clone() =>
+      GetModelMetadataResponse()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  GetModelMetadataResponse copyWith(
+          void Function(GetModelMetadataResponse) updates) =>
+      super.copyWith((message) => updates(message as GetModelMetadataResponse))
+          as GetModelMetadataResponse; // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static GetModelMetadataResponse create() => GetModelMetadataResponse._();
   GetModelMetadataResponse createEmptyInstance() => create();
-  static $pb.PbList<GetModelMetadataResponse> createRepeated() => $pb.PbList<GetModelMetadataResponse>();
+  static $pb.PbList<GetModelMetadataResponse> createRepeated() =>
+      $pb.PbList<GetModelMetadataResponse>();
   @$core.pragma('dart2js:noInline')
-  static GetModelMetadataResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetModelMetadataResponse>(create);
+  static GetModelMetadataResponse getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<GetModelMetadataResponse>(create);
   static GetModelMetadataResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
   $1.ModelSpec get modelSpec => $_getN(0);
   @$pb.TagNumber(1)
-  set modelSpec($1.ModelSpec v) { setField(1, v); }
+  set modelSpec($1.ModelSpec v) {
+    setField(1, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasModelSpec() => $_has(0);
   @$pb.TagNumber(1)
@@ -167,4 +248,3 @@ class GetModelMetadataResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.Map<$core.String, $2.Any> get metadata => $_getMap(1);
 }
-

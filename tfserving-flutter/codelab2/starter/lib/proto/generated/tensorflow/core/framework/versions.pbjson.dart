@@ -8,6 +8,7 @@
 import 'dart:core' as $core;
 import 'dart:convert' as $convert;
 import 'dart:typed_data' as $typed_data;
+
 @$core.Deprecated('Use versionDefDescriptor instead')
 const VersionDef$json = const {
   '1': 'VersionDef',
@@ -19,4 +20,5 @@ const VersionDef$json = const {
 };
 
 /// Descriptor for `VersionDef`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List versionDefDescriptor = $convert.base64Decode('CgpWZXJzaW9uRGVmEhoKCHByb2R1Y2VyGAEgASgFUghwcm9kdWNlchIhCgxtaW5fY29uc3VtZXIYAiABKAVSC21pbkNvbnN1bWVyEiMKDWJhZF9jb25zdW1lcnMYAyADKAVSDGJhZENvbnN1bWVycw==');
+final $typed_data.Uint8List versionDefDescriptor = $convert.base64Decode(
+    'CgpWZXJzaW9uRGVmEhoKCHByb2R1Y2VyGAEgASgFUghwcm9kdWNlchIhCgxtaW5fY29uc3VtZXIYAiABKAVSC21pbkNvbnN1bWVyEiMKDWJhZF9jb25zdW1lcnMYAyADKAVSDGJhZENvbnN1bWVycw==');
