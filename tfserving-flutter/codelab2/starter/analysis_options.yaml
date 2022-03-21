@@ -11,6 +11,9 @@ include: package:flutter_lints/flutter.yaml
 
 analyzer:
   exclude: [lib/proto/generated/**]
+  errors:
+    unused_import: ignore
+    unused_field: ignore
 
 linter:
   # The lint rules applied to this project can be customized in the
