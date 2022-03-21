@@ -13,11 +13,11 @@ import 'proto/generated/tensorflow_serving/apis/model.pb.dart';
 import 'proto/generated/tensorflow_serving/apis/predict.pb.dart';
 import 'proto/generated/tensorflow_serving/apis/prediction_service.pbgrpc.dart';
 
-enum connectionModeType { GRPC, REST }
+enum connectionModeType { grpc, rest }
 
 const server = '10.0.2.2';
-const GRPCPort = 8500;
-const RESTPort = 8501;
+const grpcPort = 8500;
+const restPort = 8501;
 const modelName = 'spam-detection';
 const signatureName = 'serving_default';
 
@@ -45,7 +45,7 @@ class _TFServingDemoState extends State<TFServingDemo> {
   late List<int> _tokenIndices;
   bool? usegRPC = true;
 
-  connectionModeType? _connectionMode = connectionModeType.GRPC;
+  connectionModeType? _connectionMode = connectionModeType.grpc;
   late PredictionServiceClient stub;
 
   @override
@@ -82,7 +82,7 @@ class _TFServingDemoState extends State<TFServingDemo> {
                       ListTile(
                         title: const Text('gRPC'),
                         leading: Radio<connectionModeType>(
-                          value: connectionModeType.GRPC,
+                          value: connectionModeType.grpc,
                           groupValue: _connectionMode,
                           onChanged: (connectionModeType? value) {
                             setState(() {
@@ -94,7 +94,7 @@ class _TFServingDemoState extends State<TFServingDemo> {
                       ListTile(
                         title: const Text('REST'),
                         leading: Radio<connectionModeType>(
-                          value: connectionModeType.REST,
+                          value: connectionModeType.rest,
                           groupValue: _connectionMode,
                           onChanged: (connectionModeType? value) {
                             setState(() {
@@ -155,7 +155,7 @@ class _TFServingDemoState extends State<TFServingDemo> {
 
     // TODO: tokenize the input sentence.
 
-    if (_connectionMode == connectionModeType.REST) {
+    if (_connectionMode == connectionModeType.rest) {
       // TODO: create and send the REST request
 
       // TODO: process the REST response
