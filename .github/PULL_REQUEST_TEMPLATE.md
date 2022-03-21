@@ -5,7 +5,7 @@ reduce redundant work.*
 
 ## Pre-launch Checklist
 
-- [ ] I read the [Flutter Style Guide] _recently_, and have followed its advice.
+- [ ] I read the [Effective Dart: Style] _recently_, and have followed its advice.
 - [ ] I signed the [CLA].
 - [ ] I updated/added relevant documentation (doc comments with `///`).
 - [ ] All existing and new tests are passing.
@@ -13,6 +13,6 @@ reduce redundant work.*
 If you need help, consider asking for advice on the #hackers-devrel channel on [Discord].
 
 <!-- Links -->
-[Flutter Style Guide]: https://github.com/flutter/flutter/wiki/Style-guide-for-Flutter-repo
+[Effective Dart: Style]: https://dart.dev/guides/language/effective-dart/style
 [CLA]: https://cla.developers.google.com/
 [Discord]: https://github.com/flutter/flutter/wiki/Chat
