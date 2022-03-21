@@ -1,4 +1,4 @@
-# Firebase iOS requires iOS 10: https://firebase.flutter.dev/docs/installation/ios/#ios-supported-versions
+# Cloud Firestore requires iOS 10: https://firebase.flutter.dev/docs/manual-installation/ios#ios-supported-versions
 platform :ios, '10.0'
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
