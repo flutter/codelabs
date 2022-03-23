@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io' show Platform;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -15,7 +16,6 @@ import 'proto/generated/tensorflow_serving/apis/prediction_service.pbgrpc.dart';
 
 enum connectionModeType { grpc, rest }
 
-const server = '10.0.2.2';
 const grpcPort = 8500;
 const restPort = 8501;
 const modelName = 'spam-detection';
@@ -44,9 +44,10 @@ class _TFServingDemoState extends State<TFServingDemo> {
       TextEditingController();
   late List<int> _tokenIndices;
   bool? usegRPC = true;
+  late String _server;
 
   connectionModeType? _connectionMode = connectionModeType.grpc;
-  late PredictionServiceClient stub;
+  late PredictionServiceClient _stub;
 
   @override
   void initState() {
@@ -151,6 +152,14 @@ class _TFServingDemoState extends State<TFServingDemo> {
   }
 
   Future<String> predict() async {
+    if (Platform.isAndroid) {
+      // For Android
+      _server = "10.0.0.2";
+    } else {
+      // For iOS/desktop
+      _server = "localhost";
+    }
+
     if (_vocabMap.isEmpty) {
       final vocabFileString = await rootBundle.loadString(vocabFile);
       final lines = vocabFileString.split('\n');
@@ -185,7 +194,7 @@ class _TFServingDemoState extends State<TFServingDemo> {
     if (_connectionMode == connectionModeType.rest) {
       final response = await http.post(
         Uri.parse('http://' +
-            server +
+            _server +
             ':' +
             restPort.toString() +
             '/v1/models/' +
@@ -208,11 +217,11 @@ class _TFServingDemoState extends State<TFServingDemo> {
         throw Exception('Error response');
       }
     } else {
-      final channel = ClientChannel(server,
+      final channel = ClientChannel(_server,
           port: grpcPort,
           options:
               const ChannelOptions(credentials: ChannelCredentials.insecure()));
-      stub = PredictionServiceClient(channel,
+      _stub = PredictionServiceClient(channel,
           options: CallOptions(timeout: const Duration(seconds: 10)));
 
       ModelSpec modelSpec = ModelSpec(
@@ -237,7 +246,7 @@ class _TFServingDemoState extends State<TFServingDemo> {
       PredictRequest request = PredictRequest(
           modelSpec: modelSpec, inputs: {inputTensorName: inputTensor});
 
-      PredictResponse response = await stub.predict(request);
+      PredictResponse response = await _stub.predict(request);
 
       if (response.outputs.containsKey(outputTensorName)) {
         if (response.outputs[outputTensorName]!.floatVal[1] >
