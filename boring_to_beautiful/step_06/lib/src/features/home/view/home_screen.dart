@@ -83,10 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 AdaptiveContainer(
                   columnSpan: 12,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 40,
-                    ),
+                    padding: const EdgeInsets.fromLTRB(20, 25, 20, 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -124,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Padding(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 15,
-                          vertical: 20,
+                          vertical: 10,
                         ),
                         child: Text(
                           'Recently played',

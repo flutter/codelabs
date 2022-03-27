@@ -83,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 AdaptiveContainer(
                   columnSpan: 12,
                   child: Padding(
-                    padding: const EdgeInsets.all(2),
+                    padding: const EdgeInsets.all(2), // Modify this line
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -119,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.all(2),
+                        padding: const EdgeInsets.all(2), // Modify this line
                         child: Text(
                           'Recently played',
                           style: context.headlineSmall,
@@ -134,7 +134,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 AdaptiveContainer(
                   columnSpan: 12,
                   child: Padding(
-                    padding: const EdgeInsets.all(2),
+                    padding: const EdgeInsets.all(2), // Modify this line
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -145,7 +145,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.all(2),
+                                padding:
+                                    const EdgeInsets.all(2), // Modify this line
                                 child: Text(
                                   'Top Songs Today',
                                   style: context.titleLarge,
@@ -161,6 +162,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ],
                           ),
                         ),
+                        // Add spacer between tables
                         Flexible(
                           flex: 10,
                           child: Column(
@@ -168,7 +170,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.all(2),
+                                padding:
+                                    const EdgeInsets.all(2), // Modify this line
                                 child: Text(
                                   'New Releases',
                                   style: context.titleLarge,
