@@ -7,6 +7,9 @@ List diffDirs(List<Directory> dirs) {
     final b = dirs[idx + 1];
     diffs.add(_diff(a, b));
   }
+  return diffs;
 }
 
-Object _diff(Directory a, Directory b) {}
+Object _diff(Directory a, Directory b) {
+  return {};
+}
