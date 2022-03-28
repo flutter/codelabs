@@ -25,7 +25,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
-  google_maps_flutter: abdb8dee6c52d4be36ad131ee6ebfacd14417c5a
+  google_maps_flutter: fe98b02bbb6717c7297c7747b84c4ead2bc5fc3b
   GoogleMaps: 025272d5876d3b32604e5c080dc25eaf68764693
 
 PODFILE CHECKSUM: 503f1cad110f7f9d3dc4f16ce433ea975be41e4b
