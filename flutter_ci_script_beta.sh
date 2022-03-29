@@ -7,6 +7,7 @@ source "$DIR/flutter_ci_script_shared.sh"
 
 declare -a CODELABS=(
   "adaptive_app"
+  "boring_to_beautiful"
   "cookbook"
   "cupertino_store"
   "dartpad_codelabs"
@@ -18,8 +19,10 @@ declare -a CODELABS=(
   "photos-sharing"
   "star_counter"
   "startup_namer"
-  "testing_codelab"
-  "tfserving-flutter"
+  # TODO(domesticmouse): re-enable once stable inncrements
+  # "testing_codelab"
+  # TODO(domesticmouse): re-enable post I/O
+  # "tfserving-flutter"
   "webview_flutter"
   )
 
