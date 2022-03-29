@@ -107,7 +107,7 @@ final appRouter = GoRouter(
           path: ':aid',
           pageBuilder: (context, state) => MaterialPage<void>(
             key: state.pageKey,
-            child:  RootLayout(
+            child: RootLayout(
               key: _scaffoldKey,
               currentIndex: 2,
               child: ArtistScreen(

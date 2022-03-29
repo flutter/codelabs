@@ -674,16 +674,16 @@ class _MobilePlayer extends StatelessWidget {
         ),
         if (current != null) ...[
           if (dimens.biggest.height > 500)
-          Positioned(
-            top: kToolbarHeight,
-            left: 0,
-            right: 0,
-            height: dimens.biggest.height * 0.5,
-            child: Image.asset(
-              current.song.image.image,
-              fit: BoxFit.contain,
+            Positioned(
+              top: kToolbarHeight,
+              left: 0,
+              right: 0,
+              height: dimens.biggest.height * 0.5,
+              child: Image.asset(
+                current.song.image.image,
+                fit: BoxFit.contain,
+              ),
             ),
-          ),
           Positioned(
             left: 0,
             right: 0,

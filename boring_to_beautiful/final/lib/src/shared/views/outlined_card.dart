@@ -34,7 +34,9 @@ class _OutlinedCardState extends State<OutlinedCard> {
           _hovered = false;
         });
       },
-      cursor: widget.clickable ? SystemMouseCursors.click : SystemMouseCursors.basic,
+      cursor: widget.clickable
+          ? SystemMouseCursors.click
+          : SystemMouseCursors.basic,
       child: AnimatedContainer(
         duration: kThemeAnimationDuration,
         curve: animationCurve,
