@@ -48,7 +48,7 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return GithubLoginWidget(
       builder: (context, httpClient) {
-        WindowToFront.activate(); // and this.
+        WindowToFront.activate();
         return Scaffold(
           appBar: AppBar(
             title: Text(title),
