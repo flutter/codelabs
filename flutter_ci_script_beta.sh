@@ -7,6 +7,7 @@ source "$DIR/flutter_ci_script_shared.sh"
 
 declare -a CODELABS=(
   "adaptive_app"
+  "boring_to_beautiful"
   "cookbook"
   "cupertino_store"
   "dartpad_codelabs"
