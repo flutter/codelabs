@@ -9,13 +9,6 @@ function ci_codelabs () {
     dart format --output none --set-exit-if-changed .;
     popd
 
-    # Grab packages.
-    for dir in `find . -name pubspec.yaml -exec dirname {} \;`; do
-      pushd $dir
-      flutter pub get
-      popd
-    done
-
     local arr=("$@")
     for CODELAB in "${arr[@]}"
     do
@@ -26,7 +19,16 @@ function ci_codelabs () {
         for PROJECT in "${PROJECT_PATHS[@]}"
         do
             pushd "${PROJECT}"
-            echo "== Testing '${PROJECT}'"
+
+            echo "== Getting dependencies for ${PROJECT}"
+            for dir in `find . -name pubspec.yaml -exec dirname {} \;`; do
+                pushd $dir
+                flutter pub get
+                popd
+            done
+
+
+            echo "== Testing"
 
             # Run the analyzer to find any static analysis issues.
             dart analyze --fatal-infos
