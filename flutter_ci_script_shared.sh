@@ -21,7 +21,12 @@ function ci_codelabs () {
             pushd "${PROJECT}"
 
             echo "== Getting dependencies for ${PROJECT}"
-            flutter pub get
+            for dir in `find . -name pubspec.yaml -exec dirname {} \;`; do
+                pushd $dir
+                flutter pub get
+                popd
+            done
+
 
             echo "== Testing"
 
