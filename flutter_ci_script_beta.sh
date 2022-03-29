@@ -18,8 +18,10 @@ declare -a CODELABS=(
   "photos-sharing"
   "star_counter"
   "startup_namer"
-  "testing_codelab"
-  "tfserving-flutter"
+  # TODO(domesticmouse): re-enable once stable inncrements
+  # "testing_codelab"
+  # TODO(domesticmouse): re-enable post I/O
+  # "tfserving-flutter"
   "webview_flutter"
   )
 

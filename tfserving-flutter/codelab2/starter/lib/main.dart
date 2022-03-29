@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io' show Platform;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -15,7 +16,6 @@ import 'proto/generated/tensorflow_serving/apis/prediction_service.pbgrpc.dart';
 
 enum connectionModeType { grpc, rest }
 
-const server = '10.0.2.2';
 const grpcPort = 8500;
 const restPort = 8501;
 const modelName = 'spam-detection';
@@ -44,9 +44,10 @@ class _TFServingDemoState extends State<TFServingDemo> {
       TextEditingController();
   late List<int> _tokenIndices;
   bool? usegRPC = true;
+  late String _server;
 
   connectionModeType? _connectionMode = connectionModeType.grpc;
-  late PredictionServiceClient stub;
+  late PredictionServiceClient _stub;
 
   @override
   void initState() {
@@ -151,6 +152,13 @@ class _TFServingDemoState extends State<TFServingDemo> {
   }
 
   Future<String> predict() async {
+    if (Platform.isAndroid) {
+      // For Android
+      _server = "10.0.0.2";
+    } else {
+      // For iOS/desktop
+      _server = "localhost";
+    }
     // TODO: build _vocabMap if empty
 
     // TODO: tokenize the input sentence.
