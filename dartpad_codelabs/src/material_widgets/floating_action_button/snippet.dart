@@ -29,10 +29,7 @@ class HomePage extends StatelessWidget {
         ),
       ),
 
-
       // Add a floatingActionButton to the Scaffold!
-
-
     );
   }
 }

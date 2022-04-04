@@ -23,10 +23,7 @@ class HomePage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-
               // Add a LinearProgressIndicator and CircularProgressIndicator
-
-
             ],
           ),
         ),

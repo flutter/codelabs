@@ -32,20 +32,19 @@ class HomePage extends StatelessWidget {
         // Use the ScaffoldMessenger to display a Snackbar when the user taps the FAB
         onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            // Configure the material properties: background color and elevation
-            backgroundColor: Colors.green,
-            elevation: 5,
+              // Configure the material properties: background color and elevation
+              backgroundColor: Colors.green,
+              elevation: 5,
 
-            // The Message to display to the user
-            content: Text('FloatingActionButton Pressed'),
+              // The Message to display to the user
+              content: Text('FloatingActionButton Pressed'),
 
-            // Additional action the user may take, such as "Undo". The 
-            // following action hides all Snackbars when tapped.
-            action: SnackBarAction(
-              label: 'Undo',
-              onPressed: () => ScaffoldMessenger.of(context).clearSnackBars(),
-            )
-          ),
+              // Additional action the user may take, such as "Undo". The
+              // following action hides all Snackbars when tapped.
+              action: SnackBarAction(
+                label: 'Undo',
+                onPressed: () => ScaffoldMessenger.of(context).clearSnackBars(),
+              )),
         ),
         child: Icon(Icons.send),
       ),

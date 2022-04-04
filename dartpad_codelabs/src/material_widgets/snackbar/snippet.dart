@@ -32,11 +32,8 @@ class HomePage extends StatelessWidget {
         backgroundColor: Colors.orange,
         tooltip: 'Send Message',
 
-
         // Use the ScaffoldMessenger to display a Scaffold widget
         onPressed: () => print('FloatingActionButton pressed'),
-
-
 
         child: Icon(Icons.send),
       ),

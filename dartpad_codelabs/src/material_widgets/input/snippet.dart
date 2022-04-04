@@ -21,10 +21,7 @@ class HomePage extends StatelessWidget {
         padding: EdgeInsets.all(20),
         child: Column(
           children: [
-
             // Add two TextFields here!
-
-
           ],
         ),
       ),
