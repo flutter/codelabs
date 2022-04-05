@@ -14,7 +14,7 @@ import 'proto/generated/tensorflow_serving/apis/model.pb.dart';
 import 'proto/generated/tensorflow_serving/apis/predict.pb.dart';
 import 'proto/generated/tensorflow_serving/apis/prediction_service.pbgrpc.dart';
 
-enum connectionModeType { grpc, rest }
+enum ConnectionModeType { grpc, rest }
 
 const grpcPort = 8500;
 const restPort = 8501;
@@ -46,7 +46,7 @@ class _TFServingDemoState extends State<TFServingDemo> {
   bool? usegRPC = true;
   late String _server;
 
-  connectionModeType? _connectionMode = connectionModeType.grpc;
+  ConnectionModeType? _connectionMode = ConnectionModeType.grpc;
   late PredictionServiceClient _stub;
 
   @override
@@ -82,10 +82,10 @@ class _TFServingDemoState extends State<TFServingDemo> {
                     children: <Widget>[
                       ListTile(
                         title: const Text('gRPC'),
-                        leading: Radio<connectionModeType>(
-                          value: connectionModeType.grpc,
+                        leading: Radio<ConnectionModeType>(
+                          value: ConnectionModeType.grpc,
                           groupValue: _connectionMode,
-                          onChanged: (connectionModeType? value) {
+                          onChanged: (ConnectionModeType? value) {
                             setState(() {
                               _connectionMode = value;
                             });
@@ -94,10 +94,10 @@ class _TFServingDemoState extends State<TFServingDemo> {
                       ),
                       ListTile(
                         title: const Text('REST'),
-                        leading: Radio<connectionModeType>(
-                          value: connectionModeType.rest,
+                        leading: Radio<ConnectionModeType>(
+                          value: ConnectionModeType.rest,
                           groupValue: _connectionMode,
-                          onChanged: (connectionModeType? value) {
+                          onChanged: (ConnectionModeType? value) {
                             setState(() {
                               _connectionMode = value;
                             });
@@ -191,7 +191,7 @@ class _TFServingDemoState extends State<TFServingDemo> {
       }
     }
 
-    if (_connectionMode == connectionModeType.rest) {
+    if (_connectionMode == ConnectionModeType.rest) {
       final response = await http.post(
         Uri.parse('http://' +
             _server +

@@ -20,8 +20,7 @@ declare -a CODELABS=(
   "star_counter"
   "startup_namer"
   "testing_codelab"
-  # TODO(domesticmouse): re-enable post I/O
-  # "tfserving-flutter"
+  "tfserving-flutter"
   "webview_flutter"
   )
 
