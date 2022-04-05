@@ -36,5 +36,7 @@ Scaffold(
   2. Customize the `Icon`
   3. Customize the `backgroundColor` and `elevation`
   4. Configure the `tooltip`. When is the tooltip message displayed?
-  5. `print` a message to the console when a user presses the button.
-  
+  5. `print` a message to the Console when a user presses the button. Note:
+     printed messages appear in the "Console" tab, next to the "UI Output" tab.
+     In the next step, you'll learn how to display Material Design messages to
+     the user!
