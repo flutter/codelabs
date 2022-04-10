@@ -1,0 +1,30 @@
+name: Material Widgets
+type: flutter
+steps:
+  - name: MaterialApp
+    directory: material_app
+    has_solution: true
+  - name: Material Widget
+    directory: material_widget
+    has_solution: true
+  - name: Scaffold and AppBar
+    directory: scaffold
+    has_solution: true
+  - name: FloatingActionButton
+    directory: floating_action_button
+    has_solution: true
+  - name: Snackbar
+    directory: snackbar
+    has_solution: true
+  - name: Buttons
+    directory: buttons
+    has_solution: true
+  - name: Input
+    directory: input
+    has_solution: true
+  - name: Progress Indicators
+    directory: progress_indicators
+    has_solution: true
+  - name: Conclusion
+    directory: conclusion
+    has_solution: false
