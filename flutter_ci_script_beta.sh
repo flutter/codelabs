@@ -21,8 +21,7 @@ declare -a CODELABS=(
   "startup_namer"
   # TODO(domesticmouse): re-enable once stable inncrements
   # "testing_codelab"
-  # TODO(domesticmouse): re-enable post I/O
-  # "tfserving-flutter"
+  "tfserving-flutter"
   "webview_flutter"
   )
 
