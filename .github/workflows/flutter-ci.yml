@@ -30,6 +30,9 @@ jobs:
       - uses: subosito/flutter-action@4389e6cbc6cb8a4b18c628ff96ff90be0e926aa8
         with:
           channel: ${{ matrix.flutter_version }}
+      - name: Install rosetta
+        if: runner.os == 'macOS'
+        run: softwareupdate --install-rosetta
       - run: dart --version
       - run: flutter --version
       - run: ./flutter_ci_script_${{ matrix.flutter_version }}.sh
