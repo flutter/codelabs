@@ -32,7 +32,7 @@ jobs:
           channel: ${{ matrix.flutter_version }}
       - name: Install rosetta
         if: runner.os == 'macOS'
-        run: if [ `uname -m` = 'arm64' ]; then; softwareupdate --install-rosetta; fi
+        run: if [ `uname -m` = 'arm64' ]; then softwareupdate --install-rosetta; fi
       - run: dart --version
       - run: flutter --version
       - run: ./flutter_ci_script_${{ matrix.flutter_version }}.sh
