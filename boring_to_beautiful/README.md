@@ -39,8 +39,7 @@ Images sourced from Adobe Stock and Unsplash.
 - [artist3-album1.jpg](https://unsplash.com/photos/apYiDRNa-pY): Alice Alinari
 - [artist4-album1.jpg](https://unsplash.com/photos/ZWDg7v2FPWE): Jr Korpa
 - [artist4-album2.jpg](https://unsplash.com/photos/RQgKM1h2agA): Alexandru Acea
-- [artist4-album3.jpg](https://unsplash.com/photos/rX12B5uX7QM): 
-Stormseeker
+- [artist4-album3.jpg](https://unsplash.com/photos/rX12B5uX7QM): Stormseeker
 - [artist5-album1.jpg](https://unsplash.com/photos/2FLzsOu-7Do): pawel szvmanski
 - [artist5-album2.jpg](https://unsplash.com/photos/Q4LxHmaygHA): pawel szvmanski
 - [artist6-album1.jpg](https://unsplash.com/photos/cTKGZJTMJQU): Drew Dizzy Graham
