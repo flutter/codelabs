@@ -197,7 +197,7 @@ packages:
       name: google_sign_in_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.10.0+5"
+    version: "0.10.1"
   http_parser:
     dependency: transitive
     description:
@@ -232,7 +232,7 @@ packages:
       name: in_app_purchase_storekit
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.0+1"
+    version: "0.3.0+4"
   intl:
     dependency: "direct main"
     description:
@@ -380,4 +380,4 @@ packages:
     version: "2.1.1"
 sdks:
   dart: ">=2.16.0 <3.0.0"
-  flutter: ">=2.5.0"
+  flutter: ">=2.8.0"
