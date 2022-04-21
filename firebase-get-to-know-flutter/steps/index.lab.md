@@ -656,7 +656,7 @@ class _GuestBookState extends State<GuestBook> {
 }
 ```
 
-There are a couple of points of interest here. First up, you are instantiating a Form so upi can validate the message actually has some content, and show the user an error message if there isn't any. The way to validate a form involves accessing the form state behind the form, and for this you use a `GlobalKey`. For more information on Keys, and how to use them, please see the  [Flutter Widgets 101 episode "When to Use Keys"](https://www.youtube.com/watch?v=kn0EOS-ZiIc).
+There are a couple of points of interest here. First up, you are instantiating a Form so you can validate the message actually has some content, and show the user an error message if there isn't any. The way to validate a form involves accessing the form state behind the form, and for this you use a `GlobalKey`. For more information on Keys, and how to use them, please see the  [Flutter Widgets 101 episode "When to Use Keys"](https://www.youtube.com/watch?v=kn0EOS-ZiIc).
 
 Also note the way the widgets are laid out, you have a `Row`, with a `TextFormField` and a `StyledButton`, which itself contains a `Row`. Also note the `TextFormField` is wrapped in an `Expanded` widget, this forces the `TextFormField` to take up any extra space in the row. To better understand why this is required, please read through  [Understanding constraints](https://flutter.dev/docs/development/ui/layout/constraints).
 
