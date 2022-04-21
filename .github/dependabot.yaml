@@ -1,6 +1,10 @@
 version: 2
 enable-beta-ecosystems: true
 updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
   - package-ecosystem: "pub"
     directory: "/adaptive_app/step_03/"
     schedule:
