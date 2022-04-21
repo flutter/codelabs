@@ -26,10 +26,12 @@ jobs:
       - uses: actions/checkout@v3.0.1
       - uses: actions/setup-java@v3.1.1
         with:
+          distribution: 'zulu' # See https://github.com/actions/setup-java#supported-distributions
           java-version: "12.x"
-      - uses: subosito/flutter-action@main
+      - uses: subosito/flutter-action@main # TODO: Set pin version once flutter-action releases
         with:
           channel: ${{ matrix.flutter_version }}
       - run: dart --version
       - run: flutter --version
       - run: ./flutter_ci_script_${{ matrix.flutter_version }}.sh
+      
