@@ -16,9 +16,16 @@ class MyApp extends StatelessWidget {
   // #docregion build
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'Startup Name Generator',
-      home: RandomWords(),
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('Startup Name Generator'),
+        ),
+        body: const Center(
+          child: RandomWords(),
+        ),
+      ),
     );
   }
   // #enddocregion build
@@ -28,36 +35,31 @@ class MyApp extends StatelessWidget {
 // #docregion RWS-var
 class _RandomWordsState extends State<RandomWords> {
   final _suggestions = <WordPair>[];
-  final _biggerFont = const TextStyle(fontSize: 18.0);
+  final _biggerFont = const TextStyle(fontSize: 18);
   // #enddocregion RWS-var
 
   // #docregion RWS-build
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Startup Name Generator'),
-      ),
-      // #docregion itemBuilder
-      body: ListView.builder(
-        padding: const EdgeInsets.all(16.0),
-        itemBuilder: /*1*/ (context, i) {
-          if (i.isOdd) return const Divider(); /*2*/
+    // #docregion itemBuilder
+    return ListView.builder(
+      padding: const EdgeInsets.all(16.0),
+      itemBuilder: /*1*/ (context, i) {
+        if (i.isOdd) return const Divider(); /*2*/
 
-          final index = i ~/ 2; /*3*/
-          if (index >= _suggestions.length) {
-            _suggestions.addAll(generateWordPairs().take(10)); /*4*/
-          }
-          // #docregion listTile
-          return ListTile(
-            title: Text(
-              _suggestions[index].asPascalCase,
-              style: _biggerFont,
-            ),
-          );
-          // #enddocregion listTile
-        },
-      ),
+        final index = i ~/ 2; /*3*/
+        if (index >= _suggestions.length) {
+          _suggestions.addAll(generateWordPairs().take(10)); /*4*/
+        }
+        // #docregion listTile
+        return ListTile(
+          title: Text(
+            _suggestions[index].asPascalCase,
+            style: _biggerFont,
+          ),
+        );
+        // #enddocregion listTile
+      },
       // #enddocregion itemBuilder
     );
   }
@@ -70,5 +72,5 @@ class RandomWords extends StatefulWidget {
   const RandomWords({Key? key}) : super(key: key);
 
   @override
-  _RandomWordsState createState() => _RandomWordsState();
+  State<RandomWords> createState() => _RandomWordsState();
 }
