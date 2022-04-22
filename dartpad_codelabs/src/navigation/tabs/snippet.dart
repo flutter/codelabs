@@ -12,10 +12,10 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO #3: Wrap the Scaffold inside a DefaultTabController widget. 
+    // TODO #3: Wrap the Scaffold inside a DefaultTabController widget.
     //
     // Tip: To quickly wrap a widget, place your cursor on the Scaffold widget,
-    // and hit alt + enter for windows or option + return for mac. Select the 
+    // and hit alt + enter for windows or option + return for mac. Select the
     // "Wrap with widget..." action from the dropdown.
     return Scaffold(
       appBar: AppBar(

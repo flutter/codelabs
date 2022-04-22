@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 
 void main() {
   runApp(MaterialApp(
-    // TODO #3: Replace the Routes map with an onGenerateRoute function. 
+    // TODO #3: Replace the Routes map with an onGenerateRoute function.
     //
     // First, extract the index using the RouteSettings. Pass the index to the
-    // DetailsPage constructor. Then, extract the index from the path name. 
+    // DetailsPage constructor. Then, extract the index from the path name.
     routes: {
       '/': (context) => HomePage(),
       '/details': (context) => DetailsPage(),
@@ -31,7 +31,7 @@ class HomePage extends StatelessWidget {
             onTap: () async {
               final returnedData = await Navigator.pushNamed(
                 context,
-                // TODO #4: Add the index to the path name. Example: /details/5. 
+                // TODO #4: Add the index to the path name. Example: /details/5.
                 '/details',
                 arguments: index,
               );

@@ -30,19 +30,18 @@ class _HomePageState extends State<HomePage> {
         title: Text('NavigationBar Demo'),
       ),
       body: Center(
-        // TODO #3: Display the correct icon depending on the selected
-        // destination. Hint: use the list of _destinations combined with the
-        // _selectedDestinationIndex
+          // TODO #3: Display the correct icon depending on the selected
+          // destination. Hint: use the list of _destinations combined with the
+          // _selectedDestinationIndex
 
-        // child: ,
-      ),
-
+          // child: ,
+          ),
 
       // TODO #4: Add the NavigationBar to the Scaffold using the _destinations
       // and _selectedDestinationIndex. Then, provide a callback function to
       // update the _selectedDestinationIndex when a user taps on a destination.
       //
-      // bottomNavigationBar: 
+      // bottomNavigationBar:
     );
   }
 }

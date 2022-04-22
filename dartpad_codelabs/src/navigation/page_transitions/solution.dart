@@ -50,7 +50,6 @@ class CustomPageRoute extends PageRouteBuilder {
             });
 }
 
-
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 

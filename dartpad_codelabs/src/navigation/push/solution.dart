@@ -29,7 +29,7 @@ class DetailsPage extends StatelessWidget {
   }
 }
 
-// The HomePage widget displays a list of 50 sample items. 
+// The HomePage widget displays a list of 50 sample items.
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 

@@ -34,7 +34,6 @@ class CustomPageRoute extends PageRouteBuilder {
             });
 }
 
-
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -79,7 +78,7 @@ class DetailsPage extends StatelessWidget {
             ),
             SizedBox(height: 20),
             ElevatedButton(
-              // TODO #2: Use pushReplacementNamed to remove the DetailsPage 
+              // TODO #2: Use pushReplacementNamed to remove the DetailsPage
               // from the navigation stack and add the HomePage back to the
               // stack.
               onPressed: () => Navigator.pop(context),

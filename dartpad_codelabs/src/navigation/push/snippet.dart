@@ -13,7 +13,7 @@ void main() {
 // display the index of the item the user clicked/tapped on in the body.
 
 // The HomePage widget uses a Scaffold widget to display a list of 50 example
-// items. 
+// items.
 //
 // When a user taps or clicks on an item, navigate to a new page that displays
 // the index of the item they tapped on.
