@@ -38,13 +38,12 @@ class ConfigurationStep {
   final List<ConfigurationStep>? steps;
   final String? exec;
   final String? file;
-  @JsonKey(name:'prepend-contents')
+  @JsonKey(name: 'prepend-contents')
   final String? prependContents;
   @JsonKey(name: 'replace-contents')
   final String? replaceContents;
-  @JsonKey(name:'append-contents')
+  @JsonKey(name: 'append-contents')
   final String? appendContents;
-  
 
   ConfigurationStep({
     required this.name,
