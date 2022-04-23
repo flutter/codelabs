@@ -7,8 +7,9 @@ environment:
   sdk: '>=2.16.2 <3.0.0'
 
 
-# dependencies:
-#   path: ^1.8.0
+dependencies: 
+  diff_match_patch: ^0.4.1
+  path: ^1.8.0
 
 dev_dependencies:
   lints: ^1.0.0
