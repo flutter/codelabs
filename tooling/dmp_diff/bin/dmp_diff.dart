@@ -19,14 +19,15 @@ void main(List<String> arguments) {
     return;
   }
 
-  final fileA = File(args.rest[0]);
-  final fileB = File(args.rest[1]);
-  for (final file in [fileA, fileB]) {
-    if (!file.existsSync()) {
-      logger.shout("${file.path} doesn't exist");
+  for (String arg in args.rest) {
+    if (!FileSystemEntity.isFileSync(arg)) {
+      logger.shout("'$arg' isn't a file");
       return;
     }
   }
+
+  final fileA = File(args.rest[0]);
+  final fileB = File(args.rest[1]);
 
   print("DiffMatchPatch of '${fileA.path}' and '${fileB.path}':");
   print(dmpDiff(fileA.readAsStringSync(), fileB.readAsStringSync()));
