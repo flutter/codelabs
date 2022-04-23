@@ -48,9 +48,12 @@ class HomePage extends StatelessWidget {
         itemBuilder: (context, index) {
           return ListTile(
             title: Text('Item $index'),
-            // TODO #1: Use pushReplacementNamed to remove the HomePage from the
-            // navigation stack and add the DetailsPage to the stack
-            onTap: () => Navigator.pushNamed(context, '/details/$index'),
+            // Use pushReplacementNamed to navigate to the DetailsPage,
+            // removing the HomePage from the navigation stack.
+            onTap: () => Navigator.pushReplacementNamed(
+              context,
+              '/details/$index',
+            ),
           );
         },
       ),
@@ -78,10 +81,9 @@ class DetailsPage extends StatelessWidget {
             ),
             SizedBox(height: 20),
             ElevatedButton(
-              // TODO #2: Use pushReplacementNamed to remove the DetailsPage
-              // from the navigation stack and add the HomePage back to the
-              // stack.
-              onPressed: () => Navigator.pop(context),
+              // Use pushReplacementNamed to navigate back to the HomePage,
+              // removing the DetailsPage from the navigation stack.
+              onPressed: () => Navigator.pushReplacementNamed(context, '/'),
               child: Text('Go Back to HomePage'),
             )
           ],
