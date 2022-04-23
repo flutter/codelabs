@@ -11,9 +11,9 @@ class Configuration {
   @JsonKey(required: true)
   final String name;
   @JsonKey(required: true)
-  final int count;
+  final List<ConfigurationStep> steps;
 
-  Configuration({required this.name, required this.count}) {
+  Configuration({required this.name, required this.steps}) {
     if (name.isEmpty) {
       throw ArgumentError.value(name, 'name', 'Cannot be empty.');
     }
@@ -25,4 +25,46 @@ class Configuration {
 
   @override
   String toString() => 'Configuration: ${toJson()}';
+}
+
+@JsonSerializable(
+  anyMap: true,
+  checked: true,
+  disallowUnrecognizedKeys: true,
+)
+class ConfigurationStep {
+  @JsonKey(required: true)
+  final String name;
+  final List<ConfigurationStep>? steps;
+  final String? exec;
+  final String? file;
+  @JsonKey(name:'prepend-contents')
+  final String? prependContents;
+  @JsonKey(name: 'replace-contents')
+  final String? replaceContents;
+  @JsonKey(name:'append-contents')
+  final String? appendContents;
+  
+
+  ConfigurationStep({
+    required this.name,
+    this.steps,
+    this.exec,
+    this.file,
+    this.prependContents,
+    this.replaceContents,
+    this.appendContents,
+  }) {
+    if (name.isEmpty) {
+      throw ArgumentError.value(name, 'name', 'Cannot be empty.');
+    }
+  }
+
+  factory ConfigurationStep.fromJson(Map json) =>
+      _$ConfigurationStepFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ConfigurationStepToJson(this);
+
+  @override
+  String toString() => 'ConfigurationStep: ${toJson()}';
 }
