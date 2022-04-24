@@ -15,7 +15,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttericon/octicons_icons.dart';
 import 'package:github/github.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class GitHubSummary extends StatefulWidget {
   const GitHubSummary({required this.gitHub, Key? key}) : super(key: key);
@@ -224,8 +224,8 @@ class _PullRequestsListState extends State<PullRequestsList> {
 }
 
 Future<void> _launchUrl(BuildContext context, String url) async {
-  if (await canLaunch(url)) {
-    await launch(url);
+  if (await canLaunchUrlString(url)) {
+    await launchUrlString(url);
   } else {
     return showDialog(
       context: context,
