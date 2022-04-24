@@ -17,7 +17,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:oauth2/oauth2.dart' as oauth2;
-import 'package:url_launcher/url_launcher_string.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 final _authorizationEndpoint =
     Uri.parse('https://github.com/login/oauth/authorize');
@@ -100,11 +100,10 @@ class _GithubLoginState extends State<GithubLoginWidget> {
   }
 
   Future<void> _redirect(Uri authorizationUrl) async {
-    var url = authorizationUrl.toString();
-    if (await canLaunchUrlString(url)) {
-      await launchUrlString(url);
+    if (await canLaunchUrl(authorizationUrl)) {
+      await launchUrl(authorizationUrl);
     } else {
-      throw GithubLoginException('Could not launch $url');
+      throw GithubLoginException('Could not launch $authorizationUrl');
     }
   }
 
