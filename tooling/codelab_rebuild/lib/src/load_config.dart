@@ -1,8 +1,7 @@
 import 'dart:io';
 
 import 'package:checked_yaml/checked_yaml.dart';
-import 'src/configuration.dart';
-export 'src/configuration.dart';
+import 'configuration.dart';
 
 Configuration loadConfig(String sourcePathOrYaml) {
   String yamlContent;

@@ -1,4 +1,4 @@
-import 'package:codelab_rebuild/load_config.dart';
+import 'package:codelab_rebuild/codelab_rebuild.dart';
 import 'package:test/test.dart';
 
 void main() {
