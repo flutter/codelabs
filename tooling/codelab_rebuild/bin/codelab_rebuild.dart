@@ -1,4 +1,6 @@
+import 'dart:io';
 import 'package:codelab_rebuild/codelab_rebuild.dart';
+import 'package:codelab_rebuild/src/rebuild_config.dart';
 import 'package:logging/logging.dart';
 
 void main(List<String> arguments) {
@@ -7,9 +9,7 @@ void main(List<String> arguments) {
     print('${record.level.name}: ${record.time}: ${record.message}');
   });
 
-  final logger = Logger('main');
-  final sourcePathOrYaml = arguments.single;
-
-  Configuration config = loadConfig(sourcePathOrYaml);
-  logger.info(config);
+  final source = arguments.single;
+  Configuration config = loadConfig(source);
+  rebuildConfig(File(source).parent, config);
 }
