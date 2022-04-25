@@ -22,6 +22,7 @@ declare -a CODELABS=(
   # TODO(domesticmouse): re-enable once stable inncrements
   # "testing_codelab"
   "tfserving-flutter"
+  "tooling"
   "webview_flutter"
   )
 
