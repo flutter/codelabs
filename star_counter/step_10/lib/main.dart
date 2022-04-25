@@ -72,11 +72,8 @@ class _HomePageState extends State<HomePage> {
                       overlayColor:
                           MaterialStateProperty.all(Colors.transparent),
                     ),
-                    onPressed: () => launch(
-                      '/privacy_policy.html',
-                      enableJavaScript: true,
-                      enableDomStorage: true,
-                    ),
+                    onPressed: () =>
+                        launchUrl(Uri.parse('/privacy_policy.html')),
                     child: const Text('Privacy Policy'),
                   ),
                 ],
