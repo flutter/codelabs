@@ -7,8 +7,7 @@ source "$DIR/flutter_ci_script_shared.sh"
 
 declare -a CODELABS=(
   "adaptive_app"
-  # TODO(domesticmouse): re-enable once stable increments
-  # "boring_to_beautiful"
+  "boring_to_beautiful"
   "cookbook"
   "cupertino_store"
   "dartpad_codelabs"
