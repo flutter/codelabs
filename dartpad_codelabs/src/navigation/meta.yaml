@@ -1,0 +1,30 @@
+name: Navigation
+type: flutter
+steps:
+  - name: Tab Navigation
+    directory: tabs
+    has_solution: true
+  - name: NavigationBar
+    directory: navigation_bar
+    has_solution: true
+  - name: Navigator Push
+    directory: push
+    has_solution: true
+  - name: Pop
+    directory: pop
+    has_solution: true
+  - name: Named Routes
+    directory: named_routes
+    has_solution: true
+  - name: onGenerateRoute
+    directory: on_generate_route
+    has_solution: true
+  - name: Custom Page Transitions
+    directory: page_transitions
+    has_solution: true
+  - name: Replace Routes
+    directory: replace
+    has_solution: true
+  - name: Conclusion
+    directory: conclusion
+    has_solution: false
