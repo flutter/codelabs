@@ -25,6 +25,7 @@ void buildConfigStep(Directory cwd, ConfigurationStep step) {
 
   final exec = step.exec;
   if (exec != null && exec.isNotEmpty) {
+    // ignore: unused_local_variable
     final shell = Shell(workingDirectory: cwd.toString());
     logger.info('exec: $exec');
     return;
