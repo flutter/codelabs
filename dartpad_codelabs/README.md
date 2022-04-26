@@ -46,5 +46,5 @@ firebase deploy
 [custom-button-workshop]: https://dartpad.dev/workshops.html?webserver=https://dartpad-workshops-io2021.web.app/custom_button
 [layouts-workshop]: https://dartpad.dev/workshops.html?webserver=https://dartpad-workshops-io2021.web.app/layouts
 [lists-workshop]: https://dartpad.dev/workshops.html?webserver=https://dartpad-workshops-io2021.web.app/introduction_to_lists
-[material-design-workshop]: https://dartpad.dev/workshops.html?webserver=https://raw.githubusercontent.com/flutter/codelabs/master/dartpad_codelabs/src/material_widgets
-[navigation-workshop]: https://dartpad.dev/workshops.html?webserver=https://raw.githubusercontent.com/flutter/codelabs/master/dartpad_codelabs/src/navigation
+[material-design-workshop]: https://dartpad.dev/workshops.html?webserver=https://dartpad-workshops-io2021.web.app/material_widgets
+[navigation-workshop]: https://dartpad.dev/workshops.html?webserver=https://dartpad-workshops-io2021.web.app/navigation
