@@ -56,6 +56,38 @@ class ConfigurationStep {
     }
   }
 
+  bool get isValid {
+    final steps = this.steps;
+
+    // If there are sub steps, we don't want any other configuration data
+    if ((steps == null || steps.isEmpty) &&
+        diff == null &&
+        exec == null &&
+        file == null &&
+        replaceContents == null) return false;
+
+    // If there aren't steps, then there should be something else to do
+    if ((steps != null && steps.isNotEmpty) &&
+        (diff != null ||
+            exec != null ||
+            file != null ||
+            replaceContents != null)) return false;
+
+    // If we have a diff, we need a file to apply to
+    if (diff != null && file == null) return false;
+
+    // If we have replace-contents, we need a file to apply it to
+    if (replaceContents != null && file == null) return false;
+
+    // If we have a diff, we don't want an exec or a replace-contents config
+    if (diff != null && (exec != null || replaceContents != null)) return false;
+
+    // Likewise, if there is an exec, there shouldn't be a file or a replace-contents
+    if (exec != null && (file != null || replaceContents != null)) return false;
+
+    return true;
+  }
+
   factory ConfigurationStep.fromJson(Map json) =>
       _$ConfigurationStepFromJson(json);
 
