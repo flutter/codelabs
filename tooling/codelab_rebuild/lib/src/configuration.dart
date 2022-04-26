@@ -37,18 +37,18 @@ class ConfigurationStep {
   final String name;
   final List<ConfigurationStep>? steps;
 
-  final String? diff;
   final String? exec;
-  final String? file;
+  final String? patch;
+  final String? path;
   @JsonKey(name: 'replace-contents')
   final String? replaceContents;
 
   ConfigurationStep({
     required this.name,
     this.steps,
-    this.diff,
     this.exec,
-    this.file,
+    this.patch,
+    this.path,
     this.replaceContents,
   }) {
     if (name.isEmpty) {
@@ -61,29 +61,31 @@ class ConfigurationStep {
 
     // If there are sub steps, we don't want any other configuration data
     if ((steps == null || steps.isEmpty) &&
-        diff == null &&
+        patch == null &&
         exec == null &&
-        file == null &&
+        path == null &&
         replaceContents == null) return false;
 
     // If there aren't steps, then there should be something else to do
     if ((steps != null && steps.isNotEmpty) &&
-        (diff != null ||
+        (patch != null ||
             exec != null ||
-            file != null ||
+            path != null ||
             replaceContents != null)) return false;
 
     // If we have a diff, we need a file to apply to
-    if (diff != null && file == null) return false;
+    if (patch != null && path == null) return false;
 
     // If we have replace-contents, we need a file to apply it to
-    if (replaceContents != null && file == null) return false;
+    if (replaceContents != null && path == null) return false;
 
     // If we have a diff, we don't want an exec or a replace-contents config
-    if (diff != null && (exec != null || replaceContents != null)) return false;
+    if (patch != null && (exec != null || replaceContents != null)) {
+      return false;
+    }
 
     // Likewise, if there is an exec, there shouldn't be a file or a replace-contents
-    if (exec != null && (file != null || replaceContents != null)) return false;
+    if (exec != null && (path != null || replaceContents != null)) return false;
 
     return true;
   }

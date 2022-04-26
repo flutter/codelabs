@@ -13,7 +13,7 @@ steps:
       - name: Create project.
         exec: flutter create cupertino_store
       - name: Configure 
-        file: cupertino_store/analysis_options.yaml
+        path: cupertino_store/analysis_options.yaml
         replace-contents: |
           # Copyright 2019 Google LLC
           #
@@ -56,7 +56,7 @@ steps:
     expect(config.steps[0].steps![1].isValid, equals(true));
     expect(config.steps[0].steps![2].isValid, equals(true));
     expect(config.steps[0].steps![2].name, equals('Configure'));
-    expect(config.steps[0].steps![2].file,
+    expect(config.steps[0].steps![2].path,
         equals('cupertino_store/analysis_options.yaml'));
     expect(config.steps[0].steps![2].replaceContents, equals('''
 # Copyright 2019 Google LLC

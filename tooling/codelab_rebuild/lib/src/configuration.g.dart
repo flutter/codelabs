@@ -42,9 +42,9 @@ ConfigurationStep _$ConfigurationStepFromJson(Map json) => $checkedCreate(
           allowedKeys: const [
             'name',
             'steps',
-            'diff',
             'exec',
-            'file',
+            'patch',
+            'path',
             'replace-contents'
           ],
           requiredKeys: const ['name'],
@@ -56,9 +56,9 @@ ConfigurationStep _$ConfigurationStepFromJson(Map json) => $checkedCreate(
               (v) => (v as List<dynamic>?)
                   ?.map((e) => ConfigurationStep.fromJson(e as Map))
                   .toList()),
-          diff: $checkedConvert('diff', (v) => v as String?),
           exec: $checkedConvert('exec', (v) => v as String?),
-          file: $checkedConvert('file', (v) => v as String?),
+          patch: $checkedConvert('patch', (v) => v as String?),
+          path: $checkedConvert('path', (v) => v as String?),
           replaceContents:
               $checkedConvert('replace-contents', (v) => v as String?),
         );
@@ -71,8 +71,8 @@ Map<String, dynamic> _$ConfigurationStepToJson(ConfigurationStep instance) =>
     <String, dynamic>{
       'name': instance.name,
       'steps': instance.steps,
-      'diff': instance.diff,
       'exec': instance.exec,
-      'file': instance.file,
+      'patch': instance.patch,
+      'path': instance.path,
       'replace-contents': instance.replaceContents,
     };
