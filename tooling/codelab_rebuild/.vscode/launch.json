@@ -7,7 +7,9 @@
         {
             "name": "codelab_rebuild",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "program": "bin/codelab_rebuild.dart",
+            "args": ["../../cupertino_store/codelab_rebuild.yaml"]
         }
     ]
 }

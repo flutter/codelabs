@@ -56,7 +56,8 @@ ConfigurationStep _$ConfigurationStepFromJson(Map json) => $checkedCreate(
               (v) => (v as List<dynamic>?)
                   ?.map((e) => ConfigurationStep.fromJson(e as Map))
                   .toList()),
-          exec: $checkedConvert('exec', (v) => v as String?),
+          exec: $checkedConvert(
+              'exec', (v) => v == null ? null : StepExec.fromJson(v as Map)),
           patch: $checkedConvert('patch', (v) => v as String?),
           path: $checkedConvert('path', (v) => v as String?),
           replaceContents:
@@ -75,4 +76,31 @@ Map<String, dynamic> _$ConfigurationStepToJson(ConfigurationStep instance) =>
       'patch': instance.patch,
       'path': instance.path,
       'replace-contents': instance.replaceContents,
+    };
+
+StepExec _$StepExecFromJson(Map json) => $checkedCreate(
+      'StepExec',
+      json,
+      ($checkedConvert) {
+        $checkKeys(
+          json,
+          allowedKeys: const ['command', 'commands', 'path'],
+        );
+        final val = StepExec(
+          command: $checkedConvert('command', (v) => v as String?),
+          commands: $checkedConvert(
+              'commands',
+              (v) =>
+                  (v as List<dynamic>?)?.map((e) => e as String).toList() ??
+                  const []),
+          path: $checkedConvert('path', (v) => v as String?),
+        );
+        return val;
+      },
+    );
+
+Map<String, dynamic> _$StepExecToJson(StepExec instance) => <String, dynamic>{
+      'command': instance.command,
+      'commands': instance.commands,
+      'path': instance.path,
     };

@@ -1,10 +1,9 @@
-import 'dart:convert';
 import 'dart:io';
 
+import 'package:cli_script/cli_script.dart';
 import 'package:diff_match_patch/diff_match_patch.dart';
 import 'package:logging/logging.dart';
 import 'package:path/path.dart' as p;
-import 'package:process_run/shell.dart';
 
 import 'configuration.dart';
 
@@ -27,24 +26,21 @@ Future<void> buildConfigStep(Directory cwd, ConfigurationStep step) async {
   final steps = step.steps;
   if (steps != null && steps.isNotEmpty) {
     for (final subStep in steps) {
-      buildConfigStep(cwd, subStep);
+      await buildConfigStep(cwd, subStep);
     }
     return;
   }
 
   final exec = step.exec;
-  if (exec != null && exec.isNotEmpty) {
-    final shell = Shell(
-      workingDirectory: cwd.path,
-      stdoutEncoding: utf8,
-      stdout: stdout,
-      stderrEncoding: utf8,
-      stderr: stderr,
-    );
+  if (exec != null) {
     logger.info('exec: $exec');
-    final results = await shell.run(exec);
-    for (final result in results) {
-      logger.info(result);
+    final command = exec.command;
+    if (command != null && command.isNotEmpty) {
+      await _execCommand(command, step, exec, cwd);
+    } else {
+      for (final command in exec.commands) {
+        await _execCommand(command, step, exec, cwd);
+      }
     }
     return;
   }
@@ -63,7 +59,7 @@ Future<void> buildConfigStep(Directory cwd, ConfigurationStep step) async {
       content = File(fullPath).readAsStringSync();
     }
 
-    final applied = dmpPatch(content, diff);
+    final applied = _dmpPatch(content, diff);
     for (var chunkApplied in applied.successfullyApplied) {
       if (!chunkApplied) {
         logger.severe('Patch failed to apply: $step');
@@ -86,16 +82,36 @@ Future<void> buildConfigStep(Directory cwd, ConfigurationStep step) async {
   exit(-1);
 }
 
-class PatchesApplied {
-  const PatchesApplied(this.patchedText, this.successfullyApplied);
+Future<void> _execCommand(String command, ConfigurationStep step, StepExec exec,
+    Directory cwd) async {
+  if (command.isEmpty) {
+    logger.severe('Invalid step: $step');
+    exit(-1);
+  }
+
+  final script = Script(command,
+      workingDirectory:
+          exec.path == null ? cwd.path : p.join(cwd.path, exec.path))
+    ..stdout.lines.listen((event) {
+      logger.info(event);
+    })
+    ..stderr.lines.listen((event) {
+      logger.warning(event);
+    });
+
+  await script.done;
+}
+
+class _PatchesApplied {
+  const _PatchesApplied(this.patchedText, this.successfullyApplied);
   final String patchedText;
   final List<bool> successfullyApplied;
 }
 
-PatchesApplied dmpPatch(String text, String patch) {
+_PatchesApplied _dmpPatch(String text, String patch) {
   final patches = patchFromText(patch);
   var result = patchApply(patches, text);
   final patchedText = result[0] as String;
   final successfullyApplied = result[1] as List<bool>;
-  return PatchesApplied(patchedText, successfullyApplied);
+  return _PatchesApplied(patchedText, successfullyApplied);
 }

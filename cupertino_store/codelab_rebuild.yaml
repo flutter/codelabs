@@ -3,10 +3,12 @@ steps:
   - name: step_00
     steps:
       - name: Remove generated code.
-        exec: rm -r step_00
+        exec: 
+          command: rm -r step_00
       - name: Create project.
-        exec: flutter create cupertino_store
-      - name: Configure 
+        exec: 
+          command: flutter create cupertino_store
+      - name: Configure analysis_options.yaml
         path: cupertino_store/analysis_options.yaml
         replace-contents: |
           # Copyright 2019 Google LLC
@@ -24,22 +26,63 @@ steps:
           # limitations under the License.
           
           include: ../../analysis_options.yaml
+      - name: Patch pubspec.yaml
+        path: cupertino_store/pubspec.yaml
+        patch: |
+          @@ -1,61 +1,653 @@
+          -name: cupertino_store%0Adescription: A new Flutter project.
+          +# Copyright 2019 Google LLC%0A#%0A# Licensed under the Apache License, Version 2.0 (the %22License%22);%0A# you may not use this file except in compliance with the License.%0A# You may obtain a copy of the License at%0A#%0A#      https://www.apache.org/licenses/LICENSE-2.0%0A#%0A# Unless required by applicable law or agreed to in writing, software%0A# distributed under the License is distributed on an %22AS IS%22 BASIS,%0A# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.%0A# See the License for the specific language governing permissions and%0A# limitations under the License.%0A%0Aname: cupertino_store%0Adescription: Creating a Store in Cupertino widgets
+           %0A%0A# 
+          @@ -4344,24 +4344,1469 @@
+           om-fonts/#from-packages%0A
+          +%0A  assets:%0A    - packages/shrine_images/0-0.jpg%0A    - packages/shrine_images/1-0.jpg%0A    - packages/shrine_images/2-0.jpg%0A    - packages/shrine_images/3-0.jpg%0A    - packages/shrine_images/4-0.jpg%0A    - packages/shrine_images/5-0.jpg%0A    - packages/shrine_images/6-0.jpg%0A    - packages/shrine_images/7-0.jpg%0A    - packages/shrine_images/8-0.jpg%0A    - packages/shrine_images/9-0.jpg%0A    - packages/shrine_images/10-0.jpg%0A    - packages/shrine_images/11-0.jpg%0A    - packages/shrine_images/12-0.jpg%0A    - packages/shrine_images/13-0.jpg%0A    - packages/shrine_images/14-0.jpg%0A    - packages/shrine_images/15-0.jpg%0A    - packages/shrine_images/16-0.jpg%0A    - packages/shrine_images/17-0.jpg%0A    - packages/shrine_images/18-0.jpg%0A    - packages/shrine_images/19-0.jpg%0A    - packages/shrine_images/20-0.jpg%0A    - packages/shrine_images/21-0.jpg%0A    - packages/shrine_images/22-0.jpg%0A    - packages/shrine_images/23-0.jpg%0A    - packages/shrine_images/24-0.jpg%0A    - packages/shrine_images/25-0.jpg%0A    - packages/shrine_images/26-0.jpg%0A    - packages/shrine_images/27-0.jpg%0A    - packages/shrine_images/28-0.jpg%0A    - packages/shrine_images/29-0.jpg%0A    - packages/shrine_images/30-0.jpg%0A    - packages/shrine_images/31-0.jpg%0A    - packages/shrine_images/32-0.jpg%0A    - packages/shrine_images/33-0.jpg%0A    - packages/shrine_images/34-0.jpg%0A    - packages/shrine_images/35-0.jpg%0A    - packages/shrine_images/36-0.jpg%0A    - packages/shrine_images/37-0.jpg%0A
       - name: Add dependencies.
-        exec: |
-          cd cupertino_store 
-          flutter pub add intl 
-          flutter pub add provider 
-          flutter pub add shrine_images
+        exec:
+          path: cupertino_store
+          commands:
+            - flutter pub add intl 
+            - flutter pub add provider 
+            - flutter pub add shrine_images
       - name: Remove the README.md.
-        exec: rm cupertino_store/README.md
+        exec: 
+          command: rm cupertino_store/README.md
       - name: Remove the Android, Web, and Desktop runners
-        exec: |
-          rm -r cupertino_store/android 
-          rm -r cupertino_store/linux 
-          rm -r cupertino_store/macos 
-          rm -r cupertino_store/web 
-          rm -r cupertino_store/windows
+        exec: 
+          path: cupertino_store
+          commands:
+            - rm -r android 
+            - rm -r linux 
+            - rm -r macos 
+            - rm -r web 
+            - rm -r windows
+      - name: Replace lib/main.dart
+        path: cupertino_store/lib/main.dart
+        replace-contents: |
+          // Copyright 2019 Google LLC
+          //
+          // Licensed under the Apache License, Version 2.0 (the "License");
+          // you may not use this file except in compliance with the License.
+          // You may obtain a copy of the License at
+          //
+          //     https://www.apache.org/licenses/LICENSE-2.0
+          //
+          // Unless required by applicable law or agreed to in writing, software
+          // distributed under the License is distributed on an "AS IS" BASIS,
+          // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+          // See the License for the specific language governing permissions and
+          // limitations under the License.
+
+          import 'package:flutter/cupertino.dart';
+
+          import 'app.dart';
+
+          void main() {
+            return runApp(const CupertinoStoreApp());
+          }
+
       - name: Copy step_00
-        exec: cp -R cupertino_store step_00
+        exec:
+          command: cp -R cupertino_store step_00
   - name: Cleanup
-    exec: rm -r cupertino_store
+    exec:
+      command: rm -r cupertino_store

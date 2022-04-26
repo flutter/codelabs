@@ -37,7 +37,7 @@ class ConfigurationStep {
   final String name;
   final List<ConfigurationStep>? steps;
 
-  final String? exec;
+  final StepExec? exec;
   final String? patch;
   final String? path;
   @JsonKey(name: 'replace-contents')
@@ -97,4 +97,32 @@ class ConfigurationStep {
 
   @override
   String toString() => 'ConfigurationStep: ${toJson()}';
+}
+
+@JsonSerializable(
+  anyMap: true,
+  checked: true,
+  disallowUnrecognizedKeys: true,
+)
+class StepExec {
+  final String? command;
+  final List<String> commands;
+  final String? path;
+
+  StepExec({
+    this.command,
+    this.commands = const [],
+    this.path,
+  }) {
+    if (commands.isEmpty && command == null) {
+      throw ArgumentError.value(command, 'command', 'Cannot be empty.');
+    }
+  }
+
+  factory StepExec.fromJson(Map json) => _$StepExecFromJson(json);
+
+  Map<String, dynamic> toJson() => _$StepExecToJson(this);
+
+  @override
+  String toString() => 'StepExec: ${toJson()}';
 }

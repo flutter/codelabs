@@ -9,9 +9,11 @@ steps:
   - name: step_00
     steps:
       - name: Remove generated code.
-        exec: rm -rf step_00
+        exec: 
+          command: rm -rf step_00
       - name: Create project.
-        exec: flutter create cupertino_store
+        exec: 
+          command: flutter create cupertino_store
       - name: Configure 
         path: cupertino_store/analysis_options.yaml
         replace-contents: |
@@ -31,20 +33,24 @@ steps:
           
           include: ../../analysis_options.yaml
       - name: Add dependencies.
-        exec: |
-          cd cupertino_store 
-          flutter pub add intl 
-          flutter pub add provider 
-          flutter pub add shrine_images
+        exec:
+          path: cupertino_store
+          commands:
+            - flutter pub add intl 
+            - flutter pub add provider 
+            - flutter pub add shrine_images
       - name: Remove the README.md.
-        exec: rm cupertino_store/README.md
+        exec: 
+          command: rm cupertino_store/README.md
       - name: Remove the Android, Web, and Desktop runners
-        exec: |
-          rm -rf cupertino_store/android 
-          rm -rf cupertino_store/linux 
-          rm -rf cupertino_store/macos 
-          rm -rf cupertino_store/web 
-          rm -rf cupertino_store/windows
+        exec: 
+          path: cupertino_store
+          commands:
+            - rm -rf android 
+            - rm -rf linux 
+            - rm -rf macos 
+            - rm -rf web 
+            - rm -rf windows
 ''';
     final config = loadConfig(input);
     expect(config.name, equals('Cupertino Store script'));
@@ -52,7 +58,7 @@ steps:
     expect(config.steps[0].steps!.length, equals(6));
     expect(config.steps[0].steps![0].isValid, equals(true));
     expect(config.steps[0].steps![0].name, equals('Remove generated code.'));
-    expect(config.steps[0].steps![0].exec, equals('rm -rf step_00'));
+    expect(config.steps[0].steps![0].exec!.command, equals('rm -rf step_00'));
     expect(config.steps[0].steps![1].isValid, equals(true));
     expect(config.steps[0].steps![2].isValid, equals(true));
     expect(config.steps[0].steps![2].name, equals('Configure'));
@@ -81,14 +87,18 @@ include: ../../analysis_options.yaml
     expect(config.steps[0].steps![5].name,
         equals('Remove the Android, Web, and Desktop runners'));
     expect(
-      config.steps[0].steps![5].exec,
-      equals('''
-rm -rf cupertino_store/android 
-rm -rf cupertino_store/linux 
-rm -rf cupertino_store/macos 
-rm -rf cupertino_store/web 
-rm -rf cupertino_store/windows
-'''),
+      config.steps[0].steps![5].exec!.path,
+      equals('cupertino_store'),
+    );
+    expect(
+      config.steps[0].steps![5].exec!.commands,
+      equals([
+        'rm -rf android',
+        'rm -rf linux',
+        'rm -rf macos',
+        'rm -rf web',
+        'rm -rf windows'
+      ]),
     );
   });
 }
