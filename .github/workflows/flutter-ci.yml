@@ -28,7 +28,7 @@ jobs:
         with:
           distribution: 'zulu' # See https://github.com/actions/setup-java#supported-distributions
           java-version: "12.x"
-      - uses: subosito/flutter-action@6a13bd08366a2aafe8605f064f9d5a42107e6f1f
+      - uses: subosito/flutter-action@d8687e6979e8ef66d2b2970e2c92c1d8e801d7bf
         with:
           channel: ${{ matrix.flutter_version }}
       - run: dart --version
