@@ -42,11 +42,10 @@ ConfigurationStep _$ConfigurationStepFromJson(Map json) => $checkedCreate(
           allowedKeys: const [
             'name',
             'steps',
+            'diff',
             'exec',
             'file',
-            'prepend-contents',
-            'replace-contents',
-            'append-contents'
+            'replace-contents'
           ],
           requiredKeys: const ['name'],
         );
@@ -57,31 +56,23 @@ ConfigurationStep _$ConfigurationStepFromJson(Map json) => $checkedCreate(
               (v) => (v as List<dynamic>?)
                   ?.map((e) => ConfigurationStep.fromJson(e as Map))
                   .toList()),
+          diff: $checkedConvert('diff', (v) => v as String?),
           exec: $checkedConvert('exec', (v) => v as String?),
           file: $checkedConvert('file', (v) => v as String?),
-          prependContents:
-              $checkedConvert('prepend-contents', (v) => v as String?),
           replaceContents:
               $checkedConvert('replace-contents', (v) => v as String?),
-          appendContents:
-              $checkedConvert('append-contents', (v) => v as String?),
         );
         return val;
       },
-      fieldKeyMap: const {
-        'prependContents': 'prepend-contents',
-        'replaceContents': 'replace-contents',
-        'appendContents': 'append-contents'
-      },
+      fieldKeyMap: const {'replaceContents': 'replace-contents'},
     );
 
 Map<String, dynamic> _$ConfigurationStepToJson(ConfigurationStep instance) =>
     <String, dynamic>{
       'name': instance.name,
       'steps': instance.steps,
+      'diff': instance.diff,
       'exec': instance.exec,
       'file': instance.file,
-      'prepend-contents': instance.prependContents,
       'replace-contents': instance.replaceContents,
-      'append-contents': instance.appendContents,
     };

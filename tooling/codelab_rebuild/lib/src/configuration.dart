@@ -36,23 +36,20 @@ class ConfigurationStep {
   @JsonKey(required: true)
   final String name;
   final List<ConfigurationStep>? steps;
+
+  final String? diff;
   final String? exec;
   final String? file;
-  @JsonKey(name: 'prepend-contents')
-  final String? prependContents;
   @JsonKey(name: 'replace-contents')
   final String? replaceContents;
-  @JsonKey(name: 'append-contents')
-  final String? appendContents;
 
   ConfigurationStep({
     required this.name,
     this.steps,
+    this.diff,
     this.exec,
     this.file,
-    this.prependContents,
     this.replaceContents,
-    this.appendContents,
   }) {
     if (name.isEmpty) {
       throw ArgumentError.value(name, 'name', 'Cannot be empty.');
