@@ -154,7 +154,7 @@ class _TFServingDemoState extends State<TFServingDemo> {
   Future<String> predict() async {
     if (Platform.isAndroid) {
       // For Android
-      _server = "10.0.0.2";
+      _server = "10.0.2.2";
     } else {
       // For iOS/desktop
       _server = "localhost";
