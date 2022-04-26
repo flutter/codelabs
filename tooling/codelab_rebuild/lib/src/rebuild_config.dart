@@ -1,21 +1,23 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:diff_match_patch/diff_match_patch.dart';
 import 'package:logging/logging.dart';
+import 'package:path/path.dart' as p;
 import 'package:process_run/shell.dart';
 
 import 'configuration.dart';
 
 final logger = Logger('rebuildConfig');
 
-void rebuildConfig(Directory cwd, Configuration config) {
+Future<void> rebuildConfig(Directory cwd, Configuration config) async {
   logger.info(config.name);
   for (final step in config.steps) {
-    buildConfigStep(cwd, step);
+    await buildConfigStep(cwd, step);
   }
 }
 
-void buildConfigStep(Directory cwd, ConfigurationStep step) {
+Future<void> buildConfigStep(Directory cwd, ConfigurationStep step) async {
   logger.info(step.name);
   if (!step.isValid) {
     logger.severe('Invalid step: $step');
@@ -32,10 +34,18 @@ void buildConfigStep(Directory cwd, ConfigurationStep step) {
 
   final exec = step.exec;
   if (exec != null && exec.isNotEmpty) {
-    // ignore: unused_local_variable
-    final shell = Shell(workingDirectory: cwd.toString());
+    final shell = Shell(
+      workingDirectory: cwd.path,
+      stdoutEncoding: utf8,
+      stdout: stdout,
+      stderrEncoding: utf8,
+      stderr: stderr,
+    );
     logger.info('exec: $exec');
-    shell.run(exec);
+    final results = await shell.run(exec);
+    for (final result in results) {
+      logger.info(result);
+    }
     return;
   }
 
@@ -48,8 +58,9 @@ void buildConfigStep(Directory cwd, ConfigurationStep step) {
   final diff = step.patch;
   if (diff != null) {
     var content = '';
-    if (FileSystemEntity.isFileSync(path)) {
-      content = File(path).readAsStringSync();
+    final fullPath = p.join(cwd.path, path);
+    if (FileSystemEntity.isFileSync(fullPath)) {
+      content = File(fullPath).readAsStringSync();
     }
 
     final applied = dmpPatch(content, diff);
@@ -60,13 +71,13 @@ void buildConfigStep(Directory cwd, ConfigurationStep step) {
       }
     }
 
-    File(path).writeAsStringSync(applied.patchedText);
+    File(fullPath).writeAsStringSync(applied.patchedText);
     return;
   }
 
   final replaceContents = step.replaceContents;
   if (replaceContents != null) {
-    File(path).writeAsStringSync(replaceContents);
+    File(p.join(cwd.path, path)).writeAsStringSync(replaceContents);
     return;
   }
 
