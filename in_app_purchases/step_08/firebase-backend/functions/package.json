@@ -20,7 +20,7 @@
     "firebase-functions": "^3.11.0",
     "googleapis": "^100.0.0",
     "lodash": "^4.17.21",
-    "node-apple-receipt-verify": "^1.9.3"
+    "node-apple-receipt-verify": "^1.12.1"
   },
   "devDependencies": {
     "@types/node-apple-receipt-verify": "^1.7.1",
