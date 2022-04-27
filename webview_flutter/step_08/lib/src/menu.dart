@@ -20,7 +20,7 @@ class Menu extends StatelessWidget {
           onSelected: (value) async {
             switch (value) {
               case _MenuOptions.navigationDelegate:
-                controller.data!.loadUrl('https://youtube.com');
+                await controller.data!.loadUrl('https://youtube.com');
                 break;
             }
           },
