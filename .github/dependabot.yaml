@@ -314,6 +314,10 @@ updates:
     schedule:
       interval: "daily"
   - package-ecosystem: "pub"
+    directory: "/tooling/codelab_rebuild"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
     directory: "/tooling/diff_tool"
     schedule:
       interval: "daily"
