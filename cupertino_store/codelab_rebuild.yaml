@@ -1175,6 +1175,90 @@ steps:
       - name: Copy step_03
         exec:
           command: cp -R cupertino_store step_03
+  - name: step_04
+    steps:
+      - name: Remove generated code.
+        exec: 
+          command: rm -r step_04
+      - name: Modify shopping_cart_tab.dart
+        path: cupertino_store/lib/shopping_cart_tab.dart
+        patch: |
+          @@ -962,16 +962,2898 @@
+           tTab%3E %7B%0A
+          +  String? name;%0A  String? email;%0A  String? location;%0A  String? pin;%0A  DateTime dateTime = DateTime.now();%0A%0A  Widget _buildNameField() %7B%0A    return CupertinoTextField(%0A      prefix: const Icon(%0A        CupertinoIcons.person_solid,%0A        color: CupertinoColors.lightBackgroundGray,%0A        size: 28,%0A      ),%0A      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 12),%0A      clearButtonMode: OverlayVisibilityMode.editing,%0A      textCapitalization: TextCapitalization.words,%0A      autocorrect: false,%0A      decoration: const BoxDecoration(%0A        border: Border(%0A          bottom: BorderSide(%0A            width: 0,%0A            color: CupertinoColors.inactiveGray,%0A          ),%0A        ),%0A      ),%0A      placeholder: 'Name',%0A      onChanged: (newName) %7B%0A        setState(() %7B%0A          name = newName;%0A        %7D);%0A      %7D,%0A    );%0A  %7D%0A%0A  Widget _buildEmailField() %7B%0A    return const CupertinoTextField(%0A      prefix: Icon(%0A        CupertinoIcons.mail_solid,%0A        color: CupertinoColors.lightBackgroundGray,%0A        size: 28,%0A      ),%0A      padding: EdgeInsets.symmetric(horizontal: 6, vertical: 12),%0A      clearButtonMode: OverlayVisibilityMode.editing,%0A      keyboardType: TextInputType.emailAddress,%0A      autocorrect: false,%0A      decoration: BoxDecoration(%0A        border: Border(%0A          bottom: BorderSide(%0A            width: 0,%0A            color: CupertinoColors.inactiveGray,%0A          ),%0A        ),%0A      ),%0A      placeholder: 'Email',%0A    );%0A  %7D%0A%0A  Widget _buildLocationField() %7B%0A    return const CupertinoTextField(%0A      prefix: Icon(%0A        CupertinoIcons.location_solid,%0A        color: CupertinoColors.lightBackgroundGray,%0A        size: 28,%0A      ),%0A      padding: EdgeInsets.symmetric(horizontal: 6, vertical: 12),%0A      clearButtonMode: OverlayVisibilityMode.editing,%0A      textCapitalization: TextCapitalization.words,%0A      decoration: BoxDecoration(%0A        border: Border(%0A          bottom: BorderSide(%0A            width: 0,%0A            color: CupertinoColors.inactiveGray,%0A          ),%0A        ),%0A      ),%0A      placeholder: 'Location',%0A    );%0A  %7D%0A%0A  SliverChildBuilderDelegate _buildSliverChildBuilderDelegate(%0A      AppStateModel model) %7B%0A    return SliverChildBuilderDelegate(%0A      (context, index) %7B%0A        switch (index) %7B%0A          case 0:%0A            return Padding(%0A              padding: const EdgeInsets.symmetric(horizontal: 16),%0A              child: _buildNameField(),%0A            );%0A          case 1:%0A            return Padding(%0A              padding: const EdgeInsets.symmetric(horizontal: 16),%0A              child: _buildEmailField(),%0A            );%0A          case 2:%0A            return Padding(%0A              padding: const EdgeInsets.symmetric(horizontal: 16),%0A              child: _buildLocationField(),%0A            );%0A          default:%0A          // Do nothing. For now.%0A        %7D%0A        return null;%0A      %7D,%0A    );%0A  %7D%0A%0A
+             @overr
+          @@ -3987,22 +3987,16 @@
+            return 
+          -const 
+           CustomSc
+          @@ -4038,32 +4038,38 @@
+           t%3E%5B%0A            
+          +const 
+           CupertinoSliverN
+          @@ -4138,32 +4138,272 @@
+           %0A            ),%0A
+          +            SliverSafeArea(%0A              top: false,%0A              minimum: const EdgeInsets.only(top: 4),%0A              sliver: SliverList(%0A                delegate: _buildSliverChildBuilderDelegate(model),%0A              ),%0A            )%0A
+                     %5D,%0A   
+      - name: Copy step_04
+        exec:
+          command: cp -R cupertino_store step_04
+  - name: step_05
+    steps:
+      - name: Remove generated code.
+        exec: 
+          command: rm -r step_05
+      - name: Modify shopping_cart_tab.dart
+        path: cupertino_store/lib/shopping_cart_tab.dart
+        patch: |
+          @@ -623,16 +623,49 @@
+           .dart';%0A
+          +import 'package:intl/intl.dart';%0A
+           import '
+          @@ -734,16 +734,82 @@
+           l.dart';
+          +%0Aimport 'styles.dart';%0A%0Aconst double _kDateTimePickerHeight = 216;
+           %0A%0Aclass 
+          @@ -3148,16 +3148,1247 @@
+           );%0A  %7D%0A%0A
+          +  Widget _buildDateAndTimePicker(BuildContext context) %7B%0A    return Column(%0A      children: %3CWidget%3E%5B%0A        Row(%0A          mainAxisAlignment: MainAxisAlignment.spaceBetween,%0A          children: %3CWidget%3E%5B%0A            Row(%0A              mainAxisAlignment: MainAxisAlignment.start,%0A              children: const %3CWidget%3E%5B%0A                Icon(%0A                  CupertinoIcons.clock,%0A                  color: CupertinoColors.lightBackgroundGray,%0A                  size: 28,%0A                ),%0A                SizedBox(width: 6),%0A                Text(%0A                  'Delivery time',%0A                  style: Styles.deliveryTimeLabel,%0A                ),%0A              %5D,%0A            ),%0A            Text(%0A              DateFormat.yMMMd().add_jm().format(dateTime),%0A              style: Styles.deliveryTime,%0A            ),%0A          %5D,%0A        ),%0A        SizedBox(%0A          height: _kDateTimePickerHeight,%0A          child: CupertinoDatePicker(%0A            mode: CupertinoDatePickerMode.dateAndTime,%0A            initialDateTime: dateTime,%0A            onDateTimeChanged: (newDateTime) %7B%0A              setState(() %7B%0A                dateTime = newDateTime;%0A              %7D);%0A            %7D,%0A          ),%0A        ),%0A      %5D,%0A    );%0A  %7D%0A%0A
+             Sliver
+          @@ -5061,32 +5061,213 @@
+           %0A            );%0A
+          +          case 3:%0A            return Padding(%0A              padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),%0A              child: _buildDateAndTimePicker(context),%0A            );%0A
+                     defaul
+      - name: Copy step_05
+        exec:
+          command: cp -R cupertino_store step_05
+  - name: step_06
+    steps:
+      - name: Remove generated code.
+        exec: 
+          command: rm -r step_06
+      - name: Modify shopping_cart_tab.dart
+        path: cupertino_store/lib/shopping_cart_tab.dart
+        patch: |
+          @@ -743,16 +743,45 @@
+           import '
+          -
+           
+          +model/product.dart';%0Aimport '
+           styles.d
+          @@ -1195,16 +1195,79 @@
+           e.now();
+          +%0A  final _currencyFormat = NumberFormat.currency(symbol: '%5C$');
+           %0A%0A  Widg
+          @@ -4619,32 +4619,72 @@
+           ntext, index) %7B%0A
+          +        final productIndex = index - 4;%0A
+                   switch (
+          @@ -5415,664 +5415,4721 @@
+               
+          -// Do nothing. For now.%0A        %7D%0A        return null;%0A      %7D,%0A    );%0A  %7D%0A%0A  @override%0A  Widget build(BuildContext context) %7B%0A    return Consumer%3CAppStateModel%3E(%0A      builder: (context, model, child) %7B%0A        return CustomScrollView(%0A          slivers: %3CWidget%3E%5B%0A            const CupertinoSliverNavigationBar(%0A              largeTitle: Text('Shopping Cart'),%0A            ),%0A            SliverSafeArea(%0A              top: false,%0A              minimum: const EdgeInsets.only(top: 4),%0A              sliver: SliverList(%0A                delegate: _buildSliverChildBuilderDelegate(model),%0A              ),%0A            )%0A          %5D,%0A        );%0A      %7D,%0A    )
+          +  if (model.productsInCart.length %3E productIndex) %7B%0A              return ShoppingCartItem(%0A                index: index,%0A                product: model.getProductById(%0A                    model.productsInCart.keys.toList()%5BproductIndex%5D),%0A                quantity: model.productsInCart.values.toList()%5BproductIndex%5D,%0A                lastItem: productIndex == model.productsInCart.length - 1,%0A                formatter: _currencyFormat,%0A              );%0A            %7D else if (model.productsInCart.keys.length == productIndex &&%0A                model.productsInCart.isNotEmpty) %7B%0A              return Padding(%0A                padding: const EdgeInsets.symmetric(horizontal: 20),%0A                child: Row(%0A                  mainAxisAlignment: MainAxisAlignment.end,%0A                  children: %3CWidget%3E%5B%0A                    Column(%0A                      crossAxisAlignment: CrossAxisAlignment.end,%0A                      children: %3CWidget%3E%5B%0A                        Text(%0A                          'Shipping '%0A                          '$%7B_currencyFormat.format(model.shippingCost)%7D',%0A                          style: Styles.productRowItemPrice,%0A                        ),%0A                        const SizedBox(height: 6),%0A                        Text(%0A                          'Tax $%7B_currencyFormat.format(model.tax)%7D',%0A                          style: Styles.productRowItemPrice,%0A                        ),%0A                        const SizedBox(height: 6),%0A                        Text(%0A                          'Total $%7B_currencyFormat.format(model.totalCost)%7D',%0A                          style: Styles.productRowTotal,%0A                        ),%0A                      %5D,%0A                    )%0A                  %5D,%0A                ),%0A              );%0A            %7D%0A        %7D%0A        return null;%0A      %7D,%0A    );%0A  %7D%0A%0A  @override%0A  Widget build(BuildContext context) %7B%0A    return Consumer%3CAppStateModel%3E(%0A      builder: (context, model, child) %7B%0A        return CustomScrollView(%0A          slivers: %3CWidget%3E%5B%0A            const CupertinoSliverNavigationBar(%0A              largeTitle: Text('Shopping Cart'),%0A            ),%0A            SliverSafeArea(%0A              top: false,%0A              minimum: const EdgeInsets.only(top: 4),%0A              sliver: SliverList(%0A                delegate: _buildSliverChildBuilderDelegate(model),%0A              ),%0A            )%0A          %5D,%0A        );%0A      %7D,%0A    );%0A  %7D%0A%7D%0A%0Aclass ShoppingCartItem extends StatelessWidget %7B%0A  const ShoppingCartItem(%7B%0A    required this.index,%0A    required this.product,%0A    required this.lastItem,%0A    required this.quantity,%0A    required this.formatter,%0A    Key? key,%0A  %7D) : super(key: key);%0A%0A  final Product product;%0A  final int index;%0A  final bool lastItem;%0A  final int quantity;%0A  final NumberFormat formatter;%0A%0A  @override%0A  Widget build(BuildContext context) %7B%0A    final row = SafeArea(%0A      top: false,%0A      bottom: false,%0A      child: Padding(%0A        padding: const EdgeInsets.only(%0A          left: 16,%0A          top: 8,%0A          bottom: 8,%0A          right: 8,%0A        ),%0A        child: Row(%0A          children: %3CWidget%3E%5B%0A            ClipRRect(%0A              borderRadius: BorderRadius.circular(4),%0A              child: Image.asset(%0A                product.assetName,%0A                package: product.assetPackage,%0A                fit: BoxFit.cover,%0A                width: 40,%0A                height: 40,%0A              ),%0A            ),%0A            Expanded(%0A              child: Padding(%0A                padding: const EdgeInsets.symmetric(horizontal: 12),%0A                child: Column(%0A                  mainAxisAlignment: MainAxisAlignment.start,%0A                  crossAxisAlignment: CrossAxisAlignment.start,%0A                  children: %3CWidget%3E%5B%0A                    Row(%0A                      mainAxisAlignment: MainAxisAlignment.spaceBetween,%0A                      children: %3CWidget%3E%5B%0A                        Text(%0A                          product.name,%0A                          style: Styles.productRowItemName,%0A                        ),%0A                        Text(%0A                          formatter.format(quantity * product.price),%0A                          style: Styles.productRowItemName,%0A                        ),%0A                      %5D,%0A                    ),%0A                    const SizedBox(%0A                      height: 4,%0A                    ),%0A                    Text(%0A                      '$%7Bquantity %3E 1 ? '$quantity x ' : ''%7D'%0A                      '$%7Bformatter.format(product.price)%7D',%0A                      style: Styles.productRowItemPrice,%0A                    )%0A                  %5D,%0A                ),%0A              ),%0A            ),%0A          %5D,%0A        ),%0A      ),%0A    );%0A%0A    return row
+           ;%0A  
+      - name: Copy step_06
+        exec:
+          command: cp -R cupertino_store step_06
   - name: Cleanup
     exec:
       command: rm -r cupertino_store
