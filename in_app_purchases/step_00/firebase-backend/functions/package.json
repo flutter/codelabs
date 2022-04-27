@@ -17,7 +17,7 @@
   "dependencies": {
     "camelcase-keys": "^6.2.2",
     "firebase-admin": "^9.2.0",
-    "firebase-functions": "^3.11.0",
+    "firebase-functions": "^3.20.1",
     "googleapis": "^73.0.0",
     "lodash": "^4.17.21",
     "node-apple-receipt-verify": "^1.9.3"
