@@ -1095,6 +1095,83 @@ steps:
       - name: Remove generated code.
         exec: 
           command: rm -r step_03
+      - name: Add search_bar.dart
+        path: cupertino_store/lib/search_bar.dart
+        replace-contents: |
+          // Copyright 2018 The Flutter team. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+
+          import 'package:flutter/cupertino.dart';
+          import 'styles.dart';
+
+          class SearchBar extends StatelessWidget {
+            const SearchBar({
+              required this.controller,
+              required this.focusNode,
+              Key? key,
+            }) : super(key: key);
+
+            final TextEditingController controller;
+            final FocusNode focusNode;
+
+            @override
+            Widget build(BuildContext context) {
+              return DecoratedBox(
+                decoration: BoxDecoration(
+                  color: Styles.searchBackground,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 4,
+                    vertical: 8,
+                  ),
+                  child: Row(
+                    children: [
+                      const Icon(
+                        CupertinoIcons.search,
+                        color: Styles.searchIconColor,
+                      ),
+                      Expanded(
+                        child: CupertinoTextField(
+                          controller: controller,
+                          focusNode: focusNode,
+                          style: Styles.searchText,
+                          cursorColor: Styles.searchCursorColor,
+                          decoration: null,
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: controller.clear,
+                        child: const Icon(
+                          CupertinoIcons.clear_thick_circled,
+                          color: Styles.searchIconColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }
+          }
+      - name: Modify search_tab.dart
+        path: cupertino_store/lib/search_tab.dart
+        patch: |
+          @@ -622,16 +622,175 @@
+           o.dart';
+          +%0Aimport 'package:provider/provider.dart';%0A%0Aimport 'model/app_state_model.dart';%0Aimport 'product_row_item.dart';%0Aimport 'search_bar.dart';%0Aimport 'styles.dart';
+           %0A%0Aclass 
+          @@ -1012,191 +1012,1367 @@
+           %7B%0A  
+          -@override%0A  Widget build(BuildContext context) %7B%0A    return const CustomScrollView(%0A      slivers: %3CWidget%3E%5B%0A        CupertinoSliverNavigationBar(%0A          largeTitle: Text('Search')
+          +late final TextEditingController _controller;%0A  late final FocusNode _focusNode;%0A  String _terms = '';%0A%0A  @override%0A  void initState() %7B%0A    super.initState();%0A    _controller = TextEditingController()..addListener(_onTextChanged);%0A    _focusNode = FocusNode();%0A  %7D%0A%0A  @override%0A  void dispose() %7B%0A    _focusNode.dispose();%0A    _controller.dispose();%0A    super.dispose();%0A  %7D%0A%0A  void _onTextChanged() %7B%0A    setState(() %7B%0A      _terms = _controller.text;%0A    %7D);%0A  %7D%0A%0A  Widget _buildSearchBox() %7B%0A    return Padding(%0A      padding: const EdgeInsets.all(8),%0A      child: SearchBar(%0A        controller: _controller,%0A        focusNode: _focusNode,%0A      ),%0A    );%0A  %7D%0A%0A  @override%0A  Widget build(BuildContext context) %7B%0A    final model = Provider.of%3CAppStateModel%3E(context);%0A    final results = model.search(_terms);%0A%0A    return DecoratedBox(%0A      decoration: const BoxDecoration(%0A        color: Styles.scaffoldBackground,%0A      ),%0A      child: SafeArea(%0A        child: Column(%0A          children: %5B%0A            _buildSearchBox(),%0A            Expanded(%0A              child: ListView.builder(%0A                itemBuilder: (context, index) =%3E ProductRowItem(%0A                  product: results%5Bindex%5D,%0A                  lastItem: index == results.length - 1,%0A                ),%0A                itemCount: results.length,%0A              ),%0A            ),%0A          %5D
+           ,%0A  
+          @@ -2382,25 +2382,25 @@
+              ),%0A      
+          -%5D
+          +)
+           ,%0A    );%0A  %7D
       - name: Copy step_03
         exec:
           command: cp -R cupertino_store step_03
