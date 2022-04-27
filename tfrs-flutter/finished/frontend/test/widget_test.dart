@@ -10,7 +10,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:recommend_products/main.dart';
 
 void main() {
+<<<<<<< HEAD
   testWidgets('Smoke test', (tester) async {
+=======
+  testWidgets('Smoke test', (WidgetTester tester) async {
+>>>>>>> b74c0f01 (Add finished code for new codelab for TensorFlow Recommenders + Flutter (#536))
     // Build our app and trigger a frame.
     await tester.pumpWidget(const RecommenderDemo());
 
