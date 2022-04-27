@@ -34,7 +34,7 @@ class _MenuState extends State<Menu> {
           onSelected: (value) async {
             switch (value) {
               case _MenuOptions.navigationDelegate:
-                controller.data!.loadUrl('https://youtube.com');
+                await controller.data!.loadUrl('https://youtube.com');
                 break;
               case _MenuOptions.userAgent:
                 final userAgent = await controller.data!
@@ -58,19 +58,19 @@ req.onload = function() {
 req.send();''');
                 break;
               case _MenuOptions.clearCookies:
-                _onClearCookies();
+                await _onClearCookies();
                 break;
               case _MenuOptions.listCookies:
-                _onListCookies(controller.data!);
+                await _onListCookies(controller.data!);
                 break;
               case _MenuOptions.addCookie:
-                _onAddCookie(controller.data!);
+                await _onAddCookie(controller.data!);
                 break;
               case _MenuOptions.setCookie:
-                _onSetCookie(controller.data!);
+                await _onSetCookie(controller.data!);
                 break;
               case _MenuOptions.removeCookie:
-                _onRemoveCookie(controller.data!);
+                await _onRemoveCookie(controller.data!);
                 break;
             }
           },
