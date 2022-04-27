@@ -29,13 +29,62 @@ steps:
       - name: Patch pubspec.yaml
         path: cupertino_store/pubspec.yaml
         patch: |
-          @@ -1,61 +1,653 @@
-          -name: cupertino_store%0Adescription: A new Flutter project.
-          +# Copyright 2019 Google LLC%0A#%0A# Licensed under the Apache License, Version 2.0 (the %22License%22);%0A# you may not use this file except in compliance with the License.%0A# You may obtain a copy of the License at%0A#%0A#      https://www.apache.org/licenses/LICENSE-2.0%0A#%0A# Unless required by applicable law or agreed to in writing, software%0A# distributed under the License is distributed on an %22AS IS%22 BASIS,%0A# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.%0A# See the License for the specific language governing permissions and%0A# limitations under the License.%0A%0Aname: cupertino_store%0Adescription: Creating a Store in Cupertino widgets
-           %0A%0A# 
-          @@ -4344,24 +4344,1469 @@
-           om-fonts/#from-packages%0A
-          +%0A  assets:%0A    - packages/shrine_images/0-0.jpg%0A    - packages/shrine_images/1-0.jpg%0A    - packages/shrine_images/2-0.jpg%0A    - packages/shrine_images/3-0.jpg%0A    - packages/shrine_images/4-0.jpg%0A    - packages/shrine_images/5-0.jpg%0A    - packages/shrine_images/6-0.jpg%0A    - packages/shrine_images/7-0.jpg%0A    - packages/shrine_images/8-0.jpg%0A    - packages/shrine_images/9-0.jpg%0A    - packages/shrine_images/10-0.jpg%0A    - packages/shrine_images/11-0.jpg%0A    - packages/shrine_images/12-0.jpg%0A    - packages/shrine_images/13-0.jpg%0A    - packages/shrine_images/14-0.jpg%0A    - packages/shrine_images/15-0.jpg%0A    - packages/shrine_images/16-0.jpg%0A    - packages/shrine_images/17-0.jpg%0A    - packages/shrine_images/18-0.jpg%0A    - packages/shrine_images/19-0.jpg%0A    - packages/shrine_images/20-0.jpg%0A    - packages/shrine_images/21-0.jpg%0A    - packages/shrine_images/22-0.jpg%0A    - packages/shrine_images/23-0.jpg%0A    - packages/shrine_images/24-0.jpg%0A    - packages/shrine_images/25-0.jpg%0A    - packages/shrine_images/26-0.jpg%0A    - packages/shrine_images/27-0.jpg%0A    - packages/shrine_images/28-0.jpg%0A    - packages/shrine_images/29-0.jpg%0A    - packages/shrine_images/30-0.jpg%0A    - packages/shrine_images/31-0.jpg%0A    - packages/shrine_images/32-0.jpg%0A    - packages/shrine_images/33-0.jpg%0A    - packages/shrine_images/34-0.jpg%0A    - packages/shrine_images/35-0.jpg%0A    - packages/shrine_images/36-0.jpg%0A    - packages/shrine_images/37-0.jpg%0A
+          @@ -1,1757 +1,824 @@
+          -name: cupertino_store%0Adescription: A new Flutter project.%0A%0A# The following line prevents
+          +# Copyright 2019 Google LLC%0A#%0A# Licensed under
+            the 
+          +A
+           pac
+          -kage from being accidentally published to%0A# pub.dev using %60flutter pub publish%60. This is preferred for private packages.%0Apublish_to: 'none' # Remove this line if you wish to publish to pub.dev%0A%0A# The following defines the version and build number for your application.%0A# A version number is three numbers separated by dots, like 1.2.43%0A# followed by an optional build number separated by a +.%0A# Both the version and the builder number may be overridden in flutter%0A# build by specifying --build-name and --build-number, respectively.%0A# In Android, build-name is used as versionName while build-number used as versionCode.%0A# Read more about Android versioning at https://developer.android.com/studio/publish/versioning%0A# In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.%0A# Read more about iOS versioning at%0A# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html%0Aversion: 1.0.0+1%0A%0Aenvironment:%0A  sdk: %22%3E=2.16.2 %3C3.0.0%22%0A%0A# Dependencies specify other packages that your package needs in order to work.%0A# To automatically upgrade your package dependencies to the latest versions%0A# consider running %60flutter pub upgrade --major-versions%60. Alternatively,%0A# dependencies can be manually updated by changing the version numbers below to%0A# the latest version available on pub.dev. To see which dependencies have newer%0A# versions available, run %60flutter pub outdated%60.%0Adependencies:%0A  flutter:%0A    sdk: flutter%0A%0A%0A  # The following adds the Cupertino Icons font to your application.%0A  # Use with the CupertinoIcons class for iOS style icons.
+          +he License, Version 2.0 (the %22License%22);%0A# you may not use this file except in compliance with the License.%0A# You may obtain a copy of the License at%0A#%0A#      https://www.apache.org/licenses/LICENSE-2.0%0A#%0A# Unless required by applicable law or agreed to in writing, software%0A# distributed under the License is distributed on an %22AS IS%22 BASIS,%0A# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.%0A# See the License for the specific language governing permissions and%0A# limitations under the License.%0A%0Aname: cupertino_store%0Adescription: Creating a Store in Cupertino widgets%0Apublish_to: 'none' # Remove this line if you wish to publish to pub.dev%0Aversion: 1.0.0+1%0A%0Aenvironment:%0A  sdk: %22%3E=2.16.2 %3C3.0.0%22%0A%0Adependencies:%0A  flutter:%0A    sdk: flutter
+           %0A  c
+          @@ -955,18 +955,10 @@
+           ter%0A
+          -%0A
+             
+          -# The %22
+           flut
+          @@ -970,1865 +970,1467 @@
+           ints
+          -%22 package below contains a set of recommended lints to%0A  # encourage good coding
+          +: %5E1.0.0%0A%0Aflutter:%0A  assets:%0A    - packages/shrine_images/0-0.jpg%0A    -
+            p
+          -r
+           ac
+          -tices. The lint set provided by the package is%0A  # activated in the %60analysis_options.yaml%60 file located at the root of your%0A  # package. See that file for information about deactivating specific lint%0A  # rules and activating additional ones.%0A  flutter_lints: %5E1.0.0%0A%0A# For information on the generic Dart part of this file, see the%0A# following page: https://dart.dev/tools/pub/pubspec%0A%0A# The following section is specific to Flutter.%0Aflutter:%0A%0A  # The following line ensures that the Material Icons font is%0A  # included with your application, so that you can use the icons in%0A  # the material Icons class.%0A  uses-material-design: true%0A%0A  # To add assets to your application, add an assets section, like this:%0A  # assets:
+          +kages/shrine_images/1-0.jpg%0A    - packages/shrine_images/2-0.jpg%0A    - packages/shrine_images/3-0.jpg%0A    - packages/shrine_images/4-0.jpg%0A    - packages/shrine_images/5-0.jpg%0A    - packages/shrine_images/6-0.jpg%0A    - packages/shrine_images/7-0.jpg%0A    - packages/shrine_images/8-0.jpg%0A    - packages/shrine_images/9-0.jpg%0A    - packages/shrine_images/10-0.jpg%0A    - packages/shrine_images/11-0.jpg%0A    - packages/shrine_images/12-0.jpg%0A    - packages/shrine_images/13-0.jpg%0A    - packages/shrine_images/14-0.jpg%0A    - packages/shrine_images/15-0.jpg
+           %0A  
+          -#
+             
+          - 
+           - 
+          -images/a_dot_burr
+          +packages/shrine_images/16-0
+           .jp
+          -e
+           g%0A  
+          -#
+             
+          - 
+           - 
+          -images/a_dot_ham.jpeg%0A%0A  # An image asset can refer to one or more resolution-specific %22variants%22, see%0A  # https://flutter.dev/assets-and-images/#resolution-aware.%0A%0A  # For details regarding adding assets from package dependencies, see%0A  # https://flutter.dev/assets-and-images/#from-packages%0A%0A  # To add custom fonts to your application, add a fonts section here,%0A  # in this %22flutter%22 section. Each entry in this list should have a%0A  # %22family%22 key with the font family name, and a %22fonts%22 key with a%0A  # list giving the asset and other descriptors for the font. For%0A  # example:%0A  # fonts:%0A  #   - family: Schyler%0A  #     fonts:%0A  #       - asset: fonts/Schyler-Regular.ttf%0A  #       - asset: fonts/Schyler-Italic.ttf
+          +packages/shrine_images/17-0.jpg%0A    - packages/shrine_images/18-0.jpg%0A    - packages/shrine_images/19-0.jpg%0A    - packages/shrine_images/20-0.jpg%0A    - packages/shrine_images/21-0.jpg%0A    - packages/shrine_images/22-0.jpg%0A    - packages/shrine_images/23-0.jpg%0A    - packages/shrine_images/24-0.jpg%0A    - packages/shrine_images/25-0.jpg%0A    - packages/shrine_images/26-0.jpg%0A    - packages/shrine_images/27-0.jpg%0A    - packages/shrine_images/28-0.jpg%0A    - packages/shrine_images/29-0.jpg
+           %0A  
+          -#
+             
+          -       style: italic
+          +- packages/shrine_images/30-0.jpg
+           %0A 
+          - #
+              - 
+          -family: Trajan Pro%0A  #     fonts:%0A  #       - asset: fonts/TrajanPro.ttf%0A  #  
+          +packages/shrine_images/31-0.jpg%0A    - packages/shrine_images/32-0.jpg%0A
+               
+          - 
+           - 
+          -asset: fonts/TrajanPro_Bold.ttf%0A  #         weight: 700%0A  #%0A  # For details regarding fonts from package dependencies,%0A  # see https://flutter.dev/custom-fonts/#from-packages
+          +packages/shrine_images/33-0.jpg%0A    - packages/shrine_images/34-0.jpg%0A    - packages/shrine_images/35-0.jpg%0A    - packages/shrine_images/36-0.jpg%0A    - packages/shrine_images/37-0.jpg
+           %0A
       - name: Add dependencies.
         exec:
           path: cupertino_store
@@ -79,10 +128,197 @@ steps:
           void main() {
             return runApp(const CupertinoStoreApp());
           }
+      - name: VSCode config
+        exec:
+          command: mkdir -p cupertino_store/.vscode
+      - name: Add launch.json
+        path: cupertino_store/.vscode/launch.json
+        replace-contents: |
+          {
+              // Use IntelliSense to learn about possible attributes.
+              // Hover to view descriptions of existing attributes.
+              // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+              "version": "0.2.0",
+              "configurations": [
+                  {
+                      "name": "cupertino_store",
+                      "request": "launch",
+                      "type": "dart"
+                  }
+              ]
+          }
+      - name: Add app.dart
+        path: cupertino_store/lib/app.dart
+        replace-contents: |
+          // Copyright 2019 Google LLC
+          //
+          // Licensed under the Apache License, Version 2.0 (the "License");
+          // you may not use this file except in compliance with the License.
+          // You may obtain a copy of the License at
+          //
+          //     https://www.apache.org/licenses/LICENSE-2.0
+          //
+          // Unless required by applicable law or agreed to in writing, software
+          // distributed under the License is distributed on an "AS IS" BASIS,
+          // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+          // See the License for the specific language governing permissions and
+          // limitations under the License.
 
+          import 'package:flutter/cupertino.dart';
+          import 'package:flutter/services.dart';
+
+          class CupertinoStoreApp extends StatelessWidget {
+            const CupertinoStoreApp({Key? key}) : super(key: key);
+
+            @override
+            Widget build(BuildContext context) {
+              // This app is designed only to work vertically, so we limit
+              // orientations to portrait up and down.
+              SystemChrome.setPreferredOrientations(
+                  [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
+              return const CupertinoApp(
+                theme: CupertinoThemeData(brightness: Brightness.light),
+                home: CupertinoStoreHomePage(),
+              );
+            }
+          }
+
+          class CupertinoStoreHomePage extends StatelessWidget {
+            const CupertinoStoreHomePage({Key? key}) : super(key: key);
+
+            @override
+            Widget build(BuildContext context) {
+              return const CupertinoPageScaffold(
+                navigationBar: CupertinoNavigationBar(
+                  middle: Text('Cupertino Store'),
+                ),
+                child: SizedBox(),
+              );
+            }
+          }
+      - name: Add styles.dart
+        path: cupertino_store/lib/styles.dart
+        replace-contents: |
+          // Copyright 2018 The Flutter team. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+
+          import 'package:flutter/cupertino.dart';
+
+          abstract class Styles {
+            static const TextStyle productRowItemName = TextStyle(
+              color: Color.fromRGBO(0, 0, 0, 0.8),
+              fontSize: 18,
+              fontStyle: FontStyle.normal,
+              fontWeight: FontWeight.normal,
+            );
+
+            static const TextStyle productRowTotal = TextStyle(
+              color: Color.fromRGBO(0, 0, 0, 0.8),
+              fontSize: 18,
+              fontStyle: FontStyle.normal,
+              fontWeight: FontWeight.bold,
+            );
+
+            static const TextStyle productRowItemPrice = TextStyle(
+              color: Color(0xFF8E8E93),
+              fontSize: 13,
+              fontWeight: FontWeight.w300,
+            );
+
+            static const TextStyle searchText = TextStyle(
+              color: Color.fromRGBO(0, 0, 0, 1),
+              fontSize: 14,
+              fontStyle: FontStyle.normal,
+              fontWeight: FontWeight.normal,
+            );
+
+            static const TextStyle deliveryTimeLabel = TextStyle(
+              color: Color(0xFFC2C2C2),
+              fontWeight: FontWeight.w300,
+            );
+
+            static const TextStyle deliveryTime = TextStyle(
+              color: CupertinoColors.inactiveGray,
+            );
+
+            static const Color productRowDivider = Color(0xFFD9D9D9);
+
+            static const Color scaffoldBackground = Color(0xfff0f0f0);
+
+            static const Color searchBackground = Color(0xffe0e0e0);
+
+            static const Color searchCursorColor = Color.fromRGBO(0, 122, 255, 1);
+
+            static const Color searchIconColor = Color.fromRGBO(128, 128, 128, 1);
+          }
+      - name: Modify widget_test.dart
+        path: cupertino_store/test/widget_test.dart
+        patch: |
+          @@ -1,1035 +1,842 @@
+           // 
+          -This is a basic Flutter widget test.%0A//%0A// To perform an interaction with a widget in your test, use the WidgetTester%0A// utility that Flutter provides. For example, you can send tap and scroll%0A// gestures. You can also use WidgetTester
+          +Copyright 2020 Google LLC%0A//%0A// Licensed under the Apache License, Version 2.0 (the %22License%22);%0A// you may not use this file except in compliance with the License.%0A// You may obtain a copy of the License at%0A//%0A//     https://www.apache.org/licenses/LICENSE-2.0%0A//%0A// Unless required by applicable law or agreed
+            to 
+          -f
+           in
+          -d child widgets in the widget%0A// tree, read text, and verify that the values of widget properties are correct.%0A%0Aimport 'package:flutter/material.dart';%0Aimport 'package:flutter_test/flutter_test.dart';%0A%0Aimport 'package:cupertino_store/main.dart';%0A%0Avoid main() %7B%0A  testWidgets('Counter increments smoke test', (WidgetTester tester) async %7B%0A    // Build our app and trigger a frame.%0A    await tester.pumpWidget(const MyApp());%0A%0A    // Verify that our counter starts at 0.%0A    expect(find.text('0'), findsOneWidget);%0A    expect(find.text('1'), findsNothing);%0A%0A    // Tap the '+' icon and trigger a frame.%0A    await tester.tap(find.byIcon(Icons.add));%0A    await tester.pump();%0A%0A    // Verify that our counter has incremented.%0A    expect(find.text('0'), findsNothing);%0A    expect(find.text('1
+          + writing, software%0A// distributed under the License is distributed on an %22AS IS%22 BASIS,%0A// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.%0A// See the License for the specific language governing permissions and%0A// limitations under the License.%0A%0Aimport 'package:cupertino_store/app.dart';%0Aimport 'package:flutter_test/flutter_test.dart';%0A%0Avoid main() %7B%0A  testWidgets('App start test', (tester) async %7B%0A    await tester.pumpWidget(const CupertinoStoreApp());%0A    expect(find.text('Cupertino Store
+           '), 
       - name: Copy step_00
         exec:
           command: cp -R cupertino_store step_00
+  - name: step_01
+    steps:
+      - name: Remove generated code.
+        exec: 
+          command: rm -r step_01
+      - name: Patch app.dart
+        path: cupertino_store/lib/app.dart
+        patch: |
+          @@ -662,16 +662,107 @@
+           s.dart';
+          +%0Aimport 'product_list_tab.dart';%0Aimport 'search_tab.dart';%0Aimport 'shopping_cart_tab.dart';
+           %0A%0Aclass 
+          @@ -1459,38 +1459,32 @@
+           t) %7B%0A    return 
+          -const 
+           CupertinoPageSca
+          @@ -1476,20 +1476,19 @@
+           upertino
+          -Page
+          +Tab
+           Scaffold
+          @@ -1499,32 +1499,221 @@
+               
+          -navigationBar: Cupertino
+          +tabBar: CupertinoTabBar(%0A        items: const %3CBottomNavigationBarItem%3E%5B%0A          BottomNavigationBarItem(%0A            icon: Icon(CupertinoIcons.home),%0A            label: 'Products',%0A          ),%0A          Bottom
+           Navi
+          @@ -1721,16 +1721,20 @@
+           ationBar
+          +Item
+           (%0A      
+          @@ -1739,73 +1739,1065 @@
+               
+          -middle: Text('Cupertino Store'),%0A      ),%0A      child: SizedBox()
+          +    icon: Icon(CupertinoIcons.search),%0A            label: 'Search',%0A          ),%0A          BottomNavigationBarItem(%0A            icon: Icon(CupertinoIcons.shopping_cart),%0A            label: 'Cart',%0A          ),%0A        %5D,%0A      ),%0A      tabBuilder: (context, index) %7B%0A        late final CupertinoTabView returnValue;%0A        switch (index) %7B%0A          case 0:%0A            returnValue = CupertinoTabView(builder: (context) %7B%0A              return const CupertinoPageScaffold(%0A                child: ProductListTab(),%0A              );%0A            %7D);%0A            break;%0A          case 1:%0A            returnValue = CupertinoTabView(builder: (context) %7B%0A              return const CupertinoPageScaffold(%0A                child: SearchTab(),%0A              );%0A            %7D);%0A            break;%0A          case 2:%0A            returnValue = CupertinoTabView(builder: (context) %7B%0A              return const CupertinoPageScaffold(%0A                child: ShoppingCartTab(),%0A              );%0A            %7D);%0A            break;%0A        %7D%0A        return returnValue;%0A      %7D
+           ,%0A  
+      - name: Patch main.dart
+        path: cupertino_store/lib/main.dart
+        patch: |
+          @@ -627,59 +627,248 @@
+           t';%0A
+          -%0Aimport 'app.dart';%0A%0Avoid main() %7B%0A  return runApp(
+          +import 'package:provider/provider.dart';%0A%0Aimport 'app.dart';%0Aimport 'model/app_state_model.dart';%0A%0Avoid main() %7B%0A  return runApp(%0A    ChangeNotifierProvider%3CAppStateModel%3E(%0A      create: (_) =%3E AppStateModel()..loadProducts(),%0A      child: 
+           cons
+          @@ -888,13 +888,24 @@
+           oreApp()
+          +,%0A    ),%0A  
+           );%0A%7D%0A
+      - name: Copy step_01
+        exec:
+          command: cp -R cupertino_store step_01
   - name: Cleanup
     exec:
       command: rm -r cupertino_store
