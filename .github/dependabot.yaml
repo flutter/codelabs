@@ -353,6 +353,30 @@ updates:
     directory: "/webview_flutter/step_12/"
     schedule:
       interval: "daily"
+  - package-ecosystem: "npm"
+    directory: "/in_app_purchases/step_00/firebase-backend/functions"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "npm"
+    directory: "/in_app_purchases/step_07/firebase-backend/functions/"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "npm"
+    directory: "/in_app_purchases/step_08/firebase-backend/functions/"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "npm"
+    directory: "/in_app_purchases/step_09/firebase-backend/functions/"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "npm"
+    directory: "/in_app_purchases/step_10/firebase-backend/functions/"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "npm"
+    directory: "/in_app_purchases/complete/firebase-backend/functions/"
+    schedule:
+      interval: "daily"
 
 
 
