@@ -13,7 +13,7 @@ dependencies:
   google_maps_flutter: ^2.1.4
   google_maps_flutter_web: ^0.3.2+1
   http: ^0.13.4
-  json_annotation: ^4.4.0
+  json_annotation: ^4.5.0
   json_serializable: ^6.1.5
 
 dev_dependencies:
