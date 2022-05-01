@@ -54,9 +54,11 @@ ConfigurationStep _$ConfigurationStepFromJson(Map json) => $checkedCreate(
           name: $checkedConvert('name', (v) => v as String),
           steps: $checkedConvert(
               'steps',
-              (v) => (v as List<dynamic>?)
-                  ?.map((e) => ConfigurationStep.fromJson(e as Map))
-                  .toList()),
+              (v) =>
+                  (v as List<dynamic>?)
+                      ?.map((e) => ConfigurationStep.fromJson(e as Map))
+                      .toList() ??
+                  const []),
           command: $checkedConvert('command', (v) => v as String?),
           commands: $checkedConvert(
               'commands',
