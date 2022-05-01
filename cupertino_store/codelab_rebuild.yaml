@@ -91,7 +91,7 @@ steps:
           < # For information on the generic Dart part of this file, see the
           < # following page: https://dart.dev/tools/pub/pubspec
           < 
-          < # The following section is specific to Flutter.
+          < # The following section is specific to Flutter packages.
           57,92c37,75
           < 
           <   # The following line ensures that the Material Icons font is
@@ -105,7 +105,7 @@ steps:
           <   #   - images/a_dot_ham.jpeg
           < 
           <   # An image asset can refer to one or more resolution-specific "variants", see
-          <   # https://flutter.dev/assets-and-images/#resolution-aware.
+          <   # https://flutter.dev/assets-and-images/#resolution-aware
           < 
           <   # For details regarding adding assets from package dependencies, see
           <   # https://flutter.dev/assets-and-images/#from-packages
@@ -327,57 +327,32 @@ steps:
 
             static const Color searchIconColor = Color.fromRGBO(128, 128, 128, 1);
           }
-      - name: Modify widget_test.dart
+      - name: Replace widget_test.dart
         path: cupertino_store/test/widget_test.dart
-        patch: |
-          1c1
-          < // This is a basic Flutter widget test.
-          ---
-          > // Copyright 2020 Google LLC
-          3,6c3,13
-          < // To perform an interaction with a widget in your test, use the WidgetTester
-          < // utility that Flutter provides. For example, you can send tap and scroll
-          < // gestures. You can also use WidgetTester to find child widgets in the widget
-          < // tree, read text, and verify that the values of widget properties are correct.
-          ---
-          > // Licensed under the Apache License, Version 2.0 (the "License");
-          > // you may not use this file except in compliance with the License.
-          > // You may obtain a copy of the License at
-          > //
-          > //     https://www.apache.org/licenses/LICENSE-2.0
-          > //
-          > // Unless required by applicable law or agreed to in writing, software
-          > // distributed under the License is distributed on an "AS IS" BASIS,
-          > // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-          > // See the License for the specific language governing permissions and
-          > // limitations under the License.
-          8c15
-          < import 'package:flutter/material.dart';
-          ---
-          > import 'package:cupertino_store/app.dart';
-          11,12d17
-          < import 'package:cupertino_store/main.dart';
-          < 
-          14,28c19,21
-          <   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-          <     // Build our app and trigger a frame.
-          <     await tester.pumpWidget(const MyApp());
-          < 
-          <     // Verify that our counter starts at 0.
-          <     expect(find.text('0'), findsOneWidget);
-          <     expect(find.text('1'), findsNothing);
-          < 
-          <     // Tap the '+' icon and trigger a frame.
-          <     await tester.tap(find.byIcon(Icons.add));
-          <     await tester.pump();
-          < 
-          <     // Verify that our counter has incremented.
-          <     expect(find.text('0'), findsNothing);
-          <     expect(find.text('1'), findsOneWidget);
-          ---
-          >   testWidgets('App start test', (tester) async {
-          >     await tester.pumpWidget(const CupertinoStoreApp());
-          >     expect(find.text('Cupertino Store'), findsOneWidget);
+        replace-contents: |
+          // Copyright 2020 Google LLC
+          //
+          // Licensed under the Apache License, Version 2.0 (the "License");
+          // you may not use this file except in compliance with the License.
+          // You may obtain a copy of the License at
+          //
+          //     https://www.apache.org/licenses/LICENSE-2.0
+          //
+          // Unless required by applicable law or agreed to in writing, software
+          // distributed under the License is distributed on an "AS IS" BASIS,
+          // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+          // See the License for the specific language governing permissions and
+          // limitations under the License.
+
+          import 'package:cupertino_store/app.dart';
+          import 'package:flutter_test/flutter_test.dart';
+
+          void main() {
+            testWidgets('App start test', (tester) async {
+              await tester.pumpWidget(const CupertinoStoreApp());
+              expect(find.text('Cupertino Store'), findsOneWidget);
+            });
+          }
       - name: Copy step_00
         command: cp -R cupertino_store step_00
   - name: step_01
