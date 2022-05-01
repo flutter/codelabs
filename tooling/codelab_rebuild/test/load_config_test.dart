@@ -58,7 +58,7 @@ steps:
     expect(config.steps[0].steps!.length, equals(6));
     expect(config.steps[0].steps![0].isValid, equals(true));
     expect(config.steps[0].steps![0].name, equals('Remove generated code.'));
-    expect(config.steps[0].steps![0].exec!.command, equals('rm -rf step_00'));
+    expect(config.steps[0].steps![0].command, equals('rm -rf step_00'));
     expect(config.steps[0].steps![1].isValid, equals(true));
     expect(config.steps[0].steps![2].isValid, equals(true));
     expect(config.steps[0].steps![2].name, equals('Configure'));
@@ -87,11 +87,11 @@ include: ../../analysis_options.yaml
     expect(config.steps[0].steps![5].name,
         equals('Remove the Android, Web, and Desktop runners'));
     expect(
-      config.steps[0].steps![5].exec!.path,
+      config.steps[0].steps![5].path,
       equals('cupertino_store'),
     );
     expect(
-      config.steps[0].steps![5].exec!.commands,
+      config.steps[0].steps![5].commands,
       equals([
         'rm -rf android',
         'rm -rf linux',

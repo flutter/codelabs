@@ -9,7 +9,6 @@ environment:
 dependencies: 
   checked_yaml: ^2.0.1
   cli_script: ^0.2.6
-  diff_match_patch: ^0.4.1
   json_annotation: ^4.4.0
   logging: ^1.0.2
   path: ^1.8.0

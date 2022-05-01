@@ -37,7 +37,8 @@ class ConfigurationStep {
   final String name;
   final List<ConfigurationStep>? steps;
 
-  final StepExec? exec;
+  final String? command;
+  final List<String> commands;
   final String? patch;
   final String? path;
   @JsonKey(name: 'replace-contents')
@@ -46,7 +47,8 @@ class ConfigurationStep {
   ConfigurationStep({
     required this.name,
     this.steps,
-    this.exec,
+    this.command,
+    this.commands = const [],
     this.patch,
     this.path,
     this.replaceContents,
@@ -59,33 +61,35 @@ class ConfigurationStep {
   bool get isValid {
     final steps = this.steps;
 
-    // If there are sub steps, we don't want any other configuration data
+    // If there aren't steps, then there should be something else to do
     if ((steps == null || steps.isEmpty) &&
         patch == null &&
-        exec == null &&
-        path == null &&
+        command == null &&
+        commands.isEmpty &&
         replaceContents == null) return false;
 
-    // If there aren't steps, then there should be something else to do
+    // If there are sub steps, we don't want any other configuration data
     if ((steps != null && steps.isNotEmpty) &&
         (patch != null ||
-            exec != null ||
-            path != null ||
+            command != null ||
+            commands.isNotEmpty ||
             replaceContents != null)) return false;
 
-    // If we have a diff, we need a file to apply to
+    // If we have a patch, we need a file to apply to
     if (patch != null && path == null) return false;
 
     // If we have replace-contents, we need a file to apply it to
     if (replaceContents != null && path == null) return false;
 
     // If we have a diff, we don't want an exec or a replace-contents config
-    if (patch != null && (exec != null || replaceContents != null)) {
+    if (patch != null &&
+        (command != null || commands.isNotEmpty || replaceContents != null)) {
       return false;
     }
 
-    // Likewise, if there is an exec, there shouldn't be a file or a replace-contents
-    if (exec != null && (path != null || replaceContents != null)) return false;
+    // Likewise, if there is a command, there shouldn't be a patch or a replace-contents
+    if ((command != null || commands.isNotEmpty) &&
+        (patch != null || replaceContents != null)) return false;
 
     return true;
   }
@@ -97,32 +101,4 @@ class ConfigurationStep {
 
   @override
   String toString() => 'ConfigurationStep: ${toJson()}';
-}
-
-@JsonSerializable(
-  anyMap: true,
-  checked: true,
-  disallowUnrecognizedKeys: true,
-)
-class StepExec {
-  final String? command;
-  final List<String> commands;
-  final String? path;
-
-  StepExec({
-    this.command,
-    this.commands = const [],
-    this.path,
-  }) {
-    if (commands.isEmpty && command == null) {
-      throw ArgumentError.value(command, 'command', 'Cannot be empty.');
-    }
-  }
-
-  factory StepExec.fromJson(Map json) => _$StepExecFromJson(json);
-
-  Map<String, dynamic> toJson() => _$StepExecToJson(this);
-
-  @override
-  String toString() => 'StepExec: ${toJson()}';
 }
