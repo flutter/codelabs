@@ -48,6 +48,7 @@ steps:
           - rm -rf windows
 ''';
     final config = loadConfig(input);
+    expect(config.isValid, equals(true));
     expect(config.name, equals('Cupertino Store script'));
     expect(config.steps.length, equals(1));
     expect(config.steps[0].steps!.length, equals(6));
@@ -95,5 +96,72 @@ include: ../../analysis_options.yaml
         'rm -rf windows'
       ]),
     );
+  });
+
+  test('Invalid config, empty command', () {
+    final input = '''
+name: Cupertino Store script
+steps:
+  - name: step_00
+    steps:
+      - name: empty command.
+        command: 
+''';
+    final config = loadConfig(input);
+    expect(config.isValid, equals(false));
+  });
+
+  test('Invalid config, command with patch', () {
+    final input = '''
+name: Cupertino Store script
+steps:
+  - name: step_00
+    steps:
+      - name: command with patch.
+        command: foo
+        patch: not really a patch 
+''';
+    final config = loadConfig(input);
+    expect(config.isValid, equals(false));
+  });
+
+  test('Invalid config, command with replace-contents', () {
+    final input = '''
+name: Cupertino Store script
+steps:
+  - name: step_00
+    steps:
+      - name: command with replace-contents.
+        command: foo
+        replace-contents: contents 
+''';
+    final config = loadConfig(input);
+    expect(config.isValid, equals(false));
+  });
+
+  test('Invalid config, patch without path', () {
+    final input = '''
+name: Cupertino Store script
+steps:
+  - name: step_00
+    steps:
+      - name: patch without path.
+        patch: foo
+''';
+    final config = loadConfig(input);
+    expect(config.isValid, equals(false));
+  });
+
+  test('Invalid config, replace-contents without path', () {
+    final input = '''
+name: Cupertino Store script
+steps:
+  - name: step_00
+    steps:
+      - name: replace-contents without path.
+        replace-contents: contents 
+''';
+    final config = loadConfig(input);
+    expect(config.isValid, equals(false));
   });
 }
