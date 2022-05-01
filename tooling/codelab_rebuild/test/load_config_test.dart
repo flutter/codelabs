@@ -9,11 +9,9 @@ steps:
   - name: step_00
     steps:
       - name: Remove generated code.
-        exec: 
-          command: rm -rf step_00
+        command: rm -rf step_00
       - name: Create project.
-        exec: 
-          command: flutter create cupertino_store
+        command: flutter create cupertino_store
       - name: Configure 
         path: cupertino_store/analysis_options.yaml
         replace-contents: |
@@ -33,24 +31,21 @@ steps:
           
           include: ../../analysis_options.yaml
       - name: Add dependencies.
-        exec:
-          path: cupertino_store
-          commands:
-            - flutter pub add intl 
-            - flutter pub add provider 
-            - flutter pub add shrine_images
+        path: cupertino_store
+        commands:
+          - flutter pub add intl 
+          - flutter pub add provider 
+          - flutter pub add shrine_images
       - name: Remove the README.md.
-        exec: 
-          command: rm cupertino_store/README.md
+        command: rm cupertino_store/README.md
       - name: Remove the Android, Web, and Desktop runners
-        exec: 
-          path: cupertino_store
-          commands:
-            - rm -rf android 
-            - rm -rf linux 
-            - rm -rf macos 
-            - rm -rf web 
-            - rm -rf windows
+        path: cupertino_store
+        commands:
+          - rm -rf android 
+          - rm -rf linux 
+          - rm -rf macos 
+          - rm -rf web 
+          - rm -rf windows
 ''';
     final config = loadConfig(input);
     expect(config.name, equals('Cupertino Store script'));
