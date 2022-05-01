@@ -10,6 +10,12 @@ final logger = Logger('rebuildConfig');
 
 Future<void> rebuildConfig(Directory cwd, Configuration config) async {
   logger.info(config.name);
+
+  if (!config.isValid) {
+    logger.warning('Invalid config');
+    exit(-1);
+  }
+
   for (final step in config.steps) {
     await buildConfigStep(cwd, step);
   }
@@ -17,13 +23,9 @@ Future<void> rebuildConfig(Directory cwd, Configuration config) async {
 
 Future<void> buildConfigStep(Directory cwd, ConfigurationStep step) async {
   logger.info(step.name);
-  if (!step.isValid) {
-    logger.severe('Invalid step: $step');
-    exit(-1);
-  }
 
   final steps = step.steps;
-  if (steps != null && steps.isNotEmpty) {
+  if (steps.isNotEmpty) {
     for (final subStep in steps) {
       await buildConfigStep(cwd, subStep);
     }
@@ -45,7 +47,7 @@ Future<void> buildConfigStep(Directory cwd, ConfigurationStep step) async {
 
   final path = step.path;
   if (path == null) {
-    logger.severe('patch and replace-contents both require a file: $step');
+    logger.severe('patch and replace-contents both require a path: $step');
     exit(-1);
   }
 
