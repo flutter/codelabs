@@ -42,6 +42,7 @@ ConfigurationStep _$ConfigurationStepFromJson(Map json) => $checkedCreate(
           allowedKeys: const [
             'name',
             'steps',
+            'base64-contents',
             'command',
             'commands',
             'patch',
@@ -59,6 +60,8 @@ ConfigurationStep _$ConfigurationStepFromJson(Map json) => $checkedCreate(
                       ?.map((e) => ConfigurationStep.fromJson(e as Map))
                       .toList() ??
                   const []),
+          base64Contents:
+              $checkedConvert('base64-contents', (v) => v as String?),
           command: $checkedConvert('command', (v) => v as String?),
           commands: $checkedConvert(
               'commands',
@@ -72,13 +75,17 @@ ConfigurationStep _$ConfigurationStepFromJson(Map json) => $checkedCreate(
         );
         return val;
       },
-      fieldKeyMap: const {'replaceContents': 'replace-contents'},
+      fieldKeyMap: const {
+        'base64Contents': 'base64-contents',
+        'replaceContents': 'replace-contents'
+      },
     );
 
 Map<String, dynamic> _$ConfigurationStepToJson(ConfigurationStep instance) =>
     <String, dynamic>{
       'name': instance.name,
       'steps': instance.steps,
+      'base64-contents': instance.base64Contents,
       'command': instance.command,
       'commands': instance.commands,
       'patch': instance.patch,

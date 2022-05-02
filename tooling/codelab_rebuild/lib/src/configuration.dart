@@ -45,6 +45,8 @@ class ConfigurationStep {
   final String name;
   final List<ConfigurationStep> steps;
 
+  @JsonKey(name: 'base64-contents')
+  final String? base64Contents;
   final String? command;
   final List<String> commands;
   final String? patch;
@@ -55,6 +57,7 @@ class ConfigurationStep {
   ConfigurationStep({
     required this.name,
     this.steps = const [],
+    this.base64Contents,
     this.command,
     this.commands = const [],
     this.patch,
@@ -75,7 +78,8 @@ class ConfigurationStep {
         patch == null &&
         command == null &&
         commands.isEmpty &&
-        replaceContents == null) {
+        replaceContents == null &&
+        base64Contents == null) {
       logger.warning('Invalid step with no action: $this');
       return false;
     }
@@ -83,13 +87,14 @@ class ConfigurationStep {
     // If there are sub steps...
     if (steps.isNotEmpty) {
       // there shouldn't be any other configuration data,
-      if (patch != null ||
+      if (base64Contents != null ||
+          patch != null ||
           command != null ||
           commands.isNotEmpty ||
           replaceContents != null) {
         logger.warning(
             'Invalid step sub-steps and one (or more) of patch, command(s), '
-            'or replace-contents: $this');
+            'base64-contents or replace-contents: $this');
         return false;
       }
 
@@ -112,17 +117,27 @@ class ConfigurationStep {
       return false;
     }
 
-    // If we have a diff, we don't want an exec or a replace-contents config
-    if (patch != null &&
-        (command != null || commands.isNotEmpty || replaceContents != null)) {
-      logger.warning(
-          'Invalid step, patch with command(s) and/or replace-contents: $this');
+    // If we have base64-contents, we need a file to apply it to.
+    if (base64Contents != null && path == null) {
+      logger
+          .warning('Invalid step, base64-contents with no target path: $this');
       return false;
     }
 
-    // Likewise, if there is a command, there mustn't be a patch or a replace-contents.
+    // If we have a patch, we don't want a replace-contents, base64-contents or command(s)
+    if (patch != null &&
+        (command != null ||
+            commands.isNotEmpty ||
+            replaceContents != null ||
+            base64Contents != null)) {
+      logger.warning(
+          'Invalid step, patch with command(s), replace-contents, or base64-contents: $this');
+      return false;
+    }
+
+    // Likewise, if there is a command, there mustn't be a patch, replace-contents or base64-contents.
     if ((command != null || commands.isNotEmpty) &&
-        (patch != null || replaceContents != null)) {
+        (patch != null || replaceContents != null || base64Contents != null)) {
       logger.warning(
           'Invalid step, command(s) with patch and/or replace-contents: $this');
       return false;
