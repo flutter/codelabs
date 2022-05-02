@@ -54,14 +54,28 @@ Future<void> buildConfigStep(Directory cwd, ConfigurationStep step) async {
   }
 
   final patch = step.patch;
-  if (patch != null) {
+  final patchU = step.patchU;
+  final patchC = step.patchC;
+
+  if (patch != null || patchC != null || patchU != null) {
     final fullPath = p.join(cwd.path, path);
     if (!FileSystemEntity.isFileSync(fullPath)) {
       File(fullPath).createSync();
     }
 
-    final script =
-        patch | Script('patch', args: [path], workingDirectory: cwd.path);
+    late final Script script;
+    if (patch != null) {
+      script =
+          patch | Script('patch', args: [path], workingDirectory: cwd.path);
+    }
+    if (patchC != null) {
+      script = patchC |
+          Script('patch', args: ['-c', path], workingDirectory: cwd.path);
+    }
+    if (patchU != null) {
+      script = patchU |
+          Script('patch', args: ['-u', path], workingDirectory: cwd.path);
+    }
     script.stderr.lines.listen((event) {
       logger.warning(event);
     });
