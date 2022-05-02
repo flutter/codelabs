@@ -50,6 +50,10 @@ class ConfigurationStep {
   final String? command;
   final List<String> commands;
   final String? patch;
+  @JsonKey(name: 'patch-u')
+  final String? patchU;
+  @JsonKey(name: 'patch-c')
+  final String? patchC;
   final String? path;
   @JsonKey(name: 'replace-contents')
   final String? replaceContents;
@@ -61,6 +65,8 @@ class ConfigurationStep {
     this.command,
     this.commands = const [],
     this.patch,
+    this.patchU,
+    this.patchC,
     this.path,
     this.replaceContents,
   }) {
@@ -76,6 +82,8 @@ class ConfigurationStep {
     // If there aren't sub-steps, then there should be something else to do.
     if (steps.isEmpty &&
         patch == null &&
+        patchU == null &&
+        patchC == null &&
         command == null &&
         commands.isEmpty &&
         replaceContents == null &&
@@ -89,6 +97,8 @@ class ConfigurationStep {
       // there shouldn't be any other configuration data,
       if (base64Contents != null ||
           patch != null ||
+          patchU != null ||
+          patchC != null ||
           command != null ||
           commands.isNotEmpty ||
           replaceContents != null) {
@@ -105,8 +115,14 @@ class ConfigurationStep {
     }
 
     // If we have a patch, we need a file to apply the patch to.
-    if (patch != null && path == null) {
+    if ((patch != null || patchU != null || patchC != null) && path == null) {
       logger.warning('Invalid step, patch with no target path: $this');
+      return false;
+    }
+
+    // We can't have both patch and patch-u
+    if (patch != null && patchU != null && patchC != null) {
+      logger.warning('Invalid step, both patch and patch-u specified: $this');
       return false;
     }
 
@@ -125,7 +141,7 @@ class ConfigurationStep {
     }
 
     // If we have a patch, we don't want a replace-contents, base64-contents or command(s)
-    if (patch != null &&
+    if ((patch != null || patchU != null || patchC != null) &&
         (command != null ||
             commands.isNotEmpty ||
             replaceContents != null ||
@@ -135,9 +151,13 @@ class ConfigurationStep {
       return false;
     }
 
-    // Likewise, if there is a command, there mustn't be a patch, replace-contents or base64-contents.
+    // Likewise, if there is a command, there mustn't be a patch, patch-u, replace-contents or base64-contents.
     if ((command != null || commands.isNotEmpty) &&
-        (patch != null || replaceContents != null || base64Contents != null)) {
+        (patch != null ||
+            patchU != null ||
+            patchC != null ||
+            replaceContents != null ||
+            base64Contents != null)) {
       logger.warning(
           'Invalid step, command(s) with patch and/or replace-contents: $this');
       return false;
