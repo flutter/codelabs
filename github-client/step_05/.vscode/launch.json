@@ -8,12 +8,6 @@
             "name": "github_client",
             "request": "launch",
             "type": "dart"
-        },
-        {
-            "name": "github_client (profile mode)",
-            "request": "launch",
-            "type": "dart",
-            "flutterMode": "profile"
         }
     ]
 }
