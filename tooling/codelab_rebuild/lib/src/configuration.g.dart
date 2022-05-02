@@ -46,6 +46,8 @@ ConfigurationStep _$ConfigurationStepFromJson(Map json) => $checkedCreate(
             'command',
             'commands',
             'patch',
+            'patch-u',
+            'patch-c',
             'path',
             'replace-contents'
           ],
@@ -69,6 +71,8 @@ ConfigurationStep _$ConfigurationStepFromJson(Map json) => $checkedCreate(
                   (v as List<dynamic>?)?.map((e) => e as String).toList() ??
                   const []),
           patch: $checkedConvert('patch', (v) => v as String?),
+          patchU: $checkedConvert('patch-u', (v) => v as String?),
+          patchC: $checkedConvert('patch-c', (v) => v as String?),
           path: $checkedConvert('path', (v) => v as String?),
           replaceContents:
               $checkedConvert('replace-contents', (v) => v as String?),
@@ -77,6 +81,8 @@ ConfigurationStep _$ConfigurationStepFromJson(Map json) => $checkedCreate(
       },
       fieldKeyMap: const {
         'base64Contents': 'base64-contents',
+        'patchU': 'patch-u',
+        'patchC': 'patch-c',
         'replaceContents': 'replace-contents'
       },
     );
@@ -89,6 +95,8 @@ Map<String, dynamic> _$ConfigurationStepToJson(ConfigurationStep instance) =>
       'command': instance.command,
       'commands': instance.commands,
       'patch': instance.patch,
+      'patch-u': instance.patchU,
+      'patch-c': instance.patchC,
       'path': instance.path,
       'replace-contents': instance.replaceContents,
     };

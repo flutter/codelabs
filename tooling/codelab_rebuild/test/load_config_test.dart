@@ -168,6 +168,34 @@ steps:
     expect(config.isValid, equals(true));
   });
 
+  test('Valid patch-u config', () {
+    final input = '''
+name: Valid patch-u config
+steps:
+  - name: step_00
+    steps:
+      - name: replace-contents.
+        path: some-file.txt
+        patch-u: Not actually a delta
+''';
+    final config = loadConfig(input);
+    expect(config.isValid, equals(true));
+  });
+
+  test('Valid patch-c config', () {
+    final input = '''
+name: Valid patch-c config
+steps:
+  - name: step_00
+    steps:
+      - name: replace-contents.
+        path: some-file.txt
+        patch-c: Not actually a delta
+''';
+    final config = loadConfig(input);
+    expect(config.isValid, equals(true));
+  });
+
   test('Invalid config, empty command', () {
     final input = '''
 name: Invalid config, empty command
@@ -195,6 +223,34 @@ steps:
     expect(config.isValid, equals(false));
   });
 
+  test('Invalid config, command with patch-u', () {
+    final input = '''
+name: Cupertino Store script
+steps:
+  - name: step_00
+    steps:
+      - name: command with patch-u.
+        command: foo
+        patch-u: not really a patch 
+''';
+    final config = loadConfig(input);
+    expect(config.isValid, equals(false));
+  });
+
+  test('Invalid config, command with patch-c', () {
+    final input = '''
+name: Cupertino Store script
+steps:
+  - name: step_00
+    steps:
+      - name: command with patch-c.
+        command: foo
+        patch-c: not really a patch 
+''';
+    final config = loadConfig(input);
+    expect(config.isValid, equals(false));
+  });
+
   test('Invalid config, command with replace-contents', () {
     final input = '''
 name: Cupertino Store script
@@ -217,6 +273,32 @@ steps:
     steps:
       - name: patch without path.
         patch: foo
+''';
+    final config = loadConfig(input);
+    expect(config.isValid, equals(false));
+  });
+
+  test('Invalid config, patch-u without path', () {
+    final input = '''
+name: Cupertino Store script
+steps:
+  - name: step_00
+    steps:
+      - name: patch without path.
+        patch-u: foo
+''';
+    final config = loadConfig(input);
+    expect(config.isValid, equals(false));
+  });
+
+  test('Invalid config, patch-c without path', () {
+    final input = '''
+name: Cupertino Store script
+steps:
+  - name: step_00
+    steps:
+      - name: patch without path.
+        patch-c: foo
 ''';
     final config = loadConfig(input);
     expect(config.isValid, equals(false));
