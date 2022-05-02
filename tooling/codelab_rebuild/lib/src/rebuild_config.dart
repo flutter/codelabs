@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:cli_script/cli_script.dart';
@@ -47,7 +48,8 @@ Future<void> buildConfigStep(Directory cwd, ConfigurationStep step) async {
 
   final path = step.path;
   if (path == null) {
-    logger.severe('patch and replace-contents both require a path: $step');
+    logger.severe(
+        'patch, base64-contents and replace-contents require a path: $step');
     exit(-1);
   }
 
@@ -73,6 +75,13 @@ Future<void> buildConfigStep(Directory cwd, ConfigurationStep step) async {
       exit(-1);
     }
 
+    return;
+  }
+
+  final base64Contents = step.base64Contents;
+  if (base64Contents != null) {
+    File(p.join(cwd.path, path))
+        .writeAsBytesSync(base64Decode(base64Contents.split('\n').join('')));
     return;
   }
 

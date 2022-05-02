@@ -51,16 +51,16 @@ steps:
     expect(config.isValid, equals(true));
     expect(config.name, equals('Cupertino Store script'));
     expect(config.steps.length, equals(1));
-    expect(config.steps[0].steps!.length, equals(6));
-    expect(config.steps[0].steps![0].isValid, equals(true));
-    expect(config.steps[0].steps![0].name, equals('Remove generated code.'));
-    expect(config.steps[0].steps![0].command, equals('rm -rf step_00'));
-    expect(config.steps[0].steps![1].isValid, equals(true));
-    expect(config.steps[0].steps![2].isValid, equals(true));
-    expect(config.steps[0].steps![2].name, equals('Configure'));
-    expect(config.steps[0].steps![2].path,
+    expect(config.steps[0].steps.length, equals(6));
+    expect(config.steps[0].steps[0].isValid, equals(true));
+    expect(config.steps[0].steps[0].name, equals('Remove generated code.'));
+    expect(config.steps[0].steps[0].command, equals('rm -rf step_00'));
+    expect(config.steps[0].steps[1].isValid, equals(true));
+    expect(config.steps[0].steps[2].isValid, equals(true));
+    expect(config.steps[0].steps[2].name, equals('Configure'));
+    expect(config.steps[0].steps[2].path,
         equals('cupertino_store/analysis_options.yaml'));
-    expect(config.steps[0].steps![2].replaceContents, equals('''
+    expect(config.steps[0].steps[2].replaceContents, equals('''
 # Copyright 2019 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -77,17 +77,17 @@ steps:
 
 include: ../../analysis_options.yaml
 '''));
-    expect(config.steps[0].steps![3].isValid, equals(true));
-    expect(config.steps[0].steps![4].isValid, equals(true));
-    expect(config.steps[0].steps![5].isValid, equals(true));
-    expect(config.steps[0].steps![5].name,
+    expect(config.steps[0].steps[3].isValid, equals(true));
+    expect(config.steps[0].steps[4].isValid, equals(true));
+    expect(config.steps[0].steps[5].isValid, equals(true));
+    expect(config.steps[0].steps[5].name,
         equals('Remove the Android, Web, and Desktop runners'));
     expect(
-      config.steps[0].steps![5].path,
+      config.steps[0].steps[5].path,
       equals('cupertino_store'),
     );
     expect(
-      config.steps[0].steps![5].commands,
+      config.steps[0].steps[5].commands,
       equals([
         'rm -rf android',
         'rm -rf linux',
@@ -98,9 +98,79 @@ include: ../../analysis_options.yaml
     );
   });
 
+  test('Valid base64-contents config', () {
+    final input = '''
+name: Valid base64-contents config
+steps:
+  - name: step_00
+    steps:
+      - name: base64-contents.
+        path: some-file.txt
+        base64-contents: SGVsbG8sIHdvcmxkIQo=
+''';
+    final config = loadConfig(input);
+    expect(config.isValid, equals(true));
+  });
+
+  test('Valid command config', () {
+    final input = '''
+name: Valid command config
+steps:
+  - name: step_00
+    steps:
+      - name: command.
+        command: echo 'Hello world!'
+''';
+    final config = loadConfig(input);
+    expect(config.isValid, equals(true));
+  });
+
+  test('Valid commands config', () {
+    final input = '''
+name: Valid commands config
+steps:
+  - name: step_00
+    steps:
+      - name: commands.
+        commands: 
+          - echo 'Hello world!'
+          - echo 'Goodbye!'
+''';
+    final config = loadConfig(input);
+    expect(config.isValid, equals(true));
+  });
+
+  test('Valid replace-contents config', () {
+    final input = '''
+name: Valid base64-contents config
+steps:
+  - name: step_00
+    steps:
+      - name: replace-contents.
+        path: some-file.txt
+        replace-contents: Hello world!
+''';
+    final config = loadConfig(input);
+    expect(config.isValid, equals(true));
+  });
+
+  test('Valid patch config', () {
+    final input = '''
+name: Valid patch config
+steps:
+  - name: step_00
+    steps:
+      - name: replace-contents.
+        path: some-file.txt
+        patch: Not actually a delta
+''';
+    final config = loadConfig(input);
+    expect(config.isValid, equals(true));
+  });
+
   test('Invalid config, empty command', () {
     final input = '''
-name: Cupertino Store script
+name: Invalid config, empty command
 steps:
   - name: step_00
     steps:
