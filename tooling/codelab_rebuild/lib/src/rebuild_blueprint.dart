@@ -5,30 +5,30 @@ import 'package:cli_script/cli_script.dart';
 import 'package:logging/logging.dart';
 import 'package:path/path.dart' as p;
 
-import 'configuration.dart';
+import 'blueprint.dart';
 
-final logger = Logger('rebuildConfig');
+final _logger = Logger('rebuild_blueprint');
 
-Future<void> rebuildConfig(Directory cwd, Configuration config) async {
-  logger.info(config.name);
+Future<void> rebuildFromBlueprint(Directory cwd, Blueprint blueprint) async {
+  _logger.info(blueprint.name);
 
-  if (!config.isValid) {
-    logger.warning('Invalid config');
+  if (!blueprint.isValid) {
+    _logger.warning('Invalid blueprint');
     exit(-1);
   }
 
-  for (final step in config.steps) {
-    await buildConfigStep(cwd, step);
+  for (final step in blueprint.steps) {
+    await _buildBlueprintStep(cwd, step);
   }
 }
 
-Future<void> buildConfigStep(Directory cwd, ConfigurationStep step) async {
-  logger.info(step.name);
+Future<void> _buildBlueprintStep(Directory cwd, BlueprintStep step) async {
+  _logger.info(step.name);
 
   final steps = step.steps;
   if (steps.isNotEmpty) {
     for (final subStep in steps) {
-      await buildConfigStep(cwd, subStep);
+      await _buildBlueprintStep(cwd, subStep);
     }
     return;
   }
@@ -48,7 +48,7 @@ Future<void> buildConfigStep(Directory cwd, ConfigurationStep step) async {
 
   final path = step.path;
   if (path == null) {
-    logger.severe(
+    _logger.severe(
         'patch, base64-contents and replace-contents require a path: $step');
     exit(-1);
   }
@@ -77,15 +77,15 @@ Future<void> buildConfigStep(Directory cwd, ConfigurationStep step) async {
           Script('patch', args: ['-u', path], workingDirectory: cwd.path);
     }
     script.stderr.lines.listen((event) {
-      logger.warning(event);
+      _logger.warning(event);
     });
     script.stdout.lines.listen((event) {
-      logger.info(event);
+      _logger.info(event);
     });
 
     final exitCode = await script.exitCode;
     if (exitCode != 0) {
-      logger.severe('Patch failed');
+      _logger.severe('Patch failed');
       exit(-1);
     }
 
@@ -106,31 +106,31 @@ Future<void> buildConfigStep(Directory cwd, ConfigurationStep step) async {
   }
 
   // Shouldn't get this far.
-  logger.severe('Invalid step: $step');
+  _logger.severe('Invalid step: $step');
   exit(-1);
 }
 
 Future<void> _execCommand(
-    String command, ConfigurationStep step, Directory cwd) async {
+    String command, BlueprintStep step, Directory cwd) async {
   if (command.isEmpty) {
-    logger.severe('Invalid step: $step');
+    _logger.severe('Invalid step: $step');
     exit(-1);
   }
 
-  logger.info('exec: $command');
+  _logger.info('exec: $command');
   final script = Script(command,
       workingDirectory:
           step.path == null ? cwd.path : p.join(cwd.path, step.path))
     ..stdout.lines.listen((event) {
-      logger.info(event);
+      _logger.info(event);
     })
     ..stderr.lines.listen((event) {
-      logger.warning(event);
+      _logger.warning(event);
     });
 
   final exitCode = await script.exitCode;
   if (exitCode != 0) {
-    logger.severe('exec failed');
+    _logger.severe('exec failed');
     exit(-1);
   }
 }

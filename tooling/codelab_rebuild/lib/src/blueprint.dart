@@ -1,38 +1,69 @@
+// Copyright 2022 The Flutter team. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
+import 'dart:io';
+
 import 'package:json_annotation/json_annotation.dart';
 import 'package:logging/logging.dart';
+import 'package:checked_yaml/checked_yaml.dart';
 
-part 'configuration.g.dart';
+import 'rebuild_blueprint.dart';
 
-final logger = Logger('configuration');
+part 'blueprint.g.dart';
+
+final _logger = Logger('blueprint');
 
 @JsonSerializable(
   anyMap: true,
   checked: true,
   disallowUnrecognizedKeys: true,
 )
-class Configuration {
+class Blueprint {
   @JsonKey(required: true)
   final String name;
   @JsonKey(required: true)
-  final List<ConfigurationStep> steps;
+  final List<BlueprintStep> steps;
 
-  Configuration({required this.name, required this.steps}) {
+  Blueprint({required this.name, required this.steps}) {
     if (name.isEmpty) {
       throw ArgumentError.value(name, 'name', 'Cannot be empty.');
     }
   }
 
-  /// Verifies if this configuration is valid by checking that the steps
+  /// Verifies if this blueprint is valid by checking that the steps
   /// are valid.
-  bool get isValid =>
-      steps.map((step) => step.isValid).reduce((fst, snd) => fst & snd);
+  bool get isValid => !steps.any((s) => !s.isValid);
 
-  factory Configuration.fromJson(Map json) => _$ConfigurationFromJson(json);
+  factory Blueprint.fromJson(Map json) => _$BlueprintFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ConfigurationToJson(this);
+  /// Load a blueprint, either from a file path, or directly as YAML content.
+  factory Blueprint.load(String sourcePathOrYaml) {
+    String yamlContent;
+    Uri? sourceUri;
+
+    if (FileSystemEntity.isFileSync(sourcePathOrYaml)) {
+      yamlContent = File(sourcePathOrYaml).readAsStringSync();
+      sourceUri = Uri.parse(sourcePathOrYaml);
+    } else {
+      yamlContent = sourcePathOrYaml;
+    }
+
+    final blueprint = checkedYamlDecode(
+      yamlContent,
+      (m) => Blueprint.fromJson(m!),
+      sourceUrl: sourceUri,
+    );
+    return blueprint;
+  }
+
+  /// Rebuild a blueprint in a target directory.
+  Future<void> rebuild(Directory cwd) => rebuildFromBlueprint(cwd, this);
+
+  Map<String, dynamic> toJson() => _$BlueprintToJson(this);
 
   @override
-  String toString() => 'Configuration: ${toJson()}';
+  String toString() => 'Blueprint: ${toJson()}';
 }
 
 @JsonSerializable(
@@ -40,10 +71,10 @@ class Configuration {
   checked: true,
   disallowUnrecognizedKeys: true,
 )
-class ConfigurationStep {
+class BlueprintStep {
   @JsonKey(required: true)
   final String name;
-  final List<ConfigurationStep> steps;
+  final List<BlueprintStep> steps;
 
   @JsonKey(name: 'base64-contents')
   final String? base64Contents;
@@ -58,7 +89,7 @@ class ConfigurationStep {
   @JsonKey(name: 'replace-contents')
   final String? replaceContents;
 
-  ConfigurationStep({
+  BlueprintStep({
     required this.name,
     this.steps = const [],
     this.base64Contents,
@@ -88,13 +119,13 @@ class ConfigurationStep {
         commands.isEmpty &&
         replaceContents == null &&
         base64Contents == null) {
-      logger.warning('Invalid step with no action: $this');
+      _logger.warning('Invalid step with no action: $this');
       return false;
     }
 
     // If there are sub steps...
     if (steps.isNotEmpty) {
-      // there shouldn't be any other configuration data,
+      // there shouldn't be any other actions,
       if (base64Contents != null ||
           patch != null ||
           patchU != null ||
@@ -102,7 +133,7 @@ class ConfigurationStep {
           command != null ||
           commands.isNotEmpty ||
           replaceContents != null) {
-        logger.warning(
+        _logger.warning(
             'Invalid step sub-steps and one (or more) of patch, command(s), '
             'base64-contents or replace-contents: $this');
         return false;
@@ -116,26 +147,26 @@ class ConfigurationStep {
 
     // If we have a patch, we need a file to apply the patch to.
     if ((patch != null || patchU != null || patchC != null) && path == null) {
-      logger.warning('Invalid step, patch with no target path: $this');
+      _logger.warning('Invalid step, patch with no target path: $this');
       return false;
     }
 
     // We can't have both patch and patch-u
     if (patch != null && patchU != null && patchC != null) {
-      logger.warning('Invalid step, both patch and patch-u specified: $this');
+      _logger.warning('Invalid step, both patch and patch-u specified: $this');
       return false;
     }
 
     // If we have replace-contents, we need a file to apply it to.
     if (replaceContents != null && path == null) {
-      logger
+      _logger
           .warning('Invalid step, replace-contents with no target path: $this');
       return false;
     }
 
     // If we have base64-contents, we need a file to apply it to.
     if (base64Contents != null && path == null) {
-      logger
+      _logger
           .warning('Invalid step, base64-contents with no target path: $this');
       return false;
     }
@@ -146,7 +177,7 @@ class ConfigurationStep {
             commands.isNotEmpty ||
             replaceContents != null ||
             base64Contents != null)) {
-      logger.warning(
+      _logger.warning(
           'Invalid step, patch with command(s), replace-contents, or base64-contents: $this');
       return false;
     }
@@ -158,14 +189,14 @@ class ConfigurationStep {
             patchC != null ||
             replaceContents != null ||
             base64Contents != null)) {
-      logger.warning(
+      _logger.warning(
           'Invalid step, command(s) with patch and/or replace-contents: $this');
       return false;
     }
 
     // If we have a command, it mustn't be an empty command.
     if (command != null && command!.isEmpty) {
-      logger.warning('Invalid step, empty command: $this');
+      _logger.warning('Invalid step, empty command: $this');
       return false;
     }
 
@@ -173,18 +204,17 @@ class ConfigurationStep {
         commands
             .map((command) => command.isEmpty)
             .reduce((fst, snd) => fst | snd)) {
-      logger.warning('Invalid step, commands with empty command: $this');
+      _logger.warning('Invalid step, commands with empty command: $this');
       return false;
     }
 
     return true;
   }
 
-  factory ConfigurationStep.fromJson(Map json) =>
-      _$ConfigurationStepFromJson(json);
+  factory BlueprintStep.fromJson(Map json) => _$BlueprintStepFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ConfigurationStepToJson(this);
+  Map<String, dynamic> toJson() => _$BlueprintStepToJson(this);
 
   @override
-  String toString() => 'ConfigurationStep: ${toJson()}';
+  String toString() => 'BlueprintStep: ${toJson()}';
 }

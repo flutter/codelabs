@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'configuration.dart';
+part of 'blueprint.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Configuration _$ConfigurationFromJson(Map json) => $checkedCreate(
-      'Configuration',
+Blueprint _$BlueprintFromJson(Map json) => $checkedCreate(
+      'Blueprint',
       json,
       ($checkedConvert) {
         $checkKeys(
@@ -15,26 +15,25 @@ Configuration _$ConfigurationFromJson(Map json) => $checkedCreate(
           allowedKeys: const ['name', 'steps'],
           requiredKeys: const ['name', 'steps'],
         );
-        final val = Configuration(
+        final val = Blueprint(
           name: $checkedConvert('name', (v) => v as String),
           steps: $checkedConvert(
               'steps',
               (v) => (v as List<dynamic>)
-                  .map((e) => ConfigurationStep.fromJson(e as Map))
+                  .map((e) => BlueprintStep.fromJson(e as Map))
                   .toList()),
         );
         return val;
       },
     );
 
-Map<String, dynamic> _$ConfigurationToJson(Configuration instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$BlueprintToJson(Blueprint instance) => <String, dynamic>{
       'name': instance.name,
       'steps': instance.steps,
     };
 
-ConfigurationStep _$ConfigurationStepFromJson(Map json) => $checkedCreate(
-      'ConfigurationStep',
+BlueprintStep _$BlueprintStepFromJson(Map json) => $checkedCreate(
+      'BlueprintStep',
       json,
       ($checkedConvert) {
         $checkKeys(
@@ -53,13 +52,13 @@ ConfigurationStep _$ConfigurationStepFromJson(Map json) => $checkedCreate(
           ],
           requiredKeys: const ['name'],
         );
-        final val = ConfigurationStep(
+        final val = BlueprintStep(
           name: $checkedConvert('name', (v) => v as String),
           steps: $checkedConvert(
               'steps',
               (v) =>
                   (v as List<dynamic>?)
-                      ?.map((e) => ConfigurationStep.fromJson(e as Map))
+                      ?.map((e) => BlueprintStep.fromJson(e as Map))
                       .toList() ??
                   const []),
           base64Contents:
@@ -87,7 +86,7 @@ ConfigurationStep _$ConfigurationStepFromJson(Map json) => $checkedCreate(
       },
     );
 
-Map<String, dynamic> _$ConfigurationStepToJson(ConfigurationStep instance) =>
+Map<String, dynamic> _$BlueprintStepToJson(BlueprintStep instance) =>
     <String, dynamic>{
       'name': instance.name,
       'steps': instance.steps,
