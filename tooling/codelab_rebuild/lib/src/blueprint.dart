@@ -4,9 +4,9 @@
 
 import 'dart:io';
 
+import 'package:checked_yaml/checked_yaml.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:logging/logging.dart';
-import 'package:checked_yaml/checked_yaml.dart';
 
 import 'rebuild_blueprint.dart';
 
