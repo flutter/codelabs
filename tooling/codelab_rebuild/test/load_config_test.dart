@@ -61,7 +61,7 @@ steps:
     expect(blueprint.steps[0].steps[0].command, equals('rm -rf step_00'));
     expect(blueprint.steps[0].steps[1].isValid, equals(true));
     expect(blueprint.steps[0].steps[2].isValid, equals(true));
-    expect(blueprint.steps[0].steps[2].name, equals('blueprinture'));
+    expect(blueprint.steps[0].steps[2].name, equals('blueprint'));
     expect(blueprint.steps[0].steps[2].path,
         equals('cupertino_store/analysis_options.yaml'));
     expect(blueprint.steps[0].steps[2].replaceContents, equals('''
