@@ -314,6 +314,10 @@ updates:
     schedule:
       interval: "daily"
   - package-ecosystem: "pub"
+    directory: "/tooling/codelab_rebuild"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
     directory: "/webview_flutter/step_03/"
     schedule:
       interval: "daily"
