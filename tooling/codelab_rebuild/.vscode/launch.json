@@ -5,9 +5,11 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "cupertino_store",
+            "name": "codelab_rebuild",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "program": "bin/codelab_rebuild.dart",
+            "args": ["../../cupertino_store/codelab_rebuild.yaml"]
         }
     ]
 }

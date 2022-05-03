@@ -22,6 +22,7 @@ declare -a CODELABS=(
   "startup_namer"
   "testing_codelab"
   "tfserving-flutter"
+  "tooling"
   "webview_flutter"
   )
 
