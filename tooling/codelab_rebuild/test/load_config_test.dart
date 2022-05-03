@@ -1,8 +1,12 @@
+// Copyright 2022 The Flutter team. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:codelab_rebuild/codelab_rebuild.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test('loadConfig from simple config', () {
+  test('loadblueprint from simple blueprint', () {
     final input = '''
 name: Cupertino Store script
 steps:
@@ -12,7 +16,7 @@ steps:
         command: rm -rf step_00
       - name: Create project.
         command: flutter create cupertino_store
-      - name: Configure 
+      - name: blueprint
         path: cupertino_store/analysis_options.yaml
         replace-contents: |
           # Copyright 2019 Google LLC
@@ -47,20 +51,20 @@ steps:
           - rm -rf web 
           - rm -rf windows
 ''';
-    final config = loadConfig(input);
-    expect(config.isValid, equals(true));
-    expect(config.name, equals('Cupertino Store script'));
-    expect(config.steps.length, equals(1));
-    expect(config.steps[0].steps.length, equals(6));
-    expect(config.steps[0].steps[0].isValid, equals(true));
-    expect(config.steps[0].steps[0].name, equals('Remove generated code.'));
-    expect(config.steps[0].steps[0].command, equals('rm -rf step_00'));
-    expect(config.steps[0].steps[1].isValid, equals(true));
-    expect(config.steps[0].steps[2].isValid, equals(true));
-    expect(config.steps[0].steps[2].name, equals('Configure'));
-    expect(config.steps[0].steps[2].path,
+    final blueprint = Blueprint.load(input);
+    expect(blueprint.isValid, equals(true));
+    expect(blueprint.name, equals('Cupertino Store script'));
+    expect(blueprint.steps.length, equals(1));
+    expect(blueprint.steps[0].steps.length, equals(6));
+    expect(blueprint.steps[0].steps[0].isValid, equals(true));
+    expect(blueprint.steps[0].steps[0].name, equals('Remove generated code.'));
+    expect(blueprint.steps[0].steps[0].command, equals('rm -rf step_00'));
+    expect(blueprint.steps[0].steps[1].isValid, equals(true));
+    expect(blueprint.steps[0].steps[2].isValid, equals(true));
+    expect(blueprint.steps[0].steps[2].name, equals('blueprinture'));
+    expect(blueprint.steps[0].steps[2].path,
         equals('cupertino_store/analysis_options.yaml'));
-    expect(config.steps[0].steps[2].replaceContents, equals('''
+    expect(blueprint.steps[0].steps[2].replaceContents, equals('''
 # Copyright 2019 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -77,17 +81,17 @@ steps:
 
 include: ../../analysis_options.yaml
 '''));
-    expect(config.steps[0].steps[3].isValid, equals(true));
-    expect(config.steps[0].steps[4].isValid, equals(true));
-    expect(config.steps[0].steps[5].isValid, equals(true));
-    expect(config.steps[0].steps[5].name,
+    expect(blueprint.steps[0].steps[3].isValid, equals(true));
+    expect(blueprint.steps[0].steps[4].isValid, equals(true));
+    expect(blueprint.steps[0].steps[5].isValid, equals(true));
+    expect(blueprint.steps[0].steps[5].name,
         equals('Remove the Android, Web, and Desktop runners'));
     expect(
-      config.steps[0].steps[5].path,
+      blueprint.steps[0].steps[5].path,
       equals('cupertino_store'),
     );
     expect(
-      config.steps[0].steps[5].commands,
+      blueprint.steps[0].steps[5].commands,
       equals([
         'rm -rf android',
         'rm -rf linux',
@@ -98,9 +102,9 @@ include: ../../analysis_options.yaml
     );
   });
 
-  test('Valid base64-contents config', () {
+  test('Valid base64-contents blueprint', () {
     final input = '''
-name: Valid base64-contents config
+name: Valid base64-contents blueprint
 steps:
   - name: step_00
     steps:
@@ -108,26 +112,26 @@ steps:
         path: some-file.txt
         base64-contents: SGVsbG8sIHdvcmxkIQo=
 ''';
-    final config = loadConfig(input);
-    expect(config.isValid, equals(true));
+    final blueprint = Blueprint.load(input);
+    expect(blueprint.isValid, equals(true));
   });
 
-  test('Valid command config', () {
+  test('Valid command blueprint', () {
     final input = '''
-name: Valid command config
+name: Valid command blueprint
 steps:
   - name: step_00
     steps:
       - name: command.
         command: echo 'Hello world!'
 ''';
-    final config = loadConfig(input);
-    expect(config.isValid, equals(true));
+    final blueprint = Blueprint.load(input);
+    expect(blueprint.isValid, equals(true));
   });
 
-  test('Valid commands config', () {
+  test('Valid commands blueprint', () {
     final input = '''
-name: Valid commands config
+name: Valid commands blueprint
 steps:
   - name: step_00
     steps:
@@ -136,13 +140,13 @@ steps:
           - echo 'Hello world!'
           - echo 'Goodbye!'
 ''';
-    final config = loadConfig(input);
-    expect(config.isValid, equals(true));
+    final blueprint = Blueprint.load(input);
+    expect(blueprint.isValid, equals(true));
   });
 
-  test('Valid replace-contents config', () {
+  test('Valid replace-contents blueprint', () {
     final input = '''
-name: Valid base64-contents config
+name: Valid base64-contents blueprint
 steps:
   - name: step_00
     steps:
@@ -150,13 +154,13 @@ steps:
         path: some-file.txt
         replace-contents: Hello world!
 ''';
-    final config = loadConfig(input);
-    expect(config.isValid, equals(true));
+    final blueprint = Blueprint.load(input);
+    expect(blueprint.isValid, equals(true));
   });
 
-  test('Valid patch config', () {
+  test('Valid patch blueprint', () {
     final input = '''
-name: Valid patch config
+name: Valid patch blueprint
 steps:
   - name: step_00
     steps:
@@ -164,13 +168,13 @@ steps:
         path: some-file.txt
         patch: Not actually a delta
 ''';
-    final config = loadConfig(input);
-    expect(config.isValid, equals(true));
+    final blueprint = Blueprint.load(input);
+    expect(blueprint.isValid, equals(true));
   });
 
-  test('Valid patch-u config', () {
+  test('Valid patch-u blueprint', () {
     final input = '''
-name: Valid patch-u config
+name: Valid patch-u blueprint
 steps:
   - name: step_00
     steps:
@@ -178,13 +182,13 @@ steps:
         path: some-file.txt
         patch-u: Not actually a delta
 ''';
-    final config = loadConfig(input);
-    expect(config.isValid, equals(true));
+    final blueprint = Blueprint.load(input);
+    expect(blueprint.isValid, equals(true));
   });
 
-  test('Valid patch-c config', () {
+  test('Valid patch-c blueprint', () {
     final input = '''
-name: Valid patch-c config
+name: Valid patch-c blueprint
 steps:
   - name: step_00
     steps:
@@ -192,24 +196,24 @@ steps:
         path: some-file.txt
         patch-c: Not actually a delta
 ''';
-    final config = loadConfig(input);
-    expect(config.isValid, equals(true));
+    final blueprint = Blueprint.load(input);
+    expect(blueprint.isValid, equals(true));
   });
 
-  test('Invalid config, empty command', () {
+  test('Invalid blueprint, empty command', () {
     final input = '''
-name: Invalid config, empty command
+name: Invalid blueprint, empty command
 steps:
   - name: step_00
     steps:
       - name: empty command.
         command: 
 ''';
-    final config = loadConfig(input);
-    expect(config.isValid, equals(false));
+    final blueprint = Blueprint.load(input);
+    expect(blueprint.isValid, equals(false));
   });
 
-  test('Invalid config, command with patch', () {
+  test('Invalid blueprint, command with patch', () {
     final input = '''
 name: Cupertino Store script
 steps:
@@ -219,11 +223,11 @@ steps:
         command: foo
         patch: not really a patch 
 ''';
-    final config = loadConfig(input);
-    expect(config.isValid, equals(false));
+    final blueprint = Blueprint.load(input);
+    expect(blueprint.isValid, equals(false));
   });
 
-  test('Invalid config, command with patch-u', () {
+  test('Invalid blueprint, command with patch-u', () {
     final input = '''
 name: Cupertino Store script
 steps:
@@ -233,11 +237,11 @@ steps:
         command: foo
         patch-u: not really a patch 
 ''';
-    final config = loadConfig(input);
-    expect(config.isValid, equals(false));
+    final blueprint = Blueprint.load(input);
+    expect(blueprint.isValid, equals(false));
   });
 
-  test('Invalid config, command with patch-c', () {
+  test('Invalid blueprint, command with patch-c', () {
     final input = '''
 name: Cupertino Store script
 steps:
@@ -247,11 +251,11 @@ steps:
         command: foo
         patch-c: not really a patch 
 ''';
-    final config = loadConfig(input);
-    expect(config.isValid, equals(false));
+    final blueprint = Blueprint.load(input);
+    expect(blueprint.isValid, equals(false));
   });
 
-  test('Invalid config, command with replace-contents', () {
+  test('Invalid blueprint, command with replace-contents', () {
     final input = '''
 name: Cupertino Store script
 steps:
@@ -261,11 +265,11 @@ steps:
         command: foo
         replace-contents: contents 
 ''';
-    final config = loadConfig(input);
-    expect(config.isValid, equals(false));
+    final blueprint = Blueprint.load(input);
+    expect(blueprint.isValid, equals(false));
   });
 
-  test('Invalid config, patch without path', () {
+  test('Invalid blueprint, patch without path', () {
     final input = '''
 name: Cupertino Store script
 steps:
@@ -274,11 +278,11 @@ steps:
       - name: patch without path.
         patch: foo
 ''';
-    final config = loadConfig(input);
-    expect(config.isValid, equals(false));
+    final blueprint = Blueprint.load(input);
+    expect(blueprint.isValid, equals(false));
   });
 
-  test('Invalid config, patch-u without path', () {
+  test('Invalid blueprint, patch-u without path', () {
     final input = '''
 name: Cupertino Store script
 steps:
@@ -287,11 +291,11 @@ steps:
       - name: patch without path.
         patch-u: foo
 ''';
-    final config = loadConfig(input);
-    expect(config.isValid, equals(false));
+    final blueprint = Blueprint.load(input);
+    expect(blueprint.isValid, equals(false));
   });
 
-  test('Invalid config, patch-c without path', () {
+  test('Invalid blueprint, patch-c without path', () {
     final input = '''
 name: Cupertino Store script
 steps:
@@ -300,20 +304,56 @@ steps:
       - name: patch without path.
         patch-c: foo
 ''';
-    final config = loadConfig(input);
-    expect(config.isValid, equals(false));
+    final blueprint = Blueprint.load(input);
+    expect(blueprint.isValid, equals(false));
   });
 
-  test('Invalid config, replace-contents without path', () {
+  test('Invalid blueprint, replace-contents without path', () {
     final input = '''
-name: Cupertino Store script
+name: replace-contents without path
 steps:
   - name: step_00
     steps:
       - name: replace-contents without path.
         replace-contents: contents 
 ''';
-    final config = loadConfig(input);
-    expect(config.isValid, equals(false));
+    final blueprint = Blueprint.load(input);
+    expect(blueprint.isValid, equals(false));
+  });
+
+  test('Valid sub-step blueprint', () {
+    final input = '''
+name: Valid sub-step blueprint
+steps:
+  - name: Steps
+    steps:
+      - name: Random valid command
+        command: foo
+      - name: Sub Steps
+        steps: 
+          - name: Random valid command
+            command: bar
+''';
+    final blueprint = Blueprint.load(input);
+    expect(blueprint.isValid, equals(true));
+  });
+
+  test('Invalid sub-step blueprint', () {
+    final input = '''
+name: Invalid sub-step blueprint
+steps:
+  - name: Steps
+    steps:
+      - name: Random valid command
+        command: foo
+      - name: Sub Steps
+        steps: 
+          - name: Random valid command
+            command: bar
+          - name: replace-contents without path.
+            replace-contents: contents 
+''';
+    final blueprint = Blueprint.load(input);
+    expect(blueprint.isValid, equals(false));
   });
 }
