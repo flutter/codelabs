@@ -4,3 +4,8 @@
 
 # Conventional directory for build output.
 build/
+
+# Keys
+assets/service-account.json
+lib/constants.dart
+
