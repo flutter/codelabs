@@ -244,7 +244,7 @@ packages:
       name: url_launcher_android
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.0.15"
+    version: "6.0.16"
   url_launcher_ios:
     dependency: transitive
     description:
@@ -295,5 +295,5 @@ packages:
     source: hosted
     version: "2.1.1"
 sdks:
-  dart: ">=2.16.0-0 <3.0.0"
+  dart: ">=2.16.2 <3.0.0"
   flutter: ">=2.10.0"
