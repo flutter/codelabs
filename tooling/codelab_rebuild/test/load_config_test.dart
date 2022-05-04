@@ -6,14 +6,14 @@ import 'package:codelab_rebuild/codelab_rebuild.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test('loadblueprint from simple blueprint', () {
+  test('Blueprint.load() from simple blueprint', () {
     final input = '''
 name: Cupertino Store script
 steps:
   - name: step_00
     steps:
       - name: Remove generated code.
-        command: rm -rf step_00
+        rmdir: step_00
       - name: Create project.
         command: flutter create cupertino_store
       - name: blueprinture 
@@ -44,12 +44,12 @@ steps:
         command: rm cupertino_store/README.md
       - name: Remove the Android, Web, and Desktop runners
         path: cupertino_store
-        commands:
-          - rm -rf android 
-          - rm -rf linux 
-          - rm -rf macos 
-          - rm -rf web 
-          - rm -rf windows
+        rmdirs:
+          - android 
+          - linux 
+          - macos 
+          - web 
+          - windows
 ''';
     final blueprint = Blueprint.load(input);
     expect(blueprint.isValid, equals(true));
@@ -58,7 +58,7 @@ steps:
     expect(blueprint.steps[0].steps.length, equals(6));
     expect(blueprint.steps[0].steps[0].isValid, equals(true));
     expect(blueprint.steps[0].steps[0].name, equals('Remove generated code.'));
-    expect(blueprint.steps[0].steps[0].command, equals('rm -rf step_00'));
+    expect(blueprint.steps[0].steps[0].rmdir, equals('step_00'));
     expect(blueprint.steps[0].steps[1].isValid, equals(true));
     expect(blueprint.steps[0].steps[2].isValid, equals(true));
     expect(blueprint.steps[0].steps[2].name, equals('blueprinture'));
@@ -91,14 +91,8 @@ include: ../../analysis_options.yaml
       equals('cupertino_store'),
     );
     expect(
-      blueprint.steps[0].steps[5].commands,
-      equals([
-        'rm -rf android',
-        'rm -rf linux',
-        'rm -rf macos',
-        'rm -rf web',
-        'rm -rf windows'
-      ]),
+      blueprint.steps[0].steps[5].rmdirs,
+      equals(['android', 'linux', 'macos', 'web', 'windows']),
     );
   });
 
@@ -352,6 +346,65 @@ steps:
             command: bar
           - name: replace-contents without path.
             replace-contents: contents 
+''';
+    final blueprint = Blueprint.load(input);
+    expect(blueprint.isValid, equals(false));
+  });
+
+  test('Invalid blueprint, command that should be mkdir', () {
+    final input = '''
+name: Cupertino Store script
+steps:
+  - name: mkdir.
+    command: mkdir foo
+''';
+    final blueprint = Blueprint.load(input);
+    expect(blueprint.isValid, equals(false));
+  });
+
+  test('Invalid blueprint, command that should be rmdir', () {
+    final input = '''
+name: Cupertino Store script
+steps:
+  - name: rmdir.
+    command: rm -r foo
+''';
+    final blueprint = Blueprint.load(input);
+    expect(blueprint.isValid, equals(false));
+  });
+
+  test('Invalid blueprint, command that should be copydir', () {
+    final input = '''
+name: Cupertino Store script
+steps:
+  - name: copydir.
+    command: cp -R foo bar
+''';
+    final blueprint = Blueprint.load(input);
+    expect(blueprint.isValid, equals(false));
+  });
+
+  test('Invalid blueprint, commands that should be mkdirs', () {
+    final input = '''
+name: Cupertino Store script
+steps:
+  - name: mkdirs.
+    commands: 
+      - mkdir foo
+      - mkdir bar
+''';
+    final blueprint = Blueprint.load(input);
+    expect(blueprint.isValid, equals(false));
+  });
+
+  test('Invalid blueprint, commands that should be rmdirs', () {
+    final input = '''
+name: Cupertino Store script
+steps:
+  - name: rmdirs.
+    commands: 
+      - rm -r foo
+      - rm -r bar
 ''';
     final blueprint = Blueprint.load(input);
     expect(blueprint.isValid, equals(false));

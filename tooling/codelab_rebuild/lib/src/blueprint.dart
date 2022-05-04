@@ -33,7 +33,7 @@ class Blueprint {
 
   /// Verifies if this blueprint is valid by checking that the steps
   /// are valid.
-  bool get isValid => !steps.any((s) => !s.isValid);
+  bool get isValid => !steps.any((s) => s.isNotValid);
 
   factory Blueprint.fromJson(Map json) => _$BlueprintFromJson(json);
 
@@ -76,18 +76,26 @@ class BlueprintStep {
   final String name;
   final List<BlueprintStep> steps;
 
-  @JsonKey(name: 'base64-contents')
-  final String? base64Contents;
   final String? command;
   final List<String> commands;
+
+  final String? path;
+
+  @JsonKey(name: 'base64-contents')
+  final String? base64Contents;
   final String? patch;
   @JsonKey(name: 'patch-u')
   final String? patchU;
   @JsonKey(name: 'patch-c')
   final String? patchC;
-  final String? path;
   @JsonKey(name: 'replace-contents')
   final String? replaceContents;
+
+  final String? mkdir;
+  final List<String> mkdirs;
+  final String? rmdir;
+  final List<String> rmdirs;
+  final CopyDirs? copydir;
 
   BlueprintStep({
     required this.name,
@@ -100,11 +108,18 @@ class BlueprintStep {
     this.patchC,
     this.path,
     this.replaceContents,
+    this.mkdir,
+    this.mkdirs = const [],
+    this.rmdir,
+    this.rmdirs = const [],
+    this.copydir,
   }) {
     if (name.isEmpty) {
       throw ArgumentError.value(name, 'name', 'Cannot be empty.');
     }
   }
+
+  bool get isNotValid => !isValid;
 
   /// Verifies this step, and it's sub-steps, are valid.
   bool get isValid {
@@ -118,8 +133,13 @@ class BlueprintStep {
         command == null &&
         commands.isEmpty &&
         replaceContents == null &&
-        base64Contents == null) {
-      _logger.warning('Invalid step with no action: $this');
+        base64Contents == null &&
+        mkdir == null &&
+        mkdirs.isEmpty &&
+        rmdir == null &&
+        rmdirs.isEmpty &&
+        copydir == null) {
+      _logger.warning('Invalid step with no action: $name');
       return false;
     }
 
@@ -132,42 +152,45 @@ class BlueprintStep {
           patchC != null ||
           command != null ||
           commands.isNotEmpty ||
-          replaceContents != null) {
+          replaceContents != null ||
+          mkdir != null ||
+          mkdirs.isNotEmpty ||
+          rmdir != null ||
+          rmdirs.isNotEmpty ||
+          copydir != null) {
         _logger.warning(
             'Invalid step sub-steps and one (or more) of patch, command(s), '
-            'base64-contents or replace-contents: $this');
+            'base64-contents or replace-contents: $name');
         return false;
       }
 
       // and the sub-steps should all be valid.
-      if (!steps
-          .map((subStep) => subStep.isValid)
-          .reduce((fst, snd) => fst & snd)) return false;
+      if (steps.any((subStep) => subStep.isNotValid)) return false;
     }
 
     // If we have a patch, we need a file to apply the patch to.
     if ((patch != null || patchU != null || patchC != null) && path == null) {
-      _logger.warning('Invalid step, patch with no target path: $this');
+      _logger.warning('Invalid step, patch with no target path: $name');
       return false;
     }
 
     // We can't have both patch and patch-u
     if (patch != null && patchU != null && patchC != null) {
-      _logger.warning('Invalid step, both patch and patch-u specified: $this');
+      _logger.warning('Invalid step, both patch and patch-u specified: $name');
       return false;
     }
 
     // If we have replace-contents, we need a file to apply it to.
     if (replaceContents != null && path == null) {
       _logger
-          .warning('Invalid step, replace-contents with no target path: $this');
+          .warning('Invalid step, replace-contents with no target path: $name');
       return false;
     }
 
     // If we have base64-contents, we need a file to apply it to.
     if (base64Contents != null && path == null) {
       _logger
-          .warning('Invalid step, base64-contents with no target path: $this');
+          .warning('Invalid step, base64-contents with no target path: $name');
       return false;
     }
 
@@ -176,9 +199,14 @@ class BlueprintStep {
         (command != null ||
             commands.isNotEmpty ||
             replaceContents != null ||
-            base64Contents != null)) {
+            base64Contents != null ||
+            mkdir != null ||
+            mkdirs.isNotEmpty ||
+            rmdir != null ||
+            rmdirs.isNotEmpty ||
+            copydir != null)) {
       _logger.warning(
-          'Invalid step, patch with command(s), replace-contents, or base64-contents: $this');
+          'Invalid step, patch with command(s), replace-contents, or base64-contents: $name');
       return false;
     }
 
@@ -188,24 +216,52 @@ class BlueprintStep {
             patchU != null ||
             patchC != null ||
             replaceContents != null ||
-            base64Contents != null)) {
+            base64Contents != null ||
+            mkdir != null ||
+            mkdirs.isNotEmpty ||
+            rmdir != null ||
+            rmdirs.isNotEmpty ||
+            copydir != null)) {
       _logger.warning(
-          'Invalid step, command(s) with patch and/or replace-contents: $this');
+          'Invalid step, command(s) with patch and/or replace-contents: $name');
       return false;
     }
 
-    // If we have a command, it mustn't be an empty command.
-    if (command != null && command!.isEmpty) {
-      _logger.warning('Invalid step, empty command: $this');
-      return false;
+    // If we have a command
+    if (command != null) {
+      // It mustn't be an empty command.
+      if (command!.isEmpty) {
+        _logger.warning('Invalid step, empty command: $name');
+        return false;
+      }
+
+      // It mustn't be mkdir, rmdir, or copydir.
+      if (command!.startsWith('mkdir') ||
+          command!.startsWith('rm -r') ||
+          command!.startsWith('cp -R')) {
+        _logger.warning(
+            'Invalid step, replace with mkdir, rmdir, or copydir: $name');
+        return false;
+      }
     }
 
-    if (commands.isNotEmpty &&
-        commands
-            .map((command) => command.isEmpty)
-            .reduce((fst, snd) => fst | snd)) {
-      _logger.warning('Invalid step, commands with empty command: $this');
-      return false;
+    // If we have a list of commands
+    if (commands.isNotEmpty) {
+      // They mustn't be an empty.
+      if (!commands.any((command) => command.isNotEmpty)) {
+        _logger.warning('Invalid step, commands with empty command: $name');
+        return false;
+      }
+
+      // If we have a list of commands, they mustn't be mkdir, rmdir or copydir.
+      if (commands.any((command) =>
+          command.startsWith('mkdir') ||
+          command.startsWith('rm -r') ||
+          command.startsWith('cp -R'))) {
+        _logger.warning(
+            'Invalid commands, replace with mkdirs, rmdirs, repeated copydir: $name');
+        return false;
+      }
     }
 
     return true;
@@ -217,4 +273,22 @@ class BlueprintStep {
 
   @override
   String toString() => 'BlueprintStep: ${toJson()}';
+}
+
+@JsonSerializable(
+  anyMap: true,
+  checked: true,
+  disallowUnrecognizedKeys: true,
+)
+class CopyDirs {
+  final String from;
+  final String to;
+  CopyDirs({required this.from, required this.to});
+
+  factory CopyDirs.fromJson(Map json) => _$CopyDirsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CopyDirsToJson(this);
+
+  @override
+  String toString() => 'CopyDirs: ${toJson()}';
 }

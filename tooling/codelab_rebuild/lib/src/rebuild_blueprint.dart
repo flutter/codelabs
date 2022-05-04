@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:cli_script/cli_script.dart';
+import 'package:io/io.dart' show copyPathSync;
 import 'package:logging/logging.dart';
 import 'package:path/path.dart' as p;
 
@@ -46,10 +47,66 @@ Future<void> _buildBlueprintStep(Directory cwd, BlueprintStep step) async {
     return;
   }
 
+  if (step.mkdir != null || step.mkdirs.isNotEmpty) {
+    final dir = step.mkdir;
+    if (dir != null) {
+      _mkdir(
+          step.path != null
+              ? p.join(cwd.path, step.path, dir)
+              : p.join(cwd.path, dir),
+          step: step);
+    } else {
+      for (final dir in step.mkdirs) {
+        _mkdir(
+            step.path != null
+                ? p.join(cwd.path, step.path, dir)
+                : p.join(cwd.path, dir),
+            step: step);
+      }
+    }
+    return;
+  }
+
+  if (step.rmdir != null || step.rmdirs.isNotEmpty) {
+    final dir = step.rmdir;
+    if (dir != null) {
+      _rmdir(
+          step.path != null
+              ? p.join(cwd.path, step.path, dir)
+              : p.join(cwd.path, dir),
+          step: step);
+    } else {
+      for (final dir in step.rmdirs) {
+        _rmdir(
+            step.path != null
+                ? p.join(cwd.path, step.path, dir)
+                : p.join(cwd.path, dir),
+            step: step);
+      }
+    }
+    return;
+  }
+
+  final cpdir = step.copydir;
+  if (cpdir != null) {
+    if (step.path != null) {
+      _cpdir(
+          from: p.join(cwd.path, step.path, cpdir.from),
+          to: p.join(cwd.path, step.path, cpdir.to),
+          step: step);
+    } else {
+      _cpdir(
+          from: p.join(cwd.path, cpdir.from),
+          to: p.join(cwd.path, cpdir.to),
+          step: step);
+    }
+    return;
+  }
+
   final path = step.path;
   if (path == null) {
     _logger.severe(
-        'patch, base64-contents and replace-contents require a path: $step');
+        'patch, base64-contents and replace-contents require a path: ${step.name}');
     exit(-1);
   }
 
@@ -106,14 +163,36 @@ Future<void> _buildBlueprintStep(Directory cwd, BlueprintStep step) async {
   }
 
   // Shouldn't get this far.
-  _logger.severe('Invalid step: $step');
+  _logger.severe('Invalid step: ${step.name}');
   exit(-1);
+}
+
+void _cpdir({
+  required String from,
+  required String to,
+  required BlueprintStep step,
+}) {
+  if (!FileSystemEntity.isDirectorySync(from)) {
+    _logger.warning("Invalid rmdir for '$from': ${step.name}");
+  }
+  copyPathSync(from, to);
+}
+
+void _rmdir(String dir, {required BlueprintStep step}) {
+  if (!FileSystemEntity.isDirectorySync(dir)) {
+    _logger.warning("Invalid rmdir for '$dir': ${step.name}");
+  }
+  Directory(dir).deleteSync(recursive: true);
+}
+
+void _mkdir(String dir, {required BlueprintStep step}) {
+  Directory(dir).createSync(recursive: true);
 }
 
 Future<void> _execCommand(
     String command, BlueprintStep step, Directory cwd) async {
   if (command.isEmpty) {
-    _logger.severe('Invalid step: $step');
+    _logger.severe('Invalid step: ${step.name}');
     exit(-1);
   }
 

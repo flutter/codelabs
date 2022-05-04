@@ -205,7 +205,7 @@ packages:
     source: hosted
     version: "4.0.0"
   io:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: io
       url: "https://pub.dartlang.org"
@@ -315,7 +315,7 @@ packages:
       name: quiver
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.1+1"
+    version: "3.1.0"
   shelf:
     dependency: transitive
     description:

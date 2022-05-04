@@ -41,14 +41,19 @@ BlueprintStep _$BlueprintStepFromJson(Map json) => $checkedCreate(
           allowedKeys: const [
             'name',
             'steps',
-            'base64-contents',
             'command',
             'commands',
+            'path',
+            'base64-contents',
             'patch',
             'patch-u',
             'patch-c',
-            'path',
-            'replace-contents'
+            'replace-contents',
+            'mkdir',
+            'mkdirs',
+            'rmdir',
+            'rmdirs',
+            'copydir'
           ],
           requiredKeys: const ['name'],
         );
@@ -75,6 +80,20 @@ BlueprintStep _$BlueprintStepFromJson(Map json) => $checkedCreate(
           path: $checkedConvert('path', (v) => v as String?),
           replaceContents:
               $checkedConvert('replace-contents', (v) => v as String?),
+          mkdir: $checkedConvert('mkdir', (v) => v as String?),
+          mkdirs: $checkedConvert(
+              'mkdirs',
+              (v) =>
+                  (v as List<dynamic>?)?.map((e) => e as String).toList() ??
+                  const []),
+          rmdir: $checkedConvert('rmdir', (v) => v as String?),
+          rmdirs: $checkedConvert(
+              'rmdirs',
+              (v) =>
+                  (v as List<dynamic>?)?.map((e) => e as String).toList() ??
+                  const []),
+          copydir: $checkedConvert(
+              'copydir', (v) => v == null ? null : CopyDirs.fromJson(v as Map)),
         );
         return val;
       },
@@ -90,12 +109,38 @@ Map<String, dynamic> _$BlueprintStepToJson(BlueprintStep instance) =>
     <String, dynamic>{
       'name': instance.name,
       'steps': instance.steps,
-      'base64-contents': instance.base64Contents,
       'command': instance.command,
       'commands': instance.commands,
+      'path': instance.path,
+      'base64-contents': instance.base64Contents,
       'patch': instance.patch,
       'patch-u': instance.patchU,
       'patch-c': instance.patchC,
-      'path': instance.path,
       'replace-contents': instance.replaceContents,
+      'mkdir': instance.mkdir,
+      'mkdirs': instance.mkdirs,
+      'rmdir': instance.rmdir,
+      'rmdirs': instance.rmdirs,
+      'copydir': instance.copydir,
+    };
+
+CopyDirs _$CopyDirsFromJson(Map json) => $checkedCreate(
+      'CopyDirs',
+      json,
+      ($checkedConvert) {
+        $checkKeys(
+          json,
+          allowedKeys: const ['from', 'to'],
+        );
+        final val = CopyDirs(
+          from: $checkedConvert('from', (v) => v as String),
+          to: $checkedConvert('to', (v) => v as String),
+        );
+        return val;
+      },
+    );
+
+Map<String, dynamic> _$CopyDirsToJson(CopyDirs instance) => <String, dynamic>{
+      'from': instance.from,
+      'to': instance.to,
     };
