@@ -15,7 +15,7 @@ steps:
         rmdir: example
       - name: Remove the README.md.
         path: window_to_front
-        command: rm README.md
+        rm: README.md
       - name: Remove tests
         path: window_to_front
         rmdir: test
@@ -346,7 +346,7 @@ steps:
         replace-contents: |
           include: ../../analysis_options.yaml
       - name: Remove the README.md.
-        command: rm github_client/README.md
+        rm: github_client/README.md
       - name: Remove the iOS, Android and Web runners
         path: github_client
         rmdirs:

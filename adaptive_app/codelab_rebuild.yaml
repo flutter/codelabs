@@ -15,7 +15,7 @@ steps:
             rules:
               avoid_print: false
       - name: Remove README
-        command: rm adaptive_app/README.md
+        rm: adaptive_app/README.md
       - name: Patch pubspec,yaml
         path: adaptive_app/pubspec.yaml
         patch: |
@@ -720,10 +720,10 @@ steps:
           }
       - name: Rebuild ios/Podfile.lock
         path: adaptive_app/ios
-        command: pod update
+        pod: update
       - name: Rebuild macos/Podfile.lock
         path: adaptive_app/macos
-        command: pod update
+        pod: update
       - name: Copy step_04
         copydir:
           from: adaptive_app 
@@ -1031,12 +1031,15 @@ steps:
           > description: A YouTube CORS Proxy Server.
           4d3
           < # homepage: https://www.example.com
-      - name: Remove test/server_test.dart README.md and CHANGELOG.md
+      - name: Remove test/server_test.dart CHANGELOG.md
         path: adaptive_app/yt_cors_proxy
-        commands:
-          - rm CHANGELOG.md
-          - rm README.md
-          - rm test/server_test.dart
+        rm: CHANGELOG.md
+      - name: Remove test/server_test.dart README.md
+        path: adaptive_app/yt_cors_proxy
+        rm: README.md
+      - name: Remove test/server_test.dart test
+        path: adaptive_app/yt_cors_proxy
+        rm: test/server_test.dart
       - name: Replace yt_cors_proxy/bin/server.dart
         path: adaptive_app/yt_cors_proxy/bin/server.dart
         replace-contents: |
@@ -1549,10 +1552,10 @@ steps:
           > 
       - name: Rebuild ios/Podfile.lock
         path: adaptive_app/ios
-        command: pod update
+        pod: update
       - name: Rebuild macos/Podfile.lock
         path: adaptive_app/macos
-        command: pod update
+        pod: update
       - name: Copy step_07
         copydir:
           from: adaptive_app

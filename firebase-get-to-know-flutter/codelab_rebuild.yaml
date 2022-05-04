@@ -107,7 +107,7 @@ steps:
           >   assets:
           >     - assets/codelab.png
       - name: Remove the README.md.
-        command: rm gtk_flutter/README.md
+        rm: gtk_flutter/README.md
       - name: Remove the Linux and Windows runners
         path: gtk_flutter
         rmdirs:
@@ -2145,10 +2145,10 @@ steps:
           - flutter pub add provider
       - name: Update iOS podspec 
         path: gtk_flutter/ios
-        command: pod update
+        pod: update
       - name: Update macOS podspec 
         path: gtk_flutter/macos
-        command: pod update
+        pod: update
       - name: Add lib/firebase_options.dart
         path: gtk_flutter/lib/firebase_options.dart
         replace-contents: |

@@ -170,7 +170,7 @@ steps:
           >     - packages/shrine_images/36-0.jpg
           >     - packages/shrine_images/37-0.jpg
       - name: Remove the README.md.
-        command: rm cupertino_store/README.md
+        rm: cupertino_store/README.md
       - name: Remove the Android, Web, and Desktop runners
         path: cupertino_store
         rmdirs:

@@ -91,6 +91,9 @@ class BlueprintStep {
   @JsonKey(name: 'replace-contents')
   final String? replaceContents;
 
+  final String? rm;
+  final String? pod;
+
   final String? mkdir;
   final List<String> mkdirs;
   final String? rmdir;
@@ -113,6 +116,8 @@ class BlueprintStep {
     this.rmdir,
     this.rmdirs = const [],
     this.copydir,
+    this.rm,
+    this.pod,
   }) {
     if (name.isEmpty) {
       throw ArgumentError.value(name, 'name', 'Cannot be empty.');
@@ -138,7 +143,9 @@ class BlueprintStep {
         mkdirs.isEmpty &&
         rmdir == null &&
         rmdirs.isEmpty &&
-        copydir == null) {
+        copydir == null &&
+        rm == null &&
+        pod == null) {
       _logger.warning('Invalid step with no action: $name');
       return false;
     }
@@ -157,7 +164,9 @@ class BlueprintStep {
           mkdirs.isNotEmpty ||
           rmdir != null ||
           rmdirs.isNotEmpty ||
-          copydir != null) {
+          copydir != null ||
+          rm != null ||
+          pod != null) {
         _logger.warning(
             'Invalid step sub-steps and one (or more) of patch, command(s), '
             'base64-contents or replace-contents: $name');
@@ -237,10 +246,11 @@ class BlueprintStep {
 
       // It mustn't be mkdir, rmdir, or copydir.
       if (command!.startsWith('mkdir') ||
-          command!.startsWith('rm -r') ||
-          command!.startsWith('cp -R')) {
+          command!.startsWith('rm') ||
+          command!.startsWith('cp -R') ||
+          command!.startsWith('pod')) {
         _logger.warning(
-            'Invalid step, replace with mkdir, rmdir, or copydir: $name');
+            'Invalid step, replace with mkdir, rm, rmdir, pod, or copydir: $name');
         return false;
       }
     }
@@ -256,8 +266,9 @@ class BlueprintStep {
       // If we have a list of commands, they mustn't be mkdir, rmdir or copydir.
       if (commands.any((command) =>
           command.startsWith('mkdir') ||
-          command.startsWith('rm -r') ||
-          command.startsWith('cp -R'))) {
+          command.startsWith('rm') ||
+          command.startsWith('cp -R') ||
+          command.startsWith('pod'))) {
         _logger.warning(
             'Invalid commands, replace with mkdirs, rmdirs, repeated copydir: $name');
         return false;

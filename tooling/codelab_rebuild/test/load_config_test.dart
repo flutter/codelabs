@@ -41,7 +41,7 @@ steps:
           - flutter pub add provider 
           - flutter pub add shrine_images
       - name: Remove the README.md.
-        command: rm cupertino_store/README.md
+        rm: cupertino_store/README.md
       - name: Remove the Android, Web, and Desktop runners
         path: cupertino_store
         rmdirs:
@@ -373,6 +373,28 @@ steps:
     expect(blueprint.isValid, equals(false));
   });
 
+  test('Invalid blueprint, command that should be rm', () {
+    final input = '''
+name: Cupertino Store script
+steps:
+  - name: rm.
+    command: rm foo
+''';
+    final blueprint = Blueprint.load(input);
+    expect(blueprint.isValid, equals(false));
+  });
+
+  test('Invalid blueprint, command that should be pod', () {
+    final input = '''
+name: Cupertino Store script
+steps:
+  - name: pod.
+    command: pod update
+''';
+    final blueprint = Blueprint.load(input);
+    expect(blueprint.isValid, equals(false));
+  });
+
   test('Invalid blueprint, command that should be copydir', () {
     final input = '''
 name: Cupertino Store script
@@ -408,5 +430,41 @@ steps:
 ''';
     final blueprint = Blueprint.load(input);
     expect(blueprint.isValid, equals(false));
+  });
+
+  test('Invalid blueprint, commands that should be rm', () {
+    final input = '''
+name: Cupertino Store script
+steps:
+  - name: repeated rm.
+    commands: 
+      - rm foo
+      - rm bar
+''';
+    final blueprint = Blueprint.load(input);
+    expect(blueprint.isValid, equals(false));
+  });
+
+  test('valid pod blueprint', () {
+    final input = '''
+name: Cupertino Store script
+steps:
+  - name: Rebuild ios/Podfile.lock
+    path: adaptive_app/ios
+    pod: update
+''';
+    final blueprint = Blueprint.load(input);
+    expect(blueprint.isValid, equals(true));
+  });
+
+  test('valid rm blueprint', () {
+    final input = '''
+name: Cupertino Store script
+steps:
+  - name: valid rm
+    rm: foo
+''';
+    final blueprint = Blueprint.load(input);
+    expect(blueprint.isValid, equals(true));
   });
 }

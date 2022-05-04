@@ -49,6 +49,8 @@ BlueprintStep _$BlueprintStepFromJson(Map json) => $checkedCreate(
             'patch-u',
             'patch-c',
             'replace-contents',
+            'rm',
+            'pod',
             'mkdir',
             'mkdirs',
             'rmdir',
@@ -94,6 +96,8 @@ BlueprintStep _$BlueprintStepFromJson(Map json) => $checkedCreate(
                   const []),
           copydir: $checkedConvert(
               'copydir', (v) => v == null ? null : CopyDirs.fromJson(v as Map)),
+          rm: $checkedConvert('rm', (v) => v as String?),
+          pod: $checkedConvert('pod', (v) => v as String?),
         );
         return val;
       },
@@ -117,6 +121,8 @@ Map<String, dynamic> _$BlueprintStepToJson(BlueprintStep instance) =>
       'patch-u': instance.patchU,
       'patch-c': instance.patchC,
       'replace-contents': instance.replaceContents,
+      'rm': instance.rm,
+      'pod': instance.pod,
       'mkdir': instance.mkdir,
       'mkdirs': instance.mkdirs,
       'rmdir': instance.rmdir,

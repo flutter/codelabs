@@ -103,6 +103,46 @@ Future<void> _buildBlueprintStep(Directory cwd, BlueprintStep step) async {
     return;
   }
 
+  final rm = step.rm;
+  if (rm != null) {
+    late final File target;
+    if (step.path != null) {
+      target = File(p.join(cwd.path, step.path, rm));
+    } else {
+      target = File(p.join(cwd.path, rm));
+    }
+    if (!target.existsSync()) {
+      _logger.severe("File ${target.path} doesn't exist: ${step.name}");
+      exit(-1);
+    }
+    target.deleteSync();
+    return;
+  }
+
+  final pod = step.pod;
+  if (pod != null) {
+    final String workingDirectory =
+        step.path != null ? p.join(cwd.path, step.path) : cwd.path;
+    final script = Script(
+      'pod',
+      args: [pod],
+      workingDirectory: workingDirectory,
+    );
+    script.stderr.lines.listen((event) {
+      _logger.warning(event);
+    });
+    script.stdout.lines.listen((event) {
+      _logger.info(event);
+    });
+
+    final exitCode = await script.exitCode;
+    if (exitCode != 0) {
+      _logger.severe('Patch failed');
+      exit(-1);
+    }
+    return;
+  }
+
   final path = step.path;
   if (path == null) {
     _logger.severe(
