@@ -16,16 +16,22 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 
 Future<Map<String, PurchaseHandler>> _createPurchaseHandlers() async {
-  final scopes = [
+  // Configure Android Publisher API access
+  final serviceAccountGooglePlay = File('assets/service-account-google-play.json').readAsStringSync();
+  final clientCredentialsGooglePlay = auth.ServiceAccountCredentials.fromJson(serviceAccountGooglePlay);
+  final clientGooglePlay = await auth.clientViaServiceAccount(clientCredentialsGooglePlay, [
     ap.AndroidPublisherApi.androidpublisherScope,
+  ]);
+  final androidPublisher = ap.AndroidPublisherApi(clientGooglePlay);
+
+  // Configure Firestore API access
+  final serviceAccountFirebase = File('assets/service-account-firebase.json').readAsStringSync();
+  final clientCredentialsFirebase = auth.ServiceAccountCredentials.fromJson(serviceAccountFirebase);
+  final clientFirebase = await auth.clientViaServiceAccount(clientCredentialsFirebase, [
     fs.FirestoreApi.cloudPlatformScope,
-  ];
-  final jsonString = File('assets/service-account.json').readAsStringSync();
-  final clientCredentials = auth.ServiceAccountCredentials.fromJson(jsonString);
-  final client = await auth.clientViaServiceAccount(clientCredentials, scopes);
-  final json = jsonDecode(jsonString);
-  final androidPublisher = ap.AndroidPublisherApi(client);
-  final firestoreApi = fs.FirestoreApi(client);
+  ]);
+  final firestoreApi = fs.FirestoreApi(clientFirebase);
+  final json = jsonDecode(serviceAccountFirebase);
   final projectId = json['project_id'];
   final iapRepository = IapRepository(firestoreApi, projectId);
 

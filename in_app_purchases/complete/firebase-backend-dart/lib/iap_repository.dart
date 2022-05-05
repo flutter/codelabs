@@ -110,7 +110,7 @@ class IapRepository {
             update: Document(
                 fields: purchaseData.toDocument(),
                 name:
-                    '/projects/$projectId/databases/(default)/documents/$purchaseId'),
+                    'projects/$projectId/databases/(default)/documents/purchases/$purchaseId'),
           ),
         ],
       ),
