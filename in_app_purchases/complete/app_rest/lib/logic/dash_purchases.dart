@@ -1,7 +1,11 @@
+// ignore_for_file: avoid_print
+
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:in_app_purchase/in_app_purchase.dart';
 
 import '../constants.dart';
@@ -38,14 +42,6 @@ class DashPurchases extends ChangeNotifier {
   Future<void> loadPurchases() async {
     final available = await iapConnection.isAvailable();
     if (!available) {
-      storeState = StoreState.notAvailable;
-      notifyListeners();
-      return;
-    }
-
-    try {
-      await firebaseNotifier.functions;
-    } catch (e) {
       storeState = StoreState.notAvailable;
       notifyListeners();
       return;
@@ -121,15 +117,30 @@ class DashPurchases extends ChangeNotifier {
   }
 
   Future<bool> _verifyPurchase(PurchaseDetails purchaseDetails) async {
-    var functions = await firebaseNotifier.functions;
-    final callable = functions.httpsCallable('verifyPurchase');
-    final results = await callable({
-      'source': purchaseDetails.verificationData.source,
-      'verificationData':
-          purchaseDetails.verificationData.serverVerificationData,
-      'productId': purchaseDetails.productID,
-    });
-    return results.data as bool;
+    // TODO: Move server IP to constants
+    final url = Uri.parse('http://192.168.178.46:8080/verifypurchase');
+    const headers = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+    };
+    final response = await http.post(
+      url,
+      body: jsonEncode({
+        'source': purchaseDetails.verificationData.source,
+        'productId': purchaseDetails.productID,
+        'verificationData':
+            purchaseDetails.verificationData.serverVerificationData,
+        'userId': firebaseNotifier.user?.uid,
+      }),
+      headers: headers,
+    );
+    if (response.statusCode == 200) {
+      print('Successfully verified purchase');
+      return true;
+    } else {
+      print('failed request: $response');
+      return false;
+    }
   }
 
   void _updateStreamOnDone() {
@@ -137,7 +148,6 @@ class DashPurchases extends ChangeNotifier {
   }
 
   void _updateStreamOnError(dynamic error) {
-    // ignore: avoid_print
     print(error);
   }
 
