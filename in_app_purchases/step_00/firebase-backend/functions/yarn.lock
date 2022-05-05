@@ -1206,12 +1206,13 @@ firebase-admin@^10.1.0:
     "@google-cloud/firestore" "^4.15.1"
     "@google-cloud/storage" "^5.18.3"
 
-firebase-functions-test@^0.3.3:
-  version "0.3.3"
-  resolved "https://registry.yarnpkg.com/firebase-functions-test/-/firebase-functions-test-0.3.3.tgz#d26626d6c3edb03cd27eb79c12980c2551722517"
+firebase-functions-test@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/firebase-functions-test/-/firebase-functions-test-2.0.0.tgz#0c823b3bc5a4d5e7474530042661fa0955a51c47"
   dependencies:
     "@types/lodash" "^4.14.104"
     lodash "^4.17.5"
+    ts-deepmerge "^2.0.1"
 
 firebase-functions@^3.20.1:
   version "3.20.1"
@@ -2453,6 +2454,10 @@ toidentifier@1.0.0:
 tr46@~0.0.3:
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/tr46/-/tr46-0.0.3.tgz#8184fd347dac9cdc185992f3a6622e14b9d9ab6a"
+
+ts-deepmerge@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/ts-deepmerge/-/ts-deepmerge-2.0.1.tgz#cd24f52b17e34baeac7867477cc0cefe5d0d291b"
 
 tsconfig-paths@^3.14.1:
   version "3.14.1"
