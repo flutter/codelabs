@@ -6,6 +6,6 @@
 build/
 
 # Keys
-assets/service-account.json
+assets/service-account*.json
 lib/constants.dart
 
