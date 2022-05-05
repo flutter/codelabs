@@ -77,14 +77,62 @@ class GooglePlayPurchaseHandler extends PurchaseHandler {
 
   @override
   Future<bool> handleSubscription({
-    required String userId,
+    required String? userId,
     required ProductData productData,
     required String token,
-  }) {
+  }) async {
     print(
       'GooglePlayPurchaseHandler.handleSubscription'
       '($userId, ${productData.productId}, $token)',
     );
-    throw UnimplementedError();
+
+    try {
+      // Verify purchase with Google
+      final response = await androidPublisher.purchases.subscriptions.get(
+        androidPackageId,
+        productData.productId,
+        token,
+      );
+
+      // Make sure an order id exists
+      if (response.orderId == null) {
+        print("Could not handle purchase without order id");
+        return false;
+      }
+
+      final purchaseData = SubscriptionPurchase(
+        purchaseDate: DateTime.fromMillisecondsSinceEpoch(
+          int.parse(response.startTimeMillis ?? "0"),
+        ),
+        orderId: response.orderId!,
+        productId: productData.productId,
+        status: subscriptionStatusFrom(response.paymentState),
+        userId: userId,
+        iapSource: IAPSource.googleplay,
+        expiryDate: DateTime.fromMillisecondsSinceEpoch(
+          int.parse(response.expiryTimeMillis ?? "0"),
+        ),
+      );
+
+      // Update the database
+      if (userId != null) {
+        // If we know the userId,
+        // update the existing purchase or create it if it does not exist.
+        await iapRepository.createOrUpdatePurchase(purchaseData);
+      } else {
+        // If we do not know the user id, a previous entry must already
+        // exist, and thus we'll only update it.
+        await iapRepository.updatePurchase(purchaseData);
+      }
+      return true;
+    } on ap.DetailedApiRequestError catch (e) {
+      print(
+        'Error on handle Subscription: $e\n'
+        'JSON: ${e.jsonResponse}',
+      );
+    } catch (e) {
+      print('Error on handle Subscription: $e\n');
+    }
+    return false;
   }
 }

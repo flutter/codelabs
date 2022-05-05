@@ -46,7 +46,22 @@ enum NonSubscriptionStatus {
 enum SubscriptionStatus {
   pending,
   active,
-  expired,
+  expired
+}
+
+SubscriptionStatus subscriptionStatusFrom(int? state) {
+  switch (state) {
+    case 0: // Payment pending
+      return SubscriptionStatus.pending;
+    case 1: // Payment received
+    case 2: // Free trial
+      return SubscriptionStatus.active;
+    case 3: // Pending deferred upgrade/downgrade
+      return SubscriptionStatus.pending;
+    case null: // Expired or cancelled
+    default:
+      return SubscriptionStatus.expired;
+  }
 }
 
 class NonSubscriptionPurchase extends Purchase {
@@ -74,6 +89,7 @@ class NonSubscriptionPurchase extends Purchase {
 
 class SubscriptionPurchase extends Purchase {
   final SubscriptionStatus status;
+  final DateTime expiryDate;
 
   SubscriptionPurchase({
     required super.iapSource,
@@ -82,6 +98,7 @@ class SubscriptionPurchase extends Purchase {
     required super.userId,
     required super.purchaseDate,
     required this.status,
+    required this.expiryDate,
     super.type = ProductType.subscription,
   });
 

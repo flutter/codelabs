@@ -15,6 +15,8 @@ import 'package:googleapis_auth/auth_io.dart' as auth;
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 
+/// Creates the Google Play and Apple Store [PurchaseHandler]
+/// and their dependencies
 Future<Map<String, PurchaseHandler>> _createPurchaseHandlers() async {
   // Configure Android Publisher API access
   final serviceAccountGooglePlay = File('assets/service-account-google-play.json').readAsStringSync();
@@ -45,23 +47,41 @@ Future<void> main() async {
 
   final purchaseHandlers = await _createPurchaseHandlers();
 
+  /// Warning: This endpoint has no security
+  /// and does not implement user authentication.
+  /// Production applications should implement authentication.
   router.post('/verifypurchase', (Request request) async {
     final payload = json.decode(await request.readAsString());
+
+    // NOTE: userId should be obtained using authentication methods.
+    final userId = payload['userId'] as String;
+
+    // Value from PurchaseDetails.verificationData.source
     final source = payload['source'] as String;
-    final userId = '1234';
+
+    // Obtain product data based on the productId
     final productData = productDataMap[payload['productId']]!;
+
+    // Value from PurchaseDetails.verificationData.serverVerificationData
     final token = payload['verificationData'] as String;
+
+    // Will call to verifyPurchase on
+    // [GooglePlayPurchaseHandler] or [AppleStorePurchaseHandler]
     final result = await purchaseHandlers[source]!.verifyPurchase(
       userId: userId,
       productData: productData,
       token: token,
     );
+
     if (result) {
-      return Response.ok('all good');
+      // Note: Better success response recommended
+      return Response.ok('all good!');
     } else {
+      // Note: Better error handling recommended
       return Response.internalServerError();
     }
   });
 
+  // Start service
   await serveHandler(router);
 }

@@ -1,6 +1,9 @@
 import 'package:firebase_backend_dart/products.dart';
 
+/// Generic purchase handler,
+/// must be implemented for Google Play and Apple Store
 abstract class PurchaseHandler {
+  /// Verify if purchase is valid and update the database
   Future<bool> verifyPurchase({
     required String userId,
     required ProductData productData,
@@ -22,12 +25,16 @@ abstract class PurchaseHandler {
     }
   }
 
+  /// Verify if non-subscription purchase (aka consumable) is valid
+  /// and update the database
   Future<bool> handleNonSubscription({
     required String userId,
     required ProductData productData,
     required String token,
   });
 
+  /// Verify if subscription purchase (aka non-consumable) is valid
+  /// and update the database
   Future<bool> handleSubscription({
     required String userId,
     required ProductData productData,
