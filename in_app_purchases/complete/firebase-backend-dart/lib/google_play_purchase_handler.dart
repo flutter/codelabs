@@ -4,31 +4,22 @@ import 'package:firebase_backend_dart/constants.dart';
 import 'package:firebase_backend_dart/products.dart';
 import 'package:firebase_backend_dart/purchase_handler.dart';
 
-import 'package:googleapis/firestore/v1.dart' as fs;
 import 'package:googleapis/androidpublisher/v3.dart' as ap;
-import 'package:googleapis_auth/auth_io.dart' as auth;
+
+import 'iap_repository.dart';
 
 class GooglePlayPurchaseHandler extends PurchaseHandler {
-  late ap.AndroidPublisherApi androidPublisher;
+  final ap.AndroidPublisherApi androidPublisher;
+  final IapRepository iapRepository;
 
-  GooglePlayPurchaseHandler() {
-    try {
-      final scopes = [
-        ap.AndroidPublisherApi.androidpublisherScope,
-      ];
-      final json = File('assets/service-account.json').readAsStringSync();
-      final clientCredentials = auth.ServiceAccountCredentials.fromJson(json);
-      auth.clientViaServiceAccount(clientCredentials, scopes).then((client) {
-        androidPublisher = ap.AndroidPublisherApi(client);
-      });
-    } catch (e) {
-      print('Error creating API: $e');
-    }
-  }
+  GooglePlayPurchaseHandler(
+    this.androidPublisher,
+    this.iapRepository,
+  );
 
   @override
   Future<bool> handleNonSubscription({
-    required String userId,
+    required String? userId,
     required ProductData productData,
     required String token,
   }) async {
@@ -38,20 +29,50 @@ class GooglePlayPurchaseHandler extends PurchaseHandler {
     );
 
     try {
+      // Verify purchase with Google
       final response = await androidPublisher.purchases.products.get(
         androidPackageId,
         productData.productId,
         token,
       );
-      print('Response: $response');
+
+      // Make sure an order id exists
+      if (response.orderId == null) {
+        print("Could not handle purchase without order id");
+        return false;
+      }
+
+      final purchaseData = NonSubscriptionPurchase(
+        purchaseDate: DateTime.fromMillisecondsSinceEpoch(
+          int.parse(response.purchaseTimeMillis ?? "0"),
+        ),
+        orderId: response.orderId!,
+        productId: productData.productId,
+        status: NonSubscriptionStatus.values[response.purchaseState ?? 0],
+        userId: userId,
+        iapSource: IAPSource.googleplay,
+      );
+
+      // Update the database
+      if (userId != null) {
+        // If we know the userId,
+        // update the existing purchase or create it if it does not exist.
+        await iapRepository.createOrUpdatePurchase(purchaseData);
+      } else {
+        // If we do not know the user id, a previous entry must already
+        // exist, and thus we'll only update it.
+        await iapRepository.updatePurchase(purchaseData);
+      }
+      return true;
     } on ap.DetailedApiRequestError catch (e) {
       print(
-        'Error creating GooglePlayPurchaseHandler: $e\n'
+        'Error on handle NonSubscription: $e\n'
         'JSON: ${e.jsonResponse}',
       );
+    } catch (e) {
+      print('Error on handle NonSubscription: $e\n');
     }
-
-    throw UnimplementedError();
+    return false;
   }
 
   @override
