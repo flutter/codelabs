@@ -1,21 +1,51 @@
 import 'dart:io';
 
 import 'package:firebase_backend_dart/constants.dart';
+import 'package:firebase_backend_dart/helpers.dart';
 import 'package:firebase_backend_dart/products.dart';
 import 'package:firebase_backend_dart/purchase_handler.dart';
 
 import 'package:googleapis/androidpublisher/v3.dart' as ap;
+import 'package:googleapis/pubsub/v1.dart' as pubsub;
 
 import 'iap_repository.dart';
 
 class GooglePlayPurchaseHandler extends PurchaseHandler {
   final ap.AndroidPublisherApi androidPublisher;
   final IapRepository iapRepository;
+  final pubsub.PubsubApi pubsubApi;
 
   GooglePlayPurchaseHandler(
     this.androidPublisher,
     this.iapRepository,
-  );
+    this.pubsubApi,
+  ) {
+    // _pullMessageFromPubSub();
+  }
+
+  // TODO: Does not work yet
+  // Error:
+  // Could not connect to http://metadata.google.internal/.
+  // If not running on Google Cloud, one of these environment variables must be set
+  // to the target Google Project ID:
+  // GCP_PROJECT
+  // GCLOUD_PROJECT
+  // CLOUDSDK_CORE_PROJECT
+  // GOOGLE_CLOUD_PROJECT
+  Future<void> _pullMessageFromPubSub() async {
+    final request = pubsub.PullRequest(
+      maxMessages: 1000,
+    );
+    final projectId = await currentProjectId();
+    final topicName =
+        'projects/$projectId/topics/$googlePlayPubsubBillingTopic';
+    final pullResponse = await pubsubApi.projects.subscriptions.pull(
+      request,
+      topicName,
+    );
+    final messages = pullResponse.receivedMessages;
+    print('Received ${messages?.length} messages');
+  }
 
   @override
   Future<bool> handleNonSubscription({

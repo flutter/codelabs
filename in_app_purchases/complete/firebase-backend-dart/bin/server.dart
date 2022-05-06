@@ -11,6 +11,7 @@ import 'package:firebase_backend_dart/products.dart';
 import 'package:firebase_backend_dart/purchase_handler.dart';
 import 'package:googleapis/firestore/v1.dart' as fs;
 import 'package:googleapis/androidpublisher/v3.dart' as ap;
+import 'package:googleapis/pubsub/v1.dart' as pubsub;
 import 'package:googleapis_auth/auth_io.dart' as auth;
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
@@ -19,17 +20,27 @@ import 'package:shelf_router/shelf_router.dart';
 /// and their dependencies
 Future<Map<String, PurchaseHandler>> _createPurchaseHandlers() async {
   // Configure Android Publisher API access
-  final serviceAccountGooglePlay = File('assets/service-account-google-play.json').readAsStringSync();
-  final clientCredentialsGooglePlay = auth.ServiceAccountCredentials.fromJson(serviceAccountGooglePlay);
-  final clientGooglePlay = await auth.clientViaServiceAccount(clientCredentialsGooglePlay, [
+  final serviceAccountGooglePlay =
+      File('assets/service-account-google-play.json').readAsStringSync();
+  final clientCredentialsGooglePlay =
+      auth.ServiceAccountCredentials.fromJson(serviceAccountGooglePlay);
+  final clientGooglePlay =
+      await auth.clientViaServiceAccount(clientCredentialsGooglePlay, [
     ap.AndroidPublisherApi.androidpublisherScope,
+    pubsub.PubsubApi.cloudPlatformScope,
   ]);
   final androidPublisher = ap.AndroidPublisherApi(clientGooglePlay);
 
+  // Pub/Sub API to receive on purchase events from Google Play
+  final pubsubApi = pubsub.PubsubApi(clientGooglePlay);
+
   // Configure Firestore API access
-  final serviceAccountFirebase = File('assets/service-account-firebase.json').readAsStringSync();
-  final clientCredentialsFirebase = auth.ServiceAccountCredentials.fromJson(serviceAccountFirebase);
-  final clientFirebase = await auth.clientViaServiceAccount(clientCredentialsFirebase, [
+  final serviceAccountFirebase =
+      File('assets/service-account-firebase.json').readAsStringSync();
+  final clientCredentialsFirebase =
+      auth.ServiceAccountCredentials.fromJson(serviceAccountFirebase);
+  final clientFirebase =
+      await auth.clientViaServiceAccount(clientCredentialsFirebase, [
     fs.FirestoreApi.cloudPlatformScope,
   ]);
   final firestoreApi = fs.FirestoreApi(clientFirebase);
@@ -38,7 +49,11 @@ Future<Map<String, PurchaseHandler>> _createPurchaseHandlers() async {
   final iapRepository = IapRepository(firestoreApi, projectId);
 
   return {
-    'google_play': GooglePlayPurchaseHandler(androidPublisher, iapRepository),
+    'google_play': GooglePlayPurchaseHandler(
+      androidPublisher,
+      iapRepository,
+      pubsubApi,
+    ),
   };
 }
 
