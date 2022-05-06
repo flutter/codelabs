@@ -4,6 +4,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:firebase_backend_dart/app_store_purchase_handler.dart';
 import 'package:firebase_backend_dart/google_play_purchase_handler.dart';
 import 'package:firebase_backend_dart/helpers.dart';
 import 'package:firebase_backend_dart/iap_repository.dart';
@@ -54,6 +55,7 @@ Future<Map<String, PurchaseHandler>> _createPurchaseHandlers() async {
       iapRepository,
       pubsubApi,
     ),
+    'app_store': AppStorePurchaseHandler(),
   };
 }
 

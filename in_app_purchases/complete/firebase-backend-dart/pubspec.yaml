@@ -9,6 +9,7 @@ environment:
 dependencies:
   googleapis: ^8.1.0
   googleapis_auth: ^1.3.0
+  http: ^0.13.4
   shelf: ^1.3.0
   shelf_router: ^1.1.2
 
