@@ -1,10 +1,9 @@
 import 'dart:convert';
-
-import 'package:flutter/material.dart';
-
 import 'dart:io' show Platform;
-import 'package:http/http.dart' as http;
+
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 void main() => runApp(const RecommenderDemo());
 
@@ -30,10 +29,10 @@ class _RecommenderDemoState extends State<RecommenderDemo> {
   Future<List<String>> recommend() async {
     if (!kIsWeb && Platform.isAndroid) {
       // For Android emulator
-      _server = "10.0.2.2";
+      _server = '10.0.2.2';
     } else {
       // For iOS emulator, desktop and web platforms
-      _server = "127.0.0.1";
+      _server = '127.0.0.1';
     }
     final response = await http.post(
       Uri.parse('http://' + _server + ':5000/recommend'),
@@ -46,7 +45,8 @@ class _RecommenderDemoState extends State<RecommenderDemo> {
     );
 
     if (response.statusCode == 200) {
-      return List<String>.from(jsonDecode(response.body)['movies']);
+      return List<String>.from(
+          jsonDecode(response.body)['movies'] as Iterable<dynamic>);
     } else {
       throw Exception('Error response');
     }
