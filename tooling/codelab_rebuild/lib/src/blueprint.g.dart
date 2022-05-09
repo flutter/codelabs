@@ -41,8 +41,6 @@ BlueprintStep _$BlueprintStepFromJson(Map json) => $checkedCreate(
           allowedKeys: const [
             'name',
             'steps',
-            'command',
-            'commands',
             'path',
             'base64-contents',
             'patch',
@@ -51,6 +49,8 @@ BlueprintStep _$BlueprintStepFromJson(Map json) => $checkedCreate(
             'replace-contents',
             'rm',
             'pod',
+            'dart',
+            'flutter',
             'mkdir',
             'mkdirs',
             'rmdir',
@@ -70,12 +70,6 @@ BlueprintStep _$BlueprintStepFromJson(Map json) => $checkedCreate(
                   const []),
           base64Contents:
               $checkedConvert('base64-contents', (v) => v as String?),
-          command: $checkedConvert('command', (v) => v as String?),
-          commands: $checkedConvert(
-              'commands',
-              (v) =>
-                  (v as List<dynamic>?)?.map((e) => e as String).toList() ??
-                  const []),
           patch: $checkedConvert('patch', (v) => v as String?),
           patchU: $checkedConvert('patch-u', (v) => v as String?),
           patchC: $checkedConvert('patch-c', (v) => v as String?),
@@ -98,6 +92,8 @@ BlueprintStep _$BlueprintStepFromJson(Map json) => $checkedCreate(
               'copydir', (v) => v == null ? null : CopyDirs.fromJson(v as Map)),
           rm: $checkedConvert('rm', (v) => v as String?),
           pod: $checkedConvert('pod', (v) => v as String?),
+          dart: $checkedConvert('dart', (v) => v as String?),
+          flutter: $checkedConvert('flutter', (v) => v as String?),
         );
         return val;
       },
@@ -113,8 +109,6 @@ Map<String, dynamic> _$BlueprintStepToJson(BlueprintStep instance) =>
     <String, dynamic>{
       'name': instance.name,
       'steps': instance.steps,
-      'command': instance.command,
-      'commands': instance.commands,
       'path': instance.path,
       'base64-contents': instance.base64Contents,
       'patch': instance.patch,
@@ -123,6 +117,8 @@ Map<String, dynamic> _$BlueprintStepToJson(BlueprintStep instance) =>
       'replace-contents': instance.replaceContents,
       'rm': instance.rm,
       'pod': instance.pod,
+      'dart': instance.dart,
+      'flutter': instance.flutter,
       'mkdir': instance.mkdir,
       'mkdirs': instance.mkdirs,
       'rmdir': instance.rmdir,

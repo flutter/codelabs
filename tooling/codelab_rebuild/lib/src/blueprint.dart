@@ -76,9 +76,6 @@ class BlueprintStep {
   final String name;
   final List<BlueprintStep> steps;
 
-  final String? command;
-  final List<String> commands;
-
   final String? path;
 
   @JsonKey(name: 'base64-contents')
@@ -93,6 +90,8 @@ class BlueprintStep {
 
   final String? rm;
   final String? pod;
+  final String? dart;
+  final String? flutter;
 
   final String? mkdir;
   final List<String> mkdirs;
@@ -104,8 +103,6 @@ class BlueprintStep {
     required this.name,
     this.steps = const [],
     this.base64Contents,
-    this.command,
-    this.commands = const [],
     this.patch,
     this.patchU,
     this.patchC,
@@ -118,6 +115,8 @@ class BlueprintStep {
     this.copydir,
     this.rm,
     this.pod,
+    this.dart,
+    this.flutter,
   }) {
     if (name.isEmpty) {
       throw ArgumentError.value(name, 'name', 'Cannot be empty.');
@@ -135,8 +134,6 @@ class BlueprintStep {
         patch == null &&
         patchU == null &&
         patchC == null &&
-        command == null &&
-        commands.isEmpty &&
         replaceContents == null &&
         base64Contents == null &&
         mkdir == null &&
@@ -145,7 +142,9 @@ class BlueprintStep {
         rmdirs.isEmpty &&
         copydir == null &&
         rm == null &&
-        pod == null) {
+        pod == null &&
+        dart == null &&
+        flutter == null) {
       _logger.warning('Invalid step with no action: $name');
       return false;
     }
@@ -157,8 +156,6 @@ class BlueprintStep {
           patch != null ||
           patchU != null ||
           patchC != null ||
-          command != null ||
-          commands.isNotEmpty ||
           replaceContents != null ||
           mkdir != null ||
           mkdirs.isNotEmpty ||
@@ -166,7 +163,9 @@ class BlueprintStep {
           rmdirs.isNotEmpty ||
           copydir != null ||
           rm != null ||
-          pod != null) {
+          pod != null ||
+          dart != null ||
+          flutter != null) {
         _logger.warning(
             'Invalid step sub-steps and one (or more) of patch, command(s), '
             'base64-contents or replace-contents: $name');
@@ -205,74 +204,19 @@ class BlueprintStep {
 
     // If we have a patch, we don't want a replace-contents, base64-contents or command(s)
     if ((patch != null || patchU != null || patchC != null) &&
-        (command != null ||
-            commands.isNotEmpty ||
-            replaceContents != null ||
+        (replaceContents != null ||
             base64Contents != null ||
             mkdir != null ||
             mkdirs.isNotEmpty ||
             rmdir != null ||
             rmdirs.isNotEmpty ||
-            copydir != null)) {
+            copydir != null ||
+            pod != null ||
+            dart != null ||
+            flutter != null)) {
       _logger.warning(
           'Invalid step, patch with command(s), replace-contents, or base64-contents: $name');
       return false;
-    }
-
-    // Likewise, if there is a command, there mustn't be a patch, patch-u, replace-contents or base64-contents.
-    if ((command != null || commands.isNotEmpty) &&
-        (patch != null ||
-            patchU != null ||
-            patchC != null ||
-            replaceContents != null ||
-            base64Contents != null ||
-            mkdir != null ||
-            mkdirs.isNotEmpty ||
-            rmdir != null ||
-            rmdirs.isNotEmpty ||
-            copydir != null)) {
-      _logger.warning(
-          'Invalid step, command(s) with patch and/or replace-contents: $name');
-      return false;
-    }
-
-    // If we have a command
-    if (command != null) {
-      // It mustn't be an empty command.
-      if (command!.isEmpty) {
-        _logger.warning('Invalid step, empty command: $name');
-        return false;
-      }
-
-      // It mustn't be mkdir, rmdir, or copydir.
-      if (command!.startsWith('mkdir') ||
-          command!.startsWith('rm') ||
-          command!.startsWith('cp -R') ||
-          command!.startsWith('pod')) {
-        _logger.warning(
-            'Invalid step, replace with mkdir, rm, rmdir, pod, or copydir: $name');
-        return false;
-      }
-    }
-
-    // If we have a list of commands
-    if (commands.isNotEmpty) {
-      // They mustn't be an empty.
-      if (!commands.any((command) => command.isNotEmpty)) {
-        _logger.warning('Invalid step, commands with empty command: $name');
-        return false;
-      }
-
-      // If we have a list of commands, they mustn't be mkdir, rmdir or copydir.
-      if (commands.any((command) =>
-          command.startsWith('mkdir') ||
-          command.startsWith('rm') ||
-          command.startsWith('cp -R') ||
-          command.startsWith('pod'))) {
-        _logger.warning(
-            'Invalid commands, replace with mkdirs, rmdirs, repeated copydir: $name');
-        return false;
-      }
     }
 
     return true;

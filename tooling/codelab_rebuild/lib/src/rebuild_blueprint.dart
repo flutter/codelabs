@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:cli_script/cli_script.dart';
-import 'package:io/io.dart' show copyPathSync;
+import 'package:io/io.dart' as io;
 import 'package:logging/logging.dart';
 import 'package:path/path.dart' as p;
 
@@ -30,19 +30,6 @@ Future<void> _buildBlueprintStep(Directory cwd, BlueprintStep step) async {
   if (steps.isNotEmpty) {
     for (final subStep in steps) {
       await _buildBlueprintStep(cwd, subStep);
-    }
-    return;
-  }
-
-  final command = step.command;
-  if (command != null) {
-    await _execCommand(command, step, cwd);
-    return;
-  }
-
-  if (step.commands.isNotEmpty) {
-    for (final command in step.commands) {
-      await _execCommand(command, step, cwd);
     }
     return;
   }
@@ -121,25 +108,34 @@ Future<void> _buildBlueprintStep(Directory cwd, BlueprintStep step) async {
 
   final pod = step.pod;
   if (pod != null) {
-    final String workingDirectory =
-        step.path != null ? p.join(cwd.path, step.path) : cwd.path;
-    final script = Script(
-      'pod',
-      args: [pod],
-      workingDirectory: workingDirectory,
+    await _runNamedCommand(
+      command: 'pod',
+      step: step,
+      cwd: cwd,
+      args: pod,
     );
-    script.stderr.lines.listen((event) {
-      _logger.warning(event);
-    });
-    script.stdout.lines.listen((event) {
-      _logger.info(event);
-    });
+    return;
+  }
 
-    final exitCode = await script.exitCode;
-    if (exitCode != 0) {
-      _logger.severe('Patch failed');
-      exit(-1);
-    }
+  final dart = step.dart;
+  if (dart != null) {
+    await _runNamedCommand(
+      command: 'dart',
+      step: step,
+      cwd: cwd,
+      args: dart,
+    );
+    return;
+  }
+
+  final flutter = step.flutter;
+  if (flutter != null) {
+    await _runNamedCommand(
+      command: 'flutter',
+      step: step,
+      cwd: cwd,
+      args: flutter,
+    );
     return;
   }
 
@@ -207,6 +203,34 @@ Future<void> _buildBlueprintStep(Directory cwd, BlueprintStep step) async {
   exit(-1);
 }
 
+Future<void> _runNamedCommand({
+  required String command,
+  required BlueprintStep step,
+  required Directory cwd,
+  required String args,
+}) async {
+  final String workingDirectory =
+      step.path != null ? p.join(cwd.path, step.path) : cwd.path;
+  final script = Script(
+    command,
+    args: io.shellSplit(args),
+    workingDirectory: workingDirectory,
+  );
+  script.stderr.lines.listen((event) {
+    _logger.warning(event);
+  });
+  script.stdout.lines.listen((event) {
+    _logger.info(event);
+  });
+
+  final exitCode = await script.exitCode;
+  if (exitCode != 0) {
+    _logger.severe('Patch failed');
+    exit(-1);
+  }
+  return;
+}
+
 void _cpdir({
   required String from,
   required String to,
@@ -215,7 +239,7 @@ void _cpdir({
   if (!FileSystemEntity.isDirectorySync(from)) {
     _logger.warning("Invalid rmdir for '$from': ${step.name}");
   }
-  copyPathSync(from, to);
+  io.copyPathSync(from, to);
 }
 
 void _rmdir(String dir, {required BlueprintStep step}) {
@@ -227,29 +251,4 @@ void _rmdir(String dir, {required BlueprintStep step}) {
 
 void _mkdir(String dir, {required BlueprintStep step}) {
   Directory(dir).createSync(recursive: true);
-}
-
-Future<void> _execCommand(
-    String command, BlueprintStep step, Directory cwd) async {
-  if (command.isEmpty) {
-    _logger.severe('Invalid step: ${step.name}');
-    exit(-1);
-  }
-
-  _logger.info('exec: $command');
-  final script = Script(command,
-      workingDirectory:
-          step.path == null ? cwd.path : p.join(cwd.path, step.path))
-    ..stdout.lines.listen((event) {
-      _logger.info(event);
-    })
-    ..stderr.lines.listen((event) {
-      _logger.warning(event);
-    });
-
-  final exitCode = await script.exitCode;
-  if (exitCode != 0) {
-    _logger.severe('exec failed');
-    exit(-1);
-  }
 }

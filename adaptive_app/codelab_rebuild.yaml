@@ -5,7 +5,7 @@ steps:
       - name: Remove generated code.
         rmdir: step_03
       - name: Create project.
-        command: flutter create adaptive_app
+        flutter: create adaptive_app
       - name: Configure analysis_options.yaml
         path: adaptive_app/analysis_options.yaml
         replace-contents: |
@@ -264,10 +264,10 @@ steps:
           }
       - name: Build iOS simulator bundle
         path: adaptive_app
-        command: flutter build ios --simulator
+        flutter: build ios --simulator
       - name: Build macOS app
         path: adaptive_app
-        command: flutter build macos
+        flutter: build macos
       - name: Copy step_03
         copydir:
           from: adaptive_app
@@ -276,14 +276,21 @@ steps:
     steps:
       - name: Remove generated code.
         rmdir: step_04
-      - name: Add dependencies
+      - name: Add googleapis
         path: adaptive_app
-        commands:
-          - flutter pub add googleapis
-          - flutter pub add http
-          - flutter pub add provider
-          - flutter pub add url_launcher
-          - flutter pub add flex_color_scheme
+        flutter: pub add googleapis
+      - name: Add http
+        path: adaptive_app
+        flutter: pub add http
+      - name: Add provider
+        path: adaptive_app
+        flutter: pub add provider
+      - name: Add url_launcher
+        path: adaptive_app
+        flutter: pub add url_launcher
+      - name: Add flex_color_scheme
+        path: adaptive_app
+        flutter: pub add flex_color_scheme
       - name: Patch android/app/src/main/AndroidManifest.xml
         path: adaptive_app/android/app/src/main/AndroidManifest.xml
         patch: |
@@ -734,7 +741,7 @@ steps:
         rmdir: step_05
       - name: Add dependencies
         path: adaptive_app
-        command: flutter pub add split_view
+        flutter: pub add split_view
       - name: Patch lib/main.dart
         path: adaptive_app/lib/main.dart
         patch: |
@@ -1012,16 +1019,25 @@ steps:
         rmdir: step_06
       - name: Create yt_cors_proxy
         path: adaptive_app
-        command: dart create --template server-shelf yt_cors_proxy
-      - name: Add dependencies
+        dart: create --template server-shelf yt_cors_proxy
+      - name: Remove args
         path: adaptive_app/yt_cors_proxy
-        commands:
-          - dart pub remove args
-          - dart pub remove shelf_router
-          - dart pub remove test_process
-          - dart pub remove test
-          - dart pub add http
-          - dart pub add shelf_cors_headers
+        dart: pub remove args
+      - name: Remove shelf_router
+        path: adaptive_app/yt_cors_proxy
+        dart: pub remove shelf_router
+      - name: Remove test_process
+        path: adaptive_app/yt_cors_proxy
+        dart: pub remove test_process
+      - name: Remove test
+        path: adaptive_app/yt_cors_proxy
+        dart: pub remove test
+      - name: Add http
+        path: adaptive_app/yt_cors_proxy
+        dart: pub add http
+      - name: Add shelf_cors_headers
+        path: adaptive_app/yt_cors_proxy
+        dart: pub add shelf_cors_headers
       - name: Patch yt_cors_proxy/pubspect.yaml
         path: adaptive_app/yt_cors_proxy/pubspec.yaml
         patch: |
@@ -1167,12 +1183,15 @@ steps:
     steps:
       - name: Remove generated code.
         rmdir: step_07
-      - name: Add dependencies
+      - name: Add googleapis_auth
         path: adaptive_app
-        commands: 
-          - flutter pub add googleapis_auth
-          - flutter pub add google_sign_in
-          - flutter pub add extension_google_sign_in_as_googleapis_auth
+        flutter: pub add googleapis_auth
+      - name: Add google_sign_in
+        path: adaptive_app
+        flutter: pub add google_sign_in
+      - name: Add extension_google_sign_in_as_googleapis_auth
+        path: adaptive_app
+        flutter: pub add extension_google_sign_in_as_googleapis_auth
       - name: Patch .gitignore
         path: adaptive_app/.gitignore
         patch: |

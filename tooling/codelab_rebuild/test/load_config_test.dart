@@ -15,7 +15,7 @@ steps:
       - name: Remove generated code.
         rmdir: step_00
       - name: Create project.
-        command: flutter create cupertino_store
+        flutter: create cupertino_store
       - name: blueprint
         path: cupertino_store/analysis_options.yaml
         replace-contents: |
@@ -34,12 +34,9 @@ steps:
           # limitations under the License.
           
           include: ../../analysis_options.yaml
-      - name: Add dependencies.
+      - name: Add intl dependency.
         path: cupertino_store
-        commands:
-          - flutter pub add intl 
-          - flutter pub add provider 
-          - flutter pub add shrine_images
+        flutter: pub add intl 
       - name: Remove the README.md.
         rm: cupertino_store/README.md
       - name: Remove the Android, Web, and Desktop runners
@@ -110,34 +107,6 @@ steps:
     expect(blueprint.isValid, equals(true));
   });
 
-  test('Valid command blueprint', () {
-    final input = '''
-name: Valid command blueprint
-steps:
-  - name: step_00
-    steps:
-      - name: command.
-        command: echo 'Hello world!'
-''';
-    final blueprint = Blueprint.load(input);
-    expect(blueprint.isValid, equals(true));
-  });
-
-  test('Valid commands blueprint', () {
-    final input = '''
-name: Valid commands blueprint
-steps:
-  - name: step_00
-    steps:
-      - name: commands.
-        commands: 
-          - echo 'Hello world!'
-          - echo 'Goodbye!'
-''';
-    final blueprint = Blueprint.load(input);
-    expect(blueprint.isValid, equals(true));
-  });
-
   test('Valid replace-contents blueprint', () {
     final input = '''
 name: Valid base64-contents blueprint
@@ -192,75 +161,6 @@ steps:
 ''';
     final blueprint = Blueprint.load(input);
     expect(blueprint.isValid, equals(true));
-  });
-
-  test('Invalid blueprint, empty command', () {
-    final input = '''
-name: Invalid blueprint, empty command
-steps:
-  - name: step_00
-    steps:
-      - name: empty command.
-        command: 
-''';
-    final blueprint = Blueprint.load(input);
-    expect(blueprint.isValid, equals(false));
-  });
-
-  test('Invalid blueprint, command with patch', () {
-    final input = '''
-name: Cupertino Store script
-steps:
-  - name: step_00
-    steps:
-      - name: command with patch.
-        command: foo
-        patch: not really a patch 
-''';
-    final blueprint = Blueprint.load(input);
-    expect(blueprint.isValid, equals(false));
-  });
-
-  test('Invalid blueprint, command with patch-u', () {
-    final input = '''
-name: Cupertino Store script
-steps:
-  - name: step_00
-    steps:
-      - name: command with patch-u.
-        command: foo
-        patch-u: not really a patch 
-''';
-    final blueprint = Blueprint.load(input);
-    expect(blueprint.isValid, equals(false));
-  });
-
-  test('Invalid blueprint, command with patch-c', () {
-    final input = '''
-name: Cupertino Store script
-steps:
-  - name: step_00
-    steps:
-      - name: command with patch-c.
-        command: foo
-        patch-c: not really a patch 
-''';
-    final blueprint = Blueprint.load(input);
-    expect(blueprint.isValid, equals(false));
-  });
-
-  test('Invalid blueprint, command with replace-contents', () {
-    final input = '''
-name: Cupertino Store script
-steps:
-  - name: step_00
-    steps:
-      - name: command with replace-contents.
-        command: foo
-        replace-contents: contents 
-''';
-    final blueprint = Blueprint.load(input);
-    expect(blueprint.isValid, equals(false));
   });
 
   test('Invalid blueprint, patch without path', () {
@@ -321,12 +221,14 @@ name: Valid sub-step blueprint
 steps:
   - name: Steps
     steps:
-      - name: Random valid command
-        command: foo
+      - name: Random valid patch
+        path: some/dir
+        patch: foo
       - name: Sub Steps
         steps: 
-          - name: Random valid command
-            command: bar
+          - name: Random valid patch
+            path: some/other/dir
+            patch: bar
 ''';
     final blueprint = Blueprint.load(input);
     expect(blueprint.isValid, equals(true));
@@ -338,108 +240,16 @@ name: Invalid sub-step blueprint
 steps:
   - name: Steps
     steps:
-      - name: Random valid command
-        command: foo
+      - name: Random valid patch
+        path: some/dir
+        patch: foo
       - name: Sub Steps
         steps: 
-          - name: Random valid command
-            command: bar
+          - name: Random valid patch
+            path: some/other/dir
+            patch: bar
           - name: replace-contents without path.
             replace-contents: contents 
-''';
-    final blueprint = Blueprint.load(input);
-    expect(blueprint.isValid, equals(false));
-  });
-
-  test('Invalid blueprint, command that should be mkdir', () {
-    final input = '''
-name: Cupertino Store script
-steps:
-  - name: mkdir.
-    command: mkdir foo
-''';
-    final blueprint = Blueprint.load(input);
-    expect(blueprint.isValid, equals(false));
-  });
-
-  test('Invalid blueprint, command that should be rmdir', () {
-    final input = '''
-name: Cupertino Store script
-steps:
-  - name: rmdir.
-    command: rm -r foo
-''';
-    final blueprint = Blueprint.load(input);
-    expect(blueprint.isValid, equals(false));
-  });
-
-  test('Invalid blueprint, command that should be rm', () {
-    final input = '''
-name: Cupertino Store script
-steps:
-  - name: rm.
-    command: rm foo
-''';
-    final blueprint = Blueprint.load(input);
-    expect(blueprint.isValid, equals(false));
-  });
-
-  test('Invalid blueprint, command that should be pod', () {
-    final input = '''
-name: Cupertino Store script
-steps:
-  - name: pod.
-    command: pod update
-''';
-    final blueprint = Blueprint.load(input);
-    expect(blueprint.isValid, equals(false));
-  });
-
-  test('Invalid blueprint, command that should be copydir', () {
-    final input = '''
-name: Cupertino Store script
-steps:
-  - name: copydir.
-    command: cp -R foo bar
-''';
-    final blueprint = Blueprint.load(input);
-    expect(blueprint.isValid, equals(false));
-  });
-
-  test('Invalid blueprint, commands that should be mkdirs', () {
-    final input = '''
-name: Cupertino Store script
-steps:
-  - name: mkdirs.
-    commands: 
-      - mkdir foo
-      - mkdir bar
-''';
-    final blueprint = Blueprint.load(input);
-    expect(blueprint.isValid, equals(false));
-  });
-
-  test('Invalid blueprint, commands that should be rmdirs', () {
-    final input = '''
-name: Cupertino Store script
-steps:
-  - name: rmdirs.
-    commands: 
-      - rm -r foo
-      - rm -r bar
-''';
-    final blueprint = Blueprint.load(input);
-    expect(blueprint.isValid, equals(false));
-  });
-
-  test('Invalid blueprint, commands that should be rm', () {
-    final input = '''
-name: Cupertino Store script
-steps:
-  - name: repeated rm.
-    commands: 
-      - rm foo
-      - rm bar
 ''';
     final blueprint = Blueprint.load(input);
     expect(blueprint.isValid, equals(false));
