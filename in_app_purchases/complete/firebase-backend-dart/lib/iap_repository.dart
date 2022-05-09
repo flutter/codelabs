@@ -1,5 +1,6 @@
 import 'package:firebase_backend_dart/helpers.dart';
 import 'package:firebase_backend_dart/products.dart';
+import 'package:googleapis/androidpublisher/v3.dart';
 import 'package:googleapis/firestore/v1.dart';
 
 enum IAPSource {
@@ -35,6 +36,8 @@ abstract class Purchase {
       'type': Value(stringValue: type.name),
     };
   }
+
+  Map<String, Value> updateDocument();
 }
 
 enum NonSubscriptionStatus {
@@ -85,6 +88,13 @@ class NonSubscriptionPurchase extends Purchase {
     });
     return doc;
   }
+
+  @override
+  Map<String, Value> updateDocument() {
+    return {
+      'status': Value(stringValue: status.name),
+    };
+  }
 }
 
 class SubscriptionPurchase extends Purchase {
@@ -109,6 +119,13 @@ class SubscriptionPurchase extends Purchase {
       'status': Value(stringValue: status.name),
     });
     return doc;
+  }
+
+  @override
+  Map<String, Value> updateDocument() {
+    return {
+      'status': Value(stringValue: status.name),
+    };
   }
 }
 
@@ -136,8 +153,20 @@ class IapRepository {
   }
 
   Future<void> updatePurchase(Purchase purchaseData) async {
-    // TODO: Necessary??
-    await createOrUpdatePurchase(purchaseData);
+    final purchaseId = _purchaseId(purchaseData);
+    await api.projects.databases.documents.commit(
+      CommitRequest(
+        writes: [
+          Write(
+            update: Document(
+                fields: purchaseData.updateDocument(),
+                name:
+                'projects/$projectId/databases/(default)/documents/purchases/$purchaseId'),
+          ),
+        ],
+      ),
+      'projects/$projectId/databases/(default)',
+    );
   }
 
   String _purchaseId(Purchase purchaseData) {

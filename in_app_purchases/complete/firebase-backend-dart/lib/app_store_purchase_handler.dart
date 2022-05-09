@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:firebase_backend_dart/constants.dart';
 import 'package:firebase_backend_dart/products.dart';
 import 'package:firebase_backend_dart/purchase_handler.dart';
-import 'package:googleapis/shared.dart';
 import 'package:http/http.dart' as http;
 
+/// TODO: Unfinished. Cannot be tested without iOS app submitted.
 class AppStorePurchaseHandler extends PurchaseHandler {
   @override
   Future<bool> handleNonSubscription({
@@ -31,6 +31,8 @@ class AppStorePurchaseHandler extends PurchaseHandler {
     required String token,
   }) async {
     print('AppStorePurchaseHandler.handleValidation');
+    print('userId: $userId');
+    print('token: $token');
     // https://developer.apple.com/documentation/appstorereceipts/verifyreceipt
     final url = Uri.parse('https://sandbox.itunes.apple.com/verifyReceipt');
     const headers = {

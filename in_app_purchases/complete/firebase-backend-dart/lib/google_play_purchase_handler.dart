@@ -1,7 +1,7 @@
-import 'dart:io';
+import 'dart:async';
+import 'dart:convert';
 
 import 'package:firebase_backend_dart/constants.dart';
-import 'package:firebase_backend_dart/helpers.dart';
 import 'package:firebase_backend_dart/products.dart';
 import 'package:firebase_backend_dart/purchase_handler.dart';
 
@@ -20,33 +20,16 @@ class GooglePlayPurchaseHandler extends PurchaseHandler {
     this.iapRepository,
     this.pubsubApi,
   ) {
-    // _pullMessageFromPubSub();
+    // Poll messages from Pub/Sub every 10 seconds
+    Timer.periodic(Duration(seconds: 10), (_) {
+      _pullMessageFromPubSub();
+    });
   }
 
-  // TODO: Does not work yet
-  // Error:
-  // Could not connect to http://metadata.google.internal/.
-  // If not running on Google Cloud, one of these environment variables must be set
-  // to the target Google Project ID:
-  // GCP_PROJECT
-  // GCLOUD_PROJECT
-  // CLOUDSDK_CORE_PROJECT
-  // GOOGLE_CLOUD_PROJECT
-  Future<void> _pullMessageFromPubSub() async {
-    final request = pubsub.PullRequest(
-      maxMessages: 1000,
-    );
-    final projectId = await currentProjectId();
-    final topicName =
-        'projects/$projectId/topics/$googlePlayPubsubBillingTopic';
-    final pullResponse = await pubsubApi.projects.subscriptions.pull(
-      request,
-      topicName,
-    );
-    final messages = pullResponse.receivedMessages;
-    print('Received ${messages?.length} messages');
-  }
-
+  /// Handle non-subscription purchases (one time purchases).
+  ///
+  /// Retrieves the purchase status from Google Play and updates
+  /// the Firestore Database accordingly.
   @override
   Future<bool> handleNonSubscription({
     required String? userId,
@@ -55,7 +38,7 @@ class GooglePlayPurchaseHandler extends PurchaseHandler {
   }) async {
     print(
       'GooglePlayPurchaseHandler.handleNonSubscription'
-      '($userId, ${productData.productId}, $token)',
+      '($userId, ${productData.productId}, ${token.substring(0, 5)}...)',
     );
 
     try {
@@ -65,6 +48,8 @@ class GooglePlayPurchaseHandler extends PurchaseHandler {
         productData.productId,
         token,
       );
+
+      print ('Purchases response: ${response.toJson()}');
 
       // Make sure an order id exists
       if (response.orderId == null) {
@@ -105,6 +90,10 @@ class GooglePlayPurchaseHandler extends PurchaseHandler {
     return false;
   }
 
+  /// Handle subscription purchases.
+  ///
+  /// Retrieves the purchase status from Google Play and updates
+  /// the Firestore Database accordingly.
   @override
   Future<bool> handleSubscription({
     required String? userId,
@@ -113,7 +102,7 @@ class GooglePlayPurchaseHandler extends PurchaseHandler {
   }) async {
     print(
       'GooglePlayPurchaseHandler.handleSubscription'
-      '($userId, ${productData.productId}, $token)',
+      '($userId, ${productData.productId}, ${token.substring(0, 5)}...)',
     );
 
     try {
@@ -123,6 +112,8 @@ class GooglePlayPurchaseHandler extends PurchaseHandler {
         productData.productId,
         token,
       );
+
+      print ('Subscription response: ${response.toJson()}');
 
       // Make sure an order id exists
       if (response.orderId == null) {
@@ -164,5 +155,85 @@ class GooglePlayPurchaseHandler extends PurchaseHandler {
       print('Error on handle Subscription: $e\n');
     }
     return false;
+  }
+
+  /// Process messages from Google Play
+  /// Called every 10 seconds
+  Future<void> _pullMessageFromPubSub() async {
+    print('Polling Google Play messages');
+    final request = pubsub.PullRequest(
+      maxMessages: 1000,
+    );
+    final topicName =
+        'projects/$googlePlayProjectName/subscriptions/$googlePlayPubsubBillingTopic-sub';
+    final pullResponse = await pubsubApi.projects.subscriptions.pull(
+      request,
+      topicName,
+    );
+    final messages = pullResponse.receivedMessages ?? [];
+    for (final message in messages) {
+      final data64 = message.message?.data;
+      if (data64 != null) {
+        _processMessage(data64, message.ackId);
+      }
+    }
+  }
+
+  Future<void> _processMessage(String data64, String? ackId) async {
+    final dataRaw = utf8.decode(base64Decode(data64));
+    print('Received data: $dataRaw');
+    final data = jsonDecode(dataRaw);
+    if (data['testNotification'] != null) {
+      print('Skip test messages');
+      if (ackId != null) {
+        await _ackMessage(ackId);
+      }
+      return;
+    }
+    final subscriptionNotification = data['subscriptionNotification'];
+    final oneTimeProductNotification = data['oneTimeProductNotification'];
+    if (subscriptionNotification != null) {
+      print('Processing Subscription');
+      final subscriptionId = subscriptionNotification['subscriptionId'];
+      final purchaseToken = subscriptionNotification['purchaseToken'];
+      final productData = productDataMap[subscriptionId]!;
+      final result = await handleSubscription(
+        userId: null,
+        productData: productData,
+        token: purchaseToken,
+      );
+      if (result && ackId != null) {
+        await _ackMessage(ackId);
+      }
+    } else if (oneTimeProductNotification != null) {
+      print('Processing NonSubscription');
+      final sku = oneTimeProductNotification['sku'];
+      final purchaseToken = oneTimeProductNotification['purchaseToken'];
+      final productData = productDataMap[sku]!;
+      final result = await handleNonSubscription(
+        userId: null,
+        productData: productData,
+        token: purchaseToken,
+      );
+      if (result && ackId != null) {
+        await _ackMessage(ackId);
+      }
+    } else {
+      print('invalid data');
+    }
+  }
+
+  /// ACK Messages from Pub/Sub
+  Future<void> _ackMessage(String id) async {
+    print('ACK Message');
+    final request = pubsub.AcknowledgeRequest(
+      ackIds: [id],
+    );
+    final subscriptionName =
+        'projects/$googlePlayProjectName/subscriptions/$googlePlayPubsubBillingTopic-sub';
+    await pubsubApi.projects.subscriptions.acknowledge(
+      request,
+      subscriptionName,
+    );
   }
 }
