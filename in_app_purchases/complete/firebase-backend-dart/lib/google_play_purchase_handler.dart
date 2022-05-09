@@ -49,7 +49,7 @@ class GooglePlayPurchaseHandler extends PurchaseHandler {
         token,
       );
 
-      print ('Purchases response: ${response.toJson()}');
+      print('Purchases response: ${response.toJson()}');
 
       // Make sure an order id exists
       if (response.orderId == null) {
@@ -113,13 +113,21 @@ class GooglePlayPurchaseHandler extends PurchaseHandler {
         token,
       );
 
-      print ('Subscription response: ${response.toJson()}');
+      print('Subscription response: ${response.toJson()}');
 
       // Make sure an order id exists
       if (response.orderId == null) {
         print("Could not handle purchase without order id");
         return false;
       }
+
+      // TODO: Extract Order ID like the Node.js implementation did:
+      // If a subscription suffix is present (..#) extract the orderId.
+      //   let orderId = response.data.orderId;
+      //   const orderIdMatch = /^(.+)?[.]{2}[0-9]+$/g.exec(orderId);
+      // if (orderIdMatch) {
+      // orderId = orderIdMatch[1];
+      // }
 
       final purchaseData = SubscriptionPurchase(
         purchaseDate: DateTime.fromMillisecondsSinceEpoch(
