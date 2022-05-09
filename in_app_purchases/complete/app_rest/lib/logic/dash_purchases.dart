@@ -117,8 +117,7 @@ class DashPurchases extends ChangeNotifier {
   }
 
   Future<bool> _verifyPurchase(PurchaseDetails purchaseDetails) async {
-    // TODO: Move server IP to constants
-    final url = Uri.parse('http://192.168.178.46:8080/verifypurchase');
+    final url = Uri.parse('http://$serverIp:8080/verifypurchase');
     const headers = {
       'Content-type': 'application/json',
       'Accept': 'application/json',
