@@ -1,6 +1,9 @@
-# tfserving_flutter
+# TensorFlow Serving + Flutter
 
-This folder contains the codelabs for the TensorFlow Serving Text Classification Learning Pathway (TODO: update link).
+This folder contains the codelabs for the [Get started with text classification
+in Flutter
+apps](https://developers.google.com/learn/pathways/text-classification-flutter)
+pathway.
 
 The folder is organized as:
  - `codelab1` contains the first codelab code to train a spam detection model

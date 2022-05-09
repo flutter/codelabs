@@ -1,0 +1,1551 @@
+name: Cupertino Store script
+steps:
+  - name: step_03
+    steps:
+      - name: Remove generated code.
+        command: rm -r step_03
+      - name: Create project.
+        command: flutter create adaptive_app
+      - name: Configure analysis_options.yaml
+        path: adaptive_app/analysis_options.yaml
+        replace-contents: |
+          include: ../../analysis_options.yaml
+
+          linter:
+            rules:
+              avoid_print: false
+      - name: Remove README
+        command: rm adaptive_app/README.md
+      - name: Patch pubspec,yaml
+        path: adaptive_app/pubspec.yaml
+        patch: |
+          3,5d2
+          < 
+          < # The following line prevents the package from being accidentally published to
+          < # pub.dev using `flutter pub publish`. This is preferred for private packages.
+          7,17d3
+          < 
+          < # The following defines the version and build number for your application.
+          < # A version number is three numbers separated by dots, like 1.2.43
+          < # followed by an optional build number separated by a +.
+          < # Both the version and the builder number may be overridden in flutter
+          < # build by specifying --build-name and --build-number, respectively.
+          < # In Android, build-name is used as versionName while build-number used as versionCode.
+          < # Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+          < # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
+          < # Read more about iOS versioning at
+          < # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+          23,28d8
+          < # Dependencies specify other packages that your package needs in order to work.
+          < # To automatically upgrade your package dependencies to the latest versions
+          < # consider running `flutter pub upgrade --major-versions`. Alternatively,
+          < # dependencies can be manually updated by changing the version numbers below to
+          < # the latest version available on pub.dev. To see which dependencies have newer
+          < # versions available, run `flutter pub outdated`.
+          32,35d11
+          < 
+          < 
+          <   # The following adds the Cupertino Icons font to your application.
+          <   # Use with the CupertinoIcons class for iOS style icons.
+          41,46d16
+          < 
+          <   # The "flutter_lints" package below contains a set of recommended lints to
+          <   # encourage good coding practices. The lint set provided by the package is
+          <   # activated in the `analysis_options.yaml` file located at the root of your
+          <   # package. See that file for information about deactivating specific lint
+          <   # rules and activating additional ones.
+          49,52d18
+          < # For information on the generic Dart part of this file, see the
+          < # following page: https://dart.dev/tools/pub/pubspec
+          < 
+          < # The following section is specific to Flutter.
+          54,57d19
+          < 
+          <   # The following line ensures that the Material Icons font is
+          <   # included with your application, so that you can use the icons in
+          <   # the material Icons class.
+          59,89d20
+          < 
+          <   # To add assets to your application, add an assets section, like this:
+          <   # assets:
+          <   #   - images/a_dot_burr.jpeg
+          <   #   - images/a_dot_ham.jpeg
+          < 
+          <   # An image asset can refer to one or more resolution-specific "variants", see
+          <   # https://flutter.dev/assets-and-images/#resolution-aware.
+          < 
+          <   # For details regarding adding assets from package dependencies, see
+          <   # https://flutter.dev/assets-and-images/#from-packages
+          < 
+          <   # To add custom fonts to your application, add a fonts section here,
+          <   # in this "flutter" section. Each entry in this list should have a
+          <   # "family" key with the font family name, and a "fonts" key with a
+          <   # list giving the asset and other descriptors for the font. For
+          <   # example:
+          <   # fonts:
+          <   #   - family: Schyler
+          <   #     fonts:
+          <   #       - asset: fonts/Schyler-Regular.ttf
+          <   #       - asset: fonts/Schyler-Italic.ttf
+          <   #         style: italic
+          <   #   - family: Trajan Pro
+          <   #     fonts:
+          <   #       - asset: fonts/TrajanPro.ttf
+          <   #       - asset: fonts/TrajanPro_Bold.ttf
+          <   #         weight: 700
+          <   #
+          <   # For details regarding fonts from package dependencies,
+          <   # see https://flutter.dev/custom-fonts/#from-packages
+      - name: Add .vscode directory
+        command: mkdir adaptive_app/.vscode
+      - name: Add .vscode/launch.json
+        path: adaptive_app/.vscode/launch.json
+        replace-contents: |
+          {
+              // Use IntelliSense to learn about possible attributes.
+              // Hover to view descriptions of existing attributes.
+              // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+              "version": "0.2.0",
+              "configurations": [
+                  {
+                      "name": "adaptive_app",
+                      "request": "launch",
+                      "type": "dart"
+                  },
+                  {
+                      "name": "adaptive_app (profile mode)",
+                      "request": "launch",
+                      "type": "dart",
+                      "flutterMode": "profile"
+                  }
+              ]
+          }
+      - name: Replace lib/main.dart
+        path: adaptive_app/lib/main.dart
+        replace-contents: |
+          import 'dart:io' show Platform;
+          import 'package:flutter/foundation.dart' show kIsWeb;
+          import 'package:flutter/material.dart';
+
+          void main() {
+            runApp(const MyApp());
+          }
+
+          class MyApp extends StatelessWidget {
+            const MyApp({Key? key}) : super(key: key);
+
+            @override
+            Widget build(BuildContext context) {
+              return MaterialApp(
+                title: 'Flutter Demo',
+                theme: ThemeData(
+                  primarySwatch: Colors.blue,
+                ),
+                home: const ResizeablePage(),
+              );
+            }
+          }
+
+          class ResizeablePage extends StatelessWidget {
+            const ResizeablePage({Key? key}) : super(key: key);
+
+            @override
+            Widget build(BuildContext context) {
+              final mediaQuery = MediaQuery.of(context);
+              final themePlatform = Theme.of(context).platform;
+
+              return Scaffold(
+                body: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        'Window properties',
+                        style: Theme.of(context).textTheme.headline5,
+                      ),
+                      const SizedBox(height: 8),
+                      SizedBox(
+                        width: 350,
+                        child: Table(
+                          textBaseline: TextBaseline.alphabetic,
+                          children: <TableRow>[
+                            _fillTableRow(
+                              context: context,
+                              property: 'Window Size',
+                              value: '${mediaQuery.size.width.toStringAsFixed(1)} x '
+                                  '${mediaQuery.size.height.toStringAsFixed(1)}',
+                            ),
+                            _fillTableRow(
+                              context: context,
+                              property: 'Device Pixel Ratio',
+                              value: mediaQuery.devicePixelRatio.toStringAsFixed(2),
+                            ),
+                            _fillTableRow(
+                              context: context,
+                              property: 'Platform.isXXX',
+                              value: platformDescription(),
+                            ),
+                            _fillTableRow(
+                              context: context,
+                              property: 'Theme.of(ctx).platform',
+                              value: themePlatform.toString(),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }
+
+            TableRow _fillTableRow(
+                {required BuildContext context,
+                required String property,
+                required String value}) {
+              return TableRow(
+                children: [
+                  TableCell(
+                    verticalAlignment: TableCellVerticalAlignment.baseline,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(property),
+                    ),
+                  ),
+                  TableCell(
+                    verticalAlignment: TableCellVerticalAlignment.baseline,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(value),
+                    ),
+                  ),
+                ],
+              );
+            }
+
+            String platformDescription() {
+              if (kIsWeb) {
+                return 'Web';
+              } else if (Platform.isAndroid) {
+                return 'Android';
+              } else if (Platform.isIOS) {
+                return 'iOS';
+              } else if (Platform.isWindows) {
+                return 'Windows';
+              } else if (Platform.isMacOS) {
+                return 'macOS';
+              } else if (Platform.isLinux) {
+                return 'Linux';
+              } else if (Platform.isFuchsia) {
+                return 'Fuchsia';
+              } else {
+                return 'Unknown';
+              }
+            }
+          }
+      - name: Replace test/widget_test.dart
+        path: adaptive_app/test/widget_test.dart
+        replace-contents: |
+          // This is a basic Flutter widget test.
+          //
+          // To perform an interaction with a widget in your test, use the WidgetTester
+          // utility that Flutter provides. For example, you can send tap and scroll
+          // gestures. You can also use WidgetTester to find child widgets in the widget
+          // tree, read text, and verify that the values of widget properties are correct.
+
+          import 'package:adaptive_app/main.dart';
+          import 'package:flutter_test/flutter_test.dart';
+
+          void main() {
+            testWidgets('Counter increments smoke test', (tester) async {
+              // Build our app and trigger a frame.
+              await tester.pumpWidget(const MyApp());
+            });
+          }
+      - name: Build iOS simulator bundle
+        path: adaptive_app
+        command: flutter build ios --simulator
+      - name: Build macOS app
+        path: adaptive_app
+        command: flutter build macos
+      - name: Copy step_03
+        command: cp -R adaptive_app step_03
+  - name: step_04
+    steps:
+      - name: Remove generated code.
+        command: rm -r step_04
+      - name: Add dependencies
+        path: adaptive_app
+        commands:
+          - flutter pub add googleapis
+          - flutter pub add http
+          - flutter pub add provider
+          - flutter pub add url_launcher
+          - flutter pub add flex_color_scheme
+      - name: Patch android/app/src/main/AndroidManifest.xml
+        path: adaptive_app/android/app/src/main/AndroidManifest.xml
+        patch: |
+          33a34,48
+          >     <!-- https://pub.dev/packages/url_launcher#android -->
+          >     <queries>
+          >         <intent>
+          >             <action android:name="android.intent.action.VIEW" />
+          >             <data android:scheme="https" />
+          >         </intent>
+          >         <intent>
+          >             <action android:name="android.intent.action.DIAL" />
+          >             <data android:scheme="tel" />
+          >         </intent>
+          >         <intent>
+          >             <action android:name="android.intent.action.SEND" />
+          >             <data android:mimeType="*/*" />
+          >         </intent>
+          >     </queries>
+      - name: Patch ios/Runner/Info.plist
+        path: adaptive_app/ios/Runner/Info.plist
+        patch: |
+          45a46,53
+          > 	<!-- https://pub.dev/packages/url_launcher#ios -->
+          > 	<key>LSApplicationQueriesSchemes</key>
+          > 	<array>
+          > 		<string>https</string>
+          > 		<string>http</string>
+          > 		<string>tel</string>
+          > 		<string>mailto</string>
+          > 	</array>
+      - name: Replace adaptive_app/lib/main.dart
+        path: adaptive_app/lib/main.dart
+        replace-contents: |
+          import 'dart:io';
+
+          import 'package:flex_color_scheme/flex_color_scheme.dart';
+          import 'package:flutter/material.dart';
+          import 'package:provider/provider.dart';
+
+          import 'src/app_state.dart';
+          import 'src/playlists.dart';
+
+          // From https://www.youtube.com/channel/UCwXdFgeE9KYzlDdR7TG9cMw
+          const flutterDevAccountId = 'UCwXdFgeE9KYzlDdR7TG9cMw';
+
+          // TODO: Replace with your YouTube API Key
+          const youTubeApiKey = 'AIzaNotAnApiKey';
+
+          void main() {
+            if (youTubeApiKey == 'AIzaNotAnApiKey') {
+              print('youTubeApiKey has not been configured.');
+              exit(1);
+            }
+
+            runApp(ChangeNotifierProvider<FlutterDevPlaylists>(
+              create: (context) => FlutterDevPlaylists(
+                flutterDevAccountId: flutterDevAccountId,
+                youTubeApiKey: youTubeApiKey,
+              ),
+              child: const PlaylistsApp(),
+            ));
+          }
+
+          class PlaylistsApp extends StatelessWidget {
+            const PlaylistsApp({Key? key}) : super(key: key);
+
+            @override
+            Widget build(BuildContext context) {
+              return MaterialApp(
+                title: 'FlutterDev Playlists',
+                theme: FlexColorScheme.light(scheme: FlexScheme.red).toTheme,
+                darkTheme: FlexColorScheme.dark(scheme: FlexScheme.red).toTheme,
+                themeMode: ThemeMode.dark, // Or ThemeMode.System if you'd prefer
+                debugShowCheckedModeBanner: false,
+                home: const Playlists(),
+              );
+            }
+          }
+      - name: Make lib/src directory
+        path: adaptive_app
+        command: mkdir -p lib/src
+      - name: Add app_state.dart
+        path: adaptive_app/lib/src/app_state.dart
+        replace-contents: |
+          import 'dart:collection';
+
+          import 'package:flutter/foundation.dart';
+          import 'package:googleapis/youtube/v3.dart';
+          import 'package:http/http.dart' as http;
+
+          class FlutterDevPlaylists extends ChangeNotifier {
+            FlutterDevPlaylists({
+              required String flutterDevAccountId,
+              required String youTubeApiKey,
+            }) : _flutterDevAccountId = flutterDevAccountId {
+              _api = YouTubeApi(
+                _ApiKeyClient(
+                  client: http.Client(),
+                  key: youTubeApiKey,
+                ),
+              );
+              _loadPlaylists();
+            }
+
+            Future<void> _loadPlaylists() async {
+              String? nextPageToken;
+              _playlists.clear();
+
+              do {
+                final response = await _api.playlists.list(
+                  ['snippet', 'contentDetails', 'id'],
+                  channelId: _flutterDevAccountId,
+                  maxResults: 50,
+                  pageToken: nextPageToken,
+                );
+                _playlists.addAll(response.items!);
+                _playlists.sort((a, b) => a.snippet!.title!
+                    .toLowerCase()
+                    .compareTo(b.snippet!.title!.toLowerCase()));
+                notifyListeners();
+              } while (nextPageToken != null);
+            }
+
+            final String _flutterDevAccountId;
+            late final YouTubeApi _api;
+
+            final List<Playlist> _playlists = [];
+            List<Playlist> get playlists => UnmodifiableListView(_playlists);
+
+            final Map<String, List<PlaylistItem>> _playlistItems = {};
+            List<PlaylistItem> playlistItems({required String playlistId}) {
+              if (!_playlistItems.containsKey(playlistId)) {
+                _playlistItems[playlistId] = [];
+                _retrievePlaylist(playlistId);
+              }
+              return UnmodifiableListView(_playlistItems[playlistId]!);
+            }
+
+            Future<void> _retrievePlaylist(String playlistId) async {
+              String? nextPageToken;
+              do {
+                var response = await _api.playlistItems.list(
+                  ['snippet', 'contentDetails'],
+                  playlistId: playlistId,
+                  maxResults: 25,
+                  pageToken: nextPageToken,
+                );
+                var items = response.items;
+                if (items != null) {
+                  _playlistItems[playlistId]!.addAll(items);
+                }
+                notifyListeners();
+                nextPageToken = response.nextPageToken;
+              } while (nextPageToken != null);
+            }
+          }
+
+          class _ApiKeyClient extends http.BaseClient {
+            _ApiKeyClient({required this.key, required this.client});
+
+            final String key;
+            final http.Client client;
+
+            @override
+            Future<http.StreamedResponse> send(http.BaseRequest request) {
+              final url = request.url.replace(queryParameters: <String, List<String>>{
+                ...request.url.queryParametersAll,
+                'key': [key]
+              });
+
+              return client.send(http.Request(request.method, url));
+            }
+          }
+      - name: Add playlist_details.dart
+        path: adaptive_app/lib/src/playlist_details.dart
+        replace-contents: |
+          import 'package:flutter/material.dart';
+          import 'package:googleapis/youtube/v3.dart';
+          import 'package:provider/provider.dart';
+          import 'package:url_launcher/link.dart';
+
+          import 'app_state.dart';
+
+          class PlaylistDetails extends StatelessWidget {
+            const PlaylistDetails(
+                {required this.playlistId, required this.playlistName, Key? key})
+                : super(key: key);
+            final String playlistId;
+            final String playlistName;
+
+            @override
+            Widget build(BuildContext context) {
+              return Scaffold(
+                appBar: AppBar(
+                  title: Text(playlistName),
+                ),
+                body: Consumer<FlutterDevPlaylists>(
+                  builder: (context, playlists, _) {
+                    final playlistItems = playlists.playlistItems(playlistId: playlistId);
+                    if (playlistItems.isEmpty) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+
+                    return _PlaylistDetailsListView(playlistItems: playlistItems);
+                  },
+                ),
+              );
+            }
+          }
+
+          class _PlaylistDetailsListView extends StatelessWidget {
+            const _PlaylistDetailsListView({Key? key, required this.playlistItems})
+                : super(key: key);
+            final List<PlaylistItem> playlistItems;
+
+            @override
+            Widget build(BuildContext context) {
+              return ListView.builder(
+                itemCount: playlistItems.length,
+                itemBuilder: (context, index) {
+                  final playlistItem = playlistItems[index];
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(4),
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          if (playlistItem.snippet!.thumbnails!.high != null)
+                            Image.network(playlistItem.snippet!.thumbnails!.high!.url!),
+                          _buildGradient(context),
+                          _buildTitleAndSubtitle(context, playlistItem),
+                          _buildPlayButton(context, playlistItem),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              );
+            }
+
+            Widget _buildGradient(BuildContext context) {
+              return Positioned.fill(
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [Colors.transparent, Theme.of(context).backgroundColor],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      stops: const [0.5, 0.95],
+                    ),
+                  ),
+                ),
+              );
+            }
+
+            Widget _buildTitleAndSubtitle(
+                BuildContext context, PlaylistItem playlistItem) {
+              return Positioned(
+                left: 20,
+                right: 0,
+                bottom: 20,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      playlistItem.snippet!.title!,
+                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                            fontSize: 18,
+                            // fontWeight: FontWeight.bold,
+                          ),
+                    ),
+                    if (playlistItem.snippet!.videoOwnerChannelTitle != null)
+                      Text(
+                        playlistItem.snippet!.videoOwnerChannelTitle!,
+                        style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                              fontSize: 12,
+                            ),
+                      ),
+                  ],
+                ),
+              );
+            }
+
+            Widget _buildPlayButton(BuildContext context, PlaylistItem playlistItem) {
+              return Stack(
+                alignment: AlignmentDirectional.center,
+                children: [
+                  Container(
+                    width: 42,
+                    height: 42,
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(21),
+                      ),
+                    ),
+                  ),
+                  Link(
+                    uri: Uri.parse(
+                        'https://www.youtube.com/watch?v=${playlistItem.snippet!.resourceId!.videoId}'),
+                    builder: (context, followLink) => IconButton(
+                      onPressed: followLink,
+                      color: Colors.red,
+                      icon: const Icon(Icons.play_circle_fill),
+                      iconSize: 45,
+                    ),
+                  ),
+                ],
+              );
+            }
+          }
+      - name: Add playlists.dart
+        path: adaptive_app/lib/src/playlists.dart
+        replace-contents: |
+          import 'package:flutter/material.dart';
+          import 'package:googleapis/youtube/v3.dart';
+          import 'package:provider/provider.dart';
+
+          import 'app_state.dart';
+          import 'playlist_details.dart';
+
+          class Playlists extends StatelessWidget {
+            const Playlists({Key? key}) : super(key: key);
+
+            @override
+            Widget build(BuildContext context) {
+              return Scaffold(
+                appBar: AppBar(
+                  title: const Text('FlutterDev Playlists'),
+                ),
+                body: Consumer<FlutterDevPlaylists>(
+                  builder: (context, flutterDev, child) {
+                    final playlists = flutterDev.playlists;
+                    if (playlists.isEmpty) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+
+                    return _PlaylistsListView(items: playlists);
+                  },
+                ),
+              );
+            }
+          }
+
+          class _PlaylistsListView extends StatelessWidget {
+            const _PlaylistsListView({
+              Key? key,
+              required this.items,
+            }) : super(key: key);
+
+            final List<Playlist> items;
+
+            @override
+            Widget build(BuildContext context) {
+              return ListView.builder(
+                itemCount: items.length,
+                itemBuilder: (context, index) {
+                  var playlist = items[index];
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListTile(
+                      leading: Image.network(
+                        playlist.snippet!.thumbnails!.default_!.url!,
+                      ),
+                      title: Text(playlist.snippet!.title!),
+                      subtitle: Text(
+                        playlist.snippet!.description!,
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (context) {
+                              return PlaylistDetails(
+                                playlistId: playlist.id!,
+                                playlistName: playlist.snippet!.title!,
+                              );
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                },
+              );
+            }
+          }
+      - name: Patch
+        path: adaptive_app/macos/Runner/DebugProfile.entitlements
+        patch: |
+          10a11,12
+          > 	<key>com.apple.security.network.client</key>
+          > 	<true/>
+      - name: Patch
+        path: adaptive_app/macos/Runner/Release.entitlements
+        patch: |
+          6a7,8
+          > 	<key>com.apple.security.network.client</key>
+          > 	<true/>
+      - name: Replace test/widget_test.dart
+        path: adaptive_app/test/widget_test.dart
+        replace-contents: |
+          import 'package:adaptive_app/main.dart';
+          import 'package:adaptive_app/src/app_state.dart';
+          import 'package:flutter/material.dart';
+          import 'package:flutter_test/flutter_test.dart';
+          import 'package:googleapis/youtube/v3.dart';
+          import 'package:provider/provider.dart';
+
+          class FakeFlutterDevPlaylists extends ChangeNotifier
+              implements FlutterDevPlaylists {
+            @override
+            List<PlaylistItem> playlistItems({required String playlistId}) => [];
+
+            @override
+            List<Playlist> get playlists => [];
+          }
+
+          void main() {
+            testWidgets('smoke test', (tester) async {
+              // Build our app and trigger a frame.
+              await tester.pumpWidget(
+                ChangeNotifierProvider<FlutterDevPlaylists>(
+                  create: (context) => FakeFlutterDevPlaylists(),
+                  child: const PlaylistsApp(),
+                ),
+              );
+            });
+          }
+      - name: Rebuild ios/Podfile.lock
+        path: adaptive_app/ios
+        command: pod update
+      - name: Rebuild macos/Podfile.lock
+        path: adaptive_app/macos
+        command: pod update
+      - name: Copy step_04
+        command: cp -R adaptive_app step_04
+  - name: step_05
+    steps:
+      - name: Remove generated code.
+        command: rm -r step_05
+      - name: Add dependencies
+        path: adaptive_app
+        command: flutter pub add split_view
+      - name: Patch lib/main.dart
+        path: adaptive_app/lib/main.dart
+        patch: |
+          6a7
+          > import 'src/adaptive_playlists.dart';
+          8d8
+          < import 'src/playlists.dart';
+          42c42
+          <       home: const Playlists(),
+          ---
+          >       home: const AdaptivePlaylists(),
+      - name: Patch lib/src/playlists.dart
+        path: adaptive_app/lib/src/playlists.dart
+        patch: |
+          6d5
+          < import 'playlist_details.dart';
+          9c8,10
+          <   const Playlists({Key? key}) : super(key: key);
+          ---
+          >   const Playlists({required this.playlistSelected, Key? key}) : super(key: key);
+          > 
+          >   final PlaylistsListSelected playlistSelected;
+          13,28c14,27
+          <     return Scaffold(
+          <       appBar: AppBar(
+          <         title: const Text('FlutterDev Playlists'),
+          <       ),
+          <       body: Consumer<FlutterDevPlaylists>(
+          <         builder: (context, flutterDev, child) {
+          <           final playlists = flutterDev.playlists;
+          <           if (playlists.isEmpty) {
+          <             return const Center(
+          <               child: CircularProgressIndicator(),
+          <             );
+          <           }
+          < 
+          <           return _PlaylistsListView(items: playlists);
+          <         },
+          <       ),
+          ---
+          >     return Consumer<FlutterDevPlaylists>(
+          >       builder: (context, flutterDev, child) {
+          >         final playlists = flutterDev.playlists;
+          >         if (playlists.isEmpty) {
+          >           return const Center(
+          >             child: CircularProgressIndicator(),
+          >           );
+          >         }
+          > 
+          >         return _PlaylistsListView(
+          >           items: playlists,
+          >           playlistSelected: playlistSelected,
+          >         );
+          >       },
+          33c32,34
+          < class _PlaylistsListView extends StatelessWidget {
+          ---
+          > typedef PlaylistsListSelected = void Function(Playlist playlist);
+          > 
+          > class _PlaylistsListView extends StatefulWidget {
+          36a38
+          >     required this.playlistSelected,
+          39a42,61
+          >   final PlaylistsListSelected playlistSelected;
+          > 
+          >   @override
+          >   State<_PlaylistsListView> createState() => _PlaylistsListViewState();
+          > }
+          > 
+          > class _PlaylistsListViewState extends State<_PlaylistsListView> {
+          >   late ScrollController _scrollController;
+          > 
+          >   @override
+          >   void initState() {
+          >     super.initState();
+          >     _scrollController = ScrollController();
+          >   }
+          > 
+          >   @override
+          >   void dispose() {
+          >     _scrollController.dispose();
+          >     super.dispose();
+          >   }
+          44c66,67
+          <       itemCount: items.length,
+          ---
+          >       controller: _scrollController,
+          >       itemCount: widget.items.length,
+          46c69
+          <         var playlist = items[index];
+          ---
+          >         var playlist = widget.items[index];
+          58,68c81
+          <               Navigator.push(
+          <                 context,
+          <                 MaterialPageRoute<void>(
+          <                   builder: (context) {
+          <                     return PlaylistDetails(
+          <                       playlistId: playlist.id!,
+          <                       playlistName: playlist.snippet!.title!,
+          <                     );
+          <                   },
+          <                 ),
+          <               );
+          ---
+          >               widget.playlistSelected(playlist);
+      - name: Patch lib/src/playlist_details.dart
+        path: adaptive_app/lib/src/playlist_details.dart
+        patch: |
+          17,26c17,22
+          <     return Scaffold(
+          <       appBar: AppBar(
+          <         title: Text(playlistName),
+          <       ),
+          <       body: Consumer<FlutterDevPlaylists>(
+          <         builder: (context, playlists, _) {
+          <           final playlistItems = playlists.playlistItems(playlistId: playlistId);
+          <           if (playlistItems.isEmpty) {
+          <             return const Center(child: CircularProgressIndicator());
+          <           }
+          ---
+          >     return Consumer<FlutterDevPlaylists>(
+          >       builder: (context, playlists, _) {
+          >         final playlistItems = playlists.playlistItems(playlistId: playlistId);
+          >         if (playlistItems.isEmpty) {
+          >           return const Center(child: CircularProgressIndicator());
+          >         }
+          28,30c24,25
+          <           return _PlaylistDetailsListView(playlistItems: playlistItems);
+          <         },
+          <       ),
+          ---
+          >         return _PlaylistDetailsListView(playlistItems: playlistItems);
+          >       },
+          35c30
+          < class _PlaylistDetailsListView extends StatelessWidget {
+          ---
+          > class _PlaylistDetailsListView extends StatefulWidget {
+          40a36,55
+          >   State<_PlaylistDetailsListView> createState() =>
+          >       _PlaylistDetailsListViewState();
+          > }
+          > 
+          > class _PlaylistDetailsListViewState extends State<_PlaylistDetailsListView> {
+          >   late ScrollController _scrollController;
+          > 
+          >   @override
+          >   void initState() {
+          >     super.initState();
+          >     _scrollController = ScrollController();
+          >   }
+          > 
+          >   @override
+          >   void dispose() {
+          >     _scrollController.dispose();
+          >     super.dispose();
+          >   }
+          > 
+          >   @override
+          43c58,59
+          <       itemCount: playlistItems.length,
+          ---
+          >       controller: _scrollController,
+          >       itemCount: widget.playlistItems.length,
+          45c61
+          <         final playlistItem = playlistItems[index];
+          ---
+          >         final playlistItem = widget.playlistItems[index];
+      - name: Add lib/src/adaptive_playlists.dart
+        path: adaptive_app/lib/src/adaptive_playlists.dart
+        replace-contents: |
+          import 'package:flutter/material.dart';
+          import 'package:googleapis/youtube/v3.dart';
+          import 'package:split_view/split_view.dart';
+
+          import 'playlist_details.dart';
+          import 'playlists.dart';
+
+          class AdaptivePlaylists extends StatelessWidget {
+            const AdaptivePlaylists({Key? key}) : super(key: key);
+
+            @override
+            Widget build(BuildContext context) {
+              final screenWidth = MediaQuery.of(context).size.width;
+              final targetPlatform = Theme.of(context).platform;
+
+              if (targetPlatform == TargetPlatform.android ||
+                  targetPlatform == TargetPlatform.iOS ||
+                  screenWidth <= 600) {
+                return const NarrowDisplayPlaylists();
+              } else {
+                return const WideDisplayPlaylists();
+              }
+            }
+          }
+
+          class NarrowDisplayPlaylists extends StatelessWidget {
+            const NarrowDisplayPlaylists({
+              Key? key,
+            }) : super(key: key);
+
+            @override
+            Widget build(BuildContext context) {
+              return Scaffold(
+                appBar: AppBar(title: const Text('FlutterDev Playlists')),
+                body: Playlists(
+                  playlistSelected: (playlist) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute<void>(
+                        builder: (context) {
+                          return Scaffold(
+                            appBar: AppBar(title: Text(playlist.snippet!.title!)),
+                            body: PlaylistDetails(
+                              playlistId: playlist.id!,
+                              playlistName: playlist.snippet!.title!,
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  },
+                ),
+              );
+            }
+          }
+
+          class WideDisplayPlaylists extends StatefulWidget {
+            const WideDisplayPlaylists({
+              Key? key,
+            }) : super(key: key);
+
+            @override
+            State<WideDisplayPlaylists> createState() => _WideDisplayPlaylistsState();
+          }
+
+          class _WideDisplayPlaylistsState extends State<WideDisplayPlaylists> {
+            Playlist? selectedPlaylist;
+            @override
+            Widget build(BuildContext context) {
+              return Scaffold(
+                appBar: AppBar(
+                  title: selectedPlaylist == null
+                      ? const Text('FlutterDev Playlists')
+                      : Text('FlutterDev Playlist: ${selectedPlaylist!.snippet!.title!}'),
+                ),
+                body: SplitView(
+                  viewMode: SplitViewMode.Horizontal,
+                  children: [
+                    Playlists(playlistSelected: (playlist) {
+                      setState(() {
+                        selectedPlaylist = playlist;
+                      });
+                    }),
+                    if (selectedPlaylist != null)
+                      PlaylistDetails(
+                          playlistId: selectedPlaylist!.id!,
+                          playlistName: selectedPlaylist!.snippet!.title!)
+                    else
+                      const Center(
+                        child: Text('Select a playlist'),
+                      ),
+                  ],
+                ),
+              );
+            }
+          }
+      - name: Copy step_05
+        command: cp -R adaptive_app step_05
+  - name: step_06
+    steps:
+      - name: Remove generated code.
+        command: rm -r step_06
+      - name: Create yt_cors_proxy
+        path: adaptive_app
+        command: dart create --template server-shelf yt_cors_proxy
+      - name: Add dependencies
+        path: adaptive_app/yt_cors_proxy
+        commands:
+          - dart pub remove args
+          - dart pub remove shelf_router
+          - dart pub remove test_process
+          - dart pub remove test
+          - dart pub add http
+          - dart pub add shelf_cors_headers
+      - name: Patch yt_cors_proxy/pubspect.yaml
+        path: adaptive_app/yt_cors_proxy/pubspec.yaml
+        patch: |
+          2c2
+          < description: A server app using the shelf package and Docker.
+          ---
+          > description: A YouTube CORS Proxy Server.
+          4d3
+          < # homepage: https://www.example.com
+      - name: Remove test/server_test.dart README.md and CHANGELOG.md
+        path: adaptive_app/yt_cors_proxy
+        commands:
+          - rm CHANGELOG.md
+          - rm README.md
+          - rm test/server_test.dart
+      - name: Replace yt_cors_proxy/bin/server.dart
+        path: adaptive_app/yt_cors_proxy/bin/server.dart
+        replace-contents: |
+          import 'dart:async';
+          import 'dart:io';
+
+          import 'package:http/http.dart' as http;
+          import 'package:shelf/shelf.dart';
+          import 'package:shelf/shelf_io.dart';
+          import 'package:shelf_cors_headers/shelf_cors_headers.dart';
+
+          Future<Response> _requestHandler(Request req) async {
+            final target = req.url.replace(scheme: 'https', host: 'i.ytimg.com');
+            final response = await http.get(target);
+            return Response.ok(response.bodyBytes, headers: response.headers);
+          }
+
+          void main(List<String> args) async {
+            // Use any available host or container IP (usually `0.0.0.0`).
+            final ip = InternetAddress.anyIPv4;
+
+            // Configure a pipeline that adds CORS headers and proxies requests.
+            final handler = Pipeline()
+                .addMiddleware(logRequests())
+                .addMiddleware(corsHeaders(headers: {ACCESS_CONTROL_ALLOW_ORIGIN: '*'}))
+                .addHandler(_requestHandler);
+
+            // For running in containers, we respect the PORT environment variable.
+            final port = int.parse(Platform.environment['PORT'] ?? '8080');
+            final server = await serve(handler, ip, port);
+            print('Server listening on port ${server.port}');
+          }
+      - name: Replace yt_cors_proxy/analysis_options.yaml
+        path: adaptive_app/yt_cors_proxy/analysis_options.yaml
+        replace-contents: |
+          include: package:lints/recommended.yaml
+
+          linter:
+            rules:
+              avoid_print: false
+              directives_ordering: true
+              prefer_single_quotes: true
+              sort_pub_dependencies: true
+
+          # For additional information about configuring this file, see
+          # https://dart.dev/guides/language/analysis-options
+      - name: Patch lib/src/playlist_details.dart
+        path: adaptive_app/lib/src/playlist_details.dart
+        patch: |
+          5a6,7
+          > import 'adaptive_image.dart';
+          > import 'adaptive_text.dart';
+          70c72,73
+          <                   Image.network(playlistItem.snippet!.thumbnails!.high!.url!),
+          ---
+          >                   AdaptiveImage.network(
+          >                       playlistItem.snippet!.thumbnails!.high!.url!),
+          107c110
+          <           Text(
+          ---
+          >           AdaptiveText(
+          115c118
+          <             Text(
+          ---
+          >             AdaptiveText(
+      - name: Patch playlists.dart
+        path: adaptive_app/lib/src/playlists.dart
+        patch: |
+          4a5
+          > import 'adaptive_image.dart';
+          73c74
+          <             leading: Image.network(
+          ---
+          >             leading: AdaptiveImage.network(
+      - name: adaptive_image.dart
+        path: adaptive_app/lib/src/adaptive_image.dart
+        replace-contents: |
+          import 'package:flutter/foundation.dart';
+          import 'package:flutter/material.dart';
+
+          class AdaptiveImage extends StatelessWidget {
+            AdaptiveImage.network(String url, {Key? key}) : super(key: key) {
+              if (kIsWeb) {
+                _url = Uri.parse(url)
+                    .replace(host: 'localhost', port: 8080, scheme: 'http')
+                    .toString();
+              } else {
+                _url = url;
+              }
+            }
+
+            late final String _url;
+
+            @override
+            Widget build(BuildContext context) {
+              return Image.network(_url);
+            }
+          }
+      - name: adaptive_text.dart
+        path: adaptive_app/lib/src/adaptive_text.dart
+        replace-contents: |
+          import 'package:flutter/material.dart';
+
+          class AdaptiveText extends StatelessWidget {
+            const AdaptiveText(this.data, {Key? key, this.style}) : super(key: key);
+            final String data;
+            final TextStyle? style;
+
+            @override
+            Widget build(BuildContext context) {
+              switch (Theme.of(context).platform) {
+                case TargetPlatform.android:
+                case TargetPlatform.iOS:
+                  return Text(data, style: style);
+                default:
+                  return SelectableText(data, style: style);
+              }
+            }
+          }
+      - name: Copy step_06
+        command: cp -R adaptive_app step_06
+  - name: step_07
+    steps:
+      - name: Remove generated code.
+        command: rm -r step_07
+      - name: Add dependencies
+        path: adaptive_app
+        commands: 
+          - flutter pub add googleapis_auth
+          - flutter pub add google_sign_in
+          - flutter pub add extension_google_sign_in_as_googleapis_auth
+      - name: Patch .gitignore
+        path: adaptive_app/.gitignore
+        patch: |
+          46a47,49
+          > 
+          > # Google Signin credentials
+          > ios/Runner/GoogleService-Info.plist
+      - name: Patch ios/Podfile
+        path: adaptive_app/ios/Podfile
+        patch: |
+          1,2c1,2
+          < # Uncomment this line to define a global platform for your project
+          < # platform :ios, '9.0'
+          ---
+          > # iOS 9 for google_sign_in 
+          > platform :ios, '9.0'
+      - name: Add adaptive_login.dart
+        path: adaptive_app/lib/src/adaptive_login.dart
+        replace-contents: |
+          import 'dart:io' show Platform;
+
+          import 'package:extension_google_sign_in_as_googleapis_auth/extension_google_sign_in_as_googleapis_auth.dart';
+          import 'package:flutter/foundation.dart';
+          import 'package:flutter/material.dart';
+          import 'package:google_sign_in/google_sign_in.dart';
+          import 'package:googleapis_auth/auth_io.dart';
+          import 'package:http/http.dart' as http;
+          import 'package:url_launcher/link.dart';
+
+          typedef AdaptiveLoginBuilder = Widget Function(
+            BuildContext context,
+            http.Client authClient,
+          );
+
+          typedef _AdaptiveLoginButtonWidget = Widget Function({
+            required VoidCallback? onPressed,
+          });
+
+          class AdaptiveLogin extends StatelessWidget {
+            const AdaptiveLogin(
+                {required this.builder,
+                required this.clientId,
+                required this.scopes,
+                required this.loginButtonChild,
+                Key? key})
+                : super(key: key);
+            final AdaptiveLoginBuilder builder;
+            final ClientId clientId;
+            final List<String> scopes;
+            final Widget loginButtonChild;
+
+            @override
+            Widget build(BuildContext context) {
+              if (kIsWeb || Platform.isAndroid || Platform.isIOS) {
+                return _GoogleSignInLogin(
+                  builder: builder,
+                  button: _loginButton,
+                  scopes: scopes,
+                );
+              } else {
+                return _GoogleApisAuthLogin(
+                  builder: builder,
+                  button: _loginButton,
+                  scopes: scopes,
+                  clientId: clientId,
+                );
+              }
+            }
+
+            Widget _loginButton({required VoidCallback? onPressed}) => ElevatedButton(
+                  onPressed: onPressed,
+                  child: loginButtonChild,
+                );
+          }
+
+          class _GoogleSignInLogin extends StatefulWidget {
+            const _GoogleSignInLogin({
+              required this.builder,
+              required this.button,
+              required this.scopes,
+            });
+            final AdaptiveLoginBuilder builder;
+            final _AdaptiveLoginButtonWidget button;
+            final List<String> scopes;
+
+            @override
+            State<_GoogleSignInLogin> createState() => _GoogleSignInLoginState();
+          }
+
+          class _GoogleSignInLoginState extends State<_GoogleSignInLogin> {
+            @override
+            initState() {
+              super.initState();
+              _googleSignIn = GoogleSignIn(
+                scopes: widget.scopes,
+              );
+              _googleSignIn.onCurrentUserChanged.listen((account) {
+                if (account != null) {
+                  _googleSignIn.authenticatedClient().then((authClient) {
+                    setState(() {
+                      _authClient = authClient;
+                    });
+                  });
+                }
+              });
+            }
+
+            late final GoogleSignIn _googleSignIn;
+            http.Client? _authClient;
+
+            @override
+            Widget build(BuildContext context) {
+              final authClient = _authClient;
+              if (authClient != null) {
+                return widget.builder(context, authClient);
+              }
+
+              return Scaffold(
+                body: Center(
+                  child: widget.button(onPressed: () {
+                    _googleSignIn.signIn();
+                  }),
+                ),
+              );
+            }
+          }
+
+          class _GoogleApisAuthLogin extends StatefulWidget {
+            const _GoogleApisAuthLogin({
+              required this.builder,
+              required this.button,
+              required this.scopes,
+              required this.clientId,
+            });
+            final AdaptiveLoginBuilder builder;
+            final _AdaptiveLoginButtonWidget button;
+            final List<String> scopes;
+            final ClientId clientId;
+
+            @override
+            State<_GoogleApisAuthLogin> createState() => _GoogleApisAuthLoginState();
+          }
+
+          class _GoogleApisAuthLoginState extends State<_GoogleApisAuthLogin> {
+            @override
+            initState() {
+              super.initState();
+              clientViaUserConsent(widget.clientId, widget.scopes, (url) {
+                setState(() {
+                  _authUrl = Uri.parse(url);
+                });
+              }).then((authClient) {
+                setState(() {
+                  _authClient = authClient;
+                });
+              });
+            }
+
+            Uri? _authUrl;
+            http.Client? _authClient;
+
+            @override
+            Widget build(BuildContext context) {
+              final authClient = _authClient;
+              if (authClient != null) {
+                return widget.builder(context, authClient);
+              }
+
+              final authUrl = _authUrl;
+              if (authUrl != null) {
+                return Scaffold(
+                  body: Center(
+                    child: Link(
+                      uri: authUrl,
+                      builder: (context, followLink) =>
+                          widget.button(onPressed: followLink),
+                    ),
+                  ),
+                );
+              }
+
+              return const Scaffold(
+                body: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            }
+          }
+      - name: Patch Info.plist
+        path: adaptive_app/ios/Runner/Info.plist
+        patch: |
+          53a54,66
+          > 	<key>CFBundleURLTypes</key>
+          > 	<array>
+          > 		<dict>
+          > 			<key>CFBundleTypeRole</key>
+          > 			<string>Editor</string>
+          > 			<key>CFBundleURLSchemes</key>
+          > 			<array>
+          > 				<!-- TODO Replace this value: -->
+          > 				<!-- Copied from GoogleService-Info.plist key REVERSED_CLIENT_ID -->
+          > 				<string>com.googleusercontent.apps.TODO-REPLACE-ME</string>
+          > 			</array>
+          > 		</dict>
+          > 	</array>
+      - name: Patch main.dart
+        path: adaptive_app/lib/main.dart
+        patch: |
+          1,2d0
+          < import 'dart:io';
+          < 
+          4a3
+          > import 'package:googleapis_auth/googleapis_auth.dart';
+          6a6
+          > import 'src/adaptive_login.dart';
+          10,14c10,19
+          < // From https://www.youtube.com/channel/UCwXdFgeE9KYzlDdR7TG9cMw
+          < const flutterDevAccountId = 'UCwXdFgeE9KYzlDdR7TG9cMw';
+          < 
+          < // TODO: Replace with your YouTube API Key
+          < const youTubeApiKey = 'AIzaNotAnApiKey';
+          ---
+          > // From https://developers.google.com/youtube/v3/guides/auth/installed-apps#identify-access-scopes
+          > final scopes = [
+          >   'https://www.googleapis.com/auth/youtube.readonly',
+          > ];
+          > 
+          > // TODO: Replace with your Client ID and Client Secret for Desktop configuration
+          > final clientId = ClientId(
+          >   'TODO-Client-ID.apps.googleusercontent.com',
+          >   'TODO-Client-secret',
+          > );
+          17,26c22,23
+          <   if (youTubeApiKey == 'AIzaNotAnApiKey') {
+          <     print('youTubeApiKey has not been configured.');
+          <     exit(1);
+          <   }
+          < 
+          <   runApp(ChangeNotifierProvider<FlutterDevPlaylists>(
+          <     create: (context) => FlutterDevPlaylists(
+          <       flutterDevAccountId: flutterDevAccountId,
+          <       youTubeApiKey: youTubeApiKey,
+          <     ),
+          ---
+          >   runApp(ChangeNotifierProvider<AuthedUserPlaylists>(
+          >     create: (context) => AuthedUserPlaylists(),
+          37c34
+          <       title: 'FlutterDev Playlists',
+          ---
+          >       title: 'Your Playlists',
+          42c39,47
+          <       home: const AdaptivePlaylists(),
+          ---
+          >       home: AdaptiveLogin(
+          >         builder: (context, authClient) {
+          >           context.read<AuthedUserPlaylists>().authClient = authClient;
+          >           return const AdaptivePlaylists();
+          >         },
+          >         clientId: clientId,
+          >         scopes: scopes,
+          >         loginButtonChild: const Text('Login to YouTube'),
+          >       ),
+      - name: Patch lib/src/adaptive_playlists.dart
+        path: adaptive_app/lib/src/adaptive_playlists.dart
+        patch: |
+          34c34
+          <       appBar: AppBar(title: const Text('FlutterDev Playlists')),
+          ---
+          >       appBar: AppBar(title: const Text('Your Playlists')),
+          73,74c73,74
+          <             ? const Text('FlutterDev Playlists')
+          <             : Text('FlutterDev Playlist: ${selectedPlaylist!.snippet!.title!}'),
+          ---
+          >             ? const Text('Your Playlists')
+          >             : Text('Your Playlist: ${selectedPlaylist!.snippet!.title!}'),
+      - name: Patch lib/src/app_state.dart
+        path: adaptive_app/lib/src/app_state.dart
+        patch: |
+          7,17c7,9
+          < class FlutterDevPlaylists extends ChangeNotifier {
+          <   FlutterDevPlaylists({
+          <     required String flutterDevAccountId,
+          <     required String youTubeApiKey,
+          <   }) : _flutterDevAccountId = flutterDevAccountId {
+          <     _api = YouTubeApi(
+          <       _ApiKeyClient(
+          <         client: http.Client(),
+          <         key: youTubeApiKey,
+          <       ),
+          <     );
+          ---
+          > class AuthedUserPlaylists extends ChangeNotifier {
+          >   set authClient(http.Client client) {
+          >     _api = YouTubeApi(client);
+          26c18
+          <       final response = await _api.playlists.list(
+          ---
+          >       final response = await _api!.playlists.list(
+          28c20
+          <         channelId: _flutterDevAccountId,
+          ---
+          >         mine: true,
+          40,41c32
+          <   final String _flutterDevAccountId;
+          <   late final YouTubeApi _api;
+          ---
+          >   YouTubeApi? _api;
+          58c49
+          <       var response = await _api.playlistItems.list(
+          ---
+          >       var response = await _api!.playlistItems.list(
+          73,89d63
+          < 
+          < class _ApiKeyClient extends http.BaseClient {
+          <   _ApiKeyClient({required this.key, required this.client});
+          < 
+          <   final String key;
+          <   final http.Client client;
+          < 
+          <   @override
+          <   Future<http.StreamedResponse> send(http.BaseRequest request) {
+          <     final url = request.url.replace(queryParameters: <String, List<String>>{
+          <       ...request.url.queryParametersAll,
+          <       'key': [key]
+          <     });
+          < 
+          <     return client.send(http.Request(request.method, url));
+          <   }
+          < }
+      - name: Patch lib/src/playlist_details.dart
+        path: adaptive_app/lib/src/playlist_details.dart
+        patch: |
+          19c19
+          <     return Consumer<FlutterDevPlaylists>(
+          ---
+          >     return Consumer<AuthedUserPlaylists>(
+      - name: Patch lib/src/playlists.dart
+        path: adaptive_app/lib/src/playlists.dart
+        patch: |
+          15c15
+          <     return Consumer<FlutterDevPlaylists>(
+          ---
+          >     return Consumer<AuthedUserPlaylists>(
+      - name: Patch macos/Runner/Release.entitlements
+        path: adaptive_app/macos/Runner/Release.entitlements
+        patch: |
+          6a7,8
+          > 	<key>com.apple.security.network.server</key>
+          > 	<true/>
+      - name: Patch test/widget_test.dart
+        path: adaptive_app/test/widget_test.dart
+        patch: |
+          5a6
+          > import 'package:http/src/client.dart';
+          8,9c9,10
+          < class FakeFlutterDevPlaylists extends ChangeNotifier
+          <     implements FlutterDevPlaylists {
+          ---
+          > class FakeAuthedUserPlaylists extends ChangeNotifier
+          >     implements AuthedUserPlaylists {
+          14a16,18
+          > 
+          >   @override
+          >   set authClient(Client authClient) => throw UnimplementedError();
+          21,22c25,26
+          <       ChangeNotifierProvider<FlutterDevPlaylists>(
+          <         create: (context) => FakeFlutterDevPlaylists(),
+          ---
+          >       ChangeNotifierProvider<AuthedUserPlaylists>(
+          >         create: (context) => FakeAuthedUserPlaylists(),
+      - name: Patch web/index.html
+        path: adaptive_app/web/index.html
+        patch: |
+          31a32,34
+          >   <!-- google_sign_in_web -->
+          >   <meta name="google-signin-client_id" content="YOUR_GOOGLE_SIGN_IN_OAUTH_CLIENT_ID.apps.googleusercontent.com">
+          > 
+      - name: Rebuild ios/Podfile.lock
+        path: adaptive_app/ios
+        command: pod update
+      - name: Rebuild macos/Podfile.lock
+        path: adaptive_app/macos
+        command: pod update
+      - name: Copy step_07
+        command: cp -R adaptive_app step_07
+  - name: Cleanup
+    command: rm -r adaptive_app
