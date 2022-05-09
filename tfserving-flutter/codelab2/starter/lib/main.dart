@@ -2,11 +2,12 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io' show Platform;
 
+import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:http/http.dart' as http;
 import 'package:grpc/grpc.dart';
-import 'package:fixnum/fixnum.dart';
+import 'package:http/http.dart' as http;
+
 import 'proto/generated/tensorflow/core/framework/tensor.pb.dart';
 import 'proto/generated/tensorflow/core/framework/tensor_shape.pb.dart';
 import 'proto/generated/tensorflow/core/framework/types.pbenum.dart';
@@ -85,7 +86,7 @@ class _TFServingDemoState extends State<TFServingDemo> {
                         leading: Radio<ConnectionModeType>(
                           value: ConnectionModeType.grpc,
                           groupValue: _connectionMode,
-                          onChanged: (ConnectionModeType? value) {
+                          onChanged: (value) {
                             setState(() {
                               _connectionMode = value;
                             });
@@ -97,7 +98,7 @@ class _TFServingDemoState extends State<TFServingDemo> {
                         leading: Radio<ConnectionModeType>(
                           value: ConnectionModeType.rest,
                           groupValue: _connectionMode,
-                          onChanged: (ConnectionModeType? value) {
+                          onChanged: (value) {
                             setState(() {
                               _connectionMode = value;
                             });
@@ -154,10 +155,10 @@ class _TFServingDemoState extends State<TFServingDemo> {
   Future<String> predict() async {
     if (Platform.isAndroid) {
       // For Android
-      _server = "10.0.0.2";
+      _server = '10.0.2.2';
     } else {
-      // For iOS/desktop
-      _server = "localhost";
+      // For iOS emulator, desktop and web platforms
+      _server = '127.0.0.1';
     }
     // TODO: build _vocabMap if empty
 
