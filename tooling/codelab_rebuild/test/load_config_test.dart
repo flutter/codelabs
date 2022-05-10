@@ -6,16 +6,16 @@ import 'package:codelab_rebuild/codelab_rebuild.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test('loadblueprint from simple blueprint', () {
+  test('Blueprint.load() from simple blueprint', () {
     final input = '''
 name: Cupertino Store script
 steps:
   - name: step_00
     steps:
       - name: Remove generated code.
-        command: rm -rf step_00
+        rmdir: step_00
       - name: Create project.
-        command: flutter create cupertino_store
+        flutter: create cupertino_store
       - name: blueprint
         path: cupertino_store/analysis_options.yaml
         replace-contents: |
@@ -34,22 +34,19 @@ steps:
           # limitations under the License.
           
           include: ../../analysis_options.yaml
-      - name: Add dependencies.
+      - name: Add intl dependency.
         path: cupertino_store
-        commands:
-          - flutter pub add intl 
-          - flutter pub add provider 
-          - flutter pub add shrine_images
+        flutter: pub add intl 
       - name: Remove the README.md.
-        command: rm cupertino_store/README.md
+        rm: cupertino_store/README.md
       - name: Remove the Android, Web, and Desktop runners
         path: cupertino_store
-        commands:
-          - rm -rf android 
-          - rm -rf linux 
-          - rm -rf macos 
-          - rm -rf web 
-          - rm -rf windows
+        rmdirs:
+          - android 
+          - linux 
+          - macos 
+          - web 
+          - windows
 ''';
     final blueprint = Blueprint.load(input);
     expect(blueprint.isValid, equals(true));
@@ -58,7 +55,7 @@ steps:
     expect(blueprint.steps[0].steps.length, equals(6));
     expect(blueprint.steps[0].steps[0].isValid, equals(true));
     expect(blueprint.steps[0].steps[0].name, equals('Remove generated code.'));
-    expect(blueprint.steps[0].steps[0].command, equals('rm -rf step_00'));
+    expect(blueprint.steps[0].steps[0].rmdir, equals('step_00'));
     expect(blueprint.steps[0].steps[1].isValid, equals(true));
     expect(blueprint.steps[0].steps[2].isValid, equals(true));
     expect(blueprint.steps[0].steps[2].name, equals('blueprint'));
@@ -91,14 +88,8 @@ include: ../../analysis_options.yaml
       equals('cupertino_store'),
     );
     expect(
-      blueprint.steps[0].steps[5].commands,
-      equals([
-        'rm -rf android',
-        'rm -rf linux',
-        'rm -rf macos',
-        'rm -rf web',
-        'rm -rf windows'
-      ]),
+      blueprint.steps[0].steps[5].rmdirs,
+      equals(['android', 'linux', 'macos', 'web', 'windows']),
     );
   });
 
@@ -111,34 +102,6 @@ steps:
       - name: base64-contents.
         path: some-file.txt
         base64-contents: SGVsbG8sIHdvcmxkIQo=
-''';
-    final blueprint = Blueprint.load(input);
-    expect(blueprint.isValid, equals(true));
-  });
-
-  test('Valid command blueprint', () {
-    final input = '''
-name: Valid command blueprint
-steps:
-  - name: step_00
-    steps:
-      - name: command.
-        command: echo 'Hello world!'
-''';
-    final blueprint = Blueprint.load(input);
-    expect(blueprint.isValid, equals(true));
-  });
-
-  test('Valid commands blueprint', () {
-    final input = '''
-name: Valid commands blueprint
-steps:
-  - name: step_00
-    steps:
-      - name: commands.
-        commands: 
-          - echo 'Hello world!'
-          - echo 'Goodbye!'
 ''';
     final blueprint = Blueprint.load(input);
     expect(blueprint.isValid, equals(true));
@@ -200,75 +163,6 @@ steps:
     expect(blueprint.isValid, equals(true));
   });
 
-  test('Invalid blueprint, empty command', () {
-    final input = '''
-name: Invalid blueprint, empty command
-steps:
-  - name: step_00
-    steps:
-      - name: empty command.
-        command: 
-''';
-    final blueprint = Blueprint.load(input);
-    expect(blueprint.isValid, equals(false));
-  });
-
-  test('Invalid blueprint, command with patch', () {
-    final input = '''
-name: Cupertino Store script
-steps:
-  - name: step_00
-    steps:
-      - name: command with patch.
-        command: foo
-        patch: not really a patch 
-''';
-    final blueprint = Blueprint.load(input);
-    expect(blueprint.isValid, equals(false));
-  });
-
-  test('Invalid blueprint, command with patch-u', () {
-    final input = '''
-name: Cupertino Store script
-steps:
-  - name: step_00
-    steps:
-      - name: command with patch-u.
-        command: foo
-        patch-u: not really a patch 
-''';
-    final blueprint = Blueprint.load(input);
-    expect(blueprint.isValid, equals(false));
-  });
-
-  test('Invalid blueprint, command with patch-c', () {
-    final input = '''
-name: Cupertino Store script
-steps:
-  - name: step_00
-    steps:
-      - name: command with patch-c.
-        command: foo
-        patch-c: not really a patch 
-''';
-    final blueprint = Blueprint.load(input);
-    expect(blueprint.isValid, equals(false));
-  });
-
-  test('Invalid blueprint, command with replace-contents', () {
-    final input = '''
-name: Cupertino Store script
-steps:
-  - name: step_00
-    steps:
-      - name: command with replace-contents.
-        command: foo
-        replace-contents: contents 
-''';
-    final blueprint = Blueprint.load(input);
-    expect(blueprint.isValid, equals(false));
-  });
-
   test('Invalid blueprint, patch without path', () {
     final input = '''
 name: Cupertino Store script
@@ -327,12 +221,14 @@ name: Valid sub-step blueprint
 steps:
   - name: Steps
     steps:
-      - name: Random valid command
-        command: foo
+      - name: Random valid patch
+        path: some/dir
+        patch: foo
       - name: Sub Steps
         steps: 
-          - name: Random valid command
-            command: bar
+          - name: Random valid patch
+            path: some/other/dir
+            patch: bar
 ''';
     final blueprint = Blueprint.load(input);
     expect(blueprint.isValid, equals(true));
@@ -344,16 +240,41 @@ name: Invalid sub-step blueprint
 steps:
   - name: Steps
     steps:
-      - name: Random valid command
-        command: foo
+      - name: Random valid patch
+        path: some/dir
+        patch: foo
       - name: Sub Steps
         steps: 
-          - name: Random valid command
-            command: bar
+          - name: Random valid patch
+            path: some/other/dir
+            patch: bar
           - name: replace-contents without path.
             replace-contents: contents 
 ''';
     final blueprint = Blueprint.load(input);
     expect(blueprint.isValid, equals(false));
+  });
+
+  test('valid pod blueprint', () {
+    final input = '''
+name: Cupertino Store script
+steps:
+  - name: Rebuild ios/Podfile.lock
+    path: adaptive_app/ios
+    pod: update
+''';
+    final blueprint = Blueprint.load(input);
+    expect(blueprint.isValid, equals(true));
+  });
+
+  test('valid rm blueprint', () {
+    final input = '''
+name: Cupertino Store script
+steps:
+  - name: valid rm
+    rm: foo
+''';
+    final blueprint = Blueprint.load(input);
+    expect(blueprint.isValid, equals(true));
   });
 }

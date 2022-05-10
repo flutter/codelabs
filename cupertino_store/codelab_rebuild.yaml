@@ -3,9 +3,9 @@ steps:
   - name: step_00
     steps:
       - name: Remove generated code.
-        command: rm -r step_00
+        rmdir: step_00
       - name: Create project.
-        command: flutter create cupertino_store
+        flutter: create cupertino_store
       - name: Configure analysis_options.yaml
         path: cupertino_store/analysis_options.yaml
         replace-contents: |
@@ -24,12 +24,15 @@ steps:
           # limitations under the License.
           
           include: ../../analysis_options.yaml
-      - name: Add dependencies.
+      - name: Add intl
         path: cupertino_store
-        commands:
-          - flutter pub add intl 
-          - flutter pub add provider 
-          - flutter pub add shrine_images
+        flutter: pub add intl
+      - name: Add provider
+        path: cupertino_store
+        flutter: pub add provider
+      - name: Add shrine_images
+        path: cupertino_store
+        flutter: pub add shrine_images
       - name: Patch pubspec.yaml
         path: cupertino_store/pubspec.yaml
         patch: |
@@ -170,15 +173,15 @@ steps:
           >     - packages/shrine_images/36-0.jpg
           >     - packages/shrine_images/37-0.jpg
       - name: Remove the README.md.
-        command: rm cupertino_store/README.md
+        rm: cupertino_store/README.md
       - name: Remove the Android, Web, and Desktop runners
         path: cupertino_store
-        commands:
-          - rm -r android 
-          - rm -r linux 
-          - rm -r macos 
-          - rm -r web 
-          - rm -r windows
+        rmdirs:
+          - android 
+          - linux 
+          - macos 
+          - web 
+          - windows
       - name: Replace lib/main.dart
         path: cupertino_store/lib/main.dart
         replace-contents: |
@@ -204,7 +207,8 @@ steps:
             return runApp(const CupertinoStoreApp());
           }
       - name: VSCode config
-        command: mkdir -p cupertino_store/.vscode
+        path: cupertino_store
+        mkdir: .vscode
       - name: Add launch.json
         path: cupertino_store/.vscode/launch.json
         replace-contents: |
@@ -379,11 +383,13 @@ steps:
           >     await tester.pumpWidget(const CupertinoStoreApp());
           >     expect(find.text('Cupertino Store'), findsOneWidget);
       - name: Copy step_00
-        command: cp -R cupertino_store step_00
+        copydir: 
+          from: cupertino_store
+          to: step_00
   - name: step_01
     steps:
       - name: Remove generated code.
-        command: rm -r step_01
+        rmdir: step_01
       - name: Patch app.dart
         path: cupertino_store/lib/app.dart
         patch: |
@@ -606,7 +612,7 @@ steps:
             }
           }
       - name: Make cupertino_store/lib/model dir
-        command: mkdir -p cupertino_store/lib/model
+        mkdir: cupertino_store/lib/model
       - name: Add app_state_model.dart
         path: cupertino_store/lib/model/app_state_model.dart
         replace-contents: |
@@ -1092,11 +1098,13 @@ steps:
             }
           }
       - name: Copy step_01
-        command: cp -R cupertino_store step_01
+        copydir:
+          from: cupertino_store
+          to: step_01
   - name: step_02
     steps:
       - name: Remove generated code.
-        command: rm -r step_02
+        rmdir: step_02
       - name: Update product_list_tab.dart
         path: cupertino_store/lib/product_list_tab.dart
         patch: |
@@ -1245,11 +1253,13 @@ steps:
             }
           }
       - name: Copy step_02
-        command: cp -R cupertino_store step_02
+        copydir:
+          from: cupertino_store
+          to: step_02
   - name: step_03
     steps:
       - name: Remove generated code.
-        command: rm -r step_03
+        rmdir: step_03
       - name: Add search_bar.dart
         path: cupertino_store/lib/search_bar.dart
         replace-contents: |
@@ -1387,11 +1397,13 @@ steps:
           ---
           >       ),
       - name: Copy step_03
-        command: cp -R cupertino_store step_03
+        copydir:
+          from: cupertino_store
+          to: step_03
   - name: step_04
     steps:
       - name: Remove generated code.
-        command: rm -r step_04
+        rmdir: step_04
       - name: Modify shopping_cart_tab.dart
         path: cupertino_store/lib/shopping_cart_tab.dart
         patch: |
@@ -1520,11 +1532,13 @@ steps:
           >               ),
           >             )
       - name: Copy step_04
-        command: cp -R cupertino_store step_04
+        copydir:
+          from: cupertino_store
+          to: step_04
   - name: step_05
     steps:
       - name: Remove generated code.
-        command: rm -r step_05
+        rmdir: step_05
       - name: Modify shopping_cart_tab.dart
         path: cupertino_store/lib/shopping_cart_tab.dart
         patch: |
@@ -1585,11 +1599,13 @@ steps:
           >               child: _buildDateAndTimePicker(context),
           >             );
       - name: Copy step_05
-        command: cp -R cupertino_store step_05
+        copydir:
+          from: cupertino_store
+          to: step_05
   - name: step_06
     steps:
       - name: Remove generated code.
-        command: rm -r step_06
+        rmdir: step_06
       - name: Modify shopping_cart_tab.dart
         path: cupertino_store/lib/shopping_cart_tab.dart
         patch: |
@@ -1725,6 +1741,8 @@ steps:
           >   }
           > }
       - name: Copy step_06
-        command: cp -R cupertino_store step_06
+        copydir:
+          from: cupertino_store
+          to: step_06
   - name: Cleanup
-    command: rm -r cupertino_store
+    rmdir: cupertino_store
