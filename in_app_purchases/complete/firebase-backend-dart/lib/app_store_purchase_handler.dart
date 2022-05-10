@@ -1,9 +1,10 @@
 import 'dart:convert';
 
-import 'package:firebase_backend_dart/constants.dart';
-import 'package:firebase_backend_dart/products.dart';
-import 'package:firebase_backend_dart/purchase_handler.dart';
 import 'package:http/http.dart' as http;
+
+import 'constants.dart';
+import 'products.dart';
+import 'purchase_handler.dart';
 
 /// TODO: Unfinished. Cannot be tested without iOS app submitted.
 class AppStorePurchaseHandler extends PurchaseHandler {
@@ -47,8 +48,8 @@ class AppStorePurchaseHandler extends PurchaseHandler {
       }),
       headers: headers,
     );
-    final json = jsonDecode(response.body);
-    final status = json['status'];
+    final dynamic json = jsonDecode(response.body);
+    final status = json['status'] as int;
     if (status == 0) {
       print('Successfully verified purchase');
       return true;

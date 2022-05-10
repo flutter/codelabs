@@ -1,4 +1,4 @@
-import 'package:firebase_backend_dart/products.dart';
+import 'products.dart';
 
 /// Generic purchase handler,
 /// must be implemented for Google Play and Apple Store

@@ -1,14 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:firebase_backend_dart/constants.dart';
-import 'package:firebase_backend_dart/products.dart';
-import 'package:firebase_backend_dart/purchase_handler.dart';
-
 import 'package:googleapis/androidpublisher/v3.dart' as ap;
 import 'package:googleapis/pubsub/v1.dart' as pubsub;
 
+import 'constants.dart';
 import 'iap_repository.dart';
+import 'products.dart';
+import 'purchase_handler.dart';
 
 class GooglePlayPurchaseHandler extends PurchaseHandler {
   final ap.AndroidPublisherApi androidPublisher;
@@ -53,13 +52,13 @@ class GooglePlayPurchaseHandler extends PurchaseHandler {
 
       // Make sure an order id exists
       if (response.orderId == null) {
-        print("Could not handle purchase without order id");
+        print('Could not handle purchase without order id');
         return false;
       }
 
       final purchaseData = NonSubscriptionPurchase(
         purchaseDate: DateTime.fromMillisecondsSinceEpoch(
-          int.parse(response.purchaseTimeMillis ?? "0"),
+          int.parse(response.purchaseTimeMillis ?? '0'),
         ),
         orderId: response.orderId!,
         productId: productData.productId,
@@ -117,7 +116,7 @@ class GooglePlayPurchaseHandler extends PurchaseHandler {
 
       // Make sure an order id exists
       if (response.orderId == null) {
-        print("Could not handle purchase without order id");
+        print('Could not handle purchase without order id');
         return false;
       }
 
@@ -131,7 +130,7 @@ class GooglePlayPurchaseHandler extends PurchaseHandler {
 
       final purchaseData = SubscriptionPurchase(
         purchaseDate: DateTime.fromMillisecondsSinceEpoch(
-          int.parse(response.startTimeMillis ?? "0"),
+          int.parse(response.startTimeMillis ?? '0'),
         ),
         orderId: response.orderId!,
         productId: productData.productId,
@@ -139,7 +138,7 @@ class GooglePlayPurchaseHandler extends PurchaseHandler {
         userId: userId,
         iapSource: IAPSource.googleplay,
         expiryDate: DateTime.fromMillisecondsSinceEpoch(
-          int.parse(response.expiryTimeMillis ?? "0"),
+          int.parse(response.expiryTimeMillis ?? '0'),
         ),
       );
 
@@ -182,7 +181,7 @@ class GooglePlayPurchaseHandler extends PurchaseHandler {
     for (final message in messages) {
       final data64 = message.message?.data;
       if (data64 != null) {
-        _processMessage(data64, message.ackId);
+        await _processMessage(data64, message.ackId);
       }
     }
   }
@@ -190,7 +189,7 @@ class GooglePlayPurchaseHandler extends PurchaseHandler {
   Future<void> _processMessage(String data64, String? ackId) async {
     final dataRaw = utf8.decode(base64Decode(data64));
     print('Received data: $dataRaw');
-    final data = jsonDecode(dataRaw);
+    final dynamic data = jsonDecode(dataRaw);
     if (data['testNotification'] != null) {
       print('Skip test messages');
       if (ackId != null) {
@@ -198,12 +197,12 @@ class GooglePlayPurchaseHandler extends PurchaseHandler {
       }
       return;
     }
-    final subscriptionNotification = data['subscriptionNotification'];
-    final oneTimeProductNotification = data['oneTimeProductNotification'];
+    final dynamic subscriptionNotification = data['subscriptionNotification'];
+    final dynamic oneTimeProductNotification = data['oneTimeProductNotification'];
     if (subscriptionNotification != null) {
       print('Processing Subscription');
-      final subscriptionId = subscriptionNotification['subscriptionId'];
-      final purchaseToken = subscriptionNotification['purchaseToken'];
+      final subscriptionId = subscriptionNotification['subscriptionId'] as String;
+      final purchaseToken = subscriptionNotification['purchaseToken'] as String;
       final productData = productDataMap[subscriptionId]!;
       final result = await handleSubscription(
         userId: null,
@@ -215,8 +214,8 @@ class GooglePlayPurchaseHandler extends PurchaseHandler {
       }
     } else if (oneTimeProductNotification != null) {
       print('Processing NonSubscription');
-      final sku = oneTimeProductNotification['sku'];
-      final purchaseToken = oneTimeProductNotification['purchaseToken'];
+      final sku = oneTimeProductNotification['sku'] as String;
+      final purchaseToken = oneTimeProductNotification['purchaseToken'] as String;
       final productData = productDataMap[sku]!;
       final result = await handleNonSubscription(
         userId: null,
