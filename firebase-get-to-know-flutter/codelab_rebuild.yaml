@@ -3,9 +3,9 @@ steps:
   - name: step_02
     steps:
       - name: Remove generated code.
-        command: rm -r step_02
+        rmdir: step_02
       - name: Create project.
-        command: flutter create gtk_flutter
+        flutter: create gtk_flutter
       - name: Configure analysis_options.yaml
         path: gtk_flutter/analysis_options.yaml
         replace-contents: |
@@ -17,8 +17,7 @@ steps:
               use_key_in_widget_constructors: false
       - name: Add dependencies.
         path: gtk_flutter
-        commands:
-          - flutter pub add google_fonts 
+        flutter: pub add google_fonts 
       - name: Patch pubspec.yaml
         path: gtk_flutter/pubspec.yaml
         patch: |
@@ -107,15 +106,15 @@ steps:
           >   assets:
           >     - assets/codelab.png
       - name: Remove the README.md.
-        command: rm gtk_flutter/README.md
+        rm: gtk_flutter/README.md
       - name: Remove the Linux and Windows runners
         path: gtk_flutter
-        commands:
-          - rm -r linux 
-          - rm -r windows
+        rmdirs:
+          - linux 
+          - windows
       - name: VSCode config
         path: gtk_flutter
-        command: mkdir .vscode
+        mkdir: .vscode
       - name: Add launch.json
         path: gtk_flutter/.vscode/launch.json
         replace-contents: |
@@ -244,7 +243,7 @@ steps:
           }
       - name: Make lib/src
         path: gtk_flutter/lib
-        command: mkdir src
+        mkdir: src
       - name: Add lib/src/authentication.dart
         path: gtk_flutter/lib/src/authentication.dart
         replace-contents: |
@@ -761,7 +760,7 @@ steps:
           }
       - name: Make assets directory
         path: gtk_flutter
-        command: mkdir assets
+        mkdir: assets
       - name: Add codelab.png
         path: gtk_flutter/assets/codelab.png
         base64-contents: |
@@ -2123,30 +2122,38 @@ steps:
           AAAAWBEAAAAAAKwIAAAAAABWBAAAAAAAKwIAAAAAgBUBAAAAAMCKAAAAAABgRQAAAAAAsCIAAAAAAFgR
           AAAAAACsCAAAAAAAVgQAAAAAACsCAAAAAIAVAQAAAADAigAAAAAAYEUAAAAAALAiAAAAAABYEQAAAAAA
           rAgAAAAAAFYEAAAAAAArAgAAAACAFQEAAAAA3G78fwEGAOYQ2S/g6/WJAAAAAElFTkSuQmCC
-      - name: Build for iOS and macOS 
+      - name: Build for iOS
         path: gtk_flutter
-        commands:
-          - flutter build ios --debug --simulator
-          - flutter build macos --debug
+        flutter: build ios --debug --simulator
+      - name: Build for macOS 
+        path: gtk_flutter
+        flutter: build macos --debug
       - name: Copy step_02
-        command: cp -R gtk_flutter step_02
+        copydir:
+          from: gtk_flutter
+          to: step_02
   - name: step_04
     steps:
       - name: Remove generated code.
-        command: rm -r step_04
-      - name: Add dependencies.
+        rmdir: step_04
+      - name: Add cloud_firestore
         path: gtk_flutter
-        commands:
-          - flutter pub add cloud_firestore
-          - flutter pub add firebase_auth
-          - flutter pub add firebase_core
-          - flutter pub add provider
+        flutter: pub add cloud_firestore
+      - name: Add firebase_auth
+        path: gtk_flutter
+        flutter: pub add firebase_auth
+      - name: Add firebase_core
+        path: gtk_flutter
+        flutter: pub add firebase_core
+      - name: Add provider
+        path: gtk_flutter
+        flutter: pub add provider
       - name: Update iOS podspec 
         path: gtk_flutter/ios
-        command: pod update
+        pod: update
       - name: Update macOS podspec 
         path: gtk_flutter/macos
-        command: pod update
+        pod: update
       - name: Add lib/firebase_options.dart
         path: gtk_flutter/lib/firebase_options.dart
         replace-contents: |
@@ -2227,11 +2234,13 @@ steps:
           > 	<key>com.apple.security.network.client</key>
           > 	<true/>
       - name: Copy step_04
-        command: cp -R gtk_flutter step_04
+        copydir:
+          from: gtk_flutter
+          to: step_04
   - name: step_05
     steps:
       - name: Remove generated code.
-        command: rm -r step_05
+        rmdir: step_05
       - name: Patch lib/main.dart
         path: gtk_flutter/lib/main.dart
         patch: |
@@ -2370,11 +2379,13 @@ steps:
           >       ),
           >     );
       - name: Copy step_05
-        command: cp -R gtk_flutter step_05
+        copydir:
+          from: gtk_flutter
+          to: step_05
   - name: step_06
     steps:
       - name: Remove generated code.
-        command: rm -r step_06
+        rmdir: step_06
       - name: Patch lib/main.dart
         path: gtk_flutter/lib/main.dart
         patch: |
@@ -2471,11 +2482,13 @@ steps:
           >     );
           >   }
       - name: Copy step_06
-        command: cp -R gtk_flutter step_06
+        copydir:
+          from: gtk_flutter
+          to: step_06
   - name: step_07
     steps:
       - name: Remove generated code.
-        command: rm -r step_07
+        rmdir: step_07
       - name: Patch lib/main.dart
         path: gtk_flutter/lib/main.dart
         patch: |
@@ -2609,11 +2622,13 @@ steps:
           >         const SizedBox(height: 8),
           >       ],
       - name: Copy step_07
-        command: cp -R gtk_flutter step_07
+        copydir:
+          from: gtk_flutter
+          to: step_07
   - name: step_09
     steps:
       - name: Remove generated code.
-        command: rm -r step_09
+        rmdir: step_09
       - name: Patch lib/main.dart
         path: gtk_flutter/lib/main.dart
         patch: |
@@ -2746,6 +2761,8 @@ steps:
           >   }
           > }
       - name: Copy step_09
-        command: cp -R gtk_flutter step_09
+        copydir:
+          from: gtk_flutter
+          to: step_09
   - name: Cleanup
-    command: rm -r gtk_flutter
+    rmdir: gtk_flutter

@@ -3,22 +3,22 @@ steps:
   - name: Rebuild window_to_front
     steps:
       - name: Remove generated code.
-        command: rm -r window_to_front
+        rmdir: window_to_front
       - name: Create window_to_front
-        command: flutter create -t plugin --platforms=linux,macos,windows window_to_front
+        flutter: create -t plugin --platforms=linux,macos,windows window_to_front
       - name: Replace analysis_options.yaml
         path: window_to_front/analysis_options.yaml
         replace-contents: |
           include: ../../analysis_options.yaml
       - name: Remove example code
         path: window_to_front
-        command: rm -r example
+        rmdir: example
       - name: Remove the README.md.
         path: window_to_front
-        command: rm README.md
+        rm: README.md
       - name: Remove tests
         path: window_to_front
-        command: rm -r test
+        rmdir: test
       - name: Patch pubspec.yaml
         path: window_to_front/pubspec.yaml
         patch: |
@@ -338,23 +338,23 @@ steps:
   - name: step_03
     steps:
       - name: Remove generated code.
-        command: rm -r step_03
+        rmdir: step_03
       - name: Create project.
-        command: flutter create github_client
+        flutter: create github_client
       - name: Configure analysis_options.yaml
         path: github_client/analysis_options.yaml
         replace-contents: |
           include: ../../analysis_options.yaml
       - name: Remove the README.md.
-        command: rm github_client/README.md
+        rm: github_client/README.md
       - name: Remove the iOS, Android and Web runners
         path: github_client
-        commands:
-          - rm -r android 
-          - rm -r ios
-          - rm -r web 
+        rmdirs:
+          - android 
+          - ios
+          - web 
       - name: VSCode config
-        command: mkdir -p github_client/.vscode
+        mkdir: github_client/.vscode
       - name: Add launch.json
         path: github_client/.vscode/launch.json
         replace-contents: |
@@ -397,17 +397,22 @@ steps:
           ---
           >   testWidgets('Counter increments smoke test', (tester) async {
       - name: Copy step_03
-        command: cp -R github_client step_03
+        copydir:
+          from: github_client
+          to: step_03
   - name: step_04
     steps:
       - name: Remove generated code.
-        command: rm -r step_04
-      - name: Add dependencies
+        rmdir: step_04
+      - name: Add http
         path: github_client
-        commands:
-          - flutter pub add http
-          - flutter pub add oauth2
-          - flutter pub add url_launcher
+        flutter: pub add http
+      - name: Add oauth2
+        path: github_client
+        flutter: pub add oauth2
+      - name: Add url_launcher
+        path: github_client
+        flutter: pub add url_launcher
       - name: Replace lib/main.dart
         path: github_client/lib/main.dart
         replace-contents: |
@@ -499,7 +504,7 @@ steps:
           const githubScopes = ['repo', 'read:org'];
       - name: Make lib/src directory
         path: github_client/lib
-        command: mkdir src
+        mkdir: src
       - name: Create lib/src/github_login.dart
         path: github_client/lib/src/github_login.dart
         replace-contents: |
@@ -694,16 +699,18 @@ steps:
           }
       - name: Build macOS app
         path: github_client
-        command: flutter build macos
+        flutter: build macos
       - name: Copy step_04
-        command: cp -R github_client step_04
+        copydir:
+          from: github_client
+          to: step_04
   - name: step_05
     steps:
       - name: Remove generated code.
-        command: rm -r step_05
+        rmdir: step_05
       - name: Add dependencies
         path: github_client
-        command: flutter pub add github
+        flutter: pub add github
       - name: Patch lib/main.dart
         path: github_client/lib/main.dart
         patch: |
@@ -744,17 +751,19 @@ steps:
           >   return gitHub.users.getCurrentUser();
           > }
       - name: Copy step_05
-        command: cp -R github_client step_05
+        copydir:
+          from: github_client
+          to: step_05
   - name: step_06
     steps:
       - name: Remove generated code.
-        command: rm -r step_06
+        rmdir: step_06
       - name: Add dependencies
         path: github_client
-        command: flutter pub add --path ../window_to_front window_to_front
+        flutter: pub add --path ../window_to_front window_to_front
       - name: Build macOS app
         path: github_client
-        command: flutter build macos
+        flutter: build macos
       - name: Patch lib/main.dart
         path: github_client/lib/main.dart
         patch: |
@@ -781,14 +790,16 @@ steps:
                       future: viewerDetail(httpClient.credentials.accessToken),
                       builder: (context, snapshot) {
       - name: Copy step_06
-        command: cp -R github_client step_06
+        copydir:
+          from: github_client
+          to: step_06
   - name: step_07
     steps:
       - name: Remove generated code.
-        command: rm -r step_07
+        rmdir: step_07
       - name: Add dependencies
         path: github_client
-        command: flutter pub add fluttericon
+        flutter: pub add fluttericon
       - name: Add lib/src/github_summary.dart
         path: github_client/lib/src/github_summary.dart
         replace-contents: |
@@ -1076,6 +1087,8 @@ steps:
           > GitHub _getGitHub(String accessToken) {
           >   return GitHub(auth: Authentication.withToken(accessToken));
       - name: Copy step_07
-        command: cp -R github_client step_07
+        copydir:
+          from: github_client
+          to: step_07
   - name: Cleanup github_client
-    command: rm -r github_client
+    rmdir: github_client

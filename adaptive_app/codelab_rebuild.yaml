@@ -3,9 +3,9 @@ steps:
   - name: step_03
     steps:
       - name: Remove generated code.
-        command: rm -r step_03
+        rmdir: step_03
       - name: Create project.
-        command: flutter create adaptive_app
+        flutter: create adaptive_app
       - name: Configure analysis_options.yaml
         path: adaptive_app/analysis_options.yaml
         replace-contents: |
@@ -15,7 +15,7 @@ steps:
             rules:
               avoid_print: false
       - name: Remove README
-        command: rm adaptive_app/README.md
+        rm: adaptive_app/README.md
       - name: Patch pubspec,yaml
         path: adaptive_app/pubspec.yaml
         patch: |
@@ -97,7 +97,7 @@ steps:
           <   # For details regarding fonts from package dependencies,
           <   # see https://flutter.dev/custom-fonts/#from-packages
       - name: Add .vscode directory
-        command: mkdir adaptive_app/.vscode
+        mkdir: adaptive_app/.vscode
       - name: Add .vscode/launch.json
         path: adaptive_app/.vscode/launch.json
         replace-contents: |
@@ -264,24 +264,33 @@ steps:
           }
       - name: Build iOS simulator bundle
         path: adaptive_app
-        command: flutter build ios --simulator
+        flutter: build ios --simulator
       - name: Build macOS app
         path: adaptive_app
-        command: flutter build macos
+        flutter: build macos
       - name: Copy step_03
-        command: cp -R adaptive_app step_03
+        copydir:
+          from: adaptive_app
+          to: step_03
   - name: step_04
     steps:
       - name: Remove generated code.
-        command: rm -r step_04
-      - name: Add dependencies
+        rmdir: step_04
+      - name: Add googleapis
         path: adaptive_app
-        commands:
-          - flutter pub add googleapis
-          - flutter pub add http
-          - flutter pub add provider
-          - flutter pub add url_launcher
-          - flutter pub add flex_color_scheme
+        flutter: pub add googleapis
+      - name: Add http
+        path: adaptive_app
+        flutter: pub add http
+      - name: Add provider
+        path: adaptive_app
+        flutter: pub add provider
+      - name: Add url_launcher
+        path: adaptive_app
+        flutter: pub add url_launcher
+      - name: Add flex_color_scheme
+        path: adaptive_app
+        flutter: pub add flex_color_scheme
       - name: Patch android/app/src/main/AndroidManifest.xml
         path: adaptive_app/android/app/src/main/AndroidManifest.xml
         patch: |
@@ -363,7 +372,7 @@ steps:
           }
       - name: Make lib/src directory
         path: adaptive_app
-        command: mkdir -p lib/src
+        mkdir: lib/src
       - name: Add app_state.dart
         path: adaptive_app/lib/src/app_state.dart
         replace-contents: |
@@ -718,19 +727,21 @@ steps:
           }
       - name: Rebuild ios/Podfile.lock
         path: adaptive_app/ios
-        command: pod update
+        pod: update
       - name: Rebuild macos/Podfile.lock
         path: adaptive_app/macos
-        command: pod update
+        pod: update
       - name: Copy step_04
-        command: cp -R adaptive_app step_04
+        copydir:
+          from: adaptive_app 
+          to: step_04
   - name: step_05
     steps:
       - name: Remove generated code.
-        command: rm -r step_05
+        rmdir: step_05
       - name: Add dependencies
         path: adaptive_app
-        command: flutter pub add split_view
+        flutter: pub add split_view
       - name: Patch lib/main.dart
         path: adaptive_app/lib/main.dart
         patch: |
@@ -999,23 +1010,34 @@ steps:
             }
           }
       - name: Copy step_05
-        command: cp -R adaptive_app step_05
+        copydir:
+          from: adaptive_app
+          to: step_05
   - name: step_06
     steps:
       - name: Remove generated code.
-        command: rm -r step_06
+        rmdir: step_06
       - name: Create yt_cors_proxy
         path: adaptive_app
-        command: dart create --template server-shelf yt_cors_proxy
-      - name: Add dependencies
+        dart: create --template server-shelf yt_cors_proxy
+      - name: Remove args
         path: adaptive_app/yt_cors_proxy
-        commands:
-          - dart pub remove args
-          - dart pub remove shelf_router
-          - dart pub remove test_process
-          - dart pub remove test
-          - dart pub add http
-          - dart pub add shelf_cors_headers
+        dart: pub remove args
+      - name: Remove shelf_router
+        path: adaptive_app/yt_cors_proxy
+        dart: pub remove shelf_router
+      - name: Remove test_process
+        path: adaptive_app/yt_cors_proxy
+        dart: pub remove test_process
+      - name: Remove test
+        path: adaptive_app/yt_cors_proxy
+        dart: pub remove test
+      - name: Add http
+        path: adaptive_app/yt_cors_proxy
+        dart: pub add http
+      - name: Add shelf_cors_headers
+        path: adaptive_app/yt_cors_proxy
+        dart: pub add shelf_cors_headers
       - name: Patch yt_cors_proxy/pubspect.yaml
         path: adaptive_app/yt_cors_proxy/pubspec.yaml
         patch: |
@@ -1025,12 +1047,15 @@ steps:
           > description: A YouTube CORS Proxy Server.
           4d3
           < # homepage: https://www.example.com
-      - name: Remove test/server_test.dart README.md and CHANGELOG.md
+      - name: Remove test/server_test.dart CHANGELOG.md
         path: adaptive_app/yt_cors_proxy
-        commands:
-          - rm CHANGELOG.md
-          - rm README.md
-          - rm test/server_test.dart
+        rm: CHANGELOG.md
+      - name: Remove test/server_test.dart README.md
+        path: adaptive_app/yt_cors_proxy
+        rm: README.md
+      - name: Remove test/server_test.dart test
+        path: adaptive_app/yt_cors_proxy
+        rm: test/server_test.dart
       - name: Replace yt_cors_proxy/bin/server.dart
         path: adaptive_app/yt_cors_proxy/bin/server.dart
         replace-contents: |
@@ -1151,17 +1176,22 @@ steps:
             }
           }
       - name: Copy step_06
-        command: cp -R adaptive_app step_06
+        copydir:
+          from: adaptive_app
+          to: step_06
   - name: step_07
     steps:
       - name: Remove generated code.
-        command: rm -r step_07
-      - name: Add dependencies
+        rmdir: step_07
+      - name: Add googleapis_auth
         path: adaptive_app
-        commands: 
-          - flutter pub add googleapis_auth
-          - flutter pub add google_sign_in
-          - flutter pub add extension_google_sign_in_as_googleapis_auth
+        flutter: pub add googleapis_auth
+      - name: Add google_sign_in
+        path: adaptive_app
+        flutter: pub add google_sign_in
+      - name: Add extension_google_sign_in_as_googleapis_auth
+        path: adaptive_app
+        flutter: pub add extension_google_sign_in_as_googleapis_auth
       - name: Patch .gitignore
         path: adaptive_app/.gitignore
         patch: |
@@ -1541,11 +1571,13 @@ steps:
           > 
       - name: Rebuild ios/Podfile.lock
         path: adaptive_app/ios
-        command: pod update
+        pod: update
       - name: Rebuild macos/Podfile.lock
         path: adaptive_app/macos
-        command: pod update
+        pod: update
       - name: Copy step_07
-        command: cp -R adaptive_app step_07
+        copydir:
+          from: adaptive_app
+          to: step_07
   - name: Cleanup
-    command: rm -r adaptive_app
+    rmdir: adaptive_app
