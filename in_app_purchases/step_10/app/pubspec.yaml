@@ -15,7 +15,7 @@ dependencies:
   flutter:
     sdk: flutter
   google_sign_in: ^5.2.1
-  in_app_purchase: ^3.0.1
+  in_app_purchase: ^3.0.3
   intl: ^0.17.0
   provider: ^6.0.2
 
