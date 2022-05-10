@@ -169,7 +169,7 @@ packages:
       name: google_sign_in
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.3.0"
+    version: "5.3.1"
   google_sign_in_android:
     dependency: transitive
     description:
