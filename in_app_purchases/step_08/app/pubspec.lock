@@ -211,7 +211,7 @@ packages:
       name: in_app_purchase
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.3"
+    version: "3.0.4"
   in_app_purchase_android:
     dependency: transitive
     description:
