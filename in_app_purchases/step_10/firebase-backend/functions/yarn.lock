@@ -1228,9 +1228,9 @@ firebase-functions-test@^2.0.2:
     lodash "^4.17.5"
     ts-deepmerge "^2.0.1"
 
-firebase-functions@^3.21.0:
-  version "3.21.0"
-  resolved "https://registry.yarnpkg.com/firebase-functions/-/firebase-functions-3.21.0.tgz#46b4c771781891929408bd4424959fe552d6cd6c"
+firebase-functions@^3.21.1:
+  version "3.21.1"
+  resolved "https://registry.yarnpkg.com/firebase-functions/-/firebase-functions-3.21.1.tgz#5ab56be63bcf4cabd78c82a4f20e031229b4ee64"
   dependencies:
     "@types/cors" "^2.8.5"
     "@types/express" "4.17.3"
