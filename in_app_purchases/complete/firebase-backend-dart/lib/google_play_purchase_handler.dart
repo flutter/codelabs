@@ -55,12 +55,13 @@ class GooglePlayPurchaseHandler extends PurchaseHandler {
         print('Could not handle purchase without order id');
         return false;
       }
+      final orderId = response.orderId!;
 
       final purchaseData = NonSubscriptionPurchase(
         purchaseDate: DateTime.fromMillisecondsSinceEpoch(
           int.parse(response.purchaseTimeMillis ?? '0'),
         ),
-        orderId: response.orderId!,
+        orderId: orderId,
         productId: productData.productId,
         status: NonSubscriptionStatus.values[response.purchaseState ?? 0],
         userId: userId,
@@ -119,20 +120,13 @@ class GooglePlayPurchaseHandler extends PurchaseHandler {
         print('Could not handle purchase without order id');
         return false;
       }
-
-      // TODO: Extract Order ID like the Node.js implementation did:
-      // If a subscription suffix is present (..#) extract the orderId.
-      //   let orderId = response.data.orderId;
-      //   const orderIdMatch = /^(.+)?[.]{2}[0-9]+$/g.exec(orderId);
-      // if (orderIdMatch) {
-      // orderId = orderIdMatch[1];
-      // }
+      final orderId = extractOrderId(response.orderId!);
 
       final purchaseData = SubscriptionPurchase(
         purchaseDate: DateTime.fromMillisecondsSinceEpoch(
           int.parse(response.startTimeMillis ?? '0'),
         ),
-        orderId: response.orderId!,
+        orderId: orderId,
         productId: productData.productId,
         status: subscriptionStatusFrom(response.paymentState),
         userId: userId,
@@ -243,4 +237,14 @@ class GooglePlayPurchaseHandler extends PurchaseHandler {
       subscriptionName,
     );
   }
+}
+
+/// If a subscription suffix is present (..#) extract the orderId.
+String extractOrderId(String orderId) {
+  var _orderId = orderId;
+  final orderIdSplit = orderId.split('..');
+  if (orderIdSplit.length > 0) {
+    _orderId = orderIdSplit[0];
+  }
+  return _orderId;
 }
