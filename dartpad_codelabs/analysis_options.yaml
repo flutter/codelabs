@@ -6,4 +6,5 @@ include: package:flutter_lints/flutter.yaml
 linter:
   rules:
     avoid_print: false
+    use_build_context_synchronously: false
     use_key_in_widget_constructors: false
