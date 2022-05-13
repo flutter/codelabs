@@ -11,7 +11,7 @@ dependencies:
   cloud_functions: ^3.2.14
   cupertino_icons: ^1.0.2
   firebase_auth: ^3.3.17
-  firebase_core: ^1.16.0
+  firebase_core: ^1.17.0
   flutter:
     sdk: flutter
   google_sign_in: ^5.3.1
