@@ -90,6 +90,7 @@ class _CreateTripPageState extends State<CreateTripPage> {
 
     await ScopedModel.of<PhotosLibraryApiModel>(context)
         .createAlbum(tripNameFormController.text);
+    if (!mounted) return;
 
     // Hide the loading indicator.
     setState(() => _isLoading = false);

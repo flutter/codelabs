@@ -35,7 +35,7 @@ class TFServingDemo extends StatefulWidget {
   const TFServingDemo({Key? key}) : super(key: key);
 
   @override
-  _TFServingDemoState createState() => _TFServingDemoState();
+  State<TFServingDemo> createState() => _TFServingDemoState();
 }
 
 class _TFServingDemoState extends State<TFServingDemo> {
