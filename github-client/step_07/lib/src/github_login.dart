@@ -37,7 +37,7 @@ class GithubLoginWidget extends StatefulWidget {
   final List<String> githubScopes;
 
   @override
-  _GithubLoginState createState() => _GithubLoginState();
+  State<GithubLoginWidget> createState() => _GithubLoginState();
 }
 
 typedef AuthenticatedBuilder = Widget Function(

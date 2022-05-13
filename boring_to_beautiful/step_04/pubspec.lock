@@ -163,7 +163,7 @@ packages:
     source: hosted
     version: "4.1.0"
   collection:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: collection
       url: "https://pub.dartlang.org"
@@ -381,7 +381,7 @@ packages:
     source: hosted
     version: "0.12.11"
   material_color_utilities:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: material_color_utilities
       url: "https://pub.dartlang.org"

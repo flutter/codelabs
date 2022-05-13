@@ -21,7 +21,7 @@ class ShoppingCartTab extends StatefulWidget {
   const ShoppingCartTab({Key? key}) : super(key: key);
 
   @override
-  _ShoppingCartTabState createState() {
+  State<ShoppingCartTab> createState() {
     return _ShoppingCartTabState();
   }
 }

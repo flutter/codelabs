@@ -9,7 +9,7 @@ class RecommenderDemo extends StatefulWidget {
   const RecommenderDemo({Key? key}) : super(key: key);
 
   @override
-  _RecommenderDemoState createState() => _RecommenderDemoState();
+  State<RecommenderDemo> createState() => _RecommenderDemoState();
 }
 
 class _RecommenderDemoState extends State<RecommenderDemo> {

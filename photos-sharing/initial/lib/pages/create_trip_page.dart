@@ -23,7 +23,7 @@ class CreateTripPage extends StatefulWidget {
   const CreateTripPage({Key? key}) : super(key: key);
 
   @override
-  _CreateTripPageState createState() => _CreateTripPageState();
+  State<CreateTripPage> createState() => _CreateTripPageState();
 }
 
 class _CreateTripPageState extends State<CreateTripPage> {

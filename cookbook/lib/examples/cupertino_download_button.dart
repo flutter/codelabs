@@ -17,7 +17,7 @@ class ExampleCupertinoDownloadButton extends StatefulWidget {
   const ExampleCupertinoDownloadButton({Key? key}) : super(key: key);
 
   @override
-  _ExampleCupertinoDownloadButtonState createState() =>
+  State<ExampleCupertinoDownloadButton> createState() =>
       _ExampleCupertinoDownloadButtonState();
 }
 

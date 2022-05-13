@@ -37,6 +37,7 @@ dependencies:
   http: ^0.13.4
   protobuf: ^2.0.1
   grpc: ^3.0.2
+  fixnum: ^1.0.1
 
 dev_dependencies:
   flutter_test:
