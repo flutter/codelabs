@@ -148,37 +148,37 @@ class ThemeProvider extends InheritedWidget {
   }
 
   ThemeData light([Color? targetColor]) {
-    final _colors = colors(Brightness.light, targetColor);
+    final colors = colors(Brightness.light, targetColor);
     return ThemeData.light().copyWith(
       // Add page transitions
-      colorScheme: _colors,
-      appBarTheme: appBarTheme(_colors),
+      colorScheme: colors,
+      appBarTheme: appBarTheme(colors),
       cardTheme: cardTheme(),
-      listTileTheme: listTileTheme(_colors),
-      bottomAppBarTheme: bottomAppBarTheme(_colors),
-      bottomNavigationBarTheme: bottomNavigationBarTheme(_colors),
-      navigationRailTheme: navigationRailTheme(_colors),
-      tabBarTheme: tabBarTheme(_colors),
-      drawerTheme: drawerTheme(_colors),
-      scaffoldBackgroundColor: _colors.background,
+      listTileTheme: listTileTheme(colors),
+      bottomAppBarTheme: bottomAppBarTheme(colors),
+      bottomNavigationBarTheme: bottomNavigationBarTheme(colors),
+      navigationRailTheme: navigationRailTheme(colors),
+      tabBarTheme: tabBarTheme(colors),
+      drawerTheme: drawerTheme(colors),
+      scaffoldBackgroundColor: colors.background,
       useMaterial3: true,
     );
   }
 
   ThemeData dark([Color? targetColor]) {
-    final _colors = colors(Brightness.dark, targetColor);
+    final colors = colors(Brightness.dark, targetColor);
     return ThemeData.dark().copyWith(
       // Add page transitions
-      colorScheme: _colors,
-      appBarTheme: appBarTheme(_colors),
+      colorScheme: colors,
+      appBarTheme: appBarTheme(colors),
       cardTheme: cardTheme(),
-      listTileTheme: listTileTheme(_colors),
-      bottomAppBarTheme: bottomAppBarTheme(_colors),
-      bottomNavigationBarTheme: bottomNavigationBarTheme(_colors),
-      navigationRailTheme: navigationRailTheme(_colors),
-      tabBarTheme: tabBarTheme(_colors),
-      drawerTheme: drawerTheme(_colors),
-      scaffoldBackgroundColor: _colors.background,
+      listTileTheme: listTileTheme(colors),
+      bottomAppBarTheme: bottomAppBarTheme(colors),
+      bottomNavigationBarTheme: bottomNavigationBarTheme(colors),
+      navigationRailTheme: navigationRailTheme(colors),
+      tabBarTheme: tabBarTheme(colors),
+      drawerTheme: drawerTheme(colors),
+      scaffoldBackgroundColor: colors.background,
       useMaterial3: true,
     );
   }

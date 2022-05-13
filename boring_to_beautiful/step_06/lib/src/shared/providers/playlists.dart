@@ -81,7 +81,7 @@ class PlaylistsProvider {
     );
   }
 
-  static late final List<Playlist> _randomPlaylists =
+  static final List<Playlist> _randomPlaylists =
       List.generate(10, (index) => randomLengthPlaylist());
 }
 

@@ -37,8 +37,8 @@ class PlaybackBloc extends Bloc<PlaybackEvent, PlaybackState> {
     }
   }
 
-  void _handlePlaybackProgress(Duration _progress) => add(
-        PlaybackEvent.songProgress(_progress),
+  void _handlePlaybackProgress(Duration progress) => add(
+        PlaybackEvent.songProgress(progress),
       );
 
   void _togglePlayPause(TogglePlayPause event, Emitter<PlaybackState> emit) {

@@ -35,7 +35,7 @@ class _RecommenderDemoState extends State<RecommenderDemo> {
       _server = '127.0.0.1';
     }
     final response = await http.post(
-      Uri.parse('http://' + _server + ':5000/recommend'),
+      Uri.parse('http://$_server:5000/recommend'),
       headers: <String, String>{
         'Content-Type': 'application/json',
       },
