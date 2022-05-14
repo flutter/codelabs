@@ -8,7 +8,7 @@ environment:
 
 dependencies:
   cloud_firestore: ^3.1.15
-  cloud_functions: ^3.2.14
+  cloud_functions: ^3.2.15
   cupertino_icons: ^1.0.2
   firebase_auth: ^3.3.18
   firebase_core: ^1.17.0
