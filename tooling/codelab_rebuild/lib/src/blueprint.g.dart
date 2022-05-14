@@ -41,14 +41,21 @@ BlueprintStep _$BlueprintStepFromJson(Map json) => $checkedCreate(
           allowedKeys: const [
             'name',
             'steps',
+            'path',
             'base64-contents',
-            'command',
-            'commands',
             'patch',
             'patch-u',
             'patch-c',
-            'path',
-            'replace-contents'
+            'replace-contents',
+            'rm',
+            'pod',
+            'dart',
+            'flutter',
+            'mkdir',
+            'mkdirs',
+            'rmdir',
+            'rmdirs',
+            'copydir'
           ],
           requiredKeys: const ['name'],
         );
@@ -63,18 +70,30 @@ BlueprintStep _$BlueprintStepFromJson(Map json) => $checkedCreate(
                   const []),
           base64Contents:
               $checkedConvert('base64-contents', (v) => v as String?),
-          command: $checkedConvert('command', (v) => v as String?),
-          commands: $checkedConvert(
-              'commands',
-              (v) =>
-                  (v as List<dynamic>?)?.map((e) => e as String).toList() ??
-                  const []),
           patch: $checkedConvert('patch', (v) => v as String?),
           patchU: $checkedConvert('patch-u', (v) => v as String?),
           patchC: $checkedConvert('patch-c', (v) => v as String?),
           path: $checkedConvert('path', (v) => v as String?),
           replaceContents:
               $checkedConvert('replace-contents', (v) => v as String?),
+          mkdir: $checkedConvert('mkdir', (v) => v as String?),
+          mkdirs: $checkedConvert(
+              'mkdirs',
+              (v) =>
+                  (v as List<dynamic>?)?.map((e) => e as String).toList() ??
+                  const []),
+          rmdir: $checkedConvert('rmdir', (v) => v as String?),
+          rmdirs: $checkedConvert(
+              'rmdirs',
+              (v) =>
+                  (v as List<dynamic>?)?.map((e) => e as String).toList() ??
+                  const []),
+          copydir: $checkedConvert(
+              'copydir', (v) => v == null ? null : CopyDirs.fromJson(v as Map)),
+          rm: $checkedConvert('rm', (v) => v as String?),
+          pod: $checkedConvert('pod', (v) => v as String?),
+          dart: $checkedConvert('dart', (v) => v as String?),
+          flutter: $checkedConvert('flutter', (v) => v as String?),
         );
         return val;
       },
@@ -90,12 +109,40 @@ Map<String, dynamic> _$BlueprintStepToJson(BlueprintStep instance) =>
     <String, dynamic>{
       'name': instance.name,
       'steps': instance.steps,
+      'path': instance.path,
       'base64-contents': instance.base64Contents,
-      'command': instance.command,
-      'commands': instance.commands,
       'patch': instance.patch,
       'patch-u': instance.patchU,
       'patch-c': instance.patchC,
-      'path': instance.path,
       'replace-contents': instance.replaceContents,
+      'rm': instance.rm,
+      'pod': instance.pod,
+      'dart': instance.dart,
+      'flutter': instance.flutter,
+      'mkdir': instance.mkdir,
+      'mkdirs': instance.mkdirs,
+      'rmdir': instance.rmdir,
+      'rmdirs': instance.rmdirs,
+      'copydir': instance.copydir,
+    };
+
+CopyDirs _$CopyDirsFromJson(Map json) => $checkedCreate(
+      'CopyDirs',
+      json,
+      ($checkedConvert) {
+        $checkKeys(
+          json,
+          allowedKeys: const ['from', 'to'],
+        );
+        final val = CopyDirs(
+          from: $checkedConvert('from', (v) => v as String),
+          to: $checkedConvert('to', (v) => v as String),
+        );
+        return val;
+      },
+    );
+
+Map<String, dynamic> _$CopyDirsToJson(CopyDirs instance) => <String, dynamic>{
+      'from': instance.from,
+      'to': instance.to,
     };

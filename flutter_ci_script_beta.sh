@@ -19,8 +19,7 @@ declare -a CODELABS=(
   "photos-sharing"
   "star_counter"
   "startup_namer"
-  # TODO(domesticmouse): re-enable once stable inncrements
-  # "testing_codelab"
+  "testing_codelab"
   "tfrs-flutter"
   "tfserving-flutter"
   "tooling"

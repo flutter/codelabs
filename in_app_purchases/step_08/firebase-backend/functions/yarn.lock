@@ -1220,17 +1220,17 @@ firebase-admin@^10.2.0:
     "@google-cloud/firestore" "^4.15.1"
     "@google-cloud/storage" "^5.18.3"
 
-firebase-functions-test@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/firebase-functions-test/-/firebase-functions-test-2.0.1.tgz#8f5f59285e2a2ab465786544ad7dae3f0b616a5b"
+firebase-functions-test@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/firebase-functions-test/-/firebase-functions-test-2.0.2.tgz#ae4d6ae39f5df13db85a916900e2aa4ca19592ca"
   dependencies:
     "@types/lodash" "^4.14.104"
     lodash "^4.17.5"
     ts-deepmerge "^2.0.1"
 
-firebase-functions@^3.21.0:
-  version "3.21.0"
-  resolved "https://registry.yarnpkg.com/firebase-functions/-/firebase-functions-3.21.0.tgz#46b4c771781891929408bd4424959fe552d6cd6c"
+firebase-functions@^3.21.1:
+  version "3.21.1"
+  resolved "https://registry.yarnpkg.com/firebase-functions/-/firebase-functions-3.21.1.tgz#5ab56be63bcf4cabd78c82a4f20e031229b4ee64"
   dependencies:
     "@types/cors" "^2.8.5"
     "@types/express" "4.17.3"
