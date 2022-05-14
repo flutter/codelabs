@@ -29,7 +29,7 @@ void main() {
 }
 
 class PlaylistsApp extends StatelessWidget {
-  const PlaylistsApp({Key? key}) : super(key: key);
+  const PlaylistsApp({super.key});
 
   @override
   Widget build(BuildContext context) {

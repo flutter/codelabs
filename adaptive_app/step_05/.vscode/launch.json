@@ -8,12 +8,6 @@
             "name": "adaptive_app",
             "request": "launch",
             "type": "dart"
-        },
-        {
-            "name": "adaptive_app (profile mode)",
-            "request": "launch",
-            "type": "dart",
-            "flutterMode": "profile"
         }
     ]
 }
