@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewStack extends StatefulWidget {
-  const WebViewStack({Key? key}) : super(key: key);
+  const WebViewStack({super.key});
 
   @override
   State<WebViewStack> createState() => _WebViewStackState();
