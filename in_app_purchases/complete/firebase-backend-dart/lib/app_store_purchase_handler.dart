@@ -26,7 +26,6 @@ class AppStorePurchaseHandler extends PurchaseHandler {
     return handleValidation(userId: userId, token: token);
   }
 
-
   Future<bool> handleValidation({
     required String userId,
     required String token,

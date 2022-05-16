@@ -45,11 +45,7 @@ enum NonSubscriptionStatus {
   cancelled,
 }
 
-enum SubscriptionStatus {
-  pending,
-  active,
-  expired
-}
+enum SubscriptionStatus { pending, active, expired }
 
 SubscriptionStatus subscriptionStatusFrom(int? state) {
   switch (state) {
@@ -160,7 +156,7 @@ class IapRepository {
             update: Document(
                 fields: purchaseData.updateDocument(),
                 name:
-                'projects/$projectId/databases/(default)/documents/purchases/$purchaseId'),
+                    'projects/$projectId/databases/(default)/documents/purchases/$purchaseId'),
           ),
         ],
       ),

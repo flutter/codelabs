@@ -192,10 +192,12 @@ class GooglePlayPurchaseHandler extends PurchaseHandler {
       return;
     }
     final dynamic subscriptionNotification = data['subscriptionNotification'];
-    final dynamic oneTimeProductNotification = data['oneTimeProductNotification'];
+    final dynamic oneTimeProductNotification =
+        data['oneTimeProductNotification'];
     if (subscriptionNotification != null) {
       print('Processing Subscription');
-      final subscriptionId = subscriptionNotification['subscriptionId'] as String;
+      final subscriptionId =
+          subscriptionNotification['subscriptionId'] as String;
       final purchaseToken = subscriptionNotification['purchaseToken'] as String;
       final productData = productDataMap[subscriptionId]!;
       final result = await handleSubscription(
@@ -209,7 +211,8 @@ class GooglePlayPurchaseHandler extends PurchaseHandler {
     } else if (oneTimeProductNotification != null) {
       print('Processing NonSubscription');
       final sku = oneTimeProductNotification['sku'] as String;
-      final purchaseToken = oneTimeProductNotification['purchaseToken'] as String;
+      final purchaseToken =
+          oneTimeProductNotification['purchaseToken'] as String;
       final productData = productDataMap[sku]!;
       final result = await handleNonSubscription(
         userId: null,
