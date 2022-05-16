@@ -1,24 +1,23 @@
-// @dart=2.11
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'game_agent.dart';
 
-// Hidden board cell status; 'occupied' means it's part of the plane
-const hiddenBoardCellOccupied = 1;
-const hiddenBoardCellUnoccupied = 0;
+// Hidden board cell statuses; 'occupied' means it's part of the plane
+const double hiddenBoardCellOccupied = 1;
+const double hiddenBoardCellUnoccupied = 0;
 
-// Visible board cell status
-const visibleBoardCellHit = 1;
-const visibleBoardCellMiss = -1;
-const visibleBoardCellUntried = 0;
+// Visible board cell statuses
+const double visibleBoardCellHit = 1;
+const double visibleBoardCellMiss = -1;
+const double visibleBoardCellUntried = 0;
 
 void main() {
   runApp(const PlaneStrike());
 }
 
 class PlaneStrike extends StatefulWidget {
-  const PlaneStrike({Key key}) : super(key: key);
+  const PlaneStrike({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
   @override
@@ -31,15 +30,15 @@ class _PlaneStrikeState extends State<PlaneStrike>
   final _boardSize = 8;
   // Number of pieces needed to form a 'plane'
   final _planePieceCount = 8;
-  int _agentHits;
-  int _playerHits;
-  TFAgentsAgent _policyGradientAgent;
-  List<List<double>> _agentBoardState;
-  List<List<double>> _agentHiddenBoardState;
-  List<List<double>> _playerBoardState;
-  List<List<double>> _playerHiddenBoardState;
-  int _agentActionX;
-  int _agentActionY;
+  late int _agentHitCount;
+  late int _playerHitCount;
+  late TFAgentsAgent _policyGradientAgent;
+  late List<List<double>> _agentVisibleBoardState;
+  late List<List<double>> _agentHiddenBoardState;
+  late List<List<double>> _playerVisibleBoardState;
+  late List<List<double>> _playerHiddenBoardState;
+  late int _agentActionX;
+  late int _agentActionY;
 
   @override
   void initState() {
@@ -52,30 +51,30 @@ class _PlaneStrikeState extends State<PlaneStrike>
     return MaterialApp(
       title: 'TFLite Flutter Reference App',
       theme: ThemeData(
-        primarySwatch: Colors.orange,
+        primarySwatch: Colors.blue,
       ),
       home: _buildGameBody(),
     );
   }
 
-  List<List<double>> _fillWithZeros() =>
-      List.generate(_boardSize, (_) => List.filled(_boardSize, 0.0));
+  List<List<double>> _initEmptyBoard() =>
+      List.generate(_boardSize, (_) => List.filled(_boardSize, 0));
 
   void _resetGame() {
-    _agentHits = 0;
-    _playerHits = 0;
+    _agentHitCount = 0;
+    _playerHitCount = 0;
     _policyGradientAgent = TFAgentsAgent();
     // We keep track of 4 sets of boards (2 for each player):
     //   - _*BoardState is the visible board that tracks the game progress
     //   - _*HiddentBoardState is the secret board that records the true plane location
-    _agentBoardState = _fillWithZeros();
-    _agentHiddenBoardState = _setBoardState();
-    _playerBoardState = _fillWithZeros();
-    _playerHiddenBoardState = _setBoardState();
+    _agentVisibleBoardState = _initEmptyBoard();
+    _agentHiddenBoardState = _setHiddenBoardState();
+    _playerVisibleBoardState = _initEmptyBoard();
+    _playerHiddenBoardState = _setHiddenBoardState();
   }
 
-  List<List<double>> _setBoardState() {
-    var hiddenBoardState = _fillWithZeros();
+  List<List<double>> _setHiddenBoardState() {
+    var hiddenBoardState = _initEmptyBoard();
 
     // Place the plane on the board
     // First, decide the plane's orientation
@@ -97,41 +96,49 @@ class _PlaneStrikeState extends State<PlaneStrike>
         planeCoreX = rng.nextInt(_boardSize - 2) + 1;
         planeCoreY = rng.nextInt(_boardSize - 3) + 2;
         // Populate the tail
-        hiddenBoardState[planeCoreX][planeCoreY - 2] = 1;
-        hiddenBoardState[planeCoreX - 1][planeCoreY - 2] = 1;
-        hiddenBoardState[planeCoreX + 1][planeCoreY - 2] = 1;
+        hiddenBoardState[planeCoreX][planeCoreY - 2] = hiddenBoardCellOccupied;
+        hiddenBoardState[planeCoreX - 1][planeCoreY - 2] =
+            hiddenBoardCellOccupied;
+        hiddenBoardState[planeCoreX + 1][planeCoreY - 2] =
+            hiddenBoardCellOccupied;
         break;
       case 1:
         planeCoreX = rng.nextInt(_boardSize - 3) + 1;
         planeCoreY = rng.nextInt(_boardSize - 2) + 1;
         // Populate the tail
-        hiddenBoardState[planeCoreX + 2][planeCoreY] = 1;
-        hiddenBoardState[planeCoreX + 2][planeCoreY + 1] = 1;
-        hiddenBoardState[planeCoreX + 2][planeCoreY - 1] = 1;
+        hiddenBoardState[planeCoreX + 2][planeCoreY] = hiddenBoardCellOccupied;
+        hiddenBoardState[planeCoreX + 2][planeCoreY + 1] =
+            hiddenBoardCellOccupied;
+        hiddenBoardState[planeCoreX + 2][planeCoreY - 1] =
+            hiddenBoardCellOccupied;
         break;
       case 2:
         planeCoreX = rng.nextInt(_boardSize - 2) + 1;
         planeCoreY = rng.nextInt(_boardSize - 3) + 1;
         // Populate the tail
-        hiddenBoardState[planeCoreX][planeCoreY + 2] = 1;
-        hiddenBoardState[planeCoreX - 1][planeCoreY + 2] = 1;
-        hiddenBoardState[planeCoreX + 1][planeCoreY + 2] = 1;
+        hiddenBoardState[planeCoreX][planeCoreY + 2] = hiddenBoardCellOccupied;
+        hiddenBoardState[planeCoreX - 1][planeCoreY + 2] =
+            hiddenBoardCellOccupied;
+        hiddenBoardState[planeCoreX + 1][planeCoreY + 2] =
+            hiddenBoardCellOccupied;
         break;
       default:
         planeCoreX = rng.nextInt(_boardSize - 3) + 2;
         planeCoreY = rng.nextInt(_boardSize - 2) + 1;
         // Populate the tail
-        hiddenBoardState[planeCoreX - 2][planeCoreY] = 1;
-        hiddenBoardState[planeCoreX - 2][planeCoreY + 1] = 1;
-        hiddenBoardState[planeCoreX - 2][planeCoreY - 1] = 1;
+        hiddenBoardState[planeCoreX - 2][planeCoreY] = hiddenBoardCellOccupied;
+        hiddenBoardState[planeCoreX - 2][planeCoreY + 1] =
+            hiddenBoardCellOccupied;
+        hiddenBoardState[planeCoreX - 2][planeCoreY - 1] =
+            hiddenBoardCellOccupied;
     }
 
     // Populate the 'cross' in the plane
-    hiddenBoardState[planeCoreX][planeCoreY] = 1;
-    hiddenBoardState[planeCoreX + 1][planeCoreY] = 1;
-    hiddenBoardState[planeCoreX - 1][planeCoreY] = 1;
-    hiddenBoardState[planeCoreX][planeCoreY + 1] = 1;
-    hiddenBoardState[planeCoreX][planeCoreY - 1] = 1;
+    hiddenBoardState[planeCoreX][planeCoreY] = hiddenBoardCellOccupied;
+    hiddenBoardState[planeCoreX + 1][planeCoreY] = hiddenBoardCellOccupied;
+    hiddenBoardState[planeCoreX - 1][planeCoreY] = hiddenBoardCellOccupied;
+    hiddenBoardState[planeCoreX][planeCoreY + 1] = hiddenBoardCellOccupied;
+    hiddenBoardState[planeCoreX][planeCoreY - 1] = hiddenBoardCellOccupied;
 
     return hiddenBoardState;
   }
@@ -143,7 +150,7 @@ class _PlaneStrikeState extends State<PlaneStrike>
           // the App.build method, and use it to set our appbar title.
           title: const Text('Plane Strike game based on TF Agents and Flutter'),
         ),
-        body: Center(
+        body: SingleChildScrollView(
           child: Column(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -156,15 +163,15 @@ class _PlaneStrikeState extends State<PlaneStrike>
                   decoration: BoxDecoration(
                       border: Border.all(color: Colors.black, width: 2.0)),
                   child: GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: _boardSize,
-                    ),
-                    itemBuilder: _buildAgentBoardItems,
-                    itemCount: _boardSize * _boardSize,
-                  ),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: _boardSize,
+                      ),
+                      itemBuilder: _buildAgentBoardItems,
+                      itemCount: _boardSize * _boardSize,
+                      physics: const NeverScrollableScrollPhysics()),
                 ),
                 Text(
-                  "Agent's board (hits: $_playerHits)",
+                  "Agent's board (hits: $_playerHitCount)",
                   style: const TextStyle(
                       fontSize: 18,
                       color: Colors.blue,
@@ -177,7 +184,7 @@ class _PlaneStrikeState extends State<PlaneStrike>
                   endIndent: 20,
                 ),
                 Text(
-                  'Your board (hits: $_agentHits)',
+                  'Your board (hits: $_agentHitCount)',
                   style: const TextStyle(
                       fontSize: 18,
                       color: Colors.purple,
@@ -194,11 +201,12 @@ class _PlaneStrikeState extends State<PlaneStrike>
                     ),
                     itemBuilder: _buildPlayerBoardItems,
                     itemCount: _boardSize * _boardSize,
+                    physics: const NeverScrollableScrollPhysics(),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
-                      left: 0, top: 0, right: 0, bottom: 10),
+                      left: 0, top: 20, right: 0, bottom: 0),
                   child: ElevatedButton(
                     onPressed: () {
                       _resetGame();
@@ -247,10 +255,10 @@ class _PlaneStrikeState extends State<PlaneStrike>
   }
 
   Widget _buildGridItem(int x, int y, String agentOrPlayer) {
-    var boardState = _agentBoardState;
+    var boardState = _agentVisibleBoardState;
     var hiddenBoardState = _agentHiddenBoardState;
     if (agentOrPlayer == 'player') {
-      boardState = _playerBoardState;
+      boardState = _playerVisibleBoardState;
       hiddenBoardState = _playerHiddenBoardState;
     }
     Color gridItemColor;
@@ -264,7 +272,8 @@ class _PlaneStrikeState extends State<PlaneStrike>
         gridItemColor = Colors.yellow;
         break;
       default:
-        if (hiddenBoardState[x][y] == 1 && agentOrPlayer == 'player') {
+        if (hiddenBoardState[x][y] == hiddenBoardCellOccupied &&
+            agentOrPlayer == 'player') {
           gridItemColor = Colors.green;
         } else {
           gridItemColor = Colors.white;
@@ -277,37 +286,43 @@ class _PlaneStrikeState extends State<PlaneStrike>
   }
 
   Future<void> _gridItemTapped(BuildContext context, int x, int y) async {
-    if (_agentHiddenBoardState[x][y] == 1) {
+    if (_agentHiddenBoardState[x][y] == hiddenBoardCellOccupied) {
       // Non-repeat move
-      if (_agentBoardState[x][y] == 0) {
-        _playerHits++;
+      if (_agentVisibleBoardState[x][y] == visibleBoardCellUntried) {
+        _playerHitCount++;
       }
-      _agentBoardState[x][y] = 1;
+      _agentVisibleBoardState[x][y] = visibleBoardCellHit;
     } else {
-      _agentBoardState[x][y] = -1;
+      _agentVisibleBoardState[x][y] = visibleBoardCellMiss;
     }
 
     // Agent takes action
-    int agentAction = await _policyGradientAgent.predict(_playerBoardState);
+    int agentAction =
+        await _policyGradientAgent.predict(_playerVisibleBoardState);
     _agentActionX = agentAction ~/ _boardSize;
     _agentActionY = agentAction % _boardSize;
-    if (_playerHiddenBoardState[_agentActionX][_agentActionY] == 1) {
+    if (_playerHiddenBoardState[_agentActionX][_agentActionY] ==
+        hiddenBoardCellOccupied) {
       // Non-repeat move
-      if (_playerBoardState[_agentActionX][_agentActionY] == 0) {
-        _agentHits++;
+      if (_playerVisibleBoardState[_agentActionX][_agentActionY] ==
+          visibleBoardCellUntried) {
+        _agentHitCount++;
       }
-      _playerBoardState[_agentActionX][_agentActionY] = 1;
+      _playerVisibleBoardState[_agentActionX][_agentActionY] =
+          visibleBoardCellHit;
     } else {
-      _playerBoardState[_agentActionX][_agentActionY] = -1;
+      _playerVisibleBoardState[_agentActionX][_agentActionY] =
+          visibleBoardCellMiss;
     }
     setState(() {});
 
     String userPrompt = '';
-    if (_playerHits == _planePieceCount && _agentHits == _planePieceCount) {
+    if (_playerHitCount == _planePieceCount &&
+        _agentHitCount == _planePieceCount) {
       userPrompt = 'Draw game!';
-    } else if (_agentHits == _planePieceCount) {
+    } else if (_agentHitCount == _planePieceCount) {
       userPrompt = 'Agent wins!';
-    } else if (_playerHits == _planePieceCount) {
+    } else if (_playerHitCount == _planePieceCount) {
       userPrompt = 'You win!';
     }
 

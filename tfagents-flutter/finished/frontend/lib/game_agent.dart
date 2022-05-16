@@ -1,5 +1,3 @@
-// @dart=2.11
-
 import 'dart:convert';
 import 'dart:io' show Platform;
 
@@ -9,13 +7,7 @@ import 'package:http/http.dart' as http;
 class Inputs {
   final List<double> _boardState;
   Inputs(this._boardState);
-  // Map<String, dynamic> toJson() {
-  //   final Map<String, dynamic> data = new Map<String, dynamic>();
-  //   data['id'] = this.id;
-  //   data['name'] = this.name;
-  //   data['email'] = this.email;
-  //   return data;
-  // }
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['0/discount'] = [0.0];
