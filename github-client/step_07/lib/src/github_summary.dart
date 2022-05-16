@@ -18,7 +18,7 @@ import 'package:github/github.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class GitHubSummary extends StatefulWidget {
-  const GitHubSummary({required this.gitHub, Key? key}) : super(key: key);
+  const GitHubSummary({required this.gitHub, super.key});
   final GitHub gitHub;
 
   @override
@@ -73,7 +73,7 @@ class _GitHubSummaryState extends State<GitHubSummary> {
 }
 
 class RepositoriesList extends StatefulWidget {
-  const RepositoriesList({required this.gitHub, Key? key}) : super(key: key);
+  const RepositoriesList({required this.gitHub, super.key});
   final GitHub gitHub;
 
   @override
@@ -120,7 +120,7 @@ class _RepositoriesListState extends State<RepositoriesList> {
 }
 
 class AssignedIssuesList extends StatefulWidget {
-  const AssignedIssuesList({required this.gitHub, Key? key}) : super(key: key);
+  const AssignedIssuesList({required this.gitHub, super.key});
   final GitHub gitHub;
 
   @override
@@ -173,7 +173,7 @@ class _AssignedIssuesListState extends State<AssignedIssuesList> {
 }
 
 class PullRequestsList extends StatefulWidget {
-  const PullRequestsList({required this.gitHub, Key? key}) : super(key: key);
+  const PullRequestsList({required this.gitHub, super.key});
   final GitHub gitHub;
 
   @override

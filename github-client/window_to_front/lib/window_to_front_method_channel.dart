@@ -1,4 +1,4 @@
-// Copyright 2020 Google LLC
+// Copyright 2022 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,10 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
+
 import 'window_to_front_platform_interface.dart';
 
-class WindowToFront {
-  static Future<void> activate() {
-    return WindowToFrontPlatform.instance.activate();
+/// An implementation of [WindowToFrontPlatform] that uses method channels.
+class MethodChannelWindowToFront extends WindowToFrontPlatform {
+  /// The method channel used to interact with the native platform.
+  @visibleForTesting
+  final methodChannel = const MethodChannel('window_to_front');
+
+  @override
+  Future<void> activate() async {
+    return methodChannel.invokeMethod('activate');
   }
 }
