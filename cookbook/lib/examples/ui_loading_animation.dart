@@ -31,8 +31,8 @@ const _shimmerGradient = LinearGradient(
 
 class ExampleUiLoadingAnimation extends StatefulWidget {
   const ExampleUiLoadingAnimation({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<ExampleUiLoadingAnimation> createState() =>
@@ -117,10 +117,10 @@ class Shimmer extends StatefulWidget {
   }
 
   const Shimmer({
-    Key? key,
+    super.key,
     required this.linearGradient,
     this.child,
-  }) : super(key: key);
+  });
 
   final LinearGradient linearGradient;
   final Widget? child;
@@ -190,10 +190,10 @@ class _SlidingGradientTransform extends GradientTransform {
 
 class ShimmerLoading extends StatefulWidget {
   const ShimmerLoading({
-    Key? key,
+    super.key,
     required this.isLoading,
     required this.child,
-  }) : super(key: key);
+  });
 
   final bool isLoading;
   final Widget child;
@@ -294,9 +294,9 @@ class CircleListItem extends StatelessWidget {
 
 class CardListItem extends StatelessWidget {
   const CardListItem({
-    Key? key,
+    super.key,
     required this.isLoading,
-  }) : super(key: key);
+  });
 
   final bool isLoading;
 

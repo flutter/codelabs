@@ -26,7 +26,7 @@ class ArtistNews extends StatelessWidget {
               ),
             ),
             onTap: () {
-              launch('https://docs.flutter.dev');
+              launchUrl(Uri.parse('https://docs.flutter.dev'));
             },
           ),
       ],

@@ -7,7 +7,7 @@ import '../model/store_state.dart';
 import '../repo/iap_repo.dart';
 
 class PurchasePage extends StatelessWidget {
-  const PurchasePage({Key? key}) : super(key: key);
+  const PurchasePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -75,10 +75,9 @@ class _PurchaseWidget extends StatelessWidget {
   final VoidCallback onPressed;
 
   const _PurchaseWidget({
-    Key? key,
     required this.product,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +109,7 @@ class _PurchaseWidget extends StatelessWidget {
 }
 
 class PastPurchasesWidget extends StatelessWidget {
-  const PastPurchasesWidget({Key? key}) : super(key: key);
+  const PastPurchasesWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
