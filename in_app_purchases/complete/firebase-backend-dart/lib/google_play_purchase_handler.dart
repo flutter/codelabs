@@ -241,10 +241,9 @@ class GooglePlayPurchaseHandler extends PurchaseHandler {
 
 /// If a subscription suffix is present (..#) extract the orderId.
 String extractOrderId(String orderId) {
-  var _orderId = orderId;
   final orderIdSplit = orderId.split('..');
-  if (orderIdSplit.length > 0) {
-    _orderId = orderIdSplit[0];
+  if (orderIdSplit.isNotEmpty) {
+    orderId = orderIdSplit[0];
   }
-  return _orderId;
+  return orderId;
 }
