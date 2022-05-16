@@ -24,6 +24,10 @@ steps:
           # limitations under the License.
           
           include: ../../analysis_options.yaml
+
+          linter:
+            rules:
+              use-super-parameters: true
       - name: Add intl
         path: cupertino_store
         flutter: pub add intl
