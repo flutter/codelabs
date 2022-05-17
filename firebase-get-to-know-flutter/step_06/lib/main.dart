@@ -205,7 +205,7 @@ class ApplicationState extends ChangeNotifier {
 }
 
 class GuestBook extends StatefulWidget {
-  const GuestBook({required this.addMessage});
+  const GuestBook({required this.addMessage, super.key});
   final FutureOr<void> Function(String message) addMessage;
 
   @override
