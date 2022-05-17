@@ -16,4 +16,4 @@ include: ../../analysis_options.yaml
 
 linter:
   rules:
-    use-super-parameters: true
+    use_super_parameters: true
