@@ -2,5 +2,4 @@ include: ../../analysis_options.yaml
 
 linter:
   rules:
-    # Get to know Firebase with Flutter doesn't use key in constructors.
-    use_key_in_widget_constructors: false
+    use_super_parameters: true
