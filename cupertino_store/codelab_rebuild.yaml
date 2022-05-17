@@ -27,7 +27,7 @@ steps:
 
           linter:
             rules:
-              use-super-parameters: true
+              use_super_parameters: true
       - name: Add intl
         path: cupertino_store
         flutter: pub add intl
