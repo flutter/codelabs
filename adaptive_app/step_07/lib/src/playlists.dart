@@ -6,7 +6,7 @@ import 'adaptive_image.dart';
 import 'app_state.dart';
 
 class Playlists extends StatelessWidget {
-  const Playlists({required this.playlistSelected, super.key});
+  const Playlists({super.key, required this.playlistSelected});
 
   final PlaylistsListSelected playlistSelected;
 

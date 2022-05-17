@@ -15,12 +15,14 @@ void main() {
   runApp(
     ChangeNotifierProvider(
       create: (context) => ApplicationState(),
-      builder: (context, _) => App(),
+      builder: (context, _) => const App(),
     ),
   );
 }
 
 class App extends StatelessWidget {
+  const App({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -232,7 +234,11 @@ class GuestBookMessage {
 }
 
 class GuestBook extends StatefulWidget {
-  const GuestBook({required this.addMessage, required this.messages});
+  const GuestBook({
+    required this.addMessage,
+    required this.messages,
+    super.key,
+  });
   final FutureOr<void> Function(String message) addMessage;
   final List<GuestBookMessage> messages;
 

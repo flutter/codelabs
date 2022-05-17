@@ -14,6 +14,7 @@ steps:
           linter:
             rules:
               avoid_print: false
+              use_super_parameters: true
       - name: Remove README
         rm: adaptive_app/README.md
       - name: Add .vscode directory
@@ -1084,33 +1085,16 @@ steps:
         patch-u: |
           --- b/adaptive_app/step_06/lib/src/playlist_details.dart
           +++ a/adaptive_app/step_06/lib/src/playlist_details.dart
-          @@ -3,11 +3,14 @@ import 'package:googleapis/youtube/v3.dart';
+          @@ -3,6 +3,8 @@ import 'package:googleapis/youtube/v3.dart';
            import 'package:provider/provider.dart';
            import 'package:url_launcher/link.dart';
- 
+           
           +import 'adaptive_image.dart';
           +import 'adaptive_text.dart';
            import 'app_state.dart';
- 
+           
            class PlaylistDetails extends StatelessWidget {
-             const PlaylistDetails(
-          -      {required this.playlistId, required this.playlistName, super.key});
-          +      {required this.playlistId, required this.playlistName, Key? key})
-          +      : super(key: key);
-             final String playlistId;
-             final String playlistName;
- 
-          @@ -27,7 +30,8 @@ class PlaylistDetails extends StatelessWidget {
-           }
- 
-           class _PlaylistDetailsListView extends StatefulWidget {
-          -  const _PlaylistDetailsListView({required this.playlistItems});
-          +  const _PlaylistDetailsListView({Key? key, required this.playlistItems})
-          +      : super(key: key);
-             final List<PlaylistItem> playlistItems;
- 
-             @override
-          @@ -65,7 +69,8 @@ class _PlaylistDetailsListViewState extends State<_PlaylistDetailsListView> {
+          @@ -65,7 +67,8 @@ class _PlaylistDetailsListViewState extends State<_PlaylistDetailsListView> {
                          alignment: Alignment.center,
                          children: [
                            if (playlistItem.snippet!.thumbnails!.high != null)
@@ -1120,7 +1104,7 @@ steps:
                            _buildGradient(context),
                            _buildTitleAndSubtitle(context, playlistItem),
                            _buildPlayButton(context, playlistItem),
-          @@ -102,7 +107,7 @@ class _PlaylistDetailsListViewState extends State<_PlaylistDetailsListView> {
+          @@ -102,7 +105,7 @@ class _PlaylistDetailsListViewState extends State<_PlaylistDetailsListView> {
                    mainAxisSize: MainAxisSize.min,
                    crossAxisAlignment: CrossAxisAlignment.start,
                    children: [
@@ -1129,7 +1113,7 @@ steps:
                        playlistItem.snippet!.title!,
                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
                              fontSize: 18,
-          @@ -110,7 +115,7 @@ class _PlaylistDetailsListViewState extends State<_PlaylistDetailsListView> {
+          @@ -110,7 +113,7 @@ class _PlaylistDetailsListViewState extends State<_PlaylistDetailsListView> {
                            ),
                      ),
                      if (playlistItem.snippet!.videoOwnerChannelTitle != null)
@@ -1138,6 +1122,7 @@ steps:
                          playlistItem.snippet!.videoOwnerChannelTitle!,
                          style: Theme.of(context).textTheme.bodyText2!.copyWith(
                                fontSize: 12,
+
       - name: Patch playlists.dart
         path: adaptive_app/lib/src/playlists.dart
         patch-u: |
@@ -1626,7 +1611,7 @@ steps:
         patch-u: |
           --- b/adaptive_app/step_07/lib/src/playlist_details.dart
           +++ a/adaptive_app/step_07/lib/src/playlist_details.dart
-          @@ -16,7 +16,7 @@ class PlaylistDetails extends StatelessWidget {
+          @@ -15,7 +15,7 @@ class PlaylistDetails extends StatelessWidget {
            
              @override
              Widget build(BuildContext context) {
@@ -1641,14 +1626,7 @@ steps:
         patch-u: |
           --- b/adaptive_app/step_07/lib/src/playlists.dart
           +++ a/adaptive_app/step_07/lib/src/playlists.dart
-          @@ -6,13 +6,13 @@ import 'adaptive_image.dart';
-           import 'app_state.dart';
-           
-           class Playlists extends StatelessWidget {
-          -  const Playlists({super.key, required this.playlistSelected});
-          +  const Playlists({required this.playlistSelected, Key? key}) : super(key: key);
-           
-             final PlaylistsListSelected playlistSelected;
+          @@ -12,7 +12,7 @@ class Playlists extends StatelessWidget {
            
              @override
              Widget build(BuildContext context) {
@@ -1657,18 +1635,6 @@ steps:
                  builder: (context, flutterDev, child) {
                    final playlists = flutterDev.playlists;
                    if (playlists.isEmpty) {
-          @@ -34,9 +34,10 @@ typedef PlaylistsListSelected = void Function(Playlist playlist);
-           
-           class _PlaylistsListView extends StatefulWidget {
-             const _PlaylistsListView({
-          +    Key? key,
-               required this.items,
-               required this.playlistSelected,
-          -  });
-          +  }) : super(key: key);
-           
-             final List<Playlist> items;
-             final PlaylistsListSelected playlistSelected;
 
       - name: Patch macos/Runner/Release.entitlements
         path: adaptive_app/macos/Runner/Release.entitlements
