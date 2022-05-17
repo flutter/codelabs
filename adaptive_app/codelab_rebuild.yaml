@@ -14,7 +14,6 @@ steps:
           linter:
             rules:
               avoid_print: false
-              use_super_parameters: true
       - name: Remove README
         rm: adaptive_app/README.md
       - name: Add .vscode directory
