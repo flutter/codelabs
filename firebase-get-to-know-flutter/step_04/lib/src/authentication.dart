@@ -154,7 +154,7 @@ class EmailForm extends StatefulWidget {
   const EmailForm({required this.callback});
   final void Function(String email) callback;
   @override
-  _EmailFormState createState() => _EmailFormState();
+  State<EmailForm> createState() => _EmailFormState();
 }
 
 class _EmailFormState extends State<EmailForm> {
@@ -225,7 +225,7 @@ class RegisterForm extends StatefulWidget {
       registerAccount;
   final void Function() cancel;
   @override
-  _RegisterFormState createState() => _RegisterFormState();
+  State<RegisterForm> createState() => _RegisterFormState();
 }
 
 class _RegisterFormState extends State<RegisterForm> {
@@ -341,7 +341,7 @@ class PasswordForm extends StatefulWidget {
   final String email;
   final void Function(String email, String password) login;
   @override
-  _PasswordFormState createState() => _PasswordFormState();
+  State<PasswordForm> createState() => _PasswordFormState();
 }
 
 class _PasswordFormState extends State<PasswordForm> {

@@ -20,9 +20,17 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:sharing_codelab/model/photos_library_api_model.dart';
 import 'package:sharing_codelab/pages/login_page.dart';
 
-class TripAppBar extends StatelessWidget implements PreferredSizeWidget {
+class TripAppBar extends StatefulWidget implements PreferredSizeWidget {
   const TripAppBar({Key? key}) : super(key: key);
 
+  @override
+  State<TripAppBar> createState() => _TripAppBarState();
+
+  @override
+  Size get preferredSize => AppBar().preferredSize;
+}
+
+class _TripAppBarState extends State<TripAppBar> {
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<PhotosLibraryApiModel>(
@@ -95,6 +103,7 @@ class TripAppBar extends StatelessWidget implements PreferredSizeWidget {
         PopupMenuButton<_AppBarOverflowOptions>(
           onSelected: (_AppBarOverflowOptions selection) async {
             await apiModel.signOut();
+            if (!mounted) return;
             await Navigator.pushReplacement(
               context,
               MaterialPageRoute(
@@ -116,9 +125,6 @@ class TripAppBar extends StatelessWidget implements PreferredSizeWidget {
 
     return widgets;
   }
-
-  @override
-  Size get preferredSize => AppBar().preferredSize;
 }
 
 enum _AppBarOverflowOptions {

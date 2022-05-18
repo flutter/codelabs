@@ -23,7 +23,7 @@ class CreateTripPage extends StatefulWidget {
   const CreateTripPage({Key? key}) : super(key: key);
 
   @override
-  _CreateTripPageState createState() => _CreateTripPageState();
+  State<CreateTripPage> createState() => _CreateTripPageState();
 }
 
 class _CreateTripPageState extends State<CreateTripPage> {
@@ -90,6 +90,7 @@ class _CreateTripPageState extends State<CreateTripPage> {
 
     await ScopedModel.of<PhotosLibraryApiModel>(context)
         .createAlbum(tripNameFormController.text);
+    if (!mounted) return;
 
     // Hide the loading indicator.
     setState(() => _isLoading = false);

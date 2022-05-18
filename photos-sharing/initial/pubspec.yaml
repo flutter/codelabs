@@ -39,7 +39,7 @@ dev_dependencies:
     sdk: flutter
   build_runner: ^2.0.4
   json_serializable: ^6.1.4
-  flutter_lints: ^1.0.0
+  flutter_lints: ^2.0.1
 
 dependency_overrides:
   platform: ^3.1.0

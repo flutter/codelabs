@@ -67,6 +67,7 @@ class _BottomBar extends StatelessWidget {
 
   Widget _buildDesktopBar(BuildContext context, BoxConstraints constraints) {
     return ColoredBox(
+      color: Theme.of(context).colorScheme.tertiaryContainer,
       child: SizedBox.fromSize(
         size: preferredSize,
         child: Row(
@@ -128,7 +129,6 @@ class _BottomBar extends StatelessWidget {
           ],
         ),
       ),
-      color: Theme.of(context).colorScheme.tertiaryContainer,
     );
   }
 
@@ -138,6 +138,7 @@ class _BottomBar extends StatelessWidget {
 
   Widget _buildMobileBar(BuildContext context, BoxConstraints constraints) {
     return ColoredBox(
+      color: Theme.of(context).colorScheme.tertiaryContainer,
       child: SizedBox(
         height: kToolbarHeight,
         child: InkWell(
@@ -209,7 +210,6 @@ class _BottomBar extends StatelessWidget {
           ),
         ),
       ),
-      color: Theme.of(context).colorScheme.tertiaryContainer,
     );
   }
 }
@@ -666,8 +666,8 @@ class _MobilePlayer extends StatelessWidget {
                 ? context.colors.onSurface
                 : context.colors.onBackground,
             icon: const RotatedBox(
-              child: Icon(Icons.chevron_right),
               quarterTurns: 1,
+              child: Icon(Icons.chevron_right),
             ),
             onPressed: onClose,
           ),
