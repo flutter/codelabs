@@ -17,7 +17,7 @@ void main() {
 }
 
 class PlaneStrike extends StatefulWidget {
-  const PlaneStrike({Key? key}) : super(key: key);
+  const PlaneStrike({super.key});
 
   // This widget is the root of your application.
   @override
