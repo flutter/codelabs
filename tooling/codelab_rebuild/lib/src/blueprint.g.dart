@@ -55,7 +55,8 @@ BlueprintStep _$BlueprintStepFromJson(Map json) => $checkedCreate(
             'mkdirs',
             'rmdir',
             'rmdirs',
-            'copydir'
+            'copydir',
+            'stop'
           ],
           requiredKeys: const ['name'],
         );
@@ -94,6 +95,7 @@ BlueprintStep _$BlueprintStepFromJson(Map json) => $checkedCreate(
           pod: $checkedConvert('pod', (v) => v as String?),
           dart: $checkedConvert('dart', (v) => v as String?),
           flutter: $checkedConvert('flutter', (v) => v as String?),
+          stop: $checkedConvert('stop', (v) => v as bool?),
         );
         return val;
       },
@@ -124,6 +126,7 @@ Map<String, dynamic> _$BlueprintStepToJson(BlueprintStep instance) =>
       'rmdir': instance.rmdir,
       'rmdirs': instance.rmdirs,
       'copydir': instance.copydir,
+      'stop': instance.stop,
     };
 
 CopyDirs _$CopyDirsFromJson(Map json) => $checkedCreate(

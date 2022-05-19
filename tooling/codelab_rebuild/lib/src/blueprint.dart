@@ -99,6 +99,9 @@ class BlueprintStep {
   final List<String> rmdirs;
   final CopyDirs? copydir;
 
+  // For debugging & development purposes
+  final bool? stop;
+
   BlueprintStep({
     required this.name,
     this.steps = const [],
@@ -117,6 +120,7 @@ class BlueprintStep {
     this.pod,
     this.dart,
     this.flutter,
+    this.stop,
   }) {
     if (name.isEmpty) {
       throw ArgumentError.value(name, 'name', 'Cannot be empty.');
@@ -128,6 +132,9 @@ class BlueprintStep {
   /// Verifies this step, and it's sub-steps, are valid.
   bool get isValid {
     final steps = this.steps;
+
+    // Stop is for debugging only.
+    if (stop != null && stop == true) return true;
 
     // If there aren't sub-steps, then there should be something else to do.
     if (steps.isEmpty &&
@@ -182,7 +189,7 @@ class BlueprintStep {
       return false;
     }
 
-    // We can't have both patch and patch-u
+    // We can't have patch and patch-u and patch-c
     if (patch != null && patchU != null && patchC != null) {
       _logger.warning('Invalid step, both patch and patch-u specified: $name');
       return false;

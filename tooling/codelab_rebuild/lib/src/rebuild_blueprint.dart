@@ -26,6 +26,12 @@ Future<void> rebuildFromBlueprint(Directory cwd, Blueprint blueprint) async {
 Future<void> _buildBlueprintStep(Directory cwd, BlueprintStep step) async {
   _logger.info(step.name);
 
+  final stop = step.stop;
+  if (stop != null && stop == true) {
+    _logger.info('Stopping.');
+    exit(0);
+  }
+
   final steps = step.steps;
   if (steps.isNotEmpty) {
     for (final subStep in steps) {

@@ -19,7 +19,7 @@ import 'search_tab.dart';
 import 'shopping_cart_tab.dart';
 
 class CupertinoStoreApp extends StatelessWidget {
-  const CupertinoStoreApp({Key? key}) : super(key: key);
+  const CupertinoStoreApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class CupertinoStoreApp extends StatelessWidget {
 }
 
 class CupertinoStoreHomePage extends StatelessWidget {
-  const CupertinoStoreHomePage({Key? key}) : super(key: key);
+  const CupertinoStoreHomePage({super.key});
 
   @override
   Widget build(BuildContext context) {

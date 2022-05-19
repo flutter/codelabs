@@ -24,6 +24,10 @@ steps:
           # limitations under the License.
           
           include: ../../analysis_options.yaml
+
+          linter:
+            rules:
+              use_super_parameters: true
       - name: Add intl
         path: cupertino_store
         flutter: pub add intl
@@ -35,143 +39,74 @@ steps:
         flutter: pub add shrine_images
       - name: Patch pubspec.yaml
         path: cupertino_store/pubspec.yaml
-        patch: |
-          1,2c1,13
-          < name: cupertino_store
-          < description: A new Flutter project.
-          ---
-          > # Copyright 2019 Google LLC
-          > #
-          > # Licensed under the Apache License, Version 2.0 (the "License");
-          > # you may not use this file except in compliance with the License.
-          > # You may obtain a copy of the License at
-          > #
-          > #      https://www.apache.org/licenses/LICENSE-2.0
-          > #
-          > # Unless required by applicable law or agreed to in writing, software
-          > # distributed under the License is distributed on an "AS IS" BASIS,
-          > # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-          > # See the License for the specific language governing permissions and
-          > # limitations under the License.
-          4,5c15,16
-          < # The following line prevents the package from being accidentally published to
-          < # pub.dev using `flutter pub publish`. This is preferred for private packages.
-          ---
-          > name: cupertino_store
-          > description: Creating a Store in Cupertino widgets
-          7,17d17
-          < 
-          < # The following defines the version and build number for your application.
-          < # A version number is three numbers separated by dots, like 1.2.43
-          < # followed by an optional build number separated by a +.
-          < # Both the version and the builder number may be overridden in flutter
-          < # build by specifying --build-name and --build-number, respectively.
-          < # In Android, build-name is used as versionName while build-number used as versionCode.
-          < # Read more about Android versioning at https://developer.android.com/studio/publish/versioning
-          < # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
-          < # Read more about iOS versioning at
-          < # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-          23,28d22
-          < # Dependencies specify other packages that your package needs in order to work.
-          < # To automatically upgrade your package dependencies to the latest versions
-          < # consider running `flutter pub upgrade --major-versions`. Alternatively,
-          < # dependencies can be manually updated by changing the version numbers below to
-          < # the latest version available on pub.dev. To see which dependencies have newer
-          < # versions available, run `flutter pub outdated`.
-          32,35d25
-          < 
-          < 
-          <   # The following adds the Cupertino Icons font to your application.
-          <   # Use with the CupertinoIcons class for iOS style icons.
-          44,49d33
-          < 
-          <   # The "flutter_lints" package below contains a set of recommended lints to
-          <   # encourage good coding practices. The lint set provided by the package is
-          <   # activated in the `analysis_options.yaml` file located at the root of your
-          <   # package. See that file for information about deactivating specific lint
-          <   # rules and activating additional ones.
-          52,55d35
-          < # For information on the generic Dart part of this file, see the
-          < # following page: https://dart.dev/tools/pub/pubspec
-          < 
-          < # The following section is specific to Flutter.
-          57,92c37,75
-          < 
-          <   # The following line ensures that the Material Icons font is
-          <   # included with your application, so that you can use the icons in
-          <   # the material Icons class.
-          <   uses-material-design: true
-          < 
-          <   # To add assets to your application, add an assets section, like this:
-          <   # assets:
-          <   #   - images/a_dot_burr.jpeg
-          <   #   - images/a_dot_ham.jpeg
-          < 
-          <   # An image asset can refer to one or more resolution-specific "variants", see
-          <   # https://flutter.dev/assets-and-images/#resolution-aware.
-          < 
-          <   # For details regarding adding assets from package dependencies, see
-          <   # https://flutter.dev/assets-and-images/#from-packages
-          < 
-          <   # To add custom fonts to your application, add a fonts section here,
-          <   # in this "flutter" section. Each entry in this list should have a
-          <   # "family" key with the font family name, and a "fonts" key with a
-          <   # list giving the asset and other descriptors for the font. For
-          <   # example:
-          <   # fonts:
-          <   #   - family: Schyler
-          <   #     fonts:
-          <   #       - asset: fonts/Schyler-Regular.ttf
-          <   #       - asset: fonts/Schyler-Italic.ttf
-          <   #         style: italic
-          <   #   - family: Trajan Pro
-          <   #     fonts:
-          <   #       - asset: fonts/TrajanPro.ttf
-          <   #       - asset: fonts/TrajanPro_Bold.ttf
-          <   #         weight: 700
-          <   #
-          <   # For details regarding fonts from package dependencies,
-          <   # see https://flutter.dev/custom-fonts/#from-packages
-          ---
-          >   assets:
-          >     - packages/shrine_images/0-0.jpg
-          >     - packages/shrine_images/1-0.jpg
-          >     - packages/shrine_images/2-0.jpg
-          >     - packages/shrine_images/3-0.jpg
-          >     - packages/shrine_images/4-0.jpg
-          >     - packages/shrine_images/5-0.jpg
-          >     - packages/shrine_images/6-0.jpg
-          >     - packages/shrine_images/7-0.jpg
-          >     - packages/shrine_images/8-0.jpg
-          >     - packages/shrine_images/9-0.jpg
-          >     - packages/shrine_images/10-0.jpg
-          >     - packages/shrine_images/11-0.jpg
-          >     - packages/shrine_images/12-0.jpg
-          >     - packages/shrine_images/13-0.jpg
-          >     - packages/shrine_images/14-0.jpg
-          >     - packages/shrine_images/15-0.jpg
-          >     - packages/shrine_images/16-0.jpg
-          >     - packages/shrine_images/17-0.jpg
-          >     - packages/shrine_images/18-0.jpg
-          >     - packages/shrine_images/19-0.jpg
-          >     - packages/shrine_images/20-0.jpg
-          >     - packages/shrine_images/21-0.jpg
-          >     - packages/shrine_images/22-0.jpg
-          >     - packages/shrine_images/23-0.jpg
-          >     - packages/shrine_images/24-0.jpg
-          >     - packages/shrine_images/25-0.jpg
-          >     - packages/shrine_images/26-0.jpg
-          >     - packages/shrine_images/27-0.jpg
-          >     - packages/shrine_images/28-0.jpg
-          >     - packages/shrine_images/29-0.jpg
-          >     - packages/shrine_images/30-0.jpg
-          >     - packages/shrine_images/31-0.jpg
-          >     - packages/shrine_images/32-0.jpg
-          >     - packages/shrine_images/33-0.jpg
-          >     - packages/shrine_images/34-0.jpg
-          >     - packages/shrine_images/35-0.jpg
-          >     - packages/shrine_images/36-0.jpg
-          >     - packages/shrine_images/37-0.jpg
+        patch-u: |
+          --- b/cupertino_store/step_00/pubspec.yaml
+          +++ a/cupertino_store/step_00/pubspec.yaml
+          @@ -1,5 +1,19 @@
+          +# Copyright 2019 Google LLC
+          +#
+          +# Licensed under the Apache License, Version 2.0 (the "License");
+          +# you may not use this file except in compliance with the License.
+          +# You may obtain a copy of the License at
+          +#
+          +#      https://www.apache.org/licenses/LICENSE-2.0
+          +#
+          +# Unless required by applicable law or agreed to in writing, software
+          +# distributed under the License is distributed on an "AS IS" BASIS,
+          +# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+          +# See the License for the specific language governing permissions and
+          +# limitations under the License.
+          +
+           name: cupertino_store
+          -description: A new Flutter project.
+          +description: Creating a Store in Cupertino widgets
+           
+           # The following line prevents the package from being accidentally published to
+           # pub.dev using `flutter pub publish`. This is preferred for private packages.
+          @@ -90,3 +104,42 @@ flutter:
+             #
+             # For details regarding fonts from package dependencies,
+             # see https://flutter.dev/custom-fonts/#from-packages
+          +  assets:
+          +    - packages/shrine_images/0-0.jpg
+          +    - packages/shrine_images/1-0.jpg
+          +    - packages/shrine_images/2-0.jpg
+          +    - packages/shrine_images/3-0.jpg
+          +    - packages/shrine_images/4-0.jpg
+          +    - packages/shrine_images/5-0.jpg
+          +    - packages/shrine_images/6-0.jpg
+          +    - packages/shrine_images/7-0.jpg
+          +    - packages/shrine_images/8-0.jpg
+          +    - packages/shrine_images/9-0.jpg
+          +    - packages/shrine_images/10-0.jpg
+          +    - packages/shrine_images/11-0.jpg
+          +    - packages/shrine_images/12-0.jpg
+          +    - packages/shrine_images/13-0.jpg
+          +    - packages/shrine_images/14-0.jpg
+          +    - packages/shrine_images/15-0.jpg
+          +    - packages/shrine_images/16-0.jpg
+          +    - packages/shrine_images/17-0.jpg
+          +    - packages/shrine_images/18-0.jpg
+          +    - packages/shrine_images/19-0.jpg
+          +    - packages/shrine_images/20-0.jpg
+          +    - packages/shrine_images/21-0.jpg
+          +    - packages/shrine_images/22-0.jpg
+          +    - packages/shrine_images/23-0.jpg
+          +    - packages/shrine_images/24-0.jpg
+          +    - packages/shrine_images/25-0.jpg
+          +    - packages/shrine_images/26-0.jpg
+          +    - packages/shrine_images/27-0.jpg
+          +    - packages/shrine_images/28-0.jpg
+          +    - packages/shrine_images/29-0.jpg
+          +    - packages/shrine_images/30-0.jpg
+          +    - packages/shrine_images/31-0.jpg
+          +    - packages/shrine_images/32-0.jpg
+          +    - packages/shrine_images/33-0.jpg
+          +    - packages/shrine_images/34-0.jpg
+          +    - packages/shrine_images/35-0.jpg
+          +    - packages/shrine_images/36-0.jpg
+          +    - packages/shrine_images/37-0.jpg
+
       - name: Remove the README.md.
         rm: cupertino_store/README.md
       - name: Remove the Android, Web, and Desktop runners
@@ -246,7 +181,7 @@ steps:
           import 'package:flutter/services.dart';
 
           class CupertinoStoreApp extends StatelessWidget {
-            const CupertinoStoreApp({Key? key}) : super(key: key);
+            const CupertinoStoreApp({super.key});
 
             @override
             Widget build(BuildContext context) {
@@ -263,7 +198,7 @@ steps:
           }
 
           class CupertinoStoreHomePage extends StatelessWidget {
-            const CupertinoStoreHomePage({Key? key}) : super(key: key);
+            const CupertinoStoreHomePage({super.key});
 
             @override
             Widget build(BuildContext context) {
@@ -333,55 +268,30 @@ steps:
           }
       - name: Modify widget_test.dart
         path: cupertino_store/test/widget_test.dart
-        patch: |
-          1c1
-          < // This is a basic Flutter widget test.
-          ---
-          > // Copyright 2020 Google LLC
-          3,6c3,13
-          < // To perform an interaction with a widget in your test, use the WidgetTester
-          < // utility that Flutter provides. For example, you can send tap and scroll
-          < // gestures. You can also use WidgetTester to find child widgets in the widget
-          < // tree, read text, and verify that the values of widget properties are correct.
-          ---
-          > // Licensed under the Apache License, Version 2.0 (the "License");
-          > // you may not use this file except in compliance with the License.
-          > // You may obtain a copy of the License at
-          > //
-          > //     https://www.apache.org/licenses/LICENSE-2.0
-          > //
-          > // Unless required by applicable law or agreed to in writing, software
-          > // distributed under the License is distributed on an "AS IS" BASIS,
-          > // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-          > // See the License for the specific language governing permissions and
-          > // limitations under the License.
-          8c15
-          < import 'package:flutter/material.dart';
-          ---
-          > import 'package:cupertino_store/app.dart';
-          11,12d17
-          < import 'package:cupertino_store/main.dart';
-          < 
-          14,28c19,21
-          <   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-          <     // Build our app and trigger a frame.
-          <     await tester.pumpWidget(const MyApp());
-          < 
-          <     // Verify that our counter starts at 0.
-          <     expect(find.text('0'), findsOneWidget);
-          <     expect(find.text('1'), findsNothing);
-          < 
-          <     // Tap the '+' icon and trigger a frame.
-          <     await tester.tap(find.byIcon(Icons.add));
-          <     await tester.pump();
-          < 
-          <     // Verify that our counter has incremented.
-          <     expect(find.text('0'), findsNothing);
-          <     expect(find.text('1'), findsOneWidget);
-          ---
-          >   testWidgets('App start test', (tester) async {
-          >     await tester.pumpWidget(const CupertinoStoreApp());
-          >     expect(find.text('Cupertino Store'), findsOneWidget);
+        replace-contents: |
+          // Copyright 2020 Google LLC
+          //
+          // Licensed under the Apache License, Version 2.0 (the "License");
+          // you may not use this file except in compliance with the License.
+          // You may obtain a copy of the License at
+          //
+          //     https://www.apache.org/licenses/LICENSE-2.0
+          //
+          // Unless required by applicable law or agreed to in writing, software
+          // distributed under the License is distributed on an "AS IS" BASIS,
+          // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+          // See the License for the specific language governing permissions and
+          // limitations under the License.
+
+          import 'package:cupertino_store/app.dart';
+          import 'package:flutter_test/flutter_test.dart';
+
+          void main() {
+            testWidgets('App start test', (tester) async {
+              await tester.pumpWidget(const CupertinoStoreApp());
+              expect(find.text('Cupertino Store'), findsOneWidget);
+            });
+          }
       - name: Copy step_00
         copydir: 
           from: cupertino_store
@@ -392,98 +302,128 @@ steps:
         rmdir: step_01
       - name: Patch app.dart
         path: cupertino_store/lib/app.dart
-        patch: |
-          16a17,19
-          > import 'product_list_tab.dart';
-          > import 'search_tab.dart';
-          > import 'shopping_cart_tab.dart';
-          40,42c43,58
-          <     return const CupertinoPageScaffold(
-          <       navigationBar: CupertinoNavigationBar(
-          <         middle: Text('Cupertino Store'),
-          ---
-          >     return CupertinoTabScaffold(
-          >       tabBar: CupertinoTabBar(
-          >         items: const <BottomNavigationBarItem>[
-          >           BottomNavigationBarItem(
-          >             icon: Icon(CupertinoIcons.home),
-          >             label: 'Products',
-          >           ),
-          >           BottomNavigationBarItem(
-          >             icon: Icon(CupertinoIcons.search),
-          >             label: 'Search',
-          >           ),
-          >           BottomNavigationBarItem(
-          >             icon: Icon(CupertinoIcons.shopping_cart),
-          >             label: 'Cart',
-          >           ),
-          >         ],
-          44c60,86
-          <       child: SizedBox(),
-          ---
-          >       tabBuilder: (context, index) {
-          >         late final CupertinoTabView returnValue;
-          >         switch (index) {
-          >           case 0:
-          >             returnValue = CupertinoTabView(builder: (context) {
-          >               return const CupertinoPageScaffold(
-          >                 child: ProductListTab(),
-          >               );
-          >             });
-          >             break;
-          >           case 1:
-          >             returnValue = CupertinoTabView(builder: (context) {
-          >               return const CupertinoPageScaffold(
-          >                 child: SearchTab(),
-          >               );
-          >             });
-          >             break;
-          >           case 2:
-          >             returnValue = CupertinoTabView(builder: (context) {
-          >               return const CupertinoPageScaffold(
-          >                 child: ShoppingCartTab(),
-          >               );
-          >             });
-          >             break;
-          >         }
-          >         return returnValue;
-          >       },
+        patch-u: |
+          --- b/cupertino_store/step_01/lib/app.dart
+          +++ a/cupertino_store/step_01/lib/app.dart
+          @@ -14,6 +14,9 @@
+           
+           import 'package:flutter/cupertino.dart';
+           import 'package:flutter/services.dart';
+          +import 'product_list_tab.dart';
+          +import 'search_tab.dart';
+          +import 'shopping_cart_tab.dart';
+           
+           class CupertinoStoreApp extends StatelessWidget {
+             const CupertinoStoreApp({super.key});
+          @@ -37,11 +40,50 @@ class CupertinoStoreHomePage extends StatelessWidget {
+           
+             @override
+             Widget build(BuildContext context) {
+          -    return const CupertinoPageScaffold(
+          -      navigationBar: CupertinoNavigationBar(
+          -        middle: Text('Cupertino Store'),
+          +    return CupertinoTabScaffold(
+          +      tabBar: CupertinoTabBar(
+          +        items: const <BottomNavigationBarItem>[
+          +          BottomNavigationBarItem(
+          +            icon: Icon(CupertinoIcons.home),
+          +            label: 'Products',
+          +          ),
+          +          BottomNavigationBarItem(
+          +            icon: Icon(CupertinoIcons.search),
+          +            label: 'Search',
+          +          ),
+          +          BottomNavigationBarItem(
+          +            icon: Icon(CupertinoIcons.shopping_cart),
+          +            label: 'Cart',
+          +          ),
+          +        ],
+                 ),
+          -      child: SizedBox(),
+          +      tabBuilder: (context, index) {
+          +        late final CupertinoTabView returnValue;
+          +        switch (index) {
+          +          case 0:
+          +            returnValue = CupertinoTabView(builder: (context) {
+          +              return const CupertinoPageScaffold(
+          +                child: ProductListTab(),
+          +              );
+          +            });
+          +            break;
+          +          case 1:
+          +            returnValue = CupertinoTabView(builder: (context) {
+          +              return const CupertinoPageScaffold(
+          +                child: SearchTab(),
+          +              );
+          +            });
+          +            break;
+          +          case 2:
+          +            returnValue = CupertinoTabView(builder: (context) {
+          +              return const CupertinoPageScaffold(
+          +                child: ShoppingCartTab(),
+          +              );
+          +            });
+          +            break;
+          +        }
+          +        return returnValue;
+          +      },
+               );
+             }
+           }
+
       - name: Patch main.dart
         path: cupertino_store/lib/main.dart
-        patch: |
-          15a16
-          > import 'package:provider/provider.dart';
-          17a19
-          > import 'model/app_state_model.dart';
-          20c22,27
-          <   return runApp(const CupertinoStoreApp());
-          ---
-          >   return runApp(
-          >     ChangeNotifierProvider<AppStateModel>(
-          >       create: (_) => AppStateModel()..loadProducts(),
-          >       child: const CupertinoStoreApp(),
-          >     ),
-          >   );
+        patch-u: |
+          --- b/cupertino_store/step_01/lib/main.dart
+          +++ a/cupertino_store/step_01/lib/main.dart
+          @@ -13,9 +13,16 @@
+           // limitations under the License.
+           
+           import 'package:flutter/cupertino.dart';
+          +import 'package:provider/provider.dart';
+           
+           import 'app.dart';
+          +import 'model/app_state_model.dart';
+           
+           void main() {
+          -  return runApp(const CupertinoStoreApp());
+          +  return runApp(
+          +    ChangeNotifierProvider<AppStateModel>(
+          +      create: (_) => AppStateModel()..loadProducts(),
+          +      child: const CupertinoStoreApp(),
+          +    ),
+          +  );
+           }
+
       - name: Modify widget_test.dart
         path: cupertino_store/test/widget_test.dart
-        patch: |
-          15a16
-          > import 'package:cupertino_store/model/app_state_model.dart';
-          16a18
-          > import 'package:provider/provider.dart';
-          20,21c22,30
-          <     await tester.pumpWidget(const CupertinoStoreApp());
-          <     expect(find.text('Cupertino Store'), findsOneWidget);
-          ---
-          >     await tester.pumpWidget(
-          >       ChangeNotifierProvider<AppStateModel>(
-          >         create: (context) => AppStateModel()..loadProducts(),
-          >         child: const CupertinoStoreApp(),
-          >       ),
-          >     );
-          >     expect(find.text('Products'), findsOneWidget);
-          >     expect(find.text('Search'), findsOneWidget);
-          >     expect(find.text('Cart'), findsOneWidget);
+        patch-u: |
+          --- b/cupertino_store/step_01/test/widget_test.dart
+          +++ a/cupertino_store/step_01/test/widget_test.dart
+          @@ -13,11 +13,20 @@
+           // limitations under the License.
+           
+           import 'package:cupertino_store/app.dart';
+          +import 'package:cupertino_store/model/app_state_model.dart';
+           import 'package:flutter_test/flutter_test.dart';
+          +import 'package:provider/provider.dart';
+           
+           void main() {
+             testWidgets('App start test', (tester) async {
+          -    await tester.pumpWidget(const CupertinoStoreApp());
+          -    expect(find.text('Cupertino Store'), findsOneWidget);
+          +    await tester.pumpWidget(
+          +      ChangeNotifierProvider<AppStateModel>(
+          +        create: (context) => AppStateModel()..loadProducts(),
+          +        child: const CupertinoStoreApp(),
+          +      ),
+          +    );
+          +    expect(find.text('Products'), findsOneWidget);
+          +    expect(find.text('Search'), findsOneWidget);
+          +    expect(find.text('Cart'), findsOneWidget);
+             });
+           }
+
       - name: Add product_list_tab.dart
         path: cupertino_store/lib/product_list_tab.dart
         replace-contents: |
@@ -507,7 +447,7 @@ steps:
           import 'model/app_state_model.dart';
 
           class ProductListTab extends StatelessWidget {
-            const ProductListTab({Key? key}) : super(key: key);
+            const ProductListTab({super.key});
 
             @override
             Widget build(BuildContext context) {
@@ -544,10 +484,10 @@ steps:
           import 'package:flutter/cupertino.dart';
 
           class SearchTab extends StatefulWidget {
-            const SearchTab({Key? key}) : super(key: key);
+            const SearchTab({super.key});
 
             @override
-            _SearchTabState createState() {
+            State<SearchTab> createState() {
               return _SearchTabState();
             }
           }
@@ -587,10 +527,10 @@ steps:
           import 'model/app_state_model.dart';
 
           class ShoppingCartTab extends StatefulWidget {
-            const ShoppingCartTab({Key? key}) : super(key: key);
+            const ShoppingCartTab({super.key});
 
             @override
-            _ShoppingCartTabState createState() {
+            State<ShoppingCartTab> createState() {
               return _ShoppingCartTabState();
             }
           }
@@ -1107,38 +1047,52 @@ steps:
         rmdir: step_02
       - name: Update product_list_tab.dart
         path: cupertino_store/lib/product_list_tab.dart
-        patch: |
-          18a19
-          > import 'product_row_item.dart';
-          27c28,30
-          <         return const CustomScrollView(
-          ---
-          >         final products = model.getProducts();
-          >         return CustomScrollView(
-          >           semanticChildCount: products.length,
-          29c32
-          <             CupertinoSliverNavigationBar(
-          ---
-          >             const CupertinoSliverNavigationBar(
-          31a35,52
-          >             SliverSafeArea(
-          >               top: false,
-          >               minimum: const EdgeInsets.only(top: 8),
-          >               sliver: SliverList(
-          >                 delegate: SliverChildBuilderDelegate(
-          >                   (context, index) {
-          >                     if (index < products.length) {
-          >                       return ProductRowItem(
-          >                         product: products[index],
-          >                         lastItem: index == products.length - 1,
-          >                       );
-          >                     }
-          > 
-          >                     return null;
-          >                   },
-          >                 ),
-          >               ),
-          >             )
+        patch-u: |
+          --- b/cupertino_store/step_02/lib/product_list_tab.dart
+          +++ a/cupertino_store/step_02/lib/product_list_tab.dart
+          @@ -16,6 +16,7 @@ import 'package:flutter/cupertino.dart';
+           import 'package:provider/provider.dart';
+           
+           import 'model/app_state_model.dart';
+          +import 'product_row_item.dart';
+           
+           class ProductListTab extends StatelessWidget {
+             const ProductListTab({super.key});
+          @@ -24,11 +25,31 @@ class ProductListTab extends StatelessWidget {
+             Widget build(BuildContext context) {
+               return Consumer<AppStateModel>(
+                 builder: (context, model, child) {
+          -        return const CustomScrollView(
+          +        final products = model.getProducts();
+          +        return CustomScrollView(
+          +          semanticChildCount: products.length,
+                     slivers: <Widget>[
+          -            CupertinoSliverNavigationBar(
+          +            const CupertinoSliverNavigationBar(
+                         largeTitle: Text('Cupertino Store'),
+                       ),
+          +            SliverSafeArea(
+          +              top: false,
+          +              minimum: const EdgeInsets.only(top: 8),
+          +              sliver: SliverList(
+          +                delegate: SliverChildBuilderDelegate(
+          +                  (context, index) {
+          +                    if (index < products.length) {
+          +                      return ProductRowItem(
+          +                        product: products[index],
+          +                        lastItem: index == products.length - 1,
+          +                      );
+          +                    }
+          +
+          +                    return null;
+          +                  },
+          +                ),
+          +              ),
+          +            )
+                     ],
+                   );
+                 },
+
       - name: Update product_row_item.dart
         path: cupertino_store/lib/product_row_item.dart
         replace-contents: |
@@ -1167,8 +1121,8 @@ steps:
             const ProductRowItem({
               required this.product,
               required this.lastItem,
-              Key? key,
-            }) : super(key: key);
+              super.key,
+            });
 
             final Product product;
             final bool lastItem;
@@ -1274,8 +1228,8 @@ steps:
             const SearchBar({
               required this.controller,
               required this.focusNode,
-              Key? key,
-            }) : super(key: key);
+              super.key,
+            });
 
             final TextEditingController controller;
             final FocusNode focusNode;
@@ -1322,80 +1276,94 @@ steps:
           }
       - name: Modify search_tab.dart
         path: cupertino_store/lib/search_tab.dart
-        patch: |
-          15a16,21
-          > import 'package:provider/provider.dart';
-          > 
-          > import 'model/app_state_model.dart';
-          > import 'product_row_item.dart';
-          > import 'search_bar.dart';
-          > import 'styles.dart';
-          26a33,66
-          >   late final TextEditingController _controller;
-          >   late final FocusNode _focusNode;
-          >   String _terms = '';
-          > 
-          >   @override
-          >   void initState() {
-          >     super.initState();
-          >     _controller = TextEditingController()..addListener(_onTextChanged);
-          >     _focusNode = FocusNode();
-          >   }
-          > 
-          >   @override
-          >   void dispose() {
-          >     _focusNode.dispose();
-          >     _controller.dispose();
-          >     super.dispose();
-          >   }
-          > 
-          >   void _onTextChanged() {
-          >     setState(() {
-          >       _terms = _controller.text;
-          >     });
-          >   }
-          > 
-          >   Widget _buildSearchBox() {
-          >     return Padding(
-          >       padding: const EdgeInsets.all(8),
-          >       child: SearchBar(
-          >         controller: _controller,
-          >         focusNode: _focusNode,
-          >       ),
-          >     );
-          >   }
-          > 
-          29,32c69,89
-          <     return const CustomScrollView(
-          <       slivers: <Widget>[
-          <         CupertinoSliverNavigationBar(
-          <           largeTitle: Text('Search'),
-          ---
-          >     final model = Provider.of<AppStateModel>(context);
-          >     final results = model.search(_terms);
-          > 
-          >     return DecoratedBox(
-          >       decoration: const BoxDecoration(
-          >         color: Styles.scaffoldBackground,
-          >       ),
-          >       child: SafeArea(
-          >         child: Column(
-          >           children: [
-          >             _buildSearchBox(),
-          >             Expanded(
-          >               child: ListView.builder(
-          >                 itemBuilder: (context, index) => ProductRowItem(
-          >                   product: results[index],
-          >                   lastItem: index == results.length - 1,
-          >                 ),
-          >                 itemCount: results.length,
-          >               ),
-          >             ),
-          >           ],
-          34c91
-          <       ],
-          ---
-          >       ),
+        patch-u: |
+          --- b/cupertino_store/step_03/lib/search_tab.dart
+          +++ a/cupertino_store/step_03/lib/search_tab.dart
+          @@ -13,6 +13,12 @@
+           // limitations under the License.
+           
+           import 'package:flutter/cupertino.dart';
+          +import 'package:provider/provider.dart';
+          +
+          +import 'model/app_state_model.dart';
+          +import 'product_row_item.dart';
+          +import 'search_bar.dart';
+          +import 'styles.dart';
+           
+           class SearchTab extends StatefulWidget {
+             const SearchTab({super.key});
+          @@ -24,14 +30,65 @@ class SearchTab extends StatefulWidget {
+           }
+           
+           class _SearchTabState extends State<SearchTab> {
+          +  late final TextEditingController _controller;
+          +  late final FocusNode _focusNode;
+          +  String _terms = '';
+          +
+          +  @override
+          +  void initState() {
+          +    super.initState();
+          +    _controller = TextEditingController()..addListener(_onTextChanged);
+          +    _focusNode = FocusNode();
+          +  }
+          +
+          +  @override
+          +  void dispose() {
+          +    _focusNode.dispose();
+          +    _controller.dispose();
+          +    super.dispose();
+          +  }
+          +
+          +  void _onTextChanged() {
+          +    setState(() {
+          +      _terms = _controller.text;
+          +    });
+          +  }
+          +
+          +  Widget _buildSearchBox() {
+          +    return Padding(
+          +      padding: const EdgeInsets.all(8),
+          +      child: SearchBar(
+          +        controller: _controller,
+          +        focusNode: _focusNode,
+          +      ),
+          +    );
+          +  }
+          +
+             @override
+             Widget build(BuildContext context) {
+          -    return const CustomScrollView(
+          -      slivers: <Widget>[
+          -        CupertinoSliverNavigationBar(
+          -          largeTitle: Text('Search'),
+          +    final model = Provider.of<AppStateModel>(context);
+          +    final results = model.search(_terms);
+          +
+          +    return DecoratedBox(
+          +      decoration: const BoxDecoration(
+          +        color: Styles.scaffoldBackground,
+          +      ),
+          +      child: SafeArea(
+          +        child: Column(
+          +          children: [
+          +            _buildSearchBox(),
+          +            Expanded(
+          +              child: ListView.builder(
+          +                itemBuilder: (context, index) => ProductRowItem(
+          +                  product: results[index],
+          +                  lastItem: index == results.length - 1,
+          +                ),
+          +                itemCount: results.length,
+          +              ),
+          +            ),
+          +          ],
+                   ),
+          -      ],
+          +      ),
+               );
+             }
+           }
+
       - name: Copy step_03
         copydir:
           from: cupertino_store
@@ -1406,131 +1374,142 @@ steps:
         rmdir: step_04
       - name: Modify shopping_cart_tab.dart
         path: cupertino_store/lib/shopping_cart_tab.dart
-        patch: |
-          29a30,136
-          >   String? name;
-          >   String? email;
-          >   String? location;
-          >   String? pin;
-          >   DateTime dateTime = DateTime.now();
-          > 
-          >   Widget _buildNameField() {
-          >     return CupertinoTextField(
-          >       prefix: const Icon(
-          >         CupertinoIcons.person_solid,
-          >         color: CupertinoColors.lightBackgroundGray,
-          >         size: 28,
-          >       ),
-          >       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 12),
-          >       clearButtonMode: OverlayVisibilityMode.editing,
-          >       textCapitalization: TextCapitalization.words,
-          >       autocorrect: false,
-          >       decoration: const BoxDecoration(
-          >         border: Border(
-          >           bottom: BorderSide(
-          >             width: 0,
-          >             color: CupertinoColors.inactiveGray,
-          >           ),
-          >         ),
-          >       ),
-          >       placeholder: 'Name',
-          >       onChanged: (newName) {
-          >         setState(() {
-          >           name = newName;
-          >         });
-          >       },
-          >     );
-          >   }
-          > 
-          >   Widget _buildEmailField() {
-          >     return const CupertinoTextField(
-          >       prefix: Icon(
-          >         CupertinoIcons.mail_solid,
-          >         color: CupertinoColors.lightBackgroundGray,
-          >         size: 28,
-          >       ),
-          >       padding: EdgeInsets.symmetric(horizontal: 6, vertical: 12),
-          >       clearButtonMode: OverlayVisibilityMode.editing,
-          >       keyboardType: TextInputType.emailAddress,
-          >       autocorrect: false,
-          >       decoration: BoxDecoration(
-          >         border: Border(
-          >           bottom: BorderSide(
-          >             width: 0,
-          >             color: CupertinoColors.inactiveGray,
-          >           ),
-          >         ),
-          >       ),
-          >       placeholder: 'Email',
-          >     );
-          >   }
-          > 
-          >   Widget _buildLocationField() {
-          >     return const CupertinoTextField(
-          >       prefix: Icon(
-          >         CupertinoIcons.location_solid,
-          >         color: CupertinoColors.lightBackgroundGray,
-          >         size: 28,
-          >       ),
-          >       padding: EdgeInsets.symmetric(horizontal: 6, vertical: 12),
-          >       clearButtonMode: OverlayVisibilityMode.editing,
-          >       textCapitalization: TextCapitalization.words,
-          >       decoration: BoxDecoration(
-          >         border: Border(
-          >           bottom: BorderSide(
-          >             width: 0,
-          >             color: CupertinoColors.inactiveGray,
-          >           ),
-          >         ),
-          >       ),
-          >       placeholder: 'Location',
-          >     );
-          >   }
-          > 
-          >   SliverChildBuilderDelegate _buildSliverChildBuilderDelegate(
-          >       AppStateModel model) {
-          >     return SliverChildBuilderDelegate(
-          >       (context, index) {
-          >         switch (index) {
-          >           case 0:
-          >             return Padding(
-          >               padding: const EdgeInsets.symmetric(horizontal: 16),
-          >               child: _buildNameField(),
-          >             );
-          >           case 1:
-          >             return Padding(
-          >               padding: const EdgeInsets.symmetric(horizontal: 16),
-          >               child: _buildEmailField(),
-          >             );
-          >           case 2:
-          >             return Padding(
-          >               padding: const EdgeInsets.symmetric(horizontal: 16),
-          >               child: _buildLocationField(),
-          >             );
-          >           default:
-          >           // Do nothing. For now.
-          >         }
-          >         return null;
-          >       },
-          >     );
-          >   }
-          > 
-          34c141
-          <         return const CustomScrollView(
-          ---
-          >         return CustomScrollView(
-          36c143
-          <             CupertinoSliverNavigationBar(
-          ---
-          >             const CupertinoSliverNavigationBar(
-          38a146,152
-          >             SliverSafeArea(
-          >               top: false,
-          >               minimum: const EdgeInsets.only(top: 4),
-          >               sliver: SliverList(
-          >                 delegate: _buildSliverChildBuilderDelegate(model),
-          >               ),
-          >             )
+        patch-u: |
+          --- b/cupertino_store/step_04/lib/shopping_cart_tab.dart
+          +++ a/cupertino_store/step_04/lib/shopping_cart_tab.dart
+          @@ -27,15 +27,129 @@ class ShoppingCartTab extends StatefulWidget {
+           }
+           
+           class _ShoppingCartTabState extends State<ShoppingCartTab> {
+          +  String? name;
+          +  String? email;
+          +  String? location;
+          +  String? pin;
+          +  DateTime dateTime = DateTime.now();
+          +
+          +  Widget _buildNameField() {
+          +    return CupertinoTextField(
+          +      prefix: const Icon(
+          +        CupertinoIcons.person_solid,
+          +        color: CupertinoColors.lightBackgroundGray,
+          +        size: 28,
+          +      ),
+          +      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 12),
+          +      clearButtonMode: OverlayVisibilityMode.editing,
+          +      textCapitalization: TextCapitalization.words,
+          +      autocorrect: false,
+          +      decoration: const BoxDecoration(
+          +        border: Border(
+          +          bottom: BorderSide(
+          +            width: 0,
+          +            color: CupertinoColors.inactiveGray,
+          +          ),
+          +        ),
+          +      ),
+          +      placeholder: 'Name',
+          +      onChanged: (newName) {
+          +        setState(() {
+          +          name = newName;
+          +        });
+          +      },
+          +    );
+          +  }
+          +
+          +  Widget _buildEmailField() {
+          +    return const CupertinoTextField(
+          +      prefix: Icon(
+          +        CupertinoIcons.mail_solid,
+          +        color: CupertinoColors.lightBackgroundGray,
+          +        size: 28,
+          +      ),
+          +      padding: EdgeInsets.symmetric(horizontal: 6, vertical: 12),
+          +      clearButtonMode: OverlayVisibilityMode.editing,
+          +      keyboardType: TextInputType.emailAddress,
+          +      autocorrect: false,
+          +      decoration: BoxDecoration(
+          +        border: Border(
+          +          bottom: BorderSide(
+          +            width: 0,
+          +            color: CupertinoColors.inactiveGray,
+          +          ),
+          +        ),
+          +      ),
+          +      placeholder: 'Email',
+          +    );
+          +  }
+          +
+          +  Widget _buildLocationField() {
+          +    return const CupertinoTextField(
+          +      prefix: Icon(
+          +        CupertinoIcons.location_solid,
+          +        color: CupertinoColors.lightBackgroundGray,
+          +        size: 28,
+          +      ),
+          +      padding: EdgeInsets.symmetric(horizontal: 6, vertical: 12),
+          +      clearButtonMode: OverlayVisibilityMode.editing,
+          +      textCapitalization: TextCapitalization.words,
+          +      decoration: BoxDecoration(
+          +        border: Border(
+          +          bottom: BorderSide(
+          +            width: 0,
+          +            color: CupertinoColors.inactiveGray,
+          +          ),
+          +        ),
+          +      ),
+          +      placeholder: 'Location',
+          +    );
+          +  }
+          +
+          +  SliverChildBuilderDelegate _buildSliverChildBuilderDelegate(
+          +      AppStateModel model) {
+          +    return SliverChildBuilderDelegate(
+          +      (context, index) {
+          +        switch (index) {
+          +          case 0:
+          +            return Padding(
+          +              padding: const EdgeInsets.symmetric(horizontal: 16),
+          +              child: _buildNameField(),
+          +            );
+          +          case 1:
+          +            return Padding(
+          +              padding: const EdgeInsets.symmetric(horizontal: 16),
+          +              child: _buildEmailField(),
+          +            );
+          +          case 2:
+          +            return Padding(
+          +              padding: const EdgeInsets.symmetric(horizontal: 16),
+          +              child: _buildLocationField(),
+          +            );
+          +          default:
+          +          // Do nothing. For now.
+          +        }
+          +        return null;
+          +      },
+          +    );
+          +  }
+          +
+             @override
+             Widget build(BuildContext context) {
+               return Consumer<AppStateModel>(
+                 builder: (context, model, child) {
+          -        return const CustomScrollView(
+          +        return CustomScrollView(
+                     slivers: <Widget>[
+          -            CupertinoSliverNavigationBar(
+          +            const CupertinoSliverNavigationBar(
+                         largeTitle: Text('Shopping Cart'),
+                       ),
+          +            SliverSafeArea(
+          +              top: false,
+          +              minimum: const EdgeInsets.only(top: 4),
+          +              sliver: SliverList(
+          +                delegate: _buildSliverChildBuilderDelegate(model),
+          +              ),
+          +            )
+                     ],
+                   );
+                 },
+
       - name: Copy step_04
         copydir:
           from: cupertino_store
@@ -1541,63 +1520,86 @@ steps:
         rmdir: step_05
       - name: Modify shopping_cart_tab.dart
         path: cupertino_store/lib/shopping_cart_tab.dart
-        patch: |
-          15a16
-          > import 'package:intl/intl.dart';
-          18a20,22
-          > import 'styles.dart';
-          > 
-          > const double _kDateTimePickerHeight = 216;
-          108a113,155
-          >   Widget _buildDateAndTimePicker(BuildContext context) {
-          >     return Column(
-          >       children: <Widget>[
-          >         Row(
-          >           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          >           children: <Widget>[
-          >             Row(
-          >               mainAxisAlignment: MainAxisAlignment.start,
-          >               children: const <Widget>[
-          >                 Icon(
-          >                   CupertinoIcons.clock,
-          >                   color: CupertinoColors.lightBackgroundGray,
-          >                   size: 28,
-          >                 ),
-          >                 SizedBox(width: 6),
-          >                 Text(
-          >                   'Delivery time',
-          >                   style: Styles.deliveryTimeLabel,
-          >                 ),
-          >               ],
-          >             ),
-          >             Text(
-          >               DateFormat.yMMMd().add_jm().format(dateTime),
-          >               style: Styles.deliveryTime,
-          >             ),
-          >           ],
-          >         ),
-          >         SizedBox(
-          >           height: _kDateTimePickerHeight,
-          >           child: CupertinoDatePicker(
-          >             mode: CupertinoDatePickerMode.dateAndTime,
-          >             initialDateTime: dateTime,
-          >             onDateTimeChanged: (newDateTime) {
-          >               setState(() {
-          >                 dateTime = newDateTime;
-          >               });
-          >             },
-          >           ),
-          >         ),
-          >       ],
-          >     );
-          >   }
-          > 
-          128a176,180
-          >           case 3:
-          >             return Padding(
-          >               padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
-          >               child: _buildDateAndTimePicker(context),
-          >             );
+        patch-u: |
+          --- b/cupertino_store/step_05/lib/shopping_cart_tab.dart
+          +++ a/cupertino_store/step_05/lib/shopping_cart_tab.dart
+          @@ -13,9 +13,13 @@
+           // limitations under the License.
+           
+           import 'package:flutter/cupertino.dart';
+          +import 'package:intl/intl.dart';
+           import 'package:provider/provider.dart';
+           
+           import 'model/app_state_model.dart';
+          +import 'styles.dart';
+          +
+          +const double _kDateTimePickerHeight = 216;
+           
+           class ShoppingCartTab extends StatefulWidget {
+             const ShoppingCartTab({super.key});
+          @@ -106,6 +110,49 @@ class _ShoppingCartTabState extends State<ShoppingCartTab> {
+               );
+             }
+           
+          +  Widget _buildDateAndTimePicker(BuildContext context) {
+          +    return Column(
+          +      children: <Widget>[
+          +        Row(
+          +          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          +          children: <Widget>[
+          +            Row(
+          +              mainAxisAlignment: MainAxisAlignment.start,
+          +              children: const <Widget>[
+          +                Icon(
+          +                  CupertinoIcons.clock,
+          +                  color: CupertinoColors.lightBackgroundGray,
+          +                  size: 28,
+          +                ),
+          +                SizedBox(width: 6),
+          +                Text(
+          +                  'Delivery time',
+          +                  style: Styles.deliveryTimeLabel,
+          +                ),
+          +              ],
+          +            ),
+          +            Text(
+          +              DateFormat.yMMMd().add_jm().format(dateTime),
+          +              style: Styles.deliveryTime,
+          +            ),
+          +          ],
+          +        ),
+          +        SizedBox(
+          +          height: _kDateTimePickerHeight,
+          +          child: CupertinoDatePicker(
+          +            mode: CupertinoDatePickerMode.dateAndTime,
+          +            initialDateTime: dateTime,
+          +            onDateTimeChanged: (newDateTime) {
+          +              setState(() {
+          +                dateTime = newDateTime;
+          +              });
+          +            },
+          +          ),
+          +        ),
+          +      ],
+          +    );
+          +  }
+          +
+             SliverChildBuilderDelegate _buildSliverChildBuilderDelegate(
+                 AppStateModel model) {
+               return SliverChildBuilderDelegate(
+          @@ -126,6 +173,11 @@ class _ShoppingCartTabState extends State<ShoppingCartTab> {
+                         padding: const EdgeInsets.symmetric(horizontal: 16),
+                         child: _buildLocationField(),
+                       );
+          +          case 3:
+          +            return Padding(
+          +              padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
+          +              child: _buildDateAndTimePicker(context),
+          +            );
+                     default:
+                     // Do nothing. For now.
+                   }
+
       - name: Copy step_05
         copydir:
           from: cupertino_store
@@ -1608,138 +1610,167 @@ steps:
         rmdir: step_06
       - name: Modify shopping_cart_tab.dart
         path: cupertino_store/lib/shopping_cart_tab.dart
-        patch: |
-          19a20
-          > import 'model/product.dart';
-          38a40
-          >   final _currencyFormat = NumberFormat.currency(symbol: '\$');
-          159a162
-          >         final productIndex = index - 4;
-          182c185,224
-          <           // Do nothing. For now.
-          ---
-          >             if (model.productsInCart.length > productIndex) {
-          >               return ShoppingCartItem(
-          >                 index: index,
-          >                 product: model.getProductById(
-          >                     model.productsInCart.keys.toList()[productIndex]),
-          >                 quantity: model.productsInCart.values.toList()[productIndex],
-          >                 lastItem: productIndex == model.productsInCart.length - 1,
-          >                 formatter: _currencyFormat,
-          >               );
-          >             } else if (model.productsInCart.keys.length == productIndex &&
-          >                 model.productsInCart.isNotEmpty) {
-          >               return Padding(
-          >                 padding: const EdgeInsets.symmetric(horizontal: 20),
-          >                 child: Row(
-          >                   mainAxisAlignment: MainAxisAlignment.end,
-          >                   children: <Widget>[
-          >                     Column(
-          >                       crossAxisAlignment: CrossAxisAlignment.end,
-          >                       children: <Widget>[
-          >                         Text(
-          >                           'Shipping '
-          >                           '${_currencyFormat.format(model.shippingCost)}',
-          >                           style: Styles.productRowItemPrice,
-          >                         ),
-          >                         const SizedBox(height: 6),
-          >                         Text(
-          >                           'Tax ${_currencyFormat.format(model.tax)}',
-          >                           style: Styles.productRowItemPrice,
-          >                         ),
-          >                         const SizedBox(height: 6),
-          >                         Text(
-          >                           'Total ${_currencyFormat.format(model.totalCost)}',
-          >                           style: Styles.productRowTotal,
-          >                         ),
-          >                       ],
-          >                     )
-          >                   ],
-          >                 ),
-          >               );
-          >             }
-          210a253,333
-          > 
-          > class ShoppingCartItem extends StatelessWidget {
-          >   const ShoppingCartItem({
-          >     required this.index,
-          >     required this.product,
-          >     required this.lastItem,
-          >     required this.quantity,
-          >     required this.formatter,
-          >     Key? key,
-          >   }) : super(key: key);
-          > 
-          >   final Product product;
-          >   final int index;
-          >   final bool lastItem;
-          >   final int quantity;
-          >   final NumberFormat formatter;
-          > 
-          >   @override
-          >   Widget build(BuildContext context) {
-          >     final row = SafeArea(
-          >       top: false,
-          >       bottom: false,
-          >       child: Padding(
-          >         padding: const EdgeInsets.only(
-          >           left: 16,
-          >           top: 8,
-          >           bottom: 8,
-          >           right: 8,
-          >         ),
-          >         child: Row(
-          >           children: <Widget>[
-          >             ClipRRect(
-          >               borderRadius: BorderRadius.circular(4),
-          >               child: Image.asset(
-          >                 product.assetName,
-          >                 package: product.assetPackage,
-          >                 fit: BoxFit.cover,
-          >                 width: 40,
-          >                 height: 40,
-          >               ),
-          >             ),
-          >             Expanded(
-          >               child: Padding(
-          >                 padding: const EdgeInsets.symmetric(horizontal: 12),
-          >                 child: Column(
-          >                   mainAxisAlignment: MainAxisAlignment.start,
-          >                   crossAxisAlignment: CrossAxisAlignment.start,
-          >                   children: <Widget>[
-          >                     Row(
-          >                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          >                       children: <Widget>[
-          >                         Text(
-          >                           product.name,
-          >                           style: Styles.productRowItemName,
-          >                         ),
-          >                         Text(
-          >                           formatter.format(quantity * product.price),
-          >                           style: Styles.productRowItemName,
-          >                         ),
-          >                       ],
-          >                     ),
-          >                     const SizedBox(
-          >                       height: 4,
-          >                     ),
-          >                     Text(
-          >                       '${quantity > 1 ? '$quantity x ' : ''}'
-          >                       '${formatter.format(product.price)}',
-          >                       style: Styles.productRowItemPrice,
-          >                     )
-          >                   ],
-          >                 ),
-          >               ),
-          >             ),
-          >           ],
-          >         ),
-          >       ),
-          >     );
-          > 
-          >     return row;
-          >   }
-          > }
+        patch-u: |
+          --- b/cupertino_store/step_06/lib/shopping_cart_tab.dart
+          +++ a/cupertino_store/step_06/lib/shopping_cart_tab.dart
+          @@ -17,6 +17,7 @@ import 'package:intl/intl.dart';
+           import 'package:provider/provider.dart';
+           
+           import 'model/app_state_model.dart';
+          +import 'model/product.dart';
+           import 'styles.dart';
+           
+           const double _kDateTimePickerHeight = 216;
+          @@ -36,6 +37,7 @@ class _ShoppingCartTabState extends State<ShoppingCartTab> {
+             String? location;
+             String? pin;
+             DateTime dateTime = DateTime.now();
+          +  final _currencyFormat = NumberFormat.currency(symbol: '\$');
+           
+             Widget _buildNameField() {
+               return CupertinoTextField(
+          @@ -157,6 +159,7 @@ class _ShoppingCartTabState extends State<ShoppingCartTab> {
+                 AppStateModel model) {
+               return SliverChildBuilderDelegate(
+                 (context, index) {
+          +        final productIndex = index - 4;
+                   switch (index) {
+                     case 0:
+                       return Padding(
+          @@ -179,7 +182,46 @@ class _ShoppingCartTabState extends State<ShoppingCartTab> {
+                         child: _buildDateAndTimePicker(context),
+                       );
+                     default:
+          -          // Do nothing. For now.
+          +            if (model.productsInCart.length > productIndex) {
+          +              return ShoppingCartItem(
+          +                index: index,
+          +                product: model.getProductById(
+          +                    model.productsInCart.keys.toList()[productIndex]),
+          +                quantity: model.productsInCart.values.toList()[productIndex],
+          +                lastItem: productIndex == model.productsInCart.length - 1,
+          +                formatter: _currencyFormat,
+          +              );
+          +            } else if (model.productsInCart.keys.length == productIndex &&
+          +                model.productsInCart.isNotEmpty) {
+          +              return Padding(
+          +                padding: const EdgeInsets.symmetric(horizontal: 20),
+          +                child: Row(
+          +                  mainAxisAlignment: MainAxisAlignment.end,
+          +                  children: <Widget>[
+          +                    Column(
+          +                      crossAxisAlignment: CrossAxisAlignment.end,
+          +                      children: <Widget>[
+          +                        Text(
+          +                          'Shipping '
+          +                          '${_currencyFormat.format(model.shippingCost)}',
+          +                          style: Styles.productRowItemPrice,
+          +                        ),
+          +                        const SizedBox(height: 6),
+          +                        Text(
+          +                          'Tax ${_currencyFormat.format(model.tax)}',
+          +                          style: Styles.productRowItemPrice,
+          +                        ),
+          +                        const SizedBox(height: 6),
+          +                        Text(
+          +                          'Total ${_currencyFormat.format(model.totalCost)}',
+          +                          style: Styles.productRowTotal,
+          +                        ),
+          +                      ],
+          +                    )
+          +                  ],
+          +                ),
+          +              );
+          +            }
+                   }
+                   return null;
+                 },
+          @@ -208,3 +250,84 @@ class _ShoppingCartTabState extends State<ShoppingCartTab> {
+               );
+             }
+           }
+          +
+          +class ShoppingCartItem extends StatelessWidget {
+          +  const ShoppingCartItem({
+          +    required this.index,
+          +    required this.product,
+          +    required this.lastItem,
+          +    required this.quantity,
+          +    required this.formatter,
+          +    super.key,
+          +  });
+          +
+          +  final Product product;
+          +  final int index;
+          +  final bool lastItem;
+          +  final int quantity;
+          +  final NumberFormat formatter;
+          +
+          +  @override
+          +  Widget build(BuildContext context) {
+          +    final row = SafeArea(
+          +      top: false,
+          +      bottom: false,
+          +      child: Padding(
+          +        padding: const EdgeInsets.only(
+          +          left: 16,
+          +          top: 8,
+          +          bottom: 8,
+          +          right: 8,
+          +        ),
+          +        child: Row(
+          +          children: <Widget>[
+          +            ClipRRect(
+          +              borderRadius: BorderRadius.circular(4),
+          +              child: Image.asset(
+          +                product.assetName,
+          +                package: product.assetPackage,
+          +                fit: BoxFit.cover,
+          +                width: 40,
+          +                height: 40,
+          +              ),
+          +            ),
+          +            Expanded(
+          +              child: Padding(
+          +                padding: const EdgeInsets.symmetric(horizontal: 12),
+          +                child: Column(
+          +                  mainAxisAlignment: MainAxisAlignment.start,
+          +                  crossAxisAlignment: CrossAxisAlignment.start,
+          +                  children: <Widget>[
+          +                    Row(
+          +                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          +                      children: <Widget>[
+          +                        Text(
+          +                          product.name,
+          +                          style: Styles.productRowItemName,
+          +                        ),
+          +                        Text(
+          +                          formatter.format(quantity * product.price),
+          +                          style: Styles.productRowItemName,
+          +                        ),
+          +                      ],
+          +                    ),
+          +                    const SizedBox(
+          +                      height: 4,
+          +                    ),
+          +                    Text(
+          +                      '${quantity > 1 ? '$quantity x ' : ''}'
+          +                      '${formatter.format(product.price)}',
+          +                      style: Styles.productRowItemPrice,
+          +                    )
+          +                  ],
+          +                ),
+          +              ),
+          +            ),
+          +          ],
+          +        ),
+          +      ),
+          +    );
+          +
+          +    return row;
+          +  }
+          +}
+
       - name: Copy step_06
         copydir:
           from: cupertino_store

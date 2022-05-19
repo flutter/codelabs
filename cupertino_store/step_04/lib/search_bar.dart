@@ -9,8 +9,8 @@ class SearchBar extends StatelessWidget {
   const SearchBar({
     required this.controller,
     required this.focusNode,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final TextEditingController controller;
   final FocusNode focusNode;
