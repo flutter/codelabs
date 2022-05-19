@@ -13,98 +13,34 @@ steps:
 
           linter:
             rules:
-              # Get to know Firebase with Flutter doesn't use key in constructors.
-              use_key_in_widget_constructors: false
+              use_super_parameters: true
       - name: Add dependencies.
         path: gtk_flutter
         flutter: pub add google_fonts 
       - name: Patch pubspec.yaml
         path: gtk_flutter/pubspec.yaml
-        patch: |
-          2,5c2
-          < description: A new Flutter project.
-          < 
-          < # The following line prevents the package from being accidentally published to
-          < # pub.dev using `flutter pub publish`. This is preferred for private packages.
-          ---
-          > description: Get to know Firebase with Flutter
-          7,17d3
-          < 
-          < # The following defines the version and build number for your application.
-          < # A version number is three numbers separated by dots, like 1.2.43
-          < # followed by an optional build number separated by a +.
-          < # Both the version and the builder number may be overridden in flutter
-          < # build by specifying --build-name and --build-number, respectively.
-          < # In Android, build-name is used as versionName while build-number used as versionCode.
-          < # Read more about Android versioning at https://developer.android.com/studio/publish/versioning
-          < # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
-          < # Read more about iOS versioning at
-          < # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-          23,28d8
-          < # Dependencies specify other packages that your package needs in order to work.
-          < # To automatically upgrade your package dependencies to the latest versions
-          < # consider running `flutter pub upgrade --major-versions`. Alternatively,
-          < # dependencies can be manually updated by changing the version numbers below to
-          < # the latest version available on pub.dev. To see which dependencies have newer
-          < # versions available, run `flutter pub outdated`.
-          32,36d11
-          < 
-          < 
-          <   # The following adds the Cupertino Icons font to your application.
-          <   # Use with the CupertinoIcons class for iOS style icons.
-          <   cupertino_icons: ^1.0.2
-          42,47d16
-          < 
-          <   # The "flutter_lints" package below contains a set of recommended lints to
-          <   # encourage good coding practices. The lint set provided by the package is
-          <   # activated in the `analysis_options.yaml` file located at the root of your
-          <   # package. See that file for information about deactivating specific lint
-          <   # rules and activating additional ones.
-          50,53d18
-          < # For information on the generic Dart part of this file, see the
-          < # following page: https://dart.dev/tools/pub/pubspec
-          < 
-          < # The following section is specific to Flutter.
-          55,58d19
-          < 
-          <   # The following line ensures that the Material Icons font is
-          <   # included with your application, so that you can use the icons in
-          <   # the material Icons class.
-          60,90c21,22
-          < 
-          <   # To add assets to your application, add an assets section, like this:
-          <   # assets:
-          <   #   - images/a_dot_burr.jpeg
-          <   #   - images/a_dot_ham.jpeg
-          < 
-          <   # An image asset can refer to one or more resolution-specific "variants", see
-          <   # https://flutter.dev/assets-and-images/#resolution-aware.
-          < 
-          <   # For details regarding adding assets from package dependencies, see
-          <   # https://flutter.dev/assets-and-images/#from-packages
-          < 
-          <   # To add custom fonts to your application, add a fonts section here,
-          <   # in this "flutter" section. Each entry in this list should have a
-          <   # "family" key with the font family name, and a "fonts" key with a
-          <   # list giving the asset and other descriptors for the font. For
-          <   # example:
-          <   # fonts:
-          <   #   - family: Schyler
-          <   #     fonts:
-          <   #       - asset: fonts/Schyler-Regular.ttf
-          <   #       - asset: fonts/Schyler-Italic.ttf
-          <   #         style: italic
-          <   #   - family: Trajan Pro
-          <   #     fonts:
-          <   #       - asset: fonts/TrajanPro.ttf
-          <   #       - asset: fonts/TrajanPro_Bold.ttf
-          <   #         weight: 700
-          <   #
-          <   # For details regarding fonts from package dependencies,
-          <   # see https://flutter.dev/custom-fonts/#from-packages
-          ---
-          >   assets:
-          >     - assets/codelab.png
+        patch-u: |
+          diff --git b/firebase-get-to-know-flutter/step_02/pubspec.yaml a/firebase-get-to-know-flutter/step_02/pubspec.yaml
+          index c5b58ef..08adeb9 100644
+          --- b/firebase-get-to-know-flutter/step_02/pubspec.yaml
+          +++ a/firebase-get-to-know-flutter/step_02/pubspec.yaml
+          @@ -1,5 +1,5 @@
+           name: gtk_flutter
+          -description: A new Flutter project.
+          +description: Get to know Firebase with Flutter
+           
+           # The following line prevents the package from being accidentally published to
+           # pub.dev using `flutter pub publish`. This is preferred for private packages.
+          @@ -57,6 +57,8 @@ flutter:
+             # included with your application, so that you can use the icons in
+             # the material Icons class.
+             uses-material-design: true
+          +  assets:
+          +    - assets/codelab.png
+           
+             # To add assets to your application, add an assets section, like this:
+             # assets:
+
       - name: Remove the README.md.
         rm: gtk_flutter/README.md
       - name: Remove the Linux and Windows runners
@@ -163,21 +99,31 @@ steps:
           }
       - name: Patch gtk_flutter/ios/Podfile
         path: gtk_flutter/ios/Podfile
-        patch: |
-          1,2c1,2
-          < # Uncomment this line to define a global platform for your project
-          < # platform :ios, '9.0'
-          ---
-          > # Cloud Firestore requires iOS 10: https://firebase.flutter.dev/docs/manual-installation/ios#ios-supported-versions
-          > platform :ios, '10.0'
-      - name: Patch gtk_flutter//macos/Podfile
-        path: gtk_flutter//macos/Podfile
-        patch: |
-          1c1,2
-          < platform :osx, '10.11'
-          ---
-          > # Firebase macOS requires macOS 10.12: https://firebase.flutter.dev/docs/manual-installation/macos#macos-supported-versions
-          > platform :osx, '10.12'
+        patch-u: |
+          --- b/firebase-get-to-know-flutter/step_02/ios/Podfile
+          +++ a/firebase-get-to-know-flutter/step_02/ios/Podfile
+          @@ -1,5 +1,5 @@
+          -# Uncomment this line to define a global platform for your project
+          -# platform :ios, '9.0'
+          +# Cloud Firestore requires iOS 10: https://firebase.flutter.dev/docs/manual-installation/ios#ios-supported-versions
+          +platform :ios, '10.0'
+           
+           # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
+           ENV['COCOAPODS_DISABLE_STATS'] = 'true'
+
+      - name: Patch gtk_flutter/macos/Podfile
+        path: gtk_flutter/macos/Podfile
+        patch-u: |
+          --- b/firebase-get-to-know-flutter/step_02/macos/Podfile
+          +++ a/firebase-get-to-know-flutter/step_02/macos/Podfile
+          @@ -1,4 +1,5 @@
+          -platform :osx, '10.11'
+          +# Firebase macOS requires macOS 10.12: https://firebase.flutter.dev/docs/manual-installation/macos#macos-supported-versions
+          +platform :osx, '10.12'
+           
+           # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
+           ENV['COCOAPODS_DISABLE_STATS'] = 'true'
+
       - name: Replace lib/main.dart
         path: gtk_flutter/lib/main.dart
         replace-contents: |
@@ -187,10 +133,12 @@ steps:
           import 'src/widgets.dart';
 
           void main() {
-            runApp(App());
+            runApp(const App());
           }
 
           class App extends StatelessWidget {
+            const App({super.key});
+
             @override
             Widget build(BuildContext context) {
               return MaterialApp(
@@ -211,7 +159,7 @@ steps:
           }
 
           class HomePage extends StatelessWidget {
-            const HomePage({Key? key}) : super(key: key);
+            const HomePage({super.key});
 
             @override
             Widget build(BuildContext context) {
@@ -269,6 +217,7 @@ steps:
               required this.cancelRegistration,
               required this.registerAccount,
               required this.signOut,
+              super.key,
             });
 
             final ApplicationLoginState loginState;
@@ -400,10 +349,10 @@ steps:
           }
 
           class EmailForm extends StatefulWidget {
-            const EmailForm({required this.callback});
+            const EmailForm({required this.callback, super.key});
             final void Function(String email) callback;
             @override
-            _EmailFormState createState() => _EmailFormState();
+            State<EmailForm> createState() => _EmailFormState();
           }
 
           class _EmailFormState extends State<EmailForm> {
@@ -468,13 +417,14 @@ steps:
               required this.registerAccount,
               required this.cancel,
               required this.email,
+              super.key,
             });
             final String email;
             final void Function(String email, String displayName, String password)
                 registerAccount;
             final void Function() cancel;
             @override
-            _RegisterFormState createState() => _RegisterFormState();
+            State<RegisterForm> createState() => _RegisterFormState();
           }
 
           class _RegisterFormState extends State<RegisterForm> {
@@ -586,11 +536,12 @@ steps:
             const PasswordForm({
               required this.login,
               required this.email,
+              super.key,
             });
             final String email;
             final void Function(String email, String password) login;
             @override
-            _PasswordFormState createState() => _PasswordFormState();
+            State<PasswordForm> createState() => _PasswordFormState();
           }
 
           class _PasswordFormState extends State<PasswordForm> {
@@ -682,7 +633,7 @@ steps:
           import 'package:flutter/material.dart';
 
           class Header extends StatelessWidget {
-            const Header(this.heading);
+            const Header(this.heading, {super.key});
             final String heading;
 
             @override
@@ -696,7 +647,7 @@ steps:
           }
 
           class Paragraph extends StatelessWidget {
-            const Paragraph(this.content);
+            const Paragraph(this.content, {super.key});
             final String content;
             @override
             Widget build(BuildContext context) => Padding(
@@ -709,7 +660,7 @@ steps:
           }
 
           class IconAndDetail extends StatelessWidget {
-            const IconAndDetail(this.icon, this.detail);
+            const IconAndDetail(this.icon, this.detail, {super.key});
             final IconData icon;
             final String detail;
 
@@ -730,7 +681,7 @@ steps:
           }
 
           class StyledButton extends StatelessWidget {
-            const StyledButton({required this.child, required this.onPressed});
+            const StyledButton({required this.child, required this.onPressed, super.key});
             final Widget child;
             final void Function() onPressed;
 
@@ -751,7 +702,7 @@ steps:
           void main() {
             testWidgets('Basic rendering', (tester) async {
               // Build our app and trigger a frame.
-              await tester.pumpWidget(App());
+              await tester.pumpWidget(const App());
 
               // Verify that our counter starts at 0.
               expect(find.text('Firebase Meetup'), findsOneWidget);
@@ -2223,16 +2174,34 @@ steps:
           }
       - name: Patch macos/Runner/DebugProfile.entitlements
         path: gtk_flutter/macos/Runner/DebugProfile.entitlements
-        patch: |
-          10a11,12
-          > 	<key>com.apple.security.network.client</key>
-          > 	<true/>
+        patch-u: |
+          --- b/firebase-get-to-know-flutter/step_04/macos/Runner/DebugProfile.entitlements
+          +++ a/firebase-get-to-know-flutter/step_04/macos/Runner/DebugProfile.entitlements
+          @@ -8,5 +8,7 @@
+           	<true/>
+           	<key>com.apple.security.network.server</key>
+           	<true/>
+          +	<key>com.apple.security.network.client</key>
+          +	<true/>
+           </dict>
+           </plist>
+
       - name: Patch macos/Runner/Release.entitlements
         path: gtk_flutter/macos/Runner/Release.entitlements
-        patch: |
-          6a7,8
-          > 	<key>com.apple.security.network.client</key>
-          > 	<true/>
+        patch-u: |
+          diff --git b/firebase-get-to-know-flutter/step_04/macos/Runner/Release.entitlements a/firebase-get-to-know-flutter/step_04/macos/Runner/Release.entitlements
+          index 852fa1a..ee95ab7 100644
+          --- b/firebase-get-to-know-flutter/step_04/macos/Runner/Release.entitlements
+          +++ a/firebase-get-to-know-flutter/step_04/macos/Runner/Release.entitlements
+          @@ -4,5 +4,7 @@
+           <dict>
+           	<key>com.apple.security.app-sandbox</key>
+           	<true/>
+          +	<key>com.apple.security.network.client</key>
+          +	<true/>
+           </dict>
+           </plist>
+
       - name: Copy step_04
         copydir:
           from: gtk_flutter
@@ -2243,141 +2212,168 @@ steps:
         rmdir: step_05
       - name: Patch lib/main.dart
         path: gtk_flutter/lib/main.dart
-        patch: |
-          0a1,2
-          > import 'package:firebase_auth/firebase_auth.dart';
-          > import 'package:firebase_core/firebase_core.dart';
-          2a5
-          > import 'package:provider/provider.dart';
-          3a7,8
-          > import 'firebase_options.dart';
-          > import 'src/authentication.dart';
-          7c12,17
-          <   runApp(App());
-          ---
-          >   runApp(
-          >     ChangeNotifierProvider(
-          >       create: (context) => ApplicationState(),
-          >       builder: (context, _) => App(),
-          >     ),
-          >   );
-          44a55,66
-          >           Consumer<ApplicationState>(
-          >             builder: (context, appState, _) => Authentication(
-          >               email: appState.email,
-          >               loginState: appState.loginState,
-          >               startLoginFlow: appState.startLoginFlow,
-          >               verifyEmail: appState.verifyEmail,
-          >               signInWithEmailAndPassword: appState.signInWithEmailAndPassword,
-          >               cancelRegistration: appState.cancelRegistration,
-          >               registerAccount: appState.registerAccount,
-          >               signOut: appState.signOut,
-          >             ),
-          >           ),
-          60a83,171
-          > 
-          > class ApplicationState extends ChangeNotifier {
-          >   ApplicationState() {
-          >     init();
-          >   }
-          > 
-          >   Future<void> init() async {
-          >     await Firebase.initializeApp(
-          >       options: DefaultFirebaseOptions.currentPlatform,
-          >     );
-          > 
-          >     FirebaseAuth.instance.userChanges().listen((user) {
-          >       if (user != null) {
-          >         _loginState = ApplicationLoginState.loggedIn;
-          >       } else {
-          >         _loginState = ApplicationLoginState.loggedOut;
-          >       }
-          >       notifyListeners();
-          >     });
-          >   }
-          > 
-          >   ApplicationLoginState _loginState = ApplicationLoginState.loggedOut;
-          >   ApplicationLoginState get loginState => _loginState;
-          > 
-          >   String? _email;
-          >   String? get email => _email;
-          > 
-          >   void startLoginFlow() {
-          >     _loginState = ApplicationLoginState.emailAddress;
-          >     notifyListeners();
-          >   }
-          > 
-          >   Future<void> verifyEmail(
-          >     String email,
-          >     void Function(FirebaseAuthException e) errorCallback,
-          >   ) async {
-          >     try {
-          >       var methods =
-          >           await FirebaseAuth.instance.fetchSignInMethodsForEmail(email);
-          >       if (methods.contains('password')) {
-          >         _loginState = ApplicationLoginState.password;
-          >       } else {
-          >         _loginState = ApplicationLoginState.register;
-          >       }
-          >       _email = email;
-          >       notifyListeners();
-          >     } on FirebaseAuthException catch (e) {
-          >       errorCallback(e);
-          >     }
-          >   }
-          > 
-          >   Future<void> signInWithEmailAndPassword(
-          >     String email,
-          >     String password,
-          >     void Function(FirebaseAuthException e) errorCallback,
-          >   ) async {
-          >     try {
-          >       await FirebaseAuth.instance.signInWithEmailAndPassword(
-          >         email: email,
-          >         password: password,
-          >       );
-          >     } on FirebaseAuthException catch (e) {
-          >       errorCallback(e);
-          >     }
-          >   }
-          > 
-          >   void cancelRegistration() {
-          >     _loginState = ApplicationLoginState.emailAddress;
-          >     notifyListeners();
-          >   }
-          > 
-          >   Future<void> registerAccount(
-          >       String email,
-          >       String displayName,
-          >       String password,
-          >       void Function(FirebaseAuthException e) errorCallback) async {
-          >     try {
-          >       var credential = await FirebaseAuth.instance
-          >           .createUserWithEmailAndPassword(email: email, password: password);
-          >       await credential.user!.updateDisplayName(displayName);
-          >     } on FirebaseAuthException catch (e) {
-          >       errorCallback(e);
-          >     }
-          >   }
-          > 
-          >   void signOut() {
-          >     FirebaseAuth.instance.signOut();
-          >   }
-          > }
+        patch-u: |
+          --- b/firebase-get-to-know-flutter/step_05/lib/main.dart
+          +++ a/firebase-get-to-know-flutter/step_05/lib/main.dart
+          @@ -1,10 +1,20 @@
+          +import 'package:firebase_auth/firebase_auth.dart';
+          +import 'package:firebase_core/firebase_core.dart';
+           import 'package:flutter/material.dart';
+           import 'package:google_fonts/google_fonts.dart';
+          +import 'package:provider/provider.dart';
+           
+          +import 'firebase_options.dart';
+          +import 'src/authentication.dart';
+           import 'src/widgets.dart';
+           
+           void main() {
+          -  runApp(const App());
+          +  runApp(
+          +    ChangeNotifierProvider(
+          +      create: (context) => ApplicationState(),
+          +      builder: (context, _) => const App(),
+          +    ),
+          +  );
+           }
+           
+           class App extends StatelessWidget {
+          @@ -44,6 +54,18 @@ class HomePage extends StatelessWidget {
+                     const SizedBox(height: 8),
+                     const IconAndDetail(Icons.calendar_today, 'October 30'),
+                     const IconAndDetail(Icons.location_city, 'San Francisco'),
+          +          Consumer<ApplicationState>(
+          +            builder: (context, appState, _) => Authentication(
+          +              email: appState.email,
+          +              loginState: appState.loginState,
+          +              startLoginFlow: appState.startLoginFlow,
+          +              verifyEmail: appState.verifyEmail,
+          +              signInWithEmailAndPassword: appState.signInWithEmailAndPassword,
+          +              cancelRegistration: appState.cancelRegistration,
+          +              registerAccount: appState.registerAccount,
+          +              signOut: appState.signOut,
+          +            ),
+          +          ),
+                     const Divider(
+                       height: 8,
+                       thickness: 1,
+          @@ -60,3 +82,92 @@ class HomePage extends StatelessWidget {
+               );
+             }
+           }
+          +
+          +class ApplicationState extends ChangeNotifier {
+          +  ApplicationState() {
+          +    init();
+          +  }
+          +
+          +  Future<void> init() async {
+          +    await Firebase.initializeApp(
+          +      options: DefaultFirebaseOptions.currentPlatform,
+          +    );
+          +
+          +    FirebaseAuth.instance.userChanges().listen((user) {
+          +      if (user != null) {
+          +        _loginState = ApplicationLoginState.loggedIn;
+          +      } else {
+          +        _loginState = ApplicationLoginState.loggedOut;
+          +      }
+          +      notifyListeners();
+          +    });
+          +  }
+          +
+          +  ApplicationLoginState _loginState = ApplicationLoginState.loggedOut;
+          +  ApplicationLoginState get loginState => _loginState;
+          +
+          +  String? _email;
+          +  String? get email => _email;
+          +
+          +  void startLoginFlow() {
+          +    _loginState = ApplicationLoginState.emailAddress;
+          +    notifyListeners();
+          +  }
+          +
+          +  Future<void> verifyEmail(
+          +    String email,
+          +    void Function(FirebaseAuthException e) errorCallback,
+          +  ) async {
+          +    try {
+          +      var methods =
+          +          await FirebaseAuth.instance.fetchSignInMethodsForEmail(email);
+          +      if (methods.contains('password')) {
+          +        _loginState = ApplicationLoginState.password;
+          +      } else {
+          +        _loginState = ApplicationLoginState.register;
+          +      }
+          +      _email = email;
+          +      notifyListeners();
+          +    } on FirebaseAuthException catch (e) {
+          +      errorCallback(e);
+          +    }
+          +  }
+          +
+          +  Future<void> signInWithEmailAndPassword(
+          +    String email,
+          +    String password,
+          +    void Function(FirebaseAuthException e) errorCallback,
+          +  ) async {
+          +    try {
+          +      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          +        email: email,
+          +        password: password,
+          +      );
+          +    } on FirebaseAuthException catch (e) {
+          +      errorCallback(e);
+          +    }
+          +  }
+          +
+          +  void cancelRegistration() {
+          +    _loginState = ApplicationLoginState.emailAddress;
+          +    notifyListeners();
+          +  }
+          +
+          +  Future<void> registerAccount(
+          +      String email,
+          +      String displayName,
+          +      String password,
+          +      void Function(FirebaseAuthException e) errorCallback) async {
+          +    try {
+          +      var credential = await FirebaseAuth.instance
+          +          .createUserWithEmailAndPassword(email: email, password: password);
+          +      await credential.user!.updateDisplayName(displayName);
+          +    } on FirebaseAuthException catch (e) {
+          +      errorCallback(e);
+          +    }
+          +  }
+          +
+          +  void signOut() {
+          +    FirebaseAuth.instance.signOut();
+          +  }
+          +}
+
       - name: Patch test/widget_test.dart
         path: gtk_flutter/test/widget_test.dart
-        patch: |
-          2a3
-          > import 'package:provider/provider.dart';
-          7c8,13
-          <     await tester.pumpWidget(App());
-          ---
-          >     await tester.pumpWidget(
-          >       ChangeNotifierProvider(
-          >         create: (context) => ApplicationState(),
-          >         builder: (context, _) => App(),
-          >       ),
-          >     );
+        patch-u: |
+          --- b/firebase-get-to-know-flutter/step_05/test/widget_test.dart
+          +++ a/firebase-get-to-know-flutter/step_05/test/widget_test.dart
+          @@ -1,10 +1,16 @@
+           import 'package:flutter_test/flutter_test.dart';
+           import 'package:gtk_flutter/main.dart';
+          +import 'package:provider/provider.dart';
+           
+           void main() {
+             testWidgets('Basic rendering', (tester) async {
+               // Build our app and trigger a frame.
+          -    await tester.pumpWidget(const App());
+          +    await tester.pumpWidget(
+          +      ChangeNotifierProvider(
+          +        create: (context) => ApplicationState(),
+          +        builder: (context, _) => const App(),
+          +      ),
+          +    );
+           
+               // Verify that our counter starts at 0.
+               expect(find.text('Firebase Meetup'), findsOneWidget);
+
       - name: Copy step_05
         copydir:
           from: gtk_flutter
@@ -2388,99 +2384,115 @@ steps:
         rmdir: step_06
       - name: Patch lib/main.dart
         path: gtk_flutter/lib/main.dart
-        patch: |
-          0a1,3
-          > import 'dart:async';
-          > 
-          > import 'package:cloud_firestore/cloud_firestore.dart';
-          77a81,94
-          >           Consumer<ApplicationState>(
-          >             builder: (context, appState, _) => Column(
-          >               crossAxisAlignment: CrossAxisAlignment.start,
-          >               children: [
-          >                 if (appState.loginState == ApplicationLoginState.loggedIn) ...[
-          >                   const Header('Discussion'),
-          >                   GuestBook(
-          >                     addMessage: (message) =>
-          >                         appState.addMessageToGuestBook(message),
-          >                   ),
-          >                 ],
-          >               ],
-          >             ),
-          >           ),
-          170a188,259
-          > 
-          >   Future<DocumentReference> addMessageToGuestBook(String message) {
-          >     if (_loginState != ApplicationLoginState.loggedIn) {
-          >       throw Exception('Must be logged in');
-          >     }
-          > 
-          >     return FirebaseFirestore.instance
-          >         .collection('guestbook')
-          >         .add(<String, dynamic>{
-          >       'text': message,
-          >       'timestamp': DateTime.now().millisecondsSinceEpoch,
-          >       'name': FirebaseAuth.instance.currentUser!.displayName,
-          >       'userId': FirebaseAuth.instance.currentUser!.uid,
-          >     });
-          >   }
-          > }
-          > 
-          > class GuestBook extends StatefulWidget {
-          >   const GuestBook({required this.addMessage});
-          >   final FutureOr<void> Function(String message) addMessage;
-          > 
-          >   @override
-          >   _GuestBookState createState() => _GuestBookState();
-          > }
-          > 
-          > class _GuestBookState extends State<GuestBook> {
-          >   final _formKey = GlobalKey<FormState>(debugLabel: '_GuestBookState');
-          >   final _controller = TextEditingController();
-          > 
-          >   @override
-          >   Widget build(BuildContext context) {
-          >     return Padding(
-          >       padding: const EdgeInsets.all(8.0),
-          >       child: Form(
-          >         key: _formKey,
-          >         child: Row(
-          >           children: [
-          >             Expanded(
-          >               child: TextFormField(
-          >                 controller: _controller,
-          >                 decoration: const InputDecoration(
-          >                   hintText: 'Leave a message',
-          >                 ),
-          >                 validator: (value) {
-          >                   if (value == null || value.isEmpty) {
-          >                     return 'Enter your message to continue';
-          >                   }
-          >                   return null;
-          >                 },
-          >               ),
-          >             ),
-          >             const SizedBox(width: 8),
-          >             StyledButton(
-          >               onPressed: () async {
-          >                 if (_formKey.currentState!.validate()) {
-          >                   await widget.addMessage(_controller.text);
-          >                   _controller.clear();
-          >                 }
-          >               },
-          >               child: Row(
-          >                 children: const [
-          >                   Icon(Icons.send),
-          >                   SizedBox(width: 4),
-          >                   Text('SEND'),
-          >                 ],
-          >               ),
-          >             ),
-          >           ],
-          >         ),
-          >       ),
-          >     );
-          >   }
+        patch-u: |
+          --- b/firebase-get-to-know-flutter/step_06/lib/main.dart
+          +++ a/firebase-get-to-know-flutter/step_06/lib/main.dart
+          @@ -1,3 +1,6 @@
+          +import 'dart:async';
+          +
+          +import 'package:cloud_firestore/cloud_firestore.dart';
+           import 'package:firebase_auth/firebase_auth.dart';
+           import 'package:firebase_core/firebase_core.dart';
+           import 'package:flutter/material.dart';
+          @@ -77,6 +80,20 @@ class HomePage extends StatelessWidget {
+                     const Paragraph(
+                       'Join us for a day full of Firebase Workshops and Pizza!',
+                     ),
+          +          Consumer<ApplicationState>(
+          +            builder: (context, appState, _) => Column(
+          +              crossAxisAlignment: CrossAxisAlignment.start,
+          +              children: [
+          +                if (appState.loginState == ApplicationLoginState.loggedIn) ...[
+          +                  const Header('Discussion'),
+          +                  GuestBook(
+          +                    addMessage: (message) =>
+          +                        appState.addMessageToGuestBook(message),
+          +                  ),
+          +                ],
+          +              ],
+          +            ),
+          +          ),
+                   ],
+                 ),
+               );
+          @@ -170,4 +187,76 @@ class ApplicationState extends ChangeNotifier {
+             void signOut() {
+               FirebaseAuth.instance.signOut();
+             }
+          +
+          +  Future<DocumentReference> addMessageToGuestBook(String message) {
+          +    if (_loginState != ApplicationLoginState.loggedIn) {
+          +      throw Exception('Must be logged in');
+          +    }
+          +
+          +    return FirebaseFirestore.instance
+          +        .collection('guestbook')
+          +        .add(<String, dynamic>{
+          +      'text': message,
+          +      'timestamp': DateTime.now().millisecondsSinceEpoch,
+          +      'name': FirebaseAuth.instance.currentUser!.displayName,
+          +      'userId': FirebaseAuth.instance.currentUser!.uid,
+          +    });
+          +  }
+          +}
+          +
+          +class GuestBook extends StatefulWidget {
+          +  const GuestBook({required this.addMessage, super.key});
+          +  final FutureOr<void> Function(String message) addMessage;
+          +
+          +  @override
+          +  State<GuestBook> createState() => _GuestBookState();
+          +}
+          +
+          +class _GuestBookState extends State<GuestBook> {
+          +  final _formKey = GlobalKey<FormState>(debugLabel: '_GuestBookState');
+          +  final _controller = TextEditingController();
+          +
+          +  @override
+          +  Widget build(BuildContext context) {
+          +    return Padding(
+          +      padding: const EdgeInsets.all(8.0),
+          +      child: Form(
+          +        key: _formKey,
+          +        child: Row(
+          +          children: [
+          +            Expanded(
+          +              child: TextFormField(
+          +                controller: _controller,
+          +                decoration: const InputDecoration(
+          +                  hintText: 'Leave a message',
+          +                ),
+          +                validator: (value) {
+          +                  if (value == null || value.isEmpty) {
+          +                    return 'Enter your message to continue';
+          +                  }
+          +                  return null;
+          +                },
+          +              ),
+          +            ),
+          +            const SizedBox(width: 8),
+          +            StyledButton(
+          +              onPressed: () async {
+          +                if (_formKey.currentState!.validate()) {
+          +                  await widget.addMessage(_controller.text);
+          +                  _controller.clear();
+          +                }
+          +              },
+          +              child: Row(
+          +                children: const [
+          +                  Icon(Icons.send),
+          +                  SizedBox(width: 4),
+          +                  Text('SEND'),
+          +                ],
+          +              ),
+          +            ),
+          +          ],
+          +        ),
+          +      ),
+          +    );
+          +  }
+           }
+
       - name: Copy step_06
         copydir:
           from: gtk_flutter
@@ -2491,136 +2503,169 @@ steps:
         rmdir: step_07
       - name: Patch lib/main.dart
         path: gtk_flutter/lib/main.dart
-        patch: |
-          89a90
-          >                     messages: appState.guestBookMessages,
-          113a115,130
-          >         _guestBookSubscription = FirebaseFirestore.instance
-          >             .collection('guestbook')
-          >             .orderBy('timestamp', descending: true)
-          >             .snapshots()
-          >             .listen((snapshot) {
-          >           _guestBookMessages = [];
-          >           for (final document in snapshot.docs) {
-          >             _guestBookMessages.add(
-          >               GuestBookMessage(
-          >                 name: document.data()['name'] as String,
-          >                 message: document.data()['text'] as String,
-          >               ),
-          >             );
-          >           }
-          >           notifyListeners();
-          >         });
-          115a133,134
-          >         _guestBookMessages = [];
-          >         _guestBookSubscription?.cancel();
-          126a146,149
-          >   StreamSubscription<QuerySnapshot>? _guestBookSubscription;
-          >   List<GuestBookMessage> _guestBookMessages = [];
-          >   List<GuestBookMessage> get guestBookMessages => _guestBookMessages;
-          > 
-          204a228,233
-          > class GuestBookMessage {
-          >   GuestBookMessage({required this.name, required this.message});
-          >   final String name;
-          >   final String message;
-          > }
-          > 
-          206c235
-          <   const GuestBook({required this.addMessage});
-          ---
-          >   const GuestBook({required this.addMessage, required this.messages});
-          207a237
-          >   final List<GuestBookMessage> messages;
-          219,229c249,270
-          <     return Padding(
-          <       padding: const EdgeInsets.all(8.0),
-          <       child: Form(
-          <         key: _formKey,
-          <         child: Row(
-          <           children: [
-          <             Expanded(
-          <               child: TextFormField(
-          <                 controller: _controller,
-          <                 decoration: const InputDecoration(
-          <                   hintText: 'Leave a message',
-          ---
-          >     return Column(
-          >       crossAxisAlignment: CrossAxisAlignment.start,
-          >       children: [
-          >         Padding(
-          >           padding: const EdgeInsets.all(8.0),
-          >           child: Form(
-          >             key: _formKey,
-          >             child: Row(
-          >               children: [
-          >                 Expanded(
-          >                   child: TextFormField(
-          >                     controller: _controller,
-          >                     decoration: const InputDecoration(
-          >                       hintText: 'Leave a message',
-          >                     ),
-          >                     validator: (value) {
-          >                       if (value == null || value.isEmpty) {
-          >                         return 'Enter your message to continue';
-          >                       }
-          >                       return null;
-          >                     },
-          >                   ),
-          231,253c272,288
-          <                 validator: (value) {
-          <                   if (value == null || value.isEmpty) {
-          <                     return 'Enter your message to continue';
-          <                   }
-          <                   return null;
-          <                 },
-          <               ),
-          <             ),
-          <             const SizedBox(width: 8),
-          <             StyledButton(
-          <               onPressed: () async {
-          <                 if (_formKey.currentState!.validate()) {
-          <                   await widget.addMessage(_controller.text);
-          <                   _controller.clear();
-          <                 }
-          <               },
-          <               child: Row(
-          <                 children: const [
-          <                   Icon(Icons.send),
-          <                   SizedBox(width: 4),
-          <                   Text('SEND'),
-          <                 ],
-          <               ),
-          ---
-          >                 const SizedBox(width: 8),
-          >                 StyledButton(
-          >                   onPressed: () async {
-          >                     if (_formKey.currentState!.validate()) {
-          >                       await widget.addMessage(_controller.text);
-          >                       _controller.clear();
-          >                     }
-          >                   },
-          >                   child: Row(
-          >                     children: const [
-          >                       Icon(Icons.send),
-          >                       SizedBox(width: 4),
-          >                       Text('SEND'),
-          >                     ],
-          >                   ),
-          >                 ),
-          >               ],
-          255c290
-          <           ],
-          ---
-          >           ),
-          257c292,296
-          <       ),
-          ---
-          >         const SizedBox(height: 8),
-          >         for (var message in widget.messages)
-          >           Paragraph('${message.name}: ${message.message}'),
-          >         const SizedBox(height: 8),
-          >       ],
+        patch-u: |
+          --- b/firebase-get-to-know-flutter/step_07/lib/main.dart
+          +++ a/firebase-get-to-know-flutter/step_07/lib/main.dart
+          @@ -89,6 +89,7 @@ class HomePage extends StatelessWidget {
+                             GuestBook(
+                               addMessage: (message) =>
+                                   appState.addMessageToGuestBook(message),
+          +                    messages: appState.guestBookMessages,
+                             ),
+                           ],
+                         ],
+          @@ -113,8 +114,26 @@ class ApplicationState extends ChangeNotifier {
+               FirebaseAuth.instance.userChanges().listen((user) {
+                 if (user != null) {
+                   _loginState = ApplicationLoginState.loggedIn;
+          +        _guestBookSubscription = FirebaseFirestore.instance
+          +            .collection('guestbook')
+          +            .orderBy('timestamp', descending: true)
+          +            .snapshots()
+          +            .listen((snapshot) {
+          +          _guestBookMessages = [];
+          +          for (final document in snapshot.docs) {
+          +            _guestBookMessages.add(
+          +              GuestBookMessage(
+          +                name: document.data()['name'] as String,
+          +                message: document.data()['text'] as String,
+          +              ),
+          +            );
+          +          }
+          +          notifyListeners();
+          +        });
+                 } else {
+                   _loginState = ApplicationLoginState.loggedOut;
+          +        _guestBookMessages = [];
+          +        _guestBookSubscription?.cancel();
+                 }
+                 notifyListeners();
+               });
+          @@ -126,6 +145,10 @@ class ApplicationState extends ChangeNotifier {
+             String? _email;
+             String? get email => _email;
+           
+          +  StreamSubscription<QuerySnapshot>? _guestBookSubscription;
+          +  List<GuestBookMessage> _guestBookMessages = [];
+          +  List<GuestBookMessage> get guestBookMessages => _guestBookMessages;
+          +
+             void startLoginFlow() {
+               _loginState = ApplicationLoginState.emailAddress;
+               notifyListeners();
+          @@ -204,9 +227,20 @@ class ApplicationState extends ChangeNotifier {
+             }
+           }
+           
+          +class GuestBookMessage {
+          +  GuestBookMessage({required this.name, required this.message});
+          +  final String name;
+          +  final String message;
+          +}
+          +
+           class GuestBook extends StatefulWidget {
+          -  const GuestBook({required this.addMessage, super.key});
+          +  const GuestBook({
+          +    required this.addMessage,
+          +    required this.messages,
+          +    super.key,
+          +  });
+             final FutureOr<void> Function(String message) addMessage;
+          +  final List<GuestBookMessage> messages;
+           
+             @override
+             State<GuestBook> createState() => _GuestBookState();
+          @@ -218,45 +252,54 @@ class _GuestBookState extends State<GuestBook> {
+           
+             @override
+             Widget build(BuildContext context) {
+          -    return Padding(
+          -      padding: const EdgeInsets.all(8.0),
+          -      child: Form(
+          -        key: _formKey,
+          -        child: Row(
+          -          children: [
+          -            Expanded(
+          -              child: TextFormField(
+          -                controller: _controller,
+          -                decoration: const InputDecoration(
+          -                  hintText: 'Leave a message',
+          +    return Column(
+          +      crossAxisAlignment: CrossAxisAlignment.start,
+          +      children: [
+          +        Padding(
+          +          padding: const EdgeInsets.all(8.0),
+          +          child: Form(
+          +            key: _formKey,
+          +            child: Row(
+          +              children: [
+          +                Expanded(
+          +                  child: TextFormField(
+          +                    controller: _controller,
+          +                    decoration: const InputDecoration(
+          +                      hintText: 'Leave a message',
+          +                    ),
+          +                    validator: (value) {
+          +                      if (value == null || value.isEmpty) {
+          +                        return 'Enter your message to continue';
+          +                      }
+          +                      return null;
+          +                    },
+          +                  ),
+                           ),
+          -                validator: (value) {
+          -                  if (value == null || value.isEmpty) {
+          -                    return 'Enter your message to continue';
+          -                  }
+          -                  return null;
+          -                },
+          -              ),
+          -            ),
+          -            const SizedBox(width: 8),
+          -            StyledButton(
+          -              onPressed: () async {
+          -                if (_formKey.currentState!.validate()) {
+          -                  await widget.addMessage(_controller.text);
+          -                  _controller.clear();
+          -                }
+          -              },
+          -              child: Row(
+          -                children: const [
+          -                  Icon(Icons.send),
+          -                  SizedBox(width: 4),
+          -                  Text('SEND'),
+          -                ],
+          -              ),
+          +                const SizedBox(width: 8),
+          +                StyledButton(
+          +                  onPressed: () async {
+          +                    if (_formKey.currentState!.validate()) {
+          +                      await widget.addMessage(_controller.text);
+          +                      _controller.clear();
+          +                    }
+          +                  },
+          +                  child: Row(
+          +                    children: const [
+          +                      Icon(Icons.send),
+          +                      SizedBox(width: 4),
+          +                      Text('SEND'),
+          +                    ],
+          +                  ),
+          +                ),
+          +              ],
+                       ),
+          -          ],
+          +          ),
+                   ),
+          -      ),
+          +        const SizedBox(height: 8),
+          +        for (var message in widget.messages)
+          +          Paragraph('${message.name}: ${message.message}'),
+          +        const SizedBox(height: 8),
+          +      ],
+               );
+             }
+           }
+
       - name: Copy step_07
         copydir:
           from: gtk_flutter
@@ -2631,135 +2676,178 @@ steps:
         rmdir: step_09
       - name: Patch lib/main.dart
         path: gtk_flutter/lib/main.dart
-        patch: |
-          84a85,90
-          >                 if (appState.attendees >= 2)
-          >                   Paragraph('${appState.attendees} people going')
-          >                 else if (appState.attendees == 1)
-          >                   const Paragraph('1 person going')
-          >                 else
-          >                   const Paragraph('No one going'),
-          85a92,95
-          >                   YesNoSelection(
-          >                     state: appState.attending,
-          >                     onSelection: (attending) => appState.attending = attending,
-          >                   ),
-          111a122,130
-          >     FirebaseFirestore.instance
-          >         .collection('attendees')
-          >         .where('attending', isEqualTo: true)
-          >         .snapshots()
-          >         .listen((snapshot) {
-          >       _attendees = snapshot.docs.length;
-          >       notifyListeners();
-          >     });
-          > 
-          130a150,165
-          >         _attendingSubscription = FirebaseFirestore.instance
-          >             .collection('attendees')
-          >             .doc(user.uid)
-          >             .snapshots()
-          >             .listen((snapshot) {
-          >           if (snapshot.data() != null) {
-          >             if (snapshot.data()!['attending'] as bool) {
-          >               _attending = Attending.yes;
-          >             } else {
-          >               _attending = Attending.no;
-          >             }
-          >           } else {
-          >             _attending = Attending.unknown;
-          >           }
-          >           notifyListeners();
-          >         });
-          134a170
-          >         _attendingSubscription?.cancel();
-          149a186,202
-          >   int _attendees = 0;
-          >   int get attendees => _attendees;
-          > 
-          >   Attending _attending = Attending.unknown;
-          >   StreamSubscription<DocumentSnapshot>? _attendingSubscription;
-          >   Attending get attending => _attending;
-          >   set attending(Attending attending) {
-          >     final userDoc = FirebaseFirestore.instance
-          >         .collection('attendees')
-          >         .doc(FirebaseAuth.instance.currentUser!.uid);
-          >     if (attending == Attending.yes) {
-          >       userDoc.set(<String, dynamic>{'attending': true});
-          >     } else {
-          >       userDoc.set(<String, dynamic>{'attending': false});
-          >     }
-          >   }
-          > 
-          233a287,288
-          > enum Attending { yes, no, unknown }
-          > 
-          299a355,419
-          > 
-          > class YesNoSelection extends StatelessWidget {
-          >   const YesNoSelection({required this.state, required this.onSelection});
-          >   final Attending state;
-          >   final void Function(Attending selection) onSelection;
-          > 
-          >   @override
-          >   Widget build(BuildContext context) {
-          >     switch (state) {
-          >       case Attending.yes:
-          >         return Padding(
-          >           padding: const EdgeInsets.all(8.0),
-          >           child: Row(
-          >             children: [
-          >               ElevatedButton(
-          >                 style: ElevatedButton.styleFrom(elevation: 0),
-          >                 onPressed: () => onSelection(Attending.yes),
-          >                 child: const Text('YES'),
-          >               ),
-          >               const SizedBox(width: 8),
-          >               TextButton(
-          >                 onPressed: () => onSelection(Attending.no),
-          >                 child: const Text('NO'),
-          >               ),
-          >             ],
-          >           ),
-          >         );
-          >       case Attending.no:
-          >         return Padding(
-          >           padding: const EdgeInsets.all(8.0),
-          >           child: Row(
-          >             children: [
-          >               TextButton(
-          >                 onPressed: () => onSelection(Attending.yes),
-          >                 child: const Text('YES'),
-          >               ),
-          >               const SizedBox(width: 8),
-          >               ElevatedButton(
-          >                 style: ElevatedButton.styleFrom(elevation: 0),
-          >                 onPressed: () => onSelection(Attending.no),
-          >                 child: const Text('NO'),
-          >               ),
-          >             ],
-          >           ),
-          >         );
-          >       default:
-          >         return Padding(
-          >           padding: const EdgeInsets.all(8.0),
-          >           child: Row(
-          >             children: [
-          >               StyledButton(
-          >                 onPressed: () => onSelection(Attending.yes),
-          >                 child: const Text('YES'),
-          >               ),
-          >               const SizedBox(width: 8),
-          >               StyledButton(
-          >                 onPressed: () => onSelection(Attending.no),
-          >                 child: const Text('NO'),
-          >               ),
-          >             ],
-          >           ),
-          >         );
-          >     }
-          >   }
-          > }
+        patch-u: |
+          --- b/firebase-get-to-know-flutter/step_09/lib/main.dart
+          +++ a/firebase-get-to-know-flutter/step_09/lib/main.dart
+          @@ -84,7 +84,17 @@ class HomePage extends StatelessWidget {
+                       builder: (context, appState, _) => Column(
+                         crossAxisAlignment: CrossAxisAlignment.start,
+                         children: [
+          +                if (appState.attendees >= 2)
+          +                  Paragraph('${appState.attendees} people going')
+          +                else if (appState.attendees == 1)
+          +                  const Paragraph('1 person going')
+          +                else
+          +                  const Paragraph('No one going'),
+                           if (appState.loginState == ApplicationLoginState.loggedIn) ...[
+          +                  YesNoSelection(
+          +                    state: appState.attending,
+          +                    onSelection: (attending) => appState.attending = attending,
+          +                  ),
+                             const Header('Discussion'),
+                             GuestBook(
+                               addMessage: (message) =>
+          @@ -111,6 +121,15 @@ class ApplicationState extends ChangeNotifier {
+                 options: DefaultFirebaseOptions.currentPlatform,
+               );
+           
+          +    FirebaseFirestore.instance
+          +        .collection('attendees')
+          +        .where('attending', isEqualTo: true)
+          +        .snapshots()
+          +        .listen((snapshot) {
+          +      _attendees = snapshot.docs.length;
+          +      notifyListeners();
+          +    });
+          +
+               FirebaseAuth.instance.userChanges().listen((user) {
+                 if (user != null) {
+                   _loginState = ApplicationLoginState.loggedIn;
+          @@ -130,10 +149,27 @@ class ApplicationState extends ChangeNotifier {
+                     }
+                     notifyListeners();
+                   });
+          +        _attendingSubscription = FirebaseFirestore.instance
+          +            .collection('attendees')
+          +            .doc(user.uid)
+          +            .snapshots()
+          +            .listen((snapshot) {
+          +          if (snapshot.data() != null) {
+          +            if (snapshot.data()!['attending'] as bool) {
+          +              _attending = Attending.yes;
+          +            } else {
+          +              _attending = Attending.no;
+          +            }
+          +          } else {
+          +            _attending = Attending.unknown;
+          +          }
+          +          notifyListeners();
+          +        });
+                 } else {
+                   _loginState = ApplicationLoginState.loggedOut;
+                   _guestBookMessages = [];
+                   _guestBookSubscription?.cancel();
+          +        _attendingSubscription?.cancel();
+                 }
+                 notifyListeners();
+               });
+          @@ -149,6 +185,23 @@ class ApplicationState extends ChangeNotifier {
+             List<GuestBookMessage> _guestBookMessages = [];
+             List<GuestBookMessage> get guestBookMessages => _guestBookMessages;
+           
+          +  int _attendees = 0;
+          +  int get attendees => _attendees;
+          +
+          +  Attending _attending = Attending.unknown;
+          +  StreamSubscription<DocumentSnapshot>? _attendingSubscription;
+          +  Attending get attending => _attending;
+          +  set attending(Attending attending) {
+          +    final userDoc = FirebaseFirestore.instance
+          +        .collection('attendees')
+          +        .doc(FirebaseAuth.instance.currentUser!.uid);
+          +    if (attending == Attending.yes) {
+          +      userDoc.set(<String, dynamic>{'attending': true});
+          +    } else {
+          +      userDoc.set(<String, dynamic>{'attending': false});
+          +    }
+          +  }
+          +
+             void startLoginFlow() {
+               _loginState = ApplicationLoginState.emailAddress;
+               notifyListeners();
+          @@ -233,6 +286,8 @@ class GuestBookMessage {
+             final String message;
+           }
+           
+          +enum Attending { yes, no, unknown }
+          +
+           class GuestBook extends StatefulWidget {
+             const GuestBook({
+               required this.addMessage,
+          @@ -303,3 +358,72 @@ class _GuestBookState extends State<GuestBook> {
+               );
+             }
+           }
+          +
+          +class YesNoSelection extends StatelessWidget {
+          +  const YesNoSelection({
+          +    required this.state,
+          +    required this.onSelection,
+          +    super.key,
+          +  });
+          +  final Attending state;
+          +  final void Function(Attending selection) onSelection;
+          +
+          +  @override
+          +  Widget build(BuildContext context) {
+          +    switch (state) {
+          +      case Attending.yes:
+          +        return Padding(
+          +          padding: const EdgeInsets.all(8.0),
+          +          child: Row(
+          +            children: [
+          +              ElevatedButton(
+          +                style: ElevatedButton.styleFrom(elevation: 0),
+          +                onPressed: () => onSelection(Attending.yes),
+          +                child: const Text('YES'),
+          +              ),
+          +              const SizedBox(width: 8),
+          +              TextButton(
+          +                onPressed: () => onSelection(Attending.no),
+          +                child: const Text('NO'),
+          +              ),
+          +            ],
+          +          ),
+          +        );
+          +      case Attending.no:
+          +        return Padding(
+          +          padding: const EdgeInsets.all(8.0),
+          +          child: Row(
+          +            children: [
+          +              TextButton(
+          +                onPressed: () => onSelection(Attending.yes),
+          +                child: const Text('YES'),
+          +              ),
+          +              const SizedBox(width: 8),
+          +              ElevatedButton(
+          +                style: ElevatedButton.styleFrom(elevation: 0),
+          +                onPressed: () => onSelection(Attending.no),
+          +                child: const Text('NO'),
+          +              ),
+          +            ],
+          +          ),
+          +        );
+          +      default:
+          +        return Padding(
+          +          padding: const EdgeInsets.all(8.0),
+          +          child: Row(
+          +            children: [
+          +              StyledButton(
+          +                onPressed: () => onSelection(Attending.yes),
+          +                child: const Text('YES'),
+          +              ),
+          +              const SizedBox(width: 8),
+          +              StyledButton(
+          +                onPressed: () => onSelection(Attending.no),
+          +                child: const Text('NO'),
+          +              ),
+          +            ],
+          +          ),
+          +        );
+          +    }
+          +  }
+          +}
+
       - name: Copy step_09
         copydir:
           from: gtk_flutter

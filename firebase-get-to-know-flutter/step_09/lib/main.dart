@@ -15,12 +15,14 @@ void main() {
   runApp(
     ChangeNotifierProvider(
       create: (context) => ApplicationState(),
-      builder: (context, _) => App(),
+      builder: (context, _) => const App(),
     ),
   );
 }
 
 class App extends StatelessWidget {
+  const App({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -41,7 +43,7 @@ class App extends StatelessWidget {
 }
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -287,7 +289,11 @@ class GuestBookMessage {
 enum Attending { yes, no, unknown }
 
 class GuestBook extends StatefulWidget {
-  const GuestBook({required this.addMessage, required this.messages});
+  const GuestBook({
+    required this.addMessage,
+    required this.messages,
+    super.key,
+  });
   final FutureOr<void> Function(String message) addMessage;
   final List<GuestBookMessage> messages;
 
@@ -354,7 +360,11 @@ class _GuestBookState extends State<GuestBook> {
 }
 
 class YesNoSelection extends StatelessWidget {
-  const YesNoSelection({required this.state, required this.onSelection});
+  const YesNoSelection({
+    required this.state,
+    required this.onSelection,
+    super.key,
+  });
   final Attending state;
   final void Function(Attending selection) onSelection;
 
