@@ -35,7 +35,7 @@ class TFServingDemo extends StatefulWidget {
   const TFServingDemo({Key? key}) : super(key: key);
 
   @override
-  _TFServingDemoState createState() => _TFServingDemoState();
+  State<TFServingDemo> createState() => _TFServingDemoState();
 }
 
 class _TFServingDemoState extends State<TFServingDemo> {
@@ -194,13 +194,7 @@ class _TFServingDemoState extends State<TFServingDemo> {
 
     if (_connectionMode == ConnectionModeType.rest) {
       final response = await http.post(
-        Uri.parse('http://' +
-            _server +
-            ':' +
-            restPort.toString() +
-            '/v1/models/' +
-            modelName +
-            ':predict'),
+        Uri.parse('http://$_server:$restPort/v1/models/$modelName:predict'),
         body: jsonEncode(<String, List<List<int>>>{
           'instances': [_tokenIndices],
         }),
@@ -211,11 +205,9 @@ class _TFServingDemoState extends State<TFServingDemo> {
             jsonDecode(response.body) as Map<String, dynamic>;
         if ((result['predictions']![0][1] as double) >=
             classificationThreshold) {
-          return 'This sentence is spam. Spam score is ' +
-              result['predictions']![0][1].toString();
+          return 'This sentence is spam. Spam score is ${result['predictions']![0][1]}';
         }
-        return 'This sentence is not spam. Spam score is ' +
-            result['predictions']![0][1].toString();
+        return 'This sentence is not spam. Spam score is ${result['predictions']![0][1]}';
       } else {
         throw Exception('Error response');
       }
@@ -254,11 +246,9 @@ class _TFServingDemoState extends State<TFServingDemo> {
       if (response.outputs.containsKey(outputTensorName)) {
         if (response.outputs[outputTensorName]!.floatVal[1] >
             classificationThreshold) {
-          return 'This sentence is spam. Spam score is ' +
-              response.outputs[outputTensorName]!.floatVal[1].toString();
+          return 'This sentence is spam. Spam score is ${response.outputs[outputTensorName]!.floatVal[1]}';
         } else {
-          return 'This sentence is not spam. Spam score is ' +
-              response.outputs[outputTensorName]!.floatVal[1].toString();
+          return 'This sentence is not spam. Spam score is ${response.outputs[outputTensorName]!.floatVal[1]}';
         }
       } else {
         throw Exception('Error response');

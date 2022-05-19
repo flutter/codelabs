@@ -22,7 +22,7 @@ class GitHubSummary extends StatefulWidget {
   final GitHub gitHub;
 
   @override
-  _GitHubSummaryState createState() => _GitHubSummaryState();
+  State<GitHubSummary> createState() => _GitHubSummaryState();
 }
 
 class _GitHubSummaryState extends State<GitHubSummary> {
@@ -77,7 +77,7 @@ class RepositoriesList extends StatefulWidget {
   final GitHub gitHub;
 
   @override
-  _RepositoriesListState createState() => _RepositoriesListState();
+  State<RepositoriesList> createState() => _RepositoriesListState();
 }
 
 class _RepositoriesListState extends State<RepositoriesList> {
@@ -124,7 +124,7 @@ class AssignedIssuesList extends StatefulWidget {
   final GitHub gitHub;
 
   @override
-  _AssignedIssuesListState createState() => _AssignedIssuesListState();
+  State<AssignedIssuesList> createState() => _AssignedIssuesListState();
 }
 
 class _AssignedIssuesListState extends State<AssignedIssuesList> {
@@ -177,7 +177,7 @@ class PullRequestsList extends StatefulWidget {
   final GitHub gitHub;
 
   @override
-  _PullRequestsListState createState() => _PullRequestsListState();
+  State<PullRequestsList> createState() => _PullRequestsListState();
 }
 
 class _PullRequestsListState extends State<PullRequestsList> {

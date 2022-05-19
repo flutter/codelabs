@@ -12,7 +12,7 @@ class GitHubStarCounter extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _GitHubStarCounterState createState() => _GitHubStarCounterState();
+  State<GitHubStarCounter> createState() => _GitHubStarCounterState();
 }
 
 class _GitHubStarCounterState extends State<GitHubStarCounter> {

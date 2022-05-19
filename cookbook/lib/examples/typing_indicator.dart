@@ -23,7 +23,7 @@ class ExampleIsTyping extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _ExampleIsTypingState createState() => _ExampleIsTypingState();
+  State<ExampleIsTyping> createState() => _ExampleIsTypingState();
 }
 
 class _ExampleIsTypingState extends State<ExampleIsTyping> {
@@ -100,7 +100,7 @@ class TypingIndicator extends StatefulWidget {
   final Color flashingCircleBrightColor;
 
   @override
-  _TypingIndicatorState createState() => _TypingIndicatorState();
+  State<TypingIndicator> createState() => _TypingIndicatorState();
 }
 
 class _TypingIndicatorState extends State<TypingIndicator>

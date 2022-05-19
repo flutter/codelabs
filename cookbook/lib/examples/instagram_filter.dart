@@ -18,7 +18,7 @@ class ExampleInstagramFilterSelection extends StatefulWidget {
   const ExampleInstagramFilterSelection({Key? key}) : super(key: key);
 
   @override
-  _ExampleInstagramFilterSelectionState createState() =>
+  State<ExampleInstagramFilterSelection> createState() =>
       _ExampleInstagramFilterSelectionState();
 }
 
@@ -91,7 +91,7 @@ class FilterSelector extends StatefulWidget {
   final EdgeInsets padding;
 
   @override
-  _FilterSelectorState createState() => _FilterSelectorState();
+  State<FilterSelector> createState() => _FilterSelectorState();
 }
 
 class _FilterSelectorState extends State<FilterSelector> {

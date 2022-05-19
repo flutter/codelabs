@@ -139,6 +139,11 @@ class _ContributePhotoDialogState extends State<ContributePhotoDialog> {
       source: ImageSource.camera,
     ));
 
+    if (!mounted) {
+      // The context is invalid if the widget has been unmounted.
+      return;
+    }
+
     if (pickedImage == null) {
       // No image selected.
       return;

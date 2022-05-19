@@ -68,6 +68,7 @@ class PlaylistNav extends StatelessWidget {
           Expanded(
             child: ListView(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+              controller: ScrollController(),
               children: [
                 for (Playlist playlist in playlists)
                   Padding(
@@ -79,7 +80,6 @@ class PlaylistNav extends StatelessWidget {
                     ),
                   ),
               ],
-              controller: ScrollController(),
             ),
           ),
         ],

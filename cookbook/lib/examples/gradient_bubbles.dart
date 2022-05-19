@@ -19,7 +19,7 @@ class ExampleGradientBubbles extends StatefulWidget {
   const ExampleGradientBubbles({Key? key}) : super(key: key);
 
   @override
-  _ExampleGradientBubblesState createState() => _ExampleGradientBubblesState();
+  State<ExampleGradientBubbles> createState() => _ExampleGradientBubblesState();
 }
 
 class _ExampleGradientBubblesState extends State<ExampleGradientBubbles> {

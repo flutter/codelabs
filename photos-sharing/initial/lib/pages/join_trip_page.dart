@@ -21,7 +21,7 @@ class JoinTripPage extends StatefulWidget {
   const JoinTripPage({Key? key}) : super(key: key);
 
   @override
-  _JoinTripPageState createState() => _JoinTripPageState();
+  State<JoinTripPage> createState() => _JoinTripPageState();
 }
 
 class _JoinTripPageState extends State<JoinTripPage> {

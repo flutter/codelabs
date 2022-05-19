@@ -334,15 +334,15 @@ class ProductTile extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(20),
             child: OutlinedButton(
-              child: purchased
-                  ? const Text('Remove from cart')
-                  : const Text('Add to cart'),
               style: ButtonStyle(
                 foregroundColor:
                     MaterialStateProperty.resolveWith(getButtonColor),
                 side: MaterialStateProperty.resolveWith(getButtonSide),
               ),
               onPressed: purchased ? onRemoveFromCart : onAddToCart,
+              child: purchased
+                  ? const Text('Remove from cart')
+                  : const Text('Add to cart'),
             ),
           ),
           Image.network(product.pictureURL),

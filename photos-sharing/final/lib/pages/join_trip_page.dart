@@ -22,7 +22,7 @@ class JoinTripPage extends StatefulWidget {
   const JoinTripPage({Key? key}) : super(key: key);
 
   @override
-  _JoinTripPageState createState() => _JoinTripPageState();
+  State<JoinTripPage> createState() => _JoinTripPageState();
 }
 
 class _JoinTripPageState extends State<JoinTripPage> {
@@ -90,6 +90,7 @@ class _JoinTripPageState extends State<JoinTripPage> {
     // Call the API to join an album with the entered share token
     await ScopedModel.of<PhotosLibraryApiModel>(context)
         .joinSharedAlbum(shareTokenFormController.text);
+    if (!mounted) return;
 
     // Hide loading indicator
     setState(() => _isLoading = false);

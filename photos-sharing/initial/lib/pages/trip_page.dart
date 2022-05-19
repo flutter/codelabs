@@ -160,6 +160,11 @@ class _TripPageState extends State<TripPage> {
       },
     ));
 
+    if (!mounted) {
+      // The context is invalid if the widget has been unmounted.
+      return;
+    }
+
     if (contributeResult == null) {
       // No contribution created or no media items to create.
       return;
@@ -168,6 +173,7 @@ class _TripPageState extends State<TripPage> {
     // Create the media item from the uploaded photo.
     await ScopedModel.of<PhotosLibraryApiModel>(context).createMediaItem(
         contributeResult.uploadToken, album.id!, contributeResult.description);
+    if (!mounted) return;
 
     // Do a new search for items inside this album and store its Future for display.
     final response = ScopedModel.of<PhotosLibraryApiModel>(context)

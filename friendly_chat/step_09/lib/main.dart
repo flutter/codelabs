@@ -126,6 +126,13 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
         elevation: Theme.of(context).platform == TargetPlatform.iOS ? 0.0 : 4.0,
       ),
       body: Container(
+        decoration: Theme.of(context).platform == TargetPlatform.iOS
+            ? BoxDecoration(
+                border: Border(
+                  top: BorderSide(color: Colors.grey[200]!),
+                ),
+              )
+            : null,
         child: Column(
           children: [
             Flexible(
@@ -143,13 +150,6 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
             ),
           ],
         ),
-        decoration: Theme.of(context).platform == TargetPlatform.iOS
-            ? BoxDecoration(
-                border: Border(
-                  top: BorderSide(color: Colors.grey[200]!),
-                ),
-              )
-            : null,
       ),
     );
   }
@@ -179,10 +179,10 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
               margin: const EdgeInsets.symmetric(horizontal: 4.0),
               child: Theme.of(context).platform == TargetPlatform.iOS
                   ? CupertinoButton(
-                      child: const Text('Send'),
                       onPressed: _isComposing
                           ? () => _handleSubmitted(_textController.text)
                           : null,
+                      child: const Text('Send'),
                     )
                   : IconButton(
                       icon: const Icon(Icons.send),
