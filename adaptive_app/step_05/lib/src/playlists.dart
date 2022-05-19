@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'app_state.dart';
 
 class Playlists extends StatelessWidget {
-  const Playlists({required this.playlistSelected, Key? key}) : super(key: key);
+  const Playlists({super.key, required this.playlistSelected});
 
   final PlaylistsListSelected playlistSelected;
 
@@ -33,10 +33,9 @@ typedef PlaylistsListSelected = void Function(Playlist playlist);
 
 class _PlaylistsListView extends StatefulWidget {
   const _PlaylistsListView({
-    Key? key,
     required this.items,
     required this.playlistSelected,
-  }) : super(key: key);
+  });
 
   final List<Playlist> items;
   final PlaylistsListSelected playlistSelected;

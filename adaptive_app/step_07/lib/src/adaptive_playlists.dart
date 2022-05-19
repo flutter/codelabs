@@ -6,7 +6,7 @@ import 'playlist_details.dart';
 import 'playlists.dart';
 
 class AdaptivePlaylists extends StatelessWidget {
-  const AdaptivePlaylists({Key? key}) : super(key: key);
+  const AdaptivePlaylists({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +24,7 @@ class AdaptivePlaylists extends StatelessWidget {
 }
 
 class NarrowDisplayPlaylists extends StatelessWidget {
-  const NarrowDisplayPlaylists({
-    Key? key,
-  }) : super(key: key);
+  const NarrowDisplayPlaylists({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -55,9 +53,7 @@ class NarrowDisplayPlaylists extends StatelessWidget {
 }
 
 class WideDisplayPlaylists extends StatefulWidget {
-  const WideDisplayPlaylists({
-    Key? key,
-  }) : super(key: key);
+  const WideDisplayPlaylists({super.key});
 
   @override
   State<WideDisplayPlaylists> createState() => _WideDisplayPlaylistsState();

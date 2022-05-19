@@ -14,88 +14,9 @@ steps:
           linter:
             rules:
               avoid_print: false
+              use_super_parameters: true
       - name: Remove README
         rm: adaptive_app/README.md
-      - name: Patch pubspec,yaml
-        path: adaptive_app/pubspec.yaml
-        patch: |
-          3,5d2
-          < 
-          < # The following line prevents the package from being accidentally published to
-          < # pub.dev using `flutter pub publish`. This is preferred for private packages.
-          7,17d3
-          < 
-          < # The following defines the version and build number for your application.
-          < # A version number is three numbers separated by dots, like 1.2.43
-          < # followed by an optional build number separated by a +.
-          < # Both the version and the builder number may be overridden in flutter
-          < # build by specifying --build-name and --build-number, respectively.
-          < # In Android, build-name is used as versionName while build-number used as versionCode.
-          < # Read more about Android versioning at https://developer.android.com/studio/publish/versioning
-          < # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
-          < # Read more about iOS versioning at
-          < # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-          23,28d8
-          < # Dependencies specify other packages that your package needs in order to work.
-          < # To automatically upgrade your package dependencies to the latest versions
-          < # consider running `flutter pub upgrade --major-versions`. Alternatively,
-          < # dependencies can be manually updated by changing the version numbers below to
-          < # the latest version available on pub.dev. To see which dependencies have newer
-          < # versions available, run `flutter pub outdated`.
-          32,35d11
-          < 
-          < 
-          <   # The following adds the Cupertino Icons font to your application.
-          <   # Use with the CupertinoIcons class for iOS style icons.
-          41,46d16
-          < 
-          <   # The "flutter_lints" package below contains a set of recommended lints to
-          <   # encourage good coding practices. The lint set provided by the package is
-          <   # activated in the `analysis_options.yaml` file located at the root of your
-          <   # package. See that file for information about deactivating specific lint
-          <   # rules and activating additional ones.
-          49,52d18
-          < # For information on the generic Dart part of this file, see the
-          < # following page: https://dart.dev/tools/pub/pubspec
-          < 
-          < # The following section is specific to Flutter.
-          54,57d19
-          < 
-          <   # The following line ensures that the Material Icons font is
-          <   # included with your application, so that you can use the icons in
-          <   # the material Icons class.
-          59,89d20
-          < 
-          <   # To add assets to your application, add an assets section, like this:
-          <   # assets:
-          <   #   - images/a_dot_burr.jpeg
-          <   #   - images/a_dot_ham.jpeg
-          < 
-          <   # An image asset can refer to one or more resolution-specific "variants", see
-          <   # https://flutter.dev/assets-and-images/#resolution-aware.
-          < 
-          <   # For details regarding adding assets from package dependencies, see
-          <   # https://flutter.dev/assets-and-images/#from-packages
-          < 
-          <   # To add custom fonts to your application, add a fonts section here,
-          <   # in this "flutter" section. Each entry in this list should have a
-          <   # "family" key with the font family name, and a "fonts" key with a
-          <   # list giving the asset and other descriptors for the font. For
-          <   # example:
-          <   # fonts:
-          <   #   - family: Schyler
-          <   #     fonts:
-          <   #       - asset: fonts/Schyler-Regular.ttf
-          <   #       - asset: fonts/Schyler-Italic.ttf
-          <   #         style: italic
-          <   #   - family: Trajan Pro
-          <   #     fonts:
-          <   #       - asset: fonts/TrajanPro.ttf
-          <   #       - asset: fonts/TrajanPro_Bold.ttf
-          <   #         weight: 700
-          <   #
-          <   # For details regarding fonts from package dependencies,
-          <   # see https://flutter.dev/custom-fonts/#from-packages
       - name: Add .vscode directory
         mkdir: adaptive_app/.vscode
       - name: Add .vscode/launch.json
@@ -111,12 +32,6 @@ steps:
                       "name": "adaptive_app",
                       "request": "launch",
                       "type": "dart"
-                  },
-                  {
-                      "name": "adaptive_app (profile mode)",
-                      "request": "launch",
-                      "type": "dart",
-                      "flutterMode": "profile"
                   }
               ]
           }
@@ -132,7 +47,7 @@ steps:
           }
 
           class MyApp extends StatelessWidget {
-            const MyApp({Key? key}) : super(key: key);
+            const MyApp({super.key});
 
             @override
             Widget build(BuildContext context) {
@@ -147,7 +62,7 @@ steps:
           }
 
           class ResizeablePage extends StatelessWidget {
-            const ResizeablePage({Key? key}) : super(key: key);
+            const ResizeablePage({super.key});
 
             @override
             Widget build(BuildContext context) {
@@ -293,35 +208,50 @@ steps:
         flutter: pub add flex_color_scheme
       - name: Patch android/app/src/main/AndroidManifest.xml
         path: adaptive_app/android/app/src/main/AndroidManifest.xml
-        patch: |
-          33a34,48
-          >     <!-- https://pub.dev/packages/url_launcher#android -->
-          >     <queries>
-          >         <intent>
-          >             <action android:name="android.intent.action.VIEW" />
-          >             <data android:scheme="https" />
-          >         </intent>
-          >         <intent>
-          >             <action android:name="android.intent.action.DIAL" />
-          >             <data android:scheme="tel" />
-          >         </intent>
-          >         <intent>
-          >             <action android:name="android.intent.action.SEND" />
-          >             <data android:mimeType="*/*" />
-          >         </intent>
-          >     </queries>
+        patch-u: |
+          --- b/adaptive_app/step_04/android/app/src/main/AndroidManifest.xml
+          +++ a/adaptive_app/step_04/android/app/src/main/AndroidManifest.xml
+          @@ -31,4 +31,19 @@
+                       android:name="flutterEmbedding"
+                       android:value="2" />
+               </application>
+          +    <!-- https://pub.dev/packages/url_launcher#android -->
+          +    <queries>
+          +        <intent>
+          +            <action android:name="android.intent.action.VIEW" />
+          +            <data android:scheme="https" />
+          +        </intent>
+          +        <intent>
+          +            <action android:name="android.intent.action.DIAL" />
+          +            <data android:scheme="tel" />
+          +        </intent>
+          +        <intent>
+          +            <action android:name="android.intent.action.SEND" />
+          +            <data android:mimeType="*/*" />
+          +        </intent>
+          +    </queries>
+           </manifest>
+
       - name: Patch ios/Runner/Info.plist
         path: adaptive_app/ios/Runner/Info.plist
-        patch: |
-          45a46,53
-          > 	<!-- https://pub.dev/packages/url_launcher#ios -->
-          > 	<key>LSApplicationQueriesSchemes</key>
-          > 	<array>
-          > 		<string>https</string>
-          > 		<string>http</string>
-          > 		<string>tel</string>
-          > 		<string>mailto</string>
-          > 	</array>
+        patch-u: |
+          --- b/adaptive_app/step_04/ios/Runner/Info.plist
+          +++ a/adaptive_app/step_04/ios/Runner/Info.plist
+          @@ -45,5 +45,13 @@
+           	<false/>
+           	<key>CADisableMinimumFrameDurationOnPhone</key>
+           	<true/>
+          +	<!-- https://pub.dev/packages/url_launcher#ios -->
+          +	<key>LSApplicationQueriesSchemes</key>
+          +	<array>
+          +		<string>https</string>
+          +		<string>http</string>
+          +		<string>tel</string>
+          +		<string>mailto</string>
+          +	</array>
+           </dict>
+           </plist>
+
       - name: Replace adaptive_app/lib/main.dart
         path: adaptive_app/lib/main.dart
         replace-contents: |
@@ -356,7 +286,7 @@ steps:
           }
 
           class PlaylistsApp extends StatelessWidget {
-            const PlaylistsApp({Key? key}) : super(key: key);
+            const PlaylistsApp({super.key});
 
             @override
             Widget build(BuildContext context) {
@@ -477,8 +407,7 @@ steps:
 
           class PlaylistDetails extends StatelessWidget {
             const PlaylistDetails(
-                {required this.playlistId, required this.playlistName, Key? key})
-                : super(key: key);
+                {required this.playlistId, required this.playlistName, super.key});
             final String playlistId;
             final String playlistName;
 
@@ -503,8 +432,7 @@ steps:
           }
 
           class _PlaylistDetailsListView extends StatelessWidget {
-            const _PlaylistDetailsListView({Key? key, required this.playlistItems})
-                : super(key: key);
+            const _PlaylistDetailsListView({required this.playlistItems});
             final List<PlaylistItem> playlistItems;
 
             @override
@@ -616,7 +544,7 @@ steps:
           import 'playlist_details.dart';
 
           class Playlists extends StatelessWidget {
-            const Playlists({Key? key}) : super(key: key);
+            const Playlists({super.key});
 
             @override
             Widget build(BuildContext context) {
@@ -641,10 +569,7 @@ steps:
           }
 
           class _PlaylistsListView extends StatelessWidget {
-            const _PlaylistsListView({
-              Key? key,
-              required this.items,
-            }) : super(key: key);
+            const _PlaylistsListView({required this.items});
 
             final List<Playlist> items;
 
@@ -685,16 +610,30 @@ steps:
           }
       - name: Patch
         path: adaptive_app/macos/Runner/DebugProfile.entitlements
-        patch: |
-          10a11,12
-          > 	<key>com.apple.security.network.client</key>
-          > 	<true/>
+        patch-u: |
+          --- b/adaptive_app/step_04/macos/Runner/DebugProfile.entitlements
+          +++ a/adaptive_app/step_04/macos/Runner/DebugProfile.entitlements
+          @@ -8,5 +8,7 @@
+           	<true/>
+           	<key>com.apple.security.network.server</key>
+           	<true/>
+          +	<key>com.apple.security.network.client</key>
+          +	<true/>
+           </dict>
+           </plist>
       - name: Patch
         path: adaptive_app/macos/Runner/Release.entitlements
-        patch: |
-          6a7,8
-          > 	<key>com.apple.security.network.client</key>
-          > 	<true/>
+        patch-u: |
+          --- b/adaptive_app/step_04/macos/Runner/Release.entitlements
+          +++ a/adaptive_app/step_04/macos/Runner/Release.entitlements
+          @@ -4,5 +4,7 @@
+           <dict>
+           	<key>com.apple.security.app-sandbox</key>
+           	<true/>
+          +	<key>com.apple.security.network.client</key>
+          +	<true/>
+           </dict>
+           </plist>
       - name: Replace test/widget_test.dart
         path: adaptive_app/test/widget_test.dart
         replace-contents: |
@@ -744,172 +683,215 @@ steps:
         flutter: pub add split_view
       - name: Patch lib/main.dart
         path: adaptive_app/lib/main.dart
-        patch: |
-          6a7
-          > import 'src/adaptive_playlists.dart';
-          8d8
-          < import 'src/playlists.dart';
-          42c42
-          <       home: const Playlists(),
-          ---
-          >       home: const AdaptivePlaylists(),
+        patch-u: |
+          --- b/adaptive_app/step_05/lib/main.dart
+          +++ a/adaptive_app/step_05/lib/main.dart
+          @@ -4,8 +4,8 @@ import 'package:flex_color_scheme/flex_color_scheme.dart';
+           import 'package:flutter/material.dart';
+           import 'package:provider/provider.dart';
+ 
+          +import 'src/adaptive_playlists.dart';
+           import 'src/app_state.dart';
+          -import 'src/playlists.dart';
+ 
+           // From https://www.youtube.com/channel/UCwXdFgeE9KYzlDdR7TG9cMw
+           const flutterDevAccountId = 'UCwXdFgeE9KYzlDdR7TG9cMw';
+          @@ -39,7 +39,7 @@ class PlaylistsApp extends StatelessWidget {
+                 darkTheme: FlexColorScheme.dark(scheme: FlexScheme.red).toTheme,
+                 themeMode: ThemeMode.dark, // Or ThemeMode.System if you'd prefer
+                 debugShowCheckedModeBanner: false,
+          -      home: const Playlists(),
+          +      home: const AdaptivePlaylists(),
+               );
+             }
+           }
       - name: Patch lib/src/playlists.dart
         path: adaptive_app/lib/src/playlists.dart
-        patch: |
-          6d5
-          < import 'playlist_details.dart';
-          9c8,10
-          <   const Playlists({Key? key}) : super(key: key);
-          ---
-          >   const Playlists({required this.playlistSelected, Key? key}) : super(key: key);
-          > 
-          >   final PlaylistsListSelected playlistSelected;
-          13,28c14,27
-          <     return Scaffold(
-          <       appBar: AppBar(
-          <         title: const Text('FlutterDev Playlists'),
-          <       ),
-          <       body: Consumer<FlutterDevPlaylists>(
-          <         builder: (context, flutterDev, child) {
-          <           final playlists = flutterDev.playlists;
-          <           if (playlists.isEmpty) {
-          <             return const Center(
-          <               child: CircularProgressIndicator(),
-          <             );
-          <           }
-          < 
-          <           return _PlaylistsListView(items: playlists);
-          <         },
-          <       ),
-          ---
-          >     return Consumer<FlutterDevPlaylists>(
-          >       builder: (context, flutterDev, child) {
-          >         final playlists = flutterDev.playlists;
-          >         if (playlists.isEmpty) {
-          >           return const Center(
-          >             child: CircularProgressIndicator(),
-          >           );
-          >         }
-          > 
-          >         return _PlaylistsListView(
-          >           items: playlists,
-          >           playlistSelected: playlistSelected,
-          >         );
-          >       },
-          33c32,34
-          < class _PlaylistsListView extends StatelessWidget {
-          ---
-          > typedef PlaylistsListSelected = void Function(Playlist playlist);
-          > 
-          > class _PlaylistsListView extends StatefulWidget {
-          36a38
-          >     required this.playlistSelected,
-          39a42,61
-          >   final PlaylistsListSelected playlistSelected;
-          > 
-          >   @override
-          >   State<_PlaylistsListView> createState() => _PlaylistsListViewState();
-          > }
-          > 
-          > class _PlaylistsListViewState extends State<_PlaylistsListView> {
-          >   late ScrollController _scrollController;
-          > 
-          >   @override
-          >   void initState() {
-          >     super.initState();
-          >     _scrollController = ScrollController();
-          >   }
-          > 
-          >   @override
-          >   void dispose() {
-          >     _scrollController.dispose();
-          >     super.dispose();
-          >   }
-          44c66,67
-          <       itemCount: items.length,
-          ---
-          >       controller: _scrollController,
-          >       itemCount: widget.items.length,
-          46c69
-          <         var playlist = items[index];
-          ---
-          >         var playlist = widget.items[index];
-          58,68c81
-          <               Navigator.push(
-          <                 context,
-          <                 MaterialPageRoute<void>(
-          <                   builder: (context) {
-          <                     return PlaylistDetails(
-          <                       playlistId: playlist.id!,
-          <                       playlistName: playlist.snippet!.title!,
-          <                     );
-          <                   },
-          <                 ),
-          <               );
-          ---
-          >               widget.playlistSelected(playlist);
+        patch-u: |
+          --- b/adaptive_app/step_05/lib/src/playlists.dart
+          +++ a/adaptive_app/step_05/lib/src/playlists.dart
+          @@ -3,44 +3,69 @@ import 'package:googleapis/youtube/v3.dart';
+           import 'package:provider/provider.dart';
+ 
+           import 'app_state.dart';
+          -import 'playlist_details.dart';
+ 
+           class Playlists extends StatelessWidget {
+          -  const Playlists({super.key});
+          +  const Playlists({super.key, required this.playlistSelected});
+          +
+          +  final PlaylistsListSelected playlistSelected;
+ 
+             @override
+             Widget build(BuildContext context) {
+          -    return Scaffold(
+          -      appBar: AppBar(
+          -        title: const Text('FlutterDev Playlists'),
+          -      ),
+          -      body: Consumer<FlutterDevPlaylists>(
+          -        builder: (context, flutterDev, child) {
+          -          final playlists = flutterDev.playlists;
+          -          if (playlists.isEmpty) {
+          -            return const Center(
+          -              child: CircularProgressIndicator(),
+          -            );
+          -          }
+          +    return Consumer<FlutterDevPlaylists>(
+          +      builder: (context, flutterDev, child) {
+          +        final playlists = flutterDev.playlists;
+          +        if (playlists.isEmpty) {
+          +          return const Center(
+          +            child: CircularProgressIndicator(),
+          +          );
+          +        }
+           
+          -          return _PlaylistsListView(items: playlists);
+          -        },
+          -      ),
+          +        return _PlaylistsListView(
+          +          items: playlists,
+          +          playlistSelected: playlistSelected,
+          +        );
+          +      },
+               );
+             }
+           }
+           
+          -class _PlaylistsListView extends StatelessWidget {
+          -  const _PlaylistsListView({required this.items});
+          +typedef PlaylistsListSelected = void Function(Playlist playlist);
+          +
+          +class _PlaylistsListView extends StatefulWidget {
+          +  const _PlaylistsListView({
+          +    required this.items,
+          +    required this.playlistSelected,
+          +  });
+           
+             final List<Playlist> items;
+          +  final PlaylistsListSelected playlistSelected;
+          +
+          +  @override
+          +  State<_PlaylistsListView> createState() => _PlaylistsListViewState();
+          +}
+          +
+          +class _PlaylistsListViewState extends State<_PlaylistsListView> {
+          +  late ScrollController _scrollController;
+          +
+          +  @override
+          +  void initState() {
+          +    super.initState();
+          +    _scrollController = ScrollController();
+          +  }
+          +
+          +  @override
+          +  void dispose() {
+          +    _scrollController.dispose();
+          +    super.dispose();
+          +  }
+           
+             @override
+             Widget build(BuildContext context) {
+               return ListView.builder(
+          -      itemCount: items.length,
+          +      controller: _scrollController,
+          +      itemCount: widget.items.length,
+                 itemBuilder: (context, index) {
+          -        var playlist = items[index];
+          +        var playlist = widget.items[index];
+                   return Padding(
+                     padding: const EdgeInsets.all(8.0),
+                     child: ListTile(
+          @@ -52,17 +77,7 @@ class _PlaylistsListView extends StatelessWidget {
+                         playlist.snippet!.description!,
+                       ),
+                       onTap: () {
+          -              Navigator.push(
+          -                context,
+          -                MaterialPageRoute<void>(
+          -                  builder: (context) {
+          -                    return PlaylistDetails(
+          -                      playlistId: playlist.id!,
+          -                      playlistName: playlist.snippet!.title!,
+          -                    );
+          -                  },
+          -                ),
+          -              );
+          +              widget.playlistSelected(playlist);
+                       },
+                     ),
+                   );
       - name: Patch lib/src/playlist_details.dart
         path: adaptive_app/lib/src/playlist_details.dart
-        patch: |
-          17,26c17,22
-          <     return Scaffold(
-          <       appBar: AppBar(
-          <         title: Text(playlistName),
-          <       ),
-          <       body: Consumer<FlutterDevPlaylists>(
-          <         builder: (context, playlists, _) {
-          <           final playlistItems = playlists.playlistItems(playlistId: playlistId);
-          <           if (playlistItems.isEmpty) {
-          <             return const Center(child: CircularProgressIndicator());
-          <           }
-          ---
-          >     return Consumer<FlutterDevPlaylists>(
-          >       builder: (context, playlists, _) {
-          >         final playlistItems = playlists.playlistItems(playlistId: playlistId);
-          >         if (playlistItems.isEmpty) {
-          >           return const Center(child: CircularProgressIndicator());
-          >         }
-          28,30c24,25
-          <           return _PlaylistDetailsListView(playlistItems: playlistItems);
-          <         },
-          <       ),
-          ---
-          >         return _PlaylistDetailsListView(playlistItems: playlistItems);
-          >       },
-          35c30
-          < class _PlaylistDetailsListView extends StatelessWidget {
-          ---
-          > class _PlaylistDetailsListView extends StatefulWidget {
-          40a36,55
-          >   State<_PlaylistDetailsListView> createState() =>
-          >       _PlaylistDetailsListViewState();
-          > }
-          > 
-          > class _PlaylistDetailsListViewState extends State<_PlaylistDetailsListView> {
-          >   late ScrollController _scrollController;
-          > 
-          >   @override
-          >   void initState() {
-          >     super.initState();
-          >     _scrollController = ScrollController();
-          >   }
-          > 
-          >   @override
-          >   void dispose() {
-          >     _scrollController.dispose();
-          >     super.dispose();
-          >   }
-          > 
-          >   @override
-          43c58,59
-          <       itemCount: playlistItems.length,
-          ---
-          >       controller: _scrollController,
-          >       itemCount: widget.playlistItems.length,
-          45c61
-          <         final playlistItem = playlistItems[index];
-          ---
-          >         final playlistItem = widget.playlistItems[index];
+        patch-u: |
+          --- b/adaptive_app/step_05/lib/src/playlist_details.dart
+          +++ a/adaptive_app/step_05/lib/src/playlist_details.dart
+          @@ -13,34 +13,50 @@ class PlaylistDetails extends StatelessWidget {
+ 
+             @override
+             Widget build(BuildContext context) {
+          -    return Scaffold(
+          -      appBar: AppBar(
+          -        title: Text(playlistName),
+          -      ),
+          -      body: Consumer<FlutterDevPlaylists>(
+          -        builder: (context, playlists, _) {
+          -          final playlistItems = playlists.playlistItems(playlistId: playlistId);
+          -          if (playlistItems.isEmpty) {
+          -            return const Center(child: CircularProgressIndicator());
+          -          }
+          +    return Consumer<FlutterDevPlaylists>(
+          +      builder: (context, playlists, _) {
+          +        final playlistItems = playlists.playlistItems(playlistId: playlistId);
+          +        if (playlistItems.isEmpty) {
+          +          return const Center(child: CircularProgressIndicator());
+          +        }
+ 
+          -          return _PlaylistDetailsListView(playlistItems: playlistItems);
+          -        },
+          -      ),
+          +        return _PlaylistDetailsListView(playlistItems: playlistItems);
+          +      },
+               );
+             }
+           }
+ 
+          -class _PlaylistDetailsListView extends StatelessWidget {
+          +class _PlaylistDetailsListView extends StatefulWidget {
+             const _PlaylistDetailsListView({required this.playlistItems});
+             final List<PlaylistItem> playlistItems;
+ 
+          +  @override
+          +  State<_PlaylistDetailsListView> createState() =>
+          +      _PlaylistDetailsListViewState();
+          +}
+          +
+          +class _PlaylistDetailsListViewState extends State<_PlaylistDetailsListView> {
+          +  late ScrollController _scrollController;
+          +
+          +  @override
+          +  void initState() {
+          +    super.initState();
+          +    _scrollController = ScrollController();
+          +  }
+          +
+          +  @override
+          +  void dispose() {
+          +    _scrollController.dispose();
+          +    super.dispose();
+          +  }
+          +
+             @override
+             Widget build(BuildContext context) {
+               return ListView.builder(
+          -      itemCount: playlistItems.length,
+          +      controller: _scrollController,
+          +      itemCount: widget.playlistItems.length,
+                 itemBuilder: (context, index) {
+          -        final playlistItem = playlistItems[index];
+          +        final playlistItem = widget.playlistItems[index];
+                   return Padding(
+                     padding: const EdgeInsets.all(8.0),
+                     child: ClipRRect(
       - name: Add lib/src/adaptive_playlists.dart
         path: adaptive_app/lib/src/adaptive_playlists.dart
         replace-contents: |
@@ -921,7 +903,7 @@ steps:
           import 'playlists.dart';
 
           class AdaptivePlaylists extends StatelessWidget {
-            const AdaptivePlaylists({Key? key}) : super(key: key);
+            const AdaptivePlaylists({super.key});
 
             @override
             Widget build(BuildContext context) {
@@ -939,9 +921,7 @@ steps:
           }
 
           class NarrowDisplayPlaylists extends StatelessWidget {
-            const NarrowDisplayPlaylists({
-              Key? key,
-            }) : super(key: key);
+            const NarrowDisplayPlaylists({super.key});
 
             @override
             Widget build(BuildContext context) {
@@ -970,9 +950,7 @@ steps:
           }
 
           class WideDisplayPlaylists extends StatefulWidget {
-            const WideDisplayPlaylists({
-              Key? key,
-            }) : super(key: key);
+            const WideDisplayPlaylists({super.key});
 
             @override
             State<WideDisplayPlaylists> createState() => _WideDisplayPlaylistsState();
@@ -1038,7 +1016,7 @@ steps:
       - name: Add shelf_cors_headers
         path: adaptive_app/yt_cors_proxy
         dart: pub add shelf_cors_headers
-      - name: Patch yt_cors_proxy/pubspect.yaml
+      - name: Patch yt_cors_proxy/pubspec.yaml
         path: adaptive_app/yt_cors_proxy/pubspec.yaml
         patch: |
           2c2
@@ -1104,32 +1082,70 @@ steps:
           # https://dart.dev/guides/language/analysis-options
       - name: Patch lib/src/playlist_details.dart
         path: adaptive_app/lib/src/playlist_details.dart
-        patch: |
-          5a6,7
-          > import 'adaptive_image.dart';
-          > import 'adaptive_text.dart';
-          70c72,73
-          <                   Image.network(playlistItem.snippet!.thumbnails!.high!.url!),
-          ---
-          >                   AdaptiveImage.network(
-          >                       playlistItem.snippet!.thumbnails!.high!.url!),
-          107c110
-          <           Text(
-          ---
-          >           AdaptiveText(
-          115c118
-          <             Text(
-          ---
-          >             AdaptiveText(
+        patch-u: |
+          --- b/adaptive_app/step_06/lib/src/playlist_details.dart
+          +++ a/adaptive_app/step_06/lib/src/playlist_details.dart
+          @@ -3,6 +3,8 @@ import 'package:googleapis/youtube/v3.dart';
+           import 'package:provider/provider.dart';
+           import 'package:url_launcher/link.dart';
+           
+          +import 'adaptive_image.dart';
+          +import 'adaptive_text.dart';
+           import 'app_state.dart';
+           
+           class PlaylistDetails extends StatelessWidget {
+          @@ -65,7 +67,8 @@ class _PlaylistDetailsListViewState extends State<_PlaylistDetailsListView> {
+                         alignment: Alignment.center,
+                         children: [
+                           if (playlistItem.snippet!.thumbnails!.high != null)
+          -                  Image.network(playlistItem.snippet!.thumbnails!.high!.url!),
+          +                  AdaptiveImage.network(
+          +                      playlistItem.snippet!.thumbnails!.high!.url!),
+                           _buildGradient(context),
+                           _buildTitleAndSubtitle(context, playlistItem),
+                           _buildPlayButton(context, playlistItem),
+          @@ -102,7 +105,7 @@ class _PlaylistDetailsListViewState extends State<_PlaylistDetailsListView> {
+                   mainAxisSize: MainAxisSize.min,
+                   crossAxisAlignment: CrossAxisAlignment.start,
+                   children: [
+          -          Text(
+          +          AdaptiveText(
+                       playlistItem.snippet!.title!,
+                       style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                             fontSize: 18,
+          @@ -110,7 +113,7 @@ class _PlaylistDetailsListViewState extends State<_PlaylistDetailsListView> {
+                           ),
+                     ),
+                     if (playlistItem.snippet!.videoOwnerChannelTitle != null)
+          -            Text(
+          +            AdaptiveText(
+                         playlistItem.snippet!.videoOwnerChannelTitle!,
+                         style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                               fontSize: 12,
+
       - name: Patch playlists.dart
         path: adaptive_app/lib/src/playlists.dart
-        patch: |
-          4a5
-          > import 'adaptive_image.dart';
-          73c74
-          <             leading: Image.network(
-          ---
-          >             leading: AdaptiveImage.network(
+        patch-u: |
+          --- b/adaptive_app/step_06/lib/src/playlists.dart
+          +++ a/adaptive_app/step_06/lib/src/playlists.dart
+          @@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
+           import 'package:googleapis/youtube/v3.dart';
+           import 'package:provider/provider.dart';
+           
+          +import 'adaptive_image.dart';
+           import 'app_state.dart';
+           
+           class Playlists extends StatelessWidget {
+          @@ -69,7 +70,7 @@ class _PlaylistsListViewState extends State<_PlaylistsListView> {
+                   return Padding(
+                     padding: const EdgeInsets.all(8.0),
+                     child: ListTile(
+          -            leading: Image.network(
+          +            leading: AdaptiveImage.network(
+                         playlist.snippet!.thumbnails!.default_!.url!,
+                       ),
+                       title: Text(playlist.snippet!.title!),
+
       - name: adaptive_image.dart
         path: adaptive_app/lib/src/adaptive_image.dart
         replace-contents: |
@@ -1137,7 +1153,7 @@ steps:
           import 'package:flutter/material.dart';
 
           class AdaptiveImage extends StatelessWidget {
-            AdaptiveImage.network(String url, {Key? key}) : super(key: key) {
+            AdaptiveImage.network(String url, {super.key}) {
               if (kIsWeb) {
                 _url = Uri.parse(url)
                     .replace(host: 'localhost', port: 8080, scheme: 'http')
@@ -1160,7 +1176,7 @@ steps:
           import 'package:flutter/material.dart';
 
           class AdaptiveText extends StatelessWidget {
-            const AdaptiveText(this.data, {Key? key, this.style}) : super(key: key);
+            const AdaptiveText(this.data, {super.key, this.style});
             final String data;
             final TextStyle? style;
 
@@ -1194,20 +1210,29 @@ steps:
         flutter: pub add extension_google_sign_in_as_googleapis_auth
       - name: Patch .gitignore
         path: adaptive_app/.gitignore
-        patch: |
-          46a47,49
-          > 
-          > # Google Signin credentials
-          > ios/Runner/GoogleService-Info.plist
+        patch-u: |
+          --- b/adaptive_app/step_07/.gitignore
+          +++ a/adaptive_app/step_07/.gitignore
+          @@ -45,3 +45,6 @@ app.*.map.json
+           /android/app/debug
+           /android/app/profile
+           /android/app/release
+          +
+          +# Google Signin credentials
+          +ios/Runner/GoogleService-Info.plist
       - name: Patch ios/Podfile
         path: adaptive_app/ios/Podfile
-        patch: |
-          1,2c1,2
-          < # Uncomment this line to define a global platform for your project
-          < # platform :ios, '9.0'
-          ---
-          > # iOS 9 for google_sign_in 
-          > platform :ios, '9.0'
+        patch-u: |
+          --- b/adaptive_app/step_07/ios/Podfile
+          +++ a/adaptive_app/step_07/ios/Podfile
+          @@ -1,5 +1,5 @@
+          -# Uncomment this line to define a global platform for your project
+          -# platform :ios, '9.0'
+          +# iOS 9 for google_sign_in 
+          +platform :ios, '9.0'
+ 
+           # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
+           ENV['COCOAPODS_DISABLE_STATS'] = 'true'
       - name: Add adaptive_login.dart
         path: adaptive_app/lib/src/adaptive_login.dart
         replace-contents: |
@@ -1236,8 +1261,7 @@ steps:
                 required this.clientId,
                 required this.scopes,
                 required this.loginButtonChild,
-                Key? key})
-                : super(key: key);
+                super.key});
             final AdaptiveLoginBuilder builder;
             final ClientId clientId;
             final List<String> scopes;
@@ -1382,193 +1406,304 @@ steps:
           }
       - name: Patch Info.plist
         path: adaptive_app/ios/Runner/Info.plist
-        patch: |
-          53a54,66
-          > 	<key>CFBundleURLTypes</key>
-          > 	<array>
-          > 		<dict>
-          > 			<key>CFBundleTypeRole</key>
-          > 			<string>Editor</string>
-          > 			<key>CFBundleURLSchemes</key>
-          > 			<array>
-          > 				<!-- TODO Replace this value: -->
-          > 				<!-- Copied from GoogleService-Info.plist key REVERSED_CLIENT_ID -->
-          > 				<string>com.googleusercontent.apps.TODO-REPLACE-ME</string>
-          > 			</array>
-          > 		</dict>
-          > 	</array>
+        patch-u: |
+          --- b/adaptive_app/step_07/ios/Runner/Info.plist
+          +++ a/adaptive_app/step_07/ios/Runner/Info.plist
+          @@ -53,5 +53,18 @@
+           		<string>tel</string>
+           		<string>mailto</string>
+           	</array>
+          +	<key>CFBundleURLTypes</key>
+          +	<array>
+          +		<dict>
+          +			<key>CFBundleTypeRole</key>
+          +			<string>Editor</string>
+          +			<key>CFBundleURLSchemes</key>
+          +			<array>
+          +				<!-- TODO Replace this value: -->
+          +				<!-- Copied from GoogleService-Info.plist key REVERSED_CLIENT_ID -->
+          +				<string>com.googleusercontent.apps.TODO-REPLACE-ME</string>
+          +			</array>
+          +		</dict>
+          +	</array>
+           </dict>
+           </plist>
+
       - name: Patch main.dart
         path: adaptive_app/lib/main.dart
-        patch: |
-          1,2d0
-          < import 'dart:io';
-          < 
-          4a3
-          > import 'package:googleapis_auth/googleapis_auth.dart';
-          6a6
-          > import 'src/adaptive_login.dart';
-          10,14c10,19
-          < // From https://www.youtube.com/channel/UCwXdFgeE9KYzlDdR7TG9cMw
-          < const flutterDevAccountId = 'UCwXdFgeE9KYzlDdR7TG9cMw';
-          < 
-          < // TODO: Replace with your YouTube API Key
-          < const youTubeApiKey = 'AIzaNotAnApiKey';
-          ---
-          > // From https://developers.google.com/youtube/v3/guides/auth/installed-apps#identify-access-scopes
-          > final scopes = [
-          >   'https://www.googleapis.com/auth/youtube.readonly',
-          > ];
-          > 
-          > // TODO: Replace with your Client ID and Client Secret for Desktop configuration
-          > final clientId = ClientId(
-          >   'TODO-Client-ID.apps.googleusercontent.com',
-          >   'TODO-Client-secret',
-          > );
-          17,26c22,23
-          <   if (youTubeApiKey == 'AIzaNotAnApiKey') {
-          <     print('youTubeApiKey has not been configured.');
-          <     exit(1);
-          <   }
-          < 
-          <   runApp(ChangeNotifierProvider<FlutterDevPlaylists>(
-          <     create: (context) => FlutterDevPlaylists(
-          <       flutterDevAccountId: flutterDevAccountId,
-          <       youTubeApiKey: youTubeApiKey,
-          <     ),
-          ---
-          >   runApp(ChangeNotifierProvider<AuthedUserPlaylists>(
-          >     create: (context) => AuthedUserPlaylists(),
-          37c34
-          <       title: 'FlutterDev Playlists',
-          ---
-          >       title: 'Your Playlists',
-          42c39,47
-          <       home: const AdaptivePlaylists(),
-          ---
-          >       home: AdaptiveLogin(
-          >         builder: (context, authClient) {
-          >           context.read<AuthedUserPlaylists>().authClient = authClient;
-          >           return const AdaptivePlaylists();
-          >         },
-          >         clientId: clientId,
-          >         scopes: scopes,
-          >         loginButtonChild: const Text('Login to YouTube'),
-          >       ),
+        patch-u: |
+          --- b/adaptive_app/step_07/lib/main.dart
+          +++ a/adaptive_app/step_07/lib/main.dart
+          @@ -1,29 +1,26 @@
+          -import 'dart:io';
+          -
+           import 'package:flex_color_scheme/flex_color_scheme.dart';
+           import 'package:flutter/material.dart';
+          +import 'package:googleapis_auth/googleapis_auth.dart';
+           import 'package:provider/provider.dart';
+           
+          +import 'src/adaptive_login.dart';
+           import 'src/adaptive_playlists.dart';
+           import 'src/app_state.dart';
+           
+          -// From https://www.youtube.com/channel/UCwXdFgeE9KYzlDdR7TG9cMw
+          -const flutterDevAccountId = 'UCwXdFgeE9KYzlDdR7TG9cMw';
+          +// From https://developers.google.com/youtube/v3/guides/auth/installed-apps#identify-access-scopes
+          +final scopes = [
+          +  'https://www.googleapis.com/auth/youtube.readonly',
+          +];
+           
+          -// TODO: Replace with your YouTube API Key
+          -const youTubeApiKey = 'AIzaNotAnApiKey';
+          +// TODO: Replace with your Client ID and Client Secret for Desktop configuration
+          +final clientId = ClientId(
+          +  'TODO-Client-ID.apps.googleusercontent.com',
+          +  'TODO-Client-secret',
+          +);
+           
+           void main() {
+          -  if (youTubeApiKey == 'AIzaNotAnApiKey') {
+          -    print('youTubeApiKey has not been configured.');
+          -    exit(1);
+          -  }
+          -
+          -  runApp(ChangeNotifierProvider<FlutterDevPlaylists>(
+          -    create: (context) => FlutterDevPlaylists(
+          -      flutterDevAccountId: flutterDevAccountId,
+          -      youTubeApiKey: youTubeApiKey,
+          -    ),
+          +  runApp(ChangeNotifierProvider<AuthedUserPlaylists>(
+          +    create: (context) => AuthedUserPlaylists(),
+               child: const PlaylistsApp(),
+             ));
+           }
+          @@ -34,12 +31,20 @@ class PlaylistsApp extends StatelessWidget {
+             @override
+             Widget build(BuildContext context) {
+               return MaterialApp(
+          -      title: 'FlutterDev Playlists',
+          +      title: 'Your Playlists',
+                 theme: FlexColorScheme.light(scheme: FlexScheme.red).toTheme,
+                 darkTheme: FlexColorScheme.dark(scheme: FlexScheme.red).toTheme,
+                 themeMode: ThemeMode.dark, // Or ThemeMode.System if you'd prefer
+                 debugShowCheckedModeBanner: false,
+          -      home: const AdaptivePlaylists(),
+          +      home: AdaptiveLogin(
+          +        builder: (context, authClient) {
+          +          context.read<AuthedUserPlaylists>().authClient = authClient;
+          +          return const AdaptivePlaylists();
+          +        },
+          +        clientId: clientId,
+          +        scopes: scopes,
+          +        loginButtonChild: const Text('Login to YouTube'),
+          +      ),
+               );
+             }
+           }
+
       - name: Patch lib/src/adaptive_playlists.dart
         path: adaptive_app/lib/src/adaptive_playlists.dart
-        patch: |
-          34c34
-          <       appBar: AppBar(title: const Text('FlutterDev Playlists')),
-          ---
-          >       appBar: AppBar(title: const Text('Your Playlists')),
-          73,74c73,74
-          <             ? const Text('FlutterDev Playlists')
-          <             : Text('FlutterDev Playlist: ${selectedPlaylist!.snippet!.title!}'),
-          ---
-          >             ? const Text('Your Playlists')
-          >             : Text('Your Playlist: ${selectedPlaylist!.snippet!.title!}'),
+        patch-u: |
+          --- b/adaptive_app/step_07/lib/src/adaptive_playlists.dart
+          +++ a/adaptive_app/step_07/lib/src/adaptive_playlists.dart
+          @@ -29,7 +29,7 @@ class NarrowDisplayPlaylists extends StatelessWidget {
+             @override
+             Widget build(BuildContext context) {
+               return Scaffold(
+          -      appBar: AppBar(title: const Text('FlutterDev Playlists')),
+          +      appBar: AppBar(title: const Text('Your Playlists')),
+                 body: Playlists(
+                   playlistSelected: (playlist) {
+                     Navigator.push(
+          @@ -66,8 +66,8 @@ class _WideDisplayPlaylistsState extends State<WideDisplayPlaylists> {
+               return Scaffold(
+                 appBar: AppBar(
+                   title: selectedPlaylist == null
+          -            ? const Text('FlutterDev Playlists')
+          -            : Text('FlutterDev Playlist: ${selectedPlaylist!.snippet!.title!}'),
+          +            ? const Text('Your Playlists')
+          +            : Text('Your Playlist: ${selectedPlaylist!.snippet!.title!}'),
+                 ),
+                 body: SplitView(
+                   viewMode: SplitViewMode.Horizontal,
+
       - name: Patch lib/src/app_state.dart
         path: adaptive_app/lib/src/app_state.dart
-        patch: |
-          7,17c7,9
-          < class FlutterDevPlaylists extends ChangeNotifier {
-          <   FlutterDevPlaylists({
-          <     required String flutterDevAccountId,
-          <     required String youTubeApiKey,
-          <   }) : _flutterDevAccountId = flutterDevAccountId {
-          <     _api = YouTubeApi(
-          <       _ApiKeyClient(
-          <         client: http.Client(),
-          <         key: youTubeApiKey,
-          <       ),
-          <     );
-          ---
-          > class AuthedUserPlaylists extends ChangeNotifier {
-          >   set authClient(http.Client client) {
-          >     _api = YouTubeApi(client);
-          26c18
-          <       final response = await _api.playlists.list(
-          ---
-          >       final response = await _api!.playlists.list(
-          28c20
-          <         channelId: _flutterDevAccountId,
-          ---
-          >         mine: true,
-          40,41c32
-          <   final String _flutterDevAccountId;
-          <   late final YouTubeApi _api;
-          ---
-          >   YouTubeApi? _api;
-          58c49
-          <       var response = await _api.playlistItems.list(
-          ---
-          >       var response = await _api!.playlistItems.list(
-          73,89d63
-          < 
-          < class _ApiKeyClient extends http.BaseClient {
-          <   _ApiKeyClient({required this.key, required this.client});
-          < 
-          <   final String key;
-          <   final http.Client client;
-          < 
-          <   @override
-          <   Future<http.StreamedResponse> send(http.BaseRequest request) {
-          <     final url = request.url.replace(queryParameters: <String, List<String>>{
-          <       ...request.url.queryParametersAll,
-          <       'key': [key]
-          <     });
-          < 
-          <     return client.send(http.Request(request.method, url));
-          <   }
-          < }
+        patch-u: |
+          --- b/adaptive_app/step_07/lib/src/app_state.dart
+          +++ a/adaptive_app/step_07/lib/src/app_state.dart
+          @@ -4,17 +4,9 @@ import 'package:flutter/foundation.dart';
+           import 'package:googleapis/youtube/v3.dart';
+           import 'package:http/http.dart' as http;
+           
+          -class FlutterDevPlaylists extends ChangeNotifier {
+          -  FlutterDevPlaylists({
+          -    required String flutterDevAccountId,
+          -    required String youTubeApiKey,
+          -  }) : _flutterDevAccountId = flutterDevAccountId {
+          -    _api = YouTubeApi(
+          -      _ApiKeyClient(
+          -        client: http.Client(),
+          -        key: youTubeApiKey,
+          -      ),
+          -    );
+          +class AuthedUserPlaylists extends ChangeNotifier {
+          +  set authClient(http.Client client) {
+          +    _api = YouTubeApi(client);
+               _loadPlaylists();
+             }
+           
+          @@ -23,9 +15,9 @@ class FlutterDevPlaylists extends ChangeNotifier {
+               _playlists.clear();
+           
+               do {
+          -      final response = await _api.playlists.list(
+          +      final response = await _api!.playlists.list(
+                   ['snippet', 'contentDetails', 'id'],
+          -        channelId: _flutterDevAccountId,
+          +        mine: true,
+                   maxResults: 50,
+                   pageToken: nextPageToken,
+                 );
+          @@ -37,8 +29,7 @@ class FlutterDevPlaylists extends ChangeNotifier {
+               } while (nextPageToken != null);
+             }
+           
+          -  final String _flutterDevAccountId;
+          -  late final YouTubeApi _api;
+          +  YouTubeApi? _api;
+           
+             final List<Playlist> _playlists = [];
+             List<Playlist> get playlists => UnmodifiableListView(_playlists);
+          @@ -55,7 +46,7 @@ class FlutterDevPlaylists extends ChangeNotifier {
+             Future<void> _retrievePlaylist(String playlistId) async {
+               String? nextPageToken;
+               do {
+          -      var response = await _api.playlistItems.list(
+          +      var response = await _api!.playlistItems.list(
+                   ['snippet', 'contentDetails'],
+                   playlistId: playlistId,
+                   maxResults: 25,
+          @@ -70,20 +61,3 @@ class FlutterDevPlaylists extends ChangeNotifier {
+               } while (nextPageToken != null);
+             }
+           }
+          -
+          -class _ApiKeyClient extends http.BaseClient {
+          -  _ApiKeyClient({required this.key, required this.client});
+          -
+          -  final String key;
+          -  final http.Client client;
+          -
+          -  @override
+          -  Future<http.StreamedResponse> send(http.BaseRequest request) {
+          -    final url = request.url.replace(queryParameters: <String, List<String>>{
+          -      ...request.url.queryParametersAll,
+          -      'key': [key]
+          -    });
+          -
+          -    return client.send(http.Request(request.method, url));
+          -  }
+          -}
+
       - name: Patch lib/src/playlist_details.dart
         path: adaptive_app/lib/src/playlist_details.dart
-        patch: |
-          19c19
-          <     return Consumer<FlutterDevPlaylists>(
-          ---
-          >     return Consumer<AuthedUserPlaylists>(
+        patch-u: |
+          --- b/adaptive_app/step_07/lib/src/playlist_details.dart
+          +++ a/adaptive_app/step_07/lib/src/playlist_details.dart
+          @@ -15,7 +15,7 @@ class PlaylistDetails extends StatelessWidget {
+           
+             @override
+             Widget build(BuildContext context) {
+          -    return Consumer<FlutterDevPlaylists>(
+          +    return Consumer<AuthedUserPlaylists>(
+                 builder: (context, playlists, _) {
+                   final playlistItems = playlists.playlistItems(playlistId: playlistId);
+                   if (playlistItems.isEmpty) {
+
       - name: Patch lib/src/playlists.dart
         path: adaptive_app/lib/src/playlists.dart
-        patch: |
-          15c15
-          <     return Consumer<FlutterDevPlaylists>(
-          ---
-          >     return Consumer<AuthedUserPlaylists>(
+        patch-u: |
+          --- b/adaptive_app/step_07/lib/src/playlists.dart
+          +++ a/adaptive_app/step_07/lib/src/playlists.dart
+          @@ -12,7 +12,7 @@ class Playlists extends StatelessWidget {
+           
+             @override
+             Widget build(BuildContext context) {
+          -    return Consumer<FlutterDevPlaylists>(
+          +    return Consumer<AuthedUserPlaylists>(
+                 builder: (context, flutterDev, child) {
+                   final playlists = flutterDev.playlists;
+                   if (playlists.isEmpty) {
+
       - name: Patch macos/Runner/Release.entitlements
         path: adaptive_app/macos/Runner/Release.entitlements
-        patch: |
-          6a7,8
-          > 	<key>com.apple.security.network.server</key>
-          > 	<true/>
+        patch-u: |
+          --- b/adaptive_app/step_07/macos/Runner/Release.entitlements
+          +++ a/adaptive_app/step_07/macos/Runner/Release.entitlements
+          @@ -4,6 +4,8 @@
+           <dict>
+           	<key>com.apple.security.app-sandbox</key>
+           	<true/>
+          +	<key>com.apple.security.network.server</key>
+          +	<true/>
+           	<key>com.apple.security.network.client</key>
+           	<true/>
+           </dict>
+
       - name: Patch test/widget_test.dart
         path: adaptive_app/test/widget_test.dart
-        patch: |
-          5a6
-          > import 'package:http/src/client.dart';
-          8,9c9,10
-          < class FakeFlutterDevPlaylists extends ChangeNotifier
-          <     implements FlutterDevPlaylists {
-          ---
-          > class FakeAuthedUserPlaylists extends ChangeNotifier
-          >     implements AuthedUserPlaylists {
-          14a16,18
-          > 
-          >   @override
-          >   set authClient(Client authClient) => throw UnimplementedError();
-          21,22c25,26
-          <       ChangeNotifierProvider<FlutterDevPlaylists>(
-          <         create: (context) => FakeFlutterDevPlaylists(),
-          ---
-          >       ChangeNotifierProvider<AuthedUserPlaylists>(
-          >         create: (context) => FakeAuthedUserPlaylists(),
+        patch-u: |
+          --- b/adaptive_app/step_07/test/widget_test.dart
+          +++ a/adaptive_app/step_07/test/widget_test.dart
+          @@ -3,23 +3,27 @@ import 'package:adaptive_app/src/app_state.dart';
+           import 'package:flutter/material.dart';
+           import 'package:flutter_test/flutter_test.dart';
+           import 'package:googleapis/youtube/v3.dart';
+          +import 'package:http/src/client.dart';
+           import 'package:provider/provider.dart';
+           
+          -class FakeFlutterDevPlaylists extends ChangeNotifier
+          -    implements FlutterDevPlaylists {
+          +class FakeAuthedUserPlaylists extends ChangeNotifier
+          +    implements AuthedUserPlaylists {
+             @override
+             List<PlaylistItem> playlistItems({required String playlistId}) => [];
+           
+             @override
+             List<Playlist> get playlists => [];
+          +
+          +  @override
+          +  set authClient(Client authClient) => throw UnimplementedError();
+           }
+           
+           void main() {
+             testWidgets('smoke test', (tester) async {
+               // Build our app and trigger a frame.
+               await tester.pumpWidget(
+          -      ChangeNotifierProvider<FlutterDevPlaylists>(
+          -        create: (context) => FakeFlutterDevPlaylists(),
+          +      ChangeNotifierProvider<AuthedUserPlaylists>(
+          +        create: (context) => FakeAuthedUserPlaylists(),
+                   child: const PlaylistsApp(),
+                 ),
+               );
+
       - name: Patch web/index.html
         path: adaptive_app/web/index.html
-        patch: |
-          31a32,34
-          >   <!-- google_sign_in_web -->
-          >   <meta name="google-signin-client_id" content="YOUR_GOOGLE_SIGN_IN_OAUTH_CLIENT_ID.apps.googleusercontent.com">
-          > 
+        patch-u: |
+          --- b/adaptive_app/step_07/web/index.html
+          +++ a/adaptive_app/step_07/web/index.html
+          @@ -29,6 +29,9 @@
+             <!-- Favicon -->
+             <link rel="icon" type="image/png" href="favicon.png"/>
+           
+          +  <!-- google_sign_in_web -->
+          +  <meta name="google-signin-client_id" content="YOUR_GOOGLE_SIGN_IN_OAUTH_CLIENT_ID.apps.googleusercontent.com">
+          +
+             <title>adaptive_app</title>
+             <link rel="manifest" href="manifest.json">
+
       - name: Rebuild ios/Podfile.lock
         path: adaptive_app/ios
         pod: update

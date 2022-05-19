@@ -23,8 +23,7 @@ class AdaptiveLogin extends StatelessWidget {
       required this.clientId,
       required this.scopes,
       required this.loginButtonChild,
-      Key? key})
-      : super(key: key);
+      super.key});
   final AdaptiveLoginBuilder builder;
   final ClientId clientId;
   final List<String> scopes;
