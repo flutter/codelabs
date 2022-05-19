@@ -21,7 +21,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   FlutterMacOS: 57701585bf7de1b3fc2bb61f6378d73bbdea8424
   url_launcher_macos: 597e05b8e514239626bcf4a850fcf9ef5c856ec3
-  window_to_front: 4cdc24ddd8461ad1a55fa06286d6a79d8b29e8d8
+  window_to_front: 7662b5b0b260707d71f9bc26383a6328c4f13ceb
 
 PODFILE CHECKSUM: 6eac6b3292e5142cfc23bdeb71848a40ec51c14c
 
