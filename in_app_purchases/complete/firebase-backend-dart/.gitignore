@@ -1,0 +1,11 @@
+# Files and directories created by pub.
+.dart_tool/
+.packages
+
+# Conventional directory for build output.
+build/
+
+# Keys
+assets/service-account*.json
+lib/constants.dart
+
