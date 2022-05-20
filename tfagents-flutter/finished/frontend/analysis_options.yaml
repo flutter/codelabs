@@ -4,3 +4,4 @@ analyzer:
 
 linter:
   rules:
+    - use_super_parameters
