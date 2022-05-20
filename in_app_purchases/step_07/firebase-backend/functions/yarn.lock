@@ -1220,9 +1220,9 @@ firebase-admin@^10.2.0:
     "@google-cloud/firestore" "^4.15.1"
     "@google-cloud/storage" "^5.18.3"
 
-firebase-functions-test@^2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/firebase-functions-test/-/firebase-functions-test-2.0.2.tgz#ae4d6ae39f5df13db85a916900e2aa4ca19592ca"
+firebase-functions-test@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/firebase-functions-test/-/firebase-functions-test-2.1.0.tgz#47caae96c2f3d2ff7fc2d4e59189105e143c90b6"
   dependencies:
     "@types/lodash" "^4.14.104"
     lodash "^4.17.5"

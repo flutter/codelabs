@@ -20,6 +20,7 @@ declare -a CODELABS=(
   "star_counter"
   "startup_namer"
   "testing_codelab"
+  "tfagents-flutter"
   "tfrs-flutter"
   "tfserving-flutter"
   "tooling"
