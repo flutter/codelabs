@@ -26,7 +26,8 @@ BatchCreateMediaItemsResponse _$BatchCreateMediaItemsResponseFromJson(
     Map<String, dynamic> json) {
   return BatchCreateMediaItemsResponse(
     (json['newMediaItemResults'] as List<dynamic>?)
-        ?.map((e) => NewMediaItemResult.fromJson(e as Map<String, dynamic>))
+        ?.map((dynamic e) =>
+            NewMediaItemResult.fromJson(e as Map<String, dynamic>))
         .toList(),
   );
 }

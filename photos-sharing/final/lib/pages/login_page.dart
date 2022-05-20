@@ -85,7 +85,7 @@ class LoginPage extends StatelessWidget {
   void _navigateToTripList(BuildContext context) {
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(
+      MaterialPageRoute<void>(
         builder: (context) => const TripListPage(),
       ),
     );

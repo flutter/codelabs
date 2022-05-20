@@ -120,7 +120,7 @@ class _TripPageState extends State<TripPage> {
 
   // ignore: unused_element
   void _showShareDialog(BuildContext context, String title, String text) {
-    showDialog(
+    showDialog<void>(
         context: context,
         builder: (context) {
           return AlertDialog(
@@ -241,7 +241,7 @@ class _TripPageState extends State<TripPage> {
             imageUrl: '${mediaItem.baseUrl}=w364',
             progressIndicatorBuilder: (context, url, downloadProgress) =>
                 CircularProgressIndicator(value: downloadProgress.progress),
-            errorWidget: (context, url, error) {
+            errorWidget: (context, url, dynamic error) {
               print(error);
               return const Icon(Icons.error);
             },

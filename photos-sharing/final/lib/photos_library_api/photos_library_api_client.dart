@@ -49,7 +49,7 @@ class PhotosLibraryApiClient {
 
     printError(response);
 
-    return Album.fromJson(jsonDecode(response.body));
+    return Album.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
   }
 
   Future<JoinSharedAlbumResponse> joinSharedAlbum(
@@ -61,7 +61,8 @@ class PhotosLibraryApiClient {
 
     printError(response);
 
-    return JoinSharedAlbumResponse.fromJson(jsonDecode(response.body));
+    return JoinSharedAlbumResponse.fromJson(
+        jsonDecode(response.body) as Map<String, dynamic>);
   }
 
   Future<ShareAlbumResponse> shareAlbum(ShareAlbumRequest request) async {
@@ -73,7 +74,8 @@ class PhotosLibraryApiClient {
 
     printError(response);
 
-    return ShareAlbumResponse.fromJson(jsonDecode(response.body));
+    return ShareAlbumResponse.fromJson(
+        jsonDecode(response.body) as Map<String, dynamic>);
   }
 
   Future<Album> getAlbum(GetAlbumRequest request) async {
@@ -84,7 +86,7 @@ class PhotosLibraryApiClient {
 
     printError(response);
 
-    return Album.fromJson(jsonDecode(response.body));
+    return Album.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
   }
 
   Future<ListAlbumsResponse> listAlbums() async {
@@ -97,7 +99,8 @@ class PhotosLibraryApiClient {
 
     print(response.body);
 
-    return ListAlbumsResponse.fromJson(jsonDecode(response.body));
+    return ListAlbumsResponse.fromJson(
+        jsonDecode(response.body) as Map<String, dynamic>);
   }
 
   Future<ListSharedAlbumsResponse> listSharedAlbums() async {
@@ -110,7 +113,8 @@ class PhotosLibraryApiClient {
 
     print(response.body);
 
-    return ListSharedAlbumsResponse.fromJson(jsonDecode(response.body));
+    return ListSharedAlbumsResponse.fromJson(
+        jsonDecode(response.body) as Map<String, dynamic>);
   }
 
   Future<String> uploadMediaItem(File image) async {
@@ -146,7 +150,8 @@ class PhotosLibraryApiClient {
 
     printError(response);
 
-    return SearchMediaItemsResponse.fromJson(jsonDecode(response.body));
+    return SearchMediaItemsResponse.fromJson(
+        jsonDecode(response.body) as Map<String, dynamic>);
   }
 
   Future<BatchCreateMediaItemsResponse> batchCreateMediaItems(
@@ -160,7 +165,8 @@ class PhotosLibraryApiClient {
 
     printError(response);
 
-    return BatchCreateMediaItemsResponse.fromJson(jsonDecode(response.body));
+    return BatchCreateMediaItemsResponse.fromJson(
+        jsonDecode(response.body) as Map<String, dynamic>);
   }
 
   static void printError(final Response response) {

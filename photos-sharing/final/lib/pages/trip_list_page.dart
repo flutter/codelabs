@@ -101,7 +101,7 @@ class TripListPage extends StatelessWidget {
       child: InkWell(
         onTap: () => Navigator.push(
           context,
-          MaterialPageRoute(
+          MaterialPageRoute<void>(
             builder: (context) => TripPage(
               album: sharedAlbum,
               searchResponse: photosLibraryApi.searchMediaItems(sharedAlbum.id),
@@ -154,7 +154,7 @@ class TripListPage extends StatelessWidget {
       imageUrl: '${sharedAlbum.coverPhotoBaseUrl}=w346-h160-c',
       progressIndicatorBuilder: (context, url, downloadProgress) =>
           CircularProgressIndicator(value: downloadProgress.progress),
-      errorWidget: (context, url, error) {
+      errorWidget: (context, url, dynamic error) {
         print(error);
         return const Icon(Icons.error);
       },
@@ -172,7 +172,7 @@ class TripListPage extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
+                MaterialPageRoute<void>(
                   builder: (context) => const CreateTripPage(),
                 ),
               );
@@ -193,7 +193,7 @@ class TripListPage extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
+                MaterialPageRoute<void>(
                   builder: (context) => const JoinTripPage(),
                 ),
               );

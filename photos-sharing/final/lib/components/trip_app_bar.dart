@@ -104,7 +104,7 @@ class _TripAppBarState extends State<TripAppBar> {
             if (!mounted) return;
             await Navigator.pushReplacement(
               context,
-              MaterialPageRoute(
+              MaterialPageRoute<void>(
                 builder: (context) => const LoginPage(),
               ),
             );
