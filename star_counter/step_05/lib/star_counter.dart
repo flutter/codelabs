@@ -8,8 +8,8 @@ class GitHubStarCounter extends StatefulWidget {
 
   const GitHubStarCounter({
     required this.repositoryName,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<GitHubStarCounter> createState() => _GitHubStarCounterState();

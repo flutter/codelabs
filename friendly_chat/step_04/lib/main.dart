@@ -12,8 +12,8 @@ void main() {
 
 class FriendlyChatApp extends StatelessWidget {
   const FriendlyChatApp({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +26,8 @@ class FriendlyChatApp extends StatelessWidget {
 
 class ChatScreen extends StatelessWidget {
   const ChatScreen({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

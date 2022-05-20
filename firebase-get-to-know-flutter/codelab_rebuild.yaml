@@ -11,9 +11,6 @@ steps:
         replace-contents: |
           include: ../../analysis_options.yaml
 
-          linter:
-            rules:
-              use_super_parameters: true
       - name: Add dependencies.
         path: gtk_flutter
         flutter: pub add google_fonts 

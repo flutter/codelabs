@@ -17,7 +17,7 @@ import 'main.dart';
 
 @immutable
 class App extends StatelessWidget {
-  const App({Key? key, this.home}) : super(key: key);
+  const App({super.key, this.home});
 
   final Widget? home;
 

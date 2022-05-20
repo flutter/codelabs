@@ -14,7 +14,7 @@ void main() {
 
 @immutable
 class ExampleCupertinoDownloadButton extends StatefulWidget {
-  const ExampleCupertinoDownloadButton({Key? key}) : super(key: key);
+  const ExampleCupertinoDownloadButton({super.key});
 
   @override
   State<ExampleCupertinoDownloadButton> createState() =>
@@ -96,7 +96,7 @@ class _ExampleCupertinoDownloadButtonState
 
 @immutable
 class DemoAppIcon extends StatelessWidget {
-  const DemoAppIcon({Key? key}) : super(key: key);
+  const DemoAppIcon({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -244,14 +244,14 @@ class SimulatedDownloadController extends DownloadController
 @immutable
 class DownloadButton extends StatelessWidget {
   const DownloadButton({
-    Key? key,
+    super.key,
     required this.status,
     this.downloadProgress = 0.0,
     required this.onDownload,
     required this.onCancel,
     required this.onOpen,
     this.transitionDuration = const Duration(milliseconds: 500),
-  }) : super(key: key);
+  });
 
   final DownloadStatus status;
   final double downloadProgress;

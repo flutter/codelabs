@@ -16,7 +16,7 @@ void main() {
 
 @immutable
 class ExampleGradientBubbles extends StatefulWidget {
-  const ExampleGradientBubbles({Key? key}) : super(key: key);
+  const ExampleGradientBubbles({super.key});
 
   @override
   State<ExampleGradientBubbles> createState() => _ExampleGradientBubblesState();
@@ -62,10 +62,10 @@ class _ExampleGradientBubblesState extends State<ExampleGradientBubbles> {
 @immutable
 class MessageBubble extends StatelessWidget {
   const MessageBubble({
-    Key? key,
+    super.key,
     required this.message,
     required this.child,
-  }) : super(key: key);
+  });
 
   final Message message;
   final Widget child;
@@ -114,10 +114,10 @@ class MessageBubble extends StatelessWidget {
 @immutable
 class BubbleBackground extends StatelessWidget {
   const BubbleBackground({
-    Key? key,
+    super.key,
     required this.colors,
     this.child,
-  }) : super(key: key);
+  });
 
   final List<Color> colors;
   final Widget? child;

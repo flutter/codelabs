@@ -13,7 +13,3 @@
 # limitations under the License.
 
 include: ../../analysis_options.yaml
-
-linter:
-  rules:
-    use_super_parameters: true

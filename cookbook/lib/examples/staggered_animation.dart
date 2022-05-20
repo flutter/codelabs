@@ -16,8 +16,8 @@ void main() {
 
 class ExampleStaggeredAnimations extends StatefulWidget {
   const ExampleStaggeredAnimations({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<ExampleStaggeredAnimations> createState() =>

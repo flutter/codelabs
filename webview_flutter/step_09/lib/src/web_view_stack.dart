@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewStack extends StatefulWidget {
-  const WebViewStack({required this.controller, Key? key}) : super(key: key);
+  const WebViewStack({required this.controller, super.key});
 
   final Completer<WebViewController> controller;
 

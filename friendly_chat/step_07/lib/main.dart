@@ -14,8 +14,8 @@ String _name = 'Your Name';
 
 class FriendlyChatApp extends StatelessWidget {
   const FriendlyChatApp({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +29,8 @@ class FriendlyChatApp extends StatelessWidget {
 class ChatMessage extends StatelessWidget {
   const ChatMessage({
     required this.text,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
   final String text;
 
   @override
@@ -62,8 +62,8 @@ class ChatMessage extends StatelessWidget {
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
