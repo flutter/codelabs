@@ -7,7 +7,7 @@ import '../logic/dash_purchases.dart';
 import '../logic/dash_upgrades.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class HomePage extends StatelessWidget {
 }
 
 class DashClickerWidget extends StatelessWidget {
-  const DashClickerWidget({Key? key}) : super(key: key);
+  const DashClickerWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,7 @@ class DashClickerWidget extends StatelessWidget {
 }
 
 class CounterStateWidget extends StatelessWidget {
-  const CounterStateWidget({Key? key}) : super(key: key);
+  const CounterStateWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +70,7 @@ class CounterStateWidget extends StatelessWidget {
 }
 
 class UpgradeList extends StatelessWidget {
-  const UpgradeList({Key? key}) : super(key: key);
+  const UpgradeList({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -91,11 +91,10 @@ class _UpgradeWidget extends StatelessWidget {
   final VoidCallback onPressed;
 
   const _UpgradeWidget({
-    Key? key,
     required this.upgrade,
     required this.title,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

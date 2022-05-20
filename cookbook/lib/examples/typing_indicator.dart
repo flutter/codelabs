@@ -19,8 +19,8 @@ const _backgroundColor = Color(0xFF333333);
 
 class ExampleIsTyping extends StatefulWidget {
   const ExampleIsTyping({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<ExampleIsTyping> createState() => _ExampleIsTypingState();
@@ -87,12 +87,12 @@ class _ExampleIsTypingState extends State<ExampleIsTyping> {
 
 class TypingIndicator extends StatefulWidget {
   const TypingIndicator({
-    Key? key,
+    super.key,
     this.showIndicator = false,
     this.bubbleColor = const Color(0xFF646b7f),
     this.flashingCircleDarkColor = const Color(0xFF333333),
     this.flashingCircleBrightColor = const Color(0xFFaec1dd),
-  }) : super(key: key);
+  });
 
   final bool showIndicator;
   final Color bubbleColor;
@@ -313,9 +313,9 @@ class _TypingIndicatorState extends State<TypingIndicator>
 @immutable
 class FakeMessage extends StatelessWidget {
   const FakeMessage({
-    Key? key,
+    super.key,
     required this.isBig,
-  }) : super(key: key);
+  });
 
   final bool isBig;
 

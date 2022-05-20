@@ -11,10 +11,6 @@ steps:
         replace-contents: |
           include: ../../analysis_options.yaml
 
-          linter:
-            rules:
-              use_super_parameters: true
-
       - name: Remove example code
         path: window_to_front
         rmdir: example
@@ -390,9 +386,6 @@ steps:
         replace-contents: |
           include: ../../analysis_options.yaml
 
-          linter:
-            rules:
-              use_super_parameters: true
       - name: Remove the README.md.
         rm: github_client/README.md
       - name: Remove the iOS, Android and Web runners

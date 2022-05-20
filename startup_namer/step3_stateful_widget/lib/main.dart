@@ -11,7 +11,7 @@ void main() {
 
 // #docregion MyApp
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   // #docregion build
   @override
@@ -46,7 +46,7 @@ class _RandomWordsState extends State<RandomWords> {
 
 // #docregion RandomWords
 class RandomWords extends StatefulWidget {
-  const RandomWords({Key? key}) : super(key: key);
+  const RandomWords({super.key});
 
   @override
   State<RandomWords> createState() => _RandomWordsState();

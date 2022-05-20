@@ -10,7 +10,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +73,7 @@ class _RandomWordsState extends State<RandomWords> {
 }
 
 class RandomWords extends StatefulWidget {
-  const RandomWords({Key? key}) : super(key: key);
+  const RandomWords({super.key});
 
   @override
   State<RandomWords> createState() => _RandomWordsState();

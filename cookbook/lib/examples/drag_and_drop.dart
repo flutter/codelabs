@@ -39,7 +39,7 @@ const List<Item> _items = [
 
 @immutable
 class ExampleDragAndDrop extends StatefulWidget {
-  const ExampleDragAndDrop({Key? key}) : super(key: key);
+  const ExampleDragAndDrop({super.key});
 
   @override
   State<ExampleDragAndDrop> createState() => _ExampleDragAndDropState();
@@ -194,11 +194,11 @@ class _ExampleDragAndDropState extends State<ExampleDragAndDrop>
 
 class CustomerCart extends StatelessWidget {
   const CustomerCart({
-    Key? key,
+    super.key,
     required this.customer,
     this.highlighted = false,
     this.hasItems = false,
-  }) : super(key: key);
+  });
 
   final Customer customer;
   final bool highlighted;
@@ -276,12 +276,12 @@ class CustomerCart extends StatelessWidget {
 
 class MenuListItem extends StatelessWidget {
   const MenuListItem({
-    Key? key,
+    super.key,
     this.name = '',
     this.price = '',
     required this.photoProvider,
     this.isDepressed = false,
-  }) : super(key: key);
+  });
 
   final String name;
   final String price;
@@ -348,10 +348,10 @@ class MenuListItem extends StatelessWidget {
 
 class DraggingListItem extends StatelessWidget {
   const DraggingListItem({
-    Key? key,
+    super.key,
     required this.dragKey,
     required this.photoProvider,
-  }) : super(key: key);
+  });
 
   final GlobalKey dragKey;
   final ImageProvider photoProvider;

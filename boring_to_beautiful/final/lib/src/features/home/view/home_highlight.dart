@@ -24,7 +24,7 @@ class HomeHighlight extends StatelessWidget {
                   ),
                 ),
               ),
-              onTap: () => launch('https://docs.flutter.dev'),
+              onTap: () => launchUrl(Uri.parse('https://docs.flutter.dev')),
             ),
           ),
         ),
