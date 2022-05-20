@@ -13,9 +13,9 @@ import '../playback/bloc/bloc.dart';
 /// listener which toggles Playback, as is customary in music-playing apps.
 class PlayPauseListener extends StatelessWidget {
   const PlayPauseListener({
-    Key? key,
+    super.key,
     required this.child,
-  }) : super(key: key);
+  });
 
   final Widget child;
 

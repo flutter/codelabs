@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Clickable extends StatelessWidget {
-  const Clickable({required this.child, required this.onTap, Key? key})
-      : super(key: key);
+  const Clickable({required this.child, required this.onTap, super.key});
 
   final Widget child;
   final VoidCallback onTap;

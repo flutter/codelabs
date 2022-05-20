@@ -6,10 +6,10 @@ import '../../../shared/extensions.dart';
 
 class HomeArtists extends StatelessWidget {
   const HomeArtists({
-    Key? key,
+    super.key,
     required this.artists,
     required this.constraints,
-  }) : super(key: key);
+  });
 
   final List<Artist> artists;
   final BoxConstraints constraints;

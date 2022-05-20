@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 class HoverToggle extends StatefulWidget {
   const HoverToggle({
-    Key? key,
+    super.key,
     required this.child,
     required this.hoverChild,
     required this.size,
     this.mode = HoverMode.replace,
-  }) : super(key: key);
+  });
 
   final Widget child;
   final Widget hoverChild;

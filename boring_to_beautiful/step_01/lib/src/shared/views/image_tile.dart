@@ -4,11 +4,11 @@ import 'outlined_card.dart';
 
 class ImageTile extends StatelessWidget {
   const ImageTile({
-    Key? key,
+    super.key,
     required this.image,
     required this.title,
     required this.subtitle,
-  }) : super(key: key);
+  });
 
   final String image;
   final String title;

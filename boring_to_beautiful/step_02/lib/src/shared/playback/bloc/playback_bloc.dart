@@ -115,7 +115,7 @@ class PlaybackBloc extends Bloc<PlaybackEvent, PlaybackState> {
 
   @override
   Future<void> close() async {
-    _currentlyPlayingSubscription?.cancel();
-    super.close();
+    await _currentlyPlayingSubscription?.cancel();
+    await super.close();
   }
 }

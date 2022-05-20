@@ -10,7 +10,7 @@ import '../../../shared/views/views.dart';
 import 'playlist_songs.dart';
 
 class PlaylistScreen extends StatelessWidget {
-  const PlaylistScreen({required this.playlist, Key? key}) : super(key: key);
+  const PlaylistScreen({required this.playlist, super.key});
 
   final Playlist playlist;
 
