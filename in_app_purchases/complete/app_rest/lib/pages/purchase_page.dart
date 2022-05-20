@@ -89,7 +89,6 @@ class _PurchaseWidget extends StatelessWidget {
   final VoidCallback onPressed;
 
   const _PurchaseWidget({
-    super.key,
     required this.product,
     required this.onPressed,
   });

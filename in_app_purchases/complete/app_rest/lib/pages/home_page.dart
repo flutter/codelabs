@@ -91,7 +91,6 @@ class _UpgradeWidget extends StatelessWidget {
   final VoidCallback onPressed;
 
   const _UpgradeWidget({
-    super.key,
     required this.upgrade,
     required this.title,
     required this.onPressed,

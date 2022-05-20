@@ -227,7 +227,7 @@ packages:
     source: hosted
     version: "0.2.2+2"
   in_app_purchase_platform_interface:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: in_app_purchase_platform_interface
       url: "https://pub.dartlang.org"
