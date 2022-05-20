@@ -20,11 +20,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:sharing_codelab/model/photos_library_api_model.dart';
-import 'package:sharing_codelab/pages/trip_page.dart';
+import '../model/photos_library_api_model.dart';
+import '../pages/trip_page.dart';
 
 class ContributePhotoDialog extends StatefulWidget {
-  const ContributePhotoDialog({Key? key}) : super(key: key);
+  const ContributePhotoDialog({super.key});
 
   @override
   State<StatefulWidget> createState() => _ContributePhotoDialogState();

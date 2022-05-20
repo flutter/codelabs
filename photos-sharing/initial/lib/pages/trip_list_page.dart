@@ -18,16 +18,17 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:sharing_codelab/model/photos_library_api_model.dart';
-import 'package:sharing_codelab/pages/create_trip_page.dart';
-import 'package:sharing_codelab/pages/join_trip_page.dart';
-import 'package:sharing_codelab/components/primary_raised_button.dart';
-import 'package:sharing_codelab/components/trip_app_bar.dart';
-import 'package:sharing_codelab/pages/trip_page.dart';
-import 'package:sharing_codelab/photos_library_api/album.dart';
+
+import '../components/primary_raised_button.dart';
+import '../components/trip_app_bar.dart';
+import '../model/photos_library_api_model.dart';
+import '../photos_library_api/album.dart';
+import 'create_trip_page.dart';
+import 'join_trip_page.dart';
+import 'trip_page.dart';
 
 class TripListPage extends StatelessWidget {
-  const TripListPage({Key? key}) : super(key: key);
+  const TripListPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +41,7 @@ class TripListPage extends StatelessWidget {
 
   Widget _buildTripList() {
     return ScopedModelDescendant<PhotosLibraryApiModel>(
-      builder: (BuildContext context, Widget? child,
-          PhotosLibraryApiModel photosLibraryApi) {
+      builder: (context, child, photosLibraryApi) {
         if (!photosLibraryApi.hasAlbums) {
           return const Center(
             child: CircularProgressIndicator(),
@@ -73,7 +73,7 @@ class TripListPage extends StatelessWidget {
 
         return ListView.builder(
           itemCount: photosLibraryApi.albums.length + 1,
-          itemBuilder: (BuildContext context, int index) {
+          itemBuilder: (context, index) {
             if (index == 0) {
               return _buildButtons(context);
             }
@@ -102,7 +102,7 @@ class TripListPage extends StatelessWidget {
         onTap: () => Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (BuildContext context) => TripPage(
+            builder: (context) => TripPage(
               album: sharedAlbum,
               searchResponse: photosLibraryApi.searchMediaItems(sharedAlbum.id),
             ),
@@ -154,7 +154,7 @@ class TripListPage extends StatelessWidget {
       imageUrl: '${sharedAlbum.coverPhotoBaseUrl}=w346-h160-c',
       progressIndicatorBuilder: (context, url, downloadProgress) =>
           CircularProgressIndicator(value: downloadProgress.progress),
-      errorWidget: (BuildContext context, String url, Object? error) {
+      errorWidget: (context, url, error) {
         print(error);
         return const Icon(Icons.error);
       },
@@ -173,7 +173,7 @@ class TripListPage extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (BuildContext context) => const CreateTripPage(),
+                  builder: (context) => const CreateTripPage(),
                 ),
               );
             },
@@ -194,7 +194,7 @@ class TripListPage extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (BuildContext context) => const JoinTripPage(),
+                  builder: (context) => const JoinTripPage(),
                 ),
               );
             },

@@ -90,7 +90,6 @@ class PlaylistNav extends StatelessWidget {
 
 class _PlaylistNavItem extends StatefulWidget {
   const _PlaylistNavItem({
-    super.key,
     required this.image,
     required this.playlistId,
     required this.title,

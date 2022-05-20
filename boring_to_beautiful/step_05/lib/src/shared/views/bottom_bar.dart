@@ -38,7 +38,6 @@ class BottomBar extends StatelessWidget implements PreferredSizeWidget {
 
 class _BottomBar extends StatelessWidget {
   const _BottomBar({
-    super.key,
     required this.artist,
     required this.isMuted,
     required this.isPlaying,
@@ -216,7 +215,6 @@ class _BottomBar extends StatelessWidget {
 
 class _ProgressBar extends StatelessWidget {
   const _ProgressBar({
-    super.key,
     required this.progress,
     required this.song,
   });
@@ -295,7 +293,6 @@ class _ProgressBar extends StatelessWidget {
 
 class _VolumeBar extends StatelessWidget {
   const _VolumeBar({
-    super.key,
     required this.volume,
     required this.isMuted,
   });
@@ -345,7 +342,6 @@ class _VolumeBar extends StatelessWidget {
 
 class _PlaybackControls extends StatelessWidget {
   const _PlaybackControls({
-    super.key,
     required this.isPlaying,
     required this.togglePlayPause,
   });
@@ -396,7 +392,6 @@ class _PlaybackControls extends StatelessWidget {
 
 class _AlbumArt extends StatelessWidget {
   const _AlbumArt({
-    super.key,
     required this.song,
   });
 
@@ -421,7 +416,6 @@ class _AlbumArt extends StatelessWidget {
 
 class _SongDetails extends StatelessWidget {
   const _SongDetails({
-    super.key,
     required this.artist,
     required this.song,
   });
@@ -457,7 +451,6 @@ class _SongDetails extends StatelessWidget {
 
 class _FullScreenPlayer extends StatefulWidget {
   const _FullScreenPlayer({
-    super.key,
     required this.onClose,
   });
 
@@ -614,7 +607,6 @@ class _FullScreenPlayerState extends State<_FullScreenPlayer> {
 
 class _MobilePlayer extends StatelessWidget {
   const _MobilePlayer({
-    super.key,
     required this.onClose,
   });
 

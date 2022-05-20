@@ -15,7 +15,7 @@
  */
 
 import 'package:json_annotation/json_annotation.dart';
-import 'package:sharing_codelab/photos_library_api/media_item.dart';
+import 'media_item.dart';
 
 part 'batch_create_media_items_response.g.dart';
 

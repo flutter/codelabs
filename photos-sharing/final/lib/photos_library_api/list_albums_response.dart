@@ -15,7 +15,7 @@
  */
 
 import 'package:json_annotation/json_annotation.dart';
-import 'package:sharing_codelab/photos_library_api/album.dart';
+import 'album.dart';
 
 part 'list_albums_response.g.dart';
 

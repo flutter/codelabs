@@ -18,21 +18,22 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart';
-import 'package:sharing_codelab/photos_library_api/album.dart';
 import 'package:http/http.dart' as http;
-import 'package:sharing_codelab/photos_library_api/batch_create_media_items_request.dart';
-import 'package:sharing_codelab/photos_library_api/batch_create_media_items_response.dart';
-import 'package:sharing_codelab/photos_library_api/create_album_request.dart';
-import 'package:sharing_codelab/photos_library_api/get_album_request.dart';
-import 'package:sharing_codelab/photos_library_api/join_shared_album_request.dart';
-import 'package:sharing_codelab/photos_library_api/join_shared_album_response.dart';
-import 'package:sharing_codelab/photos_library_api/list_albums_response.dart';
-import 'package:sharing_codelab/photos_library_api/list_shared_albums_response.dart';
-import 'package:sharing_codelab/photos_library_api/search_media_items_request.dart';
-import 'package:sharing_codelab/photos_library_api/search_media_items_response.dart';
-import 'package:sharing_codelab/photos_library_api/share_album_request.dart';
-import 'package:sharing_codelab/photos_library_api/share_album_response.dart';
 import 'package:path/path.dart' as path;
+
+import 'album.dart';
+import 'batch_create_media_items_request.dart';
+import 'batch_create_media_items_response.dart';
+import 'create_album_request.dart';
+import 'get_album_request.dart';
+import 'join_shared_album_request.dart';
+import 'join_shared_album_response.dart';
+import 'list_albums_response.dart';
+import 'list_shared_albums_response.dart';
+import 'search_media_items_request.dart';
+import 'search_media_items_response.dart';
+import 'share_album_request.dart';
+import 'share_album_response.dart';
 
 class PhotosLibraryApiClient {
   PhotosLibraryApiClient(this._authHeaders);
