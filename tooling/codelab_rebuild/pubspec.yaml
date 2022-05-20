@@ -8,7 +8,7 @@ environment:
 
 dependencies: 
   checked_yaml: ^2.0.1
-  cli_script: ^0.2.6
+  cli_script: ^0.2.4
   io: ^1.0.3
   json_annotation: ^4.4.0
   logging: ^1.0.2
