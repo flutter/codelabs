@@ -23,17 +23,17 @@ class TFAgentsAgent {
 
   Future<int> predict(List<List<double>> boardState) async {
     var flattenedBoardState = boardState.expand((i) => i).toList();
-    String _server = '';
+    String server = '';
     if (!kIsWeb && Platform.isAndroid) {
       // For Android emulator
-      _server = '10.0.2.2';
+      server = '10.0.2.2';
     } else {
       // For iOS emulator, desktop and web platforms
-      _server = '127.0.0.1';
+      server = '127.0.0.1';
     }
 
     final response = await http.post(
-      Uri.parse('http://' + _server + ':8501/v1/models/policy_model:predict'),
+      Uri.parse('http://$server:8501/v1/models/policy_model:predict'),
       body: jsonEncode(<String, dynamic>{
         'signature_name': 'action',
         'instances': [Inputs(flattenedBoardState)]
