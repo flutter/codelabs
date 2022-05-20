@@ -12,7 +12,7 @@ import 'image_clipper.dart';
 /// Currently-playing informational bar that always spans the entire bottom
 /// of the UI.
 class BottomBar extends StatelessWidget implements PreferredSizeWidget {
-  const BottomBar({Key? key}) : super(key: key);
+  const BottomBar({super.key});
 
   @override
   Size get preferredSize => const Size.fromHeight(90);
@@ -38,7 +38,6 @@ class BottomBar extends StatelessWidget implements PreferredSizeWidget {
 
 class _BottomBar extends StatelessWidget {
   const _BottomBar({
-    Key? key,
     required this.artist,
     required this.isMuted,
     required this.isPlaying,
@@ -47,7 +46,7 @@ class _BottomBar extends StatelessWidget {
     required this.song,
     required this.togglePlayPause,
     required this.volume,
-  }) : super(key: key);
+  });
 
   final Artist? artist;
   final bool isMuted;
@@ -216,10 +215,9 @@ class _BottomBar extends StatelessWidget {
 
 class _ProgressBar extends StatelessWidget {
   const _ProgressBar({
-    Key? key,
     required this.progress,
     required this.song,
-  }) : super(key: key);
+  });
 
   /// Current playback depth into user is into [song].
   final Duration? progress;
@@ -295,10 +293,9 @@ class _ProgressBar extends StatelessWidget {
 
 class _VolumeBar extends StatelessWidget {
   const _VolumeBar({
-    Key? key,
     required this.volume,
     required this.isMuted,
-  }) : super(key: key);
+  });
 
   /// The percentage, between 0 and 1, at which to render the volume slider.
   final double volume;
@@ -345,10 +342,9 @@ class _VolumeBar extends StatelessWidget {
 
 class _PlaybackControls extends StatelessWidget {
   const _PlaybackControls({
-    Key? key,
     required this.isPlaying,
     required this.togglePlayPause,
-  }) : super(key: key);
+  });
 
   final bool isPlaying;
   final VoidCallback togglePlayPause;
@@ -396,9 +392,8 @@ class _PlaybackControls extends StatelessWidget {
 
 class _AlbumArt extends StatelessWidget {
   const _AlbumArt({
-    Key? key,
     required this.song,
-  }) : super(key: key);
+  });
 
   final Song? song;
 
@@ -421,10 +416,9 @@ class _AlbumArt extends StatelessWidget {
 
 class _SongDetails extends StatelessWidget {
   const _SongDetails({
-    Key? key,
     required this.artist,
     required this.song,
-  }) : super(key: key);
+  });
 
   final Artist? artist;
   final Song? song;
@@ -457,9 +451,8 @@ class _SongDetails extends StatelessWidget {
 
 class _FullScreenPlayer extends StatefulWidget {
   const _FullScreenPlayer({
-    Key? key,
     required this.onClose,
-  }) : super(key: key);
+  });
 
   final VoidCallback onClose;
 
@@ -614,9 +607,8 @@ class _FullScreenPlayerState extends State<_FullScreenPlayer> {
 
 class _MobilePlayer extends StatelessWidget {
   const _MobilePlayer({
-    Key? key,
     required this.onClose,
-  }) : super(key: key);
+  });
 
   final VoidCallback onClose;
 

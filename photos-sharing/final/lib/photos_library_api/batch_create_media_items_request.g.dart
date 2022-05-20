@@ -27,7 +27,7 @@ BatchCreateMediaItemsRequest _$BatchCreateMediaItemsRequestFromJson(
   return BatchCreateMediaItemsRequest(
     json['albumId'] as String?,
     (json['newMediaItems'] as List<dynamic>)
-        .map((e) => NewMediaItem.fromJson(e as Map<String, dynamic>))
+        .map((dynamic e) => NewMediaItem.fromJson(e as Map<String, dynamic>))
         .toList(),
     json['albumPosition'] == null
         ? null

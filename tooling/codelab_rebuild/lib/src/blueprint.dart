@@ -191,7 +191,8 @@ class BlueprintStep {
 
     // We can't have patch and patch-u and patch-c
     if (patch != null && patchU != null && patchC != null) {
-      _logger.warning('Invalid step, both patch and patch-u specified: $name');
+      _logger.warning(
+          'Invalid step, multiple of patch, patch-u and patch-c specified: $name');
       return false;
     }
 

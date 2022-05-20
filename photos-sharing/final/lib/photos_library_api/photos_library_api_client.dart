@@ -18,21 +18,22 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart';
-import 'package:sharing_codelab/photos_library_api/album.dart';
 import 'package:http/http.dart' as http;
-import 'package:sharing_codelab/photos_library_api/batch_create_media_items_request.dart';
-import 'package:sharing_codelab/photos_library_api/batch_create_media_items_response.dart';
-import 'package:sharing_codelab/photos_library_api/create_album_request.dart';
-import 'package:sharing_codelab/photos_library_api/get_album_request.dart';
-import 'package:sharing_codelab/photos_library_api/join_shared_album_request.dart';
-import 'package:sharing_codelab/photos_library_api/join_shared_album_response.dart';
-import 'package:sharing_codelab/photos_library_api/list_albums_response.dart';
-import 'package:sharing_codelab/photos_library_api/list_shared_albums_response.dart';
-import 'package:sharing_codelab/photos_library_api/search_media_items_request.dart';
-import 'package:sharing_codelab/photos_library_api/search_media_items_response.dart';
-import 'package:sharing_codelab/photos_library_api/share_album_request.dart';
-import 'package:sharing_codelab/photos_library_api/share_album_response.dart';
 import 'package:path/path.dart' as path;
+
+import 'album.dart';
+import 'batch_create_media_items_request.dart';
+import 'batch_create_media_items_response.dart';
+import 'create_album_request.dart';
+import 'get_album_request.dart';
+import 'join_shared_album_request.dart';
+import 'join_shared_album_response.dart';
+import 'list_albums_response.dart';
+import 'list_shared_albums_response.dart';
+import 'search_media_items_request.dart';
+import 'search_media_items_response.dart';
+import 'share_album_request.dart';
+import 'share_album_response.dart';
 
 class PhotosLibraryApiClient {
   PhotosLibraryApiClient(this._authHeaders);
@@ -48,7 +49,7 @@ class PhotosLibraryApiClient {
 
     printError(response);
 
-    return Album.fromJson(jsonDecode(response.body));
+    return Album.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
   }
 
   Future<JoinSharedAlbumResponse> joinSharedAlbum(
@@ -60,7 +61,8 @@ class PhotosLibraryApiClient {
 
     printError(response);
 
-    return JoinSharedAlbumResponse.fromJson(jsonDecode(response.body));
+    return JoinSharedAlbumResponse.fromJson(
+        jsonDecode(response.body) as Map<String, dynamic>);
   }
 
   Future<ShareAlbumResponse> shareAlbum(ShareAlbumRequest request) async {
@@ -72,7 +74,8 @@ class PhotosLibraryApiClient {
 
     printError(response);
 
-    return ShareAlbumResponse.fromJson(jsonDecode(response.body));
+    return ShareAlbumResponse.fromJson(
+        jsonDecode(response.body) as Map<String, dynamic>);
   }
 
   Future<Album> getAlbum(GetAlbumRequest request) async {
@@ -83,7 +86,7 @@ class PhotosLibraryApiClient {
 
     printError(response);
 
-    return Album.fromJson(jsonDecode(response.body));
+    return Album.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
   }
 
   Future<ListAlbumsResponse> listAlbums() async {
@@ -96,7 +99,8 @@ class PhotosLibraryApiClient {
 
     print(response.body);
 
-    return ListAlbumsResponse.fromJson(jsonDecode(response.body));
+    return ListAlbumsResponse.fromJson(
+        jsonDecode(response.body) as Map<String, dynamic>);
   }
 
   Future<ListSharedAlbumsResponse> listSharedAlbums() async {
@@ -109,7 +113,8 @@ class PhotosLibraryApiClient {
 
     print(response.body);
 
-    return ListSharedAlbumsResponse.fromJson(jsonDecode(response.body));
+    return ListSharedAlbumsResponse.fromJson(
+        jsonDecode(response.body) as Map<String, dynamic>);
   }
 
   Future<String> uploadMediaItem(File image) async {
@@ -145,7 +150,8 @@ class PhotosLibraryApiClient {
 
     printError(response);
 
-    return SearchMediaItemsResponse.fromJson(jsonDecode(response.body));
+    return SearchMediaItemsResponse.fromJson(
+        jsonDecode(response.body) as Map<String, dynamic>);
   }
 
   Future<BatchCreateMediaItemsResponse> batchCreateMediaItems(
@@ -159,7 +165,8 @@ class PhotosLibraryApiClient {
 
     printError(response);
 
-    return BatchCreateMediaItemsResponse.fromJson(jsonDecode(response.body));
+    return BatchCreateMediaItemsResponse.fromJson(
+        jsonDecode(response.body) as Map<String, dynamic>);
   }
 
   static void printError(final Response response) {

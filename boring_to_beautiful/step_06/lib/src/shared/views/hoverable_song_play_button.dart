@@ -7,12 +7,12 @@ import '../views/views.dart';
 /// Renders the child widget when not hovered and a Play button when hovered.
 class HoverableSongPlayButton extends StatelessWidget {
   const HoverableSongPlayButton({
-    Key? key,
+    super.key,
     required this.song,
     required this.child,
     this.size = const Size(50, 50),
     this.hoverMode = HoverMode.replace,
-  }) : super(key: key);
+  });
 
   final Widget child;
   final Size size;

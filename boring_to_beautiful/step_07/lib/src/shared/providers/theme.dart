@@ -25,12 +25,11 @@ class ThemeSettingChange extends Notification {
 
 class ThemeProvider extends InheritedWidget {
   const ThemeProvider(
-      {Key? key,
+      {super.key,
       required this.settings,
       required this.lightDynamic,
       required this.darkDynamic,
-      required Widget child})
-      : super(key: key, child: child);
+      required super.child});
 
   final ValueNotifier<ThemeSettings> settings;
   final ColorScheme? lightDynamic;

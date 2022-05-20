@@ -17,12 +17,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:sharing_codelab/components/trip_app_bar.dart';
-import 'package:sharing_codelab/model/photos_library_api_model.dart';
-import 'package:sharing_codelab/pages/trip_list_page.dart';
+import '../components/trip_app_bar.dart';
+import '../model/photos_library_api_model.dart';
+import 'trip_list_page.dart';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +34,7 @@ class LoginPage extends StatelessWidget {
 
   Widget _buildBody() {
     return ScopedModelDescendant<PhotosLibraryApiModel>(
-      builder: (BuildContext context, Widget? child,
-          PhotosLibraryApiModel apiModel) {
+      builder: (context, child, apiModel) {
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -86,8 +85,8 @@ class LoginPage extends StatelessWidget {
   void _navigateToTripList(BuildContext context) {
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(
-        builder: (BuildContext context) => const TripListPage(),
+      MaterialPageRoute<void>(
+        builder: (context) => const TripListPage(),
       ),
     );
   }

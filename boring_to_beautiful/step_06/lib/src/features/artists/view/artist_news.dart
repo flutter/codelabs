@@ -5,7 +5,7 @@ import '../../../shared/classes/classes.dart';
 import '../../../shared/views/views.dart';
 
 class ArtistNews extends StatelessWidget {
-  const ArtistNews({Key? key, required this.artist}) : super(key: key);
+  const ArtistNews({super.key, required this.artist});
 
   final Artist artist;
 

@@ -8,7 +8,7 @@ import '../../../shared/views/image_clipper.dart';
 import '../../../shared/views/views.dart';
 
 class ArtistRankedSongs extends StatelessWidget {
-  const ArtistRankedSongs({Key? key, required this.artist}) : super(key: key);
+  const ArtistRankedSongs({super.key, required this.artist});
 
   final Artist artist;
 

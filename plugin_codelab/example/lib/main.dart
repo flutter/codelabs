@@ -46,12 +46,12 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _onKeyDown(int key) {
-    print("key down:$key");
+    print('key down:$key');
     PluginCodelab.onKeyDown(key).then((value) => print(value));
   }
 
   void _onKeyUp(int key) {
-    print("key up:$key");
+    print('key up:$key');
     PluginCodelab.onKeyUp(key).then((value) => print(value));
   }
 

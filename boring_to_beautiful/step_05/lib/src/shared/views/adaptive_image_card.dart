@@ -4,12 +4,12 @@ import 'image_clipper.dart';
 
 class AdaptiveImageCard extends StatelessWidget {
   const AdaptiveImageCard({
-    Key? key,
+    super.key,
     required this.image,
     required this.child,
     required this.constraints,
     this.axis = Axis.horizontal,
-  }) : super(key: key);
+  });
 
   final String image;
   final Widget child;

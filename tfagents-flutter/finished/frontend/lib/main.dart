@@ -21,7 +21,7 @@ class PlaneStrike extends StatefulWidget {
 
   // This widget is the root of your application.
   @override
-  _PlaneStrikeState createState() => _PlaneStrikeState();
+  State<PlaneStrike> createState() => _PlaneStrikeState();
 }
 
 class _PlaneStrikeState extends State<PlaneStrike>
@@ -328,6 +328,7 @@ class _PlaneStrikeState extends State<PlaneStrike>
 
     if (userPrompt != '') {
       Future.delayed(const Duration(seconds: 2), () => setState(_resetGame));
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(
           userPrompt,

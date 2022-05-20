@@ -4,13 +4,12 @@ import 'outlined_card.dart';
 
 class ImageCard extends StatelessWidget {
   const ImageCard(
-      {Key? key,
+      {super.key,
       required this.title,
       required this.details,
       required this.image,
       this.subtitle,
-      this.clickable = false})
-      : super(key: key);
+      this.clickable = false});
 
   final String title;
   final String? subtitle;

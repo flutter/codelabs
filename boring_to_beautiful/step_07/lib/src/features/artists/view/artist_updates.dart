@@ -4,7 +4,7 @@ import '../../../shared/classes/classes.dart';
 import '../../../shared/views/outlined_card.dart';
 
 class ArtistUpdates extends StatelessWidget {
-  const ArtistUpdates({Key? key, required this.artist}) : super(key: key);
+  const ArtistUpdates({super.key, required this.artist});
 
   final Artist artist;
 

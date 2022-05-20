@@ -19,17 +19,16 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:sharing_codelab/components/contribute_photo_dialog.dart';
-import 'package:sharing_codelab/components/primary_raised_button.dart';
-import 'package:sharing_codelab/model/photos_library_api_model.dart';
-import 'package:sharing_codelab/photos_library_api/album.dart';
-import 'package:sharing_codelab/photos_library_api/media_item.dart';
-import 'package:sharing_codelab/photos_library_api/search_media_items_response.dart';
-import 'package:sharing_codelab/util/to_be_implemented.dart';
+import '../components/contribute_photo_dialog.dart';
+import '../components/primary_raised_button.dart';
+import '../model/photos_library_api_model.dart';
+import '../photos_library_api/album.dart';
+import '../photos_library_api/media_item.dart';
+import '../photos_library_api/search_media_items_response.dart';
+import '../util/to_be_implemented.dart';
 
 class TripPage extends StatefulWidget {
-  const TripPage({Key? key, this.searchResponse, required this.album})
-      : super(key: key);
+  const TripPage({super.key, this.searchResponse, required this.album});
 
   final Future<SearchMediaItemsResponse>? searchResponse;
 
@@ -55,7 +54,7 @@ class _TripPageState extends State<TripPage> {
       appBar: AppBar(
         elevation: 0,
       ),
-      body: Builder(builder: (BuildContext context) {
+      body: Builder(builder: (context) {
         return Column(
           children: <Widget>[
             SizedBox(
@@ -121,9 +120,9 @@ class _TripPageState extends State<TripPage> {
 
   // ignore: unused_element
   void _showShareDialog(BuildContext context, String title, String text) {
-    showDialog(
+    showDialog<void>(
         context: context,
-        builder: (BuildContext context) {
+        builder: (context) {
           return AlertDialog(
             title: Text(title),
             content: Row(
@@ -151,11 +150,11 @@ class _TripPageState extends State<TripPage> {
         });
   }
 
-  void _contributePhoto(BuildContext context) async {
+  Future<void> _contributePhoto(BuildContext context) async {
     // Show the contribute  dialog and upload a photo.
     final contributeResult = await (showDialog<ContributePhotoResult>(
       context: context,
-      builder: (BuildContext context) {
+      builder: (context) {
         return const ContributePhotoDialog();
       },
     ));
@@ -217,7 +216,7 @@ class _TripPageState extends State<TripPage> {
       return Expanded(
         child: ListView.builder(
           itemCount: items.length,
-          itemBuilder: (BuildContext context, int index) {
+          itemBuilder: (context, index) {
             return _buildMediaItem(items[index]);
           },
         ),
@@ -242,7 +241,7 @@ class _TripPageState extends State<TripPage> {
             imageUrl: '${mediaItem.baseUrl}=w364',
             progressIndicatorBuilder: (context, url, downloadProgress) =>
                 CircularProgressIndicator(value: downloadProgress.progress),
-            errorWidget: (BuildContext context, String url, Object? error) {
+            errorWidget: (context, url, dynamic error) {
               print(error);
               return const Icon(Icons.error);
             },

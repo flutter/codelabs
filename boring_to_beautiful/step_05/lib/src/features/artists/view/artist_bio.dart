@@ -4,7 +4,7 @@ import '../../../shared/classes/classes.dart';
 import '../../../shared/extensions.dart';
 
 class ArtistBio extends StatelessWidget {
-  const ArtistBio({Key? key, required this.artist}) : super(key: key);
+  const ArtistBio({super.key, required this.artist});
 
   final Artist artist;
 

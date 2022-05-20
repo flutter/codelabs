@@ -15,12 +15,12 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:sharing_codelab/components/primary_raised_button.dart';
+import '../components/primary_raised_button.dart';
 
 import '../util/to_be_implemented.dart';
 
 class CreateTripPage extends StatefulWidget {
-  const CreateTripPage({Key? key}) : super(key: key);
+  const CreateTripPage({super.key});
 
   @override
   State<CreateTripPage> createState() => _CreateTripPageState();
