@@ -7,3 +7,8 @@
 */**/.metadata
 
 .dart_tool/
+
+# Lockfiles
+Podfile.lock
+pubspec.lock
+yarn.lock
