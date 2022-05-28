@@ -9,6 +9,7 @@
 .dart_tool/
 
 # Lockfiles
+package-lock.json
 Podfile.lock
 pubspec.lock
 yarn.lock
