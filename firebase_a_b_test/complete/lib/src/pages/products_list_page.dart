@@ -1,3 +1,5 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_abtest/src/data/inventory_provider.dart';
 
@@ -11,6 +13,18 @@ class ProductsListPage extends StatelessWidget {
   final ShopInventoryProvider inventoryProvider = ShopInventoryProvider();
 
   void _openProductPage(BuildContext context, Product product) {
+    final variant = FirebaseRemoteConfig.instance.getString('defaultShirtView');
+
+    FirebaseAnalytics.instance.logViewItem(currency: 'USD', items: [
+      AnalyticsEventItem(
+        itemId: product.id,
+        price: product.price,
+        itemName: product.name,
+        itemBrand: product.brand,
+        itemVariant: variant,
+      )
+    ]);
+
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => ProductDetailsPage(
@@ -48,7 +62,7 @@ class ProductsListPage extends StatelessWidget {
                   return GestureDetector(
                     onTap: () => _openProductPage(context, p),
                     child: ProductTile(
-                      image: p.images.first,
+                      image: p.defaultImagePath,
                       productName: p.name,
                       price: p.price,
                     ),

@@ -9,6 +9,7 @@ final List<Product> inventorySeed = [
       "assets/images/shop/dash_sweatshirt_front.png",
       "assets/images/shop/dash_sweatshirt_back.png"
     ],
+    brand: 'Dash Goods',
   ),
   Product(
     name: 'Dash T Shirt',
@@ -17,6 +18,7 @@ final List<Product> inventorySeed = [
       "assets/images/shop/dash_tshirt_front.png",
       "assets/images/shop/dash_tshirt_back.png"
     ],
+    brand: 'Dash Goods',
   ),
   Product(
     name: 'Flutter Sweater',
@@ -25,5 +27,15 @@ final List<Product> inventorySeed = [
       "assets/images/shop/sweater-front.png",
       "assets/images/shop/sweater-back.png"
     ],
+    brand: 'Dash Goods',
+  ),
+  Product(
+    name: 'Flutter T Shirt',
+    price: 50,
+    images: [
+      "assets/images/shop/t-shirt-front.png",
+      "assets/images/shop/t-shirt-back.png"
+    ],
+    brand: 'Dash Goods',
   ),
 ];

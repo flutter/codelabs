@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'product.g.dart';
@@ -9,12 +10,14 @@ class Product {
   final String name;
   final int price;
   final List<String> images;
+  final String brand;
 
   Product({
     this.id,
     required this.name,
     required this.price,
     required this.images,
+    required this.brand,
   });
 
   Map<String, Object?> toJson() => _$ProductToJson(this);
@@ -28,7 +31,15 @@ class Product {
     return Product(
       name: data?['name'],
       price: data?['price'],
+      brand: data?['brand'],
       images: images,
     );
+  }
+
+  // All shirts are named XYZ-front or XYZ-back.
+  String get defaultImagePath {
+    final defaultView =
+        FirebaseRemoteConfig.instance.getString('defaultShirtView');
+    return images.firstWhere((element) => element.contains(defaultView));
   }
 }

@@ -31,8 +31,3 @@ flutter:
   assets:
   - assets/images/dash.png
   - assets/images/shop/
-
-flutter_icons:
-  image_path: "assets/icons/icon.png"
-  android: true
-  ios: true

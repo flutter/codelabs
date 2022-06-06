@@ -1,3 +1,5 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 
 import '../model/product.dart';
@@ -11,11 +13,26 @@ class ProductDetailsPage extends StatelessWidget {
 
   final Product product;
 
+  void _addToBag() {
+    final variant = FirebaseRemoteConfig.instance.getString('defaultShirtView');
+
+    FirebaseAnalytics.instance.logAddToCart(
+      items: [
+        AnalyticsEventItem(
+          itemBrand: product.brand,
+          itemName: product.name,
+          price: product.price,
+          itemId: product.id,
+          itemVariant: variant,
+        )
+      ],
+    );
+    // ...
+    // add item to cart
+  }
+
   @override
   Widget build(BuildContext context) {
-    final remainingImages =
-        product.images.getRange(1, product.images.length - 1).toList();
-
     return WillPopScope(
       child: Scaffold(
         body: Padding(
@@ -27,12 +44,12 @@ class ProductDetailsPage extends StatelessWidget {
                   Hero(
                     tag: product.images.first,
                     child: Image(
-                        image: AssetImage(product.images.first),
+                        image: AssetImage(product.defaultImagePath),
                         fit: BoxFit.fitWidth),
                   ),
                   Row(
                     children: [
-                      for (var i in remainingImages)
+                      for (var i in product.images)
                         Image(
                           image: AssetImage(i),
                         )
@@ -57,7 +74,7 @@ class ProductDetailsPage extends StatelessWidget {
                     child: SizedBox(
                       width: 200,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: _addToBag,
                         child: Center(
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
