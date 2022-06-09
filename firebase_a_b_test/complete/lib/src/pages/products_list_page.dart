@@ -2,8 +2,8 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_abtest/src/data/inventory_provider.dart';
+import 'package:flutter_abtest/src/data/seed_data.dart' as seed;
 
-import '../data/shop_inventory.dart';
 import '../model/product.dart';
 import '../widgets/whitespace.dart';
 import 'product_details_page.dart';
@@ -43,12 +43,6 @@ class ProductsListPage extends StatelessWidget {
       ),
       body: Column(
         children: [
-          ElevatedButton(
-            onPressed: () {
-              inventoryProvider.writeProductsToFirestore(inventorySeed);
-            },
-            child: Text('SEED DB'),
-          ),
           Flexible(
             child: StreamBuilder<List<Product>>(
                 initialData: const <Product>[],
@@ -58,6 +52,20 @@ class ProductsListPage extends StatelessWidget {
                     return const CircularProgressIndicator();
                   }
                   final products = snapshot.data!;
+
+                  // If the emulators aren't seeded or you want to use a real Firebase project
+                  // This button can be used to seed the project with fake data
+                  if (products.isNotEmpty) {
+                    return ElevatedButton(
+                      onPressed: () {
+                        inventoryProvider
+                            .writeProductsToFirestore(seed.inventorySeed);
+                        seed.seedFirebaseStorage();
+                      },
+                      child: const Text('SEED DB'),
+                    );
+                  }
+
                   return Center(
                     child: GridView.builder(
                       itemCount: products.length,
