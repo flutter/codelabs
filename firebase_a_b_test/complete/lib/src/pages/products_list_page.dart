@@ -60,7 +60,6 @@ class ProductsListPage extends StatelessWidget {
                       onPressed: () {
                         inventoryProvider
                             .writeProductsToFirestore(seed.inventorySeed);
-                        seed.seedFirebaseStorage();
                       },
                       child: const Text('SEED DB'),
                     );
