@@ -3,6 +3,7 @@ import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_abtest/src/data/inventory_provider.dart';
 
+import '../data/shop_inventory.dart';
 import '../model/product.dart';
 import '../widgets/whitespace.dart';
 import 'product_details_page.dart';
@@ -40,37 +41,50 @@ class ProductsListPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Dash Store'),
       ),
-      body: StreamBuilder<List<Product>>(
-          initialData: const <Product>[],
-          stream: inventoryProvider.shopInventory,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator();
-            }
-            final products = snapshot.data!;
-            return Center(
-              child: GridView.builder(
-                itemCount: products.length,
-                padding: const EdgeInsets.all(10.0),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  mainAxisSpacing: 20.0,
-                  crossAxisSpacing: 10.0,
-                  crossAxisCount: 2,
-                ),
-                itemBuilder: (BuildContext context, int idx) {
-                  final p = products[idx];
-                  return GestureDetector(
-                    onTap: () => _openProductPage(context, p),
-                    child: ProductTile(
-                      image: p.defaultImagePath,
-                      productName: p.name,
-                      price: p.price,
+      body: Column(
+        children: [
+          ElevatedButton(
+            onPressed: () {
+              inventoryProvider.writeProductsToFirestore(inventorySeed);
+            },
+            child: Text('SEED DB'),
+          ),
+          Flexible(
+            child: StreamBuilder<List<Product>>(
+                initialData: const <Product>[],
+                stream: inventoryProvider.shopInventory,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const CircularProgressIndicator();
+                  }
+                  final products = snapshot.data!;
+                  return Center(
+                    child: GridView.builder(
+                      itemCount: products.length,
+                      padding: const EdgeInsets.all(10.0),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        mainAxisSpacing: 20.0,
+                        crossAxisSpacing: 10.0,
+                        crossAxisCount: 2,
+                      ),
+                      itemBuilder: (BuildContext context, int idx) {
+                        final p = products[idx];
+                        return GestureDetector(
+                          onTap: () => _openProductPage(context, p),
+                          child: ProductTile(
+                            image: p.defaultImagePath,
+                            productName: p.name,
+                            price: p.price,
+                          ),
+                        );
+                      },
                     ),
                   );
-                },
-              ),
-            );
-          }),
+                }),
+          ),
+        ],
+      ),
     );
   }
 }
