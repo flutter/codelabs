@@ -1,0 +1,538 @@
+name: Star Counter script
+steps:
+  - name: step_04
+    steps:
+      - name: Remove generated code.
+        rmdir: step_04
+      - name: Create project.
+        flutter: create star_counter
+      - name: Configure analysis_options.yaml
+        path: star_counter/analysis_options.yaml
+        replace-contents: |
+          include: ../../analysis_options.yaml
+      - name: dart fix
+        dart: fix --apply
+        path: star_counter
+      - name: Remove README.md
+        path: star_counter
+        rm: README.md
+      - name: Remove the Mobile and Desktop runners
+        path: star_counter
+        rmdirs:
+          - android
+          - ios
+          - linux 
+          - macos 
+          - windows
+      - name: Remove cupertino_icons
+        flutter: pub remove cupertino_icons
+        path: star_counter
+      - name: Add flutter_markdown
+        flutter: pub add flutter_markdown
+        path: star_counter
+      - name: Add github
+        flutter: pub add github
+        path: star_counter
+      - name: Add intl
+        flutter: pub add intl
+        path: star_counter
+      - name: Patch pubspec.yaml
+        path: star_counter/pubspec.yaml
+        patch-u: |
+          --- b/star_counter/step_04/pubspec.yaml
+          +++ a/star_counter/step_04/pubspec.yaml
+          @@ -1,5 +1,5 @@
+           name: star_counter
+          -description: A new Flutter project.
+          +description: A GitHub Star Counter app
+           
+           # The following line prevents the package from being accidentally published to
+           # pub.dev using `flutter pub publish`. This is preferred for private packages.
+          
+      - name: VSCode config
+        path: star_counter
+        mkdir: .vscode
+      - name: Add launch.json
+        path: star_counter/.vscode/launch.json
+        replace-contents: |
+          {
+              // Use IntelliSense to learn about possible attributes.
+              // Hover to view descriptions of existing attributes.
+              // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+              "version": "0.2.0",
+              "configurations": [
+                  {
+                      "name": "star_counter",
+                      "request": "launch",
+                      "type": "dart"
+                  }
+              ]
+          }
+      - name: Replace lib/main.dart
+        path: star_counter/lib/main.dart
+        replace-contents: |
+          import 'package:flutter/material.dart';
+
+          void main() {
+            runApp(const StarCounterApp());
+          }
+
+          class StarCounterApp extends StatelessWidget {
+            const StarCounterApp({super.key});
+
+            @override
+            Widget build(BuildContext context) {
+              return MaterialApp(
+                theme: ThemeData(
+                  brightness: Brightness.light,
+                ),
+                routes: {
+                  '/': (context) => const HomePage(),
+                },
+              );
+            }
+          }
+
+          class HomePage extends StatefulWidget {
+            const HomePage({super.key});
+
+            @override
+            State<HomePage> createState() => _HomePageState();
+          }
+
+          class _HomePageState extends State<HomePage> {
+            String _repositoryName = '';
+
+            @override
+            Widget build(BuildContext context) {
+              return Scaffold(
+                body: Center(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 400),
+                    child: Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              'GitHub Star Counter',
+                              style: Theme.of(context).textTheme.headline4,
+                            ),
+                            TextField(
+                              decoration: const InputDecoration(
+                                labelText: 'Enter a GitHub repository',
+                                hintText: 'flutter/flutter',
+                              ),
+                              onSubmitted: (text) {
+                                setState(() {
+                                  _repositoryName = text;
+                                });
+                              },
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 32.0),
+                              child: Text(
+                                _repositoryName,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            }
+          }
+      - name: Replace test/widget_test.dart
+        path: star_counter/test/widget_test.dart
+        replace-contents: |
+          import 'package:flutter_test/flutter_test.dart';
+
+          import 'package:star_counter/main.dart';
+
+          void main() {
+            testWidgets('smoke test', (tester) async {
+              // Build our app and trigger a frame.
+              await tester.pumpWidget(const StarCounterApp());
+
+              // Verify that our counter starts at 0.
+              expect(find.text('GitHub Star Counter'), findsOneWidget);
+              expect(find.text('Not present'), findsNothing);
+            });
+          }
+      - name: Copy step_04
+        copydir:
+          from: star_counter
+          to: step_04
+  - name: step_05
+    steps:
+      - name: Remove step_05.
+        rmdir: step_05
+      - name: Create lib/star_counter.dart
+        path: star_counter/lib/star_counter.dart
+        replace-contents: |
+          import 'package:flutter/material.dart';
+          import 'package:github/github.dart';
+          import 'package:intl/intl.dart' as intl;
+
+          class GitHubStarCounter extends StatefulWidget {
+            /// The full repository name, e.g. torvalds/linux
+            final String repositoryName;
+
+            const GitHubStarCounter({
+              required this.repositoryName,
+              super.key,
+            });
+
+            @override
+            State<GitHubStarCounter> createState() => _GitHubStarCounterState();
+          }
+
+          class _GitHubStarCounterState extends State<GitHubStarCounter> {
+            // The GitHub API client
+            late GitHub github;
+
+            // The repository information
+            Repository? repository;
+
+            // A human-readable error when the repository isn't found.
+            String? errorMessage;
+
+            @override
+            void initState() {
+              super.initState();
+              github = GitHub();
+
+              fetchRepository();
+            }
+
+            @override
+            void didUpdateWidget(GitHubStarCounter oldWidget) {
+              super.didUpdateWidget(oldWidget);
+
+              // When this widget's [repositoryName] changes,
+              // load the Repository information.
+              if (widget.repositoryName == oldWidget.repositoryName) {
+                return;
+              }
+
+              fetchRepository();
+            }
+
+            Future<void> fetchRepository() async {
+              setState(() {
+                repository = null;
+                errorMessage = null;
+              });
+
+              if (widget.repositoryName.isNotEmpty) {
+                var repo = await github.repositories
+                    .getRepository(RepositorySlug.full(widget.repositoryName));
+                setState(() {
+                  repository = repo;
+                });
+              }
+            }
+
+            @override
+            Widget build(BuildContext context) {
+              final textTheme = Theme.of(context).textTheme;
+              final textStyle = textTheme.headline4?.apply(color: Colors.green);
+              final errorStyle = textTheme.bodyText1?.apply(color: Colors.red);
+              final numberFormat = intl.NumberFormat.decimalPattern();
+
+              if (errorMessage != null) {
+                return Text(errorMessage!, style: errorStyle);
+              }
+
+              if (widget.repositoryName.isNotEmpty && repository == null) {
+                return const Text('loading...');
+              }
+
+              if (repository == null) {
+                // If no repository is entered, return an empty widget.
+                return const SizedBox();
+              }
+
+              return Text(
+                numberFormat.format(repository!.stargazersCount),
+                style: textStyle,
+              );
+            }
+          }
+      - name: Patch lib/main.dart
+        path: star_counter/lib/main.dart
+        patch-u: |
+          --- b/star_counter/step_05/lib/main.dart
+          +++ a/star_counter/step_05/lib/main.dart
+          @@ -1,4 +1,5 @@
+           import 'package:flutter/material.dart';
+          +import 'star_counter.dart';
+           
+           void main() {
+             runApp(const StarCounterApp());
+          @@ -60,8 +61,8 @@ class _HomePageState extends State<HomePage> {
+                             ),
+                             Padding(
+                               padding: const EdgeInsets.only(top: 32.0),
+          -                    child: Text(
+          -                      _repositoryName,
+          +                    child: GitHubStarCounter(
+          +                      repositoryName: _repositoryName,
+                               ),
+                             ),
+                           ],
+          
+      - name: Copy step_05
+        copydir:
+          from: star_counter
+          to: step_05
+  - name: step_06
+    steps:
+      - name: Remove step_06.
+        rmdir: step_06
+      - name: Patch lib/star_counter.dart
+        path: star_counter/lib/star_counter.dart
+        patch-u: |
+          --- b/star_counter/step_06/lib/star_counter.dart
+          +++ a/star_counter/step_06/lib/star_counter.dart
+          @@ -53,11 +53,18 @@ class _GitHubStarCounterState extends State<GitHubStarCounter> {
+               });
+           
+               if (widget.repositoryName.isNotEmpty) {
+          -      var repo = await github.repositories
+          -          .getRepository(RepositorySlug.full(widget.repositoryName));
+          -      setState(() {
+          -        repository = repo;
+          -      });
+          +      try {
+          +        var repo = await github.repositories
+          +            .getRepository(RepositorySlug.full(widget.repositoryName));
+          +        setState(() {
+          +          repository = repo;
+          +        });
+          +      } on RepositoryNotFound {
+          +        setState(() {
+          +          repository = null;
+          +          errorMessage = '${widget.repositoryName} not found.';
+          +        });
+          +      }
+               }
+             }
+ 
+      - name: Copy step_06
+        copydir:
+          from: star_counter
+          to: step_06
+  - name: step_07
+    steps:
+      - name: Remove step_07.
+        rmdir: step_07
+      - name: Patch lib/main.dart
+        path: star_counter/lib/main.dart
+        patch-u: |
+          --- b/star_counter/step_07/lib/main.dart
+          +++ a/star_counter/step_07/lib/main.dart
+          @@ -1,4 +1,5 @@
+           import 'package:flutter/material.dart';
+          +import 'privacy_policy.dart';
+           import 'star_counter.dart';
+           
+           void main() {
+          @@ -16,6 +17,7 @@ class StarCounterApp extends StatelessWidget {
+                 ),
+                 routes: {
+                   '/': (context) => const HomePage(),
+          +        '/privacypolicy': (context) => const PrivacyPolicy(),
+                 },
+               );
+             }
+          @@ -65,6 +67,16 @@ class _HomePageState extends State<HomePage> {
+                                 repositoryName: _repositoryName,
+                               ),
+                             ),
+          +                  TextButton(
+          +                    style: ButtonStyle(
+          +                      foregroundColor: MaterialStateProperty.all(Colors.blue),
+          +                      overlayColor:
+          +                          MaterialStateProperty.all(Colors.transparent),
+          +                    ),
+          +                    onPressed: () =>
+          +                        Navigator.of(context).pushNamed('/privacypolicy'),
+          +                    child: const Text('Privacy Policy'),
+          +                  ),
+                           ],
+                         ),
+                       ),
+      - name: Create lib/privacy_policy.dart
+        path: star_counter/lib/privacy_policy.dart
+        replace-contents: |
+          import 'package:flutter/widgets.dart';
+          import 'package:flutter_markdown/flutter_markdown.dart';
+
+          class PrivacyPolicy extends StatelessWidget {
+            const PrivacyPolicy({super.key});
+
+            @override
+            Widget build(BuildContext context) {
+              return Markdown(
+                data: _privacyPolicyText,
+              );
+            }
+          }
+
+          // The source for this privacy policy was generated by
+          // https://app-privacy-policy-generator.firebaseapp.com/
+          var _privacyPolicyText = '''
+          ## Privacy Policy
+
+          Flutter Example Company built the Star Counter app as an Open Source app. This SERVICE is provided by Flutter Example Company at no cost and is intended for use as is.
+
+          This page is used to inform visitors regarding our policies with the collection, use, and disclosure of Personal Information if anyone decided to use our Service.
+
+          If you choose to use our Service, then you agree to the collection and use of information in relation to this policy. The Personal Information that we collect is used for providing and improving the Service. We will not use or share your information with anyone except as described in this Privacy Policy.
+
+          The terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, which is accessible at Star Counter unless otherwise defined in this Privacy Policy.
+          ''';
+
+      - name: Copy step_07
+        copydir:
+          from: star_counter
+          to: step_07
+  - name: step_08
+    steps:
+      - name: Remove step_08.
+        rmdir: step_08
+      - name: Create .firebaserc
+        path: star_counter/.firebaserc
+        replace-contents: |
+          {
+            "projects": {
+              "default": "yourname-my-flutter-app"
+            }
+          }
+
+      - name: Create firebase.json
+        path: star_counter/firebase.json
+        replace-contents: |
+          {
+            "hosting": {
+              "public": "build/web",
+              "ignore": [
+                "firebase.json",
+                "**/.*",
+                "**/node_modules/**"
+              ],
+              "rewrites": [
+                {
+                  "source": "**",
+                  "destination": "/index.html"
+                }
+              ]
+            }
+          }
+      - name: Patch .gitignore
+        path: star_counter/.gitignore
+        patch-u: |
+          --- b/star_counter/step_08/.gitignore
+          +++ a/star_counter/step_08/.gitignore
+          @@ -45,3 +45,6 @@ app.*.map.json
+           /android/app/debug
+           /android/app/profile
+           /android/app/release
+          +
+          +# Firebase hosting cache
+          +/.firebase/
+          
+      - name: Copy step_08
+        copydir:
+          from: star_counter
+          to: step_08
+  - name: step_09
+    steps:
+      - name: Remove step_09.
+        rmdir: step_09
+      - name: Create web/privacy_policy.html
+        path: star_counter/web/privacy_policy.html
+        replace-contents: |
+          <!doctype html>
+
+          <html lang="en">
+          <head>
+            <meta charset="utf-8">
+
+            <title>Privacy Policy</title>
+          </head>
+
+          <body>
+          <h2 id="privacy-policy">Privacy Policy</h2>
+          <p>Flutter Example Company built the Star Counter app as an Open Source app. This SERVICE is provided by Flutter Example Company at no cost and is intended for use as is.</p>
+          <p>This page is used to inform visitors regarding our policies with the collection, use, and disclosure of Personal Information if anyone decided to use our Service.</p>
+          <p>If you choose to use our Service, then you agree to the collection and use of information in relation to this policy. The Personal Information that we collect is used for providing and improving the Service. We will not use or share your information with anyone except as described in this Privacy Policy.</p>
+          <p>The terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, which is accessible at Star Counter unless otherwise defined in this Privacy Policy.</p>
+          </body>
+          </html>
+
+      - name: Remove lib/privacy_policy.dart
+        rm: star_counter/lib/privacy_policy.dart
+      - name: Patch lib/main.dart
+        path: star_counter/lib/main.dart
+        patch-u: |
+          --- b/star_counter/step_09/lib/main.dart
+          +++ a/star_counter/step_09/lib/main.dart
+          @@ -1,5 +1,4 @@
+           import 'package:flutter/material.dart';
+          -import 'privacy_policy.dart';
+           import 'star_counter.dart';
+           
+           void main() {
+          @@ -17,7 +16,6 @@ class StarCounterApp extends StatelessWidget {
+                 ),
+                 routes: {
+                   '/': (context) => const HomePage(),
+          -        '/privacypolicy': (context) => const PrivacyPolicy(),
+                 },
+               );
+             }
+
+      - name: Copy step_09
+        copydir:
+          from: star_counter
+          to: step_09
+  - name: step_10
+    steps:
+      - name: Remove step_10.
+        rmdir: step_10
+      - name: Add url_launcher
+        path: star_counter
+        flutter: pub add url_launcher
+      - name: Patch lib/main.dart
+        path: star_counter/lib/main.dart
+        patch-u: |
+          --- b/star_counter/step_10/lib/main.dart
+          +++ a/star_counter/step_10/lib/main.dart
+          @@ -1,4 +1,5 @@
+           import 'package:flutter/material.dart';
+          +import 'package:url_launcher/url_launcher.dart';
+           import 'star_counter.dart';
+           
+           void main() {
+          @@ -72,7 +73,7 @@ class _HomePageState extends State<HomePage> {
+                                     MaterialStateProperty.all(Colors.transparent),
+                               ),
+                               onPressed: () =>
+          -                        Navigator.of(context).pushNamed('/privacypolicy'),
+          +                        launchUrl(Uri.parse('/privacy_policy.html')),
+                               child: const Text('Privacy Policy'),
+                             ),
+                           ],
+
+      - name: Copy step_10
+        copydir:
+          from: star_counter
+          to: step_10
+  - name: Cleanup
+    rmdir: star_counter
