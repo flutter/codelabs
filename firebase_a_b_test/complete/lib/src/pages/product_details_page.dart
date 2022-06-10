@@ -43,17 +43,33 @@ class ProductDetailsPage extends StatelessWidget {
                 children: [
                   Hero(
                     tag: product.images.first,
-                    child: Image(
-                        image: AssetImage(product.defaultImagePath),
-                        fit: BoxFit.fitWidth),
+                    child: Container(
+                      constraints: const BoxConstraints(
+                        maxWidth: 300.0,
+                      ),
+                      child: Image(
+                        image: NetworkImage(product.defaultImageUrl),
+                        fit: BoxFit.fitWidth,
+                      ),
+                    ),
                   ),
-                  Row(
-                    children: [
-                      for (var i in product.images)
-                        Image(
-                          image: AssetImage(i),
-                        )
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        for (var i in product.images)
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: SizedBox(
+                              width: 100.0,
+                              child: Image(
+                                image: NetworkImage(i),
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                          )
+                      ],
+                    ),
                   ),
                   Center(
                     child: Text(product.name),

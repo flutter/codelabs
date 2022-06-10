@@ -28,16 +28,18 @@ class Product {
       DocumentSnapshot<Map<String, dynamic>> snapshot) {
     final data = snapshot.data();
     final images = (data?['images'] as List).cast<String>();
+
     return Product(
       name: data?['name'],
       price: data?['price'],
       brand: data?['brand'],
+      // convert image name to full URL
       images: images,
     );
   }
 
   // All shirts are named XYZ-front or XYZ-back.
-  String get defaultImagePath {
+  String get defaultImageUrl {
     final defaultView =
         FirebaseRemoteConfig.instance.getString('defaultShirtView');
     return images.firstWhere((element) => element.contains(defaultView));

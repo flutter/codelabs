@@ -1,5 +1,6 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_abtest/src/data/inventory_provider.dart';
 import 'package:flutter_abtest/src/data/seed_data.dart' as seed;
@@ -15,7 +16,6 @@ class ProductsListPage extends StatelessWidget {
 
   void _openProductPage(BuildContext context, Product product) {
     final variant = FirebaseRemoteConfig.instance.getString('defaultShirtView');
-
     FirebaseAnalytics.instance.logViewItem(currency: 'USD', items: [
       AnalyticsEventItem(
         itemId: product.id,
@@ -33,6 +33,12 @@ class ProductsListPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void getDownloadUrl() async {
+    final storage = FirebaseStorage.instance.ref();
+    final url = await storage.child('dash-plushie.png').getDownloadURL();
+    print(url);
   }
 
   @override
@@ -55,7 +61,7 @@ class ProductsListPage extends StatelessWidget {
 
                   // If the emulators aren't seeded or you want to use a real Firebase project
                   // This button can be used to seed the project with fake data
-                  if (products.isNotEmpty) {
+                  if (products.isEmpty) {
                     return ElevatedButton(
                       onPressed: () {
                         inventoryProvider
@@ -80,7 +86,7 @@ class ProductsListPage extends StatelessWidget {
                         return GestureDetector(
                           onTap: () => _openProductPage(context, p),
                           child: ProductTile(
-                            image: p.defaultImagePath,
+                            image: p.defaultImageUrl,
                             productName: p.name,
                             price: p.price,
                           ),
@@ -118,8 +124,8 @@ class ProductTile extends StatelessWidget {
             height: 175,
             child: Hero(
               tag: image,
-              child: Image(
-                image: AssetImage(image),
+              child: Image.network(
+                image,
                 fit: BoxFit.cover,
               ),
             ),

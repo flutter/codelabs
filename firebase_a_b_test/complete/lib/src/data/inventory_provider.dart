@@ -3,12 +3,15 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 import '../model/product.dart';
 
 class ShopInventoryProvider {
   final CollectionReference _productsCollection =
       FirebaseFirestore.instance.collection("products");
+
+  final storageRef = FirebaseStorage.instance.ref();
 
   late Stream<List<Product>> shopInventory;
 
@@ -17,11 +20,27 @@ class ShopInventoryProvider {
 
   ShopInventoryProvider() {
     shopInventory = _inventoryStreamController.stream;
+    _initInventoryListener();
+  }
 
-    _productsCollection.snapshots().listen((QuerySnapshot event) {
-      final products = event.docs.map((DocumentSnapshot<Object?> snapshot) {
-        return Product.fromFirestore(
-            snapshot as DocumentSnapshot<Map<String, dynamic>>);
+  // a truly wild thing is happening here. what
+  void _initInventoryListener() {
+    _productsCollection.snapshots().listen((QuerySnapshot event) async {
+      final List<Product> products = await Stream.fromIterable(event.docs)
+          .asyncMap((DocumentSnapshot snapshot) async {
+        final product =
+            (snapshot as DocumentSnapshot<Map<String, dynamic>>).data();
+        final imageNames = (product?['images'] as List).cast<String>();
+
+        final urls = await Future.wait(imageNames.map((String i) {
+          return storageRef.child(i).getDownloadURL();
+        }));
+        return Product(
+          name: product?['name'],
+          price: product?['price'],
+          images: urls,
+          brand: product?['brand'],
+        );
       }).toList();
 
       _inventoryStreamController.add(products);
