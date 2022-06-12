@@ -69,8 +69,8 @@ class _RandomWordsState extends State<RandomWords> {
         );
         // #enddocregion listTile
       },
-      // #enddocregion itemBuilder
     );
+    // #enddocregion itemBuilder
   }
   // #enddocregion RWS-build
   // #docregion RWS-var
