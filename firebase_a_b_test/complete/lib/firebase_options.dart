@@ -34,6 +34,9 @@ class DefaultFirebaseOptions {
     );
   }
 
+  // TODO: remove keys when finished
+  // although you are encouraged to leave Firebase keys in projects, as they are _not_ secrets,
+  // I want readers to set up their own Firebase project.
   static const FirebaseOptions web = FirebaseOptions(
     apiKey: 'AIzaSyDD3sv4BvbPJiNgwalcmOKMAT18cVaMM9E',
     appId: '1:205432643314:web:883ee969975ceb42043a6b',
@@ -57,7 +60,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '205432643314',
     projectId: 'flutterfire-abtest-codelab',
     storageBucket: 'flutterfire-abtest-codelab.appspot.com',
-    iosClientId: '205432643314-inpi030psqis8i267su6a9gjtf985h4s.apps.googleusercontent.com',
+    iosClientId:
+        '205432643314-inpi030psqis8i267su6a9gjtf985h4s.apps.googleusercontent.com',
     iosBundleId: 'com.example.complete',
   );
 
@@ -67,7 +71,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '205432643314',
     projectId: 'flutterfire-abtest-codelab',
     storageBucket: 'flutterfire-abtest-codelab.appspot.com',
-    iosClientId: '205432643314-inpi030psqis8i267su6a9gjtf985h4s.apps.googleusercontent.com',
+    iosClientId:
+        '205432643314-inpi030psqis8i267su6a9gjtf985h4s.apps.googleusercontent.com',
     iosBundleId: 'com.example.complete',
   );
 }

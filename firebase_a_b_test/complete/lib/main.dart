@@ -4,9 +4,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_abtest/src/app.dart';
 
 import 'firebase_options.dart';
+import 'src/pages/products_list_page.dart';
+
+// Remote config values
+const String front = 'front';
+const String back = 'back';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,6 +27,7 @@ void main() async {
     // swallow error, as this is only necessary the first time
   }
 
+  // This codelab uses Emulators where possible.
   FirebaseStorage.instance.useStorageEmulator('localhost', 9199);
   FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
 
@@ -43,8 +48,21 @@ void main() async {
     "defaultShirtView": front,
   });
 
+  // Needed for security rules, but no more Auth will be featured in this App
+  FirebaseAuth.instance.signInAnonymously();
+
   runApp(const CoolShopApp());
 }
 
-const String front = 'front';
-const String back = 'back';
+class CoolShopApp extends StatelessWidget {
+  const CoolShopApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      routes: {
+        "/": (BuildContext context) => ProductsListPage(),
+      },
+    );
+  }
+}

@@ -23,9 +23,11 @@ class ShopInventoryProvider {
     _initInventoryListener();
   }
 
-  // a truly wild thing is happening here. what
+  // a truly wild thing is happening here. please scrutinize
   void _initInventoryListener() {
+    // Listen to Firestore collection for changes
     _productsCollection.snapshots().listen((QuerySnapshot event) async {
+      // Stream is necessary in order to use "asyncMap"
       final List<Product> products = await Stream.fromIterable(event.docs)
           .asyncMap((DocumentSnapshot snapshot) async {
         final product =
@@ -47,6 +49,7 @@ class ShopInventoryProvider {
     });
   }
 
+  // this is used solely to seed the database
   void writeProductsToFirestore(List<Product> products) async {
     try {
       for (var p in products) {
