@@ -28,8 +28,8 @@ class MyApp extends StatelessWidget {
 
 class ExampleParallax extends StatelessWidget {
   const ExampleParallax({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -50,11 +50,11 @@ class ExampleParallax extends StatelessWidget {
 
 class LocationListItem extends StatelessWidget {
   LocationListItem({
-    Key? key,
+    super.key,
     required this.imageUrl,
     required this.name,
     required this.country,
-  }) : super(key: key);
+  });
 
   final String imageUrl;
   final String name;

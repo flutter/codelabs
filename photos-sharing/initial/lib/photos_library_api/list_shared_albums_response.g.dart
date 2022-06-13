@@ -26,7 +26,7 @@ ListSharedAlbumsResponse _$ListSharedAlbumsResponseFromJson(
     Map<String, dynamic> json) {
   return ListSharedAlbumsResponse(
     (json['sharedAlbums'] as List<dynamic>?)
-        ?.map((e) => Album.fromJson(e as Map<String, dynamic>))
+        ?.map((dynamic e) => Album.fromJson(e as Map<String, dynamic>))
         .toList(),
     json['nextPageToken'] as String?,
   );

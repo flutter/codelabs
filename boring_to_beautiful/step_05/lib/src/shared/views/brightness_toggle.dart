@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../providers/providers.dart';
 
 class BrightnessToggle extends StatelessWidget {
-  const BrightnessToggle({Key? key}) : super(key: key);
+  const BrightnessToggle({super.key});
 
   @override
   Widget build(BuildContext context) {

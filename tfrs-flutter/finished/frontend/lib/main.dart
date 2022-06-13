@@ -8,10 +8,10 @@ import 'package:http/http.dart' as http;
 void main() => runApp(const RecommenderDemo());
 
 class RecommenderDemo extends StatefulWidget {
-  const RecommenderDemo({Key? key}) : super(key: key);
+  const RecommenderDemo({super.key});
 
   @override
-  _RecommenderDemoState createState() => _RecommenderDemoState();
+  State<RecommenderDemo> createState() => _RecommenderDemoState();
 }
 
 class _RecommenderDemoState extends State<RecommenderDemo> {
@@ -35,7 +35,7 @@ class _RecommenderDemoState extends State<RecommenderDemo> {
       _server = '127.0.0.1';
     }
     final response = await http.post(
-      Uri.parse('http://' + _server + ':5000/recommend'),
+      Uri.parse('http://$_server:5000/recommend'),
       headers: <String, String>{
         'Content-Type': 'application/json',
       },

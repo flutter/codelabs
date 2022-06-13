@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 void main() => runApp(const RecommenderDemo());
 
 class RecommenderDemo extends StatefulWidget {
-  const RecommenderDemo({Key? key}) : super(key: key);
+  const RecommenderDemo({super.key});
 
   @override
-  _RecommenderDemoState createState() => _RecommenderDemoState();
+  State<RecommenderDemo> createState() => _RecommenderDemoState();
 }
 
 class _RecommenderDemoState extends State<RecommenderDemo> {

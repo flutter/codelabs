@@ -18,10 +18,10 @@ import 'package:provider/provider.dart';
 import 'model/app_state_model.dart';
 
 class ShoppingCartTab extends StatefulWidget {
-  const ShoppingCartTab({Key? key}) : super(key: key);
+  const ShoppingCartTab({super.key});
 
   @override
-  _ShoppingCartTabState createState() {
+  State<ShoppingCartTab> createState() {
     return _ShoppingCartTabState();
   }
 }

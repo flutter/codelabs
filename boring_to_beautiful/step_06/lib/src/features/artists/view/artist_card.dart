@@ -8,9 +8,9 @@ import '../../../shared/views/views.dart';
 
 class ArtistCard extends StatelessWidget {
   const ArtistCard({
-    Key? key,
+    super.key,
     required this.artist,
-  }) : super(key: key);
+  });
 
   final Artist artist;
 

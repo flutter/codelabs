@@ -12,13 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import 'dart:async';
-
-import 'package:flutter/services.dart';
+import 'window_to_front_platform_interface.dart';
 
 class WindowToFront {
-  static const MethodChannel _channel = MethodChannel('window_to_front');
   static Future<void> activate() {
-    return _channel.invokeMethod('activate');
+    return WindowToFrontPlatform.instance.activate();
   }
 }

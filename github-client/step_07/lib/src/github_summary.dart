@@ -18,11 +18,11 @@ import 'package:github/github.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class GitHubSummary extends StatefulWidget {
-  const GitHubSummary({required this.gitHub, Key? key}) : super(key: key);
+  const GitHubSummary({required this.gitHub, super.key});
   final GitHub gitHub;
 
   @override
-  _GitHubSummaryState createState() => _GitHubSummaryState();
+  State<GitHubSummary> createState() => _GitHubSummaryState();
 }
 
 class _GitHubSummaryState extends State<GitHubSummary> {
@@ -73,11 +73,11 @@ class _GitHubSummaryState extends State<GitHubSummary> {
 }
 
 class RepositoriesList extends StatefulWidget {
-  const RepositoriesList({required this.gitHub, Key? key}) : super(key: key);
+  const RepositoriesList({required this.gitHub, super.key});
   final GitHub gitHub;
 
   @override
-  _RepositoriesListState createState() => _RepositoriesListState();
+  State<RepositoriesList> createState() => _RepositoriesListState();
 }
 
 class _RepositoriesListState extends State<RepositoriesList> {
@@ -120,11 +120,11 @@ class _RepositoriesListState extends State<RepositoriesList> {
 }
 
 class AssignedIssuesList extends StatefulWidget {
-  const AssignedIssuesList({required this.gitHub, Key? key}) : super(key: key);
+  const AssignedIssuesList({required this.gitHub, super.key});
   final GitHub gitHub;
 
   @override
-  _AssignedIssuesListState createState() => _AssignedIssuesListState();
+  State<AssignedIssuesList> createState() => _AssignedIssuesListState();
 }
 
 class _AssignedIssuesListState extends State<AssignedIssuesList> {
@@ -173,11 +173,11 @@ class _AssignedIssuesListState extends State<AssignedIssuesList> {
 }
 
 class PullRequestsList extends StatefulWidget {
-  const PullRequestsList({required this.gitHub, Key? key}) : super(key: key);
+  const PullRequestsList({required this.gitHub, super.key});
   final GitHub gitHub;
 
   @override
-  _PullRequestsListState createState() => _PullRequestsListState();
+  State<PullRequestsList> createState() => _PullRequestsListState();
 }
 
 class _PullRequestsListState extends State<PullRequestsList> {

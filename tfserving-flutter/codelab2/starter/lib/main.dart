@@ -32,10 +32,10 @@ const String initialPrompt =
 void main() => runApp(const TFServingDemo());
 
 class TFServingDemo extends StatefulWidget {
-  const TFServingDemo({Key? key}) : super(key: key);
+  const TFServingDemo({super.key});
 
   @override
-  _TFServingDemoState createState() => _TFServingDemoState();
+  State<TFServingDemo> createState() => _TFServingDemoState();
 }
 
 class _TFServingDemoState extends State<TFServingDemo> {

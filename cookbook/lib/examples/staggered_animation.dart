@@ -16,11 +16,11 @@ void main() {
 
 class ExampleStaggeredAnimations extends StatefulWidget {
   const ExampleStaggeredAnimations({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
-  _ExampleStaggeredAnimationsState createState() =>
+  State<ExampleStaggeredAnimations> createState() =>
       _ExampleStaggeredAnimationsState();
 }
 
@@ -131,7 +131,7 @@ class _ExampleStaggeredAnimationsState extends State<ExampleStaggeredAnimations>
 
 class Menu extends StatefulWidget {
   @override
-  _MenuState createState() => _MenuState();
+  State<Menu> createState() => _MenuState();
 }
 
 class _MenuState extends State<Menu> with SingleTickerProviderStateMixin {

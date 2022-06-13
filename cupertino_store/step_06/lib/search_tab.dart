@@ -21,10 +21,10 @@ import 'search_bar.dart';
 import 'styles.dart';
 
 class SearchTab extends StatefulWidget {
-  const SearchTab({Key? key}) : super(key: key);
+  const SearchTab({super.key});
 
   @override
-  _SearchTabState createState() {
+  State<SearchTab> createState() {
     return _SearchTabState();
   }
 }

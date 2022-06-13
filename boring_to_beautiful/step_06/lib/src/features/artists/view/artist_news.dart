@@ -5,7 +5,7 @@ import '../../../shared/classes/classes.dart';
 import '../../../shared/views/views.dart';
 
 class ArtistNews extends StatelessWidget {
-  const ArtistNews({Key? key, required this.artist}) : super(key: key);
+  const ArtistNews({super.key, required this.artist});
 
   final Artist artist;
 
@@ -26,7 +26,7 @@ class ArtistNews extends StatelessWidget {
               ),
             ),
             onTap: () {
-              launch('https://docs.flutter.dev');
+              launchUrl(Uri.parse('https://docs.flutter.dev'));
             },
           ),
       ],

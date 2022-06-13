@@ -6,8 +6,7 @@ import '../providers/providers.dart';
 import 'views.dart';
 
 class Events extends StatelessWidget {
-  const Events({Key? key, required this.artist, required this.constraints})
-      : super(key: key);
+  const Events({super.key, required this.artist, required this.constraints});
 
   final Artist artist;
   final BoxConstraints constraints;
@@ -67,7 +66,8 @@ class Events extends StatelessWidget {
                           decoration: TextDecoration.underline,
                         ),
                       ),
-                      onTap: () => launch('https://docs.flutter.dev'),
+                      onTap: () =>
+                          launchUrl(Uri.parse('https://docs.flutter.dev')),
                     ),
                   ),
                 ],

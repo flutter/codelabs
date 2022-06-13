@@ -25,7 +25,7 @@ part of 'list_albums_response.dart';
 ListAlbumsResponse _$ListAlbumsResponseFromJson(Map<String, dynamic> json) {
   return ListAlbumsResponse(
     (json['albums'] as List<dynamic>?)
-        ?.map((e) => Album.fromJson(e as Map<String, dynamic>))
+        ?.map((dynamic e) => Album.fromJson(e as Map<String, dynamic>))
         .toList(),
     json['nextPageToken'] as String?,
   );

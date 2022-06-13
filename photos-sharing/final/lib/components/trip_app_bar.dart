@@ -17,17 +17,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:sharing_codelab/model/photos_library_api_model.dart';
-import 'package:sharing_codelab/pages/login_page.dart';
+import '../model/photos_library_api_model.dart';
+import '../pages/login_page.dart';
 
-class TripAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const TripAppBar({Key? key}) : super(key: key);
+class TripAppBar extends StatefulWidget implements PreferredSizeWidget {
+  const TripAppBar({super.key});
 
+  @override
+  State<TripAppBar> createState() => _TripAppBarState();
+
+  @override
+  Size get preferredSize => AppBar().preferredSize;
+}
+
+class _TripAppBarState extends State<TripAppBar> {
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<PhotosLibraryApiModel>(
-      builder: (BuildContext context, Widget? child,
-          PhotosLibraryApiModel apiModel) {
+      builder: (context, child, apiModel) {
         return AppBar(
           title: Row(
             children: <Widget>[
@@ -76,8 +83,7 @@ class TripAppBar extends StatelessWidget implements PreferredSizeWidget {
           '-',
         ];
         final placeholderChar = placeholderCharSources
-            .firstWhere(
-                (String? str) => str != null && str.trimLeft().isNotEmpty)!
+            .firstWhere((str) => str != null && str.trimLeft().isNotEmpty)!
             .trimLeft()[0]
             .toUpperCase();
 
@@ -93,16 +99,17 @@ class TripAppBar extends StatelessWidget implements PreferredSizeWidget {
 
       widgets.add(
         PopupMenuButton<_AppBarOverflowOptions>(
-          onSelected: (_AppBarOverflowOptions selection) async {
+          onSelected: (selection) async {
             await apiModel.signOut();
+            if (!mounted) return;
             await Navigator.pushReplacement(
               context,
-              MaterialPageRoute(
-                builder: (BuildContext context) => const LoginPage(),
+              MaterialPageRoute<void>(
+                builder: (context) => const LoginPage(),
               ),
             );
           },
-          itemBuilder: (BuildContext context) {
+          itemBuilder: (context) {
             return <PopupMenuEntry<_AppBarOverflowOptions>>[
               const PopupMenuItem<_AppBarOverflowOptions>(
                 value: _AppBarOverflowOptions.signout,
@@ -116,9 +123,6 @@ class TripAppBar extends StatelessWidget implements PreferredSizeWidget {
 
     return widgets;
   }
-
-  @override
-  Size get preferredSize => AppBar().preferredSize;
 }
 
 enum _AppBarOverflowOptions {

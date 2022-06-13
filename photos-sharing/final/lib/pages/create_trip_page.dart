@@ -16,14 +16,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:sharing_codelab/components/primary_raised_button.dart';
-import 'package:sharing_codelab/model/photos_library_api_model.dart';
+import '../components/primary_raised_button.dart';
+import '../model/photos_library_api_model.dart';
 
 class CreateTripPage extends StatefulWidget {
-  const CreateTripPage({Key? key}) : super(key: key);
+  const CreateTripPage({super.key});
 
   @override
-  _CreateTripPageState createState() => _CreateTripPageState();
+  State<CreateTripPage> createState() => _CreateTripPageState();
 }
 
 class _CreateTripPageState extends State<CreateTripPage> {
@@ -90,6 +90,7 @@ class _CreateTripPageState extends State<CreateTripPage> {
 
     await ScopedModel.of<PhotosLibraryApiModel>(context)
         .createAlbum(tripNameFormController.text);
+    if (!mounted) return;
 
     // Hide the loading indicator.
     setState(() => _isLoading = false);

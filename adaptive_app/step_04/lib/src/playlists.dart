@@ -6,7 +6,7 @@ import 'app_state.dart';
 import 'playlist_details.dart';
 
 class Playlists extends StatelessWidget {
-  const Playlists({Key? key}) : super(key: key);
+  const Playlists({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,10 +31,7 @@ class Playlists extends StatelessWidget {
 }
 
 class _PlaylistsListView extends StatelessWidget {
-  const _PlaylistsListView({
-    Key? key,
-    required this.items,
-  }) : super(key: key);
+  const _PlaylistsListView({required this.items});
 
   final List<Playlist> items;
 

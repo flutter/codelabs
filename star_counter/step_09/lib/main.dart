@@ -6,7 +6,7 @@ void main() {
 }
 
 class StarCounterApp extends StatelessWidget {
-  const StarCounterApp({Key? key}) : super(key: key);
+  const StarCounterApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,10 +22,10 @@ class StarCounterApp extends StatelessWidget {
 }
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
-  _HomePageState createState() => _HomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {

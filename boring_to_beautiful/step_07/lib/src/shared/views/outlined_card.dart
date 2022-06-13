@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 
 class OutlinedCard extends StatefulWidget {
   const OutlinedCard({
-    Key? key,
+    super.key,
     required this.child,
     this.clickable = true,
-  }) : super(key: key);
+  });
 
   final Widget child;
   final bool clickable;
@@ -24,13 +24,13 @@ class _OutlinedCardState extends State<OutlinedCard> {
           ? SystemMouseCursors.click
           : SystemMouseCursors.basic,
       child: Container(
-        child: widget.child,
         decoration: BoxDecoration(
           border: Border.all(
             color: Theme.of(context).colorScheme.outline,
             width: 1,
           ),
         ),
+        child: widget.child,
       ),
     );
   }

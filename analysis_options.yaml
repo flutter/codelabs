@@ -20,3 +20,4 @@ linter:
     throw_in_finally: true
     unawaited_futures: true
     unnecessary_statements: true
+    use_super_parameters: true

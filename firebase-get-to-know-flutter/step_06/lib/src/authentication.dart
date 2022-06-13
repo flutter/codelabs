@@ -20,6 +20,7 @@ class Authentication extends StatelessWidget {
     required this.cancelRegistration,
     required this.registerAccount,
     required this.signOut,
+    super.key,
   });
 
   final ApplicationLoginState loginState;
@@ -151,10 +152,10 @@ class Authentication extends StatelessWidget {
 }
 
 class EmailForm extends StatefulWidget {
-  const EmailForm({required this.callback});
+  const EmailForm({required this.callback, super.key});
   final void Function(String email) callback;
   @override
-  _EmailFormState createState() => _EmailFormState();
+  State<EmailForm> createState() => _EmailFormState();
 }
 
 class _EmailFormState extends State<EmailForm> {
@@ -219,13 +220,14 @@ class RegisterForm extends StatefulWidget {
     required this.registerAccount,
     required this.cancel,
     required this.email,
+    super.key,
   });
   final String email;
   final void Function(String email, String displayName, String password)
       registerAccount;
   final void Function() cancel;
   @override
-  _RegisterFormState createState() => _RegisterFormState();
+  State<RegisterForm> createState() => _RegisterFormState();
 }
 
 class _RegisterFormState extends State<RegisterForm> {
@@ -337,11 +339,12 @@ class PasswordForm extends StatefulWidget {
   const PasswordForm({
     required this.login,
     required this.email,
+    super.key,
   });
   final String email;
   final void Function(String email, String password) login;
   @override
-  _PasswordFormState createState() => _PasswordFormState();
+  State<PasswordForm> createState() => _PasswordFormState();
 }
 
 class _PasswordFormState extends State<PasswordForm> {

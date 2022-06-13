@@ -7,7 +7,7 @@ import '../../../shared/providers/providers.dart';
 import '../../../shared/views/views.dart';
 
 class ArtistEvents extends StatelessWidget {
-  const ArtistEvents({Key? key, required this.artist}) : super(key: key);
+  const ArtistEvents({super.key, required this.artist});
 
   final Artist artist;
 
@@ -109,7 +109,7 @@ class ArtistEvents extends StatelessWidget {
                 decoration: TextDecoration.underline,
               ),
             ),
-            onTap: () => launch('https://docs.flutter.dev'),
+            onTap: () => launchUrl(Uri.parse('https://docs.flutter.dev')),
           ),
         ),
       ]),

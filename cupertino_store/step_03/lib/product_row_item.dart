@@ -23,8 +23,8 @@ class ProductRowItem extends StatelessWidget {
   const ProductRowItem({
     required this.product,
     required this.lastItem,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final Product product;
   final bool lastItem;

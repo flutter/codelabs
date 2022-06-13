@@ -4,7 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../shared/views/views.dart';
 
 class HomeHighlight extends StatelessWidget {
-  const HomeHighlight({Key? key}) : super(key: key);
+  const HomeHighlight({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class HomeHighlight extends StatelessWidget {
                   ),
                 ),
               ),
-              onTap: () => launch('https://docs.flutter.dev'),
+              onTap: () => launchUrl(Uri.parse('https://docs.flutter.dev')),
             ),
           ),
         ),

@@ -16,13 +16,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:sharing_codelab/model/photos_library_api_model.dart';
+import '../model/photos_library_api_model.dart';
 
 class JoinTripPage extends StatefulWidget {
-  const JoinTripPage({Key? key}) : super(key: key);
+  const JoinTripPage({super.key});
 
   @override
-  _JoinTripPageState createState() => _JoinTripPageState();
+  State<JoinTripPage> createState() => _JoinTripPageState();
 }
 
 class _JoinTripPageState extends State<JoinTripPage> {
@@ -90,6 +90,7 @@ class _JoinTripPageState extends State<JoinTripPage> {
     // Call the API to join an album with the entered share token
     await ScopedModel.of<PhotosLibraryApiModel>(context)
         .joinSharedAlbum(shareTokenFormController.text);
+    if (!mounted) return;
 
     // Hide loading indicator
     setState(() => _isLoading = false);

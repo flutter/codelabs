@@ -7,6 +7,7 @@ void main() {
       home: Scaffold(
         body: Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               CustomButton(
                 color: Colors.cyan,
@@ -33,7 +34,6 @@ void main() {
                 },
               ),
             ],
-            mainAxisAlignment: MainAxisAlignment.center,
           ),
         ),
       ),

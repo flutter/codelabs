@@ -9,8 +9,7 @@ import '../../../shared/views/views.dart';
 
 class PlaylistSongs extends StatelessWidget {
   const PlaylistSongs(
-      {Key? key, required this.playlist, required this.constraints})
-      : super(key: key);
+      {super.key, required this.playlist, required this.constraints});
 
   final Playlist playlist;
   final BoxConstraints constraints;

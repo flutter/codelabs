@@ -8,7 +8,7 @@ void main() {
     await tester.pumpWidget(
       ChangeNotifierProvider(
         create: (context) => ApplicationState(),
-        builder: (context, _) => App(),
+        builder: (context, _) => const App(),
       ),
     );
 

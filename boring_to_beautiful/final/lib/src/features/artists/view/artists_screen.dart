@@ -7,7 +7,7 @@ import './artist_card.dart';
 import '../../../shared/providers/artists.dart';
 
 class ArtistsScreen extends StatelessWidget {
-  const ArtistsScreen({Key? key}) : super(key: key);
+  const ArtistsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -6,8 +6,8 @@ class ClippedImage extends StatelessWidget {
     this.fit,
     this.height,
     this.width,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final String image;
   final BoxFit? fit;

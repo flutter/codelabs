@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../logic/firebase_notifier.dart';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {

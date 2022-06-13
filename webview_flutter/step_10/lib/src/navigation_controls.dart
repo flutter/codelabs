@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class NavigationControls extends StatelessWidget {
-  const NavigationControls({required this.controller, Key? key})
-      : super(key: key);
+  const NavigationControls({required this.controller, super.key});
 
   final Completer<WebViewController> controller;
 
