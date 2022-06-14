@@ -12,6 +12,7 @@ declare -a CODELABS=(
   "cupertino_store"
   "dartpad_codelabs"
   "firebase-get-to-know-flutter"
+  "firebase-monitor-your-flutter-app"
   "friendly_chat"
   "github-client"
   "google-maps-in-flutter"
