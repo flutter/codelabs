@@ -56,12 +56,12 @@ class ProductsListPage extends StatelessWidget {
               stream: inventoryProvider.shopInventory,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const CircularProgressIndicator();
+                  return const Center(child: CircularProgressIndicator());
                 }
                 final products = snapshot.data!;
 
-                // If the emulators aren't seeded or you want to use a real Firebase project
-                // This button can be used to seed the project with fake firestore data
+                // If the emulators aren't seeded or you want to use a real Firebase project,
+                // this button can be used to seed the project with fake firestore data
                 if (products.isEmpty) {
                   return ElevatedButton(
                     onPressed: () {

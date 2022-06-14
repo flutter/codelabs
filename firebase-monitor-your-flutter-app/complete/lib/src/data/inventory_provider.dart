@@ -24,7 +24,6 @@ class ShopInventoryProvider {
   final StreamController<List<Product>> _inventoryStreamController =
       StreamController();
 
-  // a truly wild thing is happening here. please scrutinize
   void _initInventoryListener() {
     final productsCollection = firestore.collection('products');
     final storageRef = storage.ref();
@@ -40,7 +39,6 @@ class ShopInventoryProvider {
         final imageNames = (product?['images'] as List).cast<String>();
 
         final urls = await Future.wait(imageNames.map((i) {
-          print(i);
           return storageRef.child(i).getDownloadURL();
         }));
         return Product(

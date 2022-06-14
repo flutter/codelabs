@@ -4,7 +4,7 @@
 
 import '../model/product.dart';
 
-// this is seed data, but hopefully it won't be necessary if the emulator import/exoirt wirjs
+// This data should be imported via running the Firebase emulator suite with the --import flag
 final List<Product> inventorySeed = [
   Product(
     name: 'Dash Holiday Sweater',
