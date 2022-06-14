@@ -327,6 +327,36 @@
       <excludeFolder url="file://$MODULE_DIR$/firebase_a_b_test/complete/ios/.symlinks/plugins/firebase_remote_config/example/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/firebase_a_b_test/complete/ios/.symlinks/plugins/firebase_remote_config/example/build" />
       <excludeFolder url="file://$MODULE_DIR$/firebase_a_b_test/complete/ios/.symlinks/plugins/firebase_remote_config/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/tfagents-flutter/step1/frontend/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/tfagents-flutter/step1/frontend/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/tfagents-flutter/step1/frontend/build" />
+      <excludeFolder url="file://$MODULE_DIR$/in_app_purchases/complete/firebase-backend-dart/build" />
+      <excludeFolder url="file://$MODULE_DIR$/in_app_purchases/complete/firebase-backend-dart/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/in_app_purchases/complete/firebase-backend-dart/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/tfagents-flutter/step3/frontend/build" />
+      <excludeFolder url="file://$MODULE_DIR$/tfagents-flutter/step3/frontend/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/tfagents-flutter/step3/frontend/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/tfagents-flutter/step2/frontend/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/tfagents-flutter/step2/frontend/build" />
+      <excludeFolder url="file://$MODULE_DIR$/tfagents-flutter/step2/frontend/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/tfagents-flutter/step6/frontend/build" />
+      <excludeFolder url="file://$MODULE_DIR$/tfagents-flutter/step6/frontend/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/tfagents-flutter/step6/frontend/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/in_app_purchases/complete/app_rest/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/in_app_purchases/complete/app_rest/build" />
+      <excludeFolder url="file://$MODULE_DIR$/in_app_purchases/complete/app_rest/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/tfagents-flutter/step4/frontend/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/tfagents-flutter/step4/frontend/build" />
+      <excludeFolder url="file://$MODULE_DIR$/tfagents-flutter/step4/frontend/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/tfagents-flutter/step5/frontend/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/tfagents-flutter/step5/frontend/build" />
+      <excludeFolder url="file://$MODULE_DIR$/tfagents-flutter/step5/frontend/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/tfagents-flutter/finished/frontend/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/tfagents-flutter/finished/frontend/build" />
+      <excludeFolder url="file://$MODULE_DIR$/tfagents-flutter/finished/frontend/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/tfagents-flutter/step0/frontend/build" />
+      <excludeFolder url="file://$MODULE_DIR$/tfagents-flutter/step0/frontend/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/tfagents-flutter/step0/frontend/.pub" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
