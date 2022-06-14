@@ -1,4 +1,4 @@
-name: Cupertino Store script
+name: GitHub Desktop Client
 steps:
   - name: Rebuild window_to_front
     steps:
