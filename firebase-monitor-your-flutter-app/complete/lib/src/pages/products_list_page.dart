@@ -13,9 +13,12 @@ import '../widgets/whitespace.dart';
 import 'product_details_page.dart';
 
 class ProductsListPage extends StatelessWidget {
-  ProductsListPage({super.key});
+  const ProductsListPage({
+    super.key,
+    required this.inventoryProvider,
+  });
 
-  final ShopInventoryProvider inventoryProvider = ShopInventoryProvider();
+  final ShopInventoryProvider inventoryProvider;
 
   void _openProductPage(BuildContext context, Product product) {
     final variant = FirebaseRemoteConfig.instance.getString('defaultShirtView');

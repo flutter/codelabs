@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, unnecessary_cast
 
 import 'dart:async';
 
@@ -12,25 +12,25 @@ import 'package:firebase_storage/firebase_storage.dart';
 import '../model/product.dart';
 
 class ShopInventoryProvider {
-  final CollectionReference _productsCollection =
-      FirebaseFirestore.instance.collection('products');
-
-  final storageRef = FirebaseStorage.instance.ref();
-
-  late Stream<List<Product>> shopInventory;
-
-  final StreamController<List<Product>> _inventoryStreamController =
-      StreamController();
-
   ShopInventoryProvider() {
     shopInventory = _inventoryStreamController.stream;
     _initInventoryListener();
   }
 
+  final FirebaseStorage storage = FirebaseStorage.instance;
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  late Stream<List<Product>> shopInventory;
+
+  final StreamController<List<Product>> _inventoryStreamController =
+      StreamController();
+
   // a truly wild thing is happening here. please scrutinize
   void _initInventoryListener() {
+    final productsCollection = firestore.collection('products');
+    final storageRef = storage.ref();
+
     // Listen to Firestore collection for changes
-    _productsCollection.snapshots().listen((querySnapshot) async {
+    productsCollection.snapshots().listen((querySnapshot) async {
       // Stream is necessary in order to use "asyncMap"
       final List<Product> products =
           await Stream.fromIterable(querySnapshot.docs)
@@ -57,16 +57,18 @@ class ShopInventoryProvider {
 
   // this is used solely to seed the database
   Future<void> writeProductsToFirestore(List<Product> products) async {
+    final productsCollection = firestore.collection('products');
+
     try {
       for (var p in products) {
         // if this is a brand new object, generate the ID with
         // firestore, before updating the document.
         if (p.id == null) {
-          final newDocument = _productsCollection.doc();
+          final newDocument = productsCollection.doc();
           p.id = newDocument.id;
         }
 
-        await _productsCollection.doc(p.id).set(p.toJson());
+        await productsCollection.doc(p.id).set(p.toJson());
       }
     } on FirebaseException catch (e) {
       print('Firebase Exception: $e');

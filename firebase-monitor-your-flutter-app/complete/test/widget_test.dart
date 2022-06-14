@@ -5,4 +5,30 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-void main() {}
+import 'dart:async';
+
+import 'package:flutter_abtest/main.dart';
+import 'package:flutter_abtest/src/data/inventory_provider.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
+
+import 'widget_test.mocks.dart';
+
+@GenerateMocks([ShopInventoryProvider])
+void main() {
+  final inventoryProvider = MockShopInventoryProvider();
+
+  when(inventoryProvider.shopInventory)
+      .thenAnswer((_) => Stream.fromIterable([]));
+
+  testWidgets('Basic rendering', (widgetTester) async {
+    await widgetTester.pumpWidget(
+      CoolShopApp(
+        shopInventoryProvider: inventoryProvider,
+      ),
+    );
+
+    expect(find.text('Dash Store'), findsOneWidget);
+  });
+}
