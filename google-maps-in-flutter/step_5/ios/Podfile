@@ -1,5 +1,5 @@
-#  Google Maps SDK requires platform version 11
-platform :ios, '11.0'
+#  Google Maps SDK requires platform version 13
+platform :ios, '13.0'
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
