@@ -1,15 +1,19 @@
+// Copyright 2020 The Flutter Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_abtest/src/data/inventory_provider.dart';
-import 'package:flutter_abtest/src/data/seed_data.dart' as seed;
 
+import '../data/inventory_provider.dart';
+import '../data/seed_data.dart' as seed;
 import '../model/product.dart';
 import '../widgets/whitespace.dart';
 import 'product_details_page.dart';
 
 class ProductsListPage extends StatelessWidget {
-  ProductsListPage({Key? key}) : super(key: key);
+  ProductsListPage({super.key});
 
   final ShopInventoryProvider inventoryProvider = ShopInventoryProvider();
 
@@ -26,7 +30,7 @@ class ProductsListPage extends StatelessWidget {
       )
     ]);
 
-    Navigator.of(context).push(
+    Navigator.of(context).push<MaterialPageRoute<ProductDetailsPage>>(
       MaterialPageRoute(
         builder: (context) => ProductDetailsPage(
           product: product,
@@ -45,50 +49,51 @@ class ProductsListPage extends StatelessWidget {
         children: [
           Flexible(
             child: StreamBuilder<List<Product>>(
-                initialData: const <Product>[],
-                stream: inventoryProvider.shopInventory,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const CircularProgressIndicator();
-                  }
-                  final products = snapshot.data!;
+              initialData: const <Product>[],
+              stream: inventoryProvider.shopInventory,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const CircularProgressIndicator();
+                }
+                final products = snapshot.data!;
 
-                  // If the emulators aren't seeded or you want to use a real Firebase project
-                  // This button can be used to seed the project with fake firestore data
-                  if (products.isEmpty) {
-                    return ElevatedButton(
-                      onPressed: () {
-                        inventoryProvider
-                            .writeProductsToFirestore(seed.inventorySeed);
-                      },
-                      child: const Text('SEED DB'),
-                    );
-                  }
-
-                  return Center(
-                    child: GridView.builder(
-                      itemCount: products.length,
-                      padding: const EdgeInsets.all(10.0),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        mainAxisSpacing: 20.0,
-                        crossAxisSpacing: 10.0,
-                        crossAxisCount: 2,
-                      ),
-                      itemBuilder: (BuildContext context, int idx) {
-                        final p = products[idx];
-                        return GestureDetector(
-                          onTap: () => _openProductPage(context, p),
-                          child: ProductTile(
-                            image: p.defaultImageUrl,
-                            productName: p.name,
-                            price: p.price,
-                          ),
-                        );
-                      },
-                    ),
+                // If the emulators aren't seeded or you want to use a real Firebase project
+                // This button can be used to seed the project with fake firestore data
+                if (products.isEmpty) {
+                  return ElevatedButton(
+                    onPressed: () {
+                      inventoryProvider
+                          .writeProductsToFirestore(seed.inventorySeed);
+                    },
+                    child: const Text('SEED DB'),
                   );
-                }),
+                }
+
+                return Center(
+                  child: GridView.builder(
+                    itemCount: products.length,
+                    padding: const EdgeInsets.all(10.0),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      mainAxisSpacing: 20.0,
+                      crossAxisSpacing: 10.0,
+                      crossAxisCount: 2,
+                    ),
+                    itemBuilder: (context, idx) {
+                      final p = products[idx];
+                      return GestureDetector(
+                        onTap: () => _openProductPage(context, p),
+                        child: ProductTile(
+                          image: p.defaultImageUrl,
+                          productName: p.name,
+                          price: p.price,
+                        ),
+                      );
+                    },
+                  ),
+                );
+              },
+            ),
           ),
         ],
       ),
@@ -101,8 +106,7 @@ class ProductTile extends StatelessWidget {
       {required this.image,
       required this.productName,
       required this.price,
-      Key? key})
-      : super(key: key);
+      super.key});
 
   final String image;
   final String productName;
@@ -139,7 +143,7 @@ class ProductTile extends StatelessWidget {
           ),
           Expanded(
             child: Text(
-              "\$${price.toString()}",
+              '\$${price.toString()}',
               textAlign: TextAlign.left,
               style: TextStyle(
                 fontSize: 14,

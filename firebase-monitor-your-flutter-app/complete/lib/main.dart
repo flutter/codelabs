@@ -1,3 +1,7 @@
+// Copyright 2020 The Flutter Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -28,8 +32,8 @@ void main() async {
   }
 
   // This codelab uses Emulators where possible.
-  FirebaseStorage.instance.useStorageEmulator('localhost', 9199);
-  FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+  await FirebaseStorage.instance.useStorageEmulator('localhost', 9199);
+  await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
 
   // Get a Remote Config object instance and set the minimum fetch interval to allow for frequent refreshes
   // During development, I recommend setting the minimumFetchInterval to seconds: 1
@@ -44,26 +48,25 @@ void main() async {
   // By default, the app is configured to show the front of the shirt
   // Using RemoteConfig, the app is able to A/B test the side of the shirt that is
   // shown to the user by default.
-  FirebaseRemoteConfig.instance.setDefaults({
-    "defaultShirtView": front,
-  });
+  await FirebaseRemoteConfig.instance.setDefaults(
+    <String, dynamic>{
+      'defaultShirtView': front,
+    },
+  );
 
   // Needed for security rules, but no more Auth will be featured in this App
-  await FirebaseAuth.instance.signInAnonymously().then((cred) {
-    print(cred);
-  });
-
+  await FirebaseAuth.instance.signInAnonymously();
   runApp(const CoolShopApp());
 }
 
 class CoolShopApp extends StatelessWidget {
-  const CoolShopApp({Key? key}) : super(key: key);
+  const CoolShopApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       routes: {
-        "/": (BuildContext context) => ProductsListPage(),
+        '/': (context) => ProductsListPage(),
       },
     );
   }

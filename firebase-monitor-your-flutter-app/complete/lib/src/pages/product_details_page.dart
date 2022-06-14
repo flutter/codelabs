@@ -1,3 +1,7 @@
+// Copyright 2020 The Flutter Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
@@ -7,9 +11,9 @@ import '../widgets/whitespace.dart';
 
 class ProductDetailsPage extends StatelessWidget {
   const ProductDetailsPage({
-    Key? key,
+    super.key,
     required this.product,
-  }) : super(key: key);
+  });
 
   final Product product;
 
@@ -77,7 +81,7 @@ class ProductDetailsPage extends StatelessWidget {
                   const Whitespace(height: 5),
                   Center(
                     child: Text(
-                      "\$${product.price.toString()}",
+                      '\$${product.price.toString()}',
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.secondary,
                         fontWeight: FontWeight.bold,

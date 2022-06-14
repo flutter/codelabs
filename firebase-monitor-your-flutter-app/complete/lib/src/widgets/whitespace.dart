@@ -1,8 +1,11 @@
+// Copyright 2020 The Flutter Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
 
 class Whitespace extends StatelessWidget {
-  const Whitespace({this.width = 0.0, this.height = 0.0, Key? key})
-      : super(key: key);
+  const Whitespace({this.width = 0.0, this.height = 0.0, super.key});
 
   final double width;
   final double height;
