@@ -1,0 +1,47 @@
+name: Cookbook script
+steps:
+  - name: Remove runners
+    rmdirs: 
+      - android
+      - ios
+      - linux
+      - macos
+      - web
+      - windows
+  - name: Flutter recreate
+    flutter: create .
+  - name: Remove README.md
+    rm: README.md
+  - name: Remove widget_test.dart
+    rm: test/widget_test.dart
+  - name: Patch macos/Runner/DebugProfile.entitlements
+    path: macos/Runner/DebugProfile.entitlements
+    patch-u: |
+      diff --git b/cookbook/macos/Runner/DebugProfile.entitlements a/cookbook/macos/Runner/DebugProfile.entitlements
+      index dddb8a3..08c3ab1 100644
+      --- b/cookbook/macos/Runner/DebugProfile.entitlements
+      +++ a/cookbook/macos/Runner/DebugProfile.entitlements
+      @@ -8,5 +8,7 @@
+       	<true/>
+       	<key>com.apple.security.network.server</key>
+       	<true/>
+      +	<key>com.apple.security.network.client</key>
+      +	<true/>
+       </dict>
+       </plist>
+
+  - name: Patch macos/Runner/Release.entitlements
+    path: macos/Runner/Release.entitlements
+    patch-u: |
+      diff --git b/cookbook/macos/Runner/Release.entitlements a/cookbook/macos/Runner/Release.entitlements
+      index 852fa1a..ee95ab7 100644
+      --- b/cookbook/macos/Runner/Release.entitlements
+      +++ a/cookbook/macos/Runner/Release.entitlements
+      @@ -4,5 +4,7 @@
+       <dict>
+       	<key>com.apple.security.app-sandbox</key>
+       	<true/>
+      +	<key>com.apple.security.network.client</key>
+      +	<true/>
+       </dict>
+       </plist>
