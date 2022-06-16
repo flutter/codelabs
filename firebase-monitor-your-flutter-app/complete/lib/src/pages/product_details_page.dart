@@ -31,7 +31,7 @@ class ProductDetailsPage extends StatelessWidget {
         )
       ],
     );
-    // ...
+
     // add item to cart
   }
 

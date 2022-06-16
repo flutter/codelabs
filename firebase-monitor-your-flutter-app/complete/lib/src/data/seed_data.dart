@@ -4,7 +4,12 @@
 
 import '../model/product.dart';
 
-// This data should be imported via running the Firebase emulator suite with the --import flag
+// This data is seeded in the Firebase emulator for you ahead of the start of
+// the codelab. But, often during development, data may get "messed up" while
+// we tinker with the project. This seed data has been left here in case you'd
+// like to clear all data in Firestore and reseed the database.
+// Otherwise, you should use the emulator suite seeds by running the following:
+//   $ firebase emulators:start --import ../emulator_seeds/
 final List<Product> inventorySeed = [
   Product(
     name: 'Dash Holiday Sweater',
