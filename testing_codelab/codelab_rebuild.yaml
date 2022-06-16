@@ -1,0 +1,806 @@
+name: Testing Codelab script
+steps:
+  - name: step_03
+    steps:
+      - name: Remove generated code.
+        rmdir: step_03
+      - name: Create project.
+        flutter: create testing_app
+      - name: Configure analysis_options.yaml
+        path: testing_app/analysis_options.yaml
+        replace-contents: |
+          include: ../../analysis_options.yaml
+      - name: Remove README
+        rm: testing_app/README.md
+      - name: Add .vscode directory
+        mkdir: testing_app/.vscode
+      - name: Add .vscode/launch.json
+        path: testing_app/.vscode/launch.json
+        replace-contents: |
+          {
+              // Use IntelliSense to learn about possible attributes.
+              // Hover to view descriptions of existing attributes.
+              // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+              "version": "0.2.0",
+              "configurations": [
+                  {
+                      "name": "testing_app",
+                      "request": "launch",
+                      "type": "dart"
+                  }
+              ]
+          }
+      - name: Add provider
+        path: testing_app
+        flutter: pub add provider
+      - name: Add flutter_driver
+        path: testing_app
+        flutter: pub add --dev --sdk=flutter flutter_driver
+      - name: Add integration_test
+        path: testing_app
+        flutter: pub add --dev --sdk=flutter integration_test
+      - name: Add test
+        path: testing_app
+        flutter: pub add --dev test
+      - name: Dart fix
+        path: testing_app
+        dart: fix --apply
+      - name: Patch pubspec.yaml
+        path: testing_app/pubspec.yaml
+        patch-u: |
+          --- b/testing_codelab/step_03/pubspec.yaml
+          +++ a/testing_codelab/step_03/pubspec.yaml
+          @@ -1,5 +1,9 @@
+          +# Copyright 2020 The Flutter Authors. All rights reserved.
+          +# Use of this source code is governed by a BSD-style license that can be
+          +# found in the LICENSE file.
+          +
+           name: testing_app
+          -description: A new Flutter project.
+          +description: App behind Flutter testing codelab.
+           
+           # The following line prevents the package from being accidentally published to
+           # pub.dev using `flutter pub publish`. This is preferred for private packages.
+
+      - name: Patch lib/main.dart
+        path: testing_app/lib/main.dart
+        patch-u: |
+          diff --git b/testing_codelab/step_03/lib/main.dart a/testing_codelab/step_03/lib/main.dart
+          index e016029..34256a5 100644
+          --- b/testing_codelab/step_03/lib/main.dart
+          +++ a/testing_codelab/step_03/lib/main.dart
+          @@ -1,3 +1,7 @@
+          +// Copyright 2020 The Flutter Authors. All rights reserved.
+          +// Use of this source code is governed by a BSD-style license that can be
+          +// found in the LICENSE file.
+          +
+           import 'package:flutter/material.dart';
+           
+           void main() {
+
+      - name: Patch test/widget_test.dart
+        path: testing_app/test/widget_test.dart
+        patch-u: |
+          --- b/testing_codelab/step_03/test/widget_test.dart
+          +++ a/testing_codelab/step_03/test/widget_test.dart
+          @@ -1,3 +1,7 @@
+          +// Copyright 2020 The Flutter Authors. All rights reserved.
+          +// Use of this source code is governed by a BSD-style license that can be
+          +// found in the LICENSE file.
+          +
+           // This is a basic Flutter widget test.
+           //
+           // To perform an interaction with a widget in your test, use the WidgetTester
+
+      - name: Copy step_03
+        copydir:
+          from: testing_app
+          to: step_03
+  - name: step_04
+    steps:
+      - name: Remove generated code.
+        rmdir: step_04
+
+      - name: Patch lib/main.dart
+        path: testing_app/lib/main.dart
+        patch-u: |
+          --- b/testing_codelab/step_04/lib/main.dart
+          +++ a/testing_codelab/step_04/lib/main.dart
+          @@ -3,117 +3,33 @@
+           // found in the LICENSE file.
+           
+           import 'package:flutter/material.dart';
+          +import 'package:provider/provider.dart';
+          +import 'models/favorites.dart';
+          +import 'screens/favorites.dart';
+          +import 'screens/home.dart';
+           
+           void main() {
+          -  runApp(const MyApp());
+          +  runApp(const TestingApp());
+           }
+           
+          -class MyApp extends StatelessWidget {
+          -  const MyApp({super.key});
+          +class TestingApp extends StatelessWidget {
+          +  const TestingApp({super.key});
+           
+          -  // This widget is the root of your application.
+             @override
+             Widget build(BuildContext context) {
+          -    return MaterialApp(
+          -      title: 'Flutter Demo',
+          -      theme: ThemeData(
+          -        // This is the theme of your application.
+          -        //
+          -        // Try running your application with "flutter run". You'll see the
+          -        // application has a blue toolbar. Then, without quitting the app, try
+          -        // changing the primarySwatch below to Colors.green and then invoke
+          -        // "hot reload" (press "r" in the console where you ran "flutter run",
+          -        // or simply save your changes to "hot reload" in a Flutter IDE).
+          -        // Notice that the counter didn't reset back to zero; the application
+          -        // is not restarted.
+          -        primarySwatch: Colors.blue,
+          -      ),
+          -      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+          -    );
+          -  }
+          -}
+          -
+          -class MyHomePage extends StatefulWidget {
+          -  const MyHomePage({super.key, required this.title});
+          -
+          -  // This widget is the home page of your application. It is stateful, meaning
+          -  // that it has a State object (defined below) that contains fields that affect
+          -  // how it looks.
+          -
+          -  // This class is the configuration for the state. It holds the values (in this
+          -  // case the title) provided by the parent (in this case the App widget) and
+          -  // used by the build method of the State. Fields in a Widget subclass are
+          -  // always marked "final".
+          -
+          -  final String title;
+          -
+          -  @override
+          -  State<MyHomePage> createState() => _MyHomePageState();
+          -}
+          -
+          -class _MyHomePageState extends State<MyHomePage> {
+          -  int _counter = 0;
+          -
+          -  void _incrementCounter() {
+          -    setState(() {
+          -      // This call to setState tells the Flutter framework that something has
+          -      // changed in this State, which causes it to rerun the build method below
+          -      // so that the display can reflect the updated values. If we changed
+          -      // _counter without calling setState(), then the build method would not be
+          -      // called again, and so nothing would appear to happen.
+          -      _counter++;
+          -    });
+          -  }
+          -
+          -  @override
+          -  Widget build(BuildContext context) {
+          -    // This method is rerun every time setState is called, for instance as done
+          -    // by the _incrementCounter method above.
+          -    //
+          -    // The Flutter framework has been optimized to make rerunning build methods
+          -    // fast, so that you can just rebuild anything that needs updating rather
+          -    // than having to individually change instances of widgets.
+          -    return Scaffold(
+          -      appBar: AppBar(
+          -        // Here we take the value from the MyHomePage object that was created by
+          -        // the App.build method, and use it to set our appbar title.
+          -        title: Text(widget.title),
+          -      ),
+          -      body: Center(
+          -        // Center is a layout widget. It takes a single child and positions it
+          -        // in the middle of the parent.
+          -        child: Column(
+          -          // Column is also a layout widget. It takes a list of children and
+          -          // arranges them vertically. By default, it sizes itself to fit its
+          -          // children horizontally, and tries to be as tall as its parent.
+          -          //
+          -          // Invoke "debug painting" (press "p" in the console, choose the
+          -          // "Toggle Debug Paint" action from the Flutter Inspector in Android
+          -          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
+          -          // to see the wireframe for each widget.
+          -          //
+          -          // Column has various properties to control how it sizes itself and
+          -          // how it positions its children. Here we use mainAxisAlignment to
+          -          // center the children vertically; the main axis here is the vertical
+          -          // axis because Columns are vertical (the cross axis would be
+          -          // horizontal).
+          -          mainAxisAlignment: MainAxisAlignment.center,
+          -          children: <Widget>[
+          -            const Text(
+          -              'You have pushed the button this many times:',
+          -            ),
+          -            Text(
+          -              '$_counter',
+          -              style: Theme.of(context).textTheme.headline4,
+          -            ),
+          -          ],
+          +    return ChangeNotifierProvider<Favorites>(
+          +      create: (context) => Favorites(),
+          +      child: MaterialApp(
+          +        title: 'Testing Sample',
+          +        theme: ThemeData(
+          +          primarySwatch: Colors.blue,
+                   ),
+          +        routes: {
+          +          HomePage.routeName: (context) => const HomePage(),
+          +          FavoritesPage.routeName: (context) => const FavoritesPage(),
+          +        },
+          +        initialRoute: HomePage.routeName,
+                 ),
+          -      floatingActionButton: FloatingActionButton(
+          -        onPressed: _incrementCounter,
+          -        tooltip: 'Increment',
+          -        child: const Icon(Icons.add),
+          -      ), // This trailing comma makes auto-formatting nicer for build methods.
+               );
+             }
+           }
+
+      - name: Make lib/models
+        path: testing_app
+        mkdir: lib/models
+      - name: Add models/favorites.dart
+        path: testing_app/lib/models/favorites.dart
+        replace-contents: |
+          // Copyright 2020 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+
+          import 'package:flutter/material.dart';
+
+          /// The [Favorites] class holds a list of favorite items saved by the user.
+          class Favorites extends ChangeNotifier {
+            final List<int> _favoriteItems = [];
+
+            List<int> get items => _favoriteItems;
+
+            void add(int itemNo) {
+              _favoriteItems.add(itemNo);
+              notifyListeners();
+            }
+
+            void remove(int itemNo) {
+              _favoriteItems.remove(itemNo);
+              notifyListeners();
+            }
+          }
+
+      - name: Make lib/screens
+        path: testing_app
+        mkdir: lib/screens
+      - name: Add screens/favorites.dart
+        path: testing_app/lib/screens/favorites.dart
+        replace-contents: |
+          // Copyright 2020 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+
+          import 'package:flutter/material.dart';
+          import 'package:provider/provider.dart';
+          import '../models/favorites.dart';
+
+          class FavoritesPage extends StatelessWidget {
+            static String routeName = '/favorites_page';
+
+            const FavoritesPage({super.key});
+
+            @override
+            Widget build(BuildContext context) {
+              return Scaffold(
+                appBar: AppBar(
+                  title: const Text('Favorites'),
+                ),
+                body: Consumer<Favorites>(
+                  builder: (context, value, child) => ListView.builder(
+                    itemCount: value.items.length,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    itemBuilder: (context, index) => FavoriteItemTile(value.items[index]),
+                  ),
+                ),
+              );
+            }
+          }
+
+          class FavoriteItemTile extends StatelessWidget {
+            final int itemNo;
+
+            const FavoriteItemTile(this.itemNo, {super.key});
+
+            @override
+            Widget build(BuildContext context) {
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: Colors.primaries[itemNo % Colors.primaries.length],
+                  ),
+                  title: Text(
+                    'Item $itemNo',
+                    key: Key('favorites_text_$itemNo'),
+                  ),
+                  trailing: IconButton(
+                    key: Key('remove_icon_$itemNo'),
+                    icon: const Icon(Icons.close),
+                    onPressed: () {
+                      Provider.of<Favorites>(context, listen: false).remove(itemNo);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Removed from favorites.'),
+                          duration: Duration(seconds: 1),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              );
+            }
+          }
+
+      - name: Add screens/home.dart
+        path: testing_app/lib/screens/home.dart
+        replace-contents: |
+          // Copyright 2020 The Flutter team. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+
+          import 'package:flutter/material.dart';
+          import 'package:provider/provider.dart';
+          import '../models/favorites.dart';
+          import 'favorites.dart';
+
+          class HomePage extends StatelessWidget {
+            static String routeName = '/';
+
+            const HomePage({super.key});
+
+            @override
+            Widget build(BuildContext context) {
+              return Scaffold(
+                appBar: AppBar(
+                  title: const Text('Testing Sample'),
+                  actions: <Widget>[
+                    TextButton.icon(
+                      style: TextButton.styleFrom(primary: Colors.white),
+                      onPressed: () {
+                        Navigator.pushNamed(context, FavoritesPage.routeName);
+                      },
+                      icon: const Icon(Icons.favorite_border),
+                      label: const Text('Favorites'),
+                    ),
+                  ],
+                ),
+                body: ListView.builder(
+                  itemCount: 100,
+                  cacheExtent: 20.0,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  itemBuilder: (context, index) => ItemTile(index),
+                ),
+              );
+            }
+          }
+
+          class ItemTile extends StatelessWidget {
+            final int itemNo;
+
+            const ItemTile(this.itemNo, {super.key});
+
+            @override
+            Widget build(BuildContext context) {
+              var favoritesList = Provider.of<Favorites>(context);
+
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: Colors.primaries[itemNo % Colors.primaries.length],
+                  ),
+                  title: Text(
+                    'Item $itemNo',
+                    key: Key('text_$itemNo'),
+                  ),
+                  trailing: IconButton(
+                    key: Key('icon_$itemNo'),
+                    icon: favoritesList.items.contains(itemNo)
+                        ? const Icon(Icons.favorite)
+                        : const Icon(Icons.favorite_border),
+                    onPressed: () {
+                      !favoritesList.items.contains(itemNo)
+                          ? favoritesList.add(itemNo)
+                          : favoritesList.remove(itemNo);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(favoritesList.items.contains(itemNo)
+                              ? 'Added to favorites.'
+                              : 'Removed from favorites.'),
+                          duration: const Duration(seconds: 1),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              );
+            }
+          }
+
+      - name: Patch test/widget_test.dart
+        path: testing_app/test/widget_test.dart
+        patch-u: |
+          --- b/testing_codelab/step_04/test/widget_test.dart
+          +++ a/testing_codelab/step_04/test/widget_test.dart
+          @@ -15,20 +15,8 @@ import 'package:flutter_test/flutter_test.dart';
+           import 'package:testing_app/main.dart';
+           
+           void main() {
+          -  testWidgets('Counter increments smoke test', (tester) async {
+          -    // Build our app and trigger a frame.
+          -    await tester.pumpWidget(const MyApp());
+          -
+          -    // Verify that our counter starts at 0.
+          -    expect(find.text('0'), findsOneWidget);
+          -    expect(find.text('1'), findsNothing);
+          -
+          -    // Tap the '+' icon and trigger a frame.
+          -    await tester.tap(find.byIcon(Icons.add));
+          -    await tester.pump();
+          -
+          -    // Verify that our counter has incremented.
+          -    expect(find.text('0'), findsNothing);
+          -    expect(find.text('1'), findsOneWidget);
+          +  testWidgets('Smoke test', (tester) async {
+          +    await tester.pumpWidget(const TestingApp());
+          +    expect(find.byType(ListView), findsOneWidget);
+             });
+           }
+
+      - name: Copy step_04
+        copydir:
+          from: testing_app
+          to: step_04
+  - name: step_05
+    steps:
+      - name: Remove generated code.
+        rmdir: step_05
+
+      - name: Make dir test/models
+        path: testing_app
+        mkdir: test/models
+
+      - name: Add test/models/favorites_test.dart
+        path: testing_app/test/models/favorites_test.dart
+        replace-contents: |
+          // Copyright 2020 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+
+          import 'package:test/test.dart';
+          import 'package:testing_app/models/favorites.dart';
+
+          void main() {
+            group('Testing App Provider', () {
+              var favorites = Favorites();
+
+              test('A new item should be added', () {
+                var number = 35;
+                favorites.add(number);
+                expect(favorites.items.contains(number), true);
+              });
+
+              test('An item should be removed', () {
+                var number = 45;
+                favorites.add(number);
+                expect(favorites.items.contains(number), true);
+                favorites.remove(number);
+                expect(favorites.items.contains(number), false);
+              });
+            });
+          }
+
+      - name: Copy step_05
+        copydir:
+          from: testing_app
+          to: step_05
+  - name: step_06
+    steps:
+      - name: Remove generated code.
+        rmdir: step_06
+
+      - name: Add test/favorites_test.dart
+        path: testing_app/test/favorites_test.dart
+        replace-contents: |
+          // Copyright 2020 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+
+          import 'package:flutter/material.dart';
+          import 'package:flutter_test/flutter_test.dart';
+          import 'package:provider/provider.dart';
+          import 'package:testing_app/models/favorites.dart';
+          import 'package:testing_app/screens/favorites.dart';
+
+          late Favorites favoritesList;
+
+          Widget createFavoritesScreen() => ChangeNotifierProvider<Favorites>(
+                create: (context) {
+                  favoritesList = Favorites();
+                  return favoritesList;
+                },
+                child: const MaterialApp(
+                  home: FavoritesPage(),
+                ),
+              );
+
+          void addItems() {
+            for (var i = 0; i < 10; i += 2) {
+              favoritesList.add(i);
+            }
+          }
+
+          void main() {
+            group('Favorites Page Widget Tests', () {
+              testWidgets('Test if ListView shows up', (tester) async {
+                await tester.pumpWidget(createFavoritesScreen());
+                addItems();
+                await tester.pumpAndSettle();
+                expect(find.byType(ListView), findsOneWidget);
+              });
+
+              testWidgets('Testing Remove Button', (tester) async {
+                await tester.pumpWidget(createFavoritesScreen());
+                addItems();
+                await tester.pumpAndSettle();
+                var totalItems = tester.widgetList(find.byIcon(Icons.close)).length;
+                await tester.tap(find.byIcon(Icons.close).first);
+                await tester.pumpAndSettle();
+                expect(tester.widgetList(find.byIcon(Icons.close)).length,
+                    lessThan(totalItems));
+                expect(find.text('Removed from favorites.'), findsOneWidget);
+              });
+            });
+          }
+
+      - name: Add test/home_test.dart
+        path: testing_app/test/home_test.dart
+        replace-contents: |
+          // Copyright 2020 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+
+          import 'package:flutter/material.dart';
+          import 'package:flutter_test/flutter_test.dart';
+          import 'package:provider/provider.dart';
+          import 'package:testing_app/models/favorites.dart';
+          import 'package:testing_app/screens/home.dart';
+
+          Widget createHomeScreen() => ChangeNotifierProvider<Favorites>(
+                create: (context) => Favorites(),
+                child: const MaterialApp(
+                  home: HomePage(),
+                ),
+              );
+
+          void main() {
+            group('Home Page Widget Tests', () {
+              testWidgets('Testing if ListView shows up', (tester) async {
+                await tester.pumpWidget(createHomeScreen());
+                expect(find.byType(ListView), findsOneWidget);
+              });
+
+              testWidgets('Testing Scrolling', (tester) async {
+                await tester.pumpWidget(createHomeScreen());
+                expect(find.text('Item 0'), findsOneWidget);
+                await tester.fling(find.byType(ListView), const Offset(0, -200), 3000);
+                await tester.pumpAndSettle();
+                expect(find.text('Item 0'), findsNothing);
+              });
+
+              testWidgets('Testing IconButtons', (tester) async {
+                await tester.pumpWidget(createHomeScreen());
+                expect(find.byIcon(Icons.favorite), findsNothing);
+                await tester.tap(find.byIcon(Icons.favorite_border).first);
+                await tester.pumpAndSettle(const Duration(seconds: 1));
+                expect(find.text('Added to favorites.'), findsOneWidget);
+                expect(find.byIcon(Icons.favorite), findsWidgets);
+                await tester.tap(find.byIcon(Icons.favorite).first);
+                await tester.pumpAndSettle(const Duration(seconds: 1));
+                expect(find.text('Removed from favorites.'), findsOneWidget);
+                expect(find.byIcon(Icons.favorite), findsNothing);
+              });
+            });
+          }
+
+      - name: Make test_driver
+        path: testing_app
+        mkdir: test_driver
+      - name: Add test_driver/app_test.dart
+        path: testing_app/test_driver/app_test.dart
+        replace-contents: |
+          // Copyright 2020 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+
+          // Fix for flutter_driver in https://github.com/flutter/flutter/pull/74856
+          // ignore: import_of_legacy_library_into_null_safe
+          import 'package:flutter_driver/flutter_driver.dart';
+          import 'package:test/test.dart';
+
+          void main() {
+            group('Testing App Performance Tests', () {
+              FlutterDriver? driver;
+
+              setUpAll(() async {
+                driver = await FlutterDriver.connect();
+              });
+
+              tearDownAll(() async {
+                if (driver != null) {
+                  await driver?.close();
+                }
+              });
+
+              test('Scrolling test', () async {
+                final listFinder = find.byType('ListView');
+
+                final scrollingTimeline = await driver?.traceAction(() async {
+                  await driver?.scroll(listFinder, 0, -7000, const Duration(seconds: 1));
+                  await driver?.scroll(listFinder, 0, 7000, const Duration(seconds: 1));
+                });
+
+                final scrollingSummary = TimelineSummary.summarize(scrollingTimeline!);
+                await scrollingSummary.writeTimelineToFile('scrolling', pretty: true);
+              });
+
+              test('Favorites operations test', () async {
+                final operationsTimeline = await driver?.traceAction(() async {
+                  final iconKeys = [
+                    'icon_0',
+                    'icon_1',
+                    'icon_2',
+                  ];
+
+                  for (var icon in iconKeys) {
+                    await driver?.tap(find.byValueKey(icon));
+                    await driver?.waitFor(find.text('Added to favorites.'));
+                  }
+
+                  await driver?.tap(find.text('Favorites'));
+
+                  final removeIconKeys = [
+                    'remove_icon_0',
+                    'remove_icon_1',
+                    'remove_icon_2',
+                  ];
+
+                  for (final iconKey in removeIconKeys) {
+                    await driver?.tap(find.byValueKey(iconKey));
+                    await driver?.waitFor(find.text('Removed from favorites.'));
+                  }
+                });
+
+                final operationsSummary = TimelineSummary.summarize(operationsTimeline!);
+                await operationsSummary.writeTimelineToFile('favorites_operations',
+                    pretty: true);
+              });
+            });
+          }
+
+
+      - name: Add test_driver/app.dart
+        path: testing_app/test_driver/app.dart
+        replace-contents: |
+          // Copyright 2020 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+
+          import 'package:flutter_driver/driver_extension.dart';
+          import 'package:testing_app/main.dart' as app;
+
+          void main() {
+            enableFlutterDriverExtension();
+
+            app.main();
+          }
+
+      - name: Copy step_06
+        copydir:
+          from: testing_app
+          to: step_06
+
+  - name: step_07
+    steps:
+      - name: Remove generated code.
+        rmdir: step_07
+      - name: Make integration_test directory
+        path: testing_app
+        mkdir: integration_test
+      - name: Add integration_test/app_test.dart
+        path: testing_app/integration_test/app_test.dart
+        replace-contents: |
+          // Copyright 2021 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+
+          import 'package:flutter/material.dart';
+          import 'package:flutter_test/flutter_test.dart';
+          import 'package:integration_test/integration_test.dart';
+          import 'package:testing_app/main.dart';
+
+          void main() {
+            group('Testing App Performance Tests', () {
+              final binding = IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+
+              binding.framePolicy = LiveTestWidgetsFlutterBindingFramePolicy.fullyLive;
+
+              testWidgets('Scrolling test', (tester) async {
+                await tester.pumpWidget(const TestingApp());
+
+                final listFinder = find.byType(ListView);
+
+                await binding.watchPerformance(() async {
+                  await tester.fling(listFinder, const Offset(0, -500), 10000);
+                  await tester.pumpAndSettle();
+
+                  await tester.fling(listFinder, const Offset(0, 500), 10000);
+                  await tester.pumpAndSettle();
+                }, reportKey: 'scrolling_summary');
+              });
+
+              testWidgets('Favorites operations test', (tester) async {
+                await tester.pumpWidget(const TestingApp());
+
+                final iconKeys = [
+                  'icon_0',
+                  'icon_1',
+                  'icon_2',
+                ];
+
+                for (var icon in iconKeys) {
+                  await tester.tap(find.byKey(ValueKey(icon)));
+                  await tester.pumpAndSettle(const Duration(seconds: 1));
+
+                  expect(find.text('Added to favorites.'), findsOneWidget);
+                }
+
+                await tester.tap(find.text('Favorites'));
+                await tester.pumpAndSettle();
+
+                final removeIconKeys = [
+                  'remove_icon_0',
+                  'remove_icon_1',
+                  'remove_icon_2',
+                ];
+
+                for (final iconKey in removeIconKeys) {
+                  await tester.tap(find.byKey(ValueKey(iconKey)));
+                  await tester.pumpAndSettle(const Duration(seconds: 1));
+
+                  expect(find.text('Removed from favorites.'), findsOneWidget);
+                }
+              });
+            });
+          }
+
+      - name: Add integration_test/driver.dart
+        path: testing_app/integration_test/driver.dart
+        replace-contents: |
+          // Copyright 2021 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+
+          import 'package:integration_test/integration_test_driver.dart';
+
+          Future<void> main() => integrationDriver();
+
+      - name: Copy step_07
+        copydir:
+          from: testing_app
+          to: step_07
+
+  - name: Cleanup
+    rmdir: testing_app
