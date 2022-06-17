@@ -7,6 +7,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 import '../model/product.dart';
 
@@ -17,13 +18,14 @@ class ShopInventoryProvider {
   }
 
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
+
   late Stream<List<Product>> shopInventory;
 
-  // ignore: close_sinks
   final StreamController<List<Product>> _inventoryStreamController =
       StreamController();
 
   void _initInventoryListener() {
+    final storageRef = FirebaseStorage.instance.ref();
     final productsCollection = firestore.collection('products');
     productsCollection.snapshots().listen((querySnapshot) async {
       // Creating a new Stream.fromIterable is necessary
@@ -35,10 +37,14 @@ class ShopInventoryProvider {
             (documentSnapshot as DocumentSnapshot<Map<String, dynamic>>).data();
         final imageNames = (product?['images'] as List).cast<String>();
 
+        final urls = await Future.wait(imageNames.map((i) {
+          return storageRef.child(i).getDownloadURL();
+        }));
+
         return Product(
           name: product!['name'] as String,
           price: product['price'] as int,
-          images: imageNames,
+          images: urls,
           brand: product['brand'] as String,
         );
       }).toList();
