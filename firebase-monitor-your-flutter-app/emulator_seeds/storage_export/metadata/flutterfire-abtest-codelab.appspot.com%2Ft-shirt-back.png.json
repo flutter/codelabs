@@ -1,0 +1,20 @@
+{
+  "name": "t-shirt-back.png",
+  "bucket": "flutterfire-abtest-codelab.appspot.com",
+  "contentType": "image/png",
+  "metageneration": 1,
+  "generation": 1654801207020,
+  "storageClass": "STANDARD",
+  "contentDisposition": "inline",
+  "cacheControl": "public, max-age=3600",
+  "contentEncoding": "identity",
+  "downloadTokens": [
+    "d34bd098-1d3c-4e67-9436-a4e4f62d3219"
+  ],
+  "etag": "75OeYXoA/aQnuPddQfsZYP5hUwQ",
+  "timeCreated": "2022-06-09T19:00:07.020Z",
+  "updated": "2022-06-09T19:00:07.024Z",
+  "size": 938189,
+  "md5Hash": "QNmDbW5LyA4c9ebg3kGEsw==",
+  "crc32c": "3042122845"
+}
