@@ -43,7 +43,8 @@ class _MyAppState extends State<MyApp> {
                     darkTheme: theme.dark(settings.value.sourceColor),
                     themeMode: theme.themeMode(),
                     routeInformationParser: appRouter.routeInformationParser,
-                    routeInformationProvider: appRouter.routeInformationProvider,
+                    routeInformationProvider:
+                        appRouter.routeInformationProvider,
                     routerDelegate: appRouter.routerDelegate,
                   );
                 },
