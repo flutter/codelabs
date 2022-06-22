@@ -29,8 +29,13 @@ class Product {
 
   // All shirts are named XYZ-front or XYZ-back.
   String get defaultImageUrl {
+    FirebaseRemoteConfig.instance.fetchAndActivate();
+
     final defaultView =
         FirebaseRemoteConfig.instance.getString('defaultShirtView');
-    return images.firstWhere((element) => element.contains(defaultView));
+    return images.firstWhere(
+      (element) => element.contains(defaultView),
+      orElse: () => images.first,
+    );
   }
 }
