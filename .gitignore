@@ -8,6 +8,9 @@
 
 .dart_tool/
 
+# IDEs
+.idea/
+
 # Lockfiles
 package-lock.json
 Podfile.lock

@@ -1,0 +1,753 @@
+name: Startup Namer script
+steps:
+  - name: step1_base
+    steps:
+      - name: Remove step1_base
+        rmdir: step1_base
+      - name: Create project
+        flutter: create startup_namer
+      - name: Configure analysis_options.yaml
+        path: startup_namer/analysis_options.yaml
+        replace-contents: |
+          include: ../../analysis_options.yaml
+      - name: Remove README
+        rm: startup_namer/README.md
+      - name: Add .vscode directory
+        mkdir: startup_namer/.vscode
+      - name: Add .vscode/launch.json
+        path: startup_namer/.vscode/launch.json
+        replace-contents: |
+          {
+              // Use IntelliSense to learn about possible attributes.
+              // Hover to view descriptions of existing attributes.
+              // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+              "version": "0.2.0",
+              "configurations": [
+                  {
+                      "name": "startup_namer",
+                      "request": "launch",
+                      "type": "dart"
+                  }
+              ]
+          }
+      - name: Patch pubspec.yaml
+        path: startup_namer/pubspec.yaml
+        patch-u: |
+          --- b/startup_namer/step1_base/pubspec.yaml
+          +++ a/startup_namer/step1_base/pubspec.yaml
+          @@ -1,5 +1,5 @@
+           name: startup_namer
+          -description: A new Flutter project.
+          +description: A startup-namer app.
+           
+           # The following line prevents the package from being accidentally published to
+           # pub.dev using `flutter pub publish`. This is preferred for private packages.
+      - name: Replace lib/main.dart
+        path: startup_namer/lib/main.dart
+        replace-contents: |
+          // Copyright 2018 The Flutter team. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+
+          import 'package:flutter/material.dart';
+
+          void main() {
+            runApp(const MyApp());
+          }
+
+          class MyApp extends StatelessWidget {
+            const MyApp({super.key});
+
+            @override
+            Widget build(BuildContext context) {
+              return MaterialApp(
+                title: 'Welcome to Flutter',
+                home: Scaffold(
+                  appBar: AppBar(
+                    title: const Text('Welcome to Flutter'),
+                  ),
+                  body: const Center(
+                    child: Text('Hello World'),
+                  ),
+                ),
+              );
+            }
+          }
+      - name: Replace test/widget_test.dart
+        path: startup_namer/test/widget_test.dart
+        replace-contents: |
+          // Copyright 2018 The Flutter team. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+
+          // Basic Flutter widget test. Learn more at https://flutter.dev/docs/testing
+
+          import 'package:flutter_test/flutter_test.dart';
+
+          import 'package:startup_namer/main.dart';
+
+          void main() {
+            testWidgets('Codelab smoke test', (tester) async {
+              await tester.pumpWidget(const MyApp());
+              expect(find.text('Hello World'), findsOneWidget);
+            });
+          }
+
+      - name: Patch pubspec.yaml
+        path: startup_namer/pubspec.yaml
+        patch-u: |
+          diff --git b/startup_namer/step1_base/pubspec.yaml a/startup_namer/step1_base/pubspec.yaml
+          index beaba29..251af68 100644
+          --- b/startup_namer/step1_base/pubspec.yaml
+          +++ a/startup_namer/step1_base/pubspec.yaml
+          @@ -20,19 +20,9 @@ version: 1.0.0+1
+           environment:
+             sdk: ">=2.17.3 <3.0.0"
+           
+          -# Dependencies specify other packages that your package needs in order to work.
+          -# To automatically upgrade your package dependencies to the latest versions
+          -# consider running `flutter pub upgrade --major-versions`. Alternatively,
+          -# dependencies can be manually updated by changing the version numbers below to
+          -# the latest version available on pub.dev. To see which dependencies have newer
+          -# versions available, run `flutter pub outdated`.
+           dependencies:
+             flutter:
+               sdk: flutter
+          -
+          -
+          -  # The following adds the Cupertino Icons font to your application.
+          -  # Use with the CupertinoIcons class for iOS style icons.
+             cupertino_icons: ^1.0.2
+           
+           dev_dependencies:
+
+      - name: Copy step1_base
+        copydir:
+          from: startup_namer
+          to: step1_base
+  - name: step2_use_package
+    steps:
+      - name: Remove step2_use_package
+        rmdir: step2_use_package
+      - name: Add english_words
+        path: startup_namer
+        flutter: pub add english_words
+      - name: Patch pubspec.yaml
+        path: startup_namer/pubspec.yaml
+        patch-u: |
+          --- b/startup_namer/step2_use_package/pubspec.yaml
+          +++ a/startup_namer/step2_use_package/pubspec.yaml
+          @@ -20,11 +20,13 @@ version: 1.0.0+1
+           environment:
+             sdk: ">=2.17.3 <3.0.0"
+           
+          +# #docregion dependencies
+           dependencies:
+             flutter:
+               sdk: flutter
+             cupertino_icons: ^1.0.2
+             english_words: ^4.0.0
+          +# #enddocregion dependencies
+           
+           dev_dependencies:
+             flutter_test:
+
+      - name: Patch lib/main.dart
+        path: startup_namer/lib/main.dart
+        patch-u: |
+          --- b/startup_namer/step2_use_package/lib/main.dart
+          +++ a/startup_namer/step2_use_package/lib/main.dart
+          @@ -2,6 +2,7 @@
+           // Use of this source code is governed by a BSD-style license that can be
+           // found in the LICENSE file.
+           
+          +import 'package:english_words/english_words.dart';
+           import 'package:flutter/material.dart';
+           
+           void main() {
+          @@ -13,14 +14,15 @@ class MyApp extends StatelessWidget {
+           
+             @override
+             Widget build(BuildContext context) {
+          +    final wordPair = WordPair.random();
+               return MaterialApp(
+                 title: 'Welcome to Flutter',
+                 home: Scaffold(
+                   appBar: AppBar(
+                     title: const Text('Welcome to Flutter'),
+                   ),
+          -        body: const Center(
+          -          child: Text('Hello World'),
+          +        body: Center(
+          +          child: Text(wordPair.asPascalCase),
+                   ),
+                 ),
+               );
+
+      - name: Patch test/widget_test.dart
+        path: startup_namer/test/widget_test.dart
+        patch-u: |
+          --- b/startup_namer/step2_use_package/test/widget_test.dart
+          +++ a/startup_namer/step2_use_package/test/widget_test.dart
+          @@ -4,6 +4,7 @@
+           
+           // Basic Flutter widget test. Learn more at https://flutter.dev/docs/testing
+           
+          +import 'package:flutter/material.dart';
+           import 'package:flutter_test/flutter_test.dart';
+           
+           import 'package:startup_namer/main.dart';
+          @@ -11,6 +12,14 @@ import 'package:startup_namer/main.dart';
+           void main() {
+             testWidgets('Codelab smoke test', (tester) async {
+               await tester.pumpWidget(const MyApp());
+          -    expect(find.text('Hello World'), findsOneWidget);
+          +
+          +    final textWidgets = tester.widgetList<Text>(find.byType(Text));
+          +    expect(textWidgets.length, 2);
+          +
+          +    expect(textWidgets.last.data, 'Welcome to Flutter');
+          +
+          +    final wordPairRegExp = RegExp(r'^[A-Z]\w*[A-Z]\w*$');
+          +    final isWordPair = predicate<String>((s) => wordPairRegExp.hasMatch(s));
+          +    expect(textWidgets.first.data, isWordPair);
+             });
+           }
+
+      - name: Copy step2_use_package
+        copydir:
+          from: startup_namer
+          to: step2_use_package
+  - name: step3_stateful_widget
+    steps:
+      - name: Remove step3_stateful_widget
+        rmdir: step3_stateful_widget
+      - name: Patch pubspec.yaml
+        path: startup_namer/pubspec.yaml
+        patch-u: |
+          --- b/startup_namer/step3_stateful_widget/pubspec.yaml
+          +++ a/startup_namer/step3_stateful_widget/pubspec.yaml
+          @@ -20,13 +20,11 @@ version: 1.0.0+1
+           environment:
+             sdk: ">=2.17.3 <3.0.0"
+           
+          -# #docregion dependencies
+           dependencies:
+             flutter:
+               sdk: flutter
+             cupertino_icons: ^1.0.2
+             english_words: ^4.0.0
+          -# #enddocregion dependencies
+           
+           dev_dependencies:
+             flutter_test:
+
+      - name: Patch lib/main.dart
+        path: startup_namer/lib/main.dart
+        patch-u: |
+          --- b/startup_namer/step3_stateful_widget/lib/main.dart
+          +++ a/startup_namer/step3_stateful_widget/lib/main.dart
+          @@ -9,22 +9,46 @@ void main() {
+             runApp(const MyApp());
+           }
+           
+          +// #docregion MyApp
+           class MyApp extends StatelessWidget {
+             const MyApp({super.key});
+           
+          +  // #docregion build
+             @override
+             Widget build(BuildContext context) {
+          -    final wordPair = WordPair.random();
+               return MaterialApp(
+                 title: 'Welcome to Flutter',
+                 home: Scaffold(
+                   appBar: AppBar(
+                     title: const Text('Welcome to Flutter'),
+                   ),
+          -        body: Center(
+          -          child: Text(wordPair.asPascalCase),
+          +        body: const Center(
+          +          child: RandomWords(),
+                   ),
+                 ),
+               );
+             }
+          +  // #enddocregion build
+          +}
+          +// #enddocregion MyApp
+          +
+          +// #docregion _RandomWordsState, RWS-class-only
+          +class _RandomWordsState extends State<RandomWords> {
+          +  // #enddocregion RWS-class-only
+          +  @override
+          +  Widget build(BuildContext context) {
+          +    final wordPair = WordPair.random();
+          +    return Text(wordPair.asPascalCase);
+          +  }
+          +  // #docregion RWS-class-only
+          +}
+          +// #enddocregion _RandomWordsState, RWS-class-only
+          +
+          +// #docregion RandomWords
+          +class RandomWords extends StatefulWidget {
+          +  const RandomWords({super.key});
+          +
+          +  @override
+          +  State<RandomWords> createState() => _RandomWordsState();
+           }
+          +// #enddocregion RandomWords
+
+      - name: Copy step3_stateful_widget
+        copydir:
+          from: startup_namer
+          to: step3_stateful_widget
+  - name: step4_infinite_list
+    steps:
+      - name: Remove step4_infinite_list
+        rmdir: step4_infinite_list
+
+      - name: Patch lib/main.dart
+        path: startup_namer/lib/main.dart
+        patch-u: |
+          --- b/startup_namer/step4_infinite_list/lib/main.dart
+          +++ a/startup_namer/step4_infinite_list/lib/main.dart
+          @@ -17,10 +17,10 @@ class MyApp extends StatelessWidget {
+             @override
+             Widget build(BuildContext context) {
+               return MaterialApp(
+          -      title: 'Welcome to Flutter',
+          +      title: 'Startup Name Generator',
+                 home: Scaffold(
+                   appBar: AppBar(
+          -          title: const Text('Welcome to Flutter'),
+          +          title: const Text('Startup Name Generator'),
+                   ),
+                   body: const Center(
+                     child: RandomWords(),
+          @@ -32,23 +32,45 @@ class MyApp extends StatelessWidget {
+           }
+           // #enddocregion MyApp
+           
+          -// #docregion _RandomWordsState, RWS-class-only
+          +// #docregion RWS-var
+           class _RandomWordsState extends State<RandomWords> {
+          -  // #enddocregion RWS-class-only
+          +  final _suggestions = <WordPair>[];
+          +  final _biggerFont = const TextStyle(fontSize: 18);
+          +  // #enddocregion RWS-var
+          +
+          +  // #docregion RWS-build
+             @override
+             Widget build(BuildContext context) {
+          -    final wordPair = WordPair.random();
+          -    return Text(wordPair.asPascalCase);
+          +    // #docregion itemBuilder
+          +    return ListView.builder(
+          +      padding: const EdgeInsets.all(16.0),
+          +      itemBuilder: /*1*/ (context, i) {
+          +        if (i.isOdd) return const Divider(); /*2*/
+          +
+          +        final index = i ~/ 2; /*3*/
+          +        if (index >= _suggestions.length) {
+          +          _suggestions.addAll(generateWordPairs().take(10)); /*4*/
+          +        }
+          +        // #docregion listTile
+          +        return ListTile(
+          +          title: Text(
+          +            _suggestions[index].asPascalCase,
+          +            style: _biggerFont,
+          +          ),
+          +        );
+          +        // #enddocregion listTile
+          +      },
+          +    );
+          +    // #enddocregion itemBuilder
+             }
+          -  // #docregion RWS-class-only
+          +  // #enddocregion RWS-build
+          +  // #docregion RWS-var
+           }
+          -// #enddocregion _RandomWordsState, RWS-class-only
+          +// #enddocregion RWS-var
+           
+          -// #docregion RandomWords
+           class RandomWords extends StatefulWidget {
+             const RandomWords({super.key});
+           
+             @override
+             State<RandomWords> createState() => _RandomWordsState();
+           }
+          -// #enddocregion RandomWords
+
+      - name: Patch test/widget_test.dart
+        path: startup_namer/test/widget_test.dart
+        patch-u: |
+          --- b/startup_namer/step4_infinite_list/test/widget_test.dart
+          +++ a/startup_namer/step4_infinite_list/test/widget_test.dart
+          @@ -14,12 +14,14 @@ void main() {
+               await tester.pumpWidget(const MyApp());
+           
+               final textWidgets = tester.widgetList<Text>(find.byType(Text));
+          -    expect(textWidgets.length, 2);
+          +    expect(textWidgets.length, greaterThan(2));
+           
+          -    expect(textWidgets.last.data, 'Welcome to Flutter');
+          +    expect(textWidgets.last.data, 'Startup Name Generator');
+           
+               final wordPairRegExp = RegExp(r'^[A-Z]\w*[A-Z]\w*$');
+               final isWordPair = predicate<String>((s) => wordPairRegExp.hasMatch(s));
+          -    expect(textWidgets.first.data, isWordPair);
+          +    for (final widget in textWidgets.take(textWidgets.length - 1)) {
+          +      expect(widget.data, isWordPair);
+          +    }
+             });
+           }
+
+      - name: Copy step4_infinite_list
+        copydir:
+          from: startup_namer
+          to: step4_infinite_list
+
+  - name: step5_add_icons
+    steps:
+      - name: Remove step5_add_icons
+        rmdir: step5_add_icons
+
+      - name: Patch lib/main.dart
+        path: startup_namer/lib/main.dart
+        patch-u: |
+          --- b/startup_namer/step5_add_icons/lib/main.dart
+          +++ a/startup_namer/step5_add_icons/lib/main.dart
+          @@ -35,6 +35,7 @@ class MyApp extends StatelessWidget {
+           // #docregion RWS-var
+           class _RandomWordsState extends State<RandomWords> {
+             final _suggestions = <WordPair>[];
+          +  final _saved = <WordPair>{};
+             final _biggerFont = const TextStyle(fontSize: 18);
+             // #enddocregion RWS-var
+           
+          @@ -51,12 +52,20 @@ class _RandomWordsState extends State<RandomWords> {
+                   if (index >= _suggestions.length) {
+                     _suggestions.addAll(generateWordPairs().take(10)); /*4*/
+                   }
+          +
+          +        final alreadySaved = _saved.contains(_suggestions[index]);
+          +
+                   // #docregion listTile
+                   return ListTile(
+                     title: Text(
+                       _suggestions[index].asPascalCase,
+                       style: _biggerFont,
+                     ),
+          +          trailing: Icon(
+          +            alreadySaved ? Icons.favorite : Icons.favorite_border,
+          +            color: alreadySaved ? Colors.red : null,
+          +            semanticLabel: alreadySaved ? 'Remove from saved' : 'Save',
+          +          ),
+                   );
+                   // #enddocregion listTile
+                 },
+
+      - name: Copy step5_add_icons
+        copydir:
+          from: startup_namer
+          to: step5_add_icons
+
+  - name: step6_add_interactivity
+    steps:
+      - name: Remove step6_add_interactivity
+        rmdir: step6_add_interactivity
+
+      - name: Patch lib/main.dart
+        path: startup_namer/lib/main.dart
+        patch-u: |
+          --- b/startup_namer/step6_add_interactivity/lib/main.dart
+          +++ a/startup_namer/step6_add_interactivity/lib/main.dart
+          @@ -9,11 +9,9 @@ void main() {
+             runApp(const MyApp());
+           }
+           
+          -// #docregion MyApp
+           class MyApp extends StatelessWidget {
+             const MyApp({super.key});
+           
+          -  // #docregion build
+             @override
+             Widget build(BuildContext context) {
+               return MaterialApp(
+          @@ -28,34 +26,27 @@ class MyApp extends StatelessWidget {
+                 ),
+               );
+             }
+          -  // #enddocregion build
+           }
+          -// #enddocregion MyApp
+           
+          -// #docregion RWS-var
+           class _RandomWordsState extends State<RandomWords> {
+             final _suggestions = <WordPair>[];
+             final _saved = <WordPair>{};
+             final _biggerFont = const TextStyle(fontSize: 18);
+          -  // #enddocregion RWS-var
+           
+          -  // #docregion RWS-build
+             @override
+             Widget build(BuildContext context) {
+          -    // #docregion itemBuilder
+               return ListView.builder(
+                 padding: const EdgeInsets.all(16.0),
+          -      itemBuilder: /*1*/ (context, i) {
+          -        if (i.isOdd) return const Divider(); /*2*/
+          +      itemBuilder: (context, i) {
+          +        if (i.isOdd) return const Divider();
+           
+          -        final index = i ~/ 2; /*3*/
+          +        final index = i ~/ 2;
+                   if (index >= _suggestions.length) {
+          -          _suggestions.addAll(generateWordPairs().take(10)); /*4*/
+          +          _suggestions.addAll(generateWordPairs().take(10));
+                   }
+           
+                   final alreadySaved = _saved.contains(_suggestions[index]);
+           
+          -        // #docregion listTile
+                   return ListTile(
+                     title: Text(
+                       _suggestions[index].asPascalCase,
+          @@ -66,16 +57,20 @@ class _RandomWordsState extends State<RandomWords> {
+                       color: alreadySaved ? Colors.red : null,
+                       semanticLabel: alreadySaved ? 'Remove from saved' : 'Save',
+                     ),
+          +          onTap: () {
+          +            setState(() {
+          +              if (alreadySaved) {
+          +                _saved.remove(_suggestions[index]);
+          +              } else {
+          +                _saved.add(_suggestions[index]);
+          +              }
+          +            });
+          +          },
+                   );
+          -        // #enddocregion listTile
+                 },
+               );
+          -    // #enddocregion itemBuilder
+             }
+          -  // #enddocregion RWS-build
+          -  // #docregion RWS-var
+           }
+          -// #enddocregion RWS-var
+           
+           class RandomWords extends StatefulWidget {
+             const RandomWords({super.key});
+
+      - name: Copy step6_add_interactivity
+        copydir:
+          from: startup_namer
+          to: step6_add_interactivity
+
+  - name: step7_navigate_route
+    steps:
+      - name: Remove step7_navigate_route
+        rmdir: step7_navigate_route
+
+      - name: Patch lib/main.dart
+        path: startup_namer/lib/main.dart
+        patch-u: |
+          --- b/startup_namer/step7_navigate_route/lib/main.dart
+          +++ a/startup_namer/step7_navigate_route/lib/main.dart
+          @@ -14,16 +14,9 @@ class MyApp extends StatelessWidget {
+           
+             @override
+             Widget build(BuildContext context) {
+          -    return MaterialApp(
+          +    return const MaterialApp(
+                 title: 'Startup Name Generator',
+          -      home: Scaffold(
+          -        appBar: AppBar(
+          -          title: const Text('Startup Name Generator'),
+          -        ),
+          -        body: const Center(
+          -          child: RandomWords(),
+          -        ),
+          -      ),
+          +      home: RandomWords(),
+               );
+             }
+           }
+          @@ -35,39 +28,84 @@ class _RandomWordsState extends State<RandomWords> {
+           
+             @override
+             Widget build(BuildContext context) {
+          -    return ListView.builder(
+          -      padding: const EdgeInsets.all(16.0),
+          -      itemBuilder: (context, i) {
+          -        if (i.isOdd) return const Divider();
+          +    return Scaffold(
+          +      appBar: AppBar(
+          +        title: const Text('Startup Name Generator'),
+          +        actions: [
+          +          IconButton(
+          +            icon: const Icon(Icons.list),
+          +            onPressed: _pushSaved,
+          +            tooltip: 'Saved Suggestions',
+          +          ),
+          +        ],
+          +      ),
+          +      body: ListView.builder(
+          +        padding: const EdgeInsets.all(16.0),
+          +        itemBuilder: (context, i) {
+          +          if (i.isOdd) return const Divider();
+           
+          -        final index = i ~/ 2;
+          -        if (index >= _suggestions.length) {
+          -          _suggestions.addAll(generateWordPairs().take(10));
+          -        }
+          +          final index = i ~/ 2;
+          +          if (index >= _suggestions.length) {
+          +            _suggestions.addAll(generateWordPairs().take(10));
+          +          }
+           
+          -        final alreadySaved = _saved.contains(_suggestions[index]);
+          +          final alreadySaved = _saved.contains(_suggestions[index]);
+           
+          -        return ListTile(
+          -          title: Text(
+          -            _suggestions[index].asPascalCase,
+          -            style: _biggerFont,
+          -          ),
+          -          trailing: Icon(
+          -            alreadySaved ? Icons.favorite : Icons.favorite_border,
+          -            color: alreadySaved ? Colors.red : null,
+          -            semanticLabel: alreadySaved ? 'Remove from saved' : 'Save',
+          -          ),
+          -          onTap: () {
+          -            setState(() {
+          -              if (alreadySaved) {
+          -                _saved.remove(_suggestions[index]);
+          -              } else {
+          -                _saved.add(_suggestions[index]);
+          -              }
+          -            });
+          -          },
+          -        );
+          -      },
+          +          return ListTile(
+          +            title: Text(
+          +              _suggestions[index].asPascalCase,
+          +              style: _biggerFont,
+          +            ),
+          +            trailing: Icon(
+          +              alreadySaved ? Icons.favorite : Icons.favorite_border,
+          +              color: alreadySaved ? Colors.red : null,
+          +              semanticLabel: alreadySaved ? 'Remove from saved' : 'Save',
+          +            ),
+          +            onTap: () {
+          +              setState(() {
+          +                if (alreadySaved) {
+          +                  _saved.remove(_suggestions[index]);
+          +                } else {
+          +                  _saved.add(_suggestions[index]);
+          +                }
+          +              });
+          +            },
+          +          );
+          +        },
+          +      ),
+          +    );
+          +  }
+          +
+          +  void _pushSaved() {
+          +    Navigator.of(context).push(
+          +      // Add lines from here...
+          +      MaterialPageRoute<void>(
+          +        builder: (context) {
+          +          final tiles = _saved.map(
+          +            (pair) {
+          +              return ListTile(
+          +                title: Text(
+          +                  pair.asPascalCase,
+          +                  style: _biggerFont,
+          +                ),
+          +              );
+          +            },
+          +          );
+          +          final divided = tiles.isNotEmpty
+          +              ? ListTile.divideTiles(
+          +                  context: context,
+          +                  tiles: tiles,
+          +                ).toList()
+          +              : <Widget>[];
+          +
+          +          return Scaffold(
+          +            appBar: AppBar(
+          +              title: const Text('Saved Suggestions'),
+          +            ),
+          +            body: ListView(children: divided),
+          +          );
+          +        },
+          +      ), // ...to here.
+               );
+             }
+           }
+
+      - name: Copy step7_navigate_route
+        copydir:
+          from: startup_namer
+          to: step7_navigate_route
+
+  - name: step8_themes
+    steps:
+      - name: Remove step8_themes
+        rmdir: step8_themes
+
+      - name: Patch lib/main.dart
+        path: startup_namer/lib/main.dart
+        patch-u: |
+          --- b/startup_namer/step8_themes/lib/main.dart
+          +++ a/startup_namer/step8_themes/lib/main.dart
+          @@ -14,9 +14,15 @@ class MyApp extends StatelessWidget {
+           
+             @override
+             Widget build(BuildContext context) {
+          -    return const MaterialApp(
+          +    return MaterialApp(
+                 title: 'Startup Name Generator',
+          -      home: RandomWords(),
+          +      theme: ThemeData(
+          +        appBarTheme: const AppBarTheme(
+          +          backgroundColor: Colors.white,
+          +          foregroundColor: Colors.black,
+          +        ),
+          +      ),
+          +      home: const RandomWords(),
+               );
+             }
+           }
+          @@ -78,7 +84,6 @@ class _RandomWordsState extends State<RandomWords> {
+           
+             void _pushSaved() {
+               Navigator.of(context).push(
+          -      // Add lines from here...
+                 MaterialPageRoute<void>(
+                   builder: (context) {
+                     final tiles = _saved.map(
+          @@ -105,7 +110,7 @@ class _RandomWordsState extends State<RandomWords> {
+                       body: ListView(children: divided),
+                     );
+                   },
+          -      ), // ...to here.
+          +      ),
+               );
+             }
+           }
+
+      - name: Copy step8_themes
+        copydir:
+          from: startup_namer
+          to: step8_themes
+
+  - name: Cleanup
+    rmdir: startup_namer
+      

@@ -45,7 +45,6 @@ final List<Product> inventorySeed = [
 final rand = Random();
 
 void seedAnalytics() {
-  print("SEEDING:");
   try {
     for (var i = 0; i < 10; i++) {
       final variant =
@@ -76,6 +75,7 @@ void seedAnalytics() {
       ]);
     }
   } catch (e, s) {
+    // ignore: avoid_print
     print(e);
   }
 }
