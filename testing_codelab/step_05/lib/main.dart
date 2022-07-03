@@ -4,6 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import 'models/favorites.dart';
 import 'screens/favorites.dart';
 import 'screens/home.dart';
@@ -23,6 +24,7 @@ class TestingApp extends StatelessWidget {
         title: 'Testing Sample',
         theme: ThemeData(
           primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
         routes: {
           HomePage.routeName: (context) => const HomePage(),
