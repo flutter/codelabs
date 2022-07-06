@@ -74,7 +74,7 @@ void seedAnalytics() {
         )
       ]);
     }
-  } catch (e, s) {
+  } catch (e) {
     // ignore: avoid_print
     print(e);
   }
