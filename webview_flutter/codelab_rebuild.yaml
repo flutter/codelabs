@@ -146,7 +146,6 @@ steps:
         copydir:
           from: webview_in_flutter
           to: step_04
-
   - name: step_05
     steps:
       - name: Remove generated code.
@@ -231,7 +230,6 @@ steps:
         copydir:
           from: webview_in_flutter
           to: step_05
-
   - name: step_06
     steps:
       - name: Remove step_06
@@ -375,7 +373,6 @@ steps:
         copydir:
           from: webview_in_flutter
           to: step_06
-
   - name: step_07
     steps:
       - name: Remove step_07
@@ -411,7 +408,6 @@ steps:
         copydir:
           from: webview_in_flutter
           to: step_07
-
   - name: step_08
     steps:
       - name: Remove step_08
@@ -483,7 +479,6 @@ steps:
         copydir:
           from: webview_in_flutter
           to: step_08
-
   - name: step_09
     steps:
       - name: Remove step_09
@@ -565,7 +560,6 @@ steps:
         copydir:
           from: webview_in_flutter
           to: step_09
-
   - name: step_10
     steps:
       - name: Remove step_06
@@ -652,7 +646,6 @@ steps:
         copydir:
           from: webview_in_flutter
           to: step_10
-
   - name: step_11
     steps:
       - name: Remove step_11
@@ -802,7 +795,6 @@ steps:
         copydir:
           from: webview_in_flutter
           to: step_11
-
   - name: step_12
     steps:
       - name: Remove step_12
@@ -810,7 +802,6 @@ steps:
       - name: Add path_provider
         path: webview_in_flutter
         flutter: pub add path_provider
-
       - name: Patch pubspec.yaml
         path: webview_in_flutter/pubspec.yaml
         patch-u: |
@@ -826,7 +817,6 @@ steps:
            
              # To add assets to your application, add an assets section, like this:
              # assets:
-
       - name: Patch lib/src/menu.dart
         path: webview_in_flutter/lib/src/menu.dart
         patch-u: |
@@ -849,8 +839,8 @@ steps:
           +
           +<h1>Local demo page</h1>
           +<p>
-          +  This is an example page used to demonstrate how to load a local file or HTML 
-          +  string using the <a href="https://pub.dev/packages/webview_flutter">Flutter 
+          +  This is an example page used to demonstrate how to load a local file or HTML
+          +  string using the <a href="https://pub.dev/packages/webview_flutter">Flutter
           +  webview</a> plugin.
           +</p>
           +
@@ -943,7 +933,6 @@ steps:
           +    await controller.loadHtmlString(kExamplePage);
           +  }
            }
-
       - name: Make assets
         path: webview_in_flutter
         mkdir: assets
@@ -973,7 +962,6 @@ steps:
 
           </body>
           </html>
-
       - name: Make assets/www/styles
         path: webview_in_flutter/assets/www
         mkdir: styles
@@ -983,11 +971,9 @@ steps:
           h1 {
             color: blue;
           }
-
       - name: Copy step_12
         copydir:
           from: webview_in_flutter
           to: step_12
-
   - name: Cleanup
     rmdir: webview_in_flutter
