@@ -19,7 +19,6 @@ class ProductDetailsPage extends StatelessWidget {
 
   void _addToBag() {
     final variant = FirebaseRemoteConfig.instance.getString('defaultShirtView');
-
     FirebaseAnalytics.instance.logAddToCart(
       items: [
         AnalyticsEventItem(

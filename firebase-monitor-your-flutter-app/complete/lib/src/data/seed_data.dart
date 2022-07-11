@@ -2,6 +2,11 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'dart:math';
+
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
+
 import '../model/product.dart';
 
 // This data is seeded in the Firebase emulator for you ahead of the start of
@@ -36,3 +41,41 @@ final List<Product> inventorySeed = [
     brand: 'Dash Goods',
   ),
 ];
+
+final rand = Random();
+
+void seedAnalytics() {
+  try {
+    for (var i = 0; i < 10; i++) {
+      final variant =
+          FirebaseRemoteConfig.instance.getString('defaultShirtView');
+      final product = inventorySeed[rand.nextInt(inventorySeed.length)];
+
+      FirebaseAnalytics.instance.logAddToCart(
+        items: [
+          AnalyticsEventItem(
+            itemBrand: product.brand,
+            itemName: product.name,
+            price: product.price,
+            itemId: product.id,
+            itemVariant: variant,
+          )
+        ],
+      );
+
+      final product2 = inventorySeed[rand.nextInt(inventorySeed.length)];
+      FirebaseAnalytics.instance.logViewItem(currency: 'USD', items: [
+        AnalyticsEventItem(
+          itemId: product2.id,
+          price: product2.price,
+          itemName: product2.name,
+          itemBrand: product2.brand,
+          itemVariant: variant,
+        )
+      ]);
+    }
+  } catch (e) {
+    // ignore: avoid_print
+    print(e);
+  }
+}
