@@ -92,17 +92,14 @@ steps:
               expect(find.text('Hello World'), findsOneWidget);
             });
           }
-
       - name: Patch pubspec.yaml
         path: startup_namer/pubspec.yaml
         patch-u: |
-          diff --git b/startup_namer/step1_base/pubspec.yaml a/startup_namer/step1_base/pubspec.yaml
-          index beaba29..251af68 100644
           --- b/startup_namer/step1_base/pubspec.yaml
           +++ a/startup_namer/step1_base/pubspec.yaml
           @@ -20,19 +20,9 @@ version: 1.0.0+1
            environment:
-             sdk: ">=2.17.3 <3.0.0"
+             sdk: ">=2.17.5 <3.0.0"
            
           -# Dependencies specify other packages that your package needs in order to work.
           -# To automatically upgrade your package dependencies to the latest versions
@@ -139,7 +136,7 @@ steps:
           +++ a/startup_namer/step2_use_package/pubspec.yaml
           @@ -20,11 +20,13 @@ version: 1.0.0+1
            environment:
-             sdk: ">=2.17.3 <3.0.0"
+             sdk: ">=2.17.5 <3.0.0"
            
           +# #docregion dependencies
            dependencies:
@@ -229,7 +226,7 @@ steps:
           +++ a/startup_namer/step3_stateful_widget/pubspec.yaml
           @@ -20,13 +20,11 @@ version: 1.0.0+1
            environment:
-             sdk: ">=2.17.3 <3.0.0"
+             sdk: ">=2.17.5 <3.0.0"
            
           -# #docregion dependencies
            dependencies:
@@ -306,7 +303,6 @@ steps:
     steps:
       - name: Remove step4_infinite_list
         rmdir: step4_infinite_list
-
       - name: Patch lib/main.dart
         path: startup_namer/lib/main.dart
         patch-u: |
@@ -379,7 +375,6 @@ steps:
              State<RandomWords> createState() => _RandomWordsState();
            }
           -// #enddocregion RandomWords
-
       - name: Patch test/widget_test.dart
         path: startup_namer/test/widget_test.dart
         patch-u: |
@@ -403,17 +398,14 @@ steps:
           +    }
              });
            }
-
       - name: Copy step4_infinite_list
         copydir:
           from: startup_namer
           to: step4_infinite_list
-
   - name: step5_add_icons
     steps:
       - name: Remove step5_add_icons
         rmdir: step5_add_icons
-
       - name: Patch lib/main.dart
         path: startup_namer/lib/main.dart
         patch-u: |
@@ -448,17 +440,14 @@ steps:
                    );
                    // #enddocregion listTile
                  },
-
       - name: Copy step5_add_icons
         copydir:
           from: startup_namer
           to: step5_add_icons
-
   - name: step6_add_interactivity
     steps:
       - name: Remove step6_add_interactivity
         rmdir: step6_add_interactivity
-
       - name: Patch lib/main.dart
         path: startup_namer/lib/main.dart
         patch-u: |
@@ -541,17 +530,14 @@ steps:
            
            class RandomWords extends StatefulWidget {
              const RandomWords({super.key});
-
       - name: Copy step6_add_interactivity
         copydir:
           from: startup_namer
           to: step6_add_interactivity
-
   - name: step7_navigate_route
     steps:
       - name: Remove step7_navigate_route
         rmdir: step7_navigate_route
-
       - name: Patch lib/main.dart
         path: startup_namer/lib/main.dart
         patch-u: |
@@ -576,7 +562,7 @@ steps:
                );
              }
            }
-          @@ -35,39 +28,84 @@ class _RandomWordsState extends State<RandomWords> {
+          @@ -35,39 +28,83 @@ class _RandomWordsState extends State<RandomWords> {
            
              @override
              Widget build(BuildContext context) {
@@ -660,7 +646,6 @@ steps:
           +
           +  void _pushSaved() {
           +    Navigator.of(context).push(
-          +      // Add lines from here...
           +      MaterialPageRoute<void>(
           +        builder: (context) {
           +          final tiles = _saved.map(
@@ -687,21 +672,18 @@ steps:
           +            body: ListView(children: divided),
           +          );
           +        },
-          +      ), // ...to here.
+          +      ),
                );
              }
            }
-
       - name: Copy step7_navigate_route
         copydir:
           from: startup_namer
           to: step7_navigate_route
-
   - name: step8_themes
     steps:
       - name: Remove step8_themes
         rmdir: step8_themes
-
       - name: Patch lib/main.dart
         path: startup_namer/lib/main.dart
         patch-u: |
@@ -725,29 +707,10 @@ steps:
                );
              }
            }
-          @@ -78,7 +84,6 @@ class _RandomWordsState extends State<RandomWords> {
-           
-             void _pushSaved() {
-               Navigator.of(context).push(
-          -      // Add lines from here...
-                 MaterialPageRoute<void>(
-                   builder: (context) {
-                     final tiles = _saved.map(
-          @@ -105,7 +110,7 @@ class _RandomWordsState extends State<RandomWords> {
-                       body: ListView(children: divided),
-                     );
-                   },
-          -      ), // ...to here.
-          +      ),
-               );
-             }
-           }
-
       - name: Copy step8_themes
         copydir:
           from: startup_namer
           to: step8_themes
-
   - name: Cleanup
     rmdir: startup_namer
       
