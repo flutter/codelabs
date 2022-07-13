@@ -32,6 +32,16 @@ class MyApp extends StatelessWidget {
 }
 // #enddocregion MyApp
 
+// #docregion RandomWordsWidget
+// #docregion RandomWords
+class RandomWords extends StatefulWidget {
+  const RandomWords({super.key});
+
+  @override
+  State<RandomWords> createState() => _RandomWordsState();
+}
+// #enddocregion RandomWords
+
 // #docregion _RandomWordsState, RWS-class-only
 class _RandomWordsState extends State<RandomWords> {
   // #enddocregion RWS-class-only
@@ -43,12 +53,4 @@ class _RandomWordsState extends State<RandomWords> {
   // #docregion RWS-class-only
 }
 // #enddocregion _RandomWordsState, RWS-class-only
-
-// #docregion RandomWords
-class RandomWords extends StatefulWidget {
-  const RandomWords({super.key});
-
-  @override
-  State<RandomWords> createState() => _RandomWordsState();
-}
-// #enddocregion RandomWords
+// #enddocregion RandomWordsWidget

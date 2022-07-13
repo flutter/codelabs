@@ -1411,7 +1411,6 @@ steps:
                    ),
                  ),
                );
-
       - name: Patch pubspec.yaml
         path: google_maps_in_flutter/pubspec.yaml
         patch-u: |
@@ -1423,7 +1422,6 @@ steps:
              # see https://flutter.dev/custom-fonts/#from-packages
           +  assets:
           +    - assets/locations.json
-
       - name: Run build_runner
         path: google_maps_in_flutter
         flutter: pub run build_runner build
@@ -1452,7 +1450,6 @@ steps:
            // GENERATED CODE - DO NOT MODIFY BY HAND
            
            part of 'locations.dart';
-
       - name: Copy step_5
         copydir: 
           from: google_maps_in_flutter
