@@ -244,7 +244,7 @@ steps:
         patch-u: |
           --- b/startup_namer/step3_stateful_widget/lib/main.dart
           +++ a/startup_namer/step3_stateful_widget/lib/main.dart
-          @@ -9,22 +9,46 @@ void main() {
+          @@ -9,22 +9,48 @@ void main() {
              runApp(const MyApp());
            }
            
@@ -274,6 +274,16 @@ steps:
           +}
           +// #enddocregion MyApp
           +
+          +// #docregion RandomWordsWidget
+          +// #docregion RandomWords
+          +class RandomWords extends StatefulWidget {
+          +  const RandomWords({super.key});
+          +
+          +  @override
+          +  State<RandomWords> createState() => _RandomWordsState();
+          +}
+          +// #enddocregion RandomWords
+          +
           +// #docregion _RandomWordsState, RWS-class-only
           +class _RandomWordsState extends State<RandomWords> {
           +  // #enddocregion RWS-class-only
@@ -283,17 +293,9 @@ steps:
           +    return Text(wordPair.asPascalCase);
           +  }
           +  // #docregion RWS-class-only
-          +}
-          +// #enddocregion _RandomWordsState, RWS-class-only
-          +
-          +// #docregion RandomWords
-          +class RandomWords extends StatefulWidget {
-          +  const RandomWords({super.key});
-          +
-          +  @override
-          +  State<RandomWords> createState() => _RandomWordsState();
            }
-          +// #enddocregion RandomWords
+          +// #enddocregion _RandomWordsState, RWS-class-only
+          +// #enddocregion RandomWordsWidget
 
       - name: Copy step3_stateful_widget
         copydir:
@@ -321,23 +323,24 @@ steps:
                    ),
                    body: const Center(
                      child: RandomWords(),
-          @@ -32,23 +32,45 @@ class MyApp extends StatelessWidget {
+          @@ -32,25 +32,45 @@ class MyApp extends StatelessWidget {
            }
            // #enddocregion MyApp
            
-          -// #docregion _RandomWordsState, RWS-class-only
+          -// #docregion RandomWordsWidget
+          -// #docregion RandomWords
+          -class RandomWords extends StatefulWidget {
+          -  const RandomWords({super.key});
           +// #docregion RWS-var
-           class _RandomWordsState extends State<RandomWords> {
-          -  // #enddocregion RWS-class-only
+          +class _RandomWordsState extends State<RandomWords> {
           +  final _suggestions = <WordPair>[];
           +  final _biggerFont = const TextStyle(fontSize: 18);
           +  // #enddocregion RWS-var
-          +
+           
           +  // #docregion RWS-build
              @override
-             Widget build(BuildContext context) {
-          -    final wordPair = WordPair.random();
-          -    return Text(wordPair.asPascalCase);
+          -  State<RandomWords> createState() => _RandomWordsState();
+          +  Widget build(BuildContext context) {
           +    // #docregion itemBuilder
           +    return ListView.builder(
           +      padding: const EdgeInsets.all(16.0),
@@ -359,22 +362,29 @@ steps:
           +      },
           +    );
           +    // #enddocregion itemBuilder
-             }
-          -  // #docregion RWS-class-only
+          +  }
           +  // #enddocregion RWS-build
           +  // #docregion RWS-var
            }
-          -// #enddocregion _RandomWordsState, RWS-class-only
-          +// #enddocregion RWS-var
-           
-          -// #docregion RandomWords
-           class RandomWords extends StatefulWidget {
-             const RandomWords({super.key});
-           
-             @override
-             State<RandomWords> createState() => _RandomWordsState();
-           }
           -// #enddocregion RandomWords
+          +// #enddocregion RWS-var
+          +
+          +class RandomWords extends StatefulWidget {
+          +  const RandomWords({super.key});
+           
+          -// #docregion _RandomWordsState, RWS-class-only
+          -class _RandomWordsState extends State<RandomWords> {
+          -  // #enddocregion RWS-class-only
+             @override
+          -  Widget build(BuildContext context) {
+          -    final wordPair = WordPair.random();
+          -    return Text(wordPair.asPascalCase);
+          -  }
+          -  // #docregion RWS-class-only
+          +  State<RandomWords> createState() => _RandomWordsState();
+           }
+          -// #enddocregion _RandomWordsState, RWS-class-only
+          -// #enddocregion RandomWordsWidget
       - name: Patch test/widget_test.dart
         path: startup_namer/test/widget_test.dart
         patch-u: |
