@@ -21,7 +21,7 @@ function ci_codelabs () {
             pushd "${PROJECT}"
 
             echo "== Getting dependencies for ${PROJECT}"
-            for dir in `find . -name pubspec.yaml -exec dirname {} \;`; do
+            for dir in `find . -name pubspec.yaml  -not -path '*/ephemeral/*' -exec dirname {} \;`; do
                 pushd $dir
                 flutter pub get
                 popd
