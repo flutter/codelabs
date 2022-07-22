@@ -54,14 +54,14 @@ ThemeData _buildTheme() {
     ),
     textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-      primary: Colors.green[800], // foreground
+      foregroundColor: Colors.green[800],
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(4),
       ),
     )),
     elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-      primary: Colors.green[800],
+      backgroundColor: Colors.green[800],
     )),
     scaffoldBackgroundColor: Colors.white,
   );
