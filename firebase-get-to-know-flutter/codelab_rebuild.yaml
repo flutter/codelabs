@@ -10,15 +10,12 @@ steps:
         path: gtk_flutter/analysis_options.yaml
         replace-contents: |
           include: ../../analysis_options.yaml
-
       - name: Add dependencies.
         path: gtk_flutter
         flutter: pub add google_fonts 
       - name: Patch pubspec.yaml
         path: gtk_flutter/pubspec.yaml
         patch-u: |
-          diff --git b/firebase-get-to-know-flutter/step_02/pubspec.yaml a/firebase-get-to-know-flutter/step_02/pubspec.yaml
-          index c5b58ef..08adeb9 100644
           --- b/firebase-get-to-know-flutter/step_02/pubspec.yaml
           +++ a/firebase-get-to-know-flutter/step_02/pubspec.yaml
           @@ -1,5 +1,5 @@
@@ -28,7 +25,7 @@ steps:
            
            # The following line prevents the package from being accidentally published to
            # pub.dev using `flutter pub publish`. This is preferred for private packages.
-          @@ -57,6 +57,8 @@ flutter:
+          @@ -59,6 +59,8 @@ flutter:
              # included with your application, so that you can use the icons in
              # the material Icons class.
              uses-material-design: true
@@ -37,7 +34,6 @@ steps:
            
              # To add assets to your application, add an assets section, like this:
              # assets:
-
       - name: Remove the README.md.
         rm: gtk_flutter/README.md
       - name: Remove the Linux and Windows runners
@@ -94,20 +90,6 @@ steps:
               }
             ]
           }
-      - name: Patch gtk_flutter/ios/Podfile
-        path: gtk_flutter/ios/Podfile
-        patch-u: |
-          --- b/firebase-get-to-know-flutter/step_02/ios/Podfile
-          +++ a/firebase-get-to-know-flutter/step_02/ios/Podfile
-          @@ -1,5 +1,5 @@
-          -# Uncomment this line to define a global platform for your project
-          -# platform :ios, '9.0'
-          +# Cloud Firestore requires iOS 10: https://firebase.flutter.dev/docs/manual-installation/ios#ios-supported-versions
-          +platform :ios, '10.0'
-           
-           # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
-           ENV['COCOAPODS_DISABLE_STATS'] = 'true'
-
       - name: Patch gtk_flutter/macos/Podfile
         path: gtk_flutter/macos/Podfile
         patch-u: |
@@ -120,7 +102,6 @@ steps:
            
            # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
            ENV['COCOAPODS_DISABLE_STATS'] = 'true'
-
       - name: Replace lib/main.dart
         path: gtk_flutter/lib/main.dart
         replace-contents: |

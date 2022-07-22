@@ -414,7 +414,6 @@ steps:
               "default": "yourname-my-flutter-app"
             }
           }
-
       - name: Create firebase.json
         path: star_counter/firebase.json
         replace-contents: |
@@ -439,14 +438,13 @@ steps:
         patch-u: |
           --- b/star_counter/step_08/.gitignore
           +++ a/star_counter/step_08/.gitignore
-          @@ -45,3 +45,6 @@ app.*.map.json
+          @@ -42,3 +42,6 @@ app.*.map.json
            /android/app/debug
            /android/app/profile
            /android/app/release
           +
           +# Firebase hosting cache
           +/.firebase/
-          
       - name: Copy step_08
         copydir:
           from: star_counter

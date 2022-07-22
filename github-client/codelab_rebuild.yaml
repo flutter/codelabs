@@ -10,7 +10,6 @@ steps:
         path: window_to_front/analysis_options.yaml
         replace-contents: |
           include: ../../analysis_options.yaml
-
       - name: Remove example code
         path: window_to_front
         rmdir: example
@@ -43,7 +42,6 @@ steps:
            name: window_to_front
            description: A new Flutter plugin project.
            version: 0.0.1
-             
       - name: Patch lib/window_to_front.dart
         path: window_to_front/lib/window_to_front.dart
         patch-u: |
@@ -73,7 +71,6 @@ steps:
           +    return WindowToFrontPlatform.instance.activate();
              }
            }
-
       - name: Patch linux/window_to_front_plugin.cc
         path: window_to_front/linux/window_to_front_plugin.cc
         patch-u: |
@@ -143,7 +140,6 @@ steps:
              g_autoptr(FlStandardMethodCodec) codec = fl_standard_method_codec_new();
              g_autoptr(FlMethodChannel) channel =
                  fl_method_channel_new(fl_plugin_registrar_get_messenger(registrar),
-
       - name: Patch macos/Classes/WindowToFrontPlugin.swift
         path: window_to_front/macos/Classes/WindowToFrontPlugin.swift
         patch-u: |
@@ -179,7 +175,6 @@ steps:
                default:
                  result(FlutterMethodNotImplemented)
                }
-
       - name: Patch windows/window_to_front_plugin.cpp
         path: window_to_front/windows/window_to_front_plugin.cpp
         patch-u: |
@@ -253,7 +248,6 @@ steps:
              } else {
                result->NotImplemented();
              }
-
       - name: Patch lib/window_to_front_method_channel.dart
         path: window_to_front/lib/window_to_front_method_channel.dart
         patch-u: |
@@ -288,7 +282,6 @@ steps:
           +    return methodChannel.invokeMethod('activate');
              }
            }
-
       - name: Patch lib/window_to_front_platform_interface.dart
         path: window_to_front/lib/window_to_front_platform_interface.dart
         patch-u: |
@@ -312,15 +305,6 @@ steps:
            import 'package:plugin_platform_interface/plugin_platform_interface.dart';
            
            import 'window_to_front_method_channel.dart';
-          @@ -14,7 +28,7 @@ abstract class WindowToFrontPlatform extends PlatformInterface {
-             ///
-             /// Defaults to [MethodChannelWindowToFront].
-             static WindowToFrontPlatform get instance => _instance;
-          -  
-          +
-             /// Platform-specific implementations should set this with their own
-             /// platform-specific class that extends [WindowToFrontPlatform] when
-             /// they register themselves.
           @@ -23,7 +37,7 @@ abstract class WindowToFrontPlatform extends PlatformInterface {
                _instance = instance;
              }
@@ -331,7 +315,6 @@ steps:
           +    throw UnimplementedError('activate() has not been implemented.');
              }
            }
-
       - name: Patch windows/window_to_front_plugin.h
         path: window_to_front/windows/window_to_front_plugin.h
         patch-u: |
@@ -374,7 +357,6 @@ steps:
            };
            
            }  // namespace window_to_front
-
   - name: step_03
     steps:
       - name: Remove generated code.
@@ -385,7 +367,6 @@ steps:
         path: github_client/analysis_options.yaml
         replace-contents: |
           include: ../../analysis_options.yaml
-
       - name: Remove the README.md.
         rm: github_client/README.md
       - name: Remove the iOS, Android and Web runners
@@ -435,25 +416,6 @@ steps:
            import 'package:flutter/material.dart';
            
            void main() {
-          @@ -5,7 +19,7 @@ void main() {
-           }
-           
-           class MyApp extends StatelessWidget {
-          -  const MyApp({Key? key}) : super(key: key);
-          +  const MyApp({super.key});
-           
-             // This widget is the root of your application.
-             @override
-          @@ -30,7 +44,7 @@ class MyApp extends StatelessWidget {
-           }
-           
-           class MyHomePage extends StatefulWidget {
-          -  const MyHomePage({Key? key, required this.title}) : super(key: key);
-          +  const MyHomePage({super.key, required this.title});
-           
-             // This widget is the home page of your application. It is stateful, meaning
-             // that it has a State object (defined below) that contains fields that affect
-
       - name: Patch test/widget_test.dart
         path: github_client/test/widget_test.dart
         patch-u: |

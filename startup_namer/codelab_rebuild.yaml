@@ -30,18 +30,6 @@ steps:
                   }
               ]
           }
-      - name: Patch pubspec.yaml
-        path: startup_namer/pubspec.yaml
-        patch-u: |
-          --- b/startup_namer/step1_base/pubspec.yaml
-          +++ a/startup_namer/step1_base/pubspec.yaml
-          @@ -1,5 +1,5 @@
-           name: startup_namer
-          -description: A new Flutter project.
-          +description: A startup-namer app.
-           
-           # The following line prevents the package from being accidentally published to
-           # pub.dev using `flutter pub publish`. This is preferred for private packages.
       - name: Replace lib/main.dart
         path: startup_namer/lib/main.dart
         replace-contents: |
@@ -92,17 +80,21 @@ steps:
               expect(find.text('Hello World'), findsOneWidget);
             });
           }
-
       - name: Patch pubspec.yaml
         path: startup_namer/pubspec.yaml
         patch-u: |
-          diff --git b/startup_namer/step1_base/pubspec.yaml a/startup_namer/step1_base/pubspec.yaml
-          index beaba29..251af68 100644
           --- b/startup_namer/step1_base/pubspec.yaml
           +++ a/startup_namer/step1_base/pubspec.yaml
-          @@ -20,19 +20,9 @@ version: 1.0.0+1
+          @@ -1,5 +1,5 @@
+           name: startup_namer
+          -description: A new Flutter project.
+          +description: A startup-namer app.
+           
+           # The following line prevents the package from being accidentally published to
+           # pub.dev using `flutter pub publish`. This is preferred for private packages.
+          @@ -22,19 +22,9 @@ version: 1.0.0+1
            environment:
-             sdk: ">=2.17.3 <3.0.0"
+             sdk: '>=2.18.0-271.2.beta <3.0.0'
            
           -# Dependencies specify other packages that your package needs in order to work.
           -# To automatically upgrade your package dependencies to the latest versions
@@ -120,7 +112,6 @@ steps:
              cupertino_icons: ^1.0.2
            
            dev_dependencies:
-
       - name: Copy step1_base
         copydir:
           from: startup_namer
@@ -137,9 +128,9 @@ steps:
         patch-u: |
           --- b/startup_namer/step2_use_package/pubspec.yaml
           +++ a/startup_namer/step2_use_package/pubspec.yaml
-          @@ -20,11 +20,13 @@ version: 1.0.0+1
+          @@ -22,11 +22,13 @@ version: 1.0.0+1
            environment:
-             sdk: ">=2.17.3 <3.0.0"
+             sdk: '>=2.18.0-271.2.beta <3.0.0'
            
           +# #docregion dependencies
            dependencies:
@@ -151,7 +142,6 @@ steps:
            
            dev_dependencies:
              flutter_test:
-
       - name: Patch lib/main.dart
         path: startup_namer/lib/main.dart
         patch-u: |
@@ -183,7 +173,6 @@ steps:
                    ),
                  ),
                );
-
       - name: Patch test/widget_test.dart
         path: startup_namer/test/widget_test.dart
         patch-u: |
@@ -213,7 +202,6 @@ steps:
           +    expect(textWidgets.first.data, isWordPair);
              });
            }
-
       - name: Copy step2_use_package
         copydir:
           from: startup_namer
@@ -227,9 +215,9 @@ steps:
         patch-u: |
           --- b/startup_namer/step3_stateful_widget/pubspec.yaml
           +++ a/startup_namer/step3_stateful_widget/pubspec.yaml
-          @@ -20,13 +20,11 @@ version: 1.0.0+1
+          @@ -22,13 +22,11 @@ version: 1.0.0+1
            environment:
-             sdk: ">=2.17.3 <3.0.0"
+             sdk: '>=2.18.0-271.2.beta <3.0.0'
            
           -# #docregion dependencies
            dependencies:
@@ -241,7 +229,6 @@ steps:
            
            dev_dependencies:
              flutter_test:
-
       - name: Patch lib/main.dart
         path: startup_namer/lib/main.dart
         patch-u: |
@@ -297,7 +284,6 @@ steps:
           +  State<RandomWords> createState() => _RandomWordsState();
            }
           +// #enddocregion RandomWords
-
       - name: Copy step3_stateful_widget
         copydir:
           from: startup_namer
@@ -408,12 +394,10 @@ steps:
         copydir:
           from: startup_namer
           to: step4_infinite_list
-
   - name: step5_add_icons
     steps:
       - name: Remove step5_add_icons
         rmdir: step5_add_icons
-
       - name: Patch lib/main.dart
         path: startup_namer/lib/main.dart
         patch-u: |
@@ -453,12 +437,10 @@ steps:
         copydir:
           from: startup_namer
           to: step5_add_icons
-
   - name: step6_add_interactivity
     steps:
       - name: Remove step6_add_interactivity
         rmdir: step6_add_interactivity
-
       - name: Patch lib/main.dart
         path: startup_namer/lib/main.dart
         patch-u: |
@@ -546,12 +528,10 @@ steps:
         copydir:
           from: startup_namer
           to: step6_add_interactivity
-
   - name: step7_navigate_route
     steps:
       - name: Remove step7_navigate_route
         rmdir: step7_navigate_route
-
       - name: Patch lib/main.dart
         path: startup_namer/lib/main.dart
         patch-u: |
@@ -696,12 +676,10 @@ steps:
         copydir:
           from: startup_namer
           to: step7_navigate_route
-
   - name: step8_themes
     steps:
       - name: Remove step8_themes
         rmdir: step8_themes
-
       - name: Patch lib/main.dart
         path: startup_namer/lib/main.dart
         patch-u: |
@@ -747,7 +725,6 @@ steps:
         copydir:
           from: startup_namer
           to: step8_themes
-
   - name: Cleanup
     rmdir: startup_namer
       

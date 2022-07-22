@@ -45,6 +45,8 @@
 	<false/>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
 	<!-- https://pub.dev/packages/url_launcher#ios -->
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
