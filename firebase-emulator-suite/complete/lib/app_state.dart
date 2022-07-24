@@ -1,0 +1,67 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:complete/entry.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+class AppState {
+  AppState() {
+    _entriesStreamController = StreamController.broadcast(onListen: () {
+      _entriesStreamController.add([
+        Entry(
+          date: '10/09/2022',
+          text: lorem,
+          title: '[Example] My Journal Entry',
+        )
+      ]);
+    });
+  }
+
+  late User? user;
+  Stream<List<Entry>> get entries => _entriesStreamController.stream;
+  late final StreamController<List<Entry>> _entriesStreamController;
+
+  Future<void> logIn(String email, String password) async {
+    final credential = await FirebaseAuth.instance
+        .signInWithEmailAndPassword(email: email, password: password);
+    if (credential.user != null) {
+      user = credential.user!;
+      _listenForEntries();
+    } else {
+      print('no user!');
+    }
+  }
+
+  void writeEntryToFirebase(Entry entry) {
+    FirebaseFirestore.instance.collection('Entries').add({
+      'title': entry.title,
+      'date': entry.date.toString(),
+      'text': entry.text,
+    });
+  }
+
+  void _listenForEntries() {
+    FirebaseFirestore.instance
+        .collection('Entries')
+        .snapshots()
+        .listen((event) {
+      final entries = event.docs.map((DocumentSnapshot doc) {
+        final data = doc.data() as Map<String, dynamic>;
+        return Entry(
+          date: data['date'],
+          text: data['text'],
+          title: data['title'],
+        );
+      }).toList();
+
+      _entriesStreamController.add(entries);
+    });
+  }
+
+  void dispose() {
+    _entriesStreamController.close();
+  }
+}
+
+const lorem =
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
