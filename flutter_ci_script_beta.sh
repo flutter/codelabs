@@ -11,6 +11,7 @@ declare -a CODELABS=(
   "cookbook"
   "cupertino_store"
   "dartpad_codelabs"
+  "firebase-emulator-suite"
   "firebase-get-to-know-flutter"
   "firebase-monitor-your-flutter-app"
   "friendly_chat"
