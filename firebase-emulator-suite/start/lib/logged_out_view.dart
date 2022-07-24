@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously, avoid_print
-
 import 'package:flutter/material.dart';
 
 import 'app_state.dart';
@@ -31,7 +29,7 @@ class LoggedOutView extends StatelessWidget {
                     if (true) {
                       Navigator.of(context).pushReplacementNamed('/home');
                     }
-                  }, onError: (error) => print(error));
+                  });
                 },
                 child: const Text('Log In'),
               ),

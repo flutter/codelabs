@@ -40,15 +40,15 @@ class LoggedInView extends StatelessWidget {
               child: StreamBuilder<List<Entry>>(
                 stream: state.entries,
                 initialData: const [],
-                builder: (context, AsyncSnapshot<List<Entry>> snapshot) {
+                builder: (context, snapshot) {
                   final allEntries = snapshot.data;
                   return PageView(
                     controller: _controller,
                     scrollDirection: Axis.horizontal,
                     children: [
                       EntryForm(
-                        key: Key("${Random().nextDouble()}"),
-                        onSubmit: (Entry e) {
+                        key: Key('${Random().nextDouble()}'),
+                        onSubmit: (e) {
                           state.writeEntryToFirebase(e);
                         },
                       ),

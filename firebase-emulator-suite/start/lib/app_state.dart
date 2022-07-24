@@ -26,14 +26,14 @@ class AppState {
 
   Future<void> logIn(String email, String password) async {
     print('TODO: AppState.login');
-    _listenForEntries();
+    await _listenForEntries();
   }
 
   void writeEntryToFirebase(Entry entry) {
     print('TODO: AppState.writeEntryToFirebase');
   }
 
-  void _listenForEntries() async {
+  Future<void> _listenForEntries() async {
     print('TODO: AppState._listenForEntries');
   }
 }
