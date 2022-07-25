@@ -15,7 +15,6 @@ declare -a CODELABS=(
   "dartpad_codelabs"
   # TODO(domesticmouse): re-enable when stable increments 
   # "firebase-get-to-know-flutter"
-  "firebase-monitor-your-flutter-app"
   "friendly_chat"
   # TODO(domesticmouse): re-enable when stable increments 
   # "github-client"
