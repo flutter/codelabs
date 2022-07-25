@@ -10,7 +10,6 @@ steps:
         path: window_to_front/analysis_options.yaml
         replace-contents: |
           include: ../../analysis_options.yaml
-
       - name: Remove example code
         path: window_to_front
         rmdir: example
@@ -43,7 +42,6 @@ steps:
            name: window_to_front
            description: A new Flutter plugin project.
            version: 0.0.1
-             
       - name: Patch lib/window_to_front.dart
         path: window_to_front/lib/window_to_front.dart
         patch-u: |
@@ -73,7 +71,6 @@ steps:
           +    return WindowToFrontPlatform.instance.activate();
              }
            }
-
       - name: Patch linux/window_to_front_plugin.cc
         path: window_to_front/linux/window_to_front_plugin.cc
         patch-u: |
@@ -143,7 +140,6 @@ steps:
              g_autoptr(FlStandardMethodCodec) codec = fl_standard_method_codec_new();
              g_autoptr(FlMethodChannel) channel =
                  fl_method_channel_new(fl_plugin_registrar_get_messenger(registrar),
-
       - name: Patch macos/Classes/WindowToFrontPlugin.swift
         path: window_to_front/macos/Classes/WindowToFrontPlugin.swift
         patch-u: |
@@ -179,13 +175,12 @@ steps:
                default:
                  result(FlutterMethodNotImplemented)
                }
-
       - name: Patch windows/window_to_front_plugin.cpp
         path: window_to_front/windows/window_to_front_plugin.cpp
         patch-u: |
           --- b/github-client/window_to_front/windows/window_to_front_plugin.cpp
           +++ a/github-client/window_to_front/windows/window_to_front_plugin.cpp
-          @@ -1,3 +1,17 @@
+          @@ -1,17 +1,27 @@
           +// Copyright 2020 Google LLC
           +//
           +// Licensed under the Apache License, Version 2.0 (the "License");
@@ -203,7 +198,13 @@ steps:
            #include "window_to_front_plugin.h"
            
            // This must be included before many other Windows headers.
-          @@ -11,7 +25,6 @@
+           #include <windows.h>
+           
+          -// For getPlatformVersion; remove unless needed for your plugin implementation.
+          -#include <VersionHelpers.h>
+          -
+           #include <flutter/method_channel.h>
+           #include <flutter/plugin_registrar_windows.h>
            #include <flutter/standard_method_codec.h>
            
            #include <memory>
@@ -211,7 +212,7 @@ steps:
            
            namespace window_to_front {
            
-          @@ -33,24 +46,29 @@ void WindowToFrontPlugin::RegisterWithRegistrar(
+          @@ -33,24 +43,29 @@ void WindowToFrontPlugin::RegisterWithRegistrar(
              registrar->AddPlugin(std::move(plugin));
            }
            
@@ -253,7 +254,6 @@ steps:
              } else {
                result->NotImplemented();
              }
-
       - name: Patch lib/window_to_front_method_channel.dart
         path: window_to_front/lib/window_to_front_method_channel.dart
         patch-u: |
@@ -288,7 +288,6 @@ steps:
           +    return methodChannel.invokeMethod('activate');
              }
            }
-
       - name: Patch lib/window_to_front_platform_interface.dart
         path: window_to_front/lib/window_to_front_platform_interface.dart
         patch-u: |
@@ -331,7 +330,6 @@ steps:
           +    throw UnimplementedError('activate() has not been implemented.');
              }
            }
-
       - name: Patch windows/window_to_front_plugin.h
         path: window_to_front/windows/window_to_front_plugin.h
         patch-u: |
@@ -374,7 +372,6 @@ steps:
            };
            
            }  // namespace window_to_front
-
   - name: step_03
     steps:
       - name: Remove generated code.
@@ -453,7 +450,6 @@ steps:
            
              // This widget is the home page of your application. It is stateful, meaning
              // that it has a State object (defined below) that contains fields that affect
-
       - name: Patch test/widget_test.dart
         path: github_client/test/widget_test.dart
         patch-u: |
@@ -467,7 +463,6 @@ steps:
           +  testWidgets('Counter increments smoke test', (tester) async {
                // Build our app and trigger a frame.
                await tester.pumpWidget(const MyApp());
-
       - name: Copy step_03
         copydir:
           from: github_client
@@ -751,7 +746,7 @@ steps:
           // This is a basic Flutter widget test.
           //
           // To perform an interaction with a widget in your test, use the WidgetTester
-          // utility that Flutter provides. For example, you can send tap and scroll
+          // utility in the flutter_test package. For example, you can send tap and scroll
           // gestures. You can also use WidgetTester to find child widgets in the widget
           // tree, read text, and verify that the values of widget properties are correct.
 

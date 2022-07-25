@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'firebase_options.dart';
@@ -27,12 +28,14 @@ void main() async {
   // initialize Emulator Suite - this codelab uses emulators where possible
   // Workaround for bug using Firestore emulator on the Web
   // see: https://github.com/firebase/flutterfire/issues/6216
-  try {
-    FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
-    await FirebaseStorage.instance.useStorageEmulator('localhost', 9199);
-    await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
-  } catch (e) {
-    // swallow error, as this is only necessary the first time
+  if (kDebugMode) {
+    try {
+      FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
+      await FirebaseStorage.instance.useStorageEmulator('localhost', 9199);
+      await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+    } catch (e) {
+      // swallow error, as this is only necessary the first time
+    }
   }
 
   // Get a Remote Config object instance and set the minimum fetch interval to allow for frequent refreshes
