@@ -33,7 +33,7 @@ class LoggedInView extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               child: StreamBuilder<List<Entry>>(
                 stream: state.entries,
-                builder: (context, AsyncSnapshot<List<Entry>> snapshot) {
+                builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     final allEntries = snapshot.data;
                     return PageView(
@@ -41,14 +41,14 @@ class LoggedInView extends StatelessWidget {
                       scrollDirection: Axis.horizontal,
                       children: [
                         EntryForm(
-                          key: Key("${Random().nextDouble()}"),
-                          onSubmit: (Entry e) {
+                          key: Key('${Random().nextDouble()}'),
+                          onSubmit: (e) {
                             state.writeEntryToFirebase(e);
                           },
                         ),
                         for (var entry in allEntries!)
                           EntryView(
-                            key: Key("${Random().nextDouble()}"),
+                            key: Key('${Random().nextDouble()}'),
                             entry: entry,
                           )
                       ],

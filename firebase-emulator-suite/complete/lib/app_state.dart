@@ -3,8 +3,9 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:complete/entry.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
+import 'entry.dart';
 
 class AppState {
   AppState() {
@@ -35,7 +36,7 @@ class AppState {
   }
 
   void writeEntryToFirebase(Entry entry) {
-    FirebaseFirestore.instance.collection('Entries').add({
+    FirebaseFirestore.instance.collection('Entries').add(<String, String>{
       'title': entry.title,
       'date': entry.date.toString(),
       'text': entry.text,
@@ -47,12 +48,12 @@ class AppState {
         .collection('Entries')
         .snapshots()
         .listen((event) {
-      final entries = event.docs.map((DocumentSnapshot doc) {
-        final data = doc.data() as Map<String, dynamic>;
+      final entries = event.docs.map((doc) {
+        final data = doc.data();
         return Entry(
-          date: data['date'],
-          text: data['text'],
-          title: data['title'],
+          date: data['date'] as String,
+          text: data['text'] as String,
+          title: data['title'] as String,
         );
       }).toList();
 

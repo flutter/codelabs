@@ -29,7 +29,7 @@ class LoggedOutView extends StatelessWidget {
                     if (state.user != null) {
                       Navigator.of(context).pushReplacementNamed('/home');
                     }
-                  }, onError: (error) => print(error));
+                  });
                 },
                 child: const Text('Log In'),
               ),
