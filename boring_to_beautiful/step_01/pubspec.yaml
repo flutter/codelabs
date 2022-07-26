@@ -13,6 +13,7 @@ dependencies:
   animations: ^2.0.2
   collection: ^1.16.0
   cupertino_icons: ^1.0.2
+  desktop_window: ^0.4.0
   dynamic_color: ^1.1.2
   english_words: ^4.0.0
   flutter:
