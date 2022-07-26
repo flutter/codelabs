@@ -6,32 +6,25 @@ DIR="${BASH_SOURCE%/*}"
 source "$DIR/flutter_ci_script_shared.sh"
 
 declare -a CODELABS=(
-  # TODO(domesticmouse): re-enable when stable increments 
-  # "adaptive_app"
+  "adaptive_app"
   "boring_to_beautiful"
-  # TODO(domesticmouse): re-enable when stable increments 
-  # "cookbook"
+  "cookbook"
   "cupertino_store"
   "dartpad_codelabs"
-  # TODO(domesticmouse): re-enable when stable increments 
-  # "firebase-get-to-know-flutter"
+  "firebase-get-to-know-flutter"
   "friendly_chat"
-  # TODO(domesticmouse): re-enable when stable increments 
-  # "github-client"
+  "github-client"
   "google-maps-in-flutter"
   "in_app_purchases"
-  # TODO(domesticmouse): re-enable when stable increments 
-  # "photos-sharing"
+  "photos-sharing"
   "star_counter"
   "startup_namer"
-  # TODO(domesticmouse): re-enable when stable increments 
-  # "testing_codelab"
+  "testing_codelab"
   "tfagents-flutter"
   "tfrs-flutter"
   "tfserving-flutter"
   "tooling"
-  # TODO(domesticmouse): re-enable when stable increments 
-  # "webview_flutter"
+  "webview_flutter"
   )
 
 # Plugin codelab is failing on ubuntu-latest in CI.
