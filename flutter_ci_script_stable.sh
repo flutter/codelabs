@@ -13,7 +13,6 @@ declare -a CODELABS=(
   "dartpad_codelabs"
   "firebase-emulator-suite"
   "firebase-get-to-know-flutter"
-  "firebase-monitor-your-flutter-app"
   "friendly_chat"
   "github-client"
   "google-maps-in-flutter"
