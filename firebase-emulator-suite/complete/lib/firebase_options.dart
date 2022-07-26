@@ -57,7 +57,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '249605288217',
     projectId: 'flutter-firebase-codelab-d6b79',
     storageBucket: 'flutter-firebase-codelab-d6b79.appspot.com',
-    iosClientId: '249605288217-9sn136tgsd0vg7nae831gahubpoph3ih.apps.googleusercontent.com',
+    iosClientId:
+        '249605288217-9sn136tgsd0vg7nae831gahubpoph3ih.apps.googleusercontent.com',
     iosBundleId: 'com.example.complete',
   );
 
@@ -67,7 +68,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '249605288217',
     projectId: 'flutter-firebase-codelab-d6b79',
     storageBucket: 'flutter-firebase-codelab-d6b79.appspot.com',
-    iosClientId: '249605288217-9sn136tgsd0vg7nae831gahubpoph3ih.apps.googleusercontent.com',
+    iosClientId:
+        '249605288217-9sn136tgsd0vg7nae831gahubpoph3ih.apps.googleusercontent.com',
     iosBundleId: 'com.example.complete',
   );
 }
