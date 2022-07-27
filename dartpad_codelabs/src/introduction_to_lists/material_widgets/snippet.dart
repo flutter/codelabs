@@ -20,9 +20,9 @@ void main() {
 
 class ListItem extends StatelessWidget {
   const ListItem({
-    Key? key,
+    super.key,
     required this.index,
-  }) : super(key: key);
+  });
 
   final int index;
 

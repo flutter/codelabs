@@ -22,10 +22,10 @@ void main() {
 // A reusable widget that contains all of the code to lay out each item.
 class ListItem extends StatelessWidget {
   const ListItem({
-    Key? key,
+    super.key,
     // Accept the index as part of the constructor
     required this.index,
-  }) : super(key: key);
+  });
 
   // Use an instance variable to store the index
   final int index;

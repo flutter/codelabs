@@ -18,7 +18,7 @@ void main() {
 // When a user taps or clicks on an item, navigate to a new page that displays
 // the index of the item they tapped on.
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {

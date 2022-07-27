@@ -19,10 +19,10 @@ void main() {
 
 class CustomButton extends StatelessWidget {
   const CustomButton({
-    Key? key, // Pass this key to the `StatelessWidget` aka `super` constructor
+    super.key, // Pass this key to the `StatelessWidget` aka `super` constructor
     required this.child, // Required the user to provide a child Widget
     this.backgroundColor = Colors.blue, // Set a default backgroundColor
-  }) : super(key: key);
+  });
 
   final Color backgroundColor; // Define the backgroundColor instance variable
   final Widget child; // Define the child instance variable
