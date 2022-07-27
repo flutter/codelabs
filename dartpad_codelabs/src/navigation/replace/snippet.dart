@@ -35,7 +35,7 @@ class CustomPageRoute extends PageRouteBuilder {
 }
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +61,7 @@ class HomePage extends StatelessWidget {
 class DetailsPage extends StatelessWidget {
   final int index;
 
-  const DetailsPage({required this.index, Key? key}) : super(key: key);
+  const DetailsPage({required this.index, super.key});
 
   @override
   Widget build(BuildContext context) {

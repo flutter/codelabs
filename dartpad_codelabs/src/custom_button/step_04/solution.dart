@@ -43,12 +43,12 @@ void main() {
 
 class CustomButton extends StatelessWidget {
   const CustomButton({
-    Key? key,
+    super.key,
     required this.child,
     required this.onTap, // New constructor parameter
     required this.onLongPress, // New constructor parameter
     this.color = Colors.blue,
-  }) : super(key: key);
+  });
 
   final Color color;
   final Widget child;
