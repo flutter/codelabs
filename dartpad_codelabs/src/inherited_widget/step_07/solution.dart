@@ -33,8 +33,7 @@ class AppState {
 }
 
 class AppStateScope extends InheritedWidget {
-  const AppStateScope(this.data, {Key? key, required Widget child})
-      : super(key: key, child: child);
+  const AppStateScope(this.data, {super.key, required super.child});
 
   final AppState data;
 
@@ -49,7 +48,7 @@ class AppStateScope extends InheritedWidget {
 }
 
 class AppStateWidget extends StatefulWidget {
-  const AppStateWidget({required this.child, Key? key}) : super(key: key);
+  const AppStateWidget({required this.child, super.key});
 
   final Widget child;
 
@@ -110,7 +109,7 @@ class AppStateWidgetState extends State<AppStateWidget> {
 }
 
 class MyStorePage extends StatefulWidget {
-  const MyStorePage({Key? key}) : super(key: key);
+  const MyStorePage({super.key});
 
   @override
   MyStorePageState createState() => MyStorePageState();
@@ -186,7 +185,7 @@ class MyStorePageState extends State<MyStorePage> {
 }
 
 class ShoppingCartIcon extends StatelessWidget {
-  const ShoppingCartIcon({Key? key}) : super(key: key);
+  const ShoppingCartIcon({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -224,7 +223,7 @@ class ShoppingCartIcon extends StatelessWidget {
 }
 
 class ProductListWidget extends StatelessWidget {
-  const ProductListWidget({Key? key}) : super(key: key);
+  const ProductListWidget({super.key});
 
   void _handleAddToCart(String id, BuildContext context) {
     AppStateWidget.of(context).addToCart(id);
@@ -255,12 +254,12 @@ class ProductListWidget extends StatelessWidget {
 
 class ProductTile extends StatelessWidget {
   const ProductTile({
-    Key? key,
+    super.key,
     required this.product,
     required this.purchased,
     required this.onAddToCart,
     required this.onRemoveFromCart,
-  }) : super(key: key);
+  });
   final Product product;
   final bool purchased;
   final VoidCallback onAddToCart;

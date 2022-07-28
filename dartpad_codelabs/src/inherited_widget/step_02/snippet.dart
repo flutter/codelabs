@@ -38,8 +38,7 @@ class AppState {
 class AppStateScope extends InheritedWidget {
   // TODO: implement this class.
 
-  const AppStateScope({Key? key, required Widget child})
-      : super(key: key, child: child);
+  const AppStateScope({super.key, required super.child});
 
   static AppState of(BuildContext context) {
     // TODO: implement this method.
@@ -54,7 +53,7 @@ class AppStateScope extends InheritedWidget {
 }
 
 class MyStorePage extends StatefulWidget {
-  const MyStorePage({Key? key}) : super(key: key);
+  const MyStorePage({super.key});
   @override
   MyStorePageState createState() => MyStorePageState();
 }
@@ -127,7 +126,7 @@ class MyStorePageState extends State<MyStorePage> {
 }
 
 class ShoppingCartIcon extends StatefulWidget {
-  const ShoppingCartIcon({Key? key}) : super(key: key);
+  const ShoppingCartIcon({super.key});
   @override
   ShoppingCartIconState createState() => ShoppingCartIconState();
 }
@@ -176,7 +175,7 @@ class ShoppingCartIconState extends State<ShoppingCartIcon> {
 }
 
 class ProductListWidget extends StatefulWidget {
-  const ProductListWidget({Key? key}) : super(key: key);
+  const ProductListWidget({super.key});
   @override
   ProductListWidgetState createState() => ProductListWidgetState();
 }
@@ -227,12 +226,12 @@ class ProductListWidgetState extends State<ProductListWidget> {
 
 class ProductTile extends StatelessWidget {
   const ProductTile({
-    Key? key,
+    super.key,
     required this.product,
     required this.purchased,
     required this.onAddToCart,
     required this.onRemoveFromCart,
-  }) : super(key: key);
+  });
   final Product product;
   final bool purchased;
   final VoidCallback onAddToCart;

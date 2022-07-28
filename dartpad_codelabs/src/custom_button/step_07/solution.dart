@@ -24,12 +24,12 @@ class RunTheOnTapCallback extends Intent {}
 
 class CustomButton extends StatefulWidget {
   const CustomButton({
-    Key? key,
+    super.key,
     required this.child,
     required this.onTap,
     required this.onLongPress,
     this.color = Colors.blue,
-  }) : super(key: key);
+  });
 
   final Color color;
   final Widget child;

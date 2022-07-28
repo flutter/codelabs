@@ -13,7 +13,7 @@ class DetailsPage extends StatelessWidget {
   final int index;
 
   // Create a constructor that accepts the index.
-  DetailsPage({required this.index, Key? key}) : super(key: key);
+  DetailsPage({required this.index, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class DetailsPage extends StatelessWidget {
 
 // The HomePage widget displays a list of 50 sample items.
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
