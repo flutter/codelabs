@@ -26,9 +26,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-/// This class overrides gesture behavior, and allows us to use the mouse to trigger
-/// drag gestures. In this case, it allows us to swipe on the "PageView" widget
-/// while running the app on the Web.
 class AppScrollBehavior extends MaterialScrollBehavior {
   @override
   Set<PointerDeviceKind> get dragDevices => {
