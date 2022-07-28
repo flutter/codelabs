@@ -13,11 +13,6 @@ class EntryForm extends StatefulWidget {
 }
 
 class _EntryFormState extends State<EntryForm> {
-  // Create a global key that uniquely identifies the Form widget
-  // and allows validation of the form.
-  //
-  // Note: This is a GlobalKey<FormState>,
-  // not a GlobalKey<MyCustomFormState>.
   final _formKey = GlobalKey<FormState>();
 
   late String title;
@@ -26,7 +21,6 @@ class _EntryFormState extends State<EntryForm> {
 
   @override
   Widget build(BuildContext context) {
-    // Build a Form widget using the _formKey created above.
     return Card(
       elevation: 6,
       child: Padding(
@@ -59,7 +53,6 @@ class _EntryFormState extends State<EntryForm> {
                 },
               ),
               TextFormField(
-                // The validator receives the text that the user has entered.
                 decoration: const InputDecoration(labelText: 'Text'),
                 maxLines: 10,
                 minLines: 5,
@@ -78,9 +71,6 @@ class _EntryFormState extends State<EntryForm> {
                     onPressed: () {
                       // Validate returns true if the form is valid, or false otherwise.
                       if (_formKey.currentState!.validate()) {
-                        // If the form is valid, display a snackbar. In the real world,
-                        // you'd often call a server or save the information in a database.
-
                         final entry = Entry(
                           title: title,
                           text: text,
