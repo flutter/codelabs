@@ -24,12 +24,12 @@ void main() {
 // "Convert to StatefulWidget" command.
 class CustomButton extends StatelessWidget {
   const CustomButton({
-    Key? key,
+    super.key,
     required this.child,
     required this.onTap,
     required this.onLongPress,
     this.color = Colors.blue,
-  }) : super(key: key);
+  });
 
   final Color color;
   final Widget child;
