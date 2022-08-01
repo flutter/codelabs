@@ -15,7 +15,7 @@ void main() {
 }
 
 class HomePage extends StatelessWidget {
-  HomePage({Key? key}) : super(key: key);
+  HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +53,7 @@ class DetailsPage extends StatelessWidget {
   // TODO #1: Reintroduce the index instance variable
 
   // TODO #2: Update the constructor to store the index instance variable
-  const DetailsPage({Key? key}) : super(key: key);
+  const DetailsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
