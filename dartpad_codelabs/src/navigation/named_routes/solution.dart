@@ -12,7 +12,7 @@ void main() {
 }
 
 class HomePage extends StatelessWidget {
-  HomePage({Key? key}) : super(key: key);
+  HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +51,7 @@ class HomePage extends StatelessWidget {
 }
 
 class DetailsPage extends StatelessWidget {
-  const DetailsPage({Key? key}) : super(key: key);
+  const DetailsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
