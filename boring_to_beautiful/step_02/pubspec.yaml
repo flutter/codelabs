@@ -22,6 +22,7 @@ dependencies:
   freezed_annotation: ^2.0.3
   go_router: ^4.0.0
   material_color_utilities: ^0.1.4
+  universal_platform: ^1.0.0+1
   url_launcher: ^6.1.2
 
 dev_dependencies:
