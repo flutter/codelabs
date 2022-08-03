@@ -12,6 +12,7 @@ dependencies:
   adaptive_navigation: ^0.0.7
   animations: ^2.0.3
   collection: ^1.16.0
+  cupertino_icons: ^1.0.5
   desktop_window: ^0.4.0
   dynamic_color: ^1.4.0
   english_words: ^4.0.0
@@ -26,6 +27,7 @@ dependencies:
 
 dev_dependencies:
   build_runner: ^2.2.0
+  flutter_lints: ^2.0.1
   flutter_test:
     sdk: flutter
   freezed: ^2.1.0+1
