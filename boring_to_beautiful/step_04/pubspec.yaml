@@ -23,6 +23,7 @@ dependencies:
   go_router: ^4.0.0
   google_fonts: ^3.0.1
   material_color_utilities: ^0.1.4
+  universal_platform: ^1.0.0+1
   url_launcher: ^6.1.2
 
 dev_dependencies:
