@@ -1,5 +1,3 @@
-// Replace the contents in this file
-
 import 'package:flutter/material.dart';
 
 class OutlinedCard extends StatefulWidget {
