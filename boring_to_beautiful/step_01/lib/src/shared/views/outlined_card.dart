@@ -1,5 +1,3 @@
-// Replace the contents in this file
-
 import 'package:flutter/material.dart';
 
 class OutlinedCard extends StatefulWidget {
@@ -24,8 +22,8 @@ class _OutlinedCardState extends State<OutlinedCard> {
           ? SystemMouseCursors.click
           : SystemMouseCursors.basic,
       child: Container(
-        child: widget.child,
         // Add box decoration here
+        child: widget.child,
       ),
     );
   }
