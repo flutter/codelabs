@@ -99,7 +99,7 @@ steps:
           +++ a/startup_namer/step1_base/pubspec.yaml
           @@ -20,19 +20,9 @@ version: 1.0.0+1
            environment:
-             sdk: ">=2.17.5 <3.0.0"
+             sdk: ">=2.17.6 <3.0.0"
            
           -# Dependencies specify other packages that your package needs in order to work.
           -# To automatically upgrade your package dependencies to the latest versions
@@ -136,7 +136,7 @@ steps:
           +++ a/startup_namer/step2_use_package/pubspec.yaml
           @@ -20,11 +20,13 @@ version: 1.0.0+1
            environment:
-             sdk: ">=2.17.5 <3.0.0"
+             sdk: ">=2.17.6 <3.0.0"
            
           +# #docregion dependencies
            dependencies:
@@ -226,7 +226,7 @@ steps:
           +++ a/startup_namer/step3_stateful_widget/pubspec.yaml
           @@ -20,13 +20,11 @@ version: 1.0.0+1
            environment:
-             sdk: ">=2.17.5 <3.0.0"
+             sdk: ">=2.17.6 <3.0.0"
            
           -# #docregion dependencies
            dependencies:
