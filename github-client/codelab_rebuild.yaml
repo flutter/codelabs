@@ -212,6 +212,15 @@ steps:
            
            namespace window_to_front {
            
+          @@ -23,7 +33,7 @@ void WindowToFrontPlugin::RegisterWithRegistrar(
+                     registrar->messenger(), "window_to_front",
+                     &flutter::StandardMethodCodec::GetInstance());
+           
+          -  auto plugin = std::make_unique<WindowToFrontPlugin>();
+          +  auto plugin = std::make_unique<WindowToFrontPlugin>(registrar);
+           
+             channel->SetMethodCallHandler(
+                 [plugin_pointer = plugin.get()](const auto &call, auto result) {
           @@ -33,24 +43,29 @@ void WindowToFrontPlugin::RegisterWithRegistrar(
              registrar->AddPlugin(std::move(plugin));
            }
