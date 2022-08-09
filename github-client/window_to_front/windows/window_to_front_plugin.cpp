@@ -33,7 +33,7 @@ void WindowToFrontPlugin::RegisterWithRegistrar(
           registrar->messenger(), "window_to_front",
           &flutter::StandardMethodCodec::GetInstance());
 
-  auto plugin = std::make_unique<WindowToFrontPlugin>();
+  auto plugin = std::make_unique<WindowToFrontPlugin>(registrar);
 
   channel->SetMethodCallHandler(
       [plugin_pointer = plugin.get()](const auto &call, auto result) {

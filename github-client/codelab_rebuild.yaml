@@ -212,6 +212,15 @@ steps:
            
            namespace window_to_front {
            
+          @@ -23,7 +33,7 @@ void WindowToFrontPlugin::RegisterWithRegistrar(
+                     registrar->messenger(), "window_to_front",
+                     &flutter::StandardMethodCodec::GetInstance());
+           
+          -  auto plugin = std::make_unique<WindowToFrontPlugin>();
+          +  auto plugin = std::make_unique<WindowToFrontPlugin>(registrar);
+           
+             channel->SetMethodCallHandler(
+                 [plugin_pointer = plugin.get()](const auto &call, auto result) {
           @@ -33,24 +43,29 @@ void WindowToFrontPlugin::RegisterWithRegistrar(
              registrar->AddPlugin(std::move(plugin));
            }
@@ -443,15 +452,9 @@ steps:
     steps:
       - name: Remove generated code.
         rmdir: step_04
-      - name: Add http
+      - name: Add http oauth2 url_launcher
         path: github_client
-        flutter: pub add http
-      - name: Add oauth2
-        path: github_client
-        flutter: pub add oauth2
-      - name: Add url_launcher
-        path: github_client
-        flutter: pub add url_launcher
+        flutter: pub add http oauth2 url_launcher
       - name: Replace lib/main.dart
         path: github_client/lib/main.dart
         replace-contents: |

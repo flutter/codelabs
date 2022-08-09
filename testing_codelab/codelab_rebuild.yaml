@@ -33,12 +33,9 @@ steps:
       - name: Add provider
         path: testing_app
         flutter: pub add provider
-      - name: Add flutter_driver
+      - name: Add flutter_driver integration_test
         path: testing_app
-        flutter: pub add --dev --sdk=flutter flutter_driver
-      - name: Add integration_test
-        path: testing_app
-        flutter: pub add --dev --sdk=flutter integration_test
+        flutter: pub add --dev --sdk=flutter flutter_driver integration_test
       - name: Add test
         path: testing_app
         flutter: pub add --dev test

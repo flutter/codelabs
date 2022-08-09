@@ -2065,18 +2065,9 @@ steps:
     steps:
       - name: Remove generated code.
         rmdir: step_04
-      - name: Add cloud_firestore
+      - name: Add cloud_firestore firebase_auth firebase_core provider
         path: gtk_flutter
-        flutter: pub add cloud_firestore
-      - name: Add firebase_auth
-        path: gtk_flutter
-        flutter: pub add firebase_auth
-      - name: Add firebase_core
-        path: gtk_flutter
-        flutter: pub add firebase_core
-      - name: Add provider
-        path: gtk_flutter
-        flutter: pub add provider
+        flutter: pub add cloud_firestore firebase_auth firebase_core provider
       - name: Update iOS podspec 
         path: gtk_flutter/ios
         pod: update

@@ -26,13 +26,7 @@ steps:
           include: ../../analysis_options.yaml
       - name: Add intl
         path: cupertino_store
-        flutter: pub add intl
-      - name: Add provider
-        path: cupertino_store
-        flutter: pub add provider
-      - name: Add shrine_images
-        path: cupertino_store
-        flutter: pub add shrine_images
+        flutter: pub add intl provider shrine_images
       - name: Patch pubspec.yaml
         path: cupertino_store/pubspec.yaml
         patch-u: |
