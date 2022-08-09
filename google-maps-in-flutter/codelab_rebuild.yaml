@@ -17,12 +17,9 @@ steps:
       - name: dart fix
         dart: fix --apply
         path: google_maps_in_flutter
-      - name: Add google_maps_flutter
+      - name: Add google_maps_flutter google_maps_flutter_web
         path: google_maps_in_flutter
-        flutter: pub add google_maps_flutter
-      - name: Add google_maps_flutter
-        path: google_maps_in_flutter
-        flutter: pub add google_maps_flutter_web
+        flutter: pub add google_maps_flutter google_maps_flutter_web
       - name: Remove the README.md.
         rm: google_maps_in_flutter/README.md
       - name: Remove the Desktop runners
@@ -296,15 +293,9 @@ steps:
     steps:
       - name: Remove generated code.
         rmdir: step_5
-      - name: Add http
+      - name: Add http json_annotation json_serializable
         path: google_maps_in_flutter
-        flutter: pub add http
-      - name: Add json_annotation
-        path: google_maps_in_flutter
-        flutter: pub add json_annotation
-      - name: Add json_serializable
-        path: google_maps_in_flutter
-        flutter: pub add json_serializable
+        flutter: pub add http json_annotation json_serializable
       - name: Add build_runner
         path: google_maps_in_flutter
         flutter: pub add --dev build_runner
