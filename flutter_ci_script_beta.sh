@@ -13,6 +13,7 @@ declare -a CODELABS=(
   # "cookbook"
   "cupertino_store"
   "dartpad_codelabs"
+  "firebase-emulator-suite"
   # TODO(domesticmouse): re-enable when stable increments 
   # "firebase-get-to-know-flutter"
   "friendly_chat"
