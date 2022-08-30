@@ -218,15 +218,14 @@ steps:
           +        </intent>
           +    </queries>
            </manifest>
-
       - name: Patch ios/Runner/Info.plist
         path: adaptive_app/ios/Runner/Info.plist
         patch-u: |
           --- b/adaptive_app/step_04/ios/Runner/Info.plist
           +++ a/adaptive_app/step_04/ios/Runner/Info.plist
-          @@ -45,5 +45,13 @@
-           	<false/>
-           	<key>CADisableMinimumFrameDurationOnPhone</key>
+          @@ -47,5 +47,13 @@
+           	<true/>
+           	<key>UIApplicationSupportsIndirectInputEvents</key>
            	<true/>
           +	<!-- https://pub.dev/packages/url_launcher#ios -->
           +	<key>LSApplicationQueriesSchemes</key>
@@ -238,7 +237,6 @@ steps:
           +	</array>
            </dict>
            </plist>
-
       - name: Replace adaptive_app/lib/main.dart
         path: adaptive_app/lib/main.dart
         replace-contents: |
@@ -595,7 +593,7 @@ steps:
               );
             }
           }
-      - name: Patch
+      - name: Patch macOS DebugProfile.entitlements
         path: adaptive_app/macos/Runner/DebugProfile.entitlements
         patch-u: |
           --- b/adaptive_app/step_04/macos/Runner/DebugProfile.entitlements
@@ -608,7 +606,7 @@ steps:
           +	<true/>
            </dict>
            </plist>
-      - name: Patch
+      - name: Patch macOS Release.entitlements
         path: adaptive_app/macos/Runner/Release.entitlements
         patch-u: |
           --- b/adaptive_app/step_04/macos/Runner/Release.entitlements
@@ -1000,15 +998,15 @@ steps:
           > description: A YouTube CORS Proxy Server.
           4d3
           < # homepage: https://www.example.com
-      - name: Remove test/server_test.dart CHANGELOG.md
+      - name: Remove yt_cors_proxy/CHANGELOG.md
         path: adaptive_app/yt_cors_proxy
         rm: CHANGELOG.md
-      - name: Remove test/server_test.dart README.md
+      - name: Remove yt_cors_proxy/README.md
         path: adaptive_app/yt_cors_proxy
         rm: README.md
-      - name: Remove test/server_test.dart test
+      - name: Remove yt_cors_proxy/test
         path: adaptive_app/yt_cors_proxy
-        rm: test/server_test.dart
+        rmdir: test
       - name: Replace yt_cors_proxy/bin/server.dart
         path: adaptive_app/yt_cors_proxy/bin/server.dart
         replace-contents: |
@@ -1182,26 +1180,13 @@ steps:
         patch-u: |
           --- b/adaptive_app/step_07/.gitignore
           +++ a/adaptive_app/step_07/.gitignore
-          @@ -45,3 +45,6 @@ app.*.map.json
+          @@ -42,3 +42,6 @@ app.*.map.json
            /android/app/debug
            /android/app/profile
            /android/app/release
           +
           +# Google Signin credentials
           +ios/Runner/GoogleService-Info.plist
-      - name: Patch ios/Podfile
-        path: adaptive_app/ios/Podfile
-        patch-u: |
-          --- b/adaptive_app/step_07/ios/Podfile
-          +++ a/adaptive_app/step_07/ios/Podfile
-          @@ -1,5 +1,5 @@
-          -# Uncomment this line to define a global platform for your project
-          -# platform :ios, '9.0'
-          +# iOS 9 for google_sign_in 
-          +platform :ios, '9.0'
- 
-           # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
-           ENV['COCOAPODS_DISABLE_STATS'] = 'true'
       - name: Add adaptive_login.dart
         path: adaptive_app/lib/src/adaptive_login.dart
         replace-contents: |
@@ -1378,7 +1363,7 @@ steps:
         patch-u: |
           --- b/adaptive_app/step_07/ios/Runner/Info.plist
           +++ a/adaptive_app/step_07/ios/Runner/Info.plist
-          @@ -53,5 +53,18 @@
+          @@ -55,5 +55,18 @@
            		<string>tel</string>
            		<string>mailto</string>
            	</array>
@@ -1397,7 +1382,6 @@ steps:
           +	</array>
            </dict>
            </plist>
-
       - name: Patch main.dart
         path: adaptive_app/lib/main.dart
         patch-u: |
@@ -1469,7 +1453,6 @@ steps:
                );
              }
            }
-
       - name: Patch lib/src/adaptive_playlists.dart
         path: adaptive_app/lib/src/adaptive_playlists.dart
         patch-u: |
@@ -1495,7 +1478,6 @@ steps:
                  ),
                  body: SplitView(
                    viewMode: SplitViewMode.Horizontal,
-
       - name: Patch lib/src/app_state.dart
         path: adaptive_app/lib/src/app_state.dart
         patch-u: |
@@ -1574,7 +1556,6 @@ steps:
           -    return client.send(http.Request(request.method, url));
           -  }
           -}
-
       - name: Patch lib/src/playlist_details.dart
         path: adaptive_app/lib/src/playlist_details.dart
         patch-u: |
@@ -1589,7 +1570,6 @@ steps:
                  builder: (context, playlists, _) {
                    final playlistItems = playlists.playlistItems(playlistId: playlistId);
                    if (playlistItems.isEmpty) {
-
       - name: Patch lib/src/playlists.dart
         path: adaptive_app/lib/src/playlists.dart
         patch-u: |
@@ -1604,7 +1584,6 @@ steps:
                  builder: (context, flutterDev, child) {
                    final playlists = flutterDev.playlists;
                    if (playlists.isEmpty) {
-
       - name: Patch macos/Runner/Release.entitlements
         path: adaptive_app/macos/Runner/Release.entitlements
         patch-u: |
@@ -1619,7 +1598,6 @@ steps:
            	<key>com.apple.security.network.client</key>
            	<true/>
            </dict>
-
       - name: Patch test/widget_test.dart
         path: adaptive_app/test/widget_test.dart
         patch-u: |
@@ -1657,7 +1635,6 @@ steps:
                    child: const PlaylistsApp(),
                  ),
                );
-
       - name: Patch web/index.html
         path: adaptive_app/web/index.html
         patch-u: |
@@ -1672,7 +1649,6 @@ steps:
           +
              <title>adaptive_app</title>
              <link rel="manifest" href="manifest.json">
-
       - name: Rebuild ios/Podfile.lock
         path: adaptive_app/ios
         pod: update

@@ -807,7 +807,7 @@ steps:
         patch-u: |
           --- b/webview_flutter/step_12/pubspec.yaml
           +++ a/webview_flutter/step_12/pubspec.yaml
-          @@ -58,6 +58,9 @@ flutter:
+          @@ -60,6 +60,9 @@ flutter:
              # included with your application, so that you can use the icons in
              # the material Icons class.
              uses-material-design: true

@@ -58,7 +58,6 @@ steps:
            
            # The following line prevents the package from being accidentally published to
            # pub.dev using `flutter pub publish`. This is preferred for private packages.
-
       - name: Patch lib/main.dart
         path: testing_app/lib/main.dart
         patch-u: |
@@ -74,7 +73,6 @@ steps:
            import 'package:flutter/material.dart';
            
            void main() {
-
       - name: Patch test/widget_test.dart
         path: testing_app/test/widget_test.dart
         patch-u: |
@@ -88,7 +86,6 @@ steps:
            // This is a basic Flutter widget test.
            //
            // To perform an interaction with a widget in your test, use the WidgetTester
-
       - name: Copy step_03
         copydir:
           from: testing_app
@@ -97,7 +94,6 @@ steps:
     steps:
       - name: Remove generated code.
         rmdir: step_04
-
       - name: Patch lib/main.dart
         path: testing_app/lib/main.dart
         patch-u: |
@@ -239,7 +235,6 @@ steps:
                );
              }
            }
-
       - name: Make lib/models
         path: testing_app
         mkdir: lib/models
@@ -268,7 +263,6 @@ steps:
               notifyListeners();
             }
           }
-
       - name: Make lib/screens
         path: testing_app
         mkdir: lib/screens
@@ -339,7 +333,6 @@ steps:
               );
             }
           }
-
       - name: Add screens/home.dart
         path: testing_app/lib/screens/home.dart
         replace-contents: |
@@ -364,7 +357,7 @@ steps:
                   title: const Text('Testing Sample'),
                   actions: <Widget>[
                     TextButton.icon(
-                      style: TextButton.styleFrom(primary: Colors.white),
+                      style: TextButton.styleFrom(foregroundColor: Colors.white),
                       onPressed: () {
                         Navigator.pushNamed(context, FavoritesPage.routeName);
                       },
@@ -425,7 +418,6 @@ steps:
               );
             }
           }
-
       - name: Patch test/widget_test.dart
         path: testing_app/test/widget_test.dart
         patch-u: |
@@ -455,7 +447,6 @@ steps:
           +    expect(find.byType(ListView), findsOneWidget);
              });
            }
-
       - name: Copy step_04
         copydir:
           from: testing_app
@@ -464,11 +455,9 @@ steps:
     steps:
       - name: Remove generated code.
         rmdir: step_05
-
       - name: Make dir test/models
         path: testing_app
         mkdir: test/models
-
       - name: Add test/models/favorites_test.dart
         path: testing_app/test/models/favorites_test.dart
         replace-contents: |
@@ -498,7 +487,6 @@ steps:
               });
             });
           }
-
       - name: Copy step_05
         copydir:
           from: testing_app
@@ -507,7 +495,6 @@ steps:
     steps:
       - name: Remove generated code.
         rmdir: step_06
-
       - name: Add test/favorites_test.dart
         path: testing_app/test/favorites_test.dart
         replace-contents: |
@@ -561,7 +548,6 @@ steps:
               });
             });
           }
-
       - name: Add test/home_test.dart
         path: testing_app/test/home_test.dart
         replace-contents: |
@@ -611,7 +597,6 @@ steps:
               });
             });
           }
-
       - name: Make test_driver
         path: testing_app
         mkdir: test_driver
@@ -686,8 +671,6 @@ steps:
               });
             });
           }
-
-
       - name: Add test_driver/app.dart
         path: testing_app/test_driver/app.dart
         replace-contents: |
@@ -703,12 +686,10 @@ steps:
 
             app.main();
           }
-
       - name: Copy step_06
         copydir:
           from: testing_app
           to: step_06
-
   - name: step_07
     steps:
       - name: Remove generated code.
@@ -782,7 +763,6 @@ steps:
               });
             });
           }
-
       - name: Add integration_test/driver.dart
         path: testing_app/integration_test/driver.dart
         replace-contents: |
@@ -793,11 +773,9 @@ steps:
           import 'package:integration_test/integration_test_driver.dart';
 
           Future<void> main() => integrationDriver();
-
       - name: Copy step_07
         copydir:
           from: testing_app
           to: step_07
-
   - name: Cleanup
     rmdir: testing_app
