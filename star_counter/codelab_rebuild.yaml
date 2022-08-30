@@ -27,14 +27,8 @@ steps:
       - name: Remove cupertino_icons
         flutter: pub remove cupertino_icons
         path: star_counter
-      - name: Add flutter_markdown
-        flutter: pub add flutter_markdown
-        path: star_counter
-      - name: Add github
-        flutter: pub add github
-        path: star_counter
-      - name: Add intl
-        flutter: pub add intl
+      - name: Add flutter_markdown github intl
+        flutter: pub add flutter_markdown github intl
         path: star_counter
       - name: Patch pubspec.yaml
         path: star_counter/pubspec.yaml
