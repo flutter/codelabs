@@ -18,17 +18,17 @@ final playlistsProvider = PlaylistsProvider();
 const List<NavigationDestination> destinations = [
   NavigationDestination(
     label: 'Home',
-    icon: Icon(Icons.arrow_right_rounded), // Modify this line
+    icon: Icon(Icons.home), // Modify this line
     route: '/',
   ),
   NavigationDestination(
     label: 'Playlists',
-    icon: Icon(Icons.arrow_right_rounded), // Modify this line
+    icon: Icon(Icons.playlist_add_check), // Modify this line
     route: '/playlists',
   ),
   NavigationDestination(
     label: 'Artists',
-    icon: Icon(Icons.arrow_right_rounded), // Modify this line
+    icon: Icon(Icons.people), // Modify this line
     route: '/artists',
   ),
 ];

@@ -27,6 +27,56 @@ class _HomeScreenState extends State<HomeScreen> {
     return LayoutBuilder(
       builder: (context, constraints) {
         // Add conditional mobile layout
+        if (constraints.isMobile) {
+          return DefaultTabController(
+            length: 4,
+            child: Scaffold(
+              appBar: AppBar(
+                centerTitle: false,
+                title: const Text('Good morning'),
+                actions: const [BrightnessToggle()],
+                bottom: const TabBar(
+                  isScrollable: true,
+                  tabs: [
+                    Tab(text: 'Home'),
+                    Tab(text: 'Recently Played'),
+                    Tab(text: 'New Releases'),
+                    Tab(text: 'Top Songs'),
+                  ],
+                ),
+              ),
+              body: LayoutBuilder(
+                builder: (context, constraints) => TabBarView(
+                  children: [
+                    SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          const HomeHighlight(),
+                          HomeArtists(
+                            artists: artists,
+                            constraints: constraints,
+                          ),
+                        ],
+                      ),
+                    ),
+                    HomeRecent(
+                      playlists: playlists,
+                      axis: Axis.vertical,
+                    ),
+                    PlaylistSongs(
+                      playlist: topSongs,
+                      constraints: constraints,
+                    ),
+                    PlaylistSongs(
+                      playlist: newReleases,
+                      constraints: constraints,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        }
 
         return Scaffold(
           body: SingleChildScrollView(
@@ -35,7 +85,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 AdaptiveContainer(
                   columnSpan: 12,
                   child: Padding(
-                    padding: const EdgeInsets.all(2), // Modify this line
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 40,
+                    ), // Modify this line
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -71,7 +124,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.all(2), // Modify this line
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 15,
+                          vertical: 20,
+                        ),
                         child: Text(
                           'Recently played',
                           style: context.headlineSmall,
@@ -86,7 +142,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 AdaptiveContainer(
                   columnSpan: 12,
                   child: Padding(
-                    padding: const EdgeInsets.all(2), // Modify this line
+                    padding: const EdgeInsets.all(15), // Modify this line
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -97,8 +153,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding:
-                                    const EdgeInsets.all(2), // Modify this line
+                                padding: const EdgeInsets.only(
+                                    left: 8, bottom: 8), // Modify this line
                                 child: Text(
                                   'Top Songs Today',
                                   style: context.titleLarge,
@@ -115,6 +171,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         // Add spacer between tables
+                        const SizedBox(width: 25),
                         Flexible(
                           flex: 10,
                           child: Column(
@@ -122,8 +179,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding:
-                                    const EdgeInsets.all(2), // Modify this line
+                                padding: const EdgeInsets.only(
+                                    left: 8, bottom: 8), // Modify this line
                                 child: Text(
                                   'New Releases',
                                   style: context.titleLarge,
