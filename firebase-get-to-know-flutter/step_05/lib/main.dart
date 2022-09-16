@@ -9,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';
+import 'src/authentication.dart';
 import 'src/widgets.dart';
 
 Future<void> main() async {
@@ -117,31 +118,12 @@ class HomePage extends StatelessWidget {
                   const SizedBox(height: 8),
                   const IconAndDetail(Icons.calendar_today, 'October 30'),
                   const IconAndDetail(Icons.location_city, 'San Francisco'),
-                  Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 24, bottom: 8),
-                        child: StyledButton(
-                            onPressed: () {
-                              !appState.loggedIn
-                                  ? Navigator.of(context).pushNamed('/sign-in')
-                                  : FirebaseAuth.instance.signOut();
-                            },
-                            child: !appState.loggedIn
-                                ? Text("RSVP")
-                                : Text("Logout")),
-                      ),
-                      Visibility(
-                          visible: appState.loggedIn,
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 24, bottom: 8),
-                            child: StyledButton(
-                                onPressed: () {
-                                  Navigator.of(context).pushNamed('/profile');
-                                },
-                                child: Text('Profile')),
-                          ))
-                    ],
+                  Consumer<ApplicationState>(
+                    builder: (context, appState, _) => AuthFunc(
+                        loggedIn: appState.loggedIn,
+                        signOut: () {
+                          FirebaseAuth.instance.signOut();
+                        }),
                   ),
                   const Divider(
                     height: 8,
