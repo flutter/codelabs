@@ -1,20 +1,28 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:async';
+
+import 'package:firebase_auth/firebase_auth.dart'
+    hide EmailAuthProvider, PhoneAuthProvider;
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';
-import 'src/authentication.dart';
 import 'src/widgets.dart';
 
-void main() {
-  runApp(
-    ChangeNotifierProvider(
-      create: (context) => ApplicationState(),
-      builder: (context, _) => const App(),
-    ),
-  );
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  FirebaseUIAuth.configureProviders([
+    EmailAuthProvider(),
+  ]);
+
+  runApp(ChangeNotifierProvider(
+    create: (context) => ApplicationState(),
+    builder: ((context, child) => const App()),
+  ));
 }
 
 class App extends StatelessWidget {
@@ -23,6 +31,61 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      initialRoute: '/home',
+      routes: {
+        '/home': (context) {
+          return const HomePage();
+        },
+        '/sign-in': ((context) {
+          return SignInScreen(
+            actions: [
+              ForgotPasswordAction(((context, email) {
+                Navigator.of(context)
+                    .pushNamed('/forgot-password', arguments: {'email': email});
+              })),
+              AuthStateChangeAction(((context, state) {
+                if (state is SignedIn || state is UserCreated) {
+                  var user = (state is SignedIn)
+                      ? state.user
+                      : (state as UserCreated).credential.user;
+                  if (user == null) {
+                    return;
+                  }
+                  if (!user.emailVerified) {
+                    user.sendEmailVerification();
+                    const snackBar = SnackBar(
+                        content: Text(
+                            'Please check your email to verify your email address'));
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  }
+                  Navigator.of(context).pushReplacementNamed('/home');
+                }
+              })),
+            ],
+          );
+        }),
+        '/forgot-password': ((context) {
+          final arguments = ModalRoute.of(context)?.settings.arguments
+              as Map<String, dynamic>?;
+
+          return ForgotPasswordScreen(
+            email: arguments?['email'] as String,
+            headerMaxExtent: 200,
+          );
+        }),
+        '/profile': ((context) {
+          return ProfileScreen(
+            providers: [],
+            actions: [
+              SignedOutAction(
+                ((context) {
+                  Navigator.of(context).pushReplacementNamed('/home');
+                }),
+              ),
+            ],
+          );
+        })
+      },
       title: 'Firebase Meetup',
       theme: ThemeData(
         buttonTheme: Theme.of(context).buttonTheme.copyWith(
@@ -34,7 +97,6 @@ class App extends StatelessWidget {
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const HomePage(),
     );
   }
 }
@@ -44,42 +106,57 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Firebase Meetup'),
-      ),
-      body: ListView(
-        children: <Widget>[
-          Image.asset('assets/codelab.png'),
-          const SizedBox(height: 8),
-          const IconAndDetail(Icons.calendar_today, 'October 30'),
-          const IconAndDetail(Icons.location_city, 'San Francisco'),
-          Consumer<ApplicationState>(
-            builder: (context, appState, _) => Authentication(
-              email: appState.email,
-              loginState: appState.loginState,
-              startLoginFlow: appState.startLoginFlow,
-              verifyEmail: appState.verifyEmail,
-              signInWithEmailAndPassword: appState.signInWithEmailAndPassword,
-              cancelRegistration: appState.cancelRegistration,
-              registerAccount: appState.registerAccount,
-              signOut: appState.signOut,
-            ),
-          ),
-          const Divider(
-            height: 8,
-            thickness: 1,
-            indent: 8,
-            endIndent: 8,
-            color: Colors.grey,
-          ),
-          const Header("What we'll be doing"),
-          const Paragraph(
-            'Join us for a day full of Firebase Workshops and Pizza!',
-          ),
-        ],
-      ),
-    );
+    return Consumer<ApplicationState>(
+        builder: (context, appState, child) => Scaffold(
+              appBar: AppBar(
+                title: const Text('Firebase Meetup'),
+              ),
+              body: ListView(
+                children: <Widget>[
+                  Image.asset('assets/codelab.png'),
+                  const SizedBox(height: 8),
+                  const IconAndDetail(Icons.calendar_today, 'October 30'),
+                  const IconAndDetail(Icons.location_city, 'San Francisco'),
+                  Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 24, bottom: 8),
+                        child: StyledButton(
+                            onPressed: () {
+                              !appState.loggedIn
+                                  ? Navigator.of(context).pushNamed('/sign-in')
+                                  : FirebaseAuth.instance.signOut();
+                            },
+                            child: !appState.loggedIn
+                                ? Text("RSVP")
+                                : Text("Logout")),
+                      ),
+                      Visibility(
+                          visible: appState.loggedIn,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 24, bottom: 8),
+                            child: StyledButton(
+                                onPressed: () {
+                                  Navigator.of(context).pushNamed('/profile');
+                                },
+                                child: Text('Profile')),
+                          ))
+                    ],
+                  ),
+                  const Divider(
+                    height: 8,
+                    thickness: 1,
+                    indent: 8,
+                    endIndent: 8,
+                    color: Colors.grey,
+                  ),
+                  const Header("What we'll be doing"),
+                  const Paragraph(
+                    'Join us for a day full of Firebase Workshops and Pizza!',
+                  ),
+                ],
+              ),
+            ));
   }
 }
 
@@ -88,86 +165,17 @@ class ApplicationState extends ChangeNotifier {
     init();
   }
 
-  Future<void> init() async {
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
+  bool _loggedIn = false;
+  bool get loggedIn => _loggedIn;
 
+  void init() {
     FirebaseAuth.instance.userChanges().listen((user) {
       if (user != null) {
-        _loginState = ApplicationLoginState.loggedIn;
+        _loggedIn = true;
       } else {
-        _loginState = ApplicationLoginState.loggedOut;
+        _loggedIn = false;
       }
       notifyListeners();
     });
-  }
-
-  ApplicationLoginState _loginState = ApplicationLoginState.loggedOut;
-  ApplicationLoginState get loginState => _loginState;
-
-  String? _email;
-  String? get email => _email;
-
-  void startLoginFlow() {
-    _loginState = ApplicationLoginState.emailAddress;
-    notifyListeners();
-  }
-
-  Future<void> verifyEmail(
-    String email,
-    void Function(FirebaseAuthException e) errorCallback,
-  ) async {
-    try {
-      var methods =
-          await FirebaseAuth.instance.fetchSignInMethodsForEmail(email);
-      if (methods.contains('password')) {
-        _loginState = ApplicationLoginState.password;
-      } else {
-        _loginState = ApplicationLoginState.register;
-      }
-      _email = email;
-      notifyListeners();
-    } on FirebaseAuthException catch (e) {
-      errorCallback(e);
-    }
-  }
-
-  Future<void> signInWithEmailAndPassword(
-    String email,
-    String password,
-    void Function(FirebaseAuthException e) errorCallback,
-  ) async {
-    try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-    } on FirebaseAuthException catch (e) {
-      errorCallback(e);
-    }
-  }
-
-  void cancelRegistration() {
-    _loginState = ApplicationLoginState.emailAddress;
-    notifyListeners();
-  }
-
-  Future<void> registerAccount(
-      String email,
-      String displayName,
-      String password,
-      void Function(FirebaseAuthException e) errorCallback) async {
-    try {
-      var credential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: password);
-      await credential.user!.updateDisplayName(displayName);
-    } on FirebaseAuthException catch (e) {
-      errorCallback(e);
-    }
-  }
-
-  void signOut() {
-    FirebaseAuth.instance.signOut();
   }
 }
