@@ -49,6 +49,7 @@ class AuthFunc extends StatelessWidget {
   }
 }
 
+// Delete below this line.
 class Authentication extends StatelessWidget {
   const Authentication({
     required this.loginState,
