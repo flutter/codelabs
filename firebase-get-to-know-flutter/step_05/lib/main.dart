@@ -52,6 +52,9 @@ class App extends StatelessWidget {
                   if (user == null) {
                     return;
                   }
+                  if (state is UserCreated) {
+                    user.updateDisplayName(user.email!.split('@')[0]);
+                  }
                   if (!user.emailVerified) {
                     user.sendEmailVerification();
                     const snackBar = SnackBar(
