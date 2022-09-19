@@ -62,7 +62,7 @@ class App extends StatelessWidget {
                             'Please check your email to verify your email address'));
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   }
-                  Navigator.of(context).pushReplacementNamed('/home');
+                  Navigator.of(context).popUntil(ModalRoute.withName('/home'));
                 }
               })),
             ],
@@ -83,7 +83,7 @@ class App extends StatelessWidget {
             actions: [
               SignedOutAction(
                 ((context) {
-                  Navigator.of(context).pushReplacementNamed('/home');
+                  Navigator.of(context).popUntil(ModalRoute.withName('/home'));
                 }),
               ),
             ],
