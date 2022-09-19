@@ -80,7 +80,7 @@ class App extends StatelessWidget {
         }),
         '/profile': ((context) {
           return ProfileScreen(
-            providers: [],
+            providers: const [],
             actions: [
               SignedOutAction(
                 ((context) {
