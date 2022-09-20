@@ -13,13 +13,8 @@ import 'firebase_options.dart';
 import 'src/authentication.dart';
 import 'src/widgets.dart';
 
-Future<void> main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
-  FirebaseUIAuth.configureProviders([
-    EmailAuthProvider(),
-  ]);
 
   runApp(ChangeNotifierProvider(
     create: (context) => ApplicationState(),
@@ -172,7 +167,14 @@ class ApplicationState extends ChangeNotifier {
   List<GuestBookMessage> _guestBookMessages = [];
   List<GuestBookMessage> get guestBookMessages => _guestBookMessages;
 
-  void init() {
+  Future<void> init() async {
+    await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform);
+
+    FirebaseUIAuth.configureProviders([
+      EmailAuthProvider(),
+    ]);
+
     FirebaseAuth.instance.userChanges().listen((user) {
       if (user != null) {
         _loggedIn = true;

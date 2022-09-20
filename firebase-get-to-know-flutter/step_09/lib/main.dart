@@ -13,13 +13,8 @@ import 'firebase_options.dart';
 import 'src/authentication.dart';
 import 'src/widgets.dart';
 
-Future<void> main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
-  FirebaseUIAuth.configureProviders([
-    EmailAuthProvider(),
-  ]);
 
   runApp(ChangeNotifierProvider(
     create: (context) => ApplicationState(),
@@ -201,7 +196,14 @@ class ApplicationState extends ChangeNotifier {
     }
   }
 
-  void init() {
+  Future<void> init() async {
+    await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform);
+
+    FirebaseUIAuth.configureProviders([
+      EmailAuthProvider(),
+    ]);
+
     FirebaseFirestore.instance
         .collection('attendees')
         .where('attending', isEqualTo: true)
