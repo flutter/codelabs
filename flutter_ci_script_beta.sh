@@ -6,7 +6,8 @@ DIR="${BASH_SOURCE%/*}"
 source "$DIR/flutter_ci_script_shared.sh"
 
 declare -a CODELABS=(
-  "adaptive_app"
+  # TODO: 'headline5' is deprecated and shouldn't be used.
+  # "adaptive_app"
   "boring_to_beautiful"
   # TODO(DomesticMouse): 'headline6' is deprecated and shouldn't be used
   # "cookbook"
