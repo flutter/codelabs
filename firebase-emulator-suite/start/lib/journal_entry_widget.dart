@@ -34,7 +34,7 @@ class EntryView extends StatelessWidget {
             Expanded(
               child: Text(
                 entry.text,
-                style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                       height: 1.3,
                       wordSpacing: 1.2,
                       letterSpacing: 1.05,

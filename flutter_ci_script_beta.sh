@@ -25,7 +25,8 @@ declare -a CODELABS=(
   "testing_codelab"
   "tfagents-flutter"
   "tfrs-flutter"
-  "tfserving-flutter"
+  # TODO(DomesticMouse): needs `dart format` for Flutter beta
+  # "tfserving-flutter"
   "tooling"
   "webview_flutter"
   )

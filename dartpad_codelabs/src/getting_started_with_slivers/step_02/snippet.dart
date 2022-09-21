@@ -51,16 +51,16 @@ class WeeklyForecastList extends StatelessWidget {
             child: ListTile(
               leading: Text(
                 dailyForecast.getDate(currentDate.day).toString(),
-                style: textTheme.headline4,
+                style: textTheme.headlineMedium,
               ),
               title: Text(
                 dailyForecast.getWeekday(currentDate.weekday),
-                style: textTheme.headline5,
+                style: textTheme.headlineSmall,
               ),
               subtitle: Text(dailyForecast.description),
               trailing: Text(
                 '${dailyForecast.highTemp} | ${dailyForecast.lowTemp} F',
-                style: textTheme.subtitle2,
+                style: textTheme.titleSmall,
               ),
             ),
           );

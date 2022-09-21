@@ -88,7 +88,7 @@ class _PlaylistDetailsListView extends StatelessWidget {
         children: [
           Text(
             playlistItem.snippet!.title!,
-            style: Theme.of(context).textTheme.bodyText1!.copyWith(
+            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                   fontSize: 18,
                   // fontWeight: FontWeight.bold,
                 ),
@@ -96,7 +96,7 @@ class _PlaylistDetailsListView extends StatelessWidget {
           if (playlistItem.snippet!.videoOwnerChannelTitle != null)
             Text(
               playlistItem.snippet!.videoOwnerChannelTitle!,
-              style: Theme.of(context).textTheme.bodyText2!.copyWith(
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     fontSize: 12,
                   ),
             ),
