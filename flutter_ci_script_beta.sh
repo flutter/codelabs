@@ -6,10 +6,10 @@ DIR="${BASH_SOURCE%/*}"
 source "$DIR/flutter_ci_script_shared.sh"
 
 declare -a CODELABS=(
-  # TODO(domesticmouse): Re-enable when Flutter Beta >= 3.3.0
-  # "adaptive_app"
-  # "boring_to_beautiful"
-  "cookbook"
+  "adaptive_app"
+  "boring_to_beautiful"
+  # TODO(DomesticMouse): 'headline6' is deprecated and shouldn't be used
+  # "cookbook"
   "cupertino_store"
   "dartpad_codelabs"
   "firebase-emulator-suite"
