@@ -174,437 +174,48 @@ steps:
         path: gtk_flutter/lib/src/authentication.dart
         replace-contents: |
           import 'package:flutter/material.dart';
-
+          
           import 'widgets.dart';
-
-          enum ApplicationLoginState {
-            loggedOut,
-            emailAddress,
-            register,
-            password,
-            loggedIn,
-          }
-
-          class Authentication extends StatelessWidget {
-            const Authentication({
-              required this.loginState,
-              required this.email,
-              required this.startLoginFlow,
-              required this.verifyEmail,
-              required this.signInWithEmailAndPassword,
-              required this.cancelRegistration,
-              required this.registerAccount,
+          
+          class AuthFunc extends StatelessWidget {
+            const AuthFunc({
+              super.key,
+              required this.loggedIn,
               required this.signOut,
-              super.key,
             });
-
-            final ApplicationLoginState loginState;
-            final String? email;
-            final void Function() startLoginFlow;
-            final void Function(
-              String email,
-              void Function(Exception e) error,
-            ) verifyEmail;
-            final void Function(
-              String email,
-              String password,
-              void Function(Exception e) error,
-            ) signInWithEmailAndPassword;
-            final void Function() cancelRegistration;
-            final void Function(
-              String email,
-              String displayName,
-              String password,
-              void Function(Exception e) error,
-            ) registerAccount;
+          
+            final bool loggedIn;
             final void Function() signOut;
-
+          
             @override
             Widget build(BuildContext context) {
-              switch (loginState) {
-                case ApplicationLoginState.loggedOut:
-                  return Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 24, bottom: 8),
-                        child: StyledButton(
-                          onPressed: () {
-                            startLoginFlow();
-                          },
-                          child: const Text('RSVP'),
-                        ),
-                      ),
-                    ],
-                  );
-                case ApplicationLoginState.emailAddress:
-                  return EmailForm(
-                      callback: (email) => verifyEmail(
-                          email, (e) => _showErrorDialog(context, 'Invalid email', e)));
-                case ApplicationLoginState.password:
-                  return PasswordForm(
-                    email: email!,
-                    login: (email, password) {
-                      signInWithEmailAndPassword(email, password,
-                          (e) => _showErrorDialog(context, 'Failed to sign in', e));
-                    },
-                  );
-                case ApplicationLoginState.register:
-                  return RegisterForm(
-                    email: email!,
-                    cancel: () {
-                      cancelRegistration();
-                    },
-                    registerAccount: (
-                      email,
-                      displayName,
-                      password,
-                    ) {
-                      registerAccount(
-                          email,
-                          displayName,
-                          password,
-                          (e) =>
-                              _showErrorDialog(context, 'Failed to create account', e));
-                    },
-                  );
-                case ApplicationLoginState.loggedIn:
-                  return Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 24, bottom: 8),
-                        child: StyledButton(
-                          onPressed: () {
-                            signOut();
-                          },
-                          child: const Text('LOGOUT'),
-                        ),
-                      ),
-                    ],
-                  );
-                default:
-                  return Row(
-                    children: const [
-                      Text("Internal error, this shouldn't happen..."),
-                    ],
-                  );
-              }
-            }
-
-            void _showErrorDialog(BuildContext context, String title, Exception e) {
-              showDialog<void>(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    title: Text(
-                      title,
-                      style: const TextStyle(fontSize: 24),
-                    ),
-                    content: SingleChildScrollView(
-                      child: ListBody(
-                        children: <Widget>[
-                          Text(
-                            '${(e as dynamic).message}',
-                            style: const TextStyle(fontSize: 18),
-                          ),
-                        ],
-                      ),
-                    ),
-                    actions: <Widget>[
-                      StyledButton(
+              return Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 24, bottom: 8),
+                    child: StyledButton(
                         onPressed: () {
-                          Navigator.of(context).pop();
+                          !loggedIn
+                              ? Navigator.of(context).pushNamed('/sign-in')
+                              : signOut();
                         },
-                        child: const Text(
-                          'OK',
-                          style: TextStyle(color: Colors.deepPurple),
-                        ),
-                      ),
-                    ],
-                  );
-                },
-              );
-            }
-          }
-
-          class EmailForm extends StatefulWidget {
-            const EmailForm({required this.callback, super.key});
-            final void Function(String email) callback;
-            @override
-            State<EmailForm> createState() => _EmailFormState();
-          }
-
-          class _EmailFormState extends State<EmailForm> {
-            final _formKey = GlobalKey<FormState>(debugLabel: '_EmailFormState');
-            final _controller = TextEditingController();
-
-            @override
-            Widget build(BuildContext context) {
-              return Column(
-                children: [
-                  const Header('Sign in with email'),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Form(
-                      key: _formKey,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 24),
-                            child: TextFormField(
-                              controller: _controller,
-                              decoration: const InputDecoration(
-                                hintText: 'Enter your email',
-                              ),
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Enter your email address to continue';
-                                }
-                                return null;
-                              },
-                            ),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 16.0, horizontal: 30),
-                                child: StyledButton(
-                                  onPressed: () async {
-                                    if (_formKey.currentState!.validate()) {
-                                      widget.callback(_controller.text);
-                                    }
-                                  },
-                                  child: const Text('NEXT'),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
+                        child: !loggedIn ? const Text('RSVP') : const Text('Logout')),
                   ),
+                  Visibility(
+                      visible: loggedIn,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 24, bottom: 8),
+                        child: StyledButton(
+                            onPressed: () {
+                              Navigator.of(context).pushNamed('/profile');
+                            },
+                            child: const Text('Profile')),
+                      ))
                 ],
               );
             }
           }
 
-          class RegisterForm extends StatefulWidget {
-            const RegisterForm({
-              required this.registerAccount,
-              required this.cancel,
-              required this.email,
-              super.key,
-            });
-            final String email;
-            final void Function(String email, String displayName, String password)
-                registerAccount;
-            final void Function() cancel;
-            @override
-            State<RegisterForm> createState() => _RegisterFormState();
-          }
-
-          class _RegisterFormState extends State<RegisterForm> {
-            final _formKey = GlobalKey<FormState>(debugLabel: '_RegisterFormState');
-            final _emailController = TextEditingController();
-            final _displayNameController = TextEditingController();
-            final _passwordController = TextEditingController();
-
-            @override
-            void initState() {
-              super.initState();
-              _emailController.text = widget.email;
-            }
-
-            @override
-            Widget build(BuildContext context) {
-              return Column(
-                children: [
-                  const Header('Create account'),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Form(
-                      key: _formKey,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 24),
-                            child: TextFormField(
-                              controller: _emailController,
-                              decoration: const InputDecoration(
-                                hintText: 'Enter your email',
-                              ),
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Enter your email address to continue';
-                                }
-                                return null;
-                              },
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 24),
-                            child: TextFormField(
-                              controller: _displayNameController,
-                              decoration: const InputDecoration(
-                                hintText: 'First & last name',
-                              ),
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Enter your account name';
-                                }
-                                return null;
-                              },
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 24),
-                            child: TextFormField(
-                              controller: _passwordController,
-                              decoration: const InputDecoration(
-                                hintText: 'Password',
-                              ),
-                              obscureText: true,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Enter your password';
-                                }
-                                return null;
-                              },
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                TextButton(
-                                  onPressed: widget.cancel,
-                                  child: const Text('CANCEL'),
-                                ),
-                                const SizedBox(width: 16),
-                                StyledButton(
-                                  onPressed: () {
-                                    if (_formKey.currentState!.validate()) {
-                                      widget.registerAccount(
-                                        _emailController.text,
-                                        _displayNameController.text,
-                                        _passwordController.text,
-                                      );
-                                    }
-                                  },
-                                  child: const Text('SAVE'),
-                                ),
-                                const SizedBox(width: 30),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              );
-            }
-          }
-
-          class PasswordForm extends StatefulWidget {
-            const PasswordForm({
-              required this.login,
-              required this.email,
-              super.key,
-            });
-            final String email;
-            final void Function(String email, String password) login;
-            @override
-            State<PasswordForm> createState() => _PasswordFormState();
-          }
-
-          class _PasswordFormState extends State<PasswordForm> {
-            final _formKey = GlobalKey<FormState>(debugLabel: '_PasswordFormState');
-            final _emailController = TextEditingController();
-            final _passwordController = TextEditingController();
-
-            @override
-            void initState() {
-              super.initState();
-              _emailController.text = widget.email;
-            }
-
-            @override
-            Widget build(BuildContext context) {
-              return Column(
-                children: [
-                  const Header('Sign in'),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Form(
-                      key: _formKey,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 24),
-                            child: TextFormField(
-                              controller: _emailController,
-                              decoration: const InputDecoration(
-                                hintText: 'Enter your email',
-                              ),
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Enter your email address to continue';
-                                }
-                                return null;
-                              },
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 24),
-                            child: TextFormField(
-                              controller: _passwordController,
-                              decoration: const InputDecoration(
-                                hintText: 'Password',
-                              ),
-                              obscureText: true,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Enter your password';
-                                }
-                                return null;
-                              },
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                const SizedBox(width: 16),
-                                StyledButton(
-                                  onPressed: () {
-                                    if (_formKey.currentState!.validate()) {
-                                      widget.login(
-                                        _emailController.text,
-                                        _passwordController.text,
-                                      );
-                                    }
-                                  },
-                                  child: const Text('SIGN IN'),
-                                ),
-                                const SizedBox(width: 30),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              );
-            }
-          }
       - name: Add lib/src/widgets.dart
         path: gtk_flutter/lib/src/widgets.dart
         replace-contents: |
@@ -2184,9 +1795,13 @@ steps:
         patch-u: |
           --- b/firebase-get-to-know-flutter/step_05/lib/main.dart
           +++ a/firebase-get-to-know-flutter/step_05/lib/main.dart
-          @@ -1,10 +1,20 @@
-          +import 'package:firebase_auth/firebase_auth.dart';
+          @@ -1,10 +1,24 @@
+          +import 'dart:async';
+          +
+          +import 'package:firebase_auth/firebase_auth.dart'
+          +    hide EmailAuthProvider, PhoneAuthProvider;
           +import 'package:firebase_core/firebase_core.dart';
+          +import 'package:firebase_ui_auth/firebase_ui_auth.dart';
            import 'package:flutter/material.dart';
            import 'package:google_fonts/google_fonts.dart';
           +import 'package:provider/provider.dart';
@@ -2197,35 +1812,103 @@ steps:
            
            void main() {
           -  runApp(const App());
-          +  runApp(
-          +    ChangeNotifierProvider(
-          +      create: (context) => ApplicationState(),
-          +      builder: (context, _) => const App(),
-          +    ),
-          +  );
+          +  WidgetsFlutterBinding.ensureInitialized();
+          +
+          +  runApp(ChangeNotifierProvider(
+          +    create: (context) => ApplicationState(),
+          +    builder: ((context, child) => const App()),
+          +  ));
            }
            
            class App extends StatelessWidget {
-          @@ -44,6 +54,18 @@ class HomePage extends StatelessWidget {
+          @@ -13,6 +27,64 @@ class App extends StatelessWidget {
+             @override
+             Widget build(BuildContext context) {
+               return MaterialApp(
+          +      initialRoute: '/home',
+          +      routes: {
+          +        '/home': (context) {
+          +          return const HomePage();
+          +        },
+          +        '/sign-in': ((context) {
+          +          return SignInScreen(
+          +            actions: [
+          +              ForgotPasswordAction(((context, email) {
+          +                Navigator.of(context)
+          +                    .pushNamed('/forgot-password', arguments: {'email': email});
+          +              })),
+          +              AuthStateChangeAction(((context, state) {
+          +                if (state is SignedIn || state is UserCreated) {
+          +                  var user = (state is SignedIn)
+          +                      ? state.user
+          +                      : (state as UserCreated).credential.user;
+          +                  if (user == null) {
+          +                    return;
+          +                  }
+          +                  if (state is UserCreated) {
+          +                    user.updateDisplayName(user.email!.split('@')[0]);
+          +                  }
+          +                  if (!user.emailVerified) {
+          +                    user.sendEmailVerification();
+          +                    const snackBar = SnackBar(
+          +                        content: Text(
+          +                            'Please check your email to verify your email address'));
+          +                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          +                  }
+          +                  Navigator.of(context).popUntil(ModalRoute.withName('/home'));
+          +                }
+          +              })),
+          +            ],
+          +          );
+          +        }),
+          +        '/forgot-password': ((context) {
+          +          final arguments = ModalRoute.of(context)?.settings.arguments
+          +              as Map<String, dynamic>?;
+          +
+          +          return ForgotPasswordScreen(
+          +            email: arguments?['email'] as String,
+          +            headerMaxExtent: 200,
+          +          );
+          +        }),
+          +        '/profile': ((context) {
+          +          return ProfileScreen(
+          +            providers: const [],
+          +            actions: [
+          +              SignedOutAction(
+          +                ((context) {
+          +                  Navigator.of(context).popUntil(ModalRoute.withName('/home'));
+          +                }),
+          +              ),
+          +            ],
+          +          );
+          +        })
+          +      },
+                 title: 'Firebase Meetup',
+                 theme: ThemeData(
+                   buttonTheme: Theme.of(context).buttonTheme.copyWith(
+          @@ -24,7 +96,6 @@ class App extends StatelessWidget {
+                   ),
+                   visualDensity: VisualDensity.adaptivePlatformDensity,
+                 ),
+          -      home: const HomePage(),
+               );
+             }
+           }
+          @@ -44,6 +115,13 @@ class HomePage extends StatelessWidget {
                      const SizedBox(height: 8),
                      const IconAndDetail(Icons.calendar_today, 'October 30'),
                      const IconAndDetail(Icons.location_city, 'San Francisco'),
           +          Consumer<ApplicationState>(
-          +            builder: (context, appState, _) => Authentication(
-          +              email: appState.email,
-          +              loginState: appState.loginState,
-          +              startLoginFlow: appState.startLoginFlow,
-          +              verifyEmail: appState.verifyEmail,
-          +              signInWithEmailAndPassword: appState.signInWithEmailAndPassword,
-          +              cancelRegistration: appState.cancelRegistration,
-          +              registerAccount: appState.registerAccount,
-          +              signOut: appState.signOut,
-          +            ),
+          +            builder: (context, appState, _) => AuthFunc(
+          +                loggedIn: appState.loggedIn,
+          +                signOut: () {
+          +                  FirebaseAuth.instance.signOut();
+          +                }),
           +          ),
                      const Divider(
                        height: 8,
                        thickness: 1,
-          @@ -60,3 +82,92 @@ class HomePage extends StatelessWidget {
+          @@ -60,3 +138,30 @@ class HomePage extends StatelessWidget {
                );
              }
            }
@@ -2235,87 +1918,25 @@ steps:
           +    init();
           +  }
           +
+          +  bool _loggedIn = false;
+          +  bool get loggedIn => _loggedIn;
+          +
           +  Future<void> init() async {
           +    await Firebase.initializeApp(
-          +      options: DefaultFirebaseOptions.currentPlatform,
-          +    );
+          +        options: DefaultFirebaseOptions.currentPlatform);
+          +
+          +    FirebaseUIAuth.configureProviders([
+          +      EmailAuthProvider(),
+          +    ]);
           +
           +    FirebaseAuth.instance.userChanges().listen((user) {
           +      if (user != null) {
-          +        _loginState = ApplicationLoginState.loggedIn;
+          +        _loggedIn = true;
           +      } else {
-          +        _loginState = ApplicationLoginState.loggedOut;
+          +        _loggedIn = false;
           +      }
           +      notifyListeners();
           +    });
-          +  }
-          +
-          +  ApplicationLoginState _loginState = ApplicationLoginState.loggedOut;
-          +  ApplicationLoginState get loginState => _loginState;
-          +
-          +  String? _email;
-          +  String? get email => _email;
-          +
-          +  void startLoginFlow() {
-          +    _loginState = ApplicationLoginState.emailAddress;
-          +    notifyListeners();
-          +  }
-          +
-          +  Future<void> verifyEmail(
-          +    String email,
-          +    void Function(FirebaseAuthException e) errorCallback,
-          +  ) async {
-          +    try {
-          +      var methods =
-          +          await FirebaseAuth.instance.fetchSignInMethodsForEmail(email);
-          +      if (methods.contains('password')) {
-          +        _loginState = ApplicationLoginState.password;
-          +      } else {
-          +        _loginState = ApplicationLoginState.register;
-          +      }
-          +      _email = email;
-          +      notifyListeners();
-          +    } on FirebaseAuthException catch (e) {
-          +      errorCallback(e);
-          +    }
-          +  }
-          +
-          +  Future<void> signInWithEmailAndPassword(
-          +    String email,
-          +    String password,
-          +    void Function(FirebaseAuthException e) errorCallback,
-          +  ) async {
-          +    try {
-          +      await FirebaseAuth.instance.signInWithEmailAndPassword(
-          +        email: email,
-          +        password: password,
-          +      );
-          +    } on FirebaseAuthException catch (e) {
-          +      errorCallback(e);
-          +    }
-          +  }
-          +
-          +  void cancelRegistration() {
-          +    _loginState = ApplicationLoginState.emailAddress;
-          +    notifyListeners();
-          +  }
-          +
-          +  Future<void> registerAccount(
-          +      String email,
-          +      String displayName,
-          +      String password,
-          +      void Function(FirebaseAuthException e) errorCallback) async {
-          +    try {
-          +      var credential = await FirebaseAuth.instance
-          +          .createUserWithEmailAndPassword(email: email, password: password);
-          +      await credential.user!.updateDisplayName(displayName);
-          +    } on FirebaseAuthException catch (e) {
-          +      errorCallback(e);
-          +    }
-          +  }
-          +
-          +  void signOut() {
-          +    FirebaseAuth.instance.signOut();
           +  }
           +}
 
@@ -2342,7 +1963,6 @@ steps:
            
                // Verify that our counter starts at 0.
                expect(find.text('Firebase Meetup'), findsOneWidget);
-
       - name: Copy step_05
         copydir:
           from: gtk_flutter
@@ -2356,14 +1976,23 @@ steps:
         patch-u: |
           --- b/firebase-get-to-know-flutter/step_06/lib/main.dart
           +++ a/firebase-get-to-know-flutter/step_06/lib/main.dart
-          @@ -1,3 +1,6 @@
-          +import 'dart:async';
-          +
+          @@ -1,5 +1,6 @@
+           import 'dart:async';
+           
           +import 'package:cloud_firestore/cloud_firestore.dart';
-           import 'package:firebase_auth/firebase_auth.dart';
+           import 'package:firebase_auth/firebase_auth.dart'
+               hide EmailAuthProvider, PhoneAuthProvider;
            import 'package:firebase_core/firebase_core.dart';
-           import 'package:flutter/material.dart';
-          @@ -77,6 +80,20 @@ class HomePage extends StatelessWidget {
+          @@ -13,8 +14,6 @@ import 'src/authentication.dart';
+           import 'src/widgets.dart';
+           
+           void main() {
+          -  WidgetsFlutterBinding.ensureInitialized();
+          -
+             runApp(ChangeNotifierProvider(
+               create: (context) => ApplicationState(),
+               builder: ((context, child) => const App()),
+          @@ -133,6 +132,20 @@ class HomePage extends StatelessWidget {
                      const Paragraph(
                        'Join us for a day full of Firebase Workshops and Pizza!',
                      ),
@@ -2371,7 +2000,7 @@ steps:
           +            builder: (context, appState, _) => Column(
           +              crossAxisAlignment: CrossAxisAlignment.start,
           +              children: [
-          +                if (appState.loginState == ApplicationLoginState.loggedIn) ...[
+          +                if (appState.loggedIn) ...[
           +                  const Header('Discussion'),
           +                  GuestBook(
           +                    addMessage: (message) =>
@@ -2384,13 +2013,13 @@ steps:
                    ],
                  ),
                );
-          @@ -170,4 +187,76 @@ class ApplicationState extends ChangeNotifier {
-             void signOut() {
-               FirebaseAuth.instance.signOut();
+          @@ -164,4 +177,76 @@ class ApplicationState extends ChangeNotifier {
+                 notifyListeners();
+               });
              }
           +
           +  Future<DocumentReference> addMessageToGuestBook(String message) {
-          +    if (_loginState != ApplicationLoginState.loggedIn) {
+          +    if (!_loggedIn) {
           +      throw Exception('Must be logged in');
           +    }
           +
@@ -2475,7 +2104,16 @@ steps:
         patch-u: |
           --- b/firebase-get-to-know-flutter/step_07/lib/main.dart
           +++ a/firebase-get-to-know-flutter/step_07/lib/main.dart
-          @@ -89,6 +89,7 @@ class HomePage extends StatelessWidget {
+          @@ -14,6 +14,8 @@ import 'src/authentication.dart';
+           import 'src/widgets.dart';
+           
+           void main() {
+          +  WidgetsFlutterBinding.ensureInitialized();
+          +
+             runApp(ChangeNotifierProvider(
+               create: (context) => ApplicationState(),
+               builder: ((context, child) => const App()),
+          @@ -141,6 +143,7 @@ class HomePage extends StatelessWidget {
                              GuestBook(
                                addMessage: (message) =>
                                    appState.addMessageToGuestBook(message),
@@ -2483,10 +2121,21 @@ steps:
                              ),
                            ],
                          ],
-          @@ -113,8 +114,26 @@ class ApplicationState extends ChangeNotifier {
+          @@ -160,6 +163,10 @@ class ApplicationState extends ChangeNotifier {
+             bool _loggedIn = false;
+             bool get loggedIn => _loggedIn;
+           
+          +  StreamSubscription<QuerySnapshot>? _guestBookSubscription;
+          +  List<GuestBookMessage> _guestBookMessages = [];
+          +  List<GuestBookMessage> get guestBookMessages => _guestBookMessages;
+          +
+             Future<void> init() async {
+               await Firebase.initializeApp(
+                   options: DefaultFirebaseOptions.currentPlatform);
+          @@ -171,8 +178,26 @@ class ApplicationState extends ChangeNotifier {
                FirebaseAuth.instance.userChanges().listen((user) {
                  if (user != null) {
-                   _loginState = ApplicationLoginState.loggedIn;
+                   _loggedIn = true;
           +        _guestBookSubscription = FirebaseFirestore.instance
           +            .collection('guestbook')
           +            .orderBy('timestamp', descending: true)
@@ -2504,24 +2153,13 @@ steps:
           +          notifyListeners();
           +        });
                  } else {
-                   _loginState = ApplicationLoginState.loggedOut;
+                   _loggedIn = false;
           +        _guestBookMessages = [];
           +        _guestBookSubscription?.cancel();
                  }
                  notifyListeners();
                });
-          @@ -126,6 +145,10 @@ class ApplicationState extends ChangeNotifier {
-             String? _email;
-             String? get email => _email;
-           
-          +  StreamSubscription<QuerySnapshot>? _guestBookSubscription;
-          +  List<GuestBookMessage> _guestBookMessages = [];
-          +  List<GuestBookMessage> get guestBookMessages => _guestBookMessages;
-          +
-             void startLoginFlow() {
-               _loginState = ApplicationLoginState.emailAddress;
-               notifyListeners();
-          @@ -204,9 +227,20 @@ class ApplicationState extends ChangeNotifier {
+          @@ -194,9 +219,20 @@ class ApplicationState extends ChangeNotifier {
              }
            }
            
@@ -2534,16 +2172,16 @@ steps:
            class GuestBook extends StatefulWidget {
           -  const GuestBook({required this.addMessage, super.key});
           +  const GuestBook({
+          +    super.key,
           +    required this.addMessage,
           +    required this.messages,
-          +    super.key,
           +  });
              final FutureOr<void> Function(String message) addMessage;
           +  final List<GuestBookMessage> messages;
            
              @override
              State<GuestBook> createState() => _GuestBookState();
-          @@ -218,45 +252,54 @@ class _GuestBookState extends State<GuestBook> {
+          @@ -208,45 +244,54 @@ class _GuestBookState extends State<GuestBook> {
            
              @override
              Widget build(BuildContext context) {
@@ -2648,7 +2286,7 @@ steps:
         patch-u: |
           --- b/firebase-get-to-know-flutter/step_09/lib/main.dart
           +++ a/firebase-get-to-know-flutter/step_09/lib/main.dart
-          @@ -84,7 +84,17 @@ class HomePage extends StatelessWidget {
+          @@ -138,7 +138,17 @@ class HomePage extends StatelessWidget {
                        builder: (context, appState, _) => Column(
                          crossAxisAlignment: CrossAxisAlignment.start,
                          children: [
@@ -2658,7 +2296,7 @@ steps:
           +                  const Paragraph('1 person going')
           +                else
           +                  const Paragraph('No one going'),
-                           if (appState.loginState == ApplicationLoginState.loggedIn) ...[
+                           if (appState.loggedIn) ...[
           +                  YesNoSelection(
           +                    state: appState.attending,
           +                    onSelection: (attending) => appState.attending = attending,
@@ -2666,51 +2304,16 @@ steps:
                              const Header('Discussion'),
                              GuestBook(
                                addMessage: (message) =>
-          @@ -111,6 +121,15 @@ class ApplicationState extends ChangeNotifier {
-                 options: DefaultFirebaseOptions.currentPlatform,
-               );
+          @@ -155,6 +165,8 @@ class HomePage extends StatelessWidget {
+             }
+           }
            
-          +    FirebaseFirestore.instance
-          +        .collection('attendees')
-          +        .where('attending', isEqualTo: true)
-          +        .snapshots()
-          +        .listen((snapshot) {
-          +      _attendees = snapshot.docs.length;
-          +      notifyListeners();
-          +    });
+          +enum Attending { yes, no, unknown }
           +
-               FirebaseAuth.instance.userChanges().listen((user) {
-                 if (user != null) {
-                   _loginState = ApplicationLoginState.loggedIn;
-          @@ -130,10 +149,27 @@ class ApplicationState extends ChangeNotifier {
-                     }
-                     notifyListeners();
-                   });
-          +        _attendingSubscription = FirebaseFirestore.instance
-          +            .collection('attendees')
-          +            .doc(user.uid)
-          +            .snapshots()
-          +            .listen((snapshot) {
-          +          if (snapshot.data() != null) {
-          +            if (snapshot.data()!['attending'] as bool) {
-          +              _attending = Attending.yes;
-          +            } else {
-          +              _attending = Attending.no;
-          +            }
-          +          } else {
-          +            _attending = Attending.unknown;
-          +          }
-          +          notifyListeners();
-          +        });
-                 } else {
-                   _loginState = ApplicationLoginState.loggedOut;
-                   _guestBookMessages = [];
-                   _guestBookSubscription?.cancel();
-          +        _attendingSubscription?.cancel();
-                 }
-                 notifyListeners();
-               });
-          @@ -149,6 +185,23 @@ class ApplicationState extends ChangeNotifier {
+           class ApplicationState extends ChangeNotifier {
+             ApplicationState() {
+               init();
+          @@ -167,6 +179,23 @@ class ApplicationState extends ChangeNotifier {
              List<GuestBookMessage> _guestBookMessages = [];
              List<GuestBookMessage> get guestBookMessages => _guestBookMessages;
            
@@ -2731,29 +2334,61 @@ steps:
           +    }
           +  }
           +
-             void startLoginFlow() {
-               _loginState = ApplicationLoginState.emailAddress;
-               notifyListeners();
-          @@ -233,6 +286,8 @@ class GuestBookMessage {
-             final String message;
-           }
+             Future<void> init() async {
+               await Firebase.initializeApp(
+                   options: DefaultFirebaseOptions.currentPlatform);
+          @@ -175,6 +204,15 @@ class ApplicationState extends ChangeNotifier {
+                 EmailAuthProvider(),
+               ]);
            
-          +enum Attending { yes, no, unknown }
+          +    FirebaseFirestore.instance
+          +        .collection('attendees')
+          +        .where('attending', isEqualTo: true)
+          +        .snapshots()
+          +        .listen((snapshot) {
+          +      _attendees = snapshot.docs.length;
+          +      notifyListeners();
+          +    });
           +
-           class GuestBook extends StatefulWidget {
-             const GuestBook({
-               required this.addMessage,
-          @@ -303,3 +358,72 @@ class _GuestBookState extends State<GuestBook> {
+               FirebaseAuth.instance.userChanges().listen((user) {
+                 if (user != null) {
+                   _loggedIn = true;
+          @@ -194,10 +232,27 @@ class ApplicationState extends ChangeNotifier {
+                     }
+                     notifyListeners();
+                   });
+          +        _attendingSubscription = FirebaseFirestore.instance
+          +            .collection('attendees')
+          +            .doc(user.uid)
+          +            .snapshots()
+          +            .listen((snapshot) {
+          +          if (snapshot.data() != null) {
+          +            if (snapshot.data()!['attending'] as bool) {
+          +              _attending = Attending.yes;
+          +            } else {
+          +              _attending = Attending.no;
+          +            }
+          +          } else {
+          +            _attending = Attending.unknown;
+          +          }
+          +          notifyListeners();
+          +        });
+                 } else {
+                   _loggedIn = false;
+                   _guestBookMessages = [];
+                   _guestBookSubscription?.cancel();
+          +        _attendingSubscription?.cancel();
+                 }
+                 notifyListeners();
+               });
+          @@ -295,3 +350,69 @@ class _GuestBookState extends State<GuestBook> {
                );
              }
            }
           +
           +class YesNoSelection extends StatelessWidget {
-          +  const YesNoSelection({
-          +    required this.state,
-          +    required this.onSelection,
-          +    super.key,
-          +  });
+          +  const YesNoSelection(
+          +      {super.key, required this.state, required this.onSelection});
           +  final Attending state;
           +  final void Function(Attending selection) onSelection;
           +
