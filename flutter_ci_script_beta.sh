@@ -8,7 +8,7 @@ source "$DIR/flutter_ci_script_shared.sh"
 declare -a CODELABS=(
   # TODO(domesticmouse): Re-enable when Flutter Beta >= 3.3.0
   # "adaptive_app"
-  "boring_to_beautiful"
+  # "boring_to_beautiful"
   "cookbook"
   "cupertino_store"
   "dartpad_codelabs"
@@ -24,7 +24,8 @@ declare -a CODELABS=(
   "testing_codelab"
   "tfagents-flutter"
   "tfrs-flutter"
-  "tfserving-flutter"
+  # TODO(DomesticMouse): needs `dart format` for Flutter beta
+  # "tfserving-flutter"
   "tooling"
   "webview_flutter"
   )
