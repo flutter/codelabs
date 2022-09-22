@@ -75,7 +75,7 @@ steps:
                     children: <Widget>[
                       Text(
                         'Window properties',
-                        style: Theme.of(context).textTheme.headline5,
+                        style: Theme.of(context).textTheme.headlineSmall,
                       ),
                       const SizedBox(height: 8),
                       SizedBox(
@@ -473,7 +473,7 @@ steps:
                   children: [
                     Text(
                       playlistItem.snippet!.title!,
-                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                             fontSize: 18,
                             // fontWeight: FontWeight.bold,
                           ),
@@ -481,7 +481,7 @@ steps:
                     if (playlistItem.snippet!.videoOwnerChannelTitle != null)
                       Text(
                         playlistItem.snippet!.videoOwnerChannelTitle!,
-                        style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               fontSize: 12,
                             ),
                       ),
@@ -1084,7 +1084,7 @@ steps:
           -          Text(
           +          AdaptiveText(
                        playlistItem.snippet!.title!,
-                       style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                              fontSize: 18,
           @@ -110,7 +113,7 @@ class _PlaylistDetailsListViewState extends State<_PlaylistDetailsListView> {
                            ),
@@ -1093,7 +1093,7 @@ steps:
           -            Text(
           +            AdaptiveText(
                          playlistItem.snippet!.videoOwnerChannelTitle!,
-                         style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                                fontSize: 12,
 
       - name: Patch playlists.dart
