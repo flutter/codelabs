@@ -43,6 +43,7 @@ dependencies:
   provider: ^6.0.3
   firebase_ui_auth: ^1.0.0-dev.0
   firebase_remote_config: ^2.0.18
+  firebase_analytics: ^9.3.6
 
 dev_dependencies:
   flutter_test:
