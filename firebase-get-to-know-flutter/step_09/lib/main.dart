@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart'
+    hide EmailAuthProvider, PhoneAuthProvider;
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -12,12 +14,12 @@ import 'src/authentication.dart';
 import 'src/widgets.dart';
 
 void main() {
-  runApp(
-    ChangeNotifierProvider(
-      create: (context) => ApplicationState(),
-      builder: (context, _) => const App(),
-    ),
-  );
+  WidgetsFlutterBinding.ensureInitialized();
+
+  runApp(ChangeNotifierProvider(
+    create: (context) => ApplicationState(),
+    builder: ((context, child) => const App()),
+  ));
 }
 
 class App extends StatelessWidget {
@@ -26,6 +28,64 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      initialRoute: '/home',
+      routes: {
+        '/home': (context) {
+          return const HomePage();
+        },
+        '/sign-in': ((context) {
+          return SignInScreen(
+            actions: [
+              ForgotPasswordAction(((context, email) {
+                Navigator.of(context)
+                    .pushNamed('/forgot-password', arguments: {'email': email});
+              })),
+              AuthStateChangeAction(((context, state) {
+                if (state is SignedIn || state is UserCreated) {
+                  var user = (state is SignedIn)
+                      ? state.user
+                      : (state as UserCreated).credential.user;
+                  if (user == null) {
+                    return;
+                  }
+                  if (state is UserCreated) {
+                    user.updateDisplayName(user.email!.split('@')[0]);
+                  }
+                  if (!user.emailVerified) {
+                    user.sendEmailVerification();
+                    const snackBar = SnackBar(
+                        content: Text(
+                            'Please check your email to verify your email address'));
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  }
+                  Navigator.of(context).popUntil(ModalRoute.withName('/home'));
+                }
+              })),
+            ],
+          );
+        }),
+        '/forgot-password': ((context) {
+          final arguments = ModalRoute.of(context)?.settings.arguments
+              as Map<String, dynamic>?;
+
+          return ForgotPasswordScreen(
+            email: arguments?['email'] as String,
+            headerMaxExtent: 200,
+          );
+        }),
+        '/profile': ((context) {
+          return ProfileScreen(
+            providers: const [],
+            actions: [
+              SignedOutAction(
+                ((context) {
+                  Navigator.of(context).popUntil(ModalRoute.withName('/home'));
+                }),
+              ),
+            ],
+          );
+        })
+      },
       title: 'Firebase Meetup',
       theme: ThemeData(
         buttonTheme: Theme.of(context).buttonTheme.copyWith(
@@ -37,7 +97,6 @@ class App extends StatelessWidget {
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const HomePage(),
     );
   }
 }
@@ -58,16 +117,11 @@ class HomePage extends StatelessWidget {
           const IconAndDetail(Icons.calendar_today, 'October 30'),
           const IconAndDetail(Icons.location_city, 'San Francisco'),
           Consumer<ApplicationState>(
-            builder: (context, appState, _) => Authentication(
-              email: appState.email,
-              loginState: appState.loginState,
-              startLoginFlow: appState.startLoginFlow,
-              verifyEmail: appState.verifyEmail,
-              signInWithEmailAndPassword: appState.signInWithEmailAndPassword,
-              cancelRegistration: appState.cancelRegistration,
-              registerAccount: appState.registerAccount,
-              signOut: appState.signOut,
-            ),
+            builder: (context, appState, _) => AuthFunc(
+                loggedIn: appState.loggedIn,
+                signOut: () {
+                  FirebaseAuth.instance.signOut();
+                }),
           ),
           const Divider(
             height: 8,
@@ -90,7 +144,7 @@ class HomePage extends StatelessWidget {
                   const Paragraph('1 person going')
                 else
                   const Paragraph('No one going'),
-                if (appState.loginState == ApplicationLoginState.loggedIn) ...[
+                if (appState.loggedIn) ...[
                   YesNoSelection(
                     state: appState.attending,
                     onSelection: (attending) => appState.attending = attending,
@@ -111,15 +165,44 @@ class HomePage extends StatelessWidget {
   }
 }
 
+enum Attending { yes, no, unknown }
+
 class ApplicationState extends ChangeNotifier {
   ApplicationState() {
     init();
   }
 
+  bool _loggedIn = false;
+  bool get loggedIn => _loggedIn;
+
+  StreamSubscription<QuerySnapshot>? _guestBookSubscription;
+  List<GuestBookMessage> _guestBookMessages = [];
+  List<GuestBookMessage> get guestBookMessages => _guestBookMessages;
+
+  int _attendees = 0;
+  int get attendees => _attendees;
+
+  Attending _attending = Attending.unknown;
+  StreamSubscription<DocumentSnapshot>? _attendingSubscription;
+  Attending get attending => _attending;
+  set attending(Attending attending) {
+    final userDoc = FirebaseFirestore.instance
+        .collection('attendees')
+        .doc(FirebaseAuth.instance.currentUser!.uid);
+    if (attending == Attending.yes) {
+      userDoc.set(<String, dynamic>{'attending': true});
+    } else {
+      userDoc.set(<String, dynamic>{'attending': false});
+    }
+  }
+
   Future<void> init() async {
     await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
+        options: DefaultFirebaseOptions.currentPlatform);
+
+    FirebaseUIAuth.configureProviders([
+      EmailAuthProvider(),
+    ]);
 
     FirebaseFirestore.instance
         .collection('attendees')
@@ -132,7 +215,7 @@ class ApplicationState extends ChangeNotifier {
 
     FirebaseAuth.instance.userChanges().listen((user) {
       if (user != null) {
-        _loginState = ApplicationLoginState.loggedIn;
+        _loggedIn = true;
         _guestBookSubscription = FirebaseFirestore.instance
             .collection('guestbook')
             .orderBy('timestamp', descending: true)
@@ -166,7 +249,7 @@ class ApplicationState extends ChangeNotifier {
           notifyListeners();
         });
       } else {
-        _loginState = ApplicationLoginState.loggedOut;
+        _loggedIn = false;
         _guestBookMessages = [];
         _guestBookSubscription?.cancel();
         _attendingSubscription?.cancel();
@@ -175,97 +258,8 @@ class ApplicationState extends ChangeNotifier {
     });
   }
 
-  ApplicationLoginState _loginState = ApplicationLoginState.loggedOut;
-  ApplicationLoginState get loginState => _loginState;
-
-  String? _email;
-  String? get email => _email;
-
-  StreamSubscription<QuerySnapshot>? _guestBookSubscription;
-  List<GuestBookMessage> _guestBookMessages = [];
-  List<GuestBookMessage> get guestBookMessages => _guestBookMessages;
-
-  int _attendees = 0;
-  int get attendees => _attendees;
-
-  Attending _attending = Attending.unknown;
-  StreamSubscription<DocumentSnapshot>? _attendingSubscription;
-  Attending get attending => _attending;
-  set attending(Attending attending) {
-    final userDoc = FirebaseFirestore.instance
-        .collection('attendees')
-        .doc(FirebaseAuth.instance.currentUser!.uid);
-    if (attending == Attending.yes) {
-      userDoc.set(<String, dynamic>{'attending': true});
-    } else {
-      userDoc.set(<String, dynamic>{'attending': false});
-    }
-  }
-
-  void startLoginFlow() {
-    _loginState = ApplicationLoginState.emailAddress;
-    notifyListeners();
-  }
-
-  Future<void> verifyEmail(
-    String email,
-    void Function(FirebaseAuthException e) errorCallback,
-  ) async {
-    try {
-      var methods =
-          await FirebaseAuth.instance.fetchSignInMethodsForEmail(email);
-      if (methods.contains('password')) {
-        _loginState = ApplicationLoginState.password;
-      } else {
-        _loginState = ApplicationLoginState.register;
-      }
-      _email = email;
-      notifyListeners();
-    } on FirebaseAuthException catch (e) {
-      errorCallback(e);
-    }
-  }
-
-  Future<void> signInWithEmailAndPassword(
-    String email,
-    String password,
-    void Function(FirebaseAuthException e) errorCallback,
-  ) async {
-    try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-    } on FirebaseAuthException catch (e) {
-      errorCallback(e);
-    }
-  }
-
-  void cancelRegistration() {
-    _loginState = ApplicationLoginState.emailAddress;
-    notifyListeners();
-  }
-
-  Future<void> registerAccount(
-      String email,
-      String displayName,
-      String password,
-      void Function(FirebaseAuthException e) errorCallback) async {
-    try {
-      var credential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: password);
-      await credential.user!.updateDisplayName(displayName);
-    } on FirebaseAuthException catch (e) {
-      errorCallback(e);
-    }
-  }
-
-  void signOut() {
-    FirebaseAuth.instance.signOut();
-  }
-
   Future<DocumentReference> addMessageToGuestBook(String message) {
-    if (_loginState != ApplicationLoginState.loggedIn) {
+    if (!_loggedIn) {
       throw Exception('Must be logged in');
     }
 
@@ -286,13 +280,11 @@ class GuestBookMessage {
   final String message;
 }
 
-enum Attending { yes, no, unknown }
-
 class GuestBook extends StatefulWidget {
   const GuestBook({
+    super.key,
     required this.addMessage,
     required this.messages,
-    super.key,
   });
   final FutureOr<void> Function(String message) addMessage;
   final List<GuestBookMessage> messages;
@@ -360,11 +352,8 @@ class _GuestBookState extends State<GuestBook> {
 }
 
 class YesNoSelection extends StatelessWidget {
-  const YesNoSelection({
-    required this.state,
-    required this.onSelection,
-    super.key,
-  });
+  const YesNoSelection(
+      {super.key, required this.state, required this.onSelection});
   final Attending state;
   final void Function(Attending selection) onSelection;
 

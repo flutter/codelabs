@@ -48,7 +48,6 @@ class NavigationDestination {
 }
 
 final appRouter = GoRouter(
-  navigatorBuilder: (context, state, child) => PlayPauseListener(child: child),
   routes: [
     // HomeScreen
     GoRoute(
