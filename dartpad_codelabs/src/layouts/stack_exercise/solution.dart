@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 8.0),
             child: Text(
               'Move like a Jellyfish',
-              style: Theme.of(context).textTheme.headline5?.copyWith(
+              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                     color: Colors.white,
                   ),
             ),
