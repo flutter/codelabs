@@ -68,12 +68,12 @@ class _ExampleCupertinoDownloadButtonState
       title: Text(
         'App ${index + 1}',
         overflow: TextOverflow.ellipsis,
-        style: theme.textTheme.headline6,
+        style: theme.textTheme.titleLarge,
       ),
       subtitle: Text(
         'Lorem ipsum dolor #${index + 1}',
         overflow: TextOverflow.ellipsis,
-        style: theme.textTheme.caption,
+        style: theme.textTheme.bodySmall,
       ),
       trailing: SizedBox(
         width: 96.0,
@@ -331,7 +331,7 @@ class DownloadButton extends StatelessWidget {
         child: Text(
           text,
           textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.button?.copyWith(
+          style: Theme.of(context).textTheme.labelLarge?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: CupertinoColors.activeBlue,
               ),

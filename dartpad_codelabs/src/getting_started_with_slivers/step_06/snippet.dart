@@ -80,7 +80,7 @@ class WeeklyForecastList extends StatelessWidget {
                       Center(
                         child: Text(
                           dailyForecast.getDate(currentDate.day).toString(),
-                          style: textTheme.headline2,
+                          style: textTheme.displayMedium,
                         ),
                       ),
                     ],
@@ -94,7 +94,7 @@ class WeeklyForecastList extends StatelessWidget {
                       children: <Widget>[
                         Text(
                           dailyForecast.getWeekday(currentDate.weekday),
-                          style: textTheme.headline4,
+                          style: textTheme.headlineMedium,
                         ),
                         const SizedBox(height: 10.0),
                         Text(dailyForecast.description),
@@ -106,7 +106,7 @@ class WeeklyForecastList extends StatelessWidget {
                   padding: const EdgeInsets.all(16.0),
                   child: Text(
                     '${dailyForecast.highTemp} | ${dailyForecast.lowTemp} F',
-                    style: textTheme.subtitle1,
+                    style: textTheme.titleMedium,
                   ),
                 ),
               ],
