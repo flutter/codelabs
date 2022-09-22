@@ -6,8 +6,8 @@ DIR="${BASH_SOURCE%/*}"
 source "$DIR/flutter_ci_script_shared.sh"
 
 declare -a CODELABS=(
-  # TODO(domesticmouse): Re-enable when Flutter Beta >= 3.3.0
-  # "adaptive_app"
+  "adaptive_app"
+  # TODO(DomesticMouse): flutter_test from sdk depends on material_color_utilities 0.2.0
   # "boring_to_beautiful"
   "cookbook"
   "cupertino_store"
