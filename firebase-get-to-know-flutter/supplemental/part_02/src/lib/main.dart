@@ -213,8 +213,6 @@ class ApplicationState extends ChangeNotifier {
   List<GuestBookMessage> _guestBookMessages = [];
   List<GuestBookMessage> get guestBookMessages => _guestBookMessages;
 
-  Stream? _filterStream;
-
   int _attendees = 0;
   int get attendees => _attendees;
 
@@ -286,29 +284,7 @@ class ApplicationState extends ChangeNotifier {
           }
           notifyListeners();
         });
-        // DELETE FROM HERE
-        _filterStream = Stream.periodic(
-          const Duration(seconds: 1),
-          ((computationCount) {
-            debugPrint("Running periodic");
-            var now = Timestamp.now().toDate();
-            for (int i = 0; i < _guestBookMessages.length; i++) {
-              if (_guestBookMessages[i].ttl.toDate().compareTo(now) < 1) {
-                _guestBookMessages.removeRange(i, _guestBookMessages.length);
-                break;
-              }
-            }
-            debugPrint("Removed $_guestBookMessages");
-            notifyListeners();
-            return computationCount;
-          }),
-        );
-        _filterStream?.listen((event) {
-          debugPrint("LISTENING $event");
-        });
-        // TO HERE
       } else {
-        _filterStream = null;
         _loggedIn = false;
         _guestBookMessages = [];
         _guestBookSubscription?.cancel();
