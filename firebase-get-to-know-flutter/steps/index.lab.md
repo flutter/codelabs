@@ -20,8 +20,6 @@ Duration: 01:00
 
 In this codelab, you'll learn some of the basics of  [Firebase](http://firebase.google.com) to create Flutter mobile apps for Android and iOS.
 
-<video id="wUSkeTaBonA?start=0&end=105&version=3"></video>
-
 
 ### Prerequisites
 
@@ -57,8 +55,6 @@ In addition to the above, you'll also need:
 Duration: 02:00
 
 Let's start by downloading the initial version of our project from GitHub.
-
-<video id="wUSkeTaBonA?start=105&end=296&version=3"></video>
 
 Clone the  [GitHub repository](https://github.com/flutter/codelabs) from the command line:
 
@@ -117,8 +113,6 @@ Here is what your app looks like on Android, iOS, the Web and macOS:
 Duration: 07:00
 
 Displaying the event information is great for your guests, but just showing the events isn't very useful for anybody. Let's add some dynamic functionality to this app. For this, you'll need to hook Firebase up to your app. To get started with Firebase, you'll need to create and set up a Firebase project.
-
-<video id="wUSkeTaBonA?start=296&end=547&version=3"></video>
 
 
 ### **Create a Firebase project**
@@ -192,8 +186,6 @@ In order to use Firebase with Flutter, you need to follow a process to configure
 * Register the desired platform on the Firebase project
 * Download the platform-specific configuration file, and add it to the code.
 
-<video id="wUSkeTaBonA?start=547&end=963&version=3"></video>
-
 
 > aside negative
 >
@@ -251,6 +243,38 @@ Resolving dependencies...
 + provider 6.0.1
   test_api 0.4.3 (0.4.8 available)
 Changed 2 dependencies!
+```
+
+The [`firebase_ui_auth`](https://pub.dev/packages/firebase_ui_auth) package provides a set of widgets and utilities specifically for increasing developer velocity with authentication flows.
+```console
+$ flutter pub add firebase_ui_auth
+Resolving dependencies...
+  cloud_firestore 3.4.7 (3.4.8 available)
++ desktop_webview_auth 0.0.9
++ email_validator 2.1.17
+  firebase_auth 3.8.0 (3.9.0 available)
+  firebase_auth_platform_interface 6.7.0 (6.8.0 available)
+  firebase_auth_web 4.4.0 (4.4.1 available)
++ firebase_database 9.1.4
++ firebase_database_platform_interface 0.2.2+4
++ firebase_database_web 0.2.1+6
++ firebase_dynamic_links 4.3.7
++ firebase_dynamic_links_platform_interface 0.2.3+12
++ firebase_ui_auth 1.0.0-dev.0
++ firebase_ui_localizations 1.0.0-dev.0
++ firebase_ui_oauth 1.0.0-dev.0
++ flutter_localizations 0.0.0 from sdk flutter
++ flutter_svg 1.1.5
+  material_color_utilities 0.1.5 (0.2.0 available)
++ path_drawing 1.0.1
++ path_parsing 1.0.1
++ petitparser 5.0.0
+  plugin_platform_interface 2.1.2 (2.1.3 available)
+  source_span 1.9.0 (1.9.1 available)
+  test_api 0.4.12 (0.4.14 available)
+  vector_math 2.1.2 (2.1.3 available)
++ xml 6.1.0
+Changed 16 dependencies!
 ```
 
 While you have added the required packages, you also need to configure the iOS, Android, macOS and Web runner projects to appropriately utilise Firebase. You are also using the [`provider`](https://pub.dev/packages/provider) package that will enable separation of business logic from display logic.
@@ -330,8 +354,6 @@ Duration: 10:00
 
 Now that you've added Firebase to the app, you can set up an RSVP button that registers people using  [Firebase Authentication](https://firebase.google.com/docs/auth). For Android native, iOS native, and Web there are pre-built FirebaseUI Auth packages, but for Flutter you will need to build this capability.
 
-<video id="wUSkeTaBonA?start=963&end=1571&version=3"></video>
-
 The project you retrieved in Step 2 included a set of widgets that implements the user interface for most of the authentication flow. You will implement the business logic to integrate Firebase Authentication into the application.
 
 ### **Business Logic with Provider**
@@ -341,20 +363,23 @@ You are going to use the  [`provider`](https://pub.dev/packages/provider) packag
 ####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_05/lib/main.dart#L1)
 
 ```dart
-import 'package:firebase_auth/firebase_auth.dart'; // new
-import 'package:firebase_core/firebase_core.dart'; // new
+import 'dart:async';                                     // new
+import 'package:firebase_auth/firebase_auth.dart'        // new
+    hide EmailAuthProvider, PhoneAuthProvider;           // new
+import 'package:firebase_core/firebase_core.dart';       // new
+import 'package:firebase_ui_auth/firebase_ui_auth.dart'; // new
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';           // new
+import 'package:provider/provider.dart';                 // new
 
-import 'firebase_options.dart';                    // new
-import 'src/authentication.dart';                  // new
+import 'firebase_options.dart';                          // new
+import 'src/authentication.dart';                        // new
 import 'src/widgets.dart';
 ```
 
-The `import` lines introduce Firebase Core and Auth, pull in the `provider` package which you are using to make the application state object available through the widget tree, and include the authentication widgets from `lib/src`.
+The `import` lines introduce Firebase Core and Auth, pull in the `provider` package which you are using to make the application state object available through the widget tree, and include the authentication widgets from `firebase_ui_auth`.
 
-This application state object, `ApplicationState`, has two main responsibilities for this step, but will gain additional responsibilities as you add more capabilities to the application in later steps. The first responsibility is to initialize the Firebase library with a call to `Firebase.initializeApp()`, and then there is the handling of the authorization flow. Add the following class to the end of `lib/main.dart`:
+This application state object, `ApplicationState`, has one main responsibilities for this step which is to alert the widget tree that there was an update to an authenticated state. Add the following class to the end of `lib/main.dart`:
 
 ####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_05/lib/main.dart#L83)
 
@@ -364,173 +389,192 @@ class ApplicationState extends ChangeNotifier {
     init();
   }
 
+  bool _loggedIn = false;
+  bool get loggedIn => _loggedIn;
+
   Future<void> init() async {
     await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
+        options: DefaultFirebaseOptions.currentPlatform);
+
+    FirebaseUIAuth.configureProviders([
+      EmailAuthProvider(),
+    ]);
 
     FirebaseAuth.instance.userChanges().listen((user) {
       if (user != null) {
-        _loginState = ApplicationLoginState.loggedIn;
+        _loggedIn = true;
       } else {
-        _loginState = ApplicationLoginState.loggedOut;
+        _loggedIn = false;
       }
       notifyListeners();
     });
   }
-
-  ApplicationLoginState _loginState = ApplicationLoginState.loggedOut;
-  ApplicationLoginState get loginState => _loginState;
-
-  String? _email;
-  String? get email => _email;
-
-  void startLoginFlow() {
-    _loginState = ApplicationLoginState.emailAddress;
-    notifyListeners();
-  }
-
-  Future<void> verifyEmail(
-    String email,
-    void Function(FirebaseAuthException e) errorCallback,
-  ) async {
-    try {
-      var methods =
-          await FirebaseAuth.instance.fetchSignInMethodsForEmail(email);
-      if (methods.contains('password')) {
-        _loginState = ApplicationLoginState.password;
-      } else {
-        _loginState = ApplicationLoginState.register;
-      }
-      _email = email;
-      notifyListeners();
-    } on FirebaseAuthException catch (e) {
-      errorCallback(e);
-    }
-  }
-
-  Future<void> signInWithEmailAndPassword(
-    String email,
-    String password,
-    void Function(FirebaseAuthException e) errorCallback,
-  ) async {
-    try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-    } on FirebaseAuthException catch (e) {
-      errorCallback(e);
-    }
-  }
-
-  void cancelRegistration() {
-    _loginState = ApplicationLoginState.emailAddress;
-    notifyListeners();
-  }
-
-  Future<void> registerAccount(
-      String email,
-      String displayName,
-      String password,
-      void Function(FirebaseAuthException e) errorCallback) async {
-    try {
-      var credential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: password);
-      await credential.user!.updateDisplayName(displayName);
-    } on FirebaseAuthException catch (e) {
-      errorCallback(e);
-    }
-  }
-
-  void signOut() {
-    FirebaseAuth.instance.signOut();
-  }
 }
 ```
 
-It is worth noting a few key points in this class. The user starts off unauthenticated, the app shows a form requesting the user's email address, depending on whether that email address is on file, the app will either ask the user register, or request their password, and then assuming everything works out, the user is authenticated.
-
-It must be noted that this isn't a complete implementation of the FirebaseUI Auth flow, as it does not handle the case of a user with an existing account who is having trouble logging in. Implementing this additional capability is left as an exercise to the motivated reader.
+We are using a provider here to communicate to the app that state of a users login status, nothing more. To login a user, we are going to use the UIs provided by `firebase_ui_auth` which is a great way to quickly bootstrap login screens for your applications.
 
 ### **Integrating the Authentication flow**
 
 Now that you have the start of the application state it is time to wire the application state into the app initialization and add the authentication flow into `HomePage`. Update the main entry point to integrate application state via the `provider` package:
 
-####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_05/lib/main.dart#L10)
+####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_05/lib/main.dart#L14)
 
 ```dart
 void main() {
   // Modify from here
-  runApp(
-    ChangeNotifierProvider(
-      create: (context) => ApplicationState(),
-      builder: (context, _) => App(),
-    ),
-  );
+  WidgetsFlutterBinding.ensureInitialized();
+
+  runApp(ChangeNotifierProvider(
+    create: (context) => ApplicationState(),
+    builder: ((context, child) => const App()),
+  ));
   // to here.
 }
 ```
+The modification to the `main` function makes the provider package responsible for instantiating the application state object using the `ChangeNotifierProvider` widget. You are using this specific provider class because the application state object extends `ChangeNotifier` and this enables the `provider` package to know when to redisplay dependent widgets.
 
-The modification to the `main` function makes the provider package responsible for instantiating the application state object using the `ChangeNotifierProvider` widget. You are using this specific provider class because the application state object extends `ChangeNotifier` and this enables the `provider` package to know when to redisplay dependent widgets. Finally, integrate the application state with `Authentication` by updating `HomePage`‘s `build` method:
+Since we are using FirebaseUI for Flutter, we are going to update our app to handle navigating to different screens that FirebaseUI provides for us. To do this we add an `initialRoute` property and add our preferred screens that we can route to under the `routes` property. The changes should look like this:
 
-####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_05/lib/main.dart#L54)
-
+####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_05/lib/main.dart#L28)
 ```dart
-class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+class App extends StatelessWidget {
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Firebase Meetup'),
-      ),
-      body: ListView(
-        children: <Widget>[
-          Image.asset('assets/codelab.png'),
-          const SizedBox(height: 8),
-          const IconAndDetail(Icons.calendar_today, 'October 30'),
-          const IconAndDetail(Icons.location_city, 'San Francisco'),
-          // Add from here
-          Consumer<ApplicationState>(
-            builder: (context, appState, _) => Authentication(
-              email: appState.email,
-              loginState: appState.loginState,
-              startLoginFlow: appState.startLoginFlow,
-              verifyEmail: appState.verifyEmail,
-              signInWithEmailAndPassword: appState.signInWithEmailAndPassword,
-              cancelRegistration: appState.cancelRegistration,
-              registerAccount: appState.registerAccount,
-              signOut: appState.signOut,
+    return MaterialApp(
+      //Start adding here
+      initialRoute: '/home',
+      routes: {
+        '/home': (context) {
+          return const HomePage();
+        },
+        '/sign-in': ((context) {
+          return SignInScreen(
+            actions: [
+              ForgotPasswordAction(((context, email) {
+                Navigator.of(context)
+                    .pushNamed('/forgot-password', arguments: {'email': email});
+              })),
+              AuthStateChangeAction(((context, state) {
+                if (state is SignedIn || state is UserCreated) {
+                  var user = (state is SignedIn)
+                      ? state.user
+                      : (state as UserCreated).credential.user;
+                  if (user == null) {
+                    return;
+                  }
+                  if (state is UserCreated) {
+                    user.updateDisplayName(user.email!.split('@')[0]);
+                  }
+                  if (!user.emailVerified) {
+                    user.sendEmailVerification();
+                    const snackBar = SnackBar(
+                        content: Text(
+                            'Please check your email to verify your email address'));
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  }
+                  Navigator.of(context).pushReplacementNamed('/home');
+                }
+              })),
+            ],
+          );
+        }),
+        '/forgot-password': ((context) {
+          final arguments = ModalRoute.of(context)?.settings.arguments
+              as Map<String, dynamic>?;
+
+          return ForgotPasswordScreen(
+            email: arguments?['email'] as String,
+            headerMaxExtent: 200,
+          );
+        }),
+        '/profile': ((context) {
+          return ProfileScreen(
+            providers: [],
+            actions: [
+              SignedOutAction(
+                ((context) {
+                  Navigator.of(context).pushReplacementNamed('/home');
+                }),
+              ),
+            ],
+          );
+        })
+      },
+      // end adding here
+      title: 'Firebase Meetup',
+      theme: ThemeData(
+        buttonTheme: Theme.of(context).buttonTheme.copyWith(
+              highlightColor: Colors.deepPurple,
             ),
-          ),
-          // to here
-          const Divider(
-            height: 8,
-            thickness: 1,
-            indent: 8,
-            endIndent: 8,
-            color: Colors.grey,
-          ),
-          const Header("What we'll be doing"),
-          const Paragraph(
-            'Join us for a day full of Firebase Workshops and Pizza!',
-          ),
-        ],
+        primarySwatch: Colors.deepPurple,
+        textTheme: GoogleFonts.robotoTextTheme(
+          Theme.of(context).textTheme,
+        ),
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
     );
   }
 }
 ```
 
-You instantiate the `Authentication` widget, and wrap it in a `Consumer` widget. The Consumer widget the usual way that the `provider` package can be used to rebuild part of the tree when the application state changes. The `Authentication` widget is the authentication UI that you will now test.
+Each screen has a different type of action associated with it based on the new state of the authentication flow. After most state changes in authentication, we are able to reroute back to a preferred screen, whether that be the home screen or a different screen such as profile. Finally, integrate the application state with `AuthFunc` by updating `HomePage`‘s build method:
+
+####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_05/lib/main.dart#L54)
+
+```dart
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<ApplicationState>(
+        builder: (context, appState, child) => Scaffold(
+              appBar: AppBar(
+                title: const Text('Firebase Meetup'),
+              ),
+              body: ListView(
+                children: <Widget>[
+                  Image.asset('assets/codelab.png'),
+                  const SizedBox(height: 8),
+                  const IconAndDetail(Icons.calendar_today, 'October 30'),
+                  const IconAndDetail(Icons.location_city, 'San Francisco'),
+                  // Add from here
+                  Consumer<ApplicationState>(
+                    builder: (context, appState, _) => AuthFunc(
+                        loggedIn: appState.loggedIn,
+                        signOut: () {
+                          FirebaseAuth.instance.signOut();
+                        }),
+                  ),
+                  // to here
+                  const Divider(
+                    height: 8,
+                    thickness: 1,
+                    indent: 8,
+                    endIndent: 8,
+                    color: Colors.grey,
+                  ),
+                  const Header("What we'll be doing"),
+                  const Paragraph(
+                    'Join us for a day full of Firebase Workshops and Pizza!',
+                  ),
+                ],
+              ),
+            ));
+  }
+}
+```
+
+You instantiate the `AuthFunc` widget, and wrap it in a `Consumer` widget. The Consumer widget the usual way that the `provider` package can be used to rebuild part of the tree when the application state changes. The `AuthFunc` widget is the supplementary widgets that you will now test.
 
 #### **Testing the Authentication flow**
 
 <img src="img/cdf2d25e436bd48d.png" alt="cdf2d25e436bd48d.png"  width="332.32" />
 
-Here is the start of the authentication flow, where the user can tap on the RSVP button, to initiate the email form.
+Here is the start of the authentication flow, where the user can tap on the RSVP button, to initiate the `SignInScreen`.
 
 <img src="img/2a2cd6d69d172369.png" alt="2a2cd6d69d172369.png"  width="334.81" />
 
@@ -539,8 +583,6 @@ Upon entering the email, the system confirms if the user is already registered, 
 <img src="img/e5e65065dba36b54.png" alt="e5e65065dba36b54.png"  width="331.69" />
 
 Make sure to try out entering a short password (less than six characters) to check the error handling flow. If the user is registered, they will see the password for instead.
-
-<img src="img/fbb3ea35fb4f67a.png" alt="fbb3ea35fb4f67a.png"  width="332.82" />
 
 On this page make sure to enter incorrect passwords to check the error handling on this page. Finally, once the user is logged in, you will see the logged in experience which offers the user the ability to log out again.
 
@@ -554,8 +596,6 @@ Duration: 10:00
 
 
 Knowing that users are coming is great, but let's give the guests something else to do in the app. What if they could leave messages in a guestbook? They can share why they're excited to come or who they hope to meet.
-
-<video id="wUSkeTaBonA?start=1571&end=1941&version=3"></video>
 
 
 To store the chat messages that users write in the app, you'll use  [Cloud Firestore](https://firebase.google.com/docs/firestore/).
@@ -599,11 +639,11 @@ To construct the UI elements of a message field and a send button, add a new sta
 
 ```dart
 class GuestBook extends StatefulWidget {
-  const GuestBook({required this.addMessage});
+  const GuestBook({required this.addMessage, super.key});
   final FutureOr<void> Function(String message) addMessage;
 
   @override
-  _GuestBookState createState() => _GuestBookState();
+  State<GuestBook> createState() => _GuestBookState();
 }
 
 class _GuestBookState extends State<GuestBook> {
@@ -695,7 +735,7 @@ class ApplicationState extends ChangeNotifier {
 
   // Add from here
   Future<DocumentReference> addMessageToGuestBook(String message) {
-    if (_loginState != ApplicationLoginState.loggedIn) {
+    if (!_loggedIn) {
       throw Exception('Must be logged in');
     }
 
@@ -735,16 +775,11 @@ class HomePage extends StatelessWidget {
           const IconAndDetail(Icons.calendar_today, 'October 30'),
           const IconAndDetail(Icons.location_city, 'San Francisco'),
           Consumer<ApplicationState>(
-            builder: (context, appState, _) => Authentication(
-              email: appState.email,
-              loginState: appState.loginState,
-              startLoginFlow: appState.startLoginFlow,
-              verifyEmail: appState.verifyEmail,
-              signInWithEmailAndPassword: appState.signInWithEmailAndPassword,
-              cancelRegistration: appState.cancelRegistration,
-              registerAccount: appState.registerAccount,
-              signOut: appState.signOut,
-            ),
+            builder: (context, appState, _) => AuthFunc(
+                loggedIn: appState.loggedIn,
+                signOut: () {
+                  FirebaseAuth.instance.signOut();
+                }),
           ),
           const Divider(
             height: 8,
@@ -762,7 +797,7 @@ class HomePage extends StatelessWidget {
             builder: (context, appState, _) => Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (appState.loginState == ApplicationLoginState.loggedIn) ...[
+                if (appState.loggedIn) ...[
                   const Header('Discussion'),
                   GuestBook(
                     addMessage: (message) =>
@@ -803,8 +838,6 @@ Duration: 10:00
 
 It's lovely that guests can write messages to the database, but they can't see them in the app yet. Let's fix that!
 
-<video id="wUSkeTaBonA?start=1941&end=2444&version=3"></video>
-
 
 ### **Synchronize messages**
 
@@ -827,11 +860,8 @@ In the section of `ApplicationState` where you define state and getters, add the
 ####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_07/lib/main.dart#L140)
 
 ```dart
-  ApplicationLoginState _loginState = ApplicationLoginState.loggedOut;
-  ApplicationLoginState get loginState => _loginState;
-
-  String? _email;
-  String? get email => _email;
+  bool _loggedIn = false;
+  bool get loggedIn => _loggedIn;
 
   // Add from here
   StreamSubscription<QuerySnapshot>? _guestBookSubscription;
@@ -847,13 +877,15 @@ And finally, in the initialization section of `ApplicationState`, add the follow
 ```dart
   Future<void> init() async {
     await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
+        options: DefaultFirebaseOptions.currentPlatform);
 
+    FirebaseUIAuth.configureProviders([
+      EmailAuthProvider(),
+    ]);
+    
     FirebaseAuth.instance.userChanges().listen((user) {
       if (user != null) {
-        _loginState = ApplicationLoginState.loggedIn;
-        // Add from here
+        _loggedIn = true;
         _guestBookSubscription = FirebaseFirestore.instance
             .collection('guestbook')
             .orderBy('timestamp', descending: true)
@@ -870,13 +902,10 @@ And finally, in the initialization section of `ApplicationState`, add the follow
           }
           notifyListeners();
         });
-        // to here.
       } else {
-        _loginState = ApplicationLoginState.loggedOut;
-        // Add from here
+        _loggedIn = false;
         _guestBookMessages = [];
         _guestBookSubscription?.cancel();
-        // to here.
       }
       notifyListeners();
     });
@@ -898,7 +927,7 @@ In the `GuestBook` widget you need to connect this changing state to the user in
 ```dart
 class GuestBook extends StatefulWidget {
   // Modify the following line
-  const GuestBook({required this.addMessage, required this.messages});
+  const GuestBook({super.key, required this.addMessage, required this.messages,});
   final FutureOr<void> Function(String message) addMessage;
   final List<GuestBookMessage> messages; // new
 
@@ -1021,8 +1050,6 @@ Duration: 05:00
 
 You initially set up Cloud Firestore to use test mode, meaning that your database is open for reads and writes. However, you should only use test mode during very early stages of development. As a best practice, you should set up security rules for your database as you develop your app. Security should be integral to your app's structure and behavior.
 
-<video id="wUSkeTaBonA?start=2444&end=2809&version=3"></video>
-
 Security Rules allow you to control access to documents and collections in your database. The flexible rules syntax allows you to create rules that match anything from all writes to the entire database to operations on a specific document.
 
 You can write security rules for Cloud Firestore in the Firebase console:
@@ -1101,9 +1128,6 @@ service cloud.firestore {
 
 Right now, your app just allows people to start chatting if they're interested in the event. Also, the only way you know if someone's coming is if they post it in the chat. Let's get organized and let people know how many people are coming.
 
-<video id="wUSkeTaBonA?start=2809&end=3401&version=3"></video>
-
-
 You are going to add a couple of new capabilities to the application state. The first is the ability for a logged in user to nominate if they are attending or not. The second capability is a counter of how many people are actually attending.
 
 In `lib/main.dart`, add the following to the accessors section to enable the UI code to interact with this state:
@@ -1136,8 +1160,11 @@ Update `ApplicationState`'s `init` method as follows:
 ```dart
   Future<void> init() async {
     await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
+        options: DefaultFirebaseOptions.currentPlatform);
+
+    FirebaseUIAuth.configureProviders([
+      EmailAuthProvider(),
+    ]);
 
     // Add from here
     FirebaseFirestore.instance
@@ -1212,7 +1239,8 @@ You are now going to define a new widget that acts like radio buttons of old. It
 
 ```dart
 class YesNoSelection extends StatelessWidget {
-  const YesNoSelection({required this.state, required this.onSelection});
+  const YesNoSelection(
+      {super.key, required this.state, required this.onSelection});
   final Attending state;
   final void Function(Attending selection) onSelection;
 
@@ -1294,7 +1322,7 @@ Consumer<ApplicationState>(
       else
         const Paragraph('No one going'),
       // To here.
-      if (appState.loginState == ApplicationLoginState.loggedIn) ...[
+      if (appState.loggedIn) ...[
         // Add from here
         YesNoSelection(
           state: appState.attending,
@@ -1364,8 +1392,6 @@ service cloud.firestore {
 
 You've used Firebase to build an interactive, real-time web application!
 
-<video id="wUSkeTaBonA?start=3401&version=3"></video>
-
 
 ### **What we've covered**
 
@@ -1377,7 +1403,6 @@ You've used Firebase to build an interactive, real-time web application!
 
 * **Want to learn more about other Firebase products?** Maybe you want to store image files that users upload? Or send notifications to your users? Check out the  [Firebase documentation](https://firebase.google.com/). Want to learn more about Flutter plugins for Firebase? Check out  [FlutterFire](https://firebase.flutter.dev/) for more information.
 * **Want to learn more about Cloud Firestore?** Maybe you want to learn about subcollections and transactions? Head over to the  [**Cloud Firestore web codelab**](https://codelabs.developers.google.com/codelabs/firestore-web/#0) for a codelab that goes into more depth on Cloud Firestore. Or check out this  [**YouTube series to get to know Cloud Firestore**](https://www.youtube.com/watch?v=v_hR4K4auoQ&list=PLl-K7zZEsYLluG5MCVEzXAQ7ACZBCuZgZ&index=2&t=0s)!
-<video id="v_hR4K4auoQ"></video>
 
 ### **Learn more**
 
@@ -1390,4 +1415,3 @@ You've used Firebase to build an interactive, real-time web application!
 ### **How did it go?**
 
 We would love your feedback! Please fill out a (very) short form  [here](https://forms.gle/vHHkvaGkQbmUm5di9).
-

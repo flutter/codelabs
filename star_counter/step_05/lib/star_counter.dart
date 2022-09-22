@@ -64,8 +64,8 @@ class _GitHubStarCounterState extends State<GitHubStarCounter> {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final textStyle = textTheme.headline4?.apply(color: Colors.green);
-    final errorStyle = textTheme.bodyText1?.apply(color: Colors.red);
+    final textStyle = textTheme.headlineMedium?.apply(color: Colors.green);
+    final errorStyle = textTheme.bodyLarge?.apply(color: Colors.red);
     final numberFormat = intl.NumberFormat.decimalPattern();
 
     if (errorMessage != null) {
