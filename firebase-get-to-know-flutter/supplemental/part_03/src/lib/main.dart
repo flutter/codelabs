@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart'
     hide EmailAuthProvider, PhoneAuthProvider;
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -145,14 +146,19 @@ class HomePage extends StatelessWidget {
         children: <Widget>[
           Image.asset('assets/codelab.png'),
           const SizedBox(height: 8),
-          const IconAndDetail(Icons.calendar_today, 'October 30'),
+          Consumer<ApplicationState>(
+            builder: (context, appState, _) =>
+                IconAndDetail(Icons.calendar_today, appState.event_date),
+          ),
           const IconAndDetail(Icons.location_city, 'San Francisco'),
           Consumer<ApplicationState>(
             builder: (context, appState, _) => AuthFunc(
-                loggedIn: appState.loggedIn,
-                signOut: () {
-                  FirebaseAuth.instance.signOut();
-                }),
+              loggedIn: appState.loggedIn,
+              signOut: () {
+                FirebaseAuth.instance.signOut();
+              },
+              enable_free_swag: appState.enable_free_swag,
+            ),
           ),
           const Divider(
             height: 8,
@@ -203,6 +209,8 @@ class ApplicationState extends ChangeNotifier {
     init();
   }
 
+  late final FirebaseRemoteConfig remoteConfig;
+
   bool _loggedIn = false;
   bool get loggedIn => _loggedIn;
 
@@ -215,6 +223,17 @@ class ApplicationState extends ChangeNotifier {
 
   int _attendees = 0;
   int get attendees => _attendees;
+
+  static Map<String, dynamic> defaultFlagValues = {
+    "event_date": "October 18, 2022",
+    "enable_free_swag": false,
+  };
+
+  bool _enable_free_swag = defaultFlagValues['enable_free_swag'];
+  bool get enable_free_swag => _enable_free_swag;
+
+  String _event_date = defaultFlagValues['event_date'];
+  String get event_date => _event_date;
 
   Attending _attending = Attending.unknown;
   StreamSubscription<DocumentSnapshot>? _attendingSubscription;
@@ -237,6 +256,8 @@ class ApplicationState extends ChangeNotifier {
     FirebaseUIAuth.configureProviders([
       EmailAuthProvider(),
     ]);
+
+    remoteConfig = FirebaseRemoteConfig.instance;
 
     FirebaseFirestore.instance
         .collection('attendees')
@@ -292,6 +313,22 @@ class ApplicationState extends ChangeNotifier {
       }
       notifyListeners();
     });
+
+    await remoteConfig.setConfigSettings(
+      RemoteConfigSettings(
+        fetchTimeout: const Duration(minutes: 1),
+        minimumFetchInterval: const Duration(minutes: 1),
+      ),
+    );
+
+    await remoteConfig.setDefaults(defaultFlagValues);
+
+    await remoteConfig.fetchAndActivate();
+
+    _enable_free_swag = remoteConfig.getBool('enable_free_swag');
+    _event_date = remoteConfig.getString('event_date');
+
+    notifyListeners();
   }
 
   Future<void> refreshLoggedInUser() async {

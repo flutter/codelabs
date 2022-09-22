@@ -1,3 +1,4 @@
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 
 import 'widgets.dart';
@@ -7,10 +8,12 @@ class AuthFunc extends StatelessWidget {
     super.key,
     required this.loggedIn,
     required this.signOut,
+    required this.enable_free_swag,
   });
 
   final bool loggedIn;
   final void Function() signOut;
+  final bool enable_free_swag;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +38,17 @@ class AuthFunc extends StatelessWidget {
                     Navigator.of(context).pushNamed('/profile');
                   },
                   child: const Text('Profile')),
-            ))
+            )),
+        Visibility(
+            visible: enable_free_swag,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 24, bottom: 8),
+              child: StyledButton(
+                  onPressed: () {
+                    FirebaseCrashlytics.instance.crash();
+                  },
+                  child: const Text('Free Swag!')),
+            )),
       ],
     );
   }
