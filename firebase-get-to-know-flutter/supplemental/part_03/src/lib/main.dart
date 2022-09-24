@@ -103,7 +103,7 @@ class App extends StatelessWidget {
                     onPressed: () {
                       appState.refreshLoggedInUser();
                     },
-                    child: Text("Re-check email verification status"),
+                    child: Text('Re-check email verification status'),
                   ),
                 ),
               ],
@@ -228,9 +228,9 @@ class ApplicationState extends ChangeNotifier {
   int get attendees => _attendees;
 
   static Map<String, dynamic> defaultFlagValues = {
-    "event_date": "October 18, 2022",
-    "enable_free_swag": false,
-    "call_to_action": 'Join us for a day full of Firebase Workshops and Pizza!',
+    'event_date': 'October 18, 2022',
+    'enable_free_swag': false,
+    'call_to_action': 'Join us for a day full of Firebase Workshops and Pizza!',
   };
 
   bool _enable_free_swag = defaultFlagValues['enable_free_swag'];
