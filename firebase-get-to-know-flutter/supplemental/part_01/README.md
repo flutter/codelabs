@@ -26,6 +26,8 @@ More information about signing keys can be found in this resource:
 
 You then want to take your SHA-256 fingerprint and register it in the **Your Apps** section of [your project settings](https://firebase.corp.google.com/project/_/settings/general).
 
+You will need to enter in each certificate fingerprint that you will be using. For most developers, this will be a debug key, an upload key, and a Google Play signing key. Your needs may vary on how many certificate fingerprints are needed for your situation.
+
 ### iOS
 
 For iOS, you will want to grab your encoded app id from the **Your Apps** section of [your project settings](https://firebase.corp.google.com/project/_/settings/general).
