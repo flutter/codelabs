@@ -262,7 +262,6 @@ class ApplicationState extends ChangeNotifier {
               GuestBookMessage(
                 name: document.data()['name'] as String,
                 message: document.data()['text'] as String,
-                ttl: (document.data()['ttl'] ?? Timestamp.now()) as Timestamp,
               ),
             );
           }
@@ -313,17 +312,21 @@ class ApplicationState extends ChangeNotifier {
       'timestamp': FieldValue.serverTimestamp(),
       'name': FirebaseAuth.instance.currentUser!.displayName,
       'userId': FirebaseAuth.instance.currentUser!.uid,
+      /**
+        DISCLAIMER:
+        This is for testing only. In practice, you would want
+        to use a fixed date such as:
+        'ttl': DateTime.parse('2022-10-31'),
+      **/
       'ttl': DateTime.now().add(const Duration(minutes: 1)),
     });
   }
 }
 
 class GuestBookMessage {
-  GuestBookMessage(
-      {required this.name, required this.message, required this.ttl});
+  GuestBookMessage({required this.name, required this.message});
   final String name;
   final String message;
-  final Timestamp ttl;
 }
 
 class GuestBook extends StatefulWidget {

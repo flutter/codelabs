@@ -292,7 +292,6 @@ class ApplicationState extends ChangeNotifier {
               GuestBookMessage(
                 name: document.data()['name'] as String,
                 message: document.data()['text'] as String,
-                ttl: (document.data()['ttl'] ?? Timestamp.now()) as Timestamp,
               ),
             );
           }
@@ -366,11 +365,9 @@ class ApplicationState extends ChangeNotifier {
 }
 
 class GuestBookMessage {
-  GuestBookMessage(
-      {required this.name, required this.message, required this.ttl});
+  GuestBookMessage({required this.name, required this.message});
   final String name;
   final String message;
-  final Timestamp ttl;
 }
 
 class GuestBook extends StatefulWidget {
