@@ -169,8 +169,10 @@ class HomePage extends StatelessWidget {
             color: Colors.grey,
           ),
           const Header("What we'll be doing"),
-          const Paragraph(
-            'Join us for a day full of Firebase Workshops and Pizza!',
+          Consumer<ApplicationState>(
+            builder: (context, appState, _) => Paragraph(
+              '${appState.call_to_action}',
+            ),
           ),
           Consumer<ApplicationState>(
             builder: (context, appState, _) => Column(
@@ -228,6 +230,7 @@ class ApplicationState extends ChangeNotifier {
   static Map<String, dynamic> defaultFlagValues = {
     "event_date": "October 18, 2022",
     "enable_free_swag": false,
+    "call_to_action": 'Join us for a day full of Firebase Workshops and Pizza!',
   };
 
   bool _enable_free_swag = defaultFlagValues['enable_free_swag'];
@@ -235,6 +238,9 @@ class ApplicationState extends ChangeNotifier {
 
   String _event_date = defaultFlagValues['event_date'];
   String get event_date => _event_date;
+
+  String _call_to_action = defaultFlagValues['call_to_action'];
+  String get call_to_action => _call_to_action;
 
   Attending _attending = Attending.unknown;
   StreamSubscription<DocumentSnapshot>? _attendingSubscription;
@@ -330,6 +336,7 @@ class ApplicationState extends ChangeNotifier {
 
     _enable_free_swag = remoteConfig.getBool('enable_free_swag');
     _event_date = remoteConfig.getString('event_date');
+    _call_to_action = remoteConfig.getString('call_to_action');
 
     notifyListeners();
   }
