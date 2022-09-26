@@ -94,6 +94,14 @@ class App extends StatelessWidget {
               key: ValueKey(appState.emailVerified),
               providers: const [],
               showMFATile: appState.emailVerified,
+              actions: [
+                SignedOutAction(
+                  ((context) {
+                    Navigator.of(context)
+                        .popUntil(ModalRoute.withName('/home'));
+                  }),
+                ),
+              ],
               children: [
                 Visibility(
                   visible: !appState.emailVerified,
@@ -101,16 +109,8 @@ class App extends StatelessWidget {
                     onPressed: () {
                       appState.refreshLoggedInUser();
                     },
-                    child: Text("Re-check email verification status"),
+                    child: const Text('Re-check email verification status'),
                   ),
-                ),
-              ],
-              actions: [
-                SignedOutAction(
-                  ((context) {
-                    Navigator.of(context)
-                        .popUntil(ModalRoute.withName('/home'));
-                  }),
                 ),
               ],
             ),

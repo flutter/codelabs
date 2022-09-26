@@ -8,12 +8,12 @@ class AuthFunc extends StatelessWidget {
     super.key,
     required this.loggedIn,
     required this.signOut,
-    required this.enable_free_swag,
+    required this.enableFreeSwag,
   });
 
   final bool loggedIn;
   final void Function() signOut;
-  final bool enable_free_swag;
+  final bool enableFreeSwag;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,7 @@ class AuthFunc extends StatelessWidget {
                   child: const Text('Profile')),
             )),
         Visibility(
-            visible: enable_free_swag,
+            visible: enableFreeSwag,
             child: Padding(
               padding: const EdgeInsets.only(left: 24, bottom: 8),
               child: StyledButton(

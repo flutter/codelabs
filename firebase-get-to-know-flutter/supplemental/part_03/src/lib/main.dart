@@ -96,6 +96,14 @@ class App extends StatelessWidget {
               key: ValueKey(appState.emailVerified),
               providers: const [],
               showMFATile: appState.emailVerified,
+              actions: [
+                SignedOutAction(
+                  ((context) {
+                    Navigator.of(context)
+                        .popUntil(ModalRoute.withName('/home'));
+                  }),
+                ),
+              ],
               children: [
                 Visibility(
                   visible: !appState.emailVerified,
@@ -103,16 +111,8 @@ class App extends StatelessWidget {
                     onPressed: () {
                       appState.refreshLoggedInUser();
                     },
-                    child: Text('Re-check email verification status'),
+                    child: const Text('Re-check email verification status'),
                   ),
-                ),
-              ],
-              actions: [
-                SignedOutAction(
-                  ((context) {
-                    Navigator.of(context)
-                        .popUntil(ModalRoute.withName('/home'));
-                  }),
                 ),
               ],
             ),
@@ -149,7 +149,7 @@ class HomePage extends StatelessWidget {
           const SizedBox(height: 8),
           Consumer<ApplicationState>(
             builder: (context, appState, _) =>
-                IconAndDetail(Icons.calendar_today, appState.event_date),
+                IconAndDetail(Icons.calendar_today, appState.eventDate),
           ),
           const IconAndDetail(Icons.location_city, 'San Francisco'),
           Consumer<ApplicationState>(
@@ -158,7 +158,7 @@ class HomePage extends StatelessWidget {
               signOut: () {
                 FirebaseAuth.instance.signOut();
               },
-              enable_free_swag: appState.enable_free_swag,
+              enableFreeSwag: appState.enableFreeSwag,
             ),
           ),
           const Divider(
@@ -171,7 +171,7 @@ class HomePage extends StatelessWidget {
           const Header("What we'll be doing"),
           Consumer<ApplicationState>(
             builder: (context, appState, _) => Paragraph(
-              '${appState.call_to_action}',
+              appState.callToAction,
             ),
           ),
           Consumer<ApplicationState>(
@@ -227,20 +227,20 @@ class ApplicationState extends ChangeNotifier {
   int _attendees = 0;
   int get attendees => _attendees;
 
-  static Map<String, dynamic> defaultFlagValues = {
+  static Map<String, dynamic> defaultFlagValues = <String, dynamic>{
     'event_date': 'October 18, 2022',
     'enable_free_swag': false,
     'call_to_action': 'Join us for a day full of Firebase Workshops and Pizza!',
   };
 
-  bool _enable_free_swag = defaultFlagValues['enable_free_swag'];
-  bool get enable_free_swag => _enable_free_swag;
+  bool _enableFreeSwag = defaultFlagValues['enable_free_swag'] as bool;
+  bool get enableFreeSwag => _enableFreeSwag;
 
-  String _event_date = defaultFlagValues['event_date'];
-  String get event_date => _event_date;
+  String _eventDate = defaultFlagValues['event_date'] as String;
+  String get eventDate => _eventDate;
 
-  String _call_to_action = defaultFlagValues['call_to_action'];
-  String get call_to_action => _call_to_action;
+  String _callToAction = defaultFlagValues['call_to_action'] as String;
+  String get callToAction => _callToAction;
 
   Attending _attending = Attending.unknown;
   StreamSubscription<DocumentSnapshot>? _attendingSubscription;
@@ -333,9 +333,9 @@ class ApplicationState extends ChangeNotifier {
 
     await remoteConfig.fetchAndActivate();
 
-    _enable_free_swag = remoteConfig.getBool('enable_free_swag');
-    _event_date = remoteConfig.getString('event_date');
-    _call_to_action = remoteConfig.getString('call_to_action');
+    _enableFreeSwag = remoteConfig.getBool('enable_free_swag');
+    _eventDate = remoteConfig.getString('event_date');
+    _callToAction = remoteConfig.getString('call_to_action');
 
     notifyListeners();
   }
