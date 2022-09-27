@@ -45,7 +45,7 @@ class AuthFunc extends StatelessWidget {
               padding: const EdgeInsets.only(left: 24, bottom: 8),
               child: StyledButton(
                   onPressed: () {
-                    FirebaseCrashlytics.instance.crash();
+                    throw Exception('swag tool unimplemented');
                   },
                   child: const Text('Free Swag!')),
             )),

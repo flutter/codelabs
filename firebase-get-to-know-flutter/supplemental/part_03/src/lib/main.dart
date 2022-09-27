@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart'
@@ -260,7 +261,11 @@ class ApplicationState extends ChangeNotifier {
     await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform);
 
-    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+    FlutterError.onError = (details) => {
+          FirebaseCrashlytics.instance
+              .recordFlutterFatalError(details)
+              .then((value) => exit(1)), // To make a hard crash
+        };
 
     FirebaseUIAuth.configureProviders([
       EmailAuthProvider(),
