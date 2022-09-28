@@ -264,7 +264,9 @@ class ApplicationState extends ChangeNotifier {
     FlutterError.onError = (details) => {
           FirebaseCrashlytics.instance
               .recordFlutterFatalError(details)
-              .then((value) => exit(1)), // To make a hard crash
+              // To make a hard crash
+              // Don't do this in real life
+              .then((value) => exit(1)),
         };
 
     FirebaseUIAuth.configureProviders([

@@ -44,7 +44,13 @@ Future<void> init() async {
       options: DefaultFirebaseOptions.currentPlatform);
 
   // Add from here
-  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+  FlutterError.onError = (details) => {
+      FirebaseCrashlytics.instance
+          .recordFlutterFatalError(details)
+          // To make a hard crash
+          // Don't do this in real life
+          .then((value) => exit(1)),
+    };
   // to here
 
   FirebaseUIAuth.configureProviders([
@@ -59,7 +65,13 @@ Future<void> init() async {
   await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform);
 
-  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+  FlutterError.onError = (details) => {
+      FirebaseCrashlytics.instance
+          .recordFlutterFatalError(details)
+          // To make a hard crash
+          // Don't do this in real life
+          .then((value) => exit(1)),
+    };
   
   // Add from here
   var remoteConfig = FirebaseRemoteConfig.instance;
@@ -132,8 +144,6 @@ The config settings sets how long remote config should wait for the values to co
 We then want these changes to be reflected within our application. Since we do not have a free swag button yet, we would want to add that into our application. If we go to `src/authentication.dart` we can then make the following changes:
 
 ```dart
-// Add this import
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 
 import 'widgets.dart';
@@ -184,7 +194,7 @@ class AuthFunc extends StatelessWidget {
               child: StyledButton(
                   onPressed: () {
                     // this is present so we can test crashlytics
-                    FirebaseCrashlytics.instance.crash();
+                    throw Exception('swag tool unimplemented');
                   },
                   child: const Text('Free Swag!')),
             )),
