@@ -12,9 +12,7 @@ Future setDesktopWindow() async {
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  if (UniversalPlatform.isWindows ||
-      UniversalPlatform.isLinux ||
-      UniversalPlatform.isMacOS) {
+  if (UniversalPlatform.isDesktop) {
     setDesktopWindow();
   }
 

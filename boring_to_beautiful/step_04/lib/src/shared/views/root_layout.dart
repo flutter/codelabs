@@ -60,19 +60,16 @@ class RootLayout extends StatelessWidget {
 }
 
 class _Switcher extends StatelessWidget {
-  final bool isDesktop = defaultTargetPlatform == TargetPlatform.linux ||
-      defaultTargetPlatform == TargetPlatform.macOS ||
-      defaultTargetPlatform == TargetPlatform.windows;
   final Widget child;
 
-  _Switcher({
+  const _Switcher({
     required this.child,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    return isDesktop
+    return UniversalPlatform.isDesktop
         ? child
         : AnimatedSwitcher(
             key: key,
