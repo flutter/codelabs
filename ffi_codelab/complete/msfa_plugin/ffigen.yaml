@@ -7,9 +7,11 @@ description: |
 output: 'lib/msfa_plugin_bindings_generated.dart'
 headers:
   entry-points:
-    - 'src/msfa_plugin.h'
+    - 'src/libmsfa/include/libmsfa.h'
   include-directives:
-    - 'src/msfa_plugin.h'
+    - 'src/libmsfa/include/libmsfa.h'
+llvm-path:
+    - "/usr/lib/llvm-14"      
 preamble: |
   // ignore_for_file: always_specify_types
   // ignore_for_file: camel_case_types

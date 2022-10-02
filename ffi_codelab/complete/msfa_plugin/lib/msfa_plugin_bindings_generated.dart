@@ -26,44 +26,44 @@ class MsfaPluginBindings {
           lookup)
       : _lookup = lookup;
 
-  /// A very short-lived native function.
-  ///
-  /// For very short-lived functions, it is fine to call them on the main isolate.
-  /// They will block the Dart execution while running the native function, so
-  /// only do this for native functions which are guaranteed to be short-lived.
-  int sum(
-    int a,
-    int b,
+  int initEngine() {
+    return _initEngine();
+  }
+
+  late final _initEnginePtr =
+      _lookup<ffi.NativeFunction<ffi.Int32 Function()>>('initEngine');
+  late final _initEngine = _initEnginePtr.asFunction<int Function()>();
+
+  void sendMidi(
+    ffi.Pointer<ffi.Uint8> bytes,
+    int size,
   ) {
-    return _sum(
-      a,
-      b,
+    return _sendMidi(
+      bytes,
+      size,
     );
   }
 
-  late final _sumPtr =
-      _lookup<ffi.NativeFunction<ffi.IntPtr Function(ffi.IntPtr, ffi.IntPtr)>>(
-          'sum');
-  late final _sum = _sumPtr.asFunction<int Function(int, int)>();
+  late final _sendMidiPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<ffi.Uint8>, ffi.Int)>>('sendMidi');
+  late final _sendMidi =
+      _sendMidiPtr.asFunction<void Function(ffi.Pointer<ffi.Uint8>, int)>();
 
-  /// A longer lived native function, which occupies the thread calling it.
-  ///
-  /// Do not call these kind of native functions in the main isolate. They will
-  /// block Dart execution. This will cause dropped frames in Flutter applications.
-  /// Instead, call these native functions on a separate isolate.
-  int sum_long_running(
-    int a,
-    int b,
-  ) {
-    return _sum_long_running(
-      a,
-      b,
-    );
+  void shutdownEngine() {
+    return _shutdownEngine();
   }
 
-  late final _sum_long_runningPtr =
-      _lookup<ffi.NativeFunction<ffi.IntPtr Function(ffi.IntPtr, ffi.IntPtr)>>(
-          'sum_long_running');
-  late final _sum_long_running =
-      _sum_long_runningPtr.asFunction<int Function(int, int)>();
+  late final _shutdownEnginePtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function()>>('shutdownEngine');
+  late final _shutdownEngine = _shutdownEnginePtr.asFunction<void Function()>();
+}
+
+abstract class msfa_result {
+  static const int MSFA_SUCCESS = 0;
+
+  /// A generic error.
+  static const int MSFA_ERROR = -1;
+  static const int MSFA_AUDIO_OPEN_FAILED = -2;
+  static const int MSFA_AUDIO_START_FAILED = -2;
 }

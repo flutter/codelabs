@@ -1,30 +1,24 @@
+#ifndef __LIBMSFA_H
+#define __LIBMSFA_H
+
 #include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
 
-#if _WIN32
-#include <windows.h>
-#else
-#include <pthread.h>
-#include <unistd.h>
+typedef enum
+{
+    MSFA_SUCCESS  =  0,
+    MSFA_ERROR    = -1,  /* A generic error. */
+    MSFA_AUDIO_OPEN_FAILED = -2,
+    MSFA_AUDIO_START_FAILED = -2,
+} msfa_result;
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+    msfa_result initEngine();
+    void sendMidi(const uint8_t *bytes, int size);
+    void shutdownEngine();
+#ifdef __cplusplus    
+}
 #endif
 
-#if _WIN32
-#define FFI_PLUGIN_EXPORT __declspec(dllexport)
-#else
-#define FFI_PLUGIN_EXPORT
-#endif
-
-// A very short-lived native function.
-//
-// For very short-lived functions, it is fine to call them on the main isolate.
-// They will block the Dart execution while running the native function, so
-// only do this for native functions which are guaranteed to be short-lived.
-FFI_PLUGIN_EXPORT intptr_t sum(intptr_t a, intptr_t b);
-
-// A longer lived native function, which occupies the thread calling it.
-//
-// Do not call these kind of native functions in the main isolate. They will
-// block Dart execution. This will cause dropped frames in Flutter applications.
-// Instead, call these native functions on a separate isolate.
-FFI_PLUGIN_EXPORT intptr_t sum_long_running(intptr_t a, intptr_t b);
+#endif  // __LIBMSFA_H

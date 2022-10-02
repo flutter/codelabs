@@ -1,0 +1,3 @@
+[submodule "ffi_codelab/complete/msfa_plugin/src/libmsfa"]
+	path = ffi_codelab/complete/msfa_plugin/src/libmsfa
+	url = https://github.com/maks/libmsfa
