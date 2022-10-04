@@ -1,4 +1,4 @@
-name: Cupertino Store script
+name: Adaptive App rebuild script
 steps:
   - name: step_03
     steps:
