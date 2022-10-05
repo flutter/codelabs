@@ -91,9 +91,11 @@ steps:
           environment:
             sdk: '>=2.18.0 <3.0.0'
           
+          # #docregion dependencies
           dependencies:
             flutter:
               sdk: flutter
+          # #enddocregion dependencies
           
           dev_dependencies:
             flutter_test:
@@ -118,25 +120,6 @@ steps:
       - name: Add english_words
         path: startup_namer
         flutter: pub add english_words
-      - name: Patch pubspec.yaml
-        path: startup_namer/pubspec.yaml
-        patch-u: |
-          --- b/startup_namer/step2_use_package/pubspec.yaml
-          +++ a/startup_namer/step2_use_package/pubspec.yaml
-          @@ -6,11 +6,13 @@ version: 1.0.0+1
-           environment:
-             sdk: '>=2.18.0 <3.0.0'
-           
-          +# #docregion dependencies
-           dependencies:
-             cupertino_icons: ^1.0.5
-             english_words: ^4.0.0
-             flutter:
-               sdk: flutter
-          +# #enddocregion dependencies
-           
-           dev_dependencies:
-             flutter_lints: ^2.0.1
       - name: Patch lib/main.dart
         path: startup_namer/lib/main.dart
         patch-u: |
