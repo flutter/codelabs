@@ -6,12 +6,10 @@ version: 1.0.0+1
 environment:
   sdk: '>=2.18.0 <3.0.0'
 
-# #docregion dependencies
 dependencies:
   cupertino_icons: ^1.0.5
   flutter:
     sdk: flutter
-# #enddocregion dependencies
 
 dev_dependencies:
   flutter_lints: ^2.0.1

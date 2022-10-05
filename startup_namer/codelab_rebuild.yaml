@@ -91,11 +91,9 @@ steps:
           environment:
             sdk: '>=2.18.0 <3.0.0'
           
-          # #docregion dependencies
           dependencies:
             flutter:
               sdk: flutter
-          # #enddocregion dependencies
           
           dev_dependencies:
             flutter_test:
@@ -188,25 +186,6 @@ steps:
     steps:
       - name: Remove step3_stateful_widget
         rmdir: step3_stateful_widget
-      - name: Patch pubspec.yaml
-        path: startup_namer/pubspec.yaml
-        patch-u: |
-          --- b/startup_namer/step3_stateful_widget/pubspec.yaml
-          +++ a/startup_namer/step3_stateful_widget/pubspec.yaml
-          @@ -6,13 +6,11 @@ version: 1.0.0+1
-           environment:
-             sdk: '>=2.18.0 <3.0.0'
-           
-          -# #docregion dependencies
-           dependencies:
-             cupertino_icons: ^1.0.5
-             english_words: ^4.0.0
-             flutter:
-               sdk: flutter
-          -# #enddocregion dependencies
-           
-           dev_dependencies:
-             flutter_lints: ^2.0.1
       - name: Patch lib/main.dart
         path: startup_namer/lib/main.dart
         patch-u: |
