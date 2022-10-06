@@ -18,7 +18,25 @@ A new Flutter FFI plugin project.
   # paths, so Classes contains a forwarder C file that relatively imports
   # `../src/*` so that the C sources can be shared among all target platforms.
   s.source           = { :path => '.' }
-  s.source_files     = 'Classes/**/*'
+  s.source_files     = [
+    'Classes/dx7note.cc',
+    'Classes/env.cc',
+    'Classes/exp2.cc',
+    'Classes/fir.cc',
+    'Classes/fm_core.cc',
+    'Classes/fm_op_kernel.cc',
+    'Classes/freqlut.cc',
+    'Classes/lfo.cc',
+    'Classes/log2.cc',
+    'Classes/libmsfa.cc',
+    'Classes/patch.cc',
+    'Classes/pitchenv.cc',
+    'Classes/resofilter.cc',
+    'Classes/ringbuffer.cc',
+    'Classes/sawtooth.cc',
+    'Classes/sin.cc',
+    'Classes/synth_unit.cc'   
+    ]
   s.dependency 'FlutterMacOS'
 
   s.platform = :osx, '10.11'
