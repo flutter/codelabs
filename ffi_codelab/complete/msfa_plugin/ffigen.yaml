@@ -19,3 +19,8 @@ preamble: |
 comments:
   style: any
   length: full
+functions:  
+  symbol-address:
+      # Used to expose symbol address.
+      include:
+        - shutdownEngine  

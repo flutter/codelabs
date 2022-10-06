@@ -57,6 +57,15 @@ class MsfaPluginBindings {
   late final _shutdownEnginePtr =
       _lookup<ffi.NativeFunction<ffi.Void Function()>>('shutdownEngine');
   late final _shutdownEngine = _shutdownEnginePtr.asFunction<void Function()>();
+
+  late final addresses = _SymbolAddresses(this);
+}
+
+class _SymbolAddresses {
+  final MsfaPluginBindings _library;
+  _SymbolAddresses(this._library);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> get shutdownEngine =>
+      _library._shutdownEnginePtr;
 }
 
 abstract class msfa_result {
