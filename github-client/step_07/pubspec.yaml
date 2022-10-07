@@ -20,7 +20,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.18.0-271.7.beta <3.0.0'
+  sdk: '>=2.18.2 <3.0.0'
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -38,7 +38,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   http: ^0.13.5
   oauth2: ^2.0.0
-  url_launcher: ^6.1.5
+  url_launcher: ^6.1.6
   github: ^9.4.0
   window_to_front:
     path: ../window_to_front

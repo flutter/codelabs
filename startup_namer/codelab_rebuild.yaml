@@ -80,38 +80,33 @@ steps:
               expect(find.text('Hello World'), findsOneWidget);
             });
           }
-      - name: Patch pubspec.yaml
+      - name: Replace pubspec.yaml
         path: startup_namer/pubspec.yaml
-        patch-u: |
-          --- b/startup_namer/step1_base/pubspec.yaml
-          +++ a/startup_namer/step1_base/pubspec.yaml
-          @@ -1,5 +1,5 @@
-           name: startup_namer
-          -description: A new Flutter project.
-          +description: A startup-namer app.
-           
-           # The following line prevents the package from being accidentally published to
-           # pub.dev using `flutter pub publish`. This is preferred for private packages.
-          @@ -22,19 +22,9 @@ version: 1.0.0+1
-           environment:
-             sdk: '>=2.18.0-271.7.beta <3.0.0'
-           
-          -# Dependencies specify other packages that your package needs in order to work.
-          -# To automatically upgrade your package dependencies to the latest versions
-          -# consider running `flutter pub upgrade --major-versions`. Alternatively,
-          -# dependencies can be manually updated by changing the version numbers below to
-          -# the latest version available on pub.dev. To see which dependencies have newer
-          -# versions available, run `flutter pub outdated`.
-           dependencies:
-             flutter:
-               sdk: flutter
-          -
-          -
-          -  # The following adds the Cupertino Icons font to your application.
-          -  # Use with the CupertinoIcons class for iOS style icons.
-             cupertino_icons: ^1.0.2
-           
-           dev_dependencies:
+        replace-contents: |
+          name: startup_namer
+          description: A startup-namer app.
+          publish_to: 'none'
+          version: 1.0.0+1
+          
+          environment:
+            sdk: '>=2.18.0 <3.0.0'
+          
+          dependencies:
+            flutter:
+              sdk: flutter
+          
+          dev_dependencies:
+            flutter_test:
+              sdk: flutter
+          
+          flutter:
+            uses-material-design: true
+      - name: Add cupertino_icons
+        path: startup_namer
+        flutter: pub add cupertino_icons
+      - name: Add flutter_lints
+        path: startup_namer
+        flutter: pub add -d flutter_lints
       - name: Copy step1_base
         copydir:
           from: startup_namer
@@ -123,25 +118,6 @@ steps:
       - name: Add english_words
         path: startup_namer
         flutter: pub add english_words
-      - name: Patch pubspec.yaml
-        path: startup_namer/pubspec.yaml
-        patch-u: |
-          --- b/startup_namer/step2_use_package/pubspec.yaml
-          +++ a/startup_namer/step2_use_package/pubspec.yaml
-          @@ -22,11 +22,13 @@ version: 1.0.0+1
-           environment:
-             sdk: '>=2.18.0-271.7.beta <3.0.0'
-           
-          +# #docregion dependencies
-           dependencies:
-             flutter:
-               sdk: flutter
-             cupertino_icons: ^1.0.2
-             english_words: ^4.0.0
-          +# #enddocregion dependencies
-           
-           dev_dependencies:
-             flutter_test:
       - name: Patch lib/main.dart
         path: startup_namer/lib/main.dart
         patch-u: |
@@ -210,25 +186,6 @@ steps:
     steps:
       - name: Remove step3_stateful_widget
         rmdir: step3_stateful_widget
-      - name: Patch pubspec.yaml
-        path: startup_namer/pubspec.yaml
-        patch-u: |
-          --- b/startup_namer/step3_stateful_widget/pubspec.yaml
-          +++ a/startup_namer/step3_stateful_widget/pubspec.yaml
-          @@ -22,13 +22,11 @@ version: 1.0.0+1
-           environment:
-             sdk: '>=2.18.0-271.7.beta <3.0.0'
-           
-          -# #docregion dependencies
-           dependencies:
-             flutter:
-               sdk: flutter
-             cupertino_icons: ^1.0.2
-             english_words: ^4.0.0
-          -# #enddocregion dependencies
-           
-           dev_dependencies:
-             flutter_test:
       - name: Patch lib/main.dart
         path: startup_namer/lib/main.dart
         patch-u: |
