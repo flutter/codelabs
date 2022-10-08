@@ -66,7 +66,10 @@ class _PlaylistDetailsListView extends StatelessWidget {
       child: DecoratedBox(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.transparent, Theme.of(context).backgroundColor],
+            colors: [
+              Colors.transparent,
+              Theme.of(context).colorScheme.background
+            ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             stops: const [0.5, 0.95],
