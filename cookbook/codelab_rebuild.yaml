@@ -29,7 +29,6 @@ steps:
       +	<true/>
        </dict>
        </plist>
-
   - name: Patch macos/Runner/Release.entitlements
     path: macos/Runner/Release.entitlements
     patch-u: |

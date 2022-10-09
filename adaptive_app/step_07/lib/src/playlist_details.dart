@@ -85,7 +85,10 @@ class _PlaylistDetailsListViewState extends State<_PlaylistDetailsListView> {
       child: DecoratedBox(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.transparent, Theme.of(context).backgroundColor],
+            colors: [
+              Colors.transparent,
+              Theme.of(context).colorScheme.background
+            ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             stops: const [0.5, 0.95],
@@ -107,7 +110,7 @@ class _PlaylistDetailsListViewState extends State<_PlaylistDetailsListView> {
         children: [
           AdaptiveText(
             playlistItem.snippet!.title!,
-            style: Theme.of(context).textTheme.bodyText1!.copyWith(
+            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                   fontSize: 18,
                   // fontWeight: FontWeight.bold,
                 ),
@@ -115,7 +118,7 @@ class _PlaylistDetailsListViewState extends State<_PlaylistDetailsListView> {
           if (playlistItem.snippet!.videoOwnerChannelTitle != null)
             AdaptiveText(
               playlistItem.snippet!.videoOwnerChannelTitle!,
-              style: Theme.of(context).textTheme.bodyText2!.copyWith(
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     fontSize: 12,
                   ),
             ),

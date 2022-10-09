@@ -29,10 +29,11 @@ class NavigationControls extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.arrow_back_ios),
               onPressed: () async {
+                final messenger = ScaffoldMessenger.of(context);
                 if (await controller.canGoBack()) {
                   await controller.goBack();
                 } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
+                  messenger.showSnackBar(
                     const SnackBar(content: Text('No back history item')),
                   );
                   return;
@@ -42,10 +43,11 @@ class NavigationControls extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.arrow_forward_ios),
               onPressed: () async {
+                final messenger = ScaffoldMessenger.of(context);
                 if (await controller.canGoForward()) {
                   await controller.goForward();
                 } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
+                  messenger.showSnackBar(
                     const SnackBar(content: Text('No forward history item')),
                   );
                   return;

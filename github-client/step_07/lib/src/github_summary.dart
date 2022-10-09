@@ -104,7 +104,7 @@ class _RepositoriesListState extends State<RepositoriesList> {
         return ListView.builder(
           primary: false,
           itemBuilder: (context, index) {
-            var repository = repositories![index];
+            var repository = repositories[index];
             return ListTile(
               title:
                   Text('${repository.owner?.login ?? ''}/${repository.name}'),
@@ -151,7 +151,7 @@ class _AssignedIssuesListState extends State<AssignedIssuesList> {
         return ListView.builder(
           primary: false,
           itemBuilder: (context, index) {
-            var assignedIssue = assignedIssues![index];
+            var assignedIssue = assignedIssues[index];
             return ListTile(
               title: Text(assignedIssue.title),
               subtitle: Text('${_nameWithOwner(assignedIssue)} '
@@ -206,7 +206,7 @@ class _PullRequestsListState extends State<PullRequestsList> {
         return ListView.builder(
           primary: false,
           itemBuilder: (context, index) {
-            var pullRequest = pullRequests![index];
+            var pullRequest = pullRequests[index];
             return ListTile(
               title: Text(pullRequest.title ?? ''),
               subtitle: Text('flutter/flutter '

@@ -24,7 +24,6 @@ steps:
           # limitations under the License.
           
           include: ../../analysis_options.yaml
-
       - name: Add intl
         path: cupertino_store
         flutter: pub add intl provider shrine_images
@@ -54,7 +53,7 @@ steps:
            
            # The following line prevents the package from being accidentally published to
            # pub.dev using `flutter pub publish`. This is preferred for private packages.
-          @@ -90,3 +104,42 @@ flutter:
+          @@ -92,3 +106,42 @@ flutter:
              #
              # For details regarding fonts from package dependencies,
              # see https://flutter.dev/custom-fonts/#from-packages
@@ -97,7 +96,6 @@ steps:
           +    - packages/shrine_images/35-0.jpg
           +    - packages/shrine_images/36-0.jpg
           +    - packages/shrine_images/37-0.jpg
-
       - name: Remove the README.md.
         rm: cupertino_store/README.md
       - name: Remove the Android, Web, and Desktop runners
@@ -361,7 +359,6 @@ steps:
                );
              }
            }
-
       - name: Patch main.dart
         path: cupertino_store/lib/main.dart
         patch-u: |
@@ -385,7 +382,6 @@ steps:
           +    ),
           +  );
            }
-
       - name: Modify widget_test.dart
         path: cupertino_store/test/widget_test.dart
         patch-u: |
@@ -414,7 +410,6 @@ steps:
           +    expect(find.text('Cart'), findsOneWidget);
              });
            }
-
       - name: Add product_list_tab.dart
         path: cupertino_store/lib/product_list_tab.dart
         replace-contents: |
@@ -1083,7 +1078,6 @@ steps:
                      ],
                    );
                  },
-
       - name: Update product_row_item.dart
         path: cupertino_store/lib/product_row_item.dart
         replace-contents: |
@@ -1354,7 +1348,6 @@ steps:
                );
              }
            }
-
       - name: Copy step_03
         copydir:
           from: cupertino_store
@@ -1500,7 +1493,6 @@ steps:
                      ],
                    );
                  },
-
       - name: Copy step_04
         copydir:
           from: cupertino_store
@@ -1590,7 +1582,6 @@ steps:
                      default:
                      // Do nothing. For now.
                    }
-
       - name: Copy step_05
         copydir:
           from: cupertino_store
@@ -1761,7 +1752,6 @@ steps:
           +    return row;
           +  }
           +}
-
       - name: Copy step_06
         copydir:
           from: cupertino_store

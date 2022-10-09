@@ -320,15 +320,6 @@ steps:
            import 'package:plugin_platform_interface/plugin_platform_interface.dart';
            
            import 'window_to_front_method_channel.dart';
-          @@ -14,7 +28,7 @@ abstract class WindowToFrontPlatform extends PlatformInterface {
-             ///
-             /// Defaults to [MethodChannelWindowToFront].
-             static WindowToFrontPlatform get instance => _instance;
-          -  
-          +
-             /// Platform-specific implementations should set this with their own
-             /// platform-specific class that extends [WindowToFrontPlatform] when
-             /// they register themselves.
           @@ -23,7 +37,7 @@ abstract class WindowToFrontPlatform extends PlatformInterface {
                _instance = instance;
              }
@@ -391,7 +382,6 @@ steps:
         path: github_client/analysis_options.yaml
         replace-contents: |
           include: ../../analysis_options.yaml
-
       - name: Remove the README.md.
         rm: github_client/README.md
       - name: Remove the iOS, Android and Web runners
@@ -441,24 +431,6 @@ steps:
            import 'package:flutter/material.dart';
            
            void main() {
-          @@ -5,7 +19,7 @@ void main() {
-           }
-           
-           class MyApp extends StatelessWidget {
-          -  const MyApp({Key? key}) : super(key: key);
-          +  const MyApp({super.key});
-           
-             // This widget is the root of your application.
-             @override
-          @@ -30,7 +44,7 @@ class MyApp extends StatelessWidget {
-           }
-           
-           class MyHomePage extends StatefulWidget {
-          -  const MyHomePage({Key? key, required this.title}) : super(key: key);
-          +  const MyHomePage({super.key, required this.title});
-           
-             // This widget is the home page of your application. It is stateful, meaning
-             // that it has a State object (defined below) that contains fields that affect
       - name: Patch test/widget_test.dart
         path: github_client/test/widget_test.dart
         patch-u: |
@@ -979,7 +951,7 @@ steps:
                   return ListView.builder(
                     primary: false,
                     itemBuilder: (context, index) {
-                      var repository = repositories![index];
+                      var repository = repositories[index];
                       return ListTile(
                         title:
                             Text('${repository.owner?.login ?? ''}/${repository.name}'),
@@ -1026,7 +998,7 @@ steps:
                   return ListView.builder(
                     primary: false,
                     itemBuilder: (context, index) {
-                      var assignedIssue = assignedIssues![index];
+                      var assignedIssue = assignedIssues[index];
                       return ListTile(
                         title: Text(assignedIssue.title),
                         subtitle: Text('${_nameWithOwner(assignedIssue)} '
@@ -1081,7 +1053,7 @@ steps:
                   return ListView.builder(
                     primary: false,
                     itemBuilder: (context, index) {
-                      var pullRequest = pullRequests![index];
+                      var pullRequest = pullRequests[index];
                       return ListTile(
                         title: Text(pullRequest.title ?? ''),
                         subtitle: Text('flutter/flutter '
