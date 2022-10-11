@@ -117,7 +117,7 @@ Once we have configured remote config with a set of default values, we can go ah
     await remoteConfig.setConfigSettings(
       RemoteConfigSettings(
         fetchTimeout: const Duration(minutes: 1),
-        minimumFetchInterval: const Duration(hours: 1),
+        minimumFetchInterval: const Duration(hours: 0),
       ),
     );
 
