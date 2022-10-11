@@ -46,10 +46,7 @@ Future<void> init() async {
   // Add from here
   FlutterError.onError = (details) => {
       FirebaseCrashlytics.instance
-          .recordFlutterFatalError(details)
-          // To make a hard crash
-          // Don't do this in real life
-          .then((value) => exit(1)),
+          .recordFlutterFatalError(details);
     };
   // to here
 
@@ -67,10 +64,7 @@ Future<void> init() async {
 
   FlutterError.onError = (details) => {
       FirebaseCrashlytics.instance
-          .recordFlutterFatalError(details)
-          // To make a hard crash
-          // Don't do this in real life
-          .then((value) => exit(1)),
+          .recordFlutterFatalError(details);
     };
   
   // Add from here
@@ -94,19 +88,19 @@ In the `ApplicationState` class, we want to add the following default fields and
   int get attendees => _attendees;
 
   // Add from here
-  static Map<String, dynamic> defaultFlagValues = {
+  static Map<String, dynamic> defaultFlagValues = <String, dynamic>{
     'event_date': 'October 18, 2022',
     'enable_free_swag': false,
     'call_to_action': 'Join us for a day full of Firebase Workshops and Pizza!',
   };
 
-  bool _enable_free_swag = defaultFlagValues['enable_free_swag'];
+  bool _enable_free_swag = defaultFlagValues['enable_free_swag'] as bool;
   bool get enable_free_swag => _enable_free_swag;
 
-  String _event_date = defaultFlagValues['event_date'];
+  String _event_date = defaultFlagValues['event_date'] as String;
   String get event_date => _event_date;
 
-  String _call_to_action = defaultFlagValues['call_to_action'];
+  String _call_to_action = defaultFlagValues['call_to_action'] as String;
   String get call_to_action => _call_to_action;
   // to here
 
