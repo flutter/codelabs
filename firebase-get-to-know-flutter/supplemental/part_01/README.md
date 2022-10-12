@@ -14,10 +14,11 @@ Before we write any code, we need to configure our applications for Firebase MFA
 
 ### Android
 
-For Android, you will want to register your SHA-256 certificate fingerprint in the console. If you are working with the default android signing key, you can find that fingerprint through the keytool command using :
+For Android, you will want to register your SHA-256 certificate fingerprint in the console. If you are working with the default android signing key, you can find that fingerprint through the gradlew command using :
 
 ```shell
-keytool -list -v -keystore ~/.android/debug.keystore -alias androiddebugkey -storepass android -keypass android
+cd android
+./gradlew signingReport
 ```
 
 More information about signing keys can be found in this resource:
@@ -36,67 +37,25 @@ Once you have this value, you will want to open your project in XCode and go to 
 
 ## Code
 
-The first thing that we would want to do is to update the `ApplicationState` class at the bottom of the `main.dart` file. In this class we want to add a check on whether the user has verified their email address as users cannot start to enroll in MFA until they have a verified email address. The changes we would want to make would look like:
-
-```dart
-bool _loggedIn = false;
-bool get loggedIn => _loggedIn;
-
-// Add from here  
-bool _emailVerified = false;
-bool get emailVerified => _emailVerified;
-// To here
-```
-
-and
-
-```dart
-FirebaseAuth.instance.userChanges().listen((user) {
-      if (user != null) {
-        _loggedIn = true;
-        // add the following line
-        _emailVerified = user.emailVerified;
-```
-
-The problem though is that this check only runs after a user has logged in, and does not run when a user may do things like check the profile screen or do an out of band verification of their email address. To reload a user after they may have done an out of band email verification, we would want to add the following method to the `ApplicationState` class.
-
-```dart
-// Add from here
-Future<void> refreshLoggedInUser() async {
-    if (!loggedIn) {
-        return;
-    }
-    await FirebaseAuth.instance.currentUser!.reload();
-}
-// to here
-
-Future<DocumentReference> addMessageToGuestBook(String message) {
-//...
-```
-
-Now that we are able to check the verified email state, we would want to ensure that the user is able to get a verification email from Firebase. To add in an automatic verification email to be sent on user creation, add the following to the sign-in route of your applicaiton.
-
-```dart
-if (user == null) {
-    return;
-}
-if (state is UserCreated) {
-    user.updateDisplayName(user.email!.split('@')[0]);
-// Add the following line
-    user.sendEmailVerification();
-}
-```
-
 Next, we would want to provide a way for the user to enroll in MFA after they have verified their email. They can visit their profile page which should contain information about their user account. In this page, they should know whether or not their email was verified and if their email was verified, show an enrollment option for MFA. This will require us to consume our application state and check whether or not the email was verified and if it was, show the MFA enrollment option. If it was not verified, a yellow banner will be shown instead. We add in an out of band verification button for verification of the email verification since to automatically redirect back to the application, we would need to integrate deep linking. We use a key to determine whether or not the state of this widget needs to be updated and redrawn.
 
 ```dart
 '/profile': ((context) {
-    //modify from here
     return Consumer<ApplicationState>(
     builder: (context, appState, _) => ProfileScreen(
         key: ValueKey(appState.emailVerified),
         providers: const [],
+        // add the following line
         showMFATile: appState.emailVerified,
+        // finish adding
+        actions: [
+        SignedOutAction(
+            ((context) {
+            Navigator.of(context)
+                .popUntil(ModalRoute.withName('/home'));
+            }),
+        ),
+        ],
         children: [
         Visibility(
             visible: !appState.emailVerified,
@@ -104,17 +63,8 @@ Next, we would want to provide a way for the user to enroll in MFA after they ha
             onPressed: () {
                 appState.refreshLoggedInUser();
             },
-            child: Text("Re-check email verification status"),
+            child: Text("Recheck email verification status"),
             ),
-        ),
-        ],
-        // to here
-        actions: [
-        SignedOutAction(
-            ((context) {
-            Navigator.of(context)
-                .popUntil(ModalRoute.withName('/home'));
-            }),
         ),
         ],
     ),
