@@ -129,14 +129,19 @@ class HomePage extends StatelessWidget {
         children: <Widget>[
           Image.asset('assets/codelab.png'),
           const SizedBox(height: 8),
-          const IconAndDetail(Icons.calendar_today, 'October 30'),
+          Consumer<ApplicationState>(
+            builder: (context, appState, _) =>
+                IconAndDetail(Icons.calendar_today, appState.event_date),
+          ),
           const IconAndDetail(Icons.location_city, 'San Francisco'),
           Consumer<ApplicationState>(
             builder: (context, appState, _) => AuthFunc(
-                loggedIn: appState.loggedIn,
-                signOut: () {
-                  FirebaseAuth.instance.signOut();
-                }),
+              loggedIn: appState.loggedIn,
+              signOut: () {
+                FirebaseAuth.instance.signOut();
+              },
+              enable_free_swag: appState.enable_free_swag,
+            ),
           ),
           const Divider(
             height: 8,
@@ -146,8 +151,10 @@ class HomePage extends StatelessWidget {
             color: Colors.grey,
           ),
           const Header("What we'll be doing"),
-          const Paragraph(
-            'Join us for a day full of Firebase Workshops and Pizza!',
+          Consumer<ApplicationState>(
+            builder: (context, appState, _) => Paragraph(
+              appState.call_to_action,
+            ),
           ),
           Consumer<ApplicationState>(
             builder: (context, appState, _) => Column(
@@ -199,6 +206,21 @@ class ApplicationState extends ChangeNotifier {
 
   int _attendees = 0;
   int get attendees => _attendees;
+
+  static Map<String, dynamic> defaultValues = <String, dynamic>{
+    'event_date': 'October 18, 2022',
+    'enable_free_swag': false,
+    'call_to_action': 'Join us for a day full of Firebase Workshops and Pizza!',
+  };
+
+  bool _enable_free_swag = defaultValues['enable_free_swag'] as bool;
+  bool get enable_free_swag => _enable_free_swag;
+
+  String _event_date = defaultValues['event_date'] as String;
+  String get event_date => _event_date;
+
+  String _call_to_action = defaultValues['call_to_action'] as String;
+  String get call_to_action => _call_to_action;
 
   Attending _attending = Attending.unknown;
   StreamSubscription<DocumentSnapshot>? _attendingSubscription;
