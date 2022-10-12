@@ -50,6 +50,7 @@ class App extends StatelessWidget {
                   }
                   if (state is UserCreated) {
                     user.updateDisplayName(user.email!.split('@')[0]);
+                    user.sendEmailVerification();
                   }
                   if (!user.emailVerified) {
                     user.sendEmailVerification();
@@ -74,15 +75,29 @@ class App extends StatelessWidget {
           );
         }),
         '/profile': ((context) {
-          return ProfileScreen(
-            providers: const [],
-            actions: [
-              SignedOutAction(
-                ((context) {
-                  Navigator.of(context).popUntil(ModalRoute.withName('/home'));
-                }),
-              ),
-            ],
+          return Consumer<ApplicationState>(
+            builder: (context, appState, _) => ProfileScreen(
+              key: ValueKey(appState.emailVerified),
+              providers: const [],
+              actions: [
+                SignedOutAction(
+                  ((context) {
+                    Navigator.of(context)
+                        .popUntil(ModalRoute.withName('/home'));
+                  }),
+                ),
+              ],
+              children: [
+                Visibility(
+                    visible: !appState.emailVerified,
+                    child: OutlinedButton(
+                      child: const Text('Recheck Verification State'),
+                      onPressed: () {
+                        appState.refreshLoggedInUser();
+                      },
+                    ))
+              ],
+            ),
           );
         })
       },
@@ -175,6 +190,9 @@ class ApplicationState extends ChangeNotifier {
   bool _loggedIn = false;
   bool get loggedIn => _loggedIn;
 
+  bool _emailVerified = false;
+  bool get emailVerified => _emailVerified;
+
   StreamSubscription<QuerySnapshot>? _guestBookSubscription;
   List<GuestBookMessage> _guestBookMessages = [];
   List<GuestBookMessage> get guestBookMessages => _guestBookMessages;
@@ -216,6 +234,7 @@ class ApplicationState extends ChangeNotifier {
     FirebaseAuth.instance.userChanges().listen((user) {
       if (user != null) {
         _loggedIn = true;
+        _emailVerified = user.emailVerified;
         _guestBookSubscription = FirebaseFirestore.instance
             .collection('guestbook')
             .orderBy('timestamp', descending: true)
@@ -250,12 +269,23 @@ class ApplicationState extends ChangeNotifier {
         });
       } else {
         _loggedIn = false;
+        _emailVerified = false;
         _guestBookMessages = [];
         _guestBookSubscription?.cancel();
         _attendingSubscription?.cancel();
       }
       notifyListeners();
     });
+  }
+
+  Future<void> refreshLoggedInUser() async {
+    final currentUser = FirebaseAuth.instance.currentUser;
+
+    if (currentUser == null) {
+      return;
+    }
+
+    await currentUser.reload();
   }
 
   Future<DocumentReference> addMessageToGuestBook(String message) {
