@@ -46,10 +46,7 @@ Future<void> init() async {
   // Add from here
   FlutterError.onError = (details) => {
       FirebaseCrashlytics.instance
-          .recordFlutterFatalError(details)
-          // To make a hard crash
-          // Don't do this in real life
-          .then((value) => exit(1)),
+          .recordFlutterFatalError(details);
     };
   // to here
 
@@ -67,10 +64,7 @@ Future<void> init() async {
 
   FlutterError.onError = (details) => {
       FirebaseCrashlytics.instance
-          .recordFlutterFatalError(details)
-          // To make a hard crash
-          // Don't do this in real life
-          .then((value) => exit(1)),
+          .recordFlutterFatalError(details);
     };
   
   // Add from here
@@ -97,7 +91,7 @@ Once we have configured remote config with a set of default values, we can go ah
     await remoteConfig.setConfigSettings(
       RemoteConfigSettings(
         fetchTimeout: const Duration(minutes: 1),
-        minimumFetchInterval: const Duration(hours: 1),
+        minimumFetchInterval: const Duration(hours: 0),
       ),
     );
 
