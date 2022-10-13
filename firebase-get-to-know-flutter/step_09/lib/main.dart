@@ -140,7 +140,7 @@ class HomePage extends StatelessWidget {
               signOut: () {
                 FirebaseAuth.instance.signOut();
               },
-              enable_free_swag: appState.enable_free_swag,
+              enableFreeSwag: appState.enable_free_swag,
             ),
           ),
           const Divider(
