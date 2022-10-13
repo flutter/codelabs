@@ -332,7 +332,7 @@ class ApplicationState extends ChangeNotifier {
     await remoteConfig.setConfigSettings(
       RemoteConfigSettings(
         fetchTimeout: const Duration(minutes: 1),
-        minimumFetchInterval: const Duration(minutes: 1),
+        minimumFetchInterval: const Duration(minutes: 0),
       ),
     );
 
