@@ -131,7 +131,7 @@ class HomePage extends StatelessWidget {
           const SizedBox(height: 8),
           Consumer<ApplicationState>(
             builder: (context, appState, _) =>
-                IconAndDetail(Icons.calendar_today, appState.event_date),
+                IconAndDetail(Icons.calendar_today, appState.eventDate),
           ),
           const IconAndDetail(Icons.location_city, 'San Francisco'),
           Consumer<ApplicationState>(
@@ -140,7 +140,7 @@ class HomePage extends StatelessWidget {
               signOut: () {
                 FirebaseAuth.instance.signOut();
               },
-              enableFreeSwag: appState.enable_free_swag,
+              enableFreeSwag: appState.enableFreeSwag,
             ),
           ),
           const Divider(
@@ -153,7 +153,7 @@ class HomePage extends StatelessWidget {
           const Header("What we'll be doing"),
           Consumer<ApplicationState>(
             builder: (context, appState, _) => Paragraph(
-              appState.call_to_action,
+              appState.callToAction,
             ),
           ),
           Consumer<ApplicationState>(
@@ -213,14 +213,19 @@ class ApplicationState extends ChangeNotifier {
     'call_to_action': 'Join us for a day full of Firebase Workshops and Pizza!',
   };
 
-  bool _enable_free_swag = defaultValues['enable_free_swag'] as bool;
-  bool get enable_free_swag => _enable_free_swag;
+  // ignoring lints on these fields since we are modifying them in a different
+  // part of the codelab
+  // ignore: prefer_final_fields
+  bool _enableFreeSwag = defaultValues['enable_free_swag'] as bool;
+  bool get enableFreeSwag => _enableFreeSwag;
 
-  String _event_date = defaultValues['event_date'] as String;
-  String get event_date => _event_date;
+  // ignore: prefer_final_fields
+  String _eventDate = defaultValues['event_date'] as String;
+  String get eventDate => _eventDate;
 
-  String _call_to_action = defaultValues['call_to_action'] as String;
-  String get call_to_action => _call_to_action;
+  // ignore: prefer_final_fields
+  String _callToAction = defaultValues['call_to_action'] as String;
+  String get callToAction => _callToAction;
 
   Attending _attending = Attending.unknown;
   StreamSubscription<DocumentSnapshot>? _attendingSubscription;
