@@ -1,0 +1,34 @@
+{
+  "parameters": {
+    "enable_free_swag": {
+      "defaultValue": {
+        "value": "false"
+      },
+      "description": "a feature flag to enable a free swag button within the application",
+      "valueType": "BOOLEAN"
+    },
+    "event_date": {
+      "defaultValue": {
+        "value": "Oct 18, 2022"
+      },
+      "description": "a date for future conferences so we can reuse our application.",
+      "valueType": "STRING"
+    },
+    "call_to_action": {
+      "defaultValue": {
+        "value": "Come enjoy pizza while attending a Firebase workshop!"
+      },
+      "description": "a message letting our community know what the upcoming session holds in store. A place for ML personalization to see what kind of messages land better with our users.",
+      "valueType": "STRING"
+    }
+  },
+  "version": {
+    "versionNumber": "1",
+    "updateTime": "2022-10-11T22:13:02.353916Z",
+    "updateUser": {
+      "email": "dash2sparky@gmail.com"
+    },
+    "updateOrigin": "CONSOLE",
+    "updateType": "INCREMENTAL_UPDATE"
+  }
+}
