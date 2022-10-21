@@ -38,7 +38,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   googleapis: ^9.2.0
   http: ^0.13.5
-  provider: ^6.0.3
+  provider: ^6.0.4
   url_launcher: ^6.1.6
   flex_color_scheme: ^6.0.1
 
