@@ -387,15 +387,15 @@ steps:
           import 'package:googleapis/youtube/v3.dart';
           import 'package:provider/provider.dart';
           import 'package:url_launcher/link.dart';
-
+          
           import 'app_state.dart';
-
+          
           class PlaylistDetails extends StatelessWidget {
             const PlaylistDetails(
                 {required this.playlistId, required this.playlistName, super.key});
             final String playlistId;
             final String playlistName;
-
+          
             @override
             Widget build(BuildContext context) {
               return Scaffold(
@@ -408,18 +408,18 @@ steps:
                     if (playlistItems.isEmpty) {
                       return const Center(child: CircularProgressIndicator());
                     }
-
+          
                     return _PlaylistDetailsListView(playlistItems: playlistItems);
                   },
                 ),
               );
             }
           }
-
+          
           class _PlaylistDetailsListView extends StatelessWidget {
             const _PlaylistDetailsListView({required this.playlistItems});
             final List<PlaylistItem> playlistItems;
-
+          
             @override
             Widget build(BuildContext context) {
               return ListView.builder(
@@ -445,13 +445,16 @@ steps:
                 },
               );
             }
-
+          
             Widget _buildGradient(BuildContext context) {
               return Positioned.fill(
                 child: DecoratedBox(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
-                      colors: [Colors.transparent, Theme.of(context).backgroundColor],
+                      colors: [
+                        Colors.transparent,
+                        Theme.of(context).colorScheme.background
+                      ],
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       stops: const [0.5, 0.95],
@@ -460,7 +463,7 @@ steps:
                 ),
               );
             }
-
+          
             Widget _buildTitleAndSubtitle(
                 BuildContext context, PlaylistItem playlistItem) {
               return Positioned(
@@ -489,7 +492,7 @@ steps:
                 ),
               );
             }
-
+          
             Widget _buildPlayButton(BuildContext context, PlaylistItem playlistItem) {
               return Stack(
                 alignment: AlignmentDirectional.center,
@@ -1077,7 +1080,7 @@ steps:
                            _buildGradient(context),
                            _buildTitleAndSubtitle(context, playlistItem),
                            _buildPlayButton(context, playlistItem),
-          @@ -102,7 +105,7 @@ class _PlaylistDetailsListViewState extends State<_PlaylistDetailsListView> {
+          @@ -105,7 +108,7 @@ class _PlaylistDetailsListViewState extends State<_PlaylistDetailsListView> {
                    mainAxisSize: MainAxisSize.min,
                    crossAxisAlignment: CrossAxisAlignment.start,
                    children: [
@@ -1086,7 +1089,7 @@ steps:
                        playlistItem.snippet!.title!,
                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                              fontSize: 18,
-          @@ -110,7 +113,7 @@ class _PlaylistDetailsListViewState extends State<_PlaylistDetailsListView> {
+          @@ -113,7 +116,7 @@ class _PlaylistDetailsListViewState extends State<_PlaylistDetailsListView> {
                            ),
                      ),
                      if (playlistItem.snippet!.videoOwnerChannelTitle != null)
@@ -1095,7 +1098,6 @@ steps:
                          playlistItem.snippet!.videoOwnerChannelTitle!,
                          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                                fontSize: 12,
-
       - name: Patch playlists.dart
         path: adaptive_app/lib/src/playlists.dart
         patch-u: |
@@ -1118,7 +1120,6 @@ steps:
                          playlist.snippet!.thumbnails!.default_!.url!,
                        ),
                        title: Text(playlist.snippet!.title!),
-
       - name: adaptive_image.dart
         path: adaptive_app/lib/src/adaptive_image.dart
         replace-contents: |
