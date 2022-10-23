@@ -40,7 +40,7 @@ dependencies:
   google_maps_flutter_web: ^0.4.0+3
   http: ^0.13.5
   json_annotation: ^4.7.0
-  json_serializable: ^6.4.1
+  json_serializable: ^6.5.3
 
 dev_dependencies:
   flutter_test:
@@ -52,7 +52,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
-  build_runner: ^2.2.1
+  build_runner: ^2.3.2
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

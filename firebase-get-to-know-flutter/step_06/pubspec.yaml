@@ -40,7 +40,7 @@ dependencies:
   cloud_firestore: ^4.0.2
   firebase_auth: ^4.0.2
   firebase_core: ^2.1.0
-  provider: ^6.0.3
+  provider: ^6.0.4
   firebase_ui_auth: ^1.0.2
 
 dev_dependencies:
