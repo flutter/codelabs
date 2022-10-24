@@ -22,6 +22,7 @@ void main() {
     final isWordPair = predicate<String>((s) => wordPairRegExp.hasMatch(s));
     expect(textWidgets.first.data, isWordPair);
 
+    // #docregion a11yAPI
     final SemanticsHandle handle = tester.ensureSemantics();
     await tester.pumpWidget(const MaterialApp(home: MyApp()));
 
@@ -38,5 +39,6 @@ void main() {
     // The recommended text contrast is 3:1 for larger text (18 point and above regular)
     await expectLater(tester, meetsGuideline(textContrastGuideline));
     handle.dispose();
+    // #enddocregion a11yAPI
   });
 }
