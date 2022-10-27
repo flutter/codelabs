@@ -17,7 +17,6 @@ declare -a CODELABS=(
   "github-client"
   "google-maps-in-flutter"
   "in_app_purchases"
-  "photos-sharing"
   "star_counter"
   "startup_namer"
   "testing_codelab"

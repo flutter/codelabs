@@ -9,8 +9,6 @@ Here is a list of the codelabs represented here:
   - [Adding Google Maps to a Flutter app](https://codelabs.developers.google.com/codelabs/google-maps-in-flutter) is in `google-maps-in-flutter`
   - [Adding in-app purchases to your Flutter app](https://codelabs.developers.google.com/codelabs/flutter-in-app-purchases) is in `in_app_purchases`
   - [Adding WebView to your Flutter app](https://codelabs.developers.google.com/codelabs/flutter-webview) is in `webview_flutter`
-  - [Build a Photo Sharing app with Google Photos and Flutter
-](https://codelabs.developers.google.com/codelabs/google-photos-sharing) is in `photos-sharing`
   - [Building a Cupertino app with Flutter](https://codelabs.developers.google.com/codelabs/flutter-cupertino) is in `cupertino_store`
   - [Get to know Firebase for Flutter](https://firebase.google.com/codelabs/firebase-get-to-know-flutter) is in `firebase-get-to-know-flutter`
   - [How to test a Flutter app](https://codelabs.developers.google.com/codelabs/flutter-app-testing) is in `testing_codelab`
