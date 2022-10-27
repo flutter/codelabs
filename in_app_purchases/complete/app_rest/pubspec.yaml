@@ -7,11 +7,11 @@ environment:
   sdk: ">=2.17.0-0 <3.0.0"
 
 dependencies:
-  cloud_firestore: ^3.1.14
-  cloud_functions: ^3.2.14
+  cloud_firestore: ^4.0.3
+  cloud_functions: ^4.0.3
   cupertino_icons: ^1.0.2
-  firebase_auth: ^3.3.17
-  firebase_core: ^1.16.0
+  firebase_auth: ^4.1.0
+  firebase_core: ^2.1.1
   flutter:
     sdk: flutter
   google_sign_in: ^5.2.1
