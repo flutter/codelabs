@@ -1,4 +1,3 @@
-// ignore_for_file: avoid_print
 import 'package:flutter/material.dart';
 
 import 'package:flutter_virtual_piano/flutter_virtual_piano.dart';
@@ -27,7 +26,7 @@ class MyAppState extends State<MyApp> {
   @override
   void reassemble() {
     super.reassemble();
-    print("reassembling state...");
+    debugPrint("reassembling state...");
     plugin.shutDown();
     plugin = MSFAPlugin();
   }
@@ -38,7 +37,7 @@ class MyAppState extends State<MyApp> {
   }
 
   void sendNoteOn(int noteNumber, int velocity) {
-    print("send note on: $noteNumber");
+    debugPrint("send note on: $noteNumber");
     // Midi messages: [Status, NoteNumber, Velocity]
     // where status is 0x90-0x9F and the low nibble is the channel number 0-15
     // ref: http://midi.teragonaudio.com/tech/midispec/noteon.htm
@@ -46,7 +45,7 @@ class MyAppState extends State<MyApp> {
   }
 
   void sendNoteOff(int noteNumber) {
-    print("send note off: $noteNumber");
+    debugPrint("send note off: $noteNumber");
     plugin.sendMidi([0x80, noteNumber, 0x00]);
   }
 
@@ -79,7 +78,7 @@ class MyAppState extends State<MyApp> {
                 MaterialButton(
                   child: const Text("shutdown"),
                   onPressed: () async {
-                    print("shutdown engine");
+                    debugPrint("shutdown engine");
                     plugin.shutDown();
                   },
                 ),
