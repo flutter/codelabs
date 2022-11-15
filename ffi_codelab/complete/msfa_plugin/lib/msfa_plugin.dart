@@ -26,7 +26,8 @@ final DynamicLibrary _dylib = () {
 }();
 
 class MSFAPlugin implements Finalizable {
-  static final _finalizer = NativeFinalizer(_bindings.addresses.shutdownEngine.cast());
+  static final _finalizer =
+      NativeFinalizer(_bindings.addresses.shutdownEngine.cast());
 
   /// Used to prevent double close and usage after close.
   bool _shutdown = false;

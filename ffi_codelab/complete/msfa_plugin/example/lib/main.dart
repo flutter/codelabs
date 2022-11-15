@@ -67,7 +67,9 @@ class MyAppState extends State<MyApp> {
                 FutureBuilder<bool>(
                   future: plugin.init(),
                   builder: (BuildContext context, AsyncSnapshot<bool> value) {
-                    final displayValue = (value.hasData) ? (value.data == true ? "completed" : "failed") : 'loading...';
+                    final displayValue = (value.hasData)
+                        ? (value.data == true ? "completed" : "failed")
+                        : 'loading...';
                     return Text(
                       'MSFA Engine Init: $displayValue',
                       style: textStyle,
