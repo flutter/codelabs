@@ -1015,7 +1015,7 @@ Consumer<ApplicationState>(
   builder: (context, appState, _) => Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      if (appState.loginState == ApplicationLoginState.loggedIn) ...[
+      if (appState.loggedIn) ...[
         const Header('Discussion'),
         GuestBook(
           addMessage: (message) =>
