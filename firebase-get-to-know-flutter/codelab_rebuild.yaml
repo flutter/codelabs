@@ -34,6 +34,20 @@ steps:
            
              # To add assets to your application, add an assets section, like this:
              # assets:
+      - name: Patch android/app/build.gradle
+        path: gtk_flutter/android/app/build.gradle
+        patch-u: |
+          --- b/firebase-get-to-know-flutter/step_02/android/app/build.gradle
+          +++ a/firebase-get-to-know-flutter/step_02/android/app/build.gradle
+          @@ -47,7 +47,7 @@ android {
+                   applicationId "com.example.gtk_flutter"
+                   // You can update the following values to match your application needs.
+                   // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
+          -        minSdkVersion flutter.minSdkVersion
+          +        minSdkVersion 21
+                   targetSdkVersion flutter.targetSdkVersion
+                   versionCode flutterVersionCode.toInteger()
+                   versionName flutterVersionName
       - name: Remove the README.md.
         rm: gtk_flutter/README.md
       - name: Remove the Linux and Windows runners
@@ -215,7 +229,6 @@ steps:
               );
             }
           }
-
       - name: Add lib/src/widgets.dart
         path: gtk_flutter/lib/src/widgets.dart
         replace-contents: |
@@ -1676,9 +1689,6 @@ steps:
     steps:
       - name: Remove generated code.
         rmdir: step_04
-      - name: Add cloud_firestore firebase_auth firebase_core provider
-        path: gtk_flutter
-        flutter: pub add cloud_firestore firebase_auth firebase_core provider
       - name: Update iOS podspec 
         path: gtk_flutter/ios
         pod: update
@@ -1765,7 +1775,6 @@ steps:
           +	<true/>
            </dict>
            </plist>
-
       - name: Patch macos/Runner/Release.entitlements
         path: gtk_flutter/macos/Runner/Release.entitlements
         patch-u: |
@@ -1781,7 +1790,9 @@ steps:
           +	<true/>
            </dict>
            </plist>
-
+      - name: Add cloud_firestore firebase_auth firebase_core provider firebase_ui_auth
+        path: gtk_flutter
+        flutter: pub add cloud_firestore firebase_auth firebase_core provider firebase_ui_auth
       - name: Copy step_04
         copydir:
           from: gtk_flutter
@@ -1939,7 +1950,6 @@ steps:
           +    });
           +  }
           +}
-
       - name: Patch test/widget_test.dart
         path: gtk_flutter/test/widget_test.dart
         patch-u: |
@@ -2090,7 +2100,6 @@ steps:
           +    );
           +  }
            }
-
       - name: Copy step_06
         copydir:
           from: gtk_flutter
@@ -2272,7 +2281,6 @@ steps:
                );
              }
            }
-
       - name: Copy step_07
         copydir:
           from: gtk_flutter
@@ -2286,7 +2294,90 @@ steps:
         patch-u: |
           --- b/firebase-get-to-know-flutter/step_09/lib/main.dart
           +++ a/firebase-get-to-know-flutter/step_09/lib/main.dart
-          @@ -138,7 +138,17 @@ class HomePage extends StatelessWidget {
+          @@ -50,6 +50,7 @@ class App extends StatelessWidget {
+                             }
+                             if (state is UserCreated) {
+                               user.updateDisplayName(user.email!.split('@')[0]);
+          +                    user.sendEmailVerification();
+                             }
+                             if (!user.emailVerified) {
+                               user.sendEmailVerification();
+          @@ -74,15 +75,29 @@ class App extends StatelessWidget {
+                     );
+                   }),
+                   '/profile': ((context) {
+          -          return ProfileScreen(
+          -            providers: const [],
+          -            actions: [
+          -              SignedOutAction(
+          -                ((context) {
+          -                  Navigator.of(context).popUntil(ModalRoute.withName('/home'));
+          -                }),
+          -              ),
+          -            ],
+          +          return Consumer<ApplicationState>(
+          +            builder: (context, appState, _) => ProfileScreen(
+          +              key: ValueKey(appState.emailVerified),
+          +              providers: const [],
+          +              actions: [
+          +                SignedOutAction(
+          +                  ((context) {
+          +                    Navigator.of(context)
+          +                        .popUntil(ModalRoute.withName('/home'));
+          +                  }),
+          +                ),
+          +              ],
+          +              children: [
+          +                Visibility(
+          +                    visible: !appState.emailVerified,
+          +                    child: OutlinedButton(
+          +                      child: const Text('Recheck Verification State'),
+          +                      onPressed: () {
+          +                        appState.refreshLoggedInUser();
+          +                      },
+          +                    ))
+          +              ],
+          +            ),
+                     );
+                   })
+                 },
+          @@ -114,14 +129,19 @@ class HomePage extends StatelessWidget {
+                   children: <Widget>[
+                     Image.asset('assets/codelab.png'),
+                     const SizedBox(height: 8),
+          -          const IconAndDetail(Icons.calendar_today, 'October 30'),
+          +          Consumer<ApplicationState>(
+          +            builder: (context, appState, _) =>
+          +                IconAndDetail(Icons.calendar_today, appState.eventDate),
+          +          ),
+                     const IconAndDetail(Icons.location_city, 'San Francisco'),
+                     Consumer<ApplicationState>(
+                       builder: (context, appState, _) => AuthFunc(
+          -                loggedIn: appState.loggedIn,
+          -                signOut: () {
+          -                  FirebaseAuth.instance.signOut();
+          -                }),
+          +              loggedIn: appState.loggedIn,
+          +              signOut: () {
+          +                FirebaseAuth.instance.signOut();
+          +              },
+          +              enableFreeSwag: appState.enableFreeSwag,
+          +            ),
+                     ),
+                     const Divider(
+                       height: 8,
+          @@ -131,14 +151,26 @@ class HomePage extends StatelessWidget {
+                       color: Colors.grey,
+                     ),
+                     const Header("What we'll be doing"),
+          -          const Paragraph(
+          -            'Join us for a day full of Firebase Workshops and Pizza!',
+          +          Consumer<ApplicationState>(
+          +            builder: (context, appState, _) => Paragraph(
+          +              appState.callToAction,
+          +            ),
+                     ),
+                     Consumer<ApplicationState>(
                        builder: (context, appState, _) => Column(
                          crossAxisAlignment: CrossAxisAlignment.start,
                          children: [
@@ -2304,7 +2395,7 @@ steps:
                              const Header('Discussion'),
                              GuestBook(
                                addMessage: (message) =>
-          @@ -155,6 +165,8 @@ class HomePage extends StatelessWidget {
+          @@ -155,6 +187,8 @@ class HomePage extends StatelessWidget {
              }
            }
            
@@ -2313,12 +2404,39 @@ steps:
            class ApplicationState extends ChangeNotifier {
              ApplicationState() {
                init();
-          @@ -167,6 +179,23 @@ class ApplicationState extends ChangeNotifier {
+          @@ -163,10 +197,50 @@ class ApplicationState extends ChangeNotifier {
+             bool _loggedIn = false;
+             bool get loggedIn => _loggedIn;
+           
+          +  bool _emailVerified = false;
+          +  bool get emailVerified => _emailVerified;
+          +
+             StreamSubscription<QuerySnapshot>? _guestBookSubscription;
              List<GuestBookMessage> _guestBookMessages = [];
              List<GuestBookMessage> get guestBookMessages => _guestBookMessages;
            
           +  int _attendees = 0;
           +  int get attendees => _attendees;
+          +
+          +  static Map<String, dynamic> defaultValues = <String, dynamic>{
+          +    'event_date': 'October 18, 2022',
+          +    'enable_free_swag': false,
+          +    'call_to_action': 'Join us for a day full of Firebase Workshops and Pizza!',
+          +  };
+          +
+          +  // ignoring lints on these fields since we are modifying them in a different
+          +  // part of the codelab
+          +  // ignore: prefer_final_fields
+          +  bool _enableFreeSwag = defaultValues['enable_free_swag'] as bool;
+          +  bool get enableFreeSwag => _enableFreeSwag;
+          +
+          +  // ignore: prefer_final_fields
+          +  String _eventDate = defaultValues['event_date'] as String;
+          +  String get eventDate => _eventDate;
+          +
+          +  // ignore: prefer_final_fields
+          +  String _callToAction = defaultValues['call_to_action'] as String;
+          +  String get callToAction => _callToAction;
           +
           +  Attending _attending = Attending.unknown;
           +  StreamSubscription<DocumentSnapshot>? _attendingSubscription;
@@ -2337,7 +2455,7 @@ steps:
              Future<void> init() async {
                await Firebase.initializeApp(
                    options: DefaultFirebaseOptions.currentPlatform);
-          @@ -175,6 +204,15 @@ class ApplicationState extends ChangeNotifier {
+          @@ -175,9 +249,19 @@ class ApplicationState extends ChangeNotifier {
                  EmailAuthProvider(),
                ]);
            
@@ -2353,7 +2471,11 @@ steps:
                FirebaseAuth.instance.userChanges().listen((user) {
                  if (user != null) {
                    _loggedIn = true;
-          @@ -194,10 +232,27 @@ class ApplicationState extends ChangeNotifier {
+          +        _emailVerified = user.emailVerified;
+                   _guestBookSubscription = FirebaseFirestore.instance
+                       .collection('guestbook')
+                       .orderBy('timestamp', descending: true)
+          @@ -194,15 +278,43 @@ class ApplicationState extends ChangeNotifier {
                      }
                      notifyListeners();
                    });
@@ -2375,13 +2497,29 @@ steps:
           +        });
                  } else {
                    _loggedIn = false;
+          +        _emailVerified = false;
                    _guestBookMessages = [];
                    _guestBookSubscription?.cancel();
           +        _attendingSubscription?.cancel();
                  }
                  notifyListeners();
                });
-          @@ -295,3 +350,69 @@ class _GuestBookState extends State<GuestBook> {
+             }
+           
+          +  Future<void> refreshLoggedInUser() async {
+          +    final currentUser = FirebaseAuth.instance.currentUser;
+          +
+          +    if (currentUser == null) {
+          +      return;
+          +    }
+          +
+          +    await currentUser.reload();
+          +  }
+          +
+             Future<DocumentReference> addMessageToGuestBook(String message) {
+               if (!_loggedIn) {
+                 throw Exception('Must be logged in');
+          @@ -295,3 +407,69 @@ class _GuestBookState extends State<GuestBook> {
                );
              }
            }
@@ -2451,6 +2589,43 @@ steps:
           +    }
           +  }
           +}
+      - name: Patch lib/src/authentication.dart
+        path: gtk_flutter/lib/src/authentication.dart
+        patch-u: |
+          --- b/firebase-get-to-know-flutter/step_09/lib/src/authentication.dart
+          +++ a/firebase-get-to-know-flutter/step_09/lib/src/authentication.dart
+          @@ -7,10 +7,12 @@ class AuthFunc extends StatelessWidget {
+               super.key,
+               required this.loggedIn,
+               required this.signOut,
+          +    this.enableFreeSwag = false,
+             });
+           
+             final bool loggedIn;
+             final void Function() signOut;
+          +  final bool enableFreeSwag;
+           
+             @override
+             Widget build(BuildContext context) {
+          @@ -35,7 +37,17 @@ class AuthFunc extends StatelessWidget {
+                               Navigator.of(context).pushNamed('/profile');
+                             },
+                             child: const Text('Profile')),
+          -            ))
+          +            )),
+          +        Visibility(
+          +            visible: enableFreeSwag,
+          +            child: Padding(
+          +              padding: const EdgeInsets.only(left: 24, bottom: 8),
+          +              child: StyledButton(
+          +                  onPressed: () {
+          +                    throw Exception('free swag unimplemented');
+          +                  },
+          +                  child: const Text('Free swag!')),
+          +            )),
+                 ],
+               );
+             }
 
       - name: Copy step_09
         copydir:
