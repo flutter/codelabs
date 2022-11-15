@@ -1,9 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:msfa_plugin_example/main.dart';
 
 void main() {
-  testWidgets('main screen smoke test', (WidgetTester tester) async {
+  testWidgets('example app shows loading message', (WidgetTester tester) async {
     await tester.pumpWidget(
       const MyApp(),
     );
