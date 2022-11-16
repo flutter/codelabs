@@ -95,7 +95,7 @@ Future<SendPort> _helperIsolateSendPort = () async {
     });
 
   // Start the helper isolate.
-  await Isolate.spawn((SendPort sendPort) async {
+  await Isolate.spawn((sendPort) async {
     final ReceivePort helperReceivePort = ReceivePort()
       ..listen((dynamic data) {
         // On the helper isolate listen to requests and respond to them.
@@ -103,7 +103,7 @@ Future<SendPort> _helperIsolateSendPort = () async {
           _bindings.initEngine();
           sendPort.send(true);
           // ignore: avoid_print
-          print("exiting Helper Isolate");
+          print('exiting Helper Isolate');
           Isolate.exit();
         }
         throw UnsupportedError('Unsupported message type: ${data.runtimeType}');
