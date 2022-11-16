@@ -1,0 +1,105 @@
+name: Foreign Function Interface codelab rebuild script
+steps:
+  - name: step_03
+    steps:
+      - name: Remove generated code.
+        rmdir: step_03
+      - name: Create project.
+        flutter: create --template=plugin_ffi --platforms=android,ios,linux,macos,windows msfa_plugin
+      - name: Configure analysis_options.yaml
+        path: msfa_plugin/analysis_options.yaml
+        replace-contents: |
+          include: ../../analysis_options.yaml
+      - name: Remove CHANGELOG
+        rm: msfa_plugin/CHANGELOG.md
+      - name: Remove LICENSE
+        rm: msfa_plugin/LICENSE
+      - name: Remove README
+        rm: msfa_plugin/README.md
+      - name: Add .vscode directory
+        mkdir: msfa_plugin/.vscode
+      - name: dart format
+        dart: format msfa_plugin
+      - name: dart fix
+        dart: fix --apply msfa_plugin
+      - name: Fixup example/lib/main.dart
+        path: msfa_plugin/example/lib/main.dart
+        patch-u: |
+          --- b/ffi_codelab/step_03/example/lib/main.dart
+          +++ a/ffi_codelab/step_03/example/lib/main.dart
+          @@ -11,10 +11,10 @@ class MyApp extends StatefulWidget {
+             const MyApp({super.key});
+           
+             @override
+          -  _MyAppState createState() => _MyAppState();
+          +  MyAppState createState() => MyAppState();
+           }
+           
+          -class _MyAppState extends State<MyApp> {
+          +class MyAppState extends State<MyApp> {
+             late int sumResult;
+             late Future<int> sumAsyncResult;
+      - name: Build iOS simulator bundle
+        path: msfa_plugin/example
+        flutter: build ios --simulator
+      - name: Build macOS app
+        path: msfa_plugin/example
+        flutter: build macos
+      - name: Copy step_03
+        copydir:
+          from: msfa_plugin
+          to: step_03
+  - name: step_05
+    steps:
+      - name: Remove generated code.
+        rmdir: step_05
+      - name: Patch analysis_options.yaml
+        path: msfa_plugin/analysis_options.yaml
+        patch-u: |
+          --- b/ffi_codelab/step_05/analysis_options.yaml
+          +++ a/ffi_codelab/step_05/analysis_options.yaml
+          @@ -1 +1,5 @@
+           include: ../../analysis_options.yaml
+          +
+          +analyzer:
+          +   exclude:
+          +    - lib/*bindings_generated.dart
+      - name: Patch ffigen.yaml
+        path: msfa_plugin/ffigen.yaml
+        patch-u: |
+          --- b/ffi_codelab/step_05/ffigen.yaml
+          +++ a/ffi_codelab/step_05/ffigen.yaml
+          @@ -7,9 +7,9 @@ description: |
+           output: 'lib/msfa_plugin_bindings_generated.dart'
+           headers:
+             entry-points:
+          -    - 'src/msfa_plugin.h'
+          +    - 'src/libmsfa/include/libmsfa.h'
+             include-directives:
+          -    - 'src/msfa_plugin.h'
+          +    - 'src/libmsfa/include/libmsfa.h'
+           preamble: |
+             // ignore_for_file: always_specify_types
+             // ignore_for_file: camel_case_types
+          @@ -17,3 +17,12 @@ preamble: |
+           comments:
+             style: any
+             length: full
+          +llvm-path:
+          +    - "/usr/lib/llvm-14"
+          +functions:  
+          +  symbol-address:
+          +      # Used to expose symbol address.
+          +      include:
+          +        - shutdownEngine
+          +
+          +
+      - name: Upgrade dep versions
+        path: msfa_plugin
+        flutter: pub upgrade --major-versions
+      - name: Copy step_05
+        copydir:
+          from: msfa_plugin
+          to: step_05
+  - name: Cleanup
+    rmdir: msfa_plugin
