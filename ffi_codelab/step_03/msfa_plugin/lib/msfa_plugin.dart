@@ -1,4 +1,3 @@
-
 import 'dart:async';
 import 'dart:ffi';
 import 'dart:io';
@@ -51,7 +50,6 @@ final DynamicLibrary _dylib = () {
 
 /// The bindings to the native functions in [_dylib].
 final MsfaPluginBindings _bindings = MsfaPluginBindings(_dylib);
-
 
 /// A request to compute `sum`.
 ///

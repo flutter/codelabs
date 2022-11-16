@@ -44,7 +44,7 @@ class MyAppState extends State<MyApp> {
                 MaterialButton(
                     child: const Text("send midi"),
                     onPressed: () async {
-                      print("send midi");
+                      debugPrint("send midi");
                       msfa_plugin.sendMidi([0x90, 0x4c, 0x57]);
                       await Future.delayed(const Duration(seconds: 1));
                       msfa_plugin.sendMidi([0x90, 0x4c, 0x00]);
