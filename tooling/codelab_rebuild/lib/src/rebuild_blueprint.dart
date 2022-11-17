@@ -145,6 +145,17 @@ Future<void> _buildBlueprintStep(Directory cwd, BlueprintStep step) async {
     return;
   }
 
+  final git = step.git;
+  if (git != null) {
+    await _runNamedCommand(
+      command: 'git',
+      step: step,
+      cwd: cwd,
+      args: git,
+    );
+    return;
+  }
+
   final path = step.path;
   if (path == null) {
     _logger.severe(

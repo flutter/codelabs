@@ -88,10 +88,11 @@ class BlueprintStep {
   @JsonKey(name: 'replace-contents')
   final String? replaceContents;
 
-  final String? rm;
-  final String? pod;
   final String? dart;
   final String? flutter;
+  final String? git;
+  final String? pod;
+  final String? rm;
 
   final String? mkdir;
   final List<String> mkdirs;
@@ -116,10 +117,11 @@ class BlueprintStep {
     this.rmdir,
     this.rmdirs = const [],
     this.copydir,
-    this.rm,
-    this.pod,
     this.dart,
     this.flutter,
+    this.git,
+    this.rm,
+    this.pod,
     this.stop,
   }) {
     if (name.isEmpty) {
@@ -151,7 +153,8 @@ class BlueprintStep {
         rm == null &&
         pod == null &&
         dart == null &&
-        flutter == null) {
+        flutter == null &&
+        git == null) {
       _logger.warning('Invalid step with no action: $name');
       return false;
     }
@@ -172,7 +175,8 @@ class BlueprintStep {
           rm != null ||
           pod != null ||
           dart != null ||
-          flutter != null) {
+          flutter != null ||
+          git != null) {
         _logger.warning(
             'Invalid step sub-steps and one (or more) of patch, command(s), '
             'base64-contents or replace-contents: $name');
@@ -221,7 +225,8 @@ class BlueprintStep {
             copydir != null ||
             pod != null ||
             dart != null ||
-            flutter != null)) {
+            flutter != null ||
+            git != null)) {
       _logger.warning(
           'Invalid step, patch with command(s), replace-contents, or base64-contents: $name');
       return false;
