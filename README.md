@@ -20,9 +20,12 @@ Here is a list of the codelabs represented here:
   - [Building a fullstack movie recommendation system](https://codelabs.developers.google.com/tfrecommenders-flutter) is in `tfrs-flutter`
   - [Building a board game with TensorFlow Agents and Flutter](https://codelabs.developers.google.com/tfagents-flutter#0) is in `tfagents-flutter`  
 
-
-
 To learn more about setting up Flutter and running apps, see
 [flutter.dev/get-started][].
 
 [flutter.dev/get-started]: https://flutter.dev/docs/get-started
+
+## Maintenance & Deprecation of Codelabs
+
+Codelabs should be kept up to date with the current Flutter stable release. Codelabs that are more than two stable releases 
+behind will be candidates for deprecation and removal from the repository.
