@@ -24,7 +24,7 @@ add_library(msfa_plugin SHARED
   libmsfa/src/ringbuffer.cc
   libmsfa/src/sawtooth.cc
   libmsfa/src/sin.cc
-  libmsfa/src/synth_unit.cc  
+  libmsfa/src/synth_unit.cc
 )
 
 set_target_properties(msfa_plugin PROPERTIES
@@ -44,4 +44,3 @@ target_link_libraries(
   msfa_plugin
   ${CMAKE_DL_LIBS}
 )
-

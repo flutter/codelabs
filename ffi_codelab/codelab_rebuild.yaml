@@ -110,7 +110,7 @@ steps:
            preamble: |
              // ignore_for_file: always_specify_types
              // ignore_for_file: camel_case_types
-          @@ -17,3 +17,12 @@ preamble: |
+          @@ -17,3 +17,10 @@ preamble: |
            comments:
              style: any
              length: full
@@ -121,8 +121,6 @@ steps:
           +      # Used to expose symbol address.
           +      include:
           +        - shutdownEngine
-          +
-          +
       - name: Run ffigen
         path: msfa_plugin
         platforms: [ linux ]
@@ -372,11 +370,11 @@ steps:
           +  libmsfa/src/ringbuffer.cc
           +  libmsfa/src/sawtooth.cc
           +  libmsfa/src/sin.cc
-          +  libmsfa/src/synth_unit.cc  
+          +  libmsfa/src/synth_unit.cc
            )
            
            set_target_properties(msfa_plugin PROPERTIES
-          @@ -14,4 +32,16 @@ set_target_properties(msfa_plugin PROPERTIES
+          @@ -14,4 +32,15 @@ set_target_properties(msfa_plugin PROPERTIES
              OUTPUT_NAME "msfa_plugin"
            )
            
@@ -393,7 +391,6 @@ steps:
           +  msfa_plugin
           +  ${CMAKE_DL_LIBS}
           +)
-          +
       - name: Upgrade dep versions
         path: msfa_plugin
         flutter: pub upgrade --major-versions
@@ -534,15 +531,266 @@ steps:
         copydir:
           from: msfa_plugin
           to: step_06
-
-  # - name: complete
-  #   steps:
-  #     - name: Remove generated code.
-  #       rmdir: complete
-  #     - name: Copy complete
-  #       copydir:
-  #         from: msfa_plugin
-  #         to: complete
-
+  - name: complete
+    steps:
+      - name: Remove generated code.
+        rmdir: complete
+      - name: Add flutter_virtual_piano
+        path: msfa_plugin/example
+        flutter: pub add flutter_virtual_piano
+      - name: mkdir example/test
+        mkdir: msfa_plugin/example/test
+      - name: Add example/test/widget_test.dart
+        path: msfa_plugin/example/test/widget_test.dart
+        replace-contents: |
+          import 'package:flutter_test/flutter_test.dart';
+          import 'package:msfa_plugin_example/main.dart';
+          
+          void main() {
+            testWidgets('example app shows loading message', (WidgetTester tester) async {
+              await tester.pumpWidget(
+                const MyApp(),
+              );
+          
+              // check for expected progress message
+              final initMessage = find.text('MSFA Engine Init: loading...');
+              expect(initMessage, findsOneWidget);
+            });
+          }
+      - name: Replace msfa_plugin.dart
+        path: msfa_plugin/lib/msfa_plugin.dart
+        replace-contents: |
+          import 'dart:async';
+          import 'dart:ffi';
+          import 'dart:io';
+          import 'dart:isolate';
+          import 'package:ffi/ffi.dart' as ffi;
+          
+          import 'msfa_plugin_bindings_generated.dart';
+          
+          const String _libName = 'msfa_plugin';
+          
+          /// The bindings to the native functions in [_dylib].
+          MsfaPluginBindings get _bindings => MsfaPluginBindings(_dylib);
+          
+          /// The dynamic library in which the symbols for [MsfaPluginBindings] can be found.
+          final DynamicLibrary _dylib = () {
+            if (Platform.isMacOS || Platform.isIOS) {
+              return DynamicLibrary.open('$_libName.framework/$_libName');
+            }
+            if (Platform.isAndroid || Platform.isLinux) {
+              return DynamicLibrary.open('lib$_libName.so');
+            }
+            if (Platform.isWindows) {
+              return DynamicLibrary.open('$_libName.dll');
+            }
+            throw UnsupportedError('Unknown platform: ${Platform.operatingSystem}');
+          }();
+          
+          class MSFAPlugin implements Finalizable {
+            static final _finalizer =
+                NativeFinalizer(_bindings.addresses.shutdownEngine.cast());
+          
+            /// Used to prevent double close and usage after close.
+            bool _shutdown = false;
+          
+            Future<bool> init() async {
+              final SendPort helperIsolateSendPort = await _helperIsolateSendPort;
+              final request = _InitRequest();
+              final completer = Completer<bool>();
+              _initRequest = completer;
+              helperIsolateSendPort.send(request);
+              return completer.future;
+            }
+          
+            void sendMidi(List<int> list) {
+              Pointer<Uint8> buf = ffi.malloc.allocate(list.length);
+              for (int i = 0; i < list.length; i++) {
+                buf[i] = list[i];
+              }
+              _bindings.sendMidi(buf, list.length);
+              ffi.malloc.free(buf);
+            }
+          
+            void shutDown() {
+              if (_shutdown) {
+                return;
+              }
+              _shutdown = true;
+              _finalizer.detach(this);
+              _bindings.shutdownEngine();
+            }
+          
+            void shutDownIsolate() {}
+          }
+          
+          /// A request to Init the MSFA Engine
+          class _InitRequest {}
+          
+          Completer<bool>? _initRequest;
+          
+          /// The SendPort belonging to the helper isolate.
+          Future<SendPort> _helperIsolateSendPort = () async {
+            // The helper isolate is going to send us back a SendPort, which we want to
+            // wait for.
+            final Completer<SendPort> completer = Completer<SendPort>();
+          
+            // Receive port on the main isolate to receive messages from the helper.
+            // We receive two types of messages:
+            // 1. A port to send messages on.
+            // 2. Responses to requests we sent.
+            final ReceivePort receivePort = ReceivePort()
+              ..listen((final dynamic data) {
+                if (data is SendPort) {
+                  // The helper isolate sent us the port on which we can sent it requests.
+                  completer.complete(data);
+                  return;
+                }
+                if (data is bool) {
+                  // The helper isolate sent us a response to a request we sent.
+                  final completer = _initRequest;
+                  _initRequest = null;
+                  completer?.complete(data);
+                  return;
+                }
+                throw UnsupportedError('Unsupported message type: ${data.runtimeType}');
+              });
+          
+            // Start the helper isolate.
+            await Isolate.spawn((sendPort) async {
+              final ReceivePort helperReceivePort = ReceivePort()
+                ..listen((dynamic data) {
+                  // On the helper isolate listen to requests and respond to them.
+                  if (data is _InitRequest) {
+                    _bindings.initEngine();
+                    sendPort.send(true);
+                    // ignore: avoid_print
+                    print('exiting Helper Isolate');
+                    Isolate.exit();
+                  }
+                  throw UnsupportedError('Unsupported message type: ${data.runtimeType}');
+                });
+          
+              // Send the the port to the main isolate on which we can receive requests.
+              sendPort.send(helperReceivePort.sendPort);
+            }, receivePort.sendPort);
+          
+            // Wait until the helper isolate has sent us back the SendPort on which we
+            // can start sending requests.
+            return completer.future;
+          }();
+      - name: Replace example/main.dart
+        path: msfa_plugin/example/lib/main.dart
+        replace-contents: |
+          import 'package:flutter/material.dart';
+          
+          import 'package:flutter_virtual_piano/flutter_virtual_piano.dart';
+          import 'package:msfa_plugin/msfa_plugin.dart';
+          
+          void main() {
+            runApp(const MyApp());
+          }
+          
+          class MyApp extends StatefulWidget {
+            const MyApp({Key? key}) : super(key: key);
+          
+            @override
+            MyAppState createState() => MyAppState();
+          }
+          
+          class MyAppState extends State<MyApp> {
+            late MSFAPlugin plugin;
+          
+            @override
+            void initState() {
+              super.initState();
+              plugin = MSFAPlugin();
+            }
+          
+            @override
+            void reassemble() {
+              super.reassemble();
+              debugPrint("reassembling state...");
+              plugin.shutDown();
+              plugin = MSFAPlugin();
+            }
+          
+            @override
+            void dispose() {
+              super.dispose();
+            }
+          
+            void sendNoteOn(int noteNumber, int velocity) {
+              debugPrint("send note on: $noteNumber");
+              // Midi messages: [Status, NoteNumber, Velocity]
+              // where status is 0x90-0x9F and the low nibble is the channel number 0-15
+              // ref: http://midi.teragonaudio.com/tech/midispec/noteon.htm
+              plugin.sendMidi([0x90, noteNumber, velocity]);
+            }
+          
+            void sendNoteOff(int noteNumber) {
+              debugPrint("send note off: $noteNumber");
+              plugin.sendMidi([0x80, noteNumber, 0x00]);
+            }
+          
+            @override
+            Widget build(BuildContext context) {
+              const textStyle = TextStyle(fontSize: 25);
+              const spacerSmall = SizedBox(height: 10);
+              return MaterialApp(
+                home: Scaffold(
+                  appBar: AppBar(
+                    title: const Text('Native Packages'),
+                  ),
+                  body: SingleChildScrollView(
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      child: Column(
+                        children: [
+                          spacerSmall,
+                          FutureBuilder<bool>(
+                            future: plugin.init(),
+                            builder: (BuildContext context, AsyncSnapshot<bool> value) {
+                              final displayValue = (value.hasData)
+                                  ? (value.data == true ? "completed" : "failed")
+                                  : 'loading...';
+                              return Text(
+                                'MSFA Engine Init: $displayValue',
+                                style: textStyle,
+                                textAlign: TextAlign.center,
+                              );
+                            },
+                          ),
+                          MaterialButton(
+                            child: const Text("shutdown"),
+                            onPressed: () async {
+                              debugPrint("shutdown engine");
+                              plugin.shutDown();
+                            },
+                          ),
+                          SizedBox(
+                            height: 120,
+                            child: VirtualPiano(
+                              noteRange: const RangeValues(52, 71),
+                              onNotePressed: (note, pos) {
+                                sendNoteOn(note, 0x57);
+                              },
+                              onNoteReleased: (note) {
+                                sendNoteOff(note);
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            }
+          }
+      - name: Copy complete
+        copydir:
+          from: msfa_plugin
+          to: complete
   - name: Cleanup
     rmdir: msfa_plugin

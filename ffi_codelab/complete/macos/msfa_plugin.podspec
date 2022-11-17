@@ -36,7 +36,8 @@ A new Flutter FFI plugin project.
     'Classes/sawtooth.cc',
     'Classes/sin.cc',
     'Classes/synth_unit.cc'   
-    ]
+    ] 
+
   s.dependency 'FlutterMacOS'
 
   s.platform = :osx, '10.11'
