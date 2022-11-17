@@ -58,6 +58,7 @@ BlueprintStep _$BlueprintStepFromJson(Map json) => $checkedCreate(
             'rmdir',
             'rmdirs',
             'copydir',
+            'rename',
             'stop'
           ],
           requiredKeys: const ['name'],
@@ -92,7 +93,9 @@ BlueprintStep _$BlueprintStepFromJson(Map json) => $checkedCreate(
                   (v as List<dynamic>?)?.map((e) => e as String).toList() ??
                   const []),
           copydir: $checkedConvert(
-              'copydir', (v) => v == null ? null : CopyDirs.fromJson(v as Map)),
+              'copydir', (v) => v == null ? null : FromTo.fromJson(v as Map)),
+          rename: $checkedConvert(
+              'rename', (v) => v == null ? null : FromTo.fromJson(v as Map)),
           platforms: $checkedConvert('platforms',
               (v) => (v as List<dynamic>?)?.map((e) => e as String).toList()),
           dart: $checkedConvert('dart', (v) => v as String?),
@@ -133,18 +136,19 @@ Map<String, dynamic> _$BlueprintStepToJson(BlueprintStep instance) =>
       'rmdir': instance.rmdir,
       'rmdirs': instance.rmdirs,
       'copydir': instance.copydir,
+      'rename': instance.rename,
       'stop': instance.stop,
     };
 
-CopyDirs _$CopyDirsFromJson(Map json) => $checkedCreate(
-      'CopyDirs',
+FromTo _$FromToFromJson(Map json) => $checkedCreate(
+      'FromTo',
       json,
       ($checkedConvert) {
         $checkKeys(
           json,
           allowedKeys: const ['from', 'to'],
         );
-        final val = CopyDirs(
+        final val = FromTo(
           from: $checkedConvert('from', (v) => v as String),
           to: $checkedConvert('to', (v) => v as String),
         );
@@ -152,7 +156,7 @@ CopyDirs _$CopyDirsFromJson(Map json) => $checkedCreate(
       },
     );
 
-Map<String, dynamic> _$CopyDirsToJson(CopyDirs instance) => <String, dynamic>{
+Map<String, dynamic> _$FromToToJson(FromTo instance) => <String, dynamic>{
       'from': instance.from,
       'to': instance.to,
     };

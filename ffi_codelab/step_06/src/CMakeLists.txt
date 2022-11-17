@@ -27,7 +27,6 @@ add_library(msfa_plugin SHARED
   libmsfa/src/synth_unit.cc  
 )
 
-
 set_target_properties(msfa_plugin PROPERTIES
   PUBLIC_HEADER msfa_plugin.h
   OUTPUT_NAME "msfa_plugin"

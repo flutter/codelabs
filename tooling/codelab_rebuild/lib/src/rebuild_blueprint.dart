@@ -89,6 +89,22 @@ Future<void> _buildBlueprintStep(Directory cwd, BlueprintStep step) async {
     return;
   }
 
+  final rename = step.rename;
+  if (rename != null) {
+    if (step.path != null) {
+      _rename(
+          from: p.join(cwd.path, step.path, rename.from),
+          to: p.join(cwd.path, step.path, rename.to),
+          step: step);
+    } else {
+      _rename(
+          from: p.join(cwd.path, rename.from),
+          to: p.join(cwd.path, rename.to),
+          step: step);
+    }
+    return;
+  }
+
   final cpdir = step.copydir;
   if (cpdir != null) {
     if (step.path != null) {
@@ -257,13 +273,21 @@ Future<void> _runNamedCommand({
   return;
 }
 
+void _rename({
+  required String from,
+  required String to,
+  required BlueprintStep step,
+}) {
+  File(from).renameSync(to);
+}
+
 void _cpdir({
   required String from,
   required String to,
   required BlueprintStep step,
 }) {
   if (!FileSystemEntity.isDirectorySync(from)) {
-    _logger.warning("Invalid rmdir for '$from': ${step.name}");
+    _logger.warning("Invalid cpdir for '$from': ${step.name}");
   }
   io.copyPathSync(from, to);
 }

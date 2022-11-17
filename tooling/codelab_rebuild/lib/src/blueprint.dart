@@ -101,7 +101,8 @@ class BlueprintStep {
   final List<String> mkdirs;
   final String? rmdir;
   final List<String> rmdirs;
-  final CopyDirs? copydir;
+  final FromTo? copydir;
+  final FromTo? rename;
 
   // For debugging & development purposes
   final bool? stop;
@@ -120,6 +121,7 @@ class BlueprintStep {
     this.rmdir,
     this.rmdirs = const [],
     this.copydir,
+    this.rename,
     this.platforms,
     this.dart,
     this.flutter,
@@ -154,6 +156,7 @@ class BlueprintStep {
         rmdir == null &&
         rmdirs.isEmpty &&
         copydir == null &&
+        rename == null &&
         rm == null &&
         pod == null &&
         dart == null &&
@@ -176,6 +179,7 @@ class BlueprintStep {
           rmdir != null ||
           rmdirs.isNotEmpty ||
           copydir != null ||
+          rename != null ||
           rm != null ||
           pod != null ||
           dart != null ||
@@ -227,6 +231,7 @@ class BlueprintStep {
             rmdir != null ||
             rmdirs.isNotEmpty ||
             copydir != null ||
+            rename != null ||
             pod != null ||
             dart != null ||
             flutter != null ||
@@ -252,14 +257,14 @@ class BlueprintStep {
   checked: true,
   disallowUnrecognizedKeys: true,
 )
-class CopyDirs {
+class FromTo {
   final String from;
   final String to;
-  CopyDirs({required this.from, required this.to});
+  FromTo({required this.from, required this.to});
 
-  factory CopyDirs.fromJson(Map json) => _$CopyDirsFromJson(json);
+  factory FromTo.fromJson(Map json) => _$FromToFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CopyDirsToJson(this);
+  Map<String, dynamic> toJson() => _$FromToToJson(this);
 
   @override
   String toString() => 'CopyDirs: ${toJson()}';
