@@ -18,6 +18,23 @@ steps:
         rm: msfa_plugin/README.md
       - name: Add .vscode directory
         mkdir: msfa_plugin/.vscode
+      - name: Add .vscode/launch.json
+        path: msfa_plugin/.vscode/launch.json
+        replace-contents: |
+          {
+              // Use IntelliSense to learn about possible attributes.
+              // Hover to view descriptions of existing attributes.
+              // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+              "version": "0.2.0",
+              "configurations": [
+                  {
+                      "name": "example",
+                      "cwd": "example",
+                      "request": "launch",
+                      "type": "dart"
+                  }
+              ]
+          }
       - name: dart format
         dart: format msfa_plugin
       - name: dart fix
@@ -98,7 +115,7 @@ steps:
              style: any
              length: full
           +llvm-path:
-          +    - "/usr/lib/llvm-14"
+          +    - "/usr/lib/llvm-15"
           +functions:  
           +  symbol-address:
           +      # Used to expose symbol address.
@@ -106,6 +123,9 @@ steps:
           +        - shutdownEngine
           +
           +
+      - name: Run ffigen
+        path: msfa_plugin
+        flutter: pub run ffigen --config ffigen.yaml
       - name: Patch example/lib/main.dart
         path: msfa_plugin/example/lib/main.dart
         patch-u: |
@@ -167,6 +187,73 @@ steps:
                          ],
                        ),
                      ),
+      - name: Replace lib/msfa_plugin.dart
+        path: msfa_plugin/lib/msfa_plugin.dart
+        replace-contents: |
+          import 'dart:ffi';
+          import 'dart:io';
+          import 'package:ffi/ffi.dart' as ffi;
+          
+          import 'msfa_plugin_bindings_generated.dart';
+          
+          void init() => _bindings.initEngine();
+          
+          void sendMidi(List<int> list) {
+            Pointer<Uint8> buf = ffi.malloc.allocate(list.length);
+            for (int i = 0; i < list.length; i++) {
+              buf[i] = list[i];
+            }
+            _bindings.sendMidi(buf, list.length);
+            ffi.malloc.free(buf);
+          }
+          
+          const String _libName = 'msfa_plugin';
+          
+          /// The dynamic library in which the symbols for [LibmsfaPluginBindings] can be found.
+          final DynamicLibrary _dylib = () {
+            if (Platform.isMacOS || Platform.isIOS) {
+              return DynamicLibrary.open('$_libName.framework/$_libName');
+            }
+            if (Platform.isAndroid || Platform.isLinux) {
+              return DynamicLibrary.open('lib$_libName.so');
+            }
+            if (Platform.isWindows) {
+              return DynamicLibrary.open('$_libName.dll');
+            }
+            throw UnsupportedError('Unknown platform: ${Platform.operatingSystem}');
+          }();
+          
+          /// The bindings to the native functions in [_dylib].
+          final MsfaPluginBindings _bindings = MsfaPluginBindings(_dylib);
+      - name: Remove src/msfa_plugin.c
+        rm: msfa_plugin/src/msfa_plugin.c
+      - name: Replace src/msfa_plugin.h
+        path: msfa_plugin/src/msfa_plugin.h
+        replace-contents: |
+          #ifndef __LIBMSFA_H
+          #define __LIBMSFA_H
+          
+          #include <stdint.h>
+          
+          typedef enum
+          {
+              MSFA_SUCCESS  =  0,
+              MSFA_ERROR    = -1,  /* A generic error. */
+              MSFA_AUDIO_OPEN_FAILED = -2,
+              MSFA_AUDIO_START_FAILED = -2,
+          } msfa_result;
+          
+          #ifdef __cplusplus
+          extern "C" {
+          #endif
+              msfa_result initEngine();
+              void sendMidi(const uint8_t *bytes, int size);
+              void shutdownEngine();
+          #ifdef __cplusplus    
+          }
+          #endif
+          
+          #endif  // __LIBMSFA_H
       - name: Patch src/CMakeLists.txt
         path: msfa_plugin/src/CMakeLists.txt
         patch-u: |
