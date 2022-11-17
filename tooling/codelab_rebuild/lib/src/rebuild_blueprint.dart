@@ -32,6 +32,15 @@ Future<void> _buildBlueprintStep(Directory cwd, BlueprintStep step) async {
     exit(0);
   }
 
+  final platforms = step.platforms;
+  if (platforms != null) {
+    if (!platforms.contains(Platform.operatingSystem)) {
+      _logger.info(
+          'Skipping because ${Platform.operatingSystem} is not in ${platforms.join(', ')}.');
+      return;
+    }
+  }
+
   final steps = step.steps;
   if (steps.isNotEmpty) {
     for (final subStep in steps) {
@@ -76,6 +85,22 @@ Future<void> _buildBlueprintStep(Directory cwd, BlueprintStep step) async {
                 : p.join(cwd.path, dir),
             step: step);
       }
+    }
+    return;
+  }
+
+  final rename = step.rename;
+  if (rename != null) {
+    if (step.path != null) {
+      _rename(
+          from: p.join(cwd.path, step.path, rename.from),
+          to: p.join(cwd.path, step.path, rename.to),
+          step: step);
+    } else {
+      _rename(
+          from: p.join(cwd.path, rename.from),
+          to: p.join(cwd.path, rename.to),
+          step: step);
     }
     return;
   }
@@ -141,6 +166,17 @@ Future<void> _buildBlueprintStep(Directory cwd, BlueprintStep step) async {
       step: step,
       cwd: cwd,
       args: flutter,
+    );
+    return;
+  }
+
+  final git = step.git;
+  if (git != null) {
+    await _runNamedCommand(
+      command: 'git',
+      step: step,
+      cwd: cwd,
+      args: git,
     );
     return;
   }
@@ -237,13 +273,21 @@ Future<void> _runNamedCommand({
   return;
 }
 
+void _rename({
+  required String from,
+  required String to,
+  required BlueprintStep step,
+}) {
+  File(from).renameSync(to);
+}
+
 void _cpdir({
   required String from,
   required String to,
   required BlueprintStep step,
 }) {
   if (!FileSystemEntity.isDirectorySync(from)) {
-    _logger.warning("Invalid rmdir for '$from': ${step.name}");
+    _logger.warning("Invalid cpdir for '$from': ${step.name}");
   }
   io.copyPathSync(from, to);
 }

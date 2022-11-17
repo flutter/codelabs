@@ -88,16 +88,21 @@ class BlueprintStep {
   @JsonKey(name: 'replace-contents')
   final String? replaceContents;
 
-  final String? rm;
-  final String? pod;
+  // Platforms: "linux" "macos" "windows"
+  final List<String>? platforms;
+
   final String? dart;
   final String? flutter;
+  final String? git;
+  final String? pod;
+  final String? rm;
 
   final String? mkdir;
   final List<String> mkdirs;
   final String? rmdir;
   final List<String> rmdirs;
-  final CopyDirs? copydir;
+  final FromTo? copydir;
+  final FromTo? rename;
 
   // For debugging & development purposes
   final bool? stop;
@@ -116,10 +121,13 @@ class BlueprintStep {
     this.rmdir,
     this.rmdirs = const [],
     this.copydir,
-    this.rm,
-    this.pod,
+    this.rename,
+    this.platforms,
     this.dart,
     this.flutter,
+    this.git,
+    this.rm,
+    this.pod,
     this.stop,
   }) {
     if (name.isEmpty) {
@@ -148,10 +156,12 @@ class BlueprintStep {
         rmdir == null &&
         rmdirs.isEmpty &&
         copydir == null &&
+        rename == null &&
         rm == null &&
         pod == null &&
         dart == null &&
-        flutter == null) {
+        flutter == null &&
+        git == null) {
       _logger.warning('Invalid step with no action: $name');
       return false;
     }
@@ -169,10 +179,12 @@ class BlueprintStep {
           rmdir != null ||
           rmdirs.isNotEmpty ||
           copydir != null ||
+          rename != null ||
           rm != null ||
           pod != null ||
           dart != null ||
-          flutter != null) {
+          flutter != null ||
+          git != null) {
         _logger.warning(
             'Invalid step sub-steps and one (or more) of patch, command(s), '
             'base64-contents or replace-contents: $name');
@@ -219,9 +231,11 @@ class BlueprintStep {
             rmdir != null ||
             rmdirs.isNotEmpty ||
             copydir != null ||
+            rename != null ||
             pod != null ||
             dart != null ||
-            flutter != null)) {
+            flutter != null ||
+            git != null)) {
       _logger.warning(
           'Invalid step, patch with command(s), replace-contents, or base64-contents: $name');
       return false;
@@ -243,14 +257,14 @@ class BlueprintStep {
   checked: true,
   disallowUnrecognizedKeys: true,
 )
-class CopyDirs {
+class FromTo {
   final String from;
   final String to;
-  CopyDirs({required this.from, required this.to});
+  FromTo({required this.from, required this.to});
 
-  factory CopyDirs.fromJson(Map json) => _$CopyDirsFromJson(json);
+  factory FromTo.fromJson(Map json) => _$FromToFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CopyDirsToJson(this);
+  Map<String, dynamic> toJson() => _$FromToToJson(this);
 
   @override
   String toString() => 'CopyDirs: ${toJson()}';
