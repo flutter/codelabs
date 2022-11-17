@@ -88,6 +88,9 @@ class BlueprintStep {
   @JsonKey(name: 'replace-contents')
   final String? replaceContents;
 
+  // Platforms: "linux" "macos" "windows"
+  final List<String>? platforms;
+
   final String? dart;
   final String? flutter;
   final String? git;
@@ -117,6 +120,7 @@ class BlueprintStep {
     this.rmdir,
     this.rmdirs = const [],
     this.copydir,
+    this.platforms,
     this.dart,
     this.flutter,
     this.git,

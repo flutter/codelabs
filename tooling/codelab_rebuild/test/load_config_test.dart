@@ -310,4 +310,18 @@ steps:
     final blueprint = Blueprint.load(input);
     expect(blueprint.isValid, equals(true));
   });
+
+  test('Platform depenedant flutter', () {
+    final input = '''
+name: Cupertino Store script
+steps:
+  - name: valid flutter on macOS and Windows
+    platforms:
+      - macos
+      - windows
+    flutter: foo
+''';
+    final blueprint = Blueprint.load(input);
+    expect(blueprint.isValid, equals(true));
+  });
 }

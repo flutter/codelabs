@@ -41,9 +41,11 @@ steps:
              late Future<int> sumAsyncResult;
       - name: Build iOS simulator bundle
         path: msfa_plugin/example
+        platforms: [ macos ]
         flutter: build ios --simulator
       - name: Build macOS app
         path: msfa_plugin/example
+        platforms: [ macos ]
         flutter: build macos
       - name: Copy step_03
         copydir:
