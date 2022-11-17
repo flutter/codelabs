@@ -53,6 +53,16 @@ steps:
     steps:
       - name: Remove generated code.
         rmdir: step_05
+      - name: git clone libmsfa
+        path: msfa_plugin/src
+        git: clone https://github.com/maks/libmsfa
+      - name: git checkout libmsfa tag v1.0.0
+        path: msfa_plugin/src/libmsfa
+        git: checkout v1.0.0
+      - name: Git ignore src/libmsfa
+        path: msfa_plugin/src/.gitignore
+        replace-contents: |
+          /libmsfa/
       - name: Patch analysis_options.yaml
         path: msfa_plugin/analysis_options.yaml
         patch-u: |
@@ -155,6 +165,60 @@ steps:
                          ],
                        ),
                      ),
+      - name: Patch src/CMakeLists.txt
+        path: msfa_plugin/src/CMakeLists.txt
+        patch-u: |
+          --- b/ffi_codelab/step_05/src/CMakeLists.txt
+          +++ a/ffi_codelab/step_05/src/CMakeLists.txt
+          @@ -3,10 +3,28 @@
+           # the plugin to fail to compile for some customers of the plugin.
+           cmake_minimum_required(VERSION 3.10)
+           
+          -project(msfa_plugin_library VERSION 0.0.1 LANGUAGES C)
+          +project(msfa_plugin_library VERSION 0.0.1 LANGUAGES C CXX)
+           
+           add_library(msfa_plugin SHARED
+          -  "msfa_plugin.c"
+          +
+          +  # Provides a relative path to your source file(s).
+          +  libmsfa/src/dx7note.cc
+          +  libmsfa/src/env.cc
+          +  libmsfa/src/exp2.cc
+          +  libmsfa/src/fir.cc
+          +  libmsfa/src/fm_core.cc
+          +  libmsfa/src/fm_op_kernel.cc
+          +  libmsfa/src/freqlut.cc
+          +  libmsfa/src/lfo.cc
+          +  libmsfa/src/log2.cc
+          +  libmsfa/src/libmsfa.cc
+          +  libmsfa/src/patch.cc
+          +  libmsfa/src/pitchenv.cc
+          +  libmsfa/src/resofilter.cc
+          +  libmsfa/src/ringbuffer.cc
+          +  libmsfa/src/sawtooth.cc
+          +  libmsfa/src/sin.cc
+          +  libmsfa/src/synth_unit.cc  
+           )
+           
+           set_target_properties(msfa_plugin PROPERTIES
+          @@ -14,4 +32,16 @@ set_target_properties(msfa_plugin PROPERTIES
+             OUTPUT_NAME "msfa_plugin"
+           )
+           
+          -target_compile_definitions(msfa_plugin PUBLIC DART_SHARED_LIB)
+          +target_compile_options(msfa_plugin PRIVATE -Wno-c++11-narrowing)
+          +
+          +set(CMAKE_CXX_FLAGS -pthread)
+          +
+          +include_directories("include")
+          +
+          +target_link_libraries(
+          +
+          +  # Specifies the target library.
+          +  msfa_plugin
+          +  ${CMAKE_DL_LIBS}
+          +)
+          +
       - name: Upgrade dep versions
         path: msfa_plugin
         flutter: pub upgrade --major-versions
