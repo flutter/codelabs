@@ -80,6 +80,10 @@ steps:
         git: checkout v1.0.0
       - name: Convert libmsfa from git repo to just files
         rmdir: msfa_plugin/src/libmsfa/.git
+      - name: Drop libmsfa's GitHub configuration
+        rmdir: msfa_plugin/src/libmsfa/.github
+      - name: Drop rom
+        rm: msfa_plugin/src/libmsfa/data/rom1a.syx
       - name: Patch analysis_options.yaml
         path: msfa_plugin/analysis_options.yaml
         patch-u: |
