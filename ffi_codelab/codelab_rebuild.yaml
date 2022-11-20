@@ -78,10 +78,8 @@ steps:
       - name: git checkout libmsfa tag v1.0.0
         path: msfa_plugin/src/libmsfa
         git: checkout v1.0.0
-      - name: Git ignore src/libmsfa
-        path: msfa_plugin/src/.gitignore
-        replace-contents: |
-          /libmsfa/
+      - name: Convert libmsfa from git repo to just files
+        rmdir: msfa_plugin/src/libmsfa/.git
       - name: Patch analysis_options.yaml
         path: msfa_plugin/analysis_options.yaml
         patch-u: |
