@@ -2,8 +2,6 @@ name: Foreign Function Interface codelab rebuild script
 steps:
   - name: step_03
     steps:
-      - name: Remove generated code.
-        rmdir: step_03
       - name: Create project.
         flutter: create --template=plugin_ffi --platforms=android,ios,linux,macos,windows msfa_plugin
       - name: Configure analysis_options.yaml
@@ -64,14 +62,14 @@ steps:
         path: msfa_plugin/example
         platforms: [ macos ]
         flutter: build macos
+      - name: Remove step_03
+        rmdir: step_03
       - name: Copy step_03
         copydir:
           from: msfa_plugin
           to: step_03
   - name: step_05
     steps:
-      - name: Remove generated code.
-        rmdir: step_05
       - name: git clone libmsfa
         path: msfa_plugin/src
         git: clone https://github.com/maks/libmsfa
@@ -311,14 +309,14 @@ steps:
       - name: Run ffigen
         path: msfa_plugin
         flutter: pub run ffigen --config ffigen.yaml
+      - name: Remove step_05
+        rmdir: step_05
       - name: Copy step_05
         copydir:
           from: msfa_plugin
           to: step_05
   - name: step_06
     steps:
-      - name: Remove generated code.
-        rmdir: step_06
       - name: Remove ios/Classes/msfa_plugin.c
         rm: msfa_plugin/ios/Classes/msfa_plugin.c
       - name: Copy libmsfa to ios/Classes
@@ -441,14 +439,14 @@ steps:
       - name: Remove macos/Classes/core.gyp
         path: msfa_plugin
         rm: macos/Classes/core.gyp
+      - name: Remove step_06
+        rmdir: step_06
       - name: Copy step_06
         copydir:
           from: msfa_plugin
           to: step_06
   - name: complete
     steps:
-      - name: Remove generated code.
-        rmdir: complete
       - name: Add flutter_virtual_piano
         path: msfa_plugin/example
         flutter: pub add flutter_virtual_piano
@@ -702,6 +700,8 @@ steps:
               );
             }
           }
+      - name: Remove complete
+        rmdir: complete
       - name: Copy complete
         copydir:
           from: msfa_plugin

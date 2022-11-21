@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:cli_script/cli_script.dart';
 import 'package:io/io.dart' as io;
 import 'package:logging/logging.dart';
 import 'package:path/path.dart' as p;
@@ -193,32 +192,42 @@ Future<void> _buildBlueprintStep(Directory cwd, BlueprintStep step) async {
   final patchC = step.patchC;
 
   if (patch != null || patchC != null || patchU != null) {
-    final fullPath = p.join(cwd.path, path);
+    final fullPath = p.canonicalize(p.join(cwd.path, path));
     if (!FileSystemEntity.isFileSync(fullPath)) {
       File(fullPath).createSync();
     }
 
-    late final Script script;
+    late final Process process;
     if (patch != null) {
-      script =
-          patch | Script('patch', args: [path], workingDirectory: cwd.path);
+      process = await Process.start(
+        'patch',
+        [fullPath],
+        workingDirectory: cwd.path,
+      );
+    } else if (patchC != null) {
+      process = await Process.start(
+        'patch',
+        ['-c', fullPath],
+        workingDirectory: cwd.path,
+      );
+    } else if (patchU != null) {
+      process = await Process.start(
+        'patch',
+        ['-u', fullPath],
+        workingDirectory: cwd.path,
+      );
     }
-    if (patchC != null) {
-      script = patchC |
-          Script('patch', args: ['-c', path], workingDirectory: cwd.path);
-    }
-    if (patchU != null) {
-      script = patchU |
-          Script('patch', args: ['-u', path], workingDirectory: cwd.path);
-    }
-    script.stderr.lines.listen((event) {
-      _logger.warning(event);
+    process.stderr.listen((event) {
+      _logger.warning(String.fromCharCodes(event));
     });
-    script.stdout.lines.listen((event) {
-      _logger.info(event);
+    process.stdout.listen((event) {
+      _logger.info(String.fromCharCodes(event));
     });
 
-    final exitCode = await script.exitCode;
+    process.stdin.write(patch ?? patchC ?? patchU);
+    await process.stdin.flush();
+
+    final exitCode = await process.exitCode;
     if (exitCode != 0) {
       _logger.severe('Patch failed');
       exit(-1);
@@ -251,23 +260,25 @@ Future<void> _runNamedCommand({
   required Directory cwd,
   required String args,
 }) async {
-  final String workingDirectory =
-      step.path != null ? p.join(cwd.path, step.path) : cwd.path;
-  final script = Script(
+  final String workingDirectory = p
+      .canonicalize(step.path != null ? p.join(cwd.path, step.path) : cwd.path);
+  final shellSplit = io.shellSplit(args);
+  final process = await Process.start(
     command,
-    args: io.shellSplit(args),
+    shellSplit,
     workingDirectory: workingDirectory,
+    runInShell: true,
   );
-  script.stderr.lines.listen((event) {
-    _logger.warning(event);
+  process.stderr.listen((event) {
+    _logger.warning(String.fromCharCodes(event).trimRight());
   });
-  script.stdout.lines.listen((event) {
-    _logger.info(event);
+  process.stdout.listen((event) {
+    _logger.info(String.fromCharCodes(event).trimRight());
   });
 
-  final exitCode = await script.exitCode;
+  final exitCode = await process.exitCode;
   if (exitCode != 0) {
-    _logger.severe('Patch failed');
+    _logger.severe("'$command $args' failed");
     exit(-1);
   }
   return;
@@ -278,6 +289,8 @@ void _rename({
   required String to,
   required BlueprintStep step,
 }) {
+  from = p.canonicalize(from);
+  to = p.canonicalize(to);
   File(from).renameSync(to);
 }
 
@@ -286,6 +299,8 @@ void _cpdir({
   required String to,
   required BlueprintStep step,
 }) {
+  from = p.canonicalize(from);
+  to = p.canonicalize(to);
   if (!FileSystemEntity.isDirectorySync(from)) {
     _logger.warning("Invalid cpdir for '$from': ${step.name}");
   }
@@ -293,6 +308,7 @@ void _cpdir({
 }
 
 void _rmdir(String dir, {required BlueprintStep step}) {
+  dir = p.canonicalize(dir);
   if (!FileSystemEntity.isDirectorySync(dir)) {
     _logger.warning("Invalid rmdir for '$dir': ${step.name}");
   }
@@ -300,5 +316,6 @@ void _rmdir(String dir, {required BlueprintStep step}) {
 }
 
 void _mkdir(String dir, {required BlueprintStep step}) {
+  p.canonicalize(dir);
   Directory(dir).createSync(recursive: true);
 }
