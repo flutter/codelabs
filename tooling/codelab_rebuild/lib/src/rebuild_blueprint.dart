@@ -220,12 +220,12 @@ Future<void> _buildBlueprintStep(Directory cwd, BlueprintStep step) async {
         workingDirectory: cwd.path,
       );
     }
-    process.stderr.listen((event) {
+    process.stderr.transform(utf8.decoder).listen((str) {
       seenError = true;
-      _logger.warning(String.fromCharCodes(event));
+      _logger.warning(str.trimRight());
     });
-    process.stdout.listen((event) {
-      _logger.info(String.fromCharCodes(event));
+    process.stdout.transform(utf8.decoder).listen((str) {
+      _logger.info(str.trimRight());
     });
 
     process.stdin.write(patch ?? patchC ?? patchU);
@@ -276,12 +276,12 @@ Future<void> _runNamedCommand({
     workingDirectory: workingDirectory,
     runInShell: true,
   );
-  process.stderr.listen((event) {
+  process.stderr.transform(utf8.decoder).listen((str) {
     seenStdErr = true;
-    _logger.warning(String.fromCharCodes(event).trimRight());
+    _logger.warning(str.trimRight());
   });
-  process.stdout.listen((event) {
-    _logger.info(String.fromCharCodes(event).trimRight());
+  process.stdout.transform(utf8.decoder).listen((str) {
+    _logger.info(str.trimRight());
   });
 
   final exitCode = await process.exitCode;
