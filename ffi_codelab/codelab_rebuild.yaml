@@ -112,10 +112,13 @@ steps:
            preamble: |
              // ignore_for_file: always_specify_types
              // ignore_for_file: camel_case_types
-          @@ -17,3 +17,8 @@ preamble: |
+          @@ -17,3 +17,11 @@ preamble: |
            comments:
              style: any
              length: full
+          +llvm-path:
+          +  - "/usr/lib/llvm-15"
+          +  - "/Users/brettmorgan/homebrew/opt/llvm"
           +functions:  
           +  symbol-address:
           +      # Used to expose symbol address.
