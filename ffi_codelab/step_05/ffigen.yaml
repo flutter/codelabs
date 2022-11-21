@@ -17,8 +17,6 @@ preamble: |
 comments:
   style: any
   length: full
-llvm-path:
-    - "/usr/lib/llvm-15"
 functions:  
   symbol-address:
       # Used to expose symbol address.
