@@ -165,6 +165,7 @@ Future<void> _buildBlueprintStep(Directory cwd, BlueprintStep step) async {
       step: step,
       cwd: cwd,
       args: flutter,
+      exitOnStdErr: false, // flutter prints status info to stderr.
     );
     return;
   }
@@ -176,6 +177,7 @@ Future<void> _buildBlueprintStep(Directory cwd, BlueprintStep step) async {
       step: step,
       cwd: cwd,
       args: git,
+      exitOnStdErr: false, // git prints status info to stderr. Sigh.
     );
     return;
   }
@@ -192,6 +194,7 @@ Future<void> _buildBlueprintStep(Directory cwd, BlueprintStep step) async {
   final patchC = step.patchC;
 
   if (patch != null || patchC != null || patchU != null) {
+    bool seenError = false;
     final fullPath = p.canonicalize(p.join(cwd.path, path));
     if (!FileSystemEntity.isFileSync(fullPath)) {
       File(fullPath).createSync();
@@ -201,23 +204,24 @@ Future<void> _buildBlueprintStep(Directory cwd, BlueprintStep step) async {
     if (patch != null) {
       process = await Process.start(
         'patch',
-        [fullPath],
+        ['--verbose', fullPath],
         workingDirectory: cwd.path,
       );
     } else if (patchC != null) {
       process = await Process.start(
         'patch',
-        ['-c', fullPath],
+        ['-c', '--verbose', fullPath],
         workingDirectory: cwd.path,
       );
     } else if (patchU != null) {
       process = await Process.start(
         'patch',
-        ['-u', fullPath],
+        ['-u', '--verbose', fullPath],
         workingDirectory: cwd.path,
       );
     }
     process.stderr.listen((event) {
+      seenError = true;
       _logger.warning(String.fromCharCodes(event));
     });
     process.stdout.listen((event) {
@@ -229,8 +233,8 @@ Future<void> _buildBlueprintStep(Directory cwd, BlueprintStep step) async {
     await process.stdin.close();
 
     final exitCode = await process.exitCode;
-    if (exitCode != 0) {
-      _logger.severe('Patch failed');
+    if (exitCode != 0 || seenError) {
+      _logger.severe('patch $fullPath failed.');
       exit(-1);
     }
 
@@ -260,7 +264,9 @@ Future<void> _runNamedCommand({
   required BlueprintStep step,
   required Directory cwd,
   required String args,
+  bool exitOnStdErr = true,
 }) async {
+  var seenStdErr = false;
   final String workingDirectory = p
       .canonicalize(step.path != null ? p.join(cwd.path, step.path) : cwd.path);
   final shellSplit = io.shellSplit(args);
@@ -271,6 +277,7 @@ Future<void> _runNamedCommand({
     runInShell: true,
   );
   process.stderr.listen((event) {
+    seenStdErr = true;
     _logger.warning(String.fromCharCodes(event).trimRight());
   });
   process.stdout.listen((event) {
@@ -278,7 +285,7 @@ Future<void> _runNamedCommand({
   });
 
   final exitCode = await process.exitCode;
-  if (exitCode != 0) {
+  if (exitCode != 0 || exitOnStdErr && seenStdErr) {
     _logger.severe("'$command $args' failed");
     exit(-1);
   }
