@@ -302,13 +302,13 @@ steps:
           +)
       - name: Upgrade dep versions
         path: msfa_plugin
-        flutter: pub upgrade --major-versions
+        dart: pub upgrade --major-versions
       - name: Move ffi dep from dev_deps to deps
         path: msfa_plugin
-        flutter: pub add ffi
+        dart: pub add ffi
       - name: Run ffigen
         path: msfa_plugin
-        flutter: pub run ffigen --config ffigen.yaml
+        dart: run ffigen --config ffigen.yaml
       - name: Remove step_05
         rmdir: step_05
       - name: Copy step_05
