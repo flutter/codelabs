@@ -226,6 +226,7 @@ Future<void> _buildBlueprintStep(Directory cwd, BlueprintStep step) async {
 
     process.stdin.write(patch ?? patchC ?? patchU);
     await process.stdin.flush();
+    await process.stdin.close();
 
     final exitCode = await process.exitCode;
     if (exitCode != 0) {
