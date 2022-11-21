@@ -14,6 +14,7 @@ declare -a CODELABS=(
   "cupertino_store"
   "dartpad_codelabs"
   "firebase-emulator-suite"
+  "flame-building-doodle-dash"
   "firebase-get-to-know-flutter"
   "friendly_chat"
   "github-client"
