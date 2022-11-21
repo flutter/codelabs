@@ -19,7 +19,6 @@ comments:
   length: full
 llvm-path:
   - "/usr/lib/llvm-15"
-  - "/Users/brettmorgan/homebrew/opt/llvm"
 functions:  
   symbol-address:
       # Used to expose symbol address.
