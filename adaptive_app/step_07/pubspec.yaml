@@ -36,15 +36,16 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  extension_google_sign_in_as_googleapis_auth: ^2.0.7
+  flex_color_scheme: ^6.0.1
+  go_router: ^5.2.0
+  google_sign_in: ^5.4.2
   googleapis: ^9.2.0
+  googleapis_auth: ^1.3.1
   http: ^0.13.5
   provider: ^6.0.4
-  url_launcher: ^6.1.6
-  flex_color_scheme: ^6.0.1
   split_view: ^3.2.1
-  googleapis_auth: ^1.3.1
-  google_sign_in: ^5.4.2
-  extension_google_sign_in_as_googleapis_auth: ^2.0.7
+  url_launcher: ^6.1.6
 
 dev_dependencies:
   flutter_test:
