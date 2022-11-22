@@ -119,67 +119,68 @@ steps:
           +      # Used to expose symbol address.
           +      include:
           +        - shutdownEngine
-      - name: Patch example/lib/main.dart
+      - name: Replace example/lib/main.dart
         path: msfa_plugin/example/lib/main.dart
-        patch-u: |
-          --- b/ffi_codelab/step_05/example/lib/main.dart
-          +++ a/ffi_codelab/step_05/example/lib/main.dart
-          @@ -15,14 +15,10 @@ class MyApp extends StatefulWidget {
-           }
-           
-           class MyAppState extends State<MyApp> {
-          -  late int sumResult;
-          -  late Future<int> sumAsyncResult;
-          -
-             @override
-             void initState() {
-               super.initState();
-          -    sumResult = msfa_plugin.sum(1, 2);
-          -    sumAsyncResult = msfa_plugin.sumAsync(3, 4);
-          +    msfa_plugin.init();
-             }
-           
-             @override
-          @@ -40,30 +36,19 @@ class MyAppState extends State<MyApp> {
-                       child: Column(
-                         children: [
-                           const Text(
-          -                  'This calls a native function through FFI that is shipped as source in the package. '
-          -                  'The native code is built as part of the Flutter Runner build.',
-          -                  style: textStyle,
-          -                  textAlign: TextAlign.center,
-          -                ),
-          -                spacerSmall,
-          -                Text(
-          -                  'sum(1, 2) = $sumResult',
-          +                  'Initialized libmsfa',
-                             style: textStyle,
-                             textAlign: TextAlign.center,
-                           ),
-                           spacerSmall,
-          -                FutureBuilder<int>(
-          -                  future: sumAsyncResult,
-          -                  builder: (BuildContext context, AsyncSnapshot<int> value) {
-          -                    final displayValue =
-          -                        (value.hasData) ? value.data : 'loading';
-          -                    return Text(
-          -                      'await sumAsync(3, 4) = $displayValue',
-          -                      style: textStyle,
-          -                      textAlign: TextAlign.center,
-          -                    );
-          -                  },
-          -                ),
-          +                MaterialButton(
-          +                    child: const Text("send midi"),
-          +                    onPressed: () async {
-          +                      debugPrint("send midi");
-          +                      msfa_plugin.sendMidi([0x90, 0x4c, 0x57]);
-          +                      await Future.delayed(const Duration(seconds: 1));
-          +                      msfa_plugin.sendMidi([0x90, 0x4c, 0x00]);
-          +                    })
-                         ],
-                       ),
-                     ),
+        replace-contents: |
+          import 'package:flutter/material.dart';
+          import 'dart:async';
+          
+          import 'package:msfa_plugin/msfa_plugin.dart' as msfa_plugin;
+          
+          void main() {
+            runApp(const MyApp());
+          }
+          
+          class MyApp extends StatefulWidget {
+            const MyApp({super.key});
+          
+            @override
+            MyAppState createState() => MyAppState();
+          }
+          
+          class MyAppState extends State<MyApp> {
+            @override
+            void initState() {
+              super.initState();
+              msfa_plugin.init();
+            }
+          
+            @override
+            Widget build(BuildContext context) {
+              const textStyle = TextStyle(fontSize: 25);
+              const spacerSmall = SizedBox(height: 10);
+              return MaterialApp(
+                home: Scaffold(
+                  appBar: AppBar(
+                    title: const Text('Native Packages'),
+                  ),
+                  body: SingleChildScrollView(
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      child: Column(
+                        children: [
+                          const Text(
+                            'Initialized libmsfa',
+                            style: textStyle,
+                            textAlign: TextAlign.center,
+                          ),
+                          spacerSmall,
+                          MaterialButton(
+                              child: const Text("send midi"),
+                              onPressed: () async {
+                                debugPrint("send midi");
+                                msfa_plugin.sendMidi([0x90, 0x4c, 0x57]);
+                                await Future.delayed(const Duration(seconds: 1));
+                                msfa_plugin.sendMidi([0x90, 0x4c, 0x00]);
+                              })
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            }
+          }
       - name: Replace lib/msfa_plugin.dart
         path: msfa_plugin/lib/msfa_plugin.dart
         replace-contents: |
@@ -247,59 +248,55 @@ steps:
           #endif
           
           #endif  // __LIBMSFA_H
-      - name: Patch src/CMakeLists.txt
+      - name: Replace src/CMakeLists.txt
         path: msfa_plugin/src/CMakeLists.txt
-        patch-u: |
-          --- b/ffi_codelab/step_05/src/CMakeLists.txt
-          +++ a/ffi_codelab/step_05/src/CMakeLists.txt
-          @@ -3,10 +3,28 @@
-           # the plugin to fail to compile for some customers of the plugin.
-           cmake_minimum_required(VERSION 3.10)
-           
-          -project(msfa_plugin_library VERSION 0.0.1 LANGUAGES C)
-          +project(msfa_plugin_library VERSION 0.0.1 LANGUAGES C CXX)
-           
-           add_library(msfa_plugin SHARED
-          -  "msfa_plugin.c"
-          +
-          +  # Provides a relative path to your source file(s).
-          +  libmsfa/src/dx7note.cc
-          +  libmsfa/src/env.cc
-          +  libmsfa/src/exp2.cc
-          +  libmsfa/src/fir.cc
-          +  libmsfa/src/fm_core.cc
-          +  libmsfa/src/fm_op_kernel.cc
-          +  libmsfa/src/freqlut.cc
-          +  libmsfa/src/lfo.cc
-          +  libmsfa/src/log2.cc
-          +  libmsfa/src/libmsfa.cc
-          +  libmsfa/src/patch.cc
-          +  libmsfa/src/pitchenv.cc
-          +  libmsfa/src/resofilter.cc
-          +  libmsfa/src/ringbuffer.cc
-          +  libmsfa/src/sawtooth.cc
-          +  libmsfa/src/sin.cc
-          +  libmsfa/src/synth_unit.cc
-           )
-           
-           set_target_properties(msfa_plugin PROPERTIES
-          @@ -14,4 +32,15 @@ set_target_properties(msfa_plugin PROPERTIES
-             OUTPUT_NAME "msfa_plugin"
-           )
-           
-          -target_compile_definitions(msfa_plugin PUBLIC DART_SHARED_LIB)
-          +target_compile_options(msfa_plugin PRIVATE -Wno-c++11-narrowing)
-          +
-          +set(CMAKE_CXX_FLAGS -pthread)
-          +
-          +include_directories("include")
-          +
-          +target_link_libraries(
-          +
-          +  # Specifies the target library.
-          +  msfa_plugin
-          +  ${CMAKE_DL_LIBS}
-          +)
+        replace-contents: |
+          # The Flutter tooling requires that developers have CMake 3.10 or later
+          # installed. You should not increase this version, as doing so will cause
+          # the plugin to fail to compile for some customers of the plugin.
+          cmake_minimum_required(VERSION 3.10)
+          
+          project(msfa_plugin_library VERSION 0.0.1 LANGUAGES C CXX)
+          
+          add_library(msfa_plugin SHARED
+          
+            # Provides a relative path to your source file(s).
+            libmsfa/src/dx7note.cc
+            libmsfa/src/env.cc
+            libmsfa/src/exp2.cc
+            libmsfa/src/fir.cc
+            libmsfa/src/fm_core.cc
+            libmsfa/src/fm_op_kernel.cc
+            libmsfa/src/freqlut.cc
+            libmsfa/src/lfo.cc
+            libmsfa/src/log2.cc
+            libmsfa/src/libmsfa.cc
+            libmsfa/src/patch.cc
+            libmsfa/src/pitchenv.cc
+            libmsfa/src/resofilter.cc
+            libmsfa/src/ringbuffer.cc
+            libmsfa/src/sawtooth.cc
+            libmsfa/src/sin.cc
+            libmsfa/src/synth_unit.cc
+          )
+          
+          set_target_properties(msfa_plugin PROPERTIES
+            PUBLIC_HEADER msfa_plugin.h
+            OUTPUT_NAME "msfa_plugin"
+          )
+          
+          target_compile_options(msfa_plugin PRIVATE -Wno-c++11-narrowing)
+          
+          set(CMAKE_CXX_FLAGS -pthread)
+          
+          include_directories("include")
+          
+          target_link_libraries(
+          
+            # Specifies the target library.
+            msfa_plugin
+            ${CMAKE_DL_LIBS}
+          )
       - name: Upgrade dep versions
         path: msfa_plugin
         dart: pub upgrade --major-versions
