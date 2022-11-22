@@ -32,7 +32,9 @@ set_target_properties(msfa_plugin PROPERTIES
   OUTPUT_NAME "msfa_plugin"
 )
 
-target_compile_options(msfa_plugin PRIVATE -Wno-c++11-narrowing)
+if (NOT MSVC)
+  target_compile_options(msfa_plugin PRIVATE -Wno-c++11-narrowing)
+endif (NOT MSVC)
 
 set(CMAKE_CXX_FLAGS -pthread)
 

@@ -202,23 +202,14 @@ Future<void> _buildBlueprintStep(Directory cwd, BlueprintStep step) async {
 
     late final Process process;
     if (patch != null) {
-      process = await Process.start(
-        'patch',
-        ['--verbose', fullPath],
-        workingDirectory: cwd.path,
-      );
+      process =
+          await Process.start('patch', [fullPath], workingDirectory: cwd.path);
     } else if (patchC != null) {
-      process = await Process.start(
-        'patch',
-        ['-c', '--verbose', fullPath],
-        workingDirectory: cwd.path,
-      );
+      process = await Process.start('patch', ['-c', fullPath],
+          workingDirectory: cwd.path);
     } else if (patchU != null) {
-      process = await Process.start(
-        'patch',
-        ['-u', '--verbose', fullPath],
-        workingDirectory: cwd.path,
-      );
+      process = await Process.start('patch', ['-u', fullPath],
+          workingDirectory: cwd.path);
     }
     process.stderr.transform(utf8.decoder).listen((str) {
       seenError = true;
