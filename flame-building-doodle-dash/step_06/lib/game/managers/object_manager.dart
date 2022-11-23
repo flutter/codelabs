@@ -84,12 +84,6 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
 
       // Removes platforms from the game when they've moved out of view
       _cleanupPlatforms();
-
-      // TODO: Step 7
-      // _maybeAddEnemy();
-
-      // TODO: step 8
-      // _maybeAddPowerup();
     }
 
     super.update(dt);
@@ -215,81 +209,5 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
     // defaults to a normal platform
     return NormalPlatform(position: position);
   }
-
-  // TODO: Step 07
-  // final List<EnemyPlatform> _enemies = [];
-  // void _maybeAddEnemy() {
-  //   // checks if we should add enemies at the current level
-  //   if (specialPlatforms['enemy'] != true) {
-  //     return;
-  //   }
-  //   if (probGen.generateWithProbability(20)) {
-  //     var enemy = EnemyPlatform(
-  //       position: Vector2(_generateNextX(100), _generateNextY()),
-  //     );
-  //     add(enemy);
-  //     _enemies.add(enemy);
-  //     _cleanup();
-  //   }
-  // }
-
-  // TODO: Step 07
-  // Because powerups and enemies rely on probability to be generated
-  // There is no exact best moment to remove them from the game
-  // So, we periodically check if there are any that can be removed.
-  // void _cleanupEnemies() {
-  //   final screenBottom = gameRef.player.position.y +
-  //       (gameRef.size.x / 2) +
-  //       gameRef.screenBufferSpace;
-  //
-  //   while (_enemies.isNotEmpty && _enemies.first.position.y > screenBottom) {
-  //     remove(_enemies.first);
-  //     _enemies.removeAt(0);
-  //   }
-  //  _cleanupPowerups();
-  //}
-
-  // TODO: Remove for step 08
-  // final List<PowerUp> _powerups = [];
-
-  // TODO: Remove for Step 08
-  // void _maybeAddPowerup() {
-  //   // there is a 20% chance to add a Noogler Hat
-  //   if (specialPlatforms['noogler'] == true &&
-  //       probGen.generateWithProbability(20)) {
-  //     // generate powerup
-  //     var nooglerHat = NooglerHat(
-  //       position: Vector2(_generateNextX(75), _generateNextY()),
-  //     );
-  //     add(nooglerHat);
-  //     _powerups.add(nooglerHat);
-  //     return; // return early if we already add a noogler hat, no need to add a rocket
-  //   }
-  //
-  //   // There is a 15% chance to add a jetpack
-  //   if (specialPlatforms['rocket'] == true &&
-  //       probGen.generateWithProbability(15)) {
-  //     var rocket = Rocket(
-  //       position: Vector2(_generateNextX(50), _generateNextY()),
-  //     );
-  //     add(rocket);
-  //     _powerups.add(rocket);
-  //   }
-  // }
-
-  // TODO: remove for step 08
-  // ALSO FYI for codelab... if the powerup step is getting too long
-  // this is something that can be mentioned without being explained
-  // void _cleanupPowerups() {
-  // final screenBottom = gameRef.player.position.y +
-  //     (gameRef.size.x / 2) +
-  //     gameRef.screenBufferSpace;
-  // while (_powerups.isNotEmpty && _powerups.first.position.y > screenBottom) {
-  //   if (_powerups.first.parent != null) {
-  //     remove(_powerups.first);
-  //   }
-  //   _powerups.removeAt(0);
-  // }
-  // }
 
 }

@@ -170,3 +170,26 @@ class SpringBoard extends Platform<SpringState> {
     current = SpringState.up;
   }
 }
+
+
+enum EnemyPlatformState { only }
+
+// Enemies are just Platforms that Dash shouldn't touch
+class EnemyPlatform extends Platform<EnemyPlatformState> {
+  EnemyPlatform({super.position});
+
+  @override
+  Future<void>? onLoad() async {
+    var randBool = Random().nextBool();
+    var enemySprite = randBool ? 'enemy_trash_can' : 'enemy_error';
+
+    sprites = <EnemyPlatformState, Sprite>{
+      EnemyPlatformState.only:
+          await gameRef.loadSprite('game/$enemySprite.png'),
+    };
+
+    current = EnemyPlatformState.only;
+
+    return super.onLoad();
+  }
+}

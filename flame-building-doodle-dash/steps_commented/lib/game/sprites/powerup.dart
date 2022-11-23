@@ -1,8 +1,8 @@
-import 'package:flame/collisions.dart';
-import 'package:flame/components.dart';
-
-import './player.dart';
-import '../doodle_dash.dart';
+// import 'package:flame/collisions.dart';
+// import 'package:flame/components.dart';
+//
+// import './player.dart';
+// import '../doodle_dash.dart';
 
 // TODO: Step 08
 // abstract class PowerUp extends SpriteComponent

@@ -3,8 +3,6 @@ import 'dart:math';
 
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:flutter/widgets.dart';
-
 import '../doodle_dash.dart';
 
 /// The supertype for all Platforms, including Enemies

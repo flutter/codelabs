@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import './doodle_dash.dart';
 
-// TODO Step 2 - in starter code
 class World extends ParallaxComponent<DoodleDash> {
   @override
   Future<void> onLoad() async {

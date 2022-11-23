@@ -57,8 +57,6 @@ class _MyHomePageState extends State<MyHomePage> {
             child: GameWidget(
               // hot reload in development mode,
               game: game,
-              // TODO Step 7 -- This should be explained, but the widgets themselves
-              // TODO contd - don't need to be explained
               overlayBuilderMap: <String, Widget Function(BuildContext, Game)>{
                 'gameOverlay': (context, game) => GameOverlay(game),
                 'mainMenuOverlay': (context, game) => MainMenuOverlay(game),

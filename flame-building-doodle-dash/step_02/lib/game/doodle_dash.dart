@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import './world.dart';
 import 'managers/managers.dart';
-import 'sprites/sprites.dart';
 
 enum Character { dash, sparky }
 
@@ -17,10 +16,6 @@ class DoodleDash extends FlameGame
   GameManager gameManager = GameManager();
   int screenBufferSpace = 300;
   ObjectManager objectManager = ObjectManager();
-
-
-  // TODO: Step 3
-  // late Player player;
 
   @override
   Future<void> onLoad() async {
@@ -40,12 +35,6 @@ class DoodleDash extends FlameGame
   void update(double dt) {
     super.update(dt);
 
-    // TODO: Step 07
-    // stop updating in between games
-    // if (gameManager.isGameOver) {
-    //   return;
-    // }
-
     // show the main menu when the game launches
     // And return so the engine doesn't  update as long as the menu is up.
     if (gameManager.isIntro) {
@@ -54,40 +43,7 @@ class DoodleDash extends FlameGame
     }
 
     if (gameManager.isPlaying) {
-      // TODO: STEP 5
-      // final Rect worldBounds = Rect.fromLTRB(
-      //   0,
-      //   camera.position.y - screenBufferSpace,
-      //   camera.gameSize.x,
-      //   camera.position.y + _world.size.y,
-      // );
-      // camera.worldBounds = worldBounds;
-
       checkLevelUp();
-      // TODO: Step 5
-      // Camera should only follow Dash when she's moving up, if she's following down
-      // the camera should stay where it is and NOT follow her down.
-      // if (player.isMovingDown) {
-      //   camera.worldBounds = worldBounds;
-      // }
-
-      // TODO: Step 5
-      // Camera should only follow Dash when she's moving up, if she's falling down
-      // the camera should stay where it is and NOT follow her down.
-      // var isInTopHalfOfScreen = player.position.y <= (_world.size.y / 2);
-      // if (!player.isMovingDown && isInTopHalfOfScreen) {
-      //   camera.followComponent(player);
-      // }
-
-      // TODO: step 07
-      // if Dash falls off screen, game over!
-      // if (player.position.y >
-      //     camera.position.y +
-      //         _world.size.y +
-      //         player.size.y +
-      //         screenBufferSpace) {
-      //   onLose();
-      // }
     }
   }
 
@@ -109,29 +65,6 @@ class DoodleDash extends FlameGame
 
     levelManager.reset();
 
-    // TODO: Step 5
-    // player.reset();
-    //
-    // Setting the World Bounds for the camera will allow the camera to "move up"
-    // but stay fixed horizontally, allowing Dash to go out of camera on one side,
-    // and re-appear on the other side.
-    // camera.worldBounds = Rect.fromLTRB(
-    //   0,
-    //   -_world.size.y, // top of screen is 0, so negative is already off screen
-    //   camera.gameSize.x,
-    //   _world.size.y +
-    //       screenBufferSpace, // makes sure bottom bound of game is below bottom of screen
-    // );
-    // camera.followComponent(player);
-    //
-    // move dash back to the start
-    // player.position = Vector2(
-    //   // The total world size divided by 2 is the center, but the player size
-    //   // needs to be accounted for
-    //   (_world.size.x - player.size.x) / 2,
-    //   (_world.size.y - player.size.y) / 2,
-    // );
-
     // reset the the platforms
     objectManager = ObjectManager(
         minVerticalDistanceToNextPlatform: levelManager.minDistance,
@@ -142,16 +75,8 @@ class DoodleDash extends FlameGame
     objectManager.configure(levelManager.level, levelManager.difficulty);
   }
 
-  // void setCharacter() {
-  //   player = Player(character: gameManager.character);
-  //   player.setJumpSpeed(levelManager.jumpSpeed);
-  //   add(player);
-  // }
 
   void startGame() {
-    // TODO: Step 3
-    // setCharacter();
-
     initializeGameStart();
     gameManager.state = GameState.playing;
     overlays.remove('mainMenuOverlay');
@@ -161,13 +86,6 @@ class DoodleDash extends FlameGame
     startGame();
     overlays.remove('gameOverOverlay');
   }
-
-  // TODO: step 07
-  // void onLose() {
-  //   gameManager.state = GameState.gameOver;
-  //   player.removeFromParent();
-  //   overlays.add('gameOverOverlay');
-  // }
 
   void togglePauseState() {
     if (paused) {
@@ -183,11 +101,6 @@ class DoodleDash extends FlameGame
 
       // Change config for how platforms are generated
       objectManager.configure(levelManager.level, levelManager.difficulty);
-
-      // Change config for player jump speed
-
-      // TODO: Step 5 - can be glossed over
-      // player.setJumpSpeed(levelManager.jumpSpeed);
     }
   }
 }

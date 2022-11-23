@@ -49,7 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: LayoutBuilder(builder: (context, constraints) {
           return Container(
             constraints: const BoxConstraints(
-              // 1000 is arbitrary, should be tweaked (todo eric)
+              // 1000 is arbitrary, should be tweaked
               // 550 is the smallest Chrome will allow you to make the window
               maxWidth: 800,
               minWidth: 550,
@@ -57,8 +57,6 @@ class _MyHomePageState extends State<MyHomePage> {
             child: GameWidget(
               // hot reload in development mode,
               game: game,
-              // TODO Step 7 -- This should be explained, but the widgets themselves
-              // TODO contd - don't need to be explained
               overlayBuilderMap: <String, Widget Function(BuildContext, Game)>{
                 'gameOverlay': (context, game) => GameOverlay(game),
                 'mainMenuOverlay': (context, game) => MainMenuOverlay(game),

@@ -1,13 +1,8 @@
-import 'dart:math';
-
+// ignore_for_file: unnecessary_overrides
 import 'package:flame/components.dart';
-
 import './managers.dart';
 import '../doodle_dash.dart';
-import '../sprites/sprites.dart';
 import '../util/util.dart';
-
-final Random _rand = Random();
 
 // TODO: Step 2 - This class will exist in starter code, and be pretty empty to start
 class ObjectManager extends Component with HasGameRef<DoodleDash> {
@@ -19,6 +14,7 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
   double minVerticalDistanceToNextPlatform;
   double maxVerticalDistanceToNextPlatform;
   final probGen = ProbabilityGenerator();
+  // ignore: unused_field
   final double _tallestPlatformHeight = 50;
 
 

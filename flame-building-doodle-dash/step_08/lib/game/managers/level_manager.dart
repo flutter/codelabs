@@ -2,7 +2,6 @@ import 'package:flame/components.dart';
 
 import '../doodle_dash.dart';
 
-// TODO: Step 2 - starter code - briefly mention the purpose of this class
 // It won't be a detailed section of the codelab, as its not Flame specific
 class LevelManager extends Component with HasGameRef<DoodleDash> {
   LevelManager({this.selectedLevel = 1, this.level = 1});

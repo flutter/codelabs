@@ -89,14 +89,6 @@ class Player extends SpriteGroupComponent<PlayerState>
 
     // Player going left
     if (keysPressed.contains(LogicalKeyboardKey.arrowLeft)) {
-      // TODO: Step 08
-      // if (isWearingHat) {
-      //   current = PlayerState.nooglerLeft;
-      // } else if (!hasPowerup) {
-      //   current = PlayerState.left;
-      // }
-
-      // TODO: REMOVE NEXT LINE WHEN WE GET TO STEP 08!
       current = PlayerState.left;
 
       _hAxisInput += movingLeftInput;
@@ -104,14 +96,6 @@ class Player extends SpriteGroupComponent<PlayerState>
 
     // Player going right
     if (keysPressed.contains(LogicalKeyboardKey.arrowRight)) {
-      // TODO: Step 08
-      // if (isWearingHat) {
-      //   current = PlayerState.nooglerRight;
-      // } else if (!hasPowerup) {
-      //   current = PlayerState.right;
-      // }
-
-      // TODO: REMOVE NEXT LINE WHEN WE GET TO STEP 08!
       current = PlayerState.right;
       _hAxisInput += movingRightInput;
     }
@@ -124,42 +108,15 @@ class Player extends SpriteGroupComponent<PlayerState>
     return true;
   }
 
-  // TODO: Step 08
-  // bool get hasPowerup =>
-  //     current == PlayerState.rocket ||
-  //     current == PlayerState.nooglerLeft ||
-  //     current == PlayerState.nooglerRight ||
-  //     current == PlayerState.nooglerCenter;
-  //
-  // bool get isInvincible => current == PlayerState.rocket;
-  //
-  // bool get isWearingHat =>
-  //     current == PlayerState.nooglerLeft ||
-  //     current == PlayerState.nooglerRight ||
-  //     current == PlayerState.nooglerCenter;
-
   // Callback for Dash colliding with another component in the game
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     super.onCollision(intersectionPoints, other);
-    // TODO: Step 07
-    // if (other is EnemyPlatform && !isInvincible) {
-    //   gameRef.onLose();
-    //   return;
-    // }
 
     // Check if Dash is moving down and collides with a platform from the top
     // this allows Dash to move up _through_ platforms without collision
     bool isCollidingVertically =
         (intersectionPoints.first.y - intersectionPoints.last.y).abs() < 5;
-
-    // TODO: step 08
-    // bool enablePowerUp = false;
-
-    // TODO: step 08
-    // if (!hasPowerup && (other is Rocket || other is NooglerHat)) {
-    //   enablePowerUp = true;
-    // }
 
     // Only want Dash to  “jump” when she is falling + collides with the top of a platform
     if (isMovingDown && isCollidingVertically) {
@@ -176,37 +133,8 @@ class Player extends SpriteGroupComponent<PlayerState>
         other.breakPlatform();
         return;
       }
-
-      // TODO: remove for step 08
-      // if (other is Rocket || other is NooglerHat) {
-      //   enablePowerUp = true;
-      // }
     }
-
-    // TODO: remove for step 08
-    // if (!enablePowerUp) return;
-
-    // TODO: remove for step 08
-    // if (other is Rocket) {
-    //   current = PlayerState.rocket;
-    //   jump(specialJumpSpeed: jumpSpeed * other.jumpSpeedMultiplier);
-    //   return;
-    // } else if (other is NooglerHat) {
-    //   if (current == PlayerState.center) current = PlayerState.nooglerCenter;
-    //   if (current == PlayerState.left) current = PlayerState.nooglerLeft;
-    //   if (current == PlayerState.right) current = PlayerState.nooglerRight;
-    //   _removePowerupAfterTime(other.activeLengthInMS);
-    //   jump(specialJumpSpeed: jumpSpeed * other.jumpSpeedMultiplier);
-    //   return;
-    // }
   }
-
-  // TODO: remove for step 08
-  // void _removePowerupAfterTime(int ms) {
-  //   Future.delayed(Duration(milliseconds: ms), () {
-  //     current = PlayerState.center;
-  //   });
-  // }
 
   void jump({double? specialJumpSpeed}) {
     // Top left is 0,0 so going "up" is negative

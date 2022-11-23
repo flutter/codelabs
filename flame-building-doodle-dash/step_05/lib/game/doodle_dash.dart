@@ -37,13 +37,6 @@ class DoodleDash extends FlameGame
   @override
   void update(double dt) {
     super.update(dt);
-
-    // TODO: Step 07
-    // stop updating in between games
-    // if (gameManager.isGameOver) {
-    //   return;
-    // }
-
     // show the main menu when the game launches
     // And return so the engine doesn't  update as long as the menu is up.
     if (gameManager.isIntro) {
@@ -74,15 +67,6 @@ class DoodleDash extends FlameGame
         camera.followComponent(player);
       }
 
-      // TODO: step 07
-      // if Dash falls off screen, game over!
-      // if (player.position.y >
-      //     camera.position.y +
-      //         _world.size.y +
-      //         player.size.y +
-      //         screenBufferSpace) {
-      //   onLose();
-      // }
     }
   }
 
@@ -153,13 +137,6 @@ class DoodleDash extends FlameGame
     startGame();
     overlays.remove('gameOverOverlay');
   }
-
-  // TODO: step 07
-  // void onLose() {
-  //   gameManager.state = GameState.gameOver;
-  //   player.removeFromParent();
-  //   overlays.add('gameOverOverlay');
-  // }
 
   void togglePauseState() {
     if (paused) {

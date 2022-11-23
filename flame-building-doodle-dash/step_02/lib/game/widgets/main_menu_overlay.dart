@@ -2,7 +2,6 @@ import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 
 import '../doodle_dash.dart';
-import '../util/util.dart';
 
 // Overlay that appears for the main menu
 

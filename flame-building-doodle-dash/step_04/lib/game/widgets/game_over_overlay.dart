@@ -2,7 +2,6 @@ import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 
 import '../doodle_dash.dart';
-import '../util/util.dart';
 import 'widgets.dart';
 
 // Overlay that pops up when the game ends

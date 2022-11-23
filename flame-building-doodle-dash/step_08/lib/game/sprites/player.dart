@@ -5,6 +5,7 @@ import 'package:flame/components.dart';
 import 'package:flutter/services.dart';
 
 import '../doodle_dash.dart';
+import 'sprites.dart';
 
 enum PlayerState {
   left,
@@ -40,6 +41,9 @@ class Player extends SpriteGroupComponent<PlayerState>
   Vector2 _velocity = Vector2.zero();
   bool get isMovingDown => _velocity.y > 0;
   Character character;
+
+  // used to calculate the horizontal movement speed
+  final double _gravity = 9; // acceleration pulling Dash down
   double jumpSpeed; // vertical travel speed
 
   @override
@@ -69,6 +73,9 @@ class Player extends SpriteGroupComponent<PlayerState>
       position.x = dashHorizontalCenter;
     }
 
+    // Gravity is always acting on Dash's vertical velocity
+    _velocity.y += _gravity;
+
     // Calculate Dash's current position based on her velocity over elapsed time
     // since last update cycle
     position += _velocity * dt;
@@ -82,14 +89,24 @@ class Player extends SpriteGroupComponent<PlayerState>
 
     // Player going left
     if (keysPressed.contains(LogicalKeyboardKey.arrowLeft)) {
-      current = PlayerState.left;
+      if (isWearingHat) {
+        current = PlayerState.nooglerLeft;
+      } else if (!hasPowerup) {
+        current = PlayerState.left;
+      }
 
       _hAxisInput += movingLeftInput;
     }
 
     // Player going right
     if (keysPressed.contains(LogicalKeyboardKey.arrowRight)) {
-      current = PlayerState.right;
+      if (isWearingHat) {
+        current = PlayerState.nooglerRight;
+      } else if (!hasPowerup) {
+        current = PlayerState.right;
+      }
+
+
       _hAxisInput += movingRightInput;
     }
 
@@ -99,6 +116,87 @@ class Player extends SpriteGroupComponent<PlayerState>
     }
 
     return true;
+  }
+
+  bool get hasPowerup =>
+      current == PlayerState.rocket ||
+      current == PlayerState.nooglerLeft ||
+      current == PlayerState.nooglerRight ||
+      current == PlayerState.nooglerCenter;
+
+  bool get isInvincible => current == PlayerState.rocket;
+
+  bool get isWearingHat =>
+      current == PlayerState.nooglerLeft ||
+      current == PlayerState.nooglerRight ||
+      current == PlayerState.nooglerCenter;
+
+  // Callback for Dash colliding with another component in the game
+  @override
+  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
+    super.onCollision(intersectionPoints, other);
+    if (other is EnemyPlatform && !isInvincible) {
+      gameRef.onLose();
+      return;
+    }
+
+    // Check if Dash is moving down and collides with a platform from the top
+    // this allows Dash to move up _through_ platforms without collision
+    bool isCollidingVertically =
+        (intersectionPoints.first.y - intersectionPoints.last.y).abs() < 5;
+
+    bool enablePowerUp = false;
+
+    if (!hasPowerup && (other is Rocket || other is NooglerHat)) {
+      enablePowerUp = true;
+    }
+
+    // Only want Dash to  “jump” when she is falling + collides with the top of a platform
+    if (isMovingDown && isCollidingVertically) {
+      current = PlayerState.center;
+      if (other is NormalPlatform) {
+        jump();
+        return;
+      } else if (other is SpringBoard) {
+        jump(specialJumpSpeed: jumpSpeed * 2);
+        return;
+      } else if (other is BrokenPlatform &&
+          other.current == BrokenPlatformState.cracked) {
+        jump();
+        other.breakPlatform();
+        return;
+      }
+
+      if (other is Rocket || other is NooglerHat) {
+        enablePowerUp = true;
+      }
+    }
+
+    if (!enablePowerUp) return;
+
+    if (other is Rocket) {
+      current = PlayerState.rocket;
+      jump(specialJumpSpeed: jumpSpeed * other.jumpSpeedMultiplier);
+      return;
+    } else if (other is NooglerHat) {
+      if (current == PlayerState.center) current = PlayerState.nooglerCenter;
+      if (current == PlayerState.left) current = PlayerState.nooglerLeft;
+      if (current == PlayerState.right) current = PlayerState.nooglerRight;
+      _removePowerupAfterTime(other.activeLengthInMS);
+      jump(specialJumpSpeed: jumpSpeed * other.jumpSpeedMultiplier);
+      return;
+    }
+  }
+
+  void _removePowerupAfterTime(int ms) {
+    Future.delayed(Duration(milliseconds: ms), () {
+      current = PlayerState.center;
+    });
+  }
+
+  void jump({double? specialJumpSpeed}) {
+    // Top left is 0,0 so going "up" is negative
+    _velocity.y = specialJumpSpeed != null ? -specialJumpSpeed : -jumpSpeed;
   }
 
   void setJumpSpeed(double newJumpSpeed) {
