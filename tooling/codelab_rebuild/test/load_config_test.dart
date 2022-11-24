@@ -277,4 +277,51 @@ steps:
     final blueprint = Blueprint.load(input);
     expect(blueprint.isValid, equals(true));
   });
+
+  test('valid dart blueprint', () {
+    final input = '''
+name: Cupertino Store script
+steps:
+  - name: valid dart
+    dart: foo
+''';
+    final blueprint = Blueprint.load(input);
+    expect(blueprint.isValid, equals(true));
+  });
+
+  test('valid flutter blueprint', () {
+    final input = '''
+name: Cupertino Store script
+steps:
+  - name: valid flutter
+    flutter: foo
+''';
+    final blueprint = Blueprint.load(input);
+    expect(blueprint.isValid, equals(true));
+  });
+
+  test('valid git blueprint', () {
+    final input = '''
+name: Cupertino Store script
+steps:
+  - name: valid git
+    git: foo
+''';
+    final blueprint = Blueprint.load(input);
+    expect(blueprint.isValid, equals(true));
+  });
+
+  test('Platform depenedant flutter', () {
+    final input = '''
+name: Cupertino Store script
+steps:
+  - name: valid flutter on macOS and Windows
+    platforms:
+      - macos
+      - windows
+    flutter: foo
+''';
+    final blueprint = Blueprint.load(input);
+    expect(blueprint.isValid, equals(true));
+  });
 }
