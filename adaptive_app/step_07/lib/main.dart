@@ -80,8 +80,7 @@ class PlaylistsApp extends StatelessWidget {
       title: 'Your Playlists',
       theme: FlexColorScheme.light(scheme: FlexScheme.red).toTheme,
       darkTheme: FlexColorScheme.dark(scheme: FlexScheme.red).toTheme,
-      themeMode: ThemeMode.dark,
-      // Or ThemeMode.System if you'd prefer
+      themeMode: ThemeMode.dark, // Or ThemeMode.System if you'd prefer
       debugShowCheckedModeBanner: false,
       routerConfig: _router,
     );
