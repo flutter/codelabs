@@ -6,16 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:googleapis_auth/auth_io.dart';
-import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:url_launcher/link.dart';
 
 import 'app_state.dart';
-
-typedef AdaptiveLoginBuilder = Widget Function(
-  BuildContext context,
-  http.Client authClient,
-);
 
 typedef _AdaptiveLoginButtonWidget = Widget Function({
   required VoidCallback? onPressed,
