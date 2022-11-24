@@ -4,7 +4,6 @@ import 'package:googleapis/youtube/v3.dart';
 import 'package:provider/provider.dart';
 
 import 'app_state.dart';
-import 'playlist_details.dart';
 
 class Playlists extends StatelessWidget {
   const Playlists({super.key});
