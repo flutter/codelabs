@@ -62,6 +62,7 @@ BlueprintStep _$BlueprintStepFromJson(Map json) => $checkedCreate(
             'rename',
             'retrieve-url',
             'tar',
+            '7z',
             'stop'
           ],
           requiredKeys: const ['name'],
@@ -110,6 +111,7 @@ BlueprintStep _$BlueprintStepFromJson(Map json) => $checkedCreate(
           pod: $checkedConvert('pod', (v) => v as String?),
           retrieveUrl: $checkedConvert('retrieve-url', (v) => v as String?),
           tar: $checkedConvert('tar', (v) => v as String?),
+          sevenZip: $checkedConvert('7z', (v) => v as String?),
           stop: $checkedConvert('stop', (v) => v as bool?),
         );
         return val;
@@ -119,7 +121,8 @@ BlueprintStep _$BlueprintStepFromJson(Map json) => $checkedCreate(
         'patchU': 'patch-u',
         'patchC': 'patch-c',
         'replaceContents': 'replace-contents',
-        'retrieveUrl': 'retrieve-url'
+        'retrieveUrl': 'retrieve-url',
+        'sevenZip': '7z'
       },
     );
 
@@ -148,6 +151,7 @@ Map<String, dynamic> _$BlueprintStepToJson(BlueprintStep instance) =>
       'rename': instance.rename,
       'retrieve-url': instance.retrieveUrl,
       'tar': instance.tar,
+      '7z': instance.sevenZip,
       'stop': instance.stop,
     };
 

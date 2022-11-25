@@ -94,12 +94,25 @@ steps:
       - name: Retrieve duktape
         path: ffigen_app/src/duktape.tar.xz
         retrieve-url: https://duktape.org/duktape-2.7.0.tar.xz
-      - name: Unarchive duktape
+      - name: Unarchive duktape.tar.xz with tar
+        platforms: [ linux macos ]
         path: ffigen_app/src
         tar: xf duktape.tar.xz
+      - name: Unarchive duktape.tar.xz with 7z
+        platforms: [ windows ]
+        path: ffigen_app/src
+        7z: x duktape.tar.xz
+      - name: Unarchive duktape.tar with 7z
+        platforms: [ windows ]
+        path: ffigen_app/src
+        7z: x duktape.tar
       - name: Remove duktape.tar.xz
         path: ffigen_app/src
         rm: duktape.tar.xz
+      - name: Remove duktape.tar
+        platforms: [ windows ]
+        path: ffigen_app/src
+        rm: duktape.tar
       - name: Copy duktape-2.7.0/src/duktape.c
         path: ffigen_app/src
         copy:
@@ -323,15 +336,29 @@ steps:
       - name: Move ffi dep from dev_deps to deps
         path: ffigen_app
         dart: pub add ffi
+      - name: flutter clean
+        path: ffigen_app
+        flutter: clean
+      - name: Re-get deps
+        path: ffigen_app
+        flutter: pub get
       - name: Run ffigen
         path: ffigen_app
         dart: run ffigen --config ffigen.yaml
       - name: Flutter clean
-        path: ffigen_app
+        path: ffigen_app/example
         flutter: clean
-      - name: Update pub to work copying issues
-        path: ffigen_app
-        dart: pub get
+      - name: Re-get deps
+        path: ffigen_app/example
+        flutter: pub get
+      - name: Build Windows app
+        path: ffigen_app/example
+        platforms: [ windows ]
+        flutter: build windows --debug 
+      - name: Build Linux app
+        path: ffigen_app/example
+        platforms: [ linux ]
+        flutter: build linux --debug 
       - name: Copy step_05
         copydir:
           from: ffigen_app
@@ -349,7 +376,7 @@ steps:
         path: ffigen_app/ios/Classes/duktape.c
         replace-contents: |
           // Relative import to be able to reuse the C sources.
-          // See the comment in ../{projectName}}.podspec for more information.
+          // See the comment in ../ffigen_app.podspec for more information.
           #include "../../src/duktape.c"
       - name: Remove macos/Classes/ffigen_app.c
         rm: ffigen_app/macos/Classes/ffigen_app.c
@@ -357,7 +384,7 @@ steps:
         path: ffigen_app/macos/Classes/duktape.c
         replace-contents: |
           // Relative import to be able to reuse the C sources.
-          // See the comment in ../{projectName}}.podspec for more information.
+          // See the comment in ../ffigen_app.podspec for more information.
           #include "../../src/duktape.c"
       - name: Flutter clean
         path: ffigen_app/example

@@ -112,6 +112,8 @@ class BlueprintStep {
   @JsonKey(name: 'retrieve-url')
   final String? retrieveUrl;
   final String? tar;
+  @JsonKey(name: '7z')
+  final String? sevenZip;
 
   // For debugging & development purposes
   final bool? stop;
@@ -140,6 +142,7 @@ class BlueprintStep {
     this.pod,
     this.retrieveUrl,
     this.tar,
+    this.sevenZip,
     this.stop,
   }) {
     if (name.isEmpty) {
@@ -176,7 +179,8 @@ class BlueprintStep {
         flutter == null &&
         git == null &&
         retrieveUrl == null &&
-        tar == null) {
+        tar == null &&
+        sevenZip == null) {
       _logger.warning('Invalid step with no action: $name');
       return false;
     }
@@ -202,7 +206,8 @@ class BlueprintStep {
           flutter != null ||
           git != null ||
           retrieveUrl != null ||
-          tar != null) {
+          tar != null ||
+          sevenZip != null) {
         _logger.warning(
             'Invalid step sub-steps and one (or more) of patch, command(s), '
             'base64-contents or replace-contents: $name');
@@ -252,6 +257,12 @@ class BlueprintStep {
       return false;
     }
 
+    // If we have a unarchive, we need a path to write it to
+    if (sevenZip != null && path == null) {
+      _logger.warning('Invalid step, 7z with no target path: $name');
+      return false;
+    }
+
     // If we have a patch, we don't want a replace-contents, base64-contents or command(s)
     if ((patch != null || patchU != null || patchC != null) &&
         (replaceContents != null ||
@@ -268,7 +279,8 @@ class BlueprintStep {
             flutter != null ||
             git != null ||
             retrieveUrl != null ||
-            tar != null)) {
+            tar != null ||
+            sevenZip != null)) {
       _logger.warning(
           'Invalid step, patch with command(s), replace-contents, or base64-contents: $name');
       return false;

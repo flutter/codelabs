@@ -217,6 +217,17 @@ Future<void> _buildBlueprintStep(Directory cwd, BlueprintStep step) async {
     return;
   }
 
+  final sevenZip = step.sevenZip;
+  if (sevenZip != null) {
+    await _runNamedCommand(
+      command: '7z',
+      step: step,
+      cwd: cwd,
+      args: sevenZip,
+    );
+    return;
+  }
+
   final path = step.path;
   if (path == null) {
     _logger.severe(

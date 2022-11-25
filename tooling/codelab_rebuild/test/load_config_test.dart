@@ -337,13 +337,25 @@ steps:
     expect(blueprint.isValid, equals(true));
   });
 
-  test('unarchive', () {
+  test('unarchive with tar', () {
     final input = '''
 name: Unarchive
 steps:
   - name: Unarchive duktape
     path: ffigen_app/src
     tar: xvf duktape-2.7.0.tar.xz
+''';
+    final blueprint = Blueprint.fromString(input);
+    expect(blueprint.isValid, equals(true));
+  });
+
+  test('unarchive with 7z', () {
+    final input = '''
+name: Unarchive
+steps:
+  - name: Unarchive duktape
+    path: ffigen_app/src
+    7z: x duktape-2.7.0.tar.xz
 ''';
     final blueprint = Blueprint.fromString(input);
     expect(blueprint.isValid, equals(true));
