@@ -139,7 +139,8 @@ steps:
           -name: FfigenAppBindings
           +name: DuktapeBindings
            description: |
-             Bindings for `src/ffigen_app.h`.
+          -  Bindings for `src/ffigen_app.h`.
+          +  Bindings for `src/duktape.h`.
            
              Regenerate bindings with `flutter pub run ffigen --config ffigen.yaml`.
           -output: 'lib/ffigen_app_bindings_generated.dart'
@@ -325,9 +326,12 @@ steps:
       - name: Run ffigen
         path: ffigen_app
         dart: run ffigen --config ffigen.yaml
+      - name: Flutter clean
+        path: ffigen_app
+        flutter: clean
       - name: Update pub to work copying issues
         path: ffigen_app
-        dart: pub upgrade
+        dart: pub get
       - name: Copy step_05
         copydir:
           from: ffigen_app
