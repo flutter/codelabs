@@ -15,35 +15,83 @@ import 'examples/ui_loading_animation.dart';
 
 final items = <CookbookItem>[
   CookbookItem(
-    'Parallax Scrolling',
-    'Scrolling',
-    Recommendation.yes,
-    (_) => const Scaffold(
+    name: 'Parallax Scrolling',
+    type: 'Scrolling',
+    recommendation: Recommendation.yes,
+    builder: (_) => const Scaffold(
         body: Center(child: ExampleParallax()), backgroundColor: darkBlue),
+    path: 'parallax',
   ),
-  CookbookItem('Gradient Bubbles', 'Transition', Recommendation.yes,
-      (_) => const ExampleGradientBubbles()),
-  CookbookItem('Download Button', 'Button', Recommendation.yes,
-      (_) => const ExampleCupertinoDownloadButton()),
-  CookbookItem('Instagram Camera Buttons', 'Button', Recommendation.yes,
-      (_) => const ExampleInstagramFilterSelection()),
-  CookbookItem('Order Food Draggable', 'UI Pattern', Recommendation.yes,
-      (_) => const ExampleDragAndDrop()),
-  CookbookItem('Expandable FAB', 'Button', Recommendation.yes,
-      (_) => const ExampleExpandableFab()),
-  CookbookItem('Staggered Animation', 'Transition', Recommendation.yes,
-      (_) => const ExampleStaggeredAnimations()),
-  CookbookItem('Is Typing Animation', 'Animation', Recommendation.yes,
-      (_) => const ExampleIsTyping()),
-  CookbookItem('UI Loading Animations', 'Utility', Recommendation.maybe,
-      (_) => const ExampleUiLoadingAnimation()),
+  CookbookItem(
+    name: 'Gradient Bubbles',
+    type: 'Transition',
+    recommendation: Recommendation.yes,
+    builder: (_) => const ExampleGradientBubbles(),
+    path: 'gradient',
+  ),
+  CookbookItem(
+    name: 'Download Button',
+    type: 'Button',
+    recommendation: Recommendation.yes,
+    builder: (_) => const ExampleCupertinoDownloadButton(),
+    path: 'download',
+  ),
+  CookbookItem(
+    name: 'Instagram Camera Buttons',
+    type: 'Button',
+    recommendation: Recommendation.yes,
+    builder: (_) => const ExampleInstagramFilterSelection(),
+    path: 'instagram',
+  ),
+  CookbookItem(
+    name: 'Order Food Draggable',
+    type: 'UI Pattern',
+    recommendation: Recommendation.yes,
+    builder: (_) => const ExampleDragAndDrop(),
+    path: 'draganddrop',
+  ),
+  CookbookItem(
+    name: 'Expandable FAB',
+    type: 'Button',
+    recommendation: Recommendation.yes,
+    builder: (_) => const ExampleExpandableFab(),
+    path: 'expandablefab',
+  ),
+  CookbookItem(
+    name: 'Staggered Animation',
+    type: 'Transition',
+    recommendation: Recommendation.yes,
+    builder: (_) => const ExampleStaggeredAnimations(),
+    path: 'staggered',
+  ),
+  CookbookItem(
+    name: 'Is Typing Animation',
+    type: 'Animation',
+    recommendation: Recommendation.yes,
+    builder: (_) => const ExampleIsTyping(),
+    path: 'typing',
+  ),
+  CookbookItem(
+    name: 'UI Loading Animations',
+    type: 'Utility',
+    recommendation: Recommendation.maybe,
+    builder: (_) => const ExampleUiLoadingAnimation(),
+    path: 'uiload',
+  ),
 ];
 
 class CookbookItem {
-  CookbookItem(this.name, this.type, this.recommendation, this.builder);
+  CookbookItem({
+    required this.name,
+    required this.type,
+    required this.recommendation,
+    required this.builder,
+    required this.path,
+  });
 
   final String name;
   final String type;
+  final String path;
   final Recommendation recommendation;
   final WidgetBuilder builder;
 }
