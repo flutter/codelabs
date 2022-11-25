@@ -37,17 +37,13 @@ class Blueprint {
 
   factory Blueprint.fromJson(Map json) => _$BlueprintFromJson(json);
 
-  /// Load a blueprint, either from a file path, or directly as YAML content.
-  factory Blueprint.load(String sourcePathOrYaml) {
+  /// Load a blueprint from a file
+  factory Blueprint.load(File source) {
     String yamlContent;
     Uri? sourceUri;
 
-    if (FileSystemEntity.isFileSync(sourcePathOrYaml)) {
-      yamlContent = File(sourcePathOrYaml).readAsStringSync();
-      sourceUri = Uri.parse(sourcePathOrYaml);
-    } else {
-      yamlContent = sourcePathOrYaml;
-    }
+    yamlContent = source.readAsStringSync();
+    sourceUri = source.uri;
 
     final blueprint = checkedYamlDecode(
       yamlContent,
@@ -55,6 +51,13 @@ class Blueprint {
       sourceUrl: sourceUri,
     );
     return blueprint;
+  }
+
+  factory Blueprint.fromString(String yaml) {
+    return checkedYamlDecode(
+      yaml,
+      (m) => Blueprint.fromJson(m!),
+    );
   }
 
   /// Rebuild a blueprint in a target directory.
@@ -102,7 +105,13 @@ class BlueprintStep {
   final String? rmdir;
   final List<String> rmdirs;
   final FromTo? copydir;
+  final FromTo? copy;
   final FromTo? rename;
+
+  // Retreiving URLs and unarchiving them
+  @JsonKey(name: 'retrieve-url')
+  final String? retrieveUrl;
+  final String? tar;
 
   // For debugging & development purposes
   final bool? stop;
@@ -121,6 +130,7 @@ class BlueprintStep {
     this.rmdir,
     this.rmdirs = const [],
     this.copydir,
+    this.copy,
     this.rename,
     this.platforms,
     this.dart,
@@ -128,6 +138,8 @@ class BlueprintStep {
     this.git,
     this.rm,
     this.pod,
+    this.retrieveUrl,
+    this.tar,
     this.stop,
   }) {
     if (name.isEmpty) {
@@ -156,12 +168,15 @@ class BlueprintStep {
         rmdir == null &&
         rmdirs.isEmpty &&
         copydir == null &&
+        copy == null &&
         rename == null &&
         rm == null &&
         pod == null &&
         dart == null &&
         flutter == null &&
-        git == null) {
+        git == null &&
+        retrieveUrl == null &&
+        tar == null) {
       _logger.warning('Invalid step with no action: $name');
       return false;
     }
@@ -179,12 +194,15 @@ class BlueprintStep {
           rmdir != null ||
           rmdirs.isNotEmpty ||
           copydir != null ||
+          copy != null ||
           rename != null ||
           rm != null ||
           pod != null ||
           dart != null ||
           flutter != null ||
-          git != null) {
+          git != null ||
+          retrieveUrl != null ||
+          tar != null) {
         _logger.warning(
             'Invalid step sub-steps and one (or more) of patch, command(s), '
             'base64-contents or replace-contents: $name');
@@ -222,6 +240,18 @@ class BlueprintStep {
       return false;
     }
 
+    // If we have a retrieve-url, we need a path to write it to
+    if (retrieveUrl != null && path == null) {
+      _logger.warning('Invalid step, retrieve-url with no target path: $name');
+      return false;
+    }
+
+    // If we have a unarchive, we need a path to write it to
+    if (tar != null && path == null) {
+      _logger.warning('Invalid step, tar with no target path: $name');
+      return false;
+    }
+
     // If we have a patch, we don't want a replace-contents, base64-contents or command(s)
     if ((patch != null || patchU != null || patchC != null) &&
         (replaceContents != null ||
@@ -231,11 +261,14 @@ class BlueprintStep {
             rmdir != null ||
             rmdirs.isNotEmpty ||
             copydir != null ||
+            copy != null ||
             rename != null ||
             pod != null ||
             dart != null ||
             flutter != null ||
-            git != null)) {
+            git != null ||
+            retrieveUrl != null ||
+            tar != null)) {
       _logger.warning(
           'Invalid step, patch with command(s), replace-contents, or base64-contents: $name');
       return false;

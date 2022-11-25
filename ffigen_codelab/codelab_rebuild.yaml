@@ -1,0 +1,389 @@
+name: FFI Generator codelab rebuild script
+steps:
+  - name: step_03
+    steps:
+      - name: Remove step_03
+        rmdir: step_03
+      - name: Create project.
+        flutter: create --template=plugin_ffi --platforms=android,ios,linux,macos,windows ffigen_app
+      - name: Configure analysis_options.yaml
+        path: ffigen_app/analysis_options.yaml
+        replace-contents: |
+          include: ../../analysis_options.yaml
+      - name: Remove CHANGELOG
+        rm: ffigen_app/CHANGELOG.md
+      - name: Remove LICENSE
+        rm: ffigen_app/LICENSE
+      - name: Remove README
+        rm: ffigen_app/README.md
+      - name: Add .vscode directory
+        mkdir: ffigen_app/.vscode
+      - name: Add .vscode/launch.json
+        path: ffigen_app/.vscode/launch.json
+        replace-contents: |
+          {
+              // Use IntelliSense to learn about possible attributes.
+              // Hover to view descriptions of existing attributes.
+              // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+              "version": "0.2.0",
+              "configurations": [
+                  {
+                      "name": "example",
+                      "cwd": "example",
+                      "request": "launch",
+                      "type": "dart"
+                  }
+              ]
+          }
+      - name: dart format
+        dart: format ffigen_app
+      - name: dart fix
+        dart: fix --apply ffigen_app
+      - name: Fixup example/lib/main.dart
+        path: ffigen_app/example/lib/main.dart
+        patch-u: |
+          --- b/ffi_codelab/step_03/example/lib/main.dart
+          +++ a/ffi_codelab/step_03/example/lib/main.dart
+          @@ -11,10 +11,10 @@ class MyApp extends StatefulWidget {
+             const MyApp({super.key});
+           
+             @override
+          -  _MyAppState createState() => _MyAppState();
+          +  MyAppState createState() => MyAppState();
+           }
+           
+          -class _MyAppState extends State<MyApp> {
+          +class MyAppState extends State<MyApp> {
+             late int sumResult;
+             late Future<int> sumAsyncResult;
+      - name: Build iOS simulator bundle
+        path: ffigen_app/example
+        platforms: [ macos ]
+        flutter: build ios --simulator
+      - name: Build macOS app
+        path: ffigen_app/example
+        platforms: [ macos ]
+        flutter: build macos --debug
+      - name: Build Android app
+        path: ffigen_app/example
+        platforms: [ macos ]
+        flutter: build apk --debug 
+      - name: Build Windows app
+        path: ffigen_app/example
+        platforms: [ windows ]
+        flutter: build windows --debug 
+      - name: Build Linux app
+        path: ffigen_app/example
+        platforms: [ linux ]
+        flutter: build linux --debug 
+      - name: Copy step_03
+        copydir:
+          from: ffigen_app
+          to: step_03
+      - name: Flutter clean
+        path: step_03/example
+        flutter: clean
+  - name: step_05
+    steps:
+      - name: Remove step_05
+        rmdir: step_05
+      - name: Remove src/ffigen_app.c
+        rm: ffigen_app/src/ffigen_app.c
+      - name: Remove src/ffigen_app.h
+        rm: ffigen_app/src/ffigen_app.h
+      - name: Retrieve duktape
+        path: ffigen_app/src/duktape.tar.xz
+        retrieve-url: https://duktape.org/duktape-2.7.0.tar.xz
+      - name: Unarchive duktape
+        path: ffigen_app/src
+        tar: xf duktape.tar.xz
+      - name: Remove duktape.tar.xz
+        path: ffigen_app/src
+        rm: duktape.tar.xz
+      - name: Copy duktape-2.7.0/src/duktape.c
+        path: ffigen_app/src
+        copy:
+          from: duktape-2.7.0/src/duktape.c
+          to: duktape.c
+      - name: Copy duktape-2.7.0/src/duktape.h
+        path: ffigen_app/src
+        copy:
+          from: duktape-2.7.0/src/duktape.h
+          to: duktape.h
+      - name: Copy duktape-2.7.0/src/duk_config.h
+        path: ffigen_app/src
+        copy:
+          from: duktape-2.7.0/src/duk_config.h
+          to: duk_config.h
+      - name: Remove duktape-2.7.0
+        path: ffigen_app/src
+        rmdir: duktape-2.7.0
+      - name: Patch analysis_options.yaml
+        path: ffigen_app/analysis_options.yaml
+        patch-u: |
+          --- b/ffi_codelab/step_05/analysis_options.yaml
+          +++ a/ffi_codelab/step_05/analysis_options.yaml
+          @@ -1 +1,5 @@
+           include: ../../analysis_options.yaml
+          +
+          +analyzer:
+          +   exclude:
+          +    - lib/*bindings_generated.dart
+      - name: Replace ffigen.yaml
+        path: ffigen_app/ffigen.yaml
+        patch-u: |
+          --- b/ffigen_codelab/step_05/ffigen.yaml
+          +++ a/ffigen_codelab/step_05/ffigen.yaml
+          @@ -1,15 +1,15 @@
+           # Run with `flutter pub run ffigen --config ffigen.yaml`.
+          -name: FfigenAppBindings
+          +name: DuktapeBindings
+           description: |
+             Bindings for `src/ffigen_app.h`.
+           
+             Regenerate bindings with `flutter pub run ffigen --config ffigen.yaml`.
+          -output: 'lib/ffigen_app_bindings_generated.dart'
+          +output: 'lib/duktape_bindings_generated.dart'
+           headers:
+             entry-points:
+          -    - 'src/ffigen_app.h'
+          +    - 'src/duktape.h'
+             include-directives:
+          -    - 'src/ffigen_app.h'
+          +    - 'src/duktape.h'
+           preamble: |
+             // ignore_for_file: always_specify_types
+             // ignore_for_file: camel_case_types
+      - name: Replace example/lib/main.dart
+        path: ffigen_app/example/lib/main.dart
+        replace-contents: |
+          import 'package:ffigen_app/ffigen_app.dart';
+          import 'package:flutter/material.dart';
+          
+          const String jsCode = '1+2';
+          
+          void main() {
+            runApp(const MyApp());
+          }
+          
+          class MyApp extends StatefulWidget {
+            const MyApp({super.key});
+          
+            @override
+            MyAppState createState() => MyAppState();
+          }
+          
+          class MyAppState extends State<MyApp> {
+            late Duktape duktape;
+            String output = '';
+          
+            @override
+            void initState() {
+              super.initState();
+              duktape = Duktape();
+              setState(() {
+                output = 'Initialized Duktape';
+              });
+            }
+          
+            @override
+            void dispose() {
+              duktape.dispose();
+              super.dispose();
+            }
+          
+            @override
+            Widget build(BuildContext context) {
+              const textStyle = TextStyle(fontSize: 25);
+              const spacerSmall = SizedBox(height: 10);
+              return MaterialApp(
+                home: Scaffold(
+                  appBar: AppBar(
+                    title: const Text('Duktape Test'),
+                  ),
+                  body: Center(
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            output,
+                            style: textStyle,
+                            textAlign: TextAlign.center,
+                          ),
+                          spacerSmall,
+                          ElevatedButton(
+                            child: const Text('Run JavaScript'),
+                            onPressed: () async {
+                              duktape.evalString(jsCode);
+                              setState(() {
+                                output = '$jsCode => ${duktape.getInt(-1)}';
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            }
+          }
+      - name: Replace lib/ffigen_app.dart
+        path: ffigen_app/lib/ffigen_app.dart
+        replace-contents: |
+          import 'dart:ffi';
+          import 'dart:io';
+          import 'package:ffi/ffi.dart' as ffi;
+          
+          import 'duktape_bindings_generated.dart';
+          
+          const String _libName = 'ffigen_app';
+          
+          /// The dynamic library in which the symbols for [LibmsfaPluginBindings] can be found.
+          final DynamicLibrary _dylib = () {
+            if (Platform.isMacOS || Platform.isIOS) {
+              return DynamicLibrary.open('$_libName.framework/$_libName');
+            }
+            if (Platform.isAndroid || Platform.isLinux) {
+              return DynamicLibrary.open('lib$_libName.so');
+            }
+            if (Platform.isWindows) {
+              return DynamicLibrary.open('$_libName.dll');
+            }
+            throw UnsupportedError('Unknown platform: ${Platform.operatingSystem}');
+          }();
+          
+          /// The bindings to the native functions in [_dylib].
+          final DuktapeBindings _bindings = DuktapeBindings(_dylib);
+          
+          class Duktape {
+            Duktape() {
+              ctx =
+                  _bindings.duk_create_heap(nullptr, nullptr, nullptr, nullptr, nullptr);
+            }
+          
+            void evalString(String jsCode) {
+              // From duktape.h:
+              // #define duk_peval_string(ctx,src)  \
+              // 	(duk_eval_raw((ctx), (src), 0, 0 /*args*/ | DUK_COMPILE_EVAL | DUK_COMPILE_SAFE | DUK_COMPILE_NOSOURCE | DUK_COMPILE_STRLEN | DUK_COMPILE_NOFILENAME))
+          
+              var nativeUtf8 = jsCode.toNativeUtf8();
+              _bindings.duk_eval_raw(
+                  ctx,
+                  nativeUtf8.cast<Char>(),
+                  0,
+                  0 /*args*/ |
+                      DUK_COMPILE_EVAL |
+                      DUK_COMPILE_SAFE |
+                      DUK_COMPILE_NOSOURCE |
+                      DUK_COMPILE_STRLEN |
+                      DUK_COMPILE_NOFILENAME);
+              ffi.malloc.free(nativeUtf8);
+            }
+          
+            int getInt(int index) {
+              return _bindings.duk_get_int(ctx, index);
+            }
+          
+            void dispose() {
+              _bindings.duk_destroy_heap(ctx);
+              ctx = nullptr;
+            }
+          
+            late Pointer<duk_hthread> ctx;
+          }
+      - name: Replace src/CMakeLists.txt
+        path: ffigen_app/src/CMakeLists.txt
+        patch-u: |
+          diff --git b/ffigen_codelab/step_05/src/CMakeLists.txt a/ffigen_codelab/step_05/src/CMakeLists.txt
+          index d2390e36..04e2d188 100644
+          --- b/ffigen_codelab/step_05/src/CMakeLists.txt
+          +++ a/ffigen_codelab/step_05/src/CMakeLists.txt
+          @@ -6,11 +6,12 @@ cmake_minimum_required(VERSION 3.10)
+           project(ffigen_app_library VERSION 0.0.1 LANGUAGES C)
+           
+           add_library(ffigen_app SHARED
+          -  "ffigen_app.c"
+          +  duktape.c
+           )
+           
+           set_target_properties(ffigen_app PROPERTIES
+          -  PUBLIC_HEADER ffigen_app.h
+          +  PUBLIC_HEADER duktape.h
+          +  PRIVATE_HEADRE duk_config.h
+             OUTPUT_NAME "ffigen_app"
+           )
+           
+      - name: Upgrade dep versions
+        path: ffigen_app
+        dart: pub upgrade --major-versions
+      - name: Move ffi dep from dev_deps to deps
+        path: ffigen_app
+        dart: pub add ffi
+      - name: Run ffigen
+        path: ffigen_app
+        dart: run ffigen --config ffigen.yaml
+      - name: Update pub to work copying issues
+        path: ffigen_app
+        dart: pub upgrade
+      - name: Copy step_05
+        copydir:
+          from: ffigen_app
+          to: step_05
+      - name: Flutter clean
+        path: step_05/example
+        flutter: clean
+  - name: step_06
+    steps:
+      - name: Remove step_06
+        rmdir: step_06
+      - name: Remove ios/Classes/ffigen_app.c
+        rm: ffigen_app/ios/Classes/ffigen_app.c
+      - name: Create ios/Classes/duktape.c
+        path: ffigen_app/ios/Classes/duktape.c
+        replace-contents: |
+          // Relative import to be able to reuse the C sources.
+          // See the comment in ../{projectName}}.podspec for more information.
+          #include "../../src/duktape.c"
+      - name: Remove macos/Classes/ffigen_app.c
+        rm: ffigen_app/macos/Classes/ffigen_app.c
+      - name: Create macos/Classes/duktape.c
+        path: ffigen_app/macos/Classes/duktape.c
+        replace-contents: |
+          // Relative import to be able to reuse the C sources.
+          // See the comment in ../{projectName}}.podspec for more information.
+          #include "../../src/duktape.c"
+      - name: Flutter clean
+        path: ffigen_app/example
+        flutter: clean
+      - name: Build iOS simulator bundle
+        path: ffigen_app/example
+        platforms: [ macos ]
+        flutter: build ios --simulator
+      - name: Build macOS app
+        path: ffigen_app/example
+        platforms: [ macos ]
+        flutter: build macos --debug
+      - name: Build Android app
+        path: ffigen_app/example
+        platforms: [ macos ]
+        flutter: build apk --debug 
+      - name: Build Windows app
+        path: ffigen_app/example
+        platforms: [ windows ]
+        flutter: build windows --debug 
+      - name: Build Linux app
+        path: ffigen_app/example
+        platforms: [ linux ]
+        flutter: build linux --debug 
+      - name: Copy step_06
+        copydir:
+          from: ffigen_app
+          to: step_06
+      - name: Flutter clean
+        path: step_06/example
+        flutter: clean
+  - name: Cleanup
+    rmdir: ffigen_app
