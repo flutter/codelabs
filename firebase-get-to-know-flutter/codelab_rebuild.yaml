@@ -111,8 +111,8 @@ steps:
           +++ a/firebase-get-to-know-flutter/step_02/macos/Podfile
           @@ -1,4 +1,5 @@
           -platform :osx, '10.11'
-          +# Firebase macOS requires macOS 10.12: https://firebase.flutter.dev/docs/manual-installation/macos#macos-supported-versions
-          +platform :osx, '10.12'
+          +# Firebase macOS requires macOS 10.13: https://firebase.google.com/docs/flutter/setup?platform=ios
+          +platform :osx, '10.13'
            
            # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
            ENV['COCOAPODS_DISABLE_STATS'] = 'true'
@@ -1676,9 +1676,15 @@ steps:
           AAAAAACsCAAAAAAAVgQAAAAAACsCAAAAAIAVAQAAAADAigAAAAAAYEUAAAAAALAiAAAAAABYEQAAAAAA
           rAgAAAAAAFYEAAAAAAArAgAAAACAFQEAAAAA3G78fwEGAOYQ2S/g6/WJAAAAAElFTkSuQmCC
       - name: Build for iOS
+        platforms: [ macos ]
         path: gtk_flutter
         flutter: build ios --debug --simulator
+      - name: Build for Android
+        platforms: [ macos ]
+        path: gtk_flutter
+        flutter: build apk
       - name: Build for macOS 
+        platforms: [ macos ]
         path: gtk_flutter
         flutter: build macos --debug
       - name: Copy step_02
@@ -2626,7 +2632,21 @@ steps:
                  ],
                );
              }
-
+      - name: Flutter clean
+        path: gtk_flutter
+        flutter: clean
+      - name: Build for iOS
+        platforms: [ macos ]
+        path: gtk_flutter
+        flutter: build ios --debug --simulator
+      - name: Build for Android
+        platforms: [ macos ]
+        path: gtk_flutter
+        flutter: build apk
+      - name: Build for macOS
+        platforms: [ macos ]
+        path: gtk_flutter
+        flutter: build macos --debug
       - name: Copy step_09
         copydir:
           from: gtk_flutter

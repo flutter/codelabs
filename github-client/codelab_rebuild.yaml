@@ -740,8 +740,17 @@ steps:
             });
           }
       - name: Build macOS app
+        platforms: [ macos ]
         path: github_client
         flutter: build macos
+      - name: Build linux app
+        platforms: [ linux ]
+        path: github_client
+        flutter: build linux
+      - name: Build windows app
+        platforms: [ windows ]
+        path: github_client
+        flutter: build windows
       - name: Copy step_04
         copydir:
           from: github_client
@@ -1128,6 +1137,21 @@ steps:
           ---
           > GitHub _getGitHub(String accessToken) {
           >   return GitHub(auth: Authentication.withToken(accessToken));
+      - name: flutter clean
+        path: github_client
+        flutter: clean
+      - name: Build macOS app
+        platforms: [ macos ]
+        path: github_client
+        flutter: build macos
+      - name: Build linux app
+        platforms: [ linux ]
+        path: github_client
+        flutter: build linux
+      - name: Build windows app
+        platforms: [ windows ]
+        path: github_client
+        flutter: build windows
       - name: Copy step_07
         copydir:
           from: github_client

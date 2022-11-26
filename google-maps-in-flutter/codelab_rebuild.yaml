@@ -128,7 +128,17 @@ steps:
            // This is a basic Flutter widget test.
            //
            // To perform an interaction with a widget in your test, use the WidgetTester
-
+      - name: flutter clean
+        path: google_maps_in_flutter
+        flutter: clean
+      - name: build Android
+        platforms: [ macos ]
+        path: google_maps_in_flutter
+        flutter: build apk
+      - name: build iOS
+        platforms: [ macos ]
+        path: google_maps_in_flutter
+        flutter: build ios
       - name: Copy step_3
         copydir: 
           from: google_maps_in_flutter
@@ -1443,6 +1453,17 @@ steps:
            // GENERATED CODE - DO NOT MODIFY BY HAND
            
            part of 'locations.dart';
+      - name: flutter clean
+        path: google_maps_in_flutter
+        flutter: clean
+      - name: build Android
+        platforms: [ macos ]
+        path: google_maps_in_flutter
+        flutter: build apk
+      - name: build iOS
+        platforms: [ macos ]
+        path: google_maps_in_flutter
+        flutter: build ios
       - name: Copy step_5
         copydir: 
           from: google_maps_in_flutter

@@ -157,6 +157,12 @@ steps:
               expect(find.text('Not present'), findsNothing);
             });
           }
+      - name: flutter clean
+        path: star_counter
+        flutter: clean
+      - name: build web
+        path: star_counter
+        flutter: build web
       - name: Copy step_04
         copydir:
           from: star_counter
@@ -521,7 +527,12 @@ steps:
                                child: const Text('Privacy Policy'),
                              ),
                            ],
-
+      - name: flutter clean
+        path: star_counter
+        flutter: clean
+      - name: build web
+        path: star_counter
+        flutter: build web
       - name: Copy step_10
         copydir:
           from: star_counter

@@ -1756,5 +1756,9 @@ steps:
         copydir:
           from: cupertino_store
           to: step_06
+      - name: Flutter build
+        platforms: [ macos ]
+        path: step_06
+        flutter: build ios --simulator
   - name: Cleanup
     rmdir: cupertino_store
