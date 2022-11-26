@@ -156,7 +156,7 @@ Future<void> _buildBlueprintStep(Directory cwd, BlueprintStep step) async {
   if (retrieveUrl != null) {
     final request = await HttpClient().getUrl(Uri.parse(retrieveUrl));
     final response = await request.close();
-    await response.pipe(File(step.path!).openWrite());
+    await response.pipe(File(p.join(cwd.path, step.path!)).openWrite());
     return;
   }
 

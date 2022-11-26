@@ -95,7 +95,7 @@ steps:
         path: ffigen_app/src/duktape.tar.xz
         retrieve-url: https://duktape.org/duktape-2.7.0.tar.xz
       - name: Unarchive duktape.tar.xz with tar
-        platforms: [ linux macos ]
+        platforms: [ linux, macos ]
         path: ffigen_app/src
         tar: xf duktape.tar.xz
       - name: Unarchive duktape.tar.xz with 7z
