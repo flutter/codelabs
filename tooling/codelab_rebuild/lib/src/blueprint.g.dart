@@ -58,7 +58,11 @@ BlueprintStep _$BlueprintStepFromJson(Map json) => $checkedCreate(
             'rmdir',
             'rmdirs',
             'copydir',
+            'copy',
             'rename',
+            'retrieve-url',
+            'tar',
+            '7z',
             'stop'
           ],
           requiredKeys: const ['name'],
@@ -94,6 +98,8 @@ BlueprintStep _$BlueprintStepFromJson(Map json) => $checkedCreate(
                   const []),
           copydir: $checkedConvert(
               'copydir', (v) => v == null ? null : FromTo.fromJson(v as Map)),
+          copy: $checkedConvert(
+              'copy', (v) => v == null ? null : FromTo.fromJson(v as Map)),
           rename: $checkedConvert(
               'rename', (v) => v == null ? null : FromTo.fromJson(v as Map)),
           platforms: $checkedConvert('platforms',
@@ -103,6 +109,9 @@ BlueprintStep _$BlueprintStepFromJson(Map json) => $checkedCreate(
           git: $checkedConvert('git', (v) => v as String?),
           rm: $checkedConvert('rm', (v) => v as String?),
           pod: $checkedConvert('pod', (v) => v as String?),
+          retrieveUrl: $checkedConvert('retrieve-url', (v) => v as String?),
+          tar: $checkedConvert('tar', (v) => v as String?),
+          sevenZip: $checkedConvert('7z', (v) => v as String?),
           stop: $checkedConvert('stop', (v) => v as bool?),
         );
         return val;
@@ -111,7 +120,9 @@ BlueprintStep _$BlueprintStepFromJson(Map json) => $checkedCreate(
         'base64Contents': 'base64-contents',
         'patchU': 'patch-u',
         'patchC': 'patch-c',
-        'replaceContents': 'replace-contents'
+        'replaceContents': 'replace-contents',
+        'retrieveUrl': 'retrieve-url',
+        'sevenZip': '7z'
       },
     );
 
@@ -136,7 +147,11 @@ Map<String, dynamic> _$BlueprintStepToJson(BlueprintStep instance) =>
       'rmdir': instance.rmdir,
       'rmdirs': instance.rmdirs,
       'copydir': instance.copydir,
+      'copy': instance.copy,
       'rename': instance.rename,
+      'retrieve-url': instance.retrieveUrl,
+      'tar': instance.tar,
+      '7z': instance.sevenZip,
       'stop': instance.stop,
     };
 

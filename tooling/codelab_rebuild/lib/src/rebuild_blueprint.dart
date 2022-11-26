@@ -120,6 +120,22 @@ Future<void> _buildBlueprintStep(Directory cwd, BlueprintStep step) async {
     return;
   }
 
+  final cp = step.copy;
+  if (cp != null) {
+    if (step.path != null) {
+      _cp(
+          from: p.join(cwd.path, step.path, cp.from),
+          to: p.join(cwd.path, step.path, cp.to),
+          step: step);
+    } else {
+      _cp(
+          from: p.join(cwd.path, cp.from),
+          to: p.join(cwd.path, cp.to),
+          step: step);
+    }
+    return;
+  }
+
   final rm = step.rm;
   if (rm != null) {
     late final File target;
@@ -133,6 +149,14 @@ Future<void> _buildBlueprintStep(Directory cwd, BlueprintStep step) async {
       exit(-1);
     }
     target.deleteSync();
+    return;
+  }
+
+  final retrieveUrl = step.retrieveUrl;
+  if (retrieveUrl != null) {
+    final request = await HttpClient().getUrl(Uri.parse(retrieveUrl));
+    final response = await request.close();
+    await response.pipe(File(p.join(cwd.path, step.path!)).openWrite());
     return;
   }
 
@@ -178,6 +202,28 @@ Future<void> _buildBlueprintStep(Directory cwd, BlueprintStep step) async {
       cwd: cwd,
       args: git,
       exitOnStdErr: false, // git prints status info to stderr. Sigh.
+    );
+    return;
+  }
+
+  final tar = step.tar;
+  if (tar != null) {
+    await _runNamedCommand(
+      command: 'tar',
+      step: step,
+      cwd: cwd,
+      args: tar,
+    );
+    return;
+  }
+
+  final sevenZip = step.sevenZip;
+  if (sevenZip != null) {
+    await _runNamedCommand(
+      command: '7z',
+      step: step,
+      cwd: cwd,
+      args: sevenZip,
     );
     return;
   }
@@ -304,6 +350,19 @@ void _cpdir({
     _logger.warning("Invalid cpdir for '$from': ${step.name}");
   }
   io.copyPathSync(from, to);
+}
+
+void _cp({
+  required String from,
+  required String to,
+  required BlueprintStep step,
+}) {
+  from = p.canonicalize(from);
+  to = p.canonicalize(to);
+  if (!FileSystemEntity.isFileSync(from)) {
+    _logger.warning("Invalid cp for '$from': ${step.name}");
+  }
+  File(from).copySync(to);
 }
 
 void _rmdir(String dir, {required BlueprintStep step}) {
