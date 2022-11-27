@@ -105,6 +105,7 @@ steps:
             ]
           }
       - name: Patch gtk_flutter/macos/Podfile
+        platforms: [ macos ]
         path: gtk_flutter/macos/Podfile
         patch-u: |
           --- b/firebase-get-to-know-flutter/step_02/macos/Podfile
@@ -1695,10 +1696,12 @@ steps:
     steps:
       - name: Remove generated code.
         rmdir: step_04
-      - name: Update iOS podspec 
+      - name: Update iOS podspec
+        platforms: [ macos ]
         path: gtk_flutter/ios
         pod: update
       - name: Update macOS podspec 
+        platforms: [ macos ]
         path: gtk_flutter/macos
         pod: update
       - name: Add lib/firebase_options.dart
