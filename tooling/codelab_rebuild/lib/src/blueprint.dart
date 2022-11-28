@@ -251,13 +251,13 @@ class BlueprintStep {
       return false;
     }
 
-    // If we have a unarchive, we need a path to write it to
+    // If we have a tar archive, we need a path to write it to
     if (tar != null && path == null) {
       _logger.warning('Invalid step, tar with no target path: $name');
       return false;
     }
 
-    // If we have a unarchive, we need a path to write it to
+    // If we have a 7z archive, we need a path to write it to
     if (sevenZip != null && path == null) {
       _logger.warning('Invalid step, 7z with no target path: $name');
       return false;
