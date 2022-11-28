@@ -9,7 +9,8 @@ declare -a CODELABS=(
   "adaptive_app"
   # TODO(DomesticMouse): flutter_test from sdk depends on material_color_utilities 0.2.0
   # "boring_to_beautiful"
-  "cookbook"
+  # TODO(DomesticMouse): remove no longer required !'s
+  # "cookbook"
   "cupertino_store"
   "dartpad_codelabs"
   "firebase-emulator-suite"
@@ -18,7 +19,6 @@ declare -a CODELABS=(
   "github-client"
   "google-maps-in-flutter"
   "in_app_purchases"
-  "photos-sharing"
   "star_counter"
   "startup_namer"
   "testing_codelab"
