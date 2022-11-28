@@ -38,7 +38,6 @@ class DoodleDash extends FlameGame
   void update(double dt) {
     super.update(dt);
 
-
     // stop updating in between games
     if (gameManager.isGameOver) {
       return;
@@ -93,7 +92,6 @@ class DoodleDash extends FlameGame
   // This method sets (or resets) the camera, dash and platform manager.
   // It is called when you start a game. Resets game state
   void initializeGameStart() {
-
     //reset score
     gameManager.reset();
 
