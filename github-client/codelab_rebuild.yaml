@@ -812,9 +812,6 @@ steps:
       - name: Add dependencies
         path: github_client
         flutter: pub add --path ../window_to_front window_to_front
-      - name: Build macOS app
-        path: github_client
-        flutter: build macos
       - name: Patch lib/main.dart
         path: github_client/lib/main.dart
         patch: |
@@ -840,6 +837,18 @@ steps:
                     return FutureBuilder<CurrentUser>(
                       future: viewerDetail(httpClient.credentials.accessToken),
                       builder: (context, snapshot) {
+      - name: Build macOS app
+        platforms: [ macos ]
+        path: github_client
+        flutter: build macos
+      - name: Build linux app
+        platforms: [ linux ]
+        path: github_client
+        flutter: build linux
+      - name: Build windows app
+        platforms: [ windows ]
+        path: github_client
+        flutter: build windows
       - name: Copy step_06
         copydir:
           from: github_client

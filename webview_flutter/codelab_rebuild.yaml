@@ -69,9 +69,11 @@ steps:
                    versionCode flutterVersionCode.toInteger()
                    versionName flutterVersionName
       - name: Build iOS
+        platforms: [ macos ]
         path: webview_in_flutter
         flutter: build ios
       - name: Build Android
+        platforms: [ macos ]
         path: webview_in_flutter
         flutter: build apk 
       - name: Copy step_03
@@ -989,9 +991,11 @@ steps:
         path: webview_in_flutter
         flutter: clean
       - name: Build iOS
+        platforms: [ macos ]
         path: webview_in_flutter
         flutter: build ios
       - name: Build Android
+        platforms: [ macos ]
         path: webview_in_flutter
         flutter: build apk 
       - name: Copy step_12

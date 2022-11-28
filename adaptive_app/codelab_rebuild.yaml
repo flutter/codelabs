@@ -666,9 +666,11 @@ steps:
             });
           }
       - name: Rebuild ios/Podfile.lock
+        platforms: [ macos ]
         path: adaptive_app/ios
         pod: update
       - name: Rebuild macos/Podfile.lock
+        platforms: [ macos ]
         path: adaptive_app/macos
         pod: update
       - name: Copy step_04
@@ -1664,9 +1666,11 @@ steps:
              <title>adaptive_app</title>
              <link rel="manifest" href="manifest.json">
       - name: Rebuild ios/Podfile.lock
+        platforms: [ macos ]
         path: adaptive_app/ios
         pod: update
       - name: Rebuild macos/Podfile.lock
+        platforms: [ macos ]
         path: adaptive_app/macos
         pod: update
       - name: Build iOS simulator bundle
@@ -1685,6 +1689,9 @@ steps:
         platforms: [ windows ]
         path: adaptive_app
         flutter: build windows
+      - name: Build Web app
+        path: adaptive_app
+        flutter: build web
       - name: Copy step_07
         copydir:
           from: adaptive_app
