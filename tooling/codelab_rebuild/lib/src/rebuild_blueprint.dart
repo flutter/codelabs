@@ -167,6 +167,7 @@ Future<void> _buildBlueprintStep(Directory cwd, BlueprintStep step) async {
       step: step,
       cwd: cwd,
       args: pod,
+      exitOnStdErr: false, // pod update writes lots of warnings we ignore
     );
     return;
   }
