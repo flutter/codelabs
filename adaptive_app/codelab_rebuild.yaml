@@ -177,15 +177,28 @@ steps:
             });
           }
       - name: Build iOS simulator bundle
+        platforms: [ macos ]
         path: adaptive_app
         flutter: build ios --simulator
       - name: Build macOS app
+        platforms: [ macos ]
         path: adaptive_app
         flutter: build macos
+      - name: Build Linux app
+        platforms: [ linux ]
+        path: adaptive_app
+        flutter: build linux
+      - name: Build Windows app
+        platforms: [ windows ]
+        path: adaptive_app
+        flutter: build windows
       - name: Copy step_03
         copydir:
           from: adaptive_app
           to: step_03
+      - name: Flutter clean
+        path: step_03
+        flutter: clean
   - name: step_04
     steps:
       - name: Remove generated code.
@@ -653,9 +666,11 @@ steps:
             });
           }
       - name: Rebuild ios/Podfile.lock
+        platforms: [ macos ]
         path: adaptive_app/ios
         pod: update
       - name: Rebuild macos/Podfile.lock
+        platforms: [ macos ]
         path: adaptive_app/macos
         pod: update
       - name: Copy step_04
@@ -988,7 +1003,7 @@ steps:
         dart: create --template server-shelf yt_cors_proxy
       - name: Remove args
         path: adaptive_app/yt_cors_proxy
-        dart: pub remove args shelf_router test_process test
+        dart: pub remove args shelf_router test
       - name: Add http shelf_cors_headers
         path: adaptive_app/yt_cors_proxy
         dart: pub add http shelf_cors_headers
@@ -1651,14 +1666,38 @@ steps:
              <title>adaptive_app</title>
              <link rel="manifest" href="manifest.json">
       - name: Rebuild ios/Podfile.lock
+        platforms: [ macos ]
         path: adaptive_app/ios
         pod: update
       - name: Rebuild macos/Podfile.lock
+        platforms: [ macos ]
         path: adaptive_app/macos
         pod: update
+      - name: Build iOS simulator bundle
+        platforms: [ macos ]
+        path: adaptive_app
+        flutter: build ios --simulator
+      - name: Build macOS app
+        platforms: [ macos ]
+        path: adaptive_app
+        flutter: build macos
+      - name: Build Linux app
+        platforms: [ linux ]
+        path: adaptive_app
+        flutter: build linux
+      - name: Build Windows app
+        platforms: [ windows ]
+        path: adaptive_app
+        flutter: build windows
+      - name: Build Web app
+        path: adaptive_app
+        flutter: build web
       - name: Copy step_07
         copydir:
           from: adaptive_app
           to: step_07
+      - name: Flutter clean
+        path: step_07
+        flutter: clean
   - name: Cleanup
     rmdir: adaptive_app

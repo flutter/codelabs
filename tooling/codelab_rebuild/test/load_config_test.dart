@@ -48,7 +48,7 @@ steps:
           - web 
           - windows
 ''';
-    final blueprint = Blueprint.load(input);
+    final blueprint = Blueprint.fromString(input);
     expect(blueprint.isValid, equals(true));
     expect(blueprint.name, equals('Cupertino Store script'));
     expect(blueprint.steps.length, equals(1));
@@ -103,7 +103,7 @@ steps:
         path: some-file.txt
         base64-contents: SGVsbG8sIHdvcmxkIQo=
 ''';
-    final blueprint = Blueprint.load(input);
+    final blueprint = Blueprint.fromString(input);
     expect(blueprint.isValid, equals(true));
   });
 
@@ -117,7 +117,7 @@ steps:
         path: some-file.txt
         replace-contents: Hello world!
 ''';
-    final blueprint = Blueprint.load(input);
+    final blueprint = Blueprint.fromString(input);
     expect(blueprint.isValid, equals(true));
   });
 
@@ -131,7 +131,7 @@ steps:
         path: some-file.txt
         patch: Not actually a delta
 ''';
-    final blueprint = Blueprint.load(input);
+    final blueprint = Blueprint.fromString(input);
     expect(blueprint.isValid, equals(true));
   });
 
@@ -145,7 +145,7 @@ steps:
         path: some-file.txt
         patch-u: Not actually a delta
 ''';
-    final blueprint = Blueprint.load(input);
+    final blueprint = Blueprint.fromString(input);
     expect(blueprint.isValid, equals(true));
   });
 
@@ -159,7 +159,7 @@ steps:
         path: some-file.txt
         patch-c: Not actually a delta
 ''';
-    final blueprint = Blueprint.load(input);
+    final blueprint = Blueprint.fromString(input);
     expect(blueprint.isValid, equals(true));
   });
 
@@ -172,7 +172,7 @@ steps:
       - name: patch without path.
         patch: foo
 ''';
-    final blueprint = Blueprint.load(input);
+    final blueprint = Blueprint.fromString(input);
     expect(blueprint.isValid, equals(false));
   });
 
@@ -185,7 +185,7 @@ steps:
       - name: patch without path.
         patch-u: foo
 ''';
-    final blueprint = Blueprint.load(input);
+    final blueprint = Blueprint.fromString(input);
     expect(blueprint.isValid, equals(false));
   });
 
@@ -198,7 +198,7 @@ steps:
       - name: patch without path.
         patch-c: foo
 ''';
-    final blueprint = Blueprint.load(input);
+    final blueprint = Blueprint.fromString(input);
     expect(blueprint.isValid, equals(false));
   });
 
@@ -211,7 +211,7 @@ steps:
       - name: replace-contents without path.
         replace-contents: contents 
 ''';
-    final blueprint = Blueprint.load(input);
+    final blueprint = Blueprint.fromString(input);
     expect(blueprint.isValid, equals(false));
   });
 
@@ -230,7 +230,7 @@ steps:
             path: some/other/dir
             patch: bar
 ''';
-    final blueprint = Blueprint.load(input);
+    final blueprint = Blueprint.fromString(input);
     expect(blueprint.isValid, equals(true));
   });
 
@@ -251,7 +251,7 @@ steps:
           - name: replace-contents without path.
             replace-contents: contents 
 ''';
-    final blueprint = Blueprint.load(input);
+    final blueprint = Blueprint.fromString(input);
     expect(blueprint.isValid, equals(false));
   });
 
@@ -263,7 +263,7 @@ steps:
     path: adaptive_app/ios
     pod: update
 ''';
-    final blueprint = Blueprint.load(input);
+    final blueprint = Blueprint.fromString(input);
     expect(blueprint.isValid, equals(true));
   });
 
@@ -274,7 +274,90 @@ steps:
   - name: valid rm
     rm: foo
 ''';
-    final blueprint = Blueprint.load(input);
+    final blueprint = Blueprint.fromString(input);
+    expect(blueprint.isValid, equals(true));
+  });
+
+  test('valid dart blueprint', () {
+    final input = '''
+name: Cupertino Store script
+steps:
+  - name: valid dart
+    dart: foo
+''';
+    final blueprint = Blueprint.fromString(input);
+    expect(blueprint.isValid, equals(true));
+  });
+
+  test('valid flutter blueprint', () {
+    final input = '''
+name: Cupertino Store script
+steps:
+  - name: valid flutter
+    flutter: foo
+''';
+    final blueprint = Blueprint.fromString(input);
+    expect(blueprint.isValid, equals(true));
+  });
+
+  test('valid git blueprint', () {
+    final input = '''
+name: Cupertino Store script
+steps:
+  - name: valid git
+    git: foo
+''';
+    final blueprint = Blueprint.fromString(input);
+    expect(blueprint.isValid, equals(true));
+  });
+
+  test('Platform depenedant flutter', () {
+    final input = '''
+name: Cupertino Store script
+steps:
+  - name: valid flutter on macOS and Windows
+    platforms:
+      - macos
+      - windows
+    flutter: foo
+''';
+    final blueprint = Blueprint.fromString(input);
+    expect(blueprint.isValid, equals(true));
+  });
+
+  test('retrieve http', () {
+    final input = '''
+name: Retrieve http
+steps:
+  - name: Retrieve duktape
+    path: ffigen_app/src
+    retrieve-url: https://duktape.org/duktape-2.7.0.tar.xz
+''';
+    final blueprint = Blueprint.fromString(input);
+    expect(blueprint.isValid, equals(true));
+  });
+
+  test('unarchive with tar', () {
+    final input = '''
+name: Unarchive
+steps:
+  - name: Unarchive duktape
+    path: ffigen_app/src
+    tar: xvf duktape-2.7.0.tar.xz
+''';
+    final blueprint = Blueprint.fromString(input);
+    expect(blueprint.isValid, equals(true));
+  });
+
+  test('unarchive with 7z', () {
+    final input = '''
+name: Unarchive
+steps:
+  - name: Unarchive duktape
+    path: ffigen_app/src
+    7z: x duktape-2.7.0.tar.xz
+''';
+    final blueprint = Blueprint.fromString(input);
     expect(blueprint.isValid, equals(true));
   });
 }

@@ -65,6 +65,7 @@ steps:
                    versionName flutterVersionName
 
       - name: Patch ios/Podfile
+        platforms: [ macos ]
         path: google_maps_in_flutter/ios/Podfile
         patch-u: |
           --- b/google-maps-in-flutter/step_3/ios/Podfile
@@ -128,7 +129,20 @@ steps:
            // This is a basic Flutter widget test.
            //
            // To perform an interaction with a widget in your test, use the WidgetTester
-
+      - name: flutter clean
+        path: google_maps_in_flutter
+        flutter: clean
+      - name: build Android
+        platforms: [ macos ]
+        path: google_maps_in_flutter
+        flutter: build apk
+      - name: build iOS
+        platforms: [ macos ]
+        path: google_maps_in_flutter
+        flutter: build ios
+      - name: build web
+        path: google_maps_in_flutter
+        flutter: build web
       - name: Copy step_3
         copydir: 
           from: google_maps_in_flutter
@@ -1443,6 +1457,20 @@ steps:
            // GENERATED CODE - DO NOT MODIFY BY HAND
            
            part of 'locations.dart';
+      - name: flutter clean
+        path: google_maps_in_flutter
+        flutter: clean
+      - name: build Android
+        platforms: [ macos ]
+        path: google_maps_in_flutter
+        flutter: build apk
+      - name: build iOS
+        platforms: [ macos ]
+        path: google_maps_in_flutter
+        flutter: build ios
+      - name: build web
+        path: google_maps_in_flutter
+        flutter: build web
       - name: Copy step_5
         copydir: 
           from: google_maps_in_flutter
