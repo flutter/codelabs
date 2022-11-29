@@ -15,8 +15,7 @@ declare -a CODELABS=(
   "dartpad_codelabs"
   "firebase-emulator-suite"
   "firebase-get-to-know-flutter"
-  # TODO(ewindmill): needs `dart format` for Flutter beta
-  # "flame-building-doodle-dash"
+  "flame-building-doodle-dash"
   "friendly_chat"
   "github-client"
   "google-maps-in-flutter"
