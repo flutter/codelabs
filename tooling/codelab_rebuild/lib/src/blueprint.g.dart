@@ -47,15 +47,22 @@ BlueprintStep _$BlueprintStepFromJson(Map json) => $checkedCreate(
             'patch-u',
             'patch-c',
             'replace-contents',
-            'rm',
-            'pod',
+            'platforms',
             'dart',
             'flutter',
+            'git',
+            'pod',
+            'rm',
             'mkdir',
             'mkdirs',
             'rmdir',
             'rmdirs',
             'copydir',
+            'copy',
+            'rename',
+            'retrieve-url',
+            'tar',
+            '7z',
             'stop'
           ],
           requiredKeys: const ['name'],
@@ -90,11 +97,21 @@ BlueprintStep _$BlueprintStepFromJson(Map json) => $checkedCreate(
                   (v as List<dynamic>?)?.map((e) => e as String).toList() ??
                   const []),
           copydir: $checkedConvert(
-              'copydir', (v) => v == null ? null : CopyDirs.fromJson(v as Map)),
-          rm: $checkedConvert('rm', (v) => v as String?),
-          pod: $checkedConvert('pod', (v) => v as String?),
+              'copydir', (v) => v == null ? null : FromTo.fromJson(v as Map)),
+          copy: $checkedConvert(
+              'copy', (v) => v == null ? null : FromTo.fromJson(v as Map)),
+          rename: $checkedConvert(
+              'rename', (v) => v == null ? null : FromTo.fromJson(v as Map)),
+          platforms: $checkedConvert('platforms',
+              (v) => (v as List<dynamic>?)?.map((e) => e as String).toList()),
           dart: $checkedConvert('dart', (v) => v as String?),
           flutter: $checkedConvert('flutter', (v) => v as String?),
+          git: $checkedConvert('git', (v) => v as String?),
+          rm: $checkedConvert('rm', (v) => v as String?),
+          pod: $checkedConvert('pod', (v) => v as String?),
+          retrieveUrl: $checkedConvert('retrieve-url', (v) => v as String?),
+          tar: $checkedConvert('tar', (v) => v as String?),
+          sevenZip: $checkedConvert('7z', (v) => v as String?),
           stop: $checkedConvert('stop', (v) => v as bool?),
         );
         return val;
@@ -103,7 +120,9 @@ BlueprintStep _$BlueprintStepFromJson(Map json) => $checkedCreate(
         'base64Contents': 'base64-contents',
         'patchU': 'patch-u',
         'patchC': 'patch-c',
-        'replaceContents': 'replace-contents'
+        'replaceContents': 'replace-contents',
+        'retrieveUrl': 'retrieve-url',
+        'sevenZip': '7z'
       },
     );
 
@@ -117,27 +136,34 @@ Map<String, dynamic> _$BlueprintStepToJson(BlueprintStep instance) =>
       'patch-u': instance.patchU,
       'patch-c': instance.patchC,
       'replace-contents': instance.replaceContents,
-      'rm': instance.rm,
-      'pod': instance.pod,
+      'platforms': instance.platforms,
       'dart': instance.dart,
       'flutter': instance.flutter,
+      'git': instance.git,
+      'pod': instance.pod,
+      'rm': instance.rm,
       'mkdir': instance.mkdir,
       'mkdirs': instance.mkdirs,
       'rmdir': instance.rmdir,
       'rmdirs': instance.rmdirs,
       'copydir': instance.copydir,
+      'copy': instance.copy,
+      'rename': instance.rename,
+      'retrieve-url': instance.retrieveUrl,
+      'tar': instance.tar,
+      '7z': instance.sevenZip,
       'stop': instance.stop,
     };
 
-CopyDirs _$CopyDirsFromJson(Map json) => $checkedCreate(
-      'CopyDirs',
+FromTo _$FromToFromJson(Map json) => $checkedCreate(
+      'FromTo',
       json,
       ($checkedConvert) {
         $checkKeys(
           json,
           allowedKeys: const ['from', 'to'],
         );
-        final val = CopyDirs(
+        final val = FromTo(
           from: $checkedConvert('from', (v) => v as String),
           to: $checkedConvert('to', (v) => v as String),
         );
@@ -145,7 +171,7 @@ CopyDirs _$CopyDirsFromJson(Map json) => $checkedCreate(
       },
     );
 
-Map<String, dynamic> _$CopyDirsToJson(CopyDirs instance) => <String, dynamic>{
+Map<String, dynamic> _$FromToToJson(FromTo instance) => <String, dynamic>{
       'from': instance.from,
       'to': instance.to,
     };
