@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:googleapis/youtube/v3.dart';
 import 'package:provider/provider.dart';
 
 import 'app_state.dart';
-import 'playlist_details.dart';
 
 class Playlists extends StatelessWidget {
   const Playlists({super.key});
@@ -52,16 +52,13 @@ class _PlaylistsListView extends StatelessWidget {
               playlist.snippet!.description!,
             ),
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute<void>(
-                  builder: (context) {
-                    return PlaylistDetails(
-                      playlistId: playlist.id!,
-                      playlistName: playlist.snippet!.title!,
-                    );
+              context.go(
+                Uri(
+                  path: '/playlist/${playlist.id}',
+                  queryParameters: <String, String>{
+                    'title': playlist.snippet!.title!
                   },
-                ),
+                ).toString(),
               );
             },
           ),
