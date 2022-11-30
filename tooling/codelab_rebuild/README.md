@@ -21,7 +21,7 @@ tool on the `adaptive_app` codelab, run the following commands:
 
 ```console
 $ cd ../..    # go back to the root of the flutter/codelabs checkout
-$ codelab_rebuild adaptive_codelab/codelab_rebuild.yaml
+$ codelab_rebuild adaptive_app/codelab_rebuild.yaml
 ```
 
 ## Building a `codelab_rebuild.yaml` configuration
