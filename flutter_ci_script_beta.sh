@@ -16,6 +16,7 @@ declare -a CODELABS=(
   "firebase-emulator-suite"
   "flame-building-doodle-dash"
   "firebase-get-to-know-flutter"
+  "flame-building-doodle-dash"
   "friendly_chat"
   "github-client"
   "google-maps-in-flutter"

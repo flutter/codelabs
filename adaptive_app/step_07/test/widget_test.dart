@@ -16,6 +16,9 @@ class FakeAuthedUserPlaylists extends ChangeNotifier
 
   @override
   set authClient(Client authClient) => throw UnimplementedError();
+
+  @override
+  bool get isLoggedIn => true;
 }
 
 void main() {
