@@ -1,6 +1,6 @@
 import 'dart:math';
 
- class Range {
+class Range {
   final double start;
   final double end;
   Range(this.start, this.end);

@@ -36,7 +36,6 @@ abstract class Platform<T> extends SpriteGroupComponent<T>
   }
 }
 
-
 enum NormalPlatformState { only }
 
 class NormalPlatform extends Platform<NormalPlatformState> {

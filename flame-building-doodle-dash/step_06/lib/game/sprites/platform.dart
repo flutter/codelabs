@@ -34,7 +34,6 @@ abstract class Platform<T> extends SpriteGroupComponent<T>
     // Add collision detection logic
     await add(hitbox);
 
-
     // 1/5 times make this platform move
     final int rand = Random().nextInt(100);
     if (rand > 80) isMoving = true;

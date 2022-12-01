@@ -105,8 +105,8 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
     final distanceToNextY = minVerticalDistanceToNextPlatform.toInt() +
         _rand
             .nextInt((maxVerticalDistanceToNextPlatform -
-            minVerticalDistanceToNextPlatform)
-            .floor())
+                    minVerticalDistanceToNextPlatform)
+                .floor())
             .toDouble();
 
     return currentHighestPlatformY - distanceToNextY;
@@ -118,6 +118,4 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
     // defaults to a normal platform
     return NormalPlatform(position: position);
   }
-
-
 }

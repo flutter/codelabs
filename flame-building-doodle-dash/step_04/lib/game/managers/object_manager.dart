@@ -115,7 +115,6 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
   // Return a platform.
   // The percent chance of any given platform is NOT equal
   Platform _semiRandomPlatform(Vector2 position) {
-
     // defaults to a normal platform
     return NormalPlatform(position: position);
   }

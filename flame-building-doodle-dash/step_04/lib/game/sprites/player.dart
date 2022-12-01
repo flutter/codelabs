@@ -22,8 +22,7 @@ class Player extends SpriteGroupComponent<PlayerState>
     super.position,
     required this.character,
     this.jumpSpeed = 600,
-  })
-      : super(
+  }) : super(
           size: Vector2(79, 109),
           anchor: Anchor.center,
           priority: 1,
@@ -70,7 +69,6 @@ class Player extends SpriteGroupComponent<PlayerState>
     if (position.x > gameRef.size.x - (dashHorizontalCenter)) {
       position.x = dashHorizontalCenter;
     }
-
 
     // Calculate Dash's current position based on her velocity over elapsed time
     // since last update cycle
@@ -137,5 +135,4 @@ class Player extends SpriteGroupComponent<PlayerState>
       PlayerState.nooglerRight: nooglerRight,
     };
   }
-
 }

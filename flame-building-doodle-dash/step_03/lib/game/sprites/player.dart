@@ -22,8 +22,7 @@ class Player extends SpriteGroupComponent<PlayerState>
     super.position,
     required this.character,
     this.jumpSpeed = 600,
-  })
-      : super(
+  }) : super(
           size: Vector2(79, 109),
           anchor: Anchor.center,
           priority: 1,
@@ -134,5 +133,4 @@ class Player extends SpriteGroupComponent<PlayerState>
       PlayerState.nooglerRight: nooglerRight,
     };
   }
-
 }

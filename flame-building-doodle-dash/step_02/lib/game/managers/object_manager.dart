@@ -15,7 +15,6 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
   double maxVerticalDistanceToNextPlatform;
   final probGen = ProbabilityGenerator();
 
-
   @override
   void update(double dt) {
     super.update(dt);

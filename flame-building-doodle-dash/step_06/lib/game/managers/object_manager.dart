@@ -209,5 +209,4 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
     // defaults to a normal platform
     return NormalPlatform(position: position);
   }
-
 }

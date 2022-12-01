@@ -239,8 +239,5 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
       remove(_enemies.first);
       _enemies.removeAt(0);
     }
-
   }
-
-
 }

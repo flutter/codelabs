@@ -23,8 +23,7 @@ class Player extends SpriteGroupComponent<PlayerState>
     super.position,
     required this.character,
     this.jumpSpeed = 600,
-  })
-      : super(
+  }) : super(
           size: Vector2(79, 109),
           anchor: Anchor.center,
           priority: 1,
@@ -122,7 +121,6 @@ class Player extends SpriteGroupComponent<PlayerState>
     bool isCollidingVertically =
         (intersectionPoints.first.y - intersectionPoints.last.y).abs() < 5;
 
-
     // Only want Dash to  “jump” when she is falling + collides with the top of a platform
     if (isMovingDown && isCollidingVertically) {
       current = PlayerState.center;
@@ -179,5 +177,4 @@ class Player extends SpriteGroupComponent<PlayerState>
       PlayerState.nooglerRight: nooglerRight,
     };
   }
-
 }
