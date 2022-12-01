@@ -45,15 +45,15 @@ class MyApp extends StatelessWidget {
 
   GoRouter _router() {
     return GoRouter(
-      redirect: (context, routerState) => state.user == null ? '/' : '/home',
+      redirect: (context, routerState) => state.user == null ? '/login' : null,
       routes: [
         GoRoute(
           path: '/',
-          builder: (context, routerState) => LoggedOutView(state: state),
+          builder: (context, routerState) => LoggedInView(state: state),
         ),
         GoRoute(
-          path: '/home',
-          builder: (context, routerState) => LoggedInView(state: state),
+          path: '/login',
+          builder: (context, routerState) => LoggedOutView(state: state),
         ),
       ],
     );

@@ -28,7 +28,7 @@ class LoggedOutView extends StatelessWidget {
                 onPressed: () async {
                   await state.logIn('dash@email.com', 'dashword').then((_) {
                     if (state.user != null) {
-                      context.go('/home');
+                      context.go('/');
                     }
                   });
                 },
