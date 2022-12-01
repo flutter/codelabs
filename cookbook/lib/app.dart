@@ -25,14 +25,13 @@ GoRouter _router(Widget? home) {
         builder: (context, state) {
           return home ?? const Home();
         },
-        routes: items.map(
-          (item) {
-            return GoRoute(
-              path: item.path,
+        routes: [
+          for (final item in items)
+            GoRoute(
+              path: item.name,
               builder: (context, _) => item.builder(context),
-            );
-          },
-        ).toList(),
+            )
+        ],
       ),
     ],
   );
