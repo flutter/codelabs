@@ -56,7 +56,7 @@ class MyAppState extends State<MyApp> {
                 spacerSmall,
                 ElevatedButton(
                   child: const Text('Run JavaScript'),
-                  onPressed: () async {
+                  onPressed: () {
                     duktape.evalString(jsCode);
                     setState(() {
                       output = '$jsCode => ${duktape.getInt(-1)}';

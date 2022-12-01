@@ -10,6 +10,10 @@ steps:
         path: ffigen_app/analysis_options.yaml
         replace-contents: |
           include: ../../analysis_options.yaml
+      - name: Configure example/analysis_options.yaml
+        path: ffigen_app/example/analysis_options.yaml
+        replace-contents: |
+          include: ../../../analysis_options.yaml
       - name: Remove CHANGELOG
         rm: ffigen_app/CHANGELOG.md
       - name: Remove LICENSE
@@ -76,13 +80,13 @@ steps:
         path: ffigen_app/example
         platforms: [ linux ]
         flutter: build linux --debug 
+      - name: Flutter clean
+        path: ffigen_app/example
+        flutter: clean
       - name: Copy step_03
         copydir:
           from: ffigen_app
           to: step_03
-      - name: Flutter clean
-        path: step_03/example
-        flutter: clean
   - name: step_05
     steps:
       - name: Remove step_05
@@ -229,7 +233,7 @@ steps:
                           spacerSmall,
                           ElevatedButton(
                             child: const Text('Run JavaScript'),
-                            onPressed: () async {
+                            onPressed: () {
                               duktape.evalString(jsCode);
                               setState(() {
                                 output = '$jsCode => ${duktape.getInt(-1)}';
@@ -359,13 +363,13 @@ steps:
         path: ffigen_app/example
         platforms: [ linux ]
         flutter: build linux --debug 
+      - name: Flutter clean
+        path: ffigen_app/example
+        flutter: clean
       - name: Copy step_05
         copydir:
           from: ffigen_app
           to: step_05
-      - name: Flutter clean
-        path: step_05/example
-        flutter: clean
   - name: step_06
     steps:
       - name: Remove step_06
@@ -409,12 +413,46 @@ steps:
         path: ffigen_app/example
         platforms: [ linux ]
         flutter: build linux --debug 
+      - name: Flutter clean
+        path: ffigen_app/example
+        flutter: clean
       - name: Copy step_06
         copydir:
           from: ffigen_app
           to: step_06
+  - name: step_07
+    steps:
+      - name: Remove step_07
+        rmdir: step_07
       - name: Flutter clean
-        path: step_06/example
+        path: ffigen_app/example
         flutter: clean
+      - name: Build iOS simulator bundle
+        path: ffigen_app/example
+        platforms: [ macos ]
+        flutter: build ios --simulator
+      - name: Build macOS app
+        path: ffigen_app/example
+        platforms: [ macos ]
+        flutter: build macos --debug
+      - name: Build Android app
+        path: ffigen_app/example
+        platforms: [ macos ]
+        flutter: build apk --debug 
+      - name: Build Windows app
+        path: ffigen_app/example
+        platforms: [ windows ]
+        flutter: build windows --debug 
+      - name: Build Linux app
+        path: ffigen_app/example
+        platforms: [ linux ]
+        flutter: build linux --debug 
+      - name: Flutter clean
+        path: ffigen_app/example
+        flutter: clean
+      - name: Copy step_07
+        copydir:
+          from: ffigen_app
+          to: step_07
   - name: Cleanup
     rmdir: ffigen_app
