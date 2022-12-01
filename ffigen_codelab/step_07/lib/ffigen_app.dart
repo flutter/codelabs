@@ -29,13 +29,13 @@ class Duktape {
         _bindings.duk_create_heap(nullptr, nullptr, nullptr, nullptr, nullptr);
   }
 
-  void evalString(String jsCode) {
+  String evalString(String jsCode) {
     // From duktape.h:
     // #define duk_peval_string(ctx,src)  \
     // 	(duk_eval_raw((ctx), (src), 0, 0 /*args*/ | DUK_COMPILE_EVAL | DUK_COMPILE_SAFE | DUK_COMPILE_NOSOURCE | DUK_COMPILE_STRLEN | DUK_COMPILE_NOFILENAME))
 
     var nativeUtf8 = jsCode.toNativeUtf8();
-    _bindings.duk_eval_raw(
+    final evalResult = _bindings.duk_eval_raw(
         ctx,
         nativeUtf8.cast<Char>(),
         0,
@@ -46,10 +46,21 @@ class Duktape {
             DUK_COMPILE_STRLEN |
             DUK_COMPILE_NOFILENAME);
     ffi.malloc.free(nativeUtf8);
+
+    if (evalResult != 0) {
+      throw _retrieveTopOfStackAsString();
+    }
+
+    return _retrieveTopOfStackAsString();
   }
 
-  int getInt(int index) {
-    return _bindings.duk_get_int(ctx, index);
+  String _retrieveTopOfStackAsString() {
+    Pointer<Size> outLengthPtr = ffi.calloc<Size>();
+    final errorStrPtr = _bindings.duk_safe_to_lstring(ctx, -1, outLengthPtr);
+    final returnVal =
+        errorStrPtr.cast<ffi.Utf8>().toDartString(length: outLengthPtr.value);
+    ffi.calloc.free(outLengthPtr);
+    return returnVal;
   }
 
   void dispose() {

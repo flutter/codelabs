@@ -1,7 +1,11 @@
 import 'package:ffigen_app/ffigen_app.dart';
 import 'package:flutter/material.dart';
 
-const String jsCode = '1+2';
+const String jsCode = '''
+var foo = "foo";
+var bar = "bar";
+foo + bar;
+''';
 
 void main() {
   runApp(const MyApp());
@@ -57,10 +61,16 @@ class MyAppState extends State<MyApp> {
                 ElevatedButton(
                   child: const Text('Run JavaScript'),
                   onPressed: () {
-                    duktape.evalString(jsCode);
-                    setState(() {
-                      output = '$jsCode => ${duktape.getInt(-1)}';
-                    });
+                    try {
+                      final result = duktape.evalString(jsCode);
+                      setState(() {
+                        output = '$jsCode => $result';
+                      });
+                    } catch (e) {
+                      setState(() {
+                        output = '$e';
+                      });
+                    }
                   },
                 ),
               ],
