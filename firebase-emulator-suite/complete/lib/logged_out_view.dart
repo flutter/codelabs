@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import 'app_state.dart';
 
@@ -27,7 +28,7 @@ class LoggedOutView extends StatelessWidget {
                 onPressed: () async {
                   await state.logIn('dash@email.com', 'dashword').then((_) {
                     if (state.user != null) {
-                      Navigator.of(context).pushReplacementNamed('/home');
+                      context.go('/home');
                     }
                   });
                 },
