@@ -35,7 +35,7 @@ Future<void> _buildBlueprintStep(Directory cwd, BlueprintStep step) async {
   if (platforms != null) {
     if (!platforms.contains(Platform.operatingSystem)) {
       _logger.info(
-          'Skipping because ${Platform.operatingSystem} is not in ${platforms.join(', ')}.');
+          'Skipping because ${Platform.operatingSystem} is not in [${platforms.join(',')}].');
       return;
     }
   }
