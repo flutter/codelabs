@@ -424,47 +424,124 @@ steps:
     steps:
       - name: Remove step_07
         rmdir: step_07
-      - name: Patch example/lib/main.dart
+      - name: Create example/lib/duktape_message.dart
+        path: ffigen_app/example/lib/duktape_message.dart
+        replace-contents: |
+          import 'package:freezed_annotation/freezed_annotation.dart';
+          
+          part 'duktape_message.freezed.dart';
+          
+          @freezed
+          class DuktapeMessage with _$DuktapeMessage {
+            factory DuktapeMessage.evaluate(String code) = DuktapeMessageCode;
+            factory DuktapeMessage.response(String result) = DuktapeMessageResponse;
+            factory DuktapeMessage.error(String log) = DuktapeMessageError;
+          }
+      - name: Replace example/lib/main.dart
         path: ffigen_app/example/lib/main.dart
-        patch-u: |
-          diff --git b/ffigen_codelab/step_07/example/lib/main.dart a/ffigen_codelab/step_07/example/lib/main.dart
-          index 48de06e5..24c3676e 100644
-          --- b/ffigen_codelab/step_07/example/lib/main.dart
-          +++ a/ffigen_codelab/step_07/example/lib/main.dart
-          @@ -1,7 +1,11 @@
-           import 'package:ffigen_app/ffigen_app.dart';
-           import 'package:flutter/material.dart';
-           
-          -const String jsCode = '1+2';
-          +const String jsCode = '''
-          +var foo = "foo";
-          +var bar = "bar";
-          +foo + bar;
-          +''';
-           
-           void main() {
-             runApp(const MyApp());
-          @@ -57,10 +61,16 @@ class MyAppState extends State<MyApp> {
-                           ElevatedButton(
-                             child: const Text('Run JavaScript'),
-                             onPressed: () {
-          -                    duktape.evalString(jsCode);
-          -                    setState(() {
-          -                      output = '$jsCode => ${duktape.getInt(-1)}';
-          -                    });
-          +                    try {
-          +                      final result = duktape.evalString(jsCode);
-          +                      setState(() {
-          +                        output = '$jsCode => $result';
-          +                      });
-          +                    } catch (e) {
-          +                      setState(() {
-          +                        output = '$e';
-          +                      });
-          +                    }
-                             },
-                           ),
-                         ],
+        replace-contents: |
+          import 'package:ffigen_app/ffigen_app.dart';
+          import 'package:flutter/material.dart';
+          import 'package:flutter_riverpod/flutter_riverpod.dart';
+          import 'duktape_message.dart';
+          import 'package:google_fonts/google_fonts.dart';
+          
+          void main() {
+            runApp(const ProviderScope(child: MyApp()));
+          }
+          
+          final duktapeMessagesProvider =
+              StateNotifierProvider<DuktapeMessageNotifier, List<DuktapeMessage>>((ref) {
+            return DuktapeMessageNotifier(messages: <DuktapeMessage>[]);
+          });
+          
+          class DuktapeMessageNotifier extends StateNotifier<List<DuktapeMessage>> {
+            DuktapeMessageNotifier({required List<DuktapeMessage> messages})
+                : duktape = Duktape(),
+                  super(messages);
+            final Duktape duktape;
+          
+            void eval(String code) {
+              state = [
+                DuktapeMessage.evaluate(code),
+                ...state,
+              ];
+              try {
+                final response = duktape.evalString(code);
+                state = [
+                  DuktapeMessage.response(response),
+                  ...state,
+                ];
+              } catch (e) {
+                state = [
+                  DuktapeMessage.error('$e'),
+                  ...state,
+                ];
+              }
+            }
+          }
+          
+          class MyApp extends ConsumerWidget {
+            const MyApp({super.key});
+          
+            @override
+            Widget build(BuildContext context, WidgetRef ref) {
+              final messages = ref.watch(duktapeMessagesProvider);
+          
+              return MaterialApp(
+                home: Scaffold(
+                  appBar: AppBar(
+                    title: const Text('Duktape REPL'),
+                  ),
+                  body: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListView.builder(
+                      itemBuilder: (context, idx) => messages[idx].when(
+                        evaluate: (str) => Padding(
+                          padding: const EdgeInsets.only(top: 2, bottom: 1),
+                          child: Text(
+                            '> $str',
+                            style: GoogleFonts.inconsolata(
+                              textStyle: Theme.of(context).textTheme.bodyLarge,
+                            ),
+                          ),
+                        ),
+                        response: (str) => Padding(
+                          padding: const EdgeInsets.only(top: 1, bottom: 2),
+                          child: Text(
+                            '= $str',
+                            style: GoogleFonts.inconsolata(
+                              textStyle: Theme.of(context).textTheme.bodyLarge,
+                              color: Colors.blue[800],
+                            ),
+                          ),
+                        ),
+                        error: (str) => Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 2),
+                          child: Text(
+                            '! $str',
+                            style: GoogleFonts.inconsolata(
+                              textStyle: Theme.of(context).textTheme.bodyLarge,
+                              color: Colors.red[600],
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                      itemCount: messages.length,
+                      reverse: true,
+                    ),
+                  ),
+                  floatingActionButton: FloatingActionButton(
+                    child: const Icon(Icons.add),
+                    onPressed: () {
+                      ref.read(duktapeMessagesProvider.notifier).eval('foo+2');
+                    },
+                  ),
+                ),
+              );
+            }
+          }
       - name: Patch lib/ffigen_app.dart
         path: ffigen_app/lib/ffigen_app.dart
         patch-u: |
@@ -515,6 +592,18 @@ steps:
       - name: Flutter clean
         path: ffigen_app/example
         flutter: clean
+      - name: Add flutter_riverpod freezed_annotation google_fonts
+        path: ffigen_app/example
+        flutter: pub add flutter_riverpod freezed_annotation google_fonts
+      - name: Add build_runner freezed
+        path: ffigen_app/example
+        flutter: pub add -d build_runner freezed
+      - name: pub get
+        path: ffigen_app/example
+        flutter: pub get
+      - name: build runner
+        path: ffigen_app/example
+        flutter: pub run build_runner build
       - name: Build iOS simulator bundle
         path: ffigen_app/example
         platforms: [ macos ]
