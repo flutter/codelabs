@@ -443,8 +443,9 @@ steps:
           import 'package:ffigen_app/ffigen_app.dart';
           import 'package:flutter/material.dart';
           import 'package:flutter_riverpod/flutter_riverpod.dart';
-          import 'duktape_message.dart';
           import 'package:google_fonts/google_fonts.dart';
+          
+          import 'duktape_message.dart';
           
           void main() {
             runApp(const ProviderScope(child: MyApp()));
@@ -537,7 +538,7 @@ steps:
                     onPressed: () {
                       ref
                           .read(duktapeMessagesProvider.notifier)
-                          .eval('var foo = 1; foo + 2');
+                          .eval('var foo = 1; bar + 2');
                     },
                   ),
                 ),
