@@ -535,7 +535,9 @@ steps:
                   floatingActionButton: FloatingActionButton(
                     child: const Icon(Icons.add),
                     onPressed: () {
-                      ref.read(duktapeMessagesProvider.notifier).eval('foo+2');
+                      ref
+                          .read(duktapeMessagesProvider.notifier)
+                          .eval('var foo = 1; foo + 2');
                     },
                   ),
                 ),
