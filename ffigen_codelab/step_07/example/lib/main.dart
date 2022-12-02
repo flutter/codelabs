@@ -96,7 +96,7 @@ class MyApp extends ConsumerWidget {
           onPressed: () {
             ref
                 .read(duktapeMessagesProvider.notifier)
-                .eval('var foo = 1; bar + 2');
+                .eval('var foo = 1; foo + 2');
           },
         ),
       ),
