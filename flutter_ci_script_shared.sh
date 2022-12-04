@@ -3,10 +3,14 @@ function ci_codelabs () {
     shift
 
     # plugin_codelab is a special case since it's a plugin.  Analysis doesn't seem to be working.
-    pushd $PWD
-    echo "== TESTING plugin_codelab on $channel"
-    cd ./plugin_codelab
-    dart format --output none --set-exit-if-changed .;
+    pushd plugin_codelab
+      echo "== TESTING plugin_codelab on $channel"
+      dart format --output none --set-exit-if-changed .;
+    popd
+
+    # ffigen_codelab/step_07 needs to build the native library before running the tests
+    pushd ffigen_codelab/step_07/example
+      flutter build `echo $RUNNER_OS | tr '[:upper:]' '[:lower:]'` --debug
     popd
 
     local arr=("$@")
