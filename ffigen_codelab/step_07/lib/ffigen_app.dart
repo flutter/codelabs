@@ -29,7 +29,7 @@ final DynamicLibrary _dylib = () {
     if (Platform.environment.containsKey('FLUTTER_TEST')) {
       debugPrint('TEST CWD: ${Directory.current.absolute}');
       return DynamicLibrary.open(
-          'build/windows/x64/debug/bundle/lib/lib$_libName.so');
+          'build/windows/plugins/ffigen_app/shared/Debug/$_libName.dll');
     }
     return DynamicLibrary.open('$_libName.dll');
   }
