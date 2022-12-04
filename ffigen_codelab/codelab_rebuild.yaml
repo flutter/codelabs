@@ -259,7 +259,7 @@ steps:
           
           const String _libName = 'ffigen_app';
           
-          /// The dynamic library in which the symbols for [LibmsfaPluginBindings] can be found.
+          /// The dynamic library in which the symbols for [DuktapeBindings] can be found.
           final DynamicLibrary _dylib = () {
             if (Platform.isMacOS || Platform.isIOS) {
               return DynamicLibrary.open('$_libName.framework/$_libName');
@@ -436,6 +436,32 @@ steps:
             factory DuktapeMessage.evaluate(String code) = DuktapeMessageCode;
             factory DuktapeMessage.response(String result) = DuktapeMessageResponse;
             factory DuktapeMessage.error(String log) = DuktapeMessageError;
+          }
+      - name: mkdir example/test
+        path: ffigen_app
+        mkdir: example/test
+      - name: Create example/test/widget_test.dart
+        path: ffigen_app/example/test/widget_test.dart
+        replace-contents: |
+          import 'package:ffigen_app_example/main.dart';
+          import 'package:flutter_riverpod/flutter_riverpod.dart';
+          import 'package:flutter_test/flutter_test.dart';
+          import 'package:ffigen_app/ffigen_app.dart';
+          
+          void main() {
+            testWidgets('DuktapeApp displays the title', (tester) async {
+              // Build our app and trigger a frame.
+              await tester.pumpWidget(const ProviderScope(child: DuktapeApp()));
+          
+              // Verify that our app displays the title
+              expect(find.text('Duktape App'), findsOneWidget);
+            });
+          
+            test('Duktape.evalString', () {
+              final duktape = Duktape();
+              final response = duktape.evalString('1+2');
+              expect(response, '3');
+            });
           }
       - name: Replace example/lib/main.dart
         path: ffigen_app/example/lib/main.dart
@@ -634,11 +660,45 @@ steps:
       - name: Patch lib/ffigen_app.dart
         path: ffigen_app/lib/ffigen_app.dart
         patch-u: |
-          diff --git b/ffigen_codelab/step_07/lib/ffigen_app.dart a/ffigen_codelab/step_07/lib/ffigen_app.dart
-          index 7b5dc648..0d259577 100644
           --- b/ffigen_codelab/step_07/lib/ffigen_app.dart
           +++ a/ffigen_codelab/step_07/lib/ffigen_app.dart
-          @@ -29,13 +29,13 @@ class Duktape {
+          @@ -1,6 +1,7 @@
+           import 'dart:ffi';
+           import 'dart:io';
+           import 'package:ffi/ffi.dart' as ffi;
+          +import 'package:flutter/foundation.dart';
+           
+           import 'duktape_bindings_generated.dart';
+           
+          @@ -9,12 +10,27 @@ const String _libName = 'ffigen_app';
+           /// The dynamic library in which the symbols for [DuktapeBindings] can be found.
+           final DynamicLibrary _dylib = () {
+             if (Platform.isMacOS || Platform.isIOS) {
+          +    if (Platform.environment.containsKey('FLUTTER_TEST')) {
+          +      debugPrint('TEST CWD: ${Directory.current.absolute}');
+          +      return DynamicLibrary.open(
+          +          'build/macos/Build/Products/Debug/$_libName/$_libName.framework/$_libName');
+          +    }
+               return DynamicLibrary.open('$_libName.framework/$_libName');
+             }
+             if (Platform.isAndroid || Platform.isLinux) {
+          +    if (Platform.environment.containsKey('FLUTTER_TEST')) {
+          +      debugPrint('TEST CWD: ${Directory.current.absolute}');
+          +      return DynamicLibrary.open(
+          +          'build/linux/x64/debug/bundle/lib/lib$_libName.so');
+          +    }
+               return DynamicLibrary.open('lib$_libName.so');
+             }
+             if (Platform.isWindows) {
+          +    if (Platform.environment.containsKey('FLUTTER_TEST')) {
+          +      debugPrint('TEST CWD: ${Directory.current.absolute}');
+          +      return DynamicLibrary.open(
+          +          'build/windows/x64/debug/bundle/lib/lib$_libName.so');
+          +    }
+               return DynamicLibrary.open('$_libName.dll');
+             }
+             throw UnsupportedError('Unknown platform: ${Platform.operatingSystem}');
+          @@ -29,13 +45,13 @@ class Duktape {
                    _bindings.duk_create_heap(nullptr, nullptr, nullptr, nullptr, nullptr);
              }
            
@@ -654,7 +714,7 @@ steps:
                    ctx,
                    nativeUtf8.cast<Char>(),
                    0,
-          @@ -46,10 +46,21 @@ class Duktape {
+          @@ -46,10 +62,21 @@ class Duktape {
                        DUK_COMPILE_STRLEN |
                        DUK_COMPILE_NOFILENAME);
                ffi.malloc.free(nativeUtf8);
