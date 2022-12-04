@@ -1,20 +1,36 @@
 import 'dart:ffi';
 import 'dart:io';
 import 'package:ffi/ffi.dart' as ffi;
+import 'package:flutter/foundation.dart';
 
 import 'duktape_bindings_generated.dart';
 
 const String _libName = 'ffigen_app';
 
-/// The dynamic library in which the symbols for [LibmsfaPluginBindings] can be found.
+/// The dynamic library in which the symbols for [DuktapeBindings] can be found.
 final DynamicLibrary _dylib = () {
   if (Platform.isMacOS || Platform.isIOS) {
+    if (Platform.environment.containsKey('FLUTTER_TEST')) {
+      debugPrint('TEST CWD: ${Directory.current.absolute}');
+      return DynamicLibrary.open(
+          'build/macos/Build/Products/Debug/$_libName/$_libName.framework/$_libName');
+    }
     return DynamicLibrary.open('$_libName.framework/$_libName');
   }
   if (Platform.isAndroid || Platform.isLinux) {
+    if (Platform.environment.containsKey('FLUTTER_TEST')) {
+      debugPrint('TEST CWD: ${Directory.current.absolute}');
+      return DynamicLibrary.open(
+          'build/linux/x64/debug/bundle/lib/lib$_libName.so');
+    }
     return DynamicLibrary.open('lib$_libName.so');
   }
   if (Platform.isWindows) {
+    if (Platform.environment.containsKey('FLUTTER_TEST')) {
+      debugPrint('TEST CWD: ${Directory.current.absolute}');
+      return DynamicLibrary.open(
+          'build/windows/x64/debug/bundle/lib/lib$_libName.so');
+    }
     return DynamicLibrary.open('$_libName.dll');
   }
   throw UnsupportedError('Unknown platform: ${Platform.operatingSystem}');
