@@ -66,12 +66,12 @@ class DuktapeRepl extends ConsumerStatefulWidget {
 }
 
 class _DuktapeReplState extends ConsumerState<DuktapeRepl> {
-  final _textController = TextEditingController();
-  final FocusNode _focusNode = FocusNode();
-  bool _isComposing = false;
+  final _controller = TextEditingController();
+  final _focusNode = FocusNode();
+  var _isComposing = false;
 
   void _handleSubmitted(String text) {
-    _textController.clear();
+    _controller.clear();
     setState(() {
       _isComposing = false;
     });
@@ -161,7 +161,7 @@ class _DuktapeReplState extends ConsumerState<DuktapeRepl> {
             const SizedBox(width: 4),
             Flexible(
               child: TextField(
-                controller: _textController,
+                controller: _controller,
                 decoration: const InputDecoration(
                   border: InputBorder.none,
                 ),
@@ -179,7 +179,7 @@ class _DuktapeReplState extends ConsumerState<DuktapeRepl> {
               child: IconButton(
                 icon: const Icon(Icons.send),
                 onPressed: _isComposing
-                    ? () => _handleSubmitted(_textController.text)
+                    ? () => _handleSubmitted(_controller.text)
                     : null,
               ),
             ),
