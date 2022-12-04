@@ -9,7 +9,7 @@ void main() {
     await tester.pumpWidget(const ProviderScope(child: DuktapeApp()));
 
     // Verify that our app displays the title
-    expect(find.text('Duktape App'), findsOneWidget);
+    expect(find.text('Duktape REPL'), findsOneWidget);
   });
 
   test('Duktape.evalString', () {

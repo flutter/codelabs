@@ -4,13 +4,14 @@ function ci_codelabs () {
 
     # plugin_codelab is a special case since it's a plugin.  Analysis doesn't seem to be working.
     pushd plugin_codelab
-      echo "== TESTING plugin_codelab on $channel"
-      dart format --output none --set-exit-if-changed .;
+        echo "== TESTING plugin_codelab on $channel"
+        dart format --output none --set-exit-if-changed .;
     popd
 
     # ffigen_codelab/step_07 needs to build the native library before running the tests
     pushd ffigen_codelab/step_07/example
-      flutter build `echo $RUNNER_OS | tr '[:upper:]' '[:lower:]'` --debug
+        # RUNNER_OS from https://stackoverflow.com/a/72926104/2142626
+        flutter build `echo $RUNNER_OS | tr '[:upper:]' '[:lower:]'` --debug
     popd
 
     local arr=("$@")
