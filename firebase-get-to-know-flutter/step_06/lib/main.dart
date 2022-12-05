@@ -1,9 +1,8 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart'
-    hide
-    EmailAuthProvider,
-    PhoneAuthProvider;
+    hide EmailAuthProvider, PhoneAuthProvider;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
@@ -103,8 +102,8 @@ class App extends StatelessWidget {
       title: 'Firebase Meetup',
       theme: ThemeData(
         buttonTheme: Theme.of(context).buttonTheme.copyWith(
-          highlightColor: Colors.deepPurple,
-        ),
+              highlightColor: Colors.deepPurple,
+            ),
         primarySwatch: Colors.deepPurple,
         textTheme: GoogleFonts.robotoTextTheme(
           Theme.of(context).textTheme,
@@ -152,6 +151,20 @@ class HomePage extends StatelessWidget {
             const Paragraph(
               'Join us for a day full of Firebase Workshops and Pizza!',
             ),
+            Consumer<ApplicationState>(
+              builder: (context, appState, _) => Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (appState.loggedIn) ...[
+                    const Header('Discussion'),
+                    GuestBook(
+                      addMessage: (message) =>
+                          appState.addMessageToGuestBook(message),
+                    ),
+                  ],
+                ],
+              ),
+            ),
           ],
         ),
       ),
@@ -184,5 +197,78 @@ class ApplicationState extends ChangeNotifier {
       }
       notifyListeners();
     });
+  }
+
+  Future<DocumentReference> addMessageToGuestBook(String message) {
+    if (!_loggedIn) {
+      throw Exception('Must be logged in');
+    }
+
+    return FirebaseFirestore.instance
+        .collection('guestbook')
+        .add(<String, dynamic>{
+      'text': message,
+      'timestamp': DateTime.now().millisecondsSinceEpoch,
+      'name': FirebaseAuth.instance.currentUser!.displayName,
+      'userId': FirebaseAuth.instance.currentUser!.uid,
+    });
+  }
+}
+
+class GuestBook extends StatefulWidget {
+  const GuestBook({required this.addMessage, super.key});
+
+  final FutureOr<void> Function(String message) addMessage;
+
+  @override
+  State<GuestBook> createState() => _GuestBookState();
+}
+
+class _GuestBookState extends State<GuestBook> {
+  final _formKey = GlobalKey<FormState>(debugLabel: '_GuestBookState');
+  final _controller = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Form(
+        key: _formKey,
+        child: Row(
+          children: [
+            Expanded(
+              child: TextFormField(
+                controller: _controller,
+                decoration: const InputDecoration(
+                  hintText: 'Leave a message',
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Enter your message to continue';
+                  }
+                  return null;
+                },
+              ),
+            ),
+            const SizedBox(width: 8),
+            StyledButton(
+              onPressed: () async {
+                if (_formKey.currentState!.validate()) {
+                  await widget.addMessage(_controller.text);
+                  _controller.clear();
+                }
+              },
+              child: Row(
+                children: const [
+                  Icon(Icons.send),
+                  SizedBox(width: 4),
+                  Text('SEND'),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
