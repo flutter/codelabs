@@ -1,7 +1,6 @@
 import 'dart:ffi';
 import 'dart:io';
 import 'package:ffi/ffi.dart' as ffi;
-import 'package:flutter/foundation.dart';
 import 'package:path/path.dart' as p;
 
 import 'duktape_bindings_generated.dart';
@@ -12,7 +11,6 @@ const String _libName = 'ffigen_app';
 final DynamicLibrary _dylib = () {
   if (Platform.isMacOS || Platform.isIOS) {
     if (Platform.environment.containsKey('FLUTTER_TEST')) {
-      debugPrint('TEST CWD: ${Directory.current.absolute}');
       return DynamicLibrary.open(
           'build/macos/Build/Products/Debug/$_libName/$_libName.framework/$_libName');
     }
@@ -20,7 +18,6 @@ final DynamicLibrary _dylib = () {
   }
   if (Platform.isAndroid || Platform.isLinux) {
     if (Platform.environment.containsKey('FLUTTER_TEST')) {
-      debugPrint('TEST CWD: ${Directory.current.absolute}');
       return DynamicLibrary.open(
           'build/linux/x64/debug/bundle/lib/lib$_libName.so');
     }
@@ -28,7 +25,6 @@ final DynamicLibrary _dylib = () {
   }
   if (Platform.isWindows) {
     if (Platform.environment.containsKey('FLUTTER_TEST')) {
-      debugPrint('TEST CWD: ${Directory.current.absolute}');
       return DynamicLibrary.open(p.canonicalize(
           p.join(r'build\windows\runner\Debug', '$_libName.dll')));
     }

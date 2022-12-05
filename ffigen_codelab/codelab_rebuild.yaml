@@ -667,21 +667,19 @@ steps:
         patch-u: |
           --- b/ffigen_codelab/step_07/lib/ffigen_app.dart
           +++ a/ffigen_codelab/step_07/lib/ffigen_app.dart
-          @@ -1,6 +1,8 @@
+          @@ -1,6 +1,7 @@
            import 'dart:ffi';
            import 'dart:io';
            import 'package:ffi/ffi.dart' as ffi;
-          +import 'package:flutter/foundation.dart';
           +import 'package:path/path.dart' as p;
            
            import 'duktape_bindings_generated.dart';
            
-          @@ -9,12 +11,27 @@ const String _libName = 'ffigen_app';
+          @@ -9,12 +10,24 @@ const String _libName = 'ffigen_app';
            /// The dynamic library in which the symbols for [DuktapeBindings] can be found.
            final DynamicLibrary _dylib = () {
              if (Platform.isMacOS || Platform.isIOS) {
           +    if (Platform.environment.containsKey('FLUTTER_TEST')) {
-          +      debugPrint('TEST CWD: ${Directory.current.absolute}');
           +      return DynamicLibrary.open(
           +          'build/macos/Build/Products/Debug/$_libName/$_libName.framework/$_libName');
           +    }
@@ -689,7 +687,6 @@ steps:
              }
              if (Platform.isAndroid || Platform.isLinux) {
           +    if (Platform.environment.containsKey('FLUTTER_TEST')) {
-          +      debugPrint('TEST CWD: ${Directory.current.absolute}');
           +      return DynamicLibrary.open(
           +          'build/linux/x64/debug/bundle/lib/lib$_libName.so');
           +    }
@@ -697,14 +694,13 @@ steps:
              }
              if (Platform.isWindows) {
           +    if (Platform.environment.containsKey('FLUTTER_TEST')) {
-          +      debugPrint('TEST CWD: ${Directory.current.absolute}');
           +      return DynamicLibrary.open(p.canonicalize(
           +          p.join(r'build\windows\runner\Debug', '$_libName.dll')));
           +    }
                return DynamicLibrary.open('$_libName.dll');
              }
              throw UnsupportedError('Unknown platform: ${Platform.operatingSystem}');
-          @@ -29,13 +46,13 @@ class Duktape {
+          @@ -29,13 +42,13 @@ class Duktape {
                    _bindings.duk_create_heap(nullptr, nullptr, nullptr, nullptr, nullptr);
              }
            
@@ -720,7 +716,7 @@ steps:
                    ctx,
                    nativeUtf8.cast<Char>(),
                    0,
-          @@ -46,10 +63,21 @@ class Duktape {
+          @@ -46,10 +59,21 @@ class Duktape {
                        DUK_COMPILE_STRLEN |
                        DUK_COMPILE_NOFILENAME);
                ffi.malloc.free(nativeUtf8);
