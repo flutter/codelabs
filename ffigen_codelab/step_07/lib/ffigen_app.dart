@@ -2,6 +2,7 @@ import 'dart:ffi';
 import 'dart:io';
 import 'package:ffi/ffi.dart' as ffi;
 import 'package:flutter/foundation.dart';
+import 'package:path/path.dart' as p;
 
 import 'duktape_bindings_generated.dart';
 
@@ -28,8 +29,8 @@ final DynamicLibrary _dylib = () {
   if (Platform.isWindows) {
     if (Platform.environment.containsKey('FLUTTER_TEST')) {
       debugPrint('TEST CWD: ${Directory.current.absolute}');
-      return DynamicLibrary.open(
-          'build/windows/plugins/ffigen_app/shared/Debug/$_libName.dll');
+      return DynamicLibrary.open(p.canonicalize(p.join(
+          r'build\windows\plugins\ffigen_app\shared\Debug', '$_libName.dll')));
     }
     return DynamicLibrary.open('$_libName.dll');
   }
