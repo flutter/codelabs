@@ -771,6 +771,9 @@ steps:
       - name: Flutter clean
         path: ffigen_app/example
         flutter: clean
+      - name: Add path
+        path: ffigen_app
+        flutter: pub add path
       - name: Add flutter_riverpod freezed_annotation google_fonts
         path: ffigen_app/example
         flutter: pub add flutter_riverpod freezed_annotation google_fonts
