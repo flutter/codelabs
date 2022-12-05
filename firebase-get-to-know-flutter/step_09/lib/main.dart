@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart'
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -22,85 +23,82 @@ void main() {
   ));
 }
 
+final _routes = GoRouter(
+  routes: [
+    GoRoute(
+      path: '/',
+      builder: (context, status) => const HomePage(),
+    ),
+    GoRoute(
+      path: '/sign-in',
+      builder: (context, status) {
+        return SignInScreen(
+          actions: [
+            ForgotPasswordAction(((context, email) {
+              context.go(Uri(
+                path: '/forgot-password',
+                queryParameters: <String, String?>{'email': email},
+              ).toString());
+            })),
+            AuthStateChangeAction(((context, state) {
+              if (state is SignedIn || state is UserCreated) {
+                var user = (state is SignedIn)
+                    ? state.user
+                    : (state as UserCreated).credential.user;
+                if (user == null) {
+                  return;
+                }
+                if (state is UserCreated) {
+                  user.updateDisplayName(user.email!.split('@')[0]);
+                }
+                if (!user.emailVerified) {
+                  user.sendEmailVerification();
+                  const snackBar = SnackBar(
+                      content: Text(
+                          'Please check your email to verify your email address'));
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                }
+                context.go('/');
+              }
+            })),
+          ],
+        );
+      },
+    ),
+    GoRoute(
+      path: '/forgot-password',
+      builder: (context, status) {
+        final arguments = status.queryParams;
+        return ForgotPasswordScreen(
+          email: arguments['email'] as String,
+          headerMaxExtent: 200,
+        );
+      },
+    ),
+    GoRoute(
+      path: '/profile',
+      builder: (context, status) {
+        return ProfileScreen(
+          providers: [],
+          actions: [
+            SignedOutAction(
+              ((context) {
+                context.go('/');
+              }),
+            ),
+          ],
+        );
+      },
+    ),
+  ],
+);
+
 class App extends StatelessWidget {
   const App({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      initialRoute: '/home',
-      routes: {
-        '/home': (context) {
-          return const HomePage();
-        },
-        '/sign-in': ((context) {
-          return SignInScreen(
-            actions: [
-              ForgotPasswordAction(((context, email) {
-                Navigator.of(context)
-                    .pushNamed('/forgot-password', arguments: {'email': email});
-              })),
-              AuthStateChangeAction(((context, state) {
-                if (state is SignedIn || state is UserCreated) {
-                  var user = (state is SignedIn)
-                      ? state.user
-                      : (state as UserCreated).credential.user;
-                  if (user == null) {
-                    return;
-                  }
-                  if (state is UserCreated) {
-                    user.updateDisplayName(user.email!.split('@')[0]);
-                    user.sendEmailVerification();
-                  }
-                  if (!user.emailVerified) {
-                    user.sendEmailVerification();
-                    const snackBar = SnackBar(
-                        content: Text(
-                            'Please check your email to verify your email address'));
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                  }
-                  Navigator.of(context).popUntil(ModalRoute.withName('/home'));
-                }
-              })),
-            ],
-          );
-        }),
-        '/forgot-password': ((context) {
-          final arguments = ModalRoute.of(context)?.settings.arguments
-              as Map<String, dynamic>?;
-
-          return ForgotPasswordScreen(
-            email: arguments?['email'] as String,
-            headerMaxExtent: 200,
-          );
-        }),
-        '/profile': ((context) {
-          return Consumer<ApplicationState>(
-            builder: (context, appState, _) => ProfileScreen(
-              key: ValueKey(appState.emailVerified),
-              providers: const [],
-              actions: [
-                SignedOutAction(
-                  ((context) {
-                    Navigator.of(context)
-                        .popUntil(ModalRoute.withName('/home'));
-                  }),
-                ),
-              ],
-              children: [
-                Visibility(
-                    visible: !appState.emailVerified,
-                    child: OutlinedButton(
-                      child: const Text('Recheck Verification State'),
-                      onPressed: () {
-                        appState.refreshLoggedInUser();
-                      },
-                    ))
-              ],
-            ),
-          );
-        })
-      },
+    return MaterialApp.router(
       title: 'Firebase Meetup',
       theme: ThemeData(
         buttonTheme: Theme.of(context).buttonTheme.copyWith(
@@ -112,6 +110,7 @@ class App extends StatelessWidget {
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
+      routerConfig: _routes,
     );
   }
 }
@@ -121,73 +120,58 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Firebase Meetup'),
-      ),
-      body: ListView(
-        children: <Widget>[
-          Image.asset('assets/codelab.png'),
-          const SizedBox(height: 8),
-          Consumer<ApplicationState>(
-            builder: (context, appState, _) =>
-                IconAndDetail(Icons.calendar_today, appState.eventDate),
-          ),
-          const IconAndDetail(Icons.location_city, 'San Francisco'),
-          Consumer<ApplicationState>(
-            builder: (context, appState, _) => AuthFunc(
-              loggedIn: appState.loggedIn,
-              signOut: () {
-                FirebaseAuth.instance.signOut();
-              },
-              enableFreeSwag: appState.enableFreeSwag,
+    return Consumer<ApplicationState>(
+      builder: (context, appState, child) => Scaffold(
+        appBar: AppBar(
+          title: const Text('Firebase Meetup'),
+        ),
+        body: ListView(
+          children: <Widget>[
+            Image.asset('assets/codelab.png'),
+            const SizedBox(height: 8),
+            const IconAndDetail(Icons.calendar_today, 'October 30'),
+            const IconAndDetail(Icons.location_city, 'San Francisco'),
+            // Add from here
+            Consumer<ApplicationState>(
+              builder: (context, appState, _) => AuthFunc(
+                  loggedIn: appState.loggedIn,
+                  signOut: () {
+                    FirebaseAuth.instance.signOut();
+                  }),
             ),
-          ),
-          const Divider(
-            height: 8,
-            thickness: 1,
-            indent: 8,
-            endIndent: 8,
-            color: Colors.grey,
-          ),
-          const Header("What we'll be doing"),
-          Consumer<ApplicationState>(
-            builder: (context, appState, _) => Paragraph(
-              appState.callToAction,
+            // to here
+            const Divider(
+              height: 8,
+              thickness: 1,
+              indent: 8,
+              endIndent: 8,
+              color: Colors.grey,
             ),
-          ),
-          Consumer<ApplicationState>(
-            builder: (context, appState, _) => Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (appState.attendees >= 2)
-                  Paragraph('${appState.attendees} people going')
-                else if (appState.attendees == 1)
-                  const Paragraph('1 person going')
-                else
-                  const Paragraph('No one going'),
-                if (appState.loggedIn) ...[
-                  YesNoSelection(
-                    state: appState.attending,
-                    onSelection: (attending) => appState.attending = attending,
-                  ),
-                  const Header('Discussion'),
-                  GuestBook(
-                    addMessage: (message) =>
-                        appState.addMessageToGuestBook(message),
-                    messages: appState.guestBookMessages,
-                  ),
+            const Header("What we'll be doing"),
+            const Paragraph(
+              'Join us for a day full of Firebase Workshops and Pizza!',
+            ),
+            Consumer<ApplicationState>(
+              builder: (context, appState, _) => Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (appState.loggedIn) ...[
+                    const Header('Discussion'),
+                    GuestBook(
+                      addMessage: (message) =>
+                          appState.addMessageToGuestBook(message),
+                      messages: appState.guestBookMessages,
+                    ),
+                  ],
                 ],
-              ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 }
-
-enum Attending { yes, no, unknown }
 
 class ApplicationState extends ChangeNotifier {
   ApplicationState() {
@@ -195,51 +179,12 @@ class ApplicationState extends ChangeNotifier {
   }
 
   bool _loggedIn = false;
+
   bool get loggedIn => _loggedIn;
-
-  bool _emailVerified = false;
-  bool get emailVerified => _emailVerified;
-
   StreamSubscription<QuerySnapshot>? _guestBookSubscription;
   List<GuestBookMessage> _guestBookMessages = [];
+
   List<GuestBookMessage> get guestBookMessages => _guestBookMessages;
-
-  int _attendees = 0;
-  int get attendees => _attendees;
-
-  static Map<String, dynamic> defaultValues = <String, dynamic>{
-    'event_date': 'October 18, 2022',
-    'enable_free_swag': false,
-    'call_to_action': 'Join us for a day full of Firebase Workshops and Pizza!',
-  };
-
-  // ignoring lints on these fields since we are modifying them in a different
-  // part of the codelab
-  // ignore: prefer_final_fields
-  bool _enableFreeSwag = defaultValues['enable_free_swag'] as bool;
-  bool get enableFreeSwag => _enableFreeSwag;
-
-  // ignore: prefer_final_fields
-  String _eventDate = defaultValues['event_date'] as String;
-  String get eventDate => _eventDate;
-
-  // ignore: prefer_final_fields
-  String _callToAction = defaultValues['call_to_action'] as String;
-  String get callToAction => _callToAction;
-
-  Attending _attending = Attending.unknown;
-  StreamSubscription<DocumentSnapshot>? _attendingSubscription;
-  Attending get attending => _attending;
-  set attending(Attending attending) {
-    final userDoc = FirebaseFirestore.instance
-        .collection('attendees')
-        .doc(FirebaseAuth.instance.currentUser!.uid);
-    if (attending == Attending.yes) {
-      userDoc.set(<String, dynamic>{'attending': true});
-    } else {
-      userDoc.set(<String, dynamic>{'attending': false});
-    }
-  }
 
   Future<void> init() async {
     await Firebase.initializeApp(
@@ -249,19 +194,9 @@ class ApplicationState extends ChangeNotifier {
       EmailAuthProvider(),
     ]);
 
-    FirebaseFirestore.instance
-        .collection('attendees')
-        .where('attending', isEqualTo: true)
-        .snapshots()
-        .listen((snapshot) {
-      _attendees = snapshot.docs.length;
-      notifyListeners();
-    });
-
     FirebaseAuth.instance.userChanges().listen((user) {
       if (user != null) {
         _loggedIn = true;
-        _emailVerified = user.emailVerified;
         _guestBookSubscription = FirebaseFirestore.instance
             .collection('guestbook')
             .orderBy('timestamp', descending: true)
@@ -278,41 +213,13 @@ class ApplicationState extends ChangeNotifier {
           }
           notifyListeners();
         });
-        _attendingSubscription = FirebaseFirestore.instance
-            .collection('attendees')
-            .doc(user.uid)
-            .snapshots()
-            .listen((snapshot) {
-          if (snapshot.data() != null) {
-            if (snapshot.data()!['attending'] as bool) {
-              _attending = Attending.yes;
-            } else {
-              _attending = Attending.no;
-            }
-          } else {
-            _attending = Attending.unknown;
-          }
-          notifyListeners();
-        });
       } else {
         _loggedIn = false;
-        _emailVerified = false;
         _guestBookMessages = [];
         _guestBookSubscription?.cancel();
-        _attendingSubscription?.cancel();
       }
       notifyListeners();
     });
-  }
-
-  Future<void> refreshLoggedInUser() async {
-    final currentUser = FirebaseAuth.instance.currentUser;
-
-    if (currentUser == null) {
-      return;
-    }
-
-    await currentUser.reload();
   }
 
   Future<DocumentReference> addMessageToGuestBook(String message) {
@@ -333,6 +240,7 @@ class ApplicationState extends ChangeNotifier {
 
 class GuestBookMessage {
   GuestBookMessage({required this.name, required this.message});
+
   final String name;
   final String message;
 }
@@ -343,6 +251,7 @@ class GuestBook extends StatefulWidget {
     required this.addMessage,
     required this.messages,
   });
+
   final FutureOr<void> Function(String message) addMessage;
   final List<GuestBookMessage> messages;
 
@@ -405,71 +314,5 @@ class _GuestBookState extends State<GuestBook> {
         const SizedBox(height: 8),
       ],
     );
-  }
-}
-
-class YesNoSelection extends StatelessWidget {
-  const YesNoSelection(
-      {super.key, required this.state, required this.onSelection});
-  final Attending state;
-  final void Function(Attending selection) onSelection;
-
-  @override
-  Widget build(BuildContext context) {
-    switch (state) {
-      case Attending.yes:
-        return Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(elevation: 0),
-                onPressed: () => onSelection(Attending.yes),
-                child: const Text('YES'),
-              ),
-              const SizedBox(width: 8),
-              TextButton(
-                onPressed: () => onSelection(Attending.no),
-                child: const Text('NO'),
-              ),
-            ],
-          ),
-        );
-      case Attending.no:
-        return Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              TextButton(
-                onPressed: () => onSelection(Attending.yes),
-                child: const Text('YES'),
-              ),
-              const SizedBox(width: 8),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(elevation: 0),
-                onPressed: () => onSelection(Attending.no),
-                child: const Text('NO'),
-              ),
-            ],
-          ),
-        );
-      default:
-        return Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              StyledButton(
-                onPressed: () => onSelection(Attending.yes),
-                child: const Text('YES'),
-              ),
-              const SizedBox(width: 8),
-              StyledButton(
-                onPressed: () => onSelection(Attending.no),
-                child: const Text('NO'),
-              ),
-            ],
-          ),
-        );
-    }
   }
 }

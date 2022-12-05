@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import 'widgets.dart';
 
@@ -7,12 +8,10 @@ class AuthFunc extends StatelessWidget {
     super.key,
     required this.loggedIn,
     required this.signOut,
-    this.enableFreeSwag = false,
   });
 
   final bool loggedIn;
   final void Function() signOut;
-  final bool enableFreeSwag;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +22,7 @@ class AuthFunc extends StatelessWidget {
           child: StyledButton(
               onPressed: () {
                 !loggedIn
-                    ? Navigator.of(context).pushNamed('/sign-in')
+                    ? context.go('/sign-in')
                     : signOut();
               },
               child: !loggedIn ? const Text('RSVP') : const Text('Logout')),
@@ -34,20 +33,10 @@ class AuthFunc extends StatelessWidget {
               padding: const EdgeInsets.only(left: 24, bottom: 8),
               child: StyledButton(
                   onPressed: () {
-                    Navigator.of(context).pushNamed('/profile');
+                    context.go('/profile');
                   },
                   child: const Text('Profile')),
-            )),
-        Visibility(
-            visible: enableFreeSwag,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 24, bottom: 8),
-              child: StyledButton(
-                  onPressed: () {
-                    throw Exception('free swag unimplemented');
-                  },
-                  child: const Text('Free swag!')),
-            )),
+            ))
       ],
     );
   }
