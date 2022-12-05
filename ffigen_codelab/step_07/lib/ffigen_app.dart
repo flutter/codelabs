@@ -29,8 +29,8 @@ final DynamicLibrary _dylib = () {
   if (Platform.isWindows) {
     if (Platform.environment.containsKey('FLUTTER_TEST')) {
       debugPrint('TEST CWD: ${Directory.current.absolute}');
-      return DynamicLibrary.open(p.canonicalize(p.join(
-          r'build\windows\plugins\ffigen_app\shared\Debug', '$_libName.dll')));
+      return DynamicLibrary.open(p.canonicalize(
+          p.join(r'build\windows\runner\Debug', '$_libName.dll')));
     }
     return DynamicLibrary.open('$_libName.dll');
   }
