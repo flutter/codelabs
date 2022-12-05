@@ -34,7 +34,6 @@ jobs:
       - uses: subosito/flutter-action@dbf1fa04f4d2e52c33185153d06cdb5443aa189d
         with:
           channel: ${{ matrix.flutter_version }}
-      - uses: seanmiddleditch/gha-setup-ninja@master
       - run: dart --version
       - run: flutter --version
       - run: ./flutter_ci_script_${{ matrix.flutter_version }}.sh
