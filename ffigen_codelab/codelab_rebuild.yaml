@@ -315,11 +315,9 @@ steps:
       - name: Replace src/CMakeLists.txt
         path: ffigen_app/src/CMakeLists.txt
         patch-u: |
-          diff --git b/ffigen_codelab/step_05/src/CMakeLists.txt a/ffigen_codelab/step_05/src/CMakeLists.txt
-          index d2390e36..04e2d188 100644
           --- b/ffigen_codelab/step_05/src/CMakeLists.txt
           +++ a/ffigen_codelab/step_05/src/CMakeLists.txt
-          @@ -6,11 +6,12 @@ cmake_minimum_required(VERSION 3.10)
+          @@ -6,12 +6,19 @@ cmake_minimum_required(VERSION 3.10)
            project(ffigen_app_library VERSION 0.0.1 LANGUAGES C)
            
            add_library(ffigen_app SHARED
@@ -330,10 +328,17 @@ steps:
            set_target_properties(ffigen_app PROPERTIES
           -  PUBLIC_HEADER ffigen_app.h
           +  PUBLIC_HEADER duktape.h
-          +  PRIVATE_HEADRE duk_config.h
+          +  PRIVATE_HEADER duk_config.h
              OUTPUT_NAME "ffigen_app"
            )
            
+          +if (WIN32)
+          +set_target_properties(ffigen_app PROPERTIES
+          +  WINDOWS_EXPORT_ALL_SYMBOLS ON
+          +)
+          +endif (WIN32)
+          +
+           target_compile_definitions(ffigen_app PUBLIC DART_SHARED_LIB)
       - name: Upgrade dep versions
         path: ffigen_app
         dart: pub upgrade --major-versions
@@ -662,15 +667,16 @@ steps:
         patch-u: |
           --- b/ffigen_codelab/step_07/lib/ffigen_app.dart
           +++ a/ffigen_codelab/step_07/lib/ffigen_app.dart
-          @@ -1,6 +1,7 @@
+          @@ -1,6 +1,8 @@
            import 'dart:ffi';
            import 'dart:io';
            import 'package:ffi/ffi.dart' as ffi;
           +import 'package:flutter/foundation.dart';
+          +import 'package:path/path.dart' as p;
            
            import 'duktape_bindings_generated.dart';
            
-          @@ -9,12 +10,27 @@ const String _libName = 'ffigen_app';
+          @@ -9,12 +11,27 @@ const String _libName = 'ffigen_app';
            /// The dynamic library in which the symbols for [DuktapeBindings] can be found.
            final DynamicLibrary _dylib = () {
              if (Platform.isMacOS || Platform.isIOS) {
@@ -692,13 +698,13 @@ steps:
              if (Platform.isWindows) {
           +    if (Platform.environment.containsKey('FLUTTER_TEST')) {
           +      debugPrint('TEST CWD: ${Directory.current.absolute}');
-          +      return DynamicLibrary.open(
-          +          'build/windows/x64/debug/bundle/lib/lib$_libName.so');
+          +      return DynamicLibrary.open(p.canonicalize(p.join(
+          +          r'build\windows\plugins\ffigen_app\shared\Debug', '$_libName.dll')));
           +    }
                return DynamicLibrary.open('$_libName.dll');
              }
              throw UnsupportedError('Unknown platform: ${Platform.operatingSystem}');
-          @@ -29,13 +45,13 @@ class Duktape {
+          @@ -29,13 +46,13 @@ class Duktape {
                    _bindings.duk_create_heap(nullptr, nullptr, nullptr, nullptr, nullptr);
              }
            
@@ -714,7 +720,7 @@ steps:
                    ctx,
                    nativeUtf8.cast<Char>(),
                    0,
-          @@ -46,10 +62,21 @@ class Duktape {
+          @@ -46,10 +63,21 @@ class Duktape {
                        DUK_COMPILE_STRLEN |
                        DUK_COMPILE_NOFILENAME);
                ffi.malloc.free(nativeUtf8);
