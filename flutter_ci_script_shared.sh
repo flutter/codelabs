@@ -14,7 +14,6 @@ function ci_codelabs () {
         if [ $RUNNER_OS = 'Linux' ]; then
             sudo apt install ninja-build
             sudo apt install libgtk-3-dev
-            flutter doctor -v
         fi
         flutter build `echo $RUNNER_OS | tr '[:upper:]' '[:lower:]'` --debug
     popd
