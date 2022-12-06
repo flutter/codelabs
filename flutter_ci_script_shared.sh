@@ -13,6 +13,7 @@ function ci_codelabs () {
         # RUNNER_OS from https://stackoverflow.com/a/72926104/2142626
         if [ $RUNNER_OS = 'Linux' ]; then
             sudo apt install ninja-build
+            flutter doctor
         fi
         flutter build `echo $RUNNER_OS | tr '[:upper:]' '[:lower:]'` --debug
     popd
