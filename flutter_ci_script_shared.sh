@@ -14,6 +14,10 @@ function ci_codelabs () {
         flutter build `echo $RUNNER_OS | tr '[:upper:]' '[:lower:]'` --debug
     popd
 
+    if [ $RUNNER_OS = 'Linux']
+        sudo apt install ninja-build
+    fi
+
     local arr=("$@")
     for CODELAB in "${arr[@]}"
     do
