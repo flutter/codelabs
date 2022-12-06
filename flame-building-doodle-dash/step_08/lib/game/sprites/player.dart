@@ -104,7 +104,6 @@ class Player extends SpriteGroupComponent<PlayerState>
       } else if (!hasPowerup) {
         current = PlayerState.right;
       }
-
       _hAxisInput += movingRightInput;
     }
 
