@@ -11,7 +11,7 @@ function ci_codelabs () {
     # ffigen_codelab/step_07 needs to build the native library before running the tests
     pushd ffigen_codelab/step_07/example
         # RUNNER_OS from https://stackoverflow.com/a/72926104/2142626
-        if [ $RUNNER_OS = 'Linux']
+        if [ $RUNNER_OS = 'Linux']; then
             sudo apt install ninja-build
         fi
         flutter build `echo $RUNNER_OS | tr '[:upper:]' '[:lower:]'` --debug
