@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:googleapis/youtube/v3.dart';
 import 'package:split_view/split_view.dart';
 
@@ -32,19 +33,13 @@ class NarrowDisplayPlaylists extends StatelessWidget {
       appBar: AppBar(title: const Text('FlutterDev Playlists')),
       body: Playlists(
         playlistSelected: (playlist) {
-          Navigator.push(
-            context,
-            MaterialPageRoute<void>(
-              builder: (context) {
-                return Scaffold(
-                  appBar: AppBar(title: Text(playlist.snippet!.title!)),
-                  body: PlaylistDetails(
-                    playlistId: playlist.id!,
-                    playlistName: playlist.snippet!.title!,
-                  ),
-                );
+          context.go(
+            Uri(
+              path: '/playlist/${playlist.id}',
+              queryParameters: <String, String>{
+                'title': playlist.snippet!.title!
               },
-            ),
+            ).toString(),
           );
         },
       ),

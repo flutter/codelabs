@@ -37,17 +37,13 @@ class Blueprint {
 
   factory Blueprint.fromJson(Map json) => _$BlueprintFromJson(json);
 
-  /// Load a blueprint, either from a file path, or directly as YAML content.
-  factory Blueprint.load(String sourcePathOrYaml) {
+  /// Load a blueprint from a file
+  factory Blueprint.load(File source) {
     String yamlContent;
     Uri? sourceUri;
 
-    if (FileSystemEntity.isFileSync(sourcePathOrYaml)) {
-      yamlContent = File(sourcePathOrYaml).readAsStringSync();
-      sourceUri = Uri.parse(sourcePathOrYaml);
-    } else {
-      yamlContent = sourcePathOrYaml;
-    }
+    yamlContent = source.readAsStringSync();
+    sourceUri = source.uri;
 
     final blueprint = checkedYamlDecode(
       yamlContent,
@@ -55,6 +51,13 @@ class Blueprint {
       sourceUrl: sourceUri,
     );
     return blueprint;
+  }
+
+  factory Blueprint.fromString(String yaml) {
+    return checkedYamlDecode(
+      yaml,
+      (m) => Blueprint.fromJson(m!),
+    );
   }
 
   /// Rebuild a blueprint in a target directory.
@@ -88,16 +91,29 @@ class BlueprintStep {
   @JsonKey(name: 'replace-contents')
   final String? replaceContents;
 
-  final String? rm;
-  final String? pod;
+  // Platforms: "linux" "macos" "windows"
+  final List<String>? platforms;
+
   final String? dart;
   final String? flutter;
+  final String? git;
+  final String? pod;
+  final String? rm;
 
   final String? mkdir;
   final List<String> mkdirs;
   final String? rmdir;
   final List<String> rmdirs;
-  final CopyDirs? copydir;
+  final FromTo? copydir;
+  final FromTo? copy;
+  final FromTo? rename;
+
+  // Retreiving URLs and unarchiving them
+  @JsonKey(name: 'retrieve-url')
+  final String? retrieveUrl;
+  final String? tar;
+  @JsonKey(name: '7z')
+  final String? sevenZip;
 
   // For debugging & development purposes
   final bool? stop;
@@ -116,10 +132,17 @@ class BlueprintStep {
     this.rmdir,
     this.rmdirs = const [],
     this.copydir,
-    this.rm,
-    this.pod,
+    this.copy,
+    this.rename,
+    this.platforms,
     this.dart,
     this.flutter,
+    this.git,
+    this.rm,
+    this.pod,
+    this.retrieveUrl,
+    this.tar,
+    this.sevenZip,
     this.stop,
   }) {
     if (name.isEmpty) {
@@ -148,10 +171,16 @@ class BlueprintStep {
         rmdir == null &&
         rmdirs.isEmpty &&
         copydir == null &&
+        copy == null &&
+        rename == null &&
         rm == null &&
         pod == null &&
         dart == null &&
-        flutter == null) {
+        flutter == null &&
+        git == null &&
+        retrieveUrl == null &&
+        tar == null &&
+        sevenZip == null) {
       _logger.warning('Invalid step with no action: $name');
       return false;
     }
@@ -169,10 +198,16 @@ class BlueprintStep {
           rmdir != null ||
           rmdirs.isNotEmpty ||
           copydir != null ||
+          copy != null ||
+          rename != null ||
           rm != null ||
           pod != null ||
           dart != null ||
-          flutter != null) {
+          flutter != null ||
+          git != null ||
+          retrieveUrl != null ||
+          tar != null ||
+          sevenZip != null) {
         _logger.warning(
             'Invalid step sub-steps and one (or more) of patch, command(s), '
             'base64-contents or replace-contents: $name');
@@ -210,6 +245,24 @@ class BlueprintStep {
       return false;
     }
 
+    // If we have a retrieve-url, we need a path to write it to
+    if (retrieveUrl != null && path == null) {
+      _logger.warning('Invalid step, retrieve-url with no target path: $name');
+      return false;
+    }
+
+    // If we have a tar archive, we need a path to write it to
+    if (tar != null && path == null) {
+      _logger.warning('Invalid step, tar with no target path: $name');
+      return false;
+    }
+
+    // If we have a 7z archive, we need a path to write it to
+    if (sevenZip != null && path == null) {
+      _logger.warning('Invalid step, 7z with no target path: $name');
+      return false;
+    }
+
     // If we have a patch, we don't want a replace-contents, base64-contents or command(s)
     if ((patch != null || patchU != null || patchC != null) &&
         (replaceContents != null ||
@@ -219,9 +272,15 @@ class BlueprintStep {
             rmdir != null ||
             rmdirs.isNotEmpty ||
             copydir != null ||
+            copy != null ||
+            rename != null ||
             pod != null ||
             dart != null ||
-            flutter != null)) {
+            flutter != null ||
+            git != null ||
+            retrieveUrl != null ||
+            tar != null ||
+            sevenZip != null)) {
       _logger.warning(
           'Invalid step, patch with command(s), replace-contents, or base64-contents: $name');
       return false;
@@ -243,14 +302,14 @@ class BlueprintStep {
   checked: true,
   disallowUnrecognizedKeys: true,
 )
-class CopyDirs {
+class FromTo {
   final String from;
   final String to;
-  CopyDirs({required this.from, required this.to});
+  FromTo({required this.from, required this.to});
 
-  factory CopyDirs.fromJson(Map json) => _$CopyDirsFromJson(json);
+  factory FromTo.fromJson(Map json) => _$FromToFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CopyDirsToJson(this);
+  Map<String, dynamic> toJson() => _$FromToToJson(this);
 
   @override
   String toString() => 'CopyDirs: ${toJson()}';

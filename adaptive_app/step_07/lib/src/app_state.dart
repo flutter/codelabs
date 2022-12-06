@@ -10,6 +10,8 @@ class AuthedUserPlaylists extends ChangeNotifier {
     _loadPlaylists();
   }
 
+  bool get isLoggedIn => _api != null;
+
   Future<void> _loadPlaylists() async {
     String? nextPageToken;
     _playlists.clear();

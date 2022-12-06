@@ -11,8 +11,11 @@ declare -a CODELABS=(
   "cookbook"
   "cupertino_store"
   "dartpad_codelabs"
+  "ffigen_codelab"
   "firebase-emulator-suite"
   "firebase-get-to-know-flutter"
+  # TODO(ewindmill): ColorScheme class changes cause CI to fail until release 3.5
+  # "flame-building-doodle-dash"
   "friendly_chat"
   "github-client"
   "google-maps-in-flutter"

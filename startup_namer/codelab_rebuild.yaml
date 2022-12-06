@@ -107,6 +107,29 @@ steps:
       - name: Add flutter_lints
         path: startup_namer
         flutter: pub add -d flutter_lints
+      - name: build web
+        path: startup_namer
+        flutter: build web
+      - name: build ios
+        platforms: [ macos ]
+        path: startup_namer
+        flutter: build ios
+      - name: build android
+        platforms: [ macos ]
+        path: startup_namer
+        flutter: build apk
+      - name: build macos
+        platforms: [ macos ]
+        path: startup_namer
+        flutter: build macos
+      - name: build linux
+        platforms: [ linux ]
+        path: startup_namer
+        flutter: build linux
+      - name: build windows
+        platforms: [ windows ]
+        path: startup_namer
+        flutter: build windows
       - name: Copy step1_base
         copydir:
           from: startup_namer
@@ -703,6 +726,32 @@ steps:
                );
              }
            }
+      - name: flutter clean
+        path: startup_namer
+        flutter: clean
+      - name: build web
+        path: startup_namer
+        flutter: build web
+      - name: build ios
+        platforms: [ macos ]
+        path: startup_namer
+        flutter: build ios
+      - name: build android
+        platforms: [ macos ]
+        path: startup_namer
+        flutter: build apk
+      - name: build macos
+        platforms: [ macos ]
+        path: startup_namer
+        flutter: build macos
+      - name: build linux
+        platforms: [ linux ]
+        path: startup_namer
+        flutter: build linux
+      - name: build windows
+        platforms: [ windows ]
+        path: startup_namer
+        flutter: build windows
       - name: Copy step8_themes
         copydir:
           from: startup_namer

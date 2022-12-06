@@ -12,7 +12,13 @@ void main(List<String> arguments) {
     print('${record.level.name}: ${record.time}: ${record.message}');
   });
 
+  if (arguments.length != 1) {
+    Logger('main')
+        .severe('Usage: codelab_rebuild path/to/codelab_rebuild.yaml');
+    exit(1);
+  }
+
   final source = arguments.single;
-  final blueprint = Blueprint.load(source);
+  final blueprint = Blueprint.load(File(source));
   blueprint.rebuild(File(source).parent);
 }

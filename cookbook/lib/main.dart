@@ -13,6 +13,7 @@
 // limitations under the License.
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'app.dart';
 import 'items.dart';
 
@@ -23,10 +24,6 @@ void main() {
 @immutable
 class Home extends StatelessWidget {
   const Home({super.key});
-
-  void _navigate(BuildContext context, WidgetBuilder builder) {
-    Navigator.of(context).push(MaterialPageRoute<void>(builder: builder));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +36,7 @@ class Home extends StatelessWidget {
         itemBuilder: (context, index) {
           final item = items[index];
           return ListTile(
-            onTap: () => _navigate(context, item.builder),
+            onTap: () => context.go('/${item.path}'),
             leading: Icon(
               (item.recommendation == Recommendation.yes)
                   ? const IconData(0x2705)
