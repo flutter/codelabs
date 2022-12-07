@@ -10,7 +10,6 @@ dependencies:
   adaptive_breakpoints: ^0.1.4
   adaptive_components: ^0.0.7
   adaptive_navigation: ^0.0.7
-  analyzer: 5.2.0
   animations: ^2.0.7
   collection: ^1.16.0
   cupertino_icons: ^1.0.5
