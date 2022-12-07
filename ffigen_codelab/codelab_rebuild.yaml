@@ -171,6 +171,10 @@ steps:
       - name: Replace example/lib/main.dart
         path: ffigen_app/example/lib/main.dart
         replace-contents: |
+          // Copyright 2022 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+          
           import 'package:ffigen_app/ffigen_app.dart';
           import 'package:flutter/material.dart';
           
@@ -247,6 +251,10 @@ steps:
       - name: Replace lib/ffigen_app.dart
         path: ffigen_app/lib/ffigen_app.dart
         replace-contents: |
+          // Copyright 2022 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+          
           import 'dart:ffi';
           import 'dart:io';
           import 'package:ffi/ffi.dart' as ffi;
@@ -308,7 +316,7 @@ steps:
           
             late Pointer<duk_hthread> ctx;
           }
-      - name: Replace src/CMakeLists.txt
+      - name: Patch src/CMakeLists.txt
         path: ffigen_app/src/CMakeLists.txt
         patch-u: |
           diff --git b/ffigen_codelab/step_05/src/CMakeLists.txt a/ffigen_codelab/step_05/src/CMakeLists.txt
@@ -329,7 +337,6 @@ steps:
           +  PRIVATE_HEADRE duk_config.h
              OUTPUT_NAME "ffigen_app"
            )
-           
       - name: Upgrade dep versions
         path: ffigen_app
         dart: pub upgrade --major-versions
