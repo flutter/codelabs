@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import 'widgets.dart';
 
@@ -25,7 +26,7 @@ class AuthFunc extends StatelessWidget {
           child: StyledButton(
               onPressed: () {
                 !loggedIn
-                    ? Navigator.of(context).pushNamed('/sign-in')
+                    ? context.push('/sign-in')
                     : signOut();
               },
               child: !loggedIn ? const Text('RSVP') : const Text('Logout')),
@@ -36,7 +37,7 @@ class AuthFunc extends StatelessWidget {
               padding: const EdgeInsets.only(left: 24, bottom: 8),
               child: StyledButton(
                   onPressed: () {
-                    Navigator.of(context).pushNamed('/profile');
+                    context.push('/profile');
                   },
                   child: const Text('Profile')),
             ))
