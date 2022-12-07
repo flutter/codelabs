@@ -32,7 +32,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_markdown: ^0.6.13
-  github: ^9.6.0
+  github: ^9.7.0
   intl: ^0.17.0
 
 
