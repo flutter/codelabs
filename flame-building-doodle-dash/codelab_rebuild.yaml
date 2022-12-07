@@ -1,0 +1,1678 @@
+name: Doodle Dash rebuild script
+steps:
+  - name: step_02
+    steps:
+      - name: Remove generated code.
+        rmdir: step_02
+      - name: Create project.
+        flutter: create doodle_dash
+      - name: Configure analysis_options.yaml
+        path: doodle_dash/analysis_options.yaml
+        replace-contents: |
+          include: ../../analysis_options.yaml
+      - name: Remove README
+        rm: doodle_dash/README.md
+      - name: Add .vscode directory
+        mkdir: doodle_dash/.vscode
+      - name: Add .vscode/launch.json
+        path: doodle_dash/.vscode/launch.json
+        replace-contents: |
+          {
+              // Use IntelliSense to learn about possible attributes.
+              // Hover to view descriptions of existing attributes.
+              // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+              "version": "0.2.0",
+              "configurations": [
+                  {
+                      "name": "doodle_dash",
+                      "request": "launch",
+                      "type": "dart"
+                  }
+              ]
+          }
+      - name: Add Flame and Google Fonts
+        path: doodle_dash
+        flutter: pub add flame google_fonts
+      - name: Add main.dart
+        path: doodle_dash/lib/main.dart
+        replace-contents: |
+          // Copyright 2022 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+          
+          import 'package:flame/game.dart';
+          import 'package:flutter/material.dart';
+          import 'package:google_fonts/google_fonts.dart';
+          
+          import 'game/doodle_dash.dart';
+          import 'game/util/util.dart';
+          import 'game/widgets/widgets.dart';
+          
+          void main() {
+            runApp(const MyApp());
+          }
+          
+          class MyApp extends StatelessWidget {
+            const MyApp({super.key});
+            @override
+            Widget build(BuildContext context) {
+              return MaterialApp(
+                title: 'Doodle Dash',
+                themeMode: ThemeMode.dark,
+                theme: ThemeData(
+                  colorScheme: lightColorScheme,
+                  useMaterial3: true,
+                  // textTheme: appFontTheme,
+                ),
+                darkTheme: ThemeData(
+                  colorScheme: darkColorScheme,
+                  textTheme: GoogleFonts.audiowideTextTheme(ThemeData.dark().textTheme),
+                  useMaterial3: true,
+                ),
+                home: const MyHomePage(title: 'Doodle Dash'),
+              );
+            }
+          }
+          
+          final Game game = DoodleDash();
+          
+          class MyHomePage extends StatefulWidget {
+            const MyHomePage({super.key, required this.title});
+            final String title;
+            @override
+            State<MyHomePage> createState() => _MyHomePageState();
+          }
+          
+          class _MyHomePageState extends State<MyHomePage> {
+            @override
+            Widget build(BuildContext context) {
+              return Scaffold(
+                body: Center(
+                  child: LayoutBuilder(builder: (context, constraints) {
+                    return Container(
+                      constraints: const BoxConstraints(
+                        // 1000 is arbitrary, should be tweaked
+                        // 550 is the smallest Chrome will allow you to make the window
+                        maxWidth: 800,
+                        minWidth: 550,
+                      ),
+                      child: GameWidget(
+                        // hot reload in development mode,
+                        game: game,
+                        overlayBuilderMap: <String, Widget Function(BuildContext, Game)>{
+                          'gameOverlay': (context, game) => GameOverlay(game),
+                          'mainMenuOverlay': (context, game) => MainMenuOverlay(game),
+                          'gameOverOverlay': (context, game) => GameOverOverlay(game),
+                        },
+                      ),
+                    );
+                  }),
+                ),
+              );
+            }
+          }
+      - name: mkdir lib/game
+        path: doodle_dash/lib
+        mkdir: game
+      - name: Add lib/game/doodle_dash.dart
+        path: doodle_dash/lib/game/doodle_dash.dart
+        replace-contents: |
+          // Copyright 2022 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+          
+          import 'package:flame/game.dart';
+          import 'package:flame/input.dart';
+          import 'package:flutter/material.dart';
+          
+          import './world.dart';
+          import 'managers/managers.dart';
+          
+          enum Character { dash, sparky }
+          
+          class DoodleDash extends FlameGame
+              with HasKeyboardHandlerComponents, HasCollisionDetection {
+            DoodleDash({super.children});
+          
+            final World _world = World();
+            LevelManager levelManager = LevelManager();
+            GameManager gameManager = GameManager();
+            int screenBufferSpace = 300;
+            ObjectManager objectManager = ObjectManager();
+          
+            @override
+            Future<void> onLoad() async {
+              await add(_world);
+          
+              // add Game Manager
+              await add(gameManager);
+          
+              // add the pause button and score keeper
+              overlays.add('gameOverlay');
+          
+              // add level/difficulty manager
+              await add(levelManager);
+            }
+          
+            @override
+            void update(double dt) {
+              super.update(dt);
+          
+              // show the main menu when the game launches
+              // And return so the engine doesn't  update as long as the menu is up.
+              if (gameManager.isIntro) {
+                overlays.add('mainMenuOverlay');
+                return;
+              }
+          
+              if (gameManager.isPlaying) {
+                checkLevelUp();
+              }
+            }
+          
+            @override
+            Color backgroundColor() {
+              return const Color.fromARGB(255, 241, 247, 249);
+            }
+          
+            // This method sets (or resets) the camera, dash and platform manager.
+            // It is called when you start a game. Resets game state
+            void initializeGameStart() {
+              //reset score
+              gameManager.reset();
+          
+              // remove platform if necessary, because a new one is made each time a new
+              // game is started.
+              if (children.contains(objectManager)) objectManager.removeFromParent();
+          
+              levelManager.reset();
+          
+              // reset the the platforms
+              objectManager = ObjectManager(
+                  minVerticalDistanceToNextPlatform: levelManager.minDistance,
+                  maxVerticalDistanceToNextPlatform: levelManager.maxDistance);
+          
+              add(objectManager);
+          
+              objectManager.configure(levelManager.level, levelManager.difficulty);
+            }
+          
+            void startGame() {
+              initializeGameStart();
+              gameManager.state = GameState.playing;
+              overlays.remove('mainMenuOverlay');
+            }
+          
+            void resetGame() {
+              startGame();
+              overlays.remove('gameOverOverlay');
+            }
+          
+            void togglePauseState() {
+              if (paused) {
+                resumeEngine();
+              } else {
+                pauseEngine();
+              }
+            }
+          
+            void checkLevelUp() {
+              if (levelManager.shouldLevelUp(gameManager.score.value)) {
+                levelManager.increaseLevel();
+          
+                // Change config for how platforms are generated
+                objectManager.configure(levelManager.level, levelManager.difficulty);
+              }
+            }
+          }
+      - name: Add lib/game/world.dart
+        path: doodle_dash/lib/game/world.dart
+        replace-contents: |
+          // Copyright 2022 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+          
+          import 'package:flame/components.dart';
+          import 'package:flame/parallax.dart';
+          import 'package:flutter/material.dart';
+          
+          import './doodle_dash.dart';
+          
+          class World extends ParallaxComponent<DoodleDash> {
+            @override
+            Future<void> onLoad() async {
+              parallax = await gameRef.loadParallax(
+                [
+                  ParallaxImageData('game/background/06_Background_Solid.png'),
+                  ParallaxImageData('game/background/05_Background_Small_Stars.png'),
+                  ParallaxImageData('game/background/04_Background_Big_Stars.png'),
+                  ParallaxImageData('game/background/02_Background_Orbs.png'),
+                  ParallaxImageData('game/background/03_Background_Block_Shapes.png'),
+                  ParallaxImageData('game/background/01_Background_Squiggles.png'),
+                ],
+                fill: LayerFill.width,
+                repeat: ImageRepeat.repeat,
+                baseVelocity: Vector2(0, -5),
+                velocityMultiplierDelta: Vector2(0, 1.2),
+              );
+            }
+          }
+      - name: mkdir lib/game/managers
+        path: doodle_dash/lib/game
+        mkdir: managers
+      - name: Add lib/game/managers/game_manager.dart
+        path: doodle_dash/lib/game/managers/game_manager.dart
+        replace-contents: |
+          // Copyright 2022 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+          
+          import 'package:flame/components.dart';
+          import 'package:flutter/material.dart';
+          
+          import '../doodle_dash.dart';
+          
+          // It won't be a detailed section of the codelab, as its not Flame specific
+          class GameManager extends Component with HasGameRef<DoodleDash> {
+            GameManager();
+          
+            Character character = Character.dash;
+            ValueNotifier<int> score = ValueNotifier(0);
+            GameState state = GameState.intro;
+          
+            bool get isPlaying => state == GameState.playing;
+            bool get isGameOver => state == GameState.gameOver;
+            bool get isIntro => state == GameState.intro;
+          
+            void reset() {
+              score.value = 0;
+              state = GameState.intro;
+            }
+          
+            void increaseScore() {
+              score.value++;
+            }
+          
+            void selectCharacter(Character selectedCharacter) {
+              character = selectedCharacter;
+            }
+          }
+          
+          enum GameState { intro, playing, gameOver }
+      - name: Add lib/game/managers/level_manager.dart
+        path: doodle_dash/lib/game/managers/level_manager.dart
+        replace-contents: |
+          // Copyright 2022 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+          
+          import 'package:flame/components.dart';
+          
+          import '../doodle_dash.dart';
+          
+          // It won't be a detailed section of the codelab, as its not Flame specific
+          class LevelManager extends Component with HasGameRef<DoodleDash> {
+            LevelManager({this.selectedLevel = 1, this.level = 1});
+          
+            int selectedLevel; // level that the player selects at the beginning
+            int level; // current level
+            // Configurations for different levels of difficulty,
+            //the higher level the further away Dash may need to jump. Since
+            // gravity is constant, jumpSpeed needs to accomodate for further distance.
+            // Score indicates the score needed to be acheived to "level up"
+            final Map<int, Difficulty> levelsConfig = {
+              1: const Difficulty(
+                  minDistance: 200, maxDistance: 300, jumpSpeed: 600, score: 0),
+              2: const Difficulty(
+                  minDistance: 200, maxDistance: 400, jumpSpeed: 650, score: 20),
+              3: const Difficulty(
+                  minDistance: 200, maxDistance: 500, jumpSpeed: 700, score: 40),
+              4: const Difficulty(
+                  minDistance: 200, maxDistance: 600, jumpSpeed: 750, score: 80),
+              5: const Difficulty(
+                  minDistance: 200, maxDistance: 700, jumpSpeed: 800, score: 100),
+            };
+          
+            double get minDistance {
+              return levelsConfig[level]!.minDistance;
+            }
+          
+            double get maxDistance {
+              return levelsConfig[level]!.maxDistance;
+            }
+          
+            double get jumpSpeed {
+              return levelsConfig[level]!.jumpSpeed;
+            }
+          
+            Difficulty get difficulty {
+              return levelsConfig[level]!;
+            }
+          
+            bool shouldLevelUp(int score) {
+              int nextLevel = level + 1;
+          
+              if (levelsConfig.containsKey(nextLevel)) {
+                return levelsConfig[nextLevel]!.score == score;
+              }
+          
+              return false;
+            }
+          
+            List<int> get levels {
+              return levelsConfig.keys.toList();
+            }
+          
+            void increaseLevel() {
+              if (level < levelsConfig.keys.length) {
+                level++;
+              }
+            }
+          
+            void setLevel(int newLevel) {
+              if (levelsConfig.containsKey(newLevel)) {
+                level = newLevel;
+              }
+            }
+          
+            void selectLevel(int selectLevel) {
+              if (levelsConfig.containsKey(selectLevel)) {
+                selectedLevel = selectLevel;
+              }
+            }
+          
+            void reset() {
+              level = selectedLevel;
+            }
+          }
+          
+          class Difficulty {
+            final double minDistance;
+            final double maxDistance;
+            final double jumpSpeed;
+            final int score;
+          
+            const Difficulty(
+                {required this.minDistance,
+                required this.maxDistance,
+                required this.jumpSpeed,
+                required this.score});
+          }
+      - name: Add lib/game/managers/managers.dart
+        path: doodle_dash/lib/game/managers/managers.dart
+        replace-contents: |
+          // Copyright 2022 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+          
+          export 'game_manager.dart';
+          export 'level_manager.dart';
+          export 'object_manager.dart';
+      - name: Add lib/game/managers/object_manager.dart
+        path: doodle_dash/lib/game/managers/object_manager.dart
+        replace-contents: |
+          // Copyright 2022 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+          
+          import 'package:flame/components.dart';
+          
+          import './managers.dart';
+          import '../doodle_dash.dart';
+          import '../util/util.dart';
+          
+          class ObjectManager extends Component with HasGameRef<DoodleDash> {
+            ObjectManager({
+              this.minVerticalDistanceToNextPlatform = 200,
+              this.maxVerticalDistanceToNextPlatform = 300,
+            });
+          
+            double minVerticalDistanceToNextPlatform;
+            double maxVerticalDistanceToNextPlatform;
+            final probGen = ProbabilityGenerator();
+          
+            @override
+            // ignore: unnecessary_overrides
+            void update(double dt) {
+              super.update(dt);
+            }
+          
+            // Exposes a way for the DoodleDash component to change difficulty mid-game
+            void configure(int nextLevel, Difficulty config) {
+              minVerticalDistanceToNextPlatform = gameRef.levelManager.minDistance;
+              maxVerticalDistanceToNextPlatform = gameRef.levelManager.maxDistance;
+            }
+          }
+      - name: mkdir lib/game/util
+        path: doodle_dash/lib/game
+        mkdir: util
+      - name: Add lib/game/util/color_schemes.dart
+        path: doodle_dash/lib/game/util/color_schemes.dart
+        replace-contents: |
+          // Copyright 2022 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+          
+          import 'package:flutter/material.dart';
+          
+          const lightColorScheme = ColorScheme(
+            brightness: Brightness.light,
+            primary: Color(0xFF195CB5),
+            onPrimary: Color(0xFFFFFFFF),
+            primaryContainer: Color(0xFFD7E2FF),
+            onPrimaryContainer: Color(0xFF001B3F),
+            secondary: Color(0xFF6A46C1),
+            onSecondary: Color(0xFFFFFFFF),
+            secondaryContainer: Color(0xFFE9DDFF),
+            onSecondaryContainer: Color(0xFF22005C),
+            tertiary: Color(0xFF705574),
+            onTertiary: Color(0xFFFFFFFF),
+            tertiaryContainer: Color(0xFFFAD8FC),
+            onTertiaryContainer: Color(0xFF29132E),
+            error: Color(0xFFBA1A1A),
+            errorContainer: Color(0xFFFFDAD6),
+            onError: Color(0xFFFFFFFF),
+            onErrorContainer: Color(0xFF410002),
+            background: Color(0xFFFDFCFF),
+            onBackground: Color(0xFF001C38),
+            surface: Color(0xFFFDFCFF),
+            onSurface: Color(0xFF001C38),
+            surfaceVariant: Color(0xFFE0E2EC),
+            onSurfaceVariant: Color(0xFF44474E),
+            outline: Color(0xFF74777F),
+            onInverseSurface: Color(0xFFEAF1FF),
+            inverseSurface: Color(0xFF00325B),
+            inversePrimary: Color(0xFFABC7FF),
+            shadow: Color(0xFF000000),
+            surfaceTint: Color(0xFF195CB5),
+            outlineVariant: Color(0xFFC4C6D0),
+            scrim: Color(0xFF000000),
+          );
+          
+          const darkColorScheme = ColorScheme(
+            brightness: Brightness.dark,
+            primary: Color(0xFFABC7FF),
+            onPrimary: Color(0xFF002F66),
+            primaryContainer: Color(0xFF004590),
+            onPrimaryContainer: Color(0xFFD7E2FF),
+            secondary: Color(0xFFD0BCFF),
+            onSecondary: Color(0xFF3B0191),
+            secondaryContainer: Color(0xFF522AA8),
+            onSecondaryContainer: Color(0xFFE9DDFF),
+            tertiary: Color(0xFFDDBCE0),
+            onTertiary: Color(0xFF3F2844),
+            tertiaryContainer: Color(0xFF573E5B),
+            onTertiaryContainer: Color(0xFFFAD8FC),
+            error: Color(0xFFFFB4AB),
+            errorContainer: Color(0xFF93000A),
+            onError: Color(0xFF690005),
+            onErrorContainer: Color(0xFFFFDAD6),
+            background: Color(0xFF001C38),
+            onBackground: Color(0xFFFFFFFF),
+            surface: Color(0xFF001C38),
+            onSurface: Color(0xFFD3E4FF),
+            surfaceVariant: Color(0xFF44474E),
+            onSurfaceVariant: Color(0xFFC4C6D0),
+            outline: Color(0xFF8E9099),
+            onInverseSurface: Color(0xFF001C38),
+            inverseSurface: Color(0xFFD3E4FF),
+            inversePrimary: Color(0xFF195CB5),
+            shadow: Color(0xFF000000),
+            surfaceTint: Color(0xFFABC7FF),
+            outlineVariant: Color(0xFF44474E),
+            scrim: Color(0xFF000000),
+          );
+      - name: Add lib/game/util/num_utils.dart
+        path: doodle_dash/lib/game/util/num_utils.dart
+        replace-contents: |
+          // Copyright 2022 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+          
+          import 'dart:math';
+          
+          class Range {
+            final double start;
+            final double end;
+            Range(this.start, this.end);
+          
+            bool overlaps(Range other) {
+              if (other.start > start && other.start < end) return true;
+              if (other.end > end && other.end < end) return true;
+              return false;
+            }
+          
+            static bool between(int number, int floor, int ciel) {
+              return number > floor && number <= ciel;
+            }
+          }
+          
+          extension Between on num {
+            bool between(num floor, num ceiling) {
+              return this > floor && this <= ceiling;
+            }
+          }
+          
+          class ProbabilityGenerator {
+            final Random _rand = Random();
+          
+            ProbabilityGenerator();
+          
+            bool generateWithProbability(double percent) {
+              var randomInt = _rand.nextInt(100) + 1; // generate a number 1-100 inclusive
+          
+              if (randomInt <= percent) {
+                return true;
+              }
+          
+              return false;
+            }
+          }
+      - name: Add lib/game/util/util.dart
+        path: doodle_dash/lib/game/util/util.dart
+        replace-contents: |
+          // Copyright 2022 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+          
+          export 'color_schemes.dart';
+          export 'num_utils.dart';
+      - name: mkdir lib/game/widgets
+        path: doodle_dash/lib/game
+        mkdir: widgets
+      - name: Add lib/game/widgets/game_over_overlay.dart
+        path: doodle_dash/lib/game/widgets/game_over_overlay.dart
+        replace-contents: |
+          // Copyright 2022 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+          
+          import 'package:flame/game.dart';
+          import 'package:flutter/material.dart';
+          
+          import '../doodle_dash.dart';
+          import 'widgets.dart';
+          
+          // Overlay that pops up when the game ends
+          class GameOverOverlay extends StatelessWidget {
+            const GameOverOverlay(this.game, {super.key});
+          
+            final Game game;
+          
+            @override
+            Widget build(BuildContext context) {
+              return Material(
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(48.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Game Over',
+                          style: Theme.of(context).textTheme.displayMedium!.copyWith(),
+                        ),
+                        const WhiteSpace(height: 50),
+                        ScoreDisplay(
+                          game: game,
+                          isLight: true,
+                        ),
+                        const WhiteSpace(
+                          height: 50,
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            (game as DoodleDash).resetGame();
+                          },
+                          style: ButtonStyle(
+                            minimumSize: MaterialStateProperty.all(
+                              const Size(200, 75),
+                            ),
+                            textStyle: MaterialStateProperty.all(
+                                Theme.of(context).textTheme.titleLarge),
+                          ),
+                          child: const Text('Play Again'),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            }
+          }
+      - name: Add lib/game/widgets/game_overlay.dart
+        path: doodle_dash/lib/game/widgets/game_overlay.dart
+        replace-contents: |
+          // Copyright 2022 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+          
+          import 'package:flame/game.dart';
+          import 'package:flutter/material.dart';
+          
+          import '../doodle_dash.dart';
+          import 'widgets.dart';
+          
+          // Overlay that shows up during an active game
+          
+          class GameOverlay extends StatefulWidget {
+            const GameOverlay(this.game, {super.key});
+          
+            final Game game;
+          
+            @override
+            State<GameOverlay> createState() => GameOverlayState();
+          }
+          
+          class GameOverlayState extends State<GameOverlay> {
+            bool isPaused = false;
+          
+            @override
+            Widget build(BuildContext context) {
+              return Material(
+                color: Colors.transparent,
+                child: Stack(
+                  children: [
+                    Positioned(
+                      top: 30,
+                      left: 30,
+                      child: ScoreDisplay(game: widget.game),
+                    ),
+                    Positioned(
+                      top: 30,
+                      right: 30,
+                      child: ElevatedButton(
+                        child: isPaused
+                            ? const Icon(
+                                Icons.play_arrow,
+                                size: 48,
+                              )
+                            : const Icon(
+                                Icons.pause,
+                                size: 48,
+                              ),
+                        onPressed: () {
+                          (widget.game as DoodleDash).togglePauseState();
+                          setState(
+                            () {
+                              isPaused = !isPaused;
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                    if (isPaused)
+                      // Displays a pause icon over the center of the game
+                      Positioned(
+                        // positions button with width of button in mind
+                        top: MediaQuery.of(context).size.height / 2 - 72.0,
+                        right: MediaQuery.of(context).size.width / 2 - 72.0,
+                        child: const Icon(
+                          Icons.pause_circle,
+                          size: 144.0,
+                          color: Colors.black12,
+                        ),
+                      ),
+                  ],
+                ),
+              );
+            }
+          }
+      - name: Add lib/game/widgets/main_menu_overlay.dart
+        path: doodle_dash/lib/game/widgets/main_menu_overlay.dart
+        replace-contents: |
+          // Copyright 2022 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+          
+          import 'package:flame/game.dart';
+          import 'package:flutter/material.dart';
+          
+          import '../doodle_dash.dart';
+          
+          // Overlay that appears for the main menu
+          
+          class MainMenuOverlay extends StatefulWidget {
+            const MainMenuOverlay(this.game, {super.key});
+          
+            final Game game;
+          
+            @override
+            State<MainMenuOverlay> createState() => _MainMenuOverlayState();
+          }
+          
+          class _MainMenuOverlayState extends State<MainMenuOverlay> {
+            Character character = Character.dash;
+          
+            @override
+            Widget build(BuildContext context) {
+              DoodleDash game = widget.game as DoodleDash;
+          
+              return LayoutBuilder(builder: (context, constraints) {
+                final characterWidth = constraints.maxWidth / 5;
+          
+                final TextStyle titleStyle = (constraints.maxWidth > 830)
+                    ? Theme.of(context).textTheme.displayLarge!
+                    : Theme.of(context).textTheme.displaySmall!;
+          
+                // 760 is the smallest height the browser can have until the
+                // layout is too large to fit.
+                final bool screenHeightIsSmall = constraints.maxHeight < 760;
+          
+                return Material(
+                  child: Padding(
+                    padding: const EdgeInsets.all(24.0),
+                    child: Center(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Doodle Dash',
+                              style: titleStyle.copyWith(
+                                height: .8,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                            const WhiteSpace(),
+                            Align(
+                              alignment: Alignment.center,
+                              child: Text('Select your character:',
+                                  style: Theme.of(context).textTheme.headlineSmall!),
+                            ),
+                            if (!screenHeightIsSmall) const WhiteSpace(height: 30),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                CharacterButton(
+                                  character: Character.dash,
+                                  selected: character == Character.dash,
+                                  onSelectChar: () {
+                                    setState(() {
+                                      character = Character.dash;
+                                    });
+                                  },
+                                  characterWidth: characterWidth,
+                                ),
+                                CharacterButton(
+                                  character: Character.sparky,
+                                  selected: character == Character.sparky,
+                                  onSelectChar: () {
+                                    setState(() {
+                                      character = Character.sparky;
+                                    });
+                                  },
+                                  characterWidth: characterWidth,
+                                ),
+                              ],
+                            ),
+                            if (!screenHeightIsSmall) const WhiteSpace(height: 50),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text('Difficulty:',
+                                    style: Theme.of(context).textTheme.bodyLarge!),
+                                LevelPicker(
+                                  level: game.levelManager.selectedLevel.toDouble(),
+                                  label: game.levelManager.selectedLevel.toString(),
+                                  onChanged: ((value) {
+                                    setState(() {
+                                      game.levelManager.selectLevel(value.toInt());
+                                    });
+                                  }),
+                                ),
+                              ],
+                            ),
+                            if (!screenHeightIsSmall) const WhiteSpace(height: 50),
+                            Center(
+                              child: ElevatedButton(
+                                onPressed: () async {
+                                  game.gameManager.selectCharacter(character);
+                                  game.startGame();
+                                },
+                                style: ButtonStyle(
+                                  minimumSize: MaterialStateProperty.all(
+                                    const Size(100, 50),
+                                  ),
+                                  textStyle: MaterialStateProperty.all(
+                                      Theme.of(context).textTheme.titleLarge),
+                                ),
+                                child: const Text('Start'),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              });
+            }
+          }
+          
+          class LevelPicker extends StatelessWidget {
+            const LevelPicker({
+              super.key,
+              required this.level,
+              required this.label,
+              required this.onChanged,
+            });
+          
+            final double level;
+            final String label;
+            final Function(double) onChanged;
+          
+            @override
+            Widget build(BuildContext context) {
+              return Expanded(
+                  child: Slider(
+                value: level,
+                max: 5,
+                min: 1,
+                divisions: 4,
+                label: label,
+                onChanged: onChanged,
+              ));
+            }
+          }
+          
+          class CharacterButton extends StatelessWidget {
+            const CharacterButton(
+                {super.key,
+                required this.character,
+                this.selected = false,
+                required this.onSelectChar,
+                required this.characterWidth});
+          
+            final Character character;
+            final bool selected;
+            final Function() onSelectChar;
+            final double characterWidth;
+          
+            @override
+            Widget build(BuildContext context) {
+              return OutlinedButton(
+                style: (selected)
+                    ? ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            const Color.fromARGB(31, 64, 195, 255)))
+                    : null,
+                onPressed: onSelectChar,
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    children: [
+                      Image.asset(
+                        'assets/images/game/${character.name}_center.png',
+                        height: characterWidth,
+                        width: characterWidth,
+                      ),
+                      const WhiteSpace(height: 18),
+                      Text(
+                        character.name,
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }
+          }
+          
+          class WhiteSpace extends StatelessWidget {
+            const WhiteSpace({super.key, this.height = 100});
+          
+            final double height;
+          
+            @override
+            Widget build(BuildContext context) {
+              return SizedBox(
+                height: height,
+              );
+            }
+          }
+      - name: Add lib/game/widgets/score_display.dart
+        path: doodle_dash/lib/game/widgets/score_display.dart
+        replace-contents: |
+          // Copyright 2022 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+          
+          import 'package:flame/game.dart';
+          import 'package:flutter/material.dart';
+          
+          import '../doodle_dash.dart';
+          
+          class ScoreDisplay extends StatelessWidget {
+            const ScoreDisplay({super.key, required this.game, this.isLight = false});
+          
+            final Game game;
+            final bool isLight;
+          
+            @override
+            Widget build(BuildContext context) {
+              return ValueListenableBuilder(
+                valueListenable: (game as DoodleDash).gameManager.score,
+                builder: (context, value, child) {
+                  return Text('Score: $value',
+                      style: Theme.of(context).textTheme.displaySmall!);
+                },
+              );
+            }
+          }
+      - name: Add lib/game/widgets/widgets.dart
+        path: doodle_dash/lib/game/widgets/widgets.dart
+        replace-contents: |
+          // Copyright 2022 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+          
+          export 'game_over_overlay.dart';
+          export 'game_overlay.dart';
+          export 'main_menu_overlay.dart';
+          export 'score_display.dart';
+      - name: Patch pubspec.yaml
+        path: doodle_dash/pubspec.yaml
+        patch-u: |
+          --- b/flame-building-doodle-dash/step_02/pubspec.yaml
+          +++ a/flame-building-doodle-dash/step_02/pubspec.yaml
+          @@ -61,9 +61,9 @@ flutter:
+             uses-material-design: true
+           
+             # To add assets to your application, add an assets section, like this:
+          -  # assets:
+          -  #   - images/a_dot_burr.jpeg
+          -  #   - images/a_dot_ham.jpeg
+          +  assets:
+          +    - assets/images/game/
+          +    - assets/images/game/background/
+           
+             # An image asset can refer to one or more resolution-specific "variants", see
+             # https://flutter.dev/assets-and-images/#resolution-aware
+      - name: Patch DebugProfile.entitlements
+        path: doodle_dash/macos/Runner/DebugProfile.entitlements
+        patch-u: |
+          --- b/flame-building-doodle-dash/step_02/macos/Runner/DebugProfile.entitlements
+          +++ a/flame-building-doodle-dash/step_02/macos/Runner/DebugProfile.entitlements
+          @@ -8,5 +8,7 @@
+           	<true/>
+           	<key>com.apple.security.network.server</key>
+           	<true/>
+          +	<key>com.apple.security.network.client</key>
+          +<true/>
+           </dict>
+           </plist>
+      - name: Patch Release.entitlements
+        path: doodle_dash/macos/Runner/Release.entitlements
+        patch-u: |
+          --- b/flame-building-doodle-dash/step_02/macos/Runner/Release.entitlements
+          +++ a/flame-building-doodle-dash/step_02/macos/Runner/Release.entitlements
+          @@ -4,5 +4,7 @@
+           <dict>
+           	<key>com.apple.security.app-sandbox</key>
+           	<true/>
+          +	<key>com.apple.security.network.client</key>
+          +<true/>
+           </dict>
+           </plist>
+      - name: Patch web/index.html
+        path: doodle_dash/web/index.html
+        patch-u: |
+          --- b/flame-building-doodle-dash/step_02/web/index.html
+          +++ a/flame-building-doodle-dash/step_02/web/index.html
+          @@ -46,12 +46,11 @@
+                 _flutter.loader.loadEntrypoint({
+                   serviceWorker: {
+                     serviceWorkerVersion: serviceWorkerVersion,
+          -        },
+          -        onEntrypointLoaded: function(engineInitializer) {
+          -          engineInitializer.initializeEngine().then(function(appRunner) {
+          -            appRunner.runApp();
+          -          });
+                   }
+          +      }).then(function(engineInitializer) {
+          +        return engineInitializer.initializeEngine();
+          +      }).then(function(appRunner) {
+          +        return appRunner.runApp();
+                 });
+               });
+             </script>
+      - name: Add web/404.html
+        path: doodle_dash/web/404.html
+        replace-contents: |
+          <!DOCTYPE html>
+          <html>
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Page Not Found</title>
+          
+              <style media="screen">
+                body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
+                #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px 16px; border-radius: 3px; }
+                #message h3 { color: #888; font-weight: normal; font-size: 16px; margin: 16px 0 12px; }
+                #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
+                #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
+                #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
+                #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
+                #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
+                #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
+                @media (max-width: 600px) {
+                  body, #message { margin-top: 0; background: white; box-shadow: none; }
+                  body { border-top: 16px solid #ffa100; }
+                }
+              </style>
+            </head>
+            <body>
+              <div id="message">
+                <h2>404</h2>
+                <h1>Page Not Found</h1>
+                <p>The specified file was not found on this website. Please check the URL for mistakes and try again.</p>
+                <h3>Why am I seeing this?</h3>
+                <p>This page was generated by the Firebase Command-Line Interface. To modify it, edit the <code>404.html</code> file in your project's configured <code>public</code> directory.</p>
+              </div>
+            </body>
+          </html>
+      - name: Remove test/widget_test.dart
+        path: doodle_dash
+        rm: test/widget_test.dart
+      - name: Mkdir doodle_dash/assets/images/game
+        mkdir: doodle_dash/assets/images/game
+      - name: Add assets/images/game/dash_center.png
+        path: doodle_dash/assets/images/game/dash_center.png
+        base64-contents: |
+          iVBORw0KGgoAAAANSUhEUgAAAwwAAARyCAYAAAAK8HJEAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNS
+          R0IArs4c6QAAAARnQU1BAACxjwv8YQUAAISOSURBVHgB7P0JvF3nXR96P2sfHVmTJSsekWMsx8GxnVAb
+          SELaW7ACfSHBSew0KSV0sFLoe0unKJT2tsAlO23pLbcUlPbelt5SIre00GaSSxj7lsjh/bRAEiK/JPEQ
+          EkvEdjxGgyVrODp7vfu/z9nWkXzms9bea/h+PxykWIqTyOes8/zWf3hSAgAAAAAAAAAAAAAAAAAAAAAA
+          AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+          AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+          AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+          AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+          AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+          AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+          AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+          AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+          AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+          AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+          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
+          /2plSaLxhdTeAAAAAElFTkSuQmCC
+      - name: Build iOS simulator bundle
+        platforms: [ macos ]
+        path: doodle_dash
+        flutter: build ios --simulator
+      - name: Build macOS app
+        platforms: [ macos ]
+        path: doodle_dash
+        flutter: build macos
+      - name: Build Linux app
+        platforms: [ linux ]
+        path: doodle_dash
+        flutter: build linux
+      - name: Build Windows app
+        platforms: [ windows ]
+        path: doodle_dash
+        flutter: build windows
+      - name: Copy step_02
+        copydir:
+          from: doodle_dash
+          to: step_02
+      - name: Flutter clean
+        path: step_02
+        flutter: clean
+  - name: Cleanup
+    rmdir: doodle_dash
