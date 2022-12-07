@@ -87,6 +87,10 @@ steps:
       - name: Replace lib/main.dart
         path: webview_in_flutter/lib/main.dart
         replace-contents: |
+          // Copyright 2022 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+
           import 'package:flutter/material.dart';
           import 'package:webview_flutter/webview_flutter.dart';
 
@@ -118,10 +122,13 @@ steps:
               );
             }
           }
-
       - name: Replace test/widget_test.dart
         path: webview_in_flutter/test/widget_test.dart
         replace-contents: |
+          // Copyright 2022 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+
           // This is a basic Flutter widget test.
           //
           // To perform an interaction with a widget in your test, use the WidgetTester
@@ -154,7 +161,6 @@ steps:
                    targetSdkVersion flutter.targetSdkVersion
                    versionCode flutterVersionCode.toInteger()
                    versionName flutterVersionName
-
       - name: Copy step_04
         copydir:
           from: webview_in_flutter
@@ -163,13 +169,16 @@ steps:
     steps:
       - name: Remove generated code.
         rmdir: step_05
-
       - name: Make lib/src
         path: webview_in_flutter
         mkdir: lib/src
       - name: Replace lib/src/web_view_stack.dart
         path: webview_in_flutter/lib/src/web_view_stack.dart
         replace-contents: |
+          // Copyright 2022 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+
           import 'package:flutter/material.dart';
           import 'package:webview_flutter/webview_flutter.dart';
 
@@ -213,13 +222,14 @@ steps:
               );
             }
           }
-
       - name: Patch lib/main.dart
         path: webview_in_flutter/lib/main.dart
         patch-u: |
           --- b/webview_flutter/step_05/lib/main.dart
           +++ a/webview_flutter/step_05/lib/main.dart
-          @@ -1,5 +1,6 @@
+          @@ -3,7 +3,8 @@
+           // found in the LICENSE file.
+           
            import 'package:flutter/material.dart';
           -import 'package:webview_flutter/webview_flutter.dart';
           +
@@ -227,7 +237,7 @@ steps:
            
            void main() {
              runApp(
-          @@ -23,9 +24,7 @@ class _WebViewAppState extends State<WebViewApp> {
+          @@ -27,9 +28,7 @@ class _WebViewAppState extends State<WebViewApp> {
                  appBar: AppBar(
                    title: const Text('Flutter WebView'),
                  ),
@@ -238,7 +248,6 @@ steps:
                );
              }
            }
-
       - name: Copy step_05
         copydir:
           from: webview_in_flutter
@@ -250,6 +259,10 @@ steps:
       - name: Create lib/src/navigation_controls.dart
         path: webview_in_flutter/lib/src/navigation_controls.dart
         replace-contents: |
+          // Copyright 2022 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+
           import 'dart:async';
           import 'package:flutter/material.dart';
           import 'package:webview_flutter/webview_flutter.dart';
@@ -318,14 +331,15 @@ steps:
               );
             }
           }
-
-
       - name: Patch lib/main.dart
         path: webview_in_flutter/lib/main.dart
-        patch-u: | 
+        patch-u: |
           --- b/webview_flutter/step_06/lib/main.dart
           +++ a/webview_flutter/step_06/lib/main.dart
-          @@ -1,5 +1,9 @@
+          @@ -2,8 +2,12 @@
+           // Use of this source code is governed by a BSD-style license that can be
+           // found in the LICENSE file.
+           
           +import 'dart:async';
           +
            import 'package:flutter/material.dart';
@@ -335,7 +349,7 @@ steps:
            import 'src/web_view_stack.dart';
            
            void main() {
-          @@ -18,13 +22,18 @@ class WebViewApp extends StatefulWidget {
+          @@ -22,13 +26,18 @@ class WebViewApp extends StatefulWidget {
            }
            
            class _WebViewAppState extends State<WebViewApp> {
@@ -355,13 +369,15 @@ steps:
                );
              }
            }
-      
       - name: Patch lib/src/web_view_stack.dart
         path: webview_in_flutter/lib/src/web_view_stack.dart
         patch-u: |
           --- b/webview_flutter/step_06/lib/src/web_view_stack.dart
           +++ a/webview_flutter/step_06/lib/src/web_view_stack.dart
-          @@ -1,8 +1,11 @@
+          @@ -2,11 +2,14 @@
+           // Use of this source code is governed by a BSD-style license that can be
+           // found in the LICENSE file.
+           
           +import 'dart:async';
            import 'package:flutter/material.dart';
            import 'package:webview_flutter/webview_flutter.dart';
@@ -374,7 +390,7 @@ steps:
            
              @override
              State<WebViewStack> createState() => _WebViewStackState();
-          @@ -17,6 +20,9 @@ class _WebViewStackState extends State<WebViewStack> {
+          @@ -21,6 +24,9 @@ class _WebViewStackState extends State<WebViewStack> {
                  children: [
                    WebView(
                      initialUrl: 'https://flutter.dev',
@@ -384,7 +400,6 @@ steps:
                      onPageStarted: (url) {
                        setState(() {
                          loadingPercentage = 0;
-
       - name: Copy step_06
         copydir:
           from: webview_in_flutter
@@ -398,7 +413,7 @@ steps:
         patch-u: |
           --- b/webview_flutter/step_07/lib/src/web_view_stack.dart
           +++ a/webview_flutter/step_07/lib/src/web_view_stack.dart
-          @@ -38,6 +38,20 @@ class _WebViewStackState extends State<WebViewStack> {
+          @@ -42,6 +42,20 @@ class _WebViewStackState extends State<WebViewStack> {
                          loadingPercentage = 100;
                        });
                      },
@@ -419,7 +434,6 @@ steps:
                    ),
                    if (loadingPercentage < 100)
                      LinearProgressIndicator(
-
       - name: Copy step_07
         copydir:
           from: webview_in_flutter
@@ -431,6 +445,10 @@ steps:
       - name: Add lib/src/menu.dart
         path: webview_in_flutter/lib/src/menu.dart
         replace-contents: |
+          // Copyright 2022 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+
           import 'dart:async';
           import 'package:flutter/material.dart';
           import 'package:webview_flutter/webview_flutter.dart';
@@ -468,13 +486,12 @@ steps:
               );
             }
           }
-
       - name: Patch lib/main.dart
         path: webview_in_flutter/lib/main.dart
         patch-u: |
           --- b/webview_flutter/step_08/lib/main.dart
           +++ a/webview_flutter/step_08/lib/main.dart
-          @@ -3,6 +3,7 @@ import 'dart:async';
+          @@ -7,6 +7,7 @@ import 'dart:async';
            import 'package:flutter/material.dart';
            import 'package:webview_flutter/webview_flutter.dart';
            
@@ -482,7 +499,7 @@ steps:
            import 'src/navigation_controls.dart';
            import 'src/web_view_stack.dart';
            
-          @@ -31,6 +32,7 @@ class _WebViewAppState extends State<WebViewApp> {
+          @@ -35,6 +36,7 @@ class _WebViewAppState extends State<WebViewApp> {
                    title: const Text('Flutter WebView'),
                    actions: [
                      NavigationControls(controller: controller),
@@ -490,7 +507,6 @@ steps:
                    ],
                  ),
                  body: WebViewStack(controller: controller),
-
       - name: Copy step_08
         copydir:
           from: webview_in_flutter
@@ -499,13 +515,12 @@ steps:
     steps:
       - name: Remove step_09
         rmdir: step_09
-
       - name: Patch lib/src/menu.dart
         path: webview_in_flutter/lib/src/menu.dart
         patch-u: |
           --- b/webview_flutter/step_09/lib/src/menu.dart
           +++ a/webview_flutter/step_09/lib/src/menu.dart
-          @@ -4,17 +4,23 @@ import 'package:webview_flutter/webview_flutter.dart';
+          @@ -8,17 +8,23 @@ import 'package:webview_flutter/webview_flutter.dart';
            
            enum _MenuOptions {
              navigationDelegate,
@@ -531,7 +546,7 @@ steps:
                  builder: (context, controller) {
                    return PopupMenuButton<_MenuOptions>(
                      onSelected: (value) async {
-          @@ -22,6 +28,14 @@ class Menu extends StatelessWidget {
+          @@ -26,6 +32,14 @@ class Menu extends StatelessWidget {
                          case _MenuOptions.navigationDelegate:
                            await controller.data!.loadUrl('https://youtube.com');
                            break;
@@ -546,7 +561,7 @@ steps:
                        }
                      },
                      itemBuilder: (context) => [
-          @@ -29,6 +43,10 @@ class Menu extends StatelessWidget {
+          @@ -33,6 +47,10 @@ class Menu extends StatelessWidget {
                          value: _MenuOptions.navigationDelegate,
                          child: Text('Navigate to YouTube'),
                        ),
@@ -557,13 +572,12 @@ steps:
                      ],
                    );
                  },
-
       - name: Patch lib/src/web_view_stack.dart
         path: webview_in_flutter/lib/src/web_view_stack.dart
         patch-u: |
           --- b/webview_flutter/step_09/lib/src/web_view_stack.dart
           +++ a/webview_flutter/step_09/lib/src/web_view_stack.dart
-          @@ -52,6 +52,7 @@ class _WebViewStackState extends State<WebViewStack> {
+          @@ -56,6 +56,7 @@ class _WebViewStackState extends State<WebViewStack> {
                        }
                        return NavigationDecision.navigate;
                      },
@@ -571,22 +585,20 @@ steps:
                    ),
                    if (loadingPercentage < 100)
                      LinearProgressIndicator(
-
       - name: Copy step_09
         copydir:
           from: webview_in_flutter
           to: step_09
   - name: step_10
     steps:
-      - name: Remove step_06
+      - name: Remove step_10
         rmdir: step_10
-
       - name: Patch lib/src/menu.dart
         path: webview_in_flutter/lib/src/menu.dart
         patch-u: |
           --- b/webview_flutter/step_10/lib/src/menu.dart
           +++ a/webview_flutter/step_10/lib/src/menu.dart
-          @@ -5,6 +5,7 @@ import 'package:webview_flutter/webview_flutter.dart';
+          @@ -9,6 +9,7 @@ import 'package:webview_flutter/webview_flutter.dart';
            enum _MenuOptions {
              navigationDelegate,
              userAgent,
@@ -594,7 +606,7 @@ steps:
            }
            
            class Menu extends StatefulWidget {
-          @@ -36,6 +37,20 @@ class _MenuState extends State<Menu> {
+          @@ -40,6 +41,20 @@ class _MenuState extends State<Menu> {
                              content: Text(userAgent),
                            ));
                            break;
@@ -615,7 +627,7 @@ steps:
                        }
                      },
                      itemBuilder: (context) => [
-          @@ -47,6 +62,10 @@ class _MenuState extends State<Menu> {
+          @@ -51,6 +66,10 @@ class _MenuState extends State<Menu> {
                          value: _MenuOptions.userAgent,
                          child: Text('Show user-agent'),
                        ),
@@ -626,13 +638,12 @@ steps:
                      ],
                    );
                  },
-
       - name: Patch lib/src/web_view_stack.dart
         path: webview_in_flutter/lib/src/web_view_stack.dart
         patch-u: |
           --- b/webview_flutter/step_10/lib/src/web_view_stack.dart
           +++ a/webview_flutter/step_10/lib/src/web_view_stack.dart
-          @@ -53,6 +53,7 @@ class _WebViewStackState extends State<WebViewStack> {
+          @@ -57,6 +57,7 @@ class _WebViewStackState extends State<WebViewStack> {
                        return NavigationDecision.navigate;
                      },
                      javascriptMode: JavascriptMode.unrestricted,
@@ -640,7 +651,7 @@ steps:
                    ),
                    if (loadingPercentage < 100)
                      LinearProgressIndicator(
-          @@ -61,4 +62,16 @@ class _WebViewStackState extends State<WebViewStack> {
+          @@ -65,4 +66,16 @@ class _WebViewStackState extends State<WebViewStack> {
                  ],
                );
              }
@@ -657,7 +668,6 @@ steps:
           +    };
           +  }
            }
-
       - name: Copy step_10
         copydir:
           from: webview_in_flutter
@@ -666,13 +676,12 @@ steps:
     steps:
       - name: Remove step_11
         rmdir: step_11
-
       - name: Patch lib/src/menu.dart
         path: webview_in_flutter/lib/src/menu.dart
         patch-u: |
           --- b/webview_flutter/step_11/lib/src/menu.dart
           +++ a/webview_flutter/step_11/lib/src/menu.dart
-          @@ -6,6 +6,11 @@ enum _MenuOptions {
+          @@ -10,6 +10,11 @@ enum _MenuOptions {
              navigationDelegate,
              userAgent,
              javascriptChannel,
@@ -684,7 +693,7 @@ steps:
            }
            
            class Menu extends StatefulWidget {
-          @@ -18,6 +23,8 @@ class Menu extends StatefulWidget {
+          @@ -22,6 +27,8 @@ class Menu extends StatefulWidget {
            }
            
            class _MenuState extends State<Menu> {
@@ -693,7 +702,7 @@ steps:
              @override
              Widget build(BuildContext context) {
                return FutureBuilder<WebViewController>(
-          @@ -51,6 +58,21 @@ req.onload = function() {
+          @@ -55,6 +62,21 @@ req.onload = function() {
            }
            req.send();''');
                            break;
@@ -715,7 +724,7 @@ steps:
                        }
                      },
                      itemBuilder: (context) => [
-          @@ -66,9 +88,89 @@ req.send();''');
+          @@ -70,9 +92,89 @@ req.send();''');
                          value: _MenuOptions.javascriptChannel,
                          child: Text('Lookup IP Address'),
                        ),
@@ -805,8 +814,6 @@ steps:
           +    );
           +  }
            }
-
-
       - name: Copy step_11
         copydir:
           from: webview_in_flutter
@@ -838,7 +845,9 @@ steps:
         patch-u: |
           --- b/webview_flutter/step_12/lib/src/menu.dart
           +++ a/webview_flutter/step_12/lib/src/menu.dart
-          @@ -1,7 +1,28 @@
+          @@ -3,9 +3,30 @@
+           // found in the LICENSE file.
+           
            import 'dart:async';
           +import 'dart:io';
            import 'package:flutter/material.dart';
@@ -867,7 +876,7 @@ steps:
            enum _MenuOptions {
              navigationDelegate,
              userAgent,
-          @@ -11,10 +32,13 @@ enum _MenuOptions {
+          @@ -15,10 +36,13 @@ enum _MenuOptions {
              addCookie,
              setCookie,
              removeCookie,
@@ -882,7 +891,7 @@ steps:
            
              final Completer<WebViewController> controller;
            
-          @@ -73,6 +97,15 @@ req.send();''');
+          @@ -77,6 +101,15 @@ req.send();''');
                          case _MenuOptions.removeCookie:
                            await _onRemoveCookie(controller.data!);
                            break;
@@ -898,7 +907,7 @@ steps:
                        }
                      },
                      itemBuilder: (context) => [
-          @@ -108,6 +141,18 @@ req.send();''');
+          @@ -112,6 +145,18 @@ req.send();''');
                          value: _MenuOptions.removeCookie,
                          child: Text('Remove cookie'),
                        ),
@@ -917,7 +926,7 @@ steps:
                      ],
                    );
                  },
-          @@ -173,4 +218,31 @@ req.send();''');
+          @@ -177,4 +222,31 @@ req.send();''');
                  ),
                );
              }
