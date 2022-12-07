@@ -18,12 +18,6 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
   double maxVerticalDistanceToNextPlatform;
   final probGen = ProbabilityGenerator();
 
-  @override
-  // ignore: unnecessary_overrides
-  void update(double dt) {
-    super.update(dt);
-  }
-
   // Exposes a way for the DoodleDash component to change difficulty mid-game
   void configure(int nextLevel, Difficulty config) {
     minVerticalDistanceToNextPlatform = gameRef.levelManager.minDistance;

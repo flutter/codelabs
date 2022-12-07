@@ -1,3 +1,7 @@
+// Copyright 2022 The Flutter Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -49,7 +53,6 @@ class _MyHomePageState extends State<MyHomePage> {
         child: LayoutBuilder(builder: (context, constraints) {
           return Container(
             constraints: const BoxConstraints(
-              // 1000 is arbitrary, should be tweaked (todo eric)
               // 550 is the smallest Chrome will allow you to make the window
               maxWidth: 800,
               minWidth: 550,

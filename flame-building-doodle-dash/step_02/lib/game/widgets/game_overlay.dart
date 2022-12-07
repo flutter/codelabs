@@ -9,7 +9,6 @@ import '../doodle_dash.dart';
 import 'widgets.dart';
 
 // Overlay that shows up during an active game
-
 class GameOverlay extends StatefulWidget {
   const GameOverlay(this.game, {super.key});
 

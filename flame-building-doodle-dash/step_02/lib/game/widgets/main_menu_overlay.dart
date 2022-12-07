@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import '../doodle_dash.dart';
 
 // Overlay that appears for the main menu
-
 class MainMenuOverlay extends StatefulWidget {
   const MainMenuOverlay(this.game, {super.key});
 
