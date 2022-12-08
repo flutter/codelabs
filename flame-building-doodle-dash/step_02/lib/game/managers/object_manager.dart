@@ -1,4 +1,7 @@
-// ignore_for_file: unnecessary_overrides
+// Copyright 2022 The Flutter Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flame/components.dart';
 
 import './managers.dart';
@@ -14,11 +17,6 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
   double minVerticalDistanceToNextPlatform;
   double maxVerticalDistanceToNextPlatform;
   final probGen = ProbabilityGenerator();
-
-  @override
-  void update(double dt) {
-    super.update(dt);
-  }
 
   // Exposes a way for the DoodleDash component to change difficulty mid-game
   void configure(int nextLevel, Difficulty config) {

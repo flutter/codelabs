@@ -1,9 +1,13 @@
+// Copyright 2022 The Flutter Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 
 import '../doodle_dash.dart';
-// Overlay that appears for the main menu
 
+// Overlay that appears for the main menu
 class MainMenuOverlay extends StatefulWidget {
   const MainMenuOverlay(this.game, {super.key});
 
