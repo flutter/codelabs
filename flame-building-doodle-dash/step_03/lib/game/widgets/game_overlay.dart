@@ -1,3 +1,7 @@
+// Copyright 2022 The Flutter Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 
@@ -5,7 +9,6 @@ import '../doodle_dash.dart';
 import 'widgets.dart';
 
 // Overlay that shows up during an active game
-
 class GameOverlay extends StatefulWidget {
   const GameOverlay(this.game, {super.key});
 

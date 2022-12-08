@@ -1,3 +1,7 @@
+// Copyright 2022 The Flutter Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flutter/material.dart';
@@ -37,6 +41,7 @@ class DoodleDash extends FlameGame
   @override
   void update(double dt) {
     super.update(dt);
+
     // show the main menu when the game launches
     // And return so the engine doesn't  update as long as the menu is up.
     if (gameManager.isIntro) {
