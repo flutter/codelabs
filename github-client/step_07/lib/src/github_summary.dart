@@ -109,7 +109,7 @@ class _RepositoriesListState extends State<RepositoriesList> {
               title:
                   Text('${repository.owner?.login ?? ''}/${repository.name}'),
               subtitle: Text(repository.description),
-              onTap: () => _launchUrl(context, repository.htmlUrl),
+              onTap: () => _launchUrl(this, repository.htmlUrl),
             );
           },
           itemCount: repositories!.length,
@@ -157,7 +157,7 @@ class _AssignedIssuesListState extends State<AssignedIssuesList> {
               subtitle: Text('${_nameWithOwner(assignedIssue)} '
                   'Issue #${assignedIssue.number} '
                   'opened by ${assignedIssue.user?.login ?? ''}'),
-              onTap: () => _launchUrl(context, assignedIssue.htmlUrl),
+              onTap: () => _launchUrl(this, assignedIssue.htmlUrl),
             );
           },
           itemCount: assignedIssues!.length,
@@ -213,7 +213,7 @@ class _PullRequestsListState extends State<PullRequestsList> {
                   'PR #${pullRequest.number} '
                   'opened by ${pullRequest.user?.login ?? ''} '
                   '(${pullRequest.state?.toLowerCase() ?? ''})'),
-              onTap: () => _launchUrl(context, pullRequest.htmlUrl ?? ''),
+              onTap: () => _launchUrl(this, pullRequest.htmlUrl ?? ''),
             );
           },
           itemCount: pullRequests!.length,
@@ -223,24 +223,26 @@ class _PullRequestsListState extends State<PullRequestsList> {
   }
 }
 
-Future<void> _launchUrl(BuildContext context, String url) async {
+Future<void> _launchUrl(State state, String url) async {
   if (await canLaunchUrlString(url)) {
     await launchUrlString(url);
   } else {
-    return showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Navigation error'),
-        content: Text('Could not launch $url'),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: const Text('Close'),
-          ),
-        ],
-      ),
-    );
+    if (state.mounted) {
+      return showDialog(
+        context: state.context,
+        builder: (context) => AlertDialog(
+          title: const Text('Navigation error'),
+          content: Text('Could not launch $url'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Close'),
+            ),
+          ],
+        ),
+      );
+    }
   }
 }
