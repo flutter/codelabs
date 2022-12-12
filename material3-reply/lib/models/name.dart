@@ -7,5 +7,4 @@ class Name {
   final String first;
   final String last;
   String get fullName => "$first $last";
-  String get initials => throw UnimplementedError();
 }
