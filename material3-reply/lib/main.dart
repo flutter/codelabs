@@ -18,7 +18,7 @@ void main() {
 }
 
 class _Destination {
-  const _Destination(this.icon,  this.label);
+  const _Destination(this.icon, this.label);
   final IconData icon;
   final String label;
 }
@@ -84,10 +84,9 @@ class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
 
   late final ReverseAnimation barAnimation = ReverseAnimation(
     CurvedAnimation(
-      parent: controller,
-      curve: const Interval(0, 1 / 5),
-      reverseCurve: const Interval(1 / 5, 4 / 5)
-    ),
+        parent: controller,
+        curve: const Interval(0, 1 / 5),
+        reverseCurve: const Interval(1 / 5, 4 / 5)),
   );
 
   int selectedIndex = 0;
@@ -100,11 +99,13 @@ class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
     final double width = MediaQuery.of(context).size.width;
     final AnimationStatus status = controller.status;
     if (width > 600) {
-      if (status != AnimationStatus.forward && status != AnimationStatus.completed) {
+      if (status != AnimationStatus.forward &&
+          status != AnimationStatus.completed) {
         controller.forward();
       }
     } else {
-      if (status != AnimationStatus.reverse && status != AnimationStatus.dismissed) {
+      if (status != AnimationStatus.reverse &&
+          status != AnimationStatus.dismissed) {
         controller.reverse();
       }
     }
@@ -123,126 +124,130 @@ class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-      animation: controller,
-      builder: (BuildContext context, Widget? child) {
-        return Scaffold(
-          body: Row(
-            children: <Widget>[
-              NavRailTransition(
-                animation: railAnimation,
-                backgroundColor: backgroundColor,
-                child: NavigationRail(
-                  selectedIndex: selectedIndex,
+        animation: controller,
+        builder: (BuildContext context, Widget? child) {
+          return Scaffold(
+            body: Row(
+              children: <Widget>[
+                NavRailTransition(
+                  animation: railAnimation,
                   backgroundColor: backgroundColor,
-                  onDestinationSelected: (int index) {
-                    setState(() {
-                      selectedIndex = index;
-                    });
-                  },
-                  leading: Column(
-                    children: <Widget>[
-                      IconButton(
-                        onPressed: () { },
-                        icon: const Icon(Icons.menu),
-                      ),
-                      const SizedBox(height: 8),
-                      AnimatedFloatingActionButton(
-                        animation: railFabAnimation,
-                        elevation: 0,
-                        onPressed: () { },
-                        child: const Icon(Icons.add),
-                      ),
-                    ],
-                  ),
-                  groupAlignment: -0.85,
-                  destinations: _destinations.map<NavigationRailDestination>((_Destination d) {
-                    return NavigationRailDestination(
-                      icon: Icon(d.icon),
-                      label: Text(d.label),
-                    );
-                  }).toList(),
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  color: backgroundColor,
-                  child: ListDetailTransition(
-                    animation: railAnimation,
-                    one: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: ListView(
-                        children: [
-                          const Padding(padding: EdgeInsets.only(bottom: 8.0)),
-                          SearchBar(currentUser: widget.currentUser),
-                          const Padding(padding: EdgeInsets.only(bottom: 8.0)),
-                          ...List.generate(data.emails.length, (int index) {
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 8.0),
-                              child: EmailWidget(
-                                email: data.emails[index],
-                                onSelected: () {
-                                  setState(() {
-                                    selectedIndex = index;
-                                  });
-                                },
-                                selected: selectedIndex == index,
-                              ),
-                            );
-                          }),
-                        ],
-                      ),
+                  child: NavigationRail(
+                    selectedIndex: selectedIndex,
+                    backgroundColor: backgroundColor,
+                    onDestinationSelected: (int index) {
+                      setState(() {
+                        selectedIndex = index;
+                      });
+                    },
+                    leading: Column(
+                      children: <Widget>[
+                        IconButton(
+                          onPressed: () {},
+                          icon: const Icon(Icons.menu),
+                        ),
+                        const SizedBox(height: 8),
+                        AnimatedFloatingActionButton(
+                          animation: railFabAnimation,
+                          elevation: 0,
+                          onPressed: () {},
+                          child: const Icon(Icons.add),
+                        ),
+                      ],
                     ),
-                    two: Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
-                      child: ListView(
-                        children:  [
-                          const Padding(padding: EdgeInsets.only(bottom: 8.0)),
-                          ...List.generate(data.replies.length, (int index) {
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 8.0),
-                              child: EmailWidget(
-                                email: data.replies[index],
-                                isPreview: false,
-                                isThreaded: true,
-                                showHeadline: index == 0,
-                              ),
-                            );
-                          }),
-                        ],
-                      ),
-                    ),
+                    groupAlignment: -0.85,
+                    destinations: _destinations
+                        .map<NavigationRailDestination>((_Destination d) {
+                      return NavigationRailDestination(
+                        icon: Icon(d.icon),
+                        label: Text(d.label),
+                      );
+                    }).toList(),
                   ),
                 ),
-              ),
-            ],
-          ),
-          floatingActionButton: AnimatedFloatingActionButton(
-            animation: barAnimation,
-            onPressed: () { },
-            child: const Icon(Icons.add),
-          ),
-          bottomNavigationBar: BottomBarTransition(
-            animation: barAnimation,
-            backgroundColor: Colors.white,
-            child: NavigationBar(
-              elevation: 0,
-              backgroundColor: Colors.white,
-              destinations: _destinations.map<NavigationDestination>((_Destination d) {
-                return NavigationDestination(
-                  icon: Icon(d.icon),
-                  label: d.label,
-                );
-              }).toList(),
-              selectedIndex: selectedIndex,
-              onDestinationSelected: (int index) {
-                setState(() {
-                  selectedIndex = index;
-                });
-              },
+                Expanded(
+                  child: Container(
+                    color: backgroundColor,
+                    child: ListDetailTransition(
+                      animation: railAnimation,
+                      one: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: ListView(
+                          children: [
+                            const Padding(
+                                padding: EdgeInsets.only(bottom: 8.0)),
+                            SearchBar(currentUser: widget.currentUser),
+                            const Padding(
+                                padding: EdgeInsets.only(bottom: 8.0)),
+                            ...List.generate(data.emails.length, (int index) {
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: 8.0),
+                                child: EmailWidget(
+                                  email: data.emails[index],
+                                  onSelected: () {
+                                    setState(() {
+                                      selectedIndex = index;
+                                    });
+                                  },
+                                  selected: selectedIndex == index,
+                                ),
+                              );
+                            }),
+                          ],
+                        ),
+                      ),
+                      two: Padding(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: ListView(
+                          children: [
+                            const Padding(
+                                padding: EdgeInsets.only(bottom: 8.0)),
+                            ...List.generate(data.replies.length, (int index) {
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: 8.0),
+                                child: EmailWidget(
+                                  email: data.replies[index],
+                                  isPreview: false,
+                                  isThreaded: true,
+                                  showHeadline: index == 0,
+                                ),
+                              );
+                            }),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ),
-        );
-      }
-    );
+            floatingActionButton: AnimatedFloatingActionButton(
+              animation: barAnimation,
+              onPressed: () {},
+              child: const Icon(Icons.add),
+            ),
+            bottomNavigationBar: BottomBarTransition(
+              animation: barAnimation,
+              backgroundColor: Colors.white,
+              child: NavigationBar(
+                elevation: 0,
+                backgroundColor: Colors.white,
+                destinations:
+                    _destinations.map<NavigationDestination>((_Destination d) {
+                  return NavigationDestination(
+                    icon: Icon(d.icon),
+                    label: d.label,
+                  );
+                }).toList(),
+                selectedIndex: selectedIndex,
+                onDestinationSelected: (int index) {
+                  setState(() {
+                    selectedIndex = index;
+                  });
+                },
+              ),
+            ),
+          );
+        });
   }
 }

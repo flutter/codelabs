@@ -23,14 +23,18 @@ class AnimatedFloatingActionButton extends StatefulWidget {
   final double? elevation;
 
   @override
-  State<AnimatedFloatingActionButton> createState() => _AnimatedFloatingActionButton();
-
+  State<AnimatedFloatingActionButton> createState() =>
+      _AnimatedFloatingActionButton();
 }
 
-class _AnimatedFloatingActionButton extends State<AnimatedFloatingActionButton> {
+class _AnimatedFloatingActionButton
+    extends State<AnimatedFloatingActionButton> {
   late final ColorScheme colorScheme = Theme.of(context).colorScheme;
-  late final Animation<double> scaleAnimation = ScaleAnimation(widget.animation);
-  late final Animation<double> shapeAnimation = ShapeAnimation(widget.animation,);
+  late final Animation<double> scaleAnimation =
+      ScaleAnimation(widget.animation);
+  late final Animation<double> shapeAnimation = ShapeAnimation(
+    widget.animation,
+  );
 
   @override
   Widget build(BuildContext context) {

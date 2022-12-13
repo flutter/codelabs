@@ -53,24 +53,22 @@ class _ListDetailTransitionState extends State<ListDetailTransition> {
 
     // Continue along the current animation curve if the
     // destionation flex factor has not changed.
-    if(nextFlexFactor == currentFlexFactor) {
+    if (nextFlexFactor == currentFlexFactor) {
       return;
     }
 
-    if(currentFlexFactor == 0) {
-      widthAnimation = Tween<double>(
-        begin: 0,
-        end: nextFlexFactor
-      ).animate(sizeAnimation);
+    if (currentFlexFactor == 0) {
+      widthAnimation =
+          Tween<double>(begin: 0, end: nextFlexFactor).animate(sizeAnimation);
     } else {
       final TweenSequence<double> sequence = TweenSequence([
-        if(sizeAnimation.value > 0) ...[
+        if (sizeAnimation.value > 0) ...[
           TweenSequenceItem(
             tween: Tween(begin: 0, end: widthAnimation.value),
             weight: sizeAnimation.value,
           ),
         ],
-        if(sizeAnimation.value < 1) ...[
+        if (sizeAnimation.value < 1) ...[
           TweenSequenceItem(
             tween: Tween(begin: widthAnimation.value, end: nextFlexFactor),
             weight: 1 - sizeAnimation.value,
@@ -87,21 +85,21 @@ class _ListDetailTransitionState extends State<ListDetailTransition> {
   @override
   Widget build(BuildContext context) {
     return widthAnimation.value.toInt() == 0
-      ? widget.one
-      : Row(
-        children: [
-          Flexible(
-            flex: 1000,
-            child: widget.one,
-          ),
-          Flexible(
-            flex: widthAnimation.value.toInt(),
-            child: FractionalTranslation(
-              translation: offsetAnimation.value,
-              child: widget.two,
-            ),
-          ),
-        ],
-      );
+        ? widget.one
+        : Row(
+            children: [
+              Flexible(
+                flex: 1000,
+                child: widget.one,
+              ),
+              Flexible(
+                flex: widthAnimation.value.toInt(),
+                child: FractionalTranslation(
+                  translation: offsetAnimation.value,
+                  child: widget.two,
+                ),
+              ),
+            ],
+          );
   }
 }

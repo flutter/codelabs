@@ -2,7 +2,6 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-
 enum MaterialDuration {
   short1(Duration(milliseconds: 50)),
   short2(Duration(milliseconds: 100)),
@@ -27,6 +26,5 @@ enum MaterialDuration {
 }
 
 extension DurationDivision on Duration {
-  double operator / (Duration other) =>
-      inMicroseconds / other.inMicroseconds;
+  double operator /(Duration other) => inMicroseconds / other.inMicroseconds;
 }

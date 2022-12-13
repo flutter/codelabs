@@ -7,7 +7,11 @@ import '../animation/offset_animation.dart';
 import '../animation/size_animation.dart';
 
 class BottomBarTransition extends StatefulWidget {
-  const BottomBarTransition({ super.key, required this.animation, required this.backgroundColor, required this.child });
+  const BottomBarTransition(
+      {super.key,
+      required this.animation,
+      required this.backgroundColor,
+      required this.child});
 
   final Animation<double> animation;
   final Color backgroundColor;
@@ -15,7 +19,6 @@ class BottomBarTransition extends StatefulWidget {
 
   @override
   State<BottomBarTransition> createState() => _BottomBarTransition();
-
 }
 
 class _BottomBarTransition extends State<BottomBarTransition> {

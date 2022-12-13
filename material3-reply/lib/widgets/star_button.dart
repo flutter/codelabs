@@ -15,9 +15,7 @@ class _StarButtonState extends State<StarButton> {
   bool state = false;
 
   Icon get icon {
-    final IconData iconData = state
-      ? Icons.star
-      : Icons.star_outline;
+    final IconData iconData = state ? Icons.star : Icons.star_outline;
 
     return Icon(
       iconData,

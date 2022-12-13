@@ -43,8 +43,8 @@ class _EmailWidgetState extends State<EmailWidget> {
   );
 
   Color get surfaceColor {
-    if(!widget.isPreview) return colorScheme.surface;
-    if(widget.selected) return colorScheme.primaryContainer;
+    if (!widget.isPreview) return colorScheme.surface;
+    if (widget.selected) return colorScheme.primaryContainer;
     return Color.alphaBlend(
       colorScheme.primary.withOpacity(0.08),
       colorScheme.surface,
@@ -53,17 +53,19 @@ class _EmailWidgetState extends State<EmailWidget> {
 
   String get lastActiveLabel {
     final DateTime now = DateTime.now();
-    if(widget.email.sender.lastActive.isAfter(now)) throw ArgumentError();
-    final Duration elapsedTime = widget.email.sender.lastActive.difference(now).abs();
-    if(elapsedTime.inSeconds < 60) return "${elapsedTime.inSeconds}s";
-    if(elapsedTime.inMinutes < 60) return "${elapsedTime.inMinutes}m";
-    if(elapsedTime.inHours < 60) return "${elapsedTime.inHours}h";
-    if(elapsedTime.inDays < 365) return "${elapsedTime.inDays}d";
+    if (widget.email.sender.lastActive.isAfter(now)) throw ArgumentError();
+    final Duration elapsedTime =
+        widget.email.sender.lastActive.difference(now).abs();
+    if (elapsedTime.inSeconds < 60) return "${elapsedTime.inSeconds}s";
+    if (elapsedTime.inMinutes < 60) return "${elapsedTime.inMinutes}m";
+    if (elapsedTime.inHours < 60) return "${elapsedTime.inHours}h";
+    if (elapsedTime.inDays < 365) return "${elapsedTime.inDays}d";
     throw UnimplementedError();
   }
 
   Widget get headline {
-    return LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
       return Container(
         height: 84,
         color: Color.alphaBlend(
@@ -85,28 +87,42 @@ class _EmailWidgetState extends State<EmailWidget> {
                       widget.email.subject,
                       maxLines: 1,
                       overflow: TextOverflow.fade,
-                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+                      style: const TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.w400),
                     ),
                     Text(
                       "${widget.email.replies.toString()} Messages",
                       maxLines: 1,
                       overflow: TextOverflow.fade,
-                      style: Theme.of(context).textTheme.labelMedium?.copyWith(fontWeight: FontWeight.w500),
+                      style: Theme.of(context)
+                          .textTheme
+                          .labelMedium
+                          ?.copyWith(fontWeight: FontWeight.w500),
                     ),
                   ],
                 ),
               ),
-              if(constraints.maxWidth - 200 > 0) ...[
+              if (constraints.maxWidth - 200 > 0) ...[
                 SizedBox(
                   height: 40,
                   width: 40,
-                  child: FloatingActionButton(onPressed: () {}, elevation: 0, backgroundColor: Theme.of(context).colorScheme.surface, child: const Icon(Icons.delete_outline),),
+                  child: FloatingActionButton(
+                    onPressed: () {},
+                    elevation: 0,
+                    backgroundColor: Theme.of(context).colorScheme.surface,
+                    child: const Icon(Icons.delete_outline),
+                  ),
                 ),
                 const Padding(padding: EdgeInsets.only(right: 8.0)),
                 SizedBox(
                   height: 40,
                   width: 40,
-                  child: FloatingActionButton(onPressed: () {}, elevation: 0, backgroundColor: Theme.of(context).colorScheme.surface, child: const Icon(Icons.more_vert),),
+                  child: FloatingActionButton(
+                    onPressed: () {},
+                    elevation: 0,
+                    backgroundColor: Theme.of(context).colorScheme.surface,
+                    child: const Icon(Icons.more_vert),
+                  ),
                 ),
               ]
             ],
@@ -117,14 +133,14 @@ class _EmailWidgetState extends State<EmailWidget> {
   }
 
   Widget get header {
-    return LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
       return Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          if(constraints.maxWidth - 200 > 0) ...[
+          if (constraints.maxWidth - 200 > 0) ...[
             CircleAvatar(
-              backgroundImage: AssetImage(widget.email.sender.avatarUrl)
-            ),
+                backgroundImage: AssetImage(widget.email.sender.avatarUrl)),
             const Padding(padding: EdgeInsets.symmetric(horizontal: 6.0)),
           ],
           Expanded(
@@ -136,21 +152,25 @@ class _EmailWidgetState extends State<EmailWidget> {
                   overflow: TextOverflow.fade,
                   maxLines: 1,
                   style: widget.selected
-                    ? textTheme.labelMedium?.copyWith(color: colorScheme.onSecondaryContainer)
-                    : textTheme.labelMedium?.copyWith(color: colorScheme.onSurface),
+                      ? textTheme.labelMedium
+                          ?.copyWith(color: colorScheme.onSecondaryContainer)
+                      : textTheme.labelMedium
+                          ?.copyWith(color: colorScheme.onSurface),
                 ),
                 Text(
                   lastActiveLabel,
                   overflow: TextOverflow.fade,
                   maxLines: 1,
                   style: widget.selected
-                    ? textTheme.labelMedium?.copyWith(color: colorScheme.onSecondaryContainer)
-                    : textTheme.labelMedium?.copyWith(color: colorScheme.onSurfaceVariant),
+                      ? textTheme.labelMedium
+                          ?.copyWith(color: colorScheme.onSecondaryContainer)
+                      : textTheme.labelMedium
+                          ?.copyWith(color: colorScheme.onSurfaceVariant),
                 ),
               ],
             ),
           ),
-          if(constraints.maxWidth - 200 > 0) ...[
+          if (constraints.maxWidth - 200 > 0) ...[
             const StarButton(),
           ]
         ],
@@ -162,13 +182,14 @@ class _EmailWidgetState extends State<EmailWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if(widget.isPreview) ...[
+        if (widget.isPreview) ...[
           Text(
             widget.email.subject,
-            style: const TextStyle(fontSize: 18).copyWith(color: colorScheme.onSurface),
+            style: const TextStyle(fontSize: 18)
+                .copyWith(color: colorScheme.onSurface),
           ),
         ],
-        if(widget.isThreaded) ...[
+        if (widget.isThreaded) ...[
           contentSpacing,
           Text(
             "To ${widget.email.recipients.map((recipient) => recipient.name.first).join(", ")}",
@@ -187,52 +208,61 @@ class _EmailWidgetState extends State<EmailWidget> {
   }
 
   Padding get contentSpacing {
-    final double padding = widget.isThreaded
-      ? 20
-      : 2;
+    final double padding = widget.isThreaded ? 20 : 2;
     return Padding(padding: EdgeInsets.only(bottom: padding));
   }
 
   TextStyle? get contentTextStyle {
-    if(widget.isThreaded) {
+    if (widget.isThreaded) {
       return textTheme.bodyLarge;
     }
-    if(widget.selected) {
-      return textTheme.bodyMedium?.copyWith(color: colorScheme.onPrimaryContainer);
+    if (widget.selected) {
+      return textTheme.bodyMedium
+          ?.copyWith(color: colorScheme.onPrimaryContainer);
     }
     return textTheme.bodyMedium?.copyWith(color: colorScheme.onSurfaceVariant);
   }
 
   Widget? get thumbnail {
     return widget.email.attachments.isNotEmpty
-      ? Container(
-          height: 96,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8.0),
-            image: DecorationImage(
-              fit: BoxFit.cover,
-              image: AssetImage(widget.email.attachments.first.url)
+        ? Container(
+            height: 96,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8.0),
+              image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: AssetImage(widget.email.attachments.first.url)),
             ),
-          ),
-        )
-      : null;
+          )
+        : null;
   }
 
   Widget get replyOptions {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        if(constraints.maxWidth < 100) return const SizedBox.shrink();
+        if (constraints.maxWidth < 100) return const SizedBox.shrink();
         return Row(
           children: [
-            Expanded(child: TextButton(
-              style: ButtonStyle(backgroundColor: MaterialStateProperty.all(colorScheme.onInverseSurface)),
-              onPressed: (){}, child: Text("Reply", style: TextStyle(color: colorScheme.onSurfaceVariant)),
+            Expanded(
+                child: TextButton(
+              style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all(colorScheme.onInverseSurface)),
+              onPressed: () {},
+              child: Text("Reply",
+                  style: TextStyle(color: colorScheme.onSurfaceVariant)),
             )),
             const Padding(padding: EdgeInsets.only(right: 8.0)),
-            Expanded(child: TextButton(
-              style: ButtonStyle(backgroundColor: MaterialStateProperty.all(colorScheme.onInverseSurface)),
-              onPressed: (){}, child: Text("Reply All", style: TextStyle(color: colorScheme.onSurfaceVariant),)
-            )),
+            Expanded(
+                child: TextButton(
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(
+                            colorScheme.onInverseSurface)),
+                    onPressed: () {},
+                    child: Text(
+                      "Reply All",
+                      style: TextStyle(color: colorScheme.onSurfaceVariant),
+                    ))),
           ],
         );
       },
@@ -253,7 +283,7 @@ class _EmailWidgetState extends State<EmailWidget> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            if(widget.showHeadline) ...[
+            if (widget.showHeadline) ...[
               headline,
             ],
             Padding(
@@ -265,10 +295,10 @@ class _EmailWidgetState extends State<EmailWidget> {
                   const Padding(padding: EdgeInsets.only(bottom: 8.0)),
                   content,
                   const Padding(padding: EdgeInsets.only(bottom: 12.0)),
-                  if(thumbnail != null) ...[
+                  if (thumbnail != null) ...[
                     thumbnail!,
                   ],
-                  if(!widget.isPreview) ...[
+                  if (!widget.isPreview) ...[
                     replyOptions,
                   ],
                 ],
