@@ -100,13 +100,13 @@ class _EmailWidgetState extends State<EmailWidget> {
                 SizedBox(
                   height: 40,
                   width: 40,
-                  child: FloatingActionButton(onPressed: () {}, child: Icon(Icons.delete_outline), elevation: 0, backgroundColor: Theme.of(context).colorScheme.surface,),
+                  child: FloatingActionButton(onPressed: () {}, elevation: 0, backgroundColor: Theme.of(context).colorScheme.surface, child: const Icon(Icons.delete_outline),),
                 ),
                 const Padding(padding: EdgeInsets.only(right: 8.0)),
                 SizedBox(
                   height: 40,
                   width: 40,
-                  child: FloatingActionButton(onPressed: () {}, child: Icon(Icons.more_vert), elevation: 0, backgroundColor: Theme.of(context).colorScheme.surface,),
+                  child: FloatingActionButton(onPressed: () {}, elevation: 0, backgroundColor: Theme.of(context).colorScheme.surface, child: const Icon(Icons.more_vert),),
                 ),
               ]
             ],
