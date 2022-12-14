@@ -4,7 +4,6 @@
 
 import 'package:flutter/material.dart';
 
-import 'animation/constants.dart';
 import 'models/data.dart' as data;
 import 'models/models.dart';
 import 'transitions/bar_transition.dart';
@@ -66,8 +65,8 @@ class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
   );
 
   late final AnimationController controller = AnimationController(
-    reverseDuration: MaterialDuration.max.value,
-    duration: MaterialDuration.extraLong4.value,
+    reverseDuration: const Duration(milliseconds: 1250),
+    duration: const Duration(milliseconds: 1000),
     value: 0,
     vsync: this,
   );
