@@ -5,8 +5,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:material3_reply/animation/scale_animation.dart';
-import 'package:material3_reply/animation/shape_animation.dart';
+import '../animation/scale_animation.dart';
+import '../animation/shape_animation.dart';
 
 class AnimatedFloatingActionButton extends StatefulWidget {
   const AnimatedFloatingActionButton({

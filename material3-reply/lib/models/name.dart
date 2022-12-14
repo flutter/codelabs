@@ -10,5 +10,5 @@ class Name {
 
   final String first;
   final String last;
-  String get fullName => "$first $last";
+  String get fullName => '$first $last';
 }

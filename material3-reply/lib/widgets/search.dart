@@ -35,7 +35,7 @@ class SearchBar extends StatelessWidget {
                 decoration: InputDecoration(
                   isDense: true,
                   border: InputBorder.none,
-                  hintText: "Search replies",
+                  hintText: 'Search replies',
                   hintStyle: Theme.of(context).textTheme.bodyMedium,
                 ),
               ),

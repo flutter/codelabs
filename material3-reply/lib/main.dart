@@ -3,15 +3,16 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:material3_reply/animation/constants.dart';
-import 'package:material3_reply/models/models.dart';
-import 'package:material3_reply/transitions/list_detail_transition.dart';
-import 'package:material3_reply/widgets/animated_fab.dart';
-import 'package:material3_reply/widgets/email_widget.dart';
-import 'package:material3_reply/widgets/search.dart';
+
+import 'animation/constants.dart';
 import 'models/data.dart' as data;
+import 'models/models.dart';
 import 'transitions/bar_transition.dart';
+import 'transitions/list_detail_transition.dart';
 import 'transitions/rail_transition.dart';
+import 'widgets/animated_fab.dart';
+import 'widgets/email_widget.dart';
+import 'widgets/search.dart';
 
 void main() {
   runApp(const ReplyApp());
@@ -125,7 +126,7 @@ class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return AnimatedBuilder(
         animation: controller,
-        builder: (BuildContext context, Widget? child) {
+        builder: (context, child) {
           return Scaffold(
             body: Row(
               children: <Widget>[
@@ -135,7 +136,7 @@ class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
                   child: NavigationRail(
                     selectedIndex: selectedIndex,
                     backgroundColor: backgroundColor,
-                    onDestinationSelected: (int index) {
+                    onDestinationSelected: (index) {
                       setState(() {
                         selectedIndex = index;
                       });
@@ -157,7 +158,7 @@ class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
                     ),
                     groupAlignment: -0.85,
                     destinations: _destinations
-                        .map<NavigationRailDestination>((_Destination d) {
+                        .map<NavigationRailDestination>((d) {
                       return NavigationRailDestination(
                         icon: Icon(d.icon),
                         label: Text(d.label),
@@ -179,7 +180,7 @@ class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
                             SearchBar(currentUser: widget.currentUser),
                             const Padding(
                                 padding: EdgeInsets.only(bottom: 8.0)),
-                            ...List.generate(data.emails.length, (int index) {
+                            ...List.generate(data.emails.length, (index) {
                               return Padding(
                                 padding: const EdgeInsets.only(bottom: 8.0),
                                 child: EmailWidget(
@@ -202,7 +203,7 @@ class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
                           children: [
                             const Padding(
                                 padding: EdgeInsets.only(bottom: 8.0)),
-                            ...List.generate(data.replies.length, (int index) {
+                            ...List.generate(data.replies.length, (index) {
                               return Padding(
                                 padding: const EdgeInsets.only(bottom: 8.0),
                                 child: EmailWidget(
@@ -233,14 +234,14 @@ class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
                 elevation: 0,
                 backgroundColor: Colors.white,
                 destinations:
-                    _destinations.map<NavigationDestination>((_Destination d) {
+                    _destinations.map<NavigationDestination>((d) {
                   return NavigationDestination(
                     icon: Icon(d.icon),
                     label: d.label,
                   );
                 }).toList(),
                 selectedIndex: selectedIndex,
-                onDestinationSelected: (int index) {
+                onDestinationSelected: (index) {
                   setState(() {
                     selectedIndex = index;
                   });
