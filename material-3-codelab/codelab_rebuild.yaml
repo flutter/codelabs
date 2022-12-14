@@ -1,0 +1,57 @@
+name: Adaptive App rebuild script
+steps:
+  - name: step_03
+    steps:
+      - name: Remove generated code.
+        rmdir: step_03
+      - name: Create project.
+        flutter: create --empty material3_reply
+      - name: Remove README.md
+        rm: material3_reply/README.md
+      - name: Configure analysis_options.yaml
+        path: material3_reply/analysis_options.yaml
+        replace-contents: |
+          include: ../../analysis_options.yaml
+      - name: Add .vscode directory
+        mkdir: material3_reply/.vscode
+      - name: Add .vscode/launch.json
+        path: material3_reply/.vscode/launch.json
+        replace-contents: |
+          {
+              // Use IntelliSense to learn about possible attributes.
+              // Hover to view descriptions of existing attributes.
+              // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+              "version": "0.2.0",
+              "configurations": [
+                  {
+                      "name": "material3_reply",
+                      "request": "launch",
+                      "type": "dart"
+                  }
+              ]
+          }
+      - name: Build iOS simulator bundle
+        platforms: [ macos ]
+        path: material3_reply
+        flutter: build ios --simulator
+      - name: Build macOS app
+        platforms: [ macos ]
+        path: material3_reply
+        flutter: build macos
+      - name: Build Linux app
+        platforms: [ linux ]
+        path: material3_reply
+        flutter: build linux
+      - name: Build Windows app
+        platforms: [ windows ]
+        path: material3_reply
+        flutter: build windows
+      - name: Copy step_03
+        copydir:
+          from: material3_reply
+          to: step_03
+      - name: Flutter clean
+        path: step_03
+        flutter: clean
+  - name: Cleanup
+    rmdir: material3_reply
