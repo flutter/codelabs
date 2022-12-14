@@ -27,9 +27,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData.light(useMaterial3: true),
-      home: Scaffold(
-        body: Feed(currentUser: data.user_0),
-      ),
+      home: Feed(currentUser: data.user_0),
     );
   }
 }
