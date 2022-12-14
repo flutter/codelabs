@@ -18,17 +18,17 @@ class NavRailTransition extends StatefulWidget {
   final Color backgroundColor;
 
   @override
-  State<NavRailTransition> createState() => _RailTransition();
+  State<NavRailTransition> createState() => _NavRailTransitionState();
 }
 
-class _RailTransition extends State<NavRailTransition> {
+class _NavRailTransitionState extends State<NavRailTransition> {
   // The animations are only rebuilt by this method when the text
   // direction changes because this widget only depends on Directionality.
   late final bool ltr = Directionality.of(context) == TextDirection.ltr;
   late final Animation<Offset> offsetAnimation = Tween<Offset>(
     begin: ltr ? const Offset(-1, 0) : const Offset(1, 0),
     end: Offset.zero,
-  ).animate(OffsetAnimation(widget.animation));
+  ).animate(OffsetAnimation(parent: widget.animation));
   late Animation<double> widthAnimation;
 
   @override
@@ -38,7 +38,7 @@ class _RailTransition extends State<NavRailTransition> {
     widthAnimation = Tween<double>(
       begin: 0,
       end: 1,
-    ).animate(SizeAnimation(widget.animation));
+    ).animate(SizeAnimation(parent: widget.animation));
   }
 
   @override

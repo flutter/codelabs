@@ -26,11 +26,12 @@ class ListDetailTransition extends StatefulWidget {
 
 class _ListDetailTransitionState extends State<ListDetailTransition> {
   Animation<double> widthAnimation = const AlwaysStoppedAnimation(0);
-  late Animation<double> sizeAnimation = SizeAnimation(widget.animation);
+  late Animation<double> sizeAnimation =
+      SizeAnimation(parent: widget.animation);
   late final Animation<Offset> offsetAnimation = Tween<Offset>(
     begin: const Offset(1, 0),
     end: Offset.zero,
-  ).animate(OffsetAnimation(sizeAnimation));
+  ).animate(OffsetAnimation(parent: sizeAnimation));
   double currentFlexFactor = 0;
 
   @override
