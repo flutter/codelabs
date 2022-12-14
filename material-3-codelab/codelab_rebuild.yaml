@@ -30,6 +30,21 @@ steps:
                   }
               ]
           }
+      - name: Mkdir test
+        mkdir: material3_reply/test
+      - name: Create test/widget_test.dart
+        path: material3_reply/test/widget_test.dart
+        replace-contents: |
+          import 'package:flutter_test/flutter_test.dart';
+          
+          import 'package:material3_reply/main.dart';
+          
+          void main() {
+            testWidgets('Do nothing test', (tester) async {
+              // Build our app and trigger a frame.
+              await tester.pumpWidget(const MainApp());
+            });
+          }
       - name: Build iOS simulator bundle
         platforms: [ macos ]
         path: material3_reply

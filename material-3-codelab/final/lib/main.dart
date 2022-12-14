@@ -15,7 +15,7 @@ import 'widgets/email_widget.dart';
 import 'widgets/search.dart';
 
 void main() {
-  runApp(const ReplyApp());
+  runApp(const MainApp());
 }
 
 class _Destination {
@@ -24,8 +24,8 @@ class _Destination {
   final String label;
 }
 
-class ReplyApp extends StatelessWidget {
-  const ReplyApp({super.key});
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
 
   @override
   Widget build(BuildContext context) {
