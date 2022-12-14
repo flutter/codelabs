@@ -10,7 +10,7 @@ import 'animation/rail_fab_animation.dart';
 import 'models/data.dart' as data;
 import 'models/models.dart';
 import 'transitions/list_detail_transition.dart';
-import 'widgets/animated_fab.dart';
+import 'widgets/animated_floating_action_button.dart';
 import 'widgets/disappearing_bottom_navigation_bar.dart';
 import 'widgets/dissappearing_navigation_rail.dart';
 import 'widgets/email_list_view.dart';

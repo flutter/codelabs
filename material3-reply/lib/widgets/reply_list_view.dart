@@ -5,7 +5,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/data.dart' as data;
-import '../widgets/email_widget.dart';
+import 'email_widget.dart';
 
 class ReplyListView extends StatelessWidget {
   const ReplyListView({super.key});

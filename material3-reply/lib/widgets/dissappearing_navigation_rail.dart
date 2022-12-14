@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 import '../animation/rail_animation.dart';
 import '../animation/rail_fab_animation.dart';
 import '../destinations.dart';
-import '../transitions/rail_transition.dart';
-import '../widgets/animated_fab.dart';
+import '../transitions/nav_rail_transition.dart';
+import 'animated_floating_action_button.dart';
 
 class DissappearingNavigationRail extends StatelessWidget {
   const DissappearingNavigationRail({

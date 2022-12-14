@@ -18,10 +18,10 @@ class NavRailTransition extends StatefulWidget {
   final Color backgroundColor;
 
   @override
-  State<NavRailTransition> createState() => _RailTransition();
+  State<NavRailTransition> createState() => _NavRailTransitionState();
 }
 
-class _RailTransition extends State<NavRailTransition> {
+class _NavRailTransitionState extends State<NavRailTransition> {
   // The animations are only rebuilt by this method when the text
   // direction changes because this widget only depends on Directionality.
   late final bool ltr = Directionality.of(context) == TextDirection.ltr;
