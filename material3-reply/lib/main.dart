@@ -157,8 +157,8 @@ class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
                       ],
                     ),
                     groupAlignment: -0.85,
-                    destinations: _destinations
-                        .map<NavigationRailDestination>((d) {
+                    destinations:
+                        _destinations.map<NavigationRailDestination>((d) {
                       return NavigationRailDestination(
                         icon: Icon(d.icon),
                         label: Text(d.label),
@@ -233,8 +233,7 @@ class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
               child: NavigationBar(
                 elevation: 0,
                 backgroundColor: Colors.white,
-                destinations:
-                    _destinations.map<NavigationDestination>((d) {
+                destinations: _destinations.map<NavigationDestination>((d) {
                   return NavigationDestination(
                     icon: Icon(d.icon),
                     label: d.label,

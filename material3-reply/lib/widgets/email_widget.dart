@@ -64,8 +64,7 @@ class _EmailWidgetState extends State<EmailWidget> {
   }
 
   Widget get headline {
-    return LayoutBuilder(
-        builder: (context, constraints) {
+    return LayoutBuilder(builder: (context, constraints) {
       return Container(
         height: 84,
         color: Color.alphaBlend(
@@ -133,8 +132,7 @@ class _EmailWidgetState extends State<EmailWidget> {
   }
 
   Widget get header {
-    return LayoutBuilder(
-        builder: (context, constraints) {
+    return LayoutBuilder(builder: (context, constraints) {
       return Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
