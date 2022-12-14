@@ -5,17 +5,16 @@
 import 'package:flutter/material.dart';
 
 import 'animation/bar_animation.dart';
-import 'animation/rail_fab_animation.dart';
-import 'layout.dart';
 import 'animation/rail_animation.dart';
+import 'animation/rail_fab_animation.dart';
 import 'models/data.dart' as data;
 import 'models/models.dart';
-import 'transitions/bar_transition.dart';
 import 'transitions/list_detail_transition.dart';
-import 'transitions/rail_transition.dart';
 import 'widgets/animated_fab.dart';
-import 'widgets/email_widget.dart';
-import 'widgets/search.dart';
+import 'widgets/disappearing_bottom_navigation_bar.dart';
+import 'widgets/dissappearing_navigation_rail.dart';
+import 'widgets/email_list_view.dart';
+import 'widgets/reply_list_view.dart';
 
 void main() {
   runApp(const MainApp());
@@ -48,25 +47,17 @@ class Feed extends StatefulWidget {
 }
 
 class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
-  late final ColorScheme colorScheme = Theme.of(context).colorScheme;
-
-  late final Color backgroundColor = Color.alphaBlend(
-    colorScheme.primary.withOpacity(0.14),
-    colorScheme.surface,
-  );
-
-  late final AnimationController controller = AnimationController(
-    duration: const Duration(milliseconds: 1000),
-    reverseDuration: const Duration(milliseconds: 1250),
-    vsync: this,
-  );
-
-  late final RailAnimation railAnimation = RailAnimation(parent: controller);
-
-  late final RailFabAnimation railFabAnimation =
-      RailFabAnimation(parent: controller);
-
-  late final BarAnimation barAnimation = BarAnimation(parent: controller);
+  late final colorScheme = Theme.of(context).colorScheme;
+  late final backgroundColor = Color.alphaBlend(
+      colorScheme.primary.withOpacity(0.14), colorScheme.surface);
+  late final controller = AnimationController(
+      duration: const Duration(milliseconds: 1000),
+      reverseDuration: const Duration(milliseconds: 1250),
+      value: 0,
+      vsync: this);
+  late final railAnimation = RailAnimation(parent: controller);
+  late final railFabAnimation = RailFabAnimation(parent: controller);
+  late final barAnimation = BarAnimation(parent: controller);
 
   int selectedIndex = 0;
   bool controllerInitialized = false;
@@ -107,91 +98,33 @@ class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
       builder: (context, child) {
         return Scaffold(
           body: Row(
-            children: <Widget>[
-              NavRailTransition(
-                animation: railAnimation,
+            children: [
+              DissappearingNavigationRail(
+                railAnimation: railAnimation,
+                railFabAnimation: railFabAnimation,
+                selectedIndex: selectedIndex,
                 backgroundColor: backgroundColor,
-                child: NavigationRail(
-                  selectedIndex: selectedIndex,
-                  backgroundColor: backgroundColor,
-                  onDestinationSelected: (index) {
-                    setState(() {
-                      selectedIndex = index;
-                    });
-                  },
-                  leading: Column(
-                    children: <Widget>[
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.menu),
-                      ),
-                      const SizedBox(height: 8),
-                      AnimatedFloatingActionButton(
-                        animation: railFabAnimation,
-                        elevation: 0,
-                        onPressed: () {},
-                        child: const Icon(Icons.add),
-                      ),
-                    ],
-                  ),
-                  groupAlignment: -0.85,
-                  destinations:
-                      destinations.map<NavigationRailDestination>((d) {
-                    return NavigationRailDestination(
-                      icon: Icon(d.icon),
-                      label: Text(d.label),
-                    );
-                  }).toList(),
-                ),
+                onDestinationSelected: (index) {
+                  setState(() {
+                    selectedIndex = index;
+                  });
+                },
               ),
               Expanded(
                 child: Container(
                   color: backgroundColor,
                   child: ListDetailTransition(
                     animation: railAnimation,
-                    one: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: ListView(
-                        children: [
-                          const Padding(padding: EdgeInsets.only(bottom: 8.0)),
-                          SearchBar(currentUser: widget.currentUser),
-                          const Padding(padding: EdgeInsets.only(bottom: 8.0)),
-                          ...List.generate(data.emails.length, (index) {
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 8.0),
-                              child: EmailWidget(
-                                email: data.emails[index],
-                                onSelected: () {
-                                  setState(() {
-                                    selectedIndex = index;
-                                  });
-                                },
-                                selected: selectedIndex == index,
-                              ),
-                            );
-                          }),
-                        ],
-                      ),
+                    one: EmailListView(
+                      selectedIndex: selectedIndex,
+                      onSelected: (index) {
+                        setState(() {
+                          selectedIndex = index;
+                        });
+                      },
+                      currentUser: widget.currentUser,
                     ),
-                    two: Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
-                      child: ListView(
-                        children: [
-                          const Padding(padding: EdgeInsets.only(bottom: 8.0)),
-                          ...List.generate(data.replies.length, (index) {
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 8.0),
-                              child: EmailWidget(
-                                email: data.replies[index],
-                                isPreview: false,
-                                isThreaded: true,
-                                showHeadline: index == 0,
-                              ),
-                            );
-                          }),
-                        ],
-                      ),
-                    ),
+                    two: const ReplyListView(),
                   ),
                 ),
               ),
@@ -202,25 +135,14 @@ class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
             onPressed: () {},
             child: const Icon(Icons.add),
           ),
-          bottomNavigationBar: BottomBarTransition(
-            animation: barAnimation,
-            backgroundColor: Colors.white,
-            child: NavigationBar(
-              elevation: 0,
-              backgroundColor: Colors.white,
-              destinations: destinations.map<NavigationDestination>((d) {
-                return NavigationDestination(
-                  icon: Icon(d.icon),
-                  label: d.label,
-                );
-              }).toList(),
-              selectedIndex: selectedIndex,
-              onDestinationSelected: (index) {
-                setState(() {
-                  selectedIndex = index;
-                });
-              },
-            ),
+          bottomNavigationBar: DisappearingBottomNavigationBar(
+            barAnimation: barAnimation,
+            selectedIndex: selectedIndex,
+            onDestinationSelected: (index) {
+              setState(() {
+                selectedIndex = index;
+              });
+            },
           ),
         );
       },
