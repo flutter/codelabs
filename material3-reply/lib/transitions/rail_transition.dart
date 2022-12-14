@@ -3,8 +3,8 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:material3_reply/animation/offset_animation.dart';
-import 'package:material3_reply/animation/size_animation.dart';
+import '../animation/offset_animation.dart';
+import '../animation/size_animation.dart';
 
 class NavRailTransition extends StatefulWidget {
   const NavRailTransition(

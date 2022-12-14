@@ -3,8 +3,8 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:material3_reply/models/models.dart';
-import 'package:material3_reply/widgets/star_button.dart';
+import '../models/models.dart';
+import 'star_button.dart';
 
 enum EmailType {
   preview,
@@ -56,16 +56,15 @@ class _EmailWidgetState extends State<EmailWidget> {
     if (widget.email.sender.lastActive.isAfter(now)) throw ArgumentError();
     final Duration elapsedTime =
         widget.email.sender.lastActive.difference(now).abs();
-    if (elapsedTime.inSeconds < 60) return "${elapsedTime.inSeconds}s";
-    if (elapsedTime.inMinutes < 60) return "${elapsedTime.inMinutes}m";
-    if (elapsedTime.inHours < 60) return "${elapsedTime.inHours}h";
-    if (elapsedTime.inDays < 365) return "${elapsedTime.inDays}d";
+    if (elapsedTime.inSeconds < 60) return '${elapsedTime.inSeconds}s';
+    if (elapsedTime.inMinutes < 60) return '${elapsedTime.inMinutes}m';
+    if (elapsedTime.inHours < 60) return '${elapsedTime.inHours}h';
+    if (elapsedTime.inDays < 365) return '${elapsedTime.inDays}d';
     throw UnimplementedError();
   }
 
   Widget get headline {
-    return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
+    return LayoutBuilder(builder: (context, constraints) {
       return Container(
         height: 84,
         color: Color.alphaBlend(
@@ -91,7 +90,7 @@ class _EmailWidgetState extends State<EmailWidget> {
                           fontSize: 18, fontWeight: FontWeight.w400),
                     ),
                     Text(
-                      "${widget.email.replies.toString()} Messages",
+                      '${widget.email.replies.toString()} Messages',
                       maxLines: 1,
                       overflow: TextOverflow.fade,
                       style: Theme.of(context)
@@ -133,8 +132,7 @@ class _EmailWidgetState extends State<EmailWidget> {
   }
 
   Widget get header {
-    return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
+    return LayoutBuilder(builder: (context, constraints) {
       return Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -239,7 +237,7 @@ class _EmailWidgetState extends State<EmailWidget> {
 
   Widget get replyOptions {
     return LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints) {
+      builder: (context, constraints) {
         if (constraints.maxWidth < 100) return const SizedBox.shrink();
         return Row(
           children: [
@@ -249,7 +247,7 @@ class _EmailWidgetState extends State<EmailWidget> {
                   backgroundColor:
                       MaterialStateProperty.all(colorScheme.onInverseSurface)),
               onPressed: () {},
-              child: Text("Reply",
+              child: Text('Reply',
                   style: TextStyle(color: colorScheme.onSurfaceVariant)),
             )),
             const Padding(padding: EdgeInsets.only(right: 8.0)),
@@ -260,7 +258,7 @@ class _EmailWidgetState extends State<EmailWidget> {
                             colorScheme.onInverseSurface)),
                     onPressed: () {},
                     child: Text(
-                      "Reply All",
+                      'Reply All',
                       style: TextStyle(color: colorScheme.onSurfaceVariant),
                     ))),
           ],
