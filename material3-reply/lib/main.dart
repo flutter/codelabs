@@ -4,6 +4,10 @@
 
 import 'package:flutter/material.dart';
 
+import 'animation/bar_animation.dart';
+import 'animation/rail_fab_animation.dart';
+import 'layout.dart';
+import 'animation/rail_animation.dart';
 import 'models/data.dart' as data;
 import 'models/models.dart';
 import 'transitions/bar_transition.dart';
@@ -15,12 +19,6 @@ import 'widgets/search.dart';
 
 void main() {
   runApp(const MainApp());
-}
-
-class _Destination {
-  const _Destination(this.icon, this.label);
-  final IconData icon;
-  final String label;
 }
 
 class MainApp extends StatelessWidget {
@@ -50,13 +48,6 @@ class Feed extends StatefulWidget {
 }
 
 class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
-  static const List<_Destination> _destinations = <_Destination>[
-    _Destination(Icons.inbox_rounded, 'Inbox'),
-    _Destination(Icons.article_outlined, 'Articles'),
-    _Destination(Icons.messenger_outline_rounded, 'Messages'),
-    _Destination(Icons.group_outlined, 'Groups'),
-  ];
-
   late final ColorScheme colorScheme = Theme.of(context).colorScheme;
 
   late final Color backgroundColor = Color.alphaBlend(
@@ -65,29 +56,17 @@ class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
   );
 
   late final AnimationController controller = AnimationController(
-    reverseDuration: const Duration(milliseconds: 1250),
     duration: const Duration(milliseconds: 1000),
-    value: 0,
+    reverseDuration: const Duration(milliseconds: 1250),
     vsync: this,
   );
 
-  late final CurvedAnimation railAnimation = CurvedAnimation(
-    parent: controller,
-    curve: const Interval(0 / 5, 4 / 5),
-    reverseCurve: const Interval(3 / 5, 1),
-  );
+  late final RailAnimation railAnimation = RailAnimation(parent: controller);
 
-  late final CurvedAnimation railFabAnimation = CurvedAnimation(
-    parent: controller,
-    curve: const Interval(3 / 5, 1),
-  );
+  late final RailFabAnimation railFabAnimation =
+      RailFabAnimation(parent: controller);
 
-  late final ReverseAnimation barAnimation = ReverseAnimation(
-    CurvedAnimation(
-        parent: controller,
-        curve: const Interval(0, 1 / 5),
-        reverseCurve: const Interval(1 / 5, 4 / 5)),
-  );
+  late final BarAnimation barAnimation = BarAnimation(parent: controller);
 
   int selectedIndex = 0;
   bool controllerInitialized = false;
@@ -157,7 +136,7 @@ class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
                     ),
                     groupAlignment: -0.85,
                     destinations:
-                        _destinations.map<NavigationRailDestination>((d) {
+                        destinations.map<NavigationRailDestination>((d) {
                       return NavigationRailDestination(
                         icon: Icon(d.icon),
                         label: Text(d.label),
@@ -232,7 +211,7 @@ class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
               child: NavigationBar(
                 elevation: 0,
                 backgroundColor: Colors.white,
-                destinations: _destinations.map<NavigationDestination>((d) {
+                destinations: destinations.map<NavigationDestination>((d) {
                   return NavigationDestination(
                     icon: Icon(d.icon),
                     label: d.label,

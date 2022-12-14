@@ -5,9 +5,8 @@
 import 'package:flutter/animation.dart';
 
 class OffsetAnimation extends CurvedAnimation {
-  OffsetAnimation(Animation<double> parent)
+  OffsetAnimation({required super.parent})
       : super(
-          parent: parent,
           curve: const Interval(
             2 / 5,
             3 / 5,

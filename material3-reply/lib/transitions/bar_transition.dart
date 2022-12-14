@@ -25,12 +25,12 @@ class _BottomBarTransition extends State<BottomBarTransition> {
   late final Animation<Offset> offsetAnimation = Tween<Offset>(
     begin: const Offset(0, 1),
     end: Offset.zero,
-  ).animate(OffsetAnimation(widget.animation));
+  ).animate(OffsetAnimation(parent: widget.animation));
 
   late final Animation<double> heightAnimation = Tween<double>(
     begin: 0,
     end: 1,
-  ).animate(SizeAnimation(widget.animation));
+  ).animate(SizeAnimation(parent: widget.animation));
 
   @override
   Widget build(BuildContext context) {
