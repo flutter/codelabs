@@ -418,9 +418,13 @@ steps:
           class EmailListView extends StatelessWidget {
             const EmailListView({
               super.key,
+              this.selectedIndex,
+              this.onSelected,
               required this.currentUser,
             });
           
+            final int? selectedIndex;
+            final ValueChanged<int>? onSelected;
             final User currentUser;
           
             @override
@@ -432,14 +436,23 @@ steps:
                     const Padding(padding: EdgeInsets.only(bottom: 8.0)),
                     SearchBar(currentUser: currentUser),
                     const Padding(padding: EdgeInsets.only(bottom: 8.0)),
-                    ...List.generate(data.emails.length, (index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
-                        child: EmailWidget(
-                          email: data.emails[index],
-                        ),
-                      );
-                    }),
+                    ...List.generate(
+                      data.emails.length,
+                      (index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: EmailWidget(
+                            email: data.emails[index],
+                            onSelected: onSelected != null
+                                ? () {
+                                    onSelected!(index);
+                                  }
+                                : null,
+                            selected: selectedIndex == index,
+                          ),
+                        );
+                      },
+                    ),
                   ],
                 ),
               );
@@ -879,7 +892,85 @@ steps:
     steps:
       - name: Remove step_06
         rmdir: step_06
-      - name: Copy step_05
+      - name: Create lib/destinations.dart
+        path: material3_reply/lib/destinations.dart
+        replace-contents: |
+          // Copyright 2022 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+          
+          import 'package:flutter/material.dart';
+          
+          class Destination {
+            const Destination(this.icon, this.label);
+            final IconData icon;
+            final String label;
+          }
+          
+          const List<Destination> destinations = <Destination>[
+            Destination(Icons.inbox_rounded, 'Inbox'),
+            Destination(Icons.article_outlined, 'Articles'),
+            Destination(Icons.messenger_outline_rounded, 'Messages'),
+            Destination(Icons.group_outlined, 'Groups'),
+          ];
+      - name: Patch lib/main.dart
+        path: material3_reply/lib/main.dart
+        patch-u: |
+          --- b/material-3-codelab/step_06/lib/main.dart
+          +++ a/material-3-codelab/step_06/lib/main.dart
+          @@ -4,6 +4,7 @@
+           
+           import 'package:flutter/material.dart';
+           
+          +import 'destinations.dart';
+           import 'models/data.dart' as data;
+           import 'models/models.dart';
+           import 'widgets/email_list_view.dart';
+          @@ -41,12 +42,20 @@ class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
+             late final backgroundColor = Color.alphaBlend(
+                 colorScheme.primary.withOpacity(0.14), colorScheme.surface);
+           
+          +  int selectedIndex = 0;
+          +
+             @override
+             Widget build(BuildContext context) {
+               return Scaffold(
+                 body: Container(
+                   color: backgroundColor,
+                   child: EmailListView(
+          +          selectedIndex: selectedIndex,
+          +          onSelected: (index) {
+          +            setState(() {
+          +              selectedIndex = index;
+          +            });
+          +          },
+                     currentUser: widget.currentUser,
+                   ),
+                 ),
+          @@ -54,6 +63,22 @@ class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
+                   onPressed: () {},
+                   child: const Icon(Icons.add),
+                 ),
+          +      bottomNavigationBar: NavigationBar(
+          +        elevation: 0,
+          +        backgroundColor: Colors.white,
+          +        destinations: destinations.map<NavigationDestination>((d) {
+          +          return NavigationDestination(
+          +            icon: Icon(d.icon),
+          +            label: d.label,
+          +          );
+          +        }).toList(),
+          +        selectedIndex: selectedIndex,
+          +        onDestinationSelected: (index) {
+          +          setState(() {
+          +            selectedIndex = index;
+          +          });
+          +        },
+          +      ),
+               );
+             }
+           }
+      - name: Copy step_06
         copydir:
           from: material3_reply
           to: step_06
