@@ -2,9 +2,9 @@ name: Adaptive App rebuild script
 steps:
   - name: step_03
     steps:
-      - name: Remove generated code.
+      - name: Remove step_03
         rmdir: step_03
-      - name: Create project.
+      - name: Create project
         flutter: create material3_reply --empty
       - name: Configure analysis_options.yaml
         path: material3_reply/analysis_options.yaml
@@ -65,6 +65,17 @@ steps:
           to: step_03
       - name: Flutter clean
         path: step_03
+        flutter: clean
+  - name: step_05
+    steps:
+      - name: Remove step_05
+        rmdir: step_05
+      - name: Copy step_05
+        copydir:
+          from: material3_reply
+          to: step_05
+      - name: Flutter clean
+        path: step_05
         flutter: clean
   - name: Cleanup
     rmdir: material3_reply
