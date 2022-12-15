@@ -977,5 +977,16 @@ steps:
       - name: Flutter clean
         path: step_06
         flutter: clean
+  - name: step_07
+    steps:
+      - name: Remove step_07
+        rmdir: step_07
+      - name: Copy step_07
+        copydir:
+          from: material3_reply
+          to: step_07
+      - name: Flutter clean
+        path: step_07
+        flutter: clean
   - name: Cleanup
     rmdir: material3_reply
