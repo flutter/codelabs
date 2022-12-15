@@ -12,9 +12,13 @@ import 'search_bar.dart';
 class EmailListView extends StatelessWidget {
   const EmailListView({
     super.key,
+    required this.selectedIndex,
+    required this.onSelected,
     required this.currentUser,
   });
 
+  final int selectedIndex;
+  final ValueChanged<int> onSelected;
   final User currentUser;
 
   @override
@@ -31,6 +35,10 @@ class EmailListView extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 8.0),
               child: EmailWidget(
                 email: data.emails[index],
+                onSelected: () {
+                  onSelected(index);
+                },
+                selected: selectedIndex == index,
               ),
             );
           }),
