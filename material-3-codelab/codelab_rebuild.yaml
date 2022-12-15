@@ -164,7 +164,7 @@ steps:
           +  State<Feed> createState() => _FeedState();
           +}
           +
-          +class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
+          +class _FeedState extends State<Feed> {
           +  late final colorScheme = Theme.of(context).colorScheme;
           +  late final backgroundColor = Color.alphaBlend(
           +      colorScheme.primary.withOpacity(0.14), colorScheme.surface);
@@ -926,7 +926,7 @@ steps:
            import 'models/data.dart' as data;
            import 'models/models.dart';
            import 'widgets/email_list_view.dart';
-          @@ -41,12 +42,20 @@ class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
+          @@ -41,12 +42,20 @@ class _FeedState extends State<Feed> {
              late final backgroundColor = Color.alphaBlend(
                  colorScheme.primary.withOpacity(0.14), colorScheme.surface);
            
@@ -947,7 +947,7 @@ steps:
                      currentUser: widget.currentUser,
                    ),
                  ),
-          @@ -54,6 +63,22 @@ class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
+          @@ -54,6 +63,22 @@ class _FeedState extends State<Feed> {
                    onPressed: () {},
                    child: const Icon(Icons.add),
                  ),

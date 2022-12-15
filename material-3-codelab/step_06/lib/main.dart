@@ -37,7 +37,7 @@ class Feed extends StatefulWidget {
   State<Feed> createState() => _FeedState();
 }
 
-class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
+class _FeedState extends State<Feed> {
   late final colorScheme = Theme.of(context).colorScheme;
   late final backgroundColor = Color.alphaBlend(
       colorScheme.primary.withOpacity(0.14), colorScheme.surface);
