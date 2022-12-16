@@ -10,8 +10,8 @@ import '../destinations.dart';
 import '../transitions/nav_rail_transition.dart';
 import 'animated_floating_action_button.dart';
 
-class DissappearingNavigationRail extends StatelessWidget {
-  const DissappearingNavigationRail({
+class DisappearingNavigationRail extends StatelessWidget {
+  const DisappearingNavigationRail({
     super.key,
     required this.railAnimation,
     required this.railFabAnimation,

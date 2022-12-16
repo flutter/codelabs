@@ -12,7 +12,7 @@ import 'models/models.dart';
 import 'transitions/list_detail_transition.dart';
 import 'widgets/animated_floating_action_button.dart';
 import 'widgets/disappearing_bottom_navigation_bar.dart';
-import 'widgets/dissappearing_navigation_rail.dart';
+import 'widgets/disappearing_navigation_rail.dart';
 import 'widgets/email_list_view.dart';
 import 'widgets/reply_list_view.dart';
 
@@ -97,7 +97,7 @@ class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
         return Scaffold(
           body: Row(
             children: [
-              DissappearingNavigationRail(
+              DisappearingNavigationRail(
                 railAnimation: railAnimation,
                 railFabAnimation: railFabAnimation,
                 selectedIndex: selectedIndex,
