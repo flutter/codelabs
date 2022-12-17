@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'entry.dart';
 
-typedef SubmitCallback = Function(Entry);
+typedef SubmitCallback = void Function(Entry);
 
 class EntryForm extends StatefulWidget {
   final SubmitCallback onSubmit;

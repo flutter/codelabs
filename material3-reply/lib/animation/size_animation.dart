@@ -5,9 +5,8 @@
 import 'package:flutter/animation.dart';
 
 class SizeAnimation extends CurvedAnimation {
-  SizeAnimation(Animation<double> parent)
+  SizeAnimation({required super.parent})
       : super(
-          parent: parent,
           curve: const Interval(
             0 / 5,
             3 / 5,
