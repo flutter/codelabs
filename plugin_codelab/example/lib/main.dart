@@ -10,11 +10,13 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight])
       .then((_) {
-    runApp(MyApp());
+    runApp(const MyApp());
   });
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
   @override
   State<MyApp> createState() => _MyAppState();
 }
@@ -48,12 +50,10 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _onKeyDown(int key) {
-    print('key down:$key');
     PluginCodelab.onKeyDown(key).then((value) => print(value));
   }
 
   void _onKeyUp(int key) {
-    print('key up:$key');
     PluginCodelab.onKeyUp(key).then((value) => print(value));
   }
 

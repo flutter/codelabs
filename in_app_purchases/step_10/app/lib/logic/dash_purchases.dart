@@ -116,15 +116,15 @@ class DashPurchases extends ChangeNotifier {
   }
 
   Future<bool> _verifyPurchase(PurchaseDetails purchaseDetails) async {
-    var functions = await firebaseNotifier.functions;
+    final functions = await firebaseNotifier.functions;
     final callable = functions.httpsCallable('verifyPurchase');
-    final results = await callable({
+    final results = await callable.call<bool>({
       'source': purchaseDetails.verificationData.source,
       'verificationData':
           purchaseDetails.verificationData.serverVerificationData,
       'productId': purchaseDetails.productID,
     });
-    return results.data as bool;
+    return results.data;
   }
 
   void _updateStreamOnDone() {

@@ -137,7 +137,7 @@ class LevelPicker extends StatelessWidget {
 
   final double level;
   final String label;
-  final Function(double) onChanged;
+  final void Function(double) onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -163,7 +163,7 @@ class CharacterButton extends StatelessWidget {
 
   final Character character;
   final bool selected;
-  final Function() onSelectChar;
+  final void Function() onSelectChar;
   final double characterWidth;
 
   @override

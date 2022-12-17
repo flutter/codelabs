@@ -23,6 +23,7 @@ declare -a CODELABS=(
   "google-maps-in-flutter"
   "in_app_purchases"
   "material3-reply"
+  "namer"
   "star_counter"
   "startup_namer"
   "testing_codelab"
