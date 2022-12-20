@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -22,7 +20,16 @@ class WebViewApp extends StatefulWidget {
 }
 
 class _WebViewAppState extends State<WebViewApp> {
-  final controller = Completer<WebViewController>();
+  late final WebViewController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = WebViewController()
+      ..loadRequest(
+        Uri.parse('https://flutter.dev'),
+      );
+  }
 
   @override
   Widget build(BuildContext context) {
