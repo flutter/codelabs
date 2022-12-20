@@ -13,7 +13,7 @@ import {
   NonSubscriptionStatus, Purchase, SubscriptionPurchase,
   SubscriptionStatus,
 } from "./iap.repository";
-import {firestore} from "firebase-admin/lib/firestore";
+import {firestore} from "firebase-admin";
 import * as Functions from "firebase-functions";
 const functions = Functions.region(CLOUD_REGION);
 

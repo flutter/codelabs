@@ -7,7 +7,7 @@ import {GooglePlayPurchaseHandler} from "./google-play.purchase-handler";
 import {AppStorePurchaseHandler} from "./app-store.purchase-handler";
 import {CLOUD_REGION} from "./constants";
 import {IapRepository, IAPSource} from "./iap.repository";
-import {HttpsError} from "firebase-functions/lib/providers/https";
+import {https} from "firebase-functions";
 
 const functions = Functions.region(CLOUD_REGION);
 admin.initializeApp();
@@ -42,7 +42,7 @@ export const verifyPurchase = functions.https.onCall(
       // Check authentication
       if (!context.auth) {
         console.warn("verifyPurchase called when not authenticated");
-        throw new HttpsError(
+        throw new https.HttpsError(
             "unauthenticated",
             "Request was not authenticated.",
         );

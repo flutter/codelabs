@@ -15,7 +15,7 @@
   },
   "main": "lib/index.js",
   "dependencies": {
-    "camelcase-keys": "^8.0.0",
+    "camelcase-keys": "6.2.2",
     "firebase-admin": "^11.0.1",
     "firebase-functions": "^4.0.1",
     "google-auth-library": "^8.0.2",

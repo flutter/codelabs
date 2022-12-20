@@ -3,7 +3,7 @@ import {ProductData, productDataMap} from "./products";
 import * as appleReceiptVerify from "node-apple-receipt-verify";
 import {APP_STORE_SHARED_SECRET, CLOUD_REGION} from "./constants";
 import {IapRepository} from "./iap.repository";
-import {firestore} from "firebase-admin/lib/firestore";
+import {firestore} from "firebase-admin";
 import * as Functions from "firebase-functions";
 import camelCaseKeys from "camelcase-keys";
 import Timestamp = firestore.Timestamp;
@@ -137,7 +137,7 @@ export class AppStorePurchaseHandler extends PurchaseHandler {
       res.sendStatus(200);
       return;
     }
-    // Find latest receipt for each original transaction
+    // Find the latest receipt for each original transaction
     const latestReceipts: ReceiptInfo[] = Object.values(
         groupBy(eventData.unifiedReceipt.latestReceiptInfo, "originalTransactionId")
     ).map((group) => group
