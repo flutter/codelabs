@@ -89,50 +89,55 @@ class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Row(
-        children: [
-          DisappearingNavigationRail(
-            railAnimation: railAnimation,
-            railFabAnimation: railFabAnimation,
+    return AnimatedBuilder(
+      animation: controller,
+      builder: (context, _) {
+        return Scaffold(
+          body: Row(
+            children: [
+              DisappearingNavigationRail(
+                railAnimation: railAnimation,
+                railFabAnimation: railFabAnimation,
+                selectedIndex: selectedIndex,
+                backgroundColor: backgroundColor,
+                onDestinationSelected: (index) {
+                  setState(() {
+                    selectedIndex = index;
+                  });
+                },
+              ),
+              Expanded(
+                child: Container(
+                  color: backgroundColor,
+                  child: EmailListView(
+                    selectedIndex: selectedIndex,
+                    onSelected: (index) {
+                      setState(() {
+                        selectedIndex = index;
+                      });
+                    },
+                    currentUser: widget.currentUser,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          floatingActionButton: AnimatedFloatingActionButton(
+            animation: barAnimation,
+            onPressed: () {},
+            child: const Icon(Icons.add),
+          ),
+          bottomNavigationBar: DisappearingBottomNavigationBar(
+            barAnimation: barAnimation,
             selectedIndex: selectedIndex,
-            backgroundColor: backgroundColor,
             onDestinationSelected: (index) {
               setState(() {
                 selectedIndex = index;
               });
             },
           ),
-          Expanded(
-            child: Container(
-              color: backgroundColor,
-              child: EmailListView(
-                selectedIndex: selectedIndex,
-                onSelected: (index) {
-                  setState(() {
-                    selectedIndex = index;
-                  });
-                },
-                currentUser: widget.currentUser,
-              ),
-            ),
-          ),
-        ],
-      ),
-      floatingActionButton: AnimatedFloatingActionButton(
-        animation: barAnimation,
-        onPressed: () {},
-        child: const Icon(Icons.add),
-      ),
-      bottomNavigationBar: DisappearingBottomNavigationBar(
-        barAnimation: barAnimation,
-        selectedIndex: selectedIndex,
-        onDestinationSelected: (index) {
-          setState(() {
-            selectedIndex = index;
-          });
-        },
-      ),
+        );
+      },
     );
   }
 }
