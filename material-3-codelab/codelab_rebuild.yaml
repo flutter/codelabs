@@ -1955,6 +1955,159 @@ steps:
     steps:
       - name: Remove step_09
         rmdir: step_09
+      - name: Create lib/widgets/reply_list_view.dart
+        path: material3_reply/lib/widgets/reply_list_view.dart
+        replace-contents: |
+          // Copyright 2022 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+          
+          import 'package:flutter/material.dart';
+          
+          import '../models/data.dart' as data;
+          import 'email_widget.dart';
+          
+          class ReplyListView extends StatelessWidget {
+            const ReplyListView({super.key});
+          
+            @override
+            Widget build(BuildContext context) {
+              return Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: ListView(
+                  children: [
+                    const Padding(padding: EdgeInsets.only(bottom: 8.0)),
+                    ...List.generate(data.replies.length, (index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child: EmailWidget(
+                          email: data.replies[index],
+                          isPreview: false,
+                          isThreaded: true,
+                          showHeadline: index == 0,
+                        ),
+                      );
+                    }),
+                  ],
+                ),
+              );
+            }
+          }
+      - name: Update lib/main.dart
+        path: material3_reply/lib/main.dart
+        patch-u: |
+          --- a/material-3-codelab/step_09/lib/main.dart
+          +++ b/material-3-codelab/step_09/lib/main.dart
+          @@ -9,10 +9,12 @@ import 'animation/rail_animation.dart';
+           import 'animation/rail_fab_animation.dart';
+           import 'models/data.dart' as data;
+           import 'models/models.dart';
+          +import 'transitions/list_detail_transition.dart';
+           import 'widgets/animated_floating_action_button.dart';
+           import 'widgets/disappearing_bottom_navigation_bar.dart';
+           import 'widgets/disappearing_navigation_rail.dart';
+           import 'widgets/email_list_view.dart';
+          +import 'widgets/reply_list_view.dart';
+           
+           void main() {
+             runApp(const MainApp());
+          @@ -89,50 +91,59 @@ class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
+           
+             @override
+             Widget build(BuildContext context) {
+          -    return Scaffold(
+          -      body: Row(
+          -        children: [
+          -          DisappearingNavigationRail(
+          -            railAnimation: railAnimation,
+          -            railFabAnimation: railFabAnimation,
+          -            selectedIndex: selectedIndex,
+          -            backgroundColor: backgroundColor,
+          -            onDestinationSelected: (index) {
+          -              setState(() {
+          -                selectedIndex = index;
+          -              });
+          -            },
+          -          ),
+          -          Expanded(
+          -            child: Container(
+          -              color: backgroundColor,
+          -              child: EmailListView(
+          +    return AnimatedBuilder(
+          +      animation: controller,
+          +      builder: (context, _) {
+          +        return Scaffold(
+          +          body: Row(
+          +            children: [
+          +              DisappearingNavigationRail(
+          +                railAnimation: railAnimation,
+          +                railFabAnimation: railFabAnimation,
+                           selectedIndex: selectedIndex,
+          -                onSelected: (index) {
+          +                backgroundColor: backgroundColor,
+          +                onDestinationSelected: (index) {
+                             setState(() {
+                               selectedIndex = index;
+                             });
+                           },
+          -                currentUser: widget.currentUser,
+                         ),
+          -            ),
+          +              Expanded(
+          +                child: Container(
+          +                  color: backgroundColor,
+          +                  child: ListDetailTransition(
+          +                    animation: railAnimation,
+          +                    one: EmailListView(
+          +                      selectedIndex: selectedIndex,
+          +                      onSelected: (index) {
+          +                        setState(() {
+          +                          selectedIndex = index;
+          +                        });
+          +                      },
+          +                      currentUser: widget.currentUser,
+          +                    ),
+          +                    two: const ReplyListView(),
+          +                  ),
+          +                ),
+          +              ),
+          +            ],
+          +          ),
+          +          floatingActionButton: AnimatedFloatingActionButton(
+          +            animation: barAnimation,
+          +            onPressed: () {},
+          +            child: const Icon(Icons.add),
+          +          ),
+          +          bottomNavigationBar: DisappearingBottomNavigationBar(
+          +            barAnimation: barAnimation,
+          +            selectedIndex: selectedIndex,
+          +            onDestinationSelected: (index) {
+          +              setState(() {
+          +                selectedIndex = index;
+          +              });
+          +            },
+                     ),
+          -        ],
+          -      ),
+          -      floatingActionButton: AnimatedFloatingActionButton(
+          -        animation: barAnimation,
+          -        onPressed: () {},
+          -        child: const Icon(Icons.add),
+          -      ),
+          -      bottomNavigationBar: DisappearingBottomNavigationBar(
+          -        barAnimation: barAnimation,
+          -        selectedIndex: selectedIndex,
+          -        onDestinationSelected: (index) {
+          -          setState(() {
+          -            selectedIndex = index;
+          -          });
+          -        },
+          -      ),
+          +        );
+          +      },
+               );
+             }
+           }
       - name: Copy step_09
         copydir:
           from: material3_reply

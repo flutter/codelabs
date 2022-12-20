@@ -9,10 +9,12 @@ import 'animation/rail_animation.dart';
 import 'animation/rail_fab_animation.dart';
 import 'models/data.dart' as data;
 import 'models/models.dart';
+import 'transitions/list_detail_transition.dart';
 import 'widgets/animated_floating_action_button.dart';
 import 'widgets/disappearing_bottom_navigation_bar.dart';
 import 'widgets/disappearing_navigation_rail.dart';
 import 'widgets/email_list_view.dart';
+import 'widgets/reply_list_view.dart';
 
 void main() {
   runApp(const MainApp());
@@ -89,50 +91,59 @@ class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Row(
-        children: [
-          DisappearingNavigationRail(
-            railAnimation: railAnimation,
-            railFabAnimation: railFabAnimation,
+    return AnimatedBuilder(
+      animation: controller,
+      builder: (context, _) {
+        return Scaffold(
+          body: Row(
+            children: [
+              DisappearingNavigationRail(
+                railAnimation: railAnimation,
+                railFabAnimation: railFabAnimation,
+                selectedIndex: selectedIndex,
+                backgroundColor: backgroundColor,
+                onDestinationSelected: (index) {
+                  setState(() {
+                    selectedIndex = index;
+                  });
+                },
+              ),
+              Expanded(
+                child: Container(
+                  color: backgroundColor,
+                  child: ListDetailTransition(
+                    animation: railAnimation,
+                    one: EmailListView(
+                      selectedIndex: selectedIndex,
+                      onSelected: (index) {
+                        setState(() {
+                          selectedIndex = index;
+                        });
+                      },
+                      currentUser: widget.currentUser,
+                    ),
+                    two: const ReplyListView(),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          floatingActionButton: AnimatedFloatingActionButton(
+            animation: barAnimation,
+            onPressed: () {},
+            child: const Icon(Icons.add),
+          ),
+          bottomNavigationBar: DisappearingBottomNavigationBar(
+            barAnimation: barAnimation,
             selectedIndex: selectedIndex,
-            backgroundColor: backgroundColor,
             onDestinationSelected: (index) {
               setState(() {
                 selectedIndex = index;
               });
             },
           ),
-          Expanded(
-            child: Container(
-              color: backgroundColor,
-              child: EmailListView(
-                selectedIndex: selectedIndex,
-                onSelected: (index) {
-                  setState(() {
-                    selectedIndex = index;
-                  });
-                },
-                currentUser: widget.currentUser,
-              ),
-            ),
-          ),
-        ],
-      ),
-      floatingActionButton: AnimatedFloatingActionButton(
-        animation: barAnimation,
-        onPressed: () {},
-        child: const Icon(Icons.add),
-      ),
-      bottomNavigationBar: DisappearingBottomNavigationBar(
-        barAnimation: barAnimation,
-        selectedIndex: selectedIndex,
-        onDestinationSelected: (index) {
-          setState(() {
-            selectedIndex = index;
-          });
-        },
-      ),
+        );
+      },
     );
   }
 }
