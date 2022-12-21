@@ -1,4 +1,7 @@
-import 'dart:async';
+// Copyright 2022 The Flutter Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -9,29 +12,24 @@ enum _MenuOptions {
 class Menu extends StatelessWidget {
   const Menu({required this.controller, super.key});
 
-  final Completer<WebViewController> controller;
+  final WebViewController controller;
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<WebViewController>(
-      future: controller.future,
-      builder: (context, controller) {
-        return PopupMenuButton<_MenuOptions>(
-          onSelected: (value) async {
-            switch (value) {
-              case _MenuOptions.navigationDelegate:
-                await controller.data!.loadUrl('https://youtube.com');
-                break;
-            }
-          },
-          itemBuilder: (context) => [
-            const PopupMenuItem<_MenuOptions>(
-              value: _MenuOptions.navigationDelegate,
-              child: Text('Navigate to YouTube'),
-            ),
-          ],
-        );
+    return PopupMenuButton<_MenuOptions>(
+      onSelected: (value) async {
+        switch (value) {
+          case _MenuOptions.navigationDelegate:
+            await controller.loadRequest(Uri.parse('https://youtube.com'));
+            break;
+        }
       },
+      itemBuilder: (context) => [
+        const PopupMenuItem<_MenuOptions>(
+          value: _MenuOptions.navigationDelegate,
+          child: Text('Navigate to YouTube'),
+        ),
+      ],
     );
   }
 }

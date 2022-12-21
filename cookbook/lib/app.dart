@@ -13,7 +13,29 @@
 // limitations under the License.
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'items.dart';
 import 'main.dart';
+
+GoRouter _router(Widget? home) {
+  return GoRouter(
+    routes: <RouteBase>[
+      GoRoute(
+        path: '/',
+        builder: (context, state) {
+          return home ?? const Home();
+        },
+        routes: [
+          for (final item in items)
+            GoRoute(
+              path: item.name,
+              builder: (context, _) => item.builder(context),
+            )
+        ],
+      ),
+    ],
+  );
+}
 
 @immutable
 class App extends StatelessWidget {
@@ -27,13 +49,13 @@ class App extends StatelessWidget {
       brightness: Brightness.light,
       primaryColor: Colors.blue,
     );
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'Cookbook Examples',
       theme: themeData.copyWith(
           colorScheme:
               themeData.colorScheme.copyWith(secondary: Colors.indigo)),
-      home: home ?? const Home(),
+      routerConfig: _router(home),
     );
   }
 }

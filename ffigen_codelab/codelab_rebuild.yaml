@@ -1,15 +1,19 @@
 name: FFI Generator codelab rebuild script
 steps:
+  - name: Create ffigen_app
+    flutter: create --template=plugin_ffi --platforms=android,ios,linux,macos,windows ffigen_app
   - name: step_03
     steps:
       - name: Remove step_03
         rmdir: step_03
-      - name: Create project.
-        flutter: create --template=plugin_ffi --platforms=android,ios,linux,macos,windows ffigen_app
       - name: Configure analysis_options.yaml
         path: ffigen_app/analysis_options.yaml
         replace-contents: |
           include: ../../analysis_options.yaml
+      - name: Configure example/analysis_options.yaml
+        path: ffigen_app/example/analysis_options.yaml
+        replace-contents: |
+          include: ../../../analysis_options.yaml
       - name: Remove CHANGELOG
         rm: ffigen_app/CHANGELOG.md
       - name: Remove LICENSE
@@ -42,20 +46,17 @@ steps:
       - name: Fixup example/lib/main.dart
         path: ffigen_app/example/lib/main.dart
         patch-u: |
-          --- b/ffi_codelab/step_03/example/lib/main.dart
-          +++ a/ffi_codelab/step_03/example/lib/main.dart
-          @@ -11,10 +11,10 @@ class MyApp extends StatefulWidget {
+          --- b/ffigen_codelab/step_03/example/lib/main.dart
+          +++ a/ffigen_codelab/step_03/example/lib/main.dart
+          @@ -11,7 +11,7 @@ class MyApp extends StatefulWidget {
              const MyApp({super.key});
            
              @override
           -  _MyAppState createState() => _MyAppState();
-          +  MyAppState createState() => MyAppState();
+          +  State<MyApp> createState() => _MyAppState();
            }
            
-          -class _MyAppState extends State<MyApp> {
-          +class MyAppState extends State<MyApp> {
-             late int sumResult;
-             late Future<int> sumAsyncResult;
+           class _MyAppState extends State<MyApp> {
       - name: Build iOS simulator bundle
         path: ffigen_app/example
         platforms: [ macos ]
@@ -76,13 +77,13 @@ steps:
         path: ffigen_app/example
         platforms: [ linux ]
         flutter: build linux --debug 
+      - name: Flutter clean
+        path: ffigen_app/example
+        flutter: clean
       - name: Copy step_03
         copydir:
           from: ffigen_app
           to: step_03
-      - name: Flutter clean
-        path: step_03/example
-        flutter: clean
   - name: step_05
     steps:
       - name: Remove step_05
@@ -171,6 +172,10 @@ steps:
       - name: Replace example/lib/main.dart
         path: ffigen_app/example/lib/main.dart
         replace-contents: |
+          // Copyright 2022 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+          
           import 'package:ffigen_app/ffigen_app.dart';
           import 'package:flutter/material.dart';
           
@@ -184,10 +189,10 @@ steps:
             const MyApp({super.key});
           
             @override
-            MyAppState createState() => MyAppState();
+            State<MyApp> createState() => _MyAppState();
           }
           
-          class MyAppState extends State<MyApp> {
+          class _MyAppState extends State<MyApp> {
             late Duktape duktape;
             String output = '';
           
@@ -229,7 +234,7 @@ steps:
                           spacerSmall,
                           ElevatedButton(
                             child: const Text('Run JavaScript'),
-                            onPressed: () async {
+                            onPressed: () {
                               duktape.evalString(jsCode);
                               setState(() {
                                 output = '$jsCode => ${duktape.getInt(-1)}';
@@ -247,6 +252,10 @@ steps:
       - name: Replace lib/ffigen_app.dart
         path: ffigen_app/lib/ffigen_app.dart
         replace-contents: |
+          // Copyright 2022 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+          
           import 'dart:ffi';
           import 'dart:io';
           import 'package:ffi/ffi.dart' as ffi;
@@ -255,7 +264,7 @@ steps:
           
           const String _libName = 'ffigen_app';
           
-          /// The dynamic library in which the symbols for [LibmsfaPluginBindings] can be found.
+          /// The dynamic library in which the symbols for [DuktapeBindings] can be found.
           final DynamicLibrary _dylib = () {
             if (Platform.isMacOS || Platform.isIOS) {
               return DynamicLibrary.open('$_libName.framework/$_libName');
@@ -308,14 +317,12 @@ steps:
           
             late Pointer<duk_hthread> ctx;
           }
-      - name: Replace src/CMakeLists.txt
+      - name: Patch src/CMakeLists.txt
         path: ffigen_app/src/CMakeLists.txt
         patch-u: |
-          diff --git b/ffigen_codelab/step_05/src/CMakeLists.txt a/ffigen_codelab/step_05/src/CMakeLists.txt
-          index d2390e36..04e2d188 100644
           --- b/ffigen_codelab/step_05/src/CMakeLists.txt
           +++ a/ffigen_codelab/step_05/src/CMakeLists.txt
-          @@ -6,11 +6,12 @@ cmake_minimum_required(VERSION 3.10)
+          @@ -6,12 +6,19 @@ cmake_minimum_required(VERSION 3.10)
            project(ffigen_app_library VERSION 0.0.1 LANGUAGES C)
            
            add_library(ffigen_app SHARED
@@ -326,10 +333,17 @@ steps:
            set_target_properties(ffigen_app PROPERTIES
           -  PUBLIC_HEADER ffigen_app.h
           +  PUBLIC_HEADER duktape.h
-          +  PRIVATE_HEADRE duk_config.h
+          +  PRIVATE_HEADER duk_config.h
              OUTPUT_NAME "ffigen_app"
            )
            
+          +if (WIN32)
+          +set_target_properties(ffigen_app PROPERTIES
+          +  WINDOWS_EXPORT_ALL_SYMBOLS ON
+          +)
+          +endif (WIN32)
+          +
+           target_compile_definitions(ffigen_app PUBLIC DART_SHARED_LIB)
       - name: Upgrade dep versions
         path: ffigen_app
         dart: pub upgrade --major-versions
@@ -359,13 +373,13 @@ steps:
         path: ffigen_app/example
         platforms: [ linux ]
         flutter: build linux --debug 
+      - name: Flutter clean
+        path: ffigen_app/example
+        flutter: clean
       - name: Copy step_05
         copydir:
           from: ffigen_app
           to: step_05
-      - name: Flutter clean
-        path: step_05/example
-        flutter: clean
   - name: step_06
     steps:
       - name: Remove step_06
@@ -409,12 +423,402 @@ steps:
         path: ffigen_app/example
         platforms: [ linux ]
         flutter: build linux --debug 
+      - name: Flutter clean
+        path: ffigen_app/example
+        flutter: clean
       - name: Copy step_06
         copydir:
           from: ffigen_app
           to: step_06
+  - name: step_07
+    steps:
+      - name: Remove step_07
+        rmdir: step_07
+      - name: Create example/lib/duktape_message.dart
+        path: ffigen_app/example/lib/duktape_message.dart
+        replace-contents: |
+          import 'package:freezed_annotation/freezed_annotation.dart';
+          
+          part 'duktape_message.freezed.dart';
+          
+          @freezed
+          class DuktapeMessage with _$DuktapeMessage {
+            factory DuktapeMessage.evaluate(String code) = DuktapeMessageCode;
+            factory DuktapeMessage.response(String result) = DuktapeMessageResponse;
+            factory DuktapeMessage.error(String log) = DuktapeMessageError;
+          }
+      - name: mkdir example/test
+        path: ffigen_app
+        mkdir: example/test
+      - name: Create example/test/widget_test.dart
+        path: ffigen_app/example/test/widget_test.dart
+        replace-contents: |
+          import 'package:ffigen_app/ffigen_app.dart';
+          import 'package:ffigen_app_example/main.dart';
+          import 'package:flutter_riverpod/flutter_riverpod.dart';
+          import 'package:flutter_test/flutter_test.dart';
+          
+          void main() {
+            testWidgets('DuktapeApp displays the title', (tester) async {
+              // Build our app and trigger a frame.
+              await tester.pumpWidget(const ProviderScope(child: DuktapeApp()));
+          
+              // Verify that our app displays the title
+              expect(find.text('Duktape REPL'), findsOneWidget);
+            });
+          
+            test('Duktape.evalString', () {
+              final duktape = Duktape();
+              final response = duktape.evalString('1+2');
+              expect(response, '3');
+            });
+          }
+      - name: Replace example/lib/main.dart
+        path: ffigen_app/example/lib/main.dart
+        replace-contents: |
+          // Copyright 2017, 2020, 2022 The Flutter team. All rights reserved.
+          // Use of this source code is governed by a BSD-style license
+          // that can be found in the LICENSE file.
+          
+          import 'package:ffigen_app/ffigen_app.dart';
+          import 'package:flutter/material.dart';
+          import 'package:flutter_riverpod/flutter_riverpod.dart';
+          import 'package:google_fonts/google_fonts.dart';
+          
+          import 'duktape_message.dart';
+          
+          void main() {
+            runApp(const ProviderScope(child: DuktapeApp()));
+          }
+          
+          final duktapeMessagesProvider =
+              StateNotifierProvider<DuktapeMessageNotifier, List<DuktapeMessage>>((ref) {
+            return DuktapeMessageNotifier(messages: <DuktapeMessage>[]);
+          });
+          
+          class DuktapeMessageNotifier extends StateNotifier<List<DuktapeMessage>> {
+            DuktapeMessageNotifier({required List<DuktapeMessage> messages})
+                : duktape = Duktape(),
+                  super(messages);
+            final Duktape duktape;
+          
+            void eval(String code) {
+              state = [
+                DuktapeMessage.evaluate(code),
+                ...state,
+              ];
+              try {
+                final response = duktape.evalString(code);
+                state = [
+                  DuktapeMessage.response(response),
+                  ...state,
+                ];
+              } catch (e) {
+                state = [
+                  DuktapeMessage.error('$e'),
+                  ...state,
+                ];
+              }
+            }
+          }
+          
+          class DuktapeApp extends StatelessWidget {
+            const DuktapeApp({super.key});
+          
+            @override
+            Widget build(BuildContext context) {
+              return const MaterialApp(
+                title: 'Duktape App',
+                home: DuktapeRepl(),
+              );
+            }
+          }
+          
+          class DuktapeRepl extends ConsumerStatefulWidget {
+            const DuktapeRepl({
+              super.key,
+            });
+          
+            @override
+            ConsumerState<DuktapeRepl> createState() => _DuktapeReplState();
+          }
+          
+          class _DuktapeReplState extends ConsumerState<DuktapeRepl> {
+            final _controller = TextEditingController();
+            final _focusNode = FocusNode();
+            var _isComposing = false;
+          
+            void _handleSubmitted(String text) {
+              _controller.clear();
+              setState(() {
+                _isComposing = false;
+              });
+              setState(() {
+                ref.read(duktapeMessagesProvider.notifier).eval(text);
+              });
+              _focusNode.requestFocus();
+            }
+          
+            @override
+            Widget build(BuildContext context) {
+              final messages = ref.watch(duktapeMessagesProvider);
+              return Scaffold(
+                backgroundColor: Colors.white,
+                appBar: AppBar(
+                  title: const Text('Duktape REPL'),
+                  elevation: Theme.of(context).platform == TargetPlatform.iOS ? 0.0 : 4.0,
+                ),
+                body: Column(
+                  children: [
+                    Flexible(
+                      child: Ink(
+                        color: Theme.of(context).scaffoldBackgroundColor,
+                        child: SafeArea(
+                          bottom: false,
+                          child: ListView.builder(
+                            padding: const EdgeInsets.all(8.0),
+                            reverse: true,
+                            itemBuilder: (context, idx) => messages[idx].when(
+                              evaluate: (str) => Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 2),
+                                child: Text(
+                                  '> $str',
+                                  style: GoogleFonts.firaCode(
+                                    textStyle: Theme.of(context).textTheme.titleMedium,
+                                  ),
+                                ),
+                              ),
+                              response: (str) => Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 2),
+                                child: Text(
+                                  '= $str',
+                                  style: GoogleFonts.firaCode(
+                                    textStyle: Theme.of(context).textTheme.titleMedium,
+                                    color: Colors.blue[800],
+                                  ),
+                                ),
+                              ),
+                              error: (str) => Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 2),
+                                child: Text(
+                                  str,
+                                  style: GoogleFonts.firaCode(
+                                    textStyle: Theme.of(context).textTheme.titleSmall,
+                                    color: Colors.red[800],
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            itemCount: messages.length,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const Divider(height: 1.0),
+                    SafeArea(
+                      top: false,
+                      child: Container(
+                        decoration: BoxDecoration(color: Theme.of(context).cardColor),
+                        child: _buildTextComposer(),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }
+          
+            Widget _buildTextComposer() {
+              return IconTheme(
+                data: IconThemeData(color: Theme.of(context).colorScheme.secondary),
+                child: Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Row(
+                    children: [
+                      Text('>', style: Theme.of(context).textTheme.titleMedium),
+                      const SizedBox(width: 4),
+                      Flexible(
+                        child: TextField(
+                          controller: _controller,
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                          ),
+                          onChanged: (text) {
+                            setState(() {
+                              _isComposing = text.isNotEmpty;
+                            });
+                          },
+                          onSubmitted: _isComposing ? _handleSubmitted : null,
+                          focusNode: _focusNode,
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 4.0),
+                        child: IconButton(
+                          icon: const Icon(Icons.send),
+                          onPressed: _isComposing
+                              ? () => _handleSubmitted(_controller.text)
+                              : null,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }
+          }
+      - name: Patch lib/ffigen_app.dart
+        path: ffigen_app/lib/ffigen_app.dart
+        patch-u: |
+          --- b/ffigen_codelab/step_07/lib/ffigen_app.dart
+          +++ a/ffigen_codelab/step_07/lib/ffigen_app.dart
+          @@ -5,6 +5,7 @@
+           import 'dart:ffi';
+           import 'dart:io';
+           import 'package:ffi/ffi.dart' as ffi;
+          +import 'package:path/path.dart' as p;
+           
+           import 'duktape_bindings_generated.dart';
+           
+          @@ -13,12 +14,24 @@ const String _libName = 'ffigen_app';
+           /// The dynamic library in which the symbols for [DuktapeBindings] can be found.
+           final DynamicLibrary _dylib = () {
+             if (Platform.isMacOS || Platform.isIOS) {
+          +    if (Platform.environment.containsKey('FLUTTER_TEST')) {
+          +      return DynamicLibrary.open(
+          +          'build/macos/Build/Products/Debug/$_libName/$_libName.framework/$_libName');
+          +    }
+               return DynamicLibrary.open('$_libName.framework/$_libName');
+             }
+             if (Platform.isAndroid || Platform.isLinux) {
+          +    if (Platform.environment.containsKey('FLUTTER_TEST')) {
+          +      return DynamicLibrary.open(
+          +          'build/linux/x64/debug/bundle/lib/lib$_libName.so');
+          +    }
+               return DynamicLibrary.open('lib$_libName.so');
+             }
+             if (Platform.isWindows) {
+          +    if (Platform.environment.containsKey('FLUTTER_TEST')) {
+          +      return DynamicLibrary.open(p.canonicalize(
+          +          p.join(r'build\windows\runner\Debug', '$_libName.dll')));
+          +    }
+               return DynamicLibrary.open('$_libName.dll');
+             }
+             throw UnsupportedError('Unknown platform: ${Platform.operatingSystem}');
+          @@ -33,13 +46,13 @@ class Duktape {
+                   _bindings.duk_create_heap(nullptr, nullptr, nullptr, nullptr, nullptr);
+             }
+           
+          -  void evalString(String jsCode) {
+          +  String evalString(String jsCode) {
+               // From duktape.h:
+               // #define duk_peval_string(ctx,src)  \
+               // 	(duk_eval_raw((ctx), (src), 0, 0 /*args*/ | DUK_COMPILE_EVAL | DUK_COMPILE_SAFE | DUK_COMPILE_NOSOURCE | DUK_COMPILE_STRLEN | DUK_COMPILE_NOFILENAME))
+           
+               var nativeUtf8 = jsCode.toNativeUtf8();
+          -    _bindings.duk_eval_raw(
+          +    final evalResult = _bindings.duk_eval_raw(
+                   ctx,
+                   nativeUtf8.cast<Char>(),
+                   0,
+          @@ -50,10 +63,21 @@ class Duktape {
+                       DUK_COMPILE_STRLEN |
+                       DUK_COMPILE_NOFILENAME);
+               ffi.malloc.free(nativeUtf8);
+          +
+          +    if (evalResult != 0) {
+          +      throw _retrieveTopOfStackAsString();
+          +    }
+          +
+          +    return _retrieveTopOfStackAsString();
+             }
+           
+          -  int getInt(int index) {
+          -    return _bindings.duk_get_int(ctx, index);
+          +  String _retrieveTopOfStackAsString() {
+          +    Pointer<Size> outLengthPtr = ffi.calloc<Size>();
+          +    final errorStrPtr = _bindings.duk_safe_to_lstring(ctx, -1, outLengthPtr);
+          +    final returnVal =
+          +        errorStrPtr.cast<ffi.Utf8>().toDartString(length: outLengthPtr.value);
+          +    ffi.calloc.free(outLengthPtr);
+          +    return returnVal;
+             }
+           
+             void dispose() {
+      - name: Patch example/macos/Runner/DebugProfile.entitlements
+        path: ffigen_app/example/macos/Runner/DebugProfile.entitlements
+        patch-u: |
+          diff --git b/ffigen_codelab/step_07/example/macos/Runner/DebugProfile.entitlements a/ffigen_codelab/step_07/example/macos/Runner/DebugProfile.entitlements
+          index dddb8a30..08c3ab17 100644
+          --- b/ffigen_codelab/step_07/example/macos/Runner/DebugProfile.entitlements
+          +++ a/ffigen_codelab/step_07/example/macos/Runner/DebugProfile.entitlements
+          @@ -8,5 +8,7 @@
+           	<true/>
+           	<key>com.apple.security.network.server</key>
+           	<true/>
+          +	<key>com.apple.security.network.client</key>
+          +	<true/>
+           </dict>
+           </plist>
+      - name: Patch example/macos/Runner/Release.entitlements
+        path: ffigen_app/example/macos/Runner/Release.entitlements
+        patch-u: |
+          diff --git b/ffigen_codelab/step_07/example/macos/Runner/Release.entitlements a/ffigen_codelab/step_07/example/macos/Runner/Release.entitlements
+          index 852fa1a4..ee95ab7e 100644
+          --- b/ffigen_codelab/step_07/example/macos/Runner/Release.entitlements
+          +++ a/ffigen_codelab/step_07/example/macos/Runner/Release.entitlements
+          @@ -4,5 +4,7 @@
+           <dict>
+           	<key>com.apple.security.app-sandbox</key>
+           	<true/>
+          +	<key>com.apple.security.network.client</key>
+          +	<true/>
+           </dict>
+           </plist>
       - name: Flutter clean
-        path: step_06/example
+        path: ffigen_app/example
         flutter: clean
-  - name: Cleanup
+      - name: Add path
+        path: ffigen_app
+        flutter: pub add path
+      - name: Add flutter_riverpod freezed_annotation google_fonts
+        path: ffigen_app/example
+        flutter: pub add flutter_riverpod freezed_annotation google_fonts
+      - name: Add build_runner freezed
+        path: ffigen_app/example
+        flutter: pub add -d build_runner freezed
+      - name: pub get
+        path: ffigen_app/example
+        flutter: pub get
+      - name: build runner
+        path: ffigen_app/example
+        flutter: pub run build_runner build
+      - name: Build iOS simulator bundle
+        path: ffigen_app/example
+        platforms: [ macos ]
+        flutter: build ios --simulator
+      - name: Build macOS app
+        path: ffigen_app/example
+        platforms: [ macos ]
+        flutter: build macos --debug
+      - name: Build Android app
+        path: ffigen_app/example
+        platforms: [ macos ]
+        flutter: build apk --debug 
+      - name: Build Windows app
+        path: ffigen_app/example
+        platforms: [ windows ]
+        flutter: build windows --debug 
+      - name: Build Linux app
+        path: ffigen_app/example
+        platforms: [ linux ]
+        flutter: build linux --debug 
+      - name: Flutter clean
+        path: ffigen_app/example
+        flutter: clean
+      - name: Copy step_07
+        copydir:
+          from: ffigen_app
+          to: step_07
+  - name: Cleanup ffigen_app
     rmdir: ffigen_app
