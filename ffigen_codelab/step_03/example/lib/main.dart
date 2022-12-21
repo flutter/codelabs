@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:ffigen_app/ffigen_app.dart' as ffigen_app;
+import 'package:flutter/material.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,10 +11,10 @@ class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
-  MyAppState createState() => MyAppState();
+  State<MyApp> createState() => _MyAppState();
 }
 
-class MyAppState extends State<MyApp> {
+class _MyAppState extends State<MyApp> {
   late int sumResult;
   late Future<int> sumAsyncResult;
 
@@ -54,7 +54,7 @@ class MyAppState extends State<MyApp> {
                 spacerSmall,
                 FutureBuilder<int>(
                   future: sumAsyncResult,
-                  builder: (BuildContext context, AsyncSnapshot<int> value) {
+                  builder: (context, value) {
                     final displayValue =
                         (value.hasData) ? value.data : 'loading';
                     return Text(
