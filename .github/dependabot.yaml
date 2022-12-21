@@ -102,6 +102,54 @@ updates:
     schedule:
       interval: "daily"
   - package-ecosystem: "pub"
+    directory: "/ffigen_codelab/step_03/"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "/ffigen_codelab/step_03/example/"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "/ffigen_codelab/step_05/"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "/ffigen_codelab/step_05/example/"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "/ffigen_codelab/step_06/"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "/ffigen_codelab/step_06/example/"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "/ffigen_codelab/step_07/"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "/ffigen_codelab/step_07/example/"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "/firebase-auth-flutterfire-ui/complete/"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "/firebase-auth-flutterfire-ui/start/"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "/firebase-emulator-suite/complete/"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "/firebase-emulator-suite/start/"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
     directory: "/firebase-get-to-know-flutter/step_02/"
     schedule:
       interval: "daily"
@@ -126,27 +174,31 @@ updates:
     schedule:
       interval: "daily"
   - package-ecosystem: "pub"
-    directory: "/friendly_chat/step_03/"
+    directory: "/flame-building-doodle-dash/step_02/"
     schedule:
       interval: "daily"
   - package-ecosystem: "pub"
-    directory: "/friendly_chat/step_04/"
+    directory: "/flame-building-doodle-dash/step_03/"
     schedule:
       interval: "daily"
   - package-ecosystem: "pub"
-    directory: "/friendly_chat/step_05/"
+    directory: "/flame-building-doodle-dash/step_04/"
     schedule:
       interval: "daily"
   - package-ecosystem: "pub"
-    directory: "/friendly_chat/step_07/"
+    directory: "/flame-building-doodle-dash/step_05/"
     schedule:
       interval: "daily"
   - package-ecosystem: "pub"
-    directory: "/friendly_chat/step_08/"
+    directory: "/flame-building-doodle-dash/step_06/"
     schedule:
       interval: "daily"
   - package-ecosystem: "pub"
-    directory: "/friendly_chat/step_09/"
+    directory: "/flame-building-doodle-dash/step_07/"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "/flame-building-doodle-dash/step_08/"
     schedule:
       interval: "daily"
   - package-ecosystem: "pub"
@@ -190,6 +242,14 @@ updates:
     schedule:
       interval: "daily"
   - package-ecosystem: "pub"
+    directory: "/in_app_purchases/complete/app_rest/"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "/in_app_purchases/complete/firebase-backend-dart/"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
     directory: "/in_app_purchases/step_00/app/"
     schedule:
       interval: "daily"
@@ -210,15 +270,7 @@ updates:
     schedule:
       interval: "daily"
   - package-ecosystem: "pub"
-    directory: "/photos-sharing/final/"
-    schedule:
-      interval: "daily"
-  - package-ecosystem: "pub"
-    directory: "/photos-sharing/initial/"
-    schedule:
-      interval: "daily"
-  - package-ecosystem: "pub"
-    directory: "/plugin_codelab"
+    directory: "/plugin_codelab/"
     schedule:
       interval: "daily"
   - package-ecosystem: "pub"
@@ -306,6 +358,66 @@ updates:
     schedule:
       interval: "daily"
   - package-ecosystem: "pub"
+    directory: "/tfagents-flutter/finished/frontend/"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "/tfagents-flutter/step0/frontend/"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "/tfagents-flutter/step1/frontend/"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "/tfagents-flutter/step2/frontend/"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "/tfagents-flutter/step3/frontend/"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "/tfagents-flutter/step4/frontend/"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "/tfagents-flutter/step5/frontend/"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "/tfagents-flutter/step6/frontend/"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "/tfrs-flutter/finished/frontend/"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "/tfrs-flutter/step0/frontend/"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "/tfrs-flutter/step1/frontend/"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "/tfrs-flutter/step2/frontend/"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "/tfrs-flutter/step3/frontend/"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "/tfrs-flutter/step4/frontend/"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "/tfrs-flutter/step5/frontend/"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
     directory: "/tfserving-flutter/codelab2/finished/"
     schedule:
       interval: "daily"
@@ -314,7 +426,7 @@ updates:
     schedule:
       interval: "daily"
   - package-ecosystem: "pub"
-    directory: "/tooling/codelab_rebuild"
+    directory: "/tooling/codelab_rebuild/"
     schedule:
       interval: "daily"
   - package-ecosystem: "pub"
@@ -381,9 +493,3 @@ updates:
     directory: "/in_app_purchases/complete/firebase-backend/functions/"
     schedule:
       interval: "daily"
-
-
-
-
-
-

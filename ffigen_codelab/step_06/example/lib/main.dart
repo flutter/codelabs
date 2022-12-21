@@ -15,10 +15,10 @@ class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
-  MyAppState createState() => MyAppState();
+  State<MyApp> createState() => _MyAppState();
 }
 
-class MyAppState extends State<MyApp> {
+class _MyAppState extends State<MyApp> {
   late Duktape duktape;
   String output = '';
 
@@ -60,7 +60,7 @@ class MyAppState extends State<MyApp> {
                 spacerSmall,
                 ElevatedButton(
                   child: const Text('Run JavaScript'),
-                  onPressed: () async {
+                  onPressed: () {
                     duktape.evalString(jsCode);
                     setState(() {
                       output = '$jsCode => ${duktape.getInt(-1)}';

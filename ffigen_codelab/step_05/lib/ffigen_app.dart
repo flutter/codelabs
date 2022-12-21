@@ -10,7 +10,7 @@ import 'duktape_bindings_generated.dart';
 
 const String _libName = 'ffigen_app';
 
-/// The dynamic library in which the symbols for [LibmsfaPluginBindings] can be found.
+/// The dynamic library in which the symbols for [DuktapeBindings] can be found.
 final DynamicLibrary _dylib = () {
   if (Platform.isMacOS || Platform.isIOS) {
     return DynamicLibrary.open('$_libName.framework/$_libName');
