@@ -21,14 +21,25 @@ class WebViewApp extends StatefulWidget {
 }
 
 class _WebViewAppState extends State<WebViewApp> {
+  late final WebViewController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = WebViewController()
+      ..loadRequest(
+        Uri.parse('https://flutter.dev'),
+      );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Flutter WebView'),
       ),
-      body: const WebView(
-        initialUrl: 'https://flutter.dev',
+      body: WebViewWidget(
+        controller: controller,
       ),
     );
   }
