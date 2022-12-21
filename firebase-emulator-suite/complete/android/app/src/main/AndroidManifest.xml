@@ -3,7 +3,7 @@
    <application
         android:label="complete"
         android:name="${applicationName}"
-        android:usesCleartextTraffic="true"
+        android:networkSecurityConfig="@xml/network_config"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
