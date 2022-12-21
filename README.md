@@ -11,7 +11,7 @@ Here is a list of the codelabs represented here:
   - [Adding WebView to your Flutter app](https://codelabs.developers.google.com/codelabs/flutter-webview) is in `webview_flutter`
   - [Building a board game with TensorFlow Agents and Flutter](https://codelabs.developers.google.com/tfagents-flutter) is in `tfagents-flutter`  
   - [Building a Cupertino app with Flutter](https://codelabs.developers.google.com/codelabs/flutter-cupertino) is in `cupertino_store`
-  - [Building a fullstack movie recommendation system](https://codelabs.developers.google.com/tfrecommenders-flutter) is in `tfrs-flutter`
+  - [Building a full-stack movie recommendation system](https://codelabs.developers.google.com/tfrecommenders-flutter) is in `tfrs-flutter`
   - [Get to know Firebase for Flutter](https://firebase.google.com/codelabs/firebase-get-to-know-flutter) is in `firebase-get-to-know-flutter`
   - [How to test a Flutter app](https://codelabs.developers.google.com/codelabs/flutter-app-testing) is in `testing_codelab`
   - [How to write a Flutter plugin](https://codelabs.developers.google.com/codelabs/write-flutter-plugin) is in `plugin_codelab`
