@@ -429,10 +429,45 @@ steps:
           from: namer_app 
           to: step_05_e_text_style
 
-  - name: step_05_f_center_vertical
+  - name: step_05_f_accessibility
     steps:
       - name: Remove generated code.
-        rmdir: step_05_f_center_vertical
+        rmdir: step_05_f_accessibility
+      - name: Add semanticsLabel
+        path: namer_app/lib/main.dart
+        patch-u: |
+          --- a/namer_app/lib/main.dart
+          +++ b/namer_app/lib/main.dart
+          @@ -68,15 +68,19 @@ class BigCard extends StatelessWidget {
+             @override
+             Widget build(BuildContext context) {
+               var theme = Theme.of(context);
+               var style = theme.textTheme.displayMedium!.copyWith(
+                 color: theme.colorScheme.onPrimary,
+               );
+           
+               return Card(
+                 color: theme.colorScheme.primary,
+                 child: Padding(
+                   padding: const EdgeInsets.all(20),
+          -        child: Text(pair.asLowerCase, style: style),
+          +        child: Text(
+          +          pair.asLowerCase,
+          +          style: style,
+          +          semanticsLabel: pair.asPascalCase,
+          +        ),
+                 ),
+               );
+             }
+      - name: Copy step_05_f_accessibility
+        copydir:
+          from: namer_app 
+          to: step_05_f_accessibility
+
+  - name: step_05_g_center_vertical
+    steps:
+      # - name: Remove generated code.
+      #   rmdir: step_05_g_center_vertical
       - name: Center column vertically
         path: namer_app/lib/main.dart
         patch-u: |
@@ -446,15 +481,15 @@ steps:
                    children: [
                      Text('A random idea:'),
                      BigCard(pair: pair),
-      - name: Copy step_05_f_center_vertical
+      - name: Copy step_05_g_center_vertical
         copydir:
           from: namer_app 
-          to: step_05_f_center_vertical
+          to: step_05_g_center_vertical
 
-  - name: step_05_g_center_horizontal
+  - name: step_05_h_center_horizontal
     steps:
-      - name: Remove generated code.
-        rmdir: step_05_g_center_horizontal
+      # - name: Remove generated code.
+      #   rmdir: step_05_h_center_horizontal
       - name: Center column horizontally
         path: namer_app/lib/main.dart
         patch-u: |
@@ -493,15 +528,15 @@ steps:
                  ),
                );
              }
-      - name: Copy step_05_g_center_horizontal
+      - name: Copy step_05_h_center_horizontal
         copydir:
           from: namer_app 
-          to: step_05_g_center_horizontal
+          to: step_05_h_center_horizontal
 
-  - name: step_05_h_optional_changes
+  - name: step_05_i_optional_changes
     steps:
-      - name: Remove generated code.
-        rmdir: step_05_h_optional_changes
+      # - name: Remove generated code.
+      #   rmdir: step_05_i_optional_changes
       - name: Remove text, add SizedBox
         path: namer_app/lib/main.dart
         patch-u: |
@@ -531,10 +566,10 @@ steps:
              });
            
              testWidgets('Tapping button changes word pair', (WidgetTester tester) async {
-      - name: Copy step_05_h_optional_changes
+      - name: Copy step_05_i_optional_changes
         copydir:
           from: namer_app 
-          to: step_05_h_optional_changes
+          to: step_05_i_optional_changes
 
   - name: step_06_a_business_logic
     steps:
