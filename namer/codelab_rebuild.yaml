@@ -466,8 +466,8 @@ steps:
 
   - name: step_05_g_center_vertical
     steps:
-      # - name: Remove generated code.
-      #   rmdir: step_05_g_center_vertical
+      - name: Remove generated code.
+        rmdir: step_05_g_center_vertical
       - name: Center column vertically
         path: namer_app/lib/main.dart
         patch-u: |
@@ -488,8 +488,8 @@ steps:
 
   - name: step_05_h_center_horizontal
     steps:
-      # - name: Remove generated code.
-      #   rmdir: step_05_h_center_horizontal
+      - name: Remove generated code.
+        rmdir: step_05_h_center_horizontal
       - name: Center column horizontally
         path: namer_app/lib/main.dart
         patch-u: |
@@ -535,8 +535,8 @@ steps:
 
   - name: step_05_i_optional_changes
     steps:
-      # - name: Remove generated code.
-      #   rmdir: step_05_i_optional_changes
+      - name: Remove generated code.
+        rmdir: step_05_i_optional_changes
       - name: Remove text, add SizedBox
         path: namer_app/lib/main.dart
         patch-u: |
@@ -863,8 +863,8 @@ steps:
 
   - name: step_07_c_add_selectedindex
     steps:
-      # - name: Remove generated code.
-      #   rmdir: step_07_c_add_selectedindex
+      - name: Remove generated code.
+        rmdir: step_07_c_add_selectedindex
       - name: Add selectedIndex
         path: namer_app/lib/main.dart
         patch-u: |
