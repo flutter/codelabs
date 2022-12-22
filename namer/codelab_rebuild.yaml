@@ -723,31 +723,31 @@ steps:
         patch-u: |
           --- a/namer_app/lib/main.dart
           +++ b/namer_app/lib/main.dart
-          @@ -46,6 +46,41 @@ class MyAppState extends ChangeNotifier {
-           }
-           
+          @@ -48,6 +48,43 @@
            class MyHomePage extends StatelessWidget {
-          +  @override
-          +  Widget build(BuildContext context) {
+             @override
+             Widget build(BuildContext context) {
           +    return Scaffold(
           +      body: Row(
           +        children: [
-          +          NavigationRail(
-          +            extended: false,
-          +            destinations: [
-          +              NavigationRailDestination(
-          +                icon: Icon(Icons.home),
-          +                label: Text('Home'),
-          +              ),
-          +              NavigationRailDestination(
-          +                icon: Icon(Icons.favorite),
-          +                label: Text('Favorites'),
-          +              ),
-          +            ],
-          +            selectedIndex: 0,
-          +            onDestinationSelected: (value) {
-          +              print('selected: $value');
-          +            },
+          +          SafeArea(
+          +            child: NavigationRail(
+          +              extended: false,
+          +              destinations: [
+          +                NavigationRailDestination(
+          +                  icon: Icon(Icons.home),
+          +                  label: Text('Home'),
+          +                ),
+          +                NavigationRailDestination(
+          +                  icon: Icon(Icons.favorite),
+          +                  label: Text('Favorites'),
+          +                ),
+          +              ],
+          +              selectedIndex: 0,
+          +              onDestinationSelected: (value) {
+          +                print('selected: $value');
+          +              },
+          +            ),
           +          ),
           +          Expanded(
           +            child: Container(
@@ -762,10 +762,12 @@ steps:
           +}
           +
           +class GeneratorPage extends StatelessWidget {
-             @override
-             Widget build(BuildContext context) {
+          +  @override
+          +  Widget build(BuildContext context) {
                var appState = context.watch<MyAppState>();
-          @@ -58,34 +93,32 @@ class MyHomePage extends StatelessWidget {
+               var pair = appState.current;
+           
+          @@ -58,34 +95,32 @@
                  icon = Icons.favorite_border;
                }
            
@@ -861,36 +863,36 @@ steps:
 
   - name: step_07_c_add_selectedindex
     steps:
-      - name: Remove generated code.
-        rmdir: step_07_c_add_selectedindex
+      # - name: Remove generated code.
+      #   rmdir: step_07_c_add_selectedindex
       - name: Add selectedIndex
         path: namer_app/lib/main.dart
         patch-u: |
           --- a/namer_app/lib/main.dart
           +++ b/namer_app/lib/main.dart
-          @@ -51,6 +51,8 @@ class MyHomePage extends StatefulWidget {
+          @@ -51,6 +51,8 @@
            }
-           
+
            class _MyHomePageState extends State<MyHomePage> {
           +  var selectedIndex = 0;
           +
              @override
              Widget build(BuildContext context) {
                return Scaffold(
-          @@ -68,9 +70,11 @@ class _MyHomePageState extends State<MyHomePage> {
-                           label: Text('Favorites'),
-                         ),
-                       ],
-          -            selectedIndex: 0,
-          +            selectedIndex: selectedIndex,
-                       onDestinationSelected: (value) {
-          -              print('selected: $value');
-          +              setState(() {
-          +                selectedIndex = value;
-          +              });
-                       },
+          @@ -69,9 +71,11 @@
+                             label: Text('Favorites'),
+                           ),
+                         ],
+          -              selectedIndex: 0,
+          +              selectedIndex: selectedIndex,
+                         onDestinationSelected: (value) {
+          -                print('selected: $value');
+          +                setState(() {
+          +                  selectedIndex = value;
+          +                });
+                         },
+                       ),
                      ),
-                     Expanded(
       - name: Copy step_07_c_add_selectedindex
         copydir:
           from: namer_app 
@@ -940,70 +942,74 @@ steps:
 
   - name: step_07_e_add_layout_builder
     steps:
-      - name: Remove generated code.
-        rmdir: step_07_e_add_layout_builder
+      # - name: Remove generated code.
+      #   rmdir: step_07_e_add_layout_builder
       - name: Add LayoutBuilder
         path: namer_app/lib/main.dart
         patch-u: |
           --- a/namer_app/lib/main.dart
           +++ b/namer_app/lib/main.dart
-          @@ -67,37 +67,39 @@ class _MyHomePageState extends State<MyHomePage> {
+          @@ -67,39 +67,41 @@
                    throw UnimplementedError('no widget for $selectedIndex');
                }
-           
+
           -    return Scaffold(
           -      body: Row(
           -        children: [
-          -          NavigationRail(
-          -            extended: false,
-          -            destinations: [
-          -              NavigationRailDestination(
-          -                icon: Icon(Icons.home),
-          -                label: Text('Home'),
-          -              ),
-          -              NavigationRailDestination(
-          -                icon: Icon(Icons.favorite),
-          -                label: Text('Favorites'),
+          -          SafeArea(
+          -            child: NavigationRail(
+          -              extended: false,
+          -              destinations: [
+          -                NavigationRailDestination(
+          -                  icon: Icon(Icons.home),
+          -                  label: Text('Home'),
+          -                ),
+          -                NavigationRailDestination(
+          -                  icon: Icon(Icons.favorite),
+          -                  label: Text('Favorites'),
+          -                ),
+          -              ],
+          -              selectedIndex: selectedIndex,
+          -              onDestinationSelected: (value) {
+          -                setState(() {
+          -                  selectedIndex = value;
+          -                });
+          -              },
           +    return LayoutBuilder(builder: (context, constraints) {
           +      return Scaffold(
           +        body: Row(
           +          children: [
-          +            NavigationRail(
-          +              extended: constraints.maxWidth >= 600,
-          +              destinations: [
-          +                NavigationRailDestination(
-          +                  icon: Icon(Icons.home),
-          +                  label: Text('Home'),
-          +                ),
-          +                NavigationRailDestination(
-          +                  icon: Icon(Icons.favorite),
-          +                  label: Text('Favorites'),
-          +                ),
-          +              ],
-          +              selectedIndex: selectedIndex,
-          +              onDestinationSelected: (value) {
-          +                setState(() {
-          +                  selectedIndex = value;
-          +                });
-          +              },
-          +            ),
-          +            Expanded(
-          +              child: Container(
-          +                color: Theme.of(context).colorScheme.primaryContainer,
-          +                child: page,
-                         ),
-          -            ],
-          -            selectedIndex: selectedIndex,
-          -            onDestinationSelected: (value) {
-          -              setState(() {
-          -                selectedIndex = value;
-          -              });
-          -            },
+          +            SafeArea(
+          +              child: NavigationRail(
+          +                extended: constraints.maxWidth >= 600,
+          +                destinations: [
+          +                  NavigationRailDestination(
+          +                    icon: Icon(Icons.home),
+          +                    label: Text('Home'),
+          +                  ),
+          +                  NavigationRailDestination(
+          +                    icon: Icon(Icons.favorite),
+          +                    label: Text('Favorites'),
+          +                  ),
+          +                ],
+          +                selectedIndex: selectedIndex,
+          +                onDestinationSelected: (value) {
+          +                  setState(() {
+          +                    selectedIndex = value;
+          +                  });
+          +                },
+          +              ),
+                       ),
           -          ),
           -          Expanded(
           -            child: Container(
           -              color: Theme.of(context).colorScheme.primaryContainer,
           -              child: page,
+          +            Expanded(
+          +              child: Container(
+          +                color: Theme.of(context).colorScheme.primaryContainer,
+          +                child: page,
+          +              ),
                        ),
           -          ),
           -        ],
