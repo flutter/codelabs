@@ -942,8 +942,8 @@ steps:
 
   - name: step_07_e_add_layout_builder
     steps:
-      # - name: Remove generated code.
-      #   rmdir: step_07_e_add_layout_builder
+      - name: Remove generated code.
+        rmdir: step_07_e_add_layout_builder
       - name: Add LayoutBuilder
         path: namer_app/lib/main.dart
         patch-u: |
