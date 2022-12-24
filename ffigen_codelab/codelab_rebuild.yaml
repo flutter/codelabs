@@ -88,10 +88,6 @@ steps:
     steps:
       - name: Remove step_05
         rmdir: step_05
-      - name: Remove src/ffigen_app.c
-        rm: ffigen_app/src/ffigen_app.c
-      - name: Remove src/ffigen_app.h
-        rm: ffigen_app/src/ffigen_app.h
       - name: Retrieve duktape
         path: ffigen_app/src/duktape.tar.xz
         retrieve-url: https://duktape.org/duktape-2.7.0.tar.xz
@@ -359,12 +355,6 @@ steps:
       - name: Run ffigen
         path: ffigen_app
         dart: run ffigen --config ffigen.yaml
-      - name: Flutter clean
-        path: ffigen_app/example
-        flutter: clean
-      - name: Re-get deps
-        path: ffigen_app/example
-        flutter: pub get
       - name: Build Windows app
         path: ffigen_app/example
         platforms: [ windows ]
@@ -384,6 +374,10 @@ steps:
     steps:
       - name: Remove step_06
         rmdir: step_06
+      - name: Remove src/ffigen_app.c
+        rm: ffigen_app/src/ffigen_app.c
+      - name: Remove src/ffigen_app.h
+        rm: ffigen_app/src/ffigen_app.h
       - name: Remove ios/Classes/ffigen_app.c
         rm: ffigen_app/ios/Classes/ffigen_app.c
       - name: Create ios/Classes/duktape.c
