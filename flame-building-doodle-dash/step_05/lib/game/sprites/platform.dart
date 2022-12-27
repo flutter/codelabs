@@ -30,13 +30,26 @@ abstract class Platform<T> extends SpriteGroupComponent<T>
           priority: 2, // Ensures platform is always behind Dash
         );
 
+  // These variables and the _move method all the platform for _move
+  // Platforms have a 20% chance of being a moving platform
+  // All platforms _can_ move.
+  double direction = 1;
+  final Vector2 _velocity = Vector2.zero();
+  double speed = 35;
+
   @override
   Future<void>? onLoad() async {
     await super.onLoad();
 
     // Add collision detection logic
     await add(hitbox);
+
+    // More on Platforms: Set isMoving
   }
+
+  // More on Platforms: Add _move method
+
+  // More on Platforms: Override update method
 }
 
 enum NormalPlatformState { only }
@@ -67,3 +80,11 @@ class NormalPlatform extends Platform<NormalPlatformState> {
     await super.onLoad();
   }
 }
+
+// More on Platforms: Add BrokenPlatform State Enum
+
+// More on Platforms: Add BrokenPlatform class
+
+// More on Platforms: Add Add Spring State Enum
+
+// More on Platforms: Add SpringBoard Platform class

@@ -58,10 +58,52 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
     }
   }
 
+  @override
+  void update(double dt) {
+    // More on Platforms - Add ObjectManager update logic
+    super.update(dt);
+  }
+
+  final Map<String, bool> specialPlatforms = {
+    'spring': true, // level 1
+    'broken': false, // level 2
+    'noogler': false, // level 3
+    'rocket': false, // level 4
+    'enemy': false, // level 5
+  };
+
+  void _cleanupPlatforms() {
+    // remove the lowest platform
+    // Remove platforms that have gone out of view
+    final lowestPlat = _platforms.removeAt(0);
+
+    // remove component from game
+    lowestPlat.removeFromParent();
+  }
+
+  void enableSpecialty(String specialty) {
+    specialPlatforms[specialty] = true;
+  }
+
+  void enableLevelSpecialty(int level) {
+    // More on Platforms: Add switch statement to enable SpringBoard for
+    // level 1 and BrokenPlatform for level 2
+  }
+
+  void resetSpecialties() {
+    for (var key in specialPlatforms.keys) {
+      specialPlatforms[key] = false;
+    }
+  }
+
   // Exposes a way for the DoodleDash component to change difficulty mid-game
   void configure(int nextLevel, Difficulty config) {
     minVerticalDistanceToNextPlatform = gameRef.levelManager.minDistance;
     maxVerticalDistanceToNextPlatform = gameRef.levelManager.maxDistance;
+
+    for (int i = 1; i <= nextLevel; i++) {
+      enableLevelSpecialty(i);
+    }
   }
 
   // This method calculates the X-position for the next platform
@@ -112,6 +154,8 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
   // Return a platform.
   // The percent chance of any given platform is NOT equal
   Platform _semiRandomPlatform(Vector2 position) {
+    // More on Platforms: Add logic to conditionally return special platforms
+
     // defaults to a normal platform
     return NormalPlatform(position: position);
   }
