@@ -88,6 +88,7 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
 
       // Removes platforms from the game when they've moved out of view
       _cleanupPlatforms();
+      // Losing the game: Add call to _maybeAddEnemy()
     }
 
     super.update(dt);
@@ -204,4 +205,6 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
     // defaults to a normal platform
     return NormalPlatform(position: position);
   }
+
+  // Losing the game: Add code to spawn & manage EnemyPlatforms
 }

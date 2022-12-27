@@ -172,3 +172,7 @@ class SpringBoard extends Platform<SpringState> {
     current = SpringState.up;
   }
 }
+
+// Losing the game: Add EnemyPlatformState Enum
+
+// Losing the game: Add EnemyPlatform class

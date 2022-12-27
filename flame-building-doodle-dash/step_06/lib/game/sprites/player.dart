@@ -115,6 +115,7 @@ class Player extends SpriteGroupComponent<PlayerState>
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     super.onCollision(intersectionPoints, other);
+    // Losing the game: Add collision logic for EnemyPlatform
 
     // Check if Dash is moving down and collides with a platform from the top
     // this allows Dash to move up _through_ platforms without collision
