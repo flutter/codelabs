@@ -51,31 +51,23 @@ class Player extends SpriteGroupComponent<PlayerState>
 
     // Core gameplay: Add circle hitbox to Dash
 
-    await _loadCharacterSprites(); // Add this line
-    current = PlayerState.center; // Add this line
+    // Add a Player to the game: loadCharacterSprites
+    // Add a Player to the game: Default Dash onLoad to center state
   }
 
   @override
   void update(double dt) {
-    if (gameRef.gameManager.isIntro || gameRef.gameManager.isGameOver) return;
+    // Add a Player to the game: Add game state check
 
-    // Dash's horizontal velocity
-    _velocity.x = _hAxisInput * jumpSpeed;
+    // Add a Player to the game: Add calcualtion for Dash's horizontal velocity
+
     final double dashHorizontalCenter = size.x / 2;
-
-    // infinite side boundaries if Dash's body is off the screen (position is from center)
-    if (position.x < dashHorizontalCenter) {
-      position.x = gameRef.size.x - (dashHorizontalCenter);
-    }
-    if (position.x > gameRef.size.x - (dashHorizontalCenter)) {
-      position.x = dashHorizontalCenter;
-    }
+    // Add a Player to the game: Add infinite side boundaries logic
 
     // Core gameplay: Add gravity
 
-    // Calculate Dash's current position based on her velocity over elapsed time
-    // since last update cycle
-    position += _velocity * dt;
+    // Add a Player to the game: Calculate Dash's current position based on
+    // her velocity over elapsed time since last update cycle
     super.update(dt);
   }
 
@@ -84,23 +76,7 @@ class Player extends SpriteGroupComponent<PlayerState>
   bool onKeyEvent(RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
     _hAxisInput = 0; // by default not going left or right
 
-    // Player going left
-    if (keysPressed.contains(LogicalKeyboardKey.arrowLeft)) {
-      current = PlayerState.left;
-
-      _hAxisInput += movingLeftInput;
-    }
-
-    // Player going right
-    if (keysPressed.contains(LogicalKeyboardKey.arrowRight)) {
-      current = PlayerState.right;
-      _hAxisInput += movingRightInput;
-    }
-
-    // During development, its useful to "cheat"
-    if (keysPressed.contains(LogicalKeyboardKey.arrowUp)) {
-      // jump();
-    }
+    // Add a Player to the game: Add keypress logic
 
     return true;
   }
