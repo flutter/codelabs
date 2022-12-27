@@ -49,8 +49,7 @@ class Player extends SpriteGroupComponent<PlayerState>
   Future<void> onLoad() async {
     await super.onLoad();
 
-    // Add collision detection on Dash
-    await add(CircleHitbox());
+    // Core gameplay: Add circle hitbox to Dash
 
     await _loadCharacterSprites();
     current = PlayerState.center;
@@ -71,6 +70,8 @@ class Player extends SpriteGroupComponent<PlayerState>
     if (position.x > gameRef.size.x - (dashHorizontalCenter)) {
       position.x = dashHorizontalCenter;
     }
+
+    // Core gameplay: Add gravity
 
     // Calculate Dash's current position based on her velocity over elapsed time
     // since last update cycle
@@ -111,6 +112,15 @@ class Player extends SpriteGroupComponent<PlayerState>
   void reset() {
     _velocity = Vector2.zero();
     current = PlayerState.center;
+  }
+
+  void resetPosition() {
+    position = Vector2(
+      // The total world size divided by 2 is the center, but the player size
+      // needs to be accounted for
+      (gameRef.size.x - size.x) / 2,
+      (gameRef.size.y - size.y) / 2,
+    );
   }
 
   Future<void> _loadCharacterSprites() async {

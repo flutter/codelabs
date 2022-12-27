@@ -104,13 +104,7 @@ class DoodleDash extends FlameGame
     );
     camera.followComponent(player);
 
-    // move dash back to the start
-    player.position = Vector2(
-      // The total world size divided by 2 is the center, but the player size
-      // needs to be accounted for
-      (_world.size.x - player.size.x) / 2,
-      (_world.size.y - player.size.y) / 2,
-    );
+    player.resetPosition();
 
     // reset the the platforms
     objectManager = ObjectManager(

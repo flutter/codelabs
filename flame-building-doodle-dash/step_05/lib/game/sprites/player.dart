@@ -145,6 +145,15 @@ class Player extends SpriteGroupComponent<PlayerState>
     current = PlayerState.center;
   }
 
+  void resetPosition() {
+    position = Vector2(
+      // The total world size divided by 2 is the center, but the player size
+      // needs to be accounted for
+      (gameRef.size.x - size.x) / 2,
+      (gameRef.size.y - size.y) / 2,
+    );
+  }
+
   Future<void> _loadCharacterSprites() async {
     // Load & configure sprite assets
     final left = await gameRef.loadSprite('game/${character.name}_left.png');
