@@ -85,6 +85,8 @@ class DoodleDash extends FlameGame
 
   void setCharacter() {
     // Add a Player to the game: Logic to set character
+    // Add a Player to the game: Set jump speed
+    // Add a Player to the game: Add player
   }
 
   void startGame() {

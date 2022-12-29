@@ -58,10 +58,83 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
     }
   }
 
+  // this method adds new platforms continually, and determines when to remove
+  // platforms that are no longer needed.
+  @override
+  void update(double dt) {
+    // Adding Platform Height will ensure that 2 platforms don't overlap.
+    final topOfLowestPlatform =
+        _platforms.first.position.y + _tallestPlatformHeight;
+
+    final screenBottom = gameRef.player.position.y +
+        (gameRef.size.x / 2) +
+        gameRef.screenBufferSpace;
+
+    // When the lowest platform is offscreen, it can be removed and a new platform
+    // should be added
+    if (topOfLowestPlatform > screenBottom) {
+      // Generate and add the next platform to the game
+      var newPlatY = _generateNextY();
+      var newPlatX = _generateNextX(100);
+      final nextPlat = _semiRandomPlatform(Vector2(newPlatX, newPlatY));
+      add(nextPlat);
+
+      _platforms.add(nextPlat);
+
+      // increase score whenever "Dash passes a platform"
+      // Really, increase score when a platform passes off the screen
+      // It's the simplest way to do it
+      gameRef.gameManager.increaseScore();
+
+      // Removes platforms from the game when they've moved out of view
+      _cleanupPlatforms();
+      // Losing the game: Add call to_maybeAddEnemy();
+      // Powerups: Add call to _maybeAddPowerup();
+    }
+
+    super.update(dt);
+  }
+
+  final Map<String, bool> specialPlatforms = {
+    'spring': true, // level 1
+    'broken': false, // level 2
+    'noogler': false, // level 3
+    'rocket': false, // level 4
+    'enemy': false, // level 5
+  };
+
+  void _cleanupPlatforms() {
+    // remove the lowest platform
+    // Remove platforms that have gone out of view
+    final lowestPlat = _platforms.removeAt(0);
+
+    // remove component from game
+    lowestPlat.removeFromParent();
+  }
+
+  void enableSpecialty(String specialty) {
+    specialPlatforms[specialty] = true;
+  }
+
+  void enableLevelSpecialty(int level) {
+    // More on Platforms: Add switch statement to enable SpringBoard for
+    // level 1 and BrokenPlatform for level 2
+  }
+
+  void resetSpecialties() {
+    for (var key in specialPlatforms.keys) {
+      specialPlatforms[key] = false;
+    }
+  }
+
   // Exposes a way for the DoodleDash component to change difficulty mid-game
   void configure(int nextLevel, Difficulty config) {
     minVerticalDistanceToNextPlatform = gameRef.levelManager.minDistance;
     maxVerticalDistanceToNextPlatform = gameRef.levelManager.maxDistance;
+
+    for (int i = 1; i <= nextLevel; i++) {
+      enableLevelSpecialty(i);
+    }
   }
 
   // This method calculates the X-position for the next platform
@@ -112,7 +185,13 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
   // Return a platform.
   // The percent chance of any given platform is NOT equal
   Platform _semiRandomPlatform(Vector2 position) {
+    // More on Platforms: Add logic to conditionally return special platforms
+
     // defaults to a normal platform
     return NormalPlatform(position: position);
   }
+
+  // Losing the game: Add enemy code
+
+  // Powerups: Add Power-Up code
 }
