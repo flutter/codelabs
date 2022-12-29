@@ -26,7 +26,7 @@ class Player extends SpriteGroupComponent<PlayerState>
   Player({
     super.position,
     required this.character,
-    this.jumpSpeed = 600,
+    required this.jumpSpeed,
   }) : super(
           size: Vector2(79, 109),
           anchor: Anchor.center,
@@ -146,12 +146,6 @@ class Player extends SpriteGroupComponent<PlayerState>
     bool isCollidingVertically =
         (intersectionPoints.first.y - intersectionPoints.last.y).abs() < 5;
 
-    bool enablePowerUp = false;
-
-    if (!hasPowerup && (other is Rocket || other is NooglerHat)) {
-      enablePowerUp = true;
-    }
-
     // Only want Dash to  “jump” when she is falling + collides with the top of a platform
     if (isMovingDown && isCollidingVertically) {
       current = PlayerState.center;
@@ -167,19 +161,13 @@ class Player extends SpriteGroupComponent<PlayerState>
         other.breakPlatform();
         return;
       }
-
-      if (other is Rocket || other is NooglerHat) {
-        enablePowerUp = true;
-      }
     }
 
-    if (!enablePowerUp) return;
-
-    if (other is Rocket) {
+    if (!hasPowerup && other is Rocket) {
       current = PlayerState.rocket;
       jump(specialJumpSpeed: jumpSpeed * other.jumpSpeedMultiplier);
       return;
-    } else if (other is NooglerHat) {
+    } else if (!hasPowerup && other is NooglerHat) {
       if (current == PlayerState.center) current = PlayerState.nooglerCenter;
       if (current == PlayerState.left) current = PlayerState.nooglerLeft;
       if (current == PlayerState.right) current = PlayerState.nooglerRight;

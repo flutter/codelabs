@@ -23,7 +23,7 @@ abstract class PowerUp extends SpriteComponent
   @override
   Future<void>? onLoad() async {
     await super.onLoad();
-    // collision detection logic
+
     await add(hitbox);
   }
 
