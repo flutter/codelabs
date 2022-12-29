@@ -43,7 +43,8 @@ class Player extends SpriteGroupComponent<PlayerState>
   Vector2 _velocity = Vector2.zero();
   bool get isMovingDown => _velocity.y > 0;
   Character character;
-  double jumpSpeed; // vertical travel speed
+  double jumpSpeed;
+  // Core gameplay: Add _gravity property
 
   @override
   Future<void> onLoad() async {
@@ -104,6 +105,10 @@ class Player extends SpriteGroupComponent<PlayerState>
 
     return true;
   }
+
+  // Core gameplay: Override onCollision callback
+
+  // Core gameplay: Add a jump method
 
   void setJumpSpeed(double newJumpSpeed) {
     jumpSpeed = newJumpSpeed;

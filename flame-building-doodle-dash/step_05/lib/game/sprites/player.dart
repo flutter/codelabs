@@ -9,7 +9,6 @@ import 'package:flame/components.dart';
 import 'package:flutter/services.dart';
 
 import '../doodle_dash.dart';
-import 'sprites.dart';
 
 enum PlayerState {
   left,
@@ -44,10 +43,8 @@ class Player extends SpriteGroupComponent<PlayerState>
   Vector2 _velocity = Vector2.zero();
   bool get isMovingDown => _velocity.y > 0;
   Character character;
-
-  // used to calculate the horizontal movement speed
-  final double _gravity = 9; // acceleration pulling Dash down
-  double jumpSpeed; // vertical travel speed
+  double jumpSpeed;
+  final double _gravity = 9;
 
   @override
   Future<void> onLoad() async {
@@ -132,7 +129,6 @@ class Player extends SpriteGroupComponent<PlayerState>
   }
 
   void jump({double? specialJumpSpeed}) {
-    // Top left is 0,0 so going "up" is negative
     _velocity.y = specialJumpSpeed != null ? -specialJumpSpeed : -jumpSpeed;
   }
 

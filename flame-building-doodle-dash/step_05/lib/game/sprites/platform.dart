@@ -23,25 +23,21 @@ abstract class Platform<T> extends SpriteGroupComponent<T>
   final hitbox = RectangleHitbox();
   bool isMoving = false;
 
+  double direction = 1;
+  final Vector2 _velocity = Vector2.zero();
+  double speed = 35;
+
   Platform({
     super.position,
   }) : super(
           size: Vector2.all(100),
-          priority: 2, // Ensures platform is always behind Dash
+          priority: 2,
         );
-
-  // These variables and the _move method all the platform for _move
-  // Platforms have a 20% chance of being a moving platform
-  // All platforms _can_ move.
-  double direction = 1;
-  final Vector2 _velocity = Vector2.zero();
-  double speed = 35;
 
   @override
   Future<void>? onLoad() async {
     await super.onLoad();
 
-    // Add collision detection logic
     await add(hitbox);
 
     // More on Platforms: Set isMoving

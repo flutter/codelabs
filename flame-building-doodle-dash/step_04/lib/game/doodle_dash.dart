@@ -51,6 +51,8 @@ class DoodleDash extends FlameGame
 
     if (gameManager.isPlaying) {
       checkLevelUp();
+
+      // Core gameplay: Add camera code to follow Dash during game play
     }
   }
 
@@ -70,6 +72,8 @@ class DoodleDash extends FlameGame
     if (children.contains(objectManager)) objectManager.removeFromParent();
 
     levelManager.reset();
+
+    // Core gameplay: Reset player position & camera boundaries
 
     player.resetPosition();
 
@@ -114,8 +118,9 @@ class DoodleDash extends FlameGame
     if (levelManager.shouldLevelUp(gameManager.score.value)) {
       levelManager.increaseLevel();
 
-      // Change config for how platforms are generated
       objectManager.configure(levelManager.level, levelManager.difficulty);
+
+      // Core gameplay: Set player jump speed
     }
   }
 }

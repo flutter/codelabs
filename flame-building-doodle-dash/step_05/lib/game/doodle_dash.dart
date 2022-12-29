@@ -50,6 +50,8 @@ class DoodleDash extends FlameGame
     }
 
     if (gameManager.isPlaying) {
+      checkLevelUp();
+
       final Rect worldBounds = Rect.fromLTRB(
         0,
         camera.position.y - screenBufferSpace,
@@ -57,8 +59,6 @@ class DoodleDash extends FlameGame
         camera.position.y + _world.size.y,
       );
       camera.worldBounds = worldBounds;
-
-      checkLevelUp();
       // Camera should only follow Dash when she's moving up, if she's following down
       // the camera should stay where it is and NOT follow her down.
       if (player.isMovingDown) {
@@ -92,9 +92,7 @@ class DoodleDash extends FlameGame
     levelManager.reset();
 
     player.reset();
-    // Setting the World Bounds for the camera will allow the camera to "move up"
-    // but stay fixed horizontally, allowing Dash to go out of camera on one side,
-    // and re-appear on the other side.
+
     camera.worldBounds = Rect.fromLTRB(
       0,
       -_world.size.y, // top of screen is 0, so negative is already off screen
@@ -147,10 +145,8 @@ class DoodleDash extends FlameGame
     if (levelManager.shouldLevelUp(gameManager.score.value)) {
       levelManager.increaseLevel();
 
-      // Change config for how platforms are generated
       objectManager.configure(levelManager.level, levelManager.difficulty);
 
-      // Change config for player jump speed
       player.setJumpSpeed(levelManager.jumpSpeed);
     }
   }

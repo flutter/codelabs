@@ -58,40 +58,9 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
     }
   }
 
-  // this method adds new platforms continually, and determines when to remove
-  // platforms that are no longer needed.
   @override
   void update(double dt) {
-    // Adding Platform Height will ensure that 2 platforms don't overlap.
-    final topOfLowestPlatform =
-        _platforms.first.position.y + _tallestPlatformHeight;
-
-    final screenBottom = gameRef.player.position.y +
-        (gameRef.size.x / 2) +
-        gameRef.screenBufferSpace;
-
-    // When the lowest platform is offscreen, it can be removed and a new platform
-    // should be added
-    if (topOfLowestPlatform > screenBottom) {
-      // Generate and add the next platform to the game
-      var newPlatY = _generateNextY();
-      var newPlatX = _generateNextX(100);
-      final nextPlat = _semiRandomPlatform(Vector2(newPlatX, newPlatY));
-      add(nextPlat);
-
-      _platforms.add(nextPlat);
-
-      // increase score whenever "Dash passes a platform"
-      // Really, increase score when a platform passes off the screen
-      // It's the simplest way to do it
-      gameRef.gameManager.increaseScore();
-
-      // Removes platforms from the game when they've moved out of view
-      _cleanupPlatforms();
-      // Losing the game: Add call to_maybeAddEnemy();
-      // Powerups: Add call to _maybeAddPowerup();
-    }
-
+    // More on Platforms - Add ObjectManager update logic
     super.update(dt);
   }
 
