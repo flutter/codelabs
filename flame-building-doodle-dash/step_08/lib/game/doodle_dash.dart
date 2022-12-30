@@ -134,8 +134,9 @@ class DoodleDash extends FlameGame
 
   void setCharacter() {
     player = Player(
-        character: gameManager.character,
-        jumpSpeed: levelManager.startingJumpSpeed);
+      character: gameManager.character,
+      jumpSpeed: levelManager.startingJumpSpeed,
+    );
     add(player);
   }
 

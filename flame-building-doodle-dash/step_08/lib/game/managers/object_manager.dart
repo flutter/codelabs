@@ -229,7 +229,6 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
       add(enemy);
       _enemies.add(enemy);
       _cleanupEnemies();
-      _cleanupPowerups();
     }
   }
 
@@ -259,11 +258,9 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
       );
       add(nooglerHat);
       _powerups.add(nooglerHat);
-      return; // return early if we already add a noogler hat, no need to add a rocket
     }
-
     // There is a 15% chance to add a jetpack
-    if (specialPlatforms['rocket'] == true &&
+    else if (specialPlatforms['rocket'] == true &&
         probGen.generateWithProbability(15)) {
       var rocket = Rocket(
         position: Vector2(_generateNextX(50), _generateNextY()),
@@ -271,6 +268,8 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
       add(rocket);
       _powerups.add(rocket);
     }
+
+    _cleanupPowerups();
   }
 
   void _cleanupPowerups() {

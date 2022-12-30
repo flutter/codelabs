@@ -96,6 +96,8 @@ class DoodleDash extends FlameGame
   // This method sets (or resets) the camera, dash and platform manager.
   // It is called when you start a game. Resets game state
   void initializeGameStart() {
+    setCharacter();
+
     //reset score
     gameManager.reset();
 
@@ -131,14 +133,14 @@ class DoodleDash extends FlameGame
   }
 
   void setCharacter() {
-    player = Player(character: gameManager.character);
-    player.setJumpSpeed(levelManager.jumpSpeed);
+    player = Player(
+      character: gameManager.character,
+      jumpSpeed: levelManager.startingJumpSpeed,
+    );
     add(player);
   }
 
   void startGame() {
-    setCharacter();
-
     initializeGameStart();
     gameManager.state = GameState.playing;
     overlays.remove('mainMenuOverlay');

@@ -111,11 +111,18 @@ class Player extends SpriteGroupComponent<PlayerState>
     return true;
   }
 
+  // Powerups: Add hasPowerup getter
+
+  // Powerups: Add isInvincible getter
+
+  // Powerups: Add isWearingHat getter
+
   // Callback for Dash colliding with another component in the game
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     super.onCollision(intersectionPoints, other);
     if (other is EnemyPlatform) {
+      // Powerups: Modify this line
       gameRef.onLose();
       return;
     }
@@ -141,6 +148,12 @@ class Player extends SpriteGroupComponent<PlayerState>
         return;
       }
     }
+  }
+
+  void _removePowerupAfterTime(int ms) {
+    Future.delayed(Duration(milliseconds: ms), () {
+      current = PlayerState.center;
+    });
   }
 
   void jump({double? specialJumpSpeed}) {

@@ -26,7 +26,7 @@ class Player extends SpriteGroupComponent<PlayerState>
   Player({
     super.position,
     required this.character,
-    required this.jumpSpeed,
+    this.jumpSpeed = 600,
   }) : super(
           size: Vector2(79, 109),
           anchor: Anchor.center,
@@ -165,12 +165,14 @@ class Player extends SpriteGroupComponent<PlayerState>
 
     if (!hasPowerup && other is Rocket) {
       current = PlayerState.rocket;
+      other.removeFromParent();
       jump(specialJumpSpeed: jumpSpeed * other.jumpSpeedMultiplier);
       return;
     } else if (!hasPowerup && other is NooglerHat) {
       if (current == PlayerState.center) current = PlayerState.nooglerCenter;
       if (current == PlayerState.left) current = PlayerState.nooglerLeft;
       if (current == PlayerState.right) current = PlayerState.nooglerRight;
+      other.removeFromParent();
       _removePowerupAfterTime(other.activeLengthInMS);
       jump(specialJumpSpeed: jumpSpeed * other.jumpSpeedMultiplier);
       return;

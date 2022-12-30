@@ -123,6 +123,9 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
       case 2:
         enableSpecialty('broken');
         break;
+      case 5:
+        enableSpecialty('enemy');
+        break;
     }
   }
 
