@@ -37,6 +37,10 @@ class LevelManager extends Component with HasGameRef<DoodleDash> {
     return levelsConfig[level]!.maxDistance;
   }
 
+  double get startingJumpSpeed {
+    return levelsConfig[selectedLevel]!.jumpSpeed;
+  }
+
   double get jumpSpeed {
     return levelsConfig[level]!.jumpSpeed;
   }

@@ -55,6 +55,8 @@ class DoodleDash extends FlameGame
     }
 
     if (gameManager.isPlaying) {
+      checkLevelUp();
+
       final Rect worldBounds = Rect.fromLTRB(
         0,
         camera.position.y - screenBufferSpace,
@@ -63,7 +65,6 @@ class DoodleDash extends FlameGame
       );
       camera.worldBounds = worldBounds;
 
-      checkLevelUp();
       // Camera should only follow Dash when she's moving up, if she's following down
       // the camera should stay where it is and NOT follow her down.
       if (player.isMovingDown) {
