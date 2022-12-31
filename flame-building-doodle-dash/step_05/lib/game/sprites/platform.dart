@@ -84,3 +84,7 @@ class NormalPlatform extends Platform<NormalPlatformState> {
 // More on Platforms: Add Add Spring State Enum
 
 // More on Platforms: Add SpringBoard Platform class
+
+// Losing the game: Add EnemyPlatformState Enum
+
+// Losing the game: Add EnemyPlatform class

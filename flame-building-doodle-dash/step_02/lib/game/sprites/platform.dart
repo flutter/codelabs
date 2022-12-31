@@ -23,47 +23,43 @@ abstract class Platform<T> extends SpriteGroupComponent<T>
   final hitbox = RectangleHitbox();
   bool isMoving = false;
 
+  double direction = 1;
+  final Vector2 _velocity = Vector2.zero();
+  double speed = 35;
+
   Platform({
     super.position,
   }) : super(
           size: Vector2.all(100),
-          priority: 2, // Ensures platform is always behind Dash
+          priority: 2,
         );
 
   @override
   Future<void>? onLoad() async {
     await super.onLoad();
 
-    // Add collision detection logic
     await add(hitbox);
+
+    // More on Platforms: Set isMoving
   }
+
+  // More on Platforms: Add _move method
+
+  // More on Platforms: Override update method
 }
 
-enum NormalPlatformState { only }
+// Add platforms: Add NormalPlatformState Enum
 
-class NormalPlatform extends Platform<NormalPlatformState> {
-  NormalPlatform({super.position});
+// Add platforms: Add NormalPlatform class
 
-  final Map<String, Vector2> spriteOptions = {
-    'platform_monitor': Vector2(115, 84),
-    'platform_phone_center': Vector2(100, 55),
-    'platform_terminal': Vector2(110, 83),
-    'platform_laptop': Vector2(100, 63),
-  };
+// More on Platforms: Add BrokenPlatform State Enum
 
-  @override
-  Future<void>? onLoad() async {
-    var randSpriteIndex = Random().nextInt(spriteOptions.length);
+// More on Platforms: Add BrokenPlatform class
 
-    String randSprite = spriteOptions.keys.elementAt(randSpriteIndex);
+// More on Platforms: Add Add Spring State Enum
 
-    sprites = {
-      NormalPlatformState.only: await gameRef.loadSprite('game/$randSprite.png')
-    };
+// More on Platforms: Add SpringBoard Platform class
 
-    current = NormalPlatformState.only;
+// Losing the game: Add EnemyPlatformState Enum
 
-    size = spriteOptions[randSprite]!;
-    await super.onLoad();
-  }
-}
+// Losing the game: Add EnemyPlatform class
