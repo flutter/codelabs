@@ -33,11 +33,6 @@ class Player extends SpriteGroupComponent<PlayerState>
           priority: 1,
         );
 
-  // used to calculate if the user is moving Dash left (-1) or right (1)
-  // When moving left, the x-axis velocity is multiplied by -1, resulting in a negative number
-  // The numbers on the x-axis increase from left to right, so a negative number moves toward the left.
-  // When moving right, the result will be a positive number
-  // If the number is 0, Dash is moving vertically
   int _hAxisInput = 0;
   final int movingLeftInput = -1;
   final int movingRightInput = 1;
@@ -84,12 +79,16 @@ class Player extends SpriteGroupComponent<PlayerState>
     _hAxisInput = 0;
 
     if (keysPressed.contains(LogicalKeyboardKey.arrowLeft)) {
+      // Powerups: Check is wearing hat (left)
+
       current = PlayerState.left;
 
       _hAxisInput += movingLeftInput;
     }
 
     if (keysPressed.contains(LogicalKeyboardKey.arrowRight)) {
+      // Powerups: Check is wearing hat (right)
+
       current = PlayerState.right;
       _hAxisInput += movingRightInput;
     }
