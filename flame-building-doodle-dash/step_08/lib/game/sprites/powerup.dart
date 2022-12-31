@@ -5,7 +5,6 @@
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 
-import './player.dart';
 import '../doodle_dash.dart';
 
 abstract class PowerUp extends SpriteComponent
@@ -17,7 +16,7 @@ abstract class PowerUp extends SpriteComponent
     super.position,
   }) : super(
           size: Vector2.all(50),
-          priority: 2, // Ensures platform is always behind Dash
+          priority: 2, // Ensures platform is always underneath Dash
         );
 
   @override
