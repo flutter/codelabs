@@ -66,6 +66,7 @@ class Player extends SpriteGroupComponent<PlayerState>
 
     // Dash's horizontal velocity
     _velocity.x = _hAxisInput * jumpSpeed;
+
     final double dashHorizontalCenter = size.x / 2;
 
     // infinite side boundaries if Dash's body is off the screen (position is from center)
@@ -179,15 +180,15 @@ class Player extends SpriteGroupComponent<PlayerState>
     }
   }
 
+  void jump({double? specialJumpSpeed}) {
+    // Top left is 0,0 so going "up" is negative
+    _velocity.y = specialJumpSpeed != null ? -specialJumpSpeed : -jumpSpeed;
+  }
+
   void _removePowerupAfterTime(int ms) {
     Future.delayed(Duration(milliseconds: ms), () {
       current = PlayerState.center;
     });
-  }
-
-  void jump({double? specialJumpSpeed}) {
-    // Top left is 0,0 so going "up" is negative
-    _velocity.y = specialJumpSpeed != null ? -specialJumpSpeed : -jumpSpeed;
   }
 
   void setJumpSpeed(double newJumpSpeed) {
