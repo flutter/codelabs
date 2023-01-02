@@ -83,7 +83,7 @@ class Player extends SpriteGroupComponent<PlayerState>
   // When arrow keys are pressed, change Dash's travel direction + sprite
   @override
   bool onKeyEvent(RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
-    _hAxisInput = 0;
+    _hAxisInput = 0; // by default not going left or right
 
     // Player going left
     if (keysPressed.contains(LogicalKeyboardKey.arrowLeft)) {
