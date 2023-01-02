@@ -23,9 +23,9 @@ Here is a list of the codelabs represented here:
   - [Get started with text classification in Flutter apps](https://developers.google.com/learn/pathways/text-classification-flutter) pathway is in `tfserving-flutter`
 
 To learn more about setting up Flutter and running apps, see
-[flutter.dev/get-started][].
+[docs.flutter.dev/get-started][].
 
-[flutter.dev/get-started]: https://flutter.dev/docs/get-started
+[docs.flutter.dev/get-started]: https://docs.flutter.dev/get-started
 
 ## Maintenance & Deprecation of Codelabs
 
