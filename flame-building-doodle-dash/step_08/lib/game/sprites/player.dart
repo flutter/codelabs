@@ -83,27 +83,16 @@ class Player extends SpriteGroupComponent<PlayerState>
   // When arrow keys are pressed, change Dash's travel direction + sprite
   @override
   bool onKeyEvent(RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
-    _hAxisInput = 0; // by default not going left or right
+    _hAxisInput = 0;
 
     // Player going left
     if (keysPressed.contains(LogicalKeyboardKey.arrowLeft)) {
-      if (isWearingHat) {
-        current = PlayerState.nooglerLeft;
-      } else if (!hasPowerup) {
-        current = PlayerState.left;
-      }
-
-      _hAxisInput += movingLeftInput;
+      moveLeft();
     }
 
     // Player going right
     if (keysPressed.contains(LogicalKeyboardKey.arrowRight)) {
-      if (isWearingHat) {
-        current = PlayerState.nooglerRight;
-      } else if (!hasPowerup) {
-        current = PlayerState.right;
-      }
-      _hAxisInput += movingRightInput;
+      moveRight();
     }
 
     // During development, its useful to "cheat"
@@ -112,6 +101,33 @@ class Player extends SpriteGroupComponent<PlayerState>
     }
 
     return true;
+  }
+
+  void moveLeft() {
+    _hAxisInput = 0; // by default not going left or right
+
+    if (isWearingHat) {
+      current = PlayerState.nooglerLeft;
+    } else if (!hasPowerup) {
+      current = PlayerState.left;
+    }
+
+    _hAxisInput += movingLeftInput;
+  }
+
+  void moveRight() {
+    _hAxisInput = 0; // by default not going left or right
+
+    if (isWearingHat) {
+      current = PlayerState.nooglerRight;
+    } else if (!hasPowerup) {
+      current = PlayerState.right;
+    }
+    _hAxisInput += movingRightInput;
+  }
+
+  void resetDirection() {
+    _hAxisInput = 0;
   }
 
   bool get hasPowerup =>
