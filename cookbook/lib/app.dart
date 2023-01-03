@@ -28,7 +28,7 @@ GoRouter _router(Widget? home) {
         routes: [
           for (final item in items)
             GoRoute(
-              path: item.name,
+              path: item.path,
               builder: (context, _) => item.builder(context),
             )
         ],
