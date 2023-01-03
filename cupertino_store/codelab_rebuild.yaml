@@ -5,7 +5,7 @@ steps:
       - name: Remove generated code.
         rmdir: step_00
       - name: Create project.
-        flutter: create cupertino_store
+        flutter: create cupertino_store --platforms=ios
       - name: Configure analysis_options.yaml
         path: cupertino_store/analysis_options.yaml
         replace-contents: |
@@ -27,12 +27,12 @@ steps:
       - name: Add intl
         path: cupertino_store
         flutter: pub add intl provider shrine_images
-      - name: Patch pubspec.yaml
+      - name: Patch pubspec.yaml header
         path: cupertino_store/pubspec.yaml
         patch-u: |
           --- b/cupertino_store/step_00/pubspec.yaml
           +++ a/cupertino_store/step_00/pubspec.yaml
-          @@ -1,5 +1,19 @@
+          @@ -1,5 +1,20 @@
           +# Copyright 2019 Google LLC
           +#
           +# Licensed under the Apache License, Version 2.0 (the "License");
@@ -50,10 +50,16 @@ steps:
            name: cupertino_store
           -description: A new Flutter project.
           +description: Creating a Store in Cupertino widgets
-           
+          +
            # The following line prevents the package from being accidentally published to
            # pub.dev using `flutter pub publish`. This is preferred for private packages.
-          @@ -92,3 +106,42 @@ flutter:
+           publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+      - name: Patch pubspec.yaml tail
+        path: cupertino_store/pubspec.yaml
+        patch-u: |
+          --- b/cupertino_store/step_00/pubspec.yaml
+          +++ a/cupertino_store/step_00/pubspec.yaml
+          @@ -106,3 +106,42 @@ flutter:
              #
              # For details regarding fonts from package dependencies,
              # see https://flutter.dev/custom-fonts/#from-packages
@@ -98,14 +104,6 @@ steps:
           +    - packages/shrine_images/37-0.jpg
       - name: Remove the README.md.
         rm: cupertino_store/README.md
-      - name: Remove the Android, Web, and Desktop runners
-        path: cupertino_store
-        rmdirs:
-          - android 
-          - linux 
-          - macos 
-          - web 
-          - windows
       - name: Replace lib/main.dart
         path: cupertino_store/lib/main.dart
         replace-contents: |
