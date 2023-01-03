@@ -43,20 +43,6 @@ steps:
         dart: format ffigen_app
       - name: dart fix
         dart: fix --apply ffigen_app
-      - name: Fixup example/lib/main.dart
-        path: ffigen_app/example/lib/main.dart
-        patch-u: |
-          --- b/ffigen_codelab/step_03/example/lib/main.dart
-          +++ a/ffigen_codelab/step_03/example/lib/main.dart
-          @@ -11,7 +11,7 @@ class MyApp extends StatefulWidget {
-             const MyApp({super.key});
-           
-             @override
-          -  _MyAppState createState() => _MyAppState();
-          +  State<MyApp> createState() => _MyAppState();
-           }
-           
-           class _MyAppState extends State<MyApp> {
       - name: Build iOS simulator bundle
         path: ffigen_app/example
         platforms: [ macos ]
