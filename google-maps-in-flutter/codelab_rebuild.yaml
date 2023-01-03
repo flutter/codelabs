@@ -5,7 +5,7 @@ steps:
       - name: Remove generated code.
         rmdir: step_3
       - name: Create project.
-        flutter: create google_maps_in_flutter
+        flutter: create google_maps_in_flutter --platforms=android,ios,web
       - name: Configure analysis_options.yaml
         path: google_maps_in_flutter/analysis_options.yaml
         replace-contents: |
@@ -22,12 +22,6 @@ steps:
         flutter: pub add google_maps_flutter google_maps_flutter_web
       - name: Remove the README.md.
         rm: google_maps_in_flutter/README.md
-      - name: Remove the Desktop runners
-        path: google_maps_in_flutter
-        rmdirs:
-          - linux 
-          - macos 
-          - windows
       - name: VSCode config
         path: google_maps_in_flutter
         mkdir: .vscode
@@ -57,13 +51,12 @@ steps:
                    // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
                    applicationId "com.example.google_maps_in_flutter"
           -        // You can update the following values to match your application needs.
-          -        // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
+          -        // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
           -        minSdkVersion flutter.minSdkVersion
           +        minSdkVersion 20
                    targetSdkVersion flutter.targetSdkVersion
                    versionCode flutterVersionCode.toInteger()
                    versionName flutterVersionName
-
       - name: Patch ios/Podfile
         platforms: [ macos ]
         path: google_maps_in_flutter/ios/Podfile
@@ -103,7 +96,6 @@ steps:
            import 'package:flutter/material.dart';
  
            void main() {
-
       - name: Patch test/widget_test.dart
         path: google_maps_in_flutter/test/widget_test.dart
         patch-u: |
@@ -1420,7 +1412,7 @@ steps:
         patch-u: |
           --- b/google-maps-in-flutter/step_5/pubspec.yaml
           +++ a/google-maps-in-flutter/step_5/pubspec.yaml
-          @@ -95,3 +95,5 @@ flutter:
+          @@ -94,3 +94,5 @@ flutter:
              #
              # For details regarding fonts from package dependencies,
              # see https://flutter.dev/custom-fonts/#from-packages
