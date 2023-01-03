@@ -28,7 +28,7 @@ GoRouter _router(Widget? home) {
         routes: [
           for (final item in items)
             GoRoute(
-              path: item.name,
+              path: item.path,
               builder: (context, _) => item.builder(context),
             )
         ],
@@ -48,6 +48,7 @@ class App extends StatelessWidget {
     final themeData = ThemeData(
       brightness: Brightness.light,
       primaryColor: Colors.blue,
+      useMaterial3: true,
     );
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
