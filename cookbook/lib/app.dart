@@ -48,6 +48,7 @@ class App extends StatelessWidget {
     final themeData = ThemeData(
       brightness: Brightness.light,
       primaryColor: Colors.blue,
+      useMaterial3: true,
     );
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
