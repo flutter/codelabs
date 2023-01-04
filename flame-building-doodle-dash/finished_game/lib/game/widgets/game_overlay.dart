@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import '../doodle_dash.dart';
 import 'widgets.dart';
 
-// Overlay that shows up during an active game
 class GameOverlay extends StatefulWidget {
   const GameOverlay(this.game, {super.key});
 
@@ -58,8 +57,6 @@ class GameOverlayState extends State<GameOverlay> {
               },
             ),
           ),
-          // If game is running on mobile,
-          // display left and right directional buttons
           if (isMobile)
             Positioned(
               bottom: MediaQuery.of(context).size.height / 4,
@@ -107,9 +104,7 @@ class GameOverlayState extends State<GameOverlay> {
               ),
             ),
           if (isPaused)
-            // Displays a pause icon over the center of the game
             Positioned(
-              // positions button with width of button in mind
               top: MediaQuery.of(context).size.height / 2 - 72.0,
               right: MediaQuery.of(context).size.width / 2 - 72.0,
               child: const Icon(
