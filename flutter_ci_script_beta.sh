@@ -15,7 +15,8 @@ declare -a CODELABS=(
   "dartpad_codelabs"
   "ffigen_codelab"
   "firebase-emulator-suite"
-  "flame-building-doodle-dash"
+  # TODO(ewindmill): ColorScheme class changes required for Flutter beta
+  # "flame-building-doodle-dash"
   "firebase-get-to-know-flutter"
   "flame-building-doodle-dash"
   "friendly_chat"
