@@ -53,6 +53,7 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
   }
 
   @override
+  // ignore: unnecessary_overrides
   void update(double dt) {
     // More on Platforms - Add ObjectManager update logic
     super.update(dt);
