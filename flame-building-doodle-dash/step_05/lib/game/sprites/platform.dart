@@ -23,20 +23,29 @@ abstract class Platform<T> extends SpriteGroupComponent<T>
   final hitbox = RectangleHitbox();
   bool isMoving = false;
 
+  double direction = 1;
+  final Vector2 _velocity = Vector2.zero();
+  double speed = 35;
+
   Platform({
     super.position,
   }) : super(
           size: Vector2.all(100),
-          priority: 2, // Ensures platform is always behind Dash
+          priority: 2,
         );
 
   @override
   Future<void>? onLoad() async {
     await super.onLoad();
 
-    // Add collision detection logic
     await add(hitbox);
+
+    // More on Platforms: Set isMoving
   }
+
+  // More on Platforms: Add _move method
+
+  // More on Platforms: Override update method
 }
 
 enum NormalPlatformState { only }
@@ -67,3 +76,15 @@ class NormalPlatform extends Platform<NormalPlatformState> {
     await super.onLoad();
   }
 }
+
+// More on Platforms: Add BrokenPlatform State Enum
+
+// More on Platforms: Add BrokenPlatform class
+
+// More on Platforms: Add Add Spring State Enum
+
+// More on Platforms: Add SpringBoard Platform class
+
+// Losing the game: Add EnemyPlatformState Enum
+
+// Losing the game: Add EnemyPlatform class
