@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import '../doodle_dash.dart';
 import 'widgets.dart';
 
-// Overlay that shows up during an active game
 class GameOverlay extends StatefulWidget {
   const GameOverlay(this.game, {super.key});
 
@@ -22,7 +21,7 @@ class GameOverlay extends StatefulWidget {
 
 class GameOverlayState extends State<GameOverlay> {
   bool isPaused = false;
-  final bool isMobile = !kIsWeb && (Platform.isAndroid || Platform.isIOS);
+  // Mobile Support: Add isMobile boolean
 
   @override
   Widget build(BuildContext context) {
@@ -58,56 +57,9 @@ class GameOverlayState extends State<GameOverlay> {
               },
             ),
           ),
-          if (isMobile)
-            Positioned(
-              bottom: MediaQuery.of(context).size.height / 4,
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 24),
-                      child: GestureDetector(
-                        onTapDown: (details) {
-                          (widget.game as DoodleDash).player.moveLeft();
-                        },
-                        onTapUp: (details) {
-                          (widget.game as DoodleDash).player.resetDirection();
-                        },
-                        child: Material(
-                          color: Colors.transparent,
-                          elevation: 3.0,
-                          shadowColor: Theme.of(context).colorScheme.background,
-                          child: const Icon(Icons.arrow_left, size: 64),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 24),
-                      child: GestureDetector(
-                        onTapDown: (details) {
-                          (widget.game as DoodleDash).player.moveRight();
-                        },
-                        onTapUp: (details) {
-                          (widget.game as DoodleDash).player.resetDirection();
-                        },
-                        child: Material(
-                          color: Colors.transparent,
-                          elevation: 3.0,
-                          shadowColor: Theme.of(context).colorScheme.background,
-                          child: const Icon(Icons.arrow_right, size: 64),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+          // Mobile Support: Add on-screen left & right directional buttons
           if (isPaused)
-            // Displays a pause icon over the center of the game
             Positioned(
-              // positions button with width of button in mind
               top: MediaQuery.of(context).size.height / 2 - 72.0,
               right: MediaQuery.of(context).size.width / 2 - 72.0,
               child: const Icon(
