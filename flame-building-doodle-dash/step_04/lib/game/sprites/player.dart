@@ -9,7 +9,7 @@ import 'package:flame/components.dart';
 import 'package:flutter/services.dart';
 
 import '../doodle_dash.dart';
-import 'sprites.dart';
+// Core gameplay: Import sprites.dart
 
 enum PlayerState {
   left,
