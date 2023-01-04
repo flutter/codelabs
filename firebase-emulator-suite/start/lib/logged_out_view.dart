@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import 'app_state.dart';
 
@@ -27,7 +28,7 @@ class LoggedOutView extends StatelessWidget {
                   await state.logIn('TODO', 'TODO').then((_) {
                     // TODO: update to check that state.user is not null
                     if (true) {
-                      Navigator.of(context).pushReplacementNamed('/home');
+                      context.go('/');
                     }
                   });
                 },

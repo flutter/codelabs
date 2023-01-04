@@ -5,7 +5,7 @@ steps:
       - name: Remove generated code.
         rmdir: step_3
       - name: Create project.
-        flutter: create google_maps_in_flutter
+        flutter: create google_maps_in_flutter --platforms android,ios,web
       - name: Configure analysis_options.yaml
         path: google_maps_in_flutter/analysis_options.yaml
         replace-contents: |
@@ -22,12 +22,6 @@ steps:
         flutter: pub add google_maps_flutter google_maps_flutter_web
       - name: Remove the README.md.
         rm: google_maps_in_flutter/README.md
-      - name: Remove the Desktop runners
-        path: google_maps_in_flutter
-        rmdirs:
-          - linux 
-          - macos 
-          - windows
       - name: VSCode config
         path: google_maps_in_flutter
         mkdir: .vscode

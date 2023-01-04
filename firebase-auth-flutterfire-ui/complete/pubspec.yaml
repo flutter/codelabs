@@ -9,10 +9,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  firebase_core: ^1.20.0
-  firebase_auth: ^3.5.1
-  cloud_firestore: ^3.4.0
-  flutterfire_ui: ^0.4.3
+  firebase_core: ^2.4.1
+  firebase_auth: ^4.2.4
+  cloud_firestore: ^4.3.1
+  flutterfire_ui: ^0.4.3+20
   google_sign_in: ^5.4.0
 
 dev_dependencies:

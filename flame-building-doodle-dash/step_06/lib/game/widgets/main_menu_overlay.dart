@@ -36,6 +36,7 @@ class _MainMenuOverlayState extends State<MainMenuOverlay> {
       final bool screenHeightIsSmall = constraints.maxHeight < 760;
 
       return Material(
+        color: Theme.of(context).colorScheme.background,
         child: Padding(
           padding: const EdgeInsets.all(24.0),
           child: Center(

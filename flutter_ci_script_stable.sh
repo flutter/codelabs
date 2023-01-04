@@ -14,12 +14,12 @@ declare -a CODELABS=(
   "ffigen_codelab"
   "firebase-emulator-suite"
   "firebase-get-to-know-flutter"
-  # TODO(ewindmill): ColorScheme class changes cause CI to fail until release 3.5
-  # "flame-building-doodle-dash"
+  "flame-building-doodle-dash"
   "friendly_chat"
   "github-client"
   "google-maps-in-flutter"
   "in_app_purchases"
+  # TODO(domesticmouse): enable once Flutter stable increments
   # "material3-reply"
   "namer"
   "star_counter"
