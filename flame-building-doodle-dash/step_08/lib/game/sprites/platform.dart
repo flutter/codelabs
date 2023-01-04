@@ -175,7 +175,6 @@ class SpringBoard extends Platform<SpringState> {
 
 enum EnemyPlatformState { only }
 
-// Enemies are just Platforms that Dash shouldn't touch
 class EnemyPlatform extends Platform<EnemyPlatformState> {
   EnemyPlatform({super.position});
 
