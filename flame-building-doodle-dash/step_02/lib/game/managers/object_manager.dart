@@ -44,6 +44,7 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
     }
   }
 
+  /* Add Platforms: Uncomment update method 
   @override
   void update(double dt) {
     final topOfLowestPlatform =
@@ -68,6 +69,7 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
 
     super.update(dt);
   }
+  */
 
   final Map<String, bool> specialPlatforms = {
     'spring': true, // level 1
