@@ -16,7 +16,7 @@ abstract class PowerUp extends SpriteComponent
     super.position,
   }) : super(
           size: Vector2.all(50),
-          priority: 2, // Ensures platform is always underneath Dash
+          priority: 2,
         );
 
   @override

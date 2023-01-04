@@ -39,14 +39,13 @@ class Player extends SpriteGroupComponent<PlayerState>
   Vector2 _velocity = Vector2.zero();
   bool get isMovingDown => _velocity.y > 0;
   Character character;
-  double jumpSpeed; // vertical travel speed
-  final double _gravity = 9; // acceleration pulling Dash down
+  double jumpSpeed;
+  final double _gravity = 9;
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
 
-    // Add collision detection on Dash
     await add(CircleHitbox());
 
     await _loadCharacterSprites();
@@ -57,12 +56,10 @@ class Player extends SpriteGroupComponent<PlayerState>
   void update(double dt) {
     if (gameRef.gameManager.isIntro || gameRef.gameManager.isGameOver) return;
 
-    // Dash's horizontal velocity
     _velocity.x = _hAxisInput * jumpSpeed;
 
     final double dashHorizontalCenter = size.x / 2;
 
-    // infinite side boundaries if Dash's body is off the screen (position is from center)
     if (position.x < dashHorizontalCenter) {
       position.x = gameRef.size.x - (dashHorizontalCenter);
     }
@@ -70,27 +67,21 @@ class Player extends SpriteGroupComponent<PlayerState>
       position.x = dashHorizontalCenter;
     }
 
-    // Gravity is always acting on Dash's vertical velocity
     _velocity.y += _gravity;
 
-    // Calculate Dash's current position based on her velocity over elapsed time
-    // since last update cycle
     position += _velocity * dt;
 
     super.update(dt);
   }
 
-  // When arrow keys are pressed, change Dash's travel direction + sprite
   @override
   bool onKeyEvent(RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
-    _hAxisInput = 0; // by default not going left or right
+    _hAxisInput = 0;
 
-    // Player going left
     if (keysPressed.contains(LogicalKeyboardKey.arrowLeft)) {
       moveLeft();
     }
 
-    // Player going right
     if (keysPressed.contains(LogicalKeyboardKey.arrowRight)) {
       moveRight();
     }
@@ -104,7 +95,7 @@ class Player extends SpriteGroupComponent<PlayerState>
   }
 
   void moveLeft() {
-    _hAxisInput = 0; // by default not going left or right
+    _hAxisInput = 0;
 
     if (isWearingHat) {
       current = PlayerState.nooglerLeft;
@@ -143,7 +134,6 @@ class Player extends SpriteGroupComponent<PlayerState>
       current == PlayerState.nooglerRight ||
       current == PlayerState.nooglerCenter;
 
-  // Callback for Dash colliding with another component in the game
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     super.onCollision(intersectionPoints, other);
@@ -152,12 +142,9 @@ class Player extends SpriteGroupComponent<PlayerState>
       return;
     }
 
-    // Check if Dash is moving down and collides with a platform from the top
-    // this allows Dash to move up _through_ platforms without collision
     bool isCollidingVertically =
         (intersectionPoints.first.y - intersectionPoints.last.y).abs() < 5;
 
-    // Only want Dash to  “jump” when she is falling + collides with the top of a platform
     if (isMovingDown && isCollidingVertically) {
       current = PlayerState.center;
       if (other is NormalPlatform) {
@@ -191,7 +178,6 @@ class Player extends SpriteGroupComponent<PlayerState>
   }
 
   void jump({double? specialJumpSpeed}) {
-    // Top left is 0,0 so going "up" is negative
     _velocity.y = specialJumpSpeed != null ? -specialJumpSpeed : -jumpSpeed;
   }
 
@@ -212,8 +198,6 @@ class Player extends SpriteGroupComponent<PlayerState>
 
   void resetPosition() {
     position = Vector2(
-      // The total world size divided by 2 is the center, but the player size
-      // needs to be accounted for
       (gameRef.size.x - size.x) / 2,
       (gameRef.size.y - size.y) / 2,
     );
