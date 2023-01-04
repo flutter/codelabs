@@ -78,6 +78,22 @@ class Player extends SpriteGroupComponent<PlayerState>
     return true;
   }
 
+  void moveLeft() {
+    _hAxisInput = 0;
+
+    // Add a Player to the game: Add logic for moving left
+  }
+
+  void moveRight() {
+    _hAxisInput = 0;
+
+    // Add a Player to the game: Add logic for moving right
+  }
+
+  void resetDirection() {
+    _hAxisInput = 0;
+  }
+
   // Powerups: Add hasPowerup getter
 
   // Powerups: Add isInvincible getter

@@ -79,16 +79,11 @@ class Player extends SpriteGroupComponent<PlayerState>
     _hAxisInput = 0;
 
     if (keysPressed.contains(LogicalKeyboardKey.arrowLeft)) {
-      // Powerups: Check is wearing hat (left)
-      current = PlayerState.left;
-
-      _hAxisInput += movingLeftInput;
+      moveLeft();
     }
 
     if (keysPressed.contains(LogicalKeyboardKey.arrowRight)) {
-      // Powerups: Check is wearing hat (right)
-      current = PlayerState.right;
-      _hAxisInput += movingRightInput;
+      moveRight();
     }
 
     // During development, its useful to "cheat"
@@ -97,6 +92,28 @@ class Player extends SpriteGroupComponent<PlayerState>
     }
 
     return true;
+  }
+
+  void moveLeft() {
+    _hAxisInput = 0;
+
+    // Powerups: Check is wearing hat (left)
+    current = PlayerState.left;
+
+    _hAxisInput += movingLeftInput;
+  }
+
+  void moveRight() {
+    _hAxisInput = 0;
+
+    // Powerups: Check is wearing hat (right)
+    current = PlayerState.right;
+
+    _hAxisInput += movingRightInput;
+  }
+
+  void resetDirection() {
+    _hAxisInput = 0;
   }
 
   // Powerups: Add hasPowerup getter
