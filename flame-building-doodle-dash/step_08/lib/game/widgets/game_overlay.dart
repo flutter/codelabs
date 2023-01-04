@@ -2,13 +2,14 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'dart:io' show Platform;
 import 'package:flame/game.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 
 import '../doodle_dash.dart';
 import 'widgets.dart';
 
-// Overlay that shows up during an active game
 class GameOverlay extends StatefulWidget {
   const GameOverlay(this.game, {super.key});
 
@@ -20,6 +21,7 @@ class GameOverlay extends StatefulWidget {
 
 class GameOverlayState extends State<GameOverlay> {
   bool isPaused = false;
+  // Mobile Support: Add isMobile boolean
 
   @override
   Widget build(BuildContext context) {
@@ -55,10 +57,9 @@ class GameOverlayState extends State<GameOverlay> {
               },
             ),
           ),
+          // Mobile Support: Add on-screen left & right directional buttons
           if (isPaused)
-            // Displays a pause icon over the center of the game
             Positioned(
-              // positions button with width of button in mind
               top: MediaQuery.of(context).size.height / 2 - 72.0,
               right: MediaQuery.of(context).size.width / 2 - 72.0,
               child: const Icon(
