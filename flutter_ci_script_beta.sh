@@ -15,7 +15,7 @@ declare -a CODELABS=(
   "dartpad_codelabs"
   "ffigen_codelab"
   "firebase-emulator-suite"
-  # TODO(ewindmill): ColorScheme class changes cause CI to fail until release 3.5
+  # TODO(ewindmill): ColorScheme class changes required for Flutter beta
   # "flame-building-doodle-dash"
   "firebase-get-to-know-flutter"
   "flame-building-doodle-dash"
