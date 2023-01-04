@@ -9,6 +9,7 @@ import 'package:flame/components.dart';
 import 'package:flutter/services.dart';
 
 import '../doodle_dash.dart';
+// Core gameplay: Import sprites.dart
 
 enum PlayerState {
   left,
@@ -32,25 +33,20 @@ class Player extends SpriteGroupComponent<PlayerState>
           priority: 1,
         );
 
-  // used to calculate if the user is moving Dash left (-1) or right (1)
-  // When moving left, the x-axis velocity is multiplied by -1, resulting in a negative number
-  // The numbers on the x-axis increase from left to right, so a negative number moves toward the left.
-  // When moving right, the result will be a positive number
-  // If the number is 0, Dash is moving vertically
   int _hAxisInput = 0;
   final int movingLeftInput = -1;
   final int movingRightInput = 1;
   Vector2 _velocity = Vector2.zero();
   bool get isMovingDown => _velocity.y > 0;
   Character character;
-  double jumpSpeed; // vertical travel speed
+  double jumpSpeed;
+  // Core gameplay: Add _gravity property
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
 
-    // Add collision detection on Dash
-    await add(CircleHitbox());
+    // Core gameplay: Add circle hitbox to Dash
 
     await _loadCharacterSprites();
     current = PlayerState.center;
@@ -60,11 +56,10 @@ class Player extends SpriteGroupComponent<PlayerState>
   void update(double dt) {
     if (gameRef.gameManager.isIntro || gameRef.gameManager.isGameOver) return;
 
-    // Dash's horizontal velocity
     _velocity.x = _hAxisInput * jumpSpeed;
+
     final double dashHorizontalCenter = size.x / 2;
 
-    // infinite side boundaries if Dash's body is off the screen (position is from center)
     if (position.x < dashHorizontalCenter) {
       position.x = gameRef.size.x - (dashHorizontalCenter);
     }
@@ -72,28 +67,23 @@ class Player extends SpriteGroupComponent<PlayerState>
       position.x = dashHorizontalCenter;
     }
 
-    // Calculate Dash's current position based on her velocity over elapsed time
-    // since last update cycle
+    // Core gameplay: Add gravity
+
     position += _velocity * dt;
+
     super.update(dt);
   }
 
-  // When arrow keys are pressed, change Dash's travel direction + sprite
   @override
   bool onKeyEvent(RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
-    _hAxisInput = 0; // by default not going left or right
+    _hAxisInput = 0;
 
-    // Player going left
     if (keysPressed.contains(LogicalKeyboardKey.arrowLeft)) {
-      current = PlayerState.left;
-
-      _hAxisInput += movingLeftInput;
+      moveLeft();
     }
 
-    // Player going right
     if (keysPressed.contains(LogicalKeyboardKey.arrowRight)) {
-      current = PlayerState.right;
-      _hAxisInput += movingRightInput;
+      moveRight();
     }
 
     // During development, its useful to "cheat"
@@ -104,6 +94,44 @@ class Player extends SpriteGroupComponent<PlayerState>
     return true;
   }
 
+  void moveLeft() {
+    _hAxisInput = 0;
+
+    // Powerups: Check is wearing hat (left)
+    current = PlayerState.left;
+
+    _hAxisInput += movingLeftInput;
+  }
+
+  void moveRight() {
+    _hAxisInput = 0;
+
+    // Powerups: Check is wearing hat (right)
+    current = PlayerState.right;
+
+    _hAxisInput += movingRightInput;
+  }
+
+  void resetDirection() {
+    _hAxisInput = 0;
+  }
+
+  // Powerups: Add hasPowerup getter
+
+  // Powerups: Add isInvincible getter
+
+  // Powerups: Add isWearingHat getter
+
+  // Core gameplay: Override onCollision callback
+
+  // Core gameplay: Add a jump method
+
+  void _removePowerupAfterTime(int ms) {
+    Future.delayed(Duration(milliseconds: ms), () {
+      current = PlayerState.center;
+    });
+  }
+
   void setJumpSpeed(double newJumpSpeed) {
     jumpSpeed = newJumpSpeed;
   }
@@ -111,6 +139,13 @@ class Player extends SpriteGroupComponent<PlayerState>
   void reset() {
     _velocity = Vector2.zero();
     current = PlayerState.center;
+  }
+
+  void resetPosition() {
+    position = Vector2(
+      (gameRef.size.x - size.x) / 2,
+      (gameRef.size.y - size.y) / 2,
+    );
   }
 
   Future<void> _loadCharacterSprites() async {
