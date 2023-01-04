@@ -20,7 +20,7 @@ class AppState {
     });
   }
 
-  late User? user;
+  User? user;
   Stream<List<Entry>> get entries => _entriesStreamController.stream;
   late final StreamController<List<Entry>> _entriesStreamController;
 

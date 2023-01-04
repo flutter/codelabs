@@ -19,13 +19,14 @@ class AppState {
 
   // This will change to the type User from the Firebase Authentication package
   // Changing it’s type now would cause the app to throw an error
-  late Object? user;
+  Object? user;
   late StreamController<List<Entry>> _entriesStreamController;
   Stream<List<Entry>> get entries =>
       _entriesStreamController.stream.asBroadcastStream();
 
   Future<void> logIn(String email, String password) async {
     print('TODO: AppState.login');
+    user = Object();
     await _listenForEntries();
   }
 
