@@ -86,6 +86,7 @@ steps:
             @override
             Widget build(BuildContext context) {
               return Scaffold(
+                backgroundColor: Theme.of(context).colorScheme.background,
                 body: Center(
                   child: LayoutBuilder(builder: (context, constraints) {
                     return Container(
@@ -611,8 +612,6 @@ steps:
             inversePrimary: Color(0xFFABC7FF),
             shadow: Color(0xFF000000),
             surfaceTint: Color(0xFF195CB5),
-            outlineVariant: Color(0xFFC4C6D0),
-            scrim: Color(0xFF000000),
           );
           
           const darkColorScheme = ColorScheme(
@@ -645,8 +644,6 @@ steps:
             inversePrimary: Color(0xFF195CB5),
             shadow: Color(0xFF000000),
             surfaceTint: Color(0xFFABC7FF),
-            outlineVariant: Color(0xFF44474E),
-            scrim: Color(0xFF000000),
           );
       - name: Add lib/game/util/num_utils.dart
         path: doodle_dash/lib/game/util/num_utils.dart
@@ -728,6 +725,7 @@ steps:
             @override
             Widget build(BuildContext context) {
               return Material(
+                color: Theme.of(context).colorScheme.background,
                 child: Center(
                   child: Padding(
                     padding: const EdgeInsets.all(48.0),
@@ -886,6 +884,7 @@ steps:
                 final bool screenHeightIsSmall = constraints.maxHeight < 760;
           
                 return Material(
+                  color: Theme.of(context).colorScheme.background,
                   child: Padding(
                     padding: const EdgeInsets.all(24.0),
                     child: Center(
@@ -1375,7 +1374,7 @@ steps:
         patch-u: |
           --- b/flame-building-doodle-dash/step_02/pubspec.yaml
           +++ a/flame-building-doodle-dash/step_02/pubspec.yaml
-          @@ -61,9 +61,9 @@ flutter:
+          @@ -62,9 +62,9 @@ flutter:
              uses-material-design: true
            
              # To add assets to your application, add an assets section, like this:
@@ -1414,28 +1413,6 @@ steps:
           +<true/>
            </dict>
            </plist>
-      - name: Patch web/index.html
-        path: doodle_dash/web/index.html
-        patch-u: |
-          --- b/flame-building-doodle-dash/step_02/web/index.html
-          +++ a/flame-building-doodle-dash/step_02/web/index.html
-          @@ -46,12 +46,11 @@
-                 _flutter.loader.loadEntrypoint({
-                   serviceWorker: {
-                     serviceWorkerVersion: serviceWorkerVersion,
-          -        },
-          -        onEntrypointLoaded: function(engineInitializer) {
-          -          engineInitializer.initializeEngine().then(function(appRunner) {
-          -            appRunner.runApp();
-          -          });
-                   }
-          +      }).then(function(engineInitializer) {
-          +        return engineInitializer.initializeEngine();
-          +      }).then(function(appRunner) {
-          +        return appRunner.runApp();
-                 });
-               });
-             </script>
       - name: Add web/404.html
         path: doodle_dash/web/404.html
         replace-contents: |
@@ -1894,7 +1871,7 @@ steps:
         patch-u: |
           --- b/flame-building-doodle-dash/step_04/lib/game/managers/object_manager.dart
           +++ a/flame-building-doodle-dash/step_04/lib/game/managers/object_manager.dart
-          @@ -39,33 +39,22 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
+          @@ -39,36 +39,19 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
                    currentX = _generateNextX(100);
                    currentY = _generateNextY();
                  }
@@ -1913,8 +1890,8 @@ steps:
                }
              }
            
-             @override
-             void update(double dt) {
+          -  @override
+          -  void update(double dt) {
           -    final topOfLowestPlatform =
           -        _platforms.first.position.y + _tallestPlatformHeight;
           -
@@ -1935,11 +1912,13 @@ steps:
           -      // Powerups: Add call to _maybeAddPowerup();
           -    }
           -
-          +    // More on Platforms - Add ObjectManager update logic
-               super.update(dt);
-             }
-           
-          @@ -98,7 +87,6 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
+          -    super.update(dt);
+          -  }
+          -
+             final Map<String, bool> specialPlatforms = {
+               'spring': true, // level 1
+               'broken': false, // level 2
+          @@ -98,7 +81,6 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
                }
              }
            
@@ -1947,7 +1926,7 @@ steps:
              void configure(int nextLevel, Difficulty config) {
                minVerticalDistanceToNextPlatform = gameRef.levelManager.minDistance;
                maxVerticalDistanceToNextPlatform = gameRef.levelManager.maxDistance;
-          @@ -139,7 +127,11 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
+          @@ -139,7 +121,11 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
                return currentHighestPlatformY - distanceToNextY;
              }
            
@@ -2178,11 +2157,12 @@ steps:
         patch-u: |
           --- b/flame-building-doodle-dash/step_06/lib/game/managers/object_manager.dart
           +++ a/flame-building-doodle-dash/step_06/lib/game/managers/object_manager.dart
-          @@ -54,7 +54,27 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
+          @@ -52,6 +52,32 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
+               }
+             }
            
-             @override
-             void update(double dt) {
-          -    // More on Platforms - Add ObjectManager update logic
+          +  @override
+          +  void update(double dt) {
           +    final topOfLowestPlatform =
           +        _platforms.first.position.y + _tallestPlatformHeight;
           +
@@ -2204,10 +2184,13 @@ steps:
           +      // Losing the game: Add call to _maybeAddEnemy()
           +    }
           +
-               super.update(dt);
-             }
-           
-          @@ -77,8 +97,14 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
+          +    super.update(dt);
+          +  }
+          +
+             final Map<String, bool> specialPlatforms = {
+               'spring': true, // level 1
+               'broken': false, // level 2
+          @@ -71,8 +97,14 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
              }
            
              void enableLevelSpecialty(int level) {
@@ -2224,7 +2207,7 @@ steps:
              }
            
              void resetSpecialties() {
-          @@ -128,12 +154,18 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
+          @@ -122,12 +154,18 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
              }
            
              Platform _semiRandomPlatform(Vector2 position) {
