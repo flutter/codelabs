@@ -1374,7 +1374,7 @@ steps:
         patch-u: |
           --- b/flame-building-doodle-dash/step_02/pubspec.yaml
           +++ a/flame-building-doodle-dash/step_02/pubspec.yaml
-          @@ -62,9 +62,9 @@ flutter:
+          @@ -61,9 +61,9 @@ flutter:
              uses-material-design: true
            
              # To add assets to your application, add an assets section, like this:
