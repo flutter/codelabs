@@ -25,7 +25,7 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
   final double _tallestPlatformHeight = 50;
   final List<Platform> _platforms = [];
 
-  @override
+  /*@override
   void onMount() {
     super.onMount();
 
@@ -42,7 +42,7 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
 
       // Add platforms: Generate & add semi-random platform to Flame tree
     }
-  }
+  }*/
 
   /* Add Platforms: Uncomment update method 
   @override
