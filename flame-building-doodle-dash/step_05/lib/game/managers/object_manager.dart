@@ -52,13 +52,6 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
     }
   }
 
-  @override
-  // ignore: unnecessary_overrides
-  void update(double dt) {
-    // More on Platforms - Add ObjectManager update logic
-    super.update(dt);
-  }
-
   final Map<String, bool> specialPlatforms = {
     'spring': true, // level 1
     'broken': false, // level 2
