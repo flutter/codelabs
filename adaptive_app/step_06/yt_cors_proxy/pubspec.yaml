@@ -1,7 +1,6 @@
 name: yt_cors_proxy
 description: A YouTube CORS Proxy Server.
 version: 1.0.0
-# repository: https://github.com/my_org/my_repo
 
 environment:
   sdk: '>=2.19.0-444.2.beta <3.0.0'
