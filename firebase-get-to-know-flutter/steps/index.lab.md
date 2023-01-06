@@ -294,7 +294,7 @@ For more information, see [Desktop support for Flutter](https://docs.flutter.dev
 
 ## Add RSVP functionality
 Duration: 10:00
-<!--  -->
+
 Now that you added Firebase to the app, you can create an **RSVP** button that registers people with  [Authentication](https://firebase.google.com/docs/auth). For Android native, iOS native, and Web, there are prebuilt `FirebaseUI Auth` packages, but you need to build this capability for Flutter.
 
 The project that you retrieved earlier included a set of widgets that implements the user interface for most of the authentication flow. You implement the business logic to integrate Authentication with the app.
@@ -303,7 +303,7 @@ The project that you retrieved earlier included a set of widgets that implements
 
 Use the  [`provider` package](https://pub.dev/packages/provider) to make a centralized app state object available throughout the app's tree of Flutter widgets:
 
-1. Add a new file named `app_state.dart` with the following content:
+1. Create a new file named `app_state.dart` with the following content:
 
 ####  [lib/app_state.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_05/lib/app_state.dart#L1)
 
@@ -597,7 +597,7 @@ Firestore is a NoSQL database, and data stored in the database is split into col
 
 In this section, you add the functionality for users to write messages to the database. First, you add a form field and send button, and then you add the code that connects these elements with the database.
 
-1. Create a new file named `guest_book.dart` and add a `GuestBook` stateful widget to construct the UI elements of a message field and a send button:
+1. Create a new file named `guest_book.dart`, add a `GuestBook` stateful widget to construct the UI elements of a message field and a send button:
 
 ####  [lib/guest_book.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_06/lib/guest_book.dart)
 
@@ -831,7 +831,7 @@ It's lovely that guests can write messages to the database, but they can't see t
 
 To display messages, you need to add listeners that trigger when data changes and then create a UI element that shows new messages. You add code to the app state that listens for newly added messages from the app.
 
-1. Create a new file `lib/guest_book_message.dart` and add the following class to expose a structured view of the data that you store in Firestore.
+1. Create a new file `guest_book_message.dart`, add the following class to expose a structured view of the data that you store in Firestore.
 
 ####  [lib/guest_book_message.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_07/lib/guest_book_message.dart)
 
@@ -1022,7 +1022,7 @@ class _GuestBookState extends State<GuestBook> {
 
 You wrap the previous content of the `build()` method with a `Column` widget and then you add a  [collection for](https://dart.dev/guides/language/language-tour#collection-operators) at the tail of the `Column`'s children  to generate a new `Paragraph` for each message in the list of messages.
 
-6. Update the body of `HomePage` to correctly construct `GuestBook` with the new `messages` parameter:
+8. Update the body of `HomePage` to correctly construct `GuestBook` with the new `messages` parameter:
 
 ####  [lib/home_page.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_07/lib/home_page.dart#L48)
 
@@ -1071,6 +1071,7 @@ You initially set up Firestore to use test mode, which means that your database 
 Firebase Security Rules let you control access to documents and collections in your database. The flexible rules syntax lets you create rules that match anything from all writes to the entire database to operations on a specific document.
 
 Set up basic security rules:
+
 1. In the Firebase console's **Develop** menu, click **Database > Rules**. You should see the following default security rules and a warning about the rules being public:
 
 <img src="img/7767a2d2e64e7275.png" alt="7767a2d2e64e7275.png"  width="624.00" />
@@ -1245,7 +1246,7 @@ This code adds an always-subscribed query to determine the number of attendees a
 enum Attending { yes, no, unknown }
 ```
 
-4. Create a new file `lib/yes_no_selection.dart`, and define a new widget that acts like radio buttons:
+4. Create a new file `yes_no_selection.dart`, define a new widget that acts like radio buttons:
 
 ####  [lib/yes_no_selection.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_09/lib/yes_no_selection.dart)
 
