@@ -33,6 +33,8 @@ In this codelab, you learn some of the basics of  [Firebase](http://firebase.goo
 * How to to build an event RSVP and guestbook chat app on Android, iOS, the Web, and macOS with Flutter.
 * How to authenticate users with Firebase Authentication and sync data with Firestore.
 
+// TODO: Update screenshots for all codelab
+
 | <img style="width: 298.00px" src="img/c62416352b641c75.png"> | <img style="width: 313.73px" src="img/71935c62efd2aeb5.png"> |
 | --- | --- |
 | <img style="width: 298.00px" src="img/73245a514a97e5a6.png"> | <img style="width: 298.00px" src="img/ace882b7591fe799.png"> |
@@ -82,6 +84,7 @@ The code in this app is spread over multiple directories. This split of function
 
 * Locate the following files:
   * `lib/main.dart`: This file contains the main entry point and the app widget.
+  * `lib/home_page.dart`: This file contains the home page widget.
   * `lib/src/widgets.dart`: This file contains a handful of widgets to help standardize the style of the app. They compose the screen of the starter app.
   * `lib/src/authentication.dart`: This file contains a partial implementation of  [Authentication](https://firebase.google.com/docs/auth) with a set of widgets to create a login user experience for Firebase email-based authentication. These widgets for the auth flow aren't yet used in the starter app, but you add them soon.
 
@@ -291,7 +294,7 @@ For more information, see [Desktop support for Flutter](https://docs.flutter.dev
 
 ## Add RSVP functionality
 Duration: 10:00
-
+<!--  -->
 Now that you added Firebase to the app, you can create an **RSVP** button that registers people with  [Authentication](https://firebase.google.com/docs/auth). For Android native, iOS native, and Web, there are prebuilt `FirebaseUI Auth` packages, but you need to build this capability for Flutter.
 
 The project that you retrieved earlier included a set of widgets that implements the user interface for most of the authentication flow. You implement the business logic to integrate Authentication with the app.
@@ -300,34 +303,19 @@ The project that you retrieved earlier included a set of widgets that implements
 
 Use the  [`provider` package](https://pub.dev/packages/provider) to make a centralized app state object available throughout the app's tree of Flutter widgets:
 
-1. Modify the imports at the top of the `lib/main.dart` file:
+1. Add a new file named `app_state.dart` with the following content:
 
-####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_05/lib/main.dart#L1)
+####  [lib/app_state.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_05/lib/app_state.dart#L1)
 
 ```dart
-import 'dart:async';                                     // new
-import 'package:firebase_auth/firebase_auth.dart'        // new
-    hide EmailAuthProvider, PhoneAuthProvider;           // new
-import 'package:firebase_core/firebase_core.dart';       // new
-import 'package:firebase_ui_auth/firebase_ui_auth.dart'; // new
+import 'package:firebase_auth/firebase_auth.dart'
+    hide EmailAuthProvider, PhoneAuthProvider;
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';                 // new
 
-import 'firebase_options.dart';                          // new
-import 'src/authentication.dart';                        // new
-import 'src/widgets.dart';
-```
+import 'firebase_options.dart';
 
-The `import` statements introduce Firebase Core and Auth, pull in the `provider` package that makes app state object available throughout the widget tree, and include the authentication widgets from the `firebase_ui_auth` package.
-
-This `ApplicationState` application state object has one main responsibility for this step, which is to alert the widget tree that there was an update to an authenticated state.
-
-2. Add the following class to the end of the `lib/main.dart` file:
-
-####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_05/lib/main.dart#L83)
-
-```dart
 class ApplicationState extends ChangeNotifier {
   ApplicationState() {
     init();
@@ -356,11 +344,30 @@ class ApplicationState extends ChangeNotifier {
 }
 ```
 
+The `import` statements introduce Firebase Core and Auth, pull in the `provider` package that makes app state object available throughout the widget tree, and include the authentication widgets from the `firebase_ui_auth` package.
+
+This `ApplicationState` application state object has one main responsibility for this step, which is to alert the widget tree that there was an update to an authenticated state.
+
 You only use a provider to communicate the state of a user's login status to the app. To let a user log in, you use the UIs provided by the `firebase_ui_auth` package, which is a great way to quickly bootstrap login screens in your apps.
 
 ### Integrate the authentication flow
 
-1. Connect the app state with the app initialization and then add the authentication flow to `HomePage`:
+1. Modify the imports at the top of the `lib/main.dart` file:
+
+####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_05/lib/main.dart#L1)
+
+```dart
+import 'package:firebase_ui_auth/firebase_ui_auth.dart'; // new
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';               // new
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';                 // new
+
+import 'app_state.dart';                                 // new
+import 'home_page.dart';
+```
+
+2. Connect the app state with the app initialization and then add the authentication flow to `HomePage`:
 
 ####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_05/lib/main.dart#L14)
 
@@ -376,78 +383,98 @@ void main() {
   // ...to here.
 }
 ```
+
 The modification to the `main()` function makes the provider package responsible for the instantiation of the app state object with the `ChangeNotifierProvider` widget. You use this specific `provider` class because the app state object extends the `ChangeNotifier` class, which lets the `provider` package know when to redisplay dependent widgets.
 
-2. Update your app to handle navigation to different screens that FirebaseUI provides for you:
+3. Update your app to handle navigation to different screens that FirebaseUI provides for you, by creating a `GoRouter` configuration:
 
-####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_05/lib/main.dart#L28)
+####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_05/lib/main.dart#L23)
+
 ```dart
+// Add GoRouter configuration outside the App class
+final _router = GoRouter(
+  routes: [
+    GoRoute(
+      path: '/',
+      builder: (context, state) => const HomePage(),
+      routes: [
+        GoRoute(
+          path: 'sign-in',
+          builder: (context, state) {
+            return SignInScreen(
+              actions: [
+                ForgotPasswordAction(((context, email) {
+                  final uri = Uri(
+                    path: '/sign-in/forgot-password',
+                    queryParameters: <String, String?>{
+                      'email': email,
+                    },
+                  );
+                  context.push(uri.toString());
+                })),
+                AuthStateChangeAction(((context, state) {
+                  if (state is SignedIn || state is UserCreated) {
+                    var user = (state is SignedIn)
+                        ? state.user
+                        : (state as UserCreated).credential.user;
+                    if (user == null) {
+                      return;
+                    }
+                    if (state is UserCreated) {
+                      user.updateDisplayName(user.email!.split('@')[0]);
+                    }
+                    if (!user.emailVerified) {
+                      user.sendEmailVerification();
+                      const snackBar = SnackBar(
+                          content: Text(
+                              'Please check your email to verify your email address'));
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    }
+                    context.pushReplacement('/');
+                  }
+                })),
+              ],
+            );
+          },
+          routes: [
+            GoRoute(
+              path: 'forgot-password',
+              builder: (context, state) {
+                final arguments = state.queryParams;
+                return ForgotPasswordScreen(
+                  email: arguments['email'],
+                  headerMaxExtent: 200,
+                );
+              },
+            ),
+          ],
+        ),
+        GoRoute(
+          path: 'profile',
+          builder: (context, state) {
+            return ProfileScreen(
+              providers: const [],
+              actions: [
+                SignedOutAction((context) {
+                  context.pushReplacement('/');
+                }),
+              ],
+            );
+          },
+        ),
+      ],
+    ),
+  ],
+);
+// end of GoRouter configuration
+
+// Change MaterialApp to MaterialApp.router and add the routerConfig
 class App extends StatelessWidget {
   const App({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      //Start adding here
-      initialRoute: '/home',
-      routes: {
-        '/home': (context) {
-          return const HomePage();
-        },
-        '/sign-in': ((context) {
-          return SignInScreen(
-            actions: [
-              ForgotPasswordAction(((context, email) {
-                Navigator.of(context)
-                    .pushNamed('/forgot-password', arguments: {'email': email});
-              })),
-              AuthStateChangeAction(((context, state) {
-                if (state is SignedIn || state is UserCreated) {
-                  var user = (state is SignedIn)
-                      ? state.user
-                      : (state as UserCreated).credential.user;
-                  if (user == null) {
-                    return;
-                  }
-                  if (state is UserCreated) {
-                    user.updateDisplayName(user.email!.split('@')[0]);
-                  }
-                  if (!user.emailVerified) {
-                    user.sendEmailVerification();
-                    const snackBar = SnackBar(
-                        content: Text(
-                            'Please check your email to verify your email address'));
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                  }
-                  Navigator.of(context).pushReplacementNamed('/home');
-                }
-              })),
-            ],
-          );
-        }),
-        '/forgot-password': ((context) {
-          final arguments = ModalRoute.of(context)?.settings.arguments
-              as Map<String, dynamic>?;
-
-          return ForgotPasswordScreen(
-            email: arguments?['email'] as String,
-            headerMaxExtent: 200,
-          );
-        }),
-        '/profile': ((context) {
-          return ProfileScreen(
-            providers: [],
-            actions: [
-              SignedOutAction(
-                ((context) {
-                  Navigator.of(context).pushReplacementNamed('/home');
-                }),
-              ),
-            ],
-          );
-        })
-      },
-      // end adding here
+    return MaterialApp.router(
       title: 'Firebase Meetup',
       theme: ThemeData(
         buttonTheme: Theme.of(context).buttonTheme.copyWith(
@@ -458,7 +485,9 @@ class App extends StatelessWidget {
           Theme.of(context).textTheme,
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        useMaterial3: true,
       ),
+      routerConfig: _router, // new
     );
   }
 }
@@ -466,11 +495,20 @@ class App extends StatelessWidget {
 
 Each screen has a different type of action associated with it based on the new state of the authentication flow. After most state changes in authentication, you can reroute back to a preferred screen, whether it's the home screen or a different screen, such as profile.
 
-3. In the `HomePage` class's build method, integrate the app state with the `AuthFunc` widget:
+4. In the `HomePage` class's build method, integrate the app state with the `AuthFunc` widget:
 
-####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_05/lib/main.dart#L54)
+####  [lib/home_page.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_05/lib/home_page.dart#L1)
 
 ```dart
+import 'package:firebase_auth/firebase_auth.dart' // new
+    hide EmailAuthProvider, PhoneAuthProvider;    // new
+import 'package:flutter/material.dart';           // new
+import 'package:provider/provider.dart';          // new
+
+import 'app_state.dart';                          // new
+import 'src/authentication.dart';                 // new
+import 'src/widgets.dart';
+
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
