@@ -27,11 +27,10 @@ steps:
         patch-u: |
           --- b/star_counter/step_04/pubspec.yaml
           +++ a/star_counter/step_04/pubspec.yaml
-          @@ -1,5 +1,6 @@
+          @@ -1,5 +1,5 @@
            name: star_counter
           -description: A new Flutter project.
           +description: A GitHub Star Counter app
-          +
            # The following line prevents the package from being accidentally published to
            # pub.dev using `flutter pub publish`. This is preferred for private packages.
            publish_to: 'none' # Remove this line if you wish to publish to pub.dev
