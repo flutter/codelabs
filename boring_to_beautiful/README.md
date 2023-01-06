@@ -9,8 +9,8 @@ app from boring to beautiful](#) codelab. This codelab guides you
 step-by-step through modifying MyArtist's design to look beautiful across
 platforms and devices.
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
+For help getting started with Flutter development, view our
+[online documentation](https://docs.flutter.dev), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 
 ## How to run
