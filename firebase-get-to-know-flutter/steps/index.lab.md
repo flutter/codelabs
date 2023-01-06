@@ -831,21 +831,40 @@ It's lovely that guests can write messages to the database, but they can't see t
 
 To display messages, you need to add listeners that trigger when data changes and then create a UI element that shows new messages. You add code to the app state that listens for newly added messages from the app.
 
-1. In the `lib/main.dart` file before the `GuestBook` widget, add the following class to expose a structured view of the data that you store in Firestore.
+1. Create a new file `lib/guest_book_message.dart` and add the following class to expose a structured view of the data that you store in Firestore.
 
-####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_07/lib/main.dart#L225)
+####  [lib/guest_book_message.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_07/lib/guest_book_message.dart)
 
 ```dart
 class GuestBookMessage {
   GuestBookMessage({required this.name, required this.message});
+
   final String name;
   final String message;
 }
 ```
 
-2. In the section of `ApplicationState` where you define state and getters, add the following lines:
+2. In the `lib/app_state.dart` file, add the following imports:
 
-####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_07/lib/main.dart#L140)
+####  [lib/app_state.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_07/lib/app_staet.dart#L1)
+
+```dart
+import 'dart:async';                                     // new
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart'
+    hide EmailAuthProvider, PhoneAuthProvider;
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_ui_auth/firebase_ui_auth.dart';
+import 'package:flutter/material.dart';
+
+import 'firebase_options.dart';
+import 'guest_book_message.dart';                        // new
+```
+
+3. In section of `ApplicationState` where you define state and getters, add the following lines:
+
+####  [lib/app_state.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_07/lib/app_staet.dart#L22)
 
 ```dart
   bool _loggedIn = false;
@@ -858,9 +877,9 @@ class GuestBookMessage {
   // ...to here.
 ```
 
-3. In the initialization section of `ApplicationState`, add the following lines to subscribe to a query over the document collection when a user logs in and unsubscribe when they log out:
+4. In the initialization section of `ApplicationState`, add the following lines to subscribe to a query over the document collection when a user logs in and unsubscribe when they log out:
 
-####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_07/lib/main.dart#L105)
+####  [lib/app_state.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_07/lib/app_state.dart#L29)
 
 ```dart
   Future<void> init() async {
@@ -906,14 +925,25 @@ This section is important because it's where you construct a query over the `gue
 >
 > **Note**: For a faster refresh, you can update only the changed documents instead of the whole list. To learn more, see  [View changes between snapshots](https://firebase.google.com/docs/firestore/query-data/listen#view_changes_between_snapshots).
 
-4. In the `GuestBook` widget, add a list of messages as part of the configuration to connect this changing state to the user interface:
+5. In the `lib/guest_book.dart` file, add the following import:
 
-####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_07/lib/main.dart#L231)
+```dart
+import 'guest_book_message.dart';
+```
+
+6. In the `GuestBook` widget, add a list of messages as part of the configuration to connect this changing state to the user interface:
+
+####  [lib/guest_book.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_07/lib/guest_book.dart#L12)
 
 ```dart
 class GuestBook extends StatefulWidget {
   // Modify the following line:
-  const GuestBook({super.key, required this.addMessage, required this.messages,});
+  const GuestBook({
+    super.key, 
+    required this.addMessage, 
+    required this.messages,
+  });
+
   final FutureOr<void> Function(String message) addMessage;
   final List<GuestBookMessage> messages; // new
 
@@ -922,9 +952,9 @@ class GuestBook extends StatefulWidget {
 }
 ```
 
-5. In `_GuestBookState`, modify the `build` method as follows to expose this configuration:
+7. In `_GuestBookState`, modify the `build` method as follows to expose this configuration:
 
-####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_07/lib/main.dart#L241)
+####  [lib/guest_book.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_07/lib/guest_book.dart#L26)
 
 ```dart
 class _GuestBookState extends State<GuestBook> {
@@ -994,7 +1024,7 @@ You wrap the previous content of the `build()` method with a `Column` widget and
 
 6. Update the body of `HomePage` to correctly construct `GuestBook` with the new `messages` parameter:
 
-####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_07/lib/main.dart#L79)
+####  [lib/home_page.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_07/lib/home_page.dart#L48)
 
 ```dart
 Consumer<ApplicationState>(
