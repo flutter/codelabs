@@ -1140,9 +1140,9 @@ Right now, your app only allows people to chat when they're interested in the ev
 
 In this step, you get organized and let people know how many people are coming. You add a couple of capabilities to the app state. The first is the ability for a logged-in user to nominate whether they're attending. The second is a counter of how many people are attending.
 
-1. In the `lib/main.dart` file, add the following lines to the accessors section so that the UI code can interact with this state:
+1. In the `lib/app_state.dart` file, add the following lines to the accessors section of the `ApplicationState` so that the UI code can interact with this state:
 
-####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_09/lib/main.dart#L190)
+####  [lib/app_state.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_09/lib/app_state.dart#L37)
 
 ```dart
 int _attendees = 0;
@@ -1165,7 +1165,7 @@ set attending(Attending attending) {
 
 2. Update the `ApplicationState`'s `init()` method as follows:
 
-####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_09/lib/main.dart#L119)
+####  [lib/app_state.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_09/lib/app_state.dart#L80)
 
 ```dart
   Future<void> init() async {
@@ -1237,19 +1237,24 @@ set attending(Attending attending) {
 
 This code adds an always-subscribed query to determine the number of attendees and a second query that's only active while a user is logged in to determine whether the user is attending.
 
-3. Add the following enumeration after the `GuestBookMessage` declaration:
+3. Add the following enumeration at the top of the `lib/app_state.dart` file.
 
-####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_09/lib/main.dart#L279)
+####  [lib/app_state.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_09/lib/app_state.dart#L5)
 
 ```dart
 enum Attending { yes, no, unknown }
 ```
 
-4. Define a new widget that acts like radio buttons of old:
+4. Create a new file `lib/yes_no_selection.dart`, and define a new widget that acts like radio buttons:
 
-####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_09/lib/main.dart#L355)
+####  [lib/yes_no_selection.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_09/lib/yes_no_selection.dart)
 
 ```dart
+import 'package:flutter/material.dart';
+
+import 'app_state.dart';
+import 'src/widgets.dart';
+
 class YesNoSelection extends StatelessWidget {
   const YesNoSelection(
       {super.key, required this.state, required this.onSelection});
@@ -1321,7 +1326,7 @@ It starts in an indeterminate state with neither **Yes** nor **No** selected. On
 
 5. Update `HomePage`'s `build()` method to take advantage of `YesNoSelection`, enable a logged-in user to nominate whether they're attending, and display the number of attendees for the event:
 
-####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_09/lib/main.dart#L79)
+####  [lib/home_page.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_09/lib/home_page.dart#L56)
 
 ```dart
 Consumer<ApplicationState>(
