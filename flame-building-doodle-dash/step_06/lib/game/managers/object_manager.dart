@@ -73,6 +73,7 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
 
       _cleanupPlatforms();
       // Losing the game: Add call to _maybeAddEnemy()
+      // Powerups: Add call to _maybeAddPowerup();
     }
 
     super.update(dt);

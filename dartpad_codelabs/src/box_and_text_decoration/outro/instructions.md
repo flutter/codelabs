@@ -17,5 +17,4 @@ and try to make it happen in Flutter!
 ## Next Steps
 
   - [Basic Flutter layout concepts](https://docs.flutter.dev/codelabs/layout-basics)
-  - [Write your first Flutter app, part 1](https://codelabs.developers.google.com/codelabs/first-flutter-app-pt1)
-  - [Write your first Flutter app, part 2](https://codelabs.developers.google.com/codelabs/first-flutter-app-pt2)
+  - [Write your first Flutter app](https://codelabs.developers.google.com/codelabs/flutter-codelab-first)
