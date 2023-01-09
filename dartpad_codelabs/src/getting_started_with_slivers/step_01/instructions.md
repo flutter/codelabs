@@ -6,9 +6,11 @@ In this workshop, you will learn how to efficiently build
 scrolling widgets and use slivers directly, to create a rich
 scrolling experience for users.
 
-This workshop is best for folks already familiar with building simple
-Flutter applications. If this is your first time using Flutter, then
-check out **[Writing Your First Flutter App](https://flutter.dev/docs/get-started/codelab)**
+This workshop is best for folks already familiar with
+building simple Flutter applications. 
+If this is your first time using Flutter, 
+then check out 
+**[Writing your first Flutter app](https://docs.flutter.dev/get-started/codelab)**
 to get started using Flutter.
 
 

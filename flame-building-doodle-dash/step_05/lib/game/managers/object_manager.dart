@@ -53,9 +53,29 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
   }
 
   @override
-  // ignore: unnecessary_overrides
   void update(double dt) {
-    // More on Platforms - Add ObjectManager update logic
+    final topOfLowestPlatform =
+        _platforms.first.position.y + _tallestPlatformHeight;
+
+    final screenBottom = gameRef.player.position.y +
+        (gameRef.size.x / 2) +
+        gameRef.screenBufferSpace;
+
+    if (topOfLowestPlatform > screenBottom) {
+      var newPlatY = _generateNextY();
+      var newPlatX = _generateNextX(100);
+      final nextPlat = _semiRandomPlatform(Vector2(newPlatX, newPlatY));
+      add(nextPlat);
+
+      _platforms.add(nextPlat);
+
+      gameRef.gameManager.increaseScore();
+
+      _cleanupPlatforms();
+      // Losing the game: Add call to _maybeAddEnemy()
+      // Powerups: Add call to _maybeAddPowerup();
+    }
+
     super.update(dt);
   }
 

@@ -88,10 +88,6 @@ steps:
     steps:
       - name: Remove step_05
         rmdir: step_05
-      - name: Remove src/ffigen_app.c
-        rm: ffigen_app/src/ffigen_app.c
-      - name: Remove src/ffigen_app.h
-        rm: ffigen_app/src/ffigen_app.h
       - name: Retrieve duktape
         path: ffigen_app/src/duktape.tar.xz
         retrieve-url: https://duktape.org/duktape-2.7.0.tar.xz
@@ -359,12 +355,6 @@ steps:
       - name: Run ffigen
         path: ffigen_app
         dart: run ffigen --config ffigen.yaml
-      - name: Flutter clean
-        path: ffigen_app/example
-        flutter: clean
-      - name: Re-get deps
-        path: ffigen_app/example
-        flutter: pub get
       - name: Build Windows app
         path: ffigen_app/example
         platforms: [ windows ]
@@ -384,6 +374,10 @@ steps:
     steps:
       - name: Remove step_06
         rmdir: step_06
+      - name: Remove src/ffigen_app.c
+        rm: ffigen_app/src/ffigen_app.c
+      - name: Remove src/ffigen_app.h
+        rm: ffigen_app/src/ffigen_app.h
       - name: Remove ios/Classes/ffigen_app.c
         rm: ffigen_app/ios/Classes/ffigen_app.c
       - name: Create ios/Classes/duktape.c
@@ -434,9 +428,90 @@ steps:
     steps:
       - name: Remove step_07
         rmdir: step_07
+      - name: Patch lib/ffigen_app.dart
+        path: ffigen_app/lib/ffigen_app.dart
+        patch-u: |
+          --- b/ffigen_codelab/step_07/lib/ffigen_app.dart
+          +++ a/ffigen_codelab/step_07/lib/ffigen_app.dart
+          @@ -5,6 +5,7 @@
+           import 'dart:ffi';
+           import 'dart:io';
+           import 'package:ffi/ffi.dart' as ffi;
+          +import 'package:path/path.dart' as p;
+           
+           import 'duktape_bindings_generated.dart';
+           
+          @@ -13,12 +14,24 @@ const String _libName = 'ffigen_app';
+           /// The dynamic library in which the symbols for [DuktapeBindings] can be found.
+           final DynamicLibrary _dylib = () {
+             if (Platform.isMacOS || Platform.isIOS) {
+          +    if (Platform.environment.containsKey('FLUTTER_TEST')) {
+          +      return DynamicLibrary.open(
+          +          'build/macos/Build/Products/Debug/$_libName/$_libName.framework/$_libName');
+          +    }
+               return DynamicLibrary.open('$_libName.framework/$_libName');
+             }
+             if (Platform.isAndroid || Platform.isLinux) {
+          +    if (Platform.environment.containsKey('FLUTTER_TEST')) {
+          +      return DynamicLibrary.open(
+          +          'build/linux/x64/debug/bundle/lib/lib$_libName.so');
+          +    }
+               return DynamicLibrary.open('lib$_libName.so');
+             }
+             if (Platform.isWindows) {
+          +    if (Platform.environment.containsKey('FLUTTER_TEST')) {
+          +      return DynamicLibrary.open(p.canonicalize(
+          +          p.join(r'build\windows\runner\Debug', '$_libName.dll')));
+          +    }
+               return DynamicLibrary.open('$_libName.dll');
+             }
+             throw UnsupportedError('Unknown platform: ${Platform.operatingSystem}');
+          @@ -33,13 +46,13 @@ class Duktape {
+                   _bindings.duk_create_heap(nullptr, nullptr, nullptr, nullptr, nullptr);
+             }
+           
+          -  void evalString(String jsCode) {
+          +  String evalString(String jsCode) {
+               // From duktape.h:
+               // #define duk_peval_string(ctx,src)  \
+               // 	(duk_eval_raw((ctx), (src), 0, 0 /*args*/ | DUK_COMPILE_EVAL | DUK_COMPILE_SAFE | DUK_COMPILE_NOSOURCE | DUK_COMPILE_STRLEN | DUK_COMPILE_NOFILENAME))
+           
+               var nativeUtf8 = jsCode.toNativeUtf8();
+          -    _bindings.duk_eval_raw(
+          +    final evalResult = _bindings.duk_eval_raw(
+                   ctx,
+                   nativeUtf8.cast<Char>(),
+                   0,
+          @@ -50,10 +63,21 @@ class Duktape {
+                       DUK_COMPILE_STRLEN |
+                       DUK_COMPILE_NOFILENAME);
+               ffi.malloc.free(nativeUtf8);
+          +
+          +    if (evalResult != 0) {
+          +      throw _retrieveTopOfStackAsString();
+          +    }
+          +
+          +    return _retrieveTopOfStackAsString();
+             }
+           
+          -  int getInt(int index) {
+          -    return _bindings.duk_get_int(ctx, index);
+          +  String _retrieveTopOfStackAsString() {
+          +    Pointer<Size> outLengthPtr = ffi.calloc<Size>();
+          +    final errorStrPtr = _bindings.duk_safe_to_lstring(ctx, -1, outLengthPtr);
+          +    final returnVal =
+          +        errorStrPtr.cast<ffi.Utf8>().toDartString(length: outLengthPtr.value);
+          +    ffi.calloc.free(outLengthPtr);
+          +    return returnVal;
+             }
+           
+             void dispose() {
       - name: Create example/lib/duktape_message.dart
         path: ffigen_app/example/lib/duktape_message.dart
         replace-contents: |
+          // Copyright 2022 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
           import 'package:freezed_annotation/freezed_annotation.dart';
           
           part 'duktape_message.freezed.dart';
@@ -446,32 +521,6 @@ steps:
             factory DuktapeMessage.evaluate(String code) = DuktapeMessageCode;
             factory DuktapeMessage.response(String result) = DuktapeMessageResponse;
             factory DuktapeMessage.error(String log) = DuktapeMessageError;
-          }
-      - name: mkdir example/test
-        path: ffigen_app
-        mkdir: example/test
-      - name: Create example/test/widget_test.dart
-        path: ffigen_app/example/test/widget_test.dart
-        replace-contents: |
-          import 'package:ffigen_app/ffigen_app.dart';
-          import 'package:ffigen_app_example/main.dart';
-          import 'package:flutter_riverpod/flutter_riverpod.dart';
-          import 'package:flutter_test/flutter_test.dart';
-          
-          void main() {
-            testWidgets('DuktapeApp displays the title', (tester) async {
-              // Build our app and trigger a frame.
-              await tester.pumpWidget(const ProviderScope(child: DuktapeApp()));
-          
-              // Verify that our app displays the title
-              expect(find.text('Duktape REPL'), findsOneWidget);
-            });
-          
-            test('Duktape.evalString', () {
-              final duktape = Duktape();
-              final response = duktape.evalString('1+2');
-              expect(response, '3');
-            });
           }
       - name: Replace example/lib/main.dart
         path: ffigen_app/example/lib/main.dart
@@ -667,84 +716,32 @@ steps:
               );
             }
           }
-      - name: Patch lib/ffigen_app.dart
-        path: ffigen_app/lib/ffigen_app.dart
-        patch-u: |
-          --- b/ffigen_codelab/step_07/lib/ffigen_app.dart
-          +++ a/ffigen_codelab/step_07/lib/ffigen_app.dart
-          @@ -5,6 +5,7 @@
-           import 'dart:ffi';
-           import 'dart:io';
-           import 'package:ffi/ffi.dart' as ffi;
-          +import 'package:path/path.dart' as p;
-           
-           import 'duktape_bindings_generated.dart';
-           
-          @@ -13,12 +14,24 @@ const String _libName = 'ffigen_app';
-           /// The dynamic library in which the symbols for [DuktapeBindings] can be found.
-           final DynamicLibrary _dylib = () {
-             if (Platform.isMacOS || Platform.isIOS) {
-          +    if (Platform.environment.containsKey('FLUTTER_TEST')) {
-          +      return DynamicLibrary.open(
-          +          'build/macos/Build/Products/Debug/$_libName/$_libName.framework/$_libName');
-          +    }
-               return DynamicLibrary.open('$_libName.framework/$_libName');
-             }
-             if (Platform.isAndroid || Platform.isLinux) {
-          +    if (Platform.environment.containsKey('FLUTTER_TEST')) {
-          +      return DynamicLibrary.open(
-          +          'build/linux/x64/debug/bundle/lib/lib$_libName.so');
-          +    }
-               return DynamicLibrary.open('lib$_libName.so');
-             }
-             if (Platform.isWindows) {
-          +    if (Platform.environment.containsKey('FLUTTER_TEST')) {
-          +      return DynamicLibrary.open(p.canonicalize(
-          +          p.join(r'build\windows\runner\Debug', '$_libName.dll')));
-          +    }
-               return DynamicLibrary.open('$_libName.dll');
-             }
-             throw UnsupportedError('Unknown platform: ${Platform.operatingSystem}');
-          @@ -33,13 +46,13 @@ class Duktape {
-                   _bindings.duk_create_heap(nullptr, nullptr, nullptr, nullptr, nullptr);
-             }
-           
-          -  void evalString(String jsCode) {
-          +  String evalString(String jsCode) {
-               // From duktape.h:
-               // #define duk_peval_string(ctx,src)  \
-               // 	(duk_eval_raw((ctx), (src), 0, 0 /*args*/ | DUK_COMPILE_EVAL | DUK_COMPILE_SAFE | DUK_COMPILE_NOSOURCE | DUK_COMPILE_STRLEN | DUK_COMPILE_NOFILENAME))
-           
-               var nativeUtf8 = jsCode.toNativeUtf8();
-          -    _bindings.duk_eval_raw(
-          +    final evalResult = _bindings.duk_eval_raw(
-                   ctx,
-                   nativeUtf8.cast<Char>(),
-                   0,
-          @@ -50,10 +63,21 @@ class Duktape {
-                       DUK_COMPILE_STRLEN |
-                       DUK_COMPILE_NOFILENAME);
-               ffi.malloc.free(nativeUtf8);
-          +
-          +    if (evalResult != 0) {
-          +      throw _retrieveTopOfStackAsString();
-          +    }
-          +
-          +    return _retrieveTopOfStackAsString();
-             }
-           
-          -  int getInt(int index) {
-          -    return _bindings.duk_get_int(ctx, index);
-          +  String _retrieveTopOfStackAsString() {
-          +    Pointer<Size> outLengthPtr = ffi.calloc<Size>();
-          +    final errorStrPtr = _bindings.duk_safe_to_lstring(ctx, -1, outLengthPtr);
-          +    final returnVal =
-          +        errorStrPtr.cast<ffi.Utf8>().toDartString(length: outLengthPtr.value);
-          +    ffi.calloc.free(outLengthPtr);
-          +    return returnVal;
-             }
-           
-             void dispose() {
+      - name: mkdir example/test
+        path: ffigen_app
+        mkdir: example/test
+      - name: Create example/test/widget_test.dart
+        path: ffigen_app/example/test/widget_test.dart
+        replace-contents: |
+          import 'package:ffigen_app/ffigen_app.dart';
+          import 'package:ffigen_app_example/main.dart';
+          import 'package:flutter_riverpod/flutter_riverpod.dart';
+          import 'package:flutter_test/flutter_test.dart';
+          
+          void main() {
+            testWidgets('DuktapeApp displays the title', (tester) async {
+              // Build our app and trigger a frame.
+              await tester.pumpWidget(const ProviderScope(child: DuktapeApp()));
+          
+              // Verify that our app displays the title
+              expect(find.text('Duktape REPL'), findsOneWidget);
+            });
+          
+            test('Duktape.evalString', () {
+              final duktape = Duktape();
+              final response = duktape.evalString('1+2');
+              expect(response, '3');
+            });
+          }
       - name: Patch example/macos/Runner/DebugProfile.entitlements
         path: ffigen_app/example/macos/Runner/DebugProfile.entitlements
         patch-u: |
