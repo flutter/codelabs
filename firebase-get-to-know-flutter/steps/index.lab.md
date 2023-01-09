@@ -33,9 +33,7 @@ In this codelab, you learn some of the basics of  [Firebase](http://firebase.goo
 * How to to build an event RSVP and guestbook chat app on Android, iOS, the Web, and macOS with Flutter.
 * How to authenticate users with Firebase Authentication and sync data with Firestore.
 
-// TODO: Update screenshots for all codelab
-
-| <img style="width: 298.00px" src="img/c62416352b641c75.png"> | <img style="width: 313.73px" src="img/71935c62efd2aeb5.png"> |
+| <p align=center><img style="width: 240.00px" src="img/c62416352b641c75.png"></p> | <img style="width: 313.73px" src="img/71935c62efd2aeb5.png"> |
 | --- | --- |
 | <img style="width: 298.00px" src="img/73245a514a97e5a6.png"> | <img style="width: 298.00px" src="img/ace882b7591fe799.png"> |
 
@@ -689,7 +687,7 @@ While this is enough to display the widget, it isn't sufficient to do anything u
 
 #### App preview
 
-| <img style="width: 298.00px" src="img/3454c60868571147.png"> | <img style="width: 317.30px" src="img/393bf52a546e9567.png"> |
+| <p align=center><img style="width: 240.00px" src="img/3454c60868571147.png"></p> | <img style="width: 317.30px" src="img/393bf52a546e9567.png"> |
 | --- | --- |
 | <img style="width: 298.00px" src="img/c0f8f4de66dc0d04.png"> | <img style="width: 298.00px" src="img/9b5e06ea495ef00d.png"> |
 
@@ -1058,7 +1056,7 @@ Congratulations! You read Firestore documents in your app!
 
 #### App preview
 
-| <img style="width: 298.00px" src="img/a26378d2c9ce8904.png"> | <img style="width: 310.88px" src="img/8bf20f6736281f25.png"> |
+| <p align=center><img style="width: 240.00px" src="img/a26378d2c9ce8904.png"></p> | <img style="width: 310.88px" src="img/8bf20f6736281f25.png"> |
 | --- | --- |
 | <img style="width: 298.00px" src="img/ea8c4d640fbeefe.png"> | <img style="width: 298.00px" src="img/681f61235f4a73eb.png"> |
 
@@ -1403,7 +1401,7 @@ service cloud.firestore {
 
 #### App preview
 
-| <img style="width: 298.00px" src="img/c62416352b641c75.png"> | <img style="width: 313.73px" src="img/71935c62efd2aeb5.png"> |
+| <p align=center><img style="width: 240.00px" src="img/c62416352b641c75.png"></p> | <img style="width: 313.73px" src="img/71935c62efd2aeb5.png"> |
 | --- | --- |
 | <img style="width: 298.00px" src="img/73245a514a97e5a6.png"> | <img style="width: 298.00px" src="img/ace882b7591fe799.png"> |
 
