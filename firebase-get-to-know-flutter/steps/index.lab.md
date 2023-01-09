@@ -98,7 +98,7 @@ You use the helper widgets from the `lib/src/widgets.dart` file in the form of `
 
 Here's what your app looks like on Android, iOS, the Web, and macOS:
 
-| <img style="width: 298.00px" src="img/9fd9346e7c12430b.png"> | <img style="width: 313.19px" src="img/b3d8b115d6e299fa.png"> |
+| <p align=center><img style="width: 240.00px" src="img/9fd9346e7c12430b.png"></p> | <img style="width: 313.19px" src="img/b3d8b115d6e299fa.png"> |
 | --- | --- |
 | <img style="width: 298.00px" src="img/a954c360597eb22c.png"> | <img style="width: 298.00px" src="img/29f9a966c92e63a0.png"> |
 
