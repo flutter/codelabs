@@ -25,49 +25,9 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
   final double _tallestPlatformHeight = 50;
   final List<Platform> _platforms = [];
 
-  @override
-  void onMount() {
-    super.onMount();
+  // Add Platforms: Add onMount method
 
-    var currentX = (gameRef.size.x.floor() / 2).toDouble() - 50;
-
-    var currentY =
-        gameRef.size.y - (_rand.nextInt(gameRef.size.y.floor()) / 3) - 50;
-
-    for (var i = 0; i < 9; i++) {
-      if (i != 0) {
-        currentX = _generateNextX(100);
-        currentY = _generateNextY();
-      }
-
-      // Add platforms: Generate & add semi-random platform to Flame tree
-    }
-  }
-
-  @override
-  void update(double dt) {
-    final topOfLowestPlatform =
-        _platforms.first.position.y + _tallestPlatformHeight;
-
-    final screenBottom = gameRef.player.position.y +
-        (gameRef.size.x / 2) +
-        gameRef.screenBufferSpace;
-
-    if (topOfLowestPlatform > screenBottom) {
-      var newPlatY = _generateNextY();
-      var newPlatX = _generateNextX(100);
-
-      // Add platforms: Generate & add semi-random platform to Flame tree
-
-      gameRef.gameManager.increaseScore();
-
-      _cleanupPlatforms();
-      // Losing the game: Add call to_maybeAddEnemy();
-      // Powerups: Add call to _maybeAddPowerup();
-    }
-
-    super.update(dt);
-  }
+  // Add Platforms: Add update method
 
   final Map<String, bool> specialPlatforms = {
     'spring': true, // level 1
@@ -98,7 +58,6 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
     }
   }
 
-  // Exposes a way for the DoodleDash component to change difficulty mid-game
   void configure(int nextLevel, Difficulty config) {
     minVerticalDistanceToNextPlatform = gameRef.levelManager.minDistance;
     maxVerticalDistanceToNextPlatform = gameRef.levelManager.maxDistance;

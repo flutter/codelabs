@@ -86,6 +86,7 @@ steps:
             @override
             Widget build(BuildContext context) {
               return Scaffold(
+                backgroundColor: Theme.of(context).colorScheme.background,
                 body: Center(
                   child: LayoutBuilder(builder: (context, constraints) {
                     return Container(
@@ -350,6 +351,10 @@ steps:
               return levelsConfig[level]!.maxDistance;
             }
           
+            double get startingJumpSpeed {
+              return levelsConfig[selectedLevel]!.jumpSpeed;
+            }
+          
             double get jumpSpeed {
               return levelsConfig[level]!.jumpSpeed;
             }
@@ -447,51 +452,9 @@ steps:
             final double _tallestPlatformHeight = 50;
             final List<Platform> _platforms = [];
           
-            @override
-            void onMount() {
-              super.onMount();
+            // Add Platforms: Add onMount method
           
-              var currentX = (gameRef.size.x.floor() / 2).toDouble() - 50;
-          
-              var currentY =
-                  gameRef.size.y - (_rand.nextInt(gameRef.size.y.floor()) / 3) - 50;
-          
-              for (var i = 0; i < 9; i++) {
-                if (i != 0) {
-                  currentX = _generateNextX(100);
-                  currentY = _generateNextY();
-                }
-          
-                // Add platforms: Generate & add semi-random platform to Flame tree
-              }
-            }
-          
-            /* Add Platforms: Uncomment update method 
-            @override
-            void update(double dt) {
-              final topOfLowestPlatform =
-                  _platforms.first.position.y + _tallestPlatformHeight;
-          
-              final screenBottom = gameRef.player.position.y +
-                  (gameRef.size.x / 2) +
-                  gameRef.screenBufferSpace;
-          
-              if (topOfLowestPlatform > screenBottom) {
-                var newPlatY = _generateNextY();
-                var newPlatX = _generateNextX(100);
-          
-                // Add platforms: Generate & add semi-random platform to Flame tree
-          
-                gameRef.gameManager.increaseScore();
-          
-                _cleanupPlatforms();
-                // Losing the game: Add call to_maybeAddEnemy();
-                // Powerups: Add call to _maybeAddPowerup();
-              }
-          
-              super.update(dt);
-            }
-            */
+            // Add Platforms: Add update method
           
             final Map<String, bool> specialPlatforms = {
               'spring': true, // level 1
@@ -611,8 +574,6 @@ steps:
             inversePrimary: Color(0xFFABC7FF),
             shadow: Color(0xFF000000),
             surfaceTint: Color(0xFF195CB5),
-            outlineVariant: Color(0xFFC4C6D0),
-            scrim: Color(0xFF000000),
           );
           
           const darkColorScheme = ColorScheme(
@@ -645,8 +606,6 @@ steps:
             inversePrimary: Color(0xFF195CB5),
             shadow: Color(0xFF000000),
             surfaceTint: Color(0xFFABC7FF),
-            outlineVariant: Color(0xFF44474E),
-            scrim: Color(0xFF000000),
           );
       - name: Add lib/game/util/num_utils.dart
         path: doodle_dash/lib/game/util/num_utils.dart
@@ -728,6 +687,7 @@ steps:
             @override
             Widget build(BuildContext context) {
               return Material(
+                color: Theme.of(context).colorScheme.background,
                 child: Center(
                   child: Padding(
                     padding: const EdgeInsets.all(48.0),
@@ -886,6 +846,7 @@ steps:
                 final bool screenHeightIsSmall = constraints.maxHeight < 760;
           
                 return Material(
+                  color: Theme.of(context).colorScheme.background,
                   child: Padding(
                     padding: const EdgeInsets.all(24.0),
                     child: Center(
@@ -1375,7 +1336,7 @@ steps:
         patch-u: |
           --- b/flame-building-doodle-dash/step_02/pubspec.yaml
           +++ a/flame-building-doodle-dash/step_02/pubspec.yaml
-          @@ -61,9 +61,9 @@ flutter:
+          @@ -62,9 +62,9 @@ flutter:
              uses-material-design: true
            
              # To add assets to your application, add an assets section, like this:
@@ -1414,28 +1375,6 @@ steps:
           +<true/>
            </dict>
            </plist>
-      - name: Patch web/index.html
-        path: doodle_dash/web/index.html
-        patch-u: |
-          --- b/flame-building-doodle-dash/step_02/web/index.html
-          +++ a/flame-building-doodle-dash/step_02/web/index.html
-          @@ -46,12 +46,11 @@
-                 _flutter.loader.loadEntrypoint({
-                   serviceWorker: {
-                     serviceWorkerVersion: serviceWorkerVersion,
-          -        },
-          -        onEntrypointLoaded: function(engineInitializer) {
-          -          engineInitializer.initializeEngine().then(function(appRunner) {
-          -            appRunner.runApp();
-          -          });
-                   }
-          +      }).then(function(engineInitializer) {
-          +        return engineInitializer.initializeEngine();
-          +      }).then(function(appRunner) {
-          +        return appRunner.runApp();
-                 });
-               });
-             </script>
       - name: Add web/404.html
         path: doodle_dash/web/404.html
         replace-contents: |
@@ -1757,43 +1696,19 @@ steps:
              void togglePauseState() {
                if (paused) {
                  resumeEngine();
-      - name: Patch lib/game/managers/level_manager.dart
-        path: doodle_dash/lib/game/managers/level_manager.dart
-        patch-u: |
-          --- b/flame-building-doodle-dash/step_03/lib/game/managers/level_manager.dart
-          +++ a/flame-building-doodle-dash/step_03/lib/game/managers/level_manager.dart
-          @@ -37,6 +37,10 @@ class LevelManager extends Component with HasGameRef<DoodleDash> {
-               return levelsConfig[level]!.maxDistance;
-             }
-           
-          +  double get startingJumpSpeed {
-          +    return levelsConfig[selectedLevel]!.jumpSpeed;
-          +  }
-          +
-             double get jumpSpeed {
-               return levelsConfig[level]!.jumpSpeed;
-             }
       - name: Patch lib/game/managers/object_manager.dart
         path: doodle_dash/lib/game/managers/object_manager.dart
         patch-u: |
           --- b/flame-building-doodle-dash/step_03/lib/game/managers/object_manager.dart
           +++ a/flame-building-doodle-dash/step_03/lib/game/managers/object_manager.dart
-          @@ -44,7 +44,6 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
+          @@ -58,7 +58,6 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
                }
              }
            
-          -  /* Add Platforms: Uncomment update method 
-             @override
-             void update(double dt) {
-               final topOfLowestPlatform =
-          @@ -69,7 +68,6 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
-           
-               super.update(dt);
-             }
-          -  */
-           
-             final Map<String, bool> specialPlatforms = {
-               'spring': true, // level 1
+          -  // Exposes a way for the DoodleDash component to change difficulty mid-game
+             void configure(int nextLevel, Difficulty config) {
+               minVerticalDistanceToNextPlatform = gameRef.levelManager.minDistance;
+               maxVerticalDistanceToNextPlatform = gameRef.levelManager.maxDistance;
       - name: Patch lib/game/sprites/player.dart
         path: doodle_dash/lib/game/sprites/player.dart
         patch-u: |
@@ -1894,12 +1809,25 @@ steps:
         patch-u: |
           --- b/flame-building-doodle-dash/step_04/lib/game/managers/object_manager.dart
           +++ a/flame-building-doodle-dash/step_04/lib/game/managers/object_manager.dart
-          @@ -39,33 +39,22 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
-                   currentX = _generateNextX(100);
-                   currentY = _generateNextY();
-                 }
-          -
-          -      // Add platforms: Generate & add semi-random platform to Flame tree
+          @@ -25,9 +25,59 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
+             final double _tallestPlatformHeight = 50;
+             final List<Platform> _platforms = [];
+           
+          -  // Add Platforms: Add onMount method
+          +  @override
+          +  void onMount() {
+          +    super.onMount();
+          +
+          +    var currentX = (gameRef.size.x.floor() / 2).toDouble() - 50;
+          +
+          +    var currentY =
+          +        gameRef.size.y - (_rand.nextInt(gameRef.size.y.floor()) / 3) - 50;
+          +
+          +    for (var i = 0; i < 9; i++) {
+          +      if (i != 0) {
+          +        currentX = _generateNextX(100);
+          +        currentY = _generateNextY();
+          +      }
           +      _platforms.add(
           +        _semiRandomPlatform(
           +          Vector2(
@@ -1910,44 +1838,40 @@ steps:
           +      );
           +
           +      add(_platforms[i]);
-               }
-             }
+          +    }
+          +  }
+          +
+          +  @override
+          +  void update(double dt) {
+          +    final topOfLowestPlatform =
+          +        _platforms.first.position.y + _tallestPlatformHeight;
+          +
+          +    final screenBottom = gameRef.player.position.y +
+          +        (gameRef.size.x / 2) +
+          +        gameRef.screenBufferSpace;
+          +
+          +    if (topOfLowestPlatform > screenBottom) {
+          +      var newPlatY = _generateNextY();
+          +      var newPlatX = _generateNextX(100);
+          +      final nextPlat = _semiRandomPlatform(Vector2(newPlatX, newPlatY));
+          +      add(nextPlat);
+          +
+          +      _platforms.add(nextPlat);
            
-             @override
-             void update(double dt) {
-          -    final topOfLowestPlatform =
-          -        _platforms.first.position.y + _tallestPlatformHeight;
-          -
-          -    final screenBottom = gameRef.player.position.y +
-          -        (gameRef.size.x / 2) +
-          -        gameRef.screenBufferSpace;
-          -
-          -    if (topOfLowestPlatform > screenBottom) {
-          -      var newPlatY = _generateNextY();
-          -      var newPlatX = _generateNextX(100);
-          -
-          -      // Add platforms: Generate & add semi-random platform to Flame tree
-          -
-          -      gameRef.gameManager.increaseScore();
-          -
-          -      _cleanupPlatforms();
-          -      // Losing the game: Add call to_maybeAddEnemy();
-          -      // Powerups: Add call to _maybeAddPowerup();
-          -    }
-          -
-          +    // More on Platforms - Add ObjectManager update logic
-               super.update(dt);
-             }
+          -  // Add Platforms: Add update method
+          +      gameRef.gameManager.increaseScore();
+          +
+          +      _cleanupPlatforms();
+          +      // Losing the game: Add call to _maybeAddEnemy()
+          +      // Powerups: Add call to _maybeAddPowerup();
+          +    }
+          +
+          +    super.update(dt);
+          +  }
            
-          @@ -98,7 +87,6 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
-               }
-             }
-           
-          -  // Exposes a way for the DoodleDash component to change difficulty mid-game
-             void configure(int nextLevel, Difficulty config) {
-               minVerticalDistanceToNextPlatform = gameRef.levelManager.minDistance;
-               maxVerticalDistanceToNextPlatform = gameRef.levelManager.maxDistance;
-          @@ -139,7 +127,11 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
+             final Map<String, bool> specialPlatforms = {
+               'spring': true, // level 1
+          @@ -98,7 +148,11 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
                return currentHighestPlatformY - distanceToNextY;
              }
            
@@ -1959,7 +1883,6 @@ steps:
           +  }
            
              // Losing the game: Add enemy code
-           
       - name: Patch lib/game/sprites/platform.dart
         path: doodle_dash/lib/game/sprites/platform.dart
         patch-u: |
@@ -2178,36 +2101,7 @@ steps:
         patch-u: |
           --- b/flame-building-doodle-dash/step_06/lib/game/managers/object_manager.dart
           +++ a/flame-building-doodle-dash/step_06/lib/game/managers/object_manager.dart
-          @@ -54,7 +54,27 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
-           
-             @override
-             void update(double dt) {
-          -    // More on Platforms - Add ObjectManager update logic
-          +    final topOfLowestPlatform =
-          +        _platforms.first.position.y + _tallestPlatformHeight;
-          +
-          +    final screenBottom = gameRef.player.position.y +
-          +        (gameRef.size.x / 2) +
-          +        gameRef.screenBufferSpace;
-          +
-          +    if (topOfLowestPlatform > screenBottom) {
-          +      var newPlatY = _generateNextY();
-          +      var newPlatX = _generateNextX(100);
-          +      final nextPlat = _semiRandomPlatform(Vector2(newPlatX, newPlatY));
-          +      add(nextPlat);
-          +
-          +      _platforms.add(nextPlat);
-          +
-          +      gameRef.gameManager.increaseScore();
-          +
-          +      _cleanupPlatforms();
-          +      // Losing the game: Add call to _maybeAddEnemy()
-          +    }
-          +
-               super.update(dt);
-             }
-           
-          @@ -77,8 +97,14 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
+          @@ -98,8 +98,14 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
              }
            
              void enableLevelSpecialty(int level) {
@@ -2224,7 +2118,7 @@ steps:
              }
            
              void resetSpecialties() {
-          @@ -128,12 +154,18 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
+          @@ -149,12 +155,18 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
              }
            
              Platform _semiRandomPlatform(Vector2 position) {
@@ -2365,7 +2259,6 @@ steps:
           +}
            
            // Losing the game: Add EnemyPlatformState Enum
-           
       - name: Patch lib/game/sprites/player.dart
         path: doodle_dash/lib/game/sprites/player.dart
         patch-u: |
@@ -2464,10 +2357,10 @@ steps:
                  _cleanupPlatforms();
           -      // Losing the game: Add call to _maybeAddEnemy()
           +      _maybeAddEnemy();
+                 // Powerups: Add call to _maybeAddPowerup();
                }
            
-               super.update(dt);
-          @@ -104,6 +104,9 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
+          @@ -105,6 +105,9 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
                  case 2:
                    enableSpecialty('broken');
                    break;
@@ -2477,7 +2370,7 @@ steps:
                }
              }
            
-          @@ -167,5 +170,29 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
+          @@ -168,5 +171,29 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
                return NormalPlatform(position: position);
              }
            
@@ -2573,15 +2466,16 @@ steps:
         patch-u: |
           --- b/flame-building-doodle-dash/step_08/lib/game/managers/object_manager.dart
           +++ a/flame-building-doodle-dash/step_08/lib/game/managers/object_manager.dart
-          @@ -73,6 +73,7 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
+          @@ -73,7 +73,7 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
            
                  _cleanupPlatforms();
                  _maybeAddEnemy();
+          -      // Powerups: Add call to _maybeAddPowerup();
           +      _maybeAddPowerup();
                }
            
                super.update(dt);
-          @@ -104,6 +105,12 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
+          @@ -105,6 +105,12 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
                  case 2:
                    enableSpecialty('broken');
                    break;
@@ -2594,7 +2488,7 @@ steps:
                  case 5:
                    enableSpecialty('enemy');
                    break;
-          @@ -195,4 +202,38 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
+          @@ -196,4 +202,38 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
                  _enemies.removeAt(0);
                }
              }
