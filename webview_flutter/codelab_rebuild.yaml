@@ -46,7 +46,7 @@ steps:
            
            android {
           -    compileSdkVersion flutter.compileSdkVersion
-          +    compileSdkVersion 32
+          +    compileSdkVersion 32          // MODIFY
                ndkVersion flutter.ndkVersion
            
                compileOptions {
@@ -57,7 +57,7 @@ steps:
           -        // You can update the following values to match your application needs.
           -        // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
           -        minSdkVersion flutter.minSdkVersion
-          +        minSdkVersion 20        // MODIFY
+          +        minSdkVersion 20          // MODIFY
                    targetSdkVersion flutter.targetSdkVersion
                    versionCode flutterVersionCode.toInteger()
                    versionName flutterVersionName
@@ -129,11 +129,20 @@ steps:
         patch-u: |
           --- b/webview_flutter/step_04/android/app/build.gradle
           +++ a/webview_flutter/step_04/android/app/build.gradle
+          @@ -26,7 +26,7 @@ apply plugin: 'kotlin-android'
+           apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+           
+           android {
+          -    compileSdkVersion 32          // MODIFY
+          +    compileSdkVersion 32
+               ndkVersion flutter.ndkVersion
+           
+               compileOptions {
           @@ -45,7 +45,7 @@ android {
                defaultConfig {
                    // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
                    applicationId "com.example.webview_in_flutter"
-          -        minSdkVersion 20        // MODIFY
+          -        minSdkVersion 20          // MODIFY
           +        minSdkVersion 20
                    targetSdkVersion flutter.targetSdkVersion
                    versionCode flutterVersionCode.toInteger()
