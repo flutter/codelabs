@@ -25,13 +25,7 @@ class YesNoSelection extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Row(
             children: [
-              // TODO(miquelbeltran): Replace with FilledButton
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  elevation: 0,
-                  backgroundColor: Colors.deepPurple,
-                  foregroundColor: Colors.white,
-                ),
+              FilledButton(
                 onPressed: () => onSelection(Attending.yes),
                 child: const Text('YES'),
               ),
@@ -53,13 +47,7 @@ class YesNoSelection extends StatelessWidget {
                 child: const Text('YES'),
               ),
               const SizedBox(width: 8),
-              // TODO(miquelbeltran): Replace with FilledButton
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  elevation: 0,
-                  backgroundColor: Colors.deepPurple,
-                  foregroundColor: Colors.white,
-                ),
+              FilledButton(
                 onPressed: () => onSelection(Attending.no),
                 child: const Text('NO'),
               ),
