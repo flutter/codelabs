@@ -95,10 +95,10 @@ steps:
       - name: Flutter clean
         path: step_03
         flutter: clean
-  - name: step_05
+  - name: step_04
     steps:
-      - name: Remove step_05
-        rmdir: step_05
+      - name: Remove step_04
+        rmdir: step_04
       - name: mkdir assets
         mkdir: material3_reply/assets
       - name: Create assets/avatar_1.png
@@ -144,8 +144,8 @@ steps:
       - name: Patch pubspec.yaml
         path: material3_reply/pubspec.yaml
         patch-u: |
-          --- b/material-3-codelab/step_05/pubspec.yaml
-          +++ a/material-3-codelab/step_05/pubspec.yaml
+          --- b/material-3-codelab/step_04/pubspec.yaml
+          +++ a/material-3-codelab/step_04/pubspec.yaml
           @@ -17,3 +17,13 @@ dev_dependencies:
            
            flutter:
@@ -850,17 +850,17 @@ steps:
               );
             }
           }
-      - name: Copy step_05
+      - name: Copy step_04
         copydir:
           from: material3_reply
-          to: step_05
+          to: step_04
       - name: Flutter clean
-        path: step_05
+        path: step_04
         flutter: clean
-  - name: step_06
+  - name: step_05
     steps:
-      - name: Remove step_06
-        rmdir: step_06
+      - name: Remove step_05
+        rmdir: step_05
       - name: Create lib/destinations.dart
         path: material3_reply/lib/destinations.dart
         replace-contents: |
@@ -885,8 +885,8 @@ steps:
       - name: Patch lib/main.dart
         path: material3_reply/lib/main.dart
         patch-u: |
-          --- b/material-3-codelab/step_06/lib/main.dart
-          +++ a/material-3-codelab/step_06/lib/main.dart
+          --- b/material-3-codelab/step_05/lib/main.dart
+          +++ a/material-3-codelab/step_05/lib/main.dart
           @@ -4,6 +4,7 @@
            
            import 'package:flutter/material.dart';
@@ -939,17 +939,17 @@ steps:
                );
              }
            }
-      - name: Copy step_06
+      - name: Copy step_05
         copydir:
           from: material3_reply
-          to: step_06
+          to: step_05
       - name: Flutter clean
-        path: step_06
+        path: step_05
         flutter: clean
-  - name: step_07
+  - name: step_06
     steps:
-      - name: Remove step_07
-        rmdir: step_07
+      - name: Remove step_06
+        rmdir: step_06
       - name: Create lib/widgets/disappearing_bottom_navigation_bar.dart
         path: material3_reply/lib/widgets/disappearing_bottom_navigation_bar.dart
         replace-contents: |
@@ -1050,8 +1050,8 @@ steps:
       - name: Patch lib/main.dart
         path: material3_reply/lib/main.dart
         patch-u: |
-          --- b/material-3-codelab/step_07/lib/main.dart
-          +++ a/material-3-codelab/step_07/lib/main.dart
+          --- b/material-3-codelab/step_06/lib/main.dart
+          +++ a/material-3-codelab/step_06/lib/main.dart
           @@ -4,9 +4,10 @@
            
            import 'package:flutter/material.dart';
@@ -1172,17 +1172,17 @@ steps:
                );
              }
            }
-      - name: Copy step_07
+      - name: Copy step_06
         copydir:
           from: material3_reply
-          to: step_07
+          to: step_06
       - name: Flutter clean
-        path: step_07
+        path: step_06
         flutter: clean
-  - name: step_08
+  - name: step_07
     steps:
-      - name: Remove step_08
-        rmdir: step_08
+      - name: Remove step_07
+        rmdir: step_07
       - name: mkdir lib/animation
         mkdir: material3_reply/lib/animation
       - name: Create lib/animation/bar_animation.dart
@@ -1512,8 +1512,8 @@ steps:
       - name: Patch lib/widgets/disappearing_bottom_navigation_bar.dart
         path: material3_reply/lib/widgets/disappearing_bottom_navigation_bar.dart
         patch-u: |
-          --- b/material-3-codelab/step_08/lib/widgets/disappearing_bottom_navigation_bar.dart
-          +++ a/material-3-codelab/step_08/lib/widgets/disappearing_bottom_navigation_bar.dart
+          --- b/material-3-codelab/step_07/lib/widgets/disappearing_bottom_navigation_bar.dart
+          +++ a/material-3-codelab/step_07/lib/widgets/disappearing_bottom_navigation_bar.dart
           @@ -4,31 +4,39 @@
            
            import 'package:flutter/material.dart';
@@ -1567,8 +1567,8 @@ steps:
       - name: Patch lib/widgets/disappearing_navigation_rail.dart
         path: material3_reply/lib/widgets/disappearing_navigation_rail.dart
         patch-u: |
-          --- b/material-3-codelab/step_08/lib/widgets/disappearing_navigation_rail.dart
-          +++ a/material-3-codelab/step_08/lib/widgets/disappearing_navigation_rail.dart
+          --- b/material-3-codelab/step_07/lib/widgets/disappearing_navigation_rail.dart
+          +++ a/material-3-codelab/step_07/lib/widgets/disappearing_navigation_rail.dart
           @@ -4,54 +4,60 @@
            
            import 'package:flutter/material.dart';
@@ -1662,8 +1662,8 @@ steps:
       - name: Patch lib/main.dart
         path: material3_reply/lib/main.dart
         patch-u: |
-          --- b/material-3-codelab/step_08/lib/main.dart
-          +++ a/material-3-codelab/step_08/lib/main.dart
+          --- b/material-3-codelab/step_07/lib/main.dart
+          +++ a/material-3-codelab/step_07/lib/main.dart
           @@ -4,8 +4,12 @@
            
            import 'package:flutter/material.dart';
@@ -1827,17 +1827,17 @@ steps:
                );
              }
            }
-      - name: Copy step_08
+      - name: Copy step_07
         copydir:
           from: material3_reply
-          to: step_08
+          to: step_07
       - name: Flutter clean
-        path: step_08
+        path: step_07
         flutter: clean
-  - name: step_09
+  - name: step_08
     steps:
-      - name: Remove step_09
-        rmdir: step_09
+      - name: Remove step_08
+        rmdir: step_08
       - name: Create lib/transitions/list_detail_transition.dart
         path: material3_reply/lib/transitions/list_detail_transition.dart
         replace-contents: |
@@ -1988,8 +1988,8 @@ steps:
       - name: Update lib/main.dart
         path: material3_reply/lib/main.dart
         patch-u: |
-          --- b/material-3-codelab/step_09/lib/main.dart
-          +++ a/material-3-codelab/step_09/lib/main.dart
+          --- b/material-3-codelab/step_08/lib/main.dart
+          +++ a/material-3-codelab/step_08/lib/main.dart
           @@ -9,10 +9,12 @@ import 'animation/rail_animation.dart';
            import 'animation/rail_fab_animation.dart';
            import 'models/data.dart' as data;
@@ -2030,12 +2030,28 @@ steps:
                              ),
                            ),
                          ),
-      - name: Copy step_09
+      - name: Build iOS simulator bundle
+        platforms: [ macos ]
+        path: material3_reply
+        flutter: build ios --simulator
+      - name: Build macOS app
+        platforms: [ macos ]
+        path: material3_reply
+        flutter: build macos
+      - name: Build Linux app
+        platforms: [ linux ]
+        path: material3_reply
+        flutter: build linux
+      - name: Build Windows app
+        platforms: [ windows ]
+        path: material3_reply
+        flutter: build windows
+      - name: Copy step_08
         copydir:
           from: material3_reply
-          to: step_09
+          to: step_08
       - name: Flutter clean
-        path: step_09
+        path: step_08
         flutter: clean
   - name: Cleanup
     rmdir: material3_reply
