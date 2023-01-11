@@ -5,7 +5,7 @@
 import 'package:flutter/material.dart';
 
 import 'models/data.dart' as data;
-import 'models/model.dart';
+import 'models/models.dart';
 import 'widgets/email_list_view.dart';
 
 void main() {

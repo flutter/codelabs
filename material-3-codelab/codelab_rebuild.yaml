@@ -162,8 +162,8 @@ steps:
           +    - assets/thumbnail_1.png
       - name: mkdir lib/models
         mkdir: material3_reply/lib/models
-      - name: Create lib/models/model.dart
-        path: material3_reply/lib/models/model.dart
+      - name: Create lib/models/models.dart
+        path: material3_reply/lib/models/models.dart
         replace-contents: |
           // Copyright 2022 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
@@ -224,7 +224,7 @@ steps:
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
           
-          import 'model.dart';
+          import 'models.dart';
           
           final User user_0 = User(
               name: const Name(first: 'Me', last: ''),
@@ -311,7 +311,7 @@ steps:
           import 'package:flutter/material.dart';
           
           import '../models/data.dart' as data;
-          import '../models/model.dart';
+          import '../models/models.dart';
           import 'email_widget.dart';
           import 'search_bar.dart';
           
@@ -366,7 +366,7 @@ steps:
           // found in the LICENSE file.
           
           import 'package:flutter/material.dart';
-          import '../models/model.dart';
+          import '../models/models.dart';
           import 'star_button.dart';
           
           enum EmailType {
@@ -680,7 +680,7 @@ steps:
           
           import 'package:flutter/material.dart';
           
-          import '../models/model.dart';
+          import '../models/models.dart';
           
           class SearchBar extends StatelessWidget {
             const SearchBar({
@@ -791,7 +791,7 @@ steps:
           import 'package:flutter/material.dart';
           
           import 'models/data.dart' as data;
-          import 'models/model.dart';
+          import 'models/models.dart';
           import 'widgets/email_list_view.dart';
           
           void main() {
@@ -893,7 +893,7 @@ steps:
            
           +import 'destinations.dart';
            import 'models/data.dart' as data;
-           import 'models/model.dart';
+           import 'models/models.dart';
            import 'widgets/email_list_view.dart';
           @@ -41,12 +42,20 @@ class _FeedState extends State<Feed> {
              late final backgroundColor = Color.alphaBlend(
@@ -1058,7 +1058,7 @@ steps:
            
           -import 'destinations.dart';
            import 'models/data.dart' as data;
-           import 'models/model.dart';
+           import 'models/models.dart';
           +import 'widgets/disappearing_bottom_navigation_bar.dart';
           +import 'widgets/disappearing_navigation_rail.dart';
            import 'widgets/email_list_view.dart';
@@ -1672,7 +1672,7 @@ steps:
           +import 'animation/rail_animation.dart';
           +import 'animation/rail_fab_animation.dart';
            import 'models/data.dart' as data;
-           import 'models/model.dart';
+           import 'models/models.dart';
           +import 'widgets/animated_floating_action_button.dart';
            import 'widgets/disappearing_bottom_navigation_bar.dart';
            import 'widgets/disappearing_navigation_rail.dart';
@@ -1993,7 +1993,7 @@ steps:
           @@ -9,10 +9,12 @@ import 'animation/rail_animation.dart';
            import 'animation/rail_fab_animation.dart';
            import 'models/data.dart' as data;
-           import 'models/model.dart';
+           import 'models/models.dart';
           +import 'transitions/list_detail_transition.dart';
            import 'widgets/animated_floating_action_button.dart';
            import 'widgets/disappearing_bottom_navigation_bar.dart';

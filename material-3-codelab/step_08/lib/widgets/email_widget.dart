@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import '../models/model.dart';
+import '../models/models.dart';
 import 'star_button.dart';
 
 enum EmailType {

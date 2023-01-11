@@ -5,7 +5,7 @@
 import 'package:flutter/material.dart';
 
 import 'models/data.dart' as data;
-import 'models/model.dart';
+import 'models/models.dart';
 import 'widgets/disappearing_bottom_navigation_bar.dart';
 import 'widgets/disappearing_navigation_rail.dart';
 import 'widgets/email_list_view.dart';

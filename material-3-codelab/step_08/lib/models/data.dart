@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'model.dart';
+import 'models.dart';
 
 final User user_0 = User(
     name: const Name(first: 'Me', last: ''),
