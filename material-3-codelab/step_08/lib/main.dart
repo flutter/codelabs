@@ -8,7 +8,7 @@ import 'animation/bar_animation.dart';
 import 'animation/rail_animation.dart';
 import 'animation/rail_fab_animation.dart';
 import 'models/data.dart' as data;
-import 'models/models.dart';
+import 'models/model.dart';
 import 'widgets/animated_floating_action_button.dart';
 import 'widgets/disappearing_bottom_navigation_bar.dart';
 import 'widgets/disappearing_navigation_rail.dart';

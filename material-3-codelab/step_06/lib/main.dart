@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 import 'destinations.dart';
 import 'models/data.dart' as data;
-import 'models/models.dart';
+import 'models/model.dart';
 import 'widgets/email_list_view.dart';
 
 void main() {
