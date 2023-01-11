@@ -512,40 +512,39 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ApplicationState>(
-        builder: (context, appState, child) => Scaffold(
-              appBar: AppBar(
-                title: const Text('Firebase Meetup'),
-              ),
-              body: ListView(
-                children: <Widget>[
-                  Image.asset('assets/codelab.png'),
-                  const SizedBox(height: 8),
-                  const IconAndDetail(Icons.calendar_today, 'October 30'),
-                  const IconAndDetail(Icons.location_city, 'San Francisco'),
-                  // Add from here
-                  Consumer<ApplicationState>(
-                    builder: (context, appState, _) => AuthFunc(
-                        loggedIn: appState.loggedIn,
-                        signOut: () {
-                          FirebaseAuth.instance.signOut();
-                        }),
-                  ),
-                  // to here
-                  const Divider(
-                    height: 8,
-                    thickness: 1,
-                    indent: 8,
-                    endIndent: 8,
-                    color: Colors.grey,
-                  ),
-                  const Header("What we'll be doing"),
-                  const Paragraph(
-                    'Join us for a day full of Firebase Workshops and Pizza!',
-                  ),
-                ],
-              ),
-            ));
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Firebase Meetup'),
+      ),
+      body: ListView(
+        children: <Widget>[
+          Image.asset('assets/codelab.png'),
+          const SizedBox(height: 8),
+          const IconAndDetail(Icons.calendar_today, 'October 30'),
+          const IconAndDetail(Icons.location_city, 'San Francisco'),
+          // Add from here
+          Consumer<ApplicationState>(
+            builder: (context, appState, _) => AuthFunc(
+                loggedIn: appState.loggedIn,
+                signOut: () {
+                  FirebaseAuth.instance.signOut();
+                }),
+          ),
+          // to here
+          const Divider(
+            height: 8,
+            thickness: 1,
+            indent: 8,
+            endIndent: 8,
+            color: Colors.grey,
+          ),
+          const Header("What we'll be doing"),
+          const Paragraph(
+            'Join us for a day full of Firebase Workshops and Pizza!',
+          ),
+        ],
+      ),
+    );
   }
 }
 ```
