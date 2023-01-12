@@ -138,7 +138,8 @@ class _EmailWidgetState extends State<EmailWidget> {
         children: [
           if (constraints.maxWidth - 200 > 0) ...[
             CircleAvatar(
-                backgroundImage: AssetImage(widget.email.sender.avatarUrl)),
+              backgroundImage: AssetImage(widget.email.sender.avatarUrl),
+            ),
             const Padding(padding: EdgeInsets.symmetric(horizontal: 6.0)),
           ],
           Expanded(
@@ -228,8 +229,9 @@ class _EmailWidgetState extends State<EmailWidget> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8.0),
               image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: AssetImage(widget.email.attachments.first.url)),
+                fit: BoxFit.cover,
+                image: AssetImage(widget.email.attachments.first.url),
+              ),
             ),
           )
         : null;
@@ -242,25 +244,32 @@ class _EmailWidgetState extends State<EmailWidget> {
         return Row(
           children: [
             Expanded(
-                child: TextButton(
-              style: ButtonStyle(
+              child: TextButton(
+                style: ButtonStyle(
                   backgroundColor:
-                      MaterialStateProperty.all(colorScheme.onInverseSurface)),
-              onPressed: () {},
-              child: Text('Reply',
-                  style: TextStyle(color: colorScheme.onSurfaceVariant)),
-            )),
+                      MaterialStateProperty.all(colorScheme.onInverseSurface),
+                ),
+                onPressed: () {},
+                child: Text(
+                  'Reply',
+                  style: TextStyle(color: colorScheme.onSurfaceVariant),
+                ),
+              ),
+            ),
             const Padding(padding: EdgeInsets.only(right: 8.0)),
             Expanded(
-                child: TextButton(
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(
-                            colorScheme.onInverseSurface)),
-                    onPressed: () {},
-                    child: Text(
-                      'Reply All',
-                      style: TextStyle(color: colorScheme.onSurfaceVariant),
-                    ))),
+              child: TextButton(
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all(colorScheme.onInverseSurface),
+                ),
+                onPressed: () {},
+                child: Text(
+                  'Reply All',
+                  style: TextStyle(color: colorScheme.onSurfaceVariant),
+                ),
+              ),
+            ),
           ],
         );
       },
