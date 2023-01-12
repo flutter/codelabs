@@ -1192,8 +1192,6 @@ steps:
     steps:
       - name: Remove step_07
         rmdir: step_07
-      - name: mkdir lib/animation
-        mkdir: material3_reply/lib/animation
       - name: Create lib/animations.dart
         path: material3_reply/lib/animations.dart
         replace-contents: |
