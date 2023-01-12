@@ -4,9 +4,7 @@
 
 import 'package:flutter/material.dart';
 
-import 'animation/bar_animation.dart';
-import 'animation/rail_animation.dart';
-import 'animation/rail_fab_animation.dart';
+import 'animations.dart';
 import 'models/data.dart' as data;
 import 'models/models.dart';
 import 'transitions/list_detail_transition.dart';

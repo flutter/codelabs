@@ -4,7 +4,7 @@
 
 import 'package:flutter/material.dart';
 
-import '../animation/bar_animation.dart';
+import '../animations.dart';
 import '../destinations.dart';
 import '../transitions/bottom_bar_transition.dart';
 

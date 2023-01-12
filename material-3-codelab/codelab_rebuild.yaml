@@ -1194,8 +1194,8 @@ steps:
         rmdir: step_07
       - name: mkdir lib/animation
         mkdir: material3_reply/lib/animation
-      - name: Create lib/animation/bar_animation.dart
-        path: material3_reply/lib/animation/bar_animation.dart
+      - name: Create lib/animations.dart
+        path: material3_reply/lib/animations.dart
         replace-contents: |
           // Copyright 2022 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
@@ -1213,14 +1213,6 @@ steps:
                     ),
                   );
           }
-      - name: Create lib/animation/offset_animation.dart
-        path: material3_reply/lib/animation/offset_animation.dart
-        replace-contents: |
-          // Copyright 2022 The Flutter Authors. All rights reserved.
-          // Use of this source code is governed by a BSD-style license that can be
-          // found in the LICENSE file.
-          
-          import 'package:flutter/animation.dart';
           
           class OffsetAnimation extends CurvedAnimation {
             OffsetAnimation({required super.parent})
@@ -1237,14 +1229,6 @@ steps:
                     ),
                   );
           }
-      - name: Create lib/animation/rail_animation.dart
-        path: material3_reply/lib/animation/rail_animation.dart
-        replace-contents: |
-          // Copyright 2022 The Flutter Authors. All rights reserved.
-          // Use of this source code is governed by a BSD-style license that can be
-          // found in the LICENSE file.
-          
-          import 'package:flutter/animation.dart';
           
           class RailAnimation extends CurvedAnimation {
             RailAnimation({required super.parent})
@@ -1253,14 +1237,6 @@ steps:
                     reverseCurve: const Interval(3 / 5, 1),
                   );
           }
-      - name: Create lib/animation/rail_fab_animation.dart
-        path: material3_reply/lib/animation/rail_fab_animation.dart
-        replace-contents: |
-          // Copyright 2022 The Flutter Authors. All rights reserved.
-          // Use of this source code is governed by a BSD-style license that can be
-          // found in the LICENSE file.
-          
-          import 'package:flutter/animation.dart';
           
           class RailFabAnimation extends CurvedAnimation {
             RailFabAnimation({required super.parent})
@@ -1268,14 +1244,6 @@ steps:
                     curve: const Interval(3 / 5, 1),
                   );
           }
-      - name: Create lib/animation/scale_animation.dart
-        path: material3_reply/lib/animation/scale_animation.dart
-        replace-contents: |
-          // Copyright 2022 The Flutter Authors. All rights reserved.
-          // Use of this source code is governed by a BSD-style license that can be
-          // found in the LICENSE file.
-          
-          import 'package:flutter/material.dart';
           
           class ScaleAnimation extends CurvedAnimation {
             ScaleAnimation({required super.parent})
@@ -1292,14 +1260,6 @@ steps:
                     ),
                   );
           }
-      - name: Create lib/animation/shape_animation.dart
-        path: material3_reply/lib/animation/shape_animation.dart
-        replace-contents: |
-          // Copyright 2022 The Flutter Authors. All rights reserved.
-          // Use of this source code is governed by a BSD-style license that can be
-          // found in the LICENSE file.
-          
-          import 'package:flutter/material.dart';
           
           class ShapeAnimation extends CurvedAnimation {
             ShapeAnimation({required super.parent})
@@ -1311,14 +1271,6 @@ steps:
                     ),
                   );
           }
-      - name: Create lib/animation/size_animation.dart
-        path: material3_reply/lib/animation/size_animation.dart
-        replace-contents: |
-          // Copyright 2022 The Flutter Authors. All rights reserved.
-          // Use of this source code is governed by a BSD-style license that can be
-          // found in the LICENSE file.
-          
-          import 'package:flutter/animation.dart';
           
           class SizeAnimation extends CurvedAnimation {
             SizeAnimation({required super.parent})
@@ -1345,8 +1297,7 @@ steps:
           // found in the LICENSE file.
           
           import 'package:flutter/material.dart';
-          import '../animation/offset_animation.dart';
-          import '../animation/size_animation.dart';
+          import '../animations.dart';
           
           class BottomBarTransition extends StatefulWidget {
             const BottomBarTransition(
@@ -1399,8 +1350,7 @@ steps:
           // found in the LICENSE file.
           
           import 'package:flutter/material.dart';
-          import '../animation/offset_animation.dart';
-          import '../animation/size_animation.dart';
+          import '../animations.dart';
           
           class NavRailTransition extends StatefulWidget {
             const NavRailTransition(
@@ -1469,8 +1419,7 @@ steps:
           import 'dart:ui';
           
           import 'package:flutter/material.dart';
-          import '../animation/scale_animation.dart';
-          import '../animation/shape_animation.dart';
+          import '../animations.dart';
           
           class AnimatedFloatingActionButton extends StatefulWidget {
             const AnimatedFloatingActionButton({
@@ -1527,7 +1476,7 @@ steps:
            
            import 'package:flutter/material.dart';
            
-          +import '../animation/bar_animation.dart';
+          +import '../animations.dart';
            import '../destinations.dart';
           +import '../transitions/bottom_bar_transition.dart';
            
@@ -1578,12 +1527,11 @@ steps:
         patch-u: |
           --- b/material-3-codelab/step_07/lib/widgets/disappearing_navigation_rail.dart
           +++ a/material-3-codelab/step_07/lib/widgets/disappearing_navigation_rail.dart
-          @@ -4,54 +4,60 @@
+          @@ -4,54 +4,59 @@
            
            import 'package:flutter/material.dart';
            
-          +import '../animation/rail_animation.dart';
-          +import '../animation/rail_fab_animation.dart';
+          +import '../animations.dart';
            import '../destinations.dart';
           +import '../transitions/nav_rail_transition.dart';
           +import 'animated_floating_action_button.dart';
@@ -1673,13 +1621,11 @@ steps:
         patch-u: |
           --- b/material-3-codelab/step_07/lib/main.dart
           +++ a/material-3-codelab/step_07/lib/main.dart
-          @@ -4,8 +4,12 @@
+          @@ -4,8 +4,10 @@
            
            import 'package:flutter/material.dart';
            
-          +import 'animation/bar_animation.dart';
-          +import 'animation/rail_animation.dart';
-          +import 'animation/rail_fab_animation.dart';
+          +import 'animations.dart';
            import 'models/data.dart' as data;
            import 'models/models.dart';
           +import 'widgets/animated_floating_action_button.dart';
@@ -1857,8 +1803,7 @@ steps:
           import 'dart:ui';
           
           import 'package:flutter/material.dart';
-          import '../animation/offset_animation.dart';
-          import '../animation/size_animation.dart';
+          import '../animations.dart';
           
           class ListDetailTransition extends StatefulWidget {
             const ListDetailTransition({
@@ -1999,8 +1944,8 @@ steps:
         patch-u: |
           --- b/material-3-codelab/step_08/lib/main.dart
           +++ a/material-3-codelab/step_08/lib/main.dart
-          @@ -9,10 +9,12 @@ import 'animation/rail_animation.dart';
-           import 'animation/rail_fab_animation.dart';
+          @@ -7,10 +7,12 @@ import 'package:flutter/material.dart';
+           import 'animations.dart';
            import 'models/data.dart' as data;
            import 'models/models.dart';
           +import 'transitions/list_detail_transition.dart';
@@ -2012,7 +1957,7 @@ steps:
            
            void main() {
              runApp(const MainApp());
-          @@ -109,14 +111,18 @@ class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
+          @@ -107,14 +109,18 @@ class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
                          Expanded(
                            child: Container(
                              color: backgroundColor,
