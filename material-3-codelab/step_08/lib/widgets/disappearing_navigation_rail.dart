@@ -4,8 +4,7 @@
 
 import 'package:flutter/material.dart';
 
-import '../animation/rail_animation.dart';
-import '../animation/rail_fab_animation.dart';
+import '../animations.dart';
 import '../destinations.dart';
 import '../transitions/nav_rail_transition.dart';
 import 'animated_floating_action_button.dart';
