@@ -50,11 +50,9 @@ class _EmailWidgetState extends State<EmailWidget> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: widget.onSelected,
-      child: Container(
-        decoration: BoxDecoration(
-          color: _surfaceColor,
-          borderRadius: BorderRadius.circular(12.0),
-        ),
+      child: Card(
+        elevation: 0,
+        color: _surfaceColor,
         clipBehavior: Clip.hardEdge,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
