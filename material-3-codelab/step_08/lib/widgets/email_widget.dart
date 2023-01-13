@@ -36,14 +36,16 @@ class EmailWidget extends StatefulWidget {
 
 class _EmailWidgetState extends State<EmailWidget> {
   late final ColorScheme _colorScheme = Theme.of(context).colorScheme;
+  late Color unselectedColor = Color.alphaBlend(
+    _colorScheme.primary.withOpacity(0.08),
+    _colorScheme.surface,
+  );
+
 
   Color get _surfaceColor {
     if (!widget.isPreview) return _colorScheme.surface;
     if (widget.isSelected) return _colorScheme.primaryContainer;
-    return Color.alphaBlend(
-      _colorScheme.primary.withOpacity(0.08),
-      _colorScheme.surface,
-    );
+    return unselectedColor;
   }
 
   @override
