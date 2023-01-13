@@ -287,6 +287,8 @@ class _EmailHeadlineState extends State<EmailHeadline> {
                   ],
                 ),
               ),
+              // Display a "condensed" version if the widget in the row are
+              // expected to overflow.
               if (constraints.maxWidth - 200 > 0) ...[
                 SizedBox(
                   height: 40,
