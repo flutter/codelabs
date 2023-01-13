@@ -16,14 +16,14 @@ class EmailWidget extends StatefulWidget {
   const EmailWidget({
     super.key,
     required this.email,
-    this.selected = false,
+    this.isSelected = false,
     this.isPreview = true,
     this.isThreaded = false,
     this.showHeadline = false,
     this.onSelected,
   });
 
-  final bool selected;
+  final bool isSelected;
   final bool isPreview;
   final bool showHeadline;
   final bool isThreaded;
@@ -44,12 +44,69 @@ class _EmailWidgetState extends State<EmailWidget> {
 
   Color get surfaceColor {
     if (!widget.isPreview) return colorScheme.surface;
-    if (widget.selected) return colorScheme.primaryContainer;
+    if (widget.isSelected) return colorScheme.primaryContainer;
     return Color.alphaBlend(
       colorScheme.primary.withOpacity(0.08),
       colorScheme.surface,
     );
   }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: widget.onSelected,
+      child: Container(
+        decoration: BoxDecoration(
+          color: surfaceColor,
+          borderRadius: BorderRadius.circular(12.0),
+        ),
+        clipBehavior: Clip.hardEdge,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (widget.showHeadline) ...[
+              EmailHeadline(
+                email: widget.email,
+                isSelected: widget.isSelected,
+              ),
+            ],
+            EmailContent(
+              email: widget.email,
+              isPreview: widget.isPreview,
+              isThreaded: widget.isThreaded,
+              isSelected: widget.isSelected,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class EmailContent extends StatefulWidget {
+  const EmailContent({
+    super.key,
+    required this.email,
+    required this.isPreview,
+    required this.isThreaded,
+    required this.isSelected,
+  });
+
+  final Email email;
+  final bool isPreview;
+  final bool isThreaded;
+  final bool isSelected;
+
+  @override
+  State<EmailContent> createState() => _EmailContentState();
+}
+
+class _EmailContentState extends State<EmailContent> {
+  late ColorScheme colorScheme = Theme.of(context).colorScheme;
+  late TextTheme textTheme = Theme.of(context).textTheme;
+
+  Widget get contentSpacer => SizedBox(height: widget.isThreaded ? 20 : 2);
 
   String get lastActiveLabel {
     final DateTime now = DateTime.now();
@@ -63,7 +120,136 @@ class _EmailWidgetState extends State<EmailWidget> {
     throw UnimplementedError();
   }
 
-  Widget get headline {
+  TextStyle? get contentTextStyle {
+    if (widget.isThreaded) {
+      return textTheme.bodyLarge;
+    }
+    if (widget.isSelected) {
+      return textTheme.bodyMedium
+          ?.copyWith(color: colorScheme.onPrimaryContainer);
+    }
+    return textTheme.bodyMedium?.copyWith(color: colorScheme.onSurfaceVariant);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          LayoutBuilder(builder: (context, constraints) {
+            return Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                if (constraints.maxWidth - 200 > 0) ...[
+                  CircleAvatar(
+                    backgroundImage: AssetImage(widget.email.sender.avatarUrl),
+                  ),
+                  const Padding(padding: EdgeInsets.symmetric(horizontal: 6.0)),
+                ],
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.email.sender.name.fullName,
+                        overflow: TextOverflow.fade,
+                        maxLines: 1,
+                        style: widget.isSelected
+                            ? textTheme.labelMedium
+                                ?.copyWith(color: colorScheme.onSecondaryContainer)
+                            : textTheme.labelMedium
+                                ?.copyWith(color: colorScheme.onSurface),
+                      ),
+                      Text(
+                        lastActiveLabel,
+                        overflow: TextOverflow.fade,
+                        maxLines: 1,
+                        style: widget.isSelected
+                            ? textTheme.labelMedium
+                                ?.copyWith(color: colorScheme.onSecondaryContainer)
+                            : textTheme.labelMedium
+                                ?.copyWith(color: colorScheme.onSurfaceVariant),
+                      ),
+                    ],
+                  ),
+                ),
+                if (constraints.maxWidth - 200 > 0) ...[
+                  const StarButton(),
+                ]
+              ],
+            );
+          }),
+          const SizedBox(width: 8),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (widget.isPreview) ...[
+                Text(
+                  widget.email.subject,
+                  style: const TextStyle(fontSize: 18)
+                      .copyWith(color: colorScheme.onSurface),
+                ),
+              ],
+              if (widget.isThreaded) ...[
+                contentSpacer,
+                Text(
+                  "To ${widget.email.recipients.map((recipient) => recipient.name.first).join(", ")}",
+                  style: textTheme.bodyMedium,
+                )
+              ],
+              contentSpacer,
+              Text(
+                widget.email.content,
+                maxLines: widget.isPreview ? 2 : 100,
+                overflow: TextOverflow.ellipsis,
+                style: contentTextStyle,
+              ),
+            ],
+          ),
+          const SizedBox(width: 12),
+          widget.email.attachments.isNotEmpty
+            ? Container(
+                height: 96,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8.0),
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: AssetImage(widget.email.attachments.first.url),
+                  ),
+                ),
+              )
+            : const SizedBox.shrink(),
+          if (!widget.isPreview) ...[
+            const EmailReplyOptions(),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class EmailHeadline extends StatefulWidget {
+  const EmailHeadline({
+    super.key,
+    required this.email,
+    required this.isSelected,
+  });
+
+  final Email email;
+  final bool isSelected;
+
+  @override
+  State<EmailHeadline> createState() => _EmailHeadlineState();
+}
+
+class _EmailHeadlineState extends State<EmailHeadline> {
+  late TextTheme textTheme = Theme.of(context).textTheme;
+  late ColorScheme colorScheme = Theme.of(context).colorScheme;
+
+  @override
+  Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
       return Container(
         height: 84,
@@ -112,7 +298,7 @@ class _EmailWidgetState extends State<EmailWidget> {
                     child: const Icon(Icons.delete_outline),
                   ),
                 ),
-                const SizedBox(width: 8,),
+                const Padding(padding: EdgeInsets.only(right: 8.0)),
                 SizedBox(
                   height: 40,
                   width: 40,
@@ -130,114 +316,25 @@ class _EmailWidgetState extends State<EmailWidget> {
       );
     });
   }
+}
 
-  Widget get header {
-    return LayoutBuilder(builder: (context, constraints) {
-      return Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          if (constraints.maxWidth - 200 > 0) ...[
-            CircleAvatar(
-              backgroundImage: AssetImage(widget.email.sender.avatarUrl),
-            ),
-            const SizedBox(width: 12,),
-          ],
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  widget.email.sender.name.fullName,
-                  overflow: TextOverflow.fade,
-                  maxLines: 1,
-                  style: widget.selected
-                      ? textTheme.labelMedium
-                          ?.copyWith(color: colorScheme.onSecondaryContainer)
-                      : textTheme.labelMedium
-                          ?.copyWith(color: colorScheme.onSurface),
-                ),
-                Text(
-                  lastActiveLabel,
-                  overflow: TextOverflow.fade,
-                  maxLines: 1,
-                  style: widget.selected
-                      ? textTheme.labelMedium
-                          ?.copyWith(color: colorScheme.onSecondaryContainer)
-                      : textTheme.labelMedium
-                          ?.copyWith(color: colorScheme.onSurfaceVariant),
-                ),
-              ],
-            ),
-          ),
-          if (constraints.maxWidth - 200 > 0) ...[
-            const StarButton(),
-          ]
-        ],
-      );
-    });
-  }
+class EmailReplyOptions extends StatefulWidget {
+  const EmailReplyOptions({super.key});
 
-  Widget get content {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        if (widget.isPreview) ...[
-          Text(
-            widget.email.subject,
-            style: const TextStyle(fontSize: 18)
-                .copyWith(color: colorScheme.onSurface),
-          ),
-        ],
-        if (widget.isThreaded) ...[
-          contentSpacer,
-          Text(
-            "To ${widget.email.recipients.map((recipient) => recipient.name.first).join(", ")}",
-            style: textTheme.bodyMedium,
-          )
-        ],
-        contentSpacer,
-        Text(
-          widget.email.content,
-          maxLines: widget.isPreview ? 2 : 100,
-          overflow: TextOverflow.ellipsis,
-          style: contentTextStyle,
-        ),
-      ],
-    );
-  }
+  @override
+  State<EmailReplyOptions> createState() => _EmailReplyOptionsState();
+}
 
-  Widget get contentSpacer => SizedBox(height: widget.isThreaded ? 20 : 2);
+class _EmailReplyOptionsState extends State<EmailReplyOptions> {
+  late ColorScheme colorScheme = Theme.of(context).colorScheme;
 
-  TextStyle? get contentTextStyle {
-    if (widget.isThreaded) {
-      return textTheme.bodyLarge;
-    }
-    if (widget.selected) {
-      return textTheme.bodyMedium
-          ?.copyWith(color: colorScheme.onPrimaryContainer);
-    }
-    return textTheme.bodyMedium?.copyWith(color: colorScheme.onSurfaceVariant);
-  }
-
-  Widget get thumbnail {
-    return widget.email.attachments.isNotEmpty
-        ? Container(
-            height: 96,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8.0),
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: AssetImage(widget.email.attachments.first.url),
-              ),
-            ),
-          )
-        : const SizedBox.shrink();
-  }
-
-  Widget get replyOptions {
+  @override
+  Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        if (constraints.maxWidth < 100) return const SizedBox.shrink();
+        if (constraints.maxWidth < 100) {
+          return const SizedBox.shrink();
+        }
         return Row(
           children: [
             Expanded(
@@ -270,45 +367,6 @@ class _EmailWidgetState extends State<EmailWidget> {
           ],
         );
       },
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: widget.onSelected,
-      child: Container(
-        decoration: BoxDecoration(
-          color: surfaceColor,
-          borderRadius: BorderRadius.circular(12.0),
-        ),
-        clipBehavior: Clip.hardEdge,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (widget.showHeadline) ...[
-              headline,
-            ],
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  header,
-                  const SizedBox(width: 8),
-                  content,
-                  const SizedBox(width: 12),
-                  thumbnail,
-                  if (!widget.isPreview) ...[
-                    replyOptions,
-                  ],
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

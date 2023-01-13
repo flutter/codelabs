@@ -42,7 +42,7 @@ class EmailListView extends StatelessWidget {
                           onSelected!(index);
                         }
                       : null,
-                  selected: selectedIndex == index,
+                  isSelected: selectedIndex == index,
                 ),
               );
             },
