@@ -112,7 +112,7 @@ class _EmailWidgetState extends State<EmailWidget> {
                     child: const Icon(Icons.delete_outline),
                   ),
                 ),
-                const Padding(padding: EdgeInsets.only(right: 8.0)),
+                const SizedBox(width: 8,),
                 SizedBox(
                   height: 40,
                   width: 40,
@@ -140,7 +140,7 @@ class _EmailWidgetState extends State<EmailWidget> {
             CircleAvatar(
               backgroundImage: AssetImage(widget.email.sender.avatarUrl),
             ),
-            const Padding(padding: EdgeInsets.symmetric(horizontal: 6.0)),
+            const SizedBox(width: 12,),
           ],
           Expanded(
             child: Column(
@@ -189,13 +189,13 @@ class _EmailWidgetState extends State<EmailWidget> {
           ),
         ],
         if (widget.isThreaded) ...[
-          contentSpacing,
+          contentSpacer,
           Text(
             "To ${widget.email.recipients.map((recipient) => recipient.name.first).join(", ")}",
             style: textTheme.bodyMedium,
           )
         ],
-        contentSpacing,
+        contentSpacer,
         Text(
           widget.email.content,
           maxLines: widget.isPreview ? 2 : 100,
@@ -206,10 +206,7 @@ class _EmailWidgetState extends State<EmailWidget> {
     );
   }
 
-  Padding get contentSpacing {
-    final double padding = widget.isThreaded ? 20 : 2;
-    return Padding(padding: EdgeInsets.only(bottom: padding));
-  }
+  Widget get contentSpacer => SizedBox(height: widget.isThreaded ? 20 : 2);
 
   TextStyle? get contentTextStyle {
     if (widget.isThreaded) {
@@ -256,7 +253,7 @@ class _EmailWidgetState extends State<EmailWidget> {
                 ),
               ),
             ),
-            const Padding(padding: EdgeInsets.only(right: 8.0)),
+            const SizedBox(width: 8),
             Expanded(
               child: TextButton(
                 style: ButtonStyle(
@@ -299,9 +296,9 @@ class _EmailWidgetState extends State<EmailWidget> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   header,
-                  const Padding(padding: EdgeInsets.only(bottom: 8.0)),
+                  const SizedBox(width: 8),
                   content,
-                  const Padding(padding: EdgeInsets.only(bottom: 12.0)),
+                  const SizedBox(width: 12),
                   if (thumbnail != null) ...[
                     thumbnail!,
                   ],
