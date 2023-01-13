@@ -25,7 +25,7 @@ class ListDetailTransition extends StatefulWidget {
 
 class _ListDetailTransitionState extends State<ListDetailTransition> {
   Animation<double> widthAnimation = const AlwaysStoppedAnimation(0);
-  late Animation<double> sizeAnimation =
+  late final Animation<double> sizeAnimation =
       SizeAnimation(parent: widget.animation);
   late final Animation<Offset> offsetAnimation = Tween<Offset>(
     begin: const Offset(1, 0),

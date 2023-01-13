@@ -35,9 +35,9 @@ class EmailWidget extends StatefulWidget {
 }
 
 class _EmailWidgetState extends State<EmailWidget> {
-  late ColorScheme colorScheme = Theme.of(context).colorScheme;
-  late TextTheme textTheme = Theme.of(context).textTheme;
-  late Color unselectedColor = Color.alphaBlend(
+  late final ColorScheme colorScheme = Theme.of(context).colorScheme;
+  late final TextTheme textTheme = Theme.of(context).textTheme;
+  late final Color unselectedColor = Color.alphaBlend(
     colorScheme.primary.withOpacity(0.08),
     colorScheme.surface,
   );
@@ -103,8 +103,8 @@ class EmailContent extends StatefulWidget {
 }
 
 class _EmailContentState extends State<EmailContent> {
-  late ColorScheme colorScheme = Theme.of(context).colorScheme;
-  late TextTheme textTheme = Theme.of(context).textTheme;
+  late final ColorScheme colorScheme = Theme.of(context).colorScheme;
+  late final TextTheme textTheme = Theme.of(context).textTheme;
 
   Widget get contentSpacer => SizedBox(height: widget.isThreaded ? 20 : 2);
 
@@ -245,8 +245,8 @@ class EmailHeadline extends StatefulWidget {
 }
 
 class _EmailHeadlineState extends State<EmailHeadline> {
-  late TextTheme textTheme = Theme.of(context).textTheme;
-  late ColorScheme colorScheme = Theme.of(context).colorScheme;
+  late final TextTheme textTheme = Theme.of(context).textTheme;
+  late final ColorScheme colorScheme = Theme.of(context).colorScheme;
 
   @override
   Widget build(BuildContext context) {
@@ -326,7 +326,7 @@ class EmailReplyOptions extends StatefulWidget {
 }
 
 class _EmailReplyOptionsState extends State<EmailReplyOptions> {
-  late ColorScheme colorScheme = Theme.of(context).colorScheme;
+  late final ColorScheme colorScheme = Theme.of(context).colorScheme;
 
   @override
   Widget build(BuildContext context) {
