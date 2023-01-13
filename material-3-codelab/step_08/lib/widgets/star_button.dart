@@ -13,6 +13,7 @@ class StarButton extends StatefulWidget {
 
 class _StarButtonState extends State<StarButton> {
   bool state = false;
+  late final ColorScheme _colorScheme = Theme.of(context).colorScheme;
 
   Icon get icon {
     final IconData iconData = state ? Icons.star : Icons.star_outline;
@@ -41,7 +42,7 @@ class _StarButtonState extends State<StarButton> {
       child: FloatingActionButton(
         elevation: 0,
         shape: const CircleBorder(),
-        backgroundColor: Theme.of(context).colorScheme.surface,
+        backgroundColor: _colorScheme.surface,
         onPressed: () => _toggle(),
         child: Padding(
           padding: const EdgeInsets.all(10.0),

@@ -35,19 +35,14 @@ class EmailWidget extends StatefulWidget {
 }
 
 class _EmailWidgetState extends State<EmailWidget> {
-  late final ColorScheme colorScheme = Theme.of(context).colorScheme;
-  late final TextTheme textTheme = Theme.of(context).textTheme;
-  late final Color unselectedColor = Color.alphaBlend(
-    colorScheme.primary.withOpacity(0.08),
-    colorScheme.surface,
-  );
+  late final ColorScheme _colorScheme = Theme.of(context).colorScheme;
 
-  Color get surfaceColor {
-    if (!widget.isPreview) return colorScheme.surface;
-    if (widget.isSelected) return colorScheme.primaryContainer;
+  Color get _surfaceColor {
+    if (!widget.isPreview) return _colorScheme.surface;
+    if (widget.isSelected) return _colorScheme.primaryContainer;
     return Color.alphaBlend(
-      colorScheme.primary.withOpacity(0.08),
-      colorScheme.surface,
+      _colorScheme.primary.withOpacity(0.08),
+      _colorScheme.surface,
     );
   }
 
@@ -57,7 +52,7 @@ class _EmailWidgetState extends State<EmailWidget> {
       onTap: widget.onSelected,
       child: Container(
         decoration: BoxDecoration(
-          color: surfaceColor,
+          color: _surfaceColor,
           borderRadius: BorderRadius.circular(12.0),
         ),
         clipBehavior: Clip.hardEdge,
@@ -103,8 +98,8 @@ class EmailContent extends StatefulWidget {
 }
 
 class _EmailContentState extends State<EmailContent> {
-  late final ColorScheme colorScheme = Theme.of(context).colorScheme;
-  late final TextTheme textTheme = Theme.of(context).textTheme;
+  late final ColorScheme _colorScheme = Theme.of(context).colorScheme;
+  late final TextTheme _textTheme = Theme.of(context).textTheme;
 
   Widget get contentSpacer => SizedBox(height: widget.isThreaded ? 20 : 2);
 
@@ -122,13 +117,13 @@ class _EmailContentState extends State<EmailContent> {
 
   TextStyle? get contentTextStyle {
     if (widget.isThreaded) {
-      return textTheme.bodyLarge;
+      return _textTheme.bodyLarge;
     }
     if (widget.isSelected) {
-      return textTheme.bodyMedium
-          ?.copyWith(color: colorScheme.onPrimaryContainer);
+      return _textTheme.bodyMedium
+          ?.copyWith(color: _colorScheme.onPrimaryContainer);
     }
-    return textTheme.bodyMedium?.copyWith(color: colorScheme.onSurfaceVariant);
+    return _textTheme.bodyMedium?.copyWith(color: _colorScheme.onSurfaceVariant);
   }
 
   @override
@@ -157,20 +152,20 @@ class _EmailContentState extends State<EmailContent> {
                         overflow: TextOverflow.fade,
                         maxLines: 1,
                         style: widget.isSelected
-                            ? textTheme.labelMedium
-                                ?.copyWith(color: colorScheme.onSecondaryContainer)
-                            : textTheme.labelMedium
-                                ?.copyWith(color: colorScheme.onSurface),
+                            ? _textTheme.labelMedium
+                                ?.copyWith(color: _colorScheme.onSecondaryContainer)
+                            : _textTheme.labelMedium
+                                ?.copyWith(color: _colorScheme.onSurface),
                       ),
                       Text(
                         lastActiveLabel,
                         overflow: TextOverflow.fade,
                         maxLines: 1,
                         style: widget.isSelected
-                            ? textTheme.labelMedium
-                                ?.copyWith(color: colorScheme.onSecondaryContainer)
-                            : textTheme.labelMedium
-                                ?.copyWith(color: colorScheme.onSurfaceVariant),
+                            ? _textTheme.labelMedium
+                                ?.copyWith(color: _colorScheme.onSecondaryContainer)
+                            : _textTheme.labelMedium
+                                ?.copyWith(color: _colorScheme.onSurfaceVariant),
                       ),
                     ],
                   ),
@@ -189,14 +184,14 @@ class _EmailContentState extends State<EmailContent> {
                 Text(
                   widget.email.subject,
                   style: const TextStyle(fontSize: 18)
-                      .copyWith(color: colorScheme.onSurface),
+                      .copyWith(color: _colorScheme.onSurface),
                 ),
               ],
               if (widget.isThreaded) ...[
                 contentSpacer,
                 Text(
                   "To ${widget.email.recipients.map((recipient) => recipient.name.first).join(", ")}",
-                  style: textTheme.bodyMedium,
+                  style: _textTheme.bodyMedium,
                 )
               ],
               contentSpacer,
@@ -245,8 +240,8 @@ class EmailHeadline extends StatefulWidget {
 }
 
 class _EmailHeadlineState extends State<EmailHeadline> {
-  late final TextTheme textTheme = Theme.of(context).textTheme;
-  late final ColorScheme colorScheme = Theme.of(context).colorScheme;
+  late final TextTheme _textTheme = Theme.of(context).textTheme;
+  late final ColorScheme _colorScheme = Theme.of(context).colorScheme;
 
   @override
   Widget build(BuildContext context) {
@@ -254,8 +249,8 @@ class _EmailHeadlineState extends State<EmailHeadline> {
       return Container(
         height: 84,
         color: Color.alphaBlend(
-          Theme.of(context).colorScheme.primary.withOpacity(0.05),
-          Theme.of(context).colorScheme.surface,
+          _colorScheme.primary.withOpacity(0.05),
+          _colorScheme.surface,
         ),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(24, 12, 12, 12),
@@ -279,8 +274,7 @@ class _EmailHeadlineState extends State<EmailHeadline> {
                       '${widget.email.replies.toString()} Messages',
                       maxLines: 1,
                       overflow: TextOverflow.fade,
-                      style: Theme.of(context)
-                          .textTheme
+                      style: _textTheme
                           .labelMedium
                           ?.copyWith(fontWeight: FontWeight.w500),
                     ),
@@ -296,7 +290,7 @@ class _EmailHeadlineState extends State<EmailHeadline> {
                   child: FloatingActionButton(
                     onPressed: () {},
                     elevation: 0,
-                    backgroundColor: Theme.of(context).colorScheme.surface,
+                    backgroundColor: _colorScheme.surface,
                     child: const Icon(Icons.delete_outline),
                   ),
                 ),
@@ -307,7 +301,7 @@ class _EmailHeadlineState extends State<EmailHeadline> {
                   child: FloatingActionButton(
                     onPressed: () {},
                     elevation: 0,
-                    backgroundColor: Theme.of(context).colorScheme.surface,
+                    backgroundColor: _colorScheme.surface,
                     child: const Icon(Icons.more_vert),
                   ),
                 ),
