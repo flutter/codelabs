@@ -219,7 +219,7 @@ class _EmailWidgetState extends State<EmailWidget> {
     return textTheme.bodyMedium?.copyWith(color: colorScheme.onSurfaceVariant);
   }
 
-  Widget? get thumbnail {
+  Widget get thumbnail {
     return widget.email.attachments.isNotEmpty
         ? Container(
             height: 96,
@@ -231,7 +231,7 @@ class _EmailWidgetState extends State<EmailWidget> {
               ),
             ),
           )
-        : null;
+        : const SizedBox.shrink();
   }
 
   Widget get replyOptions {
@@ -299,9 +299,7 @@ class _EmailWidgetState extends State<EmailWidget> {
                   const SizedBox(width: 8),
                   content,
                   const SizedBox(width: 12),
-                  if (thumbnail != null) ...[
-                    thumbnail!,
-                  ],
+                  thumbnail,
                   if (!widget.isPreview) ...[
                     replyOptions,
                   ],
