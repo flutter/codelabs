@@ -24,7 +24,7 @@ class _StarButtonState extends State<StarButton> {
     );
   }
 
-  void toggle() {
+  void _toggle() {
     setState(() {
       state = !state;
     });
@@ -42,7 +42,7 @@ class _StarButtonState extends State<StarButton> {
         elevation: 0,
         shape: const CircleBorder(),
         backgroundColor: Theme.of(context).colorScheme.surface,
-        onPressed: () => setState(() => state = !state),
+        onPressed: () => _toggle(),
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: icon,
