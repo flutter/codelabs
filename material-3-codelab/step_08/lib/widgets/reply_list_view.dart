@@ -16,7 +16,7 @@ class ReplyListView extends StatelessWidget {
       padding: const EdgeInsets.only(right: 8.0),
       child: ListView(
         children: [
-          const Padding(padding: EdgeInsets.only(bottom: 8.0)),
+          const SizedBox(height: 8),
           ...List.generate(data.replies.length, (index) {
             return Padding(
               padding: const EdgeInsets.only(bottom: 8.0),

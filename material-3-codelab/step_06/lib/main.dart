@@ -88,11 +88,6 @@ class _FeedState extends State<Feed> {
       floatingActionButton: wideScreen
           ? null
           : FloatingActionButton(
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(15),
-                ),
-              ),
               backgroundColor: colorScheme.tertiaryContainer,
               foregroundColor: colorScheme.onTertiaryContainer,
               onPressed: () {},
