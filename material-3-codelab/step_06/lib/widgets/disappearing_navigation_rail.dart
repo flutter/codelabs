@@ -20,7 +20,7 @@ class DisappearingNavigationRail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
+    final _colorScheme = Theme.of(context).colorScheme;
     return NavigationRail(
       selectedIndex: selectedIndex,
       backgroundColor: backgroundColor,
@@ -38,8 +38,8 @@ class DisappearingNavigationRail extends StatelessWidget {
                 Radius.circular(15),
               ),
             ),
-            backgroundColor: colorScheme.tertiaryContainer,
-            foregroundColor: colorScheme.onTertiaryContainer,
+            backgroundColor: _colorScheme.tertiaryContainer,
+            foregroundColor: _colorScheme.onTertiaryContainer,
             onPressed: () {},
             child: const Icon(Icons.add),
           ),

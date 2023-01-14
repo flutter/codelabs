@@ -28,17 +28,10 @@ class _NavRailTransitionState extends State<NavRailTransition> {
     begin: ltr ? const Offset(-1, 0) : const Offset(1, 0),
     end: Offset.zero,
   ).animate(OffsetAnimation(parent: widget.animation));
-  late Animation<double> widthAnimation;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    widthAnimation = Tween<double>(
-      begin: 0,
-      end: 1,
-    ).animate(SizeAnimation(parent: widget.animation));
-  }
+  late final Animation<double> widthAnimation = Tween<double>(
+    begin: 0,
+    end: 1,
+  ).animate(SizeAnimation(parent: widget.animation));
 
   @override
   Widget build(BuildContext context) {

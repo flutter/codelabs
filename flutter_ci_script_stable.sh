@@ -20,7 +20,7 @@ declare -a CODELABS=(
   "google-maps-in-flutter"
   "in_app_purchases"
   # TODO(domesticmouse): enable once Flutter stable increments
-  # "material3-reply"
+  # "material-3-codelab"
   "namer"
   "star_counter"
   "startup_namer"

@@ -41,7 +41,6 @@ class _EmailWidgetState extends State<EmailWidget> {
     _colorScheme.surface,
   );
 
-
   Color get _surfaceColor {
     if (!widget.isPreview) return _colorScheme.surface;
     if (widget.isSelected) return _colorScheme.primaryContainer;
@@ -123,7 +122,8 @@ class _EmailContentState extends State<EmailContent> {
       return _textTheme.bodyMedium
           ?.copyWith(color: _colorScheme.onPrimaryContainer);
     }
-    return _textTheme.bodyMedium?.copyWith(color: _colorScheme.onSurfaceVariant);
+    return _textTheme.bodyMedium
+        ?.copyWith(color: _colorScheme.onSurfaceVariant);
   }
 
   @override
@@ -152,8 +152,8 @@ class _EmailContentState extends State<EmailContent> {
                         overflow: TextOverflow.fade,
                         maxLines: 1,
                         style: widget.isSelected
-                            ? _textTheme.labelMedium
-                                ?.copyWith(color: _colorScheme.onSecondaryContainer)
+                            ? _textTheme.labelMedium?.copyWith(
+                                color: _colorScheme.onSecondaryContainer)
                             : _textTheme.labelMedium
                                 ?.copyWith(color: _colorScheme.onSurface),
                       ),
@@ -162,10 +162,10 @@ class _EmailContentState extends State<EmailContent> {
                         overflow: TextOverflow.fade,
                         maxLines: 1,
                         style: widget.isSelected
-                            ? _textTheme.labelMedium
-                                ?.copyWith(color: _colorScheme.onSecondaryContainer)
-                            : _textTheme.labelMedium
-                                ?.copyWith(color: _colorScheme.onSurfaceVariant),
+                            ? _textTheme.labelMedium?.copyWith(
+                                color: _colorScheme.onSecondaryContainer)
+                            : _textTheme.labelMedium?.copyWith(
+                                color: _colorScheme.onSurfaceVariant),
                       ),
                     ],
                   ),
@@ -205,17 +205,17 @@ class _EmailContentState extends State<EmailContent> {
           ),
           const SizedBox(width: 12),
           widget.email.attachments.isNotEmpty
-            ? Container(
-                height: 96,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8.0),
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: AssetImage(widget.email.attachments.first.url),
+              ? Container(
+                  height: 96,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.0),
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: AssetImage(widget.email.attachments.first.url),
+                    ),
                   ),
-                ),
-              )
-            : const SizedBox.shrink(),
+                )
+              : const SizedBox.shrink(),
           if (!widget.isPreview) ...[
             const EmailReplyOptions(),
           ],
@@ -274,8 +274,7 @@ class _EmailHeadlineState extends State<EmailHeadline> {
                       '${widget.email.replies.toString()} Messages',
                       maxLines: 1,
                       overflow: TextOverflow.fade,
-                      style: _textTheme
-                          .labelMedium
+                      style: _textTheme.labelMedium
                           ?.copyWith(fontWeight: FontWeight.w500),
                     ),
                   ],
@@ -322,7 +321,7 @@ class EmailReplyOptions extends StatefulWidget {
 }
 
 class _EmailReplyOptionsState extends State<EmailReplyOptions> {
-  late final ColorScheme colorScheme = Theme.of(context).colorScheme;
+  late final ColorScheme _colorScheme = Theme.of(context).colorScheme;
 
   @override
   Widget build(BuildContext context) {
@@ -337,12 +336,12 @@ class _EmailReplyOptionsState extends State<EmailReplyOptions> {
               child: TextButton(
                 style: ButtonStyle(
                   backgroundColor:
-                      MaterialStateProperty.all(colorScheme.onInverseSurface),
+                      MaterialStateProperty.all(_colorScheme.onInverseSurface),
                 ),
                 onPressed: () {},
                 child: Text(
                   'Reply',
-                  style: TextStyle(color: colorScheme.onSurfaceVariant),
+                  style: TextStyle(color: _colorScheme.onSurfaceVariant),
                 ),
               ),
             ),
@@ -351,12 +350,12 @@ class _EmailReplyOptionsState extends State<EmailReplyOptions> {
               child: TextButton(
                 style: ButtonStyle(
                   backgroundColor:
-                      MaterialStateProperty.all(colorScheme.onInverseSurface),
+                      MaterialStateProperty.all(_colorScheme.onInverseSurface),
                 ),
                 onPressed: () {},
                 child: Text(
                   'Reply All',
-                  style: TextStyle(color: colorScheme.onSurfaceVariant),
+                  style: TextStyle(color: _colorScheme.onSurfaceVariant),
                 ),
               ),
             ),
