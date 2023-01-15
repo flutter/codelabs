@@ -39,9 +39,9 @@ class Feed extends StatefulWidget {
 }
 
 class _FeedState extends State<Feed> {
-  late final colorScheme = Theme.of(context).colorScheme;
-  late final backgroundColor = Color.alphaBlend(
-      colorScheme.primary.withOpacity(0.14), colorScheme.surface);
+  late final _colorScheme = Theme.of(context).colorScheme;
+  late final _backgroundColor = Color.alphaBlend(
+      _colorScheme.primary.withOpacity(0.14), _colorScheme.surface);
 
   int selectedIndex = 0;
   bool wideScreen = false;
@@ -62,7 +62,7 @@ class _FeedState extends State<Feed> {
           if (wideScreen)
             DisappearingNavigationRail(
               selectedIndex: selectedIndex,
-              backgroundColor: backgroundColor,
+              backgroundColor: _backgroundColor,
               onDestinationSelected: (index) {
                 setState(() {
                   selectedIndex = index;
@@ -71,7 +71,7 @@ class _FeedState extends State<Feed> {
             ),
           Expanded(
             child: Container(
-              color: backgroundColor,
+              color: _backgroundColor,
               child: EmailListView(
                 selectedIndex: selectedIndex,
                 onSelected: (index) {
@@ -88,8 +88,8 @@ class _FeedState extends State<Feed> {
       floatingActionButton: wideScreen
           ? null
           : FloatingActionButton(
-              backgroundColor: colorScheme.tertiaryContainer,
-              foregroundColor: colorScheme.onTertiaryContainer,
+              backgroundColor: _colorScheme.tertiaryContainer,
+              foregroundColor: _colorScheme.onTertiaryContainer,
               onPressed: () {},
               child: const Icon(Icons.add),
             ),
