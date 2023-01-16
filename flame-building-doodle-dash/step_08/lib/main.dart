@@ -24,7 +24,6 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: lightColorScheme,
         useMaterial3: true,
-        // textTheme: appFontTheme,
       ),
       darkTheme: ThemeData(
         colorScheme: darkColorScheme,
@@ -49,16 +48,15 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: Center(
         child: LayoutBuilder(builder: (context, constraints) {
           return Container(
             constraints: const BoxConstraints(
-              // 550 is the smallest Chrome will allow you to make the window
               maxWidth: 800,
               minWidth: 550,
             ),
             child: GameWidget(
-              // hot reload in development mode,
               game: game,
               overlayBuilderMap: <String, Widget Function(BuildContext, Game)>{
                 'gameOverlay': (context, game) => GameOverlay(game),

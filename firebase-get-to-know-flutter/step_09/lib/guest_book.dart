@@ -15,6 +15,7 @@ class GuestBook extends StatefulWidget {
     required this.addMessage,
     required this.messages,
   });
+
   final FutureOr<void> Function(String message) addMessage;
   final List<GuestBookMessage> messages;
 

@@ -4,7 +4,7 @@
 
 import 'package:flutter/material.dart';
 
-import '../models/user.dart';
+import '../models/models.dart';
 
 class SearchBar extends StatelessWidget {
   const SearchBar({
@@ -28,7 +28,7 @@ class SearchBar extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Icon(Icons.search),
-            const Padding(padding: EdgeInsets.only(right: 23.5)),
+            const SizedBox(width: 23.5),
             Expanded(
               child: TextField(
                 maxLines: 1,

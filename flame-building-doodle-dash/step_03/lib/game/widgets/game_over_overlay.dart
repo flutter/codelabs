@@ -17,6 +17,7 @@ class GameOverOverlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
+      color: Theme.of(context).colorScheme.background,
       child: Center(
         child: Padding(
           padding: const EdgeInsets.all(48.0),

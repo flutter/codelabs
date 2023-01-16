@@ -4,15 +4,15 @@
 
 import 'package:flutter/material.dart';
 
-import 'animation/bar_animation.dart';
-import 'animation/rail_animation.dart';
-import 'animation/rail_fab_animation.dart';
+import 'animations.dart';
 import 'models/data.dart' as data;
 import 'models/models.dart';
+import 'transitions/list_detail_transition.dart';
 import 'widgets/animated_floating_action_button.dart';
 import 'widgets/disappearing_bottom_navigation_bar.dart';
 import 'widgets/disappearing_navigation_rail.dart';
 import 'widgets/email_list_view.dart';
+import 'widgets/reply_list_view.dart';
 
 void main() {
   runApp(const MainApp());
@@ -43,17 +43,17 @@ class Feed extends StatefulWidget {
 }
 
 class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
-  late final colorScheme = Theme.of(context).colorScheme;
-  late final backgroundColor = Color.alphaBlend(
-      colorScheme.primary.withOpacity(0.14), colorScheme.surface);
-  late final controller = AnimationController(
+  late final _colorScheme = Theme.of(context).colorScheme;
+  late final _backgroundColor = Color.alphaBlend(
+      _colorScheme.primary.withOpacity(0.14), _colorScheme.surface);
+  late final _controller = AnimationController(
       duration: const Duration(milliseconds: 1000),
       reverseDuration: const Duration(milliseconds: 1250),
       value: 0,
       vsync: this);
-  late final railAnimation = RailAnimation(parent: controller);
-  late final railFabAnimation = RailFabAnimation(parent: controller);
-  late final barAnimation = BarAnimation(parent: controller);
+  late final _railAnimation = RailAnimation(parent: _controller);
+  late final _railFabAnimation = RailFabAnimation(parent: _controller);
+  late final _barAnimation = BarAnimation(parent: _controller);
 
   int selectedIndex = 0;
   bool controllerInitialized = false;
@@ -63,43 +63,43 @@ class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
     super.didChangeDependencies();
 
     final double width = MediaQuery.of(context).size.width;
-    final AnimationStatus status = controller.status;
+    final AnimationStatus status = _controller.status;
     if (width > 600) {
       if (status != AnimationStatus.forward &&
           status != AnimationStatus.completed) {
-        controller.forward();
+        _controller.forward();
       }
     } else {
       if (status != AnimationStatus.reverse &&
           status != AnimationStatus.dismissed) {
-        controller.reverse();
+        _controller.reverse();
       }
     }
     if (!controllerInitialized) {
       controllerInitialized = true;
-      controller.value = width > 600 ? 1 : 0;
+      _controller.value = width > 600 ? 1 : 0;
     }
   }
 
   @override
   void dispose() {
-    controller.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-      animation: controller,
+      animation: _controller,
       builder: (context, _) {
         return Scaffold(
           body: Row(
             children: [
               DisappearingNavigationRail(
-                railAnimation: railAnimation,
-                railFabAnimation: railFabAnimation,
+                railAnimation: _railAnimation,
+                railFabAnimation: _railFabAnimation,
                 selectedIndex: selectedIndex,
-                backgroundColor: backgroundColor,
+                backgroundColor: _backgroundColor,
                 onDestinationSelected: (index) {
                   setState(() {
                     selectedIndex = index;
@@ -108,27 +108,31 @@ class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
               ),
               Expanded(
                 child: Container(
-                  color: backgroundColor,
-                  child: EmailListView(
-                    selectedIndex: selectedIndex,
-                    onSelected: (index) {
-                      setState(() {
-                        selectedIndex = index;
-                      });
-                    },
-                    currentUser: widget.currentUser,
+                  color: _backgroundColor,
+                  child: ListDetailTransition(
+                    animation: _railAnimation,
+                    one: EmailListView(
+                      selectedIndex: selectedIndex,
+                      onSelected: (index) {
+                        setState(() {
+                          selectedIndex = index;
+                        });
+                      },
+                      currentUser: widget.currentUser,
+                    ),
+                    two: const ReplyListView(),
                   ),
                 ),
               ),
             ],
           ),
           floatingActionButton: AnimatedFloatingActionButton(
-            animation: barAnimation,
+            animation: _barAnimation,
             onPressed: () {},
             child: const Icon(Icons.add),
           ),
           bottomNavigationBar: DisappearingBottomNavigationBar(
-            barAnimation: barAnimation,
+            barAnimation: _barAnimation,
             selectedIndex: selectedIndex,
             onDestinationSelected: (index) {
               setState(() {

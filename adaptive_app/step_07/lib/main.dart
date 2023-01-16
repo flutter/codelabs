@@ -1,3 +1,7 @@
+// Copyright 2022 The Flutter Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -78,8 +82,14 @@ class PlaylistsApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       title: 'Your Playlists',
-      theme: FlexColorScheme.light(scheme: FlexScheme.red).toTheme,
-      darkTheme: FlexColorScheme.dark(scheme: FlexScheme.red).toTheme,
+      theme: FlexColorScheme.light(
+        scheme: FlexScheme.red,
+        useMaterial3: true,
+      ).toTheme,
+      darkTheme: FlexColorScheme.dark(
+        scheme: FlexScheme.red,
+        useMaterial3: true,
+      ).toTheme,
       themeMode: ThemeMode.dark, // Or ThemeMode.System if you'd prefer
       debugShowCheckedModeBanner: false,
       routerConfig: _router,

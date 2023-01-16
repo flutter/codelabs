@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 
 import './world.dart';
 import 'managers/managers.dart';
+// Add a Player to the game: import Sprites
 
 enum Character { dash, sparky }
 
@@ -21,17 +22,16 @@ class DoodleDash extends FlameGame
   int screenBufferSpace = 300;
   ObjectManager objectManager = ObjectManager();
 
+  // Add a Player to the game: Create a Player variable
+
   @override
   Future<void> onLoad() async {
     await add(_world);
 
-    // add Game Manager
     await add(gameManager);
 
-    // add the pause button and score keeper
     overlays.add('gameOverlay');
 
-    // add level/difficulty manager
     await add(levelManager);
   }
 
@@ -39,8 +39,8 @@ class DoodleDash extends FlameGame
   void update(double dt) {
     super.update(dt);
 
-    // show the main menu when the game launches
-    // And return so the engine doesn't  update as long as the menu is up.
+    // Losing the game: Add isGameOver check
+
     if (gameManager.isIntro) {
       overlays.add('mainMenuOverlay');
       return;
@@ -48,6 +48,11 @@ class DoodleDash extends FlameGame
 
     if (gameManager.isPlaying) {
       checkLevelUp();
+
+      // Core gameplay: Add camera code to follow Dash during game play
+
+      // Losing the game: Add the first loss condition.
+      // Game over if Dash falls off screen!
     }
   }
 
@@ -56,19 +61,19 @@ class DoodleDash extends FlameGame
     return const Color.fromARGB(255, 241, 247, 249);
   }
 
-  // This method sets (or resets) the camera, dash and platform manager.
-  // It is called when you start a game. Resets game state
   void initializeGameStart() {
-    //reset score
+    // Add a Player to the game: Call setCharacter
+
     gameManager.reset();
 
-    // remove platform if necessary, because a new one is made each time a new
-    // game is started.
     if (children.contains(objectManager)) objectManager.removeFromParent();
 
     levelManager.reset();
 
-    // reset the the platforms
+    // Core gameplay: Reset player & camera boundaries
+
+    // Add a Player to the game: Reset Dash's position back to the start
+
     objectManager = ObjectManager(
         minVerticalDistanceToNextPlatform: levelManager.minDistance,
         maxVerticalDistanceToNextPlatform: levelManager.maxDistance);
@@ -78,11 +83,18 @@ class DoodleDash extends FlameGame
     objectManager.configure(levelManager.level, levelManager.difficulty);
   }
 
+  void setCharacter() {
+    // Add a Player to the game: Initialize character
+    // Add a Player to the game: Add player
+  }
+
   void startGame() {
     initializeGameStart();
     gameManager.state = GameState.playing;
     overlays.remove('mainMenuOverlay');
   }
+
+  // Losing the game: Add an onLose method
 
   void resetGame() {
     startGame();
@@ -101,8 +113,9 @@ class DoodleDash extends FlameGame
     if (levelManager.shouldLevelUp(gameManager.score.value)) {
       levelManager.increaseLevel();
 
-      // Change config for how platforms are generated
       objectManager.configure(levelManager.level, levelManager.difficulty);
+
+      // Core gameplay: Call setJumpSpeed
     }
   }
 }

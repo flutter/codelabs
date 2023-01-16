@@ -2,14 +2,14 @@ name: Doodle Dash rebuild script
 steps:
   - name: step_02
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_02
-      - name: Create project.
+      - name: Create project
         flutter: create doodle_dash
       - name: Configure analysis_options.yaml
         path: doodle_dash/analysis_options.yaml
         replace-contents: |
-          include: ../../analysis_options.yaml
+          include: ../analysis_options.yaml
       - name: Remove README
         rm: doodle_dash/README.md
       - name: Add .vscode directory
@@ -62,7 +62,6 @@ steps:
                 theme: ThemeData(
                   colorScheme: lightColorScheme,
                   useMaterial3: true,
-                  // textTheme: appFontTheme,
                 ),
                 darkTheme: ThemeData(
                   colorScheme: darkColorScheme,
@@ -87,16 +86,15 @@ steps:
             @override
             Widget build(BuildContext context) {
               return Scaffold(
+                backgroundColor: Theme.of(context).colorScheme.background,
                 body: Center(
                   child: LayoutBuilder(builder: (context, constraints) {
                     return Container(
                       constraints: const BoxConstraints(
-                        // 550 is the smallest Chrome will allow you to make the window
                         maxWidth: 800,
                         minWidth: 550,
                       ),
                       child: GameWidget(
-                        // hot reload in development mode,
                         game: game,
                         overlayBuilderMap: <String, Widget Function(BuildContext, Game)>{
                           'gameOverlay': (context, game) => GameOverlay(game),
@@ -126,6 +124,7 @@ steps:
           
           import './world.dart';
           import 'managers/managers.dart';
+          // Add a Player to the game: import Sprites
           
           enum Character { dash, sparky }
           
@@ -139,17 +138,16 @@ steps:
             int screenBufferSpace = 300;
             ObjectManager objectManager = ObjectManager();
           
+            // Add a Player to the game: Create a Player variable
+          
             @override
             Future<void> onLoad() async {
               await add(_world);
           
-              // add Game Manager
               await add(gameManager);
           
-              // add the pause button and score keeper
               overlays.add('gameOverlay');
           
-              // add level/difficulty manager
               await add(levelManager);
             }
           
@@ -157,8 +155,8 @@ steps:
             void update(double dt) {
               super.update(dt);
           
-              // show the main menu when the game launches
-              // And return so the engine doesn't  update as long as the menu is up.
+              // Losing the game: Add isGameOver check
+          
               if (gameManager.isIntro) {
                 overlays.add('mainMenuOverlay');
                 return;
@@ -166,6 +164,11 @@ steps:
           
               if (gameManager.isPlaying) {
                 checkLevelUp();
+          
+                // Core gameplay: Add camera code to follow Dash during game play
+          
+                // Losing the game: Add the first loss condition.
+                // Game over if Dash falls off screen!
               }
             }
           
@@ -174,19 +177,19 @@ steps:
               return const Color.fromARGB(255, 241, 247, 249);
             }
           
-            // This method sets (or resets) the camera, dash and platform manager.
-            // It is called when you start a game. Resets game state
             void initializeGameStart() {
-              //reset score
+              // Add a Player to the game: Call setCharacter
+          
               gameManager.reset();
           
-              // remove platform if necessary, because a new one is made each time a new
-              // game is started.
               if (children.contains(objectManager)) objectManager.removeFromParent();
           
               levelManager.reset();
           
-              // reset the the platforms
+              // Core gameplay: Reset player & camera boundaries
+          
+              // Add a Player to the game: Reset Dash's position back to the start
+          
               objectManager = ObjectManager(
                   minVerticalDistanceToNextPlatform: levelManager.minDistance,
                   maxVerticalDistanceToNextPlatform: levelManager.maxDistance);
@@ -196,11 +199,18 @@ steps:
               objectManager.configure(levelManager.level, levelManager.difficulty);
             }
           
+            void setCharacter() {
+              // Add a Player to the game: Initialize character
+              // Add a Player to the game: Add player
+            }
+          
             void startGame() {
               initializeGameStart();
               gameManager.state = GameState.playing;
               overlays.remove('mainMenuOverlay');
             }
+          
+            // Losing the game: Add an onLose method
           
             void resetGame() {
               startGame();
@@ -219,8 +229,9 @@ steps:
               if (levelManager.shouldLevelUp(gameManager.score.value)) {
                 levelManager.increaseLevel();
           
-                // Change config for how platforms are generated
                 objectManager.configure(levelManager.level, levelManager.difficulty);
+          
+                // Core gameplay: Call setJumpSpeed
               }
             }
           }
@@ -340,6 +351,10 @@ steps:
               return levelsConfig[level]!.maxDistance;
             }
           
+            double get startingJumpSpeed {
+              return levelsConfig[selectedLevel]!.jumpSpeed;
+            }
+          
             double get jumpSpeed {
               return levelsConfig[level]!.jumpSpeed;
             }
@@ -414,11 +429,16 @@ steps:
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
           
+          import 'dart:math';
+          
           import 'package:flame/components.dart';
           
           import './managers.dart';
           import '../doodle_dash.dart';
+          import '../sprites/sprites.dart';
           import '../util/util.dart';
+          
+          final Random _rand = Random();
           
           class ObjectManager extends Component with HasGameRef<DoodleDash> {
             ObjectManager({
@@ -429,12 +449,88 @@ steps:
             double minVerticalDistanceToNextPlatform;
             double maxVerticalDistanceToNextPlatform;
             final probGen = ProbabilityGenerator();
+            final double _tallestPlatformHeight = 50;
+            final List<Platform> _platforms = [];
+          
+            // Add Platforms: Add onMount method
+          
+            // Add Platforms: Add update method
+          
+            final Map<String, bool> specialPlatforms = {
+              'spring': true, // level 1
+              'broken': false, // level 2
+              'noogler': false, // level 3
+              'rocket': false, // level 4
+              'enemy': false, // level 5
+            };
+          
+            void _cleanupPlatforms() {
+              final lowestPlat = _platforms.removeAt(0);
+          
+              lowestPlat.removeFromParent();
+            }
+          
+            void enableSpecialty(String specialty) {
+              specialPlatforms[specialty] = true;
+            }
+          
+            void enableLevelSpecialty(int level) {
+              // More on Platforms: Add switch statement to enable SpringBoard for
+              // level 1 and BrokenPlatform for level 2
+            }
+          
+            void resetSpecialties() {
+              for (var key in specialPlatforms.keys) {
+                specialPlatforms[key] = false;
+              }
+            }
           
             // Exposes a way for the DoodleDash component to change difficulty mid-game
             void configure(int nextLevel, Difficulty config) {
               minVerticalDistanceToNextPlatform = gameRef.levelManager.minDistance;
               maxVerticalDistanceToNextPlatform = gameRef.levelManager.maxDistance;
+          
+              for (int i = 1; i <= nextLevel; i++) {
+                enableLevelSpecialty(i);
+              }
             }
+          
+            double _generateNextX(int platformWidth) {
+              final previousPlatformXRange = Range(
+                _platforms.last.position.x,
+                _platforms.last.position.x + platformWidth,
+              );
+          
+              double nextPlatformAnchorX;
+          
+              do {
+                nextPlatformAnchorX =
+                    _rand.nextInt(gameRef.size.x.floor() - platformWidth).toDouble();
+              } while (previousPlatformXRange.overlaps(
+                  Range(nextPlatformAnchorX, nextPlatformAnchorX + platformWidth)));
+          
+              return nextPlatformAnchorX;
+            }
+          
+            double _generateNextY() {
+              final currentHighestPlatformY =
+                  _platforms.last.center.y + _tallestPlatformHeight;
+          
+              final distanceToNextY = minVerticalDistanceToNextPlatform.toInt() +
+                  _rand
+                      .nextInt((maxVerticalDistanceToNextPlatform -
+                              minVerticalDistanceToNextPlatform)
+                          .floor())
+                      .toDouble();
+          
+              return currentHighestPlatformY - distanceToNextY;
+            }
+          
+            // Add platforms: Add _semiRandomPlatform method
+          
+            // Losing the game: Add enemy code
+          
+            // Powerups: Add Power-Up code
           }
       - name: mkdir lib/game/util
         path: doodle_dash/lib/game
@@ -478,8 +574,6 @@ steps:
             inversePrimary: Color(0xFFABC7FF),
             shadow: Color(0xFF000000),
             surfaceTint: Color(0xFF195CB5),
-            outlineVariant: Color(0xFFC4C6D0),
-            scrim: Color(0xFF000000),
           );
           
           const darkColorScheme = ColorScheme(
@@ -512,8 +606,6 @@ steps:
             inversePrimary: Color(0xFF195CB5),
             shadow: Color(0xFF000000),
             surfaceTint: Color(0xFFABC7FF),
-            outlineVariant: Color(0xFF44474E),
-            scrim: Color(0xFF000000),
           );
       - name: Add lib/game/util/num_utils.dart
         path: doodle_dash/lib/game/util/num_utils.dart
@@ -595,6 +687,7 @@ steps:
             @override
             Widget build(BuildContext context) {
               return Material(
+                color: Theme.of(context).colorScheme.background,
                 child: Center(
                   child: Padding(
                     padding: const EdgeInsets.all(48.0),
@@ -641,13 +734,14 @@ steps:
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
           
+          import 'dart:io' show Platform;
           import 'package:flame/game.dart';
+          import 'package:flutter/foundation.dart' show kIsWeb;
           import 'package:flutter/material.dart';
           
           import '../doodle_dash.dart';
           import 'widgets.dart';
           
-          // Overlay that shows up during an active game
           class GameOverlay extends StatefulWidget {
             const GameOverlay(this.game, {super.key});
           
@@ -659,6 +753,7 @@ steps:
           
           class GameOverlayState extends State<GameOverlay> {
             bool isPaused = false;
+            // Mobile Support: Add isMobile boolean
           
             @override
             Widget build(BuildContext context) {
@@ -694,10 +789,9 @@ steps:
                         },
                       ),
                     ),
+                    // Mobile Support: Add on-screen left & right directional buttons
                     if (isPaused)
-                      // Displays a pause icon over the center of the game
                       Positioned(
-                        // positions button with width of button in mind
                         top: MediaQuery.of(context).size.height / 2 - 72.0,
                         right: MediaQuery.of(context).size.width / 2 - 72.0,
                         child: const Icon(
@@ -752,6 +846,7 @@ steps:
                 final bool screenHeightIsSmall = constraints.maxHeight < 760;
           
                 return Material(
+                  color: Theme.of(context).colorScheme.background,
                   child: Padding(
                     padding: const EdgeInsets.all(24.0),
                     child: Center(
@@ -964,12 +1059,284 @@ steps:
           export 'game_overlay.dart';
           export 'main_menu_overlay.dart';
           export 'score_display.dart';
+      - name: mkdir lib/game/sprites
+        path: doodle_dash
+        mkdir: lib/game/sprites
+      - name: Add lib/game/sprites/platform.dart
+        path: doodle_dash/lib/game/sprites/platform.dart
+        replace-contents: |
+          // Copyright 2022 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+          
+          import 'dart:math';
+          
+          import 'package:flame/collisions.dart';
+          import 'package:flame/components.dart';
+          
+          import '../doodle_dash.dart';
+          
+          /// The supertype for all Platforms, including Enemies
+          /// This class adds a hitbox and Collision Callbacks to all subtypes,
+          /// It also allows the platform to move, if it wants to. All platforms
+          /// know how to move, and have a 20% chance of being a moving platform
+          ///
+          /// [T] should be an enum that is used to Switch between spirtes, if necessary
+          /// Many platforms only need one Sprite, so [T] will be an enum that looks
+          /// something like: `enum { only }`
+          
+          abstract class Platform<T> extends SpriteGroupComponent<T>
+              with HasGameRef<DoodleDash>, CollisionCallbacks {
+            final hitbox = RectangleHitbox();
+            bool isMoving = false;
+          
+            double direction = 1;
+            final Vector2 _velocity = Vector2.zero();
+            double speed = 35;
+          
+            Platform({
+              super.position,
+            }) : super(
+                    size: Vector2.all(100),
+                    priority: 2,
+                  );
+          
+            @override
+            Future<void>? onLoad() async {
+              await super.onLoad();
+          
+              await add(hitbox);
+          
+              // More on Platforms: Set isMoving
+            }
+          
+            // More on Platforms: Add _move method
+          
+            // More on Platforms: Override update method
+          }
+          
+          // Add platforms: Add NormalPlatformState Enum
+          
+          // Add platforms: Add NormalPlatform class
+          
+          // More on Platforms: Add BrokenPlatform State Enum
+          
+          // More on Platforms: Add BrokenPlatform class
+          
+          // More on Platforms: Add Add Spring State Enum
+          
+          // More on Platforms: Add SpringBoard Platform class
+          
+          // Losing the game: Add EnemyPlatformState Enum
+          
+          // Losing the game: Add EnemyPlatform class
+      - name: Add lib/game/sprites/player.dart
+        path: doodle_dash/lib/game/sprites/player.dart
+        replace-contents: |
+          // Copyright 2022 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+          
+          import 'dart:async';
+          
+          import 'package:flame/collisions.dart';
+          import 'package:flame/components.dart';
+          import 'package:flutter/services.dart';
+          
+          import '../doodle_dash.dart';
+          // Core gameplay: Import sprites.dart
+          
+          enum PlayerState {
+            left,
+            right,
+            center,
+            rocket,
+            nooglerCenter,
+            nooglerLeft,
+            nooglerRight
+          }
+          
+          class Player extends SpriteGroupComponent<PlayerState>
+              with HasGameRef<DoodleDash>, KeyboardHandler, CollisionCallbacks {
+            Player({
+              super.position,
+              required this.character,
+              this.jumpSpeed = 600,
+            }) : super(
+                    size: Vector2(79, 109),
+                    anchor: Anchor.center,
+                    priority: 1,
+                  );
+          
+            int _hAxisInput = 0;
+            final int movingLeftInput = -1;
+            final int movingRightInput = 1;
+            Vector2 _velocity = Vector2.zero();
+            bool get isMovingDown => _velocity.y > 0;
+            Character character;
+            double jumpSpeed;
+            // Core gameplay: Add _gravity property
+          
+            @override
+            Future<void> onLoad() async {
+              await super.onLoad();
+          
+              // Core gameplay: Add circle hitbox to Dash
+          
+              // Add a Player to the game: loadCharacterSprites
+              // Add a Player to the game: Default Dash onLoad to center state
+            }
+          
+            @override
+            void update(double dt) {
+              // Add a Player to the game: Add game state check
+          
+              // Add a Player to the game: Add calcualtion for Dash's horizontal velocity
+          
+              final double dashHorizontalCenter = size.x / 2;
+          
+              // Add a Player to the game: Add infinite side boundaries logic
+          
+              // Core gameplay: Add gravity
+          
+              // Add a Player to the game: Calculate Dash's current position based on
+              // her velocity over elapsed time since last update cycle
+              super.update(dt);
+            }
+          
+            @override
+            bool onKeyEvent(RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
+              _hAxisInput = 0;
+          
+              // Add a Player to the game: Add keypress logic
+          
+              return true;
+            }
+          
+            void moveLeft() {
+              _hAxisInput = 0;
+          
+              // Add a Player to the game: Add logic for moving left
+            }
+          
+            void moveRight() {
+              _hAxisInput = 0;
+          
+              // Add a Player to the game: Add logic for moving right
+            }
+          
+            void resetDirection() {
+              _hAxisInput = 0;
+            }
+          
+            // Powerups: Add hasPowerup getter
+          
+            // Powerups: Add isInvincible getter
+          
+            // Powerups: Add isWearingHat getter
+          
+            // Core gameplay: Override onCollision callback
+          
+            // Core gameplay: Add a jump method
+          
+            void _removePowerupAfterTime(int ms) {
+              Future.delayed(Duration(milliseconds: ms), () {
+                current = PlayerState.center;
+              });
+            }
+          
+            void setJumpSpeed(double newJumpSpeed) {
+              jumpSpeed = newJumpSpeed;
+            }
+          
+            void reset() {
+              _velocity = Vector2.zero();
+              current = PlayerState.center;
+            }
+          
+            void resetPosition() {
+              position = Vector2(
+                (gameRef.size.x - size.x) / 2,
+                (gameRef.size.y - size.y) / 2,
+              );
+            }
+          
+            Future<void> _loadCharacterSprites() async {
+              // Load & configure sprite assets
+              final left = await gameRef.loadSprite('game/${character.name}_left.png');
+              final right = await gameRef.loadSprite('game/${character.name}_right.png');
+              final center =
+                  await gameRef.loadSprite('game/${character.name}_center.png');
+              final rocket = await gameRef.loadSprite('game/rocket_4.png');
+              final nooglerCenter =
+                  await gameRef.loadSprite('game/${character.name}_hat_center.png');
+              final nooglerLeft =
+                  await gameRef.loadSprite('game/${character.name}_hat_left.png');
+              final nooglerRight =
+                  await gameRef.loadSprite('game/${character.name}_hat_right.png');
+          
+              sprites = <PlayerState, Sprite>{
+                PlayerState.left: left,
+                PlayerState.right: right,
+                PlayerState.center: center,
+                PlayerState.rocket: rocket,
+                PlayerState.nooglerCenter: nooglerCenter,
+                PlayerState.nooglerLeft: nooglerLeft,
+                PlayerState.nooglerRight: nooglerRight,
+              };
+            }
+          }
+      - name: Add lib/game/sprites/powerup.dart
+        path: doodle_dash/lib/game/sprites/powerup.dart
+        replace-contents: |
+          // Copyright 2022 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+          
+          import 'package:flame/collisions.dart';
+          import 'package:flame/components.dart';
+          
+          import '../doodle_dash.dart';
+          
+          abstract class PowerUp extends SpriteComponent
+              with HasGameRef<DoodleDash>, CollisionCallbacks {
+            final hitbox = RectangleHitbox();
+            double get jumpSpeedMultiplier;
+          
+            PowerUp({
+              super.position,
+            }) : super(
+                    size: Vector2.all(50),
+                    priority: 2,
+                  );
+          
+            @override
+            Future<void>? onLoad() async {
+              await super.onLoad();
+          
+              await add(hitbox);
+            }
+          }
+          
+          // Powerups: Add Rocket class
+          
+          // Powerups: Add NooglerHat class
+      - name: Add lib/game/sprites/sprites.dart
+        path: doodle_dash/lib/game/sprites/sprites.dart
+        replace-contents: |
+          // Copyright 2022 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+          
+          export 'platform.dart';
+          export 'player.dart';
+          export 'powerup.dart';
       - name: Patch pubspec.yaml
         path: doodle_dash/pubspec.yaml
         patch-u: |
           --- b/flame-building-doodle-dash/step_02/pubspec.yaml
           +++ a/flame-building-doodle-dash/step_02/pubspec.yaml
-          @@ -61,9 +61,9 @@ flutter:
+          @@ -62,9 +62,9 @@ flutter:
              uses-material-design: true
            
              # To add assets to your application, add an assets section, like this:
@@ -1008,28 +1375,6 @@ steps:
           +<true/>
            </dict>
            </plist>
-      - name: Patch web/index.html
-        path: doodle_dash/web/index.html
-        patch-u: |
-          --- b/flame-building-doodle-dash/step_02/web/index.html
-          +++ a/flame-building-doodle-dash/step_02/web/index.html
-          @@ -46,12 +46,11 @@
-                 _flutter.loader.loadEntrypoint({
-                   serviceWorker: {
-                     serviceWorkerVersion: serviceWorkerVersion,
-          -        },
-          -        onEntrypointLoaded: function(engineInitializer) {
-          -          engineInitializer.initializeEngine().then(function(appRunner) {
-          -            appRunner.runApp();
-          -          });
-                   }
-          +      }).then(function(engineInitializer) {
-          +        return engineInitializer.initializeEngine();
-          +      }).then(function(appRunner) {
-          +        return appRunner.runApp();
-                 });
-               });
-             </script>
       - name: Add web/404.html
         path: doodle_dash/web/404.html
         replace-contents: |
@@ -1223,7 +1568,6 @@ steps:
 
       - name: Mkdir doodle_dash/assets/images/game/background
         mkdir: doodle_dash/assets/images/game/background
-
       - name: Add assets/images/game/background/01_Background_Squiggles.png
         path: doodle_dash/assets/images/game/background/01_Background_Squiggles.png
         base64-contents: |
@@ -1279,288 +1623,176 @@ steps:
         flutter: clean
   - name: step_03
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_03
-      - name: mkdir lib/game/sprites
-        path: doodle_dash
-        mkdir: lib/game/sprites
-      - name: Add lib/game/sprites/platform.dart
-        path: doodle_dash/lib/game/sprites/platform.dart
-        replace-contents: |
-          // Copyright 2022 The Flutter Authors. All rights reserved.
-          // Use of this source code is governed by a BSD-style license that can be
-          // found in the LICENSE file.
-          
-          import 'dart:math';
-          
-          import 'package:flame/collisions.dart';
-          import 'package:flame/components.dart';
-          
-          import '../doodle_dash.dart';
-          
-          /// The supertype for all Platforms, including Enemies
-          /// This class adds a hitbox and Collision Callbacks to all subtypes,
-          /// It also allows the platform to move, if it wants to. All platforms
-          /// know how to move, and have a 20% chance of being a moving platform
-          ///
-          /// [T] should be an enum that is used to Switch between spirtes, if necessary
-          /// Many platforms only need one Sprite, so [T] will be an enum that looks
-          /// something like: `enum { only }`
-          
-          abstract class Platform<T> extends SpriteGroupComponent<T>
-              with HasGameRef<DoodleDash>, CollisionCallbacks {
-            final hitbox = RectangleHitbox();
-            bool isMoving = false;
-          
-            Platform({
-              super.position,
-            }) : super(
-                    size: Vector2.all(100),
-                    priority: 2, // Ensures platform is always behind Dash
-                  );
-          
-            @override
-            Future<void>? onLoad() async {
-              await super.onLoad();
-          
-              // Add collision detection logic
-              await add(hitbox);
-            }
-          }
-          
-          enum NormalPlatformState { only }
-          
-          class NormalPlatform extends Platform<NormalPlatformState> {
-            NormalPlatform({super.position});
-          
-            final Map<String, Vector2> spriteOptions = {
-              'platform_monitor': Vector2(115, 84),
-              'platform_phone_center': Vector2(100, 55),
-              'platform_terminal': Vector2(110, 83),
-              'platform_laptop': Vector2(100, 63),
-            };
-          
-            @override
-            Future<void>? onLoad() async {
-              var randSpriteIndex = Random().nextInt(spriteOptions.length);
-          
-              String randSprite = spriteOptions.keys.elementAt(randSpriteIndex);
-          
-              sprites = {
-                NormalPlatformState.only: await gameRef.loadSprite('game/$randSprite.png')
-              };
-          
-              current = NormalPlatformState.only;
-          
-              size = spriteOptions[randSprite]!;
-              await super.onLoad();
-            }
-          }
-      - name: Add lib/game/sprites/player.dart
-        path: doodle_dash/lib/game/sprites/player.dart
-        replace-contents: |
-          // Copyright 2022 The Flutter Authors. All rights reserved.
-          // Use of this source code is governed by a BSD-style license that can be
-          // found in the LICENSE file.
-          
-          import 'dart:async';
-          
-          import 'package:flame/collisions.dart';
-          import 'package:flame/components.dart';
-          import 'package:flutter/services.dart';
-          
-          import '../doodle_dash.dart';
-          
-          enum PlayerState {
-            left,
-            right,
-            center,
-            rocket,
-            nooglerCenter,
-            nooglerLeft,
-            nooglerRight
-          }
-          
-          class Player extends SpriteGroupComponent<PlayerState>
-              with HasGameRef<DoodleDash>, KeyboardHandler, CollisionCallbacks {
-            Player({
-              super.position,
-              required this.character,
-              this.jumpSpeed = 600,
-            }) : super(
-                    size: Vector2(79, 109),
-                    anchor: Anchor.center,
-                    priority: 1,
-                  );
-          
-            // used to calculate if the user is moving Dash left (-1) or right (1)
-            // When moving left, the x-axis velocity is multiplied by -1, resulting in a negative number
-            // The numbers on the x-axis increase from left to right, so a negative number moves toward the left.
-            // When moving right, the result will be a positive number
-            // If the number is 0, Dash is moving vertically
-            int _hAxisInput = 0;
-            final int movingLeftInput = -1;
-            final int movingRightInput = 1;
-            Vector2 _velocity = Vector2.zero();
-            bool get isMovingDown => _velocity.y > 0;
-            Character character;
-            double jumpSpeed; // vertical travel speed
-          
-            @override
-            Future<void> onLoad() async {
-              await super.onLoad();
-          
-              // Add collision detection on Dash
-              await add(CircleHitbox());
-          
-              await _loadCharacterSprites();
-              current = PlayerState.center;
-            }
-          
-            @override
-            void update(double dt) {
-              if (gameRef.gameManager.isIntro || gameRef.gameManager.isGameOver) return;
-          
-              // Dash's horizontal velocity
-              _velocity.x = _hAxisInput * jumpSpeed;
-              final double dashHorizontalCenter = size.x / 2;
-          
-              // infinite side boundaries if Dash's body is off the screen (position is from center)
-              if (position.x < dashHorizontalCenter) {
-                position.x = gameRef.size.x - (dashHorizontalCenter);
-              }
-              if (position.x > gameRef.size.x - (dashHorizontalCenter)) {
-                position.x = dashHorizontalCenter;
-              }
-          
-              // Calculate Dash's current position based on her velocity over elapsed time
-              // since last update cycle
-              position += _velocity * dt;
-              super.update(dt);
-            }
-          
-            // When arrow keys are pressed, change Dash's travel direction + sprite
-            @override
-            bool onKeyEvent(RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
-              _hAxisInput = 0; // by default not going left or right
-          
-              // Player going left
-              if (keysPressed.contains(LogicalKeyboardKey.arrowLeft)) {
-                current = PlayerState.left;
-          
-                _hAxisInput += movingLeftInput;
-              }
-          
-              // Player going right
-              if (keysPressed.contains(LogicalKeyboardKey.arrowRight)) {
-                current = PlayerState.right;
-                _hAxisInput += movingRightInput;
-              }
-          
-              // During development, its useful to "cheat"
-              if (keysPressed.contains(LogicalKeyboardKey.arrowUp)) {
-                // jump();
-              }
-          
-              return true;
-            }
-          
-            void setJumpSpeed(double newJumpSpeed) {
-              jumpSpeed = newJumpSpeed;
-            }
-          
-            void reset() {
-              _velocity = Vector2.zero();
-              current = PlayerState.center;
-            }
-          
-            Future<void> _loadCharacterSprites() async {
-              // Load & configure sprite assets
-              final left = await gameRef.loadSprite('game/${character.name}_left.png');
-              final right = await gameRef.loadSprite('game/${character.name}_right.png');
-              final center =
-                  await gameRef.loadSprite('game/${character.name}_center.png');
-              final rocket = await gameRef.loadSprite('game/rocket_4.png');
-              final nooglerCenter =
-                  await gameRef.loadSprite('game/${character.name}_hat_center.png');
-              final nooglerLeft =
-                  await gameRef.loadSprite('game/${character.name}_hat_left.png');
-              final nooglerRight =
-                  await gameRef.loadSprite('game/${character.name}_hat_right.png');
-          
-              sprites = <PlayerState, Sprite>{
-                PlayerState.left: left,
-                PlayerState.right: right,
-                PlayerState.center: center,
-                PlayerState.rocket: rocket,
-                PlayerState.nooglerCenter: nooglerCenter,
-                PlayerState.nooglerLeft: nooglerLeft,
-                PlayerState.nooglerRight: nooglerRight,
-              };
-            }
-          }
-      - name: Add lib/game/sprites/sprites.dart
-        path: doodle_dash/lib/game/sprites/sprites.dart
-        replace-contents: |
-          // Copyright 2022 The Flutter Authors. All rights reserved.
-          // Use of this source code is governed by a BSD-style license that can be
-          // found in the LICENSE file.
-
-          export 'platform.dart';
-          export 'player.dart';
       - name: Patch lib/game/doodle_dash.dart
         path: doodle_dash/lib/game/doodle_dash.dart
         patch-u: |
           --- b/flame-building-doodle-dash/step_03/lib/game/doodle_dash.dart
           +++ a/flame-building-doodle-dash/step_03/lib/game/doodle_dash.dart
-          @@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
+          @@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
            
            import './world.dart';
            import 'managers/managers.dart';
+          -// Add a Player to the game: import Sprites
           +import 'sprites/sprites.dart';
            
            enum Character { dash, sparky }
            
-          @@ -21,6 +22,8 @@ class DoodleDash extends FlameGame
+          @@ -22,7 +22,7 @@ class DoodleDash extends FlameGame
              int screenBufferSpace = 300;
              ObjectManager objectManager = ObjectManager();
            
+          -  // Add a Player to the game: Create a Player variable
           +  late Player player;
-          +
+           
              @override
              Future<void> onLoad() async {
-               await add(_world);
-          @@ -68,6 +71,14 @@ class DoodleDash extends FlameGame
-           
-               levelManager.reset();
-           
-          +    // move dash back to the start
-          +    player.position = Vector2(
-          +      // The total world size divided by 2 is the center, but the player size
-          +      // needs to be accounted for
-          +      (_world.size.x - player.size.x) / 2,
-          +      (_world.size.y - player.size.y) / 2,
-          +    );
-          +
-               // reset the the platforms
-               objectManager = ObjectManager(
-                   minVerticalDistanceToNextPlatform: levelManager.minDistance,
-          @@ -78,7 +89,15 @@ class DoodleDash extends FlameGame
-               objectManager.configure(levelManager.level, levelManager.difficulty);
+          @@ -62,7 +62,7 @@ class DoodleDash extends FlameGame
              }
            
-          +  void setCharacter() {
-          +    player = Player(character: gameManager.character);
-          +    player.setJumpSpeed(levelManager.jumpSpeed);
-          +    add(player);
-          +  }
-          +
-             void startGame() {
+             void initializeGameStart() {
+          -    // Add a Player to the game: Call setCharacter
           +    setCharacter();
-          +
-               initializeGameStart();
-               gameManager.state = GameState.playing;
+           
+               gameManager.reset();
+           
+          @@ -72,7 +72,7 @@ class DoodleDash extends FlameGame
+           
+               // Core gameplay: Reset player & camera boundaries
+           
+          -    // Add a Player to the game: Reset Dash's position back to the start
+          +    player.resetPosition();
+           
+               objectManager = ObjectManager(
+                   minVerticalDistanceToNextPlatform: levelManager.minDistance,
+          @@ -84,8 +84,11 @@ class DoodleDash extends FlameGame
+             }
+           
+             void setCharacter() {
+          -    // Add a Player to the game: Initialize character
+          -    // Add a Player to the game: Add player
+          +    player = Player(
+          +      character: gameManager.character,
+          +      jumpSpeed: levelManager.startingJumpSpeed,
+          +    );
+          +    add(player);
+             }
+           
+             void startGame() {
+          @@ -94,13 +97,13 @@ class DoodleDash extends FlameGame
                overlays.remove('mainMenuOverlay');
+             }
+           
+          -  // Losing the game: Add an onLose method
+          -
+             void resetGame() {
+               startGame();
+               overlays.remove('gameOverOverlay');
+             }
+           
+          +  // Losing the game: Add an onLose method
+          +
+             void togglePauseState() {
+               if (paused) {
+                 resumeEngine();
+      - name: Patch lib/game/managers/object_manager.dart
+        path: doodle_dash/lib/game/managers/object_manager.dart
+        patch-u: |
+          --- b/flame-building-doodle-dash/step_03/lib/game/managers/object_manager.dart
+          +++ a/flame-building-doodle-dash/step_03/lib/game/managers/object_manager.dart
+          @@ -58,7 +58,6 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
+               }
+             }
+           
+          -  // Exposes a way for the DoodleDash component to change difficulty mid-game
+             void configure(int nextLevel, Difficulty config) {
+               minVerticalDistanceToNextPlatform = gameRef.levelManager.minDistance;
+               maxVerticalDistanceToNextPlatform = gameRef.levelManager.maxDistance;
+      - name: Patch lib/game/sprites/player.dart
+        path: doodle_dash/lib/game/sprites/player.dart
+        patch-u: |
+          --- b/flame-building-doodle-dash/step_03/lib/game/sprites/player.dart
+          +++ a/flame-building-doodle-dash/step_03/lib/game/sprites/player.dart
+          @@ -48,24 +48,29 @@ class Player extends SpriteGroupComponent<PlayerState>
+           
+               // Core gameplay: Add circle hitbox to Dash
+           
+          -    // Add a Player to the game: loadCharacterSprites
+          -    // Add a Player to the game: Default Dash onLoad to center state
+          +    await _loadCharacterSprites();
+          +    current = PlayerState.center;
+             }
+           
+             @override
+             void update(double dt) {
+          -    // Add a Player to the game: Add game state check
+          +    if (gameRef.gameManager.isIntro || gameRef.gameManager.isGameOver) return;
+           
+          -    // Add a Player to the game: Add calcualtion for Dash's horizontal velocity
+          +    _velocity.x = _hAxisInput * jumpSpeed;
+           
+               final double dashHorizontalCenter = size.x / 2;
+           
+          -    // Add a Player to the game: Add infinite side boundaries logic
+          +    if (position.x < dashHorizontalCenter) {
+          +      position.x = gameRef.size.x - (dashHorizontalCenter);
+          +    }
+          +    if (position.x > gameRef.size.x - (dashHorizontalCenter)) {
+          +      position.x = dashHorizontalCenter;
+          +    }
+           
+               // Core gameplay: Add gravity
+           
+          -    // Add a Player to the game: Calculate Dash's current position based on
+          -    // her velocity over elapsed time since last update cycle
+          +    position += _velocity * dt;
+          +
+               super.update(dt);
+             }
+           
+          @@ -73,7 +78,18 @@ class Player extends SpriteGroupComponent<PlayerState>
+             bool onKeyEvent(RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
+               _hAxisInput = 0;
+           
+          -    // Add a Player to the game: Add keypress logic
+          +    if (keysPressed.contains(LogicalKeyboardKey.arrowLeft)) {
+          +      moveLeft();
+          +    }
+          +
+          +    if (keysPressed.contains(LogicalKeyboardKey.arrowRight)) {
+          +      moveRight();
+          +    }
+          +
+          +    // During development, its useful to "cheat"
+          +    if (keysPressed.contains(LogicalKeyboardKey.arrowUp)) {
+          +      // jump();
+          +    }
+           
+               return true;
+             }
+          @@ -81,13 +97,19 @@ class Player extends SpriteGroupComponent<PlayerState>
+             void moveLeft() {
+               _hAxisInput = 0;
+           
+          -    // Add a Player to the game: Add logic for moving left
+          +    // Powerups: Check is wearing hat (left)
+          +    current = PlayerState.left;
+          +
+          +    _hAxisInput += movingLeftInput;
+             }
+           
+             void moveRight() {
+               _hAxisInput = 0;
+           
+          -    // Add a Player to the game: Add logic for moving right
+          +    // Powerups: Check is wearing hat (right)
+          +    current = PlayerState.right;
+          +
+          +    _hAxisInput += movingRightInput;
+             }
+           
+             void resetDirection() {
       - name: Copy step_03
         copydir:
           from: doodle_dash
@@ -1570,52 +1802,27 @@ steps:
         flutter: clean
   - name: step_04
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_04
       - name: Patch lib/game/managers/object_manager.dart
         path: doodle_dash/lib/game/managers/object_manager.dart
         patch-u: |
           --- b/flame-building-doodle-dash/step_04/lib/game/managers/object_manager.dart
           +++ a/flame-building-doodle-dash/step_04/lib/game/managers/object_manager.dart
-          @@ -2,12 +2,17 @@
-           // Use of this source code is governed by a BSD-style license that can be
-           // found in the LICENSE file.
+          @@ -25,9 +25,59 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
+             final double _tallestPlatformHeight = 50;
+             final List<Platform> _platforms = [];
            
-          +import 'dart:math';
-          +
-           import 'package:flame/components.dart';
-           
-           import './managers.dart';
-           import '../doodle_dash.dart';
-          +import '../sprites/sprites.dart';
-           import '../util/util.dart';
-           
-          +final Random _rand = Random();
-          +
-           class ObjectManager extends Component with HasGameRef<DoodleDash> {
-             ObjectManager({
-               this.minVerticalDistanceToNextPlatform = 200,
-          @@ -17,10 +22,97 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
-             double minVerticalDistanceToNextPlatform;
-             double maxVerticalDistanceToNextPlatform;
-             final probGen = ProbabilityGenerator();
-          +  final double _tallestPlatformHeight = 50;
-          +  final List<Platform> _platforms = [];
-          +
+          -  // Add Platforms: Add onMount method
           +  @override
           +  void onMount() {
           +    super.onMount();
           +
-          +    // The X that will be used for the next platform.
-          +    // The initial X is the middle of the screen.
           +    var currentX = (gameRef.size.x.floor() / 2).toDouble() - 50;
           +
-          +    // The first platform will always be in the bottom third of the initial screen
           +    var currentY =
           +        gameRef.size.y - (_rand.nextInt(gameRef.size.y.floor()) / 3) - 50;
           +
-          +    // Generate 10 Platforms at random x, y positions and add to list of platforms
-          +    // to be populated in the game.
           +    for (var i = 0; i < 9; i++) {
           +      if (i != 0) {
           +        currentX = _generateNextX(100);
@@ -1630,69 +1837,102 @@ steps:
           +        ),
           +      );
           +
-          +      // Add Component to Flame tree
           +      add(_platforms[i]);
           +    }
           +  }
+          +
+          +  @override
+          +  void update(double dt) {
+          +    final topOfLowestPlatform =
+          +        _platforms.first.position.y + _tallestPlatformHeight;
+          +
+          +    final screenBottom = gameRef.player.position.y +
+          +        (gameRef.size.x / 2) +
+          +        gameRef.screenBufferSpace;
+          +
+          +    if (topOfLowestPlatform > screenBottom) {
+          +      var newPlatY = _generateNextY();
+          +      var newPlatX = _generateNextX(100);
+          +      final nextPlat = _semiRandomPlatform(Vector2(newPlatX, newPlatY));
+          +      add(nextPlat);
+          +
+          +      _platforms.add(nextPlat);
            
-             // Exposes a way for the DoodleDash component to change difficulty mid-game
-             void configure(int nextLevel, Difficulty config) {
-               minVerticalDistanceToNextPlatform = gameRef.levelManager.minDistance;
-               maxVerticalDistanceToNextPlatform = gameRef.levelManager.maxDistance;
+          -  // Add Platforms: Add update method
+          +      gameRef.gameManager.increaseScore();
+          +
+          +      _cleanupPlatforms();
+          +      // Losing the game: Add call to _maybeAddEnemy()
+          +      // Powerups: Add call to _maybeAddPowerup();
+          +    }
+          +
+          +    super.update(dt);
+          +  }
+           
+             final Map<String, bool> specialPlatforms = {
+               'spring': true, // level 1
+          @@ -98,7 +148,11 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
+               return currentHighestPlatformY - distanceToNextY;
              }
-          +
-          +  // This method calculates the X-position for the next platform
-          +  // It ensures that platforms don't overlap, populate outside the bounds of the game
-          +  // or generate too far apart
-          +  double _generateNextX(int platformWidth) {
-          +    // Used to ensure that the next platform doesn't overlap
-          +    final previousPlatformXRange = Range(
-          +      _platforms.last.position.x,
-          +      _platforms.last.position.x + platformWidth,
-          +    );
-          +
-          +    // -50 (width of platform) ensures the platform doesn't populate outside
-          +    // right bound of game
-          +    // Anchor is topLeft by default, so this X is the left most point of the platform
-          +    // Platform width should always be 50 regardless of which platform.
-          +    double nextPlatformAnchorX;
-          +
-          +    // If the previous platform and next overlap, try a new random X
-          +    do {
-          +      nextPlatformAnchorX =
-          +          _rand.nextInt(gameRef.size.x.floor() - platformWidth).toDouble();
-          +    } while (previousPlatformXRange.overlaps(
-          +        Range(nextPlatformAnchorX, nextPlatformAnchorX + platformWidth)));
-          +
-          +    return nextPlatformAnchorX;
-          +  }
-          +
-          +  // This method determines where the next platform should be placed
-          +  // It calculates a random distance between the minVerticalDistanceToNextPlatform
-          +  // and the maxVerticalDistanceToNextPlatform, and returns a Y coordinate that is
-          +  // that distance above the current highest platform
-          +  double _generateNextY() {
-          +    // Adding platformHeight prevents platforms from overlapping.
-          +    final currentHighestPlatformY =
-          +        _platforms.last.center.y + _tallestPlatformHeight;
-          +
-          +    final distanceToNextY = minVerticalDistanceToNextPlatform.toInt() +
-          +        _rand
-          +            .nextInt((maxVerticalDistanceToNextPlatform -
-          +                    minVerticalDistanceToNextPlatform)
-          +                .floor())
-          +            .toDouble();
-          +
-          +    return currentHighestPlatformY - distanceToNextY;
-          +  }
-          +
-          +  // Return a platform.
-          +  // The percent chance of any given platform is NOT equal
+           
+          -  // Add platforms: Add _semiRandomPlatform method
           +  Platform _semiRandomPlatform(Vector2 position) {
-          +    // defaults to a normal platform
+          +    // More on Platforms: Add logic to conditionally return special platforms
+          +
           +    return NormalPlatform(position: position);
           +  }
+           
+             // Losing the game: Add enemy code
+      - name: Patch lib/game/sprites/platform.dart
+        path: doodle_dash/lib/game/sprites/platform.dart
+        patch-u: |
+          --- b/flame-building-doodle-dash/step_04/lib/game/sprites/platform.dart
+          +++ a/flame-building-doodle-dash/step_04/lib/game/sprites/platform.dart
+          @@ -48,9 +48,34 @@ abstract class Platform<T> extends SpriteGroupComponent<T>
+             // More on Platforms: Override update method
            }
+           
+          -// Add platforms: Add NormalPlatformState Enum
+          +enum NormalPlatformState { only }
+           
+          -// Add platforms: Add NormalPlatform class
+          +class NormalPlatform extends Platform<NormalPlatformState> {
+          +  NormalPlatform({super.position});
+          +
+          +  final Map<String, Vector2> spriteOptions = {
+          +    'platform_monitor': Vector2(115, 84),
+          +    'platform_phone_center': Vector2(100, 55),
+          +    'platform_terminal': Vector2(110, 83),
+          +    'platform_laptop': Vector2(100, 63),
+          +  };
+          +
+          +  @override
+          +  Future<void>? onLoad() async {
+          +    var randSpriteIndex = Random().nextInt(spriteOptions.length);
+          +
+          +    String randSprite = spriteOptions.keys.elementAt(randSpriteIndex);
+          +
+          +    sprites = {
+          +      NormalPlatformState.only: await gameRef.loadSprite('game/$randSprite.png')
+          +    };
+          +
+          +    current = NormalPlatformState.only;
+          +
+          +    size = spriteOptions[randSprite]!;
+          +    await super.onLoad();
+          +  }
+          +}
+           
+           // More on Platforms: Add BrokenPlatform State Enum
+           
+          @@ -59,7 +84,3 @@ abstract class Platform<T> extends SpriteGroupComponent<T>
+           // More on Platforms: Add Add Spring State Enum
+           
+           // More on Platforms: Add SpringBoard Platform class
+          -
+          -// Losing the game: Add EnemyPlatformState Enum
+          -
+          -// Losing the game: Add EnemyPlatform class
       - name: Copy step_04
         copydir:
           from: doodle_dash
@@ -1702,17 +1942,18 @@ steps:
         flutter: clean
   - name: step_05
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_05
       - name: Patch lib/game/doodle_dash.dart
         path: doodle_dash/lib/game/doodle_dash.dart
         patch-u: |
           --- b/flame-building-doodle-dash/step_05/lib/game/doodle_dash.dart
           +++ a/flame-building-doodle-dash/step_05/lib/game/doodle_dash.dart
-          @@ -50,7 +50,27 @@ class DoodleDash extends FlameGame
-               }
-           
+          @@ -49,7 +49,21 @@ class DoodleDash extends FlameGame
                if (gameManager.isPlaying) {
+                 checkLevelUp();
+           
+          -      // Core gameplay: Add camera code to follow Dash during game play
           +      final Rect worldBounds = Rect.fromLTRB(
           +        0,
           +        camera.position.y - screenBufferSpace,
@@ -1720,31 +1961,24 @@ steps:
           +        camera.position.y + _world.size.y,
           +      );
           +      camera.worldBounds = worldBounds;
-          +
-                 checkLevelUp();
-          +      // Camera should only follow Dash when she's moving up, if she's following down
-          +      // the camera should stay where it is and NOT follow her down.
           +      if (player.isMovingDown) {
           +        camera.worldBounds = worldBounds;
           +      }
           +
-          +      // Camera should only follow Dash when she's moving up, if she's falling down
-          +      // the camera should stay where it is and NOT follow her down.
           +      var isInTopHalfOfScreen = player.position.y <= (_world.size.y / 2);
           +      if (!player.isMovingDown && isInTopHalfOfScreen) {
           +        camera.followComponent(player);
           +      }
-               }
-             }
            
-          @@ -71,6 +91,19 @@ class DoodleDash extends FlameGame
+                 // Losing the game: Add the first loss condition.
+                 // Game over if Dash falls off screen!
+          @@ -70,7 +84,16 @@ class DoodleDash extends FlameGame
            
                levelManager.reset();
            
+          -    // Core gameplay: Reset player & camera boundaries
           +    player.reset();
-          +    // Setting the World Bounds for the camera will allow the camera to "move up"
-          +    // but stay fixed horizontally, allowing Dash to go out of camera on one side,
-          +    // and re-appear on the other side.
+          +
           +    camera.worldBounds = Rect.fromLTRB(
           +      0,
           +      -_world.size.y, // top of screen is 0, so negative is already off screen
@@ -1753,85 +1987,104 @@ steps:
           +          screenBufferSpace, // makes sure bottom bound of game is below bottom of screen
           +    );
           +    camera.followComponent(player);
-          +
-               // move dash back to the start
-               player.position = Vector2(
-                 // The total world size divided by 2 is the center, but the player size
-          @@ -122,6 +155,9 @@ class DoodleDash extends FlameGame
            
-                 // Change config for how platforms are generated
+               player.resetPosition();
+           
+          @@ -118,7 +141,7 @@ class DoodleDash extends FlameGame
+           
                  objectManager.configure(levelManager.level, levelManager.difficulty);
-          +
-          +      // Change config for player jump speed
+           
+          -      // Core gameplay: Call setJumpSpeed
           +      player.setJumpSpeed(levelManager.jumpSpeed);
                }
              }
            }
+      - name: Patch lib/game/sprites/platform.dart
+        path: doodle_dash/lib/game/sprites/platform.dart
+        patch-u: |
+          --- b/flame-building-doodle-dash/step_05/lib/game/sprites/platform.dart
+          +++ a/flame-building-doodle-dash/step_05/lib/game/sprites/platform.dart
+          @@ -84,3 +84,7 @@ class NormalPlatform extends Platform<NormalPlatformState> {
+           // More on Platforms: Add Add Spring State Enum
+           
+           // More on Platforms: Add SpringBoard Platform class
+          +
+          +// Losing the game: Add EnemyPlatformState Enum
+          +
+          +// Losing the game: Add EnemyPlatform class
       - name: Patch lib/game/sprites/player.dart
         path: doodle_dash/lib/game/sprites/player.dart
         patch-u: |
           --- b/flame-building-doodle-dash/step_05/lib/game/sprites/player.dart
           +++ a/flame-building-doodle-dash/step_05/lib/game/sprites/player.dart
-          @@ -9,6 +9,7 @@ import 'package:flame/components.dart';
+          @@ -9,7 +9,7 @@ import 'package:flame/components.dart';
            import 'package:flutter/services.dart';
            
            import '../doodle_dash.dart';
+          -// Core gameplay: Import sprites.dart
           +import 'sprites.dart';
            
            enum PlayerState {
              left,
-          @@ -43,6 +44,9 @@ class Player extends SpriteGroupComponent<PlayerState>
-             Vector2 _velocity = Vector2.zero();
+          @@ -40,13 +40,13 @@ class Player extends SpriteGroupComponent<PlayerState>
              bool get isMovingDown => _velocity.y > 0;
              Character character;
-          +
-          +  // used to calculate the horizontal movement speed
-          +  final double _gravity = 9; // acceleration pulling Dash down
-             double jumpSpeed; // vertical travel speed
+             double jumpSpeed;
+          -  // Core gameplay: Add _gravity property
+          +  final double _gravity = 9;
            
              @override
-          @@ -72,6 +76,9 @@ class Player extends SpriteGroupComponent<PlayerState>
+             Future<void> onLoad() async {
+               await super.onLoad();
+           
+          -    // Core gameplay: Add circle hitbox to Dash
+          +    await add(CircleHitbox());
+           
+               await _loadCharacterSprites();
+               current = PlayerState.center;
+          @@ -67,7 +67,7 @@ class Player extends SpriteGroupComponent<PlayerState>
                  position.x = dashHorizontalCenter;
                }
            
-          +    // Gravity is always acting on Dash's vertical velocity
+          -    // Core gameplay: Add gravity
           +    _velocity.y += _gravity;
-          +
-               // Calculate Dash's current position based on her velocity over elapsed time
-               // since last update cycle
-               position += _velocity * dt;
-          @@ -104,6 +111,31 @@ class Player extends SpriteGroupComponent<PlayerState>
-               return true;
-             }
            
-          +  // Callback for Dash colliding with another component in the game
+               position += _velocity * dt;
+           
+          @@ -122,9 +122,31 @@ class Player extends SpriteGroupComponent<PlayerState>
+           
+             // Powerups: Add isWearingHat getter
+           
+          -  // Core gameplay: Override onCollision callback
           +  @override
           +  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
           +    super.onCollision(intersectionPoints, other);
+          +    // Losing the game: Add collision logic for EnemyPlatform
           +
-          +    // Check if Dash is moving down and collides with a platform from the top
-          +    // this allows Dash to move up _through_ platforms without collision
           +    bool isCollidingVertically =
           +        (intersectionPoints.first.y - intersectionPoints.last.y).abs() < 5;
           +
-          +    // Only want Dash to  “jump” when she is falling + collides with the top of a platform
           +    if (isMovingDown && isCollidingVertically) {
           +      current = PlayerState.center;
           +      if (other is NormalPlatform) {
           +        jump();
           +        return;
           +      }
+          +      // More on platforms: Check SpringBoard platform
+          +      // More on platforms: Check BrokenPlatform
           +    }
-          +  }
           +
+          +    // Powerups: Collision logic for Rocket
+          +    // Powerups: Collision logic for NooglerHat
+          +  }
+           
+          -  // Core gameplay: Add a jump method
           +  void jump({double? specialJumpSpeed}) {
-          +    // Top left is 0,0 so going "up" is negative
           +    _velocity.y = specialJumpSpeed != null ? -specialJumpSpeed : -jumpSpeed;
           +  }
-          +
-             void setJumpSpeed(double newJumpSpeed) {
-               jumpSpeed = newJumpSpeed;
-             }
+           
+             void _removePowerupAfterTime(int ms) {
+               Future.delayed(Duration(milliseconds: ms), () {
       - name: Copy step_05
         copydir:
           from: doodle_dash
@@ -1841,74 +2094,19 @@ steps:
         flutter: clean
   - name: step_06
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_06
       - name: Patch lib/game/managers/object_manager.dart
         path: doodle_dash/lib/game/managers/object_manager.dart
         patch-u: |
           --- b/flame-building-doodle-dash/step_06/lib/game/managers/object_manager.dart
           +++ a/flame-building-doodle-dash/step_06/lib/game/managers/object_manager.dart
-          @@ -58,10 +58,96 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
-               }
+          @@ -98,8 +98,14 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
              }
            
-          +  // this method adds new platforms continually, and determines when to remove
-          +  // platforms that are no longer needed.
-          +  @override
-          +  void update(double dt) {
-          +    // Adding Platform Height will ensure that 2 platforms don't overlap.
-          +    final topOfLowestPlatform =
-          +        _platforms.first.position.y + _tallestPlatformHeight;
-          +
-          +    final screenBottom = gameRef.player.position.y +
-          +        (gameRef.size.x / 2) +
-          +        gameRef.screenBufferSpace;
-          +
-          +    // When the lowest platform is offscreen, it can be removed and a new platform
-          +    // should be added
-          +    if (topOfLowestPlatform > screenBottom) {
-          +      // Generate and add the next platform to the game
-          +      var newPlatY = _generateNextY();
-          +      var newPlatX = _generateNextX(100);
-          +      final nextPlat = _semiRandomPlatform(Vector2(newPlatX, newPlatY));
-          +      add(nextPlat);
-          +
-          +      _platforms.add(nextPlat);
-          +
-          +      // increase score whenever "Dash passes a platform"
-          +      // Really, increase score when a platform passes off the screen
-          +      // It's the simplest way to do it
-          +      gameRef.gameManager.increaseScore();
-          +
-          +      // Removes platforms from the game when they've moved out of view
-          +      _cleanupPlatforms();
-          +    }
-          +
-          +    super.update(dt);
-          +  }
-          +
-          +  final Map<String, bool> specialPlatforms = {
-          +    'spring': true, // level 1
-          +    'broken': false, // level 2
-          +    'noogler': false, // level 3
-          +    'rocket': false, // level 4
-          +    'enemy': false, // level 5
-          +  };
-          +
-          +  void _cleanupPlatforms() {
-          +    // remove the lowest platform
-          +    // Remove platforms that have gone out of view
-          +    final lowestPlat = _platforms.removeAt(0);
-          +
-          +    // remove component from game
-          +    lowestPlat.removeFromParent();
-          +  }
-          +
-          +  void enableSpecialty(String specialty) {
-          +    specialPlatforms[specialty] = true;
-          +  }
-          +
-          +  void enableLevelSpecialty(int level) {
+             void enableLevelSpecialty(int level) {
+          -    // More on Platforms: Add switch statement to enable SpringBoard for
+          -    // level 1 and BrokenPlatform for level 2
           +    switch (level) {
           +      case 1:
           +        enableSpecialty('spring');
@@ -1916,79 +2114,52 @@ steps:
           +      case 2:
           +        enableSpecialty('broken');
           +        break;
-          +      case 3:
-          +        enableSpecialty('noogler');
-          +        break;
-          +      case 4:
-          +        enableSpecialty('rocket');
-          +        break;
-          +      case 5:
-          +        enableSpecialty('enemy');
-          +        break;
-          +    }
-          +  }
-          +
-          +  void resetSpecialties() {
-          +    for (var key in specialPlatforms.keys) {
-          +      specialPlatforms[key] = false;
-          +    }
-          +  }
-          +
-             // Exposes a way for the DoodleDash component to change difficulty mid-game
-             void configure(int nextLevel, Difficulty config) {
-               minVerticalDistanceToNextPlatform = gameRef.levelManager.minDistance;
-               maxVerticalDistanceToNextPlatform = gameRef.levelManager.maxDistance;
-          +
-          +    for (int i = 1; i <= nextLevel; i++) {
-          +      enableLevelSpecialty(i);
           +    }
              }
            
-             // This method calculates the X-position for the next platform
-          @@ -112,6 +198,18 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
-             // Return a platform.
-             // The percent chance of any given platform is NOT equal
+             void resetSpecialties() {
+          @@ -149,12 +155,18 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
+             }
+           
              Platform _semiRandomPlatform(Vector2 position) {
+          -    // More on Platforms: Add logic to conditionally return special platforms
           +    if (specialPlatforms['spring'] == true &&
           +        probGen.generateWithProbability(15)) {
-          +      // 15% chance of getting springboard
           +      return SpringBoard(position: position);
           +    }
           +
           +    if (specialPlatforms['broken'] == true &&
           +        probGen.generateWithProbability(10)) {
-          +      // 10% chance of getting springboard
           +      return BrokenPlatform(position: position);
           +    }
-          +
-               // defaults to a normal platform
+           
                return NormalPlatform(position: position);
              }
+           
+          -  // Losing the game: Add enemy code
+          -
+          -  // Powerups: Add Power-Up code
+          +  // Losing the game: Add code to spawn & manage EnemyPlatforms
+           }
       - name: Patch lib/game/sprites/platform.dart
         path: doodle_dash/lib/game/sprites/platform.dart
         patch-u: |
           --- b/flame-building-doodle-dash/step_06/lib/game/sprites/platform.dart
           +++ a/flame-building-doodle-dash/step_06/lib/game/sprites/platform.dart
-          @@ -36,6 +36,41 @@ abstract class Platform<T> extends SpriteGroupComponent<T>
+          @@ -40,12 +40,31 @@ abstract class Platform<T> extends SpriteGroupComponent<T>
            
-               // Add collision detection logic
                await add(hitbox);
-          +
-          +    // 1/5 times make this platform move
+           
+          -    // More on Platforms: Set isMoving
           +    final int rand = Random().nextInt(100);
           +    if (rand > 80) isMoving = true;
-          +  }
-          +
-          +  // These variables and the _move method all the platform for _move
-          +  // Platforms have a 20% chance of being a moving platform
-          +  // All platforms _can_ move.
-          +  double direction = 1;
-          +  final Vector2 _velocity = Vector2.zero();
-          +  double speed = 35;
-          +
+             }
+           
+          -  // More on Platforms: Add _move method
           +  void _move(double dt) {
           +    if (!isMoving) return;
-          +
+           
+          -  // More on Platforms: Override update method
           +    final double gameWidth = gameRef.size.x;
           +
           +    if (position.x <= 0) {
@@ -2002,20 +2173,19 @@ steps:
           +    position += _velocity * dt;
           +  }
           +
-          +  // @mustCallSuper
           +  @override
           +  void update(double dt) {
-          +    // _move *might* make the platform move horizontally
           +    _move(dt);
           +    super.update(dt);
+          +  }
+           }
+           
+           enum NormalPlatformState { only }
+          @@ -77,13 +96,74 @@ class NormalPlatform extends Platform<NormalPlatformState> {
              }
            }
            
-          @@ -67,3 +102,73 @@ class NormalPlatform extends Platform<NormalPlatformState> {
-               await super.onLoad();
-             }
-           }
-          +
+          -// More on Platforms: Add BrokenPlatform State Enum
           +enum BrokenPlatformState { cracked, broken }
           +
           +class BrokenPlatform extends Platform<BrokenPlatformState> {
@@ -2043,7 +2213,6 @@ steps:
           +
           +enum SpringState { down, up }
           +
-          +// Once we have other component assets, they can be built in similar manner
           +class SpringBoard extends Platform<SpringState> {
           +  SpringBoard({
           +    super.position,
@@ -2059,12 +2228,15 @@ steps:
           +      SpringState.up:
           +          await gameRef.loadSprite('game/platform_trampoline_up.png'),
           +    };
-          +
+           
+          -// More on Platforms: Add BrokenPlatform class
           +    current = SpringState.up;
-          +
+           
+          -// More on Platforms: Add Add Spring State Enum
           +    size = Vector2(100, 45);
           +  }
-          +
+           
+          -// More on Platforms: Add SpringBoard Platform class
           +  @override
           +  void onCollisionStart(
           +      Set<Vector2> intersectionPoints, PositionComponent other) {
@@ -2085,12 +2257,14 @@ steps:
           +    current = SpringState.up;
           +  }
           +}
+           
+           // Losing the game: Add EnemyPlatformState Enum
       - name: Patch lib/game/sprites/player.dart
         path: doodle_dash/lib/game/sprites/player.dart
         patch-u: |
           --- b/flame-building-doodle-dash/step_06/lib/game/sprites/player.dart
           +++ a/flame-building-doodle-dash/step_06/lib/game/sprites/player.dart
-          @@ -127,6 +127,14 @@ class Player extends SpriteGroupComponent<PlayerState>
+          @@ -135,9 +135,15 @@ class Player extends SpriteGroupComponent<PlayerState>
                  if (other is NormalPlatform) {
                    jump();
                    return;
@@ -2103,8 +2277,11 @@ steps:
           +        other.breakPlatform();
           +        return;
                  }
+          -      // More on platforms: Check SpringBoard platform
+          -      // More on platforms: Check BrokenPlatform
                }
-             }
+           
+               // Powerups: Collision logic for Rocket
       - name: Copy step_06
         copydir:
           from: doodle_dash
@@ -2114,31 +2291,30 @@ steps:
         flutter: clean
   - name: step_07
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_07
       - name: Patch lib/game/doodle_dash.dart
         path: doodle_dash/lib/game/doodle_dash.dart
         patch-u: |
           --- b/flame-building-doodle-dash/step_07/lib/game/doodle_dash.dart
           +++ a/flame-building-doodle-dash/step_07/lib/game/doodle_dash.dart
-          @@ -42,6 +42,11 @@ class DoodleDash extends FlameGame
+          @@ -39,7 +39,9 @@ class DoodleDash extends FlameGame
              void update(double dt) {
                super.update(dt);
            
-          +    // stop updating in between games
+          -    // Losing the game: Add isGameOver check
           +    if (gameManager.isGameOver) {
           +      return;
           +    }
-          +
-               // show the main menu when the game launches
-               // And return so the engine doesn't  update as long as the menu is up.
+           
                if (gameManager.isIntro) {
-          @@ -71,6 +76,15 @@ class DoodleDash extends FlameGame
-                 if (!player.isMovingDown && isInTopHalfOfScreen) {
+                 overlays.add('mainMenuOverlay');
+          @@ -65,8 +67,13 @@ class DoodleDash extends FlameGame
                    camera.followComponent(player);
                  }
-          +
-          +      // if Dash falls off screen, game over!
+           
+          -      // Losing the game: Add the first loss condition.
+          -      // Game over if Dash falls off screen!
           +      if (player.position.y >
           +          camera.position.y +
           +              _world.size.y +
@@ -2149,40 +2325,58 @@ steps:
                }
              }
            
-          @@ -141,6 +155,12 @@ class DoodleDash extends FlameGame
+          @@ -85,7 +92,6 @@ class DoodleDash extends FlameGame
+               levelManager.reset();
+           
+               player.reset();
+          -
+               camera.worldBounds = Rect.fromLTRB(
+                 0,
+                 -_world.size.y, // top of screen is 0, so negative is already off screen
+          @@ -125,7 +131,11 @@ class DoodleDash extends FlameGame
                overlays.remove('gameOverOverlay');
              }
            
+          -  // Losing the game: Add an onLose method
           +  void onLose() {
           +    gameManager.state = GameState.gameOver;
           +    player.removeFromParent();
           +    overlays.add('gameOverOverlay');
           +  }
-          +
+           
              void togglePauseState() {
                if (paused) {
-                 resumeEngine();
       - name: Patch lib/game/managers/object_manager.dart
         path: doodle_dash/lib/game/managers/object_manager.dart
         patch-u: |
           --- b/flame-building-doodle-dash/step_07/lib/game/managers/object_manager.dart
           +++ a/flame-building-doodle-dash/step_07/lib/game/managers/object_manager.dart
-          @@ -88,6 +88,7 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
+          @@ -72,7 +72,7 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
+                 gameRef.gameManager.increaseScore();
            
-                 // Removes platforms from the game when they've moved out of view
                  _cleanupPlatforms();
+          -      // Losing the game: Add call to _maybeAddEnemy()
           +      _maybeAddEnemy();
+                 // Powerups: Add call to _maybeAddPowerup();
                }
            
-               super.update(dt);
-          @@ -213,4 +214,34 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
-               // defaults to a normal platform
+          @@ -105,6 +105,9 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
+                 case 2:
+                   enableSpecialty('broken');
+                   break;
+          +      case 5:
+          +        enableSpecialty('enemy');
+          +        break;
+               }
+             }
+           
+          @@ -168,5 +171,29 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
                return NormalPlatform(position: position);
              }
-          +
+           
+          -  // Losing the game: Add code to spawn & manage EnemyPlatforms
           +  final List<EnemyPlatform> _enemies = [];
           +  void _maybeAddEnemy() {
-          +    // checks if we should add enemies at the current level
           +    if (specialPlatforms['enemy'] != true) {
           +      return;
           +    }
@@ -2196,9 +2390,6 @@ steps:
           +    }
           +  }
           +
-          +  // Because powerups and enemies rely on probability to be generated
-          +  // There is no exact best moment to remove them from the game
-          +  // So, we periodically check if there are any that can be removed.
           +  void _cleanupEnemies() {
           +    final screenBottom = gameRef.player.position.y +
           +        (gameRef.size.x / 2) +
@@ -2215,14 +2406,14 @@ steps:
         patch-u: |
           --- b/flame-building-doodle-dash/step_07/lib/game/sprites/platform.dart
           +++ a/flame-building-doodle-dash/step_07/lib/game/sprites/platform.dart
-          @@ -172,3 +172,25 @@ class SpringBoard extends Platform<SpringState> {
-               current = SpringState.up;
+          @@ -165,6 +165,23 @@ class SpringBoard extends Platform<SpringState> {
              }
            }
-          +
+           
+          -// Losing the game: Add EnemyPlatformState Enum
           +enum EnemyPlatformState { only }
-          +
-          +// Enemies are just Platforms that Dash shouldn't touch
+           
+          -// Losing the game: Add EnemyPlatform class
           +class EnemyPlatform extends Platform<EnemyPlatformState> {
           +  EnemyPlatform({super.position});
           +
@@ -2246,17 +2437,19 @@ steps:
         patch-u: |
           --- b/flame-building-doodle-dash/step_07/lib/game/sprites/player.dart
           +++ a/flame-building-doodle-dash/step_07/lib/game/sprites/player.dart
-          @@ -115,6 +115,10 @@ class Player extends SpriteGroupComponent<PlayerState>
+          @@ -125,7 +125,11 @@ class Player extends SpriteGroupComponent<PlayerState>
              @override
              void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
                super.onCollision(intersectionPoints, other);
+          -    // Losing the game: Add collision logic for EnemyPlatform
+          +    // Powerups: Modify this line
           +    if (other is EnemyPlatform) {
           +      gameRef.onLose();
           +      return;
           +    }
            
-               // Check if Dash is moving down and collides with a platform from the top
-               // this allows Dash to move up _through_ platforms without collision
+               bool isCollidingVertically =
+                   (intersectionPoints.first.y - intersectionPoints.last.y).abs() < 5;
       - name: Copy step_07
         copydir:
           from: doodle_dash
@@ -2266,104 +2459,36 @@ steps:
         flutter: clean
   - name: step_08
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_08
-      - name: Add lib/game/sprites/powerup.dart
-        path: doodle_dash/lib/game/sprites/powerup.dart
-        replace-contents: |
-          // Copyright 2022 The Flutter Authors. All rights reserved.
-          // Use of this source code is governed by a BSD-style license that can be
-          // found in the LICENSE file.
-          
-          import 'package:flame/collisions.dart';
-          import 'package:flame/components.dart';
-          
-          import './player.dart';
-          import '../doodle_dash.dart';
-          
-          abstract class PowerUp extends SpriteComponent
-              with HasGameRef<DoodleDash>, CollisionCallbacks {
-            final hitbox = RectangleHitbox();
-            double get jumpSpeedMultiplier;
-          
-            PowerUp({
-              super.position,
-            }) : super(
-                    size: Vector2.all(50),
-                    priority: 2, // Ensures platform is always behind Dash
-                  );
-          
-            @override
-            Future<void>? onLoad() async {
-              await super.onLoad();
-              // collision detection logic
-              await add(hitbox);
-            }
-          
-            @override
-            void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
-              if (other is Player && !other.isInvincible && !other.isWearingHat) {
-                removeFromParent();
-              }
-              super.onCollision(intersectionPoints, other);
-            }
-          }
-          
-          class Rocket extends PowerUp {
-            @override
-            double get jumpSpeedMultiplier => 3.5;
-          
-            Rocket({
-              super.position,
-            });
-          
-            @override
-            Future<void>? onLoad() async {
-              await super.onLoad();
-              sprite = await gameRef.loadSprite('game/rocket_1.png');
-              size = Vector2(50, 70);
-            }
-          }
-          
-          class NooglerHat extends PowerUp {
-            @override
-            double get jumpSpeedMultiplier => 2.5;
-          
-            NooglerHat({
-              super.position,
-            });
-          
-            final int activeLengthInMS = 5000;
-          
-            @override
-            Future<void>? onLoad() async {
-              await super.onLoad();
-              sprite = await gameRef.loadSprite('game/noogler_hat.png');
-              size = Vector2(75, 50);
-            }
-          }
       - name: Patch lib/game/managers/object_manager.dart
         path: doodle_dash/lib/game/managers/object_manager.dart
         patch-u: |
           --- b/flame-building-doodle-dash/step_08/lib/game/managers/object_manager.dart
           +++ a/flame-building-doodle-dash/step_08/lib/game/managers/object_manager.dart
-          @@ -89,6 +89,7 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
-                 // Removes platforms from the game when they've moved out of view
+          @@ -73,7 +73,7 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
+           
                  _cleanupPlatforms();
                  _maybeAddEnemy();
+          -      // Powerups: Add call to _maybeAddPowerup();
           +      _maybeAddPowerup();
                }
            
                super.update(dt);
-          @@ -228,6 +229,7 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
-                 add(enemy);
-                 _enemies.add(enemy);
-                 _cleanupEnemies();
-          +      _cleanupPowerups();
-               }
-             }
-           
-          @@ -244,4 +246,42 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
+          @@ -105,6 +105,12 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
+                 case 2:
+                   enableSpecialty('broken');
+                   break;
+          +      case 3:
+          +        enableSpecialty('noogler');
+          +        break;
+          +      case 4:
+          +        enableSpecialty('rocket');
+          +        break;
+                 case 5:
+                   enableSpecialty('enemy');
+                   break;
+          @@ -196,4 +202,38 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
                  _enemies.removeAt(0);
                }
              }
@@ -2371,20 +2496,14 @@ steps:
           +  final List<PowerUp> _powerups = [];
           +
           +  void _maybeAddPowerup() {
-          +    // there is a 20% chance to add a Noogler Hat
           +    if (specialPlatforms['noogler'] == true &&
           +        probGen.generateWithProbability(20)) {
-          +      // generate powerup
           +      var nooglerHat = NooglerHat(
           +        position: Vector2(_generateNextX(75), _generateNextY()),
           +      );
           +      add(nooglerHat);
           +      _powerups.add(nooglerHat);
-          +      return; // return early if we already add a noogler hat, no need to add a rocket
-          +    }
-          +
-          +    // There is a 15% chance to add a jetpack
-          +    if (specialPlatforms['rocket'] == true &&
+          +    } else if (specialPlatforms['rocket'] == true &&
           +        probGen.generateWithProbability(15)) {
           +      var rocket = Rocket(
           +        position: Vector2(_generateNextX(50), _generateNextY()),
@@ -2392,6 +2511,8 @@ steps:
           +      add(rocket);
           +      _powerups.add(rocket);
           +    }
+          +
+          +    _cleanupPowerups();
           +  }
           +
           +  void _cleanupPowerups() {
@@ -2411,119 +2532,217 @@ steps:
         patch-u: |
           --- b/flame-building-doodle-dash/step_08/lib/game/sprites/player.dart
           +++ a/flame-building-doodle-dash/step_08/lib/game/sprites/player.dart
-          @@ -92,14 +92,22 @@ class Player extends SpriteGroupComponent<PlayerState>
+          @@ -97,18 +97,23 @@ class Player extends SpriteGroupComponent<PlayerState>
+             void moveLeft() {
+               _hAxisInput = 0;
            
-               // Player going left
-               if (keysPressed.contains(LogicalKeyboardKey.arrowLeft)) {
-          -      current = PlayerState.left;
-          +      if (isWearingHat) {
-          +        current = PlayerState.nooglerLeft;
-          +      } else if (!hasPowerup) {
-          +        current = PlayerState.left;
-          +      }
+          -    // Powerups: Check is wearing hat (left)
+          -    current = PlayerState.left;
+          +    if (isWearingHat) {
+          +      current = PlayerState.nooglerLeft;
+          +    } else if (!hasPowerup) {
+          +      current = PlayerState.left;
+          +    }
            
-                 _hAxisInput += movingLeftInput;
-               }
-           
-               // Player going right
-               if (keysPressed.contains(LogicalKeyboardKey.arrowRight)) {
-          -      current = PlayerState.right;
-          +      if (isWearingHat) {
-          +        current = PlayerState.nooglerRight;
-          +      } else if (!hasPowerup) {
-          +        current = PlayerState.right;
-          +      }
-                 _hAxisInput += movingRightInput;
-               }
-           
-          @@ -111,11 +119,24 @@ class Player extends SpriteGroupComponent<PlayerState>
-               return true;
+               _hAxisInput += movingLeftInput;
              }
            
+             void moveRight() {
+          -    _hAxisInput = 0;
+          -
+          -    // Powerups: Check is wearing hat (right)
+          -    current = PlayerState.right;
+          +    _hAxisInput = 0; // by default not going left or right
+           
+          +    if (isWearingHat) {
+          +      current = PlayerState.nooglerRight;
+          +    } else if (!hasPowerup) {
+          +      current = PlayerState.right;
+          +    }
+               _hAxisInput += movingRightInput;
+             }
+           
+          @@ -116,17 +121,23 @@ class Player extends SpriteGroupComponent<PlayerState>
+               _hAxisInput = 0;
+             }
+           
+          -  // Powerups: Add hasPowerup getter
           +  bool get hasPowerup =>
           +      current == PlayerState.rocket ||
           +      current == PlayerState.nooglerLeft ||
           +      current == PlayerState.nooglerRight ||
           +      current == PlayerState.nooglerCenter;
-          +
+           
+          -  // Powerups: Add isInvincible getter
           +  bool get isInvincible => current == PlayerState.rocket;
-          +
+           
+          -  // Powerups: Add isWearingHat getter
           +  bool get isWearingHat =>
           +      current == PlayerState.nooglerLeft ||
           +      current == PlayerState.nooglerRight ||
           +      current == PlayerState.nooglerCenter;
-          +
-             // Callback for Dash colliding with another component in the game
+           
              @override
              void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
                super.onCollision(intersectionPoints, other);
+          -    // Powerups: Modify this line
           -    if (other is EnemyPlatform) {
           +    if (other is EnemyPlatform && !isInvincible) {
                  gameRef.onLose();
                  return;
                }
-          @@ -125,6 +146,12 @@ class Player extends SpriteGroupComponent<PlayerState>
-               bool isCollidingVertically =
-                   (intersectionPoints.first.y - intersectionPoints.last.y).abs() < 5;
-           
-          +    bool enablePowerUp = false;
-          +
-          +    if (!hasPowerup && (other is Rocket || other is NooglerHat)) {
-          +      enablePowerUp = true;
-          +    }
-          +
-               // Only want Dash to  “jump” when she is falling + collides with the top of a platform
-               if (isMovingDown && isCollidingVertically) {
-                 current = PlayerState.center;
-          @@ -140,7 +167,32 @@ class Player extends SpriteGroupComponent<PlayerState>
-                   other.breakPlatform();
-                   return;
+          @@ -150,8 +161,20 @@ class Player extends SpriteGroupComponent<PlayerState>
                  }
-          +
-          +      if (other is Rocket || other is NooglerHat) {
-          +        enablePowerUp = true;
-          +      }
                }
-          +
-          +    if (!enablePowerUp) return;
-          +
-          +    if (other is Rocket) {
+           
+          -    // Powerups: Collision logic for Rocket
+          -    // Powerups: Collision logic for NooglerHat
+          +    if (!hasPowerup && other is Rocket) {
           +      current = PlayerState.rocket;
+          +      other.removeFromParent();
           +      jump(specialJumpSpeed: jumpSpeed * other.jumpSpeedMultiplier);
           +      return;
-          +    } else if (other is NooglerHat) {
+          +    } else if (!hasPowerup && other is NooglerHat) {
           +      if (current == PlayerState.center) current = PlayerState.nooglerCenter;
           +      if (current == PlayerState.left) current = PlayerState.nooglerLeft;
           +      if (current == PlayerState.right) current = PlayerState.nooglerRight;
+          +      other.removeFromParent();
           +      _removePowerupAfterTime(other.activeLengthInMS);
           +      jump(specialJumpSpeed: jumpSpeed * other.jumpSpeedMultiplier);
           +      return;
           +    }
-          +  }
-          +
-          +  void _removePowerupAfterTime(int ms) {
-          +    Future.delayed(Duration(milliseconds: ms), () {
-          +      current = PlayerState.center;
-          +    });
              }
            
              void jump({double? specialJumpSpeed}) {
-      - name: Patch lib/game/sprites/sprites.dart
-        path: doodle_dash/lib/game/sprites/sprites.dart
+      - name: Patch lib/game/sprites/powerup.dart
+        path: doodle_dash/lib/game/sprites/powerup.dart
         patch-u: |
-          --- b/flame-building-doodle-dash/step_08/lib/game/sprites/sprites.dart
-          +++ a/flame-building-doodle-dash/step_08/lib/game/sprites/sprites.dart
-          @@ -4,3 +4,4 @@
+          --- b/flame-building-doodle-dash/step_08/lib/game/sprites/powerup.dart
+          +++ a/flame-building-doodle-dash/step_08/lib/game/sprites/powerup.dart
+          @@ -27,6 +27,36 @@ abstract class PowerUp extends SpriteComponent
+             }
+           }
            
-           export 'platform.dart';
-           export 'player.dart';
-          +export 'powerup.dart';
+          -// Powerups: Add Rocket class
+          +class Rocket extends PowerUp {
+          +  @override
+          +  double get jumpSpeedMultiplier => 3.5;
+          +
+          +  Rocket({
+          +    super.position,
+          +  });
+          +
+          +  @override
+          +  Future<void>? onLoad() async {
+          +    await super.onLoad();
+          +    sprite = await gameRef.loadSprite('game/rocket_1.png');
+          +    size = Vector2(50, 70);
+          +  }
+          +}
+           
+          -// Powerups: Add NooglerHat class
+          +class NooglerHat extends PowerUp {
+          +  @override
+          +  double get jumpSpeedMultiplier => 2.5;
+          +
+          +  NooglerHat({
+          +    super.position,
+          +  });
+          +
+          +  final int activeLengthInMS = 5000;
+          +
+          +  @override
+          +  Future<void>? onLoad() async {
+          +    await super.onLoad();
+          +    sprite = await gameRef.loadSprite('game/noogler_hat.png');
+          +    size = Vector2(75, 50);
+          +  }
+          +}
       - name: Copy step_08
         copydir:
           from: doodle_dash
           to: step_08
       - name: Flutter clean
         path: step_08
+        flutter: clean
+  - name: finished_game
+    steps:
+      - name: Remove generated code
+        rmdir: finished_game
+      - name: Patch lib/game/widgets/game_overlay.dart
+        path: doodle_dash/lib/game/widgets/game_overlay.dart
+        patch-u: |
+          --- b/flame-building-doodle-dash/finished_game/lib/game/widgets/game_overlay.dart
+          +++ a/flame-building-doodle-dash/finished_game/lib/game/widgets/game_overlay.dart
+          @@ -21,7 +21,7 @@ class GameOverlay extends StatefulWidget {
+           
+           class GameOverlayState extends State<GameOverlay> {
+             bool isPaused = false;
+          -  // Mobile Support: Add isMobile boolean
+          +  final bool isMobile = !kIsWeb && (Platform.isAndroid || Platform.isIOS);
+           
+             @override
+             Widget build(BuildContext context) {
+          @@ -57,7 +57,52 @@ class GameOverlayState extends State<GameOverlay> {
+                         },
+                       ),
+                     ),
+          -          // Mobile Support: Add on-screen left & right directional buttons
+          +          if (isMobile)
+          +            Positioned(
+          +              bottom: MediaQuery.of(context).size.height / 4,
+          +              child: SizedBox(
+          +                width: MediaQuery.of(context).size.width,
+          +                child: Row(
+          +                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          +                  children: [
+          +                    Padding(
+          +                      padding: const EdgeInsets.only(left: 24),
+          +                      child: GestureDetector(
+          +                        onTapDown: (details) {
+          +                          (widget.game as DoodleDash).player.moveLeft();
+          +                        },
+          +                        onTapUp: (details) {
+          +                          (widget.game as DoodleDash).player.resetDirection();
+          +                        },
+          +                        child: Material(
+          +                          color: Colors.transparent,
+          +                          elevation: 3.0,
+          +                          shadowColor: Theme.of(context).colorScheme.background,
+          +                          child: const Icon(Icons.arrow_left, size: 64),
+          +                        ),
+          +                      ),
+          +                    ),
+          +                    Padding(
+          +                      padding: const EdgeInsets.only(right: 24),
+          +                      child: GestureDetector(
+          +                        onTapDown: (details) {
+          +                          (widget.game as DoodleDash).player.moveRight();
+          +                        },
+          +                        onTapUp: (details) {
+          +                          (widget.game as DoodleDash).player.resetDirection();
+          +                        },
+          +                        child: Material(
+          +                          color: Colors.transparent,
+          +                          elevation: 3.0,
+          +                          shadowColor: Theme.of(context).colorScheme.background,
+          +                          child: const Icon(Icons.arrow_right, size: 64),
+          +                        ),
+          +                      ),
+          +                    ),
+          +                  ],
+          +                ),
+          +              ),
+          +            ),
+                     if (isPaused)
+                       Positioned(
+                         top: MediaQuery.of(context).size.height / 2 - 72.0,
+      - name: Copy finished_game
+        copydir:
+          from: doodle_dash
+          to: finished_game
+      - name: Flutter clean
+        path: finished_game
         flutter: clean
   - name: Cleanup
     rmdir: doodle_dash

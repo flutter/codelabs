@@ -9,7 +9,7 @@ page (including the small print at the end).
 
 This repo is used by members of the Flutter Developer Relations team 
 as a place to store code for our codelabs, on both
-[flutter.dev](https://flutter.dev/docs/get-started/codelab and
+[docs.flutter.dev](https://docs.flutter.dev/codelabs) and
 [codelabs.developer.google.com](https://codelabs.developers.google.com/).
 
 ## So what should be contributed here, then?
@@ -42,7 +42,7 @@ All submissions, including submissions by project members, require review.
 
 All files in the project must start with the following header.
 
-    // Copyright 2020 The Flutter Authors. All rights reserved.
+    // Copyright 2022 The Flutter Authors. All rights reserved.
     // Use of this source code is governed by a BSD-style license that can be
     // found in the LICENSE file.
 

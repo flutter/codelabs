@@ -29,16 +29,11 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
   void onMount() {
     super.onMount();
 
-    // The X that will be used for the next platform.
-    // The initial X is the middle of the screen.
     var currentX = (gameRef.size.x.floor() / 2).toDouble() - 50;
 
-    // The first platform will always be in the bottom third of the initial screen
     var currentY =
         gameRef.size.y - (_rand.nextInt(gameRef.size.y.floor()) / 3) - 50;
 
-    // Generate 10 Platforms at random x, y positions and add to list of platforms
-    // to be populated in the game.
     for (var i = 0; i < 9; i++) {
       if (i != 0) {
         currentX = _generateNextX(100);
@@ -53,16 +48,12 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
         ),
       );
 
-      // Add Component to Flame tree
       add(_platforms[i]);
     }
   }
 
-  // this method adds new platforms continually, and determines when to remove
-  // platforms that are no longer needed.
   @override
   void update(double dt) {
-    // Adding Platform Height will ensure that 2 platforms don't overlap.
     final topOfLowestPlatform =
         _platforms.first.position.y + _tallestPlatformHeight;
 
@@ -70,10 +61,7 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
         (gameRef.size.x / 2) +
         gameRef.screenBufferSpace;
 
-    // When the lowest platform is offscreen, it can be removed and a new platform
-    // should be added
     if (topOfLowestPlatform > screenBottom) {
-      // Generate and add the next platform to the game
       var newPlatY = _generateNextY();
       var newPlatX = _generateNextX(100);
       final nextPlat = _semiRandomPlatform(Vector2(newPlatX, newPlatY));
@@ -81,14 +69,11 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
 
       _platforms.add(nextPlat);
 
-      // increase score whenever "Dash passes a platform"
-      // Really, increase score when a platform passes off the screen
-      // It's the simplest way to do it
       gameRef.gameManager.increaseScore();
 
-      // Removes platforms from the game when they've moved out of view
       _cleanupPlatforms();
       _maybeAddEnemy();
+      // Powerups: Add call to _maybeAddPowerup();
     }
 
     super.update(dt);
@@ -103,11 +88,8 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
   };
 
   void _cleanupPlatforms() {
-    // remove the lowest platform
-    // Remove platforms that have gone out of view
     final lowestPlat = _platforms.removeAt(0);
 
-    // remove component from game
     lowestPlat.removeFromParent();
   }
 
@@ -123,12 +105,6 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
       case 2:
         enableSpecialty('broken');
         break;
-      case 3:
-        enableSpecialty('noogler');
-        break;
-      case 4:
-        enableSpecialty('rocket');
-        break;
       case 5:
         enableSpecialty('enemy');
         break;
@@ -141,7 +117,6 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
     }
   }
 
-  // Exposes a way for the DoodleDash component to change difficulty mid-game
   void configure(int nextLevel, Difficulty config) {
     minVerticalDistanceToNextPlatform = gameRef.levelManager.minDistance;
     maxVerticalDistanceToNextPlatform = gameRef.levelManager.maxDistance;
@@ -151,23 +126,14 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
     }
   }
 
-  // This method calculates the X-position for the next platform
-  // It ensures that platforms don't overlap, populate outside the bounds of the game
-  // or generate too far apart
   double _generateNextX(int platformWidth) {
-    // Used to ensure that the next platform doesn't overlap
     final previousPlatformXRange = Range(
       _platforms.last.position.x,
       _platforms.last.position.x + platformWidth,
     );
 
-    // -50 (width of platform) ensures the platform doesn't populate outside
-    // right bound of game
-    // Anchor is topLeft by default, so this X is the left most point of the platform
-    // Platform width should always be 50 regardless of which platform.
     double nextPlatformAnchorX;
 
-    // If the previous platform and next overlap, try a new random X
     do {
       nextPlatformAnchorX =
           _rand.nextInt(gameRef.size.x.floor() - platformWidth).toDouble();
@@ -177,12 +143,7 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
     return nextPlatformAnchorX;
   }
 
-  // This method determines where the next platform should be placed
-  // It calculates a random distance between the minVerticalDistanceToNextPlatform
-  // and the maxVerticalDistanceToNextPlatform, and returns a Y coordinate that is
-  // that distance above the current highest platform
   double _generateNextY() {
-    // Adding platformHeight prevents platforms from overlapping.
     final currentHighestPlatformY =
         _platforms.last.center.y + _tallestPlatformHeight;
 
@@ -196,28 +157,22 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
     return currentHighestPlatformY - distanceToNextY;
   }
 
-  // Return a platform.
-  // The percent chance of any given platform is NOT equal
   Platform _semiRandomPlatform(Vector2 position) {
     if (specialPlatforms['spring'] == true &&
         probGen.generateWithProbability(15)) {
-      // 15% chance of getting springboard
       return SpringBoard(position: position);
     }
 
     if (specialPlatforms['broken'] == true &&
         probGen.generateWithProbability(10)) {
-      // 10% chance of getting springboard
       return BrokenPlatform(position: position);
     }
 
-    // defaults to a normal platform
     return NormalPlatform(position: position);
   }
 
   final List<EnemyPlatform> _enemies = [];
   void _maybeAddEnemy() {
-    // checks if we should add enemies at the current level
     if (specialPlatforms['enemy'] != true) {
       return;
     }
@@ -231,9 +186,6 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
     }
   }
 
-  // Because powerups and enemies rely on probability to be generated
-  // There is no exact best moment to remove them from the game
-  // So, we periodically check if there are any that can be removed.
   void _cleanupEnemies() {
     final screenBottom = gameRef.player.position.y +
         (gameRef.size.x / 2) +

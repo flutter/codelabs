@@ -23,31 +23,26 @@ abstract class Platform<T> extends SpriteGroupComponent<T>
   final hitbox = RectangleHitbox();
   bool isMoving = false;
 
+  double direction = 1;
+  final Vector2 _velocity = Vector2.zero();
+  double speed = 35;
+
   Platform({
     super.position,
   }) : super(
           size: Vector2.all(100),
-          priority: 2, // Ensures platform is always behind Dash
+          priority: 2,
         );
 
   @override
   Future<void>? onLoad() async {
     await super.onLoad();
 
-    // Add collision detection logic
     await add(hitbox);
 
-    // 1/5 times make this platform move
     final int rand = Random().nextInt(100);
     if (rand > 80) isMoving = true;
   }
-
-  // These variables and the _move method all the platform for _move
-  // Platforms have a 20% chance of being a moving platform
-  // All platforms _can_ move.
-  double direction = 1;
-  final Vector2 _velocity = Vector2.zero();
-  double speed = 35;
 
   void _move(double dt) {
     if (!isMoving) return;
@@ -65,10 +60,8 @@ abstract class Platform<T> extends SpriteGroupComponent<T>
     position += _velocity * dt;
   }
 
-  // @mustCallSuper
   @override
   void update(double dt) {
-    // _move *might* make the platform move horizontally
     _move(dt);
     super.update(dt);
   }
@@ -130,7 +123,6 @@ class BrokenPlatform extends Platform<BrokenPlatformState> {
 
 enum SpringState { down, up }
 
-// Once we have other component assets, they can be built in similar manner
 class SpringBoard extends Platform<SpringState> {
   SpringBoard({
     super.position,
@@ -175,7 +167,6 @@ class SpringBoard extends Platform<SpringState> {
 
 enum EnemyPlatformState { only }
 
-// Enemies are just Platforms that Dash shouldn't touch
 class EnemyPlatform extends Platform<EnemyPlatformState> {
   EnemyPlatform({super.position});
 

@@ -1,4 +1,7 @@
-import 'dart:async';
+// Copyright 2022 The Flutter Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -11,7 +14,7 @@ enum _MenuOptions {
 class Menu extends StatefulWidget {
   const Menu({required this.controller, super.key});
 
-  final Completer<WebViewController> controller;
+  final WebViewController controller;
 
   @override
   State<Menu> createState() => _MenuState();
@@ -20,25 +23,23 @@ class Menu extends StatefulWidget {
 class _MenuState extends State<Menu> {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<WebViewController>(
-      future: widget.controller.future,
-      builder: (context, controller) {
-        return PopupMenuButton<_MenuOptions>(
-          onSelected: (value) async {
-            switch (value) {
-              case _MenuOptions.navigationDelegate:
-                await controller.data!.loadUrl('https://youtube.com');
-                break;
-              case _MenuOptions.userAgent:
-                final userAgent = await controller.data!
-                    .runJavascriptReturningResult('navigator.userAgent');
-                if (!mounted) return;
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(userAgent),
-                ));
-                break;
-              case _MenuOptions.javascriptChannel:
-                await controller.data!.runJavascript('''
+    return PopupMenuButton<_MenuOptions>(
+      onSelected: (value) async {
+        switch (value) {
+          case _MenuOptions.navigationDelegate:
+            await widget.controller
+                .loadRequest(Uri.parse('https://youtube.com'));
+            break;
+          case _MenuOptions.userAgent:
+            final userAgent = await widget.controller
+                .runJavaScriptReturningResult('navigator.userAgent');
+            if (!mounted) return;
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text('$userAgent'),
+            ));
+            break;
+          case _MenuOptions.javascriptChannel:
+            await widget.controller.runJavaScript('''
 var req = new XMLHttpRequest();
 req.open('GET', "https://api.ipify.org/?format=json");
 req.onload = function() {
@@ -50,25 +51,23 @@ req.onload = function() {
   }
 }
 req.send();''');
-                break;
-            }
-          },
-          itemBuilder: (context) => [
-            const PopupMenuItem<_MenuOptions>(
-              value: _MenuOptions.navigationDelegate,
-              child: Text('Navigate to YouTube'),
-            ),
-            const PopupMenuItem<_MenuOptions>(
-              value: _MenuOptions.userAgent,
-              child: Text('Show user-agent'),
-            ),
-            const PopupMenuItem<_MenuOptions>(
-              value: _MenuOptions.javascriptChannel,
-              child: Text('Lookup IP Address'),
-            ),
-          ],
-        );
+            break;
+        }
       },
+      itemBuilder: (context) => [
+        const PopupMenuItem<_MenuOptions>(
+          value: _MenuOptions.navigationDelegate,
+          child: Text('Navigate to YouTube'),
+        ),
+        const PopupMenuItem<_MenuOptions>(
+          value: _MenuOptions.userAgent,
+          child: Text('Show user-agent'),
+        ),
+        const PopupMenuItem<_MenuOptions>(
+          value: _MenuOptions.javascriptChannel,
+          child: Text('Lookup IP Address'),
+        ),
+      ],
     );
   }
 }

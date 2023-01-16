@@ -32,6 +32,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        useMaterial3: true,
       ),
       home: const MyHomePage(title: 'GitHub Client'),
     );
@@ -52,6 +53,7 @@ class MyHomePage extends StatelessWidget {
             return Scaffold(
               appBar: AppBar(
                 title: Text(title),
+                elevation: 2,
               ),
               body: Center(
                 child: Text(

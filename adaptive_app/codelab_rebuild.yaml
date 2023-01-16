@@ -37,6 +37,10 @@ steps:
       - name: Replace lib/main.dart
         path: adaptive_app/lib/main.dart
         replace-contents: |
+          // Copyright 2022 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+
           import 'dart:io' show Platform;
           import 'package:flutter/foundation.dart' show kIsWeb;
           import 'package:flutter/material.dart';
@@ -253,6 +257,10 @@ steps:
       - name: Replace adaptive_app/lib/main.dart
         path: adaptive_app/lib/main.dart
         replace-contents: |
+          // Copyright 2022 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+          
           import 'dart:io';
           
           import 'package:flex_color_scheme/flex_color_scheme.dart';
@@ -330,6 +338,10 @@ steps:
       - name: Add app_state.dart
         path: adaptive_app/lib/src/app_state.dart
         replace-contents: |
+          // Copyright 2022 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+          
           import 'dart:collection';
 
           import 'package:flutter/foundation.dart';
@@ -422,6 +434,10 @@ steps:
       - name: Add playlist_details.dart
         path: adaptive_app/lib/src/playlist_details.dart
         replace-contents: |
+          // Copyright 2022 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+          
           import 'package:flutter/material.dart';
           import 'package:googleapis/youtube/v3.dart';
           import 'package:provider/provider.dart';
@@ -563,6 +579,10 @@ steps:
       - name: Add playlists.dart
         path: adaptive_app/lib/src/playlists.dart
         replace-contents: |
+          // Copyright 2022 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+          
           import 'package:flutter/material.dart';
           import 'package:go_router/go_router.dart';
           import 'package:googleapis/youtube/v3.dart';
@@ -712,7 +732,7 @@ steps:
         patch-u: |
           --- b/adaptive_app/step_05/lib/main.dart
           +++ a/adaptive_app/step_05/lib/main.dart
-          @@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
+          @@ -9,9 +9,9 @@ import 'package:flutter/material.dart';
            import 'package:go_router/go_router.dart';
            import 'package:provider/provider.dart';
            
@@ -723,7 +743,7 @@ steps:
            
            // From https://www.youtube.com/channel/UCwXdFgeE9KYzlDdR7TG9cMw
            const flutterDevAccountId = 'UCwXdFgeE9KYzlDdR7TG9cMw';
-          @@ -20,7 +20,7 @@ final _router = GoRouter(
+          @@ -24,7 +24,7 @@ final _router = GoRouter(
                GoRoute(
                  path: '/',
                  builder: (context, state) {
@@ -732,7 +752,7 @@ steps:
                  },
                  routes: <RouteBase>[
                    GoRoute(
-          @@ -28,9 +28,12 @@ final _router = GoRouter(
+          @@ -32,9 +32,12 @@ final _router = GoRouter(
                      builder: (context, state) {
                        final title = state.queryParams['title']!;
                        final id = state.params['id']!;
@@ -753,7 +773,9 @@ steps:
         patch-u: |
           --- b/adaptive_app/step_05/lib/src/playlists.dart
           +++ a/adaptive_app/step_05/lib/src/playlists.dart
-          @@ -1,46 +1,71 @@
+          @@ -3,48 +3,73 @@
+           // found in the LICENSE file.
+           
            import 'package:flutter/material.dart';
           -import 'package:go_router/go_router.dart';
            import 'package:googleapis/youtube/v3.dart';
@@ -846,7 +868,7 @@ steps:
                    return Padding(
                      padding: const EdgeInsets.all(8.0),
                      child: ListTile(
-          @@ -52,14 +77,7 @@ class _PlaylistsListView extends StatelessWidget {
+          @@ -56,14 +81,7 @@ class _PlaylistsListView extends StatelessWidget {
                          playlist.snippet!.description!,
                        ),
                        onTap: () {
@@ -867,7 +889,7 @@ steps:
         patch-u: |
           --- b/adaptive_app/step_05/lib/src/playlist_details.dart
           +++ a/adaptive_app/step_05/lib/src/playlist_details.dart
-          @@ -13,34 +13,50 @@ class PlaylistDetails extends StatelessWidget {
+          @@ -17,34 +17,50 @@ class PlaylistDetails extends StatelessWidget {
            
              @override
              Widget build(BuildContext context) {
@@ -937,6 +959,10 @@ steps:
       - name: Add lib/src/adaptive_playlists.dart
         path: adaptive_app/lib/src/adaptive_playlists.dart
         replace-contents: |
+          // Copyright 2022 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+          
           import 'package:flutter/material.dart';
           import 'package:go_router/go_router.dart';
           import 'package:googleapis/youtube/v3.dart';
@@ -1062,6 +1088,10 @@ steps:
       - name: Replace yt_cors_proxy/bin/server.dart
         path: adaptive_app/yt_cors_proxy/bin/server.dart
         replace-contents: |
+          // Copyright 2022 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+          
           import 'dart:async';
           import 'dart:io';
 
@@ -1110,7 +1140,7 @@ steps:
         patch-u: |
           --- b/adaptive_app/step_06/lib/src/playlist_details.dart
           +++ a/adaptive_app/step_06/lib/src/playlist_details.dart
-          @@ -3,6 +3,8 @@ import 'package:googleapis/youtube/v3.dart';
+          @@ -7,6 +7,8 @@ import 'package:googleapis/youtube/v3.dart';
            import 'package:provider/provider.dart';
            import 'package:url_launcher/link.dart';
            
@@ -1119,7 +1149,7 @@ steps:
            import 'app_state.dart';
            
            class PlaylistDetails extends StatelessWidget {
-          @@ -65,7 +67,8 @@ class _PlaylistDetailsListViewState extends State<_PlaylistDetailsListView> {
+          @@ -69,7 +71,8 @@ class _PlaylistDetailsListViewState extends State<_PlaylistDetailsListView> {
                          alignment: Alignment.center,
                          children: [
                            if (playlistItem.snippet!.thumbnails!.high != null)
@@ -1129,7 +1159,7 @@ steps:
                            _buildGradient(context),
                            _buildTitleAndSubtitle(context, playlistItem),
                            _buildPlayButton(context, playlistItem),
-          @@ -105,7 +108,7 @@ class _PlaylistDetailsListViewState extends State<_PlaylistDetailsListView> {
+          @@ -109,7 +112,7 @@ class _PlaylistDetailsListViewState extends State<_PlaylistDetailsListView> {
                    mainAxisSize: MainAxisSize.min,
                    crossAxisAlignment: CrossAxisAlignment.start,
                    children: [
@@ -1138,7 +1168,7 @@ steps:
                        playlistItem.snippet!.title!,
                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                              fontSize: 18,
-          @@ -113,7 +116,7 @@ class _PlaylistDetailsListViewState extends State<_PlaylistDetailsListView> {
+          @@ -117,7 +120,7 @@ class _PlaylistDetailsListViewState extends State<_PlaylistDetailsListView> {
                            ),
                      ),
                      if (playlistItem.snippet!.videoOwnerChannelTitle != null)
@@ -1152,7 +1182,7 @@ steps:
         patch-u: |
           --- b/adaptive_app/step_06/lib/src/playlists.dart
           +++ a/adaptive_app/step_06/lib/src/playlists.dart
-          @@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
+          @@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
            import 'package:googleapis/youtube/v3.dart';
            import 'package:provider/provider.dart';
            
@@ -1160,7 +1190,7 @@ steps:
            import 'app_state.dart';
            
            class Playlists extends StatelessWidget {
-          @@ -69,7 +70,7 @@ class _PlaylistsListViewState extends State<_PlaylistsListView> {
+          @@ -73,7 +74,7 @@ class _PlaylistsListViewState extends State<_PlaylistsListView> {
                    return Padding(
                      padding: const EdgeInsets.all(8.0),
                      child: ListTile(
@@ -1169,9 +1199,13 @@ steps:
                          playlist.snippet!.thumbnails!.default_!.url!,
                        ),
                        title: Text(playlist.snippet!.title!),
-      - name: adaptive_image.dart
+      - name: Add adaptive_image.dart
         path: adaptive_app/lib/src/adaptive_image.dart
         replace-contents: |
+          // Copyright 2022 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+          
           import 'package:flutter/foundation.dart';
           import 'package:flutter/material.dart';
 
@@ -1193,9 +1227,13 @@ steps:
               return Image.network(_url);
             }
           }
-      - name: adaptive_text.dart
+      - name: Add adaptive_text.dart
         path: adaptive_app/lib/src/adaptive_text.dart
         replace-contents: |
+          // Copyright 2022 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+          
           import 'package:flutter/material.dart';
 
           class AdaptiveText extends StatelessWidget {
@@ -1240,6 +1278,10 @@ steps:
       - name: Add adaptive_login.dart
         path: adaptive_app/lib/src/adaptive_login.dart
         replace-contents: |
+          // Copyright 2022 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+          
           import 'dart:io' show Platform;
           
           import 'package:extension_google_sign_in_as_googleapis_auth/extension_google_sign_in_as_googleapis_auth.dart';
@@ -1419,7 +1461,10 @@ steps:
         patch-u: |
           --- b/adaptive_app/step_07/lib/main.dart
           +++ a/adaptive_app/step_07/lib/main.dart
-          @@ -1,19 +1,24 @@
+          @@ -2,22 +2,27 @@
+           // Use of this source code is governed by a BSD-style license that can be
+           // found in the LICENSE file.
+           
           -import 'dart:io';
           -
            import 'package:flex_color_scheme/flex_color_scheme.dart';
@@ -1450,7 +1495,7 @@ steps:
            
            final _router = GoRouter(
              routes: <RouteBase>[
-          @@ -22,7 +27,24 @@ final _router = GoRouter(
+          @@ -26,7 +31,24 @@ final _router = GoRouter(
                  builder: (context, state) {
                    return const AdaptivePlaylists();
                  },
@@ -1475,7 +1520,7 @@ steps:
                    GoRoute(
                      path: 'playlist/:id',
                      builder: (context, state) {
-          @@ -43,16 +65,8 @@ final _router = GoRouter(
+          @@ -47,16 +69,8 @@ final _router = GoRouter(
            );
            
            void main() {
@@ -1494,7 +1539,7 @@ steps:
                child: const PlaylistsApp(),
              ));
            }
-          @@ -63,7 +77,7 @@ class PlaylistsApp extends StatelessWidget {
+          @@ -67,7 +81,7 @@ class PlaylistsApp extends StatelessWidget {
              @override
              Widget build(BuildContext context) {
                return MaterialApp.router(
@@ -1508,7 +1553,7 @@ steps:
         patch-u: |
           --- b/adaptive_app/step_07/lib/src/adaptive_playlists.dart
           +++ a/adaptive_app/step_07/lib/src/adaptive_playlists.dart
-          @@ -30,7 +30,7 @@ class NarrowDisplayPlaylists extends StatelessWidget {
+          @@ -34,7 +34,7 @@ class NarrowDisplayPlaylists extends StatelessWidget {
              @override
              Widget build(BuildContext context) {
                return Scaffold(
@@ -1517,13 +1562,7 @@ steps:
                  body: Playlists(
                    playlistSelected: (playlist) {
                      context.go(
-          @@ -56,13 +56,14 @@ class WideDisplayPlaylists extends StatefulWidget {
-           
-           class _WideDisplayPlaylistsState extends State<WideDisplayPlaylists> {
-             Playlist? selectedPlaylist;
-          +
-             @override
-             Widget build(BuildContext context) {
+          @@ -65,8 +65,8 @@ class _WideDisplayPlaylistsState extends State<WideDisplayPlaylists> {
                return Scaffold(
                  appBar: AppBar(
                    title: selectedPlaylist == null
@@ -1539,7 +1578,7 @@ steps:
         patch-u: |
           --- b/adaptive_app/step_07/lib/src/app_state.dart
           +++ a/adaptive_app/step_07/lib/src/app_state.dart
-          @@ -4,28 +4,22 @@ import 'package:flutter/foundation.dart';
+          @@ -8,28 +8,22 @@ import 'package:flutter/foundation.dart';
            import 'package:googleapis/youtube/v3.dart';
            import 'package:http/http.dart' as http;
            
@@ -1575,7 +1614,7 @@ steps:
                    maxResults: 50,
                    pageToken: nextPageToken,
                  );
-          @@ -37,8 +31,7 @@ class FlutterDevPlaylists extends ChangeNotifier {
+          @@ -41,8 +35,7 @@ class FlutterDevPlaylists extends ChangeNotifier {
                } while (nextPageToken != null);
              }
            
@@ -1585,7 +1624,7 @@ steps:
            
              final List<Playlist> _playlists = [];
              List<Playlist> get playlists => UnmodifiableListView(_playlists);
-          @@ -55,7 +48,7 @@ class FlutterDevPlaylists extends ChangeNotifier {
+          @@ -59,7 +52,7 @@ class FlutterDevPlaylists extends ChangeNotifier {
              Future<void> _retrievePlaylist(String playlistId) async {
                String? nextPageToken;
                do {
@@ -1594,7 +1633,7 @@ steps:
                    ['snippet', 'contentDetails'],
                    playlistId: playlistId,
                    maxResults: 25,
-          @@ -70,20 +63,3 @@ class FlutterDevPlaylists extends ChangeNotifier {
+          @@ -74,20 +67,3 @@ class FlutterDevPlaylists extends ChangeNotifier {
                } while (nextPageToken != null);
              }
            }
@@ -1620,7 +1659,7 @@ steps:
         patch-u: |
           --- b/adaptive_app/step_07/lib/src/playlist_details.dart
           +++ a/adaptive_app/step_07/lib/src/playlist_details.dart
-          @@ -15,7 +15,7 @@ class PlaylistDetails extends StatelessWidget {
+          @@ -19,7 +19,7 @@ class PlaylistDetails extends StatelessWidget {
            
              @override
              Widget build(BuildContext context) {
@@ -1634,7 +1673,7 @@ steps:
         patch-u: |
           --- b/adaptive_app/step_07/lib/src/playlists.dart
           +++ a/adaptive_app/step_07/lib/src/playlists.dart
-          @@ -12,7 +12,7 @@ class Playlists extends StatelessWidget {
+          @@ -16,7 +16,7 @@ class Playlists extends StatelessWidget {
            
              @override
              Widget build(BuildContext context) {
