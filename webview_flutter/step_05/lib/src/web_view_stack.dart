@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -19,8 +21,9 @@ class _WebViewStackState extends State<WebViewStack> {
   @override
   void initState() {
     super.initState();
-    controller = WebViewController()
-      ..setNavigationDelegate(NavigationDelegate(
+    controller = WebViewController();
+    unawaited(controller.setNavigationDelegate(
+      NavigationDelegate(
         onPageStarted: (url) {
           setState(() {
             loadingPercentage = 0;
@@ -36,10 +39,11 @@ class _WebViewStackState extends State<WebViewStack> {
             loadingPercentage = 100;
           });
         },
-      ))
-      ..loadRequest(
-        Uri.parse('https://flutter.dev'),
-      );
+      ),
+    ));
+    unawaited(controller.loadRequest(
+      Uri.parse('https://flutter.dev'),
+    ));
   }
 
   @override

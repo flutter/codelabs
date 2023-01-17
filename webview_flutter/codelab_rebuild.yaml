@@ -1,4 +1,4 @@
-name: WebView in FLutter script
+name: WebView in Flutter script
 steps:
   - name: step_03
     steps:
@@ -79,7 +79,9 @@ steps:
           // Copyright 2022 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-
+          
+          import 'dart:async';
+          
           import 'package:flutter/material.dart';
           import 'package:webview_flutter/webview_flutter.dart';
           
@@ -104,10 +106,10 @@ steps:
             @override
             void initState() {
               super.initState();
-              controller = WebViewController()
-                ..loadRequest(
-                  Uri.parse('https://flutter.dev'),
-                );
+              controller = WebViewController();
+              unawaited(controller.loadRequest(
+                Uri.parse('https://flutter.dev'),
+              ));
             }
           
             @override
@@ -164,7 +166,9 @@ steps:
           // Copyright 2022 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-
+          
+          import 'dart:async';
+          
           import 'package:flutter/material.dart';
           import 'package:webview_flutter/webview_flutter.dart';
           
@@ -182,8 +186,9 @@ steps:
             @override
             void initState() {
               super.initState();
-              controller = WebViewController()
-                ..setNavigationDelegate(NavigationDelegate(
+              controller = WebViewController();
+              unawaited(controller.setNavigationDelegate(
+                NavigationDelegate(
                   onPageStarted: (url) {
                     setState(() {
                       loadingPercentage = 0;
@@ -199,10 +204,11 @@ steps:
                       loadingPercentage = 100;
                     });
                   },
-                ))
-                ..loadRequest(
-                  Uri.parse('https://flutter.dev'),
-                );
+                ),
+              ));
+              unawaited(controller.loadRequest(
+                Uri.parse('https://flutter.dev'),
+              ));
             }
           
             @override
@@ -225,9 +231,12 @@ steps:
         patch-u: |
           --- b/webview_flutter/step_05/lib/main.dart
           +++ a/webview_flutter/step_05/lib/main.dart
-          @@ -3,7 +3,8 @@
+          @@ -2,10 +2,9 @@
+           // Use of this source code is governed by a BSD-style license that can be
            // found in the LICENSE file.
            
+          -import 'dart:async';
+          -
            import 'package:flutter/material.dart';
           -import 'package:webview_flutter/webview_flutter.dart';
           +
@@ -235,7 +244,7 @@ steps:
            
            void main() {
              runApp(
-          @@ -21,26 +22,13 @@ class WebViewApp extends StatefulWidget {
+          @@ -23,26 +22,13 @@ class WebViewApp extends StatefulWidget {
            }
            
            class _WebViewAppState extends State<WebViewApp> {
@@ -244,10 +253,10 @@ steps:
           -  @override
           -  void initState() {
           -    super.initState();
-          -    controller = WebViewController()
-          -      ..loadRequest(
-          -        Uri.parse('https://flutter.dev'),
-          -      );
+          -    controller = WebViewController();
+          -    unawaited(controller.loadRequest(
+          -      Uri.parse('https://flutter.dev'),
+          -    ));
           -  }
           -
              @override
@@ -377,7 +386,7 @@ steps:
         patch-u: |
           --- b/webview_flutter/step_06/lib/src/web_view_stack.dart
           +++ a/webview_flutter/step_06/lib/src/web_view_stack.dart
-          @@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
+          @@ -8,7 +8,9 @@ import 'package:flutter/material.dart';
            import 'package:webview_flutter/webview_flutter.dart';
            
            class WebViewStack extends StatefulWidget {
@@ -388,7 +397,7 @@ steps:
            
              @override
              State<WebViewStack> createState() => _WebViewStackState();
-          @@ -14,13 +16,12 @@ class WebViewStack extends StatefulWidget {
+          @@ -16,13 +18,11 @@ class WebViewStack extends StatefulWidget {
            
            class _WebViewStackState extends State<WebViewStack> {
              var loadingPercentage = 0;
@@ -397,27 +406,23 @@ steps:
              @override
              void initState() {
                super.initState();
-          -    controller = WebViewController()
-          -      ..setNavigationDelegate(NavigationDelegate(
-          +    widget.controller.setNavigationDelegate(
-          +      NavigationDelegate(
+          -    controller = WebViewController();
+          -    unawaited(controller.setNavigationDelegate(
+          +    unawaited(widget.controller.setNavigationDelegate(
+                 NavigationDelegate(
                    onPageStarted: (url) {
                      setState(() {
-                       loadingPercentage = 0;
-          @@ -36,10 +37,8 @@ class _WebViewStackState extends State<WebViewStack> {
-                       loadingPercentage = 100;
-                     });
+          @@ -41,9 +41,6 @@ class _WebViewStackState extends State<WebViewStack> {
                    },
-          -      ))
-          -      ..loadRequest(
-          -        Uri.parse('https://flutter.dev'),
-          -      );
-          +      ),
-          +    );
+                 ),
+               ));
+          -    unawaited(controller.loadRequest(
+          -      Uri.parse('https://flutter.dev'),
+          -    ));
              }
            
              @override
-          @@ -47,7 +46,7 @@ class _WebViewStackState extends State<WebViewStack> {
+          @@ -51,7 +48,7 @@ class _WebViewStackState extends State<WebViewStack> {
                return Stack(
                  children: [
                    WebViewWidget(
@@ -439,7 +444,7 @@ steps:
         patch-u: |
           --- b/webview_flutter/step_07/lib/src/web_view_stack.dart
           +++ a/webview_flutter/step_07/lib/src/web_view_stack.dart
-          @@ -37,6 +37,20 @@ class _WebViewStackState extends State<WebViewStack> {
+          @@ -39,6 +39,20 @@ class _WebViewStackState extends State<WebViewStack> {
                        loadingPercentage = 100;
                      });
                    },
@@ -458,7 +463,7 @@ steps:
           +          return NavigationDecision.navigate;
           +        },
                  ),
-               );
+               ));
              }
       - name: Copy step_07
         copydir:
@@ -594,88 +599,14 @@ steps:
         patch-u: |
           --- b/webview_flutter/step_09/lib/src/web_view_stack.dart
           +++ a/webview_flutter/step_09/lib/src/web_view_stack.dart
-          @@ -20,39 +20,41 @@ class _WebViewStackState extends State<WebViewStack> {
-             @override
-             void initState() {
-               super.initState();
-          -    widget.controller.setNavigationDelegate(
-          -      NavigationDelegate(
-          -        onPageStarted: (url) {
-          -          setState(() {
-          -            loadingPercentage = 0;
-          -          });
-          -        },
-          -        onProgress: (progress) {
-          -          setState(() {
-          -            loadingPercentage = progress;
-          -          });
-          -        },
-          -        onPageFinished: (url) {
-          -          setState(() {
-          -            loadingPercentage = 100;
-          -          });
-          -        },
-          -        onNavigationRequest: (navigation) {
-          -          final host = Uri.parse(navigation.url).host;
-          -          if (host.contains('youtube.com')) {
-          -            ScaffoldMessenger.of(context).showSnackBar(
-          -              SnackBar(
-          -                content: Text(
-          -                  'Blocking navigation to $host',
-          +    widget.controller
-          +      ..setNavigationDelegate(
-          +        NavigationDelegate(
-          +          onPageStarted: (url) {
-          +            setState(() {
-          +              loadingPercentage = 0;
-          +            });
-          +          },
-          +          onProgress: (progress) {
-          +            setState(() {
-          +              loadingPercentage = progress;
-          +            });
-          +          },
-          +          onPageFinished: (url) {
-          +            setState(() {
-          +              loadingPercentage = 100;
-          +            });
-          +          },
-          +          onNavigationRequest: (navigation) {
-          +            final host = Uri.parse(navigation.url).host;
-          +            if (host.contains('youtube.com')) {
-          +              ScaffoldMessenger.of(context).showSnackBar(
-          +                SnackBar(
-          +                  content: Text(
-          +                    'Blocking navigation to $host',
-          +                  ),
-                           ),
-          -              ),
-          -            );
-          -            return NavigationDecision.prevent;
-          -          }
-          -          return NavigationDecision.navigate;
-          -        },
-          -      ),
-          -    );
-          +              );
-          +              return NavigationDecision.prevent;
-          +            }
-          +            return NavigationDecision.navigate;
-          +          },
-          +        ),
-          +      )
-          +      ..setJavaScriptMode(JavaScriptMode.unrestricted);
+          @@ -55,6 +55,7 @@ class _WebViewStackState extends State<WebViewStack> {
+                   },
+                 ),
+               ));
+          +    unawaited(widget.controller.setJavaScriptMode(JavaScriptMode.unrestricted));
              }
            
              @override
-      - name: Build iOS
-        platforms: [ macos ]
-        path: webview_in_flutter
-        flutter: build ios
-      - name: Build Android
-        platforms: [ macos ]
-        path: webview_in_flutter
-        flutter: build apk
       - name: Copy step_09
         copydir:
           from: webview_in_flutter
@@ -734,26 +665,20 @@ steps:
         patch-u: |
           --- b/webview_flutter/step_10/lib/src/web_view_stack.dart
           +++ a/webview_flutter/step_10/lib/src/web_view_stack.dart
-          @@ -54,7 +54,14 @@ class _WebViewStackState extends State<WebViewStack> {
-                     },
-                   ),
-                 )
-          -      ..setJavaScriptMode(JavaScriptMode.unrestricted);
-          +      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-          +      ..addJavaScriptChannel(
-          +        'SnackBar',
-          +        onMessageReceived: (message) {
-          +          ScaffoldMessenger.of(context)
-          +              .showSnackBar(SnackBar(content: Text(message.message)));
-          +        },
-          +      );
+          @@ -56,6 +56,13 @@ class _WebViewStackState extends State<WebViewStack> {
+                 ),
+               ));
+               unawaited(widget.controller.setJavaScriptMode(JavaScriptMode.unrestricted));
+          +    unawaited(widget.controller.addJavaScriptChannel(
+          +      'SnackBar',
+          +      onMessageReceived: (message) {
+          +        ScaffoldMessenger.of(context)
+          +            .showSnackBar(SnackBar(content: Text(message.message)));
+          +      },
+          +    ));
              }
            
              @override
-      - name: Build iOS
-        platforms: [ macos ]
-        path: webview_in_flutter
-        flutter: build ios
       - name: Copy step_10
         copydir:
           from: webview_in_flutter

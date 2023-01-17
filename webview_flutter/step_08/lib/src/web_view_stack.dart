@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -20,7 +22,7 @@ class _WebViewStackState extends State<WebViewStack> {
   @override
   void initState() {
     super.initState();
-    widget.controller.setNavigationDelegate(
+    unawaited(widget.controller.setNavigationDelegate(
       NavigationDelegate(
         onPageStarted: (url) {
           setState(() {
@@ -52,7 +54,7 @@ class _WebViewStackState extends State<WebViewStack> {
           return NavigationDecision.navigate;
         },
       ),
-    );
+    ));
   }
 
   @override
