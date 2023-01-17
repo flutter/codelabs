@@ -19,22 +19,21 @@ class ExampleExpandableFab extends StatelessWidget {
 
   const ExampleExpandableFab({super.key});
 
-  void _showAction(BuildContext context, int index) {
-    showDialog<void>(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          content: Text(_actionTitles[index]),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('CLOSE'),
-            ),
-          ],
-        );
-      },
-    );
-  }
+  Future<void> _showAction(BuildContext context, int index) async =>
+      showDialog<void>(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: Text(_actionTitles[index]),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text('CLOSE'),
+              ),
+            ],
+          );
+        },
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -53,15 +52,15 @@ class ExampleExpandableFab extends StatelessWidget {
         distance: 112.0,
         children: [
           ActionButton(
-            onPressed: () => _showAction(context, 0),
+            onPressed: () async => _showAction(context, 0),
             icon: const Icon(Icons.format_size),
           ),
           ActionButton(
-            onPressed: () => _showAction(context, 1),
+            onPressed: () async => _showAction(context, 1),
             icon: const Icon(Icons.insert_photo),
           ),
           ActionButton(
-            onPressed: () => _showAction(context, 2),
+            onPressed: () async => _showAction(context, 2),
             icon: const Icon(Icons.videocam),
           ),
         ],

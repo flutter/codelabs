@@ -116,13 +116,11 @@ class _FilterSelectorState extends State<FilterSelector> {
     widget.onFilterChanged(widget.filters[page]);
   }
 
-  void _onFilterTapped(int index) {
-    _controller.animateToPage(
-      index,
-      duration: const Duration(milliseconds: 450),
-      curve: Curves.ease,
-    );
-  }
+  Future<void> _onFilterTapped(int index) async => _controller.animateToPage(
+        index,
+        duration: const Duration(milliseconds: 450),
+        curve: Curves.ease,
+      );
 
   @override
   void dispose() {
@@ -217,7 +215,7 @@ class _FilterSelectorState extends State<FilterSelector> {
                     opacity: opacity,
                     child: FilterItem(
                       color: itemColor(index),
-                      onFilterSelected: () => _onFilterTapped(index),
+                      onFilterSelected: () async => _onFilterTapped(index),
                     ),
                   ),
                 );

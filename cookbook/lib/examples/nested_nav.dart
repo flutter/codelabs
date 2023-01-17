@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:async';
 import 'package:flutter/material.dart';
 
 const routeHome = '/';
@@ -78,17 +79,14 @@ class SetupFlowState extends State<SetupFlow> {
     super.initState();
   }
 
-  void _onDiscoveryComplete() {
-    _navigatorKey.currentState!.pushNamed(routeDeviceSetupSelectDevicePage);
-  }
+  Future<void> _onDiscoveryComplete() async =>
+      _navigatorKey.currentState!.pushNamed(routeDeviceSetupSelectDevicePage);
 
-  void _onDeviceSelected(String deviceId) {
-    _navigatorKey.currentState!.pushNamed(routeDeviceSetupConnectingPage);
-  }
+  Future<void> _onDeviceSelected(String deviceId) async =>
+      _navigatorKey.currentState!.pushNamed(routeDeviceSetupConnectingPage);
 
-  void _onConnectionEstablished() {
-    _navigatorKey.currentState!.pushNamed(routeDeviceSetupFinishedPage);
-  }
+  Future<void> _onConnectionEstablished() async =>
+      _navigatorKey.currentState!.pushNamed(routeDeviceSetupFinishedPage);
 
   Future<void> _onExitPressed() async {
     final isConfirmed = await _isExitDesired();
@@ -258,7 +256,7 @@ class _WaitingPageState extends State<WaitingPage> {
   @override
   void initState() {
     super.initState();
-    _startWaiting();
+    unawaited(_startWaiting());
   }
 
   Future<void> _startWaiting() async {
@@ -405,9 +403,8 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).pushNamed(routeDeviceSetupStart);
-        },
+        onPressed: () async =>
+            Navigator.of(context).pushNamed(routeDeviceSetupStart),
         child: const Icon(Icons.add),
       ),
     );
@@ -419,9 +416,7 @@ class HomeScreen extends StatelessWidget {
       actions: [
         IconButton(
           icon: const Icon(Icons.settings),
-          onPressed: () {
-            Navigator.pushNamed(context, routeSettings);
-          },
+          onPressed: () async => Navigator.pushNamed(context, routeSettings),
         ),
       ],
     );
