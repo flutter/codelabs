@@ -16,6 +16,7 @@ class StarCounterApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         brightness: Brightness.light,
+        useMaterial3: true,
       ),
       routes: {
         '/': (context) => const HomePage(),
