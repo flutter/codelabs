@@ -35,13 +35,12 @@ class AppState {
     }
   }
 
-  void writeEntryToFirebase(Entry entry) {
-    FirebaseFirestore.instance.collection('Entries').add(<String, String>{
-      'title': entry.title,
-      'date': entry.date.toString(),
-      'text': entry.text,
-    });
-  }
+  Future<void> writeEntryToFirebase(Entry entry) =>
+      FirebaseFirestore.instance.collection('Entries').add(<String, String>{
+        'title': entry.title,
+        'date': entry.date.toString(),
+        'text': entry.text,
+      });
 
   void _listenForEntries() {
     FirebaseFirestore.instance
@@ -61,9 +60,7 @@ class AppState {
     });
   }
 
-  void dispose() {
-    _entriesStreamController.close();
-  }
+  Future<void> dispose() => _entriesStreamController.close();
 }
 
 const lorem =

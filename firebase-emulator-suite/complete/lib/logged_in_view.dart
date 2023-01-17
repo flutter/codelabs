@@ -42,9 +42,7 @@ class LoggedInView extends StatelessWidget {
                       children: [
                         EntryForm(
                           key: Key('${Random().nextDouble()}'),
-                          onSubmit: (e) {
-                            state.writeEntryToFirebase(e);
-                          },
+                          onSubmit: (e) async => state.writeEntryToFirebase(e),
                         ),
                         for (var entry in allEntries!)
                           EntryView(
