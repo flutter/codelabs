@@ -34,9 +34,7 @@ class HomePage extends StatelessWidget {
           Consumer<ApplicationState>(
             builder: (context, appState, _) => AuthFunc(
               loggedIn: appState.loggedIn,
-              signOut: () {
-                FirebaseAuth.instance.signOut();
-              },
+              signOut: () async => FirebaseAuth.instance.signOut(),
               enableFreeSwag: appState.enableFreeSwag,
             ),
           ),
@@ -70,7 +68,7 @@ class HomePage extends StatelessWidget {
                   ),
                   const Header('Discussion'),
                   GuestBook(
-                    addMessage: (message) =>
+                    addMessage: (message) async =>
                         appState.addMessageToGuestBook(message),
                     messages: appState.guestBookMessages,
                   ),

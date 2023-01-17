@@ -18,7 +18,7 @@ enum Attending { yes, no, unknown }
 
 class ApplicationState extends ChangeNotifier {
   ApplicationState() {
-    init();
+    unawaited(init());
   }
 
   bool _loggedIn = false;
@@ -71,9 +71,9 @@ class ApplicationState extends ChangeNotifier {
         .collection('attendees')
         .doc(FirebaseAuth.instance.currentUser!.uid);
     if (attending == Attending.yes) {
-      userDoc.set(<String, dynamic>{'attending': true});
+      unawaited(userDoc.set(<String, dynamic>{'attending': true}));
     } else {
-      userDoc.set(<String, dynamic>{'attending': false});
+      unawaited(userDoc.set(<String, dynamic>{'attending': false}));
     }
   }
 

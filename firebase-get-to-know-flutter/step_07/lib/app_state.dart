@@ -16,7 +16,7 @@ import 'guest_book_message.dart';
 
 class ApplicationState extends ChangeNotifier {
   ApplicationState() {
-    init();
+    unawaited(init());
   }
 
   bool _loggedIn = false;

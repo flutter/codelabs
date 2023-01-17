@@ -29,10 +29,9 @@ class HomePage extends StatelessWidget {
           const IconAndDetail(Icons.location_city, 'San Francisco'),
           Consumer<ApplicationState>(
             builder: (context, appState, _) => AuthFunc(
-                loggedIn: appState.loggedIn,
-                signOut: () {
-                  FirebaseAuth.instance.signOut();
-                }),
+              loggedIn: appState.loggedIn,
+              signOut: () async => FirebaseAuth.instance.signOut(),
+            ),
           ),
           const Divider(
             height: 8,
@@ -52,7 +51,7 @@ class HomePage extends StatelessWidget {
                 if (appState.loggedIn) ...[
                   const Header('Discussion'),
                   GuestBook(
-                    addMessage: (message) =>
+                    addMessage: (message) async =>
                         appState.addMessageToGuestBook(message),
                   ),
                 ],
