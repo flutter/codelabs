@@ -2,6 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'dart:async';
 import 'dart:io' show Platform;
 
 import 'package:extension_google_sign_in_as_googleapis_auth/extension_google_sign_in_as_googleapis_auth.dart';
@@ -73,9 +74,9 @@ class _GoogleSignInLoginState extends State<_GoogleSignInLogin> {
     _googleSignIn = GoogleSignIn(
       scopes: widget.scopes,
     );
-    _googleSignIn.onCurrentUserChanged.listen((account) {
+    _googleSignIn.onCurrentUserChanged.listen((account) async {
       if (account != null) {
-        _googleSignIn.authenticatedClient().then((authClient) {
+        await _googleSignIn.authenticatedClient().then((authClient) {
           if (authClient != null) {
             context.read<AuthedUserPlaylists>().authClient = authClient;
             context.go('/');
@@ -91,8 +92,8 @@ class _GoogleSignInLoginState extends State<_GoogleSignInLogin> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: widget.button(onPressed: () {
-          _googleSignIn.signIn();
+        child: widget.button(onPressed: () async {
+          await _googleSignIn.signIn();
         }),
       ),
     );
@@ -118,14 +119,14 @@ class _GoogleApisAuthLoginState extends State<_GoogleApisAuthLogin> {
   @override
   initState() {
     super.initState();
-    clientViaUserConsent(widget.clientId, widget.scopes, (url) {
+    unawaited(clientViaUserConsent(widget.clientId, widget.scopes, (url) {
       setState(() {
         _authUrl = Uri.parse(url);
       });
     }).then((authClient) {
       context.read<AuthedUserPlaylists>().authClient = authClient;
       context.go('/');
-    });
+    }));
   }
 
   Uri? _authUrl;

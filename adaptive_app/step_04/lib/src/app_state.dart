@@ -2,6 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'dart:async';
 import 'dart:collection';
 
 import 'package:flutter/foundation.dart';
@@ -19,7 +20,7 @@ class FlutterDevPlaylists extends ChangeNotifier {
         key: youTubeApiKey,
       ),
     );
-    _loadPlaylists();
+    unawaited(_loadPlaylists());
   }
 
   Future<void> _loadPlaylists() async {
@@ -51,7 +52,7 @@ class FlutterDevPlaylists extends ChangeNotifier {
   List<PlaylistItem> playlistItems({required String playlistId}) {
     if (!_playlistItems.containsKey(playlistId)) {
       _playlistItems[playlistId] = [];
-      _retrievePlaylist(playlistId);
+      unawaited(_retrievePlaylist(playlistId));
     }
     return UnmodifiableListView(_playlistItems[playlistId]!);
   }

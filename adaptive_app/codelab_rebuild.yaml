@@ -324,8 +324,14 @@ steps:
             Widget build(BuildContext context) {
               return MaterialApp.router(
                 title: 'FlutterDev Playlists',
-                theme: FlexColorScheme.light(scheme: FlexScheme.red).toTheme,
-                darkTheme: FlexColorScheme.dark(scheme: FlexScheme.red).toTheme,
+                theme: FlexColorScheme.light(
+                  scheme: FlexScheme.red,
+                  useMaterial3: true,
+                ).toTheme,
+                darkTheme: FlexColorScheme.dark(
+                  scheme: FlexScheme.red,
+                  useMaterial3: true,
+                ).toTheme,
                 themeMode: ThemeMode.dark, // Or ThemeMode.System if you'd prefer
                 debugShowCheckedModeBanner: false,
                 routerConfig: _router,
@@ -342,12 +348,13 @@ steps:
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
           
+          import 'dart:async';
           import 'dart:collection';
-
+          
           import 'package:flutter/foundation.dart';
           import 'package:googleapis/youtube/v3.dart';
           import 'package:http/http.dart' as http;
-
+          
           class FlutterDevPlaylists extends ChangeNotifier {
             FlutterDevPlaylists({
               required String flutterDevAccountId,
@@ -359,13 +366,13 @@ steps:
                   key: youTubeApiKey,
                 ),
               );
-              _loadPlaylists();
+              unawaited(_loadPlaylists());
             }
-
+          
             Future<void> _loadPlaylists() async {
               String? nextPageToken;
               _playlists.clear();
-
+          
               do {
                 final response = await _api.playlists.list(
                   ['snippet', 'contentDetails', 'id'],
@@ -380,22 +387,22 @@ steps:
                 notifyListeners();
               } while (nextPageToken != null);
             }
-
+          
             final String _flutterDevAccountId;
             late final YouTubeApi _api;
-
+          
             final List<Playlist> _playlists = [];
             List<Playlist> get playlists => UnmodifiableListView(_playlists);
-
+          
             final Map<String, List<PlaylistItem>> _playlistItems = {};
             List<PlaylistItem> playlistItems({required String playlistId}) {
               if (!_playlistItems.containsKey(playlistId)) {
                 _playlistItems[playlistId] = [];
-                _retrievePlaylist(playlistId);
+                unawaited(_retrievePlaylist(playlistId));
               }
               return UnmodifiableListView(_playlistItems[playlistId]!);
             }
-
+          
             Future<void> _retrievePlaylist(String playlistId) async {
               String? nextPageToken;
               do {
@@ -414,20 +421,20 @@ steps:
               } while (nextPageToken != null);
             }
           }
-
+          
           class _ApiKeyClient extends http.BaseClient {
             _ApiKeyClient({required this.key, required this.client});
-
+          
             final String key;
             final http.Client client;
-
+          
             @override
             Future<http.StreamedResponse> send(http.BaseRequest request) {
               final url = request.url.replace(queryParameters: <String, List<String>>{
                 ...request.url.queryParametersAll,
                 'key': [key]
               });
-
+          
               return client.send(http.Request(request.method, url));
             }
           }
@@ -1282,6 +1289,7 @@ steps:
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
           
+          import 'dart:async';
           import 'dart:io' show Platform;
           
           import 'package:extension_google_sign_in_as_googleapis_auth/extension_google_sign_in_as_googleapis_auth.dart';
@@ -1353,9 +1361,9 @@ steps:
               _googleSignIn = GoogleSignIn(
                 scopes: widget.scopes,
               );
-              _googleSignIn.onCurrentUserChanged.listen((account) {
+              _googleSignIn.onCurrentUserChanged.listen((account) async {
                 if (account != null) {
-                  _googleSignIn.authenticatedClient().then((authClient) {
+                  await _googleSignIn.authenticatedClient().then((authClient) {
                     if (authClient != null) {
                       context.read<AuthedUserPlaylists>().authClient = authClient;
                       context.go('/');
@@ -1371,8 +1379,8 @@ steps:
             Widget build(BuildContext context) {
               return Scaffold(
                 body: Center(
-                  child: widget.button(onPressed: () {
-                    _googleSignIn.signIn();
+                  child: widget.button(onPressed: () async {
+                    await _googleSignIn.signIn();
                   }),
                 ),
               );
@@ -1398,14 +1406,14 @@ steps:
             @override
             initState() {
               super.initState();
-              clientViaUserConsent(widget.clientId, widget.scopes, (url) {
+              unawaited(clientViaUserConsent(widget.clientId, widget.scopes, (url) {
                 setState(() {
                   _authUrl = Uri.parse(url);
                 });
               }).then((authClient) {
                 context.read<AuthedUserPlaylists>().authClient = authClient;
                 context.go('/');
-              });
+              }));
             }
           
             Uri? _authUrl;
@@ -1545,9 +1553,9 @@ steps:
                return MaterialApp.router(
           -      title: 'FlutterDev Playlists',
           +      title: 'Your Playlists',
-                 theme: FlexColorScheme.light(scheme: FlexScheme.red).toTheme,
-                 darkTheme: FlexColorScheme.dark(scheme: FlexScheme.red).toTheme,
-                 themeMode: ThemeMode.dark, // Or ThemeMode.System if you'd prefer
+                 theme: FlexColorScheme.light(
+                   scheme: FlexScheme.red,
+                   useMaterial3: true,
       - name: Patch lib/src/adaptive_playlists.dart
         path: adaptive_app/lib/src/adaptive_playlists.dart
         patch-u: |
@@ -1578,7 +1586,7 @@ steps:
         patch-u: |
           --- b/adaptive_app/step_07/lib/src/app_state.dart
           +++ a/adaptive_app/step_07/lib/src/app_state.dart
-          @@ -8,28 +8,22 @@ import 'package:flutter/foundation.dart';
+          @@ -9,28 +9,22 @@ import 'package:flutter/foundation.dart';
            import 'package:googleapis/youtube/v3.dart';
            import 'package:http/http.dart' as http;
            
@@ -1596,7 +1604,7 @@ steps:
           +class AuthedUserPlaylists extends ChangeNotifier {
           +  set authClient(http.Client client) {
           +    _api = YouTubeApi(client);
-               _loadPlaylists();
+               unawaited(_loadPlaylists());
              }
            
           +  bool get isLoggedIn => _api != null;
@@ -1614,7 +1622,7 @@ steps:
                    maxResults: 50,
                    pageToken: nextPageToken,
                  );
-          @@ -41,8 +35,7 @@ class FlutterDevPlaylists extends ChangeNotifier {
+          @@ -42,8 +36,7 @@ class FlutterDevPlaylists extends ChangeNotifier {
                } while (nextPageToken != null);
              }
            
@@ -1624,7 +1632,7 @@ steps:
            
              final List<Playlist> _playlists = [];
              List<Playlist> get playlists => UnmodifiableListView(_playlists);
-          @@ -59,7 +52,7 @@ class FlutterDevPlaylists extends ChangeNotifier {
+          @@ -60,7 +53,7 @@ class FlutterDevPlaylists extends ChangeNotifier {
              Future<void> _retrievePlaylist(String playlistId) async {
                String? nextPageToken;
                do {
@@ -1633,7 +1641,7 @@ steps:
                    ['snippet', 'contentDetails'],
                    playlistId: playlistId,
                    maxResults: 25,
-          @@ -74,20 +67,3 @@ class FlutterDevPlaylists extends ChangeNotifier {
+          @@ -75,20 +68,3 @@ class FlutterDevPlaylists extends ChangeNotifier {
                } while (nextPageToken != null);
              }
            }
