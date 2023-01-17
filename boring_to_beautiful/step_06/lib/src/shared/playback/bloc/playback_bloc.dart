@@ -50,7 +50,7 @@ class PlaybackBloc extends Bloc<PlaybackEvent, PlaybackState> {
     emit(state.copyWith(isPlaying: !state.isPlaying));
   }
 
-  void _pausePlayback() => _currentlyPlayingSubscription!.cancel();
+  void _pausePlayback() => unawaited(_currentlyPlayingSubscription!.cancel());
 
   void _resumePlayback() => _currentlyPlayingSubscription =
       _startPlayingStream().listen(_handlePlaybackProgress);

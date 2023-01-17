@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'dart:async';
+
 import 'package:desktop_window/desktop_window.dart';
 import 'package:flutter/material.dart';
 import 'package:universal_platform/universal_platform.dart';
@@ -17,7 +19,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
   if (UniversalPlatform.isDesktop) {
-    setDesktopWindow();
+    unawaited(setDesktopWindow());
   }
 
   runApp(const MyApp());

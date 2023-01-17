@@ -113,7 +113,7 @@ class ArtistEvents extends StatelessWidget {
                 decoration: TextDecoration.underline,
               ),
             ),
-            onTap: () => launchUrl(Uri.parse('https://docs.flutter.dev')),
+            onTap: () async => launchUrl(Uri.parse('https://docs.flutter.dev')),
           ),
         ),
       ]),
