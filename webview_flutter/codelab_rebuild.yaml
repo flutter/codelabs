@@ -329,9 +329,7 @@ steps:
                   ),
                   IconButton(
                     icon: const Icon(Icons.replay),
-                    onPressed: () {
-                      controller.reload();
-                    },
+                    onPressed: () async => controller.reload(),
                   ),
                 ],
               );
@@ -342,9 +340,12 @@ steps:
         patch-u: |
           --- b/webview_flutter/step_06/lib/main.dart
           +++ a/webview_flutter/step_06/lib/main.dart
-          @@ -3,7 +3,9 @@
+          @@ -2,8 +2,12 @@
+           // Use of this source code is governed by a BSD-style license that can be
            // found in the LICENSE file.
            
+          +import 'dart:async';
+          +
            import 'package:flutter/material.dart';
           +import 'package:webview_flutter/webview_flutter.dart';
            
@@ -352,7 +353,7 @@ steps:
            import 'src/web_view_stack.dart';
            
            void main() {
-          @@ -22,13 +24,27 @@ class WebViewApp extends StatefulWidget {
+          @@ -22,13 +26,25 @@ class WebViewApp extends StatefulWidget {
            }
            
            class _WebViewAppState extends State<WebViewApp> {
@@ -361,10 +362,8 @@ steps:
           +  @override
           +  void initState() {
           +    super.initState();
-          +    controller = WebViewController()
-          +      ..loadRequest(
-          +        Uri.parse('https://flutter.dev'),
-          +      );
+          +    controller = WebViewController();
+          +    unawaited(controller.loadRequest(Uri.parse('https://flutter.dev')));
           +  }
           +
              @override
@@ -516,7 +515,7 @@ steps:
         patch-u: |
           --- b/webview_flutter/step_08/lib/main.dart
           +++ a/webview_flutter/step_08/lib/main.dart
-          @@ -5,6 +5,7 @@
+          @@ -7,6 +7,7 @@ import 'dart:async';
            import 'package:flutter/material.dart';
            import 'package:webview_flutter/webview_flutter.dart';
            

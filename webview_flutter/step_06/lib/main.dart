@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -29,10 +31,8 @@ class _WebViewAppState extends State<WebViewApp> {
   @override
   void initState() {
     super.initState();
-    controller = WebViewController()
-      ..loadRequest(
-        Uri.parse('https://flutter.dev'),
-      );
+    controller = WebViewController();
+    unawaited(controller.loadRequest(Uri.parse('https://flutter.dev')));
   }
 
   @override
