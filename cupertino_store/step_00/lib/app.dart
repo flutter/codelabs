@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 
@@ -22,8 +23,8 @@ class CupertinoStoreApp extends StatelessWidget {
   Widget build(BuildContext context) {
     // This app is designed only to work vertically, so we limit
     // orientations to portrait up and down.
-    SystemChrome.setPreferredOrientations(
-        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+    unawaited(SystemChrome.setPreferredOrientations(
+        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]));
 
     return const CupertinoApp(
       theme: CupertinoThemeData(brightness: Brightness.light),

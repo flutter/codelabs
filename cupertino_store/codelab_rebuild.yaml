@@ -2,10 +2,10 @@ name: Cupertino Store script
 steps:
   - name: step_00
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_00
-      - name: Create project.
-        flutter: create cupertino_store
+      - name: Create project
+        flutter: create cupertino_store --platforms=ios
       - name: Configure analysis_options.yaml
         path: cupertino_store/analysis_options.yaml
         replace-contents: |
@@ -98,14 +98,6 @@ steps:
           +    - packages/shrine_images/37-0.jpg
       - name: Remove the README.md.
         rm: cupertino_store/README.md
-      - name: Remove the Android, Web, and Desktop runners
-        path: cupertino_store
-        rmdirs:
-          - android 
-          - linux 
-          - macos 
-          - web 
-          - windows
       - name: Replace lib/main.dart
         path: cupertino_store/lib/main.dart
         replace-contents: |
@@ -165,30 +157,31 @@ steps:
           // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
           // See the License for the specific language governing permissions and
           // limitations under the License.
-
+          
+          import 'dart:async';
           import 'package:flutter/cupertino.dart';
           import 'package:flutter/services.dart';
-
+          
           class CupertinoStoreApp extends StatelessWidget {
             const CupertinoStoreApp({super.key});
-
+          
             @override
             Widget build(BuildContext context) {
               // This app is designed only to work vertically, so we limit
               // orientations to portrait up and down.
-              SystemChrome.setPreferredOrientations(
-                  [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-
+              unawaited(SystemChrome.setPreferredOrientations(
+                  [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]));
+          
               return const CupertinoApp(
                 theme: CupertinoThemeData(brightness: Brightness.light),
                 home: CupertinoStoreHomePage(),
               );
             }
           }
-
+          
           class CupertinoStoreHomePage extends StatelessWidget {
             const CupertinoStoreHomePage({super.key});
-
+          
             @override
             Widget build(BuildContext context) {
               return const CupertinoPageScaffold(
@@ -294,8 +287,8 @@ steps:
         patch-u: |
           --- b/cupertino_store/step_01/lib/app.dart
           +++ a/cupertino_store/step_01/lib/app.dart
-          @@ -14,6 +14,9 @@
-           
+          @@ -15,6 +15,9 @@
+           import 'dart:async';
            import 'package:flutter/cupertino.dart';
            import 'package:flutter/services.dart';
           +import 'product_list_tab.dart';
@@ -304,7 +297,7 @@ steps:
            
            class CupertinoStoreApp extends StatelessWidget {
              const CupertinoStoreApp({super.key});
-          @@ -37,11 +40,50 @@ class CupertinoStoreHomePage extends StatelessWidget {
+          @@ -38,11 +41,50 @@ class CupertinoStoreHomePage extends StatelessWidget {
            
              @override
              Widget build(BuildContext context) {
