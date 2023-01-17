@@ -7,3 +7,4 @@ analyzer:
 
 linter:
   rules:
+    discarded_futures: false
