@@ -52,6 +52,7 @@ class _PlaneStrikeState extends State<PlaneStrike>
       title: 'TFAgents Flutter Sample App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        useMaterial3: true,
       ),
       home: _buildGameBody(),
     );
