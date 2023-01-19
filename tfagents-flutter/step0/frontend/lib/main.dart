@@ -208,7 +208,7 @@ class _PlaneStrikeState extends State<PlaneStrike>
                 Padding(
                   padding: const EdgeInsets.only(
                       left: 0, top: 20, right: 0, bottom: 0),
-                  child: ElevatedButton(
+                  child: FilledButton(
                     onPressed: () {
                       _resetGame();
                       setState(() {});
