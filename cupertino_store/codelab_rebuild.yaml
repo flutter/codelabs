@@ -2,10 +2,13 @@ name: Cupertino Store script
 steps:
   - name: step_00
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_00
-      - name: Create project.
+      - name: Create project
         flutter: create cupertino_store --platforms=ios
+      - name: Strip DEVELOPMENT_TEAM
+        strip-lines-containing: DEVELOPMENT_TEAM =
+        path: cupertino_store/ios/Runner.xcodeproj/project.pbxproj
       - name: Configure analysis_options.yaml
         path: cupertino_store/analysis_options.yaml
         replace-contents: |
@@ -102,7 +105,7 @@ steps:
           +    - packages/shrine_images/35-0.jpg
           +    - packages/shrine_images/36-0.jpg
           +    - packages/shrine_images/37-0.jpg
-      - name: Remove the README.md.
+      - name: Remove the README.md
         rm: cupertino_store/README.md
       - name: Replace lib/main.dart
         path: cupertino_store/lib/main.dart

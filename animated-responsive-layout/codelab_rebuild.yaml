@@ -44,34 +44,8 @@ steps:
             });
           }
       - name: Strip DEVELOPMENT_TEAM
+        strip-lines-containing: DEVELOPMENT_TEAM =
         path: animated_responsive_layout/ios/Runner.xcodeproj/project.pbxproj
-        patch-u: |
-          --- b/material-3-codelab/step_03/ios/Runner.xcodeproj/project.pbxproj
-          +++ a/material-3-codelab/step_03/ios/Runner.xcodeproj/project.pbxproj
-          @@ -290,7 +290,6 @@
-           				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-           				CLANG_ENABLE_MODULES = YES;
-           				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
-          -				DEVELOPMENT_TEAM = TC87DMJLQP;
-           				ENABLE_BITCODE = NO;
-           				INFOPLIST_FILE = Runner/Info.plist;
-           				LD_RUNPATH_SEARCH_PATHS = (
-          @@ -419,7 +418,6 @@
-           				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-           				CLANG_ENABLE_MODULES = YES;
-           				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
-          -				DEVELOPMENT_TEAM = TC87DMJLQP;
-           				ENABLE_BITCODE = NO;
-           				INFOPLIST_FILE = Runner/Info.plist;
-           				LD_RUNPATH_SEARCH_PATHS = (
-          @@ -442,7 +440,6 @@
-           				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-           				CLANG_ENABLE_MODULES = YES;
-           				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
-          -				DEVELOPMENT_TEAM = TC87DMJLQP;
-           				ENABLE_BITCODE = NO;
-           				INFOPLIST_FILE = Runner/Info.plist;
-           				LD_RUNPATH_SEARCH_PATHS = (
       - name: Build iOS simulator bundle
         platforms: [ macos ]
         path: animated_responsive_layout

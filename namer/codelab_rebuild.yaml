@@ -2,10 +2,13 @@ name: Your first Flutter app (updated for 2023)
 steps:
   - name: step_03
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_03
-      - name: Create project.
+      - name: Create project
         flutter: create namer_app
+      - name: Strip DEVELOPMENT_TEAM
+        strip-lines-containing: DEVELOPMENT_TEAM =
+        path: namer_app/ios/Runner.xcodeproj/project.pbxproj
       - name: Replace pubspec.yaml
         path: namer_app/pubspec.yaml
         replace-contents: |
@@ -136,7 +139,7 @@ steps:
         flutter: clean
   - name: step_04_a_widget
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_04_a_widget
       - name: Add button code
         path: namer_app/lib/main.dart
@@ -156,14 +159,13 @@ steps:
                    ],
                  ),
                );
-
       - name: Copy step_04_a_widget
         copydir:
           from: namer_app 
           to: step_04_a_widget
   - name: step_04_b_behavior
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_04_b_behavior
       - name: Add button behavior
         path: namer_app/lib/main.dart
@@ -253,7 +255,7 @@ steps:
           to: step_04_b_behavior
   - name: step_05_a_pair
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_05_a_pair
       - name: Introduce pair variable
         path: namer_app/lib/main.dart
@@ -281,7 +283,7 @@ steps:
           to: step_05_a_pair
   - name: step_05_b_extract
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_05_b_extract
       - name: Extract BigCard
         path: namer_app/lib/main.dart
@@ -343,7 +345,7 @@ steps:
           to: step_05_b_extract
   - name: step_05_c_card_padding
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_05_c_card_padding
       - name: Add Card and Padding
         path: namer_app/lib/main.dart
@@ -369,7 +371,7 @@ steps:
           to: step_05_c_card_padding
   - name: step_05_d_theme
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_05_d_theme
       - name: Add Theme
         path: namer_app/lib/main.dart
@@ -393,7 +395,7 @@ steps:
           to: step_05_d_theme
   - name: step_05_e_text_style
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_05_e_text_style
       - name: Add textStyle
         path: namer_app/lib/main.dart
@@ -423,7 +425,7 @@ steps:
           to: step_05_e_text_style
   - name: step_05_f_accessibility
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_05_f_accessibility
       - name: Add semanticsLabel
         path: namer_app/lib/main.dart
@@ -457,7 +459,7 @@ steps:
           to: step_05_f_accessibility
   - name: step_05_g_center_vertical
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_05_g_center_vertical
       - name: Center column vertically
         path: namer_app/lib/main.dart
@@ -478,7 +480,7 @@ steps:
           to: step_05_g_center_vertical
   - name: step_05_h_center_horizontal
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_05_h_center_horizontal
       - name: Center column horizontally
         path: namer_app/lib/main.dart
@@ -524,7 +526,7 @@ steps:
           to: step_05_h_center_horizontal
   - name: step_05_i_optional_changes
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_05_i_optional_changes
       - name: Remove text, add SizedBox
         path: namer_app/lib/main.dart
@@ -561,7 +563,7 @@ steps:
           to: step_05_i_optional_changes
   - name: step_06_a_business_logic
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_06_a_business_logic
       - name: Add 'Like' button business logic
         path: namer_app/lib/main.dart
@@ -592,7 +594,7 @@ steps:
           to: step_06_a_business_logic
   - name: step_06_b_add_row
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_06_b_add_row
       - name: Add row for buttons
         path: namer_app/lib/main.dart
@@ -627,7 +629,7 @@ steps:
           to: step_06_b_add_row
   - name: step_06_c_add_like_button
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_06_c_add_like_button
       - name: Add 'Like' button to UI
         path: namer_app/lib/main.dart
@@ -701,7 +703,7 @@ steps:
           to: step_06_c_add_like_button
   - name: step_07_a_split_my_home_page
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_07_a_split_my_home_page
       - name: Split MyHomePage into two widgets
         path: namer_app/lib/main.dart
@@ -819,7 +821,7 @@ steps:
           to: step_07_a_split_my_home_page
   - name: step_07_b_convert_to_stateful
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_07_b_convert_to_stateful
       - name: Convert MyHomePage to StatefulWidget
         path: namer_app/lib/main.dart
@@ -846,7 +848,7 @@ steps:
           to: step_07_b_convert_to_stateful
   - name: step_07_c_add_selectedindex
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_07_c_add_selectedindex
       - name: Add selectedIndex
         path: namer_app/lib/main.dart
@@ -882,7 +884,7 @@ steps:
           to: step_07_c_add_selectedindex
   - name: step_07_d_use_selectedindex
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_07_d_use_selectedindex
       - name: Use selectedIndex
         path: namer_app/lib/main.dart
@@ -923,7 +925,7 @@ steps:
           to: step_07_d_use_selectedindex
   - name: step_07_e_add_layout_builder
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_07_e_add_layout_builder
       - name: Add LayoutBuilder
         path: namer_app/lib/main.dart
@@ -1008,7 +1010,7 @@ steps:
           to: step_07_e_add_layout_builder
   - name: step_08
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_08
       - name: Add FavoritesPage
         path: namer_app/lib/main.dart
