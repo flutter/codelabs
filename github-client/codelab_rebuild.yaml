@@ -2,7 +2,7 @@ name: GitHub Desktop Client
 steps:
   - name: Rebuild window_to_front
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: window_to_front
       - name: Create window_to_front
         flutter: create -t plugin --platforms=linux,macos,windows window_to_front
@@ -13,7 +13,7 @@ steps:
       - name: Remove example code
         path: window_to_front
         rmdir: example
-      - name: Remove the README.md.
+      - name: Remove the README.md
         path: window_to_front
         rm: README.md
       - name: Remove tests
@@ -374,9 +374,9 @@ steps:
            }  // namespace window_to_front
   - name: step_03
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_03
-      - name: Create project.
+      - name: Create project
         flutter: create github_client
       - name: Configure analysis_options.yaml
         path: github_client/analysis_options.yaml
@@ -450,7 +450,7 @@ steps:
           to: step_03
   - name: step_04
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_04
       - name: Add http oauth2 url_launcher
         path: github_client
@@ -471,18 +471,18 @@ steps:
           // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
           // See the License for the specific language governing permissions and
           // limitations under the License.
-
+          
           import 'package:flutter/material.dart';
           import 'github_oauth_credentials.dart';
           import 'src/github_login.dart';
-
+          
           void main() {
             runApp(const MyApp());
           }
-
+          
           class MyApp extends StatelessWidget {
             const MyApp({super.key});
-
+          
             @override
             Widget build(BuildContext context) {
               return MaterialApp(
@@ -490,16 +490,17 @@ steps:
                 theme: ThemeData(
                   primarySwatch: Colors.blue,
                   visualDensity: VisualDensity.adaptivePlatformDensity,
+                  useMaterial3: true,
                 ),
                 home: const MyHomePage(title: 'GitHub Client'),
               );
             }
           }
-
+          
           class MyHomePage extends StatelessWidget {
             const MyHomePage({super.key, required this.title});
             final String title;
-
+          
             @override
             Widget build(BuildContext context) {
               return GithubLoginWidget(
@@ -507,6 +508,7 @@ steps:
                   return Scaffold(
                     appBar: AppBar(
                       title: Text(title),
+                      elevation: 2,
                     ),
                     body: const Center(
                       child: Text(
@@ -757,86 +759,100 @@ steps:
           to: step_04
   - name: step_05
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_05
       - name: Add dependencies
         path: github_client
         flutter: pub add github
       - name: Patch lib/main.dart
         path: github_client/lib/main.dart
-        patch: |
-          15a16,17
-          > import 'package:github/github.dart';
-          > 
-          47,55c49,64
-          <         return Scaffold(
-          <           appBar: AppBar(
-          <             title: Text(title),
-          <           ),
-          <           body: const Center(
-          <             child: Text(
-          <               'You are logged in to GitHub!',
-          <             ),
-          <           ),
-          ---
-          >         return FutureBuilder<CurrentUser>(
-          >           future: viewerDetail(httpClient.credentials.accessToken),
-          >           builder: (context, snapshot) {
-          >             return Scaffold(
-          >               appBar: AppBar(
-          >                 title: Text(title),
-          >               ),
-          >               body: Center(
-          >                 child: Text(
-          >                   snapshot.hasData
-          >                       ? 'Hello ${snapshot.data!.login}!'
-          >                       : 'Retrieving viewer login details...',
-          >                 ),
-          >               ),
-          >             );
-          >           },
-          63a73,77
-          > 
-          > Future<CurrentUser> viewerDetail(String accessToken) async {
-          >   final gitHub = GitHub(auth: Authentication.withToken(accessToken));
-          >   return gitHub.users.getCurrentUser();
-          > }
+        patch-u: |
+          --- b/github-client/step_05/lib/main.dart
+          +++ a/github-client/step_05/lib/main.dart
+          @@ -13,6 +13,8 @@
+           // limitations under the License.
+           
+           import 'package:flutter/material.dart';
+          +import 'package:github/github.dart';
+          +
+           import 'github_oauth_credentials.dart';
+           import 'src/github_login.dart';
+           
+          @@ -45,16 +47,23 @@ class MyHomePage extends StatelessWidget {
+             Widget build(BuildContext context) {
+               return GithubLoginWidget(
+                 builder: (context, httpClient) {
+          -        return Scaffold(
+          -          appBar: AppBar(
+          -            title: Text(title),
+          -            elevation: 2,
+          -          ),
+          -          body: const Center(
+          -            child: Text(
+          -              'You are logged in to GitHub!',
+          -            ),
+          -          ),
+          +        return FutureBuilder<CurrentUser>(
+          +          future: viewerDetail(httpClient.credentials.accessToken),
+          +          builder: (context, snapshot) {
+          +            return Scaffold(
+          +              appBar: AppBar(
+          +                title: Text(title),
+          +                elevation: 2,
+          +              ),
+          +              body: Center(
+          +                child: Text(
+          +                  snapshot.hasData
+          +                      ? 'Hello ${snapshot.data!.login}!'
+          +                      : 'Retrieving viewer login details...',
+          +                ),
+          +              ),
+          +            );
+          +          },
+                   );
+                 },
+                 githubClientId: githubClientId,
+          @@ -63,3 +72,8 @@ class MyHomePage extends StatelessWidget {
+               );
+             }
+           }
+          +
+          +Future<CurrentUser> viewerDetail(String accessToken) async {
+          +  final gitHub = GitHub(auth: Authentication.withToken(accessToken));
+          +  return gitHub.users.getCurrentUser();
+          +}
       - name: Copy step_05
         copydir:
           from: github_client
           to: step_05
   - name: step_06
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_06
       - name: Add dependencies
         path: github_client
         flutter: pub add --path ../window_to_front window_to_front
       - name: Patch lib/main.dart
         path: github_client/lib/main.dart
-        patch: |
-          *** main.dart.old       2022-05-02 17:41:12.000000000 +1000
-          --- main.dart   2022-05-02 17:45:29.000000000 +1000
-          ***************
-          *** 14,19 ****
-          --- 14,20 ----
-            
-            import 'package:flutter/material.dart';
-            import 'package:github/github.dart';
-          + import 'package:window_to_front/window_to_front.dart';
-            
-            import 'github_oauth_credentials.dart';
-            import 'src/github_login.dart';
-          ***************
-          *** 46,51 ****
-          --- 47,53 ----
-              Widget build(BuildContext context) {
-                return GithubLoginWidget(
-                  builder: (context, httpClient) {
-          +         WindowToFront.activate();
-                    return FutureBuilder<CurrentUser>(
-                      future: viewerDetail(httpClient.credentials.accessToken),
-                      builder: (context, snapshot) {
+        patch-u: |
+          --- b/github-client/step_06/lib/main.dart
+          +++ a/github-client/step_06/lib/main.dart
+          @@ -14,6 +14,7 @@
+           
+           import 'package:flutter/material.dart';
+           import 'package:github/github.dart';
+          +import 'package:window_to_front/window_to_front.dart';
+           
+           import 'github_oauth_credentials.dart';
+           import 'src/github_login.dart';
+          @@ -47,6 +48,7 @@ class MyHomePage extends StatelessWidget {
+             Widget build(BuildContext context) {
+               return GithubLoginWidget(
+                 builder: (context, httpClient) {
+          +        WindowToFront.activate();
+                   return FutureBuilder<CurrentUser>(
+                     future: viewerDetail(httpClient.credentials.accessToken),
+                     builder: (context, snapshot) {
       - name: Build macOS app
         platforms: [ macos ]
         path: github_client
@@ -855,7 +871,7 @@ steps:
           to: step_06
   - name: step_07
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_07
       - name: Add dependencies
         path: github_client
@@ -1113,41 +1129,59 @@ steps:
           }
       - name: Patch lib/main.dart
         path: github_client/lib/main.dart
-        patch: |
-          20a21
-          > import 'src/github_summary.dart';
-          51,66c52,58
-          <         return FutureBuilder<CurrentUser>(
-          <           future: viewerDetail(httpClient.credentials.accessToken),
-          <           builder: (context, snapshot) {
-          <             return Scaffold(
-          <               appBar: AppBar(
-          <                 title: Text(title),
-          <               ),
-          <               body: Center(
-          <                 child: Text(
-          <                   snapshot.hasData
-          <                       ? 'Hello ${snapshot.data!.login}!'
-          <                       : 'Retrieving viewer login details...',
-          <                 ),
-          <               ),
-          <             );
-          <           },
-          ---
-          >         return Scaffold(
-          >           appBar: AppBar(
-          >             title: Text(title),
-          >           ),
-          >           body: GitHubSummary(
-          >             gitHub: _getGitHub(httpClient.credentials.accessToken),
-          >           ),
-          76,78c68,69
-          < Future<CurrentUser> viewerDetail(String accessToken) async {
-          <   final gitHub = GitHub(auth: Authentication.withToken(accessToken));
-          <   return gitHub.users.getCurrentUser();
-          ---
-          > GitHub _getGitHub(String accessToken) {
-          >   return GitHub(auth: Authentication.withToken(accessToken));
+        patch-u: |
+          --- b/github-client/step_07/lib/main.dart
+          +++ a/github-client/step_07/lib/main.dart
+          @@ -18,6 +18,7 @@ import 'package:window_to_front/window_to_front.dart';
+           
+           import 'github_oauth_credentials.dart';
+           import 'src/github_login.dart';
+          +import 'src/github_summary.dart';
+           
+           void main() {
+             runApp(const MyApp());
+          @@ -49,23 +50,14 @@ class MyHomePage extends StatelessWidget {
+               return GithubLoginWidget(
+                 builder: (context, httpClient) {
+                   WindowToFront.activate();
+          -        return FutureBuilder<CurrentUser>(
+          -          future: viewerDetail(httpClient.credentials.accessToken),
+          -          builder: (context, snapshot) {
+          -            return Scaffold(
+          -              appBar: AppBar(
+          -                title: Text(title),
+          -                elevation: 2,
+          -              ),
+          -              body: Center(
+          -                child: Text(
+          -                  snapshot.hasData
+          -                      ? 'Hello ${snapshot.data!.login}!'
+          -                      : 'Retrieving viewer login details...',
+          -                ),
+          -              ),
+          -            );
+          -          },
+          +        return Scaffold(
+          +          appBar: AppBar(
+          +            title: Text(title),
+          +            elevation: 2,
+          +          ),
+          +          body: GitHubSummary(
+          +            gitHub: _getGitHub(httpClient.credentials.accessToken),
+          +          ),
+                   );
+                 },
+                 githubClientId: githubClientId,
+          @@ -75,7 +67,6 @@ class MyHomePage extends StatelessWidget {
+             }
+           }
+           
+          -Future<CurrentUser> viewerDetail(String accessToken) async {
+          -  final gitHub = GitHub(auth: Authentication.withToken(accessToken));
+          -  return gitHub.users.getCurrentUser();
+          +GitHub _getGitHub(String accessToken) {
+          +  return GitHub(auth: Authentication.withToken(accessToken));
+           }
       - name: flutter clean
         path: github_client
         flutter: clean

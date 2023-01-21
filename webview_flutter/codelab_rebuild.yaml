@@ -6,6 +6,9 @@ steps:
         rmdir: step_03
       - name: Create project
         flutter: create webview_in_flutter --platforms=android,ios
+      - name: Strip DEVELOPMENT_TEAM
+        strip-lines-containing: DEVELOPMENT_TEAM =
+        path: webview_in_flutter/ios/Runner.xcodeproj/project.pbxproj
       - name: Configure analysis_options.yaml
         path: webview_in_flutter/analysis_options.yaml
         replace-contents: |
@@ -79,14 +82,15 @@ steps:
           // Copyright 2022 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-
+          
           import 'package:flutter/material.dart';
           import 'package:webview_flutter/webview_flutter.dart';
           
           void main() {
             runApp(
-              const MaterialApp(
-                home: WebViewApp(),
+              MaterialApp(
+                theme: ThemeData(useMaterial3: true),
+                home: const WebViewApp(),
               ),
             );
           }
@@ -235,7 +239,7 @@ steps:
            
            void main() {
              runApp(
-          @@ -21,26 +22,13 @@ class WebViewApp extends StatefulWidget {
+          @@ -22,26 +23,13 @@ class WebViewApp extends StatefulWidget {
            }
            
            class _WebViewAppState extends State<WebViewApp> {
@@ -343,7 +347,7 @@ steps:
            import 'src/web_view_stack.dart';
            
            void main() {
-          @@ -22,13 +24,27 @@ class WebViewApp extends StatefulWidget {
+          @@ -23,13 +25,27 @@ class WebViewApp extends StatefulWidget {
            }
            
            class _WebViewAppState extends State<WebViewApp> {
@@ -519,7 +523,7 @@ steps:
            import 'src/navigation_controls.dart';
            import 'src/web_view_stack.dart';
            
-          @@ -42,6 +43,7 @@ class _WebViewAppState extends State<WebViewApp> {
+          @@ -43,6 +44,7 @@ class _WebViewAppState extends State<WebViewApp> {
                    title: const Text('Flutter WebView'),
                    actions: [
                      NavigationControls(controller: controller),
@@ -668,14 +672,6 @@ steps:
              }
            
              @override
-      - name: Build iOS
-        platforms: [ macos ]
-        path: webview_in_flutter
-        flutter: build ios
-      - name: Build Android
-        platforms: [ macos ]
-        path: webview_in_flutter
-        flutter: build apk
       - name: Copy step_09
         copydir:
           from: webview_in_flutter
@@ -750,10 +746,6 @@ steps:
              }
            
              @override
-      - name: Build iOS
-        platforms: [ macos ]
-        path: webview_in_flutter
-        flutter: build ios
       - name: Copy step_10
         copydir:
           from: webview_in_flutter
