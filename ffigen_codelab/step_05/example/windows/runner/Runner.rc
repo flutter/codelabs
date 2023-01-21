@@ -93,7 +93,7 @@ BEGIN
             VALUE "FileDescription", "ffigen_app_example" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "ffigen_app_example" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2022 com.example. All rights reserved." "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2023 com.example. All rights reserved." "\0"
             VALUE "OriginalFilename", "ffigen_app_example.exe" "\0"
             VALUE "ProductName", "ffigen_app_example" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
