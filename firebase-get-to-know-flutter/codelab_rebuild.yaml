@@ -6,6 +6,9 @@ steps:
         rmdir: step_02
       - name: Create project
         flutter: create --platforms=android,ios,macos,web gtk_flutter
+      - name: Strip DEVELOPMENT_TEAM
+        strip-lines-containing: DEVELOPMENT_TEAM =
+        path: gtk_flutter/ios/Runner.xcodeproj/project.pbxproj
       - name: Configure analysis_options.yaml
         path: gtk_flutter/analysis_options.yaml
         replace-contents: |
