@@ -23,6 +23,7 @@ class TestingApp extends StatelessWidget {
         title: 'Testing Sample',
         theme: ThemeData(
           primarySwatch: Colors.blue,
+          useMaterial3: true,
         ),
         routes: {
           HomePage.routeName: (context) => const HomePage(),
