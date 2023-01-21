@@ -39,7 +39,7 @@ dependencies:
   googleapis: ^10.0.0
   http: ^0.13.5
   provider: ^6.0.5
-  url_launcher: ^6.1.7
+  url_launcher: ^6.1.8
   flex_color_scheme: ^6.1.2
   go_router: ^6.0.1
   split_view: ^3.2.1
