@@ -9,7 +9,7 @@
             "request": "launch",
             "type": "dart",
             "program": "bin/codelab_rebuild.dart",
-            "args": ["../../ffigen_codelab/codelab_rebuild.yaml"]
+            "args": ["../../adaptive_app/codelab_rebuild.yaml"]
         }
     ]
 }
