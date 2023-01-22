@@ -20,6 +20,13 @@ void main() {
   ));
 }
 
+// final mfaAction = AuthStateChangeAction<MFARequired>(((context, state) async {
+//   await startMFAVerification(
+//     context: context,
+//     resolver: state.resolver,
+//   ).then((_) => {context.go('/profile')});
+// }));
+
 final _router = GoRouter(
   routes: [
     GoRoute(
@@ -31,6 +38,7 @@ final _router = GoRouter(
           builder: (context, state) {
             return SignInScreen(
               actions: [
+                // mfaAction,
                 ForgotPasswordAction(((context, email) {
                   final uri = Uri(
                     path: '/sign-in/forgot-password',
@@ -84,6 +92,7 @@ final _router = GoRouter(
               builder: (context, appState, _) => ProfileScreen(
                 key: ValueKey(appState.emailVerified),
                 providers: const [],
+                // showMFATile: appState.emailVerified,
                 actions: [
                   SignedOutAction(
                     ((context) {
