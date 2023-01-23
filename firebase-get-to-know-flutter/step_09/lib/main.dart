@@ -22,6 +22,17 @@ void main() {
   ));
 }
 
+// final mfaAction = AuthStateChangeAction<MFARequired>(
+//   ((context, state) async {
+//     final nav = Navigator.of(context);
+//     await startMFAVerification(
+//       context: context,
+//       resolver: state.resolver,
+//     );
+//     unawaited(nav.pushReplacementNamed('/profile'));
+//   }),
+// );
+
 class App extends StatelessWidget {
   const App({super.key});
 
@@ -62,6 +73,7 @@ class App extends StatelessWidget {
                   Navigator.of(context).popUntil(ModalRoute.withName('/home'));
                 }
               })),
+              // mfaAction,
             ],
           );
         }),
@@ -79,6 +91,7 @@ class App extends StatelessWidget {
             builder: (context, appState, _) => ProfileScreen(
               key: ValueKey(appState.emailVerified),
               providers: const [],
+              // showMFATile: appState.emailVerified,
               actions: [
                 SignedOutAction(
                   ((context) {
