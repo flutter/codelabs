@@ -23,104 +23,16 @@ void main() {
   ));
 }
 
-// final mfaAction = AuthStateChangeAction<MFARequired>(((context, state) async {
-//   await startMFAVerification(
-//     context: context,
-//     resolver: state.resolver,
-//   ).then((_) => {context.go('/profile')});
-// }));
-
-final _router = GoRouter(
-  routes: [
-    GoRoute(
-      path: '/',
-      builder: (context, state) => const HomePage(),
-      routes: [
-        GoRoute(
-          path: 'sign-in',
-          builder: (context, state) {
-            return SignInScreen(
-              actions: [
-                // mfaAction,
-                ForgotPasswordAction(((context, email) {
-                  final uri = Uri(
-                    path: '/sign-in/forgot-password',
-                    queryParameters: <String, String?>{
-                      'email': email,
-                    },
-                  );
-                  context.push(uri.toString());
-                })),
-                AuthStateChangeAction(((context, state) {
-                  if (state is SignedIn || state is UserCreated) {
-                    var user = (state is SignedIn)
-                        ? state.user
-                        : (state as UserCreated).credential.user;
-                    if (user == null) {
-                      return;
-                    }
-                    if (state is UserCreated) {
-                      user.updateDisplayName(user.email!.split('@')[0]);
-                    }
-                    if (!user.emailVerified) {
-                      user.sendEmailVerification();
-                      const snackBar = SnackBar(
-                          content: Text(
-                              'Please check your email to verify your email address'));
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    }
-                    context.pushReplacement('/');
-                  }
-                })),
-              ],
-            );
-          },
-          routes: [
-            GoRoute(
-              path: 'forgot-password',
-              builder: (context, state) {
-                final arguments = state.queryParams;
-                return ForgotPasswordScreen(
-                  email: arguments['email'],
-                  headerMaxExtent: 200,
-                );
-              },
-            ),
-          ],
-        ),
-        GoRoute(
-          path: 'profile',
-          builder: (context, state) {
-            return Consumer<ApplicationState>(
-              builder: (context, appState, _) => ProfileScreen(
-                key: ValueKey(appState.emailVerified),
-                providers: const [],
-                // showMFATile: appState.emailVerified,
-                actions: [
-                  SignedOutAction(
-                    ((context) {
-                      context.pushReplacement('/');
-                    }),
-                  ),
-                ],
-                children: [
-                  Visibility(
-                      visible: !appState.emailVerified,
-                      child: OutlinedButton(
-                        child: const Text('Recheck Verification State'),
-                        onPressed: () {
-                          appState.refreshLoggedInUser();
-                        },
-                      ))
-                ],
-              ),
-            );
-          },
-        ),
-      ],
-    ),
-  ],
-);
+// final mfaAction = AuthStateChangeAction<MFARequired>(
+//   ((context, state) async {
+//     final nav = Navigator.of(context);
+//     await startMFAVerification(
+//       context: context,
+//       resolver: state.resolver,
+//     );
+//     unawaited(nav.pushReplacementNamed('/profile'));
+//   }),
+// );
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -162,6 +74,7 @@ class App extends StatelessWidget {
                   Navigator.of(context).popUntil(ModalRoute.withName('/home'));
                 }
               })),
+              // mfaAction,
             ],
           );
         }),
@@ -179,6 +92,7 @@ class App extends StatelessWidget {
             builder: (context, appState, _) => ProfileScreen(
               key: ValueKey(appState.emailVerified),
               providers: const [],
+              // showMFATile: appState.emailVerified,
               actions: [
                 SignedOutAction(
                   ((context) {
