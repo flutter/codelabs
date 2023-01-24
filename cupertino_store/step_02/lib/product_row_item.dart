@@ -35,56 +35,43 @@ class ProductRowItem extends StatelessWidget {
       top: false,
       bottom: false,
       minimum: const EdgeInsets.only(
-        left: 16,
+        left: 0,
         top: 8,
         bottom: 8,
         right: 8,
       ),
-      child: Row(
-        children: <Widget>[
-          ClipRRect(
-            borderRadius: BorderRadius.circular(4),
-            child: Image.asset(
-              product.assetName,
-              package: product.assetPackage,
-              fit: BoxFit.cover,
-              width: 76,
-              height: 76,
-            ),
+      child: CupertinoListTile(
+        leading: ClipRRect(
+          borderRadius: BorderRadius.circular(4),
+          child: Image.asset(
+            product.assetName,
+            package: product.assetPackage,
+            fit: BoxFit.cover,
+            width: 68,
+            height: 68,
           ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    product.name,
-                    style: Styles.productRowItemName,
-                  ),
-                  const Padding(padding: EdgeInsets.only(top: 8)),
-                  Text(
-                    '\$${product.price}',
-                    style: Styles.productRowItemPrice,
-                  )
-                ],
-              ),
-            ),
+        ),
+        leadingSize: 68,
+        title: Text(
+          product.name,
+          style: Styles.productRowItemName,
+        ),
+        subtitle: Text(
+          '\$${product.price}',
+          style: Styles.productRowItemPrice,
+        ),
+        trailing: CupertinoButton(
+          padding: EdgeInsets.zero,
+          onPressed: () {
+            final model = Provider.of<AppStateModel>(context, listen: false);
+            model.addProductToCart(product.id);
+          },
+          child: const Icon(
+            CupertinoIcons.plus_circled,
+            semanticLabel: 'Add',
           ),
-          CupertinoButton(
-            padding: EdgeInsets.zero,
-            onPressed: () {
-              final model = Provider.of<AppStateModel>(context, listen: false);
-              model.addProductToCart(product.id);
-            },
-            child: const Icon(
-              CupertinoIcons.plus_circled,
-              semanticLabel: 'Add',
-            ),
-          ),
-        ],
-      ),
+        ),
+      )
     );
 
     if (lastItem) {
