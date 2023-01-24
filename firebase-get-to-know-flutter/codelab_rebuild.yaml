@@ -18,14 +18,15 @@ steps:
         patch-u: |
           --- b/firebase-get-to-know-flutter/step_02/pubspec.yaml
           +++ a/firebase-get-to-know-flutter/step_02/pubspec.yaml
-          @@ -1,5 +1,5 @@
+          @@ -1,5 +1,6 @@
            name: gtk_flutter
           -description: A new Flutter project.
           +description: Get to know Firebase with Flutter
-           
+          +
            # The following line prevents the package from being accidentally published to
            # pub.dev using `flutter pub publish`. This is preferred for private packages.
-          @@ -59,6 +59,8 @@ flutter:
+           publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+          @@ -59,6 +60,8 @@ flutter:
              # included with your application, so that you can use the icons in
              # the material Icons class.
              uses-material-design: true
@@ -39,10 +40,11 @@ steps:
         patch-u: |
           --- b/firebase-get-to-know-flutter/step_02/android/app/build.gradle
           +++ a/firebase-get-to-know-flutter/step_02/android/app/build.gradle
-          @@ -47,7 +47,7 @@ android {
+          @@ -46,8 +46,8 @@ android {
+                   // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
                    applicationId "com.example.gtk_flutter"
                    // You can update the following values to match your application needs.
-                   // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
+                   // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
           -        minSdkVersion flutter.minSdkVersion
           +        minSdkVersion 21
                    targetSdkVersion flutter.targetSdkVersion
@@ -104,19 +106,6 @@ steps:
               }
             ]
           }
-      - name: Patch gtk_flutter/macos/Podfile
-        platforms: [ macos ]
-        path: gtk_flutter/macos/Podfile
-        patch-u: |
-          --- b/firebase-get-to-know-flutter/step_02/macos/Podfile
-          +++ a/firebase-get-to-know-flutter/step_02/macos/Podfile
-          @@ -1,4 +1,5 @@
-          -platform :osx, '10.11'
-          +# Firebase macOS requires macOS 10.13: https://firebase.google.com/docs/flutter/setup?platform=ios
-          +platform :osx, '10.13'
-           
-           # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
-           ENV['COCOAPODS_DISABLE_STATS'] = 'true'
       - name: Replace lib/main.dart
         path: gtk_flutter/lib/main.dart
         replace-contents: |

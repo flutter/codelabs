@@ -1078,13 +1078,16 @@ steps:
         dart: pub add http shelf_cors_headers
       - name: Patch yt_cors_proxy/pubspec.yaml
         path: adaptive_app/yt_cors_proxy/pubspec.yaml
-        patch: |
-          2c2
-          < description: A server app using the shelf package and Docker.
-          ---
-          > description: A YouTube CORS Proxy Server.
-          4d3
-          < # homepage: https://www.example.com
+        patch-u: |
+          --- b/adaptive_app/step_06/yt_cors_proxy/pubspec.yaml
+          +++ a/adaptive_app/step_06/yt_cors_proxy/pubspec.yaml
+          @@ -1,5 +1,4 @@
+           name: yt_cors_proxy
+          -description: A server app using the shelf package and Docker.
+          +description: A YouTube CORS Proxy Server.
+           version: 1.0.0
+          -# repository: https://github.com/my_org/my_repo
+           
       - name: Remove yt_cors_proxy/CHANGELOG.md
         path: adaptive_app/yt_cors_proxy
         rm: CHANGELOG.md
