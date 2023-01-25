@@ -22,16 +22,14 @@ import 'styles.dart';
 class ProductRowItem extends StatelessWidget {
   const ProductRowItem({
     required this.product,
-    required this.lastItem,
     super.key,
   });
 
   final Product product;
-  final bool lastItem;
 
   @override
   Widget build(BuildContext context) {
-    final row = SafeArea(
+    return SafeArea(
       top: false,
       bottom: false,
       minimum: const EdgeInsets.only(
@@ -72,26 +70,6 @@ class ProductRowItem extends StatelessWidget {
           ),
         ),
       )
-    );
-
-    if (lastItem) {
-      return row;
-    }
-
-    return Column(
-      children: <Widget>[
-        row,
-        Padding(
-          padding: const EdgeInsets.only(
-            left: 100,
-            right: 16,
-          ),
-          child: Container(
-            height: 1,
-            color: Styles.productRowDivider,
-          ),
-        ),
-      ],
     );
   }
 }
