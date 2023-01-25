@@ -270,35 +270,34 @@ class ShoppingCartItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final row = SafeArea(
-      top: false,
-      bottom: false,
+        top: false,
+        bottom: false,
         child: CupertinoListTile(
-        leading: ClipRRect(
-          borderRadius: BorderRadius.circular(4),
-          child: Image.asset(
-            product.assetName,
-            package: product.assetPackage,
-            fit: BoxFit.cover,
-            width: 40,
-            height: 40,
+          leading: ClipRRect(
+            borderRadius: BorderRadius.circular(4),
+            child: Image.asset(
+              product.assetName,
+              package: product.assetPackage,
+              fit: BoxFit.cover,
+              width: 40,
+              height: 40,
+            ),
           ),
-        ),
-        leadingSize: 40,
-        title: Text(
-          product.name,
-          style: Styles.productRowItemName,
-        ),
-        subtitle: Text(
-          '${quantity > 1 ? '$quantity x ' : ''}'
-          '${formatter.format(product.price)}',
-          style: Styles.productRowItemPrice,
-        ),
-        trailing:  Text(
-          formatter.format(quantity * product.price),
-          style: Styles.productRowItemName,
-        ),
-      )
-    );
+          leadingSize: 40,
+          title: Text(
+            product.name,
+            style: Styles.productRowItemName,
+          ),
+          subtitle: Text(
+            '${quantity > 1 ? '$quantity x ' : ''}'
+            '${formatter.format(product.price)}',
+            style: Styles.productRowItemPrice,
+          ),
+          trailing: Text(
+            formatter.format(quantity * product.price),
+            style: Styles.productRowItemName,
+          ),
+        ));
 
     return row;
   }

@@ -81,11 +81,12 @@ class _SearchTabState extends State<SearchTab> {
               child: SingleChildScrollView(
                 child: CupertinoListSection(
                   topMargin: 0,
-                  children: 
-                    [for(var product in results) ProductRowItem(
-                      product: product,
-                    )]
-                  ,
+                  children: [
+                    for (var product in results)
+                      ProductRowItem(
+                        product: product,
+                      )
+                  ],
                 ),
               ),
             ),
