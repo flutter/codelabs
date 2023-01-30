@@ -2,30 +2,31 @@ name: Get to know Firebase with Flutter
 steps:
   - name: step_02
     steps:
-      - name: Remove generated code
+      - name: Remove generated code.
         rmdir: step_02
-      - name: Create project
-        flutter: create --platforms=android,ios,macos,web gtk_flutter
+      - name: Create project.
+        flutter: create gtk_flutter
       - name: Configure analysis_options.yaml
         path: gtk_flutter/analysis_options.yaml
         replace-contents: |
           include: ../../analysis_options.yaml
-      - name: Add google_fonts go_router
+      - name: Add dependencies.
         path: gtk_flutter
-        flutter: pub add google_fonts go_router
+        flutter: pub add google_fonts 
       - name: Patch pubspec.yaml
         path: gtk_flutter/pubspec.yaml
         patch-u: |
           --- b/firebase-get-to-know-flutter/step_02/pubspec.yaml
           +++ a/firebase-get-to-know-flutter/step_02/pubspec.yaml
-          @@ -1,5 +1,5 @@
+          @@ -1,5 +1,6 @@
            name: gtk_flutter
           -description: A new Flutter project.
           +description: Get to know Firebase with Flutter
-           
+          +
            # The following line prevents the package from being accidentally published to
            # pub.dev using `flutter pub publish`. This is preferred for private packages.
-          @@ -60,6 +60,8 @@ flutter:
+           publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+          @@ -59,6 +60,8 @@ flutter:
              # included with your application, so that you can use the icons in
              # the material Icons class.
              uses-material-design: true
@@ -39,10 +40,11 @@ steps:
         patch-u: |
           --- b/firebase-get-to-know-flutter/step_02/android/app/build.gradle
           +++ a/firebase-get-to-know-flutter/step_02/android/app/build.gradle
-          @@ -47,7 +47,7 @@ android {
+          @@ -46,8 +46,8 @@ android {
+                   // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
                    applicationId "com.example.gtk_flutter"
                    // You can update the following values to match your application needs.
-                   // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
+                   // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
           -        minSdkVersion flutter.minSdkVersion
           +        minSdkVersion 21
                    targetSdkVersion flutter.targetSdkVersion
@@ -50,6 +52,11 @@ steps:
                    versionName flutterVersionName
       - name: Remove the README.md.
         rm: gtk_flutter/README.md
+      - name: Remove the Linux and Windows runners
+        path: gtk_flutter
+        rmdirs:
+          - linux 
+          - windows
       - name: VSCode config
         path: gtk_flutter
         mkdir: .vscode
@@ -99,38 +106,21 @@ steps:
               }
             ]
           }
-      - name: Patch gtk_flutter/macos/Podfile
-        platforms: [ macos ]
-        path: gtk_flutter/macos/Podfile
-        patch-u: |
-          --- b/firebase-get-to-know-flutter/step_02/macos/Podfile
-          +++ a/firebase-get-to-know-flutter/step_02/macos/Podfile
-          @@ -1,4 +1,5 @@
-          -platform :osx, '10.11'
-          +# Firebase macOS requires macOS 10.13: https://firebase.google.com/docs/flutter/setup?platform=ios
-          +platform :osx, '10.13'
-           
-           # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
-           ENV['COCOAPODS_DISABLE_STATS'] = 'true'
       - name: Replace lib/main.dart
         path: gtk_flutter/lib/main.dart
         replace-contents: |
-          // Copyright 2022 The Flutter Authors. All rights reserved.
-          // Use of this source code is governed by a BSD-style license that can be
-          // found in the LICENSE file.
-          
           import 'package:flutter/material.dart';
           import 'package:google_fonts/google_fonts.dart';
-          
-          import 'home_page.dart';
-          
+
+          import 'src/widgets.dart';
+
           void main() {
             runApp(const App());
           }
-          
+
           class App extends StatelessWidget {
             const App({super.key});
-          
+
             @override
             Widget build(BuildContext context) {
               return MaterialApp(
@@ -149,20 +139,10 @@ steps:
               );
             }
           }
-      - name: Add lib/home_page.dart
-        path: gtk_flutter/lib/home_page.dart
-        replace-contents: |
-          // Copyright 2022 The Flutter Authors. All rights reserved.
-          // Use of this source code is governed by a BSD-style license that can be
-          // found in the LICENSE file.
-          
-          import 'package:flutter/material.dart';
-          
-          import 'src/widgets.dart';
-          
+
           class HomePage extends StatelessWidget {
             const HomePage({super.key});
-          
+
             @override
             Widget build(BuildContext context) {
               return Scaffold(
@@ -197,12 +177,7 @@ steps:
       - name: Add lib/src/authentication.dart
         path: gtk_flutter/lib/src/authentication.dart
         replace-contents: |
-          // Copyright 2022 The Flutter Authors. All rights reserved.
-          // Use of this source code is governed by a BSD-style license that can be
-          // found in the LICENSE file.
-          
           import 'package:flutter/material.dart';
-          import 'package:go_router/go_router.dart';
           
           import 'widgets.dart';
           
@@ -224,7 +199,9 @@ steps:
                     padding: const EdgeInsets.only(left: 24, bottom: 8),
                     child: StyledButton(
                         onPressed: () {
-                          !loggedIn ? context.push('/sign-in') : signOut();
+                          !loggedIn
+                              ? Navigator.of(context).pushNamed('/sign-in')
+                              : signOut();
                         },
                         child: !loggedIn ? const Text('RSVP') : const Text('Logout')),
                   ),
@@ -234,7 +211,7 @@ steps:
                         padding: const EdgeInsets.only(left: 24, bottom: 8),
                         child: StyledButton(
                             onPressed: () {
-                              context.push('/profile');
+                              Navigator.of(context).pushNamed('/profile');
                             },
                             child: const Text('Profile')),
                       ))
@@ -245,16 +222,12 @@ steps:
       - name: Add lib/src/widgets.dart
         path: gtk_flutter/lib/src/widgets.dart
         replace-contents: |
-          // Copyright 2022 The Flutter Authors. All rights reserved.
-          // Use of this source code is governed by a BSD-style license that can be
-          // found in the LICENSE file.
-          
           import 'package:flutter/material.dart';
-          
+
           class Header extends StatelessWidget {
             const Header(this.heading, {super.key});
             final String heading;
-          
+
             @override
             Widget build(BuildContext context) => Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -264,7 +237,7 @@ steps:
                   ),
                 );
           }
-          
+
           class Paragraph extends StatelessWidget {
             const Paragraph(this.content, {super.key});
             final String content;
@@ -277,12 +250,12 @@ steps:
                   ),
                 );
           }
-          
+
           class IconAndDetail extends StatelessWidget {
             const IconAndDetail(this.icon, this.detail, {super.key});
             final IconData icon;
             final String detail;
-          
+
             @override
             Widget build(BuildContext context) => Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -298,12 +271,12 @@ steps:
                   ),
                 );
           }
-          
+
           class StyledButton extends StatelessWidget {
             const StyledButton({required this.child, required this.onPressed, super.key});
             final Widget child;
             final void Function() onPressed;
-          
+
             @override
             Widget build(BuildContext context) => OutlinedButton(
                   style: OutlinedButton.styleFrom(
@@ -315,18 +288,14 @@ steps:
       - name: Replace test/widget_test.dart
         path: gtk_flutter/test/widget_test.dart
         replace-contents: |
-          // Copyright 2022 The Flutter Authors. All rights reserved.
-          // Use of this source code is governed by a BSD-style license that can be
-          // found in the LICENSE file.
-          
           import 'package:flutter_test/flutter_test.dart';
           import 'package:gtk_flutter/main.dart';
-          
+
           void main() {
             testWidgets('Basic rendering', (tester) async {
               // Build our app and trigger a frame.
               await tester.pumpWidget(const App());
-          
+
               // Verify that our counter starts at 0.
               expect(find.text('Firebase Meetup'), findsOneWidget);
               expect(find.text('January 1st'), findsNothing);
@@ -1714,7 +1683,7 @@ steps:
           to: step_02
   - name: step_04
     steps:
-      - name: Remove generated code
+      - name: Remove generated code.
         rmdir: step_04
       - name: Update iOS podspec
         platforms: [ macos ]
@@ -1828,66 +1797,27 @@ steps:
           to: step_04
   - name: step_05
     steps:
-      - name: Remove generated code
+      - name: Remove generated code.
         rmdir: step_05
-      - name: Add lib/app_state.dart
-        path: gtk_flutter/lib/app_state.dart
-        replace-contents: |
-          // Copyright 2022 The Flutter Authors. All rights reserved.
-          // Use of this source code is governed by a BSD-style license that can be
-          // found in the LICENSE file.
-          
-          import 'package:firebase_auth/firebase_auth.dart'
-              hide EmailAuthProvider, PhoneAuthProvider;
-          import 'package:firebase_core/firebase_core.dart';
-          import 'package:firebase_ui_auth/firebase_ui_auth.dart';
-          import 'package:flutter/material.dart';
-          
-          import 'firebase_options.dart';
-          
-          class ApplicationState extends ChangeNotifier {
-            ApplicationState() {
-              init();
-            }
-          
-            bool _loggedIn = false;
-            bool get loggedIn => _loggedIn;
-          
-            Future<void> init() async {
-              await Firebase.initializeApp(
-                  options: DefaultFirebaseOptions.currentPlatform);
-          
-              FirebaseUIAuth.configureProviders([
-                EmailAuthProvider(),
-              ]);
-          
-              FirebaseAuth.instance.userChanges().listen((user) {
-                if (user != null) {
-                  _loggedIn = true;
-                } else {
-                  _loggedIn = false;
-                }
-                notifyListeners();
-              });
-            }
-          }
       - name: Patch lib/main.dart
         path: gtk_flutter/lib/main.dart
         patch-u: |
           --- b/firebase-get-to-know-flutter/step_05/lib/main.dart
           +++ a/firebase-get-to-know-flutter/step_05/lib/main.dart
-          @@ -2,21 +2,105 @@
-           // Use of this source code is governed by a BSD-style license that can be
-           // found in the LICENSE file.
-           
+          @@ -1,10 +1,24 @@
+          +import 'dart:async';
+          +
+          +import 'package:firebase_auth/firebase_auth.dart'
+          +    hide EmailAuthProvider, PhoneAuthProvider;
+          +import 'package:firebase_core/firebase_core.dart';
           +import 'package:firebase_ui_auth/firebase_ui_auth.dart';
            import 'package:flutter/material.dart';
-          +import 'package:go_router/go_router.dart';
            import 'package:google_fonts/google_fonts.dart';
           +import 'package:provider/provider.dart';
            
-          +import 'app_state.dart';
-           import 'home_page.dart';
+          +import 'firebase_options.dart';
+          +import 'src/authentication.dart';
+           import 'src/widgets.dart';
            
            void main() {
           -  runApp(const App());
@@ -1899,120 +1829,81 @@ steps:
           +  ));
            }
            
-          +final _router = GoRouter(
-          +  routes: [
-          +    GoRoute(
-          +      path: '/',
-          +      builder: (context, state) => const HomePage(),
-          +      routes: [
-          +        GoRoute(
-          +          path: 'sign-in',
-          +          builder: (context, state) {
-          +            return SignInScreen(
-          +              actions: [
-          +                ForgotPasswordAction(((context, email) {
-          +                  final uri = Uri(
-          +                    path: '/sign-in/forgot-password',
-          +                    queryParameters: <String, String?>{
-          +                      'email': email,
-          +                    },
-          +                  );
-          +                  context.push(uri.toString());
-          +                })),
-          +                AuthStateChangeAction(((context, state) {
-          +                  if (state is SignedIn || state is UserCreated) {
-          +                    var user = (state is SignedIn)
-          +                        ? state.user
-          +                        : (state as UserCreated).credential.user;
-          +                    if (user == null) {
-          +                      return;
-          +                    }
-          +                    if (state is UserCreated) {
-          +                      user.updateDisplayName(user.email!.split('@')[0]);
-          +                    }
-          +                    if (!user.emailVerified) {
-          +                      user.sendEmailVerification();
-          +                      const snackBar = SnackBar(
-          +                          content: Text(
-          +                              'Please check your email to verify your email address'));
-          +                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          +                    }
-          +                    context.pushReplacement('/');
-          +                  }
-          +                })),
-          +              ],
-          +            );
-          +          },
-          +          routes: [
-          +            GoRoute(
-          +              path: 'forgot-password',
-          +              builder: (context, state) {
-          +                final arguments = state.queryParams;
-          +                return ForgotPasswordScreen(
-          +                  email: arguments['email'],
-          +                  headerMaxExtent: 200,
-          +                );
-          +              },
-          +            ),
-          +          ],
-          +        ),
-          +        GoRoute(
-          +          path: 'profile',
-          +          builder: (context, state) {
-          +            return ProfileScreen(
-          +              providers: const [],
-          +              actions: [
-          +                SignedOutAction((context) {
-          +                  context.pushReplacement('/');
-          +                }),
-          +              ],
-          +            );
-          +          },
-          +        ),
-          +      ],
-          +    ),
-          +  ],
-          +);
-          +
            class App extends StatelessWidget {
-             const App({super.key});
-           
+          @@ -13,6 +27,64 @@ class App extends StatelessWidget {
              @override
              Widget build(BuildContext context) {
-          -    return MaterialApp(
-          +    return MaterialApp.router(
+               return MaterialApp(
+          +      initialRoute: '/home',
+          +      routes: {
+          +        '/home': (context) {
+          +          return const HomePage();
+          +        },
+          +        '/sign-in': ((context) {
+          +          return SignInScreen(
+          +            actions: [
+          +              ForgotPasswordAction(((context, email) {
+          +                Navigator.of(context)
+          +                    .pushNamed('/forgot-password', arguments: {'email': email});
+          +              })),
+          +              AuthStateChangeAction(((context, state) {
+          +                if (state is SignedIn || state is UserCreated) {
+          +                  var user = (state is SignedIn)
+          +                      ? state.user
+          +                      : (state as UserCreated).credential.user;
+          +                  if (user == null) {
+          +                    return;
+          +                  }
+          +                  if (state is UserCreated) {
+          +                    user.updateDisplayName(user.email!.split('@')[0]);
+          +                  }
+          +                  if (!user.emailVerified) {
+          +                    user.sendEmailVerification();
+          +                    const snackBar = SnackBar(
+          +                        content: Text(
+          +                            'Please check your email to verify your email address'));
+          +                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          +                  }
+          +                  Navigator.of(context).popUntil(ModalRoute.withName('/home'));
+          +                }
+          +              })),
+          +            ],
+          +          );
+          +        }),
+          +        '/forgot-password': ((context) {
+          +          final arguments = ModalRoute.of(context)?.settings.arguments
+          +              as Map<String, dynamic>?;
+          +
+          +          return ForgotPasswordScreen(
+          +            email: arguments?['email'] as String,
+          +            headerMaxExtent: 200,
+          +          );
+          +        }),
+          +        '/profile': ((context) {
+          +          return ProfileScreen(
+          +            providers: const [],
+          +            actions: [
+          +              SignedOutAction(
+          +                ((context) {
+          +                  Navigator.of(context).popUntil(ModalRoute.withName('/home'));
+          +                }),
+          +              ),
+          +            ],
+          +          );
+          +        })
+          +      },
                  title: 'Firebase Meetup',
                  theme: ThemeData(
                    buttonTheme: Theme.of(context).buttonTheme.copyWith(
-          @@ -28,7 +112,7 @@ class App extends StatelessWidget {
+          @@ -24,7 +96,6 @@ class App extends StatelessWidget {
                    ),
                    visualDensity: VisualDensity.adaptivePlatformDensity,
                  ),
           -      home: const HomePage(),
-          +      routerConfig: _router,
                );
              }
            }
-      - name: Patch lib/home_page.dart
-        path: gtk_flutter/lib/home_page.dart
-        patch-u: |
-          --- b/firebase-get-to-know-flutter/step_05/lib/home_page.dart
-          +++ a/firebase-get-to-know-flutter/step_05/lib/home_page.dart
-          @@ -2,8 +2,13 @@
-           // Use of this source code is governed by a BSD-style license that can be
-           // found in the LICENSE file.
-           
-          +import 'package:firebase_auth/firebase_auth.dart'
-          +    hide EmailAuthProvider, PhoneAuthProvider;
-           import 'package:flutter/material.dart';
-          +import 'package:provider/provider.dart';
-           
-          +import 'app_state.dart';
-          +import 'src/authentication.dart';
-           import 'src/widgets.dart';
-           
-           class HomePage extends StatelessWidget {
-          @@ -21,6 +26,13 @@ class HomePage extends StatelessWidget {
+          @@ -44,6 +115,13 @@ class HomePage extends StatelessWidget {
                      const SizedBox(height: 8),
                      const IconAndDetail(Icons.calendar_today, 'October 30'),
                      const IconAndDetail(Icons.location_city, 'San Francisco'),
@@ -2026,16 +1917,44 @@ steps:
                      const Divider(
                        height: 8,
                        thickness: 1,
+          @@ -60,3 +138,30 @@ class HomePage extends StatelessWidget {
+               );
+             }
+           }
+          +
+          +class ApplicationState extends ChangeNotifier {
+          +  ApplicationState() {
+          +    init();
+          +  }
+          +
+          +  bool _loggedIn = false;
+          +  bool get loggedIn => _loggedIn;
+          +
+          +  Future<void> init() async {
+          +    await Firebase.initializeApp(
+          +        options: DefaultFirebaseOptions.currentPlatform);
+          +
+          +    FirebaseUIAuth.configureProviders([
+          +      EmailAuthProvider(),
+          +    ]);
+          +
+          +    FirebaseAuth.instance.userChanges().listen((user) {
+          +      if (user != null) {
+          +        _loggedIn = true;
+          +      } else {
+          +        _loggedIn = false;
+          +      }
+          +      notifyListeners();
+          +    });
+          +  }
+          +}
       - name: Patch test/widget_test.dart
         path: gtk_flutter/test/widget_test.dart
         patch-u: |
           --- b/firebase-get-to-know-flutter/step_05/test/widget_test.dart
           +++ a/firebase-get-to-know-flutter/step_05/test/widget_test.dart
-          @@ -3,12 +3,19 @@
-           // found in the LICENSE file.
-           
+          @@ -1,10 +1,16 @@
            import 'package:flutter_test/flutter_test.dart';
-          +import 'package:gtk_flutter/app_state.dart';
            import 'package:gtk_flutter/main.dart';
           +import 'package:provider/provider.dart';
            
@@ -2058,133 +1977,30 @@ steps:
           to: step_05
   - name: step_06
     steps:
-      - name: Remove generated code
+      - name: Remove generated code.
         rmdir: step_06
-      - name: Add lib/guest_book.dart
-        path: gtk_flutter/lib/guest_book.dart
-        replace-contents: |
-          // Copyright 2022 The Flutter Authors. All rights reserved.
-          // Use of this source code is governed by a BSD-style license that can be
-          // found in the LICENSE file.
-          
-          import 'dart:async';
-          
-          import 'package:flutter/material.dart';
-          
-          import 'src/widgets.dart';
-          
-          class GuestBook extends StatefulWidget {
-            const GuestBook({required this.addMessage, super.key});
-          
-            final FutureOr<void> Function(String message) addMessage;
-          
-            @override
-            State<GuestBook> createState() => _GuestBookState();
-          }
-          
-          class _GuestBookState extends State<GuestBook> {
-            final _formKey = GlobalKey<FormState>(debugLabel: '_GuestBookState');
-            final _controller = TextEditingController();
-          
-            @override
-            Widget build(BuildContext context) {
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Form(
-                  key: _formKey,
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: TextFormField(
-                          controller: _controller,
-                          decoration: const InputDecoration(
-                            hintText: 'Leave a message',
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Enter your message to continue';
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      StyledButton(
-                        onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
-                            await widget.addMessage(_controller.text);
-                            _controller.clear();
-                          }
-                        },
-                        child: Row(
-                          children: const [
-                            Icon(Icons.send),
-                            SizedBox(width: 4),
-                            Text('SEND'),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            }
-          }
-      - name: Patch lib/app_state.dart
-        path: gtk_flutter/lib/app_state.dart
+      - name: Patch lib/main.dart
+        path: gtk_flutter/lib/main.dart
         patch-u: |
-          --- b/firebase-get-to-know-flutter/step_06/lib/app_state.dart
-          +++ a/firebase-get-to-know-flutter/step_06/lib/app_state.dart
-          @@ -2,6 +2,7 @@
-           // Use of this source code is governed by a BSD-style license that can be
-           // found in the LICENSE file.
+          --- b/firebase-get-to-know-flutter/step_06/lib/main.dart
+          +++ a/firebase-get-to-know-flutter/step_06/lib/main.dart
+          @@ -1,5 +1,6 @@
+           import 'dart:async';
            
           +import 'package:cloud_firestore/cloud_firestore.dart';
            import 'package:firebase_auth/firebase_auth.dart'
                hide EmailAuthProvider, PhoneAuthProvider;
            import 'package:firebase_core/firebase_core.dart';
-          @@ -16,6 +17,7 @@ class ApplicationState extends ChangeNotifier {
-             }
-           
-             bool _loggedIn = false;
-          +
-             bool get loggedIn => _loggedIn;
-           
-             Future<void> init() async {
-          @@ -35,4 +37,19 @@ class ApplicationState extends ChangeNotifier {
-                 notifyListeners();
-               });
-             }
-          +
-          +  Future<DocumentReference> addMessageToGuestBook(String message) {
-          +    if (!_loggedIn) {
-          +      throw Exception('Must be logged in');
-          +    }
-          +
-          +    return FirebaseFirestore.instance
-          +        .collection('guestbook')
-          +        .add(<String, dynamic>{
-          +      'text': message,
-          +      'timestamp': DateTime.now().millisecondsSinceEpoch,
-          +      'name': FirebaseAuth.instance.currentUser!.displayName,
-          +      'userId': FirebaseAuth.instance.currentUser!.uid,
-          +    });
-          +  }
-           }
-      - name: Patch lib/home_page.dart
-        path: gtk_flutter/lib/home_page.dart
-        patch-u: |
-          --- b/firebase-get-to-know-flutter/step_06/lib/home_page.dart
-          +++ a/firebase-get-to-know-flutter/step_06/lib/home_page.dart
-          @@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
-           import 'package:provider/provider.dart';
-           
-           import 'app_state.dart';
-          +import 'guest_book.dart';
-           import 'src/authentication.dart';
+          @@ -13,8 +14,6 @@ import 'src/authentication.dart';
            import 'src/widgets.dart';
            
-          @@ -44,6 +45,20 @@ class HomePage extends StatelessWidget {
+           void main() {
+          -  WidgetsFlutterBinding.ensureInitialized();
+          -
+             runApp(ChangeNotifierProvider(
+               create: (context) => ApplicationState(),
+               builder: ((context, child) => const App()),
+          @@ -133,6 +132,20 @@ class HomePage extends StatelessWidget {
                      const Paragraph(
                        'Join us for a day full of Firebase Workshops and Pizza!',
                      ),
@@ -2205,6 +2021,83 @@ steps:
                    ],
                  ),
                );
+          @@ -164,4 +177,76 @@ class ApplicationState extends ChangeNotifier {
+                 notifyListeners();
+               });
+             }
+          +
+          +  Future<DocumentReference> addMessageToGuestBook(String message) {
+          +    if (!_loggedIn) {
+          +      throw Exception('Must be logged in');
+          +    }
+          +
+          +    return FirebaseFirestore.instance
+          +        .collection('guestbook')
+          +        .add(<String, dynamic>{
+          +      'text': message,
+          +      'timestamp': DateTime.now().millisecondsSinceEpoch,
+          +      'name': FirebaseAuth.instance.currentUser!.displayName,
+          +      'userId': FirebaseAuth.instance.currentUser!.uid,
+          +    });
+          +  }
+          +}
+          +
+          +class GuestBook extends StatefulWidget {
+          +  const GuestBook({required this.addMessage, super.key});
+          +  final FutureOr<void> Function(String message) addMessage;
+          +
+          +  @override
+          +  State<GuestBook> createState() => _GuestBookState();
+          +}
+          +
+          +class _GuestBookState extends State<GuestBook> {
+          +  final _formKey = GlobalKey<FormState>(debugLabel: '_GuestBookState');
+          +  final _controller = TextEditingController();
+          +
+          +  @override
+          +  Widget build(BuildContext context) {
+          +    return Padding(
+          +      padding: const EdgeInsets.all(8.0),
+          +      child: Form(
+          +        key: _formKey,
+          +        child: Row(
+          +          children: [
+          +            Expanded(
+          +              child: TextFormField(
+          +                controller: _controller,
+          +                decoration: const InputDecoration(
+          +                  hintText: 'Leave a message',
+          +                ),
+          +                validator: (value) {
+          +                  if (value == null || value.isEmpty) {
+          +                    return 'Enter your message to continue';
+          +                  }
+          +                  return null;
+          +                },
+          +              ),
+          +            ),
+          +            const SizedBox(width: 8),
+          +            StyledButton(
+          +              onPressed: () async {
+          +                if (_formKey.currentState!.validate()) {
+          +                  await widget.addMessage(_controller.text);
+          +                  _controller.clear();
+          +                }
+          +              },
+          +              child: Row(
+          +                children: const [
+          +                  Icon(Icons.send),
+          +                  SizedBox(width: 4),
+          +                  Text('SEND'),
+          +                ],
+          +              ),
+          +            ),
+          +          ],
+          +        ),
+          +      ),
+          +    );
+          +  }
+           }
       - name: Copy step_06
         copydir:
           from: gtk_flutter
@@ -2213,46 +2106,30 @@ steps:
     steps:
       - name: Remove generated code.
         rmdir: step_07
-      - name: Add guest_book_message.dart
-        path: gtk_flutter/lib/guest_book_message.dart
-        replace-contents: |
-          // Copyright 2022 The Flutter Authors. All rights reserved.
-          // Use of this source code is governed by a BSD-style license that can be
-          // found in the LICENSE file.
-          
-          class GuestBookMessage {
-            GuestBookMessage({required this.name, required this.message});
-          
-            final String name;
-            final String message;
-          }
-      - name: Patch lib/app_state.dart
-        path: gtk_flutter/lib/app_state.dart
+      - name: Patch lib/main.dart
+        path: gtk_flutter/lib/main.dart
         patch-u: |
-          --- b/firebase-get-to-know-flutter/step_07/lib/app_state.dart
-          +++ a/firebase-get-to-know-flutter/step_07/lib/app_state.dart
-          @@ -2,6 +2,8 @@
-           // Use of this source code is governed by a BSD-style license that can be
-           // found in the LICENSE file.
+          --- b/firebase-get-to-know-flutter/step_07/lib/main.dart
+          +++ a/firebase-get-to-know-flutter/step_07/lib/main.dart
+          @@ -14,6 +14,8 @@ import 'src/authentication.dart';
+           import 'src/widgets.dart';
            
-          +import 'dart:async';
+           void main() {
+          +  WidgetsFlutterBinding.ensureInitialized();
           +
-           import 'package:cloud_firestore/cloud_firestore.dart';
-           import 'package:firebase_auth/firebase_auth.dart'
-               hide EmailAuthProvider, PhoneAuthProvider;
-          @@ -10,6 +12,7 @@ import 'package:firebase_ui_auth/firebase_ui_auth.dart';
-           import 'package:flutter/material.dart';
-           
-           import 'firebase_options.dart';
-          +import 'guest_book_message.dart';
-           
-           class ApplicationState extends ChangeNotifier {
-             ApplicationState() {
-          @@ -17,9 +20,12 @@ class ApplicationState extends ChangeNotifier {
-             }
-           
+             runApp(ChangeNotifierProvider(
+               create: (context) => ApplicationState(),
+               builder: ((context, child) => const App()),
+          @@ -141,6 +143,7 @@ class HomePage extends StatelessWidget {
+                             GuestBook(
+                               addMessage: (message) =>
+                                   appState.addMessageToGuestBook(message),
+          +                    messages: appState.guestBookMessages,
+                             ),
+                           ],
+                         ],
+          @@ -160,6 +163,10 @@ class ApplicationState extends ChangeNotifier {
              bool _loggedIn = false;
-          -
              bool get loggedIn => _loggedIn;
            
           +  StreamSubscription<QuerySnapshot>? _guestBookSubscription;
@@ -2262,7 +2139,7 @@ steps:
              Future<void> init() async {
                await Firebase.initializeApp(
                    options: DefaultFirebaseOptions.currentPlatform);
-          @@ -31,8 +37,26 @@ class ApplicationState extends ChangeNotifier {
+          @@ -171,8 +178,26 @@ class ApplicationState extends ChangeNotifier {
                FirebaseAuth.instance.userChanges().listen((user) {
                  if (user != null) {
                    _loggedIn = true;
@@ -2289,18 +2166,16 @@ steps:
                  }
                  notifyListeners();
                });
-      - name: Patch lib/guest_book.dart
-        path: gtk_flutter/lib/guest_book.dart
-        patch-u: |
-          --- b/firebase-get-to-know-flutter/step_07/lib/guest_book.dart
-          +++ a/firebase-get-to-know-flutter/step_07/lib/guest_book.dart
-          @@ -6,12 +6,18 @@ import 'dart:async';
+          @@ -194,9 +219,20 @@ class ApplicationState extends ChangeNotifier {
+             }
+           }
            
-           import 'package:flutter/material.dart';
-           
-          +import 'guest_book_message.dart';
-           import 'src/widgets.dart';
-           
+          +class GuestBookMessage {
+          +  GuestBookMessage({required this.name, required this.message});
+          +  final String name;
+          +  final String message;
+          +}
+          +
            class GuestBook extends StatefulWidget {
           -  const GuestBook({required this.addMessage, super.key});
           +  const GuestBook({
@@ -2308,13 +2183,12 @@ steps:
           +    required this.addMessage,
           +    required this.messages,
           +  });
-           
              final FutureOr<void> Function(String message) addMessage;
           +  final List<GuestBookMessage> messages;
            
              @override
              State<GuestBook> createState() => _GuestBookState();
-          @@ -23,45 +29,54 @@ class _GuestBookState extends State<GuestBook> {
+          @@ -208,45 +244,54 @@ class _GuestBookState extends State<GuestBook> {
            
              @override
              Widget build(BuildContext context) {
@@ -2405,139 +2279,141 @@ steps:
                );
              }
            }
-      - name: Patch lib/home_page.dart
-        path: gtk_flutter/lib/home_page.dart
-        patch-u: |
-          --- b/firebase-get-to-know-flutter/step_07/lib/home_page.dart
-          +++ a/firebase-get-to-know-flutter/step_07/lib/home_page.dart
-          @@ -54,6 +54,7 @@ class HomePage extends StatelessWidget {
-                             GuestBook(
-                               addMessage: (message) =>
-                                   appState.addMessageToGuestBook(message),
-          +                    messages: appState.guestBookMessages,
-                             ),
-                           ],
-                         ],
       - name: Copy step_07
         copydir:
           from: gtk_flutter
           to: step_07
   - name: step_09
     steps:
-      - name: Remove generated code
+      - name: Remove generated code.
         rmdir: step_09
-      - name: Add lib/yes_no_selection.dart
-        path: gtk_flutter/lib/yes_no_selection.dart
-        replace-contents: |
-          // Copyright 2022 The Flutter Authors. All rights reserved.
-          // Use of this source code is governed by a BSD-style license that can be
-          // found in the LICENSE file.
-          
-          import 'package:flutter/material.dart';
-          
-          import 'app_state.dart';
-          import 'src/widgets.dart';
-          
-          class YesNoSelection extends StatelessWidget {
-            const YesNoSelection({
-              super.key,
-              required this.state,
-              required this.onSelection,
-            });
-          
-            final Attending state;
-            final void Function(Attending selection) onSelection;
-          
-            @override
-            Widget build(BuildContext context) {
-              switch (state) {
-                case Attending.yes:
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(elevation: 0),
-                          onPressed: () => onSelection(Attending.yes),
-                          child: const Text('YES'),
-                        ),
-                        const SizedBox(width: 8),
-                        TextButton(
-                          onPressed: () => onSelection(Attending.no),
-                          child: const Text('NO'),
-                        ),
-                      ],
-                    ),
-                  );
-                case Attending.no:
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        TextButton(
-                          onPressed: () => onSelection(Attending.yes),
-                          child: const Text('YES'),
-                        ),
-                        const SizedBox(width: 8),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(elevation: 0),
-                          onPressed: () => onSelection(Attending.no),
-                          child: const Text('NO'),
-                        ),
-                      ],
-                    ),
-                  );
-                default:
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        StyledButton(
-                          onPressed: () => onSelection(Attending.yes),
-                          child: const Text('YES'),
-                        ),
-                        const SizedBox(width: 8),
-                        StyledButton(
-                          onPressed: () => onSelection(Attending.no),
-                          child: const Text('NO'),
-                        ),
-                      ],
-                    ),
-                  );
-              }
-            }
-          }
-      - name: Patch lib/app_state.dart
-        path: gtk_flutter/lib/app_state.dart
+      - name: Patch lib/main.dart
+        path: gtk_flutter/lib/main.dart
         patch-u: |
-          --- b/firebase-get-to-know-flutter/step_09/lib/app_state.dart
-          +++ a/firebase-get-to-know-flutter/step_09/lib/app_state.dart
-          @@ -14,18 +14,69 @@ import 'package:flutter/material.dart';
-           import 'firebase_options.dart';
-           import 'guest_book_message.dart';
+          --- b/firebase-get-to-know-flutter/step_09/lib/main.dart
+          +++ a/firebase-get-to-know-flutter/step_09/lib/main.dart
+          @@ -50,6 +50,7 @@ class App extends StatelessWidget {
+                             }
+                             if (state is UserCreated) {
+                               user.updateDisplayName(user.email!.split('@')[0]);
+          +                    user.sendEmailVerification();
+                             }
+                             if (!user.emailVerified) {
+                               user.sendEmailVerification();
+          @@ -74,15 +75,29 @@ class App extends StatelessWidget {
+                     );
+                   }),
+                   '/profile': ((context) {
+          -          return ProfileScreen(
+          -            providers: const [],
+          -            actions: [
+          -              SignedOutAction(
+          -                ((context) {
+          -                  Navigator.of(context).popUntil(ModalRoute.withName('/home'));
+          -                }),
+          -              ),
+          -            ],
+          +          return Consumer<ApplicationState>(
+          +            builder: (context, appState, _) => ProfileScreen(
+          +              key: ValueKey(appState.emailVerified),
+          +              providers: const [],
+          +              actions: [
+          +                SignedOutAction(
+          +                  ((context) {
+          +                    Navigator.of(context)
+          +                        .popUntil(ModalRoute.withName('/home'));
+          +                  }),
+          +                ),
+          +              ],
+          +              children: [
+          +                Visibility(
+          +                    visible: !appState.emailVerified,
+          +                    child: OutlinedButton(
+          +                      child: const Text('Recheck Verification State'),
+          +                      onPressed: () {
+          +                        appState.refreshLoggedInUser();
+          +                      },
+          +                    ))
+          +              ],
+          +            ),
+                     );
+                   })
+                 },
+          @@ -114,14 +129,19 @@ class HomePage extends StatelessWidget {
+                   children: <Widget>[
+                     Image.asset('assets/codelab.png'),
+                     const SizedBox(height: 8),
+          -          const IconAndDetail(Icons.calendar_today, 'October 30'),
+          +          Consumer<ApplicationState>(
+          +            builder: (context, appState, _) =>
+          +                IconAndDetail(Icons.calendar_today, appState.eventDate),
+          +          ),
+                     const IconAndDetail(Icons.location_city, 'San Francisco'),
+                     Consumer<ApplicationState>(
+                       builder: (context, appState, _) => AuthFunc(
+          -                loggedIn: appState.loggedIn,
+          -                signOut: () {
+          -                  FirebaseAuth.instance.signOut();
+          -                }),
+          +              loggedIn: appState.loggedIn,
+          +              signOut: () {
+          +                FirebaseAuth.instance.signOut();
+          +              },
+          +              enableFreeSwag: appState.enableFreeSwag,
+          +            ),
+                     ),
+                     const Divider(
+                       height: 8,
+          @@ -131,14 +151,26 @@ class HomePage extends StatelessWidget {
+                       color: Colors.grey,
+                     ),
+                     const Header("What we'll be doing"),
+          -          const Paragraph(
+          -            'Join us for a day full of Firebase Workshops and Pizza!',
+          +          Consumer<ApplicationState>(
+          +            builder: (context, appState, _) => Paragraph(
+          +              appState.callToAction,
+          +            ),
+                     ),
+                     Consumer<ApplicationState>(
+                       builder: (context, appState, _) => Column(
+                         crossAxisAlignment: CrossAxisAlignment.start,
+                         children: [
+          +                if (appState.attendees >= 2)
+          +                  Paragraph('${appState.attendees} people going')
+          +                else if (appState.attendees == 1)
+          +                  const Paragraph('1 person going')
+          +                else
+          +                  const Paragraph('No one going'),
+                           if (appState.loggedIn) ...[
+          +                  YesNoSelection(
+          +                    state: appState.attending,
+          +                    onSelection: (attending) => appState.attending = attending,
+          +                  ),
+                             const Header('Discussion'),
+                             GuestBook(
+                               addMessage: (message) =>
+          @@ -155,6 +187,8 @@ class HomePage extends StatelessWidget {
+             }
+           }
            
           +enum Attending { yes, no, unknown }
           +
            class ApplicationState extends ChangeNotifier {
              ApplicationState() {
                init();
-             }
-           
+          @@ -163,10 +197,50 @@ class ApplicationState extends ChangeNotifier {
              bool _loggedIn = false;
-          +
              bool get loggedIn => _loggedIn;
            
           +  bool _emailVerified = false;
-          +
           +  bool get emailVerified => _emailVerified;
           +
              StreamSubscription<QuerySnapshot>? _guestBookSubscription;
              List<GuestBookMessage> _guestBookMessages = [];
-          +
              List<GuestBookMessage> get guestBookMessages => _guestBookMessages;
            
           +  int _attendees = 0;
-          +
           +  int get attendees => _attendees;
           +
           +  static Map<String, dynamic> defaultValues = <String, dynamic>{
@@ -2550,24 +2426,19 @@ steps:
           +  // part of the codelab
           +  // ignore: prefer_final_fields
           +  bool _enableFreeSwag = defaultValues['enable_free_swag'] as bool;
-          +
           +  bool get enableFreeSwag => _enableFreeSwag;
           +
           +  // ignore: prefer_final_fields
           +  String _eventDate = defaultValues['event_date'] as String;
-          +
           +  String get eventDate => _eventDate;
           +
           +  // ignore: prefer_final_fields
           +  String _callToAction = defaultValues['call_to_action'] as String;
-          +
           +  String get callToAction => _callToAction;
           +
           +  Attending _attending = Attending.unknown;
           +  StreamSubscription<DocumentSnapshot>? _attendingSubscription;
-          +
           +  Attending get attending => _attending;
-          +
           +  set attending(Attending attending) {
           +    final userDoc = FirebaseFirestore.instance
           +        .collection('attendees')
@@ -2582,7 +2453,7 @@ steps:
              Future<void> init() async {
                await Firebase.initializeApp(
                    options: DefaultFirebaseOptions.currentPlatform);
-          @@ -34,9 +85,19 @@ class ApplicationState extends ChangeNotifier {
+          @@ -175,9 +249,19 @@ class ApplicationState extends ChangeNotifier {
                  EmailAuthProvider(),
                ]);
            
@@ -2602,7 +2473,7 @@ steps:
                    _guestBookSubscription = FirebaseFirestore.instance
                        .collection('guestbook')
                        .orderBy('timestamp', descending: true)
-          @@ -53,15 +114,43 @@ class ApplicationState extends ChangeNotifier {
+          @@ -194,15 +278,43 @@ class ApplicationState extends ChangeNotifier {
                      }
                      notifyListeners();
                    });
@@ -2646,120 +2517,82 @@ steps:
              Future<DocumentReference> addMessageToGuestBook(String message) {
                if (!_loggedIn) {
                  throw Exception('Must be logged in');
-      - name: Patch lib/home_page.dart
-        path: gtk_flutter/lib/home_page.dart
-        patch-u: |
-          --- b/firebase-get-to-know-flutter/step_09/lib/home_page.dart
-          +++ a/firebase-get-to-know-flutter/step_09/lib/home_page.dart
-          @@ -11,6 +11,7 @@ import 'app_state.dart';
-           import 'guest_book.dart';
-           import 'src/authentication.dart';
-           import 'src/widgets.dart';
-          +import 'yes_no_selection.dart';
-           
-           class HomePage extends StatelessWidget {
-             const HomePage({super.key});
-          @@ -25,14 +26,19 @@ class HomePage extends StatelessWidget {
-                   children: <Widget>[
-                     Image.asset('assets/codelab.png'),
-                     const SizedBox(height: 8),
-          -          const IconAndDetail(Icons.calendar_today, 'October 30'),
-          +          Consumer<ApplicationState>(
-          +            builder: (context, appState, _) =>
-          +                IconAndDetail(Icons.calendar_today, appState.eventDate),
-          +          ),
-                     const IconAndDetail(Icons.location_city, 'San Francisco'),
-                     Consumer<ApplicationState>(
-                       builder: (context, appState, _) => AuthFunc(
-          -                loggedIn: appState.loggedIn,
-          -                signOut: () {
-          -                  FirebaseAuth.instance.signOut();
-          -                }),
-          +              loggedIn: appState.loggedIn,
-          +              signOut: () {
-          +                FirebaseAuth.instance.signOut();
-          +              },
-          +              enableFreeSwag: appState.enableFreeSwag,
-          +            ),
-                     ),
-                     const Divider(
-                       height: 8,
-          @@ -42,14 +48,26 @@ class HomePage extends StatelessWidget {
-                       color: Colors.grey,
-                     ),
-                     const Header("What we'll be doing"),
-          -          const Paragraph(
-          -            'Join us for a day full of Firebase Workshops and Pizza!',
-          +          Consumer<ApplicationState>(
-          +            builder: (context, appState, _) => Paragraph(
-          +              appState.callToAction,
-          +            ),
-                     ),
-                     Consumer<ApplicationState>(
-                       builder: (context, appState, _) => Column(
-                         crossAxisAlignment: CrossAxisAlignment.start,
-                         children: [
-          +                if (appState.attendees >= 2)
-          +                  Paragraph('${appState.attendees} people going')
-          +                else if (appState.attendees == 1)
-          +                  const Paragraph('1 person going')
-          +                else
-          +                  const Paragraph('No one going'),
-                           if (appState.loggedIn) ...[
-          +                  YesNoSelection(
-          +                    state: appState.attending,
-          +                    onSelection: (attending) => appState.attending = attending,
-          +                  ),
-                             const Header('Discussion'),
-                             GuestBook(
-                               addMessage: (message) =>
-      - name: Patch lib/main.dart
-        path: gtk_flutter/lib/main.dart
-        patch-u: |
-          --- b/firebase-get-to-know-flutter/step_09/lib/main.dart
-          +++ a/firebase-get-to-know-flutter/step_09/lib/main.dart
-          @@ -80,13 +80,28 @@ final _router = GoRouter(
-                   GoRoute(
-                     path: 'profile',
-                     builder: (context, state) {
-          -            return ProfileScreen(
-          -              providers: const [],
-          -              actions: [
-          -                SignedOutAction((context) {
-          -                  context.pushReplacement('/');
-          -                }),
-          -              ],
-          +            return Consumer<ApplicationState>(
-          +              builder: (context, appState, _) => ProfileScreen(
-          +                key: ValueKey(appState.emailVerified),
-          +                providers: const [],
-          +                actions: [
-          +                  SignedOutAction(
-          +                    ((context) {
-          +                      context.pushReplacement('/');
-          +                    }),
-          +                  ),
-          +                ],
-          +                children: [
-          +                  Visibility(
-          +                      visible: !appState.emailVerified,
-          +                      child: OutlinedButton(
-          +                        child: const Text('Recheck Verification State'),
-          +                        onPressed: () {
-          +                          appState.refreshLoggedInUser();
-          +                        },
-          +                      ))
-          +                ],
+          @@ -295,3 +407,69 @@ class _GuestBookState extends State<GuestBook> {
+               );
+             }
+           }
+          +
+          +class YesNoSelection extends StatelessWidget {
+          +  const YesNoSelection(
+          +      {super.key, required this.state, required this.onSelection});
+          +  final Attending state;
+          +  final void Function(Attending selection) onSelection;
+          +
+          +  @override
+          +  Widget build(BuildContext context) {
+          +    switch (state) {
+          +      case Attending.yes:
+          +        return Padding(
+          +          padding: const EdgeInsets.all(8.0),
+          +          child: Row(
+          +            children: [
+          +              ElevatedButton(
+          +                style: ElevatedButton.styleFrom(elevation: 0),
+          +                onPressed: () => onSelection(Attending.yes),
+          +                child: const Text('YES'),
           +              ),
-                       );
-                     },
-                   ),
+          +              const SizedBox(width: 8),
+          +              TextButton(
+          +                onPressed: () => onSelection(Attending.no),
+          +                child: const Text('NO'),
+          +              ),
+          +            ],
+          +          ),
+          +        );
+          +      case Attending.no:
+          +        return Padding(
+          +          padding: const EdgeInsets.all(8.0),
+          +          child: Row(
+          +            children: [
+          +              TextButton(
+          +                onPressed: () => onSelection(Attending.yes),
+          +                child: const Text('YES'),
+          +              ),
+          +              const SizedBox(width: 8),
+          +              ElevatedButton(
+          +                style: ElevatedButton.styleFrom(elevation: 0),
+          +                onPressed: () => onSelection(Attending.no),
+          +                child: const Text('NO'),
+          +              ),
+          +            ],
+          +          ),
+          +        );
+          +      default:
+          +        return Padding(
+          +          padding: const EdgeInsets.all(8.0),
+          +          child: Row(
+          +            children: [
+          +              StyledButton(
+          +                onPressed: () => onSelection(Attending.yes),
+          +                child: const Text('YES'),
+          +              ),
+          +              const SizedBox(width: 8),
+          +              StyledButton(
+          +                onPressed: () => onSelection(Attending.no),
+          +                child: const Text('NO'),
+          +              ),
+          +            ],
+          +          ),
+          +        );
+          +    }
+          +  }
+          +}
       - name: Patch lib/src/authentication.dart
         path: gtk_flutter/lib/src/authentication.dart
         patch-u: |
           --- b/firebase-get-to-know-flutter/step_09/lib/src/authentication.dart
           +++ a/firebase-get-to-know-flutter/step_09/lib/src/authentication.dart
-          @@ -12,10 +12,12 @@ class AuthFunc extends StatelessWidget {
+          @@ -7,10 +7,12 @@ class AuthFunc extends StatelessWidget {
                super.key,
                required this.loggedIn,
                required this.signOut,
@@ -2772,8 +2605,8 @@ steps:
            
              @override
              Widget build(BuildContext context) {
-          @@ -38,7 +40,17 @@ class AuthFunc extends StatelessWidget {
-                               context.push('/profile');
+          @@ -35,7 +37,17 @@ class AuthFunc extends StatelessWidget {
+                               Navigator.of(context).pushNamed('/profile');
                              },
                              child: const Text('Profile')),
           -            ))

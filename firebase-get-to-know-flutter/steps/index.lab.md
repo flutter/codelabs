@@ -468,7 +468,7 @@ Each screen has a different type of action associated with it based on the new s
 
 3. In the `HomePage` class's build method, integrate the app state with the `AuthFunc` widget:
 
-####  [lib/home_page.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_05/lib/home_page.dart#L14)
+####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_05/lib/main.dart#L54)
 
 ```dart
 class HomePage extends StatelessWidget {

@@ -2,10 +2,13 @@ name: Google Maps in Flutter
 steps:
   - name: step_3
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_3
-      - name: Create project.
+      - name: Create project
         flutter: create google_maps_in_flutter --platforms android,ios,web
+      - name: Strip DEVELOPMENT_TEAM
+        strip-lines-containing: DEVELOPMENT_TEAM =
+        path: google_maps_in_flutter/ios/Runner.xcodeproj/project.pbxproj
       - name: Configure analysis_options.yaml
         path: google_maps_in_flutter/analysis_options.yaml
         replace-contents: |
@@ -51,13 +54,12 @@ steps:
                    // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
                    applicationId "com.example.google_maps_in_flutter"
           -        // You can update the following values to match your application needs.
-          -        // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
+          -        // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
           -        minSdkVersion flutter.minSdkVersion
           +        minSdkVersion 20
                    targetSdkVersion flutter.targetSdkVersion
                    versionCode flutterVersionCode.toInteger()
                    versionName flutterVersionName
-
       - name: Patch ios/Podfile
         platforms: [ macos ]
         path: google_maps_in_flutter/ios/Podfile
@@ -97,7 +99,6 @@ steps:
            import 'package:flutter/material.dart';
  
            void main() {
-
       - name: Patch test/widget_test.dart
         path: google_maps_in_flutter/test/widget_test.dart
         patch-u: |
@@ -143,7 +144,7 @@ steps:
           to: step_3
   - name: step_4
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_4
       - name: Patch android/app/src/main/AndroidManifest.xml
         path: google_maps_in_flutter/android/app/src/main/AndroidManifest.xml
@@ -162,7 +163,6 @@ steps:
                    <activity
                        android:name=".MainActivity"
                        android:exported="true"
-
       - name: Patch ios/Runner/AppDelegate.swift
         path: google_maps_in_flutter/ios/Runner/AppDelegate.swift
         patch-u: |
@@ -186,7 +186,6 @@ steps:
                return super.application(application, didFinishLaunchingWithOptions: launchOptions)
              }
            }
-
       - name: Patch web/index.html
         path: google_maps_in_flutter/web/index.html
         patch-u: |
@@ -201,8 +200,7 @@ steps:
           +
              <title>google_maps_in_flutter</title>
              <link rel="manifest" href="manifest.json">
-           
-      - name: Add lib/main.dart
+      - name: Replace lib/main.dart
         path: google_maps_in_flutter/lib/main.dart
         replace-contents: |
           /*
@@ -220,35 +218,39 @@ steps:
            * See the License for the specific language governing permissions and
            * limitations under the License.
            */
-
+          
           import 'package:flutter/material.dart';
           import 'package:google_maps_flutter/google_maps_flutter.dart';
-
+          
           void main() => runApp(const MyApp());
-
+          
           class MyApp extends StatefulWidget {
             const MyApp({super.key});
-
+          
             @override
             State<MyApp> createState() => _MyAppState();
           }
-
+          
           class _MyAppState extends State<MyApp> {
             late GoogleMapController mapController;
-
+          
             final LatLng _center = const LatLng(45.521563, -122.677433);
-
+          
             void _onMapCreated(GoogleMapController controller) {
               mapController = controller;
             }
-
+          
             @override
             Widget build(BuildContext context) {
               return MaterialApp(
+                theme: ThemeData(
+                  useMaterial3: true,
+                  colorSchemeSeed: Colors.green[700],
+                ),
                 home: Scaffold(
                   appBar: AppBar(
                     title: const Text('Maps Sample App'),
-                    backgroundColor: Colors.green[700],
+                    elevation: 2,
                   ),
                   body: GoogleMap(
                     onMapCreated: _onMapCreated,
@@ -261,7 +263,6 @@ steps:
               );
             }
           }
-
       - name: Add test/widget_test.dart
         path: google_maps_in_flutter/test/widget_test.dart
         replace-contents: |
@@ -291,14 +292,13 @@ steps:
               await tester.pumpWidget(const MyApp());
             });
           }
-
       - name: Copy step_4
         copydir: 
           from: google_maps_in_flutter
           to: step_4
   - name: step_5
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_5
       - name: Add http json_annotation json_serializable
         path: google_maps_in_flutter
@@ -1388,13 +1388,13 @@ steps:
              }
            
              @override
-          @@ -40,15 +54,16 @@ class _MyAppState extends State<MyApp> {
-               return MaterialApp(
+          @@ -44,15 +58,16 @@ class _MyAppState extends State<MyApp> {
+                 ),
                  home: Scaffold(
                    appBar: AppBar(
           -          title: const Text('Maps Sample App'),
           +          title: const Text('Google Office Locations'),
-                     backgroundColor: Colors.green[700],
+                     elevation: 2,
                    ),
                    body: GoogleMap(
                      onMapCreated: _onMapCreated,
@@ -1414,7 +1414,7 @@ steps:
         patch-u: |
           --- b/google-maps-in-flutter/step_5/pubspec.yaml
           +++ a/google-maps-in-flutter/step_5/pubspec.yaml
-          @@ -95,3 +95,5 @@ flutter:
+          @@ -94,3 +94,5 @@ flutter:
              #
              # For details regarding fonts from package dependencies,
              # see https://flutter.dev/custom-fonts/#from-packages

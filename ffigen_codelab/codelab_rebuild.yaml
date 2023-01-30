@@ -1,11 +1,14 @@
 name: FFI Generator codelab rebuild script
 steps:
-  - name: Create ffigen_app
-    flutter: create --template=plugin_ffi --platforms=android,ios,linux,macos,windows ffigen_app
   - name: step_03
     steps:
       - name: Remove step_03
         rmdir: step_03
+      - name: Create ffigen_app
+        flutter: create --template=plugin_ffi --platforms=android,ios,linux,macos,windows ffigen_app
+      - name: Strip DEVELOPMENT_TEAM
+        strip-lines-containing: DEVELOPMENT_TEAM =
+        path: ffigen_app/example/ios/Runner.xcodeproj/project.pbxproj
       - name: Configure analysis_options.yaml
         path: ffigen_app/analysis_options.yaml
         replace-contents: |
@@ -43,20 +46,6 @@ steps:
         dart: format ffigen_app
       - name: dart fix
         dart: fix --apply ffigen_app
-      - name: Fixup example/lib/main.dart
-        path: ffigen_app/example/lib/main.dart
-        patch-u: |
-          --- b/ffigen_codelab/step_03/example/lib/main.dart
-          +++ a/ffigen_codelab/step_03/example/lib/main.dart
-          @@ -11,7 +11,7 @@ class MyApp extends StatefulWidget {
-             const MyApp({super.key});
-           
-             @override
-          -  _MyAppState createState() => _MyAppState();
-          +  State<MyApp> createState() => _MyAppState();
-           }
-           
-           class _MyAppState extends State<MyApp> {
       - name: Build iOS simulator bundle
         path: ffigen_app/example
         platforms: [ macos ]

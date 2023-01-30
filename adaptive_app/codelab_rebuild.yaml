@@ -2,10 +2,13 @@ name: Adaptive App rebuild script
 steps:
   - name: step_03
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_03
-      - name: Create project.
+      - name: Create project
         flutter: create adaptive_app
+      - name: Strip DEVELOPMENT_TEAM
+        strip-lines-containing: DEVELOPMENT_TEAM =
+        path: adaptive_app/ios/Runner.xcodeproj/project.pbxproj
       - name: Configure analysis_options.yaml
         path: adaptive_app/analysis_options.yaml
         replace-contents: |
@@ -205,7 +208,7 @@ steps:
         flutter: clean
   - name: step_04
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_04
       - name: Add googleapis http provider url_launcher flex_color_scheme go_router
         path: adaptive_app
@@ -324,8 +327,14 @@ steps:
             Widget build(BuildContext context) {
               return MaterialApp.router(
                 title: 'FlutterDev Playlists',
-                theme: FlexColorScheme.light(scheme: FlexScheme.red).toTheme,
-                darkTheme: FlexColorScheme.dark(scheme: FlexScheme.red).toTheme,
+                theme: FlexColorScheme.light(
+                  scheme: FlexScheme.red,
+                  useMaterial3: true,
+                ).toTheme,
+                darkTheme: FlexColorScheme.dark(
+                  scheme: FlexScheme.red,
+                  useMaterial3: true,
+                ).toTheme,
                 themeMode: ThemeMode.dark, // Or ThemeMode.System if you'd prefer
                 debugShowCheckedModeBanner: false,
                 routerConfig: _router,
@@ -722,7 +731,7 @@ steps:
           to: step_04
   - name: step_05
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_05
       - name: Add dependencies
         path: adaptive_app
@@ -1056,7 +1065,7 @@ steps:
           to: step_05
   - name: step_06
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_06
       - name: Create yt_cors_proxy
         path: adaptive_app
@@ -1069,13 +1078,16 @@ steps:
         dart: pub add http shelf_cors_headers
       - name: Patch yt_cors_proxy/pubspec.yaml
         path: adaptive_app/yt_cors_proxy/pubspec.yaml
-        patch: |
-          2c2
-          < description: A server app using the shelf package and Docker.
-          ---
-          > description: A YouTube CORS Proxy Server.
-          4d3
-          < # homepage: https://www.example.com
+        patch-u: |
+          --- b/adaptive_app/step_06/yt_cors_proxy/pubspec.yaml
+          +++ a/adaptive_app/step_06/yt_cors_proxy/pubspec.yaml
+          @@ -1,5 +1,4 @@
+           name: yt_cors_proxy
+          -description: A server app using the shelf package and Docker.
+          +description: A YouTube CORS Proxy Server.
+           version: 1.0.0
+          -# repository: https://github.com/my_org/my_repo
+           
       - name: Remove yt_cors_proxy/CHANGELOG.md
         path: adaptive_app/yt_cors_proxy
         rm: CHANGELOG.md
@@ -1258,7 +1270,7 @@ steps:
           to: step_06
   - name: step_07
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_07
       - name: Add googleapis_auth google_sign_in extension_google_sign_in_as_googleapis_auth
         path: adaptive_app
@@ -1545,9 +1557,9 @@ steps:
                return MaterialApp.router(
           -      title: 'FlutterDev Playlists',
           +      title: 'Your Playlists',
-                 theme: FlexColorScheme.light(scheme: FlexScheme.red).toTheme,
-                 darkTheme: FlexColorScheme.dark(scheme: FlexScheme.red).toTheme,
-                 themeMode: ThemeMode.dark, // Or ThemeMode.System if you'd prefer
+                 theme: FlexColorScheme.light(
+                   scheme: FlexScheme.red,
+                   useMaterial3: true,
       - name: Patch lib/src/adaptive_playlists.dart
         path: adaptive_app/lib/src/adaptive_playlists.dart
         patch-u: |

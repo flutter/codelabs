@@ -6,6 +6,9 @@ steps:
         rmdir: step_03
       - name: Create project
         flutter: create webview_in_flutter --platforms=android,ios
+      - name: Strip DEVELOPMENT_TEAM
+        strip-lines-containing: DEVELOPMENT_TEAM =
+        path: webview_in_flutter/ios/Runner.xcodeproj/project.pbxproj
       - name: Configure analysis_options.yaml
         path: webview_in_flutter/analysis_options.yaml
         replace-contents: |
@@ -50,12 +53,10 @@ steps:
                ndkVersion flutter.ndkVersion
            
                compileOptions {
-          @@ -45,9 +45,7 @@ android {
-               defaultConfig {
-                   // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+          @@ -47,7 +47,7 @@ android {
                    applicationId "com.example.webview_in_flutter"
-          -        // You can update the following values to match your application needs.
-          -        // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
+                   // You can update the following values to match your application needs.
+                   // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
           -        minSdkVersion flutter.minSdkVersion
           +        minSdkVersion 20          // MODIFY
                    targetSdkVersion flutter.targetSdkVersion
@@ -79,14 +80,15 @@ steps:
           // Copyright 2022 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-
+          
           import 'package:flutter/material.dart';
           import 'package:webview_flutter/webview_flutter.dart';
           
           void main() {
             runApp(
-              const MaterialApp(
-                home: WebViewApp(),
+              MaterialApp(
+                theme: ThemeData(useMaterial3: true),
+                home: const WebViewApp(),
               ),
             );
           }
@@ -138,10 +140,10 @@ steps:
                ndkVersion flutter.ndkVersion
            
                compileOptions {
-          @@ -45,7 +45,7 @@ android {
-               defaultConfig {
-                   // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+          @@ -47,7 +47,7 @@ android {
                    applicationId "com.example.webview_in_flutter"
+                   // You can update the following values to match your application needs.
+                   // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
           -        minSdkVersion 20          // MODIFY
           +        minSdkVersion 20
                    targetSdkVersion flutter.targetSdkVersion
@@ -235,7 +237,7 @@ steps:
            
            void main() {
              runApp(
-          @@ -21,26 +22,13 @@ class WebViewApp extends StatefulWidget {
+          @@ -22,26 +23,13 @@ class WebViewApp extends StatefulWidget {
            }
            
            class _WebViewAppState extends State<WebViewApp> {
@@ -343,7 +345,7 @@ steps:
            import 'src/web_view_stack.dart';
            
            void main() {
-          @@ -22,13 +24,27 @@ class WebViewApp extends StatefulWidget {
+          @@ -23,13 +25,27 @@ class WebViewApp extends StatefulWidget {
            }
            
            class _WebViewAppState extends State<WebViewApp> {
@@ -519,7 +521,7 @@ steps:
            import 'src/navigation_controls.dart';
            import 'src/web_view_stack.dart';
            
-          @@ -42,6 +43,7 @@ class _WebViewAppState extends State<WebViewApp> {
+          @@ -43,6 +44,7 @@ class _WebViewAppState extends State<WebViewApp> {
                    title: const Text('Flutter WebView'),
                    actions: [
                      NavigationControls(controller: controller),
@@ -668,14 +670,6 @@ steps:
              }
            
              @override
-      - name: Build iOS
-        platforms: [ macos ]
-        path: webview_in_flutter
-        flutter: build ios
-      - name: Build Android
-        platforms: [ macos ]
-        path: webview_in_flutter
-        flutter: build apk
       - name: Copy step_09
         copydir:
           from: webview_in_flutter
@@ -750,10 +744,6 @@ steps:
              }
            
              @override
-      - name: Build iOS
-        platforms: [ macos ]
-        path: webview_in_flutter
-        flutter: build ios
       - name: Copy step_10
         copydir:
           from: webview_in_flutter
@@ -914,7 +904,7 @@ steps:
         patch-u: |
           --- b/webview_flutter/step_12/pubspec.yaml
           +++ a/webview_flutter/step_12/pubspec.yaml
-          @@ -60,6 +60,9 @@ flutter:
+          @@ -59,6 +60,9 @@ flutter:
              # included with your application, so that you can use the icons in
              # the material Icons class.
              uses-material-design: true

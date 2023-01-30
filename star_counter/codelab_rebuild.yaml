@@ -2,10 +2,13 @@ name: Star Counter script
 steps:
   - name: step_04
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_04
-      - name: Create project.
-        flutter: create star_counter
+      - name: Create project
+        flutter: create star_counter --platforms=web
+      - name: Strip DEVELOPMENT_TEAM
+        strip-lines-containing: DEVELOPMENT_TEAM =
+        path: star_counter/ios/Runner.xcodeproj/project.pbxproj
       - name: Configure analysis_options.yaml
         path: star_counter/analysis_options.yaml
         replace-contents: |
@@ -16,14 +19,6 @@ steps:
       - name: Remove README.md
         path: star_counter
         rm: README.md
-      - name: Remove the Mobile and Desktop runners
-        path: star_counter
-        rmdirs:
-          - android
-          - ios
-          - linux 
-          - macos 
-          - windows
       - name: Remove cupertino_icons
         flutter: pub remove cupertino_icons
         path: star_counter
@@ -39,9 +34,9 @@ steps:
            name: star_counter
           -description: A new Flutter project.
           +description: A GitHub Star Counter app
-           
            # The following line prevents the package from being accidentally published to
            # pub.dev using `flutter pub publish`. This is preferred for private packages.
+           publish_to: 'none' # Remove this line if you wish to publish to pub.dev
       - name: VSCode config
         path: star_counter
         mkdir: .vscode

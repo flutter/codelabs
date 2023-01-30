@@ -6,6 +6,9 @@ steps:
         rmdir: step_02
       - name: Create project
         flutter: create doodle_dash
+      - name: Strip DEVELOPMENT_TEAM
+        strip-lines-containing: DEVELOPMENT_TEAM =
+        path: doodle_dash/ios/Runner.xcodeproj/project.pbxproj
       - name: Configure analysis_options.yaml
         path: doodle_dash/analysis_options.yaml
         replace-contents: |
@@ -574,6 +577,8 @@ steps:
             inversePrimary: Color(0xFFABC7FF),
             shadow: Color(0xFF000000),
             surfaceTint: Color(0xFF195CB5),
+            outlineVariant: Color(0xFFC4C6D0),
+            scrim: Color(0xFF000000),
           );
           
           const darkColorScheme = ColorScheme(
@@ -606,6 +611,8 @@ steps:
             inversePrimary: Color(0xFF195CB5),
             shadow: Color(0xFF000000),
             surfaceTint: Color(0xFFABC7FF),
+            outlineVariant: Color(0xFF44474E),
+            scrim: Color(0xFF000000),
           );
       - name: Add lib/game/util/num_utils.dart
         path: doodle_dash/lib/game/util/num_utils.dart
@@ -1336,7 +1343,7 @@ steps:
         patch-u: |
           --- b/flame-building-doodle-dash/step_02/pubspec.yaml
           +++ a/flame-building-doodle-dash/step_02/pubspec.yaml
-          @@ -62,9 +62,9 @@ flutter:
+          @@ -61,9 +61,9 @@ flutter:
              uses-material-design: true
            
              # To add assets to your application, add an assets section, like this:
