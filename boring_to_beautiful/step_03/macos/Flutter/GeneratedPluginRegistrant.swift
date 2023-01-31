@@ -7,7 +7,7 @@ import Foundation
 
 import desktop_window
 import dynamic_color
-import path_provider_macos
+import path_provider_foundation
 import url_launcher_macos
 
 func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
