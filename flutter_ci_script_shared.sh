@@ -12,8 +12,9 @@ function ci_codelabs () {
     pushd ffigen_codelab/step_07/example
         # RUNNER_OS from https://stackoverflow.com/a/72926104/2142626
         if [ $RUNNER_OS = 'Linux' ]; then
-            sudo apt install ninja-build
-            sudo apt install libgtk-3-dev
+            sudo sed -i 's/azure\.//' /etc/apt/sources.list
+            sudo apt-get update
+            sudo apt-get install -y ninja-build libgtk-3-dev
         fi
         flutter build `echo $RUNNER_OS | tr '[:upper:]' '[:lower:]'` --debug
     popd

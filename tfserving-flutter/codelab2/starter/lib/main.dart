@@ -168,14 +168,12 @@ class _TFServingDemoState extends State<TFServingDemo> {
       // TODO: create and send the REST request
 
       // TODO: process the REST response
-
     } else {
       // TODO: create the gRPC request
 
       // TODO: send the gRPC request
 
       // TODO: process the gRPC response
-
     }
     return '';
   }

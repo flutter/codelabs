@@ -7,31 +7,26 @@ source "$DIR/flutter_ci_script_shared.sh"
 
 declare -a CODELABS=(
   "adaptive_app"
-  # TODO(DomesticMouse): flutter_test from sdk depends on material_color_utilities 0.2.0
-  # "boring_to_beautiful"
-  # TODO(DomesticMouse): remove no longer required !'s
-  # "cookbook"
+  "animated-responsive-layout"
+  "boring_to_beautiful"
+  "cookbook"
   "cupertino_store"
   "dartpad_codelabs"
   "ffigen_codelab"
+  "firebase-auth-flutterfire-ui"
   "firebase-emulator-suite"
-  # TODO(ewindmill): ColorScheme class changes required for Flutter beta
-  # "flame-building-doodle-dash"
   "firebase-get-to-know-flutter"
   "flame-building-doodle-dash"
-  "friendly_chat"
   "github-client"
   "google-maps-in-flutter"
   "in_app_purchases"
-  "material3-reply"
   "namer"
+  "plugin_codelab"
   "star_counter"
-  "startup_namer"
   "testing_codelab"
   "tfagents-flutter"
   "tfrs-flutter"
-  # TODO(DomesticMouse): needs `dart format` for Flutter beta
-  # "tfserving-flutter"
+  "tfserving-flutter"
   "tooling"
   "webview_flutter"
   )

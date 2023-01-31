@@ -360,4 +360,16 @@ steps:
     final blueprint = Blueprint.fromString(input);
     expect(blueprint.isValid, equals(true));
   });
+
+  test('Strip lines containing "DEVELOPMENT_TEAM ="', () {
+    final input = '''
+name: Strip lines
+steps:
+ - name: Strip DEVELOPMENT_TEAM
+   strip-lines-containing: DEVELOPMENT_TEAM =
+   path: codelab_app/ios/Runner.xcodeproj/project.pbxproj
+''';
+    final blueprint = Blueprint.fromString(input);
+    expect(blueprint.isValid, equals(true));
+  });
 }

@@ -126,7 +126,7 @@ class _BottomBar extends StatelessWidget {
                       ],
                     ),
                   );
-                  overlay!.insert(entry);
+                  overlay.insert(entry);
                 },
               ),
           ],
@@ -162,7 +162,7 @@ class _BottomBar extends StatelessWidget {
                 ],
               ),
             );
-            overlay!.insert(entry);
+            overlay.insert(entry);
           },
           child: Stack(
             children: [
