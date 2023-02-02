@@ -81,6 +81,7 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
 
   final Map<String, bool> specialPlatforms = {
     'spring': true, // level 1
+    'low_gravity': true, // level 1
     'broken': false, // level 2
     'noogler': false, // level 3
     'rocket': false, // level 4
@@ -101,6 +102,7 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
     switch (level) {
       case 1:
         enableSpecialty('spring');
+        enableSpecialty('low_gravity');
         break;
       case 2:
         enableSpecialty('broken');
@@ -220,6 +222,14 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
       );
       add(rocket);
       _powerups.add(rocket);
+    } else if (specialPlatforms['low_gravity'] == true &&
+        probGen.generateWithProbability(50)) {
+      var astronaut = Astronaut(
+        position: Vector2(_generateNextX(75), _generateNextY()),
+      );
+
+      add(astronaut);
+      _powerups.add(astronaut);
     }
 
     _cleanupPowerups();

@@ -18,7 +18,8 @@ enum PlayerState {
   rocket,
   nooglerCenter,
   nooglerLeft,
-  nooglerRight
+  nooglerRight,
+  astronaut,
 }
 
 class Player extends SpriteGroupComponent<PlayerState>
@@ -40,7 +41,8 @@ class Player extends SpriteGroupComponent<PlayerState>
   bool get isMovingDown => _velocity.y > 0;
   Character character;
   double jumpSpeed;
-  final double _gravity = 9;
+  final double _gravity = 9.8;
+  double gravityModifier = 0;
 
   @override
   Future<void> onLoad() async {
@@ -56,6 +58,12 @@ class Player extends SpriteGroupComponent<PlayerState>
   void update(double dt) {
     if (gameRef.gameManager.isIntro || gameRef.gameManager.isGameOver) return;
 
+    if (isAstronaut) {
+      gravityModifier = 8;
+    } else {
+      gravityModifier = 0;
+    }
+
     _velocity.x = _hAxisInput * jumpSpeed;
 
     final double dashHorizontalCenter = size.x / 2;
@@ -67,7 +75,7 @@ class Player extends SpriteGroupComponent<PlayerState>
       position.x = dashHorizontalCenter;
     }
 
-    _velocity.y += _gravity;
+    _velocity.y += _gravity - gravityModifier;
 
     position += _velocity * dt;
 
@@ -125,7 +133,8 @@ class Player extends SpriteGroupComponent<PlayerState>
       current == PlayerState.rocket ||
       current == PlayerState.nooglerLeft ||
       current == PlayerState.nooglerRight ||
-      current == PlayerState.nooglerCenter;
+      current == PlayerState.nooglerCenter ||
+      current == PlayerState.astronaut;
 
   bool get isInvincible => current == PlayerState.rocket;
 
@@ -133,6 +142,8 @@ class Player extends SpriteGroupComponent<PlayerState>
       current == PlayerState.nooglerLeft ||
       current == PlayerState.nooglerRight ||
       current == PlayerState.nooglerCenter;
+
+  bool get isAstronaut => current == PlayerState.astronaut;
 
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
@@ -146,7 +157,9 @@ class Player extends SpriteGroupComponent<PlayerState>
         (intersectionPoints.first.y - intersectionPoints.last.y).abs() < 5;
 
     if (isMovingDown && isCollidingVertically) {
-      current = PlayerState.center;
+      if (!isAstronaut) {
+        current = PlayerState.center;
+      }
       if (other is NormalPlatform) {
         jump();
         return;
@@ -174,6 +187,10 @@ class Player extends SpriteGroupComponent<PlayerState>
       _removePowerupAfterTime(other.activeLengthInMS);
       jump(specialJumpSpeed: jumpSpeed * other.jumpSpeedMultiplier);
       return;
+    } else if (!hasPowerup && other is Astronaut) {
+      current = PlayerState.astronaut;
+      other.removeFromParent();
+      _removePowerupAfterTime(other.activeLengthInMS);
     }
   }
 
@@ -216,6 +233,8 @@ class Player extends SpriteGroupComponent<PlayerState>
         await gameRef.loadSprite('game/${character.name}_hat_left.png');
     final nooglerRight =
         await gameRef.loadSprite('game/${character.name}_hat_right.png');
+    final astronaut =
+        await gameRef.loadSprite('game/${character.name}_space_center.png');
 
     sprites = <PlayerState, Sprite>{
       PlayerState.left: left,
@@ -225,6 +244,7 @@ class Player extends SpriteGroupComponent<PlayerState>
       PlayerState.nooglerCenter: nooglerCenter,
       PlayerState.nooglerLeft: nooglerLeft,
       PlayerState.nooglerRight: nooglerRight,
+      PlayerState.astronaut: astronaut,
     };
   }
 }
