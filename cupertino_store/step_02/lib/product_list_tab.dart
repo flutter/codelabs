@@ -33,23 +33,19 @@ class ProductListTab extends StatelessWidget {
               largeTitle: Text('Cupertino Store'),
             ),
             SliverSafeArea(
-              top: false,
-              minimum: const EdgeInsets.only(top: 8),
-              sliver: SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    if (index < products.length) {
-                      return ProductRowItem(
-                        product: products[index],
-                        lastItem: index == products.length - 1,
-                      );
-                    }
-
-                    return null;
-                  },
-                ),
-              ),
-            )
+                top: false,
+                minimum: const EdgeInsets.only(top: 0),
+                sliver: SliverToBoxAdapter(
+                  child: CupertinoListSection(
+                    topMargin: 0,
+                    children: [
+                      for (var product in products)
+                        ProductRowItem(
+                          product: product,
+                        )
+                    ],
+                  ),
+                )),
           ],
         );
       },
