@@ -150,7 +150,7 @@ steps:
                   }
               ]
           }
-      - name: Add app.dart
+      - name: Add lib/app.dart
         path: cupertino_store/lib/app.dart
         replace-contents: |
           // Copyright 2019 Google LLC
@@ -288,9 +288,9 @@ steps:
           to: step_00
   - name: step_01
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_01
-      - name: Patch app.dart
+      - name: Patch lib/app.dart
         path: cupertino_store/lib/app.dart
         patch-u: |
           --- b/cupertino_store/step_01/lib/app.dart
@@ -360,7 +360,7 @@ steps:
                );
              }
            }
-      - name: Patch main.dart
+      - name: Patch lib/main.dart
         path: cupertino_store/lib/main.dart
         patch-u: |
           --- b/cupertino_store/step_01/lib/main.dart
@@ -411,7 +411,7 @@ steps:
           +    expect(find.text('Cart'), findsOneWidget);
              });
            }
-      - name: Add product_list_tab.dart
+      - name: Add lib/product_list_tab.dart
         path: cupertino_store/lib/product_list_tab.dart
         replace-contents: |
           // Copyright 2019 Google LLC
@@ -451,7 +451,7 @@ steps:
               );
             }
           }
-      - name: Add search_tab.dart
+      - name: Add lib/search_tab.dart
         path: cupertino_store/lib/search_tab.dart
         replace-contents: |
           // Copyright 2019 Google LLC
@@ -491,7 +491,7 @@ steps:
               );
             }
           }
-      - name: Add shopping_cart_tab.dart
+      - name: Add lib/shopping_cart_tab.dart
         path: cupertino_store/lib/shopping_cart_tab.dart
         replace-contents: |
           // Copyright 2019 Google LLC
@@ -540,7 +540,7 @@ steps:
           }
       - name: Make cupertino_store/lib/model dir
         mkdir: cupertino_store/lib/model
-      - name: Add app_state_model.dart
+      - name: Add lib/app_state_model.dart
         path: cupertino_store/lib/model/app_state_model.dart
         replace-contents: |
           // Copyright 2018-present the Flutter authors. All Rights Reserved.
@@ -682,7 +682,7 @@ steps:
               notifyListeners();
             }
           }
-      - name: Add product.dart
+      - name: Add lib/product.dart
         path: cupertino_store/lib/model/product.dart
         replace-contents: |
           // Copyright 2018-present the Flutter authors. All Rights Reserved.
@@ -727,7 +727,7 @@ steps:
             @override
             String toString() => '$name (id=$id)';
           }
-      - name: Add products_repository.dart
+      - name: Add lib/products_repository.dart
         path: cupertino_store/lib/model/products_repository.dart
         replace-contents: |
           // Copyright 2018-present the Flutter authors. All Rights Reserved.
@@ -1030,9 +1030,9 @@ steps:
           to: step_01
   - name: step_02
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_02
-      - name: Update product_list_tab.dart
+      - name: Update lib/product_list_tab.dart
         path: cupertino_store/lib/product_list_tab.dart
         patch-u: |
           --- b/cupertino_store/step_02/lib/product_list_tab.dart
@@ -1045,7 +1045,7 @@ steps:
            
            class ProductListTab extends StatelessWidget {
              const ProductListTab({super.key});
-          @@ -24,11 +25,31 @@ class ProductListTab extends StatelessWidget {
+          @@ -24,11 +25,28 @@ class ProductListTab extends StatelessWidget {
              Widget build(BuildContext context) {
                return Consumer<AppStateModel>(
                  builder: (context, model, child) {
@@ -1060,26 +1060,23 @@ steps:
                        ),
           +            SliverSafeArea(
           +              top: false,
-          +              minimum: const EdgeInsets.only(top: 8),
-          +              sliver: SliverList(
-          +                delegate: SliverChildBuilderDelegate(
-          +                  (context, index) {
-          +                    if (index < products.length) {
-          +                      return ProductRowItem(
-          +                        product: products[index],
-          +                        lastItem: index == products.length - 1,
-          +                      );
-          +                    }
-          +
-          +                    return null;
-          +                  },
+          +              minimum: const EdgeInsets.only(top: 0),
+          +              sliver: SliverToBoxAdapter(
+          +                child: CupertinoListSection(
+          +                  topMargin: 0,
+          +                  children: [
+          +                    for (var product in products)
+          +                      ProductRowItem(
+          +                        product: product,
+          +                      )
+          +                  ],
           +                ),
           +              ),
-          +            )
+          +            ),
                      ],
                    );
                  },
-      - name: Update product_row_item.dart
+      - name: Create lib/product_row_item.dart
         path: cupertino_store/lib/product_row_item.dart
         replace-contents: |
           // Copyright 2019 Google LLC
@@ -1095,100 +1092,65 @@ steps:
           // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
           // See the License for the specific language governing permissions and
           // limitations under the License.
-
+          
           import 'package:flutter/cupertino.dart';
           import 'package:provider/provider.dart';
-
+          
           import 'model/app_state_model.dart';
           import 'model/product.dart';
           import 'styles.dart';
-
+          
           class ProductRowItem extends StatelessWidget {
             const ProductRowItem({
               required this.product,
-              required this.lastItem,
               super.key,
             });
-
+          
             final Product product;
-            final bool lastItem;
-
+          
             @override
             Widget build(BuildContext context) {
-              final row = SafeArea(
+              return SafeArea(
                 top: false,
                 bottom: false,
                 minimum: const EdgeInsets.only(
-                  left: 16,
+                  left: 0,
                   top: 8,
                   bottom: 8,
                   right: 8,
                 ),
-                child: Row(
-                  children: <Widget>[
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(4),
-                      child: Image.asset(
-                        product.assetName,
-                        package: product.assetPackage,
-                        fit: BoxFit.cover,
-                        width: 76,
-                        height: 76,
-                      ),
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 12),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              product.name,
-                              style: Styles.productRowItemName,
-                            ),
-                            const Padding(padding: EdgeInsets.only(top: 8)),
-                            Text(
-                              '\$${product.price}',
-                              style: Styles.productRowItemPrice,
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    CupertinoButton(
-                      padding: EdgeInsets.zero,
-                      onPressed: () {
-                        final model = Provider.of<AppStateModel>(context, listen: false);
-                        model.addProductToCart(product.id);
-                      },
-                      child: const Icon(
-                        CupertinoIcons.plus_circled,
-                        semanticLabel: 'Add',
-                      ),
-                    ),
-                  ],
-                ),
-              );
-
-              if (lastItem) {
-                return row;
-              }
-
-              return Column(
-                children: <Widget>[
-                  row,
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      left: 100,
-                      right: 16,
-                    ),
-                    child: Container(
-                      height: 1,
-                      color: Styles.productRowDivider,
+                child: CupertinoListTile(
+                  leading: ClipRRect(
+                    borderRadius: BorderRadius.circular(4),
+                    child: Image.asset(
+                      product.assetName,
+                      package: product.assetPackage,
+                      fit: BoxFit.cover,
+                      width: 68,
+                      height: 68,
                     ),
                   ),
-                ],
+                  leadingSize: 68,
+                  title: Text(
+                    product.name,
+                    style: Styles.productRowItemName,
+                  ),
+                  subtitle: Text(
+                    '\$${product.price}',
+                    style: Styles.productRowItemPrice,
+                  ),
+                  trailing: CupertinoButton(
+                    padding: EdgeInsets.zero,
+                    onPressed: () {
+                      final model = Provider.of<AppStateModel>(context, listen: false);
+                      model.addProductToCart(product.id);
+                    },
+                    child: const Icon(
+                      CupertinoIcons.plus_circled,
+                      semanticLabel: 'Add',
+                    ),
+                  ),
+                ),
               );
             }
           }
@@ -1198,9 +1160,9 @@ steps:
           to: step_02
   - name: step_03
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_03
-      - name: Add search_bar.dart
+      - name: Add lib/search_bar.dart
         path: cupertino_store/lib/search_bar.dart
         replace-contents: |
           // Copyright 2018 The Flutter team. All rights reserved.
@@ -1260,7 +1222,7 @@ steps:
               );
             }
           }
-      - name: Modify search_tab.dart
+      - name: Modify lib/search_tab.dart
         path: cupertino_store/lib/search_tab.dart
         patch-u: |
           --- b/cupertino_store/step_03/lib/search_tab.dart
@@ -1278,7 +1240,7 @@ steps:
            
            class SearchTab extends StatefulWidget {
              const SearchTab({super.key});
-          @@ -24,14 +30,65 @@ class SearchTab extends StatefulWidget {
+          @@ -24,14 +30,69 @@ class SearchTab extends StatefulWidget {
            }
            
            class _SearchTabState extends State<SearchTab> {
@@ -1334,12 +1296,16 @@ steps:
           +          children: [
           +            _buildSearchBox(),
           +            Expanded(
-          +              child: ListView.builder(
-          +                itemBuilder: (context, index) => ProductRowItem(
-          +                  product: results[index],
-          +                  lastItem: index == results.length - 1,
+          +              child: SingleChildScrollView(
+          +                child: CupertinoListSection(
+          +                  topMargin: 0,
+          +                  children: [
+          +                    for (var product in results)
+          +                      ProductRowItem(
+          +                        product: product,
+          +                      )
+          +                  ],
           +                ),
-          +                itemCount: results.length,
           +              ),
           +            ),
           +          ],
@@ -1355,9 +1321,9 @@ steps:
           to: step_03
   - name: step_04
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_04
-      - name: Modify shopping_cart_tab.dart
+      - name: Modify lib/shopping_cart_tab.dart
         path: cupertino_store/lib/shopping_cart_tab.dart
         patch-u: |
           --- b/cupertino_store/step_04/lib/shopping_cart_tab.dart
@@ -1500,9 +1466,9 @@ steps:
           to: step_04
   - name: step_05
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_05
-      - name: Modify shopping_cart_tab.dart
+      - name: Modify lib/shopping_cart_tab.dart
         path: cupertino_store/lib/shopping_cart_tab.dart
         patch-u: |
           --- b/cupertino_store/step_05/lib/shopping_cart_tab.dart
@@ -1589,9 +1555,9 @@ steps:
           to: step_05
   - name: step_06
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_06
-      - name: Modify shopping_cart_tab.dart
+      - name: Modify lib/shopping_cart_tab.dart
         path: cupertino_store/lib/shopping_cart_tab.dart
         patch-u: |
           --- b/cupertino_store/step_06/lib/shopping_cart_tab.dart
@@ -1668,7 +1634,7 @@ steps:
                    }
                    return null;
                  },
-          @@ -208,3 +250,84 @@ class _ShoppingCartTabState extends State<ShoppingCartTab> {
+          @@ -208,3 +250,56 @@ class _ShoppingCartTabState extends State<ShoppingCartTab> {
                );
              }
            }
@@ -1694,58 +1660,30 @@ steps:
           +    final row = SafeArea(
           +      top: false,
           +      bottom: false,
-          +      child: Padding(
-          +        padding: const EdgeInsets.only(
-          +          left: 16,
-          +          top: 8,
-          +          bottom: 8,
-          +          right: 8,
+          +      child: CupertinoListTile(
+          +        leading: ClipRRect(
+          +          borderRadius: BorderRadius.circular(4),
+          +          child: Image.asset(
+          +            product.assetName,
+          +            package: product.assetPackage,
+          +            fit: BoxFit.cover,
+          +            width: 40,
+          +            height: 40,
+          +          ),
           +        ),
-          +        child: Row(
-          +          children: <Widget>[
-          +            ClipRRect(
-          +              borderRadius: BorderRadius.circular(4),
-          +              child: Image.asset(
-          +                product.assetName,
-          +                package: product.assetPackage,
-          +                fit: BoxFit.cover,
-          +                width: 40,
-          +                height: 40,
-          +              ),
-          +            ),
-          +            Expanded(
-          +              child: Padding(
-          +                padding: const EdgeInsets.symmetric(horizontal: 12),
-          +                child: Column(
-          +                  mainAxisAlignment: MainAxisAlignment.start,
-          +                  crossAxisAlignment: CrossAxisAlignment.start,
-          +                  children: <Widget>[
-          +                    Row(
-          +                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          +                      children: <Widget>[
-          +                        Text(
-          +                          product.name,
-          +                          style: Styles.productRowItemName,
-          +                        ),
-          +                        Text(
-          +                          formatter.format(quantity * product.price),
-          +                          style: Styles.productRowItemName,
-          +                        ),
-          +                      ],
-          +                    ),
-          +                    const SizedBox(
-          +                      height: 4,
-          +                    ),
-          +                    Text(
-          +                      '${quantity > 1 ? '$quantity x ' : ''}'
-          +                      '${formatter.format(product.price)}',
-          +                      style: Styles.productRowItemPrice,
-          +                    )
-          +                  ],
-          +                ),
-          +              ),
-          +            ),
-          +          ],
+          +        leadingSize: 40,
+          +        title: Text(
+          +          product.name,
+          +          style: Styles.productRowItemName,
+          +        ),
+          +        subtitle: Text(
+          +          '${quantity > 1 ? '$quantity x ' : ''}'
+          +          '${formatter.format(product.price)}',
+          +          style: Styles.productRowItemPrice,
+          +        ),
+          +        trailing: Text(
+          +          formatter.format(quantity * product.price),
+          +          style: Styles.productRowItemName,
           +        ),
           +      ),
           +    );
