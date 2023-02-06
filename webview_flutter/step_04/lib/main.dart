@@ -7,8 +7,9 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 void main() {
   runApp(
-    const MaterialApp(
-      home: WebViewApp(),
+    MaterialApp(
+      theme: ThemeData(useMaterial3: true),
+      home: const WebViewApp(),
     ),
   );
 }

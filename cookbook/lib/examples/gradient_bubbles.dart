@@ -126,7 +126,7 @@ class BubbleBackground extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomPaint(
       painter: BubblePainter(
-        scrollable: Scrollable.of(context)!,
+        scrollable: Scrollable.of(context),
         bubbleContext: context,
         colors: colors,
       ),
