@@ -11,14 +11,8 @@ add_library(ffigen_app SHARED
 
 set_target_properties(ffigen_app PROPERTIES
   PUBLIC_HEADER duktape.h
-  PRIVATE_HEADER duk_config.h
+  PRIVATE_HEADRE duk_config.h
   OUTPUT_NAME "ffigen_app"
 )
-
-if (WIN32)
-set_target_properties(ffigen_app PROPERTIES
-  WINDOWS_EXPORT_ALL_SYMBOLS ON
-)
-endif (WIN32)
 
 target_compile_definitions(ffigen_app PUBLIC DART_SHARED_LIB)

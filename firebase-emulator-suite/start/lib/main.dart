@@ -1,6 +1,5 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import 'app_state.dart';
 import 'logged_in_view.dart';
@@ -17,25 +16,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
+    return MaterialApp(
       scrollBehavior: AppScrollBehavior(),
-      routerConfig: _router(),
-    );
-  }
-
-  GoRouter _router() {
-    return GoRouter(
-      redirect: (context, routerState) => state.user == null ? '/login' : null,
-      routes: [
-        GoRoute(
-          path: '/',
-          builder: (context, routerState) => LoggedInView(state: state),
-        ),
-        GoRoute(
-          path: '/login',
-          builder: (context, routerState) => LoggedOutView(state: state),
-        ),
-      ],
+      routes: {
+        '/': (context) => LoggedOutView(state: state),
+        '/home': (context) => LoggedInView(state: state)
+      },
     );
   }
 }

@@ -4,7 +4,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import 'app_state.dart';
 import 'firebase_options.dart';
@@ -32,30 +31,16 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   final state = AppState();
-
   MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
+    return MaterialApp(
       scrollBehavior: AppScrollBehavior(),
-      routerConfig: _router(),
-    );
-  }
-
-  GoRouter _router() {
-    return GoRouter(
-      redirect: (context, routerState) => state.user == null ? '/login' : null,
-      routes: [
-        GoRoute(
-          path: '/',
-          builder: (context, routerState) => LoggedInView(state: state),
-        ),
-        GoRoute(
-          path: '/login',
-          builder: (context, routerState) => LoggedOutView(state: state),
-        ),
-      ],
+      routes: {
+        '/': (context) => LoggedOutView(state: state),
+        '/home': (context) => LoggedInView(state: state)
+      },
     );
   }
 }

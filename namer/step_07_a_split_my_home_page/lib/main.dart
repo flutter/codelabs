@@ -51,24 +51,22 @@ class MyHomePage extends StatelessWidget {
     return Scaffold(
       body: Row(
         children: [
-          SafeArea(
-            child: NavigationRail(
-              extended: false,
-              destinations: [
-                NavigationRailDestination(
-                  icon: Icon(Icons.home),
-                  label: Text('Home'),
-                ),
-                NavigationRailDestination(
-                  icon: Icon(Icons.favorite),
-                  label: Text('Favorites'),
-                ),
-              ],
-              selectedIndex: 0,
-              onDestinationSelected: (value) {
-                print('selected: $value');
-              },
-            ),
+          NavigationRail(
+            extended: false,
+            destinations: [
+              NavigationRailDestination(
+                icon: Icon(Icons.home),
+                label: Text('Home'),
+              ),
+              NavigationRailDestination(
+                icon: Icon(Icons.favorite),
+                label: Text('Favorites'),
+              ),
+            ],
+            selectedIndex: 0,
+            onDestinationSelected: (value) {
+              print('selected: $value');
+            },
           ),
           Expanded(
             child: Container(
@@ -145,11 +143,7 @@ class BigCard extends StatelessWidget {
       color: theme.colorScheme.primary,
       child: Padding(
         padding: const EdgeInsets.all(20),
-        child: Text(
-          pair.asLowerCase,
-          style: style,
-          semanticsLabel: pair.asPascalCase,
-        ),
+        child: Text(pair.asLowerCase, style: style),
       ),
     );
   }

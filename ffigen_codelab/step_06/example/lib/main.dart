@@ -1,7 +1,3 @@
-// Copyright 2022 The Flutter Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
 import 'package:ffigen_app/ffigen_app.dart';
 import 'package:flutter/material.dart';
 
@@ -15,10 +11,10 @@ class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
+  MyAppState createState() => MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class MyAppState extends State<MyApp> {
   late Duktape duktape;
   String output = '';
 
@@ -60,7 +56,7 @@ class _MyAppState extends State<MyApp> {
                 spacerSmall,
                 ElevatedButton(
                   child: const Text('Run JavaScript'),
-                  onPressed: () {
+                  onPressed: () async {
                     duktape.evalString(jsCode);
                     setState(() {
                       output = '$jsCode => ${duktape.getInt(-1)}';
