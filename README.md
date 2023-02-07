@@ -15,15 +15,15 @@ Here is a list of the codelabs represented here:
   - [How to write a Flutter plugin](https://codelabs.developers.google.com/codelabs/write-flutter-plugin) is in `plugin_codelab`
   - [Using a plugin with a Flutter web app](https://codelabs.developers.google.com/codelabs/web-url-launcher) is in `star_counter`
   - [Write a Flutter desktop application](https://codelabs.developers.google.com/codelabs/flutter-github-client) is in `github-client`
-  - [Write your first Flutter app, part 1](https://codelabs.developers.google.com/codelabs/first-flutter-app-pt1) and [Write your first Flutter app, part 2](https://codelabs.developers.google.com/codelabs/first-flutter-app-pt2) are in `startup_namer`
+  - [Your first Flutter app](https://codelabs.developers.google.com/codelabs/flutter-codelab-first) is in `namer`
   - [Get started with text classification in Flutter apps](https://developers.google.com/learn/pathways/text-classification-flutter) pathway is in `tfserving-flutter`
   - [Building a fullstack movie recommendation system](https://codelabs.developers.google.com/tfrecommenders-flutter) is in `tfrs-flutter`
   - [Building a board game with TensorFlow Agents and Flutter](https://codelabs.developers.google.com/tfagents-flutter#0) is in `tfagents-flutter`  
 
 To learn more about setting up Flutter and running apps, see
-[flutter.dev/get-started][].
+[docs.flutter.dev/get-started][].
 
-[flutter.dev/get-started]: https://flutter.dev/docs/get-started
+[docs.flutter.dev/get-started]: https://docs.flutter.dev/get-started
 
 ## Maintenance & Deprecation of Codelabs
 

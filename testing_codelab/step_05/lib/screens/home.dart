@@ -19,7 +19,6 @@ class HomePage extends StatelessWidget {
         title: const Text('Testing Sample'),
         actions: <Widget>[
           TextButton.icon(
-            style: TextButton.styleFrom(foregroundColor: Colors.white),
             onPressed: () {
               Navigator.pushNamed(context, FavoritesPage.routeName);
             },

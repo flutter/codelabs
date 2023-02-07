@@ -16,7 +16,7 @@ class LoginPage extends StatelessWidget {
       );
     }
     return Center(
-        child: ElevatedButton(
+        child: FilledButton(
       onPressed: () {
         firebaseNotifier.login();
       },

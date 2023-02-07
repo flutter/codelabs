@@ -9,7 +9,7 @@ page (including the small print at the end).
 
 This repo is used by members of the Flutter Developer Relations team 
 as a place to store code for our codelabs, on both
-[flutter.dev](https://flutter.dev/docs/get-started/codelab and
+[docs.flutter.dev](https://docs.flutter.dev/codelabs) and
 [codelabs.developer.google.com](https://codelabs.developers.google.com/).
 
 ## So what should be contributed here, then?
