@@ -8,7 +8,7 @@ import 'package:integration_test/integration_test.dart';
 import 'package:testing_app/main.dart';
 
 void main() {
-  group('Testing App Performance Tests', () {
+  group('Testing App', () {
     testWidgets('Favorites operations test', (tester) async {
       await tester.pumpWidget(const TestingApp());
 
