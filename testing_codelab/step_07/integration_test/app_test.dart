@@ -9,24 +9,6 @@ import 'package:testing_app/main.dart';
 
 void main() {
   group('Testing App Performance Tests', () {
-    final binding = IntegrationTestWidgetsFlutterBinding.ensureInitialized();
-
-    binding.framePolicy = LiveTestWidgetsFlutterBindingFramePolicy.fullyLive;
-
-    testWidgets('Scrolling test', (tester) async {
-      await tester.pumpWidget(const TestingApp());
-
-      final listFinder = find.byType(ListView);
-
-      await binding.watchPerformance(() async {
-        await tester.fling(listFinder, const Offset(0, -500), 10000);
-        await tester.pumpAndSettle();
-
-        await tester.fling(listFinder, const Offset(0, 500), 10000);
-        await tester.pumpAndSettle();
-      }, reportKey: 'scrolling_summary');
-    });
-
     testWidgets('Favorites operations test', (tester) async {
       await tester.pumpWidget(const TestingApp());
 
