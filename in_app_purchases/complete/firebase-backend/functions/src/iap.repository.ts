@@ -1,5 +1,4 @@
-import {firestore} from "firebase-admin/lib/firestore";
-import Timestamp = firestore.Timestamp;
+import fa from "firebase-admin";
 
 export type NonSubscriptionStatus = "PENDING" | "COMPLETED" | "CANCELLED";
 export type SubscriptionStatus = "PENDING" | "ACTIVE" | "EXPIRED";
@@ -12,7 +11,7 @@ export interface BasePurchase {
   orderId: string;
   productId: string;
   userId: string;
-  purchaseDate: firestore.Timestamp;
+  purchaseDate: fa.firestore.Timestamp;
 }
 
 export interface NonSubscriptionPurchase extends BasePurchase {
@@ -22,13 +21,13 @@ export interface NonSubscriptionPurchase extends BasePurchase {
 
 export interface SubscriptionPurchase extends BasePurchase {
   type: "SUBSCRIPTION";
-  expiryDate: firestore.Timestamp;
+  expiryDate: fa.firestore.Timestamp;
   status: SubscriptionStatus;
 }
 
 
 export class IapRepository {
-  constructor(private firestore: FirebaseFirestore.Firestore) {
+  constructor(private firestore: fa.firestore.Firestore) {
   }
 
   async updatePurchase(purchaseData: {
@@ -54,7 +53,7 @@ export class IapRepository {
 
   async expireSubscriptions(): Promise<void> {
     const documents = await this.firestore.collection("purchases")
-        .where("expiryDate", "<=", Timestamp.now())
+        .where("expiryDate", "<=", fa.firestore.Timestamp.now())
         .where("status", "==", "ACTIVE")
         .get();
     if (!documents.size) return;

@@ -1,4 +1,4 @@
-import {ProductData} from "./products";
+import {ProductData} from "./products.js";
 
 export abstract class PurchaseHandler {
   async verifyPurchase(

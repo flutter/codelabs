@@ -1,13 +1,13 @@
-import {PurchaseHandler} from "./purchase-handler";
-import {ProductData, productDataMap} from "./products";
-import * as appleReceiptVerify from "node-apple-receipt-verify";
-import {APP_STORE_SHARED_SECRET, CLOUD_REGION} from "./constants";
-import {IapRepository} from "./iap.repository";
-import {firestore} from "firebase-admin/lib/firestore";
-import * as Functions from "firebase-functions";
+// eslint-disable import/no-unresolved
+import {PurchaseHandler} from "./purchase-handler.js";
+import {ProductData, productDataMap} from "./products.js";
+import appleReceiptVerify from "node-apple-receipt-verify";
+import {APP_STORE_SHARED_SECRET, CLOUD_REGION} from "./constants.js";
+import {IapRepository} from "./iap.repository.js";
+import fa from "firebase-admin";
+import Functions from "firebase-functions";
 import camelCaseKeys from "camelcase-keys";
-import Timestamp = firestore.Timestamp;
-import {groupBy} from "lodash";
+import _ from "lodash";
 
 // Add typings for missing property in library interface.
 declare module "node-apple-receipt-verify" {
@@ -83,8 +83,10 @@ export class AppStorePurchaseHandler extends PurchaseHandler {
             orderId: product.originalTransactionId,
             productId: product.productId,
             userId,
-            purchaseDate: firestore.Timestamp.fromMillis(product.purchaseDate),
-            expiryDate: firestore.Timestamp.fromMillis(
+            purchaseDate: fa.firestore.Timestamp.fromMillis(
+                product.purchaseDate
+            ),
+            expiryDate: fa.firestore.Timestamp.fromMillis(
                 product.expirationDate ?? 0,
             ),
             status: (product.expirationDate ?? 0) <= Date.now() ? "EXPIRED" : "ACTIVE",
@@ -97,7 +99,9 @@ export class AppStorePurchaseHandler extends PurchaseHandler {
             orderId: product.originalTransactionId,
             productId: product.productId,
             userId,
-            purchaseDate: firestore.Timestamp.fromMillis(product.purchaseDate),
+            purchaseDate: fa.firestore.Timestamp.fromMillis(
+                product.purchaseDate
+            ),
             status: "COMPLETED",
           });
           break;
@@ -139,7 +143,7 @@ export class AppStorePurchaseHandler extends PurchaseHandler {
     }
     // Find latest receipt for each original transaction
     const latestReceipts: ReceiptInfo[] = Object.values(
-        groupBy(eventData.unifiedReceipt.latestReceiptInfo, "originalTransactionId")
+        _.groupBy(eventData.unifiedReceipt.latestReceiptInfo, "originalTransactionId")
     ).map((group) => group
         .reduce((acc: ReceiptInfo, e: ReceiptInfo) =>
                     (!acc || e.expiresDateMs >= acc.expiresDateMs) ? e : acc
@@ -157,7 +161,9 @@ export class AppStorePurchaseHandler extends PurchaseHandler {
             await this.iapRepository.updatePurchase({
               iapSource: "app_store",
               orderId: iap.originalTransactionId,
-              expiryDate: Timestamp.fromMillis(parseInt(iap.expiresDateMs, 10)),
+              expiryDate: fa.firestore.Timestamp.fromMillis(
+                  parseInt(iap.expiresDateMs, 10)
+              ),
               status: Date.now() >= parseInt(iap.expiresDateMs, 10) ? "EXPIRED" : "ACTIVE",
             });
           } catch (e) {

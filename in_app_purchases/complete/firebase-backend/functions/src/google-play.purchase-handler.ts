@@ -1,20 +1,21 @@
-import {PurchaseHandler} from "./purchase-handler";
-import {ProductData, productDataMap} from "./products";
+// eslint-disable-next-line import/no-unresolved
+import {PurchaseHandler} from "./purchase-handler.js";
+import {ProductData, productDataMap} from "./products.js";
 import {
   ANDROID_PACKAGE_ID,
   CLOUD_REGION,
   GOOGLE_PLAY_PUBSUB_BILLING_TOPIC,
-} from "./constants";
+} from "./constants.js";
 import {GoogleAuth} from "google-auth-library";
 import {androidpublisher_v3 as AndroidPublisherApi} from "googleapis";
-import credentials from "./assets/service-account.json";
+import credentials from "./assets/service-account.json" assert {type: "json"};
 import {
   IapRepository, NonSubscriptionPurchase,
   NonSubscriptionStatus, Purchase, SubscriptionPurchase,
   SubscriptionStatus,
-} from "./iap.repository";
-import {firestore} from "firebase-admin/lib/firestore";
-import * as Functions from "firebase-functions";
+} from "./iap.repository.js";
+import fa from "firebase-admin";
+import Functions from "firebase-functions";
 const functions = Functions.region(CLOUD_REGION);
 
 export class GooglePlayPurchaseHandler extends PurchaseHandler {
@@ -57,7 +58,7 @@ export class GooglePlayPurchaseHandler extends PurchaseHandler {
             iapSource: "google_play",
             orderId: response.data.orderId,
             productId: productData.productId,
-            purchaseDate: firestore.Timestamp.fromMillis(parseInt(response.data.purchaseTimeMillis ?? "0", 10)),
+            purchaseDate: fa.firestore.Timestamp.fromMillis(parseInt(response.data.purchaseTimeMillis ?? "0", 10)),
             status: [
               "COMPLETED",
               "CANCELLED",
@@ -124,8 +125,8 @@ export class GooglePlayPurchaseHandler extends PurchaseHandler {
         iapSource: "google_play",
         orderId: orderId,
         productId: productData.productId,
-        purchaseDate: firestore.Timestamp.fromMillis(parseInt(response.data.startTimeMillis ?? "0", 10)),
-        expiryDate: firestore.Timestamp.fromMillis(parseInt(response.data.expiryTimeMillis ?? "0", 10)),
+        purchaseDate: fa.firestore.Timestamp.fromMillis(parseInt(response.data.startTimeMillis ?? "0", 10)),
+        expiryDate: fa.firestore.Timestamp.fromMillis(parseInt(response.data.expiryTimeMillis ?? "0", 10)),
         status: [
           "PENDING", // Payment pending
           "ACTIVE", // Payment received

@@ -29,5 +29,15 @@ module.exports = {
     "require-jsdoc": "off",
     "max-len": ["error", {"ignoreStrings": true, "ignoreTemplateLiterals": true}],
     "no-invalid-this": "off",
+    "import/no-extraneous-dependencies": "off",
+    "import/no-unresolved": "off"
+  },
+  settings: {
+    'import/resolver': {
+        node: {
+            extensions: ['.js', '.jsx', '.ts', '.tsx'],
+            moduleDirectory: ['node_modules', 'src/'],
+        },
+    },
   },
 };

@@ -1,18 +1,23 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "noImplicitReturns": true,
-    "noUnusedLocals": true,
-    "outDir": "lib",
-    "sourceMap": true,
-    "strict": true,
-    "target": "es2017",
+    "module": "esnext",
+    "moduleResolution": "node16",
     "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true
+    "outDir": "lib",
+		"target": "es2020", // Node.js 14
+		"lib": [
+			"es2020"
+		],
+		"noPropertyAccessFromIndexSignature": false,
+		"isolatedModules": true
   },
   "compileOnSave": true,
   "include": [
     "src"
-  ]
+  ],
+	"ts-node": {
+		"transpileOnly": true,
+		"files": true,
+		"experimentalResolver": true
+	}
 }

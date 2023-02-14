@@ -1,13 +1,13 @@
-import * as Functions from "firebase-functions";
+// eslint-disable import/no-unresolved
+import Functions from "firebase-functions";
 
-import * as admin from "firebase-admin";
-import {productDataMap} from "./products";
-import {PurchaseHandler} from "./purchase-handler";
-import {GooglePlayPurchaseHandler} from "./google-play.purchase-handler";
-import {AppStorePurchaseHandler} from "./app-store.purchase-handler";
-import {CLOUD_REGION} from "./constants";
-import {IapRepository, IAPSource} from "./iap.repository";
-import {HttpsError} from "firebase-functions/lib/providers/https";
+import admin from "firebase-admin";
+import {productDataMap} from "./products.js";
+import {PurchaseHandler} from "./purchase-handler.js";
+import {GooglePlayPurchaseHandler} from "./google-play.purchase-handler.js";
+import {AppStorePurchaseHandler} from "./app-store.purchase-handler.js";
+import {CLOUD_REGION} from "./constants.js";
+import {IapRepository, IAPSource} from "./iap.repository.js";
 
 const functions = Functions.region(CLOUD_REGION);
 admin.initializeApp();
@@ -42,7 +42,7 @@ export const verifyPurchase = functions.https.onCall(
       // Check authentication
       if (!context.auth) {
         console.warn("verifyPurchase called when not authenticated");
-        throw new HttpsError(
+        throw new Functions.https.HttpsError(
             "unauthenticated",
             "Request was not authenticated.",
         );
