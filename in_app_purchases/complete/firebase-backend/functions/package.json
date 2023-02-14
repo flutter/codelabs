@@ -19,7 +19,7 @@
     "firebase-admin": "^11.0.1",
     "firebase-functions": "^4.0.1",
     "google-auth-library": "^8.0.2",
-    "googleapis": "^110.0.0",
+    "googleapis": "^111.0.0",
     "lodash": "^4.17.21",
     "node-apple-receipt-verify": "^1.12.1"
   },
