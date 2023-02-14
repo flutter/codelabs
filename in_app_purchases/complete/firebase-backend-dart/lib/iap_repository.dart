@@ -157,6 +157,7 @@ class IapRepository {
                 fields: purchaseData.updateDocument(),
                 name:
                     'projects/$projectId/databases/(default)/documents/purchases/$purchaseId'),
+                updateMask: DocumentMask(fieldPaths: ['status']),
           ),
         ],
       ),
