@@ -18,6 +18,7 @@ Here is a list of the codelabs represented here:
   - [Local development for your Flutter apps using the Firebase Emulator Suite](https://firebase.google.com/codelabs/get-started-firebase-emulators-and-flutter) in `firebase-emulator-suite`
   - [Take your Flutter app from boring to beautiful](https://codelabs.developers.google.com/codelabs/flutter-boring-to-beautiful) in `boring_to_beautiful`
   - [Using a plugin with a Flutter web app](https://codelabs.developers.google.com/codelabs/web-url-launcher) is in `star_counter`
+  - [Using FFI in a Flutter plugin](https://codelabs.developers.google.com/codelabs/flutter-ffigen) is in `ffigen_codelab`
   - [Write a Flutter desktop application](https://codelabs.developers.google.com/codelabs/flutter-github-client) is in `github-client`
   - [Your first Flutter app](https://codelabs.developers.google.com/codelabs/flutter-codelab-first) is in `namer`
   - [Get started with text classification in Flutter apps](https://developers.google.com/learn/pathways/text-classification-flutter) pathway is in `tfserving-flutter`
