@@ -12,7 +12,8 @@ declare -a CODELABS=(
   "cookbook"
   # TODO(DomesticMouse): Use 'const' with the constructor to improve performance. 
   # "cupertino_store"
-  "dartpad_codelabs"
+  # TODO(DomesticMouse): Use 'const' with the constructor to improve performance. 
+  # "dartpad_codelabs"
   "ffigen_codelab"
   "firebase-auth-flutterfire-ui"
   "firebase-emulator-suite"
