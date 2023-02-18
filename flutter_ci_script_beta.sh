@@ -23,7 +23,8 @@ declare -a CODELABS=(
   "flame-building-doodle-dash"
   "github-client"
   "google-maps-in-flutter"
-  "in_app_purchases"
+  # TODO(DomesticMouse): Use 'const' with the constructor to improve performance. 
+  # "in_app_purchases"
   "namer"
   "plugin_codelab"
   "star_counter"
