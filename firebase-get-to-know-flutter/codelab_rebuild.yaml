@@ -135,6 +135,7 @@ steps:
                     Theme.of(context).textTheme,
                   ),
                   visualDensity: VisualDensity.adaptivePlatformDensity,
+                  useMaterial3: true,
                 ),
                 home: const HomePage(),
               );
@@ -1935,9 +1936,9 @@ steps:
                  title: 'Firebase Meetup',
                  theme: ThemeData(
                    buttonTheme: Theme.of(context).buttonTheme.copyWith(
-          @@ -28,7 +112,7 @@ class App extends StatelessWidget {
-                   ),
+          @@ -29,7 +113,7 @@ class App extends StatelessWidget {
                    visualDensity: VisualDensity.adaptivePlatformDensity,
+                   useMaterial3: true,
                  ),
           -      home: const HomePage(),
           +      routerConfig: _router,
@@ -2763,8 +2764,7 @@ steps:
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
                       children: [
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(elevation: 0),
+                        FilledButton(
                           onPressed: () => onSelection(Attending.yes),
                           child: const Text('YES'),
                         ),
@@ -2786,8 +2786,7 @@ steps:
                           child: const Text('YES'),
                         ),
                         const SizedBox(width: 8),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(elevation: 0),
+                        FilledButton(
                           onPressed: () => onSelection(Attending.no),
                           child: const Text('NO'),
                         ),
