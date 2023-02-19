@@ -6,6 +6,9 @@ steps:
         rmdir: step_03
       - name: Create project.
         flutter: create testing_app
+      - name: Strip DEVELOPMENT_TEAM
+        strip-lines-containing: DEVELOPMENT_TEAM =
+        path: testing_app/ios/Runner.xcodeproj/project.pbxproj
       - name: Configure analysis_options.yaml
         path: testing_app/analysis_options.yaml
         replace-contents: |
@@ -33,9 +36,12 @@ steps:
       - name: Add provider
         path: testing_app
         flutter: pub add provider
-      - name: Add flutter_driver integration_test
+      - name: Add flutter_driver 
         path: testing_app
-        flutter: pub add --dev --sdk=flutter flutter_driver integration_test
+        flutter: pub add --dev --sdk=flutter flutter_driver 
+      - name: Add integration_test
+        path: testing_app
+        flutter: pub add --dev --sdk=flutter integration_test
       - name: Add test
         path: testing_app
         flutter: pub add --dev test
@@ -47,7 +53,7 @@ steps:
         patch-u: |
           --- b/testing_codelab/step_03/pubspec.yaml
           +++ a/testing_codelab/step_03/pubspec.yaml
-          @@ -1,5 +1,9 @@
+          @@ -1,5 +1,10 @@
           +# Copyright 2020 The Flutter Authors. All rights reserved.
           +# Use of this source code is governed by a BSD-style license that can be
           +# found in the LICENSE file.
@@ -55,9 +61,10 @@ steps:
            name: testing_app
           -description: A new Flutter project.
           +description: App behind Flutter testing codelab.
-           
+          +
            # The following line prevents the package from being accidentally published to
            # pub.dev using `flutter pub publish`. This is preferred for private packages.
+           publish_to: 'none' # Remove this line if you wish to publish to pub.dev
       - name: Patch lib/main.dart
         path: testing_app/lib/main.dart
         patch-u: |
@@ -94,15 +101,19 @@ steps:
     steps:
       - name: Remove generated code.
         rmdir: step_04
+      - name: Add go_router
+        flutter: pub add go_router
+        path: testing_app
       - name: Patch lib/main.dart
         path: testing_app/lib/main.dart
         patch-u: |
           --- b/testing_codelab/step_04/lib/main.dart
           +++ a/testing_codelab/step_04/lib/main.dart
-          @@ -3,117 +3,33 @@
+          @@ -3,117 +3,50 @@
            // found in the LICENSE file.
            
            import 'package:flutter/material.dart';
+          +import 'package:go_router/go_router.dart';
           +import 'package:provider/provider.dart';
           +import 'models/favorites.dart';
           +import 'screens/favorites.dart';
@@ -115,12 +126,10 @@ steps:
            
           -class MyApp extends StatelessWidget {
           -  const MyApp({super.key});
-          +class TestingApp extends StatelessWidget {
-          +  const TestingApp({super.key});
-           
+          -
           -  // This widget is the root of your application.
-             @override
-             Widget build(BuildContext context) {
+          -  @override
+          -  Widget build(BuildContext context) {
           -    return MaterialApp(
           -      title: 'Flutter Demo',
           -      theme: ThemeData(
@@ -160,7 +169,25 @@ steps:
           -
           -class _MyHomePageState extends State<MyHomePage> {
           -  int _counter = 0;
-          -
+          +final _router = GoRouter(
+          +  routes: [
+          +    GoRoute(
+          +      path: HomePage.routeName,
+          +      builder: (context, state) {
+          +        return const HomePage();
+          +      },
+          +      routes: [
+          +        GoRoute(
+          +          path: FavoritesPage.routeName,
+          +          builder: (context, state) {
+          +            return const FavoritesPage();
+          +          },
+          +        ),
+          +      ],
+          +    ),
+          +  ],
+          +);
+           
           -  void _incrementCounter() {
           -    setState(() {
           -      // This call to setState tells the Flutter framework that something has
@@ -171,9 +198,11 @@ steps:
           -      _counter++;
           -    });
           -  }
-          -
-          -  @override
-          -  Widget build(BuildContext context) {
+          +class TestingApp extends StatelessWidget {
+          +  const TestingApp({super.key});
+           
+             @override
+             Widget build(BuildContext context) {
           -    // This method is rerun every time setState is called, for instance as done
           -    // by the _incrementCounter method above.
           -    //
@@ -211,21 +240,18 @@ steps:
           -            ),
           -            Text(
           -              '$_counter',
-          -              style: Theme.of(context).textTheme.headline4,
+          -              style: Theme.of(context).textTheme.headlineMedium,
           -            ),
           -          ],
           +    return ChangeNotifierProvider<Favorites>(
           +      create: (context) => Favorites(),
-          +      child: MaterialApp(
+          +      child: MaterialApp.router(
           +        title: 'Testing Sample',
           +        theme: ThemeData(
           +          primarySwatch: Colors.blue,
+          +          useMaterial3: true,
                    ),
-          +        routes: {
-          +          HomePage.routeName: (context) => const HomePage(),
-          +          FavoritesPage.routeName: (context) => const FavoritesPage(),
-          +        },
-          +        initialRoute: HomePage.routeName,
+          +        routerConfig: _router,
                  ),
           -      floatingActionButton: FloatingActionButton(
           -        onPressed: _incrementCounter,
@@ -272,16 +298,16 @@ steps:
           // Copyright 2020 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-
+          
           import 'package:flutter/material.dart';
           import 'package:provider/provider.dart';
           import '../models/favorites.dart';
-
+          
           class FavoritesPage extends StatelessWidget {
-            static String routeName = '/favorites_page';
-
+            static String routeName = 'favorites_page';
+          
             const FavoritesPage({super.key});
-
+          
             @override
             Widget build(BuildContext context) {
               return Scaffold(
@@ -298,12 +324,12 @@ steps:
               );
             }
           }
-
+          
           class FavoriteItemTile extends StatelessWidget {
             final int itemNo;
-
+          
             const FavoriteItemTile(this.itemNo, {super.key});
-
+          
             @override
             Widget build(BuildContext context) {
               return Padding(
@@ -339,17 +365,18 @@ steps:
           // Copyright 2020 The Flutter team. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-
+          
           import 'package:flutter/material.dart';
+          import 'package:go_router/go_router.dart';
           import 'package:provider/provider.dart';
           import '../models/favorites.dart';
           import 'favorites.dart';
-
+          
           class HomePage extends StatelessWidget {
             static String routeName = '/';
-
+          
             const HomePage({super.key});
-
+          
             @override
             Widget build(BuildContext context) {
               return Scaffold(
@@ -357,9 +384,8 @@ steps:
                   title: const Text('Testing Sample'),
                   actions: <Widget>[
                     TextButton.icon(
-                      style: TextButton.styleFrom(foregroundColor: Colors.white),
                       onPressed: () {
-                        Navigator.pushNamed(context, FavoritesPage.routeName);
+                        context.go('/${FavoritesPage.routeName}');
                       },
                       icon: const Icon(Icons.favorite_border),
                       label: const Text('Favorites'),
@@ -375,16 +401,16 @@ steps:
               );
             }
           }
-
+          
           class ItemTile extends StatelessWidget {
             final int itemNo;
-
+          
             const ItemTile(this.itemNo, {super.key});
-
+          
             @override
             Widget build(BuildContext context) {
               var favoritesList = Provider.of<Favorites>(context);
-
+          
               return Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ListTile(
@@ -703,76 +729,47 @@ steps:
           // Copyright 2021 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-
+          
           import 'package:flutter/material.dart';
           import 'package:flutter_test/flutter_test.dart';
-          import 'package:integration_test/integration_test.dart';
           import 'package:testing_app/main.dart';
-
+          
           void main() {
-            group('Testing App Performance Tests', () {
-              final binding = IntegrationTestWidgetsFlutterBinding.ensureInitialized();
-
-              binding.framePolicy = LiveTestWidgetsFlutterBindingFramePolicy.fullyLive;
-
-              testWidgets('Scrolling test', (tester) async {
-                await tester.pumpWidget(const TestingApp());
-
-                final listFinder = find.byType(ListView);
-
-                await binding.watchPerformance(() async {
-                  await tester.fling(listFinder, const Offset(0, -500), 10000);
-                  await tester.pumpAndSettle();
-
-                  await tester.fling(listFinder, const Offset(0, 500), 10000);
-                  await tester.pumpAndSettle();
-                }, reportKey: 'scrolling_summary');
-              });
-
+            group('Testing App', () {
               testWidgets('Favorites operations test', (tester) async {
                 await tester.pumpWidget(const TestingApp());
-
+          
                 final iconKeys = [
                   'icon_0',
                   'icon_1',
                   'icon_2',
                 ];
-
+          
                 for (var icon in iconKeys) {
                   await tester.tap(find.byKey(ValueKey(icon)));
                   await tester.pumpAndSettle(const Duration(seconds: 1));
-
+          
                   expect(find.text('Added to favorites.'), findsOneWidget);
                 }
-
+          
                 await tester.tap(find.text('Favorites'));
                 await tester.pumpAndSettle();
-
+          
                 final removeIconKeys = [
                   'remove_icon_0',
                   'remove_icon_1',
                   'remove_icon_2',
                 ];
-
+          
                 for (final iconKey in removeIconKeys) {
                   await tester.tap(find.byKey(ValueKey(iconKey)));
                   await tester.pumpAndSettle(const Duration(seconds: 1));
-
+          
                   expect(find.text('Removed from favorites.'), findsOneWidget);
                 }
               });
             });
           }
-      - name: Add integration_test/driver.dart
-        path: testing_app/integration_test/driver.dart
-        replace-contents: |
-          // Copyright 2021 The Flutter Authors. All rights reserved.
-          // Use of this source code is governed by a BSD-style license that can be
-          // found in the LICENSE file.
-
-          import 'package:integration_test/integration_test_driver.dart';
-
-          Future<void> main() => integrationDriver();
       - name: Copy step_07
         copydir:
           from: testing_app
