@@ -56,7 +56,9 @@ Future<Map<String, PurchaseHandler>> _createPurchaseHandlers() async {
       iapRepository,
       pubsubApi,
     ),
-    'app_store': AppStorePurchaseHandler(),
+    'app_store': AppStorePurchaseHandler(
+      iapRepository,
+    ),
   };
 }
 
