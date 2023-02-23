@@ -10,10 +10,11 @@ declare -a CODELABS=(
   "animated-responsive-layout"
   "boring_to_beautiful"
   "cookbook"
-  # TODO(DomesticMouse): Use 'const' with the constructor to improve performance. 
+  # TODO(DomesticMouse): Use 'const' with the constructor to improve performance.
   # "cupertino_store"
-  # TODO(DomesticMouse): Use 'const' with the constructor to improve performance. 
+  # TODO(DomesticMouse): Use 'const' with the constructor to improve performance.
   # "dartpad_codelabs"
+  "deeplink_cookbook"
   "ffigen_codelab"
   # TODO(DomesticMouse): version solving failed.
   # "firebase-auth-flutterfire-ui"
@@ -23,7 +24,7 @@ declare -a CODELABS=(
   "flame-building-doodle-dash"
   "github-client"
   "google-maps-in-flutter"
-  # TODO(DomesticMouse): Use 'const' with the constructor to improve performance. 
+  # TODO(DomesticMouse): Use 'const' with the constructor to improve performance.
   # "in_app_purchases"
   "namer"
   "plugin_codelab"

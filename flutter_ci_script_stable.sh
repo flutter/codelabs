@@ -12,6 +12,7 @@ declare -a CODELABS=(
   "cookbook"
   "cupertino_store"
   "dartpad_codelabs"
+  "deeplink_cookbook"
   "ffigen_codelab"
   "firebase-auth-flutterfire-ui"
   "firebase-emulator-suite"
