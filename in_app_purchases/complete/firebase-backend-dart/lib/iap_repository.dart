@@ -37,6 +37,43 @@ abstract class Purchase {
   }
 
   Map<String, Value> updateDocument();
+
+  static Purchase fromDocument(Document e) {
+    final type = ProductType.values.firstWhere(
+        (element) => element.name == e.fields!['type']!.stringValue);
+    switch (type) {
+      case ProductType.subscription:
+        return SubscriptionPurchase(
+          iapSource: e.fields!['iapSource']!.stringValue == 'googleplay'
+              ? IAPSource.googleplay
+              : IAPSource.appstore,
+          orderId: e.fields!['orderId']!.stringValue!,
+          productId: e.fields!['productId']!.stringValue!,
+          userId: e.fields!['userId']!.stringValue,
+          purchaseDate:
+              DateTime.parse(e.fields!['purchaseDate']!.timestampValue!),
+          status: SubscriptionStatus.values.firstWhere(
+              (element) => element.name == e.fields!['status']!.stringValue),
+          expiryDate:
+              DateTime.tryParse(e.fields!['expiryDate']?.timestampValue ?? '') ??
+                  DateTime.now(),
+        );
+      case ProductType.nonSubscription:
+        return NonSubscriptionPurchase(
+          iapSource: e.fields!['iapSource']!.stringValue == 'googleplay'
+              ? IAPSource.googleplay
+              : IAPSource.appstore,
+          orderId: e.fields!['orderId']!.stringValue!,
+          productId: e.fields!['productId']!.stringValue!,
+          userId: e.fields!['userId']!.stringValue,
+          purchaseDate:
+              DateTime.parse(e.fields!['purchaseDate']!.timestampValue!),
+          status: NonSubscriptionStatus.values.firstWhere(
+              (element) => element.name == e.fields!['status']!.stringValue),
+        );
+        break;
+    }
+  }
 }
 
 enum NonSubscriptionStatus {
@@ -90,6 +127,11 @@ class NonSubscriptionPurchase extends Purchase {
       'status': Value(stringValue: status.name),
     };
   }
+
+  @override
+  String toString() {
+    return 'NonSubscriptionPurchase { iapSource: $iapSource, orderId: $orderId, productId: $productId, userId: $userId, purchaseDate: $purchaseDate, status: $status, type: $type }';
+  }
 }
 
 class SubscriptionPurchase extends Purchase {
@@ -111,6 +153,7 @@ class SubscriptionPurchase extends Purchase {
   Map<String, Value> toDocument() {
     final doc = super.toDocument();
     doc.addAll({
+      'expiryDate': Value(timestampValue: expiryDate.toUtc().toIso8601String()),
       'status': Value(stringValue: status.name),
     });
     return doc;
@@ -122,6 +165,11 @@ class SubscriptionPurchase extends Purchase {
       'status': Value(stringValue: status.name),
     };
   }
+
+  @override
+  String toString() {
+    return 'SubscriptionPurchase { iapSource: $iapSource, orderId: $orderId, productId: $productId, userId: $userId, purchaseDate: $purchaseDate, status: $status, expiryDate: $expiryDate, type: $type }';
+  }
 }
 
 class IapRepository {
@@ -131,6 +179,7 @@ class IapRepository {
   IapRepository(this.api, this.projectId);
 
   Future<void> createOrUpdatePurchase(Purchase purchaseData) async {
+    print('Updating $purchaseData');
     final purchaseId = _purchaseId(purchaseData);
     await api.projects.databases.documents.commit(
       CommitRequest(
@@ -148,6 +197,7 @@ class IapRepository {
   }
 
   Future<void> updatePurchase(Purchase purchaseData) async {
+    print('Updating $purchaseData');
     final purchaseId = _purchaseId(purchaseData);
     await api.projects.databases.documents.commit(
       CommitRequest(
@@ -157,7 +207,7 @@ class IapRepository {
                 fields: purchaseData.updateDocument(),
                 name:
                     'projects/$projectId/databases/(default)/documents/purchases/$purchaseId'),
-                updateMask: DocumentMask(fieldPaths: ['status']),
+            updateMask: DocumentMask(fieldPaths: ['status']),
           ),
         ],
       ),
@@ -167,5 +217,13 @@ class IapRepository {
 
   String _purchaseId(Purchase purchaseData) {
     return '${purchaseData.iapSource.name}_${purchaseData.orderId}';
+  }
+
+  Future<List<Purchase>> getPurchases() async {
+    final list = await api.projects.databases.documents.list(
+      'projects/$projectId/databases/(default)/documents',
+      'purchases',
+    );
+    return list.documents!.map((e) => Purchase.fromDocument(e)).toList();
   }
 }
