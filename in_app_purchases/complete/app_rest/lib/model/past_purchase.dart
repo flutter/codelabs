@@ -62,7 +62,7 @@ PurchaseType _typeFromString(String type) {
 }
 
 Store _storeFromString(String store) {
-  switch (store.toLowerCase()) {
+  switch (store) {
     case 'googleplay':
       return Store.googlePlay;
     case 'appstore':
