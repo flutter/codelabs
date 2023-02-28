@@ -41,7 +41,6 @@ class FirebaseNotifier extends ChangeNotifier {
       _isInitialized.complete(true);
       notifyListeners();
     } catch (e) {
-      print(e);
       state = FirebaseState.notAvailable;
       _isInitialized.complete(false);
       notifyListeners();
@@ -76,7 +75,6 @@ class FirebaseNotifier extends ChangeNotifier {
       isLoggingIn = false;
       notifyListeners();
     } catch (e) {
-      print(e);
       isLoggingIn = false;
       notifyListeners();
       return;
