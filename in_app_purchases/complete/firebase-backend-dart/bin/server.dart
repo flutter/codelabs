@@ -55,6 +55,7 @@ Future<Map<String, PurchaseHandler>> _createPurchaseHandlers() async {
   final subscriptionKeyAppStore =
       File('assets/SubscriptionKey.p8').readAsStringSync();
 
+  // Configure Apple Store API access
   var appStoreEnvironment = AppStoreEnvironment.sandbox(
     bundleId: bundleId,
     issuerId: appStoreIssuerId,
@@ -62,6 +63,7 @@ Future<Map<String, PurchaseHandler>> _createPurchaseHandlers() async {
     privateKey: subscriptionKeyAppStore,
   );
 
+  // Stored token for Apple Store API access, if available
   final file = File('assets/appstore.token');
   String? appStoreToken;
   if (file.existsSync() && file.lengthSync() > 0) {

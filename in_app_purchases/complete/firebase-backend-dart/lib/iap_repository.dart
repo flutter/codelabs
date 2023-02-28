@@ -71,7 +71,6 @@ abstract class Purchase {
           status: NonSubscriptionStatus.values.firstWhere(
               (element) => element.name == e.fields!['status']!.stringValue),
         );
-        break;
     }
   }
 }
@@ -130,7 +129,15 @@ class NonSubscriptionPurchase extends Purchase {
 
   @override
   String toString() {
-    return 'NonSubscriptionPurchase { iapSource: $iapSource, orderId: $orderId, productId: $productId, userId: $userId, purchaseDate: $purchaseDate, status: $status, type: $type }';
+    return 'NonSubscriptionPurchase { '
+        'iapSource: $iapSource, '
+        'orderId: $orderId, '
+        'productId: $productId, '
+        'userId: $userId, '
+        'purchaseDate: $purchaseDate, '
+        'status: $status, '
+        'type: $type '
+        '}';
   }
 }
 
@@ -168,7 +175,16 @@ class SubscriptionPurchase extends Purchase {
 
   @override
   String toString() {
-    return 'SubscriptionPurchase { iapSource: $iapSource, orderId: $orderId, productId: $productId, userId: $userId, purchaseDate: $purchaseDate, status: $status, expiryDate: $expiryDate, type: $type }';
+    return 'SubscriptionPurchase { '
+        'iapSource: $iapSource, '
+        'orderId: $orderId, '
+        'productId: $productId, '
+        'userId: $userId, '
+        'purchaseDate: $purchaseDate, '
+        'status: $status, '
+        'expiryDate: $expiryDate, '
+        'type: $type '
+        '}';
   }
 }
 
