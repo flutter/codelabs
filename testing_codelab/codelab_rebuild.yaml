@@ -310,9 +310,9 @@ steps:
           import '../models/favorites.dart';
           
           class FavoritesPage extends StatelessWidget {
-            const FavoritesPage({super.key});
+            static String routeName = 'favorites_page';
           
-            static String routeName = '/favorites_page';
+            const FavoritesPage({super.key});
           
             @override
             Widget build(BuildContext context) {
@@ -332,9 +332,9 @@ steps:
           }
           
           class FavoriteItemTile extends StatelessWidget {
-            const FavoriteItemTile(this.itemNo, {super.key});
-          
             final int itemNo;
+          
+            const FavoriteItemTile(this.itemNo, {super.key});
           
             @override
             Widget build(BuildContext context) {
