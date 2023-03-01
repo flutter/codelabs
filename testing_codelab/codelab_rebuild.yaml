@@ -2,9 +2,9 @@ name: Testing Codelab script
 steps:
   - name: step_03
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_03
-      - name: Create project.
+      - name: Create project
         flutter: create testing_app
       - name: Strip DEVELOPMENT_TEAM
         strip-lines-containing: DEVELOPMENT_TEAM =
@@ -45,6 +45,9 @@ steps:
       - name: Add test
         path: testing_app
         flutter: pub add --dev test
+      - name: Add go_router
+        flutter: pub add go_router
+        path: testing_app
       - name: Dart fix
         path: testing_app
         dart: fix --apply
@@ -104,9 +107,6 @@ steps:
     steps:
       - name: Remove generated code
         rmdir: step_04
-      - name: Add go_router
-        flutter: pub add go_router
-        path: testing_app
       - name: Patch lib/main.dart
         path: testing_app/lib/main.dart
         patch-u: |
@@ -296,7 +296,7 @@ steps:
       - name: Make lib/screens
         path: testing_app
         mkdir: lib/screens
-      - name: Add screens/favorites.dart
+      - name: Add lib/screens/favorites.dart
         path: testing_app/lib/screens/favorites.dart
         replace-contents: |
           // Copyright 2020 The Flutter Authors. All rights reserved.
@@ -309,9 +309,9 @@ steps:
           import '../models/favorites.dart';
           
           class FavoritesPage extends StatelessWidget {
-            static String routeName = 'favorites_page';
-          
             const FavoritesPage({super.key});
+          
+            static String routeName = 'favorites_page';
           
             @override
             Widget build(BuildContext context) {
@@ -331,9 +331,9 @@ steps:
           }
           
           class FavoriteItemTile extends StatelessWidget {
-            final int itemNo;
-          
             const FavoriteItemTile(this.itemNo, {super.key});
+          
+            final int itemNo;
           
             @override
             Widget build(BuildContext context) {
@@ -364,7 +364,7 @@ steps:
               );
             }
           }
-      - name: Add screens/home.dart
+      - name: Add lib/screens/home.dart
         path: testing_app/lib/screens/home.dart
         replace-contents: |
           // Copyright 2020 The Flutter Authors. All rights reserved.
@@ -488,7 +488,7 @@ steps:
           to: step_04
   - name: step_05
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_05
       - name: Remove test/widget_test.dart
         path: testing_app/test
@@ -534,7 +534,7 @@ steps:
           to: step_05
   - name: step_06
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_06
       - name: Add test/favorites_test.dart
         path: testing_app/test/favorites_test.dart
@@ -642,75 +642,9 @@ steps:
               });
             });
           }
-      - name: Make integration_test
+      - name: Make test_driver
         path: testing_app
-        mkdir: integration_test
-      - name: Add integration_test/app_test.dart
-        path: testing_app/integration_test/app_test.dart
-        replace-contents: |
-          // Copyright 2020 The Flutter Authors. All rights reserved.
-          // Use of this source code is governed by a BSD-style license that can be
-          // found in the LICENSE file.
-
-          import 'package:flutter/material.dart';
-          import 'package:flutter_test/flutter_test.dart';
-          import 'package:integration_test/integration_test.dart';
-          import 'package:testing_app/main.dart';
-          
-          void main() {
-            group('Testing App Performance Tests', () {
-              final binding = IntegrationTestWidgetsFlutterBinding.ensureInitialized();
-          
-              binding.framePolicy = LiveTestWidgetsFlutterBindingFramePolicy.fullyLive;
-          
-              testWidgets('Scrolling test', (tester) async {
-                await tester.pumpWidget(const TestingApp());
-          
-                final listFinder = find.byType(ListView);
-          
-                await binding.watchPerformance(() async {
-                  await tester.fling(listFinder, const Offset(0, -500), 10000);
-                  await tester.pumpAndSettle();
-          
-                  await tester.fling(listFinder, const Offset(0, 500), 10000);
-                  await tester.pumpAndSettle();
-                }, reportKey: 'scrolling_summary');
-              });
-          
-              testWidgets('Favorites operations test', (tester) async {
-                await tester.pumpWidget(const TestingApp());
-          
-                final iconKeys = [
-                  'icon_0',
-                  'icon_1',
-                  'icon_2',
-                ];
-          
-                for (var icon in iconKeys) {
-                  await tester.tap(find.byKey(ValueKey(icon)));
-                  await tester.pumpAndSettle(const Duration(seconds: 1));
-          
-                  expect(find.text('Added to favorites.'), findsOneWidget);
-                }
-          
-                await tester.tap(find.text('Favorites'));
-                await tester.pumpAndSettle();
-          
-                final removeIconKeys = [
-                  'remove_icon_0',
-                  'remove_icon_1',
-                  'remove_icon_2',
-                ];
-          
-                for (final iconKey in removeIconKeys) {
-                  await tester.tap(find.byKey(ValueKey(iconKey)));
-                  await tester.pumpAndSettle(const Duration(seconds: 1));
-          
-                  expect(find.text('Removed from favorites.'), findsOneWidget);
-                }
-              });
-            });
-          }
+        mkdir: test_driver
       - name: Flutter test
         path: testing_app
         flutter: test
@@ -720,8 +654,11 @@ steps:
           to: step_06
   - name: step_07
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_07
+      - name: Mkdir intergation_test
+        path: testing_app
+        mkdir: integration_test
       - name: Add integration_test/app_test.dart
         path: testing_app/integration_test/app_test.dart
         replace-contents: |
@@ -769,22 +706,92 @@ steps:
               });
             });
           }
-      - name: Add integration_test/driver.dart
-        path: testing_app/integration_test/driver.dart
-        replace-contents: |
-          // Copyright 2021 The Flutter Authors. All rights reserved.
-          // Use of this source code is governed by a BSD-style license that can be
-          // found in the LICENSE file.
-
-          import 'package:integration_test/integration_test_driver.dart';
-
-          Future<void> main() => integrationDriver();
       - name: Flutter test
         path: testing_app
         flutter: test
+      - name: Flutter integration test (macos)
+        platforms: [macos]
+        path: testing_app
+        flutter: test -d macos integration_test/app_test.dart
+      - name: Flutter integration test (windows)
+        platforms: [windows]
+        path: testing_app
+        flutter: test -d windows integration_test/app_test.dart
+      - name: Flutter integration test (linux)
+        platforms: [linux]
+        path: testing_app
+        flutter: test -d linux integration_test/app_test.dart
       - name: Copy step_07
         copydir:
           from: testing_app
           to: step_07
+  - name: step_08
+    steps:
+      - name: Remove generated code
+        rmdir: step_08
+      - name: Create integration_test/perf_test.dart
+        path: testing_app/integration_test/perf_test.dart
+        replace-contents: |
+          // Copyright 2020 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+          
+          import 'package:flutter/material.dart';
+          import 'package:flutter_test/flutter_test.dart';
+          import 'package:integration_test/integration_test.dart';
+          import 'package:testing_app/main.dart';
+          
+          void main() {
+            group('Testing App Performance', () {
+              final binding = IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+              binding.framePolicy = LiveTestWidgetsFlutterBindingFramePolicy.fullyLive;
+          
+              testWidgets('Scrolling test', (tester) async {
+                await tester.pumpWidget(const TestingApp());
+          
+                final listFinder = find.byType(ListView);
+          
+                await binding.traceAction(() async {
+                  await tester.fling(listFinder, const Offset(0, -500), 10000);
+                  await tester.pumpAndSettle();
+          
+                  await tester.fling(listFinder, const Offset(0, 500), 10000);
+                  await tester.pumpAndSettle();
+                }, reportKey: 'scrolling_summary');
+              });
+            });
+          }
+      - name: Create test_driver/perf_driver.dart
+        path: testing_app/test_driver/perf_driver.dart
+        replace-contents: |
+          // Copyright 2020 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+          
+          import 'package:flutter_driver/flutter_driver.dart' as driver;
+          import 'package:integration_test/integration_test_driver.dart';
+          
+          Future<void> main() {
+            return integrationDriver(
+              responseDataCallback: (data) async {
+                if (data != null) {
+                  final timeline = driver.Timeline.fromJson(
+                      data['scrolling_summary'] as Map<String, dynamic>);
+          
+                  final summary = driver.TimelineSummary.summarize(timeline);
+          
+                  await summary.writeTimelineToFile(
+                    'scrolling_summary',
+                    pretty: true,
+                    includeSummary: true,
+                  );
+                }
+              },
+            );
+          }
+      - name: Copy step_08
+        copydir:
+          from: testing_app
+          to: step_08
   - name: Cleanup
     rmdir: testing_app
