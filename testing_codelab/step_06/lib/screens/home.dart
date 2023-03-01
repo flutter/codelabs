@@ -10,9 +10,9 @@ import '../models/favorites.dart';
 import 'favorites.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
   static String routeName = '/';
+
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -40,9 +40,9 @@ class HomePage extends StatelessWidget {
 }
 
 class ItemTile extends StatelessWidget {
-  const ItemTile(this.itemNo, {super.key});
-
   final int itemNo;
+
+  const ItemTile(this.itemNo, {super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -379,9 +379,9 @@ steps:
           import 'favorites.dart';
           
           class HomePage extends StatelessWidget {
-            const HomePage({super.key});
-          
             static String routeName = '/';
+          
+            const HomePage({super.key});
           
             @override
             Widget build(BuildContext context) {
@@ -409,9 +409,9 @@ steps:
           }
           
           class ItemTile extends StatelessWidget {
-            const ItemTile(this.itemNo, {super.key});
-          
             final int itemNo;
+          
+            const ItemTile(this.itemNo, {super.key});
           
             @override
             Widget build(BuildContext context) {
