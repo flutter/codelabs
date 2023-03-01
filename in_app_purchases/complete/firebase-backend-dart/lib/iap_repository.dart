@@ -54,9 +54,9 @@ abstract class Purchase {
               DateTime.parse(e.fields!['purchaseDate']!.timestampValue!),
           status: SubscriptionStatus.values.firstWhere(
               (element) => element.name == e.fields!['status']!.stringValue),
-          expiryDate:
-              DateTime.tryParse(e.fields!['expiryDate']?.timestampValue ?? '') ??
-                  DateTime.now(),
+          expiryDate: DateTime.tryParse(
+                  e.fields!['expiryDate']?.timestampValue ?? '') ??
+              DateTime.now(),
         );
       case ProductType.nonSubscription:
         return NonSubscriptionPurchase(
