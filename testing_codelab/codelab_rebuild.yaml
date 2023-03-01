@@ -112,7 +112,7 @@ steps:
         patch-u: |
           --- b/testing_codelab/step_04/lib/main.dart
           +++ a/testing_codelab/step_04/lib/main.dart
-          @@ -3,117 +3,52 @@
+          @@ -3,117 +3,51 @@
            // found in the LICENSE file.
            
            import 'package:flutter/material.dart';
@@ -253,7 +253,6 @@ steps:
           +        title: 'Testing Sample',
           +        theme: ThemeData(
           +          primarySwatch: Colors.blue,
-          +          visualDensity: VisualDensity.adaptivePlatformDensity,
           +          useMaterial3: true,
                    ),
           +        routerConfig: _router,
