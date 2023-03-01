@@ -2,10 +2,10 @@ name: Star Counter script
 steps:
   - name: step_04
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_04
-      - name: Create project.
-        flutter: create star_counter
+      - name: Create project
+        flutter: create star_counter --platforms=web
       - name: Configure analysis_options.yaml
         path: star_counter/analysis_options.yaml
         replace-contents: |
@@ -16,14 +16,6 @@ steps:
       - name: Remove README.md
         path: star_counter
         rm: README.md
-      - name: Remove the Mobile and Desktop runners
-        path: star_counter
-        rmdirs:
-          - android
-          - ios
-          - linux 
-          - macos 
-          - windows
       - name: Remove cupertino_icons
         flutter: pub remove cupertino_icons
         path: star_counter
@@ -39,9 +31,9 @@ steps:
            name: star_counter
           -description: A new Flutter project.
           +description: A GitHub Star Counter app
-           
            # The following line prevents the package from being accidentally published to
            # pub.dev using `flutter pub publish`. This is preferred for private packages.
+           publish_to: 'none' # Remove this line if you wish to publish to pub.dev
       - name: VSCode config
         path: star_counter
         mkdir: .vscode
@@ -69,19 +61,20 @@ steps:
           // found in the LICENSE file.
           
           import 'package:flutter/material.dart';
-
+          
           void main() {
             runApp(const StarCounterApp());
           }
-
+          
           class StarCounterApp extends StatelessWidget {
             const StarCounterApp({super.key});
-
+          
             @override
             Widget build(BuildContext context) {
               return MaterialApp(
                 theme: ThemeData(
                   brightness: Brightness.light,
+                  useMaterial3: true,
                 ),
                 routes: {
                   '/': (context) => const HomePage(),
@@ -89,17 +82,17 @@ steps:
               );
             }
           }
-
+          
           class HomePage extends StatefulWidget {
             const HomePage({super.key});
-
+          
             @override
             State<HomePage> createState() => _HomePageState();
           }
-
+          
           class _HomePageState extends State<HomePage> {
             String _repositoryName = '';
-
+          
             @override
             Widget build(BuildContext context) {
               return Scaffold(
@@ -287,7 +280,7 @@ steps:
            
            void main() {
              runApp(const StarCounterApp());
-          @@ -64,8 +65,8 @@ class _HomePageState extends State<HomePage> {
+          @@ -65,8 +66,8 @@ class _HomePageState extends State<HomePage> {
                              ),
                              Padding(
                                padding: const EdgeInsets.only(top: 32.0),
@@ -357,7 +350,7 @@ steps:
            import 'star_counter.dart';
            
            void main() {
-          @@ -20,6 +17,7 @@ class StarCounterApp extends StatelessWidget {
+          @@ -21,6 +18,7 @@ class StarCounterApp extends StatelessWidget {
                  ),
                  routes: {
                    '/': (context) => const HomePage(),
@@ -365,7 +358,7 @@ steps:
                  },
                );
              }
-          @@ -69,6 +67,16 @@ class _HomePageState extends State<HomePage> {
+          @@ -70,6 +68,16 @@ class _HomePageState extends State<HomePage> {
                                  repositoryName: _repositoryName,
                                ),
                              ),
@@ -504,7 +497,7 @@ steps:
            import 'star_counter.dart';
            
            void main() {
-          @@ -17,7 +16,6 @@ class StarCounterApp extends StatelessWidget {
+          @@ -18,7 +17,6 @@ class StarCounterApp extends StatelessWidget {
                  ),
                  routes: {
                    '/': (context) => const HomePage(),
@@ -534,7 +527,7 @@ steps:
            import 'star_counter.dart';
            
            void main() {
-          @@ -72,7 +73,7 @@ class _HomePageState extends State<HomePage> {
+          @@ -73,7 +74,7 @@ class _HomePageState extends State<HomePage> {
                                      MaterialStateProperty.all(Colors.transparent),
                                ),
                                onPressed: () =>
