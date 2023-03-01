@@ -4,12 +4,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../models/favorites.dart';
 
 class FavoritesPage extends StatelessWidget {
-  static String routeName = 'favorites_page';
-
   const FavoritesPage({super.key});
+
+  static String routeName = 'favorites_page';
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +30,9 @@ class FavoritesPage extends StatelessWidget {
 }
 
 class FavoriteItemTile extends StatelessWidget {
-  final int itemNo;
-
   const FavoriteItemTile(this.itemNo, {super.key});
+
+  final int itemNo;
 
   @override
   Widget build(BuildContext context) {
