@@ -23,7 +23,7 @@ class IAPConnection {
   }
 }
 
-void main() async {
+void main() {
   runApp(const MyApp());
 }
 
