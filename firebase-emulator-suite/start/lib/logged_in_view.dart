@@ -20,7 +20,6 @@ class LoggedInView extends StatelessWidget {
     // TODO: get name from Firebase User
     final name = 'Person';
     return Scaffold(
-      backgroundColor: Colors.blue[300],
       body: Column(
         children: [
           Center(

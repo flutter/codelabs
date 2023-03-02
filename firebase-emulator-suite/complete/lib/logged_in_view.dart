@@ -19,7 +19,6 @@ class LoggedInView extends StatelessWidget {
   Widget build(BuildContext context) {
     final name = state.user!.displayName ?? 'No Name';
     return Scaffold(
-      backgroundColor: Colors.blue[300],
       body: Column(
         children: [
           Center(
