@@ -89,8 +89,7 @@ class MessageBubble extends StatelessWidget {
                 if (message.isMine) ...[
                   const Color(0xFF6C7689),
                   const Color(0xFF3A364B),
-                ],
-                if (!message.isMine) ...[
+                ] else ...[
                   const Color(0xFF19B7FF),
                   const Color(0xFF491CCB),
                 ],
