@@ -22,7 +22,7 @@ class LoggedOutView extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(
+              child: FilledButton(
                 onPressed: () async {
                   // TODO: update email and password
                   await state.logIn('TODO', 'TODO').then((_) {

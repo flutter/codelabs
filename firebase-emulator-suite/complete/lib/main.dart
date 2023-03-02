@@ -40,6 +40,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp.router(
       scrollBehavior: AppScrollBehavior(),
       routerConfig: _router(),
+      theme: ThemeData(useMaterial3: true),
     );
   }
 
