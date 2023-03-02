@@ -86,12 +86,14 @@ class MessageBubble extends StatelessWidget {
             borderRadius: const BorderRadius.all(Radius.circular(16.0)),
             child: BubbleBackground(
               colors: [
-                message.isMine
-                    ? const Color(0xFF6C7689)
-                    : const Color(0xFF19B7FF),
-                message.isMine
-                    ? const Color(0xFF3A364B)
-                    : const Color(0xFF491CCB),
+                if (message.isMine) ...[
+                  const Color(0xFF6C7689),
+                  const Color(0xFF3A364B),
+                ],
+                if (!message.isMine) ...[
+                  const Color(0xFF19B7FF),
+                  const Color(0xFF491CCB),
+                ],
               ],
               child: DefaultTextStyle.merge(
                 style: const TextStyle(
