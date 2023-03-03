@@ -148,7 +148,7 @@ class BigCard extends StatelessWidget {
         child: Text(
           pair.asLowerCase,
           style: style,
-          semanticsLabel: pair.asPascalCase,
+          semanticsLabel: "${pair.first} ${pair.second}",
         ),
       ),
     );
