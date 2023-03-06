@@ -42,7 +42,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "work.beltran.iap"
+        applicationId "com.example.dashclicker"
         minSdkVersion 19
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
