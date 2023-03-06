@@ -22,6 +22,8 @@ declare -a CODELABS=(
   "google-maps-in-flutter"
   "in_app_purchases"
   "namer"
+  # TODO(DomesticMouse): Uncomment on Flutter stable major version increment
+  # "pesto_flutter"
   "plugin_codelab"
   "star_counter"
   "testing_codelab"

@@ -27,6 +27,7 @@ declare -a CODELABS=(
   # TODO(DomesticMouse): Use 'const' with the constructor to improve performance.
   # "in_app_purchases"
   "namer"
+  "pesto_flutter"
   "plugin_codelab"
   "star_counter"
   "testing_codelab"
