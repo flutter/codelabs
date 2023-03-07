@@ -14,6 +14,8 @@
 
 import 'package:flutter/material.dart';
 
+import 'screens/recipes.dart';
+
 class Pesto extends StatefulWidget {
   const Pesto({super.key});
 
@@ -24,12 +26,9 @@ class Pesto extends StatefulWidget {
 class _PestoState extends State<Pesto> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: 'Pesto',
-      home: Scaffold(
-        appBar: AppBar(title: const Text('Home')),
-        body: const Text('Pesto Default'),
-      ),
+      home: RecipesScreen(),
     );
   }
 }
