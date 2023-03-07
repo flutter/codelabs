@@ -35,7 +35,7 @@ class _HaikuPageState extends State<HaikuPage> {
     // TODO: (API)
     Map<String, String> _haikuText = {
       'Google Search':
-          "Here is a long haiku about Google Search: \n\nGoogle Search is great \nFor finding what you need \nAnswer at your fingertips \n\nGoogle Search is vast \nWith information overload \nGoogle Search to the rescue \n\nGoogle Search is fast \nIt can find what you're looking for \nIn just a few seconds \n\nGoogle Search if free \nSo you can use it for anything \nLarge or small \n\nGoogle Search is awesome \nIt'sthe best search engine \nOn the internet",
+          "Here is a long haiku about Google Search: \n\nGoogle Search is great \nFor finding what you need \nAnswer at your fingertips \n\nGoogle Search is vast \nWith information overload \nGoogle Search to the rescue \n\nGoogle Search is fast \nIt can find what you're looking for \nIn just a few seconds \n\nGoogle Search if free \nSo you can use it for anything \nLarge or small \n\nGoogle Search is awesome \nIt's the best search engine \nOn the internet",
       'YouTube': 'Here is a long haiku about YouTube:',
       'Android': 'Here is a long haiku about Android:',
       'Google Maps': 'Here is a long haiku about Google Maps:',
