@@ -26,7 +26,7 @@ class Pesto extends StatefulWidget {
 
 class _PestoState extends State<Pesto> {
   late final router = buildRouter();
-  final theme = BasilTheme();
+  final theme = const BasilTheme();
 
   @override
   Widget build(BuildContext context) {

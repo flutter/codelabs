@@ -25,9 +25,11 @@ class _PestoState extends State<Pesto> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Pesto',
-        home: Scaffold(
-            appBar: AppBar(title: const Text('Home')),
-            body: Text('Pesto Default')));
+      title: 'Pesto',
+      home: Scaffold(
+        appBar: AppBar(title: const Text('Home')),
+        body: const Text('Pesto Default'),
+      ),
+    );
   }
 }
