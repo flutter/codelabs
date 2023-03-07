@@ -1,6 +1,9 @@
 # haiku_generator
 
-A new Flutter application.
+A Haiku Generator Flutter application.
+
+## UI
+![UI](ui.png)
 
 ## Getting Started
 
