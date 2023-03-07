@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:haiku_generator/widget/shimmer_loading_anim.dart';
 
 class HaikuPage extends StatefulWidget {
-  const HaikuPage({super.key, required this.title, required this.subTitle});
+  const HaikuPage({super.key, required this.title});
 
   final String title;
-  final String subTitle;
 
   @override
   State<HaikuPage> createState() => _HaikuPageState();
@@ -16,6 +15,8 @@ class _HaikuPageState extends State<HaikuPage> {
 
   String haikuText = '';
   String productName = 'Google Search';
+
+  String subTitle = 'Choose a Google product here:';
 
   getListProduct() async {
     // TODO: (API)
@@ -78,7 +79,7 @@ class _HaikuPageState extends State<HaikuPage> {
     return Column(
       children: <Widget>[
         Text(
-          widget.subTitle,
+          subTitle,
           style: const TextStyle(
             fontSize: 18,
             color: Colors.black,
@@ -93,8 +94,12 @@ class _HaikuPageState extends State<HaikuPage> {
                 child: Text(value),
               );
             }).toList(),
-            hint: Text(productName.toString(), style: const TextStyle(color: Colors.deepPurpleAccent)),
-            underline: Container( height: 1, color: Colors.deepPurpleAccent,),
+            hint: Text(productName.toString(),
+                style: const TextStyle(color: Colors.deepPurpleAccent)),
+            underline: Container(
+              height: 1,
+              color: Colors.deepPurpleAccent,
+            ),
             onChanged: (value) {
               setState(() {
                 productName = value!;
@@ -130,7 +135,6 @@ class _HaikuPageState extends State<HaikuPage> {
     return Expanded(
       child: haikuText.isNotEmpty
           ? Container(
-              // color: Colors.amberAccent.shade100,
               decoration: BoxDecoration(
                 color: Colors.amberAccent.shade100,
                 borderRadius: BorderRadius.circular(8),

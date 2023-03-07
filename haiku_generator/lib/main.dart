@@ -16,9 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const HaikuPage(
-          title: 'Haiku generator for Google product',
-          subTitle: 'Choose a Google product here:'),
+      home: const HaikuPage(title: 'Haiku generator for Google product'),
     );
   }
 }
