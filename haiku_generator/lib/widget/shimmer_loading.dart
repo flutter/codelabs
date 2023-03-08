@@ -19,19 +19,19 @@ class Shimmer extends StatefulWidget {
 }
 
 class ShimmerState extends State<Shimmer> with SingleTickerProviderStateMixin {
-  late AnimationController _shimmerController;
+  late AnimationController shimmerController;
 
   @override
   void initState() {
     super.initState();
 
-    _shimmerController = AnimationController.unbounded(vsync: this)
+    shimmerController = AnimationController.unbounded(vsync: this)
       ..repeat(min: -0.5, max: 1.5, period: const Duration(milliseconds: 1000));
   }
 
   @override
   void dispose() {
-    _shimmerController.dispose();
+    shimmerController.dispose();
     super.dispose();
   }
 
@@ -41,7 +41,7 @@ class ShimmerState extends State<Shimmer> with SingleTickerProviderStateMixin {
     begin: widget.linearGradient.begin,
     end: widget.linearGradient.end,
     transform:
-    _SlidingGradientTransform(slidePercent: _shimmerController.value),
+    _SlidingGradientTransform(slidePercent: shimmerController.value),
   );
 
   bool get isSized {
@@ -62,7 +62,7 @@ class ShimmerState extends State<Shimmer> with SingleTickerProviderStateMixin {
     return descendant.localToGlobal(offset, ancestor: shimmerBox);
   }
 
-  Listenable get shimmerChanges => _shimmerController;
+  Listenable get shimmerChanges => shimmerController;
 
   @override
   Widget build(BuildContext context) {
@@ -98,23 +98,23 @@ class ShimmerLoading extends StatefulWidget {
 }
 
 class _ShimmerLoadingState extends State<ShimmerLoading> {
-  Listenable? _shimmerChanges;
+  Listenable? shimmerChanges;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (_shimmerChanges != null) {
-      _shimmerChanges!.removeListener(_onShimmerChange);
+    if (shimmerChanges != null) {
+      shimmerChanges!.removeListener(_onShimmerChange);
     }
-    _shimmerChanges = Shimmer.of(context)?.shimmerChanges;
-    if (_shimmerChanges != null) {
-      _shimmerChanges!.addListener(_onShimmerChange);
+    shimmerChanges = Shimmer.of(context)?.shimmerChanges;
+    if (shimmerChanges != null) {
+      shimmerChanges!.addListener(_onShimmerChange);
     }
   }
 
   @override
   void dispose() {
-    _shimmerChanges?.removeListener(_onShimmerChange);
+    shimmerChanges?.removeListener(_onShimmerChange);
     super.dispose();
   }
 
