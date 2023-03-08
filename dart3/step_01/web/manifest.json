@@ -1,6 +1,6 @@
 {
-    "name": "step_01",
-    "short_name": "step_01",
+    "name": "dart3",
+    "short_name": "dart3",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

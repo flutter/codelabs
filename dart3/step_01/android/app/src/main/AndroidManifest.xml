@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.step_01">
+    package="com.example.dart3">
     <application
-        android:label="step_01"
+        android:label="dart3"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
