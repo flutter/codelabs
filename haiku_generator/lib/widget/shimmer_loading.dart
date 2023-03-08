@@ -41,7 +41,7 @@ class ShimmerState extends State<Shimmer> with SingleTickerProviderStateMixin {
     begin: widget.linearGradient.begin,
     end: widget.linearGradient.end,
     transform:
-    _SlidingGradientTransform(slidePercent: shimmerController.value),
+    SlidingGradientTransform(slidePercent: shimmerController.value),
   );
 
   bool get isSized {
@@ -70,8 +70,8 @@ class ShimmerState extends State<Shimmer> with SingleTickerProviderStateMixin {
   }
 }
 
-class _SlidingGradientTransform extends GradientTransform {
-  const _SlidingGradientTransform({
+class SlidingGradientTransform extends GradientTransform {
+  const SlidingGradientTransform({
     required this.slidePercent,
   });
 
@@ -94,31 +94,31 @@ class ShimmerLoading extends StatefulWidget {
   final Widget child;
 
   @override
-  State<ShimmerLoading> createState() => _ShimmerLoadingState();
+  State<ShimmerLoading> createState() => ShimmerLoadingState();
 }
 
-class _ShimmerLoadingState extends State<ShimmerLoading> {
+class ShimmerLoadingState extends State<ShimmerLoading> {
   Listenable? shimmerChanges;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (shimmerChanges != null) {
-      shimmerChanges!.removeListener(_onShimmerChange);
+      shimmerChanges!.removeListener(onShimmerChange);
     }
     shimmerChanges = Shimmer.of(context)?.shimmerChanges;
     if (shimmerChanges != null) {
-      shimmerChanges!.addListener(_onShimmerChange);
+      shimmerChanges!.addListener(onShimmerChange);
     }
   }
 
   @override
   void dispose() {
-    shimmerChanges?.removeListener(_onShimmerChange);
+    shimmerChanges?.removeListener(onShimmerChange);
     super.dispose();
   }
 
-  void _onShimmerChange() {
+  void onShimmerChange() {
     if (widget.isLoading) {
       setState(() {
         // update the shimmer painting.
