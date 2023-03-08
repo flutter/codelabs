@@ -3,11 +3,11 @@ class Product {
 
   Product(this.productName);
 
-  Product.fromMap(Map<String, dynamic> json) : productName = json['product_name'];
+  Product.fromMap(Map<String, dynamic> json) : productName = json['productName'];
 
   Map<String, dynamic> toMap() {
     return {
-      'product_name': productName,
+      'productName': productName,
     };
   }
 }
