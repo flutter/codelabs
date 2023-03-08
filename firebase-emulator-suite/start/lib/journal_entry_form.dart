@@ -67,7 +67,7 @@ class _EntryFormState extends State<EntryForm> {
               Center(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: ElevatedButton(
+                  child: FilledButton(
                     onPressed: () {
                       // Validate returns true if the form is valid, or false otherwise.
                       if (_formKey.currentState!.validate()) {

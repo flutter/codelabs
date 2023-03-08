@@ -13,6 +13,7 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   final state = AppState();
+
   MyApp({super.key});
 
   @override
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp.router(
       scrollBehavior: AppScrollBehavior(),
       routerConfig: _router(),
+      theme: ThemeData(useMaterial3: true),
     );
   }
 

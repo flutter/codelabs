@@ -65,7 +65,7 @@ Store _storeFromString(String store) {
   switch (store) {
     case 'googleplay':
       return Store.googlePlay;
-    case 'appStore':
+    case 'appstore':
       return Store.appStore;
     default:
       throw ArgumentError.value(store, '$store is not a supported store');
