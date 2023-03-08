@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:haiku_generator/controller/poem_controller.dart';
+import 'package:haiku_generator/controller/product_controller.dart';
 import 'package:haiku_generator/widget/shimmer_loading_anim.dart';
+
+import 'models/product.dart';
 
 class HaikuPage extends StatefulWidget {
   const HaikuPage({super.key, required this.title});
@@ -11,46 +15,33 @@ class HaikuPage extends StatefulWidget {
 }
 
 class _HaikuPageState extends State<HaikuPage> {
-  List<String> listProduct = [];
+  List<Product> listProduct = [];
+  final ProductController productController = ProductController();
+  final PoemController poemController = PoemController();
 
   String haikuText = '';
   String productName = 'Google Search';
 
   String subTitle = 'Choose a Google product here:';
 
-  getListProduct() async {
-    // TODO: (API)
-    List<String> _listProduct = [
-      'Google Search',
-      'YouTube',
-      'Android',
-      'Google Maps',
-      'GMail'
-    ];
+  Future getProductData() async {
+    var productData = await productController.getProduct();
     setState(() {
-      listProduct = _listProduct;
+      listProduct = productData;
     });
   }
 
-  getHaikuText(String productName) async {
-    // TODO: (API)
-    Map<String, String> _haikuText = {
-      'Google Search':
-          "Here is a long haiku about Google Search: \n\nGoogle Search is great \nFor finding what you need \nAnswer at your fingertips \n\nGoogle Search is vast \nWith information overload \nGoogle Search to the rescue \n\nGoogle Search is fast \nIt can find what you're looking for \nIn just a few seconds \n\nGoogle Search if free \nSo you can use it for anything \nLarge or small \n\nGoogle Search is awesome \nIt's the best search engine \nOn the internet",
-      'YouTube': 'Here is a long haiku about YouTube:',
-      'Android': 'Here is a long haiku about Android:',
-      'Google Maps': 'Here is a long haiku about Google Maps:',
-      'GMail': 'Here is a long haiku about GMail:'
-    };
+  Future getHaikuTextData(String productName) async {
+    var poemData = await poemController.getPoem(productName);
     setState(() {
-      haikuText = _haikuText[productName].toString();
+      haikuText = poemData[0].poemText;
     });
   }
 
   @override
   void initState() {
     super.initState();
-    getListProduct();
+    getProductData();
   }
 
   @override
@@ -87,11 +78,11 @@ class _HaikuPageState extends State<HaikuPage> {
         ),
         SizedBox(
           width: 150.0,
-          child: DropdownButton<String>(
-            items: listProduct.map((String value) {
-              return DropdownMenuItem<String>(
+          child: DropdownButton<Product>(
+            items: listProduct.map((Product value) {
+              return DropdownMenuItem<Product>(
                 value: value,
-                child: Text(value),
+                child: Text(value.productName),
               );
             }).toList(),
             hint: Text(productName.toString(),
@@ -102,7 +93,7 @@ class _HaikuPageState extends State<HaikuPage> {
             ),
             onChanged: (value) {
               setState(() {
-                productName = value!;
+                productName = value!.productName;
                 haikuText = '';
               });
             },
@@ -110,7 +101,7 @@ class _HaikuPageState extends State<HaikuPage> {
           ),
         ),
         GestureDetector(
-          onTap: () => getHaikuText(productName.toString()),
+          onTap: () => getHaikuTextData(productName.toString()),
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 18),
             decoration: BoxDecoration(
