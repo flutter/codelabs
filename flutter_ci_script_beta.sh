@@ -12,6 +12,7 @@ declare -a CODELABS=(
   "cookbook"
   # TODO(DomesticMouse): Use 'const' with the constructor to improve performance.
   # "cupertino_store"
+  "dart3"
   # TODO(DomesticMouse): Use 'const' with the constructor to improve performance.
   # "dartpad_codelabs"
   "deeplink_cookbook"
