@@ -1,5 +1,5 @@
-import '../../models/product.dart';
-import '../abstract/product_repository.dart';
+import '../../domain/models/product.dart';
+import '../../domain/repositories/abstract/product_repository.dart';
 
 class ProductRepositoryImpl implements ProductRepository {
   ProductRepositoryImpl();

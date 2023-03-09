@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:haiku_generator/controller/poem_controller.dart';
 import 'package:haiku_generator/controller/product_controller.dart';
-import 'package:haiku_generator/widget/shimmer_loading_anim.dart';
+import 'package:haiku_generator/widgets/shimmer_loading_anim.dart';
 
-import 'models/product.dart';
+import 'domain/models/product.dart';
 
 class HaikuPage extends StatefulWidget {
   const HaikuPage({super.key, required this.title});

@@ -1,6 +1,6 @@
-import '../models/poem.dart';
-import '../repositories/abstract/poem_repository.dart';
-import '../repositories/impl/poem_repository_impl.dart';
+import '../data/repositories/poem_repository_impl.dart';
+import '../domain/models/poem.dart';
+import '../domain/repositories/abstract/poem_repository.dart';
 
 class PoemController {
   final PoemRepository poemRepository = PoemRepositoryImpl();

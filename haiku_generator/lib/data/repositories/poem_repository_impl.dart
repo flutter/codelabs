@@ -1,6 +1,5 @@
-import 'package:haiku_generator/repositories/abstract/poem_repository.dart';
-
-import '../../models/poem.dart';
+import '../../domain/models/poem.dart';
+import '../../domain/repositories/abstract/poem_repository.dart';
 
 class PoemRepositoryImpl implements PoemRepository {
   PoemRepositoryImpl();
@@ -25,10 +24,7 @@ class PoemRepositoryImpl implements PoemRepository {
         'productName': 'Google Maps',
         'poemText': 'Here is a long haiku about Google Maps:'
       },
-      {
-        'productName': 'GMail',
-        'poemText': 'Here is a long haiku about GMail:'
-      }
+      {'productName': 'GMail', 'poemText': 'Here is a long haiku about GMail:'}
     ];
     var itemsMatch =
         dummyData.where((item) => item['productName'] == productName).toList();

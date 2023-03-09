@@ -1,6 +1,6 @@
-import 'package:haiku_generator/repositories/abstract/product_repository.dart';
-import '../models/product.dart';
-import '../repositories/impl/product_repository_impl.dart';
+import '../data/repositories/product_repository_impl.dart';
+import '../domain/models/product.dart';
+import '../domain/repositories/abstract/product_repository.dart';
 
 class ProductController {
   final ProductRepository productRepository = ProductRepositoryImpl();
