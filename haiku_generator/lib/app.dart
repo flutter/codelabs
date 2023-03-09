@@ -55,18 +55,18 @@ class _HaikuPageState extends State<HaikuPage> {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: <Widget>[
-                _buildTopView(),
+                buildTopView(),
                 const SizedBox(
                   height: 10.0,
                 ),
-                _buildBottomView()
+                buildBottomView()
               ],
             )),
       ),
     );
   }
 
-  Column _buildTopView() {
+  Column buildTopView() {
     return Column(
       children: <Widget>[
         Text(
@@ -122,7 +122,7 @@ class _HaikuPageState extends State<HaikuPage> {
     );
   }
 
-  Expanded _buildBottomView() {
+  Expanded buildBottomView() {
     return Expanded(
       child: haikuText.isNotEmpty
           ? Container(
