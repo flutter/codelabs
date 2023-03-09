@@ -42,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
     var jsonString = await rootBundle.loadString('assets/data.json');
     var jsonMap = jsonDecode(jsonString);
 
-    setState((){
+    setState(() {
       json = jsonMap;
     });
   }
