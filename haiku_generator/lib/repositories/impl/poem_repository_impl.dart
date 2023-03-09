@@ -32,6 +32,6 @@ class PoemRepositoryImpl implements PoemRepository {
     ];
     var itemsMatch =
         dummyData.where((item) => item['productName'] == productName).toList();
-    return itemsMatch.map((item) => Poem.fromMap(item!)).toList();
+    return itemsMatch.map((item) => Poem.fromMap(item)).toList();
   }
 }
