@@ -7,7 +7,7 @@ steps:
       - name: Remove generated code
         rmdir: step_01
       - name: Create project
-        flutter: create dart3
+        flutter: create --empty dart3
       - name: Strip DEVELOPMENT_TEAM
         strip-lines-containing: DEVELOPMENT_TEAM =
         path: dart3/ios/Runner.xcodeproj/project.pbxproj
