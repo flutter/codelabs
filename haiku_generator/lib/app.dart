@@ -11,10 +11,10 @@ class HaikuPage extends StatefulWidget {
   final String title;
 
   @override
-  State<HaikuPage> createState() => _HaikuPageState();
+  State<HaikuPage> createState() => HaikuPageState();
 }
 
-class _HaikuPageState extends State<HaikuPage> {
+class HaikuPageState extends State<HaikuPage> {
   List<Product> listProduct = [];
   final ProductController productController = ProductController();
   final PoemController poemController = PoemController();
