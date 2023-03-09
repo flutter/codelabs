@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 class Shimmer extends StatefulWidget {
   const Shimmer({
-  super.key,
-  required this.linearGradient,
-  this.child,
+    super.key,
+    required this.linearGradient,
+    this.child,
   });
 
   static ShimmerState? of(BuildContext context) {
@@ -36,13 +36,13 @@ class ShimmerState extends State<Shimmer> with SingleTickerProviderStateMixin {
   }
 
   LinearGradient get gradient => LinearGradient(
-    colors: widget.linearGradient.colors,
-    stops: widget.linearGradient.stops,
-    begin: widget.linearGradient.begin,
-    end: widget.linearGradient.end,
-    transform:
-    SlidingGradientTransform(slidePercent: shimmerController.value),
-  );
+        colors: widget.linearGradient.colors,
+        stops: widget.linearGradient.stops,
+        begin: widget.linearGradient.begin,
+        end: widget.linearGradient.end,
+        transform:
+            SlidingGradientTransform(slidePercent: shimmerController.value),
+      );
 
   bool get isSized {
     if (context.findRenderObject() != null) {
@@ -85,9 +85,9 @@ class SlidingGradientTransform extends GradientTransform {
 
 class ShimmerLoading extends StatefulWidget {
   const ShimmerLoading({
-  super.key,
-  required this.isLoading,
-  required this.child,
+    super.key,
+    required this.isLoading,
+    required this.child,
   });
 
   final bool isLoading;

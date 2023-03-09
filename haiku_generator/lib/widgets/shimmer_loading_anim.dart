@@ -5,7 +5,7 @@ import 'shimmer_loading.dart';
 
 class ShimmerLoadingAnim extends StatelessWidget {
   const ShimmerLoadingAnim(
-  {super.key, required this.child, this.isLoading = false});
+      {super.key, required this.child, this.isLoading = false});
 
   final Widget child;
   final bool isLoading;
