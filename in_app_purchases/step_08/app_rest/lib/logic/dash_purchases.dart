@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 
+import '../constants.dart';
 import '../main.dart';
 import '../model/purchasable_product.dart';
 import '../model/store_state.dart';
@@ -11,20 +12,9 @@ import 'dash_counter.dart';
 
 class DashPurchases extends ChangeNotifier {
   DashCounter counter;
-  StoreState storeState = StoreState.notAvailable;
+  StoreState storeState = StoreState.loading;
   late StreamSubscription<List<PurchaseDetails>> _subscription;
-  List<PurchasableProduct> products = [
-    PurchasableProduct(
-      'Spring is in the air',
-      'Many dashes flying out from their nests',
-      '\$0.99',
-    ),
-    PurchasableProduct(
-      'Jet engine',
-      'Doubles you clicks per second for a day',
-      '\$1.99',
-    ),
-  ];
+  List<PurchasableProduct> products = [];
 
   bool get beautifiedDash => _beautifiedDashUpgrade;
   // ignore: prefer_final_fields
@@ -38,6 +28,26 @@ class DashPurchases extends ChangeNotifier {
       onDone: _updateStreamOnDone,
       onError: _updateStreamOnError,
     );
+    loadPurchases();
+  }
+
+  Future<void> loadPurchases() async {
+    final available = await iapConnection.isAvailable();
+    if (!available) {
+      storeState = StoreState.notAvailable;
+      notifyListeners();
+      return;
+    }
+    const ids = <String>{
+      storeKeyConsumable,
+      storeKeySubscription,
+      storeKeyUpgrade,
+    };
+    final response = await iapConnection.queryProductDetails(ids);
+    products =
+        response.productDetails.map((e) => PurchasableProduct(e)).toList();
+    storeState = StoreState.available;
+    notifyListeners();
   }
 
   @override
