@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:provider/provider.dart';
 
 import 'logic/dash_counter.dart';
@@ -8,6 +9,19 @@ import 'logic/firebase_notifier.dart';
 import 'pages/home_page.dart';
 import 'pages/purchase_page.dart';
 import 'repo/iap_repo.dart';
+
+// Gives the option to override in tests.
+class IAPConnection {
+  static InAppPurchase? _instance;
+  static set instance(InAppPurchase value) {
+    _instance = value;
+  }
+
+  static InAppPurchase get instance {
+    _instance ??= InAppPurchase.instance;
+    return _instance!;
+  }
+}
 
 void main() {
   runApp(const MyApp());
@@ -67,6 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
           create: (context) => DashPurchases(
             context.read<DashCounter>(),
           ),
+          lazy: false,
         ),
       ],
       child: Scaffold(
