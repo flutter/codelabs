@@ -57,18 +57,47 @@ class DashPurchases extends ChangeNotifier {
   }
 
   Future<void> buy(PurchasableProduct product) async {
-    product.status = ProductStatus.pending;
-    notifyListeners();
-    await Future<void>.delayed(const Duration(seconds: 5));
-    product.status = ProductStatus.purchased;
-    notifyListeners();
-    await Future<void>.delayed(const Duration(seconds: 5));
-    product.status = ProductStatus.purchasable;
+    final purchaseParam = PurchaseParam(productDetails: product.productDetails);
+    switch (product.id) {
+      case storeKeyConsumable:
+        await iapConnection.buyConsumable(purchaseParam: purchaseParam);
+        break;
+      case storeKeySubscription:
+      case storeKeyUpgrade:
+        await iapConnection.buyNonConsumable(purchaseParam: purchaseParam);
+        break;
+      default:
+        throw ArgumentError.value(
+            product.productDetails, '${product.id} is not a known product');
+    }
+  }
+
+  Future<void> _onPurchaseUpdate(
+      List<PurchaseDetails> purchaseDetailsList) async {
+    for (var purchaseDetails in purchaseDetailsList) {
+      await _handlePurchase(purchaseDetails);
+    }
     notifyListeners();
   }
 
-  void _onPurchaseUpdate(List<PurchaseDetails> purchaseDetailsList) {
-    // Handle purchases here
+  Future<void> _handlePurchase(PurchaseDetails purchaseDetails) async {
+    if (purchaseDetails.status == PurchaseStatus.purchased) {
+      switch (purchaseDetails.productID) {
+        case storeKeySubscription:
+          counter.applyPaidMultiplier();
+          break;
+        case storeKeyConsumable:
+          counter.addBoughtDashes(2000);
+          break;
+        case storeKeyUpgrade:
+          _beautifiedDashUpgrade = true;
+          break;
+      }
+    }
+
+    if (purchaseDetails.pendingCompletePurchase) {
+      await iapConnection.completePurchase(purchaseDetails);
+    }
   }
 
   void _updateStreamOnDone() {
