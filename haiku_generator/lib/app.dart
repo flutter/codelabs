@@ -34,7 +34,7 @@ class HaikuPageState extends State<HaikuPage> {
   Future getHaikuTextData(String productName) async {
     var poemData = await poemController.getPoem(productName);
     setState(() {
-      haikuText = poemData[0].poemText;
+      haikuText = poemData;
     });
   }
 

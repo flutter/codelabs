@@ -5,7 +5,7 @@ class ProductRepositoryImpl implements ProductRepository {
   ProductRepositoryImpl();
 
   @override
-  Future<List<Product>> getAllProduct() async {
+  Future<List<Product>> getAllProducts() async {
     var dummyData = [
       {'productName': 'Google Search'},
       {'productName': 'YouTube'},

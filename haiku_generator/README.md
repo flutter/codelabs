@@ -5,6 +5,12 @@ A Haiku Generator Flutter application.
 ## UI
 ![UI](ui.png)
 
+## Web UI
+![Web_UI](web_ui.png)
+
+## Desktop UI
+![Desktop_UI](desktop_ui.png)
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.

@@ -6,6 +6,6 @@ class ProductController {
   final ProductRepository productRepository = ProductRepositoryImpl();
 
   Future<List<Product>> getProduct() {
-    return productRepository.getAllProduct();
+    return productRepository.getAllProducts();
   }
 }

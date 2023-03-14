@@ -5,7 +5,7 @@ import '../domain/repositories/abstract/poem_repository.dart';
 class PoemController {
   final PoemRepository poemRepository = PoemRepositoryImpl();
 
-  Future<List<Poem>> getPoem(String productName) {
+  Future<String> getPoem(String productName) {
     return poemRepository.getOnePoem(productName);
   }
 }

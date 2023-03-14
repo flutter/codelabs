@@ -1,5 +1,5 @@
 import '../../models/product.dart';
 
 abstract class ProductRepository {
-  Future<List<Product>> getAllProduct();
+  Future<List<Product>> getAllProducts();
 }

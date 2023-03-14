@@ -5,7 +5,7 @@ class PoemRepositoryImpl implements PoemRepository {
   PoemRepositoryImpl();
 
   @override
-  Future<List<Poem>> getOnePoem(String productName) async {
+  Future<String> getOnePoem(String productName) async {
     var dummyData = [
       {
         'productName': 'Google Search',
@@ -28,6 +28,6 @@ class PoemRepositoryImpl implements PoemRepository {
     ];
     var itemsMatch =
         dummyData.where((item) => item['productName'] == productName).toList();
-    return itemsMatch.map((item) => Poem.fromMap(item)).toList();
+    return itemsMatch.map((item) => Poem.fromMap(item)).toList().first.poemText;
   }
 }
