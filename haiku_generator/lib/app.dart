@@ -25,7 +25,7 @@ class HaikuPageState extends State<HaikuPage> {
   String subTitle = 'Choose a Google product here:';
 
   Future getProductData() async {
-    var productData = await productController.getProduct();
+    var productData = await productController.getProducts();
     setState(() {
       listProduct = productData;
     });

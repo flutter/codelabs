@@ -5,7 +5,7 @@ import '../domain/repositories/abstract/product_repository.dart';
 class ProductController {
   final ProductRepository productRepository = ProductRepositoryImpl();
 
-  Future<List<Product>> getProduct() {
+  Future<List<Product>> getProducts() {
     return productRepository.getAllProducts();
   }
 }
