@@ -25,6 +25,7 @@ declare -a CODELABS=(
   "flame-building-doodle-dash"
   "github-client"
   "google-maps-in-flutter"
+  "haiku_generator"
   # TODO(DomesticMouse): Use 'const' with the constructor to improve performance.
   # "in_app_purchases"
   "namer"
