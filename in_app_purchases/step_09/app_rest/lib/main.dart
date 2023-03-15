@@ -80,6 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ChangeNotifierProvider<DashPurchases>(
           create: (context) => DashPurchases(
             context.read<DashCounter>(),
+            context.read<FirebaseNotifier>(),
           ),
           lazy: false,
         ),

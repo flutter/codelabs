@@ -29,6 +29,8 @@ class FirebaseNotifier extends ChangeNotifier {
     return FirebaseFirestore.instance;
   }
 
+  User? get user => FirebaseAuth.instance.currentUser;
+
   Future<void> load() async {
     try {
       await Firebase.initializeApp(

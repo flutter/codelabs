@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:in_app_purchase/in_app_purchase.dart';
 
 import '../constants.dart';
@@ -9,9 +11,11 @@ import '../main.dart';
 import '../model/purchasable_product.dart';
 import '../model/store_state.dart';
 import 'dash_counter.dart';
+import 'firebase_notifier.dart';
 
 class DashPurchases extends ChangeNotifier {
   DashCounter counter;
+  FirebaseNotifier firebaseNotifier;
   StoreState storeState = StoreState.loading;
   late StreamSubscription<List<PurchaseDetails>> _subscription;
   List<PurchasableProduct> products = [];
@@ -21,7 +25,7 @@ class DashPurchases extends ChangeNotifier {
   bool _beautifiedDashUpgrade = false;
   final iapConnection = IAPConnection.instance;
 
-  DashPurchases(this.counter) {
+  DashPurchases(this.counter, this.firebaseNotifier) {
     final purchaseUpdated = iapConnection.purchaseStream;
     _subscription = purchaseUpdated.listen(
       _onPurchaseUpdate,
@@ -82,21 +86,53 @@ class DashPurchases extends ChangeNotifier {
 
   Future<void> _handlePurchase(PurchaseDetails purchaseDetails) async {
     if (purchaseDetails.status == PurchaseStatus.purchased) {
-      switch (purchaseDetails.productID) {
-        case storeKeySubscription:
-          counter.applyPaidMultiplier();
-          break;
-        case storeKeyConsumable:
-          counter.addBoughtDashes(2000);
-          break;
-        case storeKeyUpgrade:
-          _beautifiedDashUpgrade = true;
-          break;
+      // Send to server
+      var validPurchase = await _verifyPurchase(purchaseDetails);
+
+      if (validPurchase) {
+        // Apply changes locally
+        switch (purchaseDetails.productID) {
+          case storeKeySubscription:
+            counter.applyPaidMultiplier();
+            break;
+          case storeKeyConsumable:
+            counter.addBoughtDashes(2000);
+            break;
+          case storeKeyUpgrade:
+            _beautifiedDashUpgrade = true;
+            break;
+        }
       }
     }
 
     if (purchaseDetails.pendingCompletePurchase) {
       await iapConnection.completePurchase(purchaseDetails);
+    }
+  }
+
+  Future<bool> _verifyPurchase(PurchaseDetails purchaseDetails) async {
+    final url = Uri.parse('http://$serverIp:8080/verifypurchase');
+    const headers = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+    };
+    final response = await http.post(
+      url,
+      body: jsonEncode({
+        'source': purchaseDetails.verificationData.source,
+        'productId': purchaseDetails.productID,
+        'verificationData':
+            purchaseDetails.verificationData.serverVerificationData,
+        'userId': firebaseNotifier.user?.uid,
+      }),
+      headers: headers,
+    );
+    if (response.statusCode == 200) {
+      print('Successfully verified purchase');
+      return true;
+    } else {
+      print('failed request: ${response.statusCode} - ${response.body}');
+      return false;
     }
   }
 
