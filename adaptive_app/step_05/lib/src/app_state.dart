@@ -38,6 +38,7 @@ class FlutterDevPlaylists extends ChangeNotifier {
           .toLowerCase()
           .compareTo(b.snippet!.title!.toLowerCase()));
       notifyListeners();
+      nextPageToken = response.nextPageToken;
     } while (nextPageToken != null);
   }
 
