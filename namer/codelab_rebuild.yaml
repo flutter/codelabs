@@ -162,6 +162,19 @@ steps:
                    ],
                  ),
                );
+      - name: Patch test/widget_test.dart
+        path: namer_app/test/widget_test.dart
+        patch-u: |
+          --- b/namer/step_04_a_widget/test/widget_test.dart
+          +++ a/namer/step_04_a_widget/test/widget_test.dart
+          @@ -5,6 +5,6 @@ import 'package:namer_app/main.dart';
+           void main() {
+             testWidgets('App starts', (WidgetTester tester) async {
+               await tester.pumpWidget(const MyApp());
+          -    expect(find.text('A random idea:'), findsOneWidget);
+          +    expect(find.text('A random AWESOME idea:'), findsOneWidget);
+             });
+           }
       - name: Copy step_04_a_widget
         copydir:
           from: namer_app 
@@ -209,7 +222,7 @@ steps:
           @@ -6,5 +7,45 @@
              testWidgets('App starts', (WidgetTester tester) async {
                await tester.pumpWidget(const MyApp());
-               expect(find.text('A random idea:'), findsOneWidget);
+               expect(find.text('A random AWESOME idea:'), findsOneWidget);
           +  });
           +
           +  testWidgets('Tapping button changes word pair', (WidgetTester tester) async {
@@ -219,7 +232,7 @@ steps:
           +      final wordPairTextWidget = tester
           +          // Get all Text widgets...
           +          .widgetList<Text>(find.byType(Text))
-          +          // ... skip one ('A random idea:') ...
+          +          // ... skip one ('A random AWESOME idea:') ...
           +          .skip(1)
           +          // ... and take the first after it.
           +          .first;
@@ -332,7 +345,7 @@ steps:
           -      final wordPairTextWidget = tester
           -          // Get all Text widgets...
           -          .widgetList<Text>(find.byType(Text))
-          -          // ... skip one ('A random idea:') ...
+          -          // ... skip one ('A random AWESOME idea:') ...
           -          .skip(1)
           -          // ... and take the first after it.
           -          .first;
@@ -555,7 +568,7 @@ steps:
            void main() {
              testWidgets('App starts', (WidgetTester tester) async {
                await tester.pumpWidget(const MyApp());
-          -    expect(find.text('A random idea:'), findsOneWidget);
+          -    expect(find.text('A random AWESOME idea:'), findsOneWidget);
           +    expect(find.text('Next'), findsOneWidget);
              });
            
