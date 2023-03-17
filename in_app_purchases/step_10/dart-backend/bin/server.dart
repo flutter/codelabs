@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:firebase_backend_dart/app_store_purchase_handler.dart';
+import 'package:firebase_backend_dart/constants.dart';
 import 'package:firebase_backend_dart/google_play_purchase_handler.dart';
 import 'package:firebase_backend_dart/helpers.dart';
 import 'package:firebase_backend_dart/iap_repository.dart';
@@ -13,6 +14,7 @@ import 'package:firebase_backend_dart/products.dart';
 import 'package:firebase_backend_dart/purchase_handler.dart';
 import 'package:googleapis/androidpublisher/v3.dart' as ap;
 import 'package:googleapis/firestore/v1.dart' as fs;
+import 'package:googleapis/pubsub/v1.dart' as pubsub;
 import 'package:googleapis_auth/auth_io.dart' as auth;
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
@@ -28,8 +30,12 @@ Future<Map<String, PurchaseHandler>> _createPurchaseHandlers() async {
   final clientGooglePlay =
       await auth.clientViaServiceAccount(clientCredentialsGooglePlay, [
     ap.AndroidPublisherApi.androidpublisherScope,
+    pubsub.PubsubApi.cloudPlatformScope,
   ]);
   final androidPublisher = ap.AndroidPublisherApi(clientGooglePlay);
+
+  // Pub/Sub API to receive on purchase events from Google Play
+  final pubsubApi = pubsub.PubsubApi(clientGooglePlay);
 
   // Configure Firestore API access
   final serviceAccountFirebase =
@@ -49,6 +55,7 @@ Future<Map<String, PurchaseHandler>> _createPurchaseHandlers() async {
     'google_play': GooglePlayPurchaseHandler(
       androidPublisher,
       iapRepository,
+      pubsubApi,
     ),
     'app_store': AppStorePurchaseHandler(
       iapRepository,
