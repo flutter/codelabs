@@ -7,6 +7,7 @@ environment:
   sdk: '>=2.19.4 <4.0.0'
 
 dependencies:
+  cupertino_icons: ^1.0.5
   extra_alignments: ^1.0.0+1
   flextras: ^1.0.0
   flutter:
