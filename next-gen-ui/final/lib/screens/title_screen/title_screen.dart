@@ -1,3 +1,7 @@
+// Copyright 2023 The Flutter Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'dart:math';
 import 'dart:ui';
 
@@ -19,7 +23,8 @@ class TitleScreen extends StatefulWidget {
   State<TitleScreen> createState() => _TitleScreenState();
 }
 
-class _TitleScreenState extends State<TitleScreen> with SingleTickerProviderStateMixin {
+class _TitleScreenState extends State<TitleScreen>
+    with SingleTickerProviderStateMixin {
   final _orbKey = GlobalKey<OrbShaderWidgetState>();
 
   /// Editable Settings
@@ -34,8 +39,10 @@ class _TitleScreenState extends State<TitleScreen> with SingleTickerProviderStat
   /// Internal
   final _mousePos = ValueNotifier(Offset.zero);
 
-  Color get _emitColor => AppColors.emitColors[_difficultyOverride ?? _difficulty];
-  Color get _orbColor => AppColors.orbColors[_difficultyOverride ?? _difficulty];
+  Color get _emitColor =>
+      AppColors.emitColors[_difficultyOverride ?? _difficulty];
+  Color get _orbColor =>
+      AppColors.orbColors[_difficultyOverride ?? _difficulty];
 
   /// Currently selected difficulty
   int _difficulty = 0;
@@ -44,15 +51,19 @@ class _TitleScreenState extends State<TitleScreen> with SingleTickerProviderStat
   int? _difficultyOverride;
   bool _showSettings = false;
 
-  late final _orbEnergy = ValueNotifier<double>(0)..addListener(() => setState(() {}));
+  late final _orbEnergy = ValueNotifier<double>(0)
+    ..addListener(() => setState(() {}));
 
   double get _finalReceiveLightAmt {
-    final light = lerpDouble(_minReceiveLightAmt, _maxReceiveLightAmt, _orbEnergy.value) ?? 0;
+    final light = lerpDouble(
+            _minReceiveLightAmt, _maxReceiveLightAmt, _orbEnergy.value) ??
+        0;
     return light + _pulseEffect.value * .05 * _orbEnergy.value;
   }
 
   double get _finalEmitLightAmt {
-    return lerpDouble(_minEmitLightAmt, _maxEmitLightAmt, _orbEnergy.value) ?? 0;
+    return lerpDouble(_minEmitLightAmt, _maxEmitLightAmt, _orbEnergy.value) ??
+        0;
   }
 
   late final _pulseEffect = AnimationController(
@@ -96,12 +107,15 @@ class _TitleScreenState extends State<TitleScreen> with SingleTickerProviderStat
     //print(_pulseEffect.value);
   }
 
-  void _handleDifficultyPressed(int value) => setState(() => _difficulty = value);
+  void _handleDifficultyPressed(int value) =>
+      setState(() => _difficulty = value);
 
-  void _handleDifficultyFocused(int? value) => setState(() => _difficultyOverride = value);
+  void _handleDifficultyFocused(int? value) =>
+      setState(() => _difficultyOverride = value);
 
   /// Update mouse position so the orbWidget can use it, doing it here prevents btns from blocking the mouse-move events in the widget itself.
-  void _handleMouseMove(PointerHoverEvent e) => _mousePos.value = e.localPosition;
+  void _handleMouseMove(PointerHoverEvent e) =>
+      _mousePos.value = e.localPosition;
 
   @override
   Widget build(BuildContext context) {
@@ -230,7 +244,8 @@ class AnimatedColors extends StatelessWidget {
   final Color emitColor;
   final Color orbColor;
 
-  final Widget Function(BuildContext context, Color orbColor, Color emitColor) builder;
+  final Widget Function(BuildContext context, Color orbColor, Color emitColor)
+      builder;
 
   @override
   Widget build(BuildContext context) {
@@ -267,7 +282,9 @@ class _LitImage extends StatelessWidget {
     final hsl = HSLColor.fromColor(color);
 
     return ColorFiltered(
-      colorFilter: ColorFilter.mode(hsl.withLightness(hsl.lightness * energy).toColor(), BlendMode.modulate),
+      colorFilter: ColorFilter.mode(
+          hsl.withLightness(hsl.lightness * energy).toColor(),
+          BlendMode.modulate),
       child: Image.asset(imgSrc),
     );
   }

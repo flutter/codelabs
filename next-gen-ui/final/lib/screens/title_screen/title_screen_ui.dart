@@ -1,3 +1,7 @@
+// Copyright 2023 The Flutter Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:extra_alignments/extra_alignments.dart';
 import 'package:flextras/flextras.dart';
 import 'package:flutter/material.dart';
@@ -96,19 +100,28 @@ class TitleScreenUi extends StatelessWidget {
           selected: difficulty == 0,
           onPressed: () => onDifficultyPressed(0),
           onHover: (over) => onDifficultyFocused(over ? 0 : null),
-        ).animate().fadeIn(delay: 1.seconds, duration: .35.seconds).slide(begin: const Offset(0, .2)),
+        )
+            .animate()
+            .fadeIn(delay: 1.seconds, duration: .35.seconds)
+            .slide(begin: const Offset(0, .2)),
         _DifficultyBtn(
           label: 'Normal',
           selected: difficulty == 1,
           onPressed: () => onDifficultyPressed(1),
           onHover: (over) => onDifficultyFocused(over ? 1 : null),
-        ).animate().fadeIn(delay: 1.2.seconds, duration: .35.seconds).slide(begin: const Offset(0, .2)),
+        )
+            .animate()
+            .fadeIn(delay: 1.2.seconds, duration: .35.seconds)
+            .slide(begin: const Offset(0, .2)),
         _DifficultyBtn(
           label: 'Hardcore',
           selected: difficulty == 2,
           onPressed: () => onDifficultyPressed(2),
           onHover: (over) => onDifficultyFocused(over ? 2 : null),
-        ).animate().fadeIn(delay: 1.4.seconds, duration: .35.seconds).slide(begin: const Offset(0, .2)),
+        )
+            .animate()
+            .fadeIn(delay: 1.4.seconds, duration: .35.seconds)
+            .slide(begin: const Offset(0, .2)),
         const Gap(20),
       ],
     );
@@ -131,7 +144,9 @@ class _StartBtnState extends State<_StartBtn> {
     return FocusableControlBuilder(
       cursor: SystemMouseCursors.click,
       builder: (_, state) {
-        if ((state.isHovered || state.isFocused) && !_wasHovered && _btnAnim?.status != AnimationStatus.forward) {
+        if ((state.isHovered || state.isFocused) &&
+            !_wasHovered &&
+            _btnAnim?.status != AnimationStatus.forward) {
           _btnAnim?.forward(from: 0);
         }
         _wasHovered = (state.isHovered || state.isFocused);
@@ -141,17 +156,22 @@ class _StartBtnState extends State<_StartBtn> {
           child: Stack(children: [
             Positioned.fill(child: Image.asset(AssetPaths.titleStartBtn)),
             if (state.isHovered || state.isFocused) ...[
-              Positioned.fill(child: Image.asset(AssetPaths.titleStartBtnHover)),
+              Positioned.fill(
+                  child: Image.asset(AssetPaths.titleStartBtnHover)),
             ],
             Center(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text('START MISSION', style: TextStyles.btn.copyWith(fontSize: 24, letterSpacing: 18)),
+                  Text('START MISSION',
+                      style: TextStyles.btn
+                          .copyWith(fontSize: 24, letterSpacing: 18)),
                 ],
               ),
             ),
-          ]).animate(autoPlay: false, onInit: (c) => _btnAnim = c).shimmer(duration: .7.seconds, color: Colors.black),
+          ])
+              .animate(autoPlay: false, onInit: (c) => _btnAnim = c)
+              .shimmer(duration: .7.seconds, color: Colors.black),
         ).animate().fadeIn(delay: 2.seconds).slide(begin: const Offset(0, .2));
       },
     );
@@ -183,7 +203,9 @@ class _DifficultyBtn extends StatelessWidget {
               children: [
                 /// Bg with fill and outline
                 AnimatedOpacity(
-                  opacity: (!selected && (state.isHovered || state.isFocused)) ? 1 : 0,
+                  opacity: (!selected && (state.isHovered || state.isFocused))
+                      ? 1
+                      : 0,
                   duration: .3.seconds,
                   child: Container(
                     decoration: BoxDecoration(
@@ -204,7 +226,8 @@ class _DifficultyBtn extends StatelessWidget {
                 /// cross-hairs (selected state)
                 if (selected) ...[
                   CenterLeft(child: Image.asset(AssetPaths.titleSelectedLeft)),
-                  CenterRight(child: Image.asset(AssetPaths.titleSelectedRight)),
+                  CenterRight(
+                      child: Image.asset(AssetPaths.titleSelectedRight)),
                 ],
 
                 /// Label

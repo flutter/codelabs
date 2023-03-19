@@ -1,3 +1,7 @@
+// Copyright 2023 The Flutter Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'dart:async';
 import 'dart:math';
 
@@ -25,18 +29,32 @@ class OrbShaderWidget extends StatefulWidget {
   State<OrbShaderWidget> createState() => OrbShaderWidgetState();
 }
 
-class OrbShaderWidgetState extends State<OrbShaderWidget> with SingleTickerProviderStateMixin {
+class OrbShaderWidgetState extends State<OrbShaderWidget>
+    with SingleTickerProviderStateMixin {
   final _heartbeatSequence = TweenSequence(
     [
       TweenSequenceItem(tween: ConstantTween(0), weight: 40),
-      TweenSequenceItem(tween: Tween(begin: 0.0, end: 1.0).chain(CurveTween(curve: Curves.easeInOutCubic)), weight: 8),
-      TweenSequenceItem(tween: Tween(begin: 1.0, end: 0.2).chain(CurveTween(curve: Curves.easeInOutCubic)), weight: 12),
-      TweenSequenceItem(tween: Tween(begin: 0.2, end: 0.8).chain(CurveTween(curve: Curves.easeInOutCubic)), weight: 6),
-      TweenSequenceItem(tween: Tween(begin: 0.8, end: 0.0).chain(CurveTween(curve: Curves.easeInOutCubic)), weight: 10),
+      TweenSequenceItem(
+          tween: Tween(begin: 0.0, end: 1.0)
+              .chain(CurveTween(curve: Curves.easeInOutCubic)),
+          weight: 8),
+      TweenSequenceItem(
+          tween: Tween(begin: 1.0, end: 0.2)
+              .chain(CurveTween(curve: Curves.easeInOutCubic)),
+          weight: 12),
+      TweenSequenceItem(
+          tween: Tween(begin: 0.2, end: 0.8)
+              .chain(CurveTween(curve: Curves.easeInOutCubic)),
+          weight: 6),
+      TweenSequenceItem(
+          tween: Tween(begin: 0.8, end: 0.0)
+              .chain(CurveTween(curve: Curves.easeInOutCubic)),
+          weight: 10),
     ],
   );
 
-  late final _heartbeatAnim = AnimationController(vsync: this, duration: 3000.ms)..repeat();
+  late final _heartbeatAnim =
+      AnimationController(vsync: this, duration: 3000.ms)..repeat();
 
   @override
   Widget build(BuildContext context) => ShaderLoader(
@@ -47,11 +65,13 @@ class OrbShaderWidgetState extends State<OrbShaderWidget> with SingleTickerProvi
           builder: (_, mousePos, __) => ListenableBuilder(
             listenable: _heartbeatAnim,
             builder: (_, __) {
-              final heartbeatEnergy = _heartbeatAnim.drive(_heartbeatSequence).value;
+              final heartbeatEnergy =
+                  _heartbeatAnim.drive(_heartbeatSequence).value;
               return ReactiveWidgetBuilder(builder: (context, time, _, size) {
                 double energyLevel = 0;
                 if (size.shortestSide != 0) {
-                  final d = (Offset(size.width, size.height) / 2 - mousePos).distance;
+                  final d =
+                      (Offset(size.width, size.height) / 2 - mousePos).distance;
                   final hitSize = size.shortestSide * .5;
                   energyLevel = 1 - min(1, (d / hitSize));
                   scheduleMicrotask(() => widget.onUpdate?.call(energyLevel));

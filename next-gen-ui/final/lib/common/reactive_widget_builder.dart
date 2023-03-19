@@ -1,3 +1,7 @@
+// Copyright 2023 The Flutter Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +13,8 @@ class ReactiveWidgetBuilder extends StatefulWidget {
     required this.builder,
     this.useLocalMousePos = true,
   });
-  final Widget Function(BuildContext context, double time, Offset mousePos, Size bounds) builder;
+  final Widget Function(
+      BuildContext context, double time, Offset mousePos, Size bounds) builder;
   final bool useLocalMousePos;
   @override
   State<ReactiveWidgetBuilder> createState() => _ReactiveWidgetBuilderState();
@@ -27,7 +32,8 @@ class _ReactiveWidgetBuilderState extends State<ReactiveWidgetBuilder> {
         onHover: _handleMouseHover,
         child: TickingBuilder(builder: (_, time) {
           return LayoutBuilder(builder: (context, constraints) {
-            return widget.builder(context, time, _mousePos, constraints.biggest);
+            return widget.builder(
+                context, time, _mousePos, constraints.biggest);
           });
         }));
   }
