@@ -20,6 +20,7 @@ declare -a CODELABS=(
   "flame-building-doodle-dash"
   "github-client"
   "google-maps-in-flutter"
+  "haiku_generator"
   "in_app_purchases"
   "namer"
   # TODO(DomesticMouse): Uncomment on Flutter stable major version increment
