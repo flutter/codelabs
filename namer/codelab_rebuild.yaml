@@ -144,11 +144,14 @@ steps:
       - name: Add button code
         path: namer_app/lib/main.dart
         patch-u: |
-          --- a/namer_app/lib/main.dart
-          +++ b/namer_app/lib/main.dart
-          @@ -39,6 +39,12 @@ class MyHomePage extends StatelessWidget {
+          --- b/namer/step_04_a_widget/lib/main.dart
+          +++ a/namer/step_04_a_widget/lib/main.dart
+          @@ -37,8 +37,14 @@ class MyHomePage extends StatelessWidget {
+               return Scaffold(
+                 body: Column(
                    children: [
-                     Text('A random idea:'),
+          -          Text('A random idea:'),
+          +          Text('A random AWESOME idea:'),
                      Text(appState.current.asLowerCase),
           +          ElevatedButton(
           +            onPressed: () {
@@ -159,6 +162,19 @@ steps:
                    ],
                  ),
                );
+      - name: Patch test/widget_test.dart
+        path: namer_app/test/widget_test.dart
+        patch-u: |
+          --- b/namer/step_04_a_widget/test/widget_test.dart
+          +++ a/namer/step_04_a_widget/test/widget_test.dart
+          @@ -5,6 +5,6 @@ import 'package:namer_app/main.dart';
+           void main() {
+             testWidgets('App starts', (WidgetTester tester) async {
+               await tester.pumpWidget(const MyApp());
+          -    expect(find.text('A random idea:'), findsOneWidget);
+          +    expect(find.text('A random AWESOME idea:'), findsOneWidget);
+             });
+           }
       - name: Copy step_04_a_widget
         copydir:
           from: namer_app 
@@ -206,7 +222,7 @@ steps:
           @@ -6,5 +7,45 @@
              testWidgets('App starts', (WidgetTester tester) async {
                await tester.pumpWidget(const MyApp());
-               expect(find.text('A random idea:'), findsOneWidget);
+               expect(find.text('A random AWESOME idea:'), findsOneWidget);
           +  });
           +
           +  testWidgets('Tapping button changes word pair', (WidgetTester tester) async {
@@ -216,7 +232,7 @@ steps:
           +      final wordPairTextWidget = tester
           +          // Get all Text widgets...
           +          .widgetList<Text>(find.byType(Text))
-          +          // ... skip one ('A random idea:') ...
+          +          // ... skip one ('A random AWESOME idea:') ...
           +          .skip(1)
           +          // ... and take the first after it.
           +          .first;
@@ -260,8 +276,8 @@ steps:
       - name: Introduce pair variable
         path: namer_app/lib/main.dart
         patch-u: |
-          --- a/namer_app/lib/main.dart
-          +++ b/namer_app/lib/main.dart
+          --- b/namer/step_05_a_pair/lib/main.dart
+          +++ a/namer/step_05_a_pair/lib/main.dart
           @@ -38,12 +38,13 @@ class MyHomePage extends StatelessWidget {
              @override
              Widget build(BuildContext context) {
@@ -271,7 +287,7 @@ steps:
                return Scaffold(
                  body: Column(
                    children: [
-                     Text('A random idea:'),
+                     Text('A random AWESOME idea:'),
           -          Text(appState.current.asLowerCase),
           +          Text(pair.asLowerCase),
                      ElevatedButton(
@@ -288,12 +304,12 @@ steps:
       - name: Extract BigCard
         path: namer_app/lib/main.dart
         patch-u: |
-          --- a/namer_app/lib/main.dart
-          +++ b/namer_app/lib/main.dart
+          --- b/namer/step_05_b_extract/lib/main.dart
+          +++ a/namer/step_05_b_extract/lib/main.dart
           @@ -44,7 +44,7 @@ class MyHomePage extends StatelessWidget {
                  body: Column(
                    children: [
-                     Text('A random idea:'),
+                     Text('A random AWESOME idea:'),
           -          Text(pair.asLowerCase),
           +          BigCard(pair: pair),
                      ElevatedButton(
@@ -306,9 +322,9 @@ steps:
           +
           +class BigCard extends StatelessWidget {
           +  const BigCard({
-          +    Key? key,
+          +    super.key,
           +    required this.pair,
-          +  }) : super(key: key);
+          +  });
           +
           +  final WordPair pair;
           +
@@ -329,7 +345,7 @@ steps:
           -      final wordPairTextWidget = tester
           -          // Get all Text widgets...
           -          .widgetList<Text>(find.byType(Text))
-          -          // ... skip one ('A random idea:') ...
+          -          // ... skip one ('A random AWESOME idea:') ...
           -          .skip(1)
           -          // ... and take the first after it.
           -          .first;
@@ -382,7 +398,7 @@ steps:
            
              @override
              Widget build(BuildContext context) {
-          +    var theme = Theme.of(context);
+          +    final theme = Theme.of(context);
           +
                return Card(
           +      color: theme.colorScheme.primary,
@@ -405,8 +421,8 @@ steps:
           @@ -68,12 +68,15 @@ class BigCard extends StatelessWidget {
              @override
              Widget build(BuildContext context) {
-               var theme = Theme.of(context);
-          +    var style = theme.textTheme.displayMedium!.copyWith(
+               final theme = Theme.of(context);
+          +    final style = theme.textTheme.displayMedium!.copyWith(
           +      color: theme.colorScheme.onPrimary,
           +    );
            
@@ -435,8 +451,8 @@ steps:
           @@ -68,15 +68,19 @@ class BigCard extends StatelessWidget {
              @override
              Widget build(BuildContext context) {
-               var theme = Theme.of(context);
-               var style = theme.textTheme.displayMedium!.copyWith(
+               final theme = Theme.of(context);
+               final style = theme.textTheme.displayMedium!.copyWith(
                  color: theme.colorScheme.onPrimary,
                );
            
@@ -464,15 +480,15 @@ steps:
       - name: Center column vertically
         path: namer_app/lib/main.dart
         patch-u: |
-          --- a/namer_app/lib/main.dart
-          +++ b/namer_app/lib/main.dart
+          --- b/namer/step_05_g_center_vertical/lib/main.dart
+          +++ a/namer/step_05_g_center_vertical/lib/main.dart
           @@ -42,6 +42,7 @@ class MyHomePage extends StatelessWidget {
            
                return Scaffold(
                  body: Column(
           +        mainAxisAlignment: MainAxisAlignment.center,
                    children: [
-                     Text('A random idea:'),
+                     Text('A random AWESOME idea:'),
                      BigCard(pair: pair),
       - name: Copy step_05_g_center_vertical
         copydir:
@@ -485,8 +501,8 @@ steps:
       - name: Center column horizontally
         path: namer_app/lib/main.dart
         patch-u: |
-          --- a/namer_app/lib/main.dart
-          +++ b/namer_app/lib/main.dart
+          --- b/namer/step_05_h_center_horizontal/lib/main.dart
+          +++ a/namer/step_05_h_center_horizontal/lib/main.dart
           @@ -41,18 +41,20 @@ class MyHomePage extends StatelessWidget {
                var pair = appState.current;
            
@@ -494,7 +510,7 @@ steps:
           -      body: Column(
           -        mainAxisAlignment: MainAxisAlignment.center,
           -        children: [
-          -          Text('A random idea:'),
+          -          Text('A random AWESOME idea:'),
           -          BigCard(pair: pair),
           -          ElevatedButton(
           -            onPressed: () {
@@ -507,7 +523,7 @@ steps:
           +        child: Column(
           +          mainAxisAlignment: MainAxisAlignment.center,
           +          children: [
-          +            Text('A random idea:'),
+          +            Text('A random AWESOME idea:'),
           +            BigCard(pair: pair),
           +            ElevatedButton(
           +              onPressed: () {
@@ -537,7 +553,7 @@ steps:
                    child: Column(
                      mainAxisAlignment: MainAxisAlignment.center,
                      children: [
-          -            Text('A random idea:'),
+          -            Text('A random AWESOME idea:'),
                        BigCard(pair: pair),
           +            SizedBox(height: 10),
                        ElevatedButton(
@@ -552,7 +568,7 @@ steps:
            void main() {
              testWidgets('App starts', (WidgetTester tester) async {
                await tester.pumpWidget(const MyApp());
-          -    expect(find.text('A random idea:'), findsOneWidget);
+          -    expect(find.text('A random AWESOME idea:'), findsOneWidget);
           +    expect(find.text('Next'), findsOneWidget);
              });
            
@@ -1156,6 +1172,9 @@ steps:
         platforms: [ windows ]
         path: namer_app
         flutter: build windows
+      - name: Add cupertino_icons for web build
+        path: namer_app
+        flutter: pub add cupertino_icons
       - name: Build Web app
         path: namer_app
         flutter: build web
