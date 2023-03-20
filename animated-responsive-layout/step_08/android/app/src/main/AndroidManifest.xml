@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.animated_responsive_layout">
-   <application
+    <application
         android:label="animated_responsive_layout"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
