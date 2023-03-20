@@ -5,7 +5,7 @@ steps:
       - name: Remove generated code
         rmdir: step_03
       - name: Create project
-        flutter: create testing_app
+        flutter: create --empty testing_app
       - name: Strip DEVELOPMENT_TEAM
         strip-lines-containing: DEVELOPMENT_TEAM =
         path: testing_app/ios/Runner.xcodeproj/project.pbxproj
@@ -48,15 +48,12 @@ steps:
       - name: Add go_router
         flutter: pub add go_router
         path: testing_app
-      - name: Dart fix
-        path: testing_app
-        dart: fix --apply
       - name: Patch pubspec.yaml
         path: testing_app/pubspec.yaml
         patch-u: |
           --- b/testing_codelab/step_03/pubspec.yaml
           +++ a/testing_codelab/step_03/pubspec.yaml
-          @@ -1,5 +1,10 @@
+          @@ -1,5 +1,9 @@
           +# Copyright 2020 The Flutter Authors. All rights reserved.
           +# Use of this source code is governed by a BSD-style license that can be
           +# found in the LICENSE file.
@@ -64,10 +61,8 @@ steps:
            name: testing_app
           -description: A new Flutter project.
           +description: App behind Flutter testing codelab.
-          +
-           # The following line prevents the package from being accidentally published to
-           # pub.dev using `flutter pub publish`. This is preferred for private packages.
-           publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+           publish_to: 'none'
+           version: 0.1.0
       - name: Patch lib/main.dart
         path: testing_app/lib/main.dart
         patch-u: |
@@ -83,22 +78,6 @@ steps:
            import 'package:flutter/material.dart';
            
            void main() {
-      - name: Patch test/widget_test.dart
-        path: testing_app/test/widget_test.dart
-        patch-u: |
-          --- b/testing_codelab/step_03/test/widget_test.dart
-          +++ a/testing_codelab/step_03/test/widget_test.dart
-          @@ -1,3 +1,7 @@
-          +// Copyright 2020 The Flutter Authors. All rights reserved.
-          +// Use of this source code is governed by a BSD-style license that can be
-          +// found in the LICENSE file.
-          +
-           // This is a basic Flutter widget test.
-           //
-           // To perform an interaction with a widget in your test, use the WidgetTester
-      - name: Flutter test
-        path: testing_app
-        flutter: test
       - name: Copy step_03
         copydir:
           from: testing_app
@@ -107,163 +86,61 @@ steps:
     steps:
       - name: Remove generated code
         rmdir: step_04
-      - name: Patch lib/main.dart
+      - name: Replace lib/main.dart
         path: testing_app/lib/main.dart
-        patch-u: |
-          --- b/testing_codelab/step_04/lib/main.dart
-          +++ a/testing_codelab/step_04/lib/main.dart
-          @@ -3,117 +3,50 @@
-           // found in the LICENSE file.
-           
-           import 'package:flutter/material.dart';
-          +import 'package:go_router/go_router.dart';
-          +import 'package:provider/provider.dart';
-          +import 'models/favorites.dart';
-          +import 'screens/favorites.dart';
-          +import 'screens/home.dart';
-           
-           void main() {
-          -  runApp(const MyApp());
-          +  runApp(const TestingApp());
-           }
-           
-          -class MyApp extends StatelessWidget {
-          -  const MyApp({super.key});
-          -
-          -  // This widget is the root of your application.
-          -  @override
-          -  Widget build(BuildContext context) {
-          -    return MaterialApp(
-          -      title: 'Flutter Demo',
-          -      theme: ThemeData(
-          -        // This is the theme of your application.
-          -        //
-          -        // Try running your application with "flutter run". You'll see the
-          -        // application has a blue toolbar. Then, without quitting the app, try
-          -        // changing the primarySwatch below to Colors.green and then invoke
-          -        // "hot reload" (press "r" in the console where you ran "flutter run",
-          -        // or simply save your changes to "hot reload" in a Flutter IDE).
-          -        // Notice that the counter didn't reset back to zero; the application
-          -        // is not restarted.
-          -        primarySwatch: Colors.blue,
-          -      ),
-          -      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-          -    );
-          -  }
-          -}
-          -
-          -class MyHomePage extends StatefulWidget {
-          -  const MyHomePage({super.key, required this.title});
-          -
-          -  // This widget is the home page of your application. It is stateful, meaning
-          -  // that it has a State object (defined below) that contains fields that affect
-          -  // how it looks.
-          -
-          -  // This class is the configuration for the state. It holds the values (in this
-          -  // case the title) provided by the parent (in this case the App widget) and
-          -  // used by the build method of the State. Fields in a Widget subclass are
-          -  // always marked "final".
-          -
-          -  final String title;
-          -
-          -  @override
-          -  State<MyHomePage> createState() => _MyHomePageState();
-          -}
-          -
-          -class _MyHomePageState extends State<MyHomePage> {
-          -  int _counter = 0;
-          +final _router = GoRouter(
-          +  routes: [
-          +    GoRoute(
-          +      path: HomePage.routeName,
-          +      builder: (context, state) {
-          +        return const HomePage();
-          +      },
-          +      routes: [
-          +        GoRoute(
-          +          path: FavoritesPage.routeName,
-          +          builder: (context, state) {
-          +            return const FavoritesPage();
-          +          },
-          +        ),
-          +      ],
-          +    ),
-          +  ],
-          +);
-           
-          -  void _incrementCounter() {
-          -    setState(() {
-          -      // This call to setState tells the Flutter framework that something has
-          -      // changed in this State, which causes it to rerun the build method below
-          -      // so that the display can reflect the updated values. If we changed
-          -      // _counter without calling setState(), then the build method would not be
-          -      // called again, and so nothing would appear to happen.
-          -      _counter++;
-          -    });
-          -  }
-          +class TestingApp extends StatelessWidget {
-          +  const TestingApp({super.key});
-           
-             @override
-             Widget build(BuildContext context) {
-          -    // This method is rerun every time setState is called, for instance as done
-          -    // by the _incrementCounter method above.
-          -    //
-          -    // The Flutter framework has been optimized to make rerunning build methods
-          -    // fast, so that you can just rebuild anything that needs updating rather
-          -    // than having to individually change instances of widgets.
-          -    return Scaffold(
-          -      appBar: AppBar(
-          -        // Here we take the value from the MyHomePage object that was created by
-          -        // the App.build method, and use it to set our appbar title.
-          -        title: Text(widget.title),
-          -      ),
-          -      body: Center(
-          -        // Center is a layout widget. It takes a single child and positions it
-          -        // in the middle of the parent.
-          -        child: Column(
-          -          // Column is also a layout widget. It takes a list of children and
-          -          // arranges them vertically. By default, it sizes itself to fit its
-          -          // children horizontally, and tries to be as tall as its parent.
-          -          //
-          -          // Invoke "debug painting" (press "p" in the console, choose the
-          -          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          -          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          -          // to see the wireframe for each widget.
-          -          //
-          -          // Column has various properties to control how it sizes itself and
-          -          // how it positions its children. Here we use mainAxisAlignment to
-          -          // center the children vertically; the main axis here is the vertical
-          -          // axis because Columns are vertical (the cross axis would be
-          -          // horizontal).
-          -          mainAxisAlignment: MainAxisAlignment.center,
-          -          children: <Widget>[
-          -            const Text(
-          -              'You have pushed the button this many times:',
-          -            ),
-          -            Text(
-          -              '$_counter',
-          -              style: Theme.of(context).textTheme.headlineMedium,
-          -            ),
-          -          ],
-          +    return ChangeNotifierProvider<Favorites>(
-          +      create: (context) => Favorites(),
-          +      child: MaterialApp.router(
-          +        title: 'Testing Sample',
-          +        theme: ThemeData(
-          +          primarySwatch: Colors.blue,
-          +          useMaterial3: true,
-                   ),
-          +        routerConfig: _router,
-                 ),
-          -      floatingActionButton: FloatingActionButton(
-          -        onPressed: _incrementCounter,
-          -        tooltip: 'Increment',
-          -        child: const Icon(Icons.add),
-          -      ), // This trailing comma makes auto-formatting nicer for build methods.
-               );
-             }
-           }
+        replace-contents: |
+          // Copyright 2020 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+          
+          import 'package:flutter/material.dart';
+          import 'package:go_router/go_router.dart';
+          import 'package:provider/provider.dart';
+          import 'models/favorites.dart';
+          import 'screens/favorites.dart';
+          import 'screens/home.dart';
+          
+          void main() {
+            runApp(const TestingApp());
+          }
+          
+          final _router = GoRouter(
+            routes: [
+              GoRoute(
+                path: HomePage.routeName,
+                builder: (context, state) {
+                  return const HomePage();
+                },
+                routes: [
+                  GoRoute(
+                    path: FavoritesPage.routeName,
+                    builder: (context, state) {
+                      return const FavoritesPage();
+                    },
+                  ),
+                ],
+              ),
+            ],
+          );
+          
+          class TestingApp extends StatelessWidget {
+            const TestingApp({super.key});
+          
+            @override
+            Widget build(BuildContext context) {
+              return ChangeNotifierProvider<Favorites>(
+                create: (context) => Favorites(),
+                child: MaterialApp.router(
+                  title: 'Testing Sample',
+                  theme: ThemeData(
+                    primarySwatch: Colors.blue,
+                    useMaterial3: true,
+                  ),
+                  routerConfig: _router,
+                ),
+              );
+            }
+          }
       - name: Make lib/models
         path: testing_app
         mkdir: lib/models
@@ -448,35 +325,34 @@ steps:
               );
             }
           }
-      - name: Patch test/widget_test.dart
+      - name: mkdir test
+        path: testing_app
+        mkdir: test
+      - name: Create test/widget_test.dart
         path: testing_app/test/widget_test.dart
-        patch-u: |
-          --- b/testing_codelab/step_04/test/widget_test.dart
-          +++ a/testing_codelab/step_04/test/widget_test.dart
-          @@ -15,20 +15,8 @@ import 'package:flutter_test/flutter_test.dart';
-           import 'package:testing_app/main.dart';
-           
-           void main() {
-          -  testWidgets('Counter increments smoke test', (tester) async {
-          -    // Build our app and trigger a frame.
-          -    await tester.pumpWidget(const MyApp());
-          -
-          -    // Verify that our counter starts at 0.
-          -    expect(find.text('0'), findsOneWidget);
-          -    expect(find.text('1'), findsNothing);
-          -
-          -    // Tap the '+' icon and trigger a frame.
-          -    await tester.tap(find.byIcon(Icons.add));
-          -    await tester.pump();
-          -
-          -    // Verify that our counter has incremented.
-          -    expect(find.text('0'), findsNothing);
-          -    expect(find.text('1'), findsOneWidget);
-          +  testWidgets('Smoke test', (tester) async {
-          +    await tester.pumpWidget(const TestingApp());
-          +    expect(find.byType(ListView), findsOneWidget);
-             });
-           }
+        replace-contents: |
+          // Copyright 2020 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+          
+          // This is a basic Flutter widget test.
+          //
+          // To perform an interaction with a widget in your test, use the WidgetTester
+          // utility in the flutter_test package. For example, you can send tap and scroll
+          // gestures. You can also use WidgetTester to find child widgets in the widget
+          // tree, read text, and verify that the values of widget properties are correct.
+          
+          import 'package:flutter/material.dart';
+          import 'package:flutter_test/flutter_test.dart';
+          
+          import 'package:testing_app/main.dart';
+          
+          void main() {
+            testWidgets('Smoke test', (tester) async {
+              await tester.pumpWidget(const TestingApp());
+              expect(find.byType(ListView), findsOneWidget);
+            });
+          }
       - name: Flutter test
         path: testing_app
         flutter: test
