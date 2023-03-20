@@ -7,12 +7,22 @@ import 'iap_repository.dart';
 import 'products.dart';
 import 'purchase_handler.dart';
 
+/// Handles App Store purchases.
+/// Uses the ITunes API to validate purchases.
+/// Uses the App Store Server SDK to obtain the latest subscription status.
 class AppStorePurchaseHandler extends PurchaseHandler {
   final IapRepository iapRepository;
+  final AppStoreServerAPI appStoreServerAPI;
 
   AppStorePurchaseHandler(
     this.iapRepository,
-  );
+    this.appStoreServerAPI,
+  ) {
+    // Poll Subscription status every 10 seconds.
+    Timer.periodic(Duration(seconds: 10), (_) {
+      _pullStatus();
+    });
+  }
 
   final _iTunesAPI = ITunesApi(
     ITunesHttpClient(
@@ -92,6 +102,47 @@ class AppStorePurchaseHandler extends PurchaseHandler {
     } else {
       print('Error: Status: ${response.status}');
       return false;
+    }
+  }
+
+  /// Request the App Store for the latest subscription status.
+  /// Updates all App Store subscriptions in the database.
+  /// NOTE: This code only handles when a subscription expires as example.
+  Future<void> _pullStatus() async {
+    print('Polling App Store');
+    final purchases = await iapRepository.getPurchases();
+    // filter for App Store subscriptions
+    final appStoreSubscriptions = purchases.where((element) =>
+        element.type == ProductType.subscription &&
+        element.iapSource == IAPSource.appstore);
+    for (final purchase in appStoreSubscriptions) {
+      final status =
+          await appStoreServerAPI.getAllSubscriptionStatuses(purchase.orderId);
+      // Obtain all subscriptions for the order id.
+      for (final subscription in status.data) {
+        // Last transaction contains the subscription status.
+        for (final transaction in subscription.lastTransactions) {
+          final expirationDate = DateTime.fromMillisecondsSinceEpoch(
+              transaction.transactionInfo.expiresDate ?? 0);
+          // Check if subscription has expired.
+          final isExpired = expirationDate.isBefore(DateTime.now());
+          print('Expiration Date: $expirationDate - isExpired: $isExpired');
+          // Update the subscription status with the new expiration date and status.
+          await iapRepository.updatePurchase(SubscriptionPurchase(
+            userId: null,
+            productId: transaction.transactionInfo.productId,
+            iapSource: IAPSource.appstore,
+            orderId: transaction.originalTransactionId,
+            purchaseDate: DateTime.fromMillisecondsSinceEpoch(
+                transaction.transactionInfo.originalPurchaseDate),
+            type: ProductType.subscription,
+            expiryDate: expirationDate,
+            status: isExpired
+                ? SubscriptionStatus.expired
+                : SubscriptionStatus.active,
+          ));
+        }
+      }
     }
   }
 }
