@@ -44,21 +44,12 @@ steps:
         patch-u: |
           --- b/webview_flutter/step_03/android/app/build.gradle
           +++ a/webview_flutter/step_03/android/app/build.gradle
-          @@ -26,7 +26,7 @@ apply plugin: 'kotlin-android'
-           apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
-           
-           android {
-          -    compileSdkVersion flutter.compileSdkVersion
-          +    compileSdkVersion 32          // MODIFY
-               ndkVersion flutter.ndkVersion
-           
-               compileOptions {
           @@ -47,7 +47,7 @@ android {
                    applicationId "com.example.webview_in_flutter"
                    // You can update the following values to match your application needs.
                    // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
           -        minSdkVersion flutter.minSdkVersion
-          +        minSdkVersion 20          // MODIFY
+          +        minSdkVersion 20
                    targetSdkVersion flutter.targetSdkVersion
                    versionCode flutterVersionCode.toInteger()
                    versionName flutterVersionName
@@ -126,29 +117,6 @@ steps:
           }
       - name: Delete test/widget_test.dart
         rmdir: webview_in_flutter/test
-      - name: Patch android/app/build.gradle
-        path: webview_in_flutter/android/app/build.gradle
-        patch-u: |
-          --- b/webview_flutter/step_04/android/app/build.gradle
-          +++ a/webview_flutter/step_04/android/app/build.gradle
-          @@ -26,7 +26,7 @@ apply plugin: 'kotlin-android'
-           apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
-           
-           android {
-          -    compileSdkVersion 32          // MODIFY
-          +    compileSdkVersion 32
-               ndkVersion flutter.ndkVersion
-           
-               compileOptions {
-          @@ -47,7 +47,7 @@ android {
-                   applicationId "com.example.webview_in_flutter"
-                   // You can update the following values to match your application needs.
-                   // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-          -        minSdkVersion 20          // MODIFY
-          +        minSdkVersion 20
-                   targetSdkVersion flutter.targetSdkVersion
-                   versionCode flutterVersionCode.toInteger()
-                   versionName flutterVersionName
       - name: Copy step_04
         copydir:
           from: webview_in_flutter
