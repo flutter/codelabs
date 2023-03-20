@@ -44,15 +44,6 @@ steps:
         patch-u: |
           --- b/webview_flutter/step_03/android/app/build.gradle
           +++ a/webview_flutter/step_03/android/app/build.gradle
-          @@ -26,7 +26,7 @@ apply plugin: 'kotlin-android'
-           apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
-           
-           android {
-          -    compileSdkVersion flutter.compileSdkVersion
-          +    compileSdkVersion 33
-               ndkVersion flutter.ndkVersion
-           
-               compileOptions {
           @@ -47,7 +47,7 @@ android {
                    applicationId "com.example.webview_in_flutter"
                    // You can update the following values to match your application needs.
