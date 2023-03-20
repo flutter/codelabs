@@ -387,6 +387,7 @@ steps:
                     .toLowerCase()
                     .compareTo(b.snippet!.title!.toLowerCase()));
                 notifyListeners();
+                nextPageToken = response.nextPageToken;
               } while (nextPageToken != null);
             }
 
@@ -1626,7 +1627,7 @@ steps:
                    maxResults: 50,
                    pageToken: nextPageToken,
                  );
-          @@ -41,8 +35,7 @@ class FlutterDevPlaylists extends ChangeNotifier {
+          @@ -42,8 +36,7 @@ class FlutterDevPlaylists extends ChangeNotifier {
                } while (nextPageToken != null);
              }
            
@@ -1636,7 +1637,7 @@ steps:
            
              final List<Playlist> _playlists = [];
              List<Playlist> get playlists => UnmodifiableListView(_playlists);
-          @@ -59,7 +52,7 @@ class FlutterDevPlaylists extends ChangeNotifier {
+          @@ -60,7 +53,7 @@ class FlutterDevPlaylists extends ChangeNotifier {
              Future<void> _retrievePlaylist(String playlistId) async {
                String? nextPageToken;
                do {
@@ -1645,7 +1646,7 @@ steps:
                    ['snippet', 'contentDetails'],
                    playlistId: playlistId,
                    maxResults: 25,
-          @@ -74,20 +67,3 @@ class FlutterDevPlaylists extends ChangeNotifier {
+          @@ -75,20 +68,3 @@ class FlutterDevPlaylists extends ChangeNotifier {
                } while (nextPageToken != null);
              }
            }

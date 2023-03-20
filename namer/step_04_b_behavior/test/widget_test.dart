@@ -6,7 +6,7 @@ import 'package:namer_app/main.dart';
 void main() {
   testWidgets('App starts', (WidgetTester tester) async {
     await tester.pumpWidget(const MyApp());
-    expect(find.text('A random idea:'), findsOneWidget);
+    expect(find.text('A random AWESOME idea:'), findsOneWidget);
   });
 
   testWidgets('Tapping button changes word pair', (WidgetTester tester) async {
@@ -16,7 +16,7 @@ void main() {
       final wordPairTextWidget = tester
           // Get all Text widgets...
           .widgetList<Text>(find.byType(Text))
-          // ... skip one ('A random idea:') ...
+          // ... skip one ('A random AWESOME idea:') ...
           .skip(1)
           // ... and take the first after it.
           .first;

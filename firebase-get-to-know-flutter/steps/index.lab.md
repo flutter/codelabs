@@ -582,7 +582,7 @@ To store the chat messages that users write in the app, you use  [Firestore](htt
 
 ### Data model
 
-Firestore is a NoSQL database, and data stored in the database is split into collections, documents, fields, and subcollections. You store each message of the chat as a document in a `gustbook ` collection, which is a top-level collection.
+Firestore is a NoSQL database, and data stored in the database is split into collections, documents, fields, and subcollections. You store each message of the chat as a document in a `guestbook` collection, which is a top-level collection.
 
 <img src="img/7c20dc8424bb1d84.png" alt="7c20dc8424bb1d84.png"  width="249.32" />
 
