@@ -13,7 +13,7 @@ class TickingBuilder extends StatefulWidget {
 }
 
 class _TickingBuilderState extends State<TickingBuilder>
-    with TickerProviderStateMixin {
+    with SingleTickerProviderStateMixin {
   late final Ticker _ticker;
   double _time = 0.0;
 
