@@ -17,17 +17,18 @@ void main() {
     setWindowMinSize(const Size(800, 500));
   }
   Animate.restartOnHotReload = true;
-  runApp(const SciFiApp());
+  runApp(const NextGenApp());
 }
 
-class SciFiApp extends StatelessWidget {
-  const SciFiApp({super.key});
+class NextGenApp extends StatelessWidget {
+  const NextGenApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: TitleScreen(),
+    return MaterialApp(
+      themeMode: ThemeMode.dark,
+      darkTheme: ThemeData(brightness: Brightness.dark),
+      home: const TitleScreen(),
     );
   }
 }
