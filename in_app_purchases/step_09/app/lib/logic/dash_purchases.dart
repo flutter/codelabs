@@ -128,10 +128,8 @@ class DashPurchases extends ChangeNotifier {
       headers: headers,
     );
     if (response.statusCode == 200) {
-      print('Successfully verified purchase');
       return true;
     } else {
-      print('failed request: ${response.statusCode} - ${response.body}');
       return false;
     }
   }
