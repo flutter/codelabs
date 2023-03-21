@@ -1,0 +1,42 @@
+name: next_gen_ui
+description: A new Flutter project.
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: '>=2.19.4 <4.0.0'
+
+dependencies:
+  cupertino_icons: ^1.0.5
+  extra_alignments: ^1.0.0+1
+  flextras: ^1.0.0
+  flutter:
+    sdk: flutter
+  flutter_animate: ^4.1.0
+  focusable_control_builder: ^1.0.0
+  gap: ^2.0.1
+  particle_field: ^1.0.0
+  rnd: ^0.2.0
+  vector_math: ^2.1.4
+  window_size:
+    git:
+      url: https://github.com/google/flutter-desktop-embedding.git
+      path: plugins/window_size
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
+  fonts:
+    - family: Exo
+      fonts:
+        - asset: assets/fonts/Exo-Bold.ttf
+        - asset: assets/fonts/Exo-Medium.ttf
+  assets:
+    - assets/images/
+    - assets/fonts/
+  shaders:
+    - assets/shaders/orb_shader.frag
