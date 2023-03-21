@@ -22,15 +22,11 @@ class ReactiveWidget extends StatefulWidget {
 class _ReactiveWidgetState extends State<ReactiveWidget> {
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return TickingBuilder(
-          builder: (_, time) {
-            return widget.builder(
-              context,
-              time,
-              constraints.biggest,
-            );
+    return TickingBuilder(
+      builder: (_, time) {
+        return LayoutBuilder(
+          builder: (context, constraints) {
+            return widget.builder(context, time, constraints.biggest);
           },
         );
       },
