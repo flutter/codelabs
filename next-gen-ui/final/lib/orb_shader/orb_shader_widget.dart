@@ -100,7 +100,6 @@ class OrbShaderWidgetState extends State<OrbShaderWidget>
                       mousePos: mousePos,
                       energy: energyLevel,
                     ),
-                    willChange: true,
                   );
                 },
               );
