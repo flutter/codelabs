@@ -81,7 +81,7 @@ class OrbShaderWidgetState extends State<OrbShaderWidget>
               final heartbeatEnergy =
                   _heartbeatAnim.drive(_heartbeatSequence).value;
               return ReactiveWidget(
-                builder: (context, time, _, size) {
+                builder: (context, time, size) {
                   double energyLevel = 0;
                   if (size.shortestSide != 0) {
                     final d = (Offset(size.width, size.height) / 2 - mousePos)
