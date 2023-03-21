@@ -9,10 +9,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
-import '../../assets.dart';
-import '../../shaders/orb_shader/orb_shader_config.dart';
-import '../../shaders/orb_shader/orb_shader_widget.dart';
-import '../../styles.dart';
+import '../assets.dart';
+import '../orb_shader/orb_shader_config.dart';
+import '../orb_shader/orb_shader_widget.dart';
+import '../styles.dart';
 import 'particle_overlay.dart';
 import 'title_screen_ui.dart';
 
@@ -122,7 +122,7 @@ class _TitleScreenState extends State<TitleScreen>
       body: Center(
         child: MouseRegion(
           onHover: _handleMouseMove,
-          child: AnimatedColors(
+          child: _AnimatedColors(
             orbColor: _orbColor,
             emitColor: _emitColor,
             builder: (_, orbColor, emitColor) {
@@ -234,9 +234,11 @@ class _TitleScreenState extends State<TitleScreen>
   }
 }
 
-class AnimatedColors extends StatelessWidget {
-  const AnimatedColors({
-    super.key,
+typedef _AnimatedColorsBuilder = Widget Function(
+    BuildContext context, Color orbColor, Color emitColor);
+
+class _AnimatedColors extends StatelessWidget {
+  const _AnimatedColors({
     required this.emitColor,
     required this.orbColor,
     required this.builder,
@@ -244,9 +246,7 @@ class AnimatedColors extends StatelessWidget {
 
   final Color emitColor;
   final Color orbColor;
-
-  final Widget Function(BuildContext context, Color orbColor, Color emitColor)
-      builder;
+  final _AnimatedColorsBuilder builder;
 
   @override
   Widget build(BuildContext context) {

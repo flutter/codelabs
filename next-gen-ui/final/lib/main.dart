@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:window_size/window_size.dart';
 
-import 'screens/title_screen/title_screen.dart';
+import 'title_screen/title_screen.dart';
 
 void main() {
   if (!kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {

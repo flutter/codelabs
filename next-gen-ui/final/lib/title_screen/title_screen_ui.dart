@@ -9,9 +9,9 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:focusable_control_builder/focusable_control_builder.dart';
 import 'package:gap/gap.dart';
 
-import '../../assets.dart';
-import '../../common/ui_scaler.dart';
-import '../../styles.dart';
+import '../assets.dart';
+import '../common/ui_scaler.dart';
+import '../styles.dart';
 
 class TitleScreenUi extends StatelessWidget {
   const TitleScreenUi({
@@ -194,54 +194,54 @@ class _DifficultyBtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FocusableControlBuilder(
-        onPressed: onPressed,
-        onHoverChanged: (_, state) => onHover.call(state.isHovered),
-        cursor: SystemMouseCursors.click,
-        builder: (_, state) {
-          return SizedBox(
-            width: 250,
-            height: 60,
-            child: Stack(
-              children: [
-                /// Bg with fill and outline
-                AnimatedOpacity(
-                  opacity: (!selected && (state.isHovered || state.isFocused))
-                      ? 1
-                      : 0,
-                  duration: .3.seconds,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF00D1FF).withOpacity(.1),
-                      border: Border.all(color: Colors.white, width: 5),
-                    ),
+      onPressed: onPressed,
+      onHoverChanged: (_, state) => onHover.call(state.isHovered),
+      cursor: SystemMouseCursors.click,
+      builder: (_, state) {
+        return SizedBox(
+          width: 250,
+          height: 60,
+          child: Stack(
+            children: [
+              /// Bg with fill and outline
+              AnimatedOpacity(
+                opacity:
+                    (!selected && (state.isHovered || state.isFocused)) ? 1 : 0,
+                duration: .3.seconds,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF00D1FF).withOpacity(.1),
+                    border: Border.all(color: Colors.white, width: 5),
                   ),
                 ),
+              ),
 
-                if (state.isHovered || state.isFocused) ...[
-                  Container(
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF00D1FF).withOpacity(.1),
-                    ),
+              if (state.isHovered || state.isFocused) ...[
+                Container(
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF00D1FF).withOpacity(.1),
                   ),
-                ],
-
-                /// cross-hairs (selected state)
-                if (selected) ...[
-                  CenterLeft(
-                    child: Image.asset(AssetPaths.titleSelectedLeft),
-                  ),
-                  CenterRight(
-                    child: Image.asset(AssetPaths.titleSelectedRight),
-                  ),
-                ],
-
-                /// Label
-                Center(
-                  child: Text(label.toUpperCase(), style: TextStyles.btn),
                 ),
               ],
-            ),
-          );
-        });
+
+              /// cross-hairs (selected state)
+              if (selected) ...[
+                CenterLeft(
+                  child: Image.asset(AssetPaths.titleSelectedLeft),
+                ),
+                CenterRight(
+                  child: Image.asset(AssetPaths.titleSelectedRight),
+                ),
+              ],
+
+              /// Label
+              Center(
+                child: Text(label.toUpperCase(), style: TextStyles.btn),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }
