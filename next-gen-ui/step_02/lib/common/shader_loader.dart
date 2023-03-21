@@ -17,7 +17,6 @@ class ShaderLoader extends StatefulWidget {
 
 class _ShaderLoaderState extends State<ShaderLoader> {
   _ShaderLoaderState();
-  FragmentProgram? program;
   FragmentShader? shader;
 
   @override
@@ -26,10 +25,17 @@ class _ShaderLoaderState extends State<ShaderLoader> {
     _loadShader();
   }
 
+  @override
+  void dispose() {
+    shader?.dispose();
+    super.dispose();
+  }
+
   Future<void> _loadShader() async {
-    program = await FragmentProgram.fromAsset(widget.path);
-    shader = program!.fragmentShader();
-    setState(() {});
+    final program = await FragmentProgram.fromAsset(widget.path);
+    setState(() {
+      shader = program.fragmentShader();
+    });
   }
 
   @override

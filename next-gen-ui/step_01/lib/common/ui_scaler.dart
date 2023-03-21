@@ -17,6 +17,7 @@ class UiScaler extends StatelessWidget {
   final int referenceHeight;
   final Widget child;
   final Alignment alignment;
+
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;

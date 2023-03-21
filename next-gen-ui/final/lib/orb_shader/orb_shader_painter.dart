@@ -46,31 +46,32 @@ class OrbShaderPainter extends CustomPainter {
     shader.setFloat(0, size.width);
     shader.setFloat(1, size.height);
     shader.setFloat(2, time);
-    shader.setFloat(3, mousePos.dx);
-    shader.setFloat(4, mousePos.dy);
-    shader.setFloat(5, max(0.0, config.exposure));
-    shader.setFloat(6, fov);
-    shader.setFloat(7, config.roughness.clamp(0.0, 1.0));
-    shader.setFloat(8, config.metalness.clamp(0.0, 1.0));
-    shader.setFloat(9, config.lightOffsetX);
-    shader.setFloat(10, config.lightOffsetY);
-    shader.setFloat(11, config.lightOffsetZ);
-    shader.setFloat(12, config.lightRadius);
-    shader.setFloat(13, lightLumP.x);
-    shader.setFloat(14, lightLumP.y);
-    shader.setFloat(15, lightLumP.z);
-    shader.setFloat(16, albedo.x);
-    shader.setFloat(17, albedo.y);
-    shader.setFloat(18, albedo.z);
-    shader.setFloat(19, config.ior.clamp(0.0, 2.0));
-    shader.setFloat(20, config.lightAttenuation.clamp(0.0, 1.0));
-    shader.setFloat(21, ambientLight.x);
-    shader.setFloat(22, ambientLight.y);
-    shader.setFloat(23, ambientLight.z);
-    shader.setFloat(24, config.ambientLightDepthFactor.clamp(0.0, 1.0));
-    shader.setFloat(25, energy);
+    shader.setFloat(3, max(0.0, config.exposure));
+    shader.setFloat(4, fov);
+    shader.setFloat(5, config.roughness.clamp(0.0, 1.0));
+    shader.setFloat(6, config.metalness.clamp(0.0, 1.0));
+    shader.setFloat(7, config.lightOffsetX);
+    shader.setFloat(8, config.lightOffsetY);
+    shader.setFloat(9, config.lightOffsetZ);
+    shader.setFloat(10, config.lightRadius);
+    shader.setFloat(11, lightLumP.x);
+    shader.setFloat(12, lightLumP.y);
+    shader.setFloat(13, lightLumP.z);
+    shader.setFloat(14, albedo.x);
+    shader.setFloat(15, albedo.y);
+    shader.setFloat(16, albedo.z);
+    shader.setFloat(17, config.ior.clamp(0.0, 2.0));
+    shader.setFloat(18, config.lightAttenuation.clamp(0.0, 1.0));
+    shader.setFloat(19, ambientLight.x);
+    shader.setFloat(20, ambientLight.y);
+    shader.setFloat(21, ambientLight.z);
+    shader.setFloat(22, config.ambientLightDepthFactor.clamp(0.0, 1.0));
+    shader.setFloat(23, energy);
 
-    canvas.drawPaint(Paint()..shader = shader);
+    canvas.drawRect(
+      Rect.fromLTWH(0, 0, size.width, size.height),
+      Paint()..shader = shader,
+    );
   }
 
   @override
