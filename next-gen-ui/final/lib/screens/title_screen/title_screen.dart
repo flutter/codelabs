@@ -98,13 +98,10 @@ class _TitleScreenState extends State<TitleScreen>
     if (_pulseEffect.status == AnimationStatus.completed) {
       _pulseEffect.reverse();
       _pulseEffect.duration = _getRndPulseDuration();
-      //print('reverse, ${_pulseEffect.duration}');
     } else if (_pulseEffect.status == AnimationStatus.dismissed) {
-      //print('forward, ${_pulseEffect.duration}');
       _pulseEffect.duration = _getRndPulseDuration();
       _pulseEffect.forward();
     }
-    //print(_pulseEffect.value);
   }
 
   void _handleDifficultyPressed(int value) =>
@@ -113,123 +110,127 @@ class _TitleScreenState extends State<TitleScreen>
   void _handleDifficultyFocused(int? value) =>
       setState(() => _difficultyOverride = value);
 
-  /// Update mouse position so the orbWidget can use it, doing it here prevents btns from blocking the mouse-move events in the widget itself.
+  /// Update mouse position so the orbWidget can use it, doing it here prevents
+  /// btns from blocking the mouse-move events in the widget itself.
   void _handleMouseMove(PointerHoverEvent e) =>
       _mousePos.value = e.localPosition;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.black,
-        body: Center(
-          child: MouseRegion(
-            onHover: _handleMouseMove,
-            child: AnimatedColors(
-                orbColor: _orbColor,
-                emitColor: _emitColor,
-                builder: (_, orbColor, emitColor) {
-                  return Stack(
-                    children: [
-                      /// Bg-Base
-                      Image.asset(AssetPaths.titleBgBase),
+      backgroundColor: Colors.black,
+      body: Center(
+        child: MouseRegion(
+          onHover: _handleMouseMove,
+          child: AnimatedColors(
+            orbColor: _orbColor,
+            emitColor: _emitColor,
+            builder: (_, orbColor, emitColor) {
+              return Stack(
+                children: [
+                  /// Bg-Base
+                  Image.asset(AssetPaths.titleBgBase),
 
-                      /// Bg-Receive
-                      _LitImage(
-                        energy: _finalReceiveLightAmt,
-                        color: orbColor,
-                        imgSrc: AssetPaths.titleBgReceive,
-                      ),
+                  /// Bg-Receive
+                  _LitImage(
+                    energy: _finalReceiveLightAmt,
+                    color: orbColor,
+                    imgSrc: AssetPaths.titleBgReceive,
+                  ),
 
-                      /// Orb
-                      Positioned.fill(
-                        child: Stack(
-                          children: [
-                            // Orb
-                            OrbShaderWidget(
-                              key: _orbKey,
-                              mousePos: _mousePos,
-                              config: OrbShaderConfig(
-                                ambientLightColor: orbColor,
-                                materialColor: orbColor,
-                                lightColor: orbColor,
-                              ),
-                              onUpdate: (energy) => _orbEnergy.value = energy,
-                            ),
-                          ],
+                  /// Orb
+                  Positioned.fill(
+                    child: Stack(
+                      children: [
+                        // Orb
+                        OrbShaderWidget(
+                          key: _orbKey,
+                          mousePos: _mousePos,
+                          config: OrbShaderConfig(
+                            ambientLightColor: orbColor,
+                            materialColor: orbColor,
+                            lightColor: orbColor,
+                          ),
+                          onUpdate: (energy) => _orbEnergy.value = energy,
                         ),
-                      ),
+                      ],
+                    ),
+                  ),
 
-                      /// Mg + Fg
-                      IgnorePointer(
-                        child: Stack(
-                          children: [
-                            /// Mg-Base
-                            _LitImage(
-                              energy: _finalReceiveLightAmt,
-                              color: orbColor,
-                              imgSrc: AssetPaths.titleMgBase,
-                            ),
+                  /// Mg + Fg
+                  IgnorePointer(
+                    child: Stack(
+                      children: [
+                        /// Mg-Base
+                        _LitImage(
+                          energy: _finalReceiveLightAmt,
+                          color: orbColor,
+                          imgSrc: AssetPaths.titleMgBase,
+                        ),
 
-                            /// Mg-Receive
-                            _LitImage(
-                              energy: _finalReceiveLightAmt,
-                              color: orbColor,
-                              imgSrc: AssetPaths.titleMgReceive,
-                            ),
+                        /// Mg-Receive
+                        _LitImage(
+                          energy: _finalReceiveLightAmt,
+                          color: orbColor,
+                          imgSrc: AssetPaths.titleMgReceive,
+                        ),
 
-                            /// Mg-Emit
-                            _LitImage(
-                              energy: _finalEmitLightAmt,
-                              color: emitColor,
-                              imgSrc: AssetPaths.titleMgEmit,
-                            ),
+                        /// Mg-Emit
+                        _LitImage(
+                          energy: _finalEmitLightAmt,
+                          color: emitColor,
+                          imgSrc: AssetPaths.titleMgEmit,
+                        ),
 
-                            /// Particle Field
-                            Positioned.fill(
-                              child: IgnorePointer(
-                                child: ListenableBuilder(
-                                  listenable: _orbEnergy,
-                                  builder: (_, __) => ParticleOverlay(
-                                    color: orbColor,
-                                    energy: _orbEnergy.value,
-                                  ),
-                                ),
+                        /// Particle Field
+                        Positioned.fill(
+                          child: IgnorePointer(
+                            child: ListenableBuilder(
+                              listenable: _orbEnergy,
+                              builder: (_, __) => ParticleOverlay(
+                                color: orbColor,
+                                energy: _orbEnergy.value,
                               ),
                             ),
-
-                            /// Fg-Rocks
-                            Image.asset(AssetPaths.titleFgBase),
-
-                            /// Fg-Receive
-                            _LitImage(
-                              energy: _finalReceiveLightAmt,
-                              color: orbColor,
-                              imgSrc: AssetPaths.titleFgReceive,
-                            ),
-
-                            /// Fg-Emit
-                            _LitImage(
-                              energy: _finalEmitLightAmt,
-                              color: emitColor,
-                              imgSrc: AssetPaths.titleFgEmit,
-                            ),
-                          ],
+                          ),
                         ),
-                      ),
 
-                      /// UI
-                      Positioned.fill(
-                          child: TitleScreenUi(
-                        difficulty: _difficulty,
-                        onDifficultyFocused: _handleDifficultyFocused,
-                        onDifficultyPressed: _handleDifficultyPressed,
-                        orbColor: orbColor,
-                      )),
-                    ],
-                  );
-                }),
+                        /// Fg-Rocks
+                        Image.asset(AssetPaths.titleFgBase),
+
+                        /// Fg-Receive
+                        _LitImage(
+                          energy: _finalReceiveLightAmt,
+                          color: orbColor,
+                          imgSrc: AssetPaths.titleFgReceive,
+                        ),
+
+                        /// Fg-Emit
+                        _LitImage(
+                          energy: _finalEmitLightAmt,
+                          color: emitColor,
+                          imgSrc: AssetPaths.titleFgEmit,
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  /// UI
+                  Positioned.fill(
+                    child: TitleScreenUi(
+                      difficulty: _difficulty,
+                      onDifficultyFocused: _handleDifficultyFocused,
+                      onDifficultyPressed: _handleDifficultyPressed,
+                      orbColor: orbColor,
+                    ),
+                  ),
+                ],
+              );
+            },
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
 

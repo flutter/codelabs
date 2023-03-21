@@ -28,8 +28,6 @@ class SciFiApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: TitleScreen(),
-      //home: ShaderDemos(),
-      //home: Playground(),
     );
   }
 }

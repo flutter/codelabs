@@ -7,20 +7,22 @@ import 'package:flutter/material.dart';
 
 import 'ticking_builder.dart';
 
-class ReactiveWidgetBuilder extends StatefulWidget {
-  const ReactiveWidgetBuilder({
+typedef ReactiveWidgetBuilder = Widget Function(
+    BuildContext context, double time, Offset mousePos, Size bounds);
+
+class ReactiveWidget extends StatefulWidget {
+  const ReactiveWidget({
     super.key,
     required this.builder,
     this.useLocalMousePos = true,
   });
-  final Widget Function(
-      BuildContext context, double time, Offset mousePos, Size bounds) builder;
+  final ReactiveWidgetBuilder builder;
   final bool useLocalMousePos;
   @override
-  State<ReactiveWidgetBuilder> createState() => _ReactiveWidgetBuilderState();
+  State<ReactiveWidget> createState() => _ReactiveWidgetState();
 }
 
-class _ReactiveWidgetBuilderState extends State<ReactiveWidgetBuilder> {
+class _ReactiveWidgetState extends State<ReactiveWidget> {
   Offset _mousePos = Offset.zero;
   void _handleMouseHover(PointerHoverEvent evt) {
     _mousePos = widget.useLocalMousePos ? evt.localPosition : evt.position;
@@ -29,12 +31,21 @@ class _ReactiveWidgetBuilderState extends State<ReactiveWidgetBuilder> {
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
-        onHover: _handleMouseHover,
-        child: TickingBuilder(builder: (_, time) {
-          return LayoutBuilder(builder: (context, constraints) {
-            return widget.builder(
-                context, time, _mousePos, constraints.biggest);
-          });
-        }));
+      onHover: _handleMouseHover,
+      child: TickingBuilder(
+        builder: (_, time) {
+          return LayoutBuilder(
+            builder: (context, constraints) {
+              return widget.builder(
+                context,
+                time,
+                _mousePos,
+                constraints.biggest,
+              );
+            },
+          );
+        },
+      ),
+    );
   }
 }

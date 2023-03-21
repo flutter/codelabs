@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "flutter_scifi" "\0"
+            VALUE "FileDescription", "next_gen_ui" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "flutter_scifi" "\0"
+            VALUE "InternalName", "next_gen_ui" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2023 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "flutter_scifi.exe" "\0"
-            VALUE "ProductName", "flutter_scifi" "\0"
+            VALUE "OriginalFilename", "next_gen_ui.exe" "\0"
+            VALUE "ProductName", "next_gen_ui" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END
