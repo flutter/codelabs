@@ -180,10 +180,10 @@ class DashPurchases extends ChangeNotifier {
       _beautifiedDashUpgrade = iapRepo.hasUpgrade;
       for (var element in upgrades) {
         _updateStatus(
-          element,
-          _beautifiedDashUpgrade
-              ? ProductStatus.purchased
-              : ProductStatus.purchasable);
+            element,
+            _beautifiedDashUpgrade
+                ? ProductStatus.purchased
+                : ProductStatus.purchasable);
       }
       notifyListeners();
     }
