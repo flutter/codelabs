@@ -29,6 +29,7 @@ declare -a CODELABS=(
   # TODO(DomesticMouse): Use 'const' with the constructor to improve performance.
   # "in_app_purchases"
   "namer"
+  "next-gen-ui"
   "plugin_codelab"
   "star_counter"
   "testing_codelab"

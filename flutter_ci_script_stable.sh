@@ -23,6 +23,7 @@ declare -a CODELABS=(
   "haiku_generator"
   "in_app_purchases"
   "namer"
+  "next-gen-ui"
   "plugin_codelab"
   "star_counter"
   "testing_codelab"
