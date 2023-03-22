@@ -41,6 +41,6 @@ class _ShaderLoaderState extends State<ShaderLoader> {
   @override
   Widget build(BuildContext context) {
     if (shader == null) return const SizedBox.expand();
-    return widget.builder.call(context, shader!);
+    return widget.builder(context, shader!);
   }
 }

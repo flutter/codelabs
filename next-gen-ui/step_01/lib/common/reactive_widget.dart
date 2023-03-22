@@ -62,5 +62,5 @@ class _TimingProviderState extends State<_TimingProvider>
   }
 
   @override
-  Widget build(BuildContext context) => widget.builder.call(context, _time);
+  Widget build(BuildContext context) => widget.builder(context, _time);
 }
