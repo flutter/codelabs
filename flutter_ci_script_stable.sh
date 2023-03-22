@@ -23,7 +23,8 @@ declare -a CODELABS=(
   "haiku_generator"
   "in_app_purchases"
   "namer"
-  "next-gen-ui"
+  # TODO(DomesticMouse): enable on Flutter stable increment
+  # "next-gen-ui"
   "plugin_codelab"
   "star_counter"
   "testing_codelab"
