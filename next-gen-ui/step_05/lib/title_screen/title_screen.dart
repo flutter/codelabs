@@ -2,6 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -9,8 +10,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 import '../assets.dart';
+import '../orb_shader/orb_shader_config.dart';
+import '../orb_shader/orb_shader_widget.dart';
 import '../styles.dart';
-import 'particle_overlay.dart';
 import 'title_screen_ui.dart';
 
 class TitleScreen extends StatefulWidget {
@@ -22,6 +24,8 @@ class TitleScreen extends StatefulWidget {
 
 class _TitleScreenState extends State<TitleScreen>
     with SingleTickerProviderStateMixin {
+  final _orbKey = GlobalKey<OrbShaderWidgetState>();
+
   /// Editable Settings
   /// 0-1, receive lighting strength
   double get _minReceiveLightAmt => .35;
@@ -52,12 +56,39 @@ class _TitleScreenState extends State<TitleScreen>
     final light = lerpDouble(
             _minReceiveLightAmt, _maxReceiveLightAmt, _orbEnergy.value) ??
         0;
-    return light + .0175 * _orbEnergy.value;
+    return light + _pulseEffect.value * .05 * _orbEnergy.value;
   }
 
   double get _finalEmitLightAmt {
     return lerpDouble(_minEmitLightAmt, _maxEmitLightAmt, _orbEnergy.value) ??
         0;
+  }
+
+  late final _pulseEffect = AnimationController(
+    vsync: this,
+    duration: _getRndPulseDuration(),
+    lowerBound: -1,
+    upperBound: 1,
+  );
+
+  Duration _getRndPulseDuration() => 100.ms + 200.ms * Random().nextDouble();
+
+  @override
+  void initState() {
+    super.initState();
+    _pulseEffect.forward();
+    _pulseEffect.addListener(_handlePulseEffectUpdate);
+    _pulseEffect.addListener(() => setState(() {}));
+  }
+
+  void _handlePulseEffectUpdate() {
+    if (_pulseEffect.status == AnimationStatus.completed) {
+      _pulseEffect.reverse();
+      _pulseEffect.duration = _getRndPulseDuration();
+    } else if (_pulseEffect.status == AnimationStatus.dismissed) {
+      _pulseEffect.duration = _getRndPulseDuration();
+      _pulseEffect.forward();
+    }
   }
 
   void _handleDifficultyPressed(int value) =>
@@ -94,6 +125,25 @@ class _TitleScreenState extends State<TitleScreen>
                     imgSrc: AssetPaths.titleBgReceive,
                   ),
 
+                  /// Orb
+                  Positioned.fill(
+                    child: Stack(
+                      children: [
+                        // Orb
+                        OrbShaderWidget(
+                          key: _orbKey,
+                          mousePos: _mousePos,
+                          config: OrbShaderConfig(
+                            ambientLightColor: orbColor,
+                            materialColor: orbColor,
+                            lightColor: orbColor,
+                          ),
+                          onUpdate: (energy) => _orbEnergy.value = energy,
+                        ),
+                      ],
+                    ),
+                  ),
+
                   /// Mg + Fg
                   IgnorePointer(
                     child: Stack(
@@ -117,19 +167,6 @@ class _TitleScreenState extends State<TitleScreen>
                           energy: _finalEmitLightAmt,
                           color: emitColor,
                           imgSrc: AssetPaths.titleMgEmit,
-                        ),
-
-                        /// Particle Field
-                        Positioned.fill(
-                          child: IgnorePointer(
-                            child: ListenableBuilder(
-                              listenable: _orbEnergy,
-                              builder: (_, __) => ParticleOverlay(
-                                color: orbColor,
-                                energy: _orbEnergy.value,
-                              ),
-                            ),
-                          ),
                         ),
 
                         /// Fg-Rocks
