@@ -2,7 +2,6 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -53,39 +52,12 @@ class _TitleScreenState extends State<TitleScreen>
     final light = lerpDouble(
             _minReceiveLightAmt, _maxReceiveLightAmt, _orbEnergy.value) ??
         0;
-    return light + _pulseEffect.value * .05 * _orbEnergy.value;
+    return light + .0175 * _orbEnergy.value;
   }
 
   double get _finalEmitLightAmt {
     return lerpDouble(_minEmitLightAmt, _maxEmitLightAmt, _orbEnergy.value) ??
         0;
-  }
-
-  late final _pulseEffect = AnimationController(
-    vsync: this,
-    duration: _getRndPulseDuration(),
-    lowerBound: -1,
-    upperBound: 1,
-  );
-
-  Duration _getRndPulseDuration() => 100.ms + 200.ms * Random().nextDouble();
-
-  @override
-  void initState() {
-    super.initState();
-    _pulseEffect.forward();
-    _pulseEffect.addListener(_handlePulseEffectUpdate);
-    _pulseEffect.addListener(() => setState(() {}));
-  }
-
-  void _handlePulseEffectUpdate() {
-    if (_pulseEffect.status == AnimationStatus.completed) {
-      _pulseEffect.reverse();
-      _pulseEffect.duration = _getRndPulseDuration();
-    } else if (_pulseEffect.status == AnimationStatus.dismissed) {
-      _pulseEffect.duration = _getRndPulseDuration();
-      _pulseEffect.forward();
-    }
   }
 
   void _handleDifficultyPressed(int value) =>
