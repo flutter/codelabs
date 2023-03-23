@@ -5,18 +5,12 @@
 import 'package:flutter/material.dart';
 
 import '../assets.dart';
-import '../styles.dart';
 
 class TitleScreen extends StatelessWidget {
   const TitleScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final orbColor = AppColors.orbColors[0];
-    final emitColor = AppColors.emitColors[0];
-    const finalReceiveLightAmt = 0.7;
-    const finalEmitLightAmt = 0.5;
-
     return Scaffold(
       backgroundColor: Colors.black,
       body: Center(
@@ -26,53 +20,29 @@ class TitleScreen extends StatelessWidget {
             Image.asset(AssetPaths.titleBgBase),
 
             /// Bg-Receive
-            _LitImage(
-              energy: finalReceiveLightAmt,
-              color: orbColor,
-              imgSrc: AssetPaths.titleBgReceive,
-            ),
+            Image.asset(AssetPaths.titleBgReceive),
 
             /// Mg + Fg
             IgnorePointer(
               child: Stack(
                 children: [
                   /// Mg-Base
-                  _LitImage(
-                    energy: finalReceiveLightAmt,
-                    color: orbColor,
-                    imgSrc: AssetPaths.titleMgBase,
-                  ),
+                  Image.asset(AssetPaths.titleMgBase),
 
                   /// Mg-Receive
-                  _LitImage(
-                    energy: finalReceiveLightAmt,
-                    color: orbColor,
-                    imgSrc: AssetPaths.titleMgReceive,
-                  ),
+                  Image.asset(AssetPaths.titleMgReceive),
 
                   /// Mg-Emit
-                  _LitImage(
-                    energy: finalEmitLightAmt,
-                    color: emitColor,
-                    imgSrc: AssetPaths.titleMgEmit,
-                  ),
+                  Image.asset(AssetPaths.titleMgEmit),
 
                   /// Fg-Rocks
                   Image.asset(AssetPaths.titleFgBase),
 
                   /// Fg-Receive
-                  _LitImage(
-                    energy: finalReceiveLightAmt,
-                    color: orbColor,
-                    imgSrc: AssetPaths.titleFgReceive,
-                  ),
+                  Image.asset(AssetPaths.titleFgReceive),
 
                   /// Fg-Emit
-                  _LitImage(
-                    energy: finalEmitLightAmt,
-                    color: emitColor,
-                    imgSrc: AssetPaths.titleFgEmit,
-                  ),
+                  Image.asset(AssetPaths.titleFgEmit),
                 ],
               ),
             ),
@@ -83,6 +53,7 @@ class TitleScreen extends StatelessWidget {
   }
 }
 
+// ignore: unused_element
 class _LitImage extends StatelessWidget {
   const _LitImage({
     required this.energy,

@@ -13,7 +13,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_animate: ^4.1.0
-  focusable_control_builder: ^1.0.0
+  focusable_control_builder: ^1.0.1
   gap: ^2.0.1
   particle_field: ^1.0.0
   rnd: ^0.2.0
