@@ -13,6 +13,9 @@ import '../assets.dart';
 import '../common/ui_scaler.dart';
 import '../styles.dart';
 
+typedef DifficultyPressed = void Function(int difficulty);
+typedef DifficultyFocused = void Function(int? difficulty);
+
 class TitleScreenUi extends StatelessWidget {
   const TitleScreenUi({
     super.key,
@@ -23,8 +26,8 @@ class TitleScreenUi extends StatelessWidget {
   });
 
   final int difficulty;
-  final void Function(int difficulty) onDifficultyPressed;
-  final void Function(int? difficulty) onDifficultyFocused;
+  final DifficultyPressed onDifficultyPressed;
+  final DifficultyFocused onDifficultyFocused;
   final Color orbColor;
 
   @override
@@ -34,10 +37,10 @@ class TitleScreenUi extends StatelessWidget {
       child: Stack(
         children: [
           /// Title Text
-          TopLeft(
+          const TopLeft(
             child: UiScaler(
               alignment: Alignment.topLeft,
-              child: _buildTitleText(),
+              child: _TitleText(),
             ),
           ),
 
@@ -45,7 +48,11 @@ class TitleScreenUi extends StatelessWidget {
           BottomLeft(
             child: UiScaler(
               alignment: Alignment.bottomLeft,
-              child: _buildDifficultyBtns(),
+              child: _DifficultyButtons(
+                difficulty: difficulty,
+                onDifficultyPressed: onDifficultyPressed,
+                onDifficultyFocused: onDifficultyFocused,
+              ),
             ),
           ),
 
@@ -55,7 +62,7 @@ class TitleScreenUi extends StatelessWidget {
               alignment: Alignment.bottomRight,
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 20, right: 40),
-                child: _StartBtn(orbColor: orbColor),
+                child: _StartButton(orbColor: orbColor),
               ),
             ),
           ),
@@ -63,8 +70,13 @@ class TitleScreenUi extends StatelessWidget {
       ),
     );
   }
+}
 
-  Column _buildTitleText() {
+class _TitleText extends StatelessWidget {
+  const _TitleText();
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -89,13 +101,26 @@ class TitleScreenUi extends StatelessWidget {
       ],
     );
   }
+}
 
-  Widget _buildDifficultyBtns() {
+class _DifficultyButtons extends StatelessWidget {
+  const _DifficultyButtons({
+    required this.difficulty,
+    required this.onDifficultyPressed,
+    required this.onDifficultyFocused,
+  });
+
+  final int difficulty;
+  final DifficultyPressed onDifficultyPressed;
+  final DifficultyFocused onDifficultyFocused;
+
+  @override
+  Widget build(BuildContext context) {
     return SeparatedColumn(
       separatorBuilder: () => const Gap(10),
       mainAxisSize: MainAxisSize.min,
       children: [
-        _DifficultyBtn(
+        _DifficultyButton(
           label: 'Casual',
           selected: difficulty == 0,
           onPressed: () => onDifficultyPressed(0),
@@ -104,7 +129,7 @@ class TitleScreenUi extends StatelessWidget {
             .animate()
             .fadeIn(delay: 1.seconds, duration: .35.seconds)
             .slide(begin: const Offset(0, .2)),
-        _DifficultyBtn(
+        _DifficultyButton(
           label: 'Normal',
           selected: difficulty == 1,
           onPressed: () => onDifficultyPressed(1),
@@ -113,7 +138,7 @@ class TitleScreenUi extends StatelessWidget {
             .animate()
             .fadeIn(delay: 1.2.seconds, duration: .35.seconds)
             .slide(begin: const Offset(0, .2)),
-        _DifficultyBtn(
+        _DifficultyButton(
           label: 'Hardcore',
           selected: difficulty == 2,
           onPressed: () => onDifficultyPressed(2),
@@ -128,17 +153,18 @@ class TitleScreenUi extends StatelessWidget {
   }
 }
 
-class _StartBtn extends StatefulWidget {
-  const _StartBtn({required this.orbColor});
+class _StartButton extends StatefulWidget {
+  const _StartButton({required this.orbColor});
   final Color orbColor;
 
   @override
-  State<_StartBtn> createState() => _StartBtnState();
+  State<_StartButton> createState() => _StartButtonState();
 }
 
-class _StartBtnState extends State<_StartBtn> {
+class _StartButtonState extends State<_StartButton> {
   AnimationController? _btnAnim;
   bool _wasHovered = false;
+
   @override
   Widget build(BuildContext context) {
     return FocusableControlBuilder(
@@ -180,8 +206,8 @@ class _StartBtnState extends State<_StartBtn> {
   }
 }
 
-class _DifficultyBtn extends StatelessWidget {
-  const _DifficultyBtn({
+class _DifficultyButton extends StatelessWidget {
+  const _DifficultyButton({
     required this.selected,
     required this.onPressed,
     required this.onHover,
@@ -191,6 +217,7 @@ class _DifficultyBtn extends StatelessWidget {
   final bool selected;
   final VoidCallback onPressed;
   final void Function(bool hasFocus) onHover;
+
   @override
   Widget build(BuildContext context) {
     return FocusableControlBuilder(
