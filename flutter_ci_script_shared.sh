@@ -47,11 +47,14 @@ function ci_codelabs () {
             dart format --output none --set-exit-if-changed .
 
             # Run the actual tests.
-            if grep -q flutter: pubspec.yaml; then
-              flutter test
-            else
-              # If the project is not a Flutter project, use the Dart CLI.
-              dart test
+            if [ -d "test" ]
+            then
+                if grep -q flutter: pubspec.yaml; then
+                  flutter test
+                else
+                  # If the project is not a Flutter project, use the Dart CLI.
+                  dart test
+                fi
             fi
 
             popd
