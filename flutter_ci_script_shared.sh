@@ -49,7 +49,7 @@ function ci_codelabs () {
             # Run the actual tests.
             if [ -d "test" ]
             then
-                if grep -q flutter: pubspec.yaml; then
+                if grep -q "flutter:" "pubspec.yaml"; then
                   flutter test
                 else
                   # If the project is not a Flutter project, use the Dart CLI.
