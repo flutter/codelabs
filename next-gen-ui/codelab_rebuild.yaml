@@ -1335,412 +1335,410 @@ steps:
       - name: flutter pub get
         path: step_01
         flutter: pub get
-  - name: Step 2
-    steps:
-    - name: Step 2a
-      steps: 
-        - name: Remove generated code
-          rmdir: step_02_a
-        - name: mkdir lib/title_screen
-          path: next_gen_ui
-          mkdir: lib/title_screen
-        - name: Add lib/title_screen/title_screen.dart
-          path: next_gen_ui/lib/title_screen/title_screen.dart
-          replace-contents: |
-            // Copyright 2023 The Flutter Authors. All rights reserved.
-            // Use of this source code is governed by a BSD-style license that can be
-            // found in the LICENSE file.
-            
-            import 'package:flutter/material.dart';
-            
-            class TitleScreen extends StatelessWidget {
-              const TitleScreen({super.key});
-            
-              @override
-              Widget build(BuildContext context) {
-                return const Scaffold(
-                  backgroundColor: Colors.black,
-                  body: Center(
-                    child: Stack(
-                      children: [],
-                    ),
+  - name: Step 2a
+    steps: 
+      - name: Remove generated code
+        rmdir: step_02_a
+      - name: mkdir lib/title_screen
+        path: next_gen_ui
+        mkdir: lib/title_screen
+      - name: Add lib/title_screen/title_screen.dart
+        path: next_gen_ui/lib/title_screen/title_screen.dart
+        replace-contents: |
+          // Copyright 2023 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+          
+          import 'package:flutter/material.dart';
+          
+          class TitleScreen extends StatelessWidget {
+            const TitleScreen({super.key});
+          
+            @override
+            Widget build(BuildContext context) {
+              return const Scaffold(
+                backgroundColor: Colors.black,
+                body: Center(
+                  child: Stack(
+                    children: [],
                   ),
-                );
-              }
+                ),
+              );
             }
-        - name: Patch lib/main.dart
-          path: next_gen_ui/lib/main.dart
-          patch-u: |
-            --- b/next-gen-ui/step_02/lib/main.dart
-            +++ a/next-gen-ui/step_02/lib/main.dart
-            @@ -8,7 +8,7 @@ import 'package:flutter/foundation.dart';
-            import 'package:flutter/material.dart';
-            import 'package:window_size/window_size.dart';
-            
-            -import 'styles.dart';
-            +import 'title_screen/title_screen.dart';
-            
-            void main() {
-              if (!kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
-            @@ -26,14 +26,7 @@ class NextGenApp extends StatelessWidget {
-                return MaterialApp(
-                  themeMode: ThemeMode.dark,
-                  darkTheme: ThemeData(brightness: Brightness.dark),
-            -      home: Scaffold(
-            -        body: Center(
-            -          child: Text(
-            -            'Insert Next Generation UI Here...',
-            -            style: TextStyles.h2,
-            -          ),
-            -        ),
-            -      ),
-            +      home: const TitleScreen(),
-                );
-              }
-            }
-        - name: Copy to step_02_a
-          copydir:
-            from: next_gen_ui 
-            to: step_02_a
-        - name: flutter clean
-          path: step_02_a
-          flutter: clean
-        - name: flutter pub get
-          path: step_02_a
-          flutter: pub get
-    - name: Step 2b
-      steps: 
-        - name: Remove generated code
-          rmdir: step_02_b
-        - name: Patch lib/title_screen/title_screen.dart
-          path: next_gen_ui/lib/title_screen/title_screen.dart
-          patch-u: |
-            --- b/next-gen-ui/step_02_b/lib/title_screen/title_screen.dart
-            +++ a/next-gen-ui/step_02_b/lib/title_screen/title_screen.dart
-            @@ -4,16 +4,24 @@
-            
-            import 'package:flutter/material.dart';
-            
-            +import '../assets.dart';
-            +
-            class TitleScreen extends StatelessWidget {
-              const TitleScreen({super.key});
-            
-              @override
-              Widget build(BuildContext context) {
-            -    return const Scaffold(
-            +    return Scaffold(
-                  backgroundColor: Colors.black,
-                  body: Center(
-                    child: Stack(
-            -          children: [],
-            +          children: [
-            +            /// Bg-Base
-            +            Image.asset(AssetPaths.titleBgBase),
-            +
-            +            /// Bg-Receive
-            +            Image.asset(AssetPaths.titleBgReceive),
-            +          ],
-                    ),
-                  ),
-                );
-        - name: Copy to step_02_b
-          copydir:
-            from: next_gen_ui 
-            to: step_02_b
-        - name: flutter clean
-          path: step_02_b
-          flutter: clean
-        - name: flutter pub get
-          path: step_02_b
-          flutter: pub get
-    - name: Step 2c
-      steps: 
-        - name: Remove generated code
-          rmdir: step_02_c
-        - name: Patch lib/title_screen/title_screen.dart
-          path: next_gen_ui/lib/title_screen/title_screen.dart
-          patch-u: |
-            --- b/next-gen-ui/step_02_c/lib/title_screen/title_screen.dart
-            +++ a/next-gen-ui/step_02_c/lib/title_screen/title_screen.dart
-            @@ -21,6 +21,15 @@ class TitleScreen extends StatelessWidget {
-            
-                        /// Bg-Receive
-                        Image.asset(AssetPaths.titleBgReceive),
-            +
-            +            /// Mg-Base
-            +            Image.asset(AssetPaths.titleMgBase),
-            +
-            +            /// Mg-Receive
-            +            Image.asset(AssetPaths.titleMgReceive),
-            +
-            +            /// Mg-Emit
-            +            Image.asset(AssetPaths.titleMgEmit),
-                      ],
-                    ),
-                  ),
-        - name: Copy to step_02_c
-          copydir:
-            from: next_gen_ui 
-            to: step_02_c
-        - name: flutter clean
-          path: step_02_c
-          flutter: clean
-        - name: flutter pub get
-          path: step_02_c
-          flutter: pub get
-    - name: Step 2d
-      steps: 
-        - name: Remove generated code
-          rmdir: step_02_d
-        - name: Patch lib/title_screen/title_screen.dart
-          path: next_gen_ui/lib/title_screen/title_screen.dart
-          patch-u: |
-            --- b/next-gen-ui/step_02_d/lib/title_screen/title_screen.dart
-            +++ a/next-gen-ui/step_02_d/lib/title_screen/title_screen.dart
-            @@ -30,6 +30,15 @@ class TitleScreen extends StatelessWidget {
-            
-                        /// Mg-Emit
-                        Image.asset(AssetPaths.titleMgEmit),
-            +
-            +            /// Fg-Rocks
-            +            Image.asset(AssetPaths.titleFgBase),
-            +
-            +            /// Fg-Receive
-            +            Image.asset(AssetPaths.titleFgReceive),
-            +
-            +            /// Fg-Emit
-            +            Image.asset(AssetPaths.titleFgEmit),
-                      ],
-                    ),
-                  ),
-        - name: Copy to step_02_d
-          copydir:
-            from: next_gen_ui 
-            to: step_02_d
-        - name: flutter clean
-          path: step_02_d
-          flutter: clean
-        - name: flutter pub get
-          path: step_02_d
-          flutter: pub get
-    - name: Step 2e
-      steps: 
-        - name: Remove generated code
-          rmdir: step_02_e
-        - name: Patch lib/title_screen/title_screen.dart
-          path: next_gen_ui/lib/title_screen/title_screen.dart
-          patch-u: |
-            --- b/next-gen-ui/step_02_e/lib/title_screen/title_screen.dart
-            +++ a/next-gen-ui/step_02_e/lib/title_screen/title_screen.dart
-            @@ -22,23 +22,30 @@ class TitleScreen extends StatelessWidget {
-                        /// Bg-Receive
-                        Image.asset(AssetPaths.titleBgReceive),
-            
-            -            /// Mg-Base
-            -            Image.asset(AssetPaths.titleMgBase),
-            -
-            -            /// Mg-Receive
-            -            Image.asset(AssetPaths.titleMgReceive),
-            -
-            -            /// Mg-Emit
-            -            Image.asset(AssetPaths.titleMgEmit),
-            -
-            -            /// Fg-Rocks
-            -            Image.asset(AssetPaths.titleFgBase),
-            -
-            -            /// Fg-Receive
-            -            Image.asset(AssetPaths.titleFgReceive),
-            -
-            -            /// Fg-Emit
-            -            Image.asset(AssetPaths.titleFgEmit),
-            +            /// Mg + Fg
-            +            IgnorePointer(
-            +              child: Stack(
-            +                children: [
-            +                  /// Mg-Base
-            +                  Image.asset(AssetPaths.titleMgBase),
-            +
-            +                  /// Mg-Receive
-            +                  Image.asset(AssetPaths.titleMgReceive),
-            +
-            +                  /// Mg-Emit
-            +                  Image.asset(AssetPaths.titleMgEmit),
-            +
-            +                  /// Fg-Rocks
-            +                  Image.asset(AssetPaths.titleFgBase),
-            +
-            +                  /// Fg-Receive
-            +                  Image.asset(AssetPaths.titleFgReceive),
-            +
-            +                  /// Fg-Emit
-            +                  Image.asset(AssetPaths.titleFgEmit),
-            +                ],
-            +              ),
-            +            ),
-                      ],
-                    ),
-                  ),
-        - name: Copy to step_02_e
-          copydir:
-            from: next_gen_ui 
-            to: step_02_e
-        - name: flutter clean
-          path: step_02_e
-          flutter: clean
-        - name: flutter pub get
-          path: step_02_e
-          flutter: pub get
-    - name: Step 2f
-      steps: 
-        - name: Remove generated code
-          rmdir: step_02_f
-        - name: Patch lib/title_screen/title_screen.dart
-          path: next_gen_ui/lib/title_screen/title_screen.dart
-          patch-u: |
-            --- b/next-gen-ui/step_02_f/lib/title_screen/title_screen.dart
-            +++ a/next-gen-ui/step_02_f/lib/title_screen/title_screen.dart
-            @@ -9,6 +9,9 @@ import '../assets.dart';
-            class TitleScreen extends StatelessWidget {
-              const TitleScreen({super.key});
-            
-            +  final _finalReceiveLightAmt = 0.7;
-            +  final _finalEmitLightAmt = 0.5;
-            +
-              @override
-              Widget build(BuildContext context) {
-                return Scaffold(
-            @@ -51,4 +54,19 @@ class TitleScreen extends StatelessWidget {
-                  ),
-                );
-              }
-            +
-            +  // ignore: unused_element
-            +  Widget _buildLitImage(
-            +      {required Color color, required String imgSrc, bool emit = false}) {
-            +    final hsl = HSLColor.fromColor(color);
-            +    final lightAmt = emit ? _finalEmitLightAmt : _finalReceiveLightAmt;
-            +
-            +    return ColorFiltered(
-            +      colorFilter: ColorFilter.mode(
-            +        hsl.withLightness(hsl.lightness * lightAmt).toColor(),
-            +        BlendMode.modulate,
-            +      ),
-            +      child: Image.asset(imgSrc),
-            +    );
-            +  }
-            }
-        - name: Copy to step_02_f
-          copydir:
-            from: next_gen_ui 
-            to: step_02_f
-        - name: flutter clean
-          path: step_02_f
-          flutter: clean
-        - name: flutter pub get
-          path: step_02_f
-          flutter: pub get
-    - name: Step 2g
-      steps: 
-        - name: Remove generated code
-          rmdir: step_02_g
-        - name: Patch lib/title_screen/title_screen.dart
-          path: next_gen_ui/lib/title_screen/title_screen.dart
-          patch-u: |
-            --- b/next-gen-ui/step_02_g/lib/title_screen/title_screen.dart
-            +++ a/next-gen-ui/step_02_g/lib/title_screen/title_screen.dart
-            @@ -5,6 +5,7 @@
-            import 'package:flutter/material.dart';
-            
-            import '../assets.dart';
-            +import '../styles.dart';
-            
-            class TitleScreen extends StatelessWidget {
-              const TitleScreen({super.key});
-            @@ -14,6 +15,9 @@ class TitleScreen extends StatelessWidget {
-            
-              @override
-              Widget build(BuildContext context) {
-            +    final orbColor = AppColors.orbColors[0];
-            +    final emitColor = AppColors.emitColors[0];
-            +
-                return Scaffold(
-                  backgroundColor: Colors.black,
-                  body: Center(
-            @@ -23,29 +27,49 @@ class TitleScreen extends StatelessWidget {
-                        Image.asset(AssetPaths.titleBgBase),
-            
-                        /// Bg-Receive
-            -            Image.asset(AssetPaths.titleBgReceive),
-            +            _buildLitImage(
-            +              color: orbColor,
-            +              imgSrc: AssetPaths.titleBgReceive,
-            +            ),
-            
-                        /// Mg + Fg
-                        IgnorePointer(
-                          child: Stack(
-                            children: [
-                              /// Mg-Base
-            -                  Image.asset(AssetPaths.titleMgBase),
-            +                  _buildLitImage(
-            +                    imgSrc: AssetPaths.titleMgBase,
-            +                    color: orbColor,
-            +                  ),
-            
-                              /// Mg-Receive
-            -                  Image.asset(AssetPaths.titleMgReceive),
-            +                  _buildLitImage(
-            +                    imgSrc: AssetPaths.titleMgReceive,
-            +                    color: orbColor,
-            +                  ),
-            
-                              /// Mg-Emit
-            -                  Image.asset(AssetPaths.titleMgEmit),
-            +                  _buildLitImage(
-            +                    imgSrc: AssetPaths.titleMgEmit,
-            +                    emit: true,
-            +                    color: emitColor,
-            +                  ),
-            
-                              /// Fg-Rocks
-                              Image.asset(AssetPaths.titleFgBase),
-            
-                              /// Fg-Receive
-            -                  Image.asset(AssetPaths.titleFgReceive),
-            +                  _buildLitImage(
-            +                    imgSrc: AssetPaths.titleFgReceive,
-            +                    color: orbColor,
-            +                  ),
-            
-                              /// Fg-Emit
-            -                  Image.asset(AssetPaths.titleFgEmit),
-            +                  _buildLitImage(
-            +                    imgSrc: AssetPaths.titleFgEmit,
-            +                    emit: true,
-            +                    color: emitColor,
-            +                  ),
-                            ],
-                          ),
-                        ),
-            @@ -55,7 +79,6 @@ class TitleScreen extends StatelessWidget {
-                );
-              }
-            
-            -  // ignore: unused_element
-              Widget _buildLitImage(
-                  {required Color color, required String imgSrc, bool emit = false}) {
-                final hsl = HSLColor.fromColor(color);
-        - name: Copy to step_02_g
-          copydir:
-            from: next_gen_ui 
-            to: step_02_g
-        - name: flutter clean
-          path: step_02_g
-          flutter: clean
-        - name: flutter pub get
-          path: step_02_g
-          flutter: pub get
+          }
+      - name: Patch lib/main.dart
+        path: next_gen_ui/lib/main.dart
+        patch-u: |
+          --- b/next-gen-ui/step_02/lib/main.dart
+          +++ a/next-gen-ui/step_02/lib/main.dart
+          @@ -8,7 +8,7 @@ import 'package:flutter/foundation.dart';
+           import 'package:flutter/material.dart';
+           import 'package:window_size/window_size.dart';
+           
+          -import 'styles.dart';
+          +import 'title_screen/title_screen.dart';
+           
+           void main() {
+             if (!kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
+          @@ -26,14 +26,7 @@ class NextGenApp extends StatelessWidget {
+               return MaterialApp(
+                 themeMode: ThemeMode.dark,
+                 darkTheme: ThemeData(brightness: Brightness.dark),
+          -      home: Scaffold(
+          -        body: Center(
+          -          child: Text(
+          -            'Insert Next Generation UI Here...',
+          -            style: TextStyles.h2,
+          -          ),
+          -        ),
+          -      ),
+          +      home: const TitleScreen(),
+               );
+             }
+           }
+      - name: Copy to step_02_a
+        copydir:
+          from: next_gen_ui 
+          to: step_02_a
+      - name: flutter clean
+        path: step_02_a
+        flutter: clean
+      - name: flutter pub get
+        path: step_02_a
+        flutter: pub get
+  - name: Step 2b
+    steps: 
+      - name: Remove generated code
+        rmdir: step_02_b
+      - name: Patch lib/title_screen/title_screen.dart
+        path: next_gen_ui/lib/title_screen/title_screen.dart
+        patch-u: |
+          --- b/next-gen-ui/step_02_b/lib/title_screen/title_screen.dart
+          +++ a/next-gen-ui/step_02_b/lib/title_screen/title_screen.dart
+          @@ -4,16 +4,24 @@
+           
+           import 'package:flutter/material.dart';
+           
+          +import '../assets.dart';
+          +
+           class TitleScreen extends StatelessWidget {
+             const TitleScreen({super.key});
+           
+             @override
+             Widget build(BuildContext context) {
+          -    return const Scaffold(
+          +    return Scaffold(
+                 backgroundColor: Colors.black,
+                 body: Center(
+                   child: Stack(
+          -          children: [],
+          +          children: [
+          +            /// Bg-Base
+          +            Image.asset(AssetPaths.titleBgBase),
+          +
+          +            /// Bg-Receive
+          +            Image.asset(AssetPaths.titleBgReceive),
+          +          ],
+                   ),
+                 ),
+               );
+      - name: Copy to step_02_b
+        copydir:
+          from: next_gen_ui 
+          to: step_02_b
+      - name: flutter clean
+        path: step_02_b
+        flutter: clean
+      - name: flutter pub get
+        path: step_02_b
+        flutter: pub get
+  - name: Step 2c
+    steps: 
+      - name: Remove generated code
+        rmdir: step_02_c
+      - name: Patch lib/title_screen/title_screen.dart
+        path: next_gen_ui/lib/title_screen/title_screen.dart
+        patch-u: |
+          --- b/next-gen-ui/step_02_c/lib/title_screen/title_screen.dart
+          +++ a/next-gen-ui/step_02_c/lib/title_screen/title_screen.dart
+          @@ -21,6 +21,15 @@ class TitleScreen extends StatelessWidget {
+           
+                       /// Bg-Receive
+                       Image.asset(AssetPaths.titleBgReceive),
+          +
+          +            /// Mg-Base
+          +            Image.asset(AssetPaths.titleMgBase),
+          +
+          +            /// Mg-Receive
+          +            Image.asset(AssetPaths.titleMgReceive),
+          +
+          +            /// Mg-Emit
+          +            Image.asset(AssetPaths.titleMgEmit),
+                     ],
+                   ),
+                 ),
+      - name: Copy to step_02_c
+        copydir:
+          from: next_gen_ui 
+          to: step_02_c
+      - name: flutter clean
+        path: step_02_c
+        flutter: clean
+      - name: flutter pub get
+        path: step_02_c
+        flutter: pub get
+  - name: Step 2d
+    steps: 
+      - name: Remove generated code
+        rmdir: step_02_d
+      - name: Patch lib/title_screen/title_screen.dart
+        path: next_gen_ui/lib/title_screen/title_screen.dart
+        patch-u: |
+          --- b/next-gen-ui/step_02_d/lib/title_screen/title_screen.dart
+          +++ a/next-gen-ui/step_02_d/lib/title_screen/title_screen.dart
+          @@ -30,6 +30,15 @@ class TitleScreen extends StatelessWidget {
+           
+                       /// Mg-Emit
+                       Image.asset(AssetPaths.titleMgEmit),
+          +
+          +            /// Fg-Rocks
+          +            Image.asset(AssetPaths.titleFgBase),
+          +
+          +            /// Fg-Receive
+          +            Image.asset(AssetPaths.titleFgReceive),
+          +
+          +            /// Fg-Emit
+          +            Image.asset(AssetPaths.titleFgEmit),
+                     ],
+                   ),
+                 ),
+      - name: Copy to step_02_d
+        copydir:
+          from: next_gen_ui 
+          to: step_02_d
+      - name: flutter clean
+        path: step_02_d
+        flutter: clean
+      - name: flutter pub get
+        path: step_02_d
+        flutter: pub get
+  - name: Step 2e
+    steps: 
+      - name: Remove generated code
+        rmdir: step_02_e
+      - name: Patch lib/title_screen/title_screen.dart
+        path: next_gen_ui/lib/title_screen/title_screen.dart
+        patch-u: |
+          --- b/next-gen-ui/step_02_e/lib/title_screen/title_screen.dart
+          +++ a/next-gen-ui/step_02_e/lib/title_screen/title_screen.dart
+          @@ -22,23 +22,30 @@ class TitleScreen extends StatelessWidget {
+                       /// Bg-Receive
+                       Image.asset(AssetPaths.titleBgReceive),
+           
+          -            /// Mg-Base
+          -            Image.asset(AssetPaths.titleMgBase),
+          -
+          -            /// Mg-Receive
+          -            Image.asset(AssetPaths.titleMgReceive),
+          -
+          -            /// Mg-Emit
+          -            Image.asset(AssetPaths.titleMgEmit),
+          -
+          -            /// Fg-Rocks
+          -            Image.asset(AssetPaths.titleFgBase),
+          -
+          -            /// Fg-Receive
+          -            Image.asset(AssetPaths.titleFgReceive),
+          -
+          -            /// Fg-Emit
+          -            Image.asset(AssetPaths.titleFgEmit),
+          +            /// Mg + Fg
+          +            IgnorePointer(
+          +              child: Stack(
+          +                children: [
+          +                  /// Mg-Base
+          +                  Image.asset(AssetPaths.titleMgBase),
+          +
+          +                  /// Mg-Receive
+          +                  Image.asset(AssetPaths.titleMgReceive),
+          +
+          +                  /// Mg-Emit
+          +                  Image.asset(AssetPaths.titleMgEmit),
+          +
+          +                  /// Fg-Rocks
+          +                  Image.asset(AssetPaths.titleFgBase),
+          +
+          +                  /// Fg-Receive
+          +                  Image.asset(AssetPaths.titleFgReceive),
+          +
+          +                  /// Fg-Emit
+          +                  Image.asset(AssetPaths.titleFgEmit),
+          +                ],
+          +              ),
+          +            ),
+                     ],
+                   ),
+                 ),
+      - name: Copy to step_02_e
+        copydir:
+          from: next_gen_ui 
+          to: step_02_e
+      - name: flutter clean
+        path: step_02_e
+        flutter: clean
+      - name: flutter pub get
+        path: step_02_e
+        flutter: pub get
+  - name: Step 2f
+    steps: 
+      - name: Remove generated code
+        rmdir: step_02_f
+      - name: Patch lib/title_screen/title_screen.dart
+        path: next_gen_ui/lib/title_screen/title_screen.dart
+        patch-u: |
+          --- b/next-gen-ui/step_02_f/lib/title_screen/title_screen.dart
+          +++ a/next-gen-ui/step_02_f/lib/title_screen/title_screen.dart
+          @@ -9,6 +9,9 @@ import '../assets.dart';
+           class TitleScreen extends StatelessWidget {
+             const TitleScreen({super.key});
+           
+          +  final _finalReceiveLightAmt = 0.7;
+          +  final _finalEmitLightAmt = 0.5;
+          +
+             @override
+             Widget build(BuildContext context) {
+               return Scaffold(
+          @@ -51,4 +54,19 @@ class TitleScreen extends StatelessWidget {
+                 ),
+               );
+             }
+          +
+          +  // ignore: unused_element
+          +  Widget _buildLitImage(
+          +      {required Color color, required String imgSrc, bool emit = false}) {
+          +    final hsl = HSLColor.fromColor(color);
+          +    final lightAmt = emit ? _finalEmitLightAmt : _finalReceiveLightAmt;
+          +
+          +    return ColorFiltered(
+          +      colorFilter: ColorFilter.mode(
+          +        hsl.withLightness(hsl.lightness * lightAmt).toColor(),
+          +        BlendMode.modulate,
+          +      ),
+          +      child: Image.asset(imgSrc),
+          +    );
+          +  }
+           }
+      - name: Copy to step_02_f
+        copydir:
+          from: next_gen_ui 
+          to: step_02_f
+      - name: flutter clean
+        path: step_02_f
+        flutter: clean
+      - name: flutter pub get
+        path: step_02_f
+        flutter: pub get
+  - name: Step 2g
+    steps: 
+      - name: Remove generated code
+        rmdir: step_02_g
+      - name: Patch lib/title_screen/title_screen.dart
+        path: next_gen_ui/lib/title_screen/title_screen.dart
+        patch-u: |
+          --- b/next-gen-ui/step_02_g/lib/title_screen/title_screen.dart
+          +++ a/next-gen-ui/step_02_g/lib/title_screen/title_screen.dart
+          @@ -5,6 +5,7 @@
+           import 'package:flutter/material.dart';
+           
+           import '../assets.dart';
+          +import '../styles.dart';
+           
+           class TitleScreen extends StatelessWidget {
+             const TitleScreen({super.key});
+          @@ -14,6 +15,9 @@ class TitleScreen extends StatelessWidget {
+           
+             @override
+             Widget build(BuildContext context) {
+          +    final orbColor = AppColors.orbColors[0];
+          +    final emitColor = AppColors.emitColors[0];
+          +
+               return Scaffold(
+                 backgroundColor: Colors.black,
+                 body: Center(
+          @@ -23,29 +27,49 @@ class TitleScreen extends StatelessWidget {
+                       Image.asset(AssetPaths.titleBgBase),
+           
+                       /// Bg-Receive
+          -            Image.asset(AssetPaths.titleBgReceive),
+          +            _buildLitImage(
+          +              color: orbColor,
+          +              imgSrc: AssetPaths.titleBgReceive,
+          +            ),
+           
+                       /// Mg + Fg
+                       IgnorePointer(
+                         child: Stack(
+                           children: [
+                             /// Mg-Base
+          -                  Image.asset(AssetPaths.titleMgBase),
+          +                  _buildLitImage(
+          +                    imgSrc: AssetPaths.titleMgBase,
+          +                    color: orbColor,
+          +                  ),
+           
+                             /// Mg-Receive
+          -                  Image.asset(AssetPaths.titleMgReceive),
+          +                  _buildLitImage(
+          +                    imgSrc: AssetPaths.titleMgReceive,
+          +                    color: orbColor,
+          +                  ),
+           
+                             /// Mg-Emit
+          -                  Image.asset(AssetPaths.titleMgEmit),
+          +                  _buildLitImage(
+          +                    imgSrc: AssetPaths.titleMgEmit,
+          +                    emit: true,
+          +                    color: emitColor,
+          +                  ),
+           
+                             /// Fg-Rocks
+                             Image.asset(AssetPaths.titleFgBase),
+           
+                             /// Fg-Receive
+          -                  Image.asset(AssetPaths.titleFgReceive),
+          +                  _buildLitImage(
+          +                    imgSrc: AssetPaths.titleFgReceive,
+          +                    color: orbColor,
+          +                  ),
+           
+                             /// Fg-Emit
+          -                  Image.asset(AssetPaths.titleFgEmit),
+          +                  _buildLitImage(
+          +                    imgSrc: AssetPaths.titleFgEmit,
+          +                    emit: true,
+          +                    color: emitColor,
+          +                  ),
+                           ],
+                         ),
+                       ),
+          @@ -55,7 +79,6 @@ class TitleScreen extends StatelessWidget {
+               );
+             }
+           
+          -  // ignore: unused_element
+             Widget _buildLitImage(
+                 {required Color color, required String imgSrc, bool emit = false}) {
+               final hsl = HSLColor.fromColor(color);
+      - name: Copy to step_02_g
+        copydir:
+          from: next_gen_ui 
+          to: step_02_g
+      - name: flutter clean
+        path: step_02_g
+        flutter: clean
+      - name: flutter pub get
+        path: step_02_g
+        flutter: pub get
   - name: Step 3
     steps: 
       - name: Remove generated code
