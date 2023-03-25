@@ -20,15 +20,15 @@ class TitleScreenUi extends StatelessWidget {
     super.key,
     required this.difficulty,
     required this.onDifficultyPressed,
-    required this.onStartPressed,
     required this.onDifficultyFocused,
+    required this.onStartPressed,
     required this.orbColor,
   });
 
   final int difficulty;
-  final VoidCallback onStartPressed;
   final void Function(int difficulty) onDifficultyPressed;
   final void Function(int? difficulty) onDifficultyFocused;
+  final VoidCallback onStartPressed;
   final Color orbColor;
 
   @override

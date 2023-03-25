@@ -1739,10 +1739,10 @@ steps:
       - name: flutter pub get
         path: step_02_g
         flutter: pub get
-  - name: Step 3
+  - name: Step 3a
     steps: 
       - name: Remove generated code
-        rmdir: step_03
+        rmdir: step_03_a
       - name: Add lib/title_screen/title_screen_ui.dart
         path: next_gen_ui/lib/title_screen/title_screen_ui.dart
         replace-contents: |
@@ -1752,7 +1752,6 @@ steps:
 
           import 'package:extra_alignments/extra_alignments.dart';
           import 'package:flutter/material.dart';
-          import 'package:focusable_control_builder/focusable_control_builder.dart';
           import 'package:gap/gap.dart';
 
           import '../assets.dart';
@@ -1762,53 +1761,18 @@ steps:
           class TitleScreenUi extends StatelessWidget {
             const TitleScreenUi({
               super.key,
-              required this.difficulty,
-              required this.onDifficultyPressed,
-              required this.onStartPressed,
-              required this.onDifficultyFocused,
-              required this.orbColor,
             });
-
-            final int difficulty;
-            final VoidCallback onStartPressed;
-            final void Function(int difficulty) onDifficultyPressed;
-            final void Function(int? difficulty) onDifficultyFocused;
-            final Color orbColor;
-
             @override
             Widget build(BuildContext context) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 50),
+              return const Padding(
+                padding: EdgeInsets.symmetric(vertical: 40, horizontal: 50),
                 child: Stack(
                   children: [
                     /// Title Text
-                    const TopLeft(
+                    TopLeft(
                       child: UiScaler(
                         alignment: Alignment.topLeft,
                         child: _TitleText(),
-                      ),
-                    ),
-
-                    /// Difficulty Btns
-                    BottomLeft(
-                      child: UiScaler(
-                        alignment: Alignment.bottomLeft,
-                        child: _DifficultyBtns(
-                          difficulty: difficulty,
-                          onDifficultyPressed: onDifficultyPressed,
-                          onDifficultyFocused: onDifficultyFocused,
-                        ),
-                      ),
-                    ),
-
-                    /// StartBtn
-                    BottomRight(
-                      child: UiScaler(
-                        alignment: Alignment.bottomRight,
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 20, right: 40),
-                          child: _StartBtn(orbColor: orbColor, onPressed: onStartPressed),
-                        ),
                       ),
                     ),
                   ],
@@ -1844,173 +1808,218 @@ steps:
               );
             }
           }
-
-          class _DifficultyBtns extends StatelessWidget {
-            const _DifficultyBtns({
-              required this.difficulty,
-              required this.onDifficultyPressed,
-              required this.onDifficultyFocused,
-            });
-
-            final int difficulty;
-            final void Function(int difficulty) onDifficultyPressed;
-            final void Function(int? difficulty) onDifficultyFocused;
-
-            @override
-            Widget build(BuildContext context) {
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  _DifficultyBtn(
-                    label: 'Casual',
-                    selected: difficulty == 0,
-                    onPressed: () => onDifficultyPressed(0),
-                    onHover: (over) => onDifficultyFocused(over ? 0 : null),
-                  ),
-                  _DifficultyBtn(
-                    label: 'Normal',
-                    selected: difficulty == 1,
-                    onPressed: () => onDifficultyPressed(1),
-                    onHover: (over) => onDifficultyFocused(over ? 1 : null),
-                  ),
-                  _DifficultyBtn(
-                    label: 'Hardcore',
-                    selected: difficulty == 2,
-                    onPressed: () => onDifficultyPressed(2),
-                    onHover: (over) => onDifficultyFocused(over ? 2 : null),
-                  ),
-                  const Gap(20),
-                ],
-              );
-            }
-          }
-
-          class _StartBtn extends StatefulWidget {
-            const _StartBtn({required this.orbColor, required this.onPressed});
-            final Color orbColor;
-            final VoidCallback onPressed;
-
-            @override
-            State<_StartBtn> createState() => _StartBtnState();
-          }
-
-          class _StartBtnState extends State<_StartBtn> {
-            AnimationController? _btnAnim;
-            bool _wasHovered = false;
-
-            @override
-            Widget build(BuildContext context) {
-              return FocusableControlBuilder(
-                cursor: SystemMouseCursors.click,
-                onPressed: widget.onPressed,
-                builder: (_, state) {
-                  if ((state.isHovered || state.isFocused) &&
-                      !_wasHovered &&
-                      _btnAnim?.status != AnimationStatus.forward) {
-                    _btnAnim?.forward(from: 0);
-                  }
-                  _wasHovered = (state.isHovered || state.isFocused);
-                  return SizedBox(
-                    width: 520,
-                    height: 100,
-                    child: Stack(
-                      children: [
-                        Positioned.fill(child: Image.asset(AssetPaths.titleStartBtn)),
-                        if (state.isHovered || state.isFocused) ...[
-                          Positioned.fill(
-                              child: Image.asset(AssetPaths.titleStartBtnHover)),
-                        ],
-                        Center(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text('START MISSION',
-                                  style: TextStyles.btn
-                                      .copyWith(fontSize: 24, letterSpacing: 18)),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              );
-            }
-          }
-
-          class _DifficultyBtn extends StatelessWidget {
-            const _DifficultyBtn({
-              required this.selected,
-              required this.onPressed,
-              required this.onHover,
-              required this.label,
-            });
-            final String label;
-            final bool selected;
-            final VoidCallback onPressed;
-            final void Function(bool hasFocus) onHover;
-
-            @override
-            Widget build(BuildContext context) {
-              return FocusableControlBuilder(
-                onPressed: onPressed,
-                onHoverChanged: (_, state) => onHover.call(state.isHovered),
-                builder: (_, state) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SizedBox(
-                      width: 250,
-                      height: 60,
-                      child: Stack(
-                        children: [
-                          /// Bg with fill and outline
-                          Container(
-                            decoration: BoxDecoration(
-                              color: const Color(0xFF00D1FF).withOpacity(.1),
-                              border: Border.all(color: Colors.white, width: 5),
-                            ),
-                          ),
-
-                          if (state.isHovered || state.isFocused) ...[
-                            Container(
-                              decoration: BoxDecoration(
-                                color: const Color(0xFF00D1FF).withOpacity(.1),
-                              ),
-                            ),
-                          ],
-
-                          /// cross-hairs (selected state)
-                          if (selected) ...[
-                            CenterLeft(
-                              child: Image.asset(AssetPaths.titleSelectedLeft),
-                            ),
-                            CenterRight(
-                              child: Image.asset(AssetPaths.titleSelectedRight),
-                            ),
-                          ],
-
-                          /// Label
-                          Center(
-                            child: Text(label.toUpperCase(), style: TextStyles.btn),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              );
-            }
-          }
       - name: Patch lib/title_screen/title_screen.dart
         path: next_gen_ui/lib/title_screen/title_screen.dart
         patch-u: |
-          --- b/next-gen-ui/step_03/lib/title_screen/title_screen.dart
-          +++ a/next-gen-ui/step_03/lib/title_screen/title_screen.dart
-          @@ -6,18 +6,42 @@ import 'package:flutter/material.dart';
+          --- b/next-gen-ui/step_03_a/lib/title_screen/title_screen.dart
+          +++ a/next-gen-ui/step_03_a/lib/title_screen/title_screen.dart
+          @@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
            
            import '../assets.dart';
            import '../styles.dart';
           +import 'title_screen_ui.dart';
+           
+           class TitleScreen extends StatelessWidget {
+             const TitleScreen({super.key});
+          @@ -73,6 +74,11 @@ class TitleScreen extends StatelessWidget {
+                           ],
+                         ),
+                       ),
+          +
+          +            /// UI
+          +            const Positioned.fill(
+          +              child: TitleScreenUi(),
+          +            ),
+                     ],
+                   ),
+                 ),
+      - name: Copy to step_03_a
+        copydir:
+          from: next_gen_ui 
+          to: step_03_a
+      - name: flutter clean
+        path: step_03_a
+        flutter: clean
+      - name: flutter pub get
+        path: step_03_a
+        flutter: pub get
+  - name: Step 3b
+    steps: 
+      - name: Remove generated code
+        rmdir: step_03_b
+      - name: Add lib/title_screen/title_screen_ui.dart
+        path: next_gen_ui/lib/title_screen/title_screen_ui.dart
+        patch-u: |
+          --- b/next-gen-ui/step_03_b/lib/title_screen/title_screen_ui.dart
+          +++ a/next-gen-ui/step_03_b/lib/title_screen/title_screen_ui.dart
+          @@ -4,6 +4,7 @@
+           
+           import 'package:extra_alignments/extra_alignments.dart';
+           import 'package:flutter/material.dart';
+          +import 'package:focusable_control_builder/focusable_control_builder.dart';
+           import 'package:gap/gap.dart';
+           
+           import '../assets.dart';
+          @@ -13,20 +14,40 @@ import '../styles.dart';
+           class TitleScreenUi extends StatelessWidget {
+             const TitleScreenUi({
+               super.key,
+          +    required this.difficulty,
+          +    required this.onDifficultyPressed,
+          +    required this.onDifficultyFocused,
+             });
+          +
+          +  final int difficulty;
+          +  final void Function(int difficulty) onDifficultyPressed;
+          +  final void Function(int? difficulty) onDifficultyFocused;
+          +
+             @override
+             Widget build(BuildContext context) {
+          -    return const Padding(
+          -      padding: EdgeInsets.symmetric(vertical: 40, horizontal: 50),
+          +    return Padding(
+          +      padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 50),
+                 child: Stack(
+                   children: [
+                     /// Title Text
+          -          TopLeft(
+          +          const TopLeft(
+                       child: UiScaler(
+                         alignment: Alignment.topLeft,
+                         child: _TitleText(),
+                       ),
+                     ),
+          +
+          +          /// Difficulty Btns
+          +          BottomLeft(
+          +            child: UiScaler(
+          +              alignment: Alignment.bottomLeft,
+          +              child: _DifficultyBtns(
+          +                difficulty: difficulty,
+          +                onDifficultyPressed: onDifficultyPressed,
+          +                onDifficultyFocused: onDifficultyFocused,
+          +              ),
+          +            ),
+          +          ),
+                   ],
+                 ),
+               );
+          @@ -60,3 +81,107 @@ class _TitleText extends StatelessWidget {
+               );
+             }
+           }
+          +
+          +class _DifficultyBtns extends StatelessWidget {
+          +  const _DifficultyBtns({
+          +    required this.difficulty,
+          +    required this.onDifficultyPressed,
+          +    required this.onDifficultyFocused,
+          +  });
+          +
+          +  final int difficulty;
+          +  final void Function(int difficulty) onDifficultyPressed;
+          +  final void Function(int? difficulty) onDifficultyFocused;
+          +
+          +  @override
+          +  Widget build(BuildContext context) {
+          +    return Column(
+          +      mainAxisSize: MainAxisSize.min,
+          +      children: [
+          +        _DifficultyBtn(
+          +          label: 'Casual',
+          +          selected: difficulty == 0,
+          +          onPressed: () => onDifficultyPressed(0),
+          +          onHover: (over) => onDifficultyFocused(over ? 0 : null),
+          +        ),
+          +        _DifficultyBtn(
+          +          label: 'Normal',
+          +          selected: difficulty == 1,
+          +          onPressed: () => onDifficultyPressed(1),
+          +          onHover: (over) => onDifficultyFocused(over ? 1 : null),
+          +        ),
+          +        _DifficultyBtn(
+          +          label: 'Hardcore',
+          +          selected: difficulty == 2,
+          +          onPressed: () => onDifficultyPressed(2),
+          +          onHover: (over) => onDifficultyFocused(over ? 2 : null),
+          +        ),
+          +        const Gap(20),
+          +      ],
+          +    );
+          +  }
+          +}
+          +
+          +class _DifficultyBtn extends StatelessWidget {
+          +  const _DifficultyBtn({
+          +    required this.selected,
+          +    required this.onPressed,
+          +    required this.onHover,
+          +    required this.label,
+          +  });
+          +  final String label;
+          +  final bool selected;
+          +  final VoidCallback onPressed;
+          +  final void Function(bool hasFocus) onHover;
+          +
+          +  @override
+          +  Widget build(BuildContext context) {
+          +    return FocusableControlBuilder(
+          +      onPressed: onPressed,
+          +      onHoverChanged: (_, state) => onHover.call(state.isHovered),
+          +      builder: (_, state) {
+          +        return Padding(
+          +          padding: const EdgeInsets.all(8.0),
+          +          child: SizedBox(
+          +            width: 250,
+          +            height: 60,
+          +            child: Stack(
+          +              children: [
+          +                /// Bg with fill and outline
+          +                Container(
+          +                  decoration: BoxDecoration(
+          +                    color: const Color(0xFF00D1FF).withOpacity(.1),
+          +                    border: Border.all(color: Colors.white, width: 5),
+          +                  ),
+          +                ),
+          +
+          +                if (state.isHovered || state.isFocused) ...[
+          +                  Container(
+          +                    decoration: BoxDecoration(
+          +                      color: const Color(0xFF00D1FF).withOpacity(.1),
+          +                    ),
+          +                  ),
+          +                ],
+          +
+          +                /// cross-hairs (selected state)
+          +                if (selected) ...[
+          +                  CenterLeft(
+          +                    child: Image.asset(AssetPaths.titleSelectedLeft),
+          +                  ),
+          +                  CenterRight(
+          +                    child: Image.asset(AssetPaths.titleSelectedRight),
+          +                  ),
+          +                ],
+          +
+          +                /// Label
+          +                Center(
+          +                  child: Text(label.toUpperCase(), style: TextStyles.btn),
+          +                ),
+          +              ],
+          +            ),
+          +          ),
+          +        );
+          +      },
+          +    );
+          +  }
+          +}
+      - name: Patch lib/title_screen/title_screen.dart
+        path: next_gen_ui/lib/title_screen/title_screen.dart
+        patch-u: |
+          --- b/next-gen-ui/step_03_b/lib/title_screen/title_screen.dart
+          +++ a/next-gen-ui/step_03_b/lib/title_screen/title_screen.dart
+          @@ -8,17 +8,38 @@ import '../assets.dart';
+           import '../styles.dart';
+           import 'title_screen_ui.dart';
            
           -class TitleScreen extends StatelessWidget {
           +class TitleScreen extends StatefulWidget {
@@ -2036,11 +2045,9 @@ steps:
           +    setState(() => _difficulty = value);
           +  }
           +
-          +  void _handleStartPressed() {}
-          +
-          +  void _handleDifficultyFocused(int? value) => setState(() {
-          +        _difficultyOverride = value;
-          +      });
+          +  void _handleDifficultyFocused(int? value) {
+          +    setState(() => _difficultyOverride = value);
+          +  }
           +
              final _finalReceiveLightAmt = 0.7;
              final _finalEmitLightAmt = 0.5;
@@ -2053,7 +2060,7 @@ steps:
                return Scaffold(
                  backgroundColor: Colors.black,
                  body: Center(
-          @@ -28,7 +52,7 @@ class TitleScreen extends StatelessWidget {
+          @@ -29,7 +50,7 @@ class TitleScreen extends StatelessWidget {
            
                        /// Bg-Receive
                        _buildLitImage(
@@ -2062,7 +2069,7 @@ steps:
                          imgSrc: AssetPaths.titleBgReceive,
                        ),
            
-          @@ -39,20 +63,20 @@ class TitleScreen extends StatelessWidget {
+          @@ -40,20 +61,20 @@ class TitleScreen extends StatelessWidget {
                              /// Mg-Base
                              _buildLitImage(
                                imgSrc: AssetPaths.titleMgBase,
@@ -2086,7 +2093,7 @@ steps:
                              ),
            
                              /// Fg-Rocks
-          @@ -61,18 +85,29 @@ class TitleScreen extends StatelessWidget {
+          @@ -62,22 +83,26 @@ class TitleScreen extends StatelessWidget {
                              /// Fg-Receive
                              _buildLitImage(
                                imgSrc: AssetPaths.titleFgReceive,
@@ -2104,29 +2111,155 @@ steps:
                            ],
                          ),
                        ),
-          +
-          +            /// UI
+           
+                       /// UI
+          -            const Positioned.fill(
+          -              child: TitleScreenUi(),
           +            Positioned.fill(
           +              child: TitleScreenUi(
           +                difficulty: _difficulty,
           +                onDifficultyFocused: _handleDifficultyFocused,
           +                onDifficultyPressed: _handleDifficultyPressed,
-          +                onStartPressed: _handleStartPressed,
-          +                orbColor: _orbColor,
           +              ),
-          +            ),
+                       ),
                      ],
                    ),
-                 ),
-      - name: Copy to step_03
+      - name: Copy to step_03_b
         copydir:
           from: next_gen_ui 
-          to: step_03
+          to: step_03_b
       - name: flutter clean
-        path: step_03
+        path: step_03_b
         flutter: clean
       - name: flutter pub get
-        path: step_03
+        path: step_03_b
+        flutter: pub get
+  - name: Step 3c
+    steps: 
+      - name: Remove generated code
+        rmdir: step_03_c
+      - name: Add lib/title_screen/title_screen_ui.dart
+        path: next_gen_ui/lib/title_screen/title_screen_ui.dart
+        patch-u: |
+          --- b/next-gen-ui/step_03_c/lib/title_screen/title_screen_ui.dart
+          +++ a/next-gen-ui/step_03_c/lib/title_screen/title_screen_ui.dart
+          @@ -17,11 +17,15 @@ class TitleScreenUi extends StatelessWidget {
+               required this.difficulty,
+               required this.onDifficultyPressed,
+               required this.onDifficultyFocused,
+          +    required this.onStartPressed,
+          +    required this.orbColor,
+             });
+           
+             final int difficulty;
+             final void Function(int difficulty) onDifficultyPressed;
+             final void Function(int? difficulty) onDifficultyFocused;
+          +  final VoidCallback onStartPressed;
+          +  final Color orbColor;
+           
+             @override
+             Widget build(BuildContext context) {
+          @@ -48,6 +52,17 @@ class TitleScreenUi extends StatelessWidget {
+                         ),
+                       ),
+                     ),
+          +
+          +          /// StartBtn
+          +          BottomRight(
+          +            child: UiScaler(
+          +              alignment: Alignment.bottomRight,
+          +              child: Padding(
+          +                padding: const EdgeInsets.only(bottom: 20, right: 40),
+          +                child: _StartBtn(orbColor: orbColor, onPressed: onStartPressed),
+          +              ),
+          +            ),
+          +          ),
+                   ],
+                 ),
+               );
+          @@ -122,6 +137,59 @@ class _DifficultyBtns extends StatelessWidget {
+             }
+           }
+           
+          +class _StartBtn extends StatefulWidget {
+          +  const _StartBtn({required this.orbColor, required this.onPressed});
+          +  final Color orbColor;
+          +  final VoidCallback onPressed;
+          +
+          +  @override
+          +  State<_StartBtn> createState() => _StartBtnState();
+          +}
+          +
+          +class _StartBtnState extends State<_StartBtn> {
+          +  AnimationController? _btnAnim;
+          +  bool _wasHovered = false;
+          +
+          +  @override
+          +  Widget build(BuildContext context) {
+          +    return FocusableControlBuilder(
+          +      cursor: SystemMouseCursors.click,
+          +      onPressed: widget.onPressed,
+          +      builder: (_, state) {
+          +        if ((state.isHovered || state.isFocused) &&
+          +            !_wasHovered &&
+          +            _btnAnim?.status != AnimationStatus.forward) {
+          +          _btnAnim?.forward(from: 0);
+          +        }
+          +        _wasHovered = (state.isHovered || state.isFocused);
+          +        return SizedBox(
+          +          width: 520,
+          +          height: 100,
+          +          child: Stack(
+          +            children: [
+          +              Positioned.fill(child: Image.asset(AssetPaths.titleStartBtn)),
+          +              if (state.isHovered || state.isFocused) ...[
+          +                Positioned.fill(
+          +                    child: Image.asset(AssetPaths.titleStartBtnHover)),
+          +              ],
+          +              Center(
+          +                child: Row(
+          +                  mainAxisAlignment: MainAxisAlignment.end,
+          +                  children: [
+          +                    Text('START MISSION',
+          +                        style: TextStyles.btn
+          +                            .copyWith(fontSize: 24, letterSpacing: 18)),
+          +                  ],
+          +                ),
+          +              ),
+          +            ],
+          +          ),
+          +        );
+          +      },
+          +    );
+          +  }
+          +}
+          +
+           class _DifficultyBtn extends StatelessWidget {
+             const _DifficultyBtn({
+               required this.selected,
+      - name: Patch lib/title_screen/title_screen.dart
+        path: next_gen_ui/lib/title_screen/title_screen.dart
+        patch-u: |
+          --- b/next-gen-ui/step_03_c/lib/title_screen/title_screen.dart
+          +++ a/next-gen-ui/step_03_c/lib/title_screen/title_screen.dart
+          @@ -102,6 +102,8 @@ class _TitleScreenState extends State<TitleScreen> {
+                           difficulty: _difficulty,
+                           onDifficultyFocused: _handleDifficultyFocused,
+                           onDifficultyPressed: _handleDifficultyPressed,
+          +                onStartPressed: () {},
+          +                orbColor: _orbColor,
+                         ),
+                       ),
+                     ],
+      - name: Copy to step_03_c
+        copydir:
+          from: next_gen_ui 
+          to: step_03_c
+      - name: flutter clean
+        path: step_03_c
+        flutter: clean
+      - name: flutter pub get
+        path: step_03_c
         flutter: pub get
   - name: Step 4
     steps: 
@@ -2165,7 +2298,7 @@ steps:
            
            import '../assets.dart';
            import '../styles.dart';
-          @@ -45,70 +46,76 @@ class _TitleScreenState extends State<TitleScreen> {
+          @@ -43,70 +44,76 @@ class _TitleScreenState extends State<TitleScreen> {
                return Scaffold(
                  backgroundColor: Colors.black,
                  body: Center(
@@ -2263,7 +2396,7 @@ steps:
           +                    difficulty: _difficulty,
           +                    onDifficultyFocused: _handleDifficultyFocused,
           +                    onDifficultyPressed: _handleDifficultyPressed,
-          +                    onStartPressed: _handleStartPressed,
+          +                    onStartPressed: () {},
           +                    orbColor: orbColor,
                              ),
           -
@@ -2292,7 +2425,7 @@ steps:
           -                difficulty: _difficulty,
           -                onDifficultyFocused: _handleDifficultyFocused,
           -                onDifficultyPressed: _handleDifficultyPressed,
-          -                onStartPressed: _handleStartPressed,
+          -                onStartPressed: () {},
           -                orbColor: _orbColor,
           -              ),
           -            ),
@@ -2304,7 +2437,7 @@ steps:
                    ),
                  ),
                );
-          @@ -128,3 +135,35 @@ class _TitleScreenState extends State<TitleScreen> {
+          @@ -126,3 +133,35 @@ class _TitleScreenState extends State<TitleScreen> {
                );
              }
            }
@@ -2866,7 +2999,7 @@ steps:
              Color get _emitColor =>
                  AppColors.emitColors[_difficultyOverride ?? _difficulty];
              Color get _orbColor =>
-          @@ -27,95 +48,181 @@ class _TitleScreenState extends State<TitleScreen> {
+          @@ -27,93 +48,183 @@ class _TitleScreenState extends State<TitleScreen> {
            
              /// Currently focused difficulty (if any)
              int? _difficultyOverride;
@@ -2925,7 +3058,6 @@ steps:
           +    _bumpMinEnergy();
              }
            
-          -  void _handleStartPressed() {}
           +  Future<void> _bumpMinEnergy() async {
           +    _minOrbEnergy.value = _getMinEnergyForDifficulty(_difficulty) + .1;
           +    await Future<void>.delayed(.2.seconds);
@@ -2933,15 +3065,18 @@ steps:
           +  }
           +
           +  void _handleStartPressed() => _bumpMinEnergy();
-           
-             void _handleDifficultyFocused(int? value) => setState(() {
-                   _difficultyOverride = value;
-          +        if (value == null) {
-          +          _minOrbEnergy.value = _getMinEnergyForDifficulty(_difficulty);
-          +        } else {
-          +          _minOrbEnergy.value = _getMinEnergyForDifficulty(value);
-          +        }
-                 });
+          +
+             void _handleDifficultyFocused(int? value) {
+          -    setState(() => _difficultyOverride = value);
+          +    setState(() {
+          +      _difficultyOverride = value;
+          +      if (value == null) {
+          +        _minOrbEnergy.value = _getMinEnergyForDifficulty(_difficulty);
+          +      } else {
+          +        _minOrbEnergy.value = _getMinEnergyForDifficulty(value);
+          +      }
+          +    });
+             }
            
           -  final _finalReceiveLightAmt = 0.7;
           -  final _finalEmitLightAmt = 0.5;
@@ -3033,7 +3168,7 @@ steps:
           -                    difficulty: _difficulty,
           -                    onDifficultyFocused: _handleDifficultyFocused,
           -                    onDifficultyPressed: _handleDifficultyPressed,
-          -                    onStartPressed: _handleStartPressed,
+          -                    onStartPressed: () {},
           -                    orbColor: orbColor,
           +
           +                  /// Orb
@@ -3119,7 +3254,7 @@ steps:
                    ),
                  ),
                );
-          @@ -124,14 +231,19 @@ class _TitleScreenState extends State<TitleScreen> {
+          @@ -122,14 +233,19 @@ class _TitleScreenState extends State<TitleScreen> {
              Widget _buildLitImage(
                  {required Color color, required String imgSrc, bool emit = false}) {
                final hsl = HSLColor.fromColor(color);
@@ -3298,7 +3433,7 @@ steps:
            import 'title_screen_ui.dart';
            
            class TitleScreen extends StatefulWidget {
-          @@ -190,6 +191,19 @@ class _TitleScreenState extends State<TitleScreen>
+          @@ -192,6 +193,19 @@ class _TitleScreenState extends State<TitleScreen>
                                      color: emitColor,
                                    ),
            

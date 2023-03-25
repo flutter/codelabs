@@ -112,14 +112,16 @@ class _TitleScreenState extends State<TitleScreen>
 
   void _handleStartPressed() => _bumpMinEnergy();
 
-  void _handleDifficultyFocused(int? value) => setState(() {
-        _difficultyOverride = value;
-        if (value == null) {
-          _minOrbEnergy.value = _getMinEnergyForDifficulty(_difficulty);
-        } else {
-          _minOrbEnergy.value = _getMinEnergyForDifficulty(value);
-        }
-      });
+  void _handleDifficultyFocused(int? value) {
+    setState(() {
+      _difficultyOverride = value;
+      if (value == null) {
+        _minOrbEnergy.value = _getMinEnergyForDifficulty(_difficulty);
+      } else {
+        _minOrbEnergy.value = _getMinEnergyForDifficulty(value);
+      }
+    });
+  }
 
   /// Update mouse position so the orbWidget can use it, doing it here prevents
   /// btns from blocking the mouse-move events in the widget itself.

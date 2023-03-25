@@ -32,11 +32,9 @@ class _TitleScreenState extends State<TitleScreen> {
     setState(() => _difficulty = value);
   }
 
-  void _handleStartPressed() {}
-
-  void _handleDifficultyFocused(int? value) => setState(() {
-        _difficultyOverride = value;
-      });
+  void _handleDifficultyFocused(int? value) {
+    setState(() => _difficultyOverride = value);
+  }
 
   final _finalReceiveLightAmt = 0.7;
   final _finalEmitLightAmt = 0.5;
@@ -109,7 +107,7 @@ class _TitleScreenState extends State<TitleScreen> {
                     difficulty: _difficulty,
                     onDifficultyFocused: _handleDifficultyFocused,
                     onDifficultyPressed: _handleDifficultyPressed,
-                    onStartPressed: _handleStartPressed,
+                    onStartPressed: () {},
                     orbColor: orbColor,
                   ),
                 ),
