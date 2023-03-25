@@ -3,7 +3,6 @@
 // found in the LICENSE file.
 
 import 'package:extra_alignments/extra_alignments.dart';
-import 'package:flextras/flextras.dart';
 import 'package:flutter/material.dart';
 import 'package:focusable_control_builder/focusable_control_builder.dart';
 import 'package:gap/gap.dart';
@@ -12,21 +11,20 @@ import '../assets.dart';
 import '../common/ui_scaler.dart';
 import '../styles.dart';
 
-typedef DifficultyPressed = void Function(int difficulty);
-typedef DifficultyFocused = void Function(int? difficulty);
-
 class TitleScreenUi extends StatelessWidget {
   const TitleScreenUi({
     super.key,
     required this.difficulty,
     required this.onDifficultyPressed,
+    required this.onStartPressed,
     required this.onDifficultyFocused,
     required this.orbColor,
   });
 
   final int difficulty;
-  final DifficultyPressed onDifficultyPressed;
-  final DifficultyFocused onDifficultyFocused;
+  final VoidCallback onStartPressed;
+  final void Function(int difficulty) onDifficultyPressed;
+  final void Function(int? difficulty) onDifficultyFocused;
   final Color orbColor;
 
   @override
@@ -47,7 +45,7 @@ class TitleScreenUi extends StatelessWidget {
           BottomLeft(
             child: UiScaler(
               alignment: Alignment.bottomLeft,
-              child: _DifficultyButtons(
+              child: _DifficultyBtns(
                 difficulty: difficulty,
                 onDifficultyPressed: onDifficultyPressed,
                 onDifficultyFocused: onDifficultyFocused,
@@ -61,7 +59,7 @@ class TitleScreenUi extends StatelessWidget {
               alignment: Alignment.bottomRight,
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 20, right: 40),
-                child: _StartButton(orbColor: orbColor),
+                child: _StartBtn(orbColor: orbColor, onPressed: onStartPressed),
               ),
             ),
           ),
@@ -99,36 +97,35 @@ class _TitleText extends StatelessWidget {
   }
 }
 
-class _DifficultyButtons extends StatelessWidget {
-  const _DifficultyButtons({
+class _DifficultyBtns extends StatelessWidget {
+  const _DifficultyBtns({
     required this.difficulty,
     required this.onDifficultyPressed,
     required this.onDifficultyFocused,
   });
 
   final int difficulty;
-  final DifficultyPressed onDifficultyPressed;
-  final DifficultyFocused onDifficultyFocused;
+  final void Function(int difficulty) onDifficultyPressed;
+  final void Function(int? difficulty) onDifficultyFocused;
 
   @override
   Widget build(BuildContext context) {
-    return SeparatedColumn(
-      separatorBuilder: () => const Gap(10),
+    return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        _DifficultyButton(
+        _DifficultyBtn(
           label: 'Casual',
           selected: difficulty == 0,
           onPressed: () => onDifficultyPressed(0),
           onHover: (over) => onDifficultyFocused(over ? 0 : null),
         ),
-        _DifficultyButton(
+        _DifficultyBtn(
           label: 'Normal',
           selected: difficulty == 1,
           onPressed: () => onDifficultyPressed(1),
           onHover: (over) => onDifficultyFocused(over ? 1 : null),
         ),
-        _DifficultyButton(
+        _DifficultyBtn(
           label: 'Hardcore',
           selected: difficulty == 2,
           onPressed: () => onDifficultyPressed(2),
@@ -140,15 +137,16 @@ class _DifficultyButtons extends StatelessWidget {
   }
 }
 
-class _StartButton extends StatefulWidget {
-  const _StartButton({required this.orbColor});
+class _StartBtn extends StatefulWidget {
+  const _StartBtn({required this.orbColor, required this.onPressed});
   final Color orbColor;
+  final VoidCallback onPressed;
 
   @override
-  State<_StartButton> createState() => _StartButtonState();
+  State<_StartBtn> createState() => _StartBtnState();
 }
 
-class _StartButtonState extends State<_StartButton> {
+class _StartBtnState extends State<_StartBtn> {
   AnimationController? _btnAnim;
   bool _wasHovered = false;
 
@@ -156,6 +154,7 @@ class _StartButtonState extends State<_StartButton> {
   Widget build(BuildContext context) {
     return FocusableControlBuilder(
       cursor: SystemMouseCursors.click,
+      onPressed: widget.onPressed,
       builder: (_, state) {
         if ((state.isHovered || state.isFocused) &&
             !_wasHovered &&
@@ -191,8 +190,8 @@ class _StartButtonState extends State<_StartButton> {
   }
 }
 
-class _DifficultyButton extends StatelessWidget {
-  const _DifficultyButton({
+class _DifficultyBtn extends StatelessWidget {
+  const _DifficultyBtn({
     required this.selected,
     required this.onPressed,
     required this.onHover,
@@ -208,44 +207,46 @@ class _DifficultyButton extends StatelessWidget {
     return FocusableControlBuilder(
       onPressed: onPressed,
       onHoverChanged: (_, state) => onHover.call(state.isHovered),
-      cursor: SystemMouseCursors.click,
       builder: (_, state) {
-        return SizedBox(
-          width: 250,
-          height: 60,
-          child: Stack(
-            children: [
-              /// Bg with fill and outline
-              Container(
-                decoration: BoxDecoration(
-                  color: const Color(0xFF00D1FF).withOpacity(.1),
-                  border: Border.all(color: Colors.white, width: 5),
-                ),
-              ),
-
-              if (state.isHovered || state.isFocused) ...[
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SizedBox(
+            width: 250,
+            height: 60,
+            child: Stack(
+              children: [
+                /// Bg with fill and outline
                 Container(
                   decoration: BoxDecoration(
                     color: const Color(0xFF00D1FF).withOpacity(.1),
+                    border: Border.all(color: Colors.white, width: 5),
                   ),
                 ),
-              ],
 
-              /// cross-hairs (selected state)
-              if (selected) ...[
-                CenterLeft(
-                  child: Image.asset(AssetPaths.titleSelectedLeft),
-                ),
-                CenterRight(
-                  child: Image.asset(AssetPaths.titleSelectedRight),
+                if (state.isHovered || state.isFocused) ...[
+                  Container(
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF00D1FF).withOpacity(.1),
+                    ),
+                  ),
+                ],
+
+                /// cross-hairs (selected state)
+                if (selected) ...[
+                  CenterLeft(
+                    child: Image.asset(AssetPaths.titleSelectedLeft),
+                  ),
+                  CenterRight(
+                    child: Image.asset(AssetPaths.titleSelectedRight),
+                  ),
+                ],
+
+                /// Label
+                Center(
+                  child: Text(label.toUpperCase(), style: TextStyles.btn),
                 ),
               ],
-
-              /// Label
-              Center(
-                child: Text(label.toUpperCase(), style: TextStyles.btn),
-              ),
-            ],
+            ),
           ),
         );
       },

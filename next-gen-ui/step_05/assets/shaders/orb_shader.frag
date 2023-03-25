@@ -4,17 +4,17 @@
 
 #version 460 core
 
+#include "common/common.glsl"
 #include <flutter/runtime_effect.glsl>
 
-#define M_PI 3.14159265
-#define M_INVPI 0.31830989
 #define RAY_STEPS 30
 
 uniform vec2 uResolution;
-uniform float uTime;
-uniform float uExposure;
-uniform float uFov;
-uniform float uRoughness;
+uniform vec4 uPackedData;
+float uTime = uPackedData[0];
+float uExposure = uPackedData[1];
+float uFov = uPackedData[2];
+float uRoughness = uPackedData[3];
 uniform float uMetalness;
 uniform vec3 uLightDir;
 uniform float uLightR;
@@ -27,11 +27,6 @@ uniform float uAmbientLightDepthFactor;
 uniform float uEnergy;
 
 out vec4 oColor;
-
-float hash_2d(vec2 pos) {
-  vec2 uv = 50.0 * fract(pos * M_INVPI);
-  return 2.0 * fract(uv.x * uv.y * (uv.x + uv.y)) - 1.0;
-}
 
 float noise_2d(vec2 pos) {
   vec2 g = floor(pos);

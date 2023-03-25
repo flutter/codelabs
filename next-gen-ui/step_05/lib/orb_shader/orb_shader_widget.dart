@@ -4,13 +4,14 @@
 
 import 'dart:async';
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:provider/provider.dart';
 
 import '../assets.dart';
 import '../common/reactive_widget.dart';
-import '../common/shader_loader.dart';
 import 'orb_shader_config.dart';
 import 'orb_shader_painter.dart';
 
@@ -20,8 +21,10 @@ class OrbShaderWidget extends StatefulWidget {
     required this.config,
     this.onUpdate,
     required this.mousePos,
+    required this.minEnergy,
   });
 
+  final ValueNotifier<double> minEnergy;
   final OrbShaderConfig config;
   final ValueNotifier<Offset> mousePos;
   final void Function(double energy)? onUpdate;
@@ -34,34 +37,23 @@ class OrbShaderWidgetState extends State<OrbShaderWidget>
     with SingleTickerProviderStateMixin {
   final _heartbeatSequence = TweenSequence(
     [
+      TweenSequenceItem(tween: ConstantTween(0), weight: 40),
       TweenSequenceItem(
-        tween: ConstantTween(0),
-        weight: 40,
-      ),
+          tween: Tween(begin: 0.0, end: 1.0)
+              .chain(CurveTween(curve: Curves.easeInOutCubic)),
+          weight: 8),
       TweenSequenceItem(
-        tween: Tween(begin: 0.0, end: 1.0).chain(
-          CurveTween(curve: Curves.easeInOutCubic),
-        ),
-        weight: 8,
-      ),
+          tween: Tween(begin: 1.0, end: 0.2)
+              .chain(CurveTween(curve: Curves.easeInOutCubic)),
+          weight: 12),
       TweenSequenceItem(
-        tween: Tween(begin: 1.0, end: 0.2).chain(
-          CurveTween(curve: Curves.easeInOutCubic),
-        ),
-        weight: 12,
-      ),
+          tween: Tween(begin: 0.2, end: 0.8)
+              .chain(CurveTween(curve: Curves.easeInOutCubic)),
+          weight: 6),
       TweenSequenceItem(
-        tween: Tween(begin: 0.2, end: 0.8).chain(
-          CurveTween(curve: Curves.easeInOutCubic),
-        ),
-        weight: 6,
-      ),
-      TweenSequenceItem(
-        tween: Tween(begin: 0.8, end: 0.0).chain(
-          CurveTween(curve: Curves.easeInOutCubic),
-        ),
-        weight: 10,
-      ),
+          tween: Tween(begin: 0.8, end: 0.0)
+              .chain(CurveTween(curve: Curves.easeInOutCubic)),
+          weight: 10),
     ],
   );
 
@@ -69,44 +61,59 @@ class OrbShaderWidgetState extends State<OrbShaderWidget>
       AnimationController(vsync: this, duration: 3000.ms)..repeat();
 
   @override
-  Widget build(BuildContext context) {
-    return ShaderLoader(
-      path: AssetPaths.orbShader,
-      builder: (_, shader) {
-        return ValueListenableBuilder(
-          valueListenable: widget.mousePos,
-          builder: (_, mousePos, __) => ListenableBuilder(
-            listenable: _heartbeatAnim,
-            builder: (_, __) {
-              final heartbeatEnergy =
-                  _heartbeatAnim.drive(_heartbeatSequence).value;
-              return ReactiveWidget(
-                builder: (context, time, size) {
-                  double energyLevel = 0;
-                  if (size.shortestSide != 0) {
-                    final d = (Offset(size.width, size.height) / 2 - mousePos)
-                        .distance;
-                    final hitSize = size.shortestSide * .5;
-                    energyLevel = 1 - min(1, (d / hitSize));
-                    scheduleMicrotask(() => widget.onUpdate?.call(energyLevel));
-                  }
-                  energyLevel += (1.3 - energyLevel) * heartbeatEnergy * 0.2;
-                  return CustomPaint(
-                    size: size,
-                    painter: OrbShaderPainter(
-                      shader,
-                      config: widget.config,
-                      time: time,
-                      mousePos: mousePos,
-                      energy: energyLevel,
-                    ),
-                  );
-                },
+  Widget build(BuildContext context) => Consumer<Shaders?>(
+        builder: (context, shaders, _) {
+          if (shaders == null) return const SizedBox.expand();
+          return ValueListenableBuilder(
+            valueListenable: widget.minEnergy,
+            builder: (context, minEnergy, _) {
+              return ValueListenableBuilder(
+                valueListenable: widget.mousePos,
+                builder: (_, mousePos, __) => ListenableBuilder(
+                  listenable: _heartbeatAnim,
+                  builder: (_, __) {
+                    final heartbeatEnergy =
+                        _heartbeatAnim.drive(_heartbeatSequence).value;
+                    return TweenAnimationBuilder(
+                      tween: Tween<double>(begin: minEnergy, end: minEnergy),
+                      duration: 300.ms,
+                      curve: Curves.easeOutCubic,
+                      builder: (context, minEnergy, child) {
+                        return ReactiveWidget(
+                          builder: (context, time, size) {
+                            double energyLevel = 0;
+                            if (size.shortestSide != 0) {
+                              final d = (Offset(size.width, size.height) / 2 -
+                                      mousePos)
+                                  .distance;
+                              final hitSize = size.shortestSide * .5;
+                              energyLevel = 1 - min(1, (d / hitSize));
+                              scheduleMicrotask(
+                                  () => widget.onUpdate?.call(energyLevel));
+                            }
+                            energyLevel +=
+                                (1.3 - energyLevel) * heartbeatEnergy * 0.1;
+                            energyLevel =
+                                lerpDouble(minEnergy, 1, energyLevel)!;
+                            return CustomPaint(
+                              size: size,
+                              painter: OrbShaderPainter(
+                                shaders.orb,
+                                config: widget.config,
+                                time: time,
+                                mousePos: mousePos,
+                                energy: energyLevel,
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    );
+                  },
+                ),
               );
             },
-          ),
-        );
-      },
-    );
-  }
+          );
+        },
+      );
 }

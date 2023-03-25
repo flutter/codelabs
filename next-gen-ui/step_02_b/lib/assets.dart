@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'dart:ui';
+
 class AssetPaths {
   /// Images
   static const String _images = 'assets/images';
@@ -24,4 +26,20 @@ class AssetPaths {
   /// Shaders
   static const String _shaders = 'assets/shaders';
   static const String orbShader = '$_shaders/orb_shader.frag';
+  static const String uiShader = '$_shaders/ui_glitch.frag';
+}
+
+class Shaders {
+  const Shaders({required this.orb, required this.ui});
+  final FragmentShader orb;
+  final FragmentShader ui;
+}
+
+Future<Shaders> loadShaders() async => Shaders(
+      orb: (await _loadShader(AssetPaths.orbShader)),
+      ui: (await _loadShader(AssetPaths.uiShader)),
+    );
+
+Future<FragmentShader> _loadShader(String path) async {
+  return (await FragmentProgram.fromAsset(path)).fragmentShader();
 }

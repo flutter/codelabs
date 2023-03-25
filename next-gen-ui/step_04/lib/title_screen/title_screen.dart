@@ -28,17 +28,21 @@ class _TitleScreenState extends State<TitleScreen> {
   /// Currently focused difficulty (if any)
   int? _difficultyOverride;
 
-  void _handleDifficultyPressed(int value) =>
-      setState(() => _difficulty = value);
+  void _handleDifficultyPressed(int value) {
+    setState(() => _difficulty = value);
+  }
 
-  void _handleDifficultyFocused(int? value) =>
-      setState(() => _difficultyOverride = value);
+  void _handleStartPressed() {}
+
+  void _handleDifficultyFocused(int? value) => setState(() {
+        _difficultyOverride = value;
+      });
+
+  final _finalReceiveLightAmt = 0.7;
+  final _finalEmitLightAmt = 0.5;
 
   @override
   Widget build(BuildContext context) {
-    const finalReceiveLightAmt = 0.7;
-    const finalEmitLightAmt = 0.5;
-
     return Scaffold(
       backgroundColor: Colors.black,
       body: Center(
@@ -52,8 +56,7 @@ class _TitleScreenState extends State<TitleScreen> {
                 Image.asset(AssetPaths.titleBgBase),
 
                 /// Bg-Receive
-                _LitImage(
-                  energy: finalReceiveLightAmt,
+                _buildLitImage(
                   color: orbColor,
                   imgSrc: AssetPaths.titleBgReceive,
                 ),
@@ -63,41 +66,38 @@ class _TitleScreenState extends State<TitleScreen> {
                   child: Stack(
                     children: [
                       /// Mg-Base
-                      _LitImage(
-                        energy: finalReceiveLightAmt,
-                        color: orbColor,
+                      _buildLitImage(
                         imgSrc: AssetPaths.titleMgBase,
+                        color: orbColor,
                       ),
 
                       /// Mg-Receive
-                      _LitImage(
-                        energy: finalReceiveLightAmt,
-                        color: orbColor,
+                      _buildLitImage(
                         imgSrc: AssetPaths.titleMgReceive,
+                        color: orbColor,
                       ),
 
                       /// Mg-Emit
-                      _LitImage(
-                        energy: finalEmitLightAmt,
-                        color: emitColor,
+                      _buildLitImage(
                         imgSrc: AssetPaths.titleMgEmit,
+                        emit: true,
+                        color: emitColor,
                       ),
 
                       /// Fg-Rocks
                       Image.asset(AssetPaths.titleFgBase),
 
                       /// Fg-Receive
-                      _LitImage(
-                        energy: finalReceiveLightAmt,
-                        color: orbColor,
+                      _buildLitImage(
                         imgSrc: AssetPaths.titleFgReceive,
+                        color: orbColor,
                       ),
 
                       /// Fg-Emit
-                      _LitImage(
-                        energy: finalEmitLightAmt,
-                        color: emitColor,
+                      _buildLitImage(
                         imgSrc: AssetPaths.titleFgEmit,
+                        emit: true,
+                        color: emitColor,
                       ),
                     ],
                   ),
@@ -109,6 +109,7 @@ class _TitleScreenState extends State<TitleScreen> {
                     difficulty: _difficulty,
                     onDifficultyFocused: _handleDifficultyFocused,
                     onDifficultyPressed: _handleDifficultyPressed,
+                    onStartPressed: _handleStartPressed,
                     orbColor: orbColor,
                   ),
                 ),
@@ -119,10 +120,21 @@ class _TitleScreenState extends State<TitleScreen> {
       ),
     );
   }
-}
 
-typedef _AnimatedColorsBuilder = Widget Function(
-    BuildContext context, Color orbColor, Color emitColor);
+  Widget _buildLitImage(
+      {required Color color, required String imgSrc, bool emit = false}) {
+    final hsl = HSLColor.fromColor(color);
+    final lightAmt = emit ? _finalEmitLightAmt : _finalReceiveLightAmt;
+
+    return ColorFiltered(
+      colorFilter: ColorFilter.mode(
+        hsl.withLightness(hsl.lightness * lightAmt).toColor(),
+        BlendMode.modulate,
+      ),
+      child: Image.asset(imgSrc),
+    );
+  }
+}
 
 class _AnimatedColors extends StatelessWidget {
   const _AnimatedColors({
@@ -133,7 +145,9 @@ class _AnimatedColors extends StatelessWidget {
 
   final Color emitColor;
   final Color orbColor;
-  final _AnimatedColorsBuilder builder;
+
+  final Widget Function(BuildContext context, Color orbColor, Color emitColor)
+      builder;
 
   @override
   Widget build(BuildContext context) {
@@ -150,30 +164,6 @@ class _AnimatedColors extends StatelessWidget {
           },
         );
       },
-    );
-  }
-}
-
-class _LitImage extends StatelessWidget {
-  const _LitImage({
-    required this.energy,
-    required this.color,
-    required this.imgSrc,
-  });
-
-  final double energy;
-  final Color color;
-  final String imgSrc;
-
-  @override
-  Widget build(BuildContext context) {
-    final hsl = HSLColor.fromColor(color);
-
-    return ColorFiltered(
-      colorFilter: ColorFilter.mode(
-          hsl.withLightness(hsl.lightness * energy).toColor(),
-          BlendMode.modulate),
-      child: Image.asset(imgSrc),
     );
   }
 }

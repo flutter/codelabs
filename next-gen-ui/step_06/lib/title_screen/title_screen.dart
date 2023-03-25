@@ -49,9 +49,8 @@ class _TitleScreenState extends State<TitleScreen>
 
   /// Currently focused difficulty (if any)
   int? _difficultyOverride;
-
-  late final _orbEnergy = ValueNotifier<double>(0)
-    ..addListener(() => setState(() {}));
+  late final _orbEnergy = ValueNotifier<double>(0);
+  late final _minOrbEnergy = ValueNotifier<double>(0);
 
   double get _finalReceiveLightAmt {
     final light = lerpDouble(
@@ -74,12 +73,20 @@ class _TitleScreenState extends State<TitleScreen>
 
   Duration _getRndPulseDuration() => 100.ms + 200.ms * Random().nextDouble();
 
+  double _getMinEnergyForDifficulty(int difficulty) {
+    if (difficulty == 1) {
+      return .3;
+    } else if (difficulty == 2) {
+      return .6;
+    }
+    return 0;
+  }
+
   @override
   void initState() {
     super.initState();
     _pulseEffect.forward();
     _pulseEffect.addListener(_handlePulseEffectUpdate);
-    _pulseEffect.addListener(() => setState(() {}));
   }
 
   void _handlePulseEffectUpdate() {
@@ -92,11 +99,27 @@ class _TitleScreenState extends State<TitleScreen>
     }
   }
 
-  void _handleDifficultyPressed(int value) =>
-      setState(() => _difficulty = value);
+  void _handleDifficultyPressed(int value) {
+    setState(() => _difficulty = value);
+    _bumpMinEnergy();
+  }
 
-  void _handleDifficultyFocused(int? value) =>
-      setState(() => _difficultyOverride = value);
+  Future<void> _bumpMinEnergy() async {
+    _minOrbEnergy.value = _getMinEnergyForDifficulty(_difficulty) + .1;
+    await Future<void>.delayed(.2.seconds);
+    _minOrbEnergy.value = _getMinEnergyForDifficulty(_difficulty);
+  }
+
+  void _handleStartPressed() => _bumpMinEnergy();
+
+  void _handleDifficultyFocused(int? value) => setState(() {
+        _difficultyOverride = value;
+        if (value == null) {
+          _minOrbEnergy.value = _getMinEnergyForDifficulty(_difficulty);
+        } else {
+          _minOrbEnergy.value = _getMinEnergyForDifficulty(value);
+        }
+      });
 
   /// Update mouse position so the orbWidget can use it, doing it here prevents
   /// btns from blocking the mouse-move events in the widget itself.
@@ -120,8 +143,7 @@ class _TitleScreenState extends State<TitleScreen>
                   Image.asset(AssetPaths.titleBgBase),
 
                   /// Bg-Receive
-                  _LitImage(
-                    energy: _finalReceiveLightAmt,
+                  _buildLitImage(
                     color: orbColor,
                     imgSrc: AssetPaths.titleBgReceive,
                   ),
@@ -134,6 +156,7 @@ class _TitleScreenState extends State<TitleScreen>
                         OrbShaderWidget(
                           key: _orbKey,
                           mousePos: _mousePos,
+                          minEnergy: _minOrbEnergy,
                           config: OrbShaderConfig(
                             ambientLightColor: orbColor,
                             materialColor: orbColor,
@@ -150,24 +173,22 @@ class _TitleScreenState extends State<TitleScreen>
                     child: Stack(
                       children: [
                         /// Mg-Base
-                        _LitImage(
-                          energy: _finalReceiveLightAmt,
-                          color: orbColor,
+                        _buildLitImage(
                           imgSrc: AssetPaths.titleMgBase,
+                          color: orbColor,
                         ),
 
                         /// Mg-Receive
-                        _LitImage(
-                          energy: _finalReceiveLightAmt,
-                          color: orbColor,
+                        _buildLitImage(
                           imgSrc: AssetPaths.titleMgReceive,
+                          color: orbColor,
                         ),
 
                         /// Mg-Emit
-                        _LitImage(
-                          energy: _finalEmitLightAmt,
-                          color: emitColor,
+                        _buildLitImage(
                           imgSrc: AssetPaths.titleMgEmit,
+                          emit: true,
+                          color: emitColor,
                         ),
 
                         /// Particle Field
@@ -187,17 +208,16 @@ class _TitleScreenState extends State<TitleScreen>
                         Image.asset(AssetPaths.titleFgBase),
 
                         /// Fg-Receive
-                        _LitImage(
-                          energy: _finalReceiveLightAmt,
-                          color: orbColor,
+                        _buildLitImage(
                           imgSrc: AssetPaths.titleFgReceive,
+                          color: orbColor,
                         ),
 
                         /// Fg-Emit
-                        _LitImage(
-                          energy: _finalEmitLightAmt,
-                          color: emitColor,
+                        _buildLitImage(
                           imgSrc: AssetPaths.titleFgEmit,
+                          emit: true,
+                          color: emitColor,
                         ),
                       ],
                     ),
@@ -209,21 +229,38 @@ class _TitleScreenState extends State<TitleScreen>
                       difficulty: _difficulty,
                       onDifficultyFocused: _handleDifficultyFocused,
                       onDifficultyPressed: _handleDifficultyPressed,
+                      onStartPressed: _handleStartPressed,
                       orbColor: orbColor,
                     ),
                   ),
                 ],
-              );
+              ).animate().fadeIn(duration: 1.seconds, delay: .3.seconds);
             },
           ),
         ),
       ),
     );
   }
-}
 
-typedef _AnimatedColorsBuilder = Widget Function(
-    BuildContext context, Color orbColor, Color emitColor);
+  Widget _buildLitImage(
+      {required Color color, required String imgSrc, bool emit = false}) {
+    final hsl = HSLColor.fromColor(color);
+    return ListenableBuilder(
+      listenable: _pulseEffect,
+      child: Image.asset(imgSrc),
+      builder: (context, child) {
+        final lightAmt = emit ? _finalEmitLightAmt : _finalReceiveLightAmt;
+        return ColorFiltered(
+          colorFilter: ColorFilter.mode(
+            hsl.withLightness(hsl.lightness * lightAmt).toColor(),
+            BlendMode.modulate,
+          ),
+          child: child,
+        );
+      },
+    );
+  }
+}
 
 class _AnimatedColors extends StatelessWidget {
   const _AnimatedColors({
@@ -234,7 +271,9 @@ class _AnimatedColors extends StatelessWidget {
 
   final Color emitColor;
   final Color orbColor;
-  final _AnimatedColorsBuilder builder;
+
+  final Widget Function(BuildContext context, Color orbColor, Color emitColor)
+      builder;
 
   @override
   Widget build(BuildContext context) {
@@ -251,30 +290,6 @@ class _AnimatedColors extends StatelessWidget {
           },
         );
       },
-    );
-  }
-}
-
-class _LitImage extends StatelessWidget {
-  const _LitImage({
-    required this.energy,
-    required this.color,
-    required this.imgSrc,
-  });
-
-  final double energy;
-  final Color color;
-  final String imgSrc;
-
-  @override
-  Widget build(BuildContext context) {
-    final hsl = HSLColor.fromColor(color);
-
-    return ColorFiltered(
-      colorFilter: ColorFilter.mode(
-          hsl.withLightness(hsl.lightness * energy).toColor(),
-          BlendMode.modulate),
-      child: Image.asset(imgSrc),
     );
   }
 }
