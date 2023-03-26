@@ -2641,7 +2641,7 @@ steps:
       - name: flutter pub get
         path: step_03_c
         flutter: pub get
-  - name: Step 4a
+  - name: Step 4a - Animate title
     steps: 
       - name: Remove generated code
         rmdir: step_04_a
@@ -2704,7 +2704,7 @@ steps:
       - name: flutter pub get
         path: step_04_a
         flutter: pub get
-  - name: Step 4b
+  - name: Step 4b - Animate difficulty buttons
     steps: 
       - name: Remove generated code
         rmdir: step_04_b
@@ -2758,7 +2758,7 @@ steps:
       - name: flutter pub get
         path: step_04_b
         flutter: pub get
-  - name: Step 4c
+  - name: Step 4c - Animate start button
     steps: 
       - name: Remove generated code
         rmdir: step_04_c
@@ -2838,7 +2838,7 @@ steps:
       - name: flutter pub get
         path: step_04_d
         flutter: pub get
-  - name: Step 4e
+  - name: Step 4e - Add _AnimatedColors widget
     steps: 
       - name: Remove generated code
         rmdir: step_04_e
@@ -2905,7 +2905,7 @@ steps:
       - name: flutter pub get
         path: step_04_e
         flutter: pub get
-  - name: Step 4f
+  - name: Step 4f - Wrap image stack in _AnimatedColors widget
     steps: 
       - name: Remove generated code
         rmdir: step_04_f
@@ -3074,7 +3074,7 @@ steps:
       - name: flutter pub get
         path: step_04_f
         flutter: pub get
-  - name: Step 5a
+  - name: Step 5a - Glitch the title
     steps: 
       - name: Remove generated code
         rmdir: step_05_a
@@ -3177,7 +3177,7 @@ steps:
       - name: flutter pub get
         path: step_05_a
         flutter: pub get
-  - name: Step 5b
+  - name: Step 5b - Introduce the Orb
     steps: 
       - name: Remove generated code
         rmdir: step_05_b
@@ -3522,7 +3522,7 @@ steps:
       - name: flutter pub get
         path: step_05_b
         flutter: pub get
-  - name: Step 6
+  - name: Step 6 - Particle animation
     steps: 
       - name: Remove generated code
         rmdir: step_06
