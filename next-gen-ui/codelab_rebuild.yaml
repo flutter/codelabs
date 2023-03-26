@@ -1283,1434 +1283,6 @@ steps:
               );
             }
           }
-      - name: Replace lib/main.dart
-        path: next_gen_ui/lib/main.dart
-        replace-contents: |
-          // Copyright 2023 The Flutter Authors. All rights reserved.
-          // Use of this source code is governed by a BSD-style license that can be
-          // found in the LICENSE file.
-          
-          import 'dart:io';
-          
-          import 'package:flutter/foundation.dart';
-          import 'package:flutter/material.dart';
-          import 'package:window_size/window_size.dart';
-          
-          import 'styles.dart';
-          
-          void main() {
-            if (!kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
-              WidgetsFlutterBinding.ensureInitialized();
-              setWindowMinSize(const Size(800, 500));
-            }
-            runApp(const NextGenApp());
-          }
-          
-          class NextGenApp extends StatelessWidget {
-            const NextGenApp({super.key});
-          
-            @override
-            Widget build(BuildContext context) {
-              return MaterialApp(
-                themeMode: ThemeMode.dark,
-                darkTheme: ThemeData(brightness: Brightness.dark),
-                home: Scaffold(
-                  body: Center(
-                    child: Text(
-                      'Insert Next Generation UI Here...',
-                      style: TextStyles.h2,
-                    ),
-                  ),
-                ),
-              );
-            }
-          }
-      - name: Copy to step_01
-        copydir:
-          from: next_gen_ui 
-          to: step_01
-      - name: flutter clean
-        path: step_01
-        flutter: clean
-      - name: flutter pub get
-        path: step_01
-        flutter: pub get
-  - name: Step 2a
-    steps: 
-      - name: Remove generated code
-        rmdir: step_02_a
-      - name: mkdir lib/title_screen
-        path: next_gen_ui
-        mkdir: lib/title_screen
-      - name: Add lib/title_screen/title_screen.dart
-        path: next_gen_ui/lib/title_screen/title_screen.dart
-        replace-contents: |
-          // Copyright 2023 The Flutter Authors. All rights reserved.
-          // Use of this source code is governed by a BSD-style license that can be
-          // found in the LICENSE file.
-          
-          import 'package:flutter/material.dart';
-          
-          class TitleScreen extends StatelessWidget {
-            const TitleScreen({super.key});
-          
-            @override
-            Widget build(BuildContext context) {
-              return const Scaffold(
-                backgroundColor: Colors.black,
-                body: Center(
-                  child: Stack(
-                    children: [],
-                  ),
-                ),
-              );
-            }
-          }
-      - name: Patch lib/main.dart
-        path: next_gen_ui/lib/main.dart
-        patch-u: |
-          --- b/next-gen-ui/step_02/lib/main.dart
-          +++ a/next-gen-ui/step_02/lib/main.dart
-          @@ -8,7 +8,7 @@ import 'package:flutter/foundation.dart';
-           import 'package:flutter/material.dart';
-           import 'package:window_size/window_size.dart';
-           
-          -import 'styles.dart';
-          +import 'title_screen/title_screen.dart';
-           
-           void main() {
-             if (!kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
-          @@ -26,14 +26,7 @@ class NextGenApp extends StatelessWidget {
-               return MaterialApp(
-                 themeMode: ThemeMode.dark,
-                 darkTheme: ThemeData(brightness: Brightness.dark),
-          -      home: Scaffold(
-          -        body: Center(
-          -          child: Text(
-          -            'Insert Next Generation UI Here...',
-          -            style: TextStyles.h2,
-          -          ),
-          -        ),
-          -      ),
-          +      home: const TitleScreen(),
-               );
-             }
-           }
-      - name: Copy to step_02_a
-        copydir:
-          from: next_gen_ui 
-          to: step_02_a
-      - name: flutter clean
-        path: step_02_a
-        flutter: clean
-      - name: flutter pub get
-        path: step_02_a
-        flutter: pub get
-  - name: Step 2b
-    steps: 
-      - name: Remove generated code
-        rmdir: step_02_b
-      - name: Patch lib/title_screen/title_screen.dart
-        path: next_gen_ui/lib/title_screen/title_screen.dart
-        patch-u: |
-          --- b/next-gen-ui/step_02_b/lib/title_screen/title_screen.dart
-          +++ a/next-gen-ui/step_02_b/lib/title_screen/title_screen.dart
-          @@ -4,16 +4,24 @@
-           
-           import 'package:flutter/material.dart';
-           
-          +import '../assets.dart';
-          +
-           class TitleScreen extends StatelessWidget {
-             const TitleScreen({super.key});
-           
-             @override
-             Widget build(BuildContext context) {
-          -    return const Scaffold(
-          +    return Scaffold(
-                 backgroundColor: Colors.black,
-                 body: Center(
-                   child: Stack(
-          -          children: [],
-          +          children: [
-          +            /// Bg-Base
-          +            Image.asset(AssetPaths.titleBgBase),
-          +
-          +            /// Bg-Receive
-          +            Image.asset(AssetPaths.titleBgReceive),
-          +          ],
-                   ),
-                 ),
-               );
-      - name: Copy to step_02_b
-        copydir:
-          from: next_gen_ui 
-          to: step_02_b
-      - name: flutter clean
-        path: step_02_b
-        flutter: clean
-      - name: flutter pub get
-        path: step_02_b
-        flutter: pub get
-  - name: Step 2c
-    steps: 
-      - name: Remove generated code
-        rmdir: step_02_c
-      - name: Patch lib/title_screen/title_screen.dart
-        path: next_gen_ui/lib/title_screen/title_screen.dart
-        patch-u: |
-          --- b/next-gen-ui/step_02_c/lib/title_screen/title_screen.dart
-          +++ a/next-gen-ui/step_02_c/lib/title_screen/title_screen.dart
-          @@ -21,6 +21,15 @@ class TitleScreen extends StatelessWidget {
-           
-                       /// Bg-Receive
-                       Image.asset(AssetPaths.titleBgReceive),
-          +
-          +            /// Mg-Base
-          +            Image.asset(AssetPaths.titleMgBase),
-          +
-          +            /// Mg-Receive
-          +            Image.asset(AssetPaths.titleMgReceive),
-          +
-          +            /// Mg-Emit
-          +            Image.asset(AssetPaths.titleMgEmit),
-                     ],
-                   ),
-                 ),
-      - name: Copy to step_02_c
-        copydir:
-          from: next_gen_ui 
-          to: step_02_c
-      - name: flutter clean
-        path: step_02_c
-        flutter: clean
-      - name: flutter pub get
-        path: step_02_c
-        flutter: pub get
-  - name: Step 2d
-    steps: 
-      - name: Remove generated code
-        rmdir: step_02_d
-      - name: Patch lib/title_screen/title_screen.dart
-        path: next_gen_ui/lib/title_screen/title_screen.dart
-        patch-u: |
-          --- b/next-gen-ui/step_02_d/lib/title_screen/title_screen.dart
-          +++ a/next-gen-ui/step_02_d/lib/title_screen/title_screen.dart
-          @@ -30,6 +30,15 @@ class TitleScreen extends StatelessWidget {
-           
-                       /// Mg-Emit
-                       Image.asset(AssetPaths.titleMgEmit),
-          +
-          +            /// Fg-Rocks
-          +            Image.asset(AssetPaths.titleFgBase),
-          +
-          +            /// Fg-Receive
-          +            Image.asset(AssetPaths.titleFgReceive),
-          +
-          +            /// Fg-Emit
-          +            Image.asset(AssetPaths.titleFgEmit),
-                     ],
-                   ),
-                 ),
-      - name: Copy to step_02_d
-        copydir:
-          from: next_gen_ui 
-          to: step_02_d
-      - name: flutter clean
-        path: step_02_d
-        flutter: clean
-      - name: flutter pub get
-        path: step_02_d
-        flutter: pub get
-  - name: Step 2e
-    steps: 
-      - name: Remove generated code
-        rmdir: step_02_e
-      - name: Patch lib/title_screen/title_screen.dart
-        path: next_gen_ui/lib/title_screen/title_screen.dart
-        patch-u: |
-          --- b/next-gen-ui/step_02_e/lib/title_screen/title_screen.dart
-          +++ a/next-gen-ui/step_02_e/lib/title_screen/title_screen.dart
-          @@ -22,23 +22,30 @@ class TitleScreen extends StatelessWidget {
-                       /// Bg-Receive
-                       Image.asset(AssetPaths.titleBgReceive),
-           
-          -            /// Mg-Base
-          -            Image.asset(AssetPaths.titleMgBase),
-          -
-          -            /// Mg-Receive
-          -            Image.asset(AssetPaths.titleMgReceive),
-          -
-          -            /// Mg-Emit
-          -            Image.asset(AssetPaths.titleMgEmit),
-          -
-          -            /// Fg-Rocks
-          -            Image.asset(AssetPaths.titleFgBase),
-          -
-          -            /// Fg-Receive
-          -            Image.asset(AssetPaths.titleFgReceive),
-          -
-          -            /// Fg-Emit
-          -            Image.asset(AssetPaths.titleFgEmit),
-          +            /// Mg + Fg
-          +            IgnorePointer(
-          +              child: Stack(
-          +                children: [
-          +                  /// Mg-Base
-          +                  Image.asset(AssetPaths.titleMgBase),
-          +
-          +                  /// Mg-Receive
-          +                  Image.asset(AssetPaths.titleMgReceive),
-          +
-          +                  /// Mg-Emit
-          +                  Image.asset(AssetPaths.titleMgEmit),
-          +
-          +                  /// Fg-Rocks
-          +                  Image.asset(AssetPaths.titleFgBase),
-          +
-          +                  /// Fg-Receive
-          +                  Image.asset(AssetPaths.titleFgReceive),
-          +
-          +                  /// Fg-Emit
-          +                  Image.asset(AssetPaths.titleFgEmit),
-          +                ],
-          +              ),
-          +            ),
-                     ],
-                   ),
-                 ),
-      - name: Copy to step_02_e
-        copydir:
-          from: next_gen_ui 
-          to: step_02_e
-      - name: flutter clean
-        path: step_02_e
-        flutter: clean
-      - name: flutter pub get
-        path: step_02_e
-        flutter: pub get
-  - name: Step 2f
-    steps: 
-      - name: Remove generated code
-        rmdir: step_02_f
-      - name: Patch lib/title_screen/title_screen.dart
-        path: next_gen_ui/lib/title_screen/title_screen.dart
-        patch-u: |
-          --- b/next-gen-ui/step_02_f/lib/title_screen/title_screen.dart
-          +++ a/next-gen-ui/step_02_f/lib/title_screen/title_screen.dart
-          @@ -9,6 +9,9 @@ import '../assets.dart';
-           class TitleScreen extends StatelessWidget {
-             const TitleScreen({super.key});
-           
-          +  final _finalReceiveLightAmt = 0.7;
-          +  final _finalEmitLightAmt = 0.5;
-          +
-             @override
-             Widget build(BuildContext context) {
-               return Scaffold(
-          @@ -51,4 +54,19 @@ class TitleScreen extends StatelessWidget {
-                 ),
-               );
-             }
-          +
-          +  // ignore: unused_element
-          +  Widget _buildLitImage(
-          +      {required Color color, required String imgSrc, bool emit = false}) {
-          +    final hsl = HSLColor.fromColor(color);
-          +    final lightAmt = emit ? _finalEmitLightAmt : _finalReceiveLightAmt;
-          +
-          +    return ColorFiltered(
-          +      colorFilter: ColorFilter.mode(
-          +        hsl.withLightness(hsl.lightness * lightAmt).toColor(),
-          +        BlendMode.modulate,
-          +      ),
-          +      child: Image.asset(imgSrc),
-          +    );
-          +  }
-           }
-      - name: Copy to step_02_f
-        copydir:
-          from: next_gen_ui 
-          to: step_02_f
-      - name: flutter clean
-        path: step_02_f
-        flutter: clean
-      - name: flutter pub get
-        path: step_02_f
-        flutter: pub get
-  - name: Step 2g
-    steps: 
-      - name: Remove generated code
-        rmdir: step_02_g
-      - name: Patch lib/title_screen/title_screen.dart
-        path: next_gen_ui/lib/title_screen/title_screen.dart
-        patch-u: |
-          --- b/next-gen-ui/step_02_g/lib/title_screen/title_screen.dart
-          +++ a/next-gen-ui/step_02_g/lib/title_screen/title_screen.dart
-          @@ -5,6 +5,7 @@
-           import 'package:flutter/material.dart';
-           
-           import '../assets.dart';
-          +import '../styles.dart';
-           
-           class TitleScreen extends StatelessWidget {
-             const TitleScreen({super.key});
-          @@ -14,6 +15,9 @@ class TitleScreen extends StatelessWidget {
-           
-             @override
-             Widget build(BuildContext context) {
-          +    final orbColor = AppColors.orbColors[0];
-          +    final emitColor = AppColors.emitColors[0];
-          +
-               return Scaffold(
-                 backgroundColor: Colors.black,
-                 body: Center(
-          @@ -23,29 +27,49 @@ class TitleScreen extends StatelessWidget {
-                       Image.asset(AssetPaths.titleBgBase),
-           
-                       /// Bg-Receive
-          -            Image.asset(AssetPaths.titleBgReceive),
-          +            _buildLitImage(
-          +              color: orbColor,
-          +              imgSrc: AssetPaths.titleBgReceive,
-          +            ),
-           
-                       /// Mg + Fg
-                       IgnorePointer(
-                         child: Stack(
-                           children: [
-                             /// Mg-Base
-          -                  Image.asset(AssetPaths.titleMgBase),
-          +                  _buildLitImage(
-          +                    imgSrc: AssetPaths.titleMgBase,
-          +                    color: orbColor,
-          +                  ),
-           
-                             /// Mg-Receive
-          -                  Image.asset(AssetPaths.titleMgReceive),
-          +                  _buildLitImage(
-          +                    imgSrc: AssetPaths.titleMgReceive,
-          +                    color: orbColor,
-          +                  ),
-           
-                             /// Mg-Emit
-          -                  Image.asset(AssetPaths.titleMgEmit),
-          +                  _buildLitImage(
-          +                    imgSrc: AssetPaths.titleMgEmit,
-          +                    emit: true,
-          +                    color: emitColor,
-          +                  ),
-           
-                             /// Fg-Rocks
-                             Image.asset(AssetPaths.titleFgBase),
-           
-                             /// Fg-Receive
-          -                  Image.asset(AssetPaths.titleFgReceive),
-          +                  _buildLitImage(
-          +                    imgSrc: AssetPaths.titleFgReceive,
-          +                    color: orbColor,
-          +                  ),
-           
-                             /// Fg-Emit
-          -                  Image.asset(AssetPaths.titleFgEmit),
-          +                  _buildLitImage(
-          +                    imgSrc: AssetPaths.titleFgEmit,
-          +                    emit: true,
-          +                    color: emitColor,
-          +                  ),
-                           ],
-                         ),
-                       ),
-          @@ -55,7 +79,6 @@ class TitleScreen extends StatelessWidget {
-               );
-             }
-           
-          -  // ignore: unused_element
-             Widget _buildLitImage(
-                 {required Color color, required String imgSrc, bool emit = false}) {
-               final hsl = HSLColor.fromColor(color);
-      - name: Copy to step_02_g
-        copydir:
-          from: next_gen_ui 
-          to: step_02_g
-      - name: flutter clean
-        path: step_02_g
-        flutter: clean
-      - name: flutter pub get
-        path: step_02_g
-        flutter: pub get
-  - name: Step 3a
-    steps: 
-      - name: Remove generated code
-        rmdir: step_03_a
-      - name: Add lib/title_screen/title_screen_ui.dart
-        path: next_gen_ui/lib/title_screen/title_screen_ui.dart
-        replace-contents: |
-          // Copyright 2023 The Flutter Authors. All rights reserved.
-          // Use of this source code is governed by a BSD-style license that can be
-          // found in the LICENSE file.
-
-          import 'package:extra_alignments/extra_alignments.dart';
-          import 'package:flutter/material.dart';
-          import 'package:gap/gap.dart';
-
-          import '../assets.dart';
-          import '../common/ui_scaler.dart';
-          import '../styles.dart';
-
-          class TitleScreenUi extends StatelessWidget {
-            const TitleScreenUi({
-              super.key,
-            });
-            @override
-            Widget build(BuildContext context) {
-              return const Padding(
-                padding: EdgeInsets.symmetric(vertical: 40, horizontal: 50),
-                child: Stack(
-                  children: [
-                    /// Title Text
-                    TopLeft(
-                      child: UiScaler(
-                        alignment: Alignment.topLeft,
-                        child: _TitleText(),
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            }
-          }
-
-          class _TitleText extends StatelessWidget {
-            const _TitleText();
-
-            @override
-            Widget build(BuildContext context) {
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Gap(20),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Transform.translate(
-                        offset: Offset(-(TextStyles.h1.letterSpacing! * .5), 0),
-                        child: Text('OUTPOST', style: TextStyles.h1),
-                      ),
-                      Image.asset(AssetPaths.titleSelectedLeft, height: 65),
-                      Text('57', style: TextStyles.h2),
-                      Image.asset(AssetPaths.titleSelectedRight, height: 65),
-                    ],
-                  ),
-                  Text('THE LAST STAND', style: TextStyles.h3),
-                ],
-              );
-            }
-          }
-      - name: Patch lib/title_screen/title_screen.dart
-        path: next_gen_ui/lib/title_screen/title_screen.dart
-        patch-u: |
-          --- b/next-gen-ui/step_03_a/lib/title_screen/title_screen.dart
-          +++ a/next-gen-ui/step_03_a/lib/title_screen/title_screen.dart
-          @@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
-           
-           import '../assets.dart';
-           import '../styles.dart';
-          +import 'title_screen_ui.dart';
-           
-           class TitleScreen extends StatelessWidget {
-             const TitleScreen({super.key});
-          @@ -73,6 +74,11 @@ class TitleScreen extends StatelessWidget {
-                           ],
-                         ),
-                       ),
-          +
-          +            /// UI
-          +            const Positioned.fill(
-          +              child: TitleScreenUi(),
-          +            ),
-                     ],
-                   ),
-                 ),
-      - name: Copy to step_03_a
-        copydir:
-          from: next_gen_ui 
-          to: step_03_a
-      - name: flutter clean
-        path: step_03_a
-        flutter: clean
-      - name: flutter pub get
-        path: step_03_a
-        flutter: pub get
-  - name: Step 3b
-    steps: 
-      - name: Remove generated code
-        rmdir: step_03_b
-      - name: Add lib/title_screen/title_screen_ui.dart
-        path: next_gen_ui/lib/title_screen/title_screen_ui.dart
-        patch-u: |
-          --- b/next-gen-ui/step_03_b/lib/title_screen/title_screen_ui.dart
-          +++ a/next-gen-ui/step_03_b/lib/title_screen/title_screen_ui.dart
-          @@ -4,6 +4,7 @@
-           
-           import 'package:extra_alignments/extra_alignments.dart';
-           import 'package:flutter/material.dart';
-          +import 'package:focusable_control_builder/focusable_control_builder.dart';
-           import 'package:gap/gap.dart';
-           
-           import '../assets.dart';
-          @@ -13,20 +14,40 @@ import '../styles.dart';
-           class TitleScreenUi extends StatelessWidget {
-             const TitleScreenUi({
-               super.key,
-          +    required this.difficulty,
-          +    required this.onDifficultyPressed,
-          +    required this.onDifficultyFocused,
-             });
-          +
-          +  final int difficulty;
-          +  final void Function(int difficulty) onDifficultyPressed;
-          +  final void Function(int? difficulty) onDifficultyFocused;
-          +
-             @override
-             Widget build(BuildContext context) {
-          -    return const Padding(
-          -      padding: EdgeInsets.symmetric(vertical: 40, horizontal: 50),
-          +    return Padding(
-          +      padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 50),
-                 child: Stack(
-                   children: [
-                     /// Title Text
-          -          TopLeft(
-          +          const TopLeft(
-                       child: UiScaler(
-                         alignment: Alignment.topLeft,
-                         child: _TitleText(),
-                       ),
-                     ),
-          +
-          +          /// Difficulty Btns
-          +          BottomLeft(
-          +            child: UiScaler(
-          +              alignment: Alignment.bottomLeft,
-          +              child: _DifficultyBtns(
-          +                difficulty: difficulty,
-          +                onDifficultyPressed: onDifficultyPressed,
-          +                onDifficultyFocused: onDifficultyFocused,
-          +              ),
-          +            ),
-          +          ),
-                   ],
-                 ),
-               );
-          @@ -60,3 +81,107 @@ class _TitleText extends StatelessWidget {
-               );
-             }
-           }
-          +
-          +class _DifficultyBtns extends StatelessWidget {
-          +  const _DifficultyBtns({
-          +    required this.difficulty,
-          +    required this.onDifficultyPressed,
-          +    required this.onDifficultyFocused,
-          +  });
-          +
-          +  final int difficulty;
-          +  final void Function(int difficulty) onDifficultyPressed;
-          +  final void Function(int? difficulty) onDifficultyFocused;
-          +
-          +  @override
-          +  Widget build(BuildContext context) {
-          +    return Column(
-          +      mainAxisSize: MainAxisSize.min,
-          +      children: [
-          +        _DifficultyBtn(
-          +          label: 'Casual',
-          +          selected: difficulty == 0,
-          +          onPressed: () => onDifficultyPressed(0),
-          +          onHover: (over) => onDifficultyFocused(over ? 0 : null),
-          +        ),
-          +        _DifficultyBtn(
-          +          label: 'Normal',
-          +          selected: difficulty == 1,
-          +          onPressed: () => onDifficultyPressed(1),
-          +          onHover: (over) => onDifficultyFocused(over ? 1 : null),
-          +        ),
-          +        _DifficultyBtn(
-          +          label: 'Hardcore',
-          +          selected: difficulty == 2,
-          +          onPressed: () => onDifficultyPressed(2),
-          +          onHover: (over) => onDifficultyFocused(over ? 2 : null),
-          +        ),
-          +        const Gap(20),
-          +      ],
-          +    );
-          +  }
-          +}
-          +
-          +class _DifficultyBtn extends StatelessWidget {
-          +  const _DifficultyBtn({
-          +    required this.selected,
-          +    required this.onPressed,
-          +    required this.onHover,
-          +    required this.label,
-          +  });
-          +  final String label;
-          +  final bool selected;
-          +  final VoidCallback onPressed;
-          +  final void Function(bool hasFocus) onHover;
-          +
-          +  @override
-          +  Widget build(BuildContext context) {
-          +    return FocusableControlBuilder(
-          +      onPressed: onPressed,
-          +      onHoverChanged: (_, state) => onHover.call(state.isHovered),
-          +      builder: (_, state) {
-          +        return Padding(
-          +          padding: const EdgeInsets.all(8.0),
-          +          child: SizedBox(
-          +            width: 250,
-          +            height: 60,
-          +            child: Stack(
-          +              children: [
-          +                /// Bg with fill and outline
-          +                Container(
-          +                  decoration: BoxDecoration(
-          +                    color: const Color(0xFF00D1FF).withOpacity(.1),
-          +                    border: Border.all(color: Colors.white, width: 5),
-          +                  ),
-          +                ),
-          +
-          +                if (state.isHovered || state.isFocused) ...[
-          +                  Container(
-          +                    decoration: BoxDecoration(
-          +                      color: const Color(0xFF00D1FF).withOpacity(.1),
-          +                    ),
-          +                  ),
-          +                ],
-          +
-          +                /// cross-hairs (selected state)
-          +                if (selected) ...[
-          +                  CenterLeft(
-          +                    child: Image.asset(AssetPaths.titleSelectedLeft),
-          +                  ),
-          +                  CenterRight(
-          +                    child: Image.asset(AssetPaths.titleSelectedRight),
-          +                  ),
-          +                ],
-          +
-          +                /// Label
-          +                Center(
-          +                  child: Text(label.toUpperCase(), style: TextStyles.btn),
-          +                ),
-          +              ],
-          +            ),
-          +          ),
-          +        );
-          +      },
-          +    );
-          +  }
-          +}
-      - name: Patch lib/title_screen/title_screen.dart
-        path: next_gen_ui/lib/title_screen/title_screen.dart
-        patch-u: |
-          --- b/next-gen-ui/step_03_b/lib/title_screen/title_screen.dart
-          +++ a/next-gen-ui/step_03_b/lib/title_screen/title_screen.dart
-          @@ -8,17 +8,38 @@ import '../assets.dart';
-           import '../styles.dart';
-           import 'title_screen_ui.dart';
-           
-          -class TitleScreen extends StatelessWidget {
-          +class TitleScreen extends StatefulWidget {
-             const TitleScreen({super.key});
-           
-          +  @override
-          +  State<TitleScreen> createState() => _TitleScreenState();
-          +}
-          +
-          +class _TitleScreenState extends State<TitleScreen> {
-          +  Color get _emitColor =>
-          +      AppColors.emitColors[_difficultyOverride ?? _difficulty];
-          +  Color get _orbColor =>
-          +      AppColors.orbColors[_difficultyOverride ?? _difficulty];
-          +
-          +  /// Currently selected difficulty
-          +  int _difficulty = 0;
-          +
-          +  /// Currently focused difficulty (if any)
-          +  int? _difficultyOverride;
-          +
-          +  void _handleDifficultyPressed(int value) {
-          +    setState(() => _difficulty = value);
-          +  }
-          +
-          +  void _handleDifficultyFocused(int? value) {
-          +    setState(() => _difficultyOverride = value);
-          +  }
-          +
-             final _finalReceiveLightAmt = 0.7;
-             final _finalEmitLightAmt = 0.5;
-           
-             @override
-             Widget build(BuildContext context) {
-          -    final orbColor = AppColors.orbColors[0];
-          -    final emitColor = AppColors.emitColors[0];
-          -
-               return Scaffold(
-                 backgroundColor: Colors.black,
-                 body: Center(
-          @@ -29,7 +50,7 @@ class TitleScreen extends StatelessWidget {
-           
-                       /// Bg-Receive
-                       _buildLitImage(
-          -              color: orbColor,
-          +              color: _orbColor,
-                         imgSrc: AssetPaths.titleBgReceive,
-                       ),
-           
-          @@ -40,20 +61,20 @@ class TitleScreen extends StatelessWidget {
-                             /// Mg-Base
-                             _buildLitImage(
-                               imgSrc: AssetPaths.titleMgBase,
-          -                    color: orbColor,
-          +                    color: _orbColor,
-                             ),
-           
-                             /// Mg-Receive
-                             _buildLitImage(
-                               imgSrc: AssetPaths.titleMgReceive,
-          -                    color: orbColor,
-          +                    color: _orbColor,
-                             ),
-           
-                             /// Mg-Emit
-                             _buildLitImage(
-                               imgSrc: AssetPaths.titleMgEmit,
-                               emit: true,
-          -                    color: emitColor,
-          +                    color: _emitColor,
-                             ),
-           
-                             /// Fg-Rocks
-          @@ -62,22 +83,26 @@ class TitleScreen extends StatelessWidget {
-                             /// Fg-Receive
-                             _buildLitImage(
-                               imgSrc: AssetPaths.titleFgReceive,
-          -                    color: orbColor,
-          +                    color: _orbColor,
-                             ),
-           
-                             /// Fg-Emit
-                             _buildLitImage(
-                               imgSrc: AssetPaths.titleFgEmit,
-                               emit: true,
-          -                    color: emitColor,
-          +                    color: _emitColor,
-                             ),
-                           ],
-                         ),
-                       ),
-           
-                       /// UI
-          -            const Positioned.fill(
-          -              child: TitleScreenUi(),
-          +            Positioned.fill(
-          +              child: TitleScreenUi(
-          +                difficulty: _difficulty,
-          +                onDifficultyFocused: _handleDifficultyFocused,
-          +                onDifficultyPressed: _handleDifficultyPressed,
-          +              ),
-                       ),
-                     ],
-                   ),
-      - name: Copy to step_03_b
-        copydir:
-          from: next_gen_ui 
-          to: step_03_b
-      - name: flutter clean
-        path: step_03_b
-        flutter: clean
-      - name: flutter pub get
-        path: step_03_b
-        flutter: pub get
-  - name: Step 3c
-    steps: 
-      - name: Remove generated code
-        rmdir: step_03_c
-      - name: Add lib/title_screen/title_screen_ui.dart
-        path: next_gen_ui/lib/title_screen/title_screen_ui.dart
-        patch-u: |
-          --- b/next-gen-ui/step_03_c/lib/title_screen/title_screen_ui.dart
-          +++ a/next-gen-ui/step_03_c/lib/title_screen/title_screen_ui.dart
-          @@ -17,11 +17,15 @@ class TitleScreenUi extends StatelessWidget {
-               required this.difficulty,
-               required this.onDifficultyPressed,
-               required this.onDifficultyFocused,
-          +    required this.onStartPressed,
-          +    required this.orbColor,
-             });
-           
-             final int difficulty;
-             final void Function(int difficulty) onDifficultyPressed;
-             final void Function(int? difficulty) onDifficultyFocused;
-          +  final VoidCallback onStartPressed;
-          +  final Color orbColor;
-           
-             @override
-             Widget build(BuildContext context) {
-          @@ -48,6 +52,17 @@ class TitleScreenUi extends StatelessWidget {
-                         ),
-                       ),
-                     ),
-          +
-          +          /// StartBtn
-          +          BottomRight(
-          +            child: UiScaler(
-          +              alignment: Alignment.bottomRight,
-          +              child: Padding(
-          +                padding: const EdgeInsets.only(bottom: 20, right: 40),
-          +                child: _StartBtn(orbColor: orbColor, onPressed: onStartPressed),
-          +              ),
-          +            ),
-          +          ),
-                   ],
-                 ),
-               );
-          @@ -122,6 +137,59 @@ class _DifficultyBtns extends StatelessWidget {
-             }
-           }
-           
-          +class _StartBtn extends StatefulWidget {
-          +  const _StartBtn({required this.orbColor, required this.onPressed});
-          +  final Color orbColor;
-          +  final VoidCallback onPressed;
-          +
-          +  @override
-          +  State<_StartBtn> createState() => _StartBtnState();
-          +}
-          +
-          +class _StartBtnState extends State<_StartBtn> {
-          +  AnimationController? _btnAnim;
-          +  bool _wasHovered = false;
-          +
-          +  @override
-          +  Widget build(BuildContext context) {
-          +    return FocusableControlBuilder(
-          +      cursor: SystemMouseCursors.click,
-          +      onPressed: widget.onPressed,
-          +      builder: (_, state) {
-          +        if ((state.isHovered || state.isFocused) &&
-          +            !_wasHovered &&
-          +            _btnAnim?.status != AnimationStatus.forward) {
-          +          _btnAnim?.forward(from: 0);
-          +        }
-          +        _wasHovered = (state.isHovered || state.isFocused);
-          +        return SizedBox(
-          +          width: 520,
-          +          height: 100,
-          +          child: Stack(
-          +            children: [
-          +              Positioned.fill(child: Image.asset(AssetPaths.titleStartBtn)),
-          +              if (state.isHovered || state.isFocused) ...[
-          +                Positioned.fill(
-          +                    child: Image.asset(AssetPaths.titleStartBtnHover)),
-          +              ],
-          +              Center(
-          +                child: Row(
-          +                  mainAxisAlignment: MainAxisAlignment.end,
-          +                  children: [
-          +                    Text('START MISSION',
-          +                        style: TextStyles.btn
-          +                            .copyWith(fontSize: 24, letterSpacing: 18)),
-          +                  ],
-          +                ),
-          +              ),
-          +            ],
-          +          ),
-          +        );
-          +      },
-          +    );
-          +  }
-          +}
-          +
-           class _DifficultyBtn extends StatelessWidget {
-             const _DifficultyBtn({
-               required this.selected,
-      - name: Patch lib/title_screen/title_screen.dart
-        path: next_gen_ui/lib/title_screen/title_screen.dart
-        patch-u: |
-          --- b/next-gen-ui/step_03_c/lib/title_screen/title_screen.dart
-          +++ a/next-gen-ui/step_03_c/lib/title_screen/title_screen.dart
-          @@ -102,6 +102,8 @@ class _TitleScreenState extends State<TitleScreen> {
-                           difficulty: _difficulty,
-                           onDifficultyFocused: _handleDifficultyFocused,
-                           onDifficultyPressed: _handleDifficultyPressed,
-          +                onStartPressed: () {},
-          +                orbColor: _orbColor,
-                         ),
-                       ),
-                     ],
-      - name: Copy to step_03_c
-        copydir:
-          from: next_gen_ui 
-          to: step_03_c
-      - name: flutter clean
-        path: step_03_c
-        flutter: clean
-      - name: flutter pub get
-        path: step_03_c
-        flutter: pub get
-  - name: Step 4a
-    steps: 
-      - name: Remove generated code
-        rmdir: step_04_a
-      - name: Patch lib/main.dart
-        path: next_gen_ui/lib/main.dart
-        patch-u: |
-          --- b/next-gen-ui/step_04_a/lib/main.dart
-          +++ a/next-gen-ui/step_04_a/lib/main.dart
-          @@ -6,6 +6,7 @@ import 'dart:io';
-           
-           import 'package:flutter/foundation.dart';
-           import 'package:flutter/material.dart';
-          +import 'package:flutter_animate/flutter_animate.dart';
-           import 'package:window_size/window_size.dart';
-           
-           import 'title_screen/title_screen.dart';
-          @@ -15,6 +16,7 @@ void main() {
-               WidgetsFlutterBinding.ensureInitialized();
-               setWindowMinSize(const Size(800, 500));
-             }
-          +  Animate.restartOnHotReload = true;
-             runApp(const NextGenApp());
-           }
-      - name: Patch lib/title_screen/title_screen_ui.dart
-        path: next_gen_ui/lib/title_screen/title_screen_ui.dart
-        patch-u: |
-          --- b/next-gen-ui/step_04_a/lib/title_screen/title_screen_ui.dart
-          +++ a/next-gen-ui/step_04_a/lib/title_screen/title_screen_ui.dart
-          @@ -4,6 +4,7 @@
-           
-           import 'package:extra_alignments/extra_alignments.dart';
-           import 'package:flutter/material.dart';
-          +import 'package:flutter_animate/flutter_animate.dart';
-           import 'package:focusable_control_builder/focusable_control_builder.dart';
-           import 'package:gap/gap.dart';
-           
-          @@ -90,8 +91,10 @@ class _TitleText extends StatelessWidget {
-                       Text('57', style: TextStyles.h2),
-                       Image.asset(AssetPaths.titleSelectedRight, height: 65),
-                     ],
-          -        ),
-          -        Text('THE LAST STAND', style: TextStyles.h3),
-          +        ).animate().fadeIn(delay: .8.seconds, duration: .7.seconds),
-          +        Text('THE LAST STAND', style: TextStyles.h3)
-          +            .animate()
-          +            .fadeIn(delay: 1.seconds, duration: .7.seconds),
-                 ],
-               );
-             }
-      - name: Copy to step_04_a
-        copydir:
-          from: next_gen_ui 
-          to: step_04_a
-      - name: flutter clean
-        path: step_04_a
-        flutter: clean
-      - name: flutter pub get
-        path: step_04_a
-        flutter: pub get
-  - name: Step 4b
-    steps: 
-      - name: Remove generated code
-        rmdir: step_04_b
-      - name: Patch lib/title_screen/title_screen_ui.dart
-        path: next_gen_ui/lib/title_screen/title_screen_ui.dart
-        patch-u: |
-          --- b/next-gen-ui/step_04_b/lib/title_screen/title_screen_ui.dart
-          +++ a/next-gen-ui/step_04_b/lib/title_screen/title_screen_ui.dart
-          @@ -121,19 +121,28 @@ class _DifficultyBtns extends StatelessWidget {
-                     selected: difficulty == 0,
-                     onPressed: () => onDifficultyPressed(0),
-                     onHover: (over) => onDifficultyFocused(over ? 0 : null),
-          -        ),
-          +        )
-          +            .animate()
-          +            .fadeIn(delay: 1.3.seconds, duration: .35.seconds)
-          +            .slide(begin: const Offset(0, .2)),
-                   _DifficultyBtn(
-                     label: 'Normal',
-                     selected: difficulty == 1,
-                     onPressed: () => onDifficultyPressed(1),
-                     onHover: (over) => onDifficultyFocused(over ? 1 : null),
-          -        ),
-          +        )
-          +            .animate()
-          +            .fadeIn(delay: 1.5.seconds, duration: .35.seconds)
-          +            .slide(begin: const Offset(0, .2)),
-                   _DifficultyBtn(
-                     label: 'Hardcore',
-                     selected: difficulty == 2,
-                     onPressed: () => onDifficultyPressed(2),
-                     onHover: (over) => onDifficultyFocused(over ? 2 : null),
-          -        ),
-          +        )
-          +            .animate()
-          +            .fadeIn(delay: 1.7.seconds, duration: .35.seconds)
-          +            .slide(begin: const Offset(0, .2)),
-                   const Gap(20),
-                 ],
-               );
-      - name: Copy to step_04_b
-        copydir:
-          from: next_gen_ui 
-          to: step_04_b
-      - name: flutter clean
-        path: step_04_b
-        flutter: clean
-      - name: flutter pub get
-        path: step_04_b
-        flutter: pub get
-  - name: Step 4c
-    steps: 
-      - name: Remove generated code
-        rmdir: step_04_c
-      - name: Patch lib/title_screen/title_screen_ui.dart
-        path: next_gen_ui/lib/title_screen/title_screen_ui.dart
-        patch-u: |
-          --- b/next-gen-ui/step_04_c/lib/title_screen/title_screen_ui.dart
-          +++ a/next-gen-ui/step_04_c/lib/title_screen/title_screen_ui.dart
-          @@ -195,8 +195,13 @@ class _StartBtnState extends State<_StartBtn> {
-                           ),
-                         ),
-                       ],
-          -          ),
-          -        );
-          +          )
-          +              .animate(autoPlay: false, onInit: (c) => _btnAnim = c)
-          +              .shimmer(duration: .7.seconds, color: Colors.black),
-          +        )
-          +            .animate()
-          +            .fadeIn(delay: 2.3.seconds)
-          +            .slide(begin: const Offset(0, .2));
-                 },
-               );
-             }
-      - name: Copy to step_04_c
-        copydir:
-          from: next_gen_ui 
-          to: step_04_c
-      - name: flutter clean
-        path: step_04_c
-        flutter: clean
-      - name: flutter pub get
-        path: step_04_c
-        flutter: pub get
-  - name: Step 4d
-    steps: 
-      - name: Remove generated code
-        rmdir: step_04_d
-      - name: Patch lib/title_screen/title_screen_ui.dart
-        path: next_gen_ui/lib/title_screen/title_screen_ui.dart
-        patch-u: |
-          --- b/next-gen-ui/step_04_d/lib/title_screen/title_screen_ui.dart
-          +++ a/next-gen-ui/step_04_d/lib/title_screen/title_screen_ui.dart
-          @@ -233,10 +233,16 @@ class _DifficultyBtn extends StatelessWidget {
-                       child: Stack(
-                         children: [
-                           /// Bg with fill and outline
-          -                Container(
-          -                  decoration: BoxDecoration(
-          -                    color: const Color(0xFF00D1FF).withOpacity(.1),
-          -                    border: Border.all(color: Colors.white, width: 5),
-          +                AnimatedOpacity(
-          +                  opacity: (!selected && (state.isHovered || state.isFocused))
-          +                      ? 1
-          +                      : 0,
-          +                  duration: .3.seconds,
-          +                  child: Container(
-          +                    decoration: BoxDecoration(
-          +                      color: const Color(0xFF00D1FF).withOpacity(.1),
-          +                      border: Border.all(color: Colors.white, width: 5),
-          +                    ),
-                             ),
-                           ),
-      - name: Copy to step_04_d
-        copydir:
-          from: next_gen_ui 
-          to: step_04_d
-      - name: flutter clean
-        path: step_04_d
-        flutter: clean
-      - name: flutter pub get
-        path: step_04_d
-        flutter: pub get
-  - name: Step 4e
-    steps: 
-      - name: Remove generated code
-        rmdir: step_04_e
-      - name: Patch lib/title_screen/title_screen.dart
-        path: next_gen_ui/lib/title_screen/title_screen.dart
-        patch-u: |
-          --- b/next-gen-ui/step_04_e/lib/title_screen/title_screen.dart
-          +++ a/next-gen-ui/step_04_e/lib/title_screen/title_screen.dart
-          @@ -3,6 +3,7 @@
-           // found in the LICENSE file.
-           
-           import 'package:flutter/material.dart';
-          +import 'package:flutter_animate/flutter_animate.dart';
-           
-           import '../assets.dart';
-           import '../styles.dart';
-          @@ -126,3 +127,36 @@ class _TitleScreenState extends State<TitleScreen> {
-               );
-             }
-           }
-          +
-          +// ignore: unused_element
-          +class _AnimatedColors extends StatelessWidget {
-          +  const _AnimatedColors({
-          +    required this.emitColor,
-          +    required this.orbColor,
-          +    required this.builder,
-          +  });
-          +
-          +  final Color emitColor;
-          +  final Color orbColor;
-          +
-          +  final Widget Function(BuildContext context, Color orbColor, Color emitColor)
-          +      builder;
-          +
-          +  @override
-          +  Widget build(BuildContext context) {
-          +    final duration = .5.seconds;
-          +    return TweenAnimationBuilder(
-          +      tween: ColorTween(begin: emitColor, end: emitColor),
-          +      duration: duration,
-          +      builder: (_, emitColor, __) {
-          +        return TweenAnimationBuilder(
-          +          tween: ColorTween(begin: orbColor, end: orbColor),
-          +          duration: duration,
-          +          builder: (context, orbColor, __) {
-          +            return builder(context, orbColor!, emitColor!);
-          +          },
-          +        );
-          +      },
-          +    );
-          +  }
-          +}
-      - name: Copy to step_04_e
-        copydir:
-          from: next_gen_ui 
-          to: step_04_e
-      - name: flutter clean
-        path: step_04_e
-        flutter: clean
-      - name: flutter pub get
-        path: step_04_e
-        flutter: pub get
-  - name: Step 4f
-    steps: 
-      - name: Remove generated code
-        rmdir: step_04_f
-      - name: Patch lib/title_screen/title_screen.dart
-        path: next_gen_ui/lib/title_screen/title_screen.dart
-        patch-u: |
-          --- b/next-gen-ui/step_04_f/lib/title_screen/title_screen.dart
-          +++ a/next-gen-ui/step_04_f/lib/title_screen/title_screen.dart
-          @@ -44,70 +44,76 @@ class _TitleScreenState extends State<TitleScreen> {
-               return Scaffold(
-                 backgroundColor: Colors.black,
-                 body: Center(
-          -        child: Stack(
-          -          children: [
-          -            /// Bg-Base
-          -            Image.asset(AssetPaths.titleBgBase),
-          -
-          -            /// Bg-Receive
-          -            _buildLitImage(
-          -              color: _orbColor,
-          -              imgSrc: AssetPaths.titleBgReceive,
-          -            ),
-          -
-          -            /// Mg + Fg
-          -            IgnorePointer(
-          -              child: Stack(
-          -                children: [
-          -                  /// Mg-Base
-          -                  _buildLitImage(
-          -                    imgSrc: AssetPaths.titleMgBase,
-          -                    color: _orbColor,
-          +        child: _AnimatedColors(
-          +          orbColor: _orbColor,
-          +          emitColor: _emitColor,
-          +          builder: (_, orbColor, emitColor) {
-          +            return Stack(
-          +              children: [
-          +                /// Bg-Base
-          +                Image.asset(AssetPaths.titleBgBase),
-          +
-          +                /// Bg-Receive
-          +                _buildLitImage(
-          +                  color: orbColor,
-          +                  imgSrc: AssetPaths.titleBgReceive,
-          +                ),
-          +
-          +                /// Mg + Fg
-          +                IgnorePointer(
-          +                  child: Stack(
-          +                    children: [
-          +                      /// Mg-Base
-          +                      _buildLitImage(
-          +                        imgSrc: AssetPaths.titleMgBase,
-          +                        color: orbColor,
-          +                      ),
-          +
-          +                      /// Mg-Receive
-          +                      _buildLitImage(
-          +                        imgSrc: AssetPaths.titleMgReceive,
-          +                        color: orbColor,
-          +                      ),
-          +
-          +                      /// Mg-Emit
-          +                      _buildLitImage(
-          +                        imgSrc: AssetPaths.titleMgEmit,
-          +                        emit: true,
-          +                        color: emitColor,
-          +                      ),
-          +
-          +                      /// Fg-Rocks
-          +                      Image.asset(AssetPaths.titleFgBase),
-          +
-          +                      /// Fg-Receive
-          +                      _buildLitImage(
-          +                        imgSrc: AssetPaths.titleFgReceive,
-          +                        color: orbColor,
-          +                      ),
-          +
-          +                      /// Fg-Emit
-          +                      _buildLitImage(
-          +                        imgSrc: AssetPaths.titleFgEmit,
-          +                        emit: true,
-          +                        color: emitColor,
-          +                      ),
-          +                    ],
-                             ),
-          -
-          -                  /// Mg-Receive
-          -                  _buildLitImage(
-          -                    imgSrc: AssetPaths.titleMgReceive,
-          -                    color: _orbColor,
-          -                  ),
-          -
-          -                  /// Mg-Emit
-          -                  _buildLitImage(
-          -                    imgSrc: AssetPaths.titleMgEmit,
-          -                    emit: true,
-          -                    color: _emitColor,
-          +                ),
-          +
-          +                /// UI
-          +                Positioned.fill(
-          +                  child: TitleScreenUi(
-          +                    difficulty: _difficulty,
-          +                    onDifficultyFocused: _handleDifficultyFocused,
-          +                    onDifficultyPressed: _handleDifficultyPressed,
-          +                    onStartPressed: () {},
-          +                    orbColor: orbColor,
-                             ),
-          -
-          -                  /// Fg-Rocks
-          -                  Image.asset(AssetPaths.titleFgBase),
-          -
-          -                  /// Fg-Receive
-          -                  _buildLitImage(
-          -                    imgSrc: AssetPaths.titleFgReceive,
-          -                    color: _orbColor,
-          -                  ),
-          -
-          -                  /// Fg-Emit
-          -                  _buildLitImage(
-          -                    imgSrc: AssetPaths.titleFgEmit,
-          -                    emit: true,
-          -                    color: _emitColor,
-          -                  ),
-          -                ],
-          -              ),
-          -            ),
-          -
-          -            /// UI
-          -            Positioned.fill(
-          -              child: TitleScreenUi(
-          -                difficulty: _difficulty,
-          -                onDifficultyFocused: _handleDifficultyFocused,
-          -                onDifficultyPressed: _handleDifficultyPressed,
-          -                onStartPressed: () {},
-          -                orbColor: _orbColor,
-          -              ),
-          -            ),
-          -          ],
-          +                ),
-          +              ],
-          +            );
-          +          },
-                   ),
-                 ),
-               );
-          @@ -128,7 +134,6 @@ class _TitleScreenState extends State<TitleScreen> {
-             }
-           }
-           
-          -// ignore: unused_element
-           class _AnimatedColors extends StatelessWidget {
-             const _AnimatedColors({
-               required this.emitColor,
-      - name: Copy to step_04_f
-        copydir:
-          from: next_gen_ui 
-          to: step_04_f
-      - name: flutter clean
-        path: step_04_f
-        flutter: clean
-      - name: flutter pub get
-        path: step_04_f
-        flutter: pub get
-  - name: Step 5a
-    steps: 
-      - name: Remove generated code
-        rmdir: step_05_a
-      - name: Patch lib/main.dart
-        path: next_gen_ui/lib/main.dart
-        patch-u: |
-          --- b/next-gen-ui/step_05_a/lib/main.dart
-          +++ a/next-gen-ui/step_05_a/lib/main.dart
-          @@ -7,8 +7,10 @@ import 'dart:io';
-           import 'package:flutter/foundation.dart';
-           import 'package:flutter/material.dart';
-           import 'package:flutter_animate/flutter_animate.dart';
-          +import 'package:provider/provider.dart';
-           import 'package:window_size/window_size.dart';
-           
-          +import 'assets.dart';
-           import 'title_screen/title_screen.dart';
-           
-           void main() {
-          @@ -17,7 +19,13 @@ void main() {
-               setWindowMinSize(const Size(800, 500));
-             }
-             Animate.restartOnHotReload = true;
-          -  runApp(const NextGenApp());
-          +  runApp(
-          +    FutureProvider<Shaders?>(
-          +      create: (context) => loadShaders(),
-          +      initialData: null,
-          +      child: const NextGenApp(),
-          +    ),
-          +  );
-           }
-           
-           class NextGenApp extends StatelessWidget {
       - name: mkdir lib/orb_shader
         path: next_gen_ui
         mkdir: lib/orb_shader
@@ -3058,6 +1630,1485 @@ steps:
                   },
                 );
           }
+      - name: Replace lib/main.dart
+        path: next_gen_ui/lib/main.dart
+        replace-contents: |
+          // Copyright 2023 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+          
+          import 'dart:io';
+          
+          import 'package:flutter/foundation.dart';
+          import 'package:flutter/material.dart';
+          import 'package:window_size/window_size.dart';
+          
+          import 'styles.dart';
+          
+          void main() {
+            if (!kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
+              WidgetsFlutterBinding.ensureInitialized();
+              setWindowMinSize(const Size(800, 500));
+            }
+            runApp(const NextGenApp());
+          }
+          
+          class NextGenApp extends StatelessWidget {
+            const NextGenApp({super.key});
+          
+            @override
+            Widget build(BuildContext context) {
+              return MaterialApp(
+                themeMode: ThemeMode.dark,
+                darkTheme: ThemeData(brightness: Brightness.dark),
+                home: Scaffold(
+                  body: Center(
+                    child: Text(
+                      'Insert Next Generation UI Here...',
+                      style: TextStyles.h2,
+                    ),
+                  ),
+                ),
+              );
+            }
+          }
+      - name: Build Web app
+        path: next_gen_ui
+        flutter: build web
+      - name: Copy to step_01
+        copydir:
+          from: next_gen_ui 
+          to: step_01
+      - name: flutter clean
+        path: step_01
+        flutter: clean
+      - name: flutter pub get
+        path: step_01
+        flutter: pub get
+  - name: Step 2a - Initial scaffolding
+    steps: 
+      - name: Remove generated code
+        rmdir: step_02_a
+      - name: mkdir lib/title_screen
+        path: next_gen_ui
+        mkdir: lib/title_screen
+      - name: Add lib/title_screen/title_screen.dart
+        path: next_gen_ui/lib/title_screen/title_screen.dart
+        replace-contents: |
+          // Copyright 2023 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+          
+          import 'package:flutter/material.dart';
+          
+          class TitleScreen extends StatelessWidget {
+            const TitleScreen({super.key});
+          
+            @override
+            Widget build(BuildContext context) {
+              return const Scaffold(
+                backgroundColor: Colors.black,
+                body: Center(
+                  child: Stack(
+                    children: [],
+                  ),
+                ),
+              );
+            }
+          }
+      - name: Patch lib/main.dart
+        path: next_gen_ui/lib/main.dart
+        patch-u: |
+          --- b/next-gen-ui/step_02/lib/main.dart
+          +++ a/next-gen-ui/step_02/lib/main.dart
+          @@ -8,7 +8,7 @@ import 'package:flutter/foundation.dart';
+           import 'package:flutter/material.dart';
+           import 'package:window_size/window_size.dart';
+           
+          -import 'styles.dart';
+          +import 'title_screen/title_screen.dart';
+           
+           void main() {
+             if (!kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
+          @@ -26,14 +26,7 @@ class NextGenApp extends StatelessWidget {
+               return MaterialApp(
+                 themeMode: ThemeMode.dark,
+                 darkTheme: ThemeData(brightness: Brightness.dark),
+          -      home: Scaffold(
+          -        body: Center(
+          -          child: Text(
+          -            'Insert Next Generation UI Here...',
+          -            style: TextStyles.h2,
+          -          ),
+          -        ),
+          -      ),
+          +      home: const TitleScreen(),
+               );
+             }
+           }
+      - name: Build Web app
+        path: next_gen_ui
+        flutter: build web
+      - name: Copy to step_02_a
+        copydir:
+          from: next_gen_ui 
+          to: step_02_a
+      - name: flutter clean
+        path: step_02_a
+        flutter: clean
+      - name: flutter pub get
+        path: step_02_a
+        flutter: pub get
+  - name: Step 2b - Add the background
+    steps: 
+      - name: Remove generated code
+        rmdir: step_02_b
+      - name: Patch lib/title_screen/title_screen.dart
+        path: next_gen_ui/lib/title_screen/title_screen.dart
+        patch-u: |
+          --- b/next-gen-ui/step_02_b/lib/title_screen/title_screen.dart
+          +++ a/next-gen-ui/step_02_b/lib/title_screen/title_screen.dart
+          @@ -4,16 +4,24 @@
+           
+           import 'package:flutter/material.dart';
+           
+          +import '../assets.dart';
+          +
+           class TitleScreen extends StatelessWidget {
+             const TitleScreen({super.key});
+           
+             @override
+             Widget build(BuildContext context) {
+          -    return const Scaffold(
+          +    return Scaffold(
+                 backgroundColor: Colors.black,
+                 body: Center(
+                   child: Stack(
+          -          children: [],
+          +          children: [
+          +            /// Bg-Base
+          +            Image.asset(AssetPaths.titleBgBase),
+          +
+          +            /// Bg-Receive
+          +            Image.asset(AssetPaths.titleBgReceive),
+          +          ],
+                   ),
+                 ),
+               );
+      - name: Build Web app
+        path: next_gen_ui
+        flutter: build web
+      - name: Copy to step_02_b
+        copydir:
+          from: next_gen_ui 
+          to: step_02_b
+      - name: flutter clean
+        path: step_02_b
+        flutter: clean
+      - name: flutter pub get
+        path: step_02_b
+        flutter: pub get
+  - name: Step 2c - Add the midground
+    steps: 
+      - name: Remove generated code
+        rmdir: step_02_c
+      - name: Patch lib/title_screen/title_screen.dart
+        path: next_gen_ui/lib/title_screen/title_screen.dart
+        patch-u: |
+          --- b/next-gen-ui/step_02_c/lib/title_screen/title_screen.dart
+          +++ a/next-gen-ui/step_02_c/lib/title_screen/title_screen.dart
+          @@ -21,6 +21,15 @@ class TitleScreen extends StatelessWidget {
+           
+                       /// Bg-Receive
+                       Image.asset(AssetPaths.titleBgReceive),
+          +
+          +            /// Mg-Base
+          +            Image.asset(AssetPaths.titleMgBase),
+          +
+          +            /// Mg-Receive
+          +            Image.asset(AssetPaths.titleMgReceive),
+          +
+          +            /// Mg-Emit
+          +            Image.asset(AssetPaths.titleMgEmit),
+                     ],
+                   ),
+                 ),
+      - name: Build Web app
+        path: next_gen_ui
+        flutter: build web
+      - name: Copy to step_02_c
+        copydir:
+          from: next_gen_ui 
+          to: step_02_c
+      - name: flutter clean
+        path: step_02_c
+        flutter: clean
+      - name: flutter pub get
+        path: step_02_c
+        flutter: pub get
+  - name: Step 2d - Add the foreground
+    steps: 
+      - name: Remove generated code
+        rmdir: step_02_d
+      - name: Patch lib/title_screen/title_screen.dart
+        path: next_gen_ui/lib/title_screen/title_screen.dart
+        patch-u: |
+          --- b/next-gen-ui/step_02_d/lib/title_screen/title_screen.dart
+          +++ a/next-gen-ui/step_02_d/lib/title_screen/title_screen.dart
+          @@ -30,6 +30,15 @@ class TitleScreen extends StatelessWidget {
+           
+                       /// Mg-Emit
+                       Image.asset(AssetPaths.titleMgEmit),
+          +
+          +            /// Fg-Rocks
+          +            Image.asset(AssetPaths.titleFgBase),
+          +
+          +            /// Fg-Receive
+          +            Image.asset(AssetPaths.titleFgReceive),
+          +
+          +            /// Fg-Emit
+          +            Image.asset(AssetPaths.titleFgEmit),
+                     ],
+                   ),
+                 ),
+      - name: Build Web app
+        path: next_gen_ui
+        flutter: build web
+      - name: Copy to step_02_d
+        copydir:
+          from: next_gen_ui 
+          to: step_02_d
+      - name: flutter clean
+        path: step_02_d
+        flutter: clean
+      - name: flutter pub get
+        path: step_02_d
+        flutter: pub get
+  - name: Step 2e - IngorePointer the Stack
+    steps: 
+      - name: Remove generated code
+        rmdir: step_02_e
+      - name: Patch lib/title_screen/title_screen.dart
+        path: next_gen_ui/lib/title_screen/title_screen.dart
+        patch-u: |
+          --- b/next-gen-ui/step_02_e/lib/title_screen/title_screen.dart
+          +++ a/next-gen-ui/step_02_e/lib/title_screen/title_screen.dart
+          @@ -22,23 +22,30 @@ class TitleScreen extends StatelessWidget {
+                       /// Bg-Receive
+                       Image.asset(AssetPaths.titleBgReceive),
+           
+          -            /// Mg-Base
+          -            Image.asset(AssetPaths.titleMgBase),
+          -
+          -            /// Mg-Receive
+          -            Image.asset(AssetPaths.titleMgReceive),
+          -
+          -            /// Mg-Emit
+          -            Image.asset(AssetPaths.titleMgEmit),
+          -
+          -            /// Fg-Rocks
+          -            Image.asset(AssetPaths.titleFgBase),
+          -
+          -            /// Fg-Receive
+          -            Image.asset(AssetPaths.titleFgReceive),
+          -
+          -            /// Fg-Emit
+          -            Image.asset(AssetPaths.titleFgEmit),
+          +            /// Mg + Fg
+          +            IgnorePointer(
+          +              child: Stack(
+          +                children: [
+          +                  /// Mg-Base
+          +                  Image.asset(AssetPaths.titleMgBase),
+          +
+          +                  /// Mg-Receive
+          +                  Image.asset(AssetPaths.titleMgReceive),
+          +
+          +                  /// Mg-Emit
+          +                  Image.asset(AssetPaths.titleMgEmit),
+          +
+          +                  /// Fg-Rocks
+          +                  Image.asset(AssetPaths.titleFgBase),
+          +
+          +                  /// Fg-Receive
+          +                  Image.asset(AssetPaths.titleFgReceive),
+          +
+          +                  /// Fg-Emit
+          +                  Image.asset(AssetPaths.titleFgEmit),
+          +                ],
+          +              ),
+          +            ),
+                     ],
+                   ),
+                 ),
+      - name: Build Web app
+        path: next_gen_ui
+        flutter: build web
+      - name: Copy to step_02_e
+        copydir:
+          from: next_gen_ui 
+          to: step_02_e
+      - name: flutter clean
+        path: step_02_e
+        flutter: clean
+      - name: flutter pub get
+        path: step_02_e
+        flutter: pub get
+  - name: Step 2f - Building a coloring light
+    steps: 
+      - name: Remove generated code
+        rmdir: step_02_f
+      - name: Patch lib/title_screen/title_screen.dart
+        path: next_gen_ui/lib/title_screen/title_screen.dart
+        patch-u: |
+          --- b/next-gen-ui/step_02_f/lib/title_screen/title_screen.dart
+          +++ a/next-gen-ui/step_02_f/lib/title_screen/title_screen.dart
+          @@ -9,6 +9,9 @@ import '../assets.dart';
+           class TitleScreen extends StatelessWidget {
+             const TitleScreen({super.key});
+           
+          +  final _finalReceiveLightAmt = 0.7;
+          +  final _finalEmitLightAmt = 0.5;
+          +
+             @override
+             Widget build(BuildContext context) {
+               return Scaffold(
+          @@ -51,4 +54,19 @@ class TitleScreen extends StatelessWidget {
+                 ),
+               );
+             }
+          +
+          +  // ignore: unused_element
+          +  Widget _buildLitImage(
+          +      {required Color color, required String imgSrc, bool emit = false}) {
+          +    final hsl = HSLColor.fromColor(color);
+          +    final lightAmt = emit ? _finalEmitLightAmt : _finalReceiveLightAmt;
+          +
+          +    return ColorFiltered(
+          +      colorFilter: ColorFilter.mode(
+          +        hsl.withLightness(hsl.lightness * lightAmt).toColor(),
+          +        BlendMode.modulate,
+          +      ),
+          +      child: Image.asset(imgSrc),
+          +    );
+          +  }
+           }
+      - name: Build Web app
+        path: next_gen_ui
+        flutter: build web
+      - name: Copy to step_02_f
+        copydir:
+          from: next_gen_ui 
+          to: step_02_f
+      - name: flutter clean
+        path: step_02_f
+        flutter: clean
+      - name: flutter pub get
+        path: step_02_f
+        flutter: pub get
+  - name: Step 2g - Painting in color
+    steps: 
+      - name: Remove generated code
+        rmdir: step_02_g
+      - name: Patch lib/title_screen/title_screen.dart
+        path: next_gen_ui/lib/title_screen/title_screen.dart
+        patch-u: |
+          --- b/next-gen-ui/step_02_g/lib/title_screen/title_screen.dart
+          +++ a/next-gen-ui/step_02_g/lib/title_screen/title_screen.dart
+          @@ -5,6 +5,7 @@
+           import 'package:flutter/material.dart';
+           
+           import '../assets.dart';
+          +import '../styles.dart';
+           
+           class TitleScreen extends StatelessWidget {
+             const TitleScreen({super.key});
+          @@ -14,6 +15,9 @@ class TitleScreen extends StatelessWidget {
+           
+             @override
+             Widget build(BuildContext context) {
+          +    final orbColor = AppColors.orbColors[0];
+          +    final emitColor = AppColors.emitColors[0];
+          +
+               return Scaffold(
+                 backgroundColor: Colors.black,
+                 body: Center(
+          @@ -23,29 +27,49 @@ class TitleScreen extends StatelessWidget {
+                       Image.asset(AssetPaths.titleBgBase),
+           
+                       /// Bg-Receive
+          -            Image.asset(AssetPaths.titleBgReceive),
+          +            _buildLitImage(
+          +              color: orbColor,
+          +              imgSrc: AssetPaths.titleBgReceive,
+          +            ),
+           
+                       /// Mg + Fg
+                       IgnorePointer(
+                         child: Stack(
+                           children: [
+                             /// Mg-Base
+          -                  Image.asset(AssetPaths.titleMgBase),
+          +                  _buildLitImage(
+          +                    imgSrc: AssetPaths.titleMgBase,
+          +                    color: orbColor,
+          +                  ),
+           
+                             /// Mg-Receive
+          -                  Image.asset(AssetPaths.titleMgReceive),
+          +                  _buildLitImage(
+          +                    imgSrc: AssetPaths.titleMgReceive,
+          +                    color: orbColor,
+          +                  ),
+           
+                             /// Mg-Emit
+          -                  Image.asset(AssetPaths.titleMgEmit),
+          +                  _buildLitImage(
+          +                    imgSrc: AssetPaths.titleMgEmit,
+          +                    emit: true,
+          +                    color: emitColor,
+          +                  ),
+           
+                             /// Fg-Rocks
+                             Image.asset(AssetPaths.titleFgBase),
+           
+                             /// Fg-Receive
+          -                  Image.asset(AssetPaths.titleFgReceive),
+          +                  _buildLitImage(
+          +                    imgSrc: AssetPaths.titleFgReceive,
+          +                    color: orbColor,
+          +                  ),
+           
+                             /// Fg-Emit
+          -                  Image.asset(AssetPaths.titleFgEmit),
+          +                  _buildLitImage(
+          +                    imgSrc: AssetPaths.titleFgEmit,
+          +                    emit: true,
+          +                    color: emitColor,
+          +                  ),
+                           ],
+                         ),
+                       ),
+          @@ -55,7 +79,6 @@ class TitleScreen extends StatelessWidget {
+               );
+             }
+           
+          -  // ignore: unused_element
+             Widget _buildLitImage(
+                 {required Color color, required String imgSrc, bool emit = false}) {
+               final hsl = HSLColor.fromColor(color);
+      - name: Build Web app
+        path: next_gen_ui
+        flutter: build web
+      - name: Copy to step_02_g
+        copydir:
+          from: next_gen_ui 
+          to: step_02_g
+      - name: flutter clean
+        path: step_02_g
+        flutter: clean
+      - name: flutter pub get
+        path: step_02_g
+        flutter: pub get
+  - name: Step 3a
+    steps: 
+      - name: Remove generated code
+        rmdir: step_03_a
+      - name: Add lib/title_screen/title_screen_ui.dart
+        path: next_gen_ui/lib/title_screen/title_screen_ui.dart
+        replace-contents: |
+          // Copyright 2023 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+
+          import 'package:extra_alignments/extra_alignments.dart';
+          import 'package:flutter/material.dart';
+          import 'package:gap/gap.dart';
+
+          import '../assets.dart';
+          import '../common/ui_scaler.dart';
+          import '../styles.dart';
+
+          class TitleScreenUi extends StatelessWidget {
+            const TitleScreenUi({
+              super.key,
+            });
+            @override
+            Widget build(BuildContext context) {
+              return const Padding(
+                padding: EdgeInsets.symmetric(vertical: 40, horizontal: 50),
+                child: Stack(
+                  children: [
+                    /// Title Text
+                    TopLeft(
+                      child: UiScaler(
+                        alignment: Alignment.topLeft,
+                        child: _TitleText(),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }
+          }
+
+          class _TitleText extends StatelessWidget {
+            const _TitleText();
+
+            @override
+            Widget build(BuildContext context) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Gap(20),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Transform.translate(
+                        offset: Offset(-(TextStyles.h1.letterSpacing! * .5), 0),
+                        child: Text('OUTPOST', style: TextStyles.h1),
+                      ),
+                      Image.asset(AssetPaths.titleSelectedLeft, height: 65),
+                      Text('57', style: TextStyles.h2),
+                      Image.asset(AssetPaths.titleSelectedRight, height: 65),
+                    ],
+                  ),
+                  Text('THE LAST STAND', style: TextStyles.h3),
+                ],
+              );
+            }
+          }
+      - name: Patch lib/title_screen/title_screen.dart
+        path: next_gen_ui/lib/title_screen/title_screen.dart
+        patch-u: |
+          --- b/next-gen-ui/step_03_a/lib/title_screen/title_screen.dart
+          +++ a/next-gen-ui/step_03_a/lib/title_screen/title_screen.dart
+          @@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
+           
+           import '../assets.dart';
+           import '../styles.dart';
+          +import 'title_screen_ui.dart';
+           
+           class TitleScreen extends StatelessWidget {
+             const TitleScreen({super.key});
+          @@ -73,6 +74,11 @@ class TitleScreen extends StatelessWidget {
+                           ],
+                         ),
+                       ),
+          +
+          +            /// UI
+          +            const Positioned.fill(
+          +              child: TitleScreenUi(),
+          +            ),
+                     ],
+                   ),
+                 ),
+      - name: Build Web app
+        path: next_gen_ui
+        flutter: build web
+      - name: Copy to step_03_a
+        copydir:
+          from: next_gen_ui 
+          to: step_03_a
+      - name: flutter clean
+        path: step_03_a
+        flutter: clean
+      - name: flutter pub get
+        path: step_03_a
+        flutter: pub get
+  - name: Step 3b
+    steps: 
+      - name: Remove generated code
+        rmdir: step_03_b
+      - name: Add lib/title_screen/title_screen_ui.dart
+        path: next_gen_ui/lib/title_screen/title_screen_ui.dart
+        patch-u: |
+          --- b/next-gen-ui/step_03_b/lib/title_screen/title_screen_ui.dart
+          +++ a/next-gen-ui/step_03_b/lib/title_screen/title_screen_ui.dart
+          @@ -4,6 +4,7 @@
+           
+           import 'package:extra_alignments/extra_alignments.dart';
+           import 'package:flutter/material.dart';
+          +import 'package:focusable_control_builder/focusable_control_builder.dart';
+           import 'package:gap/gap.dart';
+           
+           import '../assets.dart';
+          @@ -13,20 +14,40 @@ import '../styles.dart';
+           class TitleScreenUi extends StatelessWidget {
+             const TitleScreenUi({
+               super.key,
+          +    required this.difficulty,
+          +    required this.onDifficultyPressed,
+          +    required this.onDifficultyFocused,
+             });
+          +
+          +  final int difficulty;
+          +  final void Function(int difficulty) onDifficultyPressed;
+          +  final void Function(int? difficulty) onDifficultyFocused;
+          +
+             @override
+             Widget build(BuildContext context) {
+          -    return const Padding(
+          -      padding: EdgeInsets.symmetric(vertical: 40, horizontal: 50),
+          +    return Padding(
+          +      padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 50),
+                 child: Stack(
+                   children: [
+                     /// Title Text
+          -          TopLeft(
+          +          const TopLeft(
+                       child: UiScaler(
+                         alignment: Alignment.topLeft,
+                         child: _TitleText(),
+                       ),
+                     ),
+          +
+          +          /// Difficulty Btns
+          +          BottomLeft(
+          +            child: UiScaler(
+          +              alignment: Alignment.bottomLeft,
+          +              child: _DifficultyBtns(
+          +                difficulty: difficulty,
+          +                onDifficultyPressed: onDifficultyPressed,
+          +                onDifficultyFocused: onDifficultyFocused,
+          +              ),
+          +            ),
+          +          ),
+                   ],
+                 ),
+               );
+          @@ -60,3 +81,107 @@ class _TitleText extends StatelessWidget {
+               );
+             }
+           }
+          +
+          +class _DifficultyBtns extends StatelessWidget {
+          +  const _DifficultyBtns({
+          +    required this.difficulty,
+          +    required this.onDifficultyPressed,
+          +    required this.onDifficultyFocused,
+          +  });
+          +
+          +  final int difficulty;
+          +  final void Function(int difficulty) onDifficultyPressed;
+          +  final void Function(int? difficulty) onDifficultyFocused;
+          +
+          +  @override
+          +  Widget build(BuildContext context) {
+          +    return Column(
+          +      mainAxisSize: MainAxisSize.min,
+          +      children: [
+          +        _DifficultyBtn(
+          +          label: 'Casual',
+          +          selected: difficulty == 0,
+          +          onPressed: () => onDifficultyPressed(0),
+          +          onHover: (over) => onDifficultyFocused(over ? 0 : null),
+          +        ),
+          +        _DifficultyBtn(
+          +          label: 'Normal',
+          +          selected: difficulty == 1,
+          +          onPressed: () => onDifficultyPressed(1),
+          +          onHover: (over) => onDifficultyFocused(over ? 1 : null),
+          +        ),
+          +        _DifficultyBtn(
+          +          label: 'Hardcore',
+          +          selected: difficulty == 2,
+          +          onPressed: () => onDifficultyPressed(2),
+          +          onHover: (over) => onDifficultyFocused(over ? 2 : null),
+          +        ),
+          +        const Gap(20),
+          +      ],
+          +    );
+          +  }
+          +}
+          +
+          +class _DifficultyBtn extends StatelessWidget {
+          +  const _DifficultyBtn({
+          +    required this.selected,
+          +    required this.onPressed,
+          +    required this.onHover,
+          +    required this.label,
+          +  });
+          +  final String label;
+          +  final bool selected;
+          +  final VoidCallback onPressed;
+          +  final void Function(bool hasFocus) onHover;
+          +
+          +  @override
+          +  Widget build(BuildContext context) {
+          +    return FocusableControlBuilder(
+          +      onPressed: onPressed,
+          +      onHoverChanged: (_, state) => onHover.call(state.isHovered),
+          +      builder: (_, state) {
+          +        return Padding(
+          +          padding: const EdgeInsets.all(8.0),
+          +          child: SizedBox(
+          +            width: 250,
+          +            height: 60,
+          +            child: Stack(
+          +              children: [
+          +                /// Bg with fill and outline
+          +                Container(
+          +                  decoration: BoxDecoration(
+          +                    color: const Color(0xFF00D1FF).withOpacity(.1),
+          +                    border: Border.all(color: Colors.white, width: 5),
+          +                  ),
+          +                ),
+          +
+          +                if (state.isHovered || state.isFocused) ...[
+          +                  Container(
+          +                    decoration: BoxDecoration(
+          +                      color: const Color(0xFF00D1FF).withOpacity(.1),
+          +                    ),
+          +                  ),
+          +                ],
+          +
+          +                /// cross-hairs (selected state)
+          +                if (selected) ...[
+          +                  CenterLeft(
+          +                    child: Image.asset(AssetPaths.titleSelectedLeft),
+          +                  ),
+          +                  CenterRight(
+          +                    child: Image.asset(AssetPaths.titleSelectedRight),
+          +                  ),
+          +                ],
+          +
+          +                /// Label
+          +                Center(
+          +                  child: Text(label.toUpperCase(), style: TextStyles.btn),
+          +                ),
+          +              ],
+          +            ),
+          +          ),
+          +        );
+          +      },
+          +    );
+          +  }
+          +}
+      - name: Patch lib/title_screen/title_screen.dart
+        path: next_gen_ui/lib/title_screen/title_screen.dart
+        patch-u: |
+          --- b/next-gen-ui/step_03_b/lib/title_screen/title_screen.dart
+          +++ a/next-gen-ui/step_03_b/lib/title_screen/title_screen.dart
+          @@ -8,17 +8,38 @@ import '../assets.dart';
+           import '../styles.dart';
+           import 'title_screen_ui.dart';
+           
+          -class TitleScreen extends StatelessWidget {
+          +class TitleScreen extends StatefulWidget {
+             const TitleScreen({super.key});
+           
+          +  @override
+          +  State<TitleScreen> createState() => _TitleScreenState();
+          +}
+          +
+          +class _TitleScreenState extends State<TitleScreen> {
+          +  Color get _emitColor =>
+          +      AppColors.emitColors[_difficultyOverride ?? _difficulty];
+          +  Color get _orbColor =>
+          +      AppColors.orbColors[_difficultyOverride ?? _difficulty];
+          +
+          +  /// Currently selected difficulty
+          +  int _difficulty = 0;
+          +
+          +  /// Currently focused difficulty (if any)
+          +  int? _difficultyOverride;
+          +
+          +  void _handleDifficultyPressed(int value) {
+          +    setState(() => _difficulty = value);
+          +  }
+          +
+          +  void _handleDifficultyFocused(int? value) {
+          +    setState(() => _difficultyOverride = value);
+          +  }
+          +
+             final _finalReceiveLightAmt = 0.7;
+             final _finalEmitLightAmt = 0.5;
+           
+             @override
+             Widget build(BuildContext context) {
+          -    final orbColor = AppColors.orbColors[0];
+          -    final emitColor = AppColors.emitColors[0];
+          -
+               return Scaffold(
+                 backgroundColor: Colors.black,
+                 body: Center(
+          @@ -29,7 +50,7 @@ class TitleScreen extends StatelessWidget {
+           
+                       /// Bg-Receive
+                       _buildLitImage(
+          -              color: orbColor,
+          +              color: _orbColor,
+                         imgSrc: AssetPaths.titleBgReceive,
+                       ),
+           
+          @@ -40,20 +61,20 @@ class TitleScreen extends StatelessWidget {
+                             /// Mg-Base
+                             _buildLitImage(
+                               imgSrc: AssetPaths.titleMgBase,
+          -                    color: orbColor,
+          +                    color: _orbColor,
+                             ),
+           
+                             /// Mg-Receive
+                             _buildLitImage(
+                               imgSrc: AssetPaths.titleMgReceive,
+          -                    color: orbColor,
+          +                    color: _orbColor,
+                             ),
+           
+                             /// Mg-Emit
+                             _buildLitImage(
+                               imgSrc: AssetPaths.titleMgEmit,
+                               emit: true,
+          -                    color: emitColor,
+          +                    color: _emitColor,
+                             ),
+           
+                             /// Fg-Rocks
+          @@ -62,22 +83,26 @@ class TitleScreen extends StatelessWidget {
+                             /// Fg-Receive
+                             _buildLitImage(
+                               imgSrc: AssetPaths.titleFgReceive,
+          -                    color: orbColor,
+          +                    color: _orbColor,
+                             ),
+           
+                             /// Fg-Emit
+                             _buildLitImage(
+                               imgSrc: AssetPaths.titleFgEmit,
+                               emit: true,
+          -                    color: emitColor,
+          +                    color: _emitColor,
+                             ),
+                           ],
+                         ),
+                       ),
+           
+                       /// UI
+          -            const Positioned.fill(
+          -              child: TitleScreenUi(),
+          +            Positioned.fill(
+          +              child: TitleScreenUi(
+          +                difficulty: _difficulty,
+          +                onDifficultyFocused: _handleDifficultyFocused,
+          +                onDifficultyPressed: _handleDifficultyPressed,
+          +              ),
+                       ),
+                     ],
+                   ),
+      - name: Build Web app
+        path: next_gen_ui
+        flutter: build web
+      - name: Copy to step_03_b
+        copydir:
+          from: next_gen_ui 
+          to: step_03_b
+      - name: flutter clean
+        path: step_03_b
+        flutter: clean
+      - name: flutter pub get
+        path: step_03_b
+        flutter: pub get
+  - name: Step 3c
+    steps: 
+      - name: Remove generated code
+        rmdir: step_03_c
+      - name: Add lib/title_screen/title_screen_ui.dart
+        path: next_gen_ui/lib/title_screen/title_screen_ui.dart
+        patch-u: |
+          --- b/next-gen-ui/step_03_c/lib/title_screen/title_screen_ui.dart
+          +++ a/next-gen-ui/step_03_c/lib/title_screen/title_screen_ui.dart
+          @@ -17,11 +17,15 @@ class TitleScreenUi extends StatelessWidget {
+               required this.difficulty,
+               required this.onDifficultyPressed,
+               required this.onDifficultyFocused,
+          +    required this.onStartPressed,
+          +    required this.orbColor,
+             });
+           
+             final int difficulty;
+             final void Function(int difficulty) onDifficultyPressed;
+             final void Function(int? difficulty) onDifficultyFocused;
+          +  final VoidCallback onStartPressed;
+          +  final Color orbColor;
+           
+             @override
+             Widget build(BuildContext context) {
+          @@ -48,6 +52,17 @@ class TitleScreenUi extends StatelessWidget {
+                         ),
+                       ),
+                     ),
+          +
+          +          /// StartBtn
+          +          BottomRight(
+          +            child: UiScaler(
+          +              alignment: Alignment.bottomRight,
+          +              child: Padding(
+          +                padding: const EdgeInsets.only(bottom: 20, right: 40),
+          +                child: _StartBtn(orbColor: orbColor, onPressed: onStartPressed),
+          +              ),
+          +            ),
+          +          ),
+                   ],
+                 ),
+               );
+          @@ -122,6 +137,59 @@ class _DifficultyBtns extends StatelessWidget {
+             }
+           }
+           
+          +class _StartBtn extends StatefulWidget {
+          +  const _StartBtn({required this.orbColor, required this.onPressed});
+          +  final Color orbColor;
+          +  final VoidCallback onPressed;
+          +
+          +  @override
+          +  State<_StartBtn> createState() => _StartBtnState();
+          +}
+          +
+          +class _StartBtnState extends State<_StartBtn> {
+          +  AnimationController? _btnAnim;
+          +  bool _wasHovered = false;
+          +
+          +  @override
+          +  Widget build(BuildContext context) {
+          +    return FocusableControlBuilder(
+          +      cursor: SystemMouseCursors.click,
+          +      onPressed: widget.onPressed,
+          +      builder: (_, state) {
+          +        if ((state.isHovered || state.isFocused) &&
+          +            !_wasHovered &&
+          +            _btnAnim?.status != AnimationStatus.forward) {
+          +          _btnAnim?.forward(from: 0);
+          +        }
+          +        _wasHovered = (state.isHovered || state.isFocused);
+          +        return SizedBox(
+          +          width: 520,
+          +          height: 100,
+          +          child: Stack(
+          +            children: [
+          +              Positioned.fill(child: Image.asset(AssetPaths.titleStartBtn)),
+          +              if (state.isHovered || state.isFocused) ...[
+          +                Positioned.fill(
+          +                    child: Image.asset(AssetPaths.titleStartBtnHover)),
+          +              ],
+          +              Center(
+          +                child: Row(
+          +                  mainAxisAlignment: MainAxisAlignment.end,
+          +                  children: [
+          +                    Text('START MISSION',
+          +                        style: TextStyles.btn
+          +                            .copyWith(fontSize: 24, letterSpacing: 18)),
+          +                  ],
+          +                ),
+          +              ),
+          +            ],
+          +          ),
+          +        );
+          +      },
+          +    );
+          +  }
+          +}
+          +
+           class _DifficultyBtn extends StatelessWidget {
+             const _DifficultyBtn({
+               required this.selected,
+      - name: Patch lib/title_screen/title_screen.dart
+        path: next_gen_ui/lib/title_screen/title_screen.dart
+        patch-u: |
+          --- b/next-gen-ui/step_03_c/lib/title_screen/title_screen.dart
+          +++ a/next-gen-ui/step_03_c/lib/title_screen/title_screen.dart
+          @@ -102,6 +102,8 @@ class _TitleScreenState extends State<TitleScreen> {
+                           difficulty: _difficulty,
+                           onDifficultyFocused: _handleDifficultyFocused,
+                           onDifficultyPressed: _handleDifficultyPressed,
+          +                onStartPressed: () {},
+          +                orbColor: _orbColor,
+                         ),
+                       ),
+                     ],
+      - name: Build Web app
+        path: next_gen_ui
+        flutter: build web
+      - name: Copy to step_03_c
+        copydir:
+          from: next_gen_ui 
+          to: step_03_c
+      - name: flutter clean
+        path: step_03_c
+        flutter: clean
+      - name: flutter pub get
+        path: step_03_c
+        flutter: pub get
+  - name: Step 4a
+    steps: 
+      - name: Remove generated code
+        rmdir: step_04_a
+      - name: Patch lib/main.dart
+        path: next_gen_ui/lib/main.dart
+        patch-u: |
+          --- b/next-gen-ui/step_04_a/lib/main.dart
+          +++ a/next-gen-ui/step_04_a/lib/main.dart
+          @@ -6,6 +6,7 @@ import 'dart:io';
+           
+           import 'package:flutter/foundation.dart';
+           import 'package:flutter/material.dart';
+          +import 'package:flutter_animate/flutter_animate.dart';
+           import 'package:window_size/window_size.dart';
+           
+           import 'title_screen/title_screen.dart';
+          @@ -15,6 +16,7 @@ void main() {
+               WidgetsFlutterBinding.ensureInitialized();
+               setWindowMinSize(const Size(800, 500));
+             }
+          +  Animate.restartOnHotReload = true;
+             runApp(const NextGenApp());
+           }
+      - name: Patch lib/title_screen/title_screen_ui.dart
+        path: next_gen_ui/lib/title_screen/title_screen_ui.dart
+        patch-u: |
+          --- b/next-gen-ui/step_04_a/lib/title_screen/title_screen_ui.dart
+          +++ a/next-gen-ui/step_04_a/lib/title_screen/title_screen_ui.dart
+          @@ -4,6 +4,7 @@
+           
+           import 'package:extra_alignments/extra_alignments.dart';
+           import 'package:flutter/material.dart';
+          +import 'package:flutter_animate/flutter_animate.dart';
+           import 'package:focusable_control_builder/focusable_control_builder.dart';
+           import 'package:gap/gap.dart';
+           
+          @@ -90,8 +91,10 @@ class _TitleText extends StatelessWidget {
+                       Text('57', style: TextStyles.h2),
+                       Image.asset(AssetPaths.titleSelectedRight, height: 65),
+                     ],
+          -        ),
+          -        Text('THE LAST STAND', style: TextStyles.h3),
+          +        ).animate().fadeIn(delay: .8.seconds, duration: .7.seconds),
+          +        Text('THE LAST STAND', style: TextStyles.h3)
+          +            .animate()
+          +            .fadeIn(delay: 1.seconds, duration: .7.seconds),
+                 ],
+               );
+             }
+      - name: Build Web app
+        path: next_gen_ui
+        flutter: build web
+      - name: Copy to step_04_a
+        copydir:
+          from: next_gen_ui 
+          to: step_04_a
+      - name: flutter clean
+        path: step_04_a
+        flutter: clean
+      - name: flutter pub get
+        path: step_04_a
+        flutter: pub get
+  - name: Step 4b
+    steps: 
+      - name: Remove generated code
+        rmdir: step_04_b
+      - name: Patch lib/title_screen/title_screen_ui.dart
+        path: next_gen_ui/lib/title_screen/title_screen_ui.dart
+        patch-u: |
+          --- b/next-gen-ui/step_04_b/lib/title_screen/title_screen_ui.dart
+          +++ a/next-gen-ui/step_04_b/lib/title_screen/title_screen_ui.dart
+          @@ -121,19 +121,28 @@ class _DifficultyBtns extends StatelessWidget {
+                     selected: difficulty == 0,
+                     onPressed: () => onDifficultyPressed(0),
+                     onHover: (over) => onDifficultyFocused(over ? 0 : null),
+          -        ),
+          +        )
+          +            .animate()
+          +            .fadeIn(delay: 1.3.seconds, duration: .35.seconds)
+          +            .slide(begin: const Offset(0, .2)),
+                   _DifficultyBtn(
+                     label: 'Normal',
+                     selected: difficulty == 1,
+                     onPressed: () => onDifficultyPressed(1),
+                     onHover: (over) => onDifficultyFocused(over ? 1 : null),
+          -        ),
+          +        )
+          +            .animate()
+          +            .fadeIn(delay: 1.5.seconds, duration: .35.seconds)
+          +            .slide(begin: const Offset(0, .2)),
+                   _DifficultyBtn(
+                     label: 'Hardcore',
+                     selected: difficulty == 2,
+                     onPressed: () => onDifficultyPressed(2),
+                     onHover: (over) => onDifficultyFocused(over ? 2 : null),
+          -        ),
+          +        )
+          +            .animate()
+          +            .fadeIn(delay: 1.7.seconds, duration: .35.seconds)
+          +            .slide(begin: const Offset(0, .2)),
+                   const Gap(20),
+                 ],
+               );
+      - name: Build Web app
+        path: next_gen_ui
+        flutter: build web
+      - name: Copy to step_04_b
+        copydir:
+          from: next_gen_ui 
+          to: step_04_b
+      - name: flutter clean
+        path: step_04_b
+        flutter: clean
+      - name: flutter pub get
+        path: step_04_b
+        flutter: pub get
+  - name: Step 4c
+    steps: 
+      - name: Remove generated code
+        rmdir: step_04_c
+      - name: Patch lib/title_screen/title_screen_ui.dart
+        path: next_gen_ui/lib/title_screen/title_screen_ui.dart
+        patch-u: |
+          --- b/next-gen-ui/step_04_c/lib/title_screen/title_screen_ui.dart
+          +++ a/next-gen-ui/step_04_c/lib/title_screen/title_screen_ui.dart
+          @@ -195,8 +195,13 @@ class _StartBtnState extends State<_StartBtn> {
+                           ),
+                         ),
+                       ],
+          -          ),
+          -        );
+          +          )
+          +              .animate(autoPlay: false, onInit: (c) => _btnAnim = c)
+          +              .shimmer(duration: .7.seconds, color: Colors.black),
+          +        )
+          +            .animate()
+          +            .fadeIn(delay: 2.3.seconds)
+          +            .slide(begin: const Offset(0, .2));
+                 },
+               );
+             }
+      - name: Build Web app
+        path: next_gen_ui
+        flutter: build web
+      - name: Copy to step_04_c
+        copydir:
+          from: next_gen_ui 
+          to: step_04_c
+      - name: flutter clean
+        path: step_04_c
+        flutter: clean
+      - name: flutter pub get
+        path: step_04_c
+        flutter: pub get
+  - name: Step 4d
+    steps: 
+      - name: Remove generated code
+        rmdir: step_04_d
+      - name: Patch lib/title_screen/title_screen_ui.dart
+        path: next_gen_ui/lib/title_screen/title_screen_ui.dart
+        patch-u: |
+          --- b/next-gen-ui/step_04_d/lib/title_screen/title_screen_ui.dart
+          +++ a/next-gen-ui/step_04_d/lib/title_screen/title_screen_ui.dart
+          @@ -233,10 +233,16 @@ class _DifficultyBtn extends StatelessWidget {
+                       child: Stack(
+                         children: [
+                           /// Bg with fill and outline
+          -                Container(
+          -                  decoration: BoxDecoration(
+          -                    color: const Color(0xFF00D1FF).withOpacity(.1),
+          -                    border: Border.all(color: Colors.white, width: 5),
+          +                AnimatedOpacity(
+          +                  opacity: (!selected && (state.isHovered || state.isFocused))
+          +                      ? 1
+          +                      : 0,
+          +                  duration: .3.seconds,
+          +                  child: Container(
+          +                    decoration: BoxDecoration(
+          +                      color: const Color(0xFF00D1FF).withOpacity(.1),
+          +                      border: Border.all(color: Colors.white, width: 5),
+          +                    ),
+                             ),
+                           ),
+      - name: Build Web app
+        path: next_gen_ui
+        flutter: build web
+      - name: Copy to step_04_d
+        copydir:
+          from: next_gen_ui 
+          to: step_04_d
+      - name: flutter clean
+        path: step_04_d
+        flutter: clean
+      - name: flutter pub get
+        path: step_04_d
+        flutter: pub get
+  - name: Step 4e
+    steps: 
+      - name: Remove generated code
+        rmdir: step_04_e
+      - name: Patch lib/title_screen/title_screen.dart
+        path: next_gen_ui/lib/title_screen/title_screen.dart
+        patch-u: |
+          --- b/next-gen-ui/step_04_e/lib/title_screen/title_screen.dart
+          +++ a/next-gen-ui/step_04_e/lib/title_screen/title_screen.dart
+          @@ -3,6 +3,7 @@
+           // found in the LICENSE file.
+           
+           import 'package:flutter/material.dart';
+          +import 'package:flutter_animate/flutter_animate.dart';
+           
+           import '../assets.dart';
+           import '../styles.dart';
+          @@ -126,3 +127,36 @@ class _TitleScreenState extends State<TitleScreen> {
+               );
+             }
+           }
+          +
+          +// ignore: unused_element
+          +class _AnimatedColors extends StatelessWidget {
+          +  const _AnimatedColors({
+          +    required this.emitColor,
+          +    required this.orbColor,
+          +    required this.builder,
+          +  });
+          +
+          +  final Color emitColor;
+          +  final Color orbColor;
+          +
+          +  final Widget Function(BuildContext context, Color orbColor, Color emitColor)
+          +      builder;
+          +
+          +  @override
+          +  Widget build(BuildContext context) {
+          +    final duration = .5.seconds;
+          +    return TweenAnimationBuilder(
+          +      tween: ColorTween(begin: emitColor, end: emitColor),
+          +      duration: duration,
+          +      builder: (_, emitColor, __) {
+          +        return TweenAnimationBuilder(
+          +          tween: ColorTween(begin: orbColor, end: orbColor),
+          +          duration: duration,
+          +          builder: (context, orbColor, __) {
+          +            return builder(context, orbColor!, emitColor!);
+          +          },
+          +        );
+          +      },
+          +    );
+          +  }
+          +}
+      - name: Build Web app
+        path: next_gen_ui
+        flutter: build web
+      - name: Copy to step_04_e
+        copydir:
+          from: next_gen_ui 
+          to: step_04_e
+      - name: flutter clean
+        path: step_04_e
+        flutter: clean
+      - name: flutter pub get
+        path: step_04_e
+        flutter: pub get
+  - name: Step 4f
+    steps: 
+      - name: Remove generated code
+        rmdir: step_04_f
+      - name: Patch lib/title_screen/title_screen.dart
+        path: next_gen_ui/lib/title_screen/title_screen.dart
+        patch-u: |
+          --- b/next-gen-ui/step_04_f/lib/title_screen/title_screen.dart
+          +++ a/next-gen-ui/step_04_f/lib/title_screen/title_screen.dart
+          @@ -44,70 +44,76 @@ class _TitleScreenState extends State<TitleScreen> {
+               return Scaffold(
+                 backgroundColor: Colors.black,
+                 body: Center(
+          -        child: Stack(
+          -          children: [
+          -            /// Bg-Base
+          -            Image.asset(AssetPaths.titleBgBase),
+          -
+          -            /// Bg-Receive
+          -            _buildLitImage(
+          -              color: _orbColor,
+          -              imgSrc: AssetPaths.titleBgReceive,
+          -            ),
+          -
+          -            /// Mg + Fg
+          -            IgnorePointer(
+          -              child: Stack(
+          -                children: [
+          -                  /// Mg-Base
+          -                  _buildLitImage(
+          -                    imgSrc: AssetPaths.titleMgBase,
+          -                    color: _orbColor,
+          +        child: _AnimatedColors(
+          +          orbColor: _orbColor,
+          +          emitColor: _emitColor,
+          +          builder: (_, orbColor, emitColor) {
+          +            return Stack(
+          +              children: [
+          +                /// Bg-Base
+          +                Image.asset(AssetPaths.titleBgBase),
+          +
+          +                /// Bg-Receive
+          +                _buildLitImage(
+          +                  color: orbColor,
+          +                  imgSrc: AssetPaths.titleBgReceive,
+          +                ),
+          +
+          +                /// Mg + Fg
+          +                IgnorePointer(
+          +                  child: Stack(
+          +                    children: [
+          +                      /// Mg-Base
+          +                      _buildLitImage(
+          +                        imgSrc: AssetPaths.titleMgBase,
+          +                        color: orbColor,
+          +                      ),
+          +
+          +                      /// Mg-Receive
+          +                      _buildLitImage(
+          +                        imgSrc: AssetPaths.titleMgReceive,
+          +                        color: orbColor,
+          +                      ),
+          +
+          +                      /// Mg-Emit
+          +                      _buildLitImage(
+          +                        imgSrc: AssetPaths.titleMgEmit,
+          +                        emit: true,
+          +                        color: emitColor,
+          +                      ),
+          +
+          +                      /// Fg-Rocks
+          +                      Image.asset(AssetPaths.titleFgBase),
+          +
+          +                      /// Fg-Receive
+          +                      _buildLitImage(
+          +                        imgSrc: AssetPaths.titleFgReceive,
+          +                        color: orbColor,
+          +                      ),
+          +
+          +                      /// Fg-Emit
+          +                      _buildLitImage(
+          +                        imgSrc: AssetPaths.titleFgEmit,
+          +                        emit: true,
+          +                        color: emitColor,
+          +                      ),
+          +                    ],
+                             ),
+          -
+          -                  /// Mg-Receive
+          -                  _buildLitImage(
+          -                    imgSrc: AssetPaths.titleMgReceive,
+          -                    color: _orbColor,
+          -                  ),
+          -
+          -                  /// Mg-Emit
+          -                  _buildLitImage(
+          -                    imgSrc: AssetPaths.titleMgEmit,
+          -                    emit: true,
+          -                    color: _emitColor,
+          +                ),
+          +
+          +                /// UI
+          +                Positioned.fill(
+          +                  child: TitleScreenUi(
+          +                    difficulty: _difficulty,
+          +                    onDifficultyFocused: _handleDifficultyFocused,
+          +                    onDifficultyPressed: _handleDifficultyPressed,
+          +                    onStartPressed: () {},
+          +                    orbColor: orbColor,
+                             ),
+          -
+          -                  /// Fg-Rocks
+          -                  Image.asset(AssetPaths.titleFgBase),
+          -
+          -                  /// Fg-Receive
+          -                  _buildLitImage(
+          -                    imgSrc: AssetPaths.titleFgReceive,
+          -                    color: _orbColor,
+          -                  ),
+          -
+          -                  /// Fg-Emit
+          -                  _buildLitImage(
+          -                    imgSrc: AssetPaths.titleFgEmit,
+          -                    emit: true,
+          -                    color: _emitColor,
+          -                  ),
+          -                ],
+          -              ),
+          -            ),
+          -
+          -            /// UI
+          -            Positioned.fill(
+          -              child: TitleScreenUi(
+          -                difficulty: _difficulty,
+          -                onDifficultyFocused: _handleDifficultyFocused,
+          -                onDifficultyPressed: _handleDifficultyPressed,
+          -                onStartPressed: () {},
+          -                orbColor: _orbColor,
+          -              ),
+          -            ),
+          -          ],
+          +                ),
+          +              ],
+          +            );
+          +          },
+                   ),
+                 ),
+               );
+          @@ -128,7 +134,6 @@ class _TitleScreenState extends State<TitleScreen> {
+             }
+           }
+           
+          -// ignore: unused_element
+           class _AnimatedColors extends StatelessWidget {
+             const _AnimatedColors({
+               required this.emitColor,
+      - name: Build Web app
+        path: next_gen_ui
+        flutter: build web
+      - name: Copy to step_04_f
+        copydir:
+          from: next_gen_ui 
+          to: step_04_f
+      - name: flutter clean
+        path: step_04_f
+        flutter: clean
+      - name: flutter pub get
+        path: step_04_f
+        flutter: pub get
+  - name: Step 5a
+    steps: 
+      - name: Remove generated code
+        rmdir: step_05_a
+      - name: Patch lib/main.dart
+        path: next_gen_ui/lib/main.dart
+        patch-u: |
+          --- b/next-gen-ui/step_05_a/lib/main.dart
+          +++ a/next-gen-ui/step_05_a/lib/main.dart
+          @@ -7,8 +7,10 @@ import 'dart:io';
+           import 'package:flutter/foundation.dart';
+           import 'package:flutter/material.dart';
+           import 'package:flutter_animate/flutter_animate.dart';
+          +import 'package:provider/provider.dart';
+           import 'package:window_size/window_size.dart';
+           
+          +import 'assets.dart';
+           import 'title_screen/title_screen.dart';
+           
+           void main() {
+          @@ -17,7 +19,13 @@ void main() {
+               setWindowMinSize(const Size(800, 500));
+             }
+             Animate.restartOnHotReload = true;
+          -  runApp(const NextGenApp());
+          +  runApp(
+          +    FutureProvider<Shaders?>(
+          +      create: (context) => loadShaders(),
+          +      initialData: null,
+          +      child: const NextGenApp(),
+          +    ),
+          +  );
+           }
+           
+           class NextGenApp extends StatelessWidget {
       - name: Patch lib/title_screen/title_screen_ui.dart
         path: next_gen_ui/lib/title_screen/title_screen_ui.dart
         patch-u: |
@@ -3113,6 +3164,9 @@ steps:
           +    );
              }
            }
+      - name: Build Web app
+        path: next_gen_ui
+        flutter: build web
       - name: Copy to step_05_a
         copydir:
           from: next_gen_ui 
@@ -3455,6 +3509,9 @@ steps:
                );
              }
            }
+      - name: Build Web app
+        path: next_gen_ui
+        flutter: build web
       - name: Copy to step_05_b
         copydir:
           from: next_gen_ui 
