@@ -2796,7 +2796,7 @@ steps:
       - name: flutter pub get
         path: step_04_c
         flutter: pub get
-  - name: Step 4d
+  - name: Step 4d - Animate the difficulty button hover state
     steps: 
       - name: Remove generated code
         rmdir: step_04_d
