@@ -1,6 +1,6 @@
 name: Next Generation User Interface
 steps:
-  - name: Step 1
+  - name: Step 1 - Starting point
     steps: 
       - name: Remove generated code
         rmdir: step_01
@@ -2554,10 +2554,11 @@ steps:
                    ],
                  ),
                );
-          @@ -122,6 +137,59 @@ class _DifficultyBtns extends StatelessWidget {
+          @@ -185,3 +200,56 @@ class _DifficultyBtn extends StatelessWidget {
+               );
              }
            }
-           
+          +
           +class _StartBtn extends StatefulWidget {
           +  const _StartBtn({required this.orbColor, required this.onPressed});
           +  final Color orbColor;
@@ -2610,10 +2611,6 @@ steps:
           +    );
           +  }
           +}
-          +
-           class _DifficultyBtn extends StatelessWidget {
-             const _DifficultyBtn({
-               required this.selected,
       - name: Patch lib/title_screen/title_screen.dart
         path: next_gen_ui/lib/title_screen/title_screen.dart
         patch-u: |
@@ -2767,7 +2764,7 @@ steps:
         patch-u: |
           --- b/next-gen-ui/step_04_c/lib/title_screen/title_screen_ui.dart
           +++ a/next-gen-ui/step_04_c/lib/title_screen/title_screen_ui.dart
-          @@ -195,8 +195,13 @@ class _StartBtnState extends State<_StartBtn> {
+          @@ -259,8 +259,13 @@ class _StartBtnState extends State<_StartBtn> {
                            ),
                          ),
                        ],
@@ -2805,7 +2802,7 @@ steps:
         patch-u: |
           --- b/next-gen-ui/step_04_d/lib/title_screen/title_screen_ui.dart
           +++ a/next-gen-ui/step_04_d/lib/title_screen/title_screen_ui.dart
-          @@ -233,10 +233,16 @@ class _DifficultyBtn extends StatelessWidget {
+          @@ -175,10 +175,16 @@ class _DifficultyBtn extends StatelessWidget {
                        child: Stack(
                          children: [
                            /// Bg with fill and outline
