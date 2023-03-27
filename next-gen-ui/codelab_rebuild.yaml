@@ -2110,7 +2110,7 @@ steps:
       - name: flutter pub get
         path: step_02_g
         flutter: pub get
-  - name: Step 3a
+  - name: Step 3a - Add a title
     steps: 
       - name: Remove generated code
         rmdir: step_03_a
@@ -2217,11 +2217,11 @@ steps:
       - name: flutter pub get
         path: step_03_a
         flutter: pub get
-  - name: Step 3b
+  - name: Step 3b - Add difficulty buttons
     steps: 
       - name: Remove generated code
         rmdir: step_03_b
-      - name: Add lib/title_screen/title_screen_ui.dart
+      - name: Patch lib/title_screen/title_screen_ui.dart
         path: next_gen_ui/lib/title_screen/title_screen_ui.dart
         patch-u: |
           --- b/next-gen-ui/step_03_b/lib/title_screen/title_screen_ui.dart
@@ -2511,7 +2511,7 @@ steps:
       - name: flutter pub get
         path: step_03_b
         flutter: pub get
-  - name: Step 3c
+  - name: Step 3c - Add a Start button
     steps: 
       - name: Remove generated code
         rmdir: step_03_c
