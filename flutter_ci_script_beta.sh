@@ -26,7 +26,8 @@ declare -a CODELABS=(
   "github-client"
   "google-maps-in-flutter"
   "haiku_generator"
-  "in_app_purchases"
+  # TODO(miquelbeltran): Use 'const' with the constructor to improve performance.
+  # "in_app_purchases"
   "namer"
   "plugin_codelab"
   "star_counter"
