@@ -1768,7 +1768,7 @@ steps:
         patch-u: |
           --- b/next-gen-ui/step_02_b/lib/title_screen/title_screen.dart
           +++ a/next-gen-ui/step_02_b/lib/title_screen/title_screen.dart
-          @@ -4,16 +4,24 @@
+          @@ -4,16 +4,21 @@
            
            import 'package:flutter/material.dart';
            
@@ -1786,10 +1786,7 @@ steps:
                    child: Stack(
           -          children: [],
           +          children: [
-          +            /// Bg-Base
           +            Image.asset(AssetPaths.titleBgBase),
-          +
-          +            /// Bg-Receive
           +            Image.asset(AssetPaths.titleBgReceive),
           +          ],
                    ),
@@ -1817,18 +1814,12 @@ steps:
         patch-u: |
           --- b/next-gen-ui/step_02_c/lib/title_screen/title_screen.dart
           +++ a/next-gen-ui/step_02_c/lib/title_screen/title_screen.dart
-          @@ -21,6 +21,15 @@ class TitleScreen extends StatelessWidget {
-           
-                       /// Bg-Receive
+          @@ -18,6 +18,9 @@ class TitleScreen extends StatelessWidget {
+                     children: [
+                       Image.asset(AssetPaths.titleBgBase),
                        Image.asset(AssetPaths.titleBgReceive),
-          +
-          +            /// Mg-Base
           +            Image.asset(AssetPaths.titleMgBase),
-          +
-          +            /// Mg-Receive
           +            Image.asset(AssetPaths.titleMgReceive),
-          +
-          +            /// Mg-Emit
           +            Image.asset(AssetPaths.titleMgEmit),
                      ],
                    ),
@@ -1855,18 +1846,12 @@ steps:
         patch-u: |
           --- b/next-gen-ui/step_02_d/lib/title_screen/title_screen.dart
           +++ a/next-gen-ui/step_02_d/lib/title_screen/title_screen.dart
-          @@ -30,6 +30,15 @@ class TitleScreen extends StatelessWidget {
-           
-                       /// Mg-Emit
+          @@ -21,6 +21,9 @@ class TitleScreen extends StatelessWidget {
+                       Image.asset(AssetPaths.titleMgBase),
+                       Image.asset(AssetPaths.titleMgReceive),
                        Image.asset(AssetPaths.titleMgEmit),
-          +
-          +            /// Fg-Rocks
           +            Image.asset(AssetPaths.titleFgBase),
-          +
-          +            /// Fg-Receive
           +            Image.asset(AssetPaths.titleFgReceive),
-          +
-          +            /// Fg-Emit
           +            Image.asset(AssetPaths.titleFgEmit),
                      ],
                    ),
@@ -1893,47 +1878,24 @@ steps:
         patch-u: |
           --- b/next-gen-ui/step_02_e/lib/title_screen/title_screen.dart
           +++ a/next-gen-ui/step_02_e/lib/title_screen/title_screen.dart
-          @@ -22,23 +22,30 @@ class TitleScreen extends StatelessWidget {
-                       /// Bg-Receive
+          @@ -18,12 +18,18 @@ class TitleScreen extends StatelessWidget {
+                     children: [
+                       Image.asset(AssetPaths.titleBgBase),
                        Image.asset(AssetPaths.titleBgReceive),
-           
-          -            /// Mg-Base
           -            Image.asset(AssetPaths.titleMgBase),
-          -
-          -            /// Mg-Receive
           -            Image.asset(AssetPaths.titleMgReceive),
-          -
-          -            /// Mg-Emit
           -            Image.asset(AssetPaths.titleMgEmit),
-          -
-          -            /// Fg-Rocks
           -            Image.asset(AssetPaths.titleFgBase),
-          -
-          -            /// Fg-Receive
           -            Image.asset(AssetPaths.titleFgReceive),
-          -
-          -            /// Fg-Emit
           -            Image.asset(AssetPaths.titleFgEmit),
-          +            /// Mg + Fg
           +            IgnorePointer(
           +              child: Stack(
           +                children: [
-          +                  /// Mg-Base
           +                  Image.asset(AssetPaths.titleMgBase),
-          +
-          +                  /// Mg-Receive
           +                  Image.asset(AssetPaths.titleMgReceive),
-          +
-          +                  /// Mg-Emit
           +                  Image.asset(AssetPaths.titleMgEmit),
-          +
-          +                  /// Fg-Rocks
           +                  Image.asset(AssetPaths.titleFgBase),
-          +
-          +                  /// Fg-Receive
           +                  Image.asset(AssetPaths.titleFgReceive),
-          +
-          +                  /// Fg-Emit
           +                  Image.asset(AssetPaths.titleFgEmit),
           +                ],
           +              ),
@@ -1973,7 +1935,7 @@ steps:
              @override
              Widget build(BuildContext context) {
                return Scaffold(
-          @@ -51,4 +54,19 @@ class TitleScreen extends StatelessWidget {
+          @@ -35,4 +38,19 @@ class TitleScreen extends StatelessWidget {
                  ),
                );
              }
@@ -2023,7 +1985,7 @@ steps:
            
            class TitleScreen extends StatelessWidget {
              const TitleScreen({super.key});
-          @@ -14,6 +15,9 @@ class TitleScreen extends StatelessWidget {
+          @@ -14,22 +15,45 @@ class TitleScreen extends StatelessWidget {
            
              @override
              Widget build(BuildContext context) {
@@ -2033,54 +1995,40 @@ steps:
                return Scaffold(
                  backgroundColor: Colors.black,
                  body: Center(
-          @@ -23,29 +27,49 @@ class TitleScreen extends StatelessWidget {
+                   child: Stack(
+                     children: [
                        Image.asset(AssetPaths.titleBgBase),
-           
-                       /// Bg-Receive
           -            Image.asset(AssetPaths.titleBgReceive),
           +            _buildLitImage(
           +              color: orbColor,
           +              imgSrc: AssetPaths.titleBgReceive,
           +            ),
-           
-                       /// Mg + Fg
                        IgnorePointer(
                          child: Stack(
                            children: [
-                             /// Mg-Base
           -                  Image.asset(AssetPaths.titleMgBase),
+          -                  Image.asset(AssetPaths.titleMgReceive),
+          -                  Image.asset(AssetPaths.titleMgEmit),
           +                  _buildLitImage(
           +                    imgSrc: AssetPaths.titleMgBase,
           +                    color: orbColor,
           +                  ),
-           
-                             /// Mg-Receive
-          -                  Image.asset(AssetPaths.titleMgReceive),
           +                  _buildLitImage(
           +                    imgSrc: AssetPaths.titleMgReceive,
           +                    color: orbColor,
           +                  ),
-           
-                             /// Mg-Emit
-          -                  Image.asset(AssetPaths.titleMgEmit),
           +                  _buildLitImage(
           +                    imgSrc: AssetPaths.titleMgEmit,
           +                    emit: true,
           +                    color: emitColor,
           +                  ),
-           
-                             /// Fg-Rocks
                              Image.asset(AssetPaths.titleFgBase),
-           
-                             /// Fg-Receive
           -                  Image.asset(AssetPaths.titleFgReceive),
+          -                  Image.asset(AssetPaths.titleFgEmit),
           +                  _buildLitImage(
           +                    imgSrc: AssetPaths.titleFgReceive,
           +                    color: orbColor,
           +                  ),
-           
-                             /// Fg-Emit
-          -                  Image.asset(AssetPaths.titleFgEmit),
           +                  _buildLitImage(
           +                    imgSrc: AssetPaths.titleFgEmit,
           +                    emit: true,
@@ -2089,7 +2037,7 @@ steps:
                            ],
                          ),
                        ),
-          @@ -55,7 +79,6 @@ class TitleScreen extends StatelessWidget {
+          @@ -39,7 +63,6 @@ class TitleScreen extends StatelessWidget {
                );
              }
            
@@ -2133,13 +2081,13 @@ steps:
             const TitleScreenUi({
               super.key,
             });
+
             @override
             Widget build(BuildContext context) {
               return const Padding(
                 padding: EdgeInsets.symmetric(vertical: 40, horizontal: 50),
                 child: Stack(
                   children: [
-                    /// Title Text
                     TopLeft(
                       child: UiScaler(
                         alignment: Alignment.topLeft,
@@ -2192,12 +2140,10 @@ steps:
            
            class TitleScreen extends StatelessWidget {
              const TitleScreen({super.key});
-          @@ -73,6 +74,11 @@ class TitleScreen extends StatelessWidget {
+          @@ -57,6 +58,9 @@ class TitleScreen extends StatelessWidget {
                            ],
                          ),
                        ),
-          +
-          +            /// UI
           +            const Positioned.fill(
           +              child: TitleScreenUi(),
           +            ),
@@ -2234,7 +2180,7 @@ steps:
            import 'package:gap/gap.dart';
            
            import '../assets.dart';
-          @@ -13,20 +14,40 @@ import '../styles.dart';
+          @@ -13,20 +14,37 @@ import '../styles.dart';
            class TitleScreenUi extends StatelessWidget {
              const TitleScreenUi({
                super.key,
@@ -2242,7 +2188,7 @@ steps:
           +    required this.onDifficultyPressed,
           +    required this.onDifficultyFocused,
              });
-          +
+           
           +  final int difficulty;
           +  final void Function(int difficulty) onDifficultyPressed;
           +  final void Function(int? difficulty) onDifficultyFocused;
@@ -2255,7 +2201,6 @@ steps:
           +      padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 50),
                  child: Stack(
                    children: [
-                     /// Title Text
           -          TopLeft(
           +          const TopLeft(
                        child: UiScaler(
@@ -2263,8 +2208,6 @@ steps:
                          child: _TitleText(),
                        ),
                      ),
-          +
-          +          /// Difficulty Btns
           +          BottomLeft(
           +            child: UiScaler(
           +              alignment: Alignment.bottomLeft,
@@ -2278,7 +2221,7 @@ steps:
                    ],
                  ),
                );
-          @@ -60,3 +81,107 @@ class _TitleText extends StatelessWidget {
+          @@ -60,3 +78,101 @@ class _TitleText extends StatelessWidget {
                );
              }
            }
@@ -2348,14 +2291,12 @@ steps:
           +            height: 60,
           +            child: Stack(
           +              children: [
-          +                /// Bg with fill and outline
           +                Container(
           +                  decoration: BoxDecoration(
           +                    color: const Color(0xFF00D1FF).withOpacity(.1),
           +                    border: Border.all(color: Colors.white, width: 5),
           +                  ),
           +                ),
-          +
           +                if (state.isHovered || state.isFocused) ...[
           +                  Container(
           +                    decoration: BoxDecoration(
@@ -2363,8 +2304,6 @@ steps:
           +                    ),
           +                  ),
           +                ],
-          +
-          +                /// cross-hairs (selected state)
           +                if (selected) ...[
           +                  CenterLeft(
           +                    child: Image.asset(AssetPaths.titleSelectedLeft),
@@ -2373,8 +2312,6 @@ steps:
           +                    child: Image.asset(AssetPaths.titleSelectedRight),
           +                  ),
           +                ],
-          +
-          +                /// Label
           +                Center(
           +                  child: Text(label.toUpperCase(), style: TextStyles.btn),
           +                ),
@@ -2391,7 +2328,7 @@ steps:
         patch-u: |
           --- b/next-gen-ui/step_03_b/lib/title_screen/title_screen.dart
           +++ a/next-gen-ui/step_03_b/lib/title_screen/title_screen.dart
-          @@ -8,17 +8,38 @@ import '../assets.dart';
+          @@ -8,17 +8,35 @@ import '../assets.dart';
            import '../styles.dart';
            import 'title_screen_ui.dart';
            
@@ -2409,10 +2346,7 @@ steps:
           +  Color get _orbColor =>
           +      AppColors.orbColors[_difficultyOverride ?? _difficulty];
           +
-          +  /// Currently selected difficulty
           +  int _difficulty = 0;
-          +
-          +  /// Currently focused difficulty (if any)
           +  int? _difficultyOverride;
           +
           +  void _handleDifficultyPressed(int value) {
@@ -2434,48 +2368,39 @@ steps:
                return Scaffold(
                  backgroundColor: Colors.black,
                  body: Center(
-          @@ -29,7 +50,7 @@ class TitleScreen extends StatelessWidget {
-           
-                       /// Bg-Receive
+          @@ -26,7 +44,7 @@ class TitleScreen extends StatelessWidget {
+                     children: [
+                       Image.asset(AssetPaths.titleBgBase),
                        _buildLitImage(
           -              color: orbColor,
           +              color: _orbColor,
                          imgSrc: AssetPaths.titleBgReceive,
                        ),
-           
-          @@ -40,20 +61,20 @@ class TitleScreen extends StatelessWidget {
-                             /// Mg-Base
+                       IgnorePointer(
+          @@ -34,32 +52,36 @@ class TitleScreen extends StatelessWidget {
+                           children: [
                              _buildLitImage(
                                imgSrc: AssetPaths.titleMgBase,
           -                    color: orbColor,
           +                    color: _orbColor,
                              ),
-           
-                             /// Mg-Receive
                              _buildLitImage(
                                imgSrc: AssetPaths.titleMgReceive,
           -                    color: orbColor,
           +                    color: _orbColor,
                              ),
-           
-                             /// Mg-Emit
                              _buildLitImage(
                                imgSrc: AssetPaths.titleMgEmit,
                                emit: true,
           -                    color: emitColor,
           +                    color: _emitColor,
                              ),
-           
-                             /// Fg-Rocks
-          @@ -62,22 +83,26 @@ class TitleScreen extends StatelessWidget {
-                             /// Fg-Receive
+                             Image.asset(AssetPaths.titleFgBase),
                              _buildLitImage(
                                imgSrc: AssetPaths.titleFgReceive,
           -                    color: orbColor,
           +                    color: _orbColor,
                              ),
-           
-                             /// Fg-Emit
                              _buildLitImage(
                                imgSrc: AssetPaths.titleFgEmit,
                                emit: true,
@@ -2485,8 +2410,6 @@ steps:
                            ],
                          ),
                        ),
-           
-                       /// UI
           -            const Positioned.fill(
           -              child: TitleScreenUi(),
           +            Positioned.fill(
@@ -2520,7 +2443,7 @@ steps:
         patch-u: |
           --- b/next-gen-ui/step_03_c/lib/title_screen/title_screen_ui.dart
           +++ a/next-gen-ui/step_03_c/lib/title_screen/title_screen_ui.dart
-          @@ -17,11 +17,15 @@ class TitleScreenUi extends StatelessWidget {
+          @@ -17,11 +18,15 @@ class TitleScreenUi extends StatelessWidget {
                required this.difficulty,
                required this.onDifficultyPressed,
                required this.onDifficultyFocused,
@@ -2536,12 +2459,10 @@ steps:
            
              @override
              Widget build(BuildContext context) {
-          @@ -48,6 +52,17 @@ class TitleScreenUi extends StatelessWidget {
+          @@ -45,6 +50,15 @@ class TitleScreenUi extends StatelessWidget {
                          ),
                        ),
                      ),
-          +
-          +          /// StartBtn
           +          BottomRight(
           +            child: UiScaler(
           +              alignment: Alignment.bottomRight,
@@ -2554,7 +2475,7 @@ steps:
                    ],
                  ),
                );
-          @@ -185,3 +200,56 @@ class _DifficultyBtn extends StatelessWidget {
+          @@ -176,3 +190,56 @@ class _DifficultyBtn extends StatelessWidget {
                );
              }
            }
@@ -2616,7 +2537,7 @@ steps:
         patch-u: |
           --- b/next-gen-ui/step_03_c/lib/title_screen/title_screen.dart
           +++ a/next-gen-ui/step_03_c/lib/title_screen/title_screen.dart
-          @@ -102,6 +102,8 @@ class _TitleScreenState extends State<TitleScreen> {
+          @@ -81,6 +81,8 @@ class _TitleScreenState extends State<TitleScreen> {
                            difficulty: _difficulty,
                            onDifficultyFocused: _handleDifficultyFocused,
                            onDifficultyPressed: _handleDifficultyPressed,
@@ -2675,7 +2596,7 @@ steps:
            import 'package:focusable_control_builder/focusable_control_builder.dart';
            import 'package:gap/gap.dart';
            
-          @@ -90,8 +91,10 @@ class _TitleText extends StatelessWidget {
+          @@ -85,8 +86,10 @@ class _TitleText extends StatelessWidget {
                        Text('57', style: TextStyles.h2),
                        Image.asset(AssetPaths.titleSelectedRight, height: 65),
                      ],
@@ -2710,7 +2631,7 @@ steps:
         patch-u: |
           --- b/next-gen-ui/step_04_b/lib/title_screen/title_screen_ui.dart
           +++ a/next-gen-ui/step_04_b/lib/title_screen/title_screen_ui.dart
-          @@ -121,19 +121,28 @@ class _DifficultyBtns extends StatelessWidget {
+          @@ -116,19 +116,28 @@ class _DifficultyBtns extends StatelessWidget {
                      selected: difficulty == 0,
                      onPressed: () => onDifficultyPressed(0),
                      onHover: (over) => onDifficultyFocused(over ? 0 : null),
@@ -2764,7 +2685,7 @@ steps:
         patch-u: |
           --- b/next-gen-ui/step_04_c/lib/title_screen/title_screen_ui.dart
           +++ a/next-gen-ui/step_04_c/lib/title_screen/title_screen_ui.dart
-          @@ -259,8 +259,13 @@ class _StartBtnState extends State<_StartBtn> {
+          @@ -248,8 +248,13 @@ class _StartBtnState extends State<_StartBtn> {
                            ),
                          ),
                        ],
@@ -2802,10 +2723,10 @@ steps:
         patch-u: |
           --- b/next-gen-ui/step_04_d/lib/title_screen/title_screen_ui.dart
           +++ a/next-gen-ui/step_04_d/lib/title_screen/title_screen_ui.dart
-          @@ -175,10 +175,16 @@ class _DifficultyBtn extends StatelessWidget {
+          @@ -169,10 +169,16 @@ class _DifficultyBtn extends StatelessWidget {
+                       height: 60,
                        child: Stack(
                          children: [
-                           /// Bg with fill and outline
           -                Container(
           -                  decoration: BoxDecoration(
           -                    color: const Color(0xFF00D1FF).withOpacity(.1),
@@ -2822,6 +2743,7 @@ steps:
           +                    ),
                              ),
                            ),
+                           if (state.isHovered || state.isFocused) ...[
       - name: Build Web app
         path: next_gen_ui
         flutter: build web
@@ -2852,7 +2774,7 @@ steps:
            
            import '../assets.dart';
            import '../styles.dart';
-          @@ -126,3 +127,36 @@ class _TitleScreenState extends State<TitleScreen> {
+          @@ -105,3 +105,36 @@ class _TitleScreenState extends State<TitleScreen> {
                );
              }
            }
@@ -2911,26 +2833,20 @@ steps:
         patch-u: |
           --- b/next-gen-ui/step_04_f/lib/title_screen/title_screen.dart
           +++ a/next-gen-ui/step_04_f/lib/title_screen/title_screen.dart
-          @@ -44,70 +44,76 @@ class _TitleScreenState extends State<TitleScreen> {
+          @@ -41,52 +41,58 @@ class _TitleScreenState extends State<TitleScreen> {
                return Scaffold(
                  backgroundColor: Colors.black,
                  body: Center(
           -        child: Stack(
           -          children: [
-          -            /// Bg-Base
           -            Image.asset(AssetPaths.titleBgBase),
-          -
-          -            /// Bg-Receive
           -            _buildLitImage(
           -              color: _orbColor,
           -              imgSrc: AssetPaths.titleBgReceive,
           -            ),
-          -
-          -            /// Mg + Fg
           -            IgnorePointer(
           -              child: Stack(
           -                children: [
-          -                  /// Mg-Base
           -                  _buildLitImage(
           -                    imgSrc: AssetPaths.titleMgBase,
           -                    color: _orbColor,
@@ -2940,48 +2856,32 @@ steps:
           +          builder: (_, orbColor, emitColor) {
           +            return Stack(
           +              children: [
-          +                /// Bg-Base
           +                Image.asset(AssetPaths.titleBgBase),
-          +
-          +                /// Bg-Receive
           +                _buildLitImage(
           +                  color: orbColor,
           +                  imgSrc: AssetPaths.titleBgReceive,
           +                ),
-          +
-          +                /// Mg + Fg
           +                IgnorePointer(
           +                  child: Stack(
           +                    children: [
-          +                      /// Mg-Base
           +                      _buildLitImage(
           +                        imgSrc: AssetPaths.titleMgBase,
           +                        color: orbColor,
           +                      ),
-          +
-          +                      /// Mg-Receive
           +                      _buildLitImage(
           +                        imgSrc: AssetPaths.titleMgReceive,
           +                        color: orbColor,
           +                      ),
-          +
-          +                      /// Mg-Emit
           +                      _buildLitImage(
           +                        imgSrc: AssetPaths.titleMgEmit,
           +                        emit: true,
           +                        color: emitColor,
           +                      ),
-          +
-          +                      /// Fg-Rocks
           +                      Image.asset(AssetPaths.titleFgBase),
-          +
-          +                      /// Fg-Receive
           +                      _buildLitImage(
           +                        imgSrc: AssetPaths.titleFgReceive,
           +                        color: orbColor,
           +                      ),
-          +
-          +                      /// Fg-Emit
           +                      _buildLitImage(
           +                        imgSrc: AssetPaths.titleFgEmit,
           +                        emit: true,
@@ -2989,21 +2889,10 @@ steps:
           +                      ),
           +                    ],
                              ),
-          -
-          -                  /// Mg-Receive
           -                  _buildLitImage(
           -                    imgSrc: AssetPaths.titleMgReceive,
           -                    color: _orbColor,
-          -                  ),
-          -
-          -                  /// Mg-Emit
-          -                  _buildLitImage(
-          -                    imgSrc: AssetPaths.titleMgEmit,
-          -                    emit: true,
-          -                    color: _emitColor,
           +                ),
-          +
-          +                /// UI
           +                Positioned.fill(
           +                  child: TitleScreenUi(
           +                    difficulty: _difficulty,
@@ -3012,17 +2901,16 @@ steps:
           +                    onStartPressed: () {},
           +                    orbColor: orbColor,
                              ),
-          -
-          -                  /// Fg-Rocks
+          -                  _buildLitImage(
+          -                    imgSrc: AssetPaths.titleMgEmit,
+          -                    emit: true,
+          -                    color: _emitColor,
+          -                  ),
           -                  Image.asset(AssetPaths.titleFgBase),
-          -
-          -                  /// Fg-Receive
           -                  _buildLitImage(
           -                    imgSrc: AssetPaths.titleFgReceive,
           -                    color: _orbColor,
           -                  ),
-          -
-          -                  /// Fg-Emit
           -                  _buildLitImage(
           -                    imgSrc: AssetPaths.titleFgEmit,
           -                    emit: true,
@@ -3031,8 +2919,6 @@ steps:
           -                ],
           -              ),
           -            ),
-          -
-          -            /// UI
           -            Positioned.fill(
           -              child: TitleScreenUi(
           -                difficulty: _difficulty,
@@ -3050,7 +2936,7 @@ steps:
                    ),
                  ),
                );
-          @@ -128,7 +134,6 @@ class _TitleScreenState extends State<TitleScreen> {
+          @@ -107,7 +113,6 @@ class _TitleScreenState extends State<TitleScreen> {
              }
            }
            
@@ -3116,15 +3002,15 @@ steps:
            import 'package:focusable_control_builder/focusable_control_builder.dart';
            import 'package:gap/gap.dart';
           +import 'package:provider/provider.dart';
-
+           
            import '../assets.dart';
           +import '../common/shader_effect.dart';
           +import '../common/ticking_builder.dart';
            import '../common/ui_scaler.dart';
            import '../styles.dart';
-
-          @@ -75,7 +78,7 @@ class _TitleText extends StatelessWidget {
-          
+           
+          @@ -70,7 +73,7 @@ class _TitleText extends StatelessWidget {
+           
              @override
              Widget build(BuildContext context) {
           -    return Column(
@@ -3132,7 +3018,7 @@ steps:
                  mainAxisSize: MainAxisSize.min,
                  crossAxisAlignment: CrossAxisAlignment.start,
                  children: [
-          @@ -97,6 +100,29 @@ class _TitleText extends StatelessWidget {
+          @@ -92,6 +95,29 @@ class _TitleText extends StatelessWidget {
                        .fadeIn(delay: 1.seconds, duration: .7.seconds),
                  ],
                );
@@ -3200,7 +3086,7 @@ steps:
            import '../styles.dart';
            import 'title_screen_ui.dart';
            
-          @@ -16,7 +22,22 @@ class TitleScreen extends StatefulWidget {
+          @@ -16,7 +22,17 @@ class TitleScreen extends StatefulWidget {
              State<TitleScreen> createState() => _TitleScreenState();
            }
            
@@ -3209,24 +3095,19 @@ steps:
           +    with SingleTickerProviderStateMixin {
           +  final _orbKey = GlobalKey<OrbShaderWidgetState>();
           +
-          +  /// Editable Settings
-          +  /// 0-1, receive lighting strength
           +  double get _minReceiveLightAmt => .35;
           +  double get _maxReceiveLightAmt => .7;
-          +
-          +  /// 0-1, emit lighting strength
           +  double get _minEmitLightAmt => .5;
           +  double get _maxEmitLightAmt => 1;
           +
-          +  /// Internal
           +  final _mousePos = ValueNotifier(Offset.zero);
           +
              Color get _emitColor =>
                  AppColors.emitColors[_difficultyOverride ?? _difficulty];
              Color get _orbColor =>
-          @@ -27,93 +48,183 @@ class _TitleScreenState extends State<TitleScreen> {
+          @@ -24,75 +40,160 @@ class _TitleScreenState extends State<TitleScreen> {
            
-             /// Currently focused difficulty (if any)
+             int _difficulty = 0;
              int? _difficultyOverride;
           +  late final _orbEnergy = ValueNotifier<double>(0);
           +  late final _minOrbEnergy = ValueNotifier<double>(0);
@@ -3281,14 +3162,14 @@ steps:
              void _handleDifficultyPressed(int value) {
                setState(() => _difficulty = value);
           +    _bumpMinEnergy();
-             }
-           
+          +  }
+          +
           +  Future<void> _bumpMinEnergy() async {
           +    _minOrbEnergy.value = _getMinEnergyForDifficulty(_difficulty) + .1;
           +    await Future<void>.delayed(.2.seconds);
           +    _minOrbEnergy.value = _getMinEnergyForDifficulty(_difficulty);
-          +  }
-          +
+             }
+           
           +  void _handleStartPressed() => _bumpMinEnergy();
           +
              void _handleDifficultyFocused(int? value) {
@@ -3305,8 +3186,6 @@ steps:
            
           -  final _finalReceiveLightAmt = 0.7;
           -  final _finalEmitLightAmt = 0.5;
-          +  /// Update mouse position so the orbWidget can use it, doing it here prevents
-          +  /// btns from blocking the mouse-move events in the widget itself.
           +  void _handleMouseMove(PointerHoverEvent e) =>
           +      _mousePos.value = e.localPosition;
            
@@ -3321,48 +3200,32 @@ steps:
           -          builder: (_, orbColor, emitColor) {
           -            return Stack(
           -              children: [
-          -                /// Bg-Base
           -                Image.asset(AssetPaths.titleBgBase),
-          -
-          -                /// Bg-Receive
           -                _buildLitImage(
           -                  color: orbColor,
           -                  imgSrc: AssetPaths.titleBgReceive,
           -                ),
-          -
-          -                /// Mg + Fg
           -                IgnorePointer(
           -                  child: Stack(
           -                    children: [
-          -                      /// Mg-Base
           -                      _buildLitImage(
           -                        imgSrc: AssetPaths.titleMgBase,
           -                        color: orbColor,
           -                      ),
-          -
-          -                      /// Mg-Receive
           -                      _buildLitImage(
           -                        imgSrc: AssetPaths.titleMgReceive,
           -                        color: orbColor,
           -                      ),
-          -
-          -                      /// Mg-Emit
           -                      _buildLitImage(
           -                        imgSrc: AssetPaths.titleMgEmit,
           -                        emit: true,
           -                        color: emitColor,
           -                      ),
-          -
-          -                      /// Fg-Rocks
           -                      Image.asset(AssetPaths.titleFgBase),
-          -
-          -                      /// Fg-Receive
           -                      _buildLitImage(
           -                        imgSrc: AssetPaths.titleFgReceive,
           -                        color: orbColor,
           -                      ),
-          -
-          -                      /// Fg-Emit
           -                      _buildLitImage(
           -                        imgSrc: AssetPaths.titleFgEmit,
           -                        emit: true,
@@ -3377,17 +3240,12 @@ steps:
           +            builder: (_, orbColor, emitColor) {
           +              return Stack(
           +                children: [
-          +                  /// Bg-Base
           +                  Image.asset(AssetPaths.titleBgBase),
-          +
-          +                  /// Bg-Receive
           +                  _buildLitImage(
           +                    color: orbColor,
           +                    imgSrc: AssetPaths.titleBgReceive,
                              ),
           -                ),
-          -
-          -                /// UI
           -                Positioned.fill(
           -                  child: TitleScreenUi(
           -                    difficulty: _difficulty,
@@ -3395,12 +3253,9 @@ steps:
           -                    onDifficultyPressed: _handleDifficultyPressed,
           -                    onStartPressed: () {},
           -                    orbColor: orbColor,
-          +
-          +                  /// Orb
           +                  Positioned.fill(
           +                    child: Stack(
           +                      children: [
-          +                        // Orb
           +                        OrbShaderWidget(
           +                          key: _orbKey,
           +                          mousePos: _mousePos,
@@ -3419,40 +3274,27 @@ steps:
           -              ],
           -            );
           -          },
-          +
-          +                  /// Mg + Fg
           +                  IgnorePointer(
           +                    child: Stack(
           +                      children: [
-          +                        /// Mg-Base
           +                        _buildLitImage(
           +                          imgSrc: AssetPaths.titleMgBase,
           +                          color: orbColor,
           +                        ),
-          +
-          +                        /// Mg-Receive
           +                        _buildLitImage(
           +                          imgSrc: AssetPaths.titleMgReceive,
           +                          color: orbColor,
           +                        ),
-          +
-          +                        /// Mg-Emit
           +                        _buildLitImage(
           +                          imgSrc: AssetPaths.titleMgEmit,
           +                          emit: true,
           +                          color: emitColor,
           +                        ),
-          +
-          +                        /// Fg-Rocks
           +                        Image.asset(AssetPaths.titleFgBase),
-          +
-          +                        /// Fg-Receive
           +                        _buildLitImage(
           +                          imgSrc: AssetPaths.titleFgReceive,
           +                          color: orbColor,
           +                        ),
-          +
-          +                        /// Fg-Emit
           +                        _buildLitImage(
           +                          imgSrc: AssetPaths.titleFgEmit,
           +                          emit: true,
@@ -3461,8 +3303,6 @@ steps:
           +                      ],
           +                    ),
           +                  ),
-          +
-          +                  /// UI
           +                  Positioned.fill(
           +                    child: TitleScreenUi(
           +                      difficulty: _difficulty,
@@ -3479,7 +3319,7 @@ steps:
                    ),
                  ),
                );
-          @@ -122,14 +233,19 @@ class _TitleScreenState extends State<TitleScreen> {
+          @@ -101,14 +202,19 @@ class _TitleScreenState extends State<TitleScreen> {
              Widget _buildLitImage(
                  {required Color color, required String imgSrc, bool emit = false}) {
                final hsl = HSLColor.fromColor(color);
@@ -3548,36 +3388,26 @@ steps:
                 spriteSheet: SpriteSheet(
                   image: const AssetImage('assets/images/particle-wave.png'),
                 ),
-                // blend the image's alpha with the specified color:
                 blendMode: BlendMode.dstIn,
-          
-                // this runs every tick:
                 onTick: (controller, _, size) {
                   List<Particle> particles = controller.particles;
           
-                  // add a new particle with random angle, distance & velocity:
                   double a = rnd(pi * 2);
                   double dist = rnd(1, 4) * 35 + 150 * energy;
                   double vel = rnd(1, 2) * (1 + energy * 1.8);
                   particles.add(Particle(
-                    // how many ticks this particle will live:
                     lifespan: rnd(1, 2) * 20 + energy * 15,
-                    // starting distance from center:
                     x: cos(a) * dist,
                     y: sin(a) * dist,
-                    // starting velocity:
                     vx: cos(a) * vel,
                     vy: sin(a) * vel,
-                    // other starting values:
                     rotation: a,
                     scale: rnd(1, 2) * 0.6 + energy * 0.5,
                   ));
           
-                  // update all of the particles:
                   for (int i = particles.length - 1; i >= 0; i--) {
                     Particle p = particles[i];
                     if (p.lifespan <= 0) {
-                      // particle is expired, remove it:
                       particles.removeAt(i);
                       continue;
                     }
@@ -3606,11 +3436,10 @@ steps:
            import 'title_screen_ui.dart';
            
            class TitleScreen extends StatefulWidget {
-          @@ -192,6 +193,19 @@ class _TitleScreenState extends State<TitleScreen>
+          @@ -168,6 +169,17 @@ class _TitleScreenState extends State<TitleScreen>
+                                     emit: true,
                                      color: emitColor,
                                    ),
-           
-          +                        /// Particle Field
           +                        Positioned.fill(
           +                          child: IgnorePointer(
           +                            child: ListenableBuilder(
@@ -3622,9 +3451,9 @@ steps:
           +                            ),
           +                          ),
           +                        ),
-          +
-                                   /// Fg-Rocks
                                    Image.asset(AssetPaths.titleFgBase),
+                                   _buildLitImage(
+                                     imgSrc: AssetPaths.titleFgReceive,
       - name: Patch web/index.html
         path: next_gen_ui/web/index.html
         patch-u: |

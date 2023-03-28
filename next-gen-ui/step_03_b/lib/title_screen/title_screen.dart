@@ -21,10 +21,7 @@ class _TitleScreenState extends State<TitleScreen> {
   Color get _orbColor =>
       AppColors.orbColors[_difficultyOverride ?? _difficulty];
 
-  /// Currently selected difficulty
   int _difficulty = 0;
-
-  /// Currently focused difficulty (if any)
   int? _difficultyOverride;
 
   void _handleDifficultyPressed(int value) {
@@ -45,48 +42,32 @@ class _TitleScreenState extends State<TitleScreen> {
       body: Center(
         child: Stack(
           children: [
-            /// Bg-Base
             Image.asset(AssetPaths.titleBgBase),
-
-            /// Bg-Receive
             _buildLitImage(
               color: _orbColor,
               imgSrc: AssetPaths.titleBgReceive,
             ),
-
-            /// Mg + Fg
             IgnorePointer(
               child: Stack(
                 children: [
-                  /// Mg-Base
                   _buildLitImage(
                     imgSrc: AssetPaths.titleMgBase,
                     color: _orbColor,
                   ),
-
-                  /// Mg-Receive
                   _buildLitImage(
                     imgSrc: AssetPaths.titleMgReceive,
                     color: _orbColor,
                   ),
-
-                  /// Mg-Emit
                   _buildLitImage(
                     imgSrc: AssetPaths.titleMgEmit,
                     emit: true,
                     color: _emitColor,
                   ),
-
-                  /// Fg-Rocks
                   Image.asset(AssetPaths.titleFgBase),
-
-                  /// Fg-Receive
                   _buildLitImage(
                     imgSrc: AssetPaths.titleFgReceive,
                     color: _orbColor,
                   ),
-
-                  /// Fg-Emit
                   _buildLitImage(
                     imgSrc: AssetPaths.titleFgEmit,
                     emit: true,
@@ -95,8 +76,6 @@ class _TitleScreenState extends State<TitleScreen> {
                 ],
               ),
             ),
-
-            /// UI
             Positioned.fill(
               child: TitleScreenUi(
                 difficulty: _difficulty,

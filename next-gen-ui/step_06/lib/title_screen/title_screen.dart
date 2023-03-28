@@ -27,16 +27,11 @@ class _TitleScreenState extends State<TitleScreen>
     with SingleTickerProviderStateMixin {
   final _orbKey = GlobalKey<OrbShaderWidgetState>();
 
-  /// Editable Settings
-  /// 0-1, receive lighting strength
   double get _minReceiveLightAmt => .35;
   double get _maxReceiveLightAmt => .7;
-
-  /// 0-1, emit lighting strength
   double get _minEmitLightAmt => .5;
   double get _maxEmitLightAmt => 1;
 
-  /// Internal
   final _mousePos = ValueNotifier(Offset.zero);
 
   Color get _emitColor =>
@@ -44,10 +39,7 @@ class _TitleScreenState extends State<TitleScreen>
   Color get _orbColor =>
       AppColors.orbColors[_difficultyOverride ?? _difficulty];
 
-  /// Currently selected difficulty
   int _difficulty = 0;
-
-  /// Currently focused difficulty (if any)
   int? _difficultyOverride;
   late final _orbEnergy = ValueNotifier<double>(0);
   late final _minOrbEnergy = ValueNotifier<double>(0);
@@ -123,8 +115,6 @@ class _TitleScreenState extends State<TitleScreen>
     });
   }
 
-  /// Update mouse position so the orbWidget can use it, doing it here prevents
-  /// btns from blocking the mouse-move events in the widget itself.
   void _handleMouseMove(PointerHoverEvent e) =>
       _mousePos.value = e.localPosition;
 
@@ -141,20 +131,14 @@ class _TitleScreenState extends State<TitleScreen>
             builder: (_, orbColor, emitColor) {
               return Stack(
                 children: [
-                  /// Bg-Base
                   Image.asset(AssetPaths.titleBgBase),
-
-                  /// Bg-Receive
                   _buildLitImage(
                     color: orbColor,
                     imgSrc: AssetPaths.titleBgReceive,
                   ),
-
-                  /// Orb
                   Positioned.fill(
                     child: Stack(
                       children: [
-                        // Orb
                         OrbShaderWidget(
                           key: _orbKey,
                           mousePos: _mousePos,
@@ -169,31 +153,22 @@ class _TitleScreenState extends State<TitleScreen>
                       ],
                     ),
                   ),
-
-                  /// Mg + Fg
                   IgnorePointer(
                     child: Stack(
                       children: [
-                        /// Mg-Base
                         _buildLitImage(
                           imgSrc: AssetPaths.titleMgBase,
                           color: orbColor,
                         ),
-
-                        /// Mg-Receive
                         _buildLitImage(
                           imgSrc: AssetPaths.titleMgReceive,
                           color: orbColor,
                         ),
-
-                        /// Mg-Emit
                         _buildLitImage(
                           imgSrc: AssetPaths.titleMgEmit,
                           emit: true,
                           color: emitColor,
                         ),
-
-                        /// Particle Field
                         Positioned.fill(
                           child: IgnorePointer(
                             child: ListenableBuilder(
@@ -205,17 +180,11 @@ class _TitleScreenState extends State<TitleScreen>
                             ),
                           ),
                         ),
-
-                        /// Fg-Rocks
                         Image.asset(AssetPaths.titleFgBase),
-
-                        /// Fg-Receive
                         _buildLitImage(
                           imgSrc: AssetPaths.titleFgReceive,
                           color: orbColor,
                         ),
-
-                        /// Fg-Emit
                         _buildLitImage(
                           imgSrc: AssetPaths.titleFgEmit,
                           emit: true,
@@ -224,8 +193,6 @@ class _TitleScreenState extends State<TitleScreen>
                       ],
                     ),
                   ),
-
-                  /// UI
                   Positioned.fill(
                     child: TitleScreenUi(
                       difficulty: _difficulty,

@@ -19,32 +19,16 @@ class TitleScreen extends StatelessWidget {
       body: Center(
         child: Stack(
           children: [
-            /// Bg-Base
             Image.asset(AssetPaths.titleBgBase),
-
-            /// Bg-Receive
             Image.asset(AssetPaths.titleBgReceive),
-
-            /// Mg + Fg
             IgnorePointer(
               child: Stack(
                 children: [
-                  /// Mg-Base
                   Image.asset(AssetPaths.titleMgBase),
-
-                  /// Mg-Receive
                   Image.asset(AssetPaths.titleMgReceive),
-
-                  /// Mg-Emit
                   Image.asset(AssetPaths.titleMgEmit),
-
-                  /// Fg-Rocks
                   Image.asset(AssetPaths.titleFgBase),
-
-                  /// Fg-Receive
                   Image.asset(AssetPaths.titleFgReceive),
-
-                  /// Fg-Emit
                   Image.asset(AssetPaths.titleFgEmit),
                 ],
               ),

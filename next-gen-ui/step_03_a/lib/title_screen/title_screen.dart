@@ -24,48 +24,32 @@ class TitleScreen extends StatelessWidget {
       body: Center(
         child: Stack(
           children: [
-            /// Bg-Base
             Image.asset(AssetPaths.titleBgBase),
-
-            /// Bg-Receive
             _buildLitImage(
               color: orbColor,
               imgSrc: AssetPaths.titleBgReceive,
             ),
-
-            /// Mg + Fg
             IgnorePointer(
               child: Stack(
                 children: [
-                  /// Mg-Base
                   _buildLitImage(
                     imgSrc: AssetPaths.titleMgBase,
                     color: orbColor,
                   ),
-
-                  /// Mg-Receive
                   _buildLitImage(
                     imgSrc: AssetPaths.titleMgReceive,
                     color: orbColor,
                   ),
-
-                  /// Mg-Emit
                   _buildLitImage(
                     imgSrc: AssetPaths.titleMgEmit,
                     emit: true,
                     color: emitColor,
                   ),
-
-                  /// Fg-Rocks
                   Image.asset(AssetPaths.titleFgBase),
-
-                  /// Fg-Receive
                   _buildLitImage(
                     imgSrc: AssetPaths.titleFgReceive,
                     color: orbColor,
                   ),
-
-                  /// Fg-Emit
                   _buildLitImage(
                     imgSrc: AssetPaths.titleFgEmit,
                     emit: true,
@@ -74,8 +58,6 @@ class TitleScreen extends StatelessWidget {
                 ],
               ),
             ),
-
-            /// UI
             const Positioned.fill(
               child: TitleScreenUi(),
             ),

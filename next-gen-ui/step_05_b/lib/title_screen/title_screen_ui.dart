@@ -37,15 +37,12 @@ class TitleScreenUi extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 50),
       child: Stack(
         children: [
-          /// Title Text
           const TopLeft(
             child: UiScaler(
               alignment: Alignment.topLeft,
               child: _TitleText(),
             ),
           ),
-
-          /// Difficulty Btns
           BottomLeft(
             child: UiScaler(
               alignment: Alignment.bottomLeft,
@@ -56,8 +53,6 @@ class TitleScreenUi extends StatelessWidget {
               ),
             ),
           ),
-
-          /// StartBtn
           BottomRight(
             child: UiScaler(
               alignment: Alignment.bottomRight,
@@ -200,7 +195,6 @@ class _DifficultyBtn extends StatelessWidget {
             height: 60,
             child: Stack(
               children: [
-                /// Bg with fill and outline
                 AnimatedOpacity(
                   opacity: (!selected && (state.isHovered || state.isFocused))
                       ? 1
@@ -213,7 +207,6 @@ class _DifficultyBtn extends StatelessWidget {
                     ),
                   ),
                 ),
-
                 if (state.isHovered || state.isFocused) ...[
                   Container(
                     decoration: BoxDecoration(
@@ -221,8 +214,6 @@ class _DifficultyBtn extends StatelessWidget {
                     ),
                   ),
                 ],
-
-                /// cross-hairs (selected state)
                 if (selected) ...[
                   CenterLeft(
                     child: Image.asset(AssetPaths.titleSelectedLeft),
@@ -231,8 +222,6 @@ class _DifficultyBtn extends StatelessWidget {
                     child: Image.asset(AssetPaths.titleSelectedRight),
                   ),
                 ],
-
-                /// Label
                 Center(
                   child: Text(label.toUpperCase(), style: TextStyles.btn),
                 ),
