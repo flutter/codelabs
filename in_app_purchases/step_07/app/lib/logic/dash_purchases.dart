@@ -26,9 +26,8 @@ class DashPurchases extends ChangeNotifier {
     ),
   ];
 
-  bool get beautifiedDash => _beautifiedDashUpgrade;
-  // ignore: prefer_final_fields
-  bool _beautifiedDashUpgrade = false;
+  bool get beautifiedDash => false;
+
   final iapConnection = IAPConnection.instance;
 
   DashPurchases(this.counter) {
