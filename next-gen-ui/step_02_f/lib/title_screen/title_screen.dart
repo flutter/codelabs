@@ -9,9 +9,6 @@ import '../assets.dart';
 class TitleScreen extends StatelessWidget {
   const TitleScreen({super.key});
 
-  final _finalReceiveLightAmt = 0.7;
-  final _finalEmitLightAmt = 0.5;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,13 +51,22 @@ class TitleScreen extends StatelessWidget {
       ),
     );
   }
+}
 
-  // ignore: unused_element
-  Widget _buildLitImage(
-      {required Color color, required String imgSrc, bool emit = false}) {
+// ignore: unused_element
+class _LitImage extends StatelessWidget {
+  const _LitImage({
+    required this.color,
+    required this.imgSrc,
+    required this.lightAmt,
+  });
+  final Color color;
+  final String imgSrc;
+  final double lightAmt;
+
+  @override
+  Widget build(BuildContext context) {
     final hsl = HSLColor.fromColor(color);
-    final lightAmt = emit ? _finalEmitLightAmt : _finalReceiveLightAmt;
-
     return ColorFiltered(
       colorFilter: ColorFilter.mode(
         hsl.withLightness(hsl.lightness * lightAmt).toColor(),

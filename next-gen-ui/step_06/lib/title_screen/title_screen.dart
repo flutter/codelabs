@@ -145,9 +145,11 @@ class _TitleScreenState extends State<TitleScreen>
                   Image.asset(AssetPaths.titleBgBase),
 
                   /// Bg-Receive
-                  _buildLitImage(
+                  _LitImage(
                     color: orbColor,
                     imgSrc: AssetPaths.titleBgReceive,
+                    pulseEffect: _pulseEffect,
+                    lightAmt: _finalReceiveLightAmt,
                   ),
 
                   /// Orb
@@ -175,22 +177,27 @@ class _TitleScreenState extends State<TitleScreen>
                     child: Stack(
                       children: [
                         /// Mg-Base
-                        _buildLitImage(
+                        _LitImage(
                           imgSrc: AssetPaths.titleMgBase,
                           color: orbColor,
+                          pulseEffect: _pulseEffect,
+                          lightAmt: _finalReceiveLightAmt,
                         ),
 
                         /// Mg-Receive
-                        _buildLitImage(
+                        _LitImage(
                           imgSrc: AssetPaths.titleMgReceive,
                           color: orbColor,
+                          pulseEffect: _pulseEffect,
+                          lightAmt: _finalReceiveLightAmt,
                         ),
 
                         /// Mg-Emit
-                        _buildLitImage(
+                        _LitImage(
                           imgSrc: AssetPaths.titleMgEmit,
-                          emit: true,
                           color: emitColor,
+                          pulseEffect: _pulseEffect,
+                          lightAmt: _finalEmitLightAmt,
                         ),
 
                         /// Particle Field
@@ -210,16 +217,19 @@ class _TitleScreenState extends State<TitleScreen>
                         Image.asset(AssetPaths.titleFgBase),
 
                         /// Fg-Receive
-                        _buildLitImage(
+                        _LitImage(
                           imgSrc: AssetPaths.titleFgReceive,
                           color: orbColor,
+                          pulseEffect: _pulseEffect,
+                          lightAmt: _finalReceiveLightAmt,
                         ),
 
                         /// Fg-Emit
-                        _buildLitImage(
+                        _LitImage(
                           imgSrc: AssetPaths.titleFgEmit,
-                          emit: true,
                           color: emitColor,
+                          pulseEffect: _pulseEffect,
+                          lightAmt: _finalEmitLightAmt,
                         ),
                       ],
                     ),
@@ -243,15 +253,27 @@ class _TitleScreenState extends State<TitleScreen>
       ),
     );
   }
+}
 
-  Widget _buildLitImage(
-      {required Color color, required String imgSrc, bool emit = false}) {
+class _LitImage extends StatelessWidget {
+  const _LitImage({
+    required this.color,
+    required this.imgSrc,
+    required this.pulseEffect,
+    required this.lightAmt,
+  });
+  final Color color;
+  final String imgSrc;
+  final AnimationController pulseEffect;
+  final double lightAmt;
+
+  @override
+  Widget build(BuildContext context) {
     final hsl = HSLColor.fromColor(color);
     return ListenableBuilder(
-      listenable: _pulseEffect,
+      listenable: pulseEffect,
       child: Image.asset(imgSrc),
       builder: (context, child) {
-        final lightAmt = emit ? _finalEmitLightAmt : _finalReceiveLightAmt;
         return ColorFiltered(
           colorFilter: ColorFilter.mode(
             hsl.withLightness(hsl.lightness * lightAmt).toColor(),
