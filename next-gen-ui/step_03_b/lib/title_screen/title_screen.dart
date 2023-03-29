@@ -49,9 +49,10 @@ class _TitleScreenState extends State<TitleScreen> {
             Image.asset(AssetPaths.titleBgBase),
 
             /// Bg-Receive
-            _buildLitImage(
+            _LitImage(
               color: _orbColor,
               imgSrc: AssetPaths.titleBgReceive,
+              lightAmt: _finalReceiveLightAmt,
             ),
 
             /// Mg + Fg
@@ -59,38 +60,41 @@ class _TitleScreenState extends State<TitleScreen> {
               child: Stack(
                 children: [
                   /// Mg-Base
-                  _buildLitImage(
+                  _LitImage(
                     imgSrc: AssetPaths.titleMgBase,
                     color: _orbColor,
+                    lightAmt: _finalReceiveLightAmt,
                   ),
 
                   /// Mg-Receive
-                  _buildLitImage(
+                  _LitImage(
                     imgSrc: AssetPaths.titleMgReceive,
                     color: _orbColor,
+                    lightAmt: _finalReceiveLightAmt,
                   ),
 
                   /// Mg-Emit
-                  _buildLitImage(
+                  _LitImage(
                     imgSrc: AssetPaths.titleMgEmit,
-                    emit: true,
                     color: _emitColor,
+                    lightAmt: _finalEmitLightAmt,
                   ),
 
                   /// Fg-Rocks
                   Image.asset(AssetPaths.titleFgBase),
 
                   /// Fg-Receive
-                  _buildLitImage(
+                  _LitImage(
                     imgSrc: AssetPaths.titleFgReceive,
                     color: _orbColor,
+                    lightAmt: _finalReceiveLightAmt,
                   ),
 
                   /// Fg-Emit
-                  _buildLitImage(
+                  _LitImage(
                     imgSrc: AssetPaths.titleFgEmit,
-                    emit: true,
                     color: _emitColor,
+                    lightAmt: _finalEmitLightAmt,
                   ),
                 ],
               ),
@@ -109,12 +113,21 @@ class _TitleScreenState extends State<TitleScreen> {
       ),
     );
   }
+}
 
-  Widget _buildLitImage(
-      {required Color color, required String imgSrc, bool emit = false}) {
+class _LitImage extends StatelessWidget {
+  const _LitImage({
+    required this.color,
+    required this.imgSrc,
+    required this.lightAmt,
+  });
+  final Color color;
+  final String imgSrc;
+  final double lightAmt;
+
+  @override
+  Widget build(BuildContext context) {
     final hsl = HSLColor.fromColor(color);
-    final lightAmt = emit ? _finalEmitLightAmt : _finalReceiveLightAmt;
-
     return ColorFiltered(
       colorFilter: ColorFilter.mode(
         hsl.withLightness(hsl.lightness * lightAmt).toColor(),

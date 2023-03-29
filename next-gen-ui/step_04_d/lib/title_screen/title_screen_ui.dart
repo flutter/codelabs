@@ -92,7 +92,7 @@ class _TitleText extends StatelessWidget {
             Image.asset(AssetPaths.titleSelectedRight, height: 65),
           ],
         ).animate().fadeIn(delay: .8.seconds, duration: .7.seconds),
-        Text('THE LAST STAND', style: TextStyles.h3)
+        Text('INTO THE UNKNOWN', style: TextStyles.h3)
             .animate()
             .fadeIn(delay: 1.seconds, duration: .7.seconds),
       ],

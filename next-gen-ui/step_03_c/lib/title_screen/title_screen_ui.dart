@@ -91,7 +91,7 @@ class _TitleText extends StatelessWidget {
             Image.asset(AssetPaths.titleSelectedRight, height: 65),
           ],
         ),
-        Text('THE LAST STAND', style: TextStyles.h3),
+        Text('INTO THE UNKNOWN', style: TextStyles.h3),
       ],
     );
   }
