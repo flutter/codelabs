@@ -18,15 +18,11 @@ class TitleScreenUi extends StatelessWidget {
     required this.difficulty,
     required this.onDifficultyPressed,
     required this.onDifficultyFocused,
-    required this.onStartPressed,
-    required this.orbColor,
   });
 
   final int difficulty;
   final void Function(int difficulty) onDifficultyPressed;
   final void Function(int? difficulty) onDifficultyFocused;
-  final VoidCallback onStartPressed;
-  final Color orbColor;
 
   @override
   Widget build(BuildContext context) {
@@ -55,12 +51,12 @@ class TitleScreenUi extends StatelessWidget {
           ),
 
           /// StartBtn
-          BottomRight(
+          const BottomRight(
             child: UiScaler(
               alignment: Alignment.bottomRight,
               child: Padding(
-                padding: const EdgeInsets.only(bottom: 20, right: 40),
-                child: _StartBtn(orbColor: orbColor, onPressed: onStartPressed),
+                padding: EdgeInsets.only(bottom: 20, right: 40),
+                child: _StartBtn(),
               ),
             ),
           ),
@@ -214,9 +210,7 @@ class _DifficultyBtn extends StatelessWidget {
 }
 
 class _StartBtn extends StatefulWidget {
-  const _StartBtn({required this.orbColor, required this.onPressed});
-  final Color orbColor;
-  final VoidCallback onPressed;
+  const _StartBtn();
 
   @override
   State<_StartBtn> createState() => _StartBtnState();
@@ -230,7 +224,7 @@ class _StartBtnState extends State<_StartBtn> {
   Widget build(BuildContext context) {
     return FocusableControlBuilder(
       cursor: SystemMouseCursors.click,
-      onPressed: widget.onPressed,
+      onPressed: () {},
       builder: (_, state) {
         if ((state.isHovered || state.isFocused) &&
             !_wasHovered &&
