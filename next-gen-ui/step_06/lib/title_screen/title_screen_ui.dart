@@ -22,14 +22,12 @@ class TitleScreenUi extends StatelessWidget {
     required this.onDifficultyPressed,
     required this.onDifficultyFocused,
     required this.onStartPressed,
-    required this.orbColor,
   });
 
   final int difficulty;
   final void Function(int difficulty) onDifficultyPressed;
   final void Function(int? difficulty) onDifficultyFocused;
   final VoidCallback onStartPressed;
-  final Color orbColor;
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +61,7 @@ class TitleScreenUi extends StatelessWidget {
               alignment: Alignment.bottomRight,
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 20, right: 40),
-                child: _StartBtn(orbColor: orbColor, onPressed: onStartPressed),
+                child: _StartBtn(onPressed: onStartPressed),
               ),
             ),
           ),
@@ -246,8 +244,7 @@ class _DifficultyBtn extends StatelessWidget {
 }
 
 class _StartBtn extends StatefulWidget {
-  const _StartBtn({required this.orbColor, required this.onPressed});
-  final Color orbColor;
+  const _StartBtn({required this.onPressed});
   final VoidCallback onPressed;
 
   @override

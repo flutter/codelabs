@@ -2364,49 +2364,31 @@ steps:
         patch-u: |
           --- b/next-gen-ui/step_03_c/lib/title_screen/title_screen_ui.dart
           +++ a/next-gen-ui/step_03_c/lib/title_screen/title_screen_ui.dart
-          @@ -17,11 +17,15 @@ class TitleScreenUi extends StatelessWidget {
-               required this.difficulty,
-               required this.onDifficultyPressed,
-               required this.onDifficultyFocused,
-          +    required this.onStartPressed,
-          +    required this.orbColor,
-             });
-           
-             final int difficulty;
-             final void Function(int difficulty) onDifficultyPressed;
-             final void Function(int? difficulty) onDifficultyFocused;
-          +  final VoidCallback onStartPressed;
-          +  final Color orbColor;
-           
-             @override
-             Widget build(BuildContext context) {
-          @@ -48,6 +52,17 @@ class TitleScreenUi extends StatelessWidget {
+          @@ -48,6 +48,17 @@ class TitleScreenUi extends StatelessWidget {
                          ),
                        ),
                      ),
           +
           +          /// StartBtn
-          +          BottomRight(
+          +          const BottomRight(
           +            child: UiScaler(
           +              alignment: Alignment.bottomRight,
           +              child: Padding(
-          +                padding: const EdgeInsets.only(bottom: 20, right: 40),
-          +                child: _StartBtn(orbColor: orbColor, onPressed: onStartPressed),
+          +                padding: EdgeInsets.only(bottom: 20, right: 40),
+          +                child: _StartBtn(),
           +              ),
           +            ),
           +          ),
                    ],
                  ),
                );
-          @@ -185,3 +200,56 @@ class _DifficultyBtn extends StatelessWidget {
+          @@ -185,3 +196,54 @@ class _DifficultyBtn extends StatelessWidget {
                );
              }
            }
           +
           +class _StartBtn extends StatefulWidget {
-          +  const _StartBtn({required this.orbColor, required this.onPressed});
-          +  final Color orbColor;
-          +  final VoidCallback onPressed;
+          +  const _StartBtn();
           +
           +  @override
           +  State<_StartBtn> createState() => _StartBtnState();
@@ -2420,7 +2402,7 @@ steps:
           +  Widget build(BuildContext context) {
           +    return FocusableControlBuilder(
           +      cursor: SystemMouseCursors.click,
-          +      onPressed: widget.onPressed,
+          +      onPressed: () {},
           +      builder: (_, state) {
           +        if ((state.isHovered || state.isFocused) &&
           +            !_wasHovered &&
@@ -2455,20 +2437,6 @@ steps:
           +    );
           +  }
           +}
-      - name: Patch lib/title_screen/title_screen.dart
-        path: next_gen_ui/lib/title_screen/title_screen.dart
-        patch-u: |
-          --- b/next-gen-ui/step_03_c/lib/title_screen/title_screen.dart
-          +++ a/next-gen-ui/step_03_c/lib/title_screen/title_screen.dart
-          @@ -106,6 +106,8 @@ class _TitleScreenState extends State<TitleScreen> {
-                           difficulty: _difficulty,
-                           onDifficultyFocused: _handleDifficultyFocused,
-                           onDifficultyPressed: _handleDifficultyPressed,
-          +                onStartPressed: () {},
-          +                orbColor: _orbColor,
-                         ),
-                       ),
-                     ],
       - name: Build Web app
         path: next_gen_ui
         flutter: build web
@@ -2519,7 +2487,7 @@ steps:
            import 'package:focusable_control_builder/focusable_control_builder.dart';
            import 'package:gap/gap.dart';
            
-          @@ -90,8 +91,10 @@ class _TitleText extends StatelessWidget {
+          @@ -86,8 +87,10 @@ class _TitleText extends StatelessWidget {
                        Text('57', style: TextStyles.h2),
                        Image.asset(AssetPaths.titleSelectedRight, height: 65),
                      ],
@@ -2554,7 +2522,7 @@ steps:
         patch-u: |
           --- b/next-gen-ui/step_04_b/lib/title_screen/title_screen_ui.dart
           +++ a/next-gen-ui/step_04_b/lib/title_screen/title_screen_ui.dart
-          @@ -121,19 +121,28 @@ class _DifficultyBtns extends StatelessWidget {
+          @@ -117,19 +117,28 @@ class _DifficultyBtns extends StatelessWidget {
                      selected: difficulty == 0,
                      onPressed: () => onDifficultyPressed(0),
                      onHover: (over) => onDifficultyFocused(over ? 0 : null),
@@ -2608,7 +2576,7 @@ steps:
         patch-u: |
           --- b/next-gen-ui/step_04_c/lib/title_screen/title_screen_ui.dart
           +++ a/next-gen-ui/step_04_c/lib/title_screen/title_screen_ui.dart
-          @@ -259,8 +259,13 @@ class _StartBtnState extends State<_StartBtn> {
+          @@ -253,8 +253,13 @@ class _StartBtnState extends State<_StartBtn> {
                            ),
                          ),
                        ],
@@ -2646,7 +2614,7 @@ steps:
         patch-u: |
           --- b/next-gen-ui/step_04_d/lib/title_screen/title_screen_ui.dart
           +++ a/next-gen-ui/step_04_d/lib/title_screen/title_screen_ui.dart
-          @@ -175,10 +175,16 @@ class _DifficultyBtn extends StatelessWidget {
+          @@ -171,10 +171,16 @@ class _DifficultyBtn extends StatelessWidget {
                        child: Stack(
                          children: [
                            /// Bg with fill and outline
@@ -2696,7 +2664,7 @@ steps:
            
            import '../assets.dart';
            import '../styles.dart';
-          @@ -111,7 +112,7 @@ class _TitleScreenState extends State<TitleScreen> {
+          @@ -109,7 +110,7 @@ class _TitleScreenState extends State<TitleScreen> {
                          ),
                        ),
                      ],
@@ -2705,7 +2673,7 @@ steps:
                  ),
                );
              }
-          @@ -139,3 +140,36 @@ class _LitImage extends StatelessWidget {
+          @@ -137,3 +138,36 @@ class _LitImage extends StatelessWidget {
                );
              }
            }
@@ -2764,7 +2732,7 @@ steps:
         patch-u: |
           --- b/next-gen-ui/step_04_f/lib/title_screen/title_screen.dart
           +++ a/next-gen-ui/step_04_f/lib/title_screen/title_screen.dart
-          @@ -44,75 +44,81 @@ class _TitleScreenState extends State<TitleScreen> {
+          @@ -44,73 +44,79 @@ class _TitleScreenState extends State<TitleScreen> {
                return Scaffold(
                  backgroundColor: Colors.black,
                  body: Center(
@@ -2869,8 +2837,6 @@ steps:
           +                    difficulty: _difficulty,
           +                    onDifficultyFocused: _handleDifficultyFocused,
           +                    onDifficultyPressed: _handleDifficultyPressed,
-          +                    onStartPressed: () {},
-          +                    orbColor: orbColor,
                              ),
           -
           -                  /// Fg-Rocks
@@ -2899,8 +2865,6 @@ steps:
           -                difficulty: _difficulty,
           -                onDifficultyFocused: _handleDifficultyFocused,
           -                onDifficultyPressed: _handleDifficultyPressed,
-          -                onStartPressed: () {},
-          -                orbColor: _orbColor,
           -              ),
           -            ),
           -          ],
@@ -2913,7 +2877,7 @@ steps:
                  ),
                );
              }
-          @@ -141,7 +147,6 @@ class _LitImage extends StatelessWidget {
+          @@ -139,7 +145,6 @@ class _LitImage extends StatelessWidget {
              }
            }
            
@@ -2979,15 +2943,15 @@ steps:
            import 'package:focusable_control_builder/focusable_control_builder.dart';
            import 'package:gap/gap.dart';
           +import 'package:provider/provider.dart';
-
+           
            import '../assets.dart';
           +import '../common/shader_effect.dart';
           +import '../common/ticking_builder.dart';
            import '../common/ui_scaler.dart';
            import '../styles.dart';
-
-          @@ -75,7 +78,7 @@ class _TitleText extends StatelessWidget {
-          
+           
+          @@ -71,7 +74,7 @@ class _TitleText extends StatelessWidget {
+           
              @override
              Widget build(BuildContext context) {
           -    return Column(
@@ -2995,7 +2959,7 @@ steps:
                  mainAxisSize: MainAxisSize.min,
                  crossAxisAlignment: CrossAxisAlignment.start,
                  children: [
-          @@ -97,6 +100,29 @@ class _TitleText extends StatelessWidget {
+          @@ -93,6 +96,29 @@ class _TitleText extends StatelessWidget {
                        .fadeIn(delay: 1.seconds, duration: .7.seconds),
                  ],
                );
@@ -3041,6 +3005,60 @@ steps:
     steps: 
       - name: Remove generated code
         rmdir: step_05_b
+      - name: Patch lib/title_screen/title_screen_ui.dart
+        path: next_gen_ui/lib/title_screen/title_screen_ui.dart
+        patch-u: |
+          --- b/next-gen-ui/step_05_b/lib/title_screen/title_screen_ui.dart
+          +++ a/next-gen-ui/step_05_b/lib/title_screen/title_screen_ui.dart
+          @@ -21,11 +21,13 @@ class TitleScreenUi extends StatelessWidget {
+               required this.difficulty,
+               required this.onDifficultyPressed,
+               required this.onDifficultyFocused,
+          +    required this.onStartPressed,
+             });
+           
+             final int difficulty;
+             final void Function(int difficulty) onDifficultyPressed;
+             final void Function(int? difficulty) onDifficultyFocused;
+          +  final VoidCallback onStartPressed;
+           
+             @override
+             Widget build(BuildContext context) {
+          @@ -54,12 +56,12 @@ class TitleScreenUi extends StatelessWidget {
+                     ),
+           
+                     /// StartBtn
+          -          const BottomRight(
+          +          BottomRight(
+                       child: UiScaler(
+                         alignment: Alignment.bottomRight,
+                         child: Padding(
+          -                padding: EdgeInsets.only(bottom: 20, right: 40),
+          -                child: _StartBtn(),
+          +                padding: const EdgeInsets.only(bottom: 20, right: 40),
+          +                child: _StartBtn(onPressed: onStartPressed),
+                         ),
+                       ),
+                     ),
+          @@ -242,7 +244,8 @@ class _DifficultyBtn extends StatelessWidget {
+           }
+           
+           class _StartBtn extends StatefulWidget {
+          -  const _StartBtn();
+          +  const _StartBtn({required this.onPressed});
+          +  final VoidCallback onPressed;
+           
+             @override
+             State<_StartBtn> createState() => _StartBtnState();
+          @@ -256,7 +259,7 @@ class _StartBtnState extends State<_StartBtn> {
+             Widget build(BuildContext context) {
+               return FocusableControlBuilder(
+                 cursor: SystemMouseCursors.click,
+          -      onPressed: () {},
+          +      onPressed: widget.onPressed,
+                 builder: (_, state) {
+                   if ((state.isHovered || state.isFocused) &&
+                       !_wasHovered &&
       - name: Patch lib/title_screen/title_screen.dart
         path: next_gen_ui/lib/title_screen/title_screen.dart
         patch-u: |
@@ -3087,7 +3105,7 @@ steps:
              Color get _emitColor =>
                  AppColors.emitColors[_difficultyOverride ?? _difficulty];
              Color get _orbColor =>
-          @@ -27,97 +48,193 @@ class _TitleScreenState extends State<TitleScreen> {
+          @@ -27,95 +48,192 @@ class _TitleScreenState extends State<TitleScreen> {
            
              /// Currently focused difficulty (if any)
              int? _difficultyOverride;
@@ -3262,8 +3280,6 @@ steps:
           -                    difficulty: _difficulty,
           -                    onDifficultyFocused: _handleDifficultyFocused,
           -                    onDifficultyPressed: _handleDifficultyPressed,
-          -                    onStartPressed: () {},
-          -                    orbColor: orbColor,
           +
           +                  /// Orb
           +                  Positioned.fill(
@@ -3346,7 +3362,6 @@ steps:
           +                      onDifficultyFocused: _handleDifficultyFocused,
           +                      onDifficultyPressed: _handleDifficultyPressed,
           +                      onStartPressed: _handleStartPressed,
-          +                      orbColor: orbColor,
           +                    ),
           +                  ),
           +                ],
@@ -3356,7 +3371,7 @@ steps:
                    ),
                  ),
                );
-          @@ -128,21 +245,29 @@ class _LitImage extends StatelessWidget {
+          @@ -126,21 +244,29 @@ class _LitImage extends StatelessWidget {
              const _LitImage({
                required this.color,
                required this.imgSrc,

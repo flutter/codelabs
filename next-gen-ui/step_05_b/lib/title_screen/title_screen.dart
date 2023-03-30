@@ -228,7 +228,6 @@ class _TitleScreenState extends State<TitleScreen>
                       onDifficultyFocused: _handleDifficultyFocused,
                       onDifficultyPressed: _handleDifficultyPressed,
                       onStartPressed: _handleStartPressed,
-                      orbColor: orbColor,
                     ),
                   ),
                 ],
