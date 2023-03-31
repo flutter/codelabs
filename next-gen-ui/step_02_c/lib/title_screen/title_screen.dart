@@ -33,49 +33,42 @@ class TitleScreen extends StatelessWidget {
               lightAmt: _finalReceiveLightAmt,
             ),
 
-            /// Mg + Fg
-            IgnorePointer(
-              child: Stack(
-                children: [
-                  /// Mg-Base
-                  _LitImage(
-                    imgSrc: AssetPaths.titleMgBase,
-                    color: orbColor,
-                    lightAmt: _finalReceiveLightAmt,
-                  ),
+            /// Mg-Base
+            _LitImage(
+              imgSrc: AssetPaths.titleMgBase,
+              color: orbColor,
+              lightAmt: _finalReceiveLightAmt,
+            ),
 
-                  /// Mg-Receive
-                  _LitImage(
-                    imgSrc: AssetPaths.titleMgReceive,
-                    color: orbColor,
-                    lightAmt: _finalReceiveLightAmt,
-                  ),
+            /// Mg-Receive
+            _LitImage(
+              imgSrc: AssetPaths.titleMgReceive,
+              color: orbColor,
+              lightAmt: _finalReceiveLightAmt,
+            ),
 
-                  /// Mg-Emit
-                  _LitImage(
-                    imgSrc: AssetPaths.titleMgEmit,
-                    color: emitColor,
-                    lightAmt: _finalEmitLightAmt,
-                  ),
+            /// Mg-Emit
+            _LitImage(
+              imgSrc: AssetPaths.titleMgEmit,
+              color: emitColor,
+              lightAmt: _finalEmitLightAmt,
+            ),
 
-                  /// Fg-Rocks
-                  Image.asset(AssetPaths.titleFgBase),
+            /// Fg-Rocks
+            Image.asset(AssetPaths.titleFgBase),
 
-                  /// Fg-Receive
-                  _LitImage(
-                    imgSrc: AssetPaths.titleFgReceive,
-                    color: orbColor,
-                    lightAmt: _finalReceiveLightAmt,
-                  ),
+            /// Fg-Receive
+            _LitImage(
+              imgSrc: AssetPaths.titleFgReceive,
+              color: orbColor,
+              lightAmt: _finalReceiveLightAmt,
+            ),
 
-                  /// Fg-Emit
-                  _LitImage(
-                    imgSrc: AssetPaths.titleFgEmit,
-                    color: emitColor,
-                    lightAmt: _finalEmitLightAmt,
-                  ),
-                ],
-              ),
+            /// Fg-Emit
+            _LitImage(
+              imgSrc: AssetPaths.titleFgEmit,
+              color: emitColor,
+              lightAmt: _finalEmitLightAmt,
             ),
           ],
         ),

@@ -172,67 +172,60 @@ class _TitleScreenState extends State<TitleScreen>
                     ),
                   ),
 
-                  /// Mg + Fg
-                  IgnorePointer(
-                    child: Stack(
-                      children: [
-                        /// Mg-Base
-                        _LitImage(
-                          imgSrc: AssetPaths.titleMgBase,
+                  /// Mg-Base
+                  _LitImage(
+                    imgSrc: AssetPaths.titleMgBase,
+                    color: orbColor,
+                    pulseEffect: _pulseEffect,
+                    lightAmt: _finalReceiveLightAmt,
+                  ),
+
+                  /// Mg-Receive
+                  _LitImage(
+                    imgSrc: AssetPaths.titleMgReceive,
+                    color: orbColor,
+                    pulseEffect: _pulseEffect,
+                    lightAmt: _finalReceiveLightAmt,
+                  ),
+
+                  /// Mg-Emit
+                  _LitImage(
+                    imgSrc: AssetPaths.titleMgEmit,
+                    color: emitColor,
+                    pulseEffect: _pulseEffect,
+                    lightAmt: _finalEmitLightAmt,
+                  ),
+
+                  /// Particle Field
+                  Positioned.fill(
+                    child: IgnorePointer(
+                      child: ListenableBuilder(
+                        listenable: _orbEnergy,
+                        builder: (_, __) => ParticleOverlay(
                           color: orbColor,
-                          pulseEffect: _pulseEffect,
-                          lightAmt: _finalReceiveLightAmt,
+                          energy: _orbEnergy.value,
                         ),
-
-                        /// Mg-Receive
-                        _LitImage(
-                          imgSrc: AssetPaths.titleMgReceive,
-                          color: orbColor,
-                          pulseEffect: _pulseEffect,
-                          lightAmt: _finalReceiveLightAmt,
-                        ),
-
-                        /// Mg-Emit
-                        _LitImage(
-                          imgSrc: AssetPaths.titleMgEmit,
-                          color: emitColor,
-                          pulseEffect: _pulseEffect,
-                          lightAmt: _finalEmitLightAmt,
-                        ),
-
-                        /// Particle Field
-                        Positioned.fill(
-                          child: IgnorePointer(
-                            child: ListenableBuilder(
-                              listenable: _orbEnergy,
-                              builder: (_, __) => ParticleOverlay(
-                                color: orbColor,
-                                energy: _orbEnergy.value,
-                              ),
-                            ),
-                          ),
-                        ),
-
-                        /// Fg-Rocks
-                        Image.asset(AssetPaths.titleFgBase),
-
-                        /// Fg-Receive
-                        _LitImage(
-                          imgSrc: AssetPaths.titleFgReceive,
-                          color: orbColor,
-                          pulseEffect: _pulseEffect,
-                          lightAmt: _finalReceiveLightAmt,
-                        ),
-
-                        /// Fg-Emit
-                        _LitImage(
-                          imgSrc: AssetPaths.titleFgEmit,
-                          color: emitColor,
-                          pulseEffect: _pulseEffect,
-                          lightAmt: _finalEmitLightAmt,
-                        ),
-                      ],
+                      ),
                     ),
+                  ),
+
+                  /// Fg-Rocks
+                  Image.asset(AssetPaths.titleFgBase),
+
+                  /// Fg-Receive
+                  _LitImage(
+                    imgSrc: AssetPaths.titleFgReceive,
+                    color: orbColor,
+                    pulseEffect: _pulseEffect,
+                    lightAmt: _finalReceiveLightAmt,
+                  ),
+
+                  /// Fg-Emit
+                  _LitImage(
+                    imgSrc: AssetPaths.titleFgEmit,
+                    color: emitColor,
+                    pulseEffect: _pulseEffect,
+                    lightAmt: _finalEmitLightAmt,
                   ),
 
                   /// UI
