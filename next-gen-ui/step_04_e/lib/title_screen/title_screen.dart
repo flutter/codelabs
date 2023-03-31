@@ -110,7 +110,7 @@ class _TitleScreenState extends State<TitleScreen> {
               ),
             ),
           ],
-        ).animate().fadeIn(duration: 1.seconds, delay: .3.seconds),
+        ),
       ),
     );
   }

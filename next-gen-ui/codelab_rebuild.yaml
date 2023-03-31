@@ -2664,15 +2664,6 @@ steps:
            
            import '../assets.dart';
            import '../styles.dart';
-          @@ -109,7 +110,7 @@ class _TitleScreenState extends State<TitleScreen> {
-                         ),
-                       ),
-                     ],
-          -        ),
-          +        ).animate().fadeIn(duration: 1.seconds, delay: .3.seconds),
-                 ),
-               );
-             }
           @@ -137,3 +138,36 @@ class _LitImage extends StatelessWidget {
                );
              }
@@ -2732,7 +2723,7 @@ steps:
         patch-u: |
           --- b/next-gen-ui/step_04_f/lib/title_screen/title_screen.dart
           +++ a/next-gen-ui/step_04_f/lib/title_screen/title_screen.dart
-          @@ -44,73 +44,79 @@ class _TitleScreenState extends State<TitleScreen> {
+          @@ -44,72 +44,78 @@ class _TitleScreenState extends State<TitleScreen> {
                return Scaffold(
                  backgroundColor: Colors.black,
                  body: Center(
@@ -2868,15 +2859,13 @@ steps:
           -              ),
           -            ),
           -          ],
-          -        ).animate().fadeIn(duration: 1.seconds, delay: .3.seconds),
           +                ),
           +              ],
           +            ).animate().fadeIn(duration: 1.seconds, delay: .3.seconds);
           +          },
-          +        ),
+                   ),
                  ),
                );
-             }
           @@ -139,7 +145,6 @@ class _LitImage extends StatelessWidget {
              }
            }
