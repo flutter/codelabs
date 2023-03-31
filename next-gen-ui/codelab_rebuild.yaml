@@ -2664,66 +2664,7 @@ steps:
            
            import '../assets.dart';
            import '../styles.dart';
-          @@ -137,3 +138,36 @@ class _LitImage extends StatelessWidget {
-               );
-             }
-           }
-          +
-          +// ignore: unused_element
-          +class _AnimatedColors extends StatelessWidget {
-          +  const _AnimatedColors({
-          +    required this.emitColor,
-          +    required this.orbColor,
-          +    required this.builder,
-          +  });
-          +
-          +  final Color emitColor;
-          +  final Color orbColor;
-          +
-          +  final Widget Function(BuildContext context, Color orbColor, Color emitColor)
-          +      builder;
-          +
-          +  @override
-          +  Widget build(BuildContext context) {
-          +    final duration = .5.seconds;
-          +    return TweenAnimationBuilder(
-          +      tween: ColorTween(begin: emitColor, end: emitColor),
-          +      duration: duration,
-          +      builder: (_, emitColor, __) {
-          +        return TweenAnimationBuilder(
-          +          tween: ColorTween(begin: orbColor, end: orbColor),
-          +          duration: duration,
-          +          builder: (context, orbColor, __) {
-          +            return builder(context, orbColor!, emitColor!);
-          +          },
-          +        );
-          +      },
-          +    );
-          +  }
-          +}
-      - name: Build Web app
-        path: next_gen_ui
-        flutter: build web
-      - name: Copy to step_04_e
-        copydir:
-          from: next_gen_ui 
-          to: step_04_e
-      - name: flutter clean
-        path: step_04_e
-        flutter: clean
-      - name: flutter pub get
-        path: step_04_e
-        flutter: pub get
-  - name: Step 4f - Wrap image stack in _AnimatedColors widget
-    steps: 
-      - name: Remove generated code
-        rmdir: step_04_f
-      - name: Patch lib/title_screen/title_screen.dart
-        path: next_gen_ui/lib/title_screen/title_screen.dart
-        patch-u: |
-          --- b/next-gen-ui/step_04_f/lib/title_screen/title_screen.dart
-          +++ a/next-gen-ui/step_04_f/lib/title_screen/title_screen.dart
-          @@ -44,72 +44,78 @@ class _TitleScreenState extends State<TitleScreen> {
+          @@ -43,72 +44,78 @@ class _TitleScreenState extends State<TitleScreen> {
                return Scaffold(
                  backgroundColor: Colors.black,
                  body: Center(
@@ -2866,26 +2807,54 @@ steps:
                    ),
                  ),
                );
-          @@ -139,7 +145,6 @@ class _LitImage extends StatelessWidget {
+          @@ -137,3 +144,35 @@ class _LitImage extends StatelessWidget {
+               );
              }
            }
-           
-          -// ignore: unused_element
-           class _AnimatedColors extends StatelessWidget {
-             const _AnimatedColors({
-               required this.emitColor,
+          +
+          +class _AnimatedColors extends StatelessWidget {
+          +  const _AnimatedColors({
+          +    required this.emitColor,
+          +    required this.orbColor,
+          +    required this.builder,
+          +  });
+          +
+          +  final Color emitColor;
+          +  final Color orbColor;
+          +
+          +  final Widget Function(BuildContext context, Color orbColor, Color emitColor)
+          +      builder;
+          +
+          +  @override
+          +  Widget build(BuildContext context) {
+          +    final duration = .5.seconds;
+          +    return TweenAnimationBuilder(
+          +      tween: ColorTween(begin: emitColor, end: emitColor),
+          +      duration: duration,
+          +      builder: (_, emitColor, __) {
+          +        return TweenAnimationBuilder(
+          +          tween: ColorTween(begin: orbColor, end: orbColor),
+          +          duration: duration,
+          +          builder: (context, orbColor, __) {
+          +            return builder(context, orbColor!, emitColor!);
+          +          },
+          +        );
+          +      },
+          +    );
+          +  }
+          +}
       - name: Build Web app
         path: next_gen_ui
         flutter: build web
-      - name: Copy to step_04_f
+      - name: Copy to step_04_e
         copydir:
           from: next_gen_ui 
-          to: step_04_f
+          to: step_04_e
       - name: flutter clean
-        path: step_04_f
+        path: step_04_e
         flutter: clean
       - name: flutter pub get
-        path: step_04_f
+        path: step_04_e
         flutter: pub get
   - name: Step 5a - Glitch the title
     steps: 
