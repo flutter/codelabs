@@ -1685,10 +1685,10 @@ steps:
       - name: flutter pub get
         path: step_01
         flutter: pub get
-  - name: Step 2e - Add image assets
+  - name: Step 2a - Add image assets
     steps: 
       - name: Remove generated code
-        rmdir: step_02_e
+        rmdir: step_02_a
       - name: mkdir lib/title_screen
         path: next_gen_ui
         mkdir: lib/title_screen
@@ -1782,20 +1782,20 @@ steps:
       - name: Build Web app
         path: next_gen_ui
         flutter: build web
-      - name: Copy to step_02_e
+      - name: Copy to step_02_a
         copydir:
           from: next_gen_ui 
-          to: step_02_e
+          to: step_02_a
       - name: flutter clean
-        path: step_02_e
+        path: step_02_a
         flutter: clean
       - name: flutter pub get
-        path: step_02_e
+        path: step_02_a
         flutter: pub get
-  - name: Step 2f - Building a coloring light
+  - name: Step 2b - Building a coloring light
     steps: 
       - name: Remove generated code
-        rmdir: step_02_f
+        rmdir: step_02_b
       - name: Patch lib/title_screen/title_screen.dart
         path: next_gen_ui/lib/title_screen/title_screen.dart
         patch-u: |
@@ -1832,20 +1832,20 @@ steps:
       - name: Build Web app
         path: next_gen_ui
         flutter: build web
-      - name: Copy to step_02_f
+      - name: Copy to step_02_b
         copydir:
           from: next_gen_ui 
-          to: step_02_f
+          to: step_02_b
       - name: flutter clean
-        path: step_02_f
+        path: step_02_b
         flutter: clean
       - name: flutter pub get
-        path: step_02_f
+        path: step_02_b
         flutter: pub get
-  - name: Step 2g - Painting in color
+  - name: Step 2c - Painting in color
     steps: 
       - name: Remove generated code
-        rmdir: step_02_g
+        rmdir: step_02_c
       - name: Patch lib/title_screen/title_screen.dart
         path: next_gen_ui/lib/title_screen/title_screen.dart
         patch-u: |
@@ -1942,15 +1942,15 @@ steps:
       - name: Build Web app
         path: next_gen_ui
         flutter: build web
-      - name: Copy to step_02_g
+      - name: Copy to step_02_c
         copydir:
           from: next_gen_ui 
-          to: step_02_g
+          to: step_02_c
       - name: flutter clean
-        path: step_02_g
+        path: step_02_c
         flutter: clean
       - name: flutter pub get
-        path: step_02_g
+        path: step_02_c
         flutter: pub get
   - name: Step 3a - Add a title
     steps: 
