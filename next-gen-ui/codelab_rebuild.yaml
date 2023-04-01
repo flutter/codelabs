@@ -1719,30 +1719,23 @@ steps:
                       /// Bg-Receive
                       Image.asset(AssetPaths.titleBgReceive),
           
-                      /// Mg + Fg
-                      IgnorePointer(
-                        child: Stack(
-                          children: [
-                            /// Mg-Base
-                            Image.asset(AssetPaths.titleMgBase),
+                      /// Mg-Base
+                      Image.asset(AssetPaths.titleMgBase),
           
-                            /// Mg-Receive
-                            Image.asset(AssetPaths.titleMgReceive),
+                      /// Mg-Receive
+                      Image.asset(AssetPaths.titleMgReceive),
           
-                            /// Mg-Emit
-                            Image.asset(AssetPaths.titleMgEmit),
+                      /// Mg-Emit
+                      Image.asset(AssetPaths.titleMgEmit),
           
-                            /// Fg-Rocks
-                            Image.asset(AssetPaths.titleFgBase),
+                      /// Fg-Rocks
+                      Image.asset(AssetPaths.titleFgBase),
           
-                            /// Fg-Receive
-                            Image.asset(AssetPaths.titleFgReceive),
+                      /// Fg-Receive
+                      Image.asset(AssetPaths.titleFgReceive),
           
-                            /// Fg-Emit
-                            Image.asset(AssetPaths.titleFgEmit),
-                          ],
-                        ),
-                      ),
+                      /// Fg-Emit
+                      Image.asset(AssetPaths.titleFgEmit),
                     ],
                   ),
                 ),
@@ -1799,9 +1792,9 @@ steps:
       - name: Patch lib/title_screen/title_screen.dart
         path: next_gen_ui/lib/title_screen/title_screen.dart
         patch-u: |
-          --- b/next-gen-ui/step_02_f/lib/title_screen/title_screen.dart
-          +++ a/next-gen-ui/step_02_f/lib/title_screen/title_screen.dart
-          @@ -52,3 +52,27 @@ class TitleScreen extends StatelessWidget {
+          --- b/next-gen-ui/step_02_b/lib/title_screen/title_screen.dart
+          +++ a/next-gen-ui/step_02_b/lib/title_screen/title_screen.dart
+          @@ -45,3 +45,27 @@ class TitleScreen extends StatelessWidget {
                );
              }
            }
@@ -1849,8 +1842,8 @@ steps:
       - name: Patch lib/title_screen/title_screen.dart
         path: next_gen_ui/lib/title_screen/title_screen.dart
         patch-u: |
-          --- b/next-gen-ui/step_02_g/lib/title_screen/title_screen.dart
-          +++ a/next-gen-ui/step_02_g/lib/title_screen/title_screen.dart
+          --- b/next-gen-ui/step_02_c/lib/title_screen/title_screen.dart
+          +++ a/next-gen-ui/step_02_c/lib/title_screen/title_screen.dart
           @@ -5,12 +5,19 @@
            import 'package:flutter/material.dart';
            
@@ -1871,7 +1864,7 @@ steps:
                return Scaffold(
                  backgroundColor: Colors.black,
                  body: Center(
-          @@ -20,29 +27,53 @@ class TitleScreen extends StatelessWidget {
+          @@ -20,25 +27,49 @@ class TitleScreen extends StatelessWidget {
                        Image.asset(AssetPaths.titleBgBase),
            
                        /// Bg-Receive
@@ -1882,56 +1875,52 @@ steps:
           +              lightAmt: _finalReceiveLightAmt,
           +            ),
            
-                       /// Mg + Fg
-                       IgnorePointer(
-                         child: Stack(
-                           children: [
-                             /// Mg-Base
-          -                  Image.asset(AssetPaths.titleMgBase),
-          +                  _LitImage(
-          +                    imgSrc: AssetPaths.titleMgBase,
-          +                    color: orbColor,
-          +                    lightAmt: _finalReceiveLightAmt,
-          +                  ),
+                       /// Mg-Base
+          -            Image.asset(AssetPaths.titleMgBase),
+          +            _LitImage(
+          +              imgSrc: AssetPaths.titleMgBase,
+          +              color: orbColor,
+          +              lightAmt: _finalReceiveLightAmt,
+          +            ),
            
-                             /// Mg-Receive
-          -                  Image.asset(AssetPaths.titleMgReceive),
-          +                  _LitImage(
-          +                    imgSrc: AssetPaths.titleMgReceive,
-          +                    color: orbColor,
-          +                    lightAmt: _finalReceiveLightAmt,
-          +                  ),
+                       /// Mg-Receive
+          -            Image.asset(AssetPaths.titleMgReceive),
+          +            _LitImage(
+          +              imgSrc: AssetPaths.titleMgReceive,
+          +              color: orbColor,
+          +              lightAmt: _finalReceiveLightAmt,
+          +            ),
            
-                             /// Mg-Emit
-          -                  Image.asset(AssetPaths.titleMgEmit),
-          +                  _LitImage(
-          +                    imgSrc: AssetPaths.titleMgEmit,
-          +                    color: emitColor,
-          +                    lightAmt: _finalEmitLightAmt,
-          +                  ),
+                       /// Mg-Emit
+          -            Image.asset(AssetPaths.titleMgEmit),
+          +            _LitImage(
+          +              imgSrc: AssetPaths.titleMgEmit,
+          +              color: emitColor,
+          +              lightAmt: _finalEmitLightAmt,
+          +            ),
            
-                             /// Fg-Rocks
-                             Image.asset(AssetPaths.titleFgBase),
+                       /// Fg-Rocks
+                       Image.asset(AssetPaths.titleFgBase),
            
-                             /// Fg-Receive
-          -                  Image.asset(AssetPaths.titleFgReceive),
-          +                  _LitImage(
-          +                    imgSrc: AssetPaths.titleFgReceive,
-          +                    color: orbColor,
-          +                    lightAmt: _finalReceiveLightAmt,
-          +                  ),
+                       /// Fg-Receive
+          -            Image.asset(AssetPaths.titleFgReceive),
+          +            _LitImage(
+          +              imgSrc: AssetPaths.titleFgReceive,
+          +              color: orbColor,
+          +              lightAmt: _finalReceiveLightAmt,
+          +            ),
            
-                             /// Fg-Emit
-          -                  Image.asset(AssetPaths.titleFgEmit),
-          +                  _LitImage(
-          +                    imgSrc: AssetPaths.titleFgEmit,
-          +                    color: emitColor,
-          +                    lightAmt: _finalEmitLightAmt,
-          +                  ),
-                           ],
-                         ),
-                       ),
-          @@ -53,7 +84,6 @@ class TitleScreen extends StatelessWidget {
+                       /// Fg-Emit
+          -            Image.asset(AssetPaths.titleFgEmit),
+          +            _LitImage(
+          +              imgSrc: AssetPaths.titleFgEmit,
+          +              color: emitColor,
+          +              lightAmt: _finalEmitLightAmt,
+          +            ),
+                     ],
+                   ),
+                 ),
+          @@ -46,7 +77,6 @@ class TitleScreen extends StatelessWidget {
              }
            }
            
@@ -2034,9 +2023,9 @@ steps:
            
            class TitleScreen extends StatelessWidget {
              const TitleScreen({super.key});
-          @@ -77,6 +78,11 @@ class TitleScreen extends StatelessWidget {
-                           ],
-                         ),
+          @@ -70,6 +71,11 @@ class TitleScreen extends StatelessWidget {
+                         color: emitColor,
+                         lightAmt: _finalEmitLightAmt,
                        ),
           +
           +            /// UI
@@ -2285,49 +2274,46 @@ steps:
                          imgSrc: AssetPaths.titleBgReceive,
                          lightAmt: _finalReceiveLightAmt,
                        ),
-          @@ -41,21 +62,21 @@ class TitleScreen extends StatelessWidget {
-                             /// Mg-Base
-                             _LitImage(
-                               imgSrc: AssetPaths.titleMgBase,
-          -                    color: orbColor,
-          +                    color: _orbColor,
-                               lightAmt: _finalReceiveLightAmt,
-                             ),
+          @@ -37,21 +58,21 @@ class TitleScreen extends StatelessWidget {
+                       /// Mg-Base
+                       _LitImage(
+                         imgSrc: AssetPaths.titleMgBase,
+          -              color: orbColor,
+          +              color: _orbColor,
+                         lightAmt: _finalReceiveLightAmt,
+                       ),
            
-                             /// Mg-Receive
-                             _LitImage(
-                               imgSrc: AssetPaths.titleMgReceive,
-          -                    color: orbColor,
-          +                    color: _orbColor,
-                               lightAmt: _finalReceiveLightAmt,
-                             ),
+                       /// Mg-Receive
+                       _LitImage(
+                         imgSrc: AssetPaths.titleMgReceive,
+          -              color: orbColor,
+          +              color: _orbColor,
+                         lightAmt: _finalReceiveLightAmt,
+                       ),
            
-                             /// Mg-Emit
-                             _LitImage(
-                               imgSrc: AssetPaths.titleMgEmit,
-          -                    color: emitColor,
-          +                    color: _emitColor,
-                               lightAmt: _finalEmitLightAmt,
-                             ),
+                       /// Mg-Emit
+                       _LitImage(
+                         imgSrc: AssetPaths.titleMgEmit,
+          -              color: emitColor,
+          +              color: _emitColor,
+                         lightAmt: _finalEmitLightAmt,
+                       ),
            
-          @@ -65,14 +86,14 @@ class TitleScreen extends StatelessWidget {
-                             /// Fg-Receive
-                             _LitImage(
-                               imgSrc: AssetPaths.titleFgReceive,
-          -                    color: orbColor,
-          +                    color: _orbColor,
-                               lightAmt: _finalReceiveLightAmt,
-                             ),
+          @@ -61,20 +82,24 @@ class TitleScreen extends StatelessWidget {
+                       /// Fg-Receive
+                       _LitImage(
+                         imgSrc: AssetPaths.titleFgReceive,
+          -              color: orbColor,
+          +              color: _orbColor,
+                         lightAmt: _finalReceiveLightAmt,
+                       ),
            
-                             /// Fg-Emit
-                             _LitImage(
-                               imgSrc: AssetPaths.titleFgEmit,
-          -                    color: emitColor,
-          +                    color: _emitColor,
-                               lightAmt: _finalEmitLightAmt,
-                             ),
-                           ],
-          @@ -80,8 +101,12 @@ class TitleScreen extends StatelessWidget {
+                       /// Fg-Emit
+                       _LitImage(
+                         imgSrc: AssetPaths.titleFgEmit,
+          -              color: emitColor,
+          +              color: _emitColor,
+                         lightAmt: _finalEmitLightAmt,
                        ),
            
                        /// UI
@@ -2664,7 +2650,7 @@ steps:
            
            import '../assets.dart';
            import '../styles.dart';
-          @@ -43,72 +44,78 @@ class _TitleScreenState extends State<TitleScreen> {
+          @@ -43,65 +44,71 @@ class _TitleScreenState extends State<TitleScreen> {
                return Scaffold(
                  backgroundColor: Colors.black,
                  body: Center(
@@ -2680,15 +2666,53 @@ steps:
           -              lightAmt: _finalReceiveLightAmt,
           -            ),
           -
-          -            /// Mg + Fg
-          -            IgnorePointer(
-          -              child: Stack(
-          -                children: [
-          -                  /// Mg-Base
-          -                  _LitImage(
-          -                    imgSrc: AssetPaths.titleMgBase,
-          -                    color: _orbColor,
-          -                    lightAmt: _finalReceiveLightAmt,
+          -            /// Mg-Base
+          -            _LitImage(
+          -              imgSrc: AssetPaths.titleMgBase,
+          -              color: _orbColor,
+          -              lightAmt: _finalReceiveLightAmt,
+          -            ),
+          -
+          -            /// Mg-Receive
+          -            _LitImage(
+          -              imgSrc: AssetPaths.titleMgReceive,
+          -              color: _orbColor,
+          -              lightAmt: _finalReceiveLightAmt,
+          -            ),
+          -
+          -            /// Mg-Emit
+          -            _LitImage(
+          -              imgSrc: AssetPaths.titleMgEmit,
+          -              color: _emitColor,
+          -              lightAmt: _finalEmitLightAmt,
+          -            ),
+          -
+          -            /// Fg-Rocks
+          -            Image.asset(AssetPaths.titleFgBase),
+          -
+          -            /// Fg-Receive
+          -            _LitImage(
+          -              imgSrc: AssetPaths.titleFgReceive,
+          -              color: _orbColor,
+          -              lightAmt: _finalReceiveLightAmt,
+          -            ),
+          -
+          -            /// Fg-Emit
+          -            _LitImage(
+          -              imgSrc: AssetPaths.titleFgEmit,
+          -              color: _emitColor,
+          -              lightAmt: _finalEmitLightAmt,
+          -            ),
+          -
+          -            /// UI
+          -            Positioned.fill(
+          -              child: TitleScreenUi(
+          -                difficulty: _difficulty,
+          -                onDifficultyFocused: _handleDifficultyFocused,
+          -                onDifficultyPressed: _handleDifficultyPressed,
+          -              ),
+          -            ),
+          -          ],
           +        child: _AnimatedColors(
           +          orbColor: _orbColor,
           +          emitColor: _emitColor,
@@ -2705,62 +2729,42 @@ steps:
           +                  lightAmt: _finalReceiveLightAmt,
           +                ),
           +
-          +                /// Mg + Fg
-          +                IgnorePointer(
-          +                  child: Stack(
-          +                    children: [
-          +                      /// Mg-Base
-          +                      _LitImage(
-          +                        imgSrc: AssetPaths.titleMgBase,
-          +                        color: orbColor,
-          +                        lightAmt: _finalReceiveLightAmt,
-          +                      ),
+          +                /// Mg-Base
+          +                _LitImage(
+          +                  imgSrc: AssetPaths.titleMgBase,
+          +                  color: orbColor,
+          +                  lightAmt: _finalReceiveLightAmt,
+          +                ),
           +
-          +                      /// Mg-Receive
-          +                      _LitImage(
-          +                        imgSrc: AssetPaths.titleMgReceive,
-          +                        color: orbColor,
-          +                        lightAmt: _finalReceiveLightAmt,
-          +                      ),
+          +                /// Mg-Receive
+          +                _LitImage(
+          +                  imgSrc: AssetPaths.titleMgReceive,
+          +                  color: orbColor,
+          +                  lightAmt: _finalReceiveLightAmt,
+          +                ),
           +
-          +                      /// Mg-Emit
-          +                      _LitImage(
-          +                        imgSrc: AssetPaths.titleMgEmit,
-          +                        color: emitColor,
-          +                        lightAmt: _finalEmitLightAmt,
-          +                      ),
+          +                /// Mg-Emit
+          +                _LitImage(
+          +                  imgSrc: AssetPaths.titleMgEmit,
+          +                  color: emitColor,
+          +                  lightAmt: _finalEmitLightAmt,
+          +                ),
           +
-          +                      /// Fg-Rocks
-          +                      Image.asset(AssetPaths.titleFgBase),
+          +                /// Fg-Rocks
+          +                Image.asset(AssetPaths.titleFgBase),
           +
-          +                      /// Fg-Receive
-          +                      _LitImage(
-          +                        imgSrc: AssetPaths.titleFgReceive,
-          +                        color: orbColor,
-          +                        lightAmt: _finalReceiveLightAmt,
-          +                      ),
+          +                /// Fg-Receive
+          +                _LitImage(
+          +                  imgSrc: AssetPaths.titleFgReceive,
+          +                  color: orbColor,
+          +                  lightAmt: _finalReceiveLightAmt,
+          +                ),
           +
-          +                      /// Fg-Emit
-          +                      _LitImage(
-          +                        imgSrc: AssetPaths.titleFgEmit,
-          +                        color: emitColor,
-          +                        lightAmt: _finalEmitLightAmt,
-          +                      ),
-          +                    ],
-                             ),
-          -
-          -                  /// Mg-Receive
-          -                  _LitImage(
-          -                    imgSrc: AssetPaths.titleMgReceive,
-          -                    color: _orbColor,
-          -                    lightAmt: _finalReceiveLightAmt,
-          -                  ),
-          -
-          -                  /// Mg-Emit
-          -                  _LitImage(
-          -                    imgSrc: AssetPaths.titleMgEmit,
-          -                    color: _emitColor,
-          -                    lightAmt: _finalEmitLightAmt,
+          +                /// Fg-Emit
+          +                _LitImage(
+          +                  imgSrc: AssetPaths.titleFgEmit,
+          +                  color: emitColor,
+          +                  lightAmt: _finalEmitLightAmt,
           +                ),
           +
           +                /// UI
@@ -2769,37 +2773,7 @@ steps:
           +                    difficulty: _difficulty,
           +                    onDifficultyFocused: _handleDifficultyFocused,
           +                    onDifficultyPressed: _handleDifficultyPressed,
-                             ),
-          -
-          -                  /// Fg-Rocks
-          -                  Image.asset(AssetPaths.titleFgBase),
-          -
-          -                  /// Fg-Receive
-          -                  _LitImage(
-          -                    imgSrc: AssetPaths.titleFgReceive,
-          -                    color: _orbColor,
-          -                    lightAmt: _finalReceiveLightAmt,
-          -                  ),
-          -
-          -                  /// Fg-Emit
-          -                  _LitImage(
-          -                    imgSrc: AssetPaths.titleFgEmit,
-          -                    color: _emitColor,
-          -                    lightAmt: _finalEmitLightAmt,
-          -                  ),
-          -                ],
-          -              ),
-          -            ),
-          -
-          -            /// UI
-          -            Positioned.fill(
-          -              child: TitleScreenUi(
-          -                difficulty: _difficulty,
-          -                onDifficultyFocused: _handleDifficultyFocused,
-          -                onDifficultyPressed: _handleDifficultyPressed,
-          -              ),
-          -            ),
-          -          ],
+          +                  ),
           +                ),
           +              ],
           +            ).animate().fadeIn(duration: 1.seconds, delay: .3.seconds);
@@ -2807,7 +2781,7 @@ steps:
                    ),
                  ),
                );
-          @@ -137,3 +144,35 @@ class _LitImage extends StatelessWidget {
+          @@ -130,3 +137,35 @@ class _LitImage extends StatelessWidget {
                );
              }
            }
@@ -3063,7 +3037,7 @@ steps:
              Color get _emitColor =>
                  AppColors.emitColors[_difficultyOverride ?? _difficulty];
              Color get _orbColor =>
-          @@ -27,95 +48,192 @@ class _TitleScreenState extends State<TitleScreen> {
+          @@ -27,88 +48,185 @@ class _TitleScreenState extends State<TitleScreen> {
            
              /// Currently focused difficulty (if any)
              int? _difficultyOverride;
@@ -3170,48 +3144,50 @@ steps:
           -                  lightAmt: _finalReceiveLightAmt,
           -                ),
           -
-          -                /// Mg + Fg
-          -                IgnorePointer(
-          -                  child: Stack(
-          -                    children: [
-          -                      /// Mg-Base
-          -                      _LitImage(
-          -                        imgSrc: AssetPaths.titleMgBase,
-          -                        color: orbColor,
-          -                        lightAmt: _finalReceiveLightAmt,
-          -                      ),
+          -                /// Mg-Base
+          -                _LitImage(
+          -                  imgSrc: AssetPaths.titleMgBase,
+          -                  color: orbColor,
+          -                  lightAmt: _finalReceiveLightAmt,
+          -                ),
           -
-          -                      /// Mg-Receive
-          -                      _LitImage(
-          -                        imgSrc: AssetPaths.titleMgReceive,
-          -                        color: orbColor,
-          -                        lightAmt: _finalReceiveLightAmt,
-          -                      ),
+          -                /// Mg-Receive
+          -                _LitImage(
+          -                  imgSrc: AssetPaths.titleMgReceive,
+          -                  color: orbColor,
+          -                  lightAmt: _finalReceiveLightAmt,
+          -                ),
           -
-          -                      /// Mg-Emit
-          -                      _LitImage(
-          -                        imgSrc: AssetPaths.titleMgEmit,
-          -                        color: emitColor,
-          -                        lightAmt: _finalEmitLightAmt,
-          -                      ),
+          -                /// Mg-Emit
+          -                _LitImage(
+          -                  imgSrc: AssetPaths.titleMgEmit,
+          -                  color: emitColor,
+          -                  lightAmt: _finalEmitLightAmt,
+          -                ),
           -
-          -                      /// Fg-Rocks
-          -                      Image.asset(AssetPaths.titleFgBase),
+          -                /// Fg-Rocks
+          -                Image.asset(AssetPaths.titleFgBase),
           -
-          -                      /// Fg-Receive
-          -                      _LitImage(
-          -                        imgSrc: AssetPaths.titleFgReceive,
-          -                        color: orbColor,
-          -                        lightAmt: _finalReceiveLightAmt,
-          -                      ),
+          -                /// Fg-Receive
+          -                _LitImage(
+          -                  imgSrc: AssetPaths.titleFgReceive,
+          -                  color: orbColor,
+          -                  lightAmt: _finalReceiveLightAmt,
+          -                ),
           -
-          -                      /// Fg-Emit
-          -                      _LitImage(
-          -                        imgSrc: AssetPaths.titleFgEmit,
-          -                        color: emitColor,
-          -                        lightAmt: _finalEmitLightAmt,
-          -                      ),
-          -                    ],
+          -                /// Fg-Emit
+          -                _LitImage(
+          -                  imgSrc: AssetPaths.titleFgEmit,
+          -                  color: emitColor,
+          -                  lightAmt: _finalEmitLightAmt,
+          -                ),
+          -
+          -                /// UI
+          -                Positioned.fill(
+          -                  child: TitleScreenUi(
+          -                    difficulty: _difficulty,
+          -                    onDifficultyFocused: _handleDifficultyFocused,
+          -                    onDifficultyPressed: _handleDifficultyPressed,
           +        child: MouseRegion(
           +          onHover: _handleMouseMove,
           +          child: _AnimatedColors(
@@ -3231,13 +3207,9 @@ steps:
           +                    lightAmt: _finalReceiveLightAmt,
                              ),
           -                ),
-          -
-          -                /// UI
-          -                Positioned.fill(
-          -                  child: TitleScreenUi(
-          -                    difficulty: _difficulty,
-          -                    onDifficultyFocused: _handleDifficultyFocused,
-          -                    onDifficultyPressed: _handleDifficultyPressed,
+          -              ],
+          -            ).animate().fadeIn(duration: 1.seconds, delay: .3.seconds);
+          -          },
           +
           +                  /// Orb
           +                  Positioned.fill(
@@ -3257,60 +3229,49 @@ steps:
           +                        ),
           +                      ],
           +                    ),
-                             ),
-          -                ),
-          -              ],
-          -            ).animate().fadeIn(duration: 1.seconds, delay: .3.seconds);
-          -          },
+          +                  ),
           +
-          +                  /// Mg + Fg
-          +                  IgnorePointer(
-          +                    child: Stack(
-          +                      children: [
-          +                        /// Mg-Base
-          +                        _LitImage(
-          +                          imgSrc: AssetPaths.titleMgBase,
-          +                          color: orbColor,
-          +                          pulseEffect: _pulseEffect,
-          +                          lightAmt: _finalReceiveLightAmt,
-          +                        ),
+          +                  /// Mg-Base
+          +                  _LitImage(
+          +                    imgSrc: AssetPaths.titleMgBase,
+          +                    color: orbColor,
+          +                    pulseEffect: _pulseEffect,
+          +                    lightAmt: _finalReceiveLightAmt,
+          +                  ),
           +
-          +                        /// Mg-Receive
-          +                        _LitImage(
-          +                          imgSrc: AssetPaths.titleMgReceive,
-          +                          color: orbColor,
-          +                          pulseEffect: _pulseEffect,
-          +                          lightAmt: _finalReceiveLightAmt,
-          +                        ),
+          +                  /// Mg-Receive
+          +                  _LitImage(
+          +                    imgSrc: AssetPaths.titleMgReceive,
+          +                    color: orbColor,
+          +                    pulseEffect: _pulseEffect,
+          +                    lightAmt: _finalReceiveLightAmt,
+          +                  ),
           +
-          +                        /// Mg-Emit
-          +                        _LitImage(
-          +                          imgSrc: AssetPaths.titleMgEmit,
-          +                          color: emitColor,
-          +                          pulseEffect: _pulseEffect,
-          +                          lightAmt: _finalEmitLightAmt,
-          +                        ),
+          +                  /// Mg-Emit
+          +                  _LitImage(
+          +                    imgSrc: AssetPaths.titleMgEmit,
+          +                    color: emitColor,
+          +                    pulseEffect: _pulseEffect,
+          +                    lightAmt: _finalEmitLightAmt,
+          +                  ),
           +
-          +                        /// Fg-Rocks
-          +                        Image.asset(AssetPaths.titleFgBase),
+          +                  /// Fg-Rocks
+          +                  Image.asset(AssetPaths.titleFgBase),
           +
-          +                        /// Fg-Receive
-          +                        _LitImage(
-          +                          imgSrc: AssetPaths.titleFgReceive,
-          +                          color: orbColor,
-          +                          pulseEffect: _pulseEffect,
-          +                          lightAmt: _finalReceiveLightAmt,
-          +                        ),
+          +                  /// Fg-Receive
+          +                  _LitImage(
+          +                    imgSrc: AssetPaths.titleFgReceive,
+          +                    color: orbColor,
+          +                    pulseEffect: _pulseEffect,
+          +                    lightAmt: _finalReceiveLightAmt,
+          +                  ),
           +
-          +                        /// Fg-Emit
-          +                        _LitImage(
-          +                          imgSrc: AssetPaths.titleFgEmit,
-          +                          color: emitColor,
-          +                          pulseEffect: _pulseEffect,
-          +                          lightAmt: _finalEmitLightAmt,
-          +                        ),
-          +                      ],
-          +                    ),
+          +                  /// Fg-Emit
+          +                  _LitImage(
+          +                    imgSrc: AssetPaths.titleFgEmit,
+          +                    color: emitColor,
+          +                    pulseEffect: _pulseEffect,
+          +                    lightAmt: _finalEmitLightAmt,
           +                  ),
           +
           +                  /// UI
@@ -3329,7 +3290,7 @@ steps:
                    ),
                  ),
                );
-          @@ -126,21 +244,29 @@ class _LitImage extends StatelessWidget {
+          @@ -119,21 +237,29 @@ class _LitImage extends StatelessWidget {
              const _LitImage({
                required this.color,
                required this.imgSrc,
@@ -3464,25 +3425,25 @@ steps:
            import 'title_screen_ui.dart';
            
            class TitleScreen extends StatefulWidget {
-          @@ -199,6 +200,19 @@ class _TitleScreenState extends State<TitleScreen>
-                                     lightAmt: _finalEmitLightAmt,
-                                   ),
+          @@ -195,6 +196,19 @@ class _TitleScreenState extends State<TitleScreen>
+                               lightAmt: _finalEmitLightAmt,
+                             ),
            
-          +                        /// Particle Field
-          +                        Positioned.fill(
-          +                          child: IgnorePointer(
-          +                            child: ListenableBuilder(
-          +                              listenable: _orbEnergy,
-          +                              builder: (_, __) => ParticleOverlay(
-          +                                color: orbColor,
-          +                                energy: _orbEnergy.value,
-          +                              ),
-          +                            ),
-          +                          ),
+          +                  /// Particle Field
+          +                  Positioned.fill(
+          +                    child: IgnorePointer(
+          +                      child: ListenableBuilder(
+          +                        listenable: _orbEnergy,
+          +                        builder: (_, __) => ParticleOverlay(
+          +                          color: orbColor,
+          +                          energy: _orbEnergy.value,
           +                        ),
+          +                      ),
+          +                    ),
+          +                  ),
           +
-                                   /// Fg-Rocks
-                                   Image.asset(AssetPaths.titleFgBase),
+                             /// Fg-Rocks
+                             Image.asset(AssetPaths.titleFgBase),
       - name: Patch web/index.html
         path: next_gen_ui/web/index.html
         patch-u: |

@@ -171,54 +171,47 @@ class _TitleScreenState extends State<TitleScreen>
                     ),
                   ),
 
-                  /// Mg + Fg
-                  IgnorePointer(
-                    child: Stack(
-                      children: [
-                        /// Mg-Base
-                        _LitImage(
-                          imgSrc: AssetPaths.titleMgBase,
-                          color: orbColor,
-                          pulseEffect: _pulseEffect,
-                          lightAmt: _finalReceiveLightAmt,
-                        ),
+                  /// Mg-Base
+                  _LitImage(
+                    imgSrc: AssetPaths.titleMgBase,
+                    color: orbColor,
+                    pulseEffect: _pulseEffect,
+                    lightAmt: _finalReceiveLightAmt,
+                  ),
 
-                        /// Mg-Receive
-                        _LitImage(
-                          imgSrc: AssetPaths.titleMgReceive,
-                          color: orbColor,
-                          pulseEffect: _pulseEffect,
-                          lightAmt: _finalReceiveLightAmt,
-                        ),
+                  /// Mg-Receive
+                  _LitImage(
+                    imgSrc: AssetPaths.titleMgReceive,
+                    color: orbColor,
+                    pulseEffect: _pulseEffect,
+                    lightAmt: _finalReceiveLightAmt,
+                  ),
 
-                        /// Mg-Emit
-                        _LitImage(
-                          imgSrc: AssetPaths.titleMgEmit,
-                          color: emitColor,
-                          pulseEffect: _pulseEffect,
-                          lightAmt: _finalEmitLightAmt,
-                        ),
+                  /// Mg-Emit
+                  _LitImage(
+                    imgSrc: AssetPaths.titleMgEmit,
+                    color: emitColor,
+                    pulseEffect: _pulseEffect,
+                    lightAmt: _finalEmitLightAmt,
+                  ),
 
-                        /// Fg-Rocks
-                        Image.asset(AssetPaths.titleFgBase),
+                  /// Fg-Rocks
+                  Image.asset(AssetPaths.titleFgBase),
 
-                        /// Fg-Receive
-                        _LitImage(
-                          imgSrc: AssetPaths.titleFgReceive,
-                          color: orbColor,
-                          pulseEffect: _pulseEffect,
-                          lightAmt: _finalReceiveLightAmt,
-                        ),
+                  /// Fg-Receive
+                  _LitImage(
+                    imgSrc: AssetPaths.titleFgReceive,
+                    color: orbColor,
+                    pulseEffect: _pulseEffect,
+                    lightAmt: _finalReceiveLightAmt,
+                  ),
 
-                        /// Fg-Emit
-                        _LitImage(
-                          imgSrc: AssetPaths.titleFgEmit,
-                          color: emitColor,
-                          pulseEffect: _pulseEffect,
-                          lightAmt: _finalEmitLightAmt,
-                        ),
-                      ],
-                    ),
+                  /// Fg-Emit
+                  _LitImage(
+                    imgSrc: AssetPaths.titleFgEmit,
+                    color: emitColor,
+                    pulseEffect: _pulseEffect,
+                    lightAmt: _finalEmitLightAmt,
                   ),
 
                   /// UI
