@@ -29,15 +29,15 @@ class _TitleScreenState extends State<TitleScreen>
 
   /// Editable Settings
   /// 0-1, receive lighting strength
-  double get _minReceiveLightAmt => .35;
-  double get _maxReceiveLightAmt => .7;
+  final _minReceiveLightAmt = .35;
+  final _maxReceiveLightAmt = .7;
 
   /// 0-1, emit lighting strength
-  double get _minEmitLightAmt => .5;
-  double get _maxEmitLightAmt => 1;
+  final _minEmitLightAmt = .5;
+  final _maxEmitLightAmt = 1;
 
   /// Internal
-  final _mousePos = ValueNotifier(Offset.zero);
+  var _mousePos = Offset.zero;
 
   Color get _emitColor =>
       AppColors.emitColors[_difficultyOverride ?? _difficulty];
@@ -49,19 +49,17 @@ class _TitleScreenState extends State<TitleScreen>
 
   /// Currently focused difficulty (if any)
   int? _difficultyOverride;
-  late final _orbEnergy = ValueNotifier<double>(0);
-  late final _minOrbEnergy = ValueNotifier<double>(0);
+  double _orbEnergy = 0;
+  double _minOrbEnergy = 0;
 
   double get _finalReceiveLightAmt {
-    final light = lerpDouble(
-            _minReceiveLightAmt, _maxReceiveLightAmt, _orbEnergy.value) ??
-        0;
-    return light + _pulseEffect.value * .05 * _orbEnergy.value;
+    final light =
+        lerpDouble(_minReceiveLightAmt, _maxReceiveLightAmt, _orbEnergy) ?? 0;
+    return light + _pulseEffect.value * .05 * _orbEnergy;
   }
 
   double get _finalEmitLightAmt {
-    return lerpDouble(_minEmitLightAmt, _maxEmitLightAmt, _orbEnergy.value) ??
-        0;
+    return lerpDouble(_minEmitLightAmt, _maxEmitLightAmt, _orbEnergy) ?? 0;
   }
 
   late final _pulseEffect = AnimationController(
@@ -104,29 +102,38 @@ class _TitleScreenState extends State<TitleScreen>
     _bumpMinEnergy();
   }
 
-  Future<void> _bumpMinEnergy() async {
-    _minOrbEnergy.value = _getMinEnergyForDifficulty(_difficulty) + .1;
+  Future<void> _bumpMinEnergy([double amount = 0.1]) async {
+    setState(() {
+      _minOrbEnergy = _getMinEnergyForDifficulty(_difficulty) + amount;
+    });
     await Future<void>.delayed(.2.seconds);
-    _minOrbEnergy.value = _getMinEnergyForDifficulty(_difficulty);
+    setState(() {
+      _minOrbEnergy = _getMinEnergyForDifficulty(_difficulty);
+    });
   }
 
-  void _handleStartPressed() => _bumpMinEnergy();
+  void _handleStartPressed() => _bumpMinEnergy(0.3);
 
   void _handleDifficultyFocused(int? value) {
     setState(() {
       _difficultyOverride = value;
-      if (value == null) {
-        _minOrbEnergy.value = _getMinEnergyForDifficulty(_difficulty);
-      } else {
-        _minOrbEnergy.value = _getMinEnergyForDifficulty(value);
-      }
+      setState(() {
+        if (value == null) {
+          _minOrbEnergy = _getMinEnergyForDifficulty(_difficulty);
+        } else {
+          _minOrbEnergy = _getMinEnergyForDifficulty(value);
+        }
+      });
     });
   }
 
   /// Update mouse position so the orbWidget can use it, doing it here prevents
   /// btns from blocking the mouse-move events in the widget itself.
-  void _handleMouseMove(PointerHoverEvent e) =>
-      _mousePos.value = e.localPosition;
+  void _handleMouseMove(PointerHoverEvent e) {
+    setState(() {
+      _mousePos = e.localPosition;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -166,7 +173,9 @@ class _TitleScreenState extends State<TitleScreen>
                             materialColor: orbColor,
                             lightColor: orbColor,
                           ),
-                          onUpdate: (energy) => _orbEnergy.value = energy,
+                          onUpdate: (energy) => setState(() {
+                            _orbEnergy = energy;
+                          }),
                         ),
                       ],
                     ),
@@ -199,12 +208,9 @@ class _TitleScreenState extends State<TitleScreen>
                   /// Particle Field
                   Positioned.fill(
                     child: IgnorePointer(
-                      child: ListenableBuilder(
-                        listenable: _orbEnergy,
-                        builder: (_, __) => ParticleOverlay(
-                          color: orbColor,
-                          energy: _orbEnergy.value,
-                        ),
+                      child: ParticleOverlay(
+                        color: orbColor,
+                        energy: _orbEnergy,
                       ),
                     ),
                   ),
