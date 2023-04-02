@@ -24,9 +24,9 @@ class OrbShaderWidget extends StatefulWidget {
     required this.minEnergy,
   });
 
-  final ValueNotifier<double> minEnergy;
+  final double minEnergy;
   final OrbShaderConfig config;
-  final ValueNotifier<Offset> mousePos;
+  final Offset mousePos;
   final void Function(double energy)? onUpdate;
 
   @override
@@ -64,53 +64,45 @@ class OrbShaderWidgetState extends State<OrbShaderWidget>
   Widget build(BuildContext context) => Consumer<Shaders?>(
         builder: (context, shaders, _) {
           if (shaders == null) return const SizedBox.expand();
-          return ValueListenableBuilder(
-            valueListenable: widget.minEnergy,
-            builder: (context, minEnergy, _) {
-              return ValueListenableBuilder(
-                valueListenable: widget.mousePos,
-                builder: (_, mousePos, __) => ListenableBuilder(
-                  listenable: _heartbeatAnim,
-                  builder: (_, __) {
-                    final heartbeatEnergy =
-                        _heartbeatAnim.drive(_heartbeatSequence).value;
-                    return TweenAnimationBuilder(
-                      tween: Tween<double>(begin: minEnergy, end: minEnergy),
-                      duration: 300.ms,
-                      curve: Curves.easeOutCubic,
-                      builder: (context, minEnergy, child) {
-                        return ReactiveWidget(
-                          builder: (context, time, size) {
-                            double energyLevel = 0;
-                            if (size.shortestSide != 0) {
-                              final d = (Offset(size.width, size.height) / 2 -
-                                      mousePos)
-                                  .distance;
-                              final hitSize = size.shortestSide * .5;
-                              energyLevel = 1 - min(1, (d / hitSize));
-                              scheduleMicrotask(
-                                  () => widget.onUpdate?.call(energyLevel));
-                            }
-                            energyLevel +=
-                                (1.3 - energyLevel) * heartbeatEnergy * 0.1;
-                            energyLevel =
-                                lerpDouble(minEnergy, 1, energyLevel)!;
-                            return CustomPaint(
-                              size: size,
-                              painter: OrbShaderPainter(
-                                shaders.orb,
-                                config: widget.config,
-                                time: time,
-                                mousePos: mousePos,
-                                energy: energyLevel,
-                              ),
-                            );
-                          },
-                        );
-                      },
-                    );
-                  },
-                ),
+          return ListenableBuilder(
+            listenable: _heartbeatAnim,
+            builder: (_, __) {
+              final heartbeatEnergy =
+                  _heartbeatAnim.drive(_heartbeatSequence).value;
+              return TweenAnimationBuilder(
+                tween: Tween<double>(
+                    begin: widget.minEnergy, end: widget.minEnergy),
+                duration: 300.ms,
+                curve: Curves.easeOutCubic,
+                builder: (context, minEnergy, child) {
+                  return ReactiveWidget(
+                    builder: (context, time, size) {
+                      double energyLevel = 0;
+                      if (size.shortestSide != 0) {
+                        final d = (Offset(size.width, size.height) / 2 -
+                                widget.mousePos)
+                            .distance;
+                        final hitSize = size.shortestSide * .5;
+                        energyLevel = 1 - min(1, (d / hitSize));
+                        scheduleMicrotask(
+                            () => widget.onUpdate?.call(energyLevel));
+                      }
+                      energyLevel +=
+                          (1.3 - energyLevel) * heartbeatEnergy * 0.1;
+                      energyLevel = lerpDouble(minEnergy, 1, energyLevel)!;
+                      return CustomPaint(
+                        size: size,
+                        painter: OrbShaderPainter(
+                          shaders.orb,
+                          config: widget.config,
+                          time: time,
+                          mousePos: widget.mousePos,
+                          energy: energyLevel,
+                        ),
+                      );
+                    },
+                  );
+                },
               );
             },
           );
