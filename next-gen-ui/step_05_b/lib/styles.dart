@@ -20,7 +20,7 @@ class TextStyles {
       );
 }
 
-class AppColors {
+abstract class AppColors {
   static final orbColors = [
     const Color(0xFF71FDBF),
     const Color(0xFFCE33FF),

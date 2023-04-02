@@ -761,7 +761,7 @@ steps:
                 );
           }
           
-          class AppColors {
+          abstract class AppColors {
             static final orbColors = [
               const Color(0xFF71FDBF),
               const Color(0xFFCE33FF),
@@ -1514,20 +1514,20 @@ steps:
           // Copyright 2023 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-
+          
           import 'dart:async';
           import 'dart:math';
           import 'dart:ui';
-
+          
           import 'package:flutter/material.dart';
           import 'package:flutter_animate/flutter_animate.dart';
           import 'package:provider/provider.dart';
-
+          
           import '../assets.dart';
           import '../common/reactive_widget.dart';
           import 'orb_shader_config.dart';
           import 'orb_shader_painter.dart';
-
+          
           class OrbShaderWidget extends StatefulWidget {
             const OrbShaderWidget({
               super.key,
@@ -1536,16 +1536,16 @@ steps:
               required this.mousePos,
               required this.minEnergy,
             });
-
-            final ValueNotifier<double> minEnergy;
+          
+            final double minEnergy;
             final OrbShaderConfig config;
-            final ValueNotifier<Offset> mousePos;
+            final Offset mousePos;
             final void Function(double energy)? onUpdate;
-
+          
             @override
             State<OrbShaderWidget> createState() => OrbShaderWidgetState();
           }
-
+          
           class OrbShaderWidgetState extends State<OrbShaderWidget>
               with SingleTickerProviderStateMixin {
             final _heartbeatSequence = TweenSequence(
@@ -1569,61 +1569,53 @@ steps:
                     weight: 10),
               ],
             );
-
+          
             late final _heartbeatAnim =
                 AnimationController(vsync: this, duration: 3000.ms)..repeat();
-
+          
             @override
             Widget build(BuildContext context) => Consumer<Shaders?>(
                   builder: (context, shaders, _) {
                     if (shaders == null) return const SizedBox.expand();
-                    return ValueListenableBuilder(
-                      valueListenable: widget.minEnergy,
-                      builder: (context, minEnergy, _) {
-                        return ValueListenableBuilder(
-                          valueListenable: widget.mousePos,
-                          builder: (_, mousePos, __) => ListenableBuilder(
-                            listenable: _heartbeatAnim,
-                            builder: (_, __) {
-                              final heartbeatEnergy =
-                                  _heartbeatAnim.drive(_heartbeatSequence).value;
-                              return TweenAnimationBuilder(
-                                tween: Tween<double>(begin: minEnergy, end: minEnergy),
-                                duration: 300.ms,
-                                curve: Curves.easeOutCubic,
-                                builder: (context, minEnergy, child) {
-                                  return ReactiveWidget(
-                                    builder: (context, time, size) {
-                                      double energyLevel = 0;
-                                      if (size.shortestSide != 0) {
-                                        final d = (Offset(size.width, size.height) / 2 -
-                                                mousePos)
-                                            .distance;
-                                        final hitSize = size.shortestSide * .5;
-                                        energyLevel = 1 - min(1, (d / hitSize));
-                                        scheduleMicrotask(
-                                            () => widget.onUpdate?.call(energyLevel));
-                                      }
-                                      energyLevel +=
-                                          (1.3 - energyLevel) * heartbeatEnergy * 0.1;
-                                      energyLevel =
-                                          lerpDouble(minEnergy, 1, energyLevel)!;
-                                      return CustomPaint(
-                                        size: size,
-                                        painter: OrbShaderPainter(
-                                          shaders.orb,
-                                          config: widget.config,
-                                          time: time,
-                                          mousePos: mousePos,
-                                          energy: energyLevel,
-                                        ),
-                                      );
-                                    },
-                                  );
-                                },
-                              );
-                            },
-                          ),
+                    return ListenableBuilder(
+                      listenable: _heartbeatAnim,
+                      builder: (_, __) {
+                        final heartbeatEnergy =
+                            _heartbeatAnim.drive(_heartbeatSequence).value;
+                        return TweenAnimationBuilder(
+                          tween: Tween<double>(
+                              begin: widget.minEnergy, end: widget.minEnergy),
+                          duration: 300.ms,
+                          curve: Curves.easeOutCubic,
+                          builder: (context, minEnergy, child) {
+                            return ReactiveWidget(
+                              builder: (context, time, size) {
+                                double energyLevel = 0;
+                                if (size.shortestSide != 0) {
+                                  final d = (Offset(size.width, size.height) / 2 -
+                                          widget.mousePos)
+                                      .distance;
+                                  final hitSize = size.shortestSide * .5;
+                                  energyLevel = 1 - min(1, (d / hitSize));
+                                  scheduleMicrotask(
+                                      () => widget.onUpdate?.call(energyLevel));
+                                }
+                                energyLevel +=
+                                    (1.3 - energyLevel) * heartbeatEnergy * 0.1;
+                                energyLevel = lerpDouble(minEnergy, 1, energyLevel)!;
+                                return CustomPaint(
+                                  size: size,
+                                  painter: OrbShaderPainter(
+                                    shaders.orb,
+                                    config: widget.config,
+                                    time: time,
+                                    mousePos: widget.mousePos,
+                                    energy: energyLevel,
+                                  ),
+                                );
+                              },
+                            );
+                          },
                         );
                       },
                     );
@@ -3024,36 +3016,34 @@ steps:
           +
           +  /// Editable Settings
           +  /// 0-1, receive lighting strength
-          +  double get _minReceiveLightAmt => .35;
-          +  double get _maxReceiveLightAmt => .7;
+          +  final _minReceiveLightAmt = .35;
+          +  final _maxReceiveLightAmt = .7;
           +
           +  /// 0-1, emit lighting strength
-          +  double get _minEmitLightAmt => .5;
-          +  double get _maxEmitLightAmt => 1;
+          +  final _minEmitLightAmt = .5;
+          +  final _maxEmitLightAmt = 1;
           +
           +  /// Internal
-          +  final _mousePos = ValueNotifier(Offset.zero);
+          +  var _mousePos = Offset.zero;
           +
              Color get _emitColor =>
                  AppColors.emitColors[_difficultyOverride ?? _difficulty];
              Color get _orbColor =>
-          @@ -27,88 +48,185 @@ class _TitleScreenState extends State<TitleScreen> {
+          @@ -27,88 +48,192 @@ class _TitleScreenState extends State<TitleScreen> {
            
              /// Currently focused difficulty (if any)
              int? _difficultyOverride;
-          +  late final _orbEnergy = ValueNotifier<double>(0);
-          +  late final _minOrbEnergy = ValueNotifier<double>(0);
+          +  double _orbEnergy = 0;
+          +  double _minOrbEnergy = 0;
           +
           +  double get _finalReceiveLightAmt {
-          +    final light = lerpDouble(
-          +            _minReceiveLightAmt, _maxReceiveLightAmt, _orbEnergy.value) ??
-          +        0;
-          +    return light + _pulseEffect.value * .05 * _orbEnergy.value;
+          +    final light =
+          +        lerpDouble(_minReceiveLightAmt, _maxReceiveLightAmt, _orbEnergy) ?? 0;
+          +    return light + _pulseEffect.value * .05 * _orbEnergy;
           +  }
           +
           +  double get _finalEmitLightAmt {
-          +    return lerpDouble(_minEmitLightAmt, _maxEmitLightAmt, _orbEnergy.value) ??
-          +        0;
+          +    return lerpDouble(_minEmitLightAmt, _maxEmitLightAmt, _orbEnergy) ?? 0;
           +  }
           +
           +  late final _pulseEffect = AnimationController(
@@ -3096,22 +3086,26 @@ steps:
           +    _bumpMinEnergy();
              }
            
-          +  Future<void> _bumpMinEnergy() async {
-          +    _minOrbEnergy.value = _getMinEnergyForDifficulty(_difficulty) + .1;
+          +  Future<void> _bumpMinEnergy([double amount = 0.1]) async {
+          +    setState(() {
+          +      _minOrbEnergy = _getMinEnergyForDifficulty(_difficulty) + amount;
+          +    });
           +    await Future<void>.delayed(.2.seconds);
-          +    _minOrbEnergy.value = _getMinEnergyForDifficulty(_difficulty);
+          +    setState(() {
+          +      _minOrbEnergy = _getMinEnergyForDifficulty(_difficulty);
+          +    });
           +  }
           +
-          +  void _handleStartPressed() => _bumpMinEnergy();
+          +  void _handleStartPressed() => _bumpMinEnergy(0.3);
           +
              void _handleDifficultyFocused(int? value) {
           -    setState(() => _difficultyOverride = value);
           +    setState(() {
           +      _difficultyOverride = value;
           +      if (value == null) {
-          +        _minOrbEnergy.value = _getMinEnergyForDifficulty(_difficulty);
+          +        _minOrbEnergy = _getMinEnergyForDifficulty(_difficulty);
           +      } else {
-          +        _minOrbEnergy.value = _getMinEnergyForDifficulty(value);
+          +        _minOrbEnergy = _getMinEnergyForDifficulty(value);
           +      }
           +    });
              }
@@ -3120,8 +3114,11 @@ steps:
           -  final _finalEmitLightAmt = 0.5;
           +  /// Update mouse position so the orbWidget can use it, doing it here prevents
           +  /// btns from blocking the mouse-move events in the widget itself.
-          +  void _handleMouseMove(PointerHoverEvent e) =>
-          +      _mousePos.value = e.localPosition;
+          +  void _handleMouseMove(PointerHoverEvent e) {
+          +    setState(() {
+          +      _mousePos = e.localPosition;
+          +    });
+          +  }
            
              @override
              Widget build(BuildContext context) {
@@ -3225,7 +3222,9 @@ steps:
           +                            materialColor: orbColor,
           +                            lightColor: orbColor,
           +                          ),
-          +                          onUpdate: (energy) => _orbEnergy.value = energy,
+          +                          onUpdate: (energy) => setState(() {
+          +                            _orbEnergy = energy;
+          +                          }),
           +                        ),
           +                      ],
           +                    ),
@@ -3290,7 +3289,7 @@ steps:
                    ),
                  ),
                );
-          @@ -119,21 +237,29 @@ class _LitImage extends StatelessWidget {
+          @@ -119,21 +244,29 @@ class _LitImage extends StatelessWidget {
              const _LitImage({
                required this.color,
                required this.imgSrc,
@@ -3425,19 +3424,16 @@ steps:
            import 'title_screen_ui.dart';
            
            class TitleScreen extends StatefulWidget {
-          @@ -195,6 +196,19 @@ class _TitleScreenState extends State<TitleScreen>
+          @@ -202,6 +203,16 @@ class _TitleScreenState extends State<TitleScreen>
                                lightAmt: _finalEmitLightAmt,
                              ),
            
           +                  /// Particle Field
           +                  Positioned.fill(
           +                    child: IgnorePointer(
-          +                      child: ListenableBuilder(
-          +                        listenable: _orbEnergy,
-          +                        builder: (_, __) => ParticleOverlay(
-          +                          color: orbColor,
-          +                          energy: _orbEnergy.value,
-          +                        ),
+          +                      child: ParticleOverlay(
+          +                        color: orbColor,
+          +                        energy: _orbEnergy,
           +                      ),
           +                    ),
           +                  ),

@@ -117,13 +117,11 @@ class _TitleScreenState extends State<TitleScreen>
   void _handleDifficultyFocused(int? value) {
     setState(() {
       _difficultyOverride = value;
-      setState(() {
-        if (value == null) {
-          _minOrbEnergy = _getMinEnergyForDifficulty(_difficulty);
-        } else {
-          _minOrbEnergy = _getMinEnergyForDifficulty(value);
-        }
-      });
+      if (value == null) {
+        _minOrbEnergy = _getMinEnergyForDifficulty(_difficulty);
+      } else {
+        _minOrbEnergy = _getMinEnergyForDifficulty(value);
+      }
     });
   }
 
