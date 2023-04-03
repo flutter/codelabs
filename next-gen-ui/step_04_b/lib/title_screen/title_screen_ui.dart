@@ -51,12 +51,12 @@ class TitleScreenUi extends StatelessWidget {
           ),
 
           /// StartBtn
-          const BottomRight(
+          BottomRight(
             child: UiScaler(
               alignment: Alignment.bottomRight,
               child: Padding(
-                padding: EdgeInsets.only(bottom: 20, right: 40),
-                child: _StartBtn(),
+                padding: const EdgeInsets.only(bottom: 20, right: 40),
+                child: _StartBtn(onPressed: () {}),
               ),
             ),
           ),
@@ -210,7 +210,8 @@ class _DifficultyBtn extends StatelessWidget {
 }
 
 class _StartBtn extends StatefulWidget {
-  const _StartBtn();
+  const _StartBtn({required this.onPressed});
+  final VoidCallback onPressed;
 
   @override
   State<_StartBtn> createState() => _StartBtnState();
@@ -224,7 +225,7 @@ class _StartBtnState extends State<_StartBtn> {
   Widget build(BuildContext context) {
     return FocusableControlBuilder(
       cursor: SystemMouseCursors.click,
-      onPressed: () {},
+      onPressed: widget.onPressed,
       builder: (_, state) {
         if ((state.isHovered || state.isFocused) &&
             !_wasHovered &&
