@@ -2348,25 +2348,26 @@ steps:
                      ),
           +
           +          /// StartBtn
-          +          const BottomRight(
+          +          BottomRight(
           +            child: UiScaler(
           +              alignment: Alignment.bottomRight,
           +              child: Padding(
-          +                padding: EdgeInsets.only(bottom: 20, right: 40),
-          +                child: _StartBtn(),
+          +                padding: const EdgeInsets.only(bottom: 20, right: 40),
+          +                child: _StartBtn(onPressed: () {}),
           +              ),
           +            ),
           +          ),
                    ],
                  ),
                );
-          @@ -185,3 +196,54 @@ class _DifficultyBtn extends StatelessWidget {
+          @@ -185,3 +196,55 @@ class _DifficultyBtn extends StatelessWidget {
                );
              }
            }
           +
           +class _StartBtn extends StatefulWidget {
-          +  const _StartBtn();
+          +  const _StartBtn({required this.onPressed});
+          +  final VoidCallback onPressed;
           +
           +  @override
           +  State<_StartBtn> createState() => _StartBtnState();
@@ -2380,7 +2381,7 @@ steps:
           +  Widget build(BuildContext context) {
           +    return FocusableControlBuilder(
           +      cursor: SystemMouseCursors.click,
-          +      onPressed: () {},
+          +      onPressed: widget.onPressed,
           +      builder: (_, state) {
           +        if ((state.isHovered || state.isFocused) &&
           +            !_wasHovered &&
@@ -2554,7 +2555,7 @@ steps:
         patch-u: |
           --- b/next-gen-ui/step_04_c/lib/title_screen/title_screen_ui.dart
           +++ a/next-gen-ui/step_04_c/lib/title_screen/title_screen_ui.dart
-          @@ -253,8 +253,13 @@ class _StartBtnState extends State<_StartBtn> {
+          @@ -254,8 +254,13 @@ class _StartBtnState extends State<_StartBtn> {
                            ),
                          ),
                        ],
@@ -2948,41 +2949,15 @@ steps:
            
              @override
              Widget build(BuildContext context) {
-          @@ -54,12 +56,12 @@ class TitleScreenUi extends StatelessWidget {
-                     ),
-           
-                     /// StartBtn
-          -          const BottomRight(
-          +          BottomRight(
-                       child: UiScaler(
+          @@ -59,7 +61,7 @@ class TitleScreenUi extends StatelessWidget {
                          alignment: Alignment.bottomRight,
                          child: Padding(
-          -                padding: EdgeInsets.only(bottom: 20, right: 40),
-          -                child: _StartBtn(),
-          +                padding: const EdgeInsets.only(bottom: 20, right: 40),
+                           padding: const EdgeInsets.only(bottom: 20, right: 40),
+          -                child: _StartBtn(onPressed: () {}),
           +                child: _StartBtn(onPressed: onStartPressed),
                          ),
                        ),
                      ),
-          @@ -242,7 +244,8 @@ class _DifficultyBtn extends StatelessWidget {
-           }
-           
-           class _StartBtn extends StatefulWidget {
-          -  const _StartBtn();
-          +  const _StartBtn({required this.onPressed});
-          +  final VoidCallback onPressed;
-           
-             @override
-             State<_StartBtn> createState() => _StartBtnState();
-          @@ -256,7 +259,7 @@ class _StartBtnState extends State<_StartBtn> {
-             Widget build(BuildContext context) {
-               return FocusableControlBuilder(
-                 cursor: SystemMouseCursors.click,
-          -      onPressed: () {},
-          +      onPressed: widget.onPressed,
-                 builder: (_, state) {
-                   if ((state.isHovered || state.isFocused) &&
-                       !_wasHovered &&
       - name: Patch lib/title_screen/title_screen.dart
         path: next_gen_ui/lib/title_screen/title_screen.dart
         patch-u: |
