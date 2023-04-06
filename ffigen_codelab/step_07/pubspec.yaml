@@ -11,11 +11,11 @@ dependencies:
   ffi: ^2.0.1
   flutter:
     sdk: flutter
-  path: ^1.8.2
+  path: ^1.8.3
   plugin_platform_interface: ^2.0.2
 
 dev_dependencies:
-  ffigen: ^7.2.9
+  ffigen: ^7.2.10
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
