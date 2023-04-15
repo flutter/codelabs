@@ -21,15 +21,15 @@ class TextStyles {
 }
 
 abstract class AppColors {
-  static final orbColors = [
-    const Color(0xFF71FDBF),
-    const Color(0xFFCE33FF),
-    const Color(0xFFFF5033),
+  static const orbColors = [
+    Color(0xFF71FDBF),
+    Color(0xFFCE33FF),
+    Color(0xFFFF5033),
   ];
 
-  static final emitColors = [
-    const Color(0xFF96FF33),
-    const Color(0xFF00FFFF),
-    const Color(0xFFFF993E),
+  static const emitColors = [
+    Color(0xFF96FF33),
+    Color(0xFF00FFFF),
+    Color(0xFFFF993E),
   ];
 }
