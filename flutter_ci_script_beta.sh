@@ -7,7 +7,8 @@ source "$DIR/flutter_ci_script_shared.sh"
 
 declare -a CODELABS=(
   "adaptive_app"
-  "animated-responsive-layout"
+  # TODO(DomesticMouse): 'SearchBar' isn't a function.
+  # "animated-responsive-layout"
   "boring_to_beautiful"
   "cookbook"
   # TODO(DomesticMouse): Use 'const' with the constructor to improve performance.
@@ -30,7 +31,8 @@ declare -a CODELABS=(
   # "in_app_purchases"
   "namer"
   "next-gen-ui"
-  "plugin_codelab"
+  # TODO(DomesticMouse): 'setMockMethodCallHandler' is deprecated and shouldn't be used.
+  # "plugin_codelab"
   "star_counter"
   "testing_codelab"
   "tfagents-flutter"
