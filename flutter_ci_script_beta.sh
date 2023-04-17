@@ -42,11 +42,6 @@ declare -a CODELABS=(
   "webview_flutter"
   )
 
-# Plugin codelab is failing on ubuntu-latest in CI.
-if [[ "$OSTYPE" != "linux-gnu"* ]]; then
-  CODELABS+=("plugin_codelab")
-fi
-
 ci_codelabs "beta" "${CODELABS[@]}"
 
 echo "== END OF TESTS"
