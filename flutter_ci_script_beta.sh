@@ -7,7 +7,8 @@ source "$DIR/flutter_ci_script_shared.sh"
 
 declare -a CODELABS=(
   "adaptive_app"
-  "animated-responsive-layout"
+  # TODO(DomesticMouse): 'SearchBar' isn't a function.
+  # "animated-responsive-layout"
   "boring_to_beautiful"
   "cookbook"
   # TODO(DomesticMouse): Use 'const' with the constructor to improve performance.
