@@ -29,13 +29,9 @@ class AssetPaths {
   static const String uiShader = '$_shaders/ui_glitch.frag';
 }
 
-class Shaders {
-  const Shaders({required this.orb, required this.ui});
-  final FragmentShader orb;
-  final FragmentShader ui;
-}
+typedef Shaders = ({FragmentShader orb, FragmentShader ui});
 
-Future<Shaders> loadShaders() async => Shaders(
+Future<Shaders> loadShaders() async => (
       orb: (await _loadShader(AssetPaths.orbShader)),
       ui: (await _loadShader(AssetPaths.uiShader)),
     );
