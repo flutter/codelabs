@@ -5,6 +5,6 @@ class PoemController {
   final PoemRepository poemRepository = PoemRepositoryImpl();
 
   Future<String> getPoem(String productName) {
-    return poemRepository.getOnePoem(productName);
+    return poemRepository.getPoems(productName);
   }
 }
