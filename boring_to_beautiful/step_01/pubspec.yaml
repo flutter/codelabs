@@ -11,7 +11,7 @@ dependencies:
   adaptive_components: ^0.0.9
   adaptive_navigation: ^0.0.9
   animations: ^2.0.7
-  collection: ^1.17.1
+  collection: ^1.17.0
   cupertino_icons: ^1.0.5
   desktop_window: ^0.4.0
   dynamic_color: ^1.6.3
