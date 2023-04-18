@@ -3,11 +3,13 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
-const updatesPerSecond = 10; // make sure (1000/updatesPerSecond) is a valid int
+const updatesPerSecond = 10;
 
 class DashCounter extends ChangeNotifier {
   final numberFormatter = NumberFormat.compactLong();
+
   int get count => _count.floor();
+
   String get countString => _countString;
   String _countString = '0';
   double _count = 0;
@@ -18,7 +20,7 @@ class DashCounter extends ChangeNotifier {
 
   DashCounter() {
     timer = Timer.periodic(
-      Duration(milliseconds: (1000 / updatesPerSecond).floor()),
+      const Duration(milliseconds: 1000 ~/ updatesPerSecond),
       (timer) => _updateWithAutoIncrement(),
     );
   }

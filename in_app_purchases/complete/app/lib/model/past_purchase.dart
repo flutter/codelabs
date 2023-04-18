@@ -52,9 +52,9 @@ class PastPurchase {
 
 PurchaseType _typeFromString(String type) {
   switch (type) {
-    case 'NON_SUBSCRIPTION':
+    case 'nonSubscription':
       return PurchaseType.subscriptionPurchase;
-    case 'SUBSCRIPTION':
+    case 'subscription':
       return PurchaseType.nonSubscriptionPurchase;
     default:
       throw ArgumentError.value(type, '$type is not a supported type');
@@ -63,9 +63,9 @@ PurchaseType _typeFromString(String type) {
 
 Store _storeFromString(String store) {
   switch (store) {
-    case 'google_play':
+    case 'googleplay':
       return Store.googlePlay;
-    case 'app_store':
+    case 'appstore':
       return Store.appStore;
     default:
       throw ArgumentError.value(store, '$store is not a supported store');
@@ -74,13 +74,13 @@ Store _storeFromString(String store) {
 
 Status _statusFromString(String status) {
   switch (status) {
-    case 'PENDING':
+    case 'pending':
       return Status.pending;
-    case 'COMPLETED':
+    case 'completed':
       return Status.completed;
-    case 'ACTIVE':
+    case 'active':
       return Status.active;
-    case 'EXPIRED':
+    case 'expired':
       return Status.expired;
     default:
       throw ArgumentError.value(status, '$status is not a supported status');

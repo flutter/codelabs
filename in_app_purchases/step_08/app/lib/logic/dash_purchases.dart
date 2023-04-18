@@ -18,6 +18,7 @@ class DashPurchases extends ChangeNotifier {
 
   bool get beautifiedDash => _beautifiedDashUpgrade;
   bool _beautifiedDashUpgrade = false;
+
   final iapConnection = IAPConnection.instance;
 
   DashPurchases(this.counter) {
@@ -62,6 +63,7 @@ class DashPurchases extends ChangeNotifier {
         await iapConnection.buyConsumable(purchaseParam: purchaseParam);
         break;
       case storeKeySubscription:
+      case storeKeyUpgrade:
         await iapConnection.buyNonConsumable(purchaseParam: purchaseParam);
         break;
       default:
@@ -70,12 +72,15 @@ class DashPurchases extends ChangeNotifier {
     }
   }
 
-  void _onPurchaseUpdate(List<PurchaseDetails> purchaseDetailsList) {
-    purchaseDetailsList.forEach(_handlePurchase);
+  Future<void> _onPurchaseUpdate(
+      List<PurchaseDetails> purchaseDetailsList) async {
+    for (var purchaseDetails in purchaseDetailsList) {
+      await _handlePurchase(purchaseDetails);
+    }
     notifyListeners();
   }
 
-  void _handlePurchase(PurchaseDetails purchaseDetails) {
+  Future<void> _handlePurchase(PurchaseDetails purchaseDetails) async {
     if (purchaseDetails.status == PurchaseStatus.purchased) {
       switch (purchaseDetails.productID) {
         case storeKeySubscription:
@@ -91,7 +96,7 @@ class DashPurchases extends ChangeNotifier {
     }
 
     if (purchaseDetails.pendingCompletePurchase) {
-      iapConnection.completePurchase(purchaseDetails);
+      await iapConnection.completePurchase(purchaseDetails);
     }
   }
 
