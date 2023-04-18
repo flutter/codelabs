@@ -5,7 +5,7 @@ homepage:
 
 environment:
   sdk: '>=2.19.4 <4.0.0'
-  flutter: ">=2.11.0"
+  flutter: ">=3.3.0"
 
 dependencies:
   ffi: ^2.0.1
