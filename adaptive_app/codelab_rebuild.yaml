@@ -218,7 +218,7 @@ steps:
         patch-u: |
           --- b/adaptive_app/step_04/android/app/src/main/AndroidManifest.xml
           +++ a/adaptive_app/step_04/android/app/src/main/AndroidManifest.xml
-          @@ -31,4 +31,19 @@
+          @@ -30,4 +30,19 @@
                        android:name="flutterEmbedding"
                        android:value="2" />
                </application>

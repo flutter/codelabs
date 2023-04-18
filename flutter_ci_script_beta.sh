@@ -7,7 +7,8 @@ source "$DIR/flutter_ci_script_shared.sh"
 
 declare -a CODELABS=(
   "adaptive_app"
-  "animated-responsive-layout"
+  # TODO(DomesticMouse): 'SearchBar' isn't a function.
+  # "animated-responsive-layout"
   "boring_to_beautiful"
   "cookbook"
   # TODO(DomesticMouse): Use 'const' with the constructor to improve performance.
@@ -29,7 +30,9 @@ declare -a CODELABS=(
   # TODO(miquelbeltran): Use 'const' with the constructor to improve performance.
   # "in_app_purchases"
   "namer"
-  "plugin_codelab"
+  "next-gen-ui"
+  # TODO(DomesticMouse): 'setMockMethodCallHandler' is deprecated and shouldn't be used.
+  # "plugin_codelab"
   "star_counter"
   "testing_codelab"
   "tfagents-flutter"
@@ -38,11 +41,6 @@ declare -a CODELABS=(
   "tooling"
   "webview_flutter"
   )
-
-# Plugin codelab is failing on ubuntu-latest in CI.
-if [[ "$OSTYPE" != "linux-gnu"* ]]; then
-  CODELABS+=("plugin_codelab")
-fi
 
 ci_codelabs "beta" "${CODELABS[@]}"
 

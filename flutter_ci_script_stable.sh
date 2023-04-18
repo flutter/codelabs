@@ -23,6 +23,8 @@ declare -a CODELABS=(
   "haiku_generator"
   "in_app_purchases"
   "namer"
+  # TODO(DomesticMouse): enable on Flutter stable increment
+  # "next-gen-ui"
   "plugin_codelab"
   "star_counter"
   "testing_codelab"
@@ -32,11 +34,6 @@ declare -a CODELABS=(
   "tooling"
   "webview_flutter"
   )
-
-# Plugin codelab is failing on ubuntu-latest in CI.
-if [[ "$OSTYPE" != "linux-gnu"* ]]; then
-  CODELABS+=("plugin_codelab")
-fi
 
 ci_codelabs "stable" "${CODELABS[@]}"
 
