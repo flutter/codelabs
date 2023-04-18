@@ -55,49 +55,42 @@ class _TitleScreenState extends State<TitleScreen> {
               lightAmt: _finalReceiveLightAmt,
             ),
 
-            /// Mg + Fg
-            IgnorePointer(
-              child: Stack(
-                children: [
-                  /// Mg-Base
-                  _LitImage(
-                    imgSrc: AssetPaths.titleMgBase,
-                    color: _orbColor,
-                    lightAmt: _finalReceiveLightAmt,
-                  ),
+            /// Mg-Base
+            _LitImage(
+              imgSrc: AssetPaths.titleMgBase,
+              color: _orbColor,
+              lightAmt: _finalReceiveLightAmt,
+            ),
 
-                  /// Mg-Receive
-                  _LitImage(
-                    imgSrc: AssetPaths.titleMgReceive,
-                    color: _orbColor,
-                    lightAmt: _finalReceiveLightAmt,
-                  ),
+            /// Mg-Receive
+            _LitImage(
+              imgSrc: AssetPaths.titleMgReceive,
+              color: _orbColor,
+              lightAmt: _finalReceiveLightAmt,
+            ),
 
-                  /// Mg-Emit
-                  _LitImage(
-                    imgSrc: AssetPaths.titleMgEmit,
-                    color: _emitColor,
-                    lightAmt: _finalEmitLightAmt,
-                  ),
+            /// Mg-Emit
+            _LitImage(
+              imgSrc: AssetPaths.titleMgEmit,
+              color: _emitColor,
+              lightAmt: _finalEmitLightAmt,
+            ),
 
-                  /// Fg-Rocks
-                  Image.asset(AssetPaths.titleFgBase),
+            /// Fg-Rocks
+            Image.asset(AssetPaths.titleFgBase),
 
-                  /// Fg-Receive
-                  _LitImage(
-                    imgSrc: AssetPaths.titleFgReceive,
-                    color: _orbColor,
-                    lightAmt: _finalReceiveLightAmt,
-                  ),
+            /// Fg-Receive
+            _LitImage(
+              imgSrc: AssetPaths.titleFgReceive,
+              color: _orbColor,
+              lightAmt: _finalReceiveLightAmt,
+            ),
 
-                  /// Fg-Emit
-                  _LitImage(
-                    imgSrc: AssetPaths.titleFgEmit,
-                    color: _emitColor,
-                    lightAmt: _finalEmitLightAmt,
-                  ),
-                ],
-              ),
+            /// Fg-Emit
+            _LitImage(
+              imgSrc: AssetPaths.titleFgEmit,
+              color: _emitColor,
+              lightAmt: _finalEmitLightAmt,
             ),
 
             /// UI

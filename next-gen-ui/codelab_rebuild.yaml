@@ -761,7 +761,7 @@ steps:
                 );
           }
           
-          class AppColors {
+          abstract class AppColors {
             static final orbColors = [
               const Color(0xFF71FDBF),
               const Color(0xFFCE33FF),
@@ -1514,20 +1514,20 @@ steps:
           // Copyright 2023 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-
+          
           import 'dart:async';
           import 'dart:math';
           import 'dart:ui';
-
+          
           import 'package:flutter/material.dart';
           import 'package:flutter_animate/flutter_animate.dart';
           import 'package:provider/provider.dart';
-
+          
           import '../assets.dart';
           import '../common/reactive_widget.dart';
           import 'orb_shader_config.dart';
           import 'orb_shader_painter.dart';
-
+          
           class OrbShaderWidget extends StatefulWidget {
             const OrbShaderWidget({
               super.key,
@@ -1536,16 +1536,16 @@ steps:
               required this.mousePos,
               required this.minEnergy,
             });
-
-            final ValueNotifier<double> minEnergy;
+          
+            final double minEnergy;
             final OrbShaderConfig config;
-            final ValueNotifier<Offset> mousePos;
+            final Offset mousePos;
             final void Function(double energy)? onUpdate;
-
+          
             @override
             State<OrbShaderWidget> createState() => OrbShaderWidgetState();
           }
-
+          
           class OrbShaderWidgetState extends State<OrbShaderWidget>
               with SingleTickerProviderStateMixin {
             final _heartbeatSequence = TweenSequence(
@@ -1569,61 +1569,53 @@ steps:
                     weight: 10),
               ],
             );
-
+          
             late final _heartbeatAnim =
                 AnimationController(vsync: this, duration: 3000.ms)..repeat();
-
+          
             @override
             Widget build(BuildContext context) => Consumer<Shaders?>(
                   builder: (context, shaders, _) {
                     if (shaders == null) return const SizedBox.expand();
-                    return ValueListenableBuilder(
-                      valueListenable: widget.minEnergy,
-                      builder: (context, minEnergy, _) {
-                        return ValueListenableBuilder(
-                          valueListenable: widget.mousePos,
-                          builder: (_, mousePos, __) => ListenableBuilder(
-                            listenable: _heartbeatAnim,
-                            builder: (_, __) {
-                              final heartbeatEnergy =
-                                  _heartbeatAnim.drive(_heartbeatSequence).value;
-                              return TweenAnimationBuilder(
-                                tween: Tween<double>(begin: minEnergy, end: minEnergy),
-                                duration: 300.ms,
-                                curve: Curves.easeOutCubic,
-                                builder: (context, minEnergy, child) {
-                                  return ReactiveWidget(
-                                    builder: (context, time, size) {
-                                      double energyLevel = 0;
-                                      if (size.shortestSide != 0) {
-                                        final d = (Offset(size.width, size.height) / 2 -
-                                                mousePos)
-                                            .distance;
-                                        final hitSize = size.shortestSide * .5;
-                                        energyLevel = 1 - min(1, (d / hitSize));
-                                        scheduleMicrotask(
-                                            () => widget.onUpdate?.call(energyLevel));
-                                      }
-                                      energyLevel +=
-                                          (1.3 - energyLevel) * heartbeatEnergy * 0.1;
-                                      energyLevel =
-                                          lerpDouble(minEnergy, 1, energyLevel)!;
-                                      return CustomPaint(
-                                        size: size,
-                                        painter: OrbShaderPainter(
-                                          shaders.orb,
-                                          config: widget.config,
-                                          time: time,
-                                          mousePos: mousePos,
-                                          energy: energyLevel,
-                                        ),
-                                      );
-                                    },
-                                  );
-                                },
-                              );
-                            },
-                          ),
+                    return ListenableBuilder(
+                      listenable: _heartbeatAnim,
+                      builder: (_, __) {
+                        final heartbeatEnergy =
+                            _heartbeatAnim.drive(_heartbeatSequence).value;
+                        return TweenAnimationBuilder(
+                          tween: Tween<double>(
+                              begin: widget.minEnergy, end: widget.minEnergy),
+                          duration: 300.ms,
+                          curve: Curves.easeOutCubic,
+                          builder: (context, minEnergy, child) {
+                            return ReactiveWidget(
+                              builder: (context, time, size) {
+                                double energyLevel = 0;
+                                if (size.shortestSide != 0) {
+                                  final d = (Offset(size.width, size.height) / 2 -
+                                          widget.mousePos)
+                                      .distance;
+                                  final hitSize = size.shortestSide * .5;
+                                  energyLevel = 1 - min(1, (d / hitSize));
+                                  scheduleMicrotask(
+                                      () => widget.onUpdate?.call(energyLevel));
+                                }
+                                energyLevel +=
+                                    (1.3 - energyLevel) * heartbeatEnergy * 0.1;
+                                energyLevel = lerpDouble(minEnergy, 1, energyLevel)!;
+                                return CustomPaint(
+                                  size: size,
+                                  painter: OrbShaderPainter(
+                                    shaders.orb,
+                                    config: widget.config,
+                                    time: time,
+                                    mousePos: widget.mousePos,
+                                    energy: energyLevel,
+                                  ),
+                                );
+                              },
+                            );
+                          },
                         );
                       },
                     );
@@ -1719,30 +1711,23 @@ steps:
                       /// Bg-Receive
                       Image.asset(AssetPaths.titleBgReceive),
           
-                      /// Mg + Fg
-                      IgnorePointer(
-                        child: Stack(
-                          children: [
-                            /// Mg-Base
-                            Image.asset(AssetPaths.titleMgBase),
+                      /// Mg-Base
+                      Image.asset(AssetPaths.titleMgBase),
           
-                            /// Mg-Receive
-                            Image.asset(AssetPaths.titleMgReceive),
+                      /// Mg-Receive
+                      Image.asset(AssetPaths.titleMgReceive),
           
-                            /// Mg-Emit
-                            Image.asset(AssetPaths.titleMgEmit),
+                      /// Mg-Emit
+                      Image.asset(AssetPaths.titleMgEmit),
           
-                            /// Fg-Rocks
-                            Image.asset(AssetPaths.titleFgBase),
+                      /// Fg-Rocks
+                      Image.asset(AssetPaths.titleFgBase),
           
-                            /// Fg-Receive
-                            Image.asset(AssetPaths.titleFgReceive),
+                      /// Fg-Receive
+                      Image.asset(AssetPaths.titleFgReceive),
           
-                            /// Fg-Emit
-                            Image.asset(AssetPaths.titleFgEmit),
-                          ],
-                        ),
-                      ),
+                      /// Fg-Emit
+                      Image.asset(AssetPaths.titleFgEmit),
                     ],
                   ),
                 ),
@@ -1799,9 +1784,9 @@ steps:
       - name: Patch lib/title_screen/title_screen.dart
         path: next_gen_ui/lib/title_screen/title_screen.dart
         patch-u: |
-          --- b/next-gen-ui/step_02_f/lib/title_screen/title_screen.dart
-          +++ a/next-gen-ui/step_02_f/lib/title_screen/title_screen.dart
-          @@ -52,3 +52,27 @@ class TitleScreen extends StatelessWidget {
+          --- b/next-gen-ui/step_02_b/lib/title_screen/title_screen.dart
+          +++ a/next-gen-ui/step_02_b/lib/title_screen/title_screen.dart
+          @@ -45,3 +45,27 @@ class TitleScreen extends StatelessWidget {
                );
              }
            }
@@ -1849,8 +1834,8 @@ steps:
       - name: Patch lib/title_screen/title_screen.dart
         path: next_gen_ui/lib/title_screen/title_screen.dart
         patch-u: |
-          --- b/next-gen-ui/step_02_g/lib/title_screen/title_screen.dart
-          +++ a/next-gen-ui/step_02_g/lib/title_screen/title_screen.dart
+          --- b/next-gen-ui/step_02_c/lib/title_screen/title_screen.dart
+          +++ a/next-gen-ui/step_02_c/lib/title_screen/title_screen.dart
           @@ -5,12 +5,19 @@
            import 'package:flutter/material.dart';
            
@@ -1871,7 +1856,7 @@ steps:
                return Scaffold(
                  backgroundColor: Colors.black,
                  body: Center(
-          @@ -20,29 +27,53 @@ class TitleScreen extends StatelessWidget {
+          @@ -20,25 +27,49 @@ class TitleScreen extends StatelessWidget {
                        Image.asset(AssetPaths.titleBgBase),
            
                        /// Bg-Receive
@@ -1882,56 +1867,52 @@ steps:
           +              lightAmt: _finalReceiveLightAmt,
           +            ),
            
-                       /// Mg + Fg
-                       IgnorePointer(
-                         child: Stack(
-                           children: [
-                             /// Mg-Base
-          -                  Image.asset(AssetPaths.titleMgBase),
-          +                  _LitImage(
-          +                    imgSrc: AssetPaths.titleMgBase,
-          +                    color: orbColor,
-          +                    lightAmt: _finalReceiveLightAmt,
-          +                  ),
+                       /// Mg-Base
+          -            Image.asset(AssetPaths.titleMgBase),
+          +            _LitImage(
+          +              imgSrc: AssetPaths.titleMgBase,
+          +              color: orbColor,
+          +              lightAmt: _finalReceiveLightAmt,
+          +            ),
            
-                             /// Mg-Receive
-          -                  Image.asset(AssetPaths.titleMgReceive),
-          +                  _LitImage(
-          +                    imgSrc: AssetPaths.titleMgReceive,
-          +                    color: orbColor,
-          +                    lightAmt: _finalReceiveLightAmt,
-          +                  ),
+                       /// Mg-Receive
+          -            Image.asset(AssetPaths.titleMgReceive),
+          +            _LitImage(
+          +              imgSrc: AssetPaths.titleMgReceive,
+          +              color: orbColor,
+          +              lightAmt: _finalReceiveLightAmt,
+          +            ),
            
-                             /// Mg-Emit
-          -                  Image.asset(AssetPaths.titleMgEmit),
-          +                  _LitImage(
-          +                    imgSrc: AssetPaths.titleMgEmit,
-          +                    color: emitColor,
-          +                    lightAmt: _finalEmitLightAmt,
-          +                  ),
+                       /// Mg-Emit
+          -            Image.asset(AssetPaths.titleMgEmit),
+          +            _LitImage(
+          +              imgSrc: AssetPaths.titleMgEmit,
+          +              color: emitColor,
+          +              lightAmt: _finalEmitLightAmt,
+          +            ),
            
-                             /// Fg-Rocks
-                             Image.asset(AssetPaths.titleFgBase),
+                       /// Fg-Rocks
+                       Image.asset(AssetPaths.titleFgBase),
            
-                             /// Fg-Receive
-          -                  Image.asset(AssetPaths.titleFgReceive),
-          +                  _LitImage(
-          +                    imgSrc: AssetPaths.titleFgReceive,
-          +                    color: orbColor,
-          +                    lightAmt: _finalReceiveLightAmt,
-          +                  ),
+                       /// Fg-Receive
+          -            Image.asset(AssetPaths.titleFgReceive),
+          +            _LitImage(
+          +              imgSrc: AssetPaths.titleFgReceive,
+          +              color: orbColor,
+          +              lightAmt: _finalReceiveLightAmt,
+          +            ),
            
-                             /// Fg-Emit
-          -                  Image.asset(AssetPaths.titleFgEmit),
-          +                  _LitImage(
-          +                    imgSrc: AssetPaths.titleFgEmit,
-          +                    color: emitColor,
-          +                    lightAmt: _finalEmitLightAmt,
-          +                  ),
-                           ],
-                         ),
-                       ),
-          @@ -53,7 +84,6 @@ class TitleScreen extends StatelessWidget {
+                       /// Fg-Emit
+          -            Image.asset(AssetPaths.titleFgEmit),
+          +            _LitImage(
+          +              imgSrc: AssetPaths.titleFgEmit,
+          +              color: emitColor,
+          +              lightAmt: _finalEmitLightAmt,
+          +            ),
+                     ],
+                   ),
+                 ),
+          @@ -46,7 +77,6 @@ class TitleScreen extends StatelessWidget {
              }
            }
            
@@ -2034,9 +2015,9 @@ steps:
            
            class TitleScreen extends StatelessWidget {
              const TitleScreen({super.key});
-          @@ -77,6 +78,11 @@ class TitleScreen extends StatelessWidget {
-                           ],
-                         ),
+          @@ -70,6 +71,11 @@ class TitleScreen extends StatelessWidget {
+                         color: emitColor,
+                         lightAmt: _finalEmitLightAmt,
                        ),
           +
           +            /// UI
@@ -2285,49 +2266,46 @@ steps:
                          imgSrc: AssetPaths.titleBgReceive,
                          lightAmt: _finalReceiveLightAmt,
                        ),
-          @@ -41,21 +62,21 @@ class TitleScreen extends StatelessWidget {
-                             /// Mg-Base
-                             _LitImage(
-                               imgSrc: AssetPaths.titleMgBase,
-          -                    color: orbColor,
-          +                    color: _orbColor,
-                               lightAmt: _finalReceiveLightAmt,
-                             ),
+          @@ -37,21 +58,21 @@ class TitleScreen extends StatelessWidget {
+                       /// Mg-Base
+                       _LitImage(
+                         imgSrc: AssetPaths.titleMgBase,
+          -              color: orbColor,
+          +              color: _orbColor,
+                         lightAmt: _finalReceiveLightAmt,
+                       ),
            
-                             /// Mg-Receive
-                             _LitImage(
-                               imgSrc: AssetPaths.titleMgReceive,
-          -                    color: orbColor,
-          +                    color: _orbColor,
-                               lightAmt: _finalReceiveLightAmt,
-                             ),
+                       /// Mg-Receive
+                       _LitImage(
+                         imgSrc: AssetPaths.titleMgReceive,
+          -              color: orbColor,
+          +              color: _orbColor,
+                         lightAmt: _finalReceiveLightAmt,
+                       ),
            
-                             /// Mg-Emit
-                             _LitImage(
-                               imgSrc: AssetPaths.titleMgEmit,
-          -                    color: emitColor,
-          +                    color: _emitColor,
-                               lightAmt: _finalEmitLightAmt,
-                             ),
+                       /// Mg-Emit
+                       _LitImage(
+                         imgSrc: AssetPaths.titleMgEmit,
+          -              color: emitColor,
+          +              color: _emitColor,
+                         lightAmt: _finalEmitLightAmt,
+                       ),
            
-          @@ -65,14 +86,14 @@ class TitleScreen extends StatelessWidget {
-                             /// Fg-Receive
-                             _LitImage(
-                               imgSrc: AssetPaths.titleFgReceive,
-          -                    color: orbColor,
-          +                    color: _orbColor,
-                               lightAmt: _finalReceiveLightAmt,
-                             ),
+          @@ -61,20 +82,24 @@ class TitleScreen extends StatelessWidget {
+                       /// Fg-Receive
+                       _LitImage(
+                         imgSrc: AssetPaths.titleFgReceive,
+          -              color: orbColor,
+          +              color: _orbColor,
+                         lightAmt: _finalReceiveLightAmt,
+                       ),
            
-                             /// Fg-Emit
-                             _LitImage(
-                               imgSrc: AssetPaths.titleFgEmit,
-          -                    color: emitColor,
-          +                    color: _emitColor,
-                               lightAmt: _finalEmitLightAmt,
-                             ),
-                           ],
-          @@ -80,8 +101,12 @@ class TitleScreen extends StatelessWidget {
+                       /// Fg-Emit
+                       _LitImage(
+                         imgSrc: AssetPaths.titleFgEmit,
+          -              color: emitColor,
+          +              color: _emitColor,
+                         lightAmt: _finalEmitLightAmt,
                        ),
            
                        /// UI
@@ -2370,25 +2348,26 @@ steps:
                      ),
           +
           +          /// StartBtn
-          +          const BottomRight(
+          +          BottomRight(
           +            child: UiScaler(
           +              alignment: Alignment.bottomRight,
           +              child: Padding(
-          +                padding: EdgeInsets.only(bottom: 20, right: 40),
-          +                child: _StartBtn(),
+          +                padding: const EdgeInsets.only(bottom: 20, right: 40),
+          +                child: _StartBtn(onPressed: () {}),
           +              ),
           +            ),
           +          ),
                    ],
                  ),
                );
-          @@ -185,3 +196,54 @@ class _DifficultyBtn extends StatelessWidget {
+          @@ -185,3 +196,55 @@ class _DifficultyBtn extends StatelessWidget {
                );
              }
            }
           +
           +class _StartBtn extends StatefulWidget {
-          +  const _StartBtn();
+          +  const _StartBtn({required this.onPressed});
+          +  final VoidCallback onPressed;
           +
           +  @override
           +  State<_StartBtn> createState() => _StartBtnState();
@@ -2402,7 +2381,7 @@ steps:
           +  Widget build(BuildContext context) {
           +    return FocusableControlBuilder(
           +      cursor: SystemMouseCursors.click,
-          +      onPressed: () {},
+          +      onPressed: widget.onPressed,
           +      builder: (_, state) {
           +        if ((state.isHovered || state.isFocused) &&
           +            !_wasHovered &&
@@ -2576,7 +2555,7 @@ steps:
         patch-u: |
           --- b/next-gen-ui/step_04_c/lib/title_screen/title_screen_ui.dart
           +++ a/next-gen-ui/step_04_c/lib/title_screen/title_screen_ui.dart
-          @@ -253,8 +253,13 @@ class _StartBtnState extends State<_StartBtn> {
+          @@ -254,8 +254,13 @@ class _StartBtnState extends State<_StartBtn> {
                            ),
                          ),
                        ],
@@ -2664,7 +2643,7 @@ steps:
            
            import '../assets.dart';
            import '../styles.dart';
-          @@ -43,72 +44,78 @@ class _TitleScreenState extends State<TitleScreen> {
+          @@ -43,65 +44,71 @@ class _TitleScreenState extends State<TitleScreen> {
                return Scaffold(
                  backgroundColor: Colors.black,
                  body: Center(
@@ -2680,15 +2659,53 @@ steps:
           -              lightAmt: _finalReceiveLightAmt,
           -            ),
           -
-          -            /// Mg + Fg
-          -            IgnorePointer(
-          -              child: Stack(
-          -                children: [
-          -                  /// Mg-Base
-          -                  _LitImage(
-          -                    imgSrc: AssetPaths.titleMgBase,
-          -                    color: _orbColor,
-          -                    lightAmt: _finalReceiveLightAmt,
+          -            /// Mg-Base
+          -            _LitImage(
+          -              imgSrc: AssetPaths.titleMgBase,
+          -              color: _orbColor,
+          -              lightAmt: _finalReceiveLightAmt,
+          -            ),
+          -
+          -            /// Mg-Receive
+          -            _LitImage(
+          -              imgSrc: AssetPaths.titleMgReceive,
+          -              color: _orbColor,
+          -              lightAmt: _finalReceiveLightAmt,
+          -            ),
+          -
+          -            /// Mg-Emit
+          -            _LitImage(
+          -              imgSrc: AssetPaths.titleMgEmit,
+          -              color: _emitColor,
+          -              lightAmt: _finalEmitLightAmt,
+          -            ),
+          -
+          -            /// Fg-Rocks
+          -            Image.asset(AssetPaths.titleFgBase),
+          -
+          -            /// Fg-Receive
+          -            _LitImage(
+          -              imgSrc: AssetPaths.titleFgReceive,
+          -              color: _orbColor,
+          -              lightAmt: _finalReceiveLightAmt,
+          -            ),
+          -
+          -            /// Fg-Emit
+          -            _LitImage(
+          -              imgSrc: AssetPaths.titleFgEmit,
+          -              color: _emitColor,
+          -              lightAmt: _finalEmitLightAmt,
+          -            ),
+          -
+          -            /// UI
+          -            Positioned.fill(
+          -              child: TitleScreenUi(
+          -                difficulty: _difficulty,
+          -                onDifficultyFocused: _handleDifficultyFocused,
+          -                onDifficultyPressed: _handleDifficultyPressed,
+          -              ),
+          -            ),
+          -          ],
           +        child: _AnimatedColors(
           +          orbColor: _orbColor,
           +          emitColor: _emitColor,
@@ -2705,62 +2722,42 @@ steps:
           +                  lightAmt: _finalReceiveLightAmt,
           +                ),
           +
-          +                /// Mg + Fg
-          +                IgnorePointer(
-          +                  child: Stack(
-          +                    children: [
-          +                      /// Mg-Base
-          +                      _LitImage(
-          +                        imgSrc: AssetPaths.titleMgBase,
-          +                        color: orbColor,
-          +                        lightAmt: _finalReceiveLightAmt,
-          +                      ),
+          +                /// Mg-Base
+          +                _LitImage(
+          +                  imgSrc: AssetPaths.titleMgBase,
+          +                  color: orbColor,
+          +                  lightAmt: _finalReceiveLightAmt,
+          +                ),
           +
-          +                      /// Mg-Receive
-          +                      _LitImage(
-          +                        imgSrc: AssetPaths.titleMgReceive,
-          +                        color: orbColor,
-          +                        lightAmt: _finalReceiveLightAmt,
-          +                      ),
+          +                /// Mg-Receive
+          +                _LitImage(
+          +                  imgSrc: AssetPaths.titleMgReceive,
+          +                  color: orbColor,
+          +                  lightAmt: _finalReceiveLightAmt,
+          +                ),
           +
-          +                      /// Mg-Emit
-          +                      _LitImage(
-          +                        imgSrc: AssetPaths.titleMgEmit,
-          +                        color: emitColor,
-          +                        lightAmt: _finalEmitLightAmt,
-          +                      ),
+          +                /// Mg-Emit
+          +                _LitImage(
+          +                  imgSrc: AssetPaths.titleMgEmit,
+          +                  color: emitColor,
+          +                  lightAmt: _finalEmitLightAmt,
+          +                ),
           +
-          +                      /// Fg-Rocks
-          +                      Image.asset(AssetPaths.titleFgBase),
+          +                /// Fg-Rocks
+          +                Image.asset(AssetPaths.titleFgBase),
           +
-          +                      /// Fg-Receive
-          +                      _LitImage(
-          +                        imgSrc: AssetPaths.titleFgReceive,
-          +                        color: orbColor,
-          +                        lightAmt: _finalReceiveLightAmt,
-          +                      ),
+          +                /// Fg-Receive
+          +                _LitImage(
+          +                  imgSrc: AssetPaths.titleFgReceive,
+          +                  color: orbColor,
+          +                  lightAmt: _finalReceiveLightAmt,
+          +                ),
           +
-          +                      /// Fg-Emit
-          +                      _LitImage(
-          +                        imgSrc: AssetPaths.titleFgEmit,
-          +                        color: emitColor,
-          +                        lightAmt: _finalEmitLightAmt,
-          +                      ),
-          +                    ],
-                             ),
-          -
-          -                  /// Mg-Receive
-          -                  _LitImage(
-          -                    imgSrc: AssetPaths.titleMgReceive,
-          -                    color: _orbColor,
-          -                    lightAmt: _finalReceiveLightAmt,
-          -                  ),
-          -
-          -                  /// Mg-Emit
-          -                  _LitImage(
-          -                    imgSrc: AssetPaths.titleMgEmit,
-          -                    color: _emitColor,
-          -                    lightAmt: _finalEmitLightAmt,
+          +                /// Fg-Emit
+          +                _LitImage(
+          +                  imgSrc: AssetPaths.titleFgEmit,
+          +                  color: emitColor,
+          +                  lightAmt: _finalEmitLightAmt,
           +                ),
           +
           +                /// UI
@@ -2769,37 +2766,7 @@ steps:
           +                    difficulty: _difficulty,
           +                    onDifficultyFocused: _handleDifficultyFocused,
           +                    onDifficultyPressed: _handleDifficultyPressed,
-                             ),
-          -
-          -                  /// Fg-Rocks
-          -                  Image.asset(AssetPaths.titleFgBase),
-          -
-          -                  /// Fg-Receive
-          -                  _LitImage(
-          -                    imgSrc: AssetPaths.titleFgReceive,
-          -                    color: _orbColor,
-          -                    lightAmt: _finalReceiveLightAmt,
-          -                  ),
-          -
-          -                  /// Fg-Emit
-          -                  _LitImage(
-          -                    imgSrc: AssetPaths.titleFgEmit,
-          -                    color: _emitColor,
-          -                    lightAmt: _finalEmitLightAmt,
-          -                  ),
-          -                ],
-          -              ),
-          -            ),
-          -
-          -            /// UI
-          -            Positioned.fill(
-          -              child: TitleScreenUi(
-          -                difficulty: _difficulty,
-          -                onDifficultyFocused: _handleDifficultyFocused,
-          -                onDifficultyPressed: _handleDifficultyPressed,
-          -              ),
-          -            ),
-          -          ],
+          +                  ),
           +                ),
           +              ],
           +            ).animate().fadeIn(duration: 1.seconds, delay: .3.seconds);
@@ -2807,7 +2774,7 @@ steps:
                    ),
                  ),
                );
-          @@ -137,3 +144,35 @@ class _LitImage extends StatelessWidget {
+          @@ -130,3 +137,35 @@ class _LitImage extends StatelessWidget {
                );
              }
            }
@@ -2982,41 +2949,15 @@ steps:
            
              @override
              Widget build(BuildContext context) {
-          @@ -54,12 +56,12 @@ class TitleScreenUi extends StatelessWidget {
-                     ),
-           
-                     /// StartBtn
-          -          const BottomRight(
-          +          BottomRight(
-                       child: UiScaler(
+          @@ -59,7 +61,7 @@ class TitleScreenUi extends StatelessWidget {
                          alignment: Alignment.bottomRight,
                          child: Padding(
-          -                padding: EdgeInsets.only(bottom: 20, right: 40),
-          -                child: _StartBtn(),
-          +                padding: const EdgeInsets.only(bottom: 20, right: 40),
+                           padding: const EdgeInsets.only(bottom: 20, right: 40),
+          -                child: _StartBtn(onPressed: () {}),
           +                child: _StartBtn(onPressed: onStartPressed),
                          ),
                        ),
                      ),
-          @@ -242,7 +244,8 @@ class _DifficultyBtn extends StatelessWidget {
-           }
-           
-           class _StartBtn extends StatefulWidget {
-          -  const _StartBtn();
-          +  const _StartBtn({required this.onPressed});
-          +  final VoidCallback onPressed;
-           
-             @override
-             State<_StartBtn> createState() => _StartBtnState();
-          @@ -256,7 +259,7 @@ class _StartBtnState extends State<_StartBtn> {
-             Widget build(BuildContext context) {
-               return FocusableControlBuilder(
-                 cursor: SystemMouseCursors.click,
-          -      onPressed: () {},
-          +      onPressed: widget.onPressed,
-                 builder: (_, state) {
-                   if ((state.isHovered || state.isFocused) &&
-                       !_wasHovered &&
       - name: Patch lib/title_screen/title_screen.dart
         path: next_gen_ui/lib/title_screen/title_screen.dart
         patch-u: |
@@ -3050,36 +2991,34 @@ steps:
           +
           +  /// Editable Settings
           +  /// 0-1, receive lighting strength
-          +  double get _minReceiveLightAmt => .35;
-          +  double get _maxReceiveLightAmt => .7;
+          +  final _minReceiveLightAmt = .35;
+          +  final _maxReceiveLightAmt = .7;
           +
           +  /// 0-1, emit lighting strength
-          +  double get _minEmitLightAmt => .5;
-          +  double get _maxEmitLightAmt => 1;
+          +  final _minEmitLightAmt = .5;
+          +  final _maxEmitLightAmt = 1;
           +
           +  /// Internal
-          +  final _mousePos = ValueNotifier(Offset.zero);
+          +  var _mousePos = Offset.zero;
           +
              Color get _emitColor =>
                  AppColors.emitColors[_difficultyOverride ?? _difficulty];
              Color get _orbColor =>
-          @@ -27,95 +48,192 @@ class _TitleScreenState extends State<TitleScreen> {
+          @@ -27,88 +48,192 @@ class _TitleScreenState extends State<TitleScreen> {
            
              /// Currently focused difficulty (if any)
              int? _difficultyOverride;
-          +  late final _orbEnergy = ValueNotifier<double>(0);
-          +  late final _minOrbEnergy = ValueNotifier<double>(0);
+          +  double _orbEnergy = 0;
+          +  double _minOrbEnergy = 0;
           +
           +  double get _finalReceiveLightAmt {
-          +    final light = lerpDouble(
-          +            _minReceiveLightAmt, _maxReceiveLightAmt, _orbEnergy.value) ??
-          +        0;
-          +    return light + _pulseEffect.value * .05 * _orbEnergy.value;
+          +    final light =
+          +        lerpDouble(_minReceiveLightAmt, _maxReceiveLightAmt, _orbEnergy) ?? 0;
+          +    return light + _pulseEffect.value * .05 * _orbEnergy;
           +  }
           +
           +  double get _finalEmitLightAmt {
-          +    return lerpDouble(_minEmitLightAmt, _maxEmitLightAmt, _orbEnergy.value) ??
-          +        0;
+          +    return lerpDouble(_minEmitLightAmt, _maxEmitLightAmt, _orbEnergy) ?? 0;
           +  }
           +
           +  late final _pulseEffect = AnimationController(
@@ -3122,22 +3061,26 @@ steps:
           +    _bumpMinEnergy();
              }
            
-          +  Future<void> _bumpMinEnergy() async {
-          +    _minOrbEnergy.value = _getMinEnergyForDifficulty(_difficulty) + .1;
+          +  Future<void> _bumpMinEnergy([double amount = 0.1]) async {
+          +    setState(() {
+          +      _minOrbEnergy = _getMinEnergyForDifficulty(_difficulty) + amount;
+          +    });
           +    await Future<void>.delayed(.2.seconds);
-          +    _minOrbEnergy.value = _getMinEnergyForDifficulty(_difficulty);
+          +    setState(() {
+          +      _minOrbEnergy = _getMinEnergyForDifficulty(_difficulty);
+          +    });
           +  }
           +
-          +  void _handleStartPressed() => _bumpMinEnergy();
+          +  void _handleStartPressed() => _bumpMinEnergy(0.3);
           +
              void _handleDifficultyFocused(int? value) {
           -    setState(() => _difficultyOverride = value);
           +    setState(() {
           +      _difficultyOverride = value;
           +      if (value == null) {
-          +        _minOrbEnergy.value = _getMinEnergyForDifficulty(_difficulty);
+          +        _minOrbEnergy = _getMinEnergyForDifficulty(_difficulty);
           +      } else {
-          +        _minOrbEnergy.value = _getMinEnergyForDifficulty(value);
+          +        _minOrbEnergy = _getMinEnergyForDifficulty(value);
           +      }
           +    });
              }
@@ -3146,8 +3089,11 @@ steps:
           -  final _finalEmitLightAmt = 0.5;
           +  /// Update mouse position so the orbWidget can use it, doing it here prevents
           +  /// btns from blocking the mouse-move events in the widget itself.
-          +  void _handleMouseMove(PointerHoverEvent e) =>
-          +      _mousePos.value = e.localPosition;
+          +  void _handleMouseMove(PointerHoverEvent e) {
+          +    setState(() {
+          +      _mousePos = e.localPosition;
+          +    });
+          +  }
            
              @override
              Widget build(BuildContext context) {
@@ -3170,48 +3116,50 @@ steps:
           -                  lightAmt: _finalReceiveLightAmt,
           -                ),
           -
-          -                /// Mg + Fg
-          -                IgnorePointer(
-          -                  child: Stack(
-          -                    children: [
-          -                      /// Mg-Base
-          -                      _LitImage(
-          -                        imgSrc: AssetPaths.titleMgBase,
-          -                        color: orbColor,
-          -                        lightAmt: _finalReceiveLightAmt,
-          -                      ),
+          -                /// Mg-Base
+          -                _LitImage(
+          -                  imgSrc: AssetPaths.titleMgBase,
+          -                  color: orbColor,
+          -                  lightAmt: _finalReceiveLightAmt,
+          -                ),
           -
-          -                      /// Mg-Receive
-          -                      _LitImage(
-          -                        imgSrc: AssetPaths.titleMgReceive,
-          -                        color: orbColor,
-          -                        lightAmt: _finalReceiveLightAmt,
-          -                      ),
+          -                /// Mg-Receive
+          -                _LitImage(
+          -                  imgSrc: AssetPaths.titleMgReceive,
+          -                  color: orbColor,
+          -                  lightAmt: _finalReceiveLightAmt,
+          -                ),
           -
-          -                      /// Mg-Emit
-          -                      _LitImage(
-          -                        imgSrc: AssetPaths.titleMgEmit,
-          -                        color: emitColor,
-          -                        lightAmt: _finalEmitLightAmt,
-          -                      ),
+          -                /// Mg-Emit
+          -                _LitImage(
+          -                  imgSrc: AssetPaths.titleMgEmit,
+          -                  color: emitColor,
+          -                  lightAmt: _finalEmitLightAmt,
+          -                ),
           -
-          -                      /// Fg-Rocks
-          -                      Image.asset(AssetPaths.titleFgBase),
+          -                /// Fg-Rocks
+          -                Image.asset(AssetPaths.titleFgBase),
           -
-          -                      /// Fg-Receive
-          -                      _LitImage(
-          -                        imgSrc: AssetPaths.titleFgReceive,
-          -                        color: orbColor,
-          -                        lightAmt: _finalReceiveLightAmt,
-          -                      ),
+          -                /// Fg-Receive
+          -                _LitImage(
+          -                  imgSrc: AssetPaths.titleFgReceive,
+          -                  color: orbColor,
+          -                  lightAmt: _finalReceiveLightAmt,
+          -                ),
           -
-          -                      /// Fg-Emit
-          -                      _LitImage(
-          -                        imgSrc: AssetPaths.titleFgEmit,
-          -                        color: emitColor,
-          -                        lightAmt: _finalEmitLightAmt,
-          -                      ),
-          -                    ],
+          -                /// Fg-Emit
+          -                _LitImage(
+          -                  imgSrc: AssetPaths.titleFgEmit,
+          -                  color: emitColor,
+          -                  lightAmt: _finalEmitLightAmt,
+          -                ),
+          -
+          -                /// UI
+          -                Positioned.fill(
+          -                  child: TitleScreenUi(
+          -                    difficulty: _difficulty,
+          -                    onDifficultyFocused: _handleDifficultyFocused,
+          -                    onDifficultyPressed: _handleDifficultyPressed,
           +        child: MouseRegion(
           +          onHover: _handleMouseMove,
           +          child: _AnimatedColors(
@@ -3231,13 +3179,9 @@ steps:
           +                    lightAmt: _finalReceiveLightAmt,
                              ),
           -                ),
-          -
-          -                /// UI
-          -                Positioned.fill(
-          -                  child: TitleScreenUi(
-          -                    difficulty: _difficulty,
-          -                    onDifficultyFocused: _handleDifficultyFocused,
-          -                    onDifficultyPressed: _handleDifficultyPressed,
+          -              ],
+          -            ).animate().fadeIn(duration: 1.seconds, delay: .3.seconds);
+          -          },
           +
           +                  /// Orb
           +                  Positioned.fill(
@@ -3253,64 +3197,55 @@ steps:
           +                            materialColor: orbColor,
           +                            lightColor: orbColor,
           +                          ),
-          +                          onUpdate: (energy) => _orbEnergy.value = energy,
+          +                          onUpdate: (energy) => setState(() {
+          +                            _orbEnergy = energy;
+          +                          }),
           +                        ),
           +                      ],
           +                    ),
-                             ),
-          -                ),
-          -              ],
-          -            ).animate().fadeIn(duration: 1.seconds, delay: .3.seconds);
-          -          },
+          +                  ),
           +
-          +                  /// Mg + Fg
-          +                  IgnorePointer(
-          +                    child: Stack(
-          +                      children: [
-          +                        /// Mg-Base
-          +                        _LitImage(
-          +                          imgSrc: AssetPaths.titleMgBase,
-          +                          color: orbColor,
-          +                          pulseEffect: _pulseEffect,
-          +                          lightAmt: _finalReceiveLightAmt,
-          +                        ),
+          +                  /// Mg-Base
+          +                  _LitImage(
+          +                    imgSrc: AssetPaths.titleMgBase,
+          +                    color: orbColor,
+          +                    pulseEffect: _pulseEffect,
+          +                    lightAmt: _finalReceiveLightAmt,
+          +                  ),
           +
-          +                        /// Mg-Receive
-          +                        _LitImage(
-          +                          imgSrc: AssetPaths.titleMgReceive,
-          +                          color: orbColor,
-          +                          pulseEffect: _pulseEffect,
-          +                          lightAmt: _finalReceiveLightAmt,
-          +                        ),
+          +                  /// Mg-Receive
+          +                  _LitImage(
+          +                    imgSrc: AssetPaths.titleMgReceive,
+          +                    color: orbColor,
+          +                    pulseEffect: _pulseEffect,
+          +                    lightAmt: _finalReceiveLightAmt,
+          +                  ),
           +
-          +                        /// Mg-Emit
-          +                        _LitImage(
-          +                          imgSrc: AssetPaths.titleMgEmit,
-          +                          color: emitColor,
-          +                          pulseEffect: _pulseEffect,
-          +                          lightAmt: _finalEmitLightAmt,
-          +                        ),
+          +                  /// Mg-Emit
+          +                  _LitImage(
+          +                    imgSrc: AssetPaths.titleMgEmit,
+          +                    color: emitColor,
+          +                    pulseEffect: _pulseEffect,
+          +                    lightAmt: _finalEmitLightAmt,
+          +                  ),
           +
-          +                        /// Fg-Rocks
-          +                        Image.asset(AssetPaths.titleFgBase),
+          +                  /// Fg-Rocks
+          +                  Image.asset(AssetPaths.titleFgBase),
           +
-          +                        /// Fg-Receive
-          +                        _LitImage(
-          +                          imgSrc: AssetPaths.titleFgReceive,
-          +                          color: orbColor,
-          +                          pulseEffect: _pulseEffect,
-          +                          lightAmt: _finalReceiveLightAmt,
-          +                        ),
+          +                  /// Fg-Receive
+          +                  _LitImage(
+          +                    imgSrc: AssetPaths.titleFgReceive,
+          +                    color: orbColor,
+          +                    pulseEffect: _pulseEffect,
+          +                    lightAmt: _finalReceiveLightAmt,
+          +                  ),
           +
-          +                        /// Fg-Emit
-          +                        _LitImage(
-          +                          imgSrc: AssetPaths.titleFgEmit,
-          +                          color: emitColor,
-          +                          pulseEffect: _pulseEffect,
-          +                          lightAmt: _finalEmitLightAmt,
-          +                        ),
-          +                      ],
-          +                    ),
+          +                  /// Fg-Emit
+          +                  _LitImage(
+          +                    imgSrc: AssetPaths.titleFgEmit,
+          +                    color: emitColor,
+          +                    pulseEffect: _pulseEffect,
+          +                    lightAmt: _finalEmitLightAmt,
           +                  ),
           +
           +                  /// UI
@@ -3329,7 +3264,7 @@ steps:
                    ),
                  ),
                );
-          @@ -126,21 +244,29 @@ class _LitImage extends StatelessWidget {
+          @@ -119,21 +244,29 @@ class _LitImage extends StatelessWidget {
              const _LitImage({
                required this.color,
                required this.imgSrc,
@@ -3464,25 +3399,22 @@ steps:
            import 'title_screen_ui.dart';
            
            class TitleScreen extends StatefulWidget {
-          @@ -199,6 +200,19 @@ class _TitleScreenState extends State<TitleScreen>
-                                     lightAmt: _finalEmitLightAmt,
-                                   ),
+          @@ -202,6 +203,16 @@ class _TitleScreenState extends State<TitleScreen>
+                               lightAmt: _finalEmitLightAmt,
+                             ),
            
-          +                        /// Particle Field
-          +                        Positioned.fill(
-          +                          child: IgnorePointer(
-          +                            child: ListenableBuilder(
-          +                              listenable: _orbEnergy,
-          +                              builder: (_, __) => ParticleOverlay(
-          +                                color: orbColor,
-          +                                energy: _orbEnergy.value,
-          +                              ),
-          +                            ),
-          +                          ),
-          +                        ),
+          +                  /// Particle Field
+          +                  Positioned.fill(
+          +                    child: IgnorePointer(
+          +                      child: ParticleOverlay(
+          +                        color: orbColor,
+          +                        energy: _orbEnergy,
+          +                      ),
+          +                    ),
+          +                  ),
           +
-                                   /// Fg-Rocks
-                                   Image.asset(AssetPaths.titleFgBase),
+                             /// Fg-Rocks
+                             Image.asset(AssetPaths.titleFgBase),
       - name: Patch web/index.html
         path: next_gen_ui/web/index.html
         patch-u: |
