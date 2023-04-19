@@ -27,7 +27,7 @@ declare -a CODELABS=(
   "github-client"
   "google-maps-in-flutter"
   "haiku_generator"
-  # TODO(DomesticMouse): Use 'const' with the constructor to improve performance.
+  # TODO(miquelbeltran): Use 'const' with the constructor to improve performance.
   # "in_app_purchases"
   "namer"
   "next-gen-ui"
