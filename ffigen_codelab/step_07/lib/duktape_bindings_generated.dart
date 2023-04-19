@@ -5152,12 +5152,12 @@ class DuktapeBindings {
 /// Many types are wrapped by Duktape for portability to rare platforms
 /// where e.g. 'int' is a 16-bit type.  See practical typing discussion
 /// in Duktape web documentation.
-class duk_thread_state extends ffi.Struct {
+final class duk_thread_state extends ffi.Struct {
   @ffi.Array.multi([128])
   external ffi.Array<ffi.Char> data;
 }
 
-class duk_memory_functions extends ffi.Struct {
+final class duk_memory_functions extends ffi.Struct {
   external duk_alloc_function alloc_func;
 
   external duk_realloc_function realloc_func;
@@ -5183,7 +5183,7 @@ typedef duk_free_function = ffi.Pointer<
         ffi.Void Function(
             ffi.Pointer<ffi.Void> udata, ffi.Pointer<ffi.Void> ptr)>>;
 
-class duk_function_list_entry extends ffi.Struct {
+final class duk_function_list_entry extends ffi.Struct {
   external ffi.Pointer<ffi.Char> key;
 
   external duk_c_function value;
@@ -5209,13 +5209,13 @@ typedef duk_small_int_t = ffi.Int;
 /// exclusively in internals.
 typedef duk_context = duk_hthread;
 
-class duk_hthread extends ffi.Opaque {}
+final class duk_hthread extends ffi.Opaque {}
 
 /// Index values must have at least 32-bit signed range.
 typedef duk_idx_t = duk_int_t;
 typedef duk_int_t = ffi.Int;
 
-class duk_number_list_entry extends ffi.Struct {
+final class duk_number_list_entry extends ffi.Struct {
   external ffi.Pointer<ffi.Char> key;
 
   @duk_double_t()
@@ -5224,7 +5224,7 @@ class duk_number_list_entry extends ffi.Struct {
 
 typedef duk_double_t = ffi.Double;
 
-class duk_time_components extends ffi.Struct {
+final class duk_time_components extends ffi.Struct {
   /// year, e.g. 2016, ECMAScript year range
   @duk_double_t()
   external double year;
