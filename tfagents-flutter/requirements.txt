@@ -1,6 +1,6 @@
 tensorflow==2.6.4
 tf-agents==0.9.0
 dm-reverb==0.5.0
-tensorflow-probability==0.14.0
+tensorflow-probability==2.11.1
 Pillow==9.3.0
 protobuf==3.20.2
