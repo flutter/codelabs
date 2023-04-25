@@ -98,22 +98,23 @@ class _TitleText extends StatelessWidget {
             .fadeIn(delay: 1.seconds, duration: .7.seconds),
       ],
     );
-    return Consumer<Shaders?>(
-      builder: (context, shaders, _) {
-        if (shaders == null) return content;
+    return Consumer<FragmentPrograms?>(
+      builder: (context, fragmentPrograms, _) {
+        if (fragmentPrograms == null) return content;
         return TickingBuilder(
           builder: (context, time) {
             return AnimatedSampler(
               (image, size, canvas) {
                 const double overdrawPx = 30;
-                shaders.ui
+                final shader = fragmentPrograms.ui.fragmentShader();
+                shader
                   ..setFloat(0, size.width)
                   ..setFloat(1, size.height)
                   ..setFloat(2, time)
                   ..setImageSampler(0, image);
                 Rect rect = Rect.fromLTWH(-overdrawPx, -overdrawPx,
                     size.width + overdrawPx, size.height + overdrawPx);
-                canvas.drawRect(rect, Paint()..shader = shaders.ui);
+                canvas.drawRect(rect, Paint()..shader = shader);
               },
               child: content,
             );
