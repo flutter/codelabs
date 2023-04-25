@@ -1,10 +1,12 @@
 version: 2
 enable-beta-ecosystems: true
 updates:
+  # Github actions ecosystem.
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "daily"
+  # Pub ecosystem.
   - package-ecosystem: "pub"
     directory: "/adaptive_app/step_03/"
     schedule:
@@ -491,5 +493,10 @@ updates:
       interval: "daily"
   - package-ecosystem: "npm"
     directory: "/in_app_purchases/complete/firebase-backend/functions/"
+    schedule:
+      interval: "daily"
+  # Pip ecosystem.
+  - package-ecosystem: "pip"
+    directory: "/tfagents-flutter/"
     schedule:
       interval: "daily"

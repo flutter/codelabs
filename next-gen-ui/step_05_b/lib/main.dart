@@ -20,8 +20,8 @@ void main() {
   }
   Animate.restartOnHotReload = true;
   runApp(
-    FutureProvider<Shaders?>(
-      create: (context) => loadShaders(),
+    FutureProvider<FragmentPrograms?>(
+      create: (context) => loadFragmentPrograms(),
       initialData: null,
       child: const NextGenApp(),
     ),
