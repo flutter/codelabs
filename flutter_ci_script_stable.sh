@@ -11,6 +11,7 @@ declare -a CODELABS=(
   "boring_to_beautiful"
   "cookbook"
   "cupertino_store"
+  "dart3"
   "dartpad_codelabs"
   "deeplink_cookbook"
   "ffigen_codelab"
@@ -23,8 +24,7 @@ declare -a CODELABS=(
   "haiku_generator"
   "in_app_purchases"
   "namer"
-  # TODO(DomesticMouse): enable on Flutter stable increment
-  # "next-gen-ui"
+  "next-gen-ui"
   "plugin_codelab"
   "star_counter"
   "testing_codelab"
