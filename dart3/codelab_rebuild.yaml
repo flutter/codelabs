@@ -184,6 +184,120 @@ steps:
       - name: Flutter clean
         path: patterns_codelab
         flutter: clean
+  # Step 5
+  - name: step_05
+    steps:
+      - name: Remove generated code
+        rmdir: step_05
+      - name: Add lib/data.dart
+        path: patterns_codelab/lib/data.dart
+        replace-contents: |
+          // Copyright 2023 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+          
+          import 'dart:convert';
+          
+          class Document {
+            final Map<String, Object?> _json;
+            Document() : _json = jsonDecode(documentJson);
+          
+            (String, {DateTime modified}) getMetadata() {
+              var title = "My Document";
+              var now = DateTime.now();
+          
+              return (title, modified: now);
+            }
+          }
+          
+          const documentJson = '''
+          {
+            "metadata": {
+              "title": "My Document",
+              "modified": "2023-05-10"
+            },
+            "blocks": [
+              {
+                "type": "h1",
+                "text": "Chapter 1"
+              },
+              {
+                "type": "p",
+                "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+              },
+              {
+                "type": "checkbox",
+                "checked": false,
+                "text": "Learn Dart 3"
+              }
+            ]
+          }
+          ''';
+      - name: Update lib/main.dart
+        path: patterns_codelab/lib/main.dart
+        replace-contents: |
+          // Copyright 2023 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+
+          import 'package:flutter/material.dart';
+
+          import 'data.dart';
+
+          void main() {
+            runApp(const DocumentApp());
+          }
+
+          class DocumentApp extends StatelessWidget {
+            const DocumentApp({super.key});
+
+            @override
+            Widget build(BuildContext context) {
+              return MaterialApp(
+                theme: ThemeData(useMaterial3: true),
+                home: DocumentScreen(
+                  document: Document(),
+                ),
+              );
+            }
+          }
+
+          class DocumentScreen extends StatelessWidget {
+            final Document document;
+
+            const DocumentScreen({
+              required this.document,
+              Key? key,
+            }) : super(key: key);
+
+            @override
+            Widget build(BuildContext context) {
+              var metadataRecord = document.getMetadata();
+
+              return Scaffold(
+                appBar: AppBar(
+                  title: Text(metadataRecord.$1),
+                ),
+                body: Column(
+                  children: [
+                    Center(
+                      child: Text(
+                        'Last modified ${metadataRecord.modified}',
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }
+          }
+      - name: Copy step_05
+        copydir:
+          from: patterns_codelab
+          to: step_05
+      - name: Flutter clean
+        path: patterns_codelab
+        flutter: clean
+
 
   # Cleanup
   - name: Cleanup
