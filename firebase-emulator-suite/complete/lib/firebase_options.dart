@@ -16,10 +16,8 @@ import 'package:flutter/foundation.dart'
 /// ```
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
-    if (kIsWeb) {
-      return web;
-    }
-    // ignore: missing_enum_constant_in_switch
+    if (kIsWeb) return web;
+
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return android;
@@ -27,11 +25,10 @@ class DefaultFirebaseOptions {
         return ios;
       case TargetPlatform.macOS:
         return macos;
+      default:
+        throw UnsupportedError(
+            'DefaultFirebaseOptions are not supported for this platform.');
     }
-
-    throw UnsupportedError(
-      'DefaultFirebaseOptions are not supported for this platform.',
-    );
   }
 
   static const FirebaseOptions web = FirebaseOptions(
