@@ -38,7 +38,7 @@ class DocumentScreen extends StatelessWidget {
      appBar: AppBar(
        title: const Text('Title goes here'),
      ),
-     body: Column(
+     body: const Column(
        children: [
          Center(
            child: Text('Body goes here'),

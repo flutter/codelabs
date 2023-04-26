@@ -97,6 +97,7 @@ steps:
           import 'dart:convert';
 
           class Document {
+            //ignore: unused_field
             final Map<String, Object?> _json;
             Document() : _json = jsonDecode(documentJson);
           }
@@ -167,7 +168,7 @@ steps:
                appBar: AppBar(
                  title: const Text('Title goes here'),
                ),
-               body: Column(
+               body: const Column(
                  children: [
                    Center(
                      child: Text('Body goes here'),
@@ -199,6 +200,7 @@ steps:
           import 'dart:convert';
           
           class Document {
+            //ignore: unused_field
             final Map<String, Object?> _json;
             Document() : _json = jsonDecode(documentJson);
           
