@@ -17,13 +17,10 @@ class PurchasePage extends StatelessWidget {
     switch (upgrades.storeState) {
       case StoreState.loading:
         storeWidget = _PurchasesLoading();
-        break;
       case StoreState.available:
         storeWidget = _PurchaseList();
-        break;
       case StoreState.notAvailable:
         storeWidget = _PurchasesNotAvailable();
-        break;
     }
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       storeWidget,
