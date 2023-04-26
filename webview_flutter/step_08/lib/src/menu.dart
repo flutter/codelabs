@@ -21,7 +21,6 @@ class Menu extends StatelessWidget {
         switch (value) {
           case _MenuOptions.navigationDelegate:
             await controller.loadRequest(Uri.parse('https://youtube.com'));
-            break;
         }
       },
       itemBuilder: (context) => [

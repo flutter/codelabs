@@ -60,7 +60,6 @@ class _MenuState extends State<Menu> {
           case _MenuOptions.navigationDelegate:
             await widget.controller
                 .loadRequest(Uri.parse('https://youtube.com'));
-            break;
           case _MenuOptions.userAgent:
             final userAgent = await widget.controller
                 .runJavaScriptReturningResult('navigator.userAgent');
@@ -68,7 +67,6 @@ class _MenuState extends State<Menu> {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text('$userAgent'),
             ));
-            break;
           case _MenuOptions.javascriptChannel:
             await widget.controller.runJavaScript('''
 var req = new XMLHttpRequest();
@@ -82,31 +80,22 @@ req.onload = function() {
   }
 }
 req.send();''');
-            break;
           case _MenuOptions.clearCookies:
             await _onClearCookies();
-            break;
           case _MenuOptions.listCookies:
             await _onListCookies(widget.controller);
-            break;
           case _MenuOptions.addCookie:
             await _onAddCookie(widget.controller);
-            break;
           case _MenuOptions.setCookie:
             await _onSetCookie(widget.controller);
-            break;
           case _MenuOptions.removeCookie:
             await _onRemoveCookie(widget.controller);
-            break;
           case _MenuOptions.loadFlutterAsset:
             await _onLoadFlutterAssetExample(widget.controller, context);
-            break;
           case _MenuOptions.loadLocalFile:
             await _onLoadLocalFileExample(widget.controller, context);
-            break;
           case _MenuOptions.loadHtmlString:
             await _onLoadHtmlStringExample(widget.controller, context);
-            break;
         }
       },
       itemBuilder: (context) => [
