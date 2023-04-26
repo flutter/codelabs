@@ -270,16 +270,13 @@ class DownloadButton extends StatelessWidget {
     switch (status) {
       case DownloadStatus.notDownloaded:
         onDownload();
-        break;
       case DownloadStatus.fetchingDownload:
         // do nothing.
         break;
       case DownloadStatus.downloading:
         onCancel();
-        break;
       case DownloadStatus.downloaded:
         onOpen();
-        break;
     }
   }
 
