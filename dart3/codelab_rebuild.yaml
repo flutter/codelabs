@@ -189,7 +189,7 @@ steps:
     steps:
       - name: Remove generated code
         rmdir: step_05
-      - name: Add lib/data.dart
+      - name: Update lib/data.dart
         path: patterns_codelab/lib/data.dart
         replace-contents: |
           // Copyright 2023 The Flutter Authors. All rights reserved.
@@ -297,6 +297,76 @@ steps:
       - name: Flutter clean
         path: patterns_codelab
         flutter: clean
+    # Step 6
+  - name: step_06
+    steps:
+      - name: Remove generated code
+        rmdir: step_06
+      - name: Update lib/main.dart
+        path: patterns_codelab/lib/main.dart
+        replace-contents: |
+          // Copyright 2023 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+
+          import 'package:flutter/material.dart';
+
+          import 'data.dart';
+
+          void main() {
+            runApp(const DocumentApp());
+          }
+
+          class DocumentApp extends StatelessWidget {
+            const DocumentApp({super.key});
+
+            @override
+            Widget build(BuildContext context) {
+              return MaterialApp(
+                theme: ThemeData(useMaterial3: true),
+                home: DocumentScreen(
+                  document: Document(),
+                ),
+              );
+            }
+          }
+
+          class DocumentScreen extends StatelessWidget {
+            final Document document;
+
+            const DocumentScreen({
+              required this.document,
+              Key? key,
+            }) : super(key: key);
+
+            @override
+            Widget build(BuildContext context) {
+              var (title, :modified) = document.getMetadata();
+
+              return Scaffold(
+                appBar: AppBar(
+                  title: Text(title),
+                ),
+                body: Column(
+                  children: [
+                    Center(
+                      child: Text(
+                        'Last modified $modified',
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }
+          }
+      - name: Copy step_06
+        copydir:
+          from: patterns_codelab
+          to: step_06
+      - name: Flutter clean
+        path: patterns_codelab
+        flutter: clean
+
 
 
   # Cleanup
