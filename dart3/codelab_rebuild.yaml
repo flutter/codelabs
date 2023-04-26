@@ -7,77 +7,43 @@ steps:
       - name: Remove generated code
         rmdir: step_01
       - name: Create project
-        flutter: create --empty dart3
+        flutter: create --empty patterns_codelab
       - name: Strip DEVELOPMENT_TEAM
         strip-lines-containing: DEVELOPMENT_TEAM =
-        path: dart3/ios/Runner.xcodeproj/project.pbxproj
+        path: patterns_codelab/ios/Runner.xcodeproj/project.pbxproj
       - name: Remove README
-        rm: dart3/README.md
+        rm: patterns_codelab/README.md
       - name: Replace lib/main.dart
-        path: dart3/lib/main.dart
+        path: patterns_codelab/lib/main.dart
         replace-contents: |
           // Copyright 2023 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
 
-          import 'dart:convert';
-
           import 'package:flutter/material.dart';
-          import 'package:flutter/services.dart';
 
           void main() {
-            runApp(const Dart3SampleApp());
+            runApp(const MainApp());
           }
 
-          class Dart3SampleApp extends StatelessWidget {
-            const Dart3SampleApp({Key? key}) : super(key: key);
+          class MainApp extends StatelessWidget {
+            const MainApp({super.key});
 
             @override
             Widget build(BuildContext context) {
               return const MaterialApp(
-                home: HomeScreen(),
-              );
-            }
-          }
-
-          class HomeScreen extends StatefulWidget {
-            const HomeScreen({Key? key}) : super(key: key);
-
-            @override
-            State<HomeScreen> createState() => _HomeScreenState();
-          }
-
-          class _HomeScreenState extends State<HomeScreen> {
-            Map<String, dynamic>? json;
-
-            @override
-            void initState() {
-              parseJson();
-              super.initState();
-            }
-
-            Future<void> parseJson() async {
-              var jsonString = await rootBundle.loadString('assets/data.json');
-              var jsonMap = jsonDecode(jsonString);
-
-              setState(() {
-                json = jsonMap;
-              });
-            }
-
-            @override
-            Widget build(BuildContext context) {
-              return Scaffold(
-                body: Center(
-                  child: Text('$json'),
+                home: Scaffold(
+                  body: Center(
+                    child: Text('Hello World!'),
+                  ),
                 ),
               );
             }
           }
       - name: Update pubspec.yaml
-        path: dart3/pubspec.yaml
+        path: patterns_codelab/pubspec.yaml
         replace-contents: |
-          name: dart3
+          name: patterns_codelab
           description: A new Flutter project.
           publish_to: 'none'
           version: 1.0.0
@@ -96,9 +62,9 @@ steps:
             assets:
               - assets/data.json
       - name: Create assets/data.json
-        mkdir: dart3/assets/
+        mkdir: patterns_codelab/assets/
       - name: Add assets/data.json
-        path: dart3/assets/data.json
+        path: patterns_codelab/assets/data.json
         replace-contents: |
           {
             "issues": [
@@ -109,28 +75,28 @@ steps:
           }
       - name: Build iOS simulator bundle
         platforms: [ macos ]
-        path: dart3
+        path: patterns_codelab
         flutter: build ios --simulator
       - name: Build macOS app
         platforms: [ macos ]
-        path: dart3
+        path: patterns_codelab
         flutter: build macos
       - name: Build Linux app
         platforms: [ linux ]
-        path: dart3
+        path: patterns_codelab
         flutter: build linux
       - name: Build Windows app
         platforms: [ windows ]
-        path: dart3
+        path: patterns_codelab
         flutter: build windows
       - name: Copy step_01
         copydir:
-          from: dart3
+          from: patterns_codelab
           to: step_01
       - name: Flutter clean
-        path: dart3
+        path: patterns_codelab
         flutter: clean
 
   # Cleanup
   - name: Cleanup
-    rmdir: dart3
+    rmdir: patterns_codelab

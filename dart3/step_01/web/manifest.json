@@ -1,6 +1,6 @@
 {
-    "name": "dart3",
-    "short_name": "dart3",
+    "name": "patterns_codelab",
+    "short_name": "patterns_codelab",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
