@@ -1,14 +1,13 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-import '../constants.dart';
+import '../firebase_options.dart';
 import '../model/firebase_state.dart';
 
 class FirebaseNotifier extends ChangeNotifier {
@@ -22,16 +21,6 @@ class FirebaseNotifier extends ChangeNotifier {
 
   late final Completer<bool> _isInitialized = Completer();
 
-  FirebaseFunctions? _functions;
-
-  Future<FirebaseFunctions> get functions async {
-    var isInitialized = await _isInitialized.future;
-    if (!isInitialized) {
-      throw Exception('Firebase is not initialized');
-    }
-    return _functions!;
-  }
-
   Future<FirebaseFirestore> get firestore async {
     var isInitialized = await _isInitialized.future;
     if (!isInitialized) {
@@ -42,8 +31,9 @@ class FirebaseNotifier extends ChangeNotifier {
 
   Future<void> load() async {
     try {
-      await Firebase.initializeApp();
-      _functions = FirebaseFunctions.instanceFor(region: cloudRegion);
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
       loggedIn = FirebaseAuth.instance.currentUser != null;
       state = FirebaseState.available;
       _isInitialized.complete(true);

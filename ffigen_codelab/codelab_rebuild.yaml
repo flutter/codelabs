@@ -73,6 +73,9 @@ steps:
         copydir:
           from: ffigen_app
           to: step_03
+      - name: flutter pub get step_03
+        path: step_03
+        flutter: pub get
   - name: step_05
     steps:
       - name: Remove step_05
@@ -329,9 +332,18 @@ steps:
           +endif (WIN32)
           +
            target_compile_definitions(ffigen_app PUBLIC DART_SHARED_LIB)
-      - name: Upgrade dep versions
+      - name: Get deps in ffigen_app/example
+        path: ffigen_app/example
+        flutter: pub get --directory .
+      - name: Get deps in ffigen_app
         path: ffigen_app
-        dart: pub upgrade --major-versions
+        flutter: pub get --directory .
+      - name: Upgrade dep versions in ffigen_app/example
+        path: ffigen_app/example
+        flutter: pub upgrade --major-versions --directory .
+      - name: Update version constraints on ffigen
+        path: ffigen_app
+        flutter: pub add -d ffigen:^8.0.0-0
       - name: Move ffi dep from dev_deps to deps
         path: ffigen_app
         dart: pub add ffi

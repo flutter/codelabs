@@ -49,7 +49,7 @@ steps:
         patch-u: |
           --- b/google-maps-in-flutter/step_3/android/app/build.gradle
           +++ a/google-maps-in-flutter/step_3/android/app/build.gradle
-          @@ -45,9 +45,7 @@ android {
+          @@ -46,9 +46,7 @@ android {
                defaultConfig {
                    // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
                    applicationId "com.example.google_maps_in_flutter"
@@ -151,7 +151,7 @@ steps:
         patch-u: |
           --- b/google-maps-in-flutter/step_4/android/app/src/main/AndroidManifest.xml
           +++ a/google-maps-in-flutter/step_4/android/app/src/main/AndroidManifest.xml
-          @@ -4,6 +4,11 @@
+          @@ -3,6 +3,11 @@
                    android:label="google_maps_in_flutter"
                    android:name="${applicationName}"
                    android:icon="@mipmap/ic_launcher">
