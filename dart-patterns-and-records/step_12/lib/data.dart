@@ -8,7 +8,7 @@ class Document {
   final Map<String, Object?> _json;
   Document() : _json = jsonDecode(documentJson);
 
-  (String, {DateTime modified}) getMetadata() {
+  (String, {DateTime modified}) get metadata {
     if (_json
         case {
           'metadata': {
