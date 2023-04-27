@@ -11,6 +11,8 @@ declare -a CODELABS=(
   "boring_to_beautiful"
   "cookbook"
   "cupertino_store"
+  # TODO(DomesticMouse): enable on Flutter stable increment
+  # "dart-patterns-and-records"
   "dartpad_codelabs"
   "deeplink_cookbook"
   "ffigen_codelab"
