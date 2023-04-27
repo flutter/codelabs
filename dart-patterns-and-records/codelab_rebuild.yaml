@@ -221,21 +221,21 @@ steps:
       - name: Flutter clean
         path: patterns_codelab
         flutter: clean
-  - name: step_06
+  - name: step_06_a
     steps:
       - name: Remove generated code
-        rmdir: step_06
+        rmdir: step_06_a
       - name: Update lib/main.dart
         path: patterns_codelab/lib/main.dart
         patch-u: |
-          --- b/dart-patterns-and-records/step_06/lib/main.dart
-          +++ a/dart-patterns-and-records/step_06/lib/main.dart
+          --- b/dart-patterns-and-records/step_06_a/lib/main.dart
+          +++ a/dart-patterns-and-records/step_06_a/lib/main.dart
           @@ -34,17 +34,17 @@ class DocumentScreen extends StatelessWidget {
            
              @override
              Widget build(BuildContext context) {
           -    var metadataRecord = document.metadata;
-          +    var (title, :modified) = document.metadata;
+          +    var (title, modified:modified) = document.metadata;
            
                return Scaffold(
                  appBar: AppBar(
@@ -254,10 +254,38 @@ steps:
       - name: Build web app
         path: patterns_codelab
         flutter: build web
-      - name: Copy step_06
+      - name: Copy step_06_a
         copydir:
           from: patterns_codelab
-          to: step_06
+          to: step_06_a
+      - name: Flutter clean
+        path: patterns_codelab
+        flutter: clean
+  - name: step_06_b
+    steps:
+      - name: Remove generated code
+        rmdir: step_06_b
+      - name: Update lib/main.dart
+        path: patterns_codelab/lib/main.dart
+        patch-u: |
+          --- b/dart-patterns-and-records/step_06_b/lib/main.dart
+          +++ a/dart-patterns-and-records/step_06_b/lib/main.dart
+          @@ -34,7 +34,7 @@ class DocumentScreen extends StatelessWidget {
+           
+             @override
+             Widget build(BuildContext context) {
+          -    var (title, modified:modified) = document.metadata;
+          +    var (title, :modified) = document.metadata;
+           
+               return Scaffold(
+                 appBar: AppBar(
+      - name: Build web app
+        path: patterns_codelab
+        flutter: build web
+      - name: Copy step_06_b
+        copydir:
+          from: patterns_codelab
+          to: step_06_b
       - name: Flutter clean
         path: patterns_codelab
         flutter: clean
@@ -646,6 +674,5 @@ steps:
       - name: Flutter clean
         path: patterns_codelab
         flutter: clean
-
   - name: Cleanup
     rmdir: patterns_codelab
