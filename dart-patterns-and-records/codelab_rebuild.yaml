@@ -235,7 +235,7 @@ steps:
              @override
              Widget build(BuildContext context) {
           -    var metadataRecord = document.metadata;
-          +    var (title, modified:modified) = document.metadata;
+          +    var (title, modified: modified) = document.metadata;
            
                return Scaffold(
                  appBar: AppBar(
@@ -274,7 +274,7 @@ steps:
            
              @override
              Widget build(BuildContext context) {
-          -    var (title, modified:modified) = document.metadata;
+          -    var (title, modified: modified) = document.metadata;
           +    var (title, :modified) = document.metadata;
            
                return Scaffold(
