@@ -5169,17 +5169,19 @@ class duk_memory_functions extends ffi.Struct {
 
 typedef duk_alloc_function = ffi.Pointer<
     ffi.NativeFunction<
-        ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, duk_size_t)>>;
+        ffi.Pointer<ffi.Void> Function(
+            ffi.Pointer<ffi.Void> udata, duk_size_t size)>>;
 
 /// A few types are assumed to always exist.
 typedef duk_size_t = ffi.Size;
 typedef duk_realloc_function = ffi.Pointer<
     ffi.NativeFunction<
-        ffi.Pointer<ffi.Void> Function(
-            ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, duk_size_t)>>;
+        ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void> udata,
+            ffi.Pointer<ffi.Void> ptr, duk_size_t size)>>;
 typedef duk_free_function = ffi.Pointer<
     ffi.NativeFunction<
-        ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>;
+        ffi.Void Function(
+            ffi.Pointer<ffi.Void> udata, ffi.Pointer<ffi.Void> ptr)>>;
 
 class duk_function_list_entry extends ffi.Struct {
   external ffi.Pointer<ffi.Char> key;
@@ -5190,8 +5192,8 @@ class duk_function_list_entry extends ffi.Struct {
   external int nargs;
 }
 
-typedef duk_c_function = ffi
-    .Pointer<ffi.NativeFunction<duk_ret_t Function(ffi.Pointer<duk_context>)>>;
+typedef duk_c_function = ffi.Pointer<
+    ffi.NativeFunction<duk_ret_t Function(ffi.Pointer<duk_context> ctx)>>;
 
 /// Duktape/C function return value, platform int is enough for now to
 /// represent 0, 1, or negative error code.  Must be compatible with
@@ -5258,7 +5260,8 @@ class duk_time_components extends ffi.Struct {
 
 typedef duk_fatal_function = ffi.Pointer<
     ffi.NativeFunction<
-        ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Char>)>>;
+        ffi.Void Function(
+            ffi.Pointer<ffi.Void> udata, ffi.Pointer<ffi.Char> msg)>>;
 typedef duk_uint_t = ffi.UnsignedInt;
 
 /// Error codes are represented with platform int.  High bits are used
@@ -5279,7 +5282,8 @@ typedef duk_uint16_t = ffi.Uint16;
 typedef duk_uarridx_t = duk_uint_t;
 typedef duk_decode_char_function = ffi.Pointer<
     ffi.NativeFunction<
-        ffi.Void Function(ffi.Pointer<ffi.Void>, duk_codepoint_t)>>;
+        ffi.Void Function(
+            ffi.Pointer<ffi.Void> udata, duk_codepoint_t codepoint)>>;
 
 /// Codepoint type.  Must be 32 bits or more because it is used also for
 /// internal codepoints.  The type is signed because negative codepoints
@@ -5290,31 +5294,34 @@ typedef duk_decode_char_function = ffi.Pointer<
 typedef duk_codepoint_t = duk_int_t;
 typedef duk_map_char_function = ffi.Pointer<
     ffi.NativeFunction<
-        duk_codepoint_t Function(ffi.Pointer<ffi.Void>, duk_codepoint_t)>>;
+        duk_codepoint_t Function(
+            ffi.Pointer<ffi.Void> udata, duk_codepoint_t codepoint)>>;
 typedef duk_safe_call_function = ffi.Pointer<
     ffi.NativeFunction<
-        duk_ret_t Function(ffi.Pointer<duk_context>, ffi.Pointer<ffi.Void>)>>;
+        duk_ret_t Function(
+            ffi.Pointer<duk_context> ctx, ffi.Pointer<ffi.Void> udata)>>;
 typedef duk_debug_read_function = ffi.Pointer<
     ffi.NativeFunction<
-        duk_size_t Function(
-            ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Char>, duk_size_t)>>;
+        duk_size_t Function(ffi.Pointer<ffi.Void> udata,
+            ffi.Pointer<ffi.Char> buffer, duk_size_t length)>>;
 typedef duk_debug_write_function = ffi.Pointer<
     ffi.NativeFunction<
-        duk_size_t Function(
-            ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Char>, duk_size_t)>>;
-typedef duk_debug_peek_function = ffi
-    .Pointer<ffi.NativeFunction<duk_size_t Function(ffi.Pointer<ffi.Void>)>>;
-typedef duk_debug_read_flush_function
-    = ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>;
-typedef duk_debug_write_flush_function
-    = ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>;
+        duk_size_t Function(ffi.Pointer<ffi.Void> udata,
+            ffi.Pointer<ffi.Char> buffer, duk_size_t length)>>;
+typedef duk_debug_peek_function = ffi.Pointer<
+    ffi.NativeFunction<duk_size_t Function(ffi.Pointer<ffi.Void> udata)>>;
+typedef duk_debug_read_flush_function = ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> udata)>>;
+typedef duk_debug_write_flush_function = ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> udata)>>;
 typedef duk_debug_request_function = ffi.Pointer<
     ffi.NativeFunction<
-        duk_idx_t Function(
-            ffi.Pointer<duk_context>, ffi.Pointer<ffi.Void>, duk_idx_t)>>;
+        duk_idx_t Function(ffi.Pointer<duk_context> ctx,
+            ffi.Pointer<ffi.Void> udata, duk_idx_t nvalues)>>;
 typedef duk_debug_detached_function = ffi.Pointer<
     ffi.NativeFunction<
-        ffi.Void Function(ffi.Pointer<duk_context>, ffi.Pointer<ffi.Void>)>>;
+        ffi.Void Function(
+            ffi.Pointer<duk_context> ctx, ffi.Pointer<ffi.Void> udata)>>;
 
 const int DUK_VERSION = 20700;
 

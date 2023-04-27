@@ -1,13 +1,16 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:in_app_purchase/in_app_purchase.dart';
 
 import '../constants.dart';
 import '../main.dart';
 import '../model/purchasable_product.dart';
 import '../model/store_state.dart';
+import '../repo/iap_repo.dart';
 import 'dash_counter.dart';
 import 'firebase_notifier.dart';
 
@@ -17,18 +20,21 @@ class DashPurchases extends ChangeNotifier {
   StoreState storeState = StoreState.loading;
   late StreamSubscription<List<PurchaseDetails>> _subscription;
   List<PurchasableProduct> products = [];
+  IAPRepo iapRepo;
 
   bool get beautifiedDash => _beautifiedDashUpgrade;
+  // ignore: prefer_final_fields
   bool _beautifiedDashUpgrade = false;
   final iapConnection = IAPConnection.instance;
 
-  DashPurchases(this.counter, this.firebaseNotifier) {
+  DashPurchases(this.counter, this.firebaseNotifier, this.iapRepo) {
     final purchaseUpdated = iapConnection.purchaseStream;
     _subscription = purchaseUpdated.listen(
       _onPurchaseUpdate,
       onDone: _updateStreamOnDone,
       onError: _updateStreamOnError,
     );
+    iapRepo.addListener(purchasesUpdate);
     loadPurchases();
   }
 
@@ -39,15 +45,6 @@ class DashPurchases extends ChangeNotifier {
       notifyListeners();
       return;
     }
-
-    try {
-      await firebaseNotifier.functions;
-    } catch (e) {
-      storeState = StoreState.notAvailable;
-      notifyListeners();
-      return;
-    }
-
     const ids = <String>{
       storeKeyConsumable,
       storeKeySubscription,
@@ -63,6 +60,7 @@ class DashPurchases extends ChangeNotifier {
   @override
   void dispose() {
     _subscription.cancel();
+    iapRepo.removeListener(purchasesUpdate);
     super.dispose();
   }
 
@@ -96,6 +94,7 @@ class DashPurchases extends ChangeNotifier {
       var validPurchase = await _verifyPurchase(purchaseDetails);
 
       if (validPurchase) {
+        // Apply changes locally
         switch (purchaseDetails.productID) {
           case storeKeySubscription:
             counter.applyPaidMultiplier();
@@ -116,15 +115,27 @@ class DashPurchases extends ChangeNotifier {
   }
 
   Future<bool> _verifyPurchase(PurchaseDetails purchaseDetails) async {
-    final functions = await firebaseNotifier.functions;
-    final callable = functions.httpsCallable('verifyPurchase');
-    final results = await callable.call<bool>({
-      'source': purchaseDetails.verificationData.source,
-      'verificationData':
-          purchaseDetails.verificationData.serverVerificationData,
-      'productId': purchaseDetails.productID,
-    });
-    return results.data;
+    final url = Uri.parse('http://$serverIp:8080/verifypurchase');
+    const headers = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+    };
+    final response = await http.post(
+      url,
+      body: jsonEncode({
+        'source': purchaseDetails.verificationData.source,
+        'productId': purchaseDetails.productID,
+        'verificationData':
+            purchaseDetails.verificationData.serverVerificationData,
+        'userId': firebaseNotifier.user?.uid,
+      }),
+      headers: headers,
+    );
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   void _updateStreamOnDone() {
@@ -133,5 +144,55 @@ class DashPurchases extends ChangeNotifier {
 
   void _updateStreamOnError(dynamic error) {
     //Handle error here
+  }
+
+  void purchasesUpdate() {
+    var subscriptions = <PurchasableProduct>[];
+    var upgrades = <PurchasableProduct>[];
+    // Get a list of purchasable products for the subscription and upgrade.
+    // This should be 1 per type.
+    if (products.isNotEmpty) {
+      subscriptions = products
+          .where((element) => element.productDetails.id == storeKeySubscription)
+          .toList();
+      upgrades = products
+          .where((element) => element.productDetails.id == storeKeyUpgrade)
+          .toList();
+    }
+
+    // Set the subscription in the counter logic and show/hide purchased on the
+    // purchases page.
+    if (iapRepo.hasActiveSubscription) {
+      counter.applyPaidMultiplier();
+      for (var element in subscriptions) {
+        _updateStatus(element, ProductStatus.purchased);
+      }
+    } else {
+      counter.removePaidMultiplier();
+      for (var element in subscriptions) {
+        _updateStatus(element, ProductStatus.purchasable);
+      }
+    }
+
+    // Set the Dash beautifier and show/hide purchased on
+    // the purchases page.
+    if (iapRepo.hasUpgrade != _beautifiedDashUpgrade) {
+      _beautifiedDashUpgrade = iapRepo.hasUpgrade;
+      for (var element in upgrades) {
+        _updateStatus(
+            element,
+            _beautifiedDashUpgrade
+                ? ProductStatus.purchased
+                : ProductStatus.purchasable);
+      }
+      notifyListeners();
+    }
+  }
+
+  void _updateStatus(PurchasableProduct product, ProductStatus status) {
+    if (product.status != ProductStatus.purchased) {
+      product.status = ProductStatus.purchased;
+      notifyListeners();
+    }
   }
 }
