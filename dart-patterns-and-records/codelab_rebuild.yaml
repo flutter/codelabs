@@ -550,16 +550,16 @@ steps:
       - name: Flutter clean
         path: patterns_codelab
         flutter: clean
-  - name: step_11
+  - name: step_11_a
     steps:
       - name: Remove generated code
-        rmdir: step_11
+        rmdir: step_11_a
       - name: Update lib/main.dart
         path: patterns_codelab/lib/main.dart
         patch-u: |
-          --- b/dart-patterns-and-records/step_11/lib/main.dart
-          +++ a/dart-patterns-and-records/step_11/lib/main.dart
-          @@ -10,6 +10,21 @@ void main() {
+          --- b/dart-patterns-and-records/step_11_a/lib/main.dart
+          +++ a/dart-patterns-and-records/step_11_a/lib/main.dart
+          @@ -10,6 +10,19 @@ void main() {
              runApp(const DocumentApp());
            }
            
@@ -571,8 +571,6 @@ steps:
           +    Duration(inDays: 0) => 'today',
           +    Duration(inDays: 1) => 'tomorrow',
           +    Duration(inDays: -1) => 'yesterday',
-          +    Duration(inDays: var days) when days > 7 => '${days ~/ 7} weeks from now',
-          +    Duration(inDays: var days) when days < -7 => '${days.abs() ~/ 7} weeks ago',
           +    Duration(inDays: var days, isNegative: true) => '${days.abs()} days ago',
           +    Duration(inDays: var days) => '$days days from now',
           +  };
@@ -580,8 +578,35 @@ steps:
           +
            class DocumentApp extends StatelessWidget {
              const DocumentApp({super.key});
-           
-          @@ -35,6 +53,7 @@ class DocumentScreen extends StatelessWidget {
+      - name: Build web app
+        path: patterns_codelab
+        flutter: build web
+      - name: Copy step_11_a
+        copydir:
+          from: patterns_codelab
+          to: step_11_a
+      - name: Flutter clean
+        path: patterns_codelab
+        flutter: clean
+  - name: step_11_b
+    steps:
+      - name: Remove generated code
+        rmdir: step_11_b
+      - name: Update lib/main.dart
+        path: patterns_codelab/lib/main.dart
+        patch-u: |
+          --- b/dart-patterns-and-records/step_11_b/lib/main.dart
+          +++ a/dart-patterns-and-records/step_11_b/lib/main.dart
+          @@ -18,6 +18,8 @@ String formatDate(DateTime dateTime) {
+               Duration(inDays: 0) => 'today',
+               Duration(inDays: 1) => 'tomorrow',
+               Duration(inDays: -1) => 'yesterday',
+          +    Duration(inDays: var days) when days > 7 => '${days ~/ 7} weeks from now',
+          +    Duration(inDays: var days) when days < -7 => '${days.abs() ~/ 7} weeks ago',
+               Duration(inDays: var days, isNegative: true) => '${days.abs()} days ago',
+               Duration(inDays: var days) => '$days days from now',
+             };
+          @@ -48,6 +50,7 @@ class DocumentScreen extends StatelessWidget {
              @override
              Widget build(BuildContext context) {
                var (title, :modified) = document.metadata;
@@ -589,7 +614,7 @@ steps:
                var blocks = document.getBlocks();
            
                return Scaffold(
-          @@ -43,13 +62,12 @@ class DocumentScreen extends StatelessWidget {
+          @@ -56,13 +59,12 @@ class DocumentScreen extends StatelessWidget {
                  ),
                  body: Column(
                    children: [
@@ -609,10 +634,10 @@ steps:
       - name: Build web app
         path: patterns_codelab
         flutter: build web
-      - name: Copy step_11
+      - name: Copy step_11_b
         copydir:
           from: patterns_codelab
-          to: step_11
+          to: step_11_b
       - name: Flutter clean
         path: patterns_codelab
         flutter: clean
