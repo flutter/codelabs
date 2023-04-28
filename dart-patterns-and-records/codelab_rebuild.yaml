@@ -517,7 +517,7 @@ steps:
         patch-u: |
           --- b/dart-patterns-and-records/step_11/lib/main.dart
           +++ a/dart-patterns-and-records/step_11/lib/main.dart
-          @@ -10,6 +10,24 @@ void main() {
+          @@ -10,6 +10,21 @@ void main() {
              runApp(const DocumentApp());
            }
            
@@ -529,11 +529,8 @@ steps:
           +    Duration(inDays: 0) => 'today',
           +    Duration(inDays: 1) => 'tomorrow',
           +    Duration(inDays: -1) => 'yesterday',
-          +    Duration(inDays: var days) when days > 7 =>
-          +      '${days ~/ 7} weeks from now',
-          +    Duration(inDays: var days)
-          +        when days < -7 =>
-          +      '${days.abs() ~/ 7} weeks ago',
+          +    Duration(inDays: var days) when days > 7 => '${days ~/ 7} weeks from now',
+          +    Duration(inDays: var days) when days < -7 => '${days.abs() ~/ 7} weeks ago',
           +    Duration(inDays: var days, isNegative: true) => '${days.abs()} days ago',
           +    Duration(inDays: var days) => '$days days from now',
           +  };
@@ -634,7 +631,7 @@ steps:
         patch-u: |
           --- b/dart-patterns-and-records/step_12/lib/main.dart
           +++ a/dart-patterns-and-records/step_12/lib/main.dart
-          @@ -86,19 +86,21 @@ class BlockWidget extends StatelessWidget {
+          @@ -83,19 +83,21 @@ class BlockWidget extends StatelessWidget {
            
              @override
              Widget build(BuildContext context) {
