@@ -19,10 +19,10 @@ String formatDate(DateTime dateTime) {
     Duration(inDays: 1) => 'tomorrow',
     Duration(inDays: -1) => 'yesterday',
     Duration(inDays: var days) when days > 7 =>
-      '${days ~/ 7} weeks from now', // New
+      '${days ~/ 7} weeks from now',
     Duration(inDays: var days)
         when days < -7 =>
-      '${days.abs() ~/ 7} weeks ago', // New
+      '${days.abs() ~/ 7} weeks ago',
     Duration(inDays: var days, isNegative: true) => '${days.abs()} days ago',
     Duration(inDays: var days) => '$days days from now',
   };
@@ -53,7 +53,7 @@ class DocumentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var (title, :modified) = document.metadata;
-    var formattedModifiedDate = formatDate(modified); // New
+    var formattedModifiedDate = formatDate(modified);
     var blocks = document.getBlocks();
 
     return Scaffold(
@@ -62,7 +62,7 @@ class DocumentScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          Text('Last modified: $formattedModifiedDate'), // New
+          Text('Last modified: $formattedModifiedDate'),
           Expanded(
             child: ListView.builder(
               itemCount: blocks.length,
