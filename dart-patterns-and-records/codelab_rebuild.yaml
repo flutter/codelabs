@@ -9,6 +9,15 @@ steps:
       - name: Strip DEVELOPMENT_TEAM
         strip-lines-containing: DEVELOPMENT_TEAM =
         path: patterns_codelab/ios/Runner.xcodeproj/project.pbxproj
+      - name: Configure analysis_options.yaml
+        path: patterns_codelab/analysis_options.yaml
+        replace-contents: |
+          include: ../../analysis_options.yaml
+
+          analyzer:
+            language:
+              strict-casts: false
+              strict-inference: false
       - name: Remove README
         rm: patterns_codelab/README.md
       - name: Patch lib/main.dart
@@ -104,18 +113,18 @@ steps:
           // Copyright 2023 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-
+          
           import 'package:flutter/material.dart';
-
+          
           import 'data.dart';
-
+          
           void main() {
             runApp(const DocumentApp());
           }
-
+          
           class DocumentApp extends StatelessWidget {
             const DocumentApp({super.key});
-
+          
             @override
             Widget build(BuildContext context) {
               return MaterialApp(
@@ -126,15 +135,15 @@ steps:
               );
             }
           }
-
+          
           class DocumentScreen extends StatelessWidget {
             final Document document;
-
+          
             const DocumentScreen({
               required this.document,
-              Key? key,
-            }) : super(key: key);
-
+              super.key,
+            });
+          
             @override
             Widget build(BuildContext context) {
               return Scaffold(
@@ -176,7 +185,7 @@ steps:
              Document() : _json = jsonDecode(documentJson);
           +
           +  (String, {DateTime modified}) get metadata {
-          +    var title = "My Document";
+          +    var title = 'My Document';
           +    var now = DateTime.now();
           +
           +    return (title, modified: now);
@@ -307,7 +316,7 @@ steps:
              Document() : _json = jsonDecode(documentJson);
            
              (String, {DateTime modified}) get metadata {
-          -    var title = "My Document";
+          -    var title = 'My Document';
           -    var now = DateTime.now();
           -
           -    return (title, modified: now);
@@ -430,8 +439,8 @@ steps:
           +
           +  const BlockWidget({
           +    required this.block,
-          +    Key? key,
-          +  }) : super(key: key);
+          +    super.key,
+          +  });
           +
           +  @override
           +  Widget build(BuildContext context) {

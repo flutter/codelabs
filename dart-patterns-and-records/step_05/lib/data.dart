@@ -10,7 +10,7 @@ class Document {
   Document() : _json = jsonDecode(documentJson);
 
   (String, {DateTime modified}) get metadata {
-    var title = "My Document";
+    var title = 'My Document';
     var now = DateTime.now();
 
     return (title, modified: now);

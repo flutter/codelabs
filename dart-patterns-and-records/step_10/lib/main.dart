@@ -29,8 +29,8 @@ class DocumentScreen extends StatelessWidget {
 
   const DocumentScreen({
     required this.document,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -63,8 +63,8 @@ class BlockWidget extends StatelessWidget {
 
   const BlockWidget({
     required this.block,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
