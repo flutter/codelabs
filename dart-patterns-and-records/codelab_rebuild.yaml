@@ -343,16 +343,14 @@ steps:
         patch-u: |
           --- b/dart-patterns-and-records/step_08/lib/data.dart
           +++ a/dart-patterns-and-records/step_08/lib/data.dart
-          @@ -21,6 +21,16 @@ class Document {
+          @@ -21,6 +21,14 @@ class Document {
                  throw const FormatException('Unexpected JSON');
                }
              }
           +
           +  List<Block> getBlocks() {
           +    if (_json case {'blocks': List blocksJson}) {
-          +      return <Block>[
-          +        for (var blockJson in blocksJson) Block.fromJson(blockJson)
-          +      ];
+          +      return [for (var blockJson in blocksJson) Block.fromJson(blockJson)];
           +    } else {
           +      throw const FormatException('Unexpected JSON format');
           +    }
@@ -583,7 +581,7 @@ steps:
         patch-u: |
           --- b/dart-patterns-and-records/step_12/lib/data.dart
           +++ a/dart-patterns-and-records/step_12/lib/data.dart
-          @@ -57,16 +57,32 @@ const documentJson = '''
+          @@ -55,16 +55,32 @@ const documentJson = '''
            }
            ''';
            

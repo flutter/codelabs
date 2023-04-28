@@ -24,9 +24,7 @@ class Document {
 
   List<Block> getBlocks() {
     if (_json case {'blocks': List blocksJson}) {
-      return <Block>[
-        for (var blockJson in blocksJson) Block.fromJson(blockJson)
-      ];
+      return [for (var blockJson in blocksJson) Block.fromJson(blockJson)];
     } else {
       throw const FormatException('Unexpected JSON format');
     }
