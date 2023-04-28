@@ -5,7 +5,6 @@
 import 'dart:convert';
 
 class Document {
-  //ignore: unused_field
   final Map<String, Object?> _json;
   Document() : _json = jsonDecode(documentJson);
 
