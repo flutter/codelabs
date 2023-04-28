@@ -63,8 +63,9 @@ class DocumentScreen extends StatelessWidget {
           Expanded(
             child: ListView.builder(
               itemCount: blocks.length,
-              itemBuilder: (context, index) =>
-                  BlockWidget(block: blocks[index]),
+              itemBuilder: (context, index) {
+                return BlockWidget(block: blocks[index]);
+              },
             ),
           ),
         ],

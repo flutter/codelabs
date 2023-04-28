@@ -614,7 +614,7 @@ steps:
                var blocks = document.getBlocks();
            
                return Scaffold(
-          @@ -56,13 +59,12 @@ class DocumentScreen extends StatelessWidget {
+          @@ -56,7 +59,7 @@ class DocumentScreen extends StatelessWidget {
                  ),
                  body: Column(
                    children: [
@@ -623,14 +623,6 @@ steps:
                      Expanded(
                        child: ListView.builder(
                          itemCount: blocks.length,
-          -              itemBuilder: (context, index) {
-          -                return BlockWidget(block: blocks[index]);
-          -              },
-          +              itemBuilder: (context, index) =>
-          +                  BlockWidget(block: blocks[index]),
-                       ),
-                     ),
-                   ],
       - name: Build web app
         path: patterns_codelab
         flutter: build web
@@ -698,7 +690,7 @@ steps:
         patch-u: |
           --- b/dart-patterns-and-records/step_12/lib/main.dart
           +++ a/dart-patterns-and-records/step_12/lib/main.dart
-          @@ -83,19 +83,21 @@ class BlockWidget extends StatelessWidget {
+          @@ -84,19 +84,21 @@ class BlockWidget extends StatelessWidget {
            
              @override
              Widget build(BuildContext context) {
