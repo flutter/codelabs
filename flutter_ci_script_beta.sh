@@ -19,11 +19,9 @@ declare -a CODELABS=(
   # "dartpad_codelabs"
   "deeplink_cookbook"
   "ffigen_codelab"
-  # TODO(DomesticMouse): version solving failed.
-  # "firebase-auth-flutterfire-ui"
+  "firebase-auth-flutterfire-ui"
   "firebase-emulator-suite"
-  # TODO(DomesticMouse): version solving failed.
-  # "firebase-get-to-know-flutter"
+  "firebase-get-to-know-flutter"
   "flame-building-doodle-dash"
   "github-client"
   "google-maps-in-flutter"
