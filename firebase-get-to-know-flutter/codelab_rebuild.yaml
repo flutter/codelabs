@@ -43,7 +43,7 @@ steps:
         patch-u: |
           --- b/firebase-get-to-know-flutter/step_02/android/app/build.gradle
           +++ a/firebase-get-to-know-flutter/step_02/android/app/build.gradle
-          @@ -47,7 +47,7 @@ android {
+          @@ -48,7 +48,7 @@ android {
                    applicationId "com.example.gtk_flutter"
                    // You can update the following values to match your application needs.
                    // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
@@ -1741,7 +1741,7 @@ steps:
               if (kIsWeb) {
                 return web;
               }
-              // ignore: missing_enum_constant_in_switch
+
               switch (defaultTargetPlatform) {
                 case TargetPlatform.android:
                   return android;
@@ -1749,11 +1749,10 @@ steps:
                   return ios;
                 case TargetPlatform.macOS:
                   return macos;
+                default:
+                  throw UnsupportedError(
+                      'DefaultFirebaseOptions are not supported for this platform.');
               }
-
-              throw UnsupportedError(
-                'DefaultFirebaseOptions are not supported for this platform.',
-              );
             }
 
             static const FirebaseOptions web = FirebaseOptions(
@@ -1899,7 +1898,7 @@ steps:
           +            GoRoute(
           +              path: 'forgot-password',
           +              builder: (context, state) {
-          +                final arguments = state.queryParams;
+          +                final arguments = state.queryParameters;
           +                return ForgotPasswordScreen(
           +                  email: arguments['email'],
           +                  headerMaxExtent: 200,
