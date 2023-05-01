@@ -377,19 +377,13 @@ steps:
       - name: Remove generated code
         rmdir: step_03
       - name: Create project
-        flutter: create github_client
+        flutter: create github_client --platforms windows,macos,linux
       - name: Configure analysis_options.yaml
         path: github_client/analysis_options.yaml
         replace-contents: |
           include: ../../analysis_options.yaml
       - name: Remove the README.md.
         rm: github_client/README.md
-      - name: Remove the iOS, Android and Web runners
-        path: github_client
-        rmdirs:
-          - android 
-          - ios
-          - web 
       - name: VSCode config
         mkdir: github_client/.vscode
       - name: Add launch.json
