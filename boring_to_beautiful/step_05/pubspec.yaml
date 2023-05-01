@@ -20,8 +20,8 @@ dependencies:
     sdk: flutter
   flutter_bloc: ^8.1.2
   freezed_annotation: ^2.2.0
-  go_router: ^6.5.8
-  google_fonts: ^4.0.3
+  go_router: ^7.0.0
+  google_fonts: ^4.0.4
   material_color_utilities: ^0.2.0
   universal_platform: ^1.0.0+1
   url_launcher: ^6.1.10
