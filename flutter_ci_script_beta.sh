@@ -22,7 +22,8 @@ declare -a CODELABS=(
   # TODO(DomesticMouse): version solving failed.
   # "firebase-auth-flutterfire-ui"
   "firebase-emulator-suite"
-  "firebase-get-to-know-flutter"
+  # TODO(DomesticMouse): version solving failed.
+  # "firebase-get-to-know-flutter"
   "flame-building-doodle-dash"
   "github-client"
   "google-maps-in-flutter"
