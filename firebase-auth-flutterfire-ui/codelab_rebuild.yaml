@@ -108,7 +108,7 @@ steps:
               if (kIsWeb) {
                 return web;
               }
-              // ignore: missing_enum_constant_in_switch
+
               switch (defaultTargetPlatform) {
                 case TargetPlatform.android:
                   return android;
@@ -116,11 +116,10 @@ steps:
                   return ios;
                 case TargetPlatform.macOS:
                   return macos;
+                default:
+                  throw UnsupportedError(
+                      'DefaultFirebaseOptions are not supported for this platform.');
               }
-          
-              throw UnsupportedError(
-                'DefaultFirebaseOptions are not supported for this platform.',
-              );
             }
           
             // TODO (codelab user): Replace with your Firebase credentials
@@ -4715,9 +4714,6 @@ steps:
           sJAW+CGuKkfLO1v/EBbSAv9qos3R8k7XP4SFtMDPmmh6tLwX9Q9hIS3wV1wt0T++VaYmelX/EBbSAv/FpTta3rv6h7CQFoQhrZmhmpglrgepqNZDWHeENV5a
           PnxYdVlK6w6/reirorrNpnVR1b6/p6J64HuiAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAkPmfAAMA4+D7weSj8KQAAAAASUVO
           RK5CYII=
-      - name: Build APK
-        path: complete
-        flutter: build apk
       - name: Build iOS
         platforms: [ macos ]
         path: complete
@@ -4917,9 +4913,6 @@ steps:
            	<key>IS_ANALYTICS_ENABLED</key>
            	<false></false>
            	<key>IS_APPINVITE_ENABLED</key>
-      - name: Build APK
-        path: complete
-        flutter: build apk
       - name: Build iOS
         platforms: [ macos ]
         path: complete
