@@ -1,4 +1,4 @@
-name: Firebase Auth FlutterFireUI
+name: Firebase Emulator Suite
 steps:
 
   - name: complete
