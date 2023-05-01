@@ -1,9 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.start">
+    package="com.example.complete">
    <application
-        android:label="start"
+        android:label="complete"
         android:name="${applicationName}"
-        android:networkSecurityConfig="@xml/network_config"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
