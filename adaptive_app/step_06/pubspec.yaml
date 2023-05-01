@@ -39,8 +39,8 @@ dependencies:
   http: ^0.13.5
   provider: ^6.0.5
   url_launcher: ^6.1.10
-  flex_color_scheme: ^7.0.4
-  go_router: ^6.5.8
+  flex_color_scheme: ^7.0.5
+  go_router: ^7.0.0
   split_view: ^3.2.1
 
 dev_dependencies:
