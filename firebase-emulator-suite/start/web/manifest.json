@@ -1,6 +1,6 @@
 {
-    "name": "start",
-    "short_name": "start",
+    "name": "complete",
+    "short_name": "complete",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

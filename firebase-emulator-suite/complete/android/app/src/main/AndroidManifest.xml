@@ -1,9 +1,7 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.complete">
-   <application
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application
         android:label="complete"
         android:name="${applicationName}"
-        android:networkSecurityConfig="@xml/network_config"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
