@@ -2180,8 +2180,8 @@ steps:
                             _controller.clear();
                           }
                         },
-                        child: Row(
-                          children: const [
+                        child: const Row(
+                          children: [
                             Icon(Icons.send),
                             SizedBox(width: 4),
                             Text('SEND'),
@@ -2391,8 +2391,8 @@ steps:
           -                  _controller.clear();
           -                }
           -              },
-          -              child: Row(
-          -                children: const [
+          -              child: const Row(
+          -                children: [
           -                  Icon(Icons.send),
           -                  SizedBox(width: 4),
           -                  Text('SEND'),
@@ -2406,8 +2406,8 @@ steps:
           +                      _controller.clear();
           +                    }
           +                  },
-          +                  child: Row(
-          +                    children: const [
+          +                  child: const Row(
+          +                    children: [
           +                      Icon(Icons.send),
           +                      SizedBox(width: 4),
           +                      Text('SEND'),
