@@ -87,7 +87,8 @@ GoRouter buildRouter() {
             routes: [
               GoRoute(
                 path: 'recipe/:id',
-                builder: (_, state) => RecipeScreen(id: state.params['id']!),
+                builder: (_, state) =>
+                    RecipeScreen(id: state.pathParameters['id']!),
               ),
               GoRoute(
                 path: 'notes',
