@@ -52,8 +52,8 @@ final _router = GoRouter(
         GoRoute(
           path: 'playlist/:id',
           builder: (context, state) {
-            final title = state.queryParams['title']!;
-            final id = state.params['id']!;
+            final title = state.queryParameters['title']!;
+            final id = state.pathParameters['id']!;
             return Scaffold(
               appBar: AppBar(title: Text(title)),
               body: PlaylistDetails(
