@@ -257,11 +257,14 @@ class _LitImage extends StatelessWidget {
     final hsl = HSLColor.fromColor(color);
     return ListenableBuilder(
       listenable: pulseEffect,
+      child: Image.asset(imgSrc),
       builder: (context, child) {
-        return Image.asset(
-          imgSrc,
-          color: hsl.withLightness(hsl.lightness * lightAmt).toColor(),
-          colorBlendMode: BlendMode.modulate,
+        return ColorFiltered(
+          colorFilter: ColorFilter.mode(
+            hsl.withLightness(hsl.lightness * lightAmt).toColor(),
+            BlendMode.modulate,
+          ),
+          child: child,
         );
       },
     );
