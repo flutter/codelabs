@@ -46,7 +46,6 @@ class TitleScreen extends StatelessWidget {
   }
 }
 
-// ignore: unused_element
 class _LitImage extends StatelessWidget {
   const _LitImage({
     required this.color,
@@ -60,10 +59,12 @@ class _LitImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final hsl = HSLColor.fromColor(color);
-    return Image.asset(
-      imgSrc,
-      color: hsl.withLightness(hsl.lightness * lightAmt).toColor(),
-      colorBlendMode: BlendMode.modulate,
+    return ColorFiltered(
+      colorFilter: ColorFilter.mode(
+        hsl.withLightness(hsl.lightness * lightAmt).toColor(),
+        BlendMode.modulate,
+      ),
+      child: Image.asset(imgSrc),
     );
   }
 }

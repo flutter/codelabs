@@ -1,1 +1,6 @@
 include: ../../analysis_options.yaml
+
+analyzer:
+  errors:
+    unused_field: ignore
+    unused_element: ignore
