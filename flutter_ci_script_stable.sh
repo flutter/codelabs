@@ -22,8 +22,7 @@ declare -a CODELABS=(
   "flame-building-doodle-dash"
   "github-client"
   "google-maps-in-flutter"
-  # TODO(DomesticMouse): enable on Flutter stable increment
-  # "haiku_generator"
+  "haiku_generator"
   "in_app_purchases"
   "namer"
   "next-gen-ui"
