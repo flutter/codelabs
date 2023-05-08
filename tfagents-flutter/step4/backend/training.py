@@ -130,6 +130,7 @@ def train_agent(iterations, modeldir, logdir, policydir):
 
     # Use reverb as replay buffer
     replay_buffer_signature = tensor_spec.from_spec(tf_agent.collect_data_spec)
+    replay_buffer_signature = tensor_spec.add_outer_dim(replay_buffer_signature)
     table = reverb.Table(
         REPLAY_BUFFER_TABLE_NAME,
         max_size=REPLAY_BUFFER_CAPACITY,
