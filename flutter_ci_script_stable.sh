@@ -30,6 +30,8 @@ declare -a CODELABS=(
   "namer"
   # TODO(DomesticMouse): enable on Flutter stable increment
   # "next-gen-ui"
+  # TODO(DomesticMouse): Uncomment on Flutter stable major version increment
+  # "pesto_flutter"
   "plugin_codelab"
   "star_counter"
   "testing_codelab"

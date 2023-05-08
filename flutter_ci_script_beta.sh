@@ -32,6 +32,7 @@ declare -a CODELABS=(
   # "in_app_purchases"
   "namer"
   "next-gen-ui"
+  "pesto_flutter"
   # TODO(DomesticMouse): 'setMockMethodCallHandler' is deprecated and shouldn't be used.
   # "plugin_codelab"
   "star_counter"
