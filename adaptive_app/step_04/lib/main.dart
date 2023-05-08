@@ -30,8 +30,8 @@ final _router = GoRouter(
         GoRoute(
           path: 'playlist/:id',
           builder: (context, state) {
-            final title = state.queryParams['title']!;
-            final id = state.params['id']!;
+            final title = state.queryParameters['title']!;
+            final id = state.pathParameters['id']!;
             return PlaylistDetails(
               playlistId: id,
               playlistName: title,
