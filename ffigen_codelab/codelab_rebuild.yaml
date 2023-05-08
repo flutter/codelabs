@@ -343,7 +343,7 @@ steps:
         flutter: pub upgrade --major-versions --directory .
       - name: Update version constraints on ffigen
         path: ffigen_app
-        flutter: pub add -d ffigen:^8.0.0-0
+        flutter: pub add -d ffigen
       - name: Move ffi dep from dev_deps to deps
         path: ffigen_app
         dart: pub add ffi
