@@ -12,7 +12,7 @@ class PoemRepositoryImpl implements PoemRepository {
     const haikuCount = 5;
 
     final url = Uri.parse(
-        'https://generativelanguage.googleapis.com/v1beta1/models/chat-bison-001:generateMessage?key=$apiKey');
+        'https://generativelanguage.googleapis.com/v1beta2/models/chat-bison-001:generateMessage?key=$apiKey');
     final headers = {'Content-Type': 'application/json'};
     final body = jsonEncode({
       "prompt": {
