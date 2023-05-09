@@ -33,7 +33,7 @@ In this codelab, you learn some of the basics of  [Firebase](http://firebase.goo
 * How to to build an event RSVP and guestbook chat app on Android, iOS, the Web, and macOS with Flutter.
 * How to authenticate users with Firebase Authentication and sync data with Firestore.
 
-| <p align=center><img style="width: 240.00px" src="img/c62416352b641c75.png"></p> | <img style="width: 313.73px" src="img/71935c62efd2aeb5.png"> |
+| <p align=center><img style="width: 240.00px" src="img/c62416352b641c75.png" alt="The home screen of the app on Android"></p> | <img style="width: 313.73px" src="img/71935c62efd2aeb5.png" alt="The home screen of the app on iOS"> |
 | --- | --- |
 | <img style="width: 298.00px" src="img/73245a514a97e5a6.png"> | <img style="width: 298.00px" src="img/ace882b7591fe799.png"> |
 
@@ -96,9 +96,9 @@ You use the helper widgets from the `lib/src/widgets.dart` file in the form of `
 
 Here's what your app looks like on Android, iOS, the Web, and macOS:
 
-| <p align=center><img style="width: 240.00px" src="img/9fd9346e7c12430b.png"></p> | <img style="width: 313.19px" src="img/b3d8b115d6e299fa.png"> |
+| <p align=center><img style="width: 240.00px" src="img/9fd9346e7c12430b.png" alt="The home screen of the app on Android"></p> | <img style="width: 313.19px" src="img/b3d8b115d6e299fa.png" alt="The home screen of the app on iOS"> |
 | --- | --- |
-| <img style="width: 298.00px" src="img/a954c360597eb22c.png"> | <img style="width: 298.00px" src="img/29f9a966c92e63a0.png"> |
+| <img style="width: 298.00px" src="img/a954c360597eb22c.png" alt="The home screen of the app on web"> | <img style="width: 298.00px" src="img/29f9a966c92e63a0.png" alt="The home screen of the app on macOS"> |
 
 
 ## Create and configure a Firebase project
@@ -438,7 +438,7 @@ final _router = GoRouter(
             GoRoute(
               path: 'forgot-password',
               builder: (context, state) {
-                final arguments = state.queryParams;
+                final arguments = state.queryParameters;
                 return ForgotPasswordScreen(
                   email: arguments['email'],
                   headerMaxExtent: 200,
@@ -686,9 +686,9 @@ While this is enough to display the widget, it isn't sufficient to do anything u
 
 #### App preview
 
-| <p align=center><img style="width: 240.00px" src="img/3454c60868571147.png"></p> | <img style="width: 317.30px" src="img/393bf52a546e9567.png"> |
+| <p align=center><img style="width: 240.00px" src="img/3454c60868571147.png" alt="The home screen of the app on Android with chat integration"></p> | <img style="width: 317.30px" src="img/393bf52a546e9567.png" alt="The home screen of the app on iOS with chat integration"> |
 | --- | --- |
-| <img style="width: 298.00px" src="img/c0f8f4de66dc0d04.png"> | <img style="width: 298.00px" src="img/9b5e06ea495ef00d.png"> |
+| <img style="width: 298.00px" src="img/c0f8f4de66dc0d04.png" alt="The home screen of the app on web with chat integration"> | <img style="width: 298.00px" src="img/9b5e06ea495ef00d.png" alt="The home screen of the app on macOS with chat integration"> |
 
 When a user clicks **SEND**, it triggers the following code snippet. It adds the contents of the message input field to the `guestbook` collection of the database. Specifically, the `addMessageToGuestBook` method adds the message content to a new document with an automatically generated ID in the `guestbook` collection.
 
@@ -843,7 +843,7 @@ class GuestBookMessage {
 
 2. In the `lib/app_state.dart` file, add the following imports:
 
-####  [lib/app_state.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_07/lib/app_staet.dart#L1)
+####  [lib/app_state.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_07/lib/app_state.dart#L1)
 
 ```dart
 import 'dart:async';                                     // new
@@ -861,7 +861,7 @@ import 'guest_book_message.dart';                        // new
 
 3. In section of `ApplicationState` where you define state and getters, add the following lines:
 
-####  [lib/app_state.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_07/lib/app_staet.dart#L22)
+####  [lib/app_state.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_07/lib/app_state.dart#L22)
 
 ```dart
   bool _loggedIn = false;
@@ -1055,9 +1055,9 @@ Congratulations! You read Firestore documents in your app!
 
 #### App preview
 
-| <p align=center><img style="width: 240.00px" src="img/a26378d2c9ce8904.png"></p> | <img style="width: 310.88px" src="img/8bf20f6736281f25.png"> |
+| <p align=center><img style="width: 240.00px" src="img/a26378d2c9ce8904.png" alt="The home screen of the app on Android with chat integration"></p> | <img style="width: 310.88px" src="img/8bf20f6736281f25.png" alt="The home screen of the app on iOS with chat integration"> |
 | --- | --- |
-| <img style="width: 298.00px" src="img/ea8c4d640fbeefe.png"> | <img style="width: 298.00px" src="img/681f61235f4a73eb.png"> |
+| <img style="width: 298.00px" src="img/ea8c4d640fbeefe.png" alt="The home screen of the app on web with chat integration"> | <img style="width: 298.00px" src="img/681f61235f4a73eb.png" alt="The home screen of the app on macOS with chat integration"> |
 
 
 ## Set up basic security rules
@@ -1267,8 +1267,7 @@ class YesNoSelection extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Row(
             children: [
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(elevation: 0),
+              FilledButton(
                 onPressed: () => onSelection(Attending.yes),
                 child: const Text('YES'),
               ),
@@ -1290,8 +1289,7 @@ class YesNoSelection extends StatelessWidget {
                 child: const Text('YES'),
               ),
               const SizedBox(width: 8),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(elevation: 0),
+              FilledButton(
                 onPressed: () => onSelection(Attending.no),
                 child: const Text('NO'),
               ),
@@ -1400,9 +1398,9 @@ service cloud.firestore {
 
 #### App preview
 
-| <p align=center><img style="width: 240.00px" src="img/c62416352b641c75.png"></p> | <img style="width: 313.73px" src="img/71935c62efd2aeb5.png"> |
+| <p align=center><img style="width: 240.00px" src="img/c62416352b641c75.png" alt="The home screen of the app on Android"></p> | <img style="width: 313.73px" src="img/71935c62efd2aeb5.png" alt="The home screen of the app on iOS"> |
 | --- | --- |
-| <img style="width: 298.00px" src="img/73245a514a97e5a6.png"> | <img style="width: 298.00px" src="img/ace882b7591fe799.png"> |
+| <img style="width: 298.00px" src="img/73245a514a97e5a6.png" alt="The home screen of the app on web"> | <img style="width: 298.00px" src="img/ace882b7591fe799.png" alt="The home screen of the app on macOS"> |
 
 
 ## Congratulations!
