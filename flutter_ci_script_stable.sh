@@ -11,10 +11,8 @@ declare -a CODELABS=(
   "boring_to_beautiful"
   "cookbook"
   "cupertino_store"
-  # TODO(DomesticMouse): enable on Flutter stable increment
-  # "dart3"
-  # TODO(DomesticMouse): enable on Flutter stable increment
-  # "dart-patterns-and-records"
+  "dart-patterns-and-records"
+  "dart3"
   "dartpad_codelabs"
   "deeplink_cookbook"
   "ffigen_codelab"
@@ -24,12 +22,11 @@ declare -a CODELABS=(
   "flame-building-doodle-dash"
   "github-client"
   "google-maps-in-flutter"
-  # TODO(DomesticMouse): enable on Flutter stable increment
-  # "haiku_generator"
+  "haiku_generator"
   "in_app_purchases"
   "namer"
-  # TODO(DomesticMouse): enable on Flutter stable increment
-  # "next-gen-ui"
+  "next-gen-ui"
+  "pesto_flutter"
   "star_counter"
   "testing_codelab"
   "tfagents-flutter"

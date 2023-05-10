@@ -341,9 +341,9 @@ steps:
       - name: Upgrade dep versions in ffigen_app/example
         path: ffigen_app/example
         flutter: pub upgrade --major-versions --directory .
-      - name: Upgrade dep versions in ffigen_app
+      - name: Update version constraints on ffigen
         path: ffigen_app
-        flutter: pub upgrade --major-versions --directory .
+        flutter: pub add -d ffigen
       - name: Move ffi dep from dev_deps to deps
         path: ffigen_app
         dart: pub add ffi
@@ -398,26 +398,26 @@ steps:
       - name: Flutter clean
         path: ffigen_app/example
         flutter: clean
-      # - name: Build iOS simulator bundle
-      #   path: ffigen_app/example
-      #   platforms: [ macos ]
-      #   flutter: build ios --simulator
-      # - name: Build macOS app
-      #   path: ffigen_app/example
-      #   platforms: [ macos ]
-      #   flutter: build macos --debug
-      # - name: Build Android app
-      #   path: ffigen_app/example
-      #   platforms: [ macos ]
-      #   flutter: build apk --debug 
-      # - name: Build Windows app
-      #   path: ffigen_app/example
-      #   platforms: [ windows ]
-      #   flutter: build windows --debug 
-      # - name: Build Linux app
-      #   path: ffigen_app/example
-      #   platforms: [ linux ]
-      #   flutter: build linux --debug 
+      - name: Build iOS simulator bundle
+        path: ffigen_app/example
+        platforms: [ macos ]
+        flutter: build ios --simulator
+      - name: Build macOS app
+        path: ffigen_app/example
+        platforms: [ macos ]
+        flutter: build macos --debug
+      - name: Build Android app
+        path: ffigen_app/example
+        platforms: [ macos ]
+        flutter: build apk --debug 
+      - name: Build Windows app
+        path: ffigen_app/example
+        platforms: [ windows ]
+        flutter: build windows --debug 
+      - name: Build Linux app
+        path: ffigen_app/example
+        platforms: [ linux ]
+        flutter: build linux --debug 
       - name: Flutter clean
         path: ffigen_app/example
         flutter: clean
@@ -791,26 +791,26 @@ steps:
       - name: build runner
         path: ffigen_app/example
         flutter: pub run build_runner build
-      # - name: Build iOS simulator bundle
-      #   path: ffigen_app/example
-      #   platforms: [ macos ]
-      #   flutter: build ios --simulator
-      # - name: Build macOS app
-      #   path: ffigen_app/example
-      #   platforms: [ macos ]
-      #   flutter: build macos --debug
-      # - name: Build Android app
-      #   path: ffigen_app/example
-      #   platforms: [ macos ]
-      #   flutter: build apk --debug 
-      # - name: Build Windows app
-      #   path: ffigen_app/example
-      #   platforms: [ windows ]
-      #   flutter: build windows --debug 
-      # - name: Build Linux app
-      #   path: ffigen_app/example
-      #   platforms: [ linux ]
-      #   flutter: build linux --debug 
+      - name: Build iOS simulator bundle
+        path: ffigen_app/example
+        platforms: [ macos ]
+        flutter: build ios --simulator
+      - name: Build macOS app
+        path: ffigen_app/example
+        platforms: [ macos ]
+        flutter: build macos --debug
+      - name: Build Android app
+        path: ffigen_app/example
+        platforms: [ macos ]
+        flutter: build apk --debug 
+      - name: Build Windows app
+        path: ffigen_app/example
+        platforms: [ windows ]
+        flutter: build windows --debug 
+      - name: Build Linux app
+        path: ffigen_app/example
+        platforms: [ linux ]
+        flutter: build linux --debug 
       - name: Flutter clean
         path: ffigen_app/example
         flutter: clean

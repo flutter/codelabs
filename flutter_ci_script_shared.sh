@@ -18,7 +18,7 @@ function ci_codelabs () {
     do
         echo "== Testing '${CODELAB}' on $channel"
         declare -a PROJECT_PATHS=($(
-        find $CODELAB -not -path './flutter/*' -not -path '*/*symlinks/*' -name pubspec.yaml -exec dirname {} \; | sort
+        find $CODELAB -not -path './flutter/*' -not -path '*/.symlinks/*' -name pubspec.yaml -exec dirname {} \; | sort
         ))
         for PROJECT in "${PROJECT_PATHS[@]}"
         do

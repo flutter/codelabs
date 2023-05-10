@@ -65,11 +65,9 @@ class DashPurchases extends ChangeNotifier {
     switch (product.id) {
       case storeKeyConsumable:
         await iapConnection.buyConsumable(purchaseParam: purchaseParam);
-        break;
       case storeKeySubscription:
       case storeKeyUpgrade:
         await iapConnection.buyNonConsumable(purchaseParam: purchaseParam);
-        break;
       default:
         throw ArgumentError.value(
             product.productDetails, '${product.id} is not a known product');
@@ -94,13 +92,10 @@ class DashPurchases extends ChangeNotifier {
         switch (purchaseDetails.productID) {
           case storeKeySubscription:
             counter.applyPaidMultiplier();
-            break;
           case storeKeyConsumable:
             counter.addBoughtDashes(2000);
-            break;
           case storeKeyUpgrade:
             _beautifiedDashUpgrade = true;
-            break;
         }
       }
     }

@@ -43,7 +43,7 @@ steps:
         patch-u: |
           --- b/firebase-get-to-know-flutter/step_02/android/app/build.gradle
           +++ a/firebase-get-to-know-flutter/step_02/android/app/build.gradle
-          @@ -47,7 +47,7 @@ android {
+          @@ -48,7 +48,7 @@ android {
                    applicationId "com.example.gtk_flutter"
                    // You can update the following values to match your application needs.
                    // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
@@ -2180,8 +2180,8 @@ steps:
                             _controller.clear();
                           }
                         },
-                        child: Row(
-                          children: const [
+                        child: const Row(
+                          children: [
                             Icon(Icons.send),
                             SizedBox(width: 4),
                             Text('SEND'),
@@ -2391,8 +2391,8 @@ steps:
           -                  _controller.clear();
           -                }
           -              },
-          -              child: Row(
-          -                children: const [
+          -              child: const Row(
+          -                children: [
           -                  Icon(Icons.send),
           -                  SizedBox(width: 4),
           -                  Text('SEND'),
@@ -2406,8 +2406,8 @@ steps:
           +                      _controller.clear();
           +                    }
           +                  },
-          +                  child: Row(
-          +                    children: const [
+          +                  child: const Row(
+          +                    children: [
           +                      Icon(Icons.send),
           +                      SizedBox(width: 4),
           +                      Text('SEND'),

@@ -305,7 +305,7 @@ steps:
            
            class CupertinoStoreApp extends StatelessWidget {
              const CupertinoStoreApp({super.key});
-          @@ -37,11 +40,50 @@ class CupertinoStoreHomePage extends StatelessWidget {
+          @@ -37,11 +40,47 @@ class CupertinoStoreHomePage extends StatelessWidget {
            
              @override
              Widget build(BuildContext context) {
@@ -339,21 +339,18 @@ steps:
           +                child: ProductListTab(),
           +              );
           +            });
-          +            break;
           +          case 1:
           +            returnValue = CupertinoTabView(builder: (context) {
           +              return const CupertinoPageScaffold(
           +                child: SearchTab(),
           +              );
           +            });
-          +            break;
           +          case 2:
           +            returnValue = CupertinoTabView(builder: (context) {
           +              return const CupertinoPageScaffold(
           +                child: ShoppingCartTab(),
           +              );
           +            });
-          +            break;
           +        }
           +        return returnValue;
           +      },
@@ -1497,9 +1494,9 @@ steps:
           +        Row(
           +          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           +          children: <Widget>[
-          +            Row(
+          +            const Row(
           +              mainAxisAlignment: MainAxisAlignment.start,
-          +              children: const <Widget>[
+          +              children: <Widget>[
           +                Icon(
           +                  CupertinoIcons.clock,
           +                  color: CupertinoColors.lightBackgroundGray,

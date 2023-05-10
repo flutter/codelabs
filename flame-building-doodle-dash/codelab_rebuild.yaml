@@ -2108,7 +2108,7 @@ steps:
         patch-u: |
           --- b/flame-building-doodle-dash/step_06/lib/game/managers/object_manager.dart
           +++ a/flame-building-doodle-dash/step_06/lib/game/managers/object_manager.dart
-          @@ -98,8 +98,14 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
+          @@ -98,8 +98,12 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
              }
            
              void enableLevelSpecialty(int level) {
@@ -2117,15 +2117,13 @@ steps:
           +    switch (level) {
           +      case 1:
           +        enableSpecialty('spring');
-          +        break;
           +      case 2:
           +        enableSpecialty('broken');
-          +        break;
           +    }
              }
            
              void resetSpecialties() {
-          @@ -149,12 +155,18 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
+          @@ -149,12 +153,18 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
              }
            
              Platform _semiRandomPlatform(Vector2 position) {
@@ -2367,17 +2365,16 @@ steps:
                  // Powerups: Add call to _maybeAddPowerup();
                }
            
-          @@ -105,6 +105,9 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
+          @@ -103,6 +103,8 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
+                   enableSpecialty('spring');
                  case 2:
                    enableSpecialty('broken');
-                   break;
           +      case 5:
           +        enableSpecialty('enemy');
-          +        break;
                }
              }
            
-          @@ -168,5 +171,29 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
+          @@ -166,5 +168,29 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
                return NormalPlatform(position: position);
              }
            
@@ -2482,20 +2479,18 @@ steps:
                }
            
                super.update(dt);
-          @@ -105,6 +105,12 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
+          @@ -103,6 +103,10 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
+                   enableSpecialty('spring');
                  case 2:
                    enableSpecialty('broken');
-                   break;
           +      case 3:
           +        enableSpecialty('noogler');
-          +        break;
           +      case 4:
           +        enableSpecialty('rocket');
-          +        break;
                  case 5:
                    enableSpecialty('enemy');
-                   break;
-          @@ -196,4 +202,38 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
+               }
+          @@ -193,4 +197,38 @@ class ObjectManager extends Component with HasGameRef<DoodleDash> {
                  _enemies.removeAt(0);
                }
              }

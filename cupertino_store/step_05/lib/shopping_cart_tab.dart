@@ -116,9 +116,9 @@ class _ShoppingCartTabState extends State<ShoppingCartTab> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.start,
-              children: const <Widget>[
+              children: <Widget>[
                 Icon(
                   CupertinoIcons.clock,
                   color: CupertinoColors.lightBackgroundGray,
