@@ -2,12 +2,6 @@ function ci_codelabs () {
     local channel="$1"
     shift
 
-    # plugin_codelab is a special case since it's a plugin.  Analysis doesn't seem to be working.
-    pushd plugin_codelab
-        echo "== TESTING plugin_codelab on $channel"
-        dart format --output none --set-exit-if-changed .;
-    popd
-
     # ffigen_codelab/step_07 needs to build the native library before running the tests
     pushd ffigen_codelab/step_07/example
         # RUNNER_OS from https://stackoverflow.com/a/72926104/2142626
@@ -24,7 +18,7 @@ function ci_codelabs () {
     do
         echo "== Testing '${CODELAB}' on $channel"
         declare -a PROJECT_PATHS=($(
-        find $CODELAB -not -path './flutter/*' -not -path './plugin_codelab/pubspec.yaml' -not -path '*/*symlinks/*' -name pubspec.yaml -exec dirname {} \; | sort
+        find $CODELAB -not -path './flutter/*' -not -path '*/*symlinks/*' -name pubspec.yaml -exec dirname {} \; | sort
         ))
         for PROJECT in "${PROJECT_PATHS[@]}"
         do
