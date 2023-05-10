@@ -8,7 +8,8 @@ source "$DIR/flutter_ci_script_shared.sh"
 declare -a CODELABS=(
   "adaptive_app"
   "animated-responsive-layout"
-  "boring_to_beautiful"
+  # TODO(DomesticMouse): material_color_utilities 0.3.0
+  # "boring_to_beautiful"
   "cookbook"
   "cupertino_store"
   "dart-patterns-and-records"
