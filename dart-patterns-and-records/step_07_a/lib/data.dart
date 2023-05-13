@@ -10,10 +10,11 @@ class Document {
 
   (String, {DateTime modified}) get metadata {
     if (_json.containsKey('metadata')) {
-      var metadataJson = _json['metadata'];
+      final metadataJson = _json['metadata'];
       if (metadataJson is Map) {
-        var title = metadataJson['title'] as String;
-        var localModified = DateTime.parse(metadataJson['modified'] as String);
+        final title = metadataJson['title'] as String;
+        final localModified =
+            DateTime.parse(metadataJson['modified'] as String);
         return (title, modified: localModified);
       }
     }

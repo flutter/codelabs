@@ -34,7 +34,7 @@ class DocumentScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var metadataRecord = document.metadata;
+    final metadataRecord = document.metadata;
 
     return Scaffold(
       appBar: AppBar(

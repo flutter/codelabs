@@ -24,7 +24,7 @@ class Document {
 
   List<Block> getBlocks() {
     if (_json case {'blocks': List blocksJson}) {
-      return [for (var blockJson in blocksJson) Block.fromJson(blockJson)];
+      return [for (final blockJson in blocksJson) Block.fromJson(blockJson)];
     } else {
       throw const FormatException('Unexpected JSON format');
     }
@@ -61,7 +61,7 @@ class Block {
   Block(this.type, this.text);
 
   factory Block.fromJson(Map<String, dynamic> json) {
-    if (json case {'type': var type, 'text': var text}) {
+    if (json case {'type': final type, 'text': final text}) {
       return Block(type, text);
     } else {
       throw const FormatException('Unexpected JSON format');

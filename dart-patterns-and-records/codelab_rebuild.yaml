@@ -186,8 +186,8 @@ steps:
              Document() : _json = jsonDecode(documentJson);
           +
           +  (String, {DateTime modified}) get metadata {
-          +    var title = 'My Document';
-          +    var now = DateTime.now();
+          +    const title = 'My Document';
+          +    final now = DateTime.now();
           +
           +    return (title, modified: now);
           +  }
@@ -203,7 +203,7 @@ steps:
            
              @override
              Widget build(BuildContext context) {
-          +    var metadataRecord = document.metadata;
+          +    final metadataRecord = document.metadata;
           +
                return Scaffold(
                  appBar: AppBar(
@@ -244,8 +244,8 @@ steps:
            
              @override
              Widget build(BuildContext context) {
-          -    var metadataRecord = document.metadata;
-          +    var (title, modified: modified) = document.metadata;
+          -    final metadataRecord = document.metadata;
+          +    final (title, modified: modified) = document.metadata;
            
                return Scaffold(
                  appBar: AppBar(
@@ -284,8 +284,8 @@ steps:
            
              @override
              Widget build(BuildContext context) {
-          -    var (title, modified: modified) = document.metadata;
-          +    var (title, :modified) = document.metadata;
+          -    final (title, modified: modified) = document.metadata;
+          +    final (title, :modified) = document.metadata;
            
                return Scaffold(
                  appBar: AppBar(
@@ -312,15 +312,15 @@ steps:
              Document() : _json = jsonDecode(documentJson);
            
              (String, {DateTime modified}) get metadata {
-          -    var title = 'My Document';
-          -    var now = DateTime.now();
+          -    const title = 'My Document';
+          -    final now = DateTime.now();
           -
           -    return (title, modified: now);
           +    if (_json.containsKey('metadata')) {
-          +      var metadataJson = _json['metadata'];
+          +      final metadataJson = _json['metadata'];
           +      if (metadataJson is Map) {
-          +        var title = metadataJson['title'] as String;
-          +        var localModified = DateTime.parse(metadataJson['modified'] as String);
+          +        final title = metadataJson['title'] as String;
+          +        final localModified = DateTime.parse(metadataJson['modified'] as String);
           +        return (title, modified: localModified);
           +      }
           +    }
@@ -351,10 +351,10 @@ steps:
            
              (String, {DateTime modified}) get metadata {
           -    if (_json.containsKey('metadata')) {
-          -      var metadataJson = _json['metadata'];
+          -      final metadataJson = _json['metadata'];
           -      if (metadataJson is Map) {
-          -        var title = metadataJson['title'] as String;
-          -        var localModified = DateTime.parse(metadataJson['modified'] as String);
+          -        final title = metadataJson['title'] as String;
+          -        final localModified = DateTime.parse(metadataJson['modified'] as String);
           -        return (title, modified: localModified);
           -      }
           +    if (_json
@@ -397,7 +397,7 @@ steps:
           +
           +  List<Block> getBlocks() {
           +    if (_json case {'blocks': List blocksJson}) {
-          +      return [for (var blockJson in blocksJson) Block.fromJson(blockJson)];
+          +      return [for (final blockJson in blocksJson) Block.fromJson(blockJson)];
           +    } else {
           +      throw const FormatException('Unexpected JSON format');
           +    }
@@ -416,7 +416,7 @@ steps:
           +  Block(this.type, this.text);
           +
           +  factory Block.fromJson(Map<String, dynamic> json) {
-          +    if (json case {'type': var type, 'text': var text}) {
+          +    if (json case {'type': final type, 'text': final text}) {
           +      return Block(type, text);
           +    } else {
           +      throw const FormatException('Unexpected JSON format');
@@ -445,8 +445,8 @@ steps:
           @@ -35,6 +35,7 @@ class DocumentScreen extends StatelessWidget {
              @override
              Widget build(BuildContext context) {
-               var (title, :modified) = document.metadata;
-          +    var blocks = document.getBlocks();
+               final (title, :modified) = document.metadata;
+          +    final blocks = document.getBlocks();
            
                return Scaffold(
                  appBar: AppBar(
@@ -564,15 +564,15 @@ steps:
            }
            
           +String formatDate(DateTime dateTime) {
-          +  var today = DateTime.now();
-          +  var difference = dateTime.difference(today);
+          +  final today = DateTime.now();
+          +  final difference = dateTime.difference(today);
           +
           +  return switch (difference) {
           +    Duration(inDays: 0) => 'today',
           +    Duration(inDays: 1) => 'tomorrow',
           +    Duration(inDays: -1) => 'yesterday',
-          +    Duration(inDays: var days, isNegative: true) => '${days.abs()} days ago',
-          +    Duration(inDays: var days) => '$days days from now',
+          +    Duration(inDays: final days, isNegative: true) => '${days.abs()} days ago',
+          +    Duration(inDays: final days) => '$days days from now',
           +  };
           +}
           +
@@ -601,17 +601,17 @@ steps:
                Duration(inDays: 0) => 'today',
                Duration(inDays: 1) => 'tomorrow',
                Duration(inDays: -1) => 'yesterday',
-          +    Duration(inDays: var days) when days > 7 => '${days ~/ 7} weeks from now',
-          +    Duration(inDays: var days) when days < -7 => '${days.abs() ~/ 7} weeks ago',
-               Duration(inDays: var days, isNegative: true) => '${days.abs()} days ago',
-               Duration(inDays: var days) => '$days days from now',
+          +    Duration(inDays: final days) when days > 7 => '${days ~/ 7} weeks from now',
+          +    Duration(inDays: final days) when days < -7 => '${days.abs() ~/ 7} weeks ago',
+               Duration(inDays: final days, isNegative: true) => '${days.abs()} days ago',
+               Duration(inDays: final days) => '$days days from now',
              };
           @@ -48,6 +50,7 @@ class DocumentScreen extends StatelessWidget {
              @override
              Widget build(BuildContext context) {
-               var (title, :modified) = document.metadata;
-          +    var formattedModifiedDate = formatDate(modified);
-               var blocks = document.getBlocks();
+               final (title, :modified) = document.metadata;
+          +    final formattedModifiedDate = formatDate(modified);
+               final blocks = document.getBlocks();
            
                return Scaffold(
           @@ -56,7 +59,7 @@ class DocumentScreen extends StatelessWidget {
@@ -654,7 +654,7 @@ steps:
           +  Block();
            
           -  factory Block.fromJson(Map<String, dynamic> json) {
-          -    if (json case {'type': var type, 'text': var text}) {
+          -    if (json case {'type': final type, 'text': final text}) {
           -      return Block(type, text);
           -    } else {
           -      throw const FormatException('Unexpected JSON format');
@@ -708,12 +708,12 @@ steps:
           -        style: textStyle,
           -      ),
           +      child: switch (block) {
-          +        HeaderBlock(:var text) => Text(
+          +        HeaderBlock(:final text) => Text(
           +            text,
           +            style: Theme.of(context).textTheme.displayMedium,
           +          ),
-          +        ParagraphBlock(:var text) => Text(text),
-          +        CheckboxBlock(:var text, :var isChecked) => Row(
+          +        ParagraphBlock(:final text) => Text(text),
+          +        CheckboxBlock(:final text, :final isChecked) => Row(
           +            children: [
           +              Checkbox(value: isChecked, onChanged: (_) {}),
           +              Text(text),
