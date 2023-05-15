@@ -11,15 +11,15 @@ void main() {
 }
 
 String formatDate(DateTime dateTime) {
-  var today = DateTime.now();
-  var difference = dateTime.difference(today);
+  final today = DateTime.now();
+  final difference = dateTime.difference(today);
 
   return switch (difference) {
     Duration(inDays: 0) => 'today',
     Duration(inDays: 1) => 'tomorrow',
     Duration(inDays: -1) => 'yesterday',
-    Duration(inDays: var days, isNegative: true) => '${days.abs()} days ago',
-    Duration(inDays: var days) => '$days days from now',
+    Duration(inDays: final days, isNegative: true) => '${days.abs()} days ago',
+    Duration(inDays: final days) => '$days days from now',
   };
 }
 
@@ -47,8 +47,8 @@ class DocumentScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var (title, :modified) = document.metadata;
-    var blocks = document.getBlocks();
+    final (title, :modified) = document.metadata;
+    final blocks = document.getBlocks();
 
     return Scaffold(
       appBar: AppBar(
