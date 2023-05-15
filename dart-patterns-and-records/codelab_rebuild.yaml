@@ -24,7 +24,6 @@ steps:
           linter:
             rules:
               - prefer_final_in_for_each
-              - prefer_final_locals
       - name: Remove README
         rm: patterns_codelab/README.md
       - name: Patch lib/main.dart
