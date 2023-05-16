@@ -29,13 +29,13 @@ class AssetPaths {
   static const String uiShader = '$_shaders/ui_glitch.frag';
 }
 
-typedef Shaders = ({FragmentShader orb, FragmentShader ui});
+typedef FragmentPrograms = ({FragmentProgram orb, FragmentProgram ui});
 
-Future<Shaders> loadShaders() async => (
-      orb: (await _loadShader(AssetPaths.orbShader)),
-      ui: (await _loadShader(AssetPaths.uiShader)),
+Future<FragmentPrograms> loadFragmentPrograms() async => (
+      orb: (await _loadFragmentProgram(AssetPaths.orbShader)),
+      ui: (await _loadFragmentProgram(AssetPaths.uiShader)),
     );
 
-Future<FragmentShader> _loadShader(String path) async {
-  return (await FragmentProgram.fromAsset(path)).fragmentShader();
+Future<FragmentProgram> _loadFragmentProgram(String path) async {
+  return (await FragmentProgram.fromAsset(path));
 }
