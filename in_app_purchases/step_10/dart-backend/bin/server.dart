@@ -106,16 +106,10 @@ Future<void> main() async {
     final dynamic payload = json.decode(await request.readAsString());
 
     // NOTE: userId should be obtained using authentication methods.
-    final userId = payload['userId'] as String;
-
-    // Value from PurchaseDetails.verificationData.source
-    final source = payload['source'] as String;
-
-    // Obtain product data based on the productId
-    final productData = productDataMap[payload['productId']]!;
-
-    // Value from PurchaseDetails.verificationData.serverVerificationData
-    final token = payload['verificationData'] as String;
+    // source from PurchaseDetails.verificationData.source
+    // productData product data based on the productId
+    // token from PurchaseDetails.verificationData.serverVerificationData
+    final (:userId, :source, :productData, :token) = getPurchaseData(payload);
 
     // Will call to verifyPurchase on
     // [GooglePlayPurchaseHandler] or [AppleStorePurchaseHandler]
@@ -136,4 +130,28 @@ Future<void> main() async {
 
   // Start service
   await serveHandler(router);
+}
+
+({
+  String userId,
+  String source,
+  ProductData productData,
+  String token,
+}) getPurchaseData(dynamic payload) {
+  if (payload
+      case {
+        'userId': String userId,
+        'source': String source,
+        'productId': String productId,
+        'verificationData': String token,
+      }) {
+    return (
+      userId: userId,
+      source: source,
+      productData: productDataMap[productId]!,
+      token: token,
+    );
+  } else {
+    throw const FormatException('Unexpected JSON');
+  }
 }
