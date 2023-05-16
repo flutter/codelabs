@@ -31,7 +31,7 @@ abstract class Purchase {
       'productId': Value(stringValue: productId),
       'userId': Value(stringValue: userId),
       'purchaseDate':
-          Value(timestampValue: purchaseDate.toUtc().toIso8601String()),
+      Value(timestampValue: purchaseDate.toUtc().toIso8601String()),
       'type': Value(stringValue: type.name),
     };
   }
@@ -40,7 +40,7 @@ abstract class Purchase {
 
   static Purchase fromDocument(Document e) {
     final type = ProductType.values.firstWhere(
-        (element) => element.name == e.fields!['type']!.stringValue);
+            (element) => element.name == e.fields!['type']!.stringValue);
     switch (type) {
       case ProductType.subscription:
         return SubscriptionPurchase(
@@ -51,11 +51,12 @@ abstract class Purchase {
           productId: e.fields!['productId']!.stringValue!,
           userId: e.fields!['userId']!.stringValue,
           purchaseDate:
-              DateTime.parse(e.fields!['purchaseDate']!.timestampValue!),
+          DateTime.parse(e.fields!['purchaseDate']!.timestampValue!),
           status: SubscriptionStatus.values.firstWhere(
-              (element) => element.name == e.fields!['status']!.stringValue),
+                  (element) =>
+              element.name == e.fields!['status']!.stringValue),
           expiryDate: DateTime.tryParse(
-                  e.fields!['expiryDate']?.timestampValue ?? '') ??
+              e.fields!['expiryDate']?.timestampValue ?? '') ??
               DateTime.now(),
         );
       case ProductType.nonSubscription:
@@ -67,9 +68,10 @@ abstract class Purchase {
           productId: e.fields!['productId']!.stringValue!,
           userId: e.fields!['userId']!.stringValue,
           purchaseDate:
-              DateTime.parse(e.fields!['purchaseDate']!.timestampValue!),
+          DateTime.parse(e.fields!['purchaseDate']!.timestampValue!),
           status: NonSubscriptionStatus.values.firstWhere(
-              (element) => element.name == e.fields!['status']!.stringValue),
+                  (element) =>
+              element.name == e.fields!['status']!.stringValue),
         );
     }
   }
@@ -84,18 +86,18 @@ enum NonSubscriptionStatus {
 enum SubscriptionStatus { pending, active, expired }
 
 SubscriptionStatus subscriptionStatusFrom(int? state) {
-  switch (state) {
-    case 0: // Payment pending
-      return SubscriptionStatus.pending;
-    case 1: // Payment received
-    case 2: // Free trial
-      return SubscriptionStatus.active;
-    case 3: // Pending deferred upgrade/downgrade
-      return SubscriptionStatus.pending;
-    case null: // Expired or cancelled
-    default:
-      return SubscriptionStatus.expired;
-  }
+  return switch (state) {
+  // Payment pending
+    0 => SubscriptionStatus.pending,
+  // Payment received
+    1 => SubscriptionStatus.active,
+  // Free trial
+    2 => SubscriptionStatus.active,
+  // Pending deferred upgrade/downgrade
+    3 => SubscriptionStatus.pending,
+  // Expired or cancelled
+    _ => SubscriptionStatus.expired,
+  };
 }
 
 class NonSubscriptionPurchase extends Purchase {
@@ -204,7 +206,7 @@ class IapRepository {
             update: Document(
                 fields: purchaseData.toDocument(),
                 name:
-                    'projects/$projectId/databases/(default)/documents/purchases/$purchaseId'),
+                'projects/$projectId/databases/(default)/documents/purchases/$purchaseId'),
           ),
         ],
       ),
@@ -222,7 +224,7 @@ class IapRepository {
             update: Document(
                 fields: purchaseData.updateDocument(),
                 name:
-                    'projects/$projectId/databases/(default)/documents/purchases/$purchaseId'),
+                'projects/$projectId/databases/(default)/documents/purchases/$purchaseId'),
             updateMask: DocumentMask(fieldPaths: ['status']),
           ),
         ],
