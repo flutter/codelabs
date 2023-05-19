@@ -42,14 +42,12 @@ class _ListDetailTransitionState extends State<ListDetailTransition> {
     // gradually changes to 1/3 and 2/3 for widgets one and two. When
     // the window is wider than 1600, the allocation changes to 1/4  3/4.
     final double width = MediaQuery.of(context).size.width;
-    double nextFlexFactor = 1000;
-    if (width >= 800 && width < 1200) {
-      nextFlexFactor = lerpDouble(1000, 2000, (width - 800) / 400)!;
-    } else if (width >= 1200 && width < 1600) {
-      nextFlexFactor = lerpDouble(2000, 3000, (width - 1200) / 400)!;
-    } else if (width > 1600) {
-      nextFlexFactor = 3000;
-    }
+    double nextFlexFactor = switch (width) {
+      >= 800 && < 1200 => lerpDouble(1000, 2000, (width - 800) / 400)!,
+      >= 1200 && < 1600 => lerpDouble(2000, 3000, (width - 1200) / 400)!,
+      >= 1600 => 3000,
+      _ => 1000,
+    };
 
     // Continue along the current animation curve if the
     // destionation flex factor has not changed.
