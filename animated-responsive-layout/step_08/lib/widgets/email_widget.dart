@@ -42,9 +42,11 @@ class _EmailWidgetState extends State<EmailWidget> {
   );
 
   Color get _surfaceColor {
-    if (!widget.isPreview) return _colorScheme.surface;
-    if (widget.isSelected) return _colorScheme.primaryContainer;
-    return unselectedColor;
+    return switch (widget) {
+      EmailWidget(isPreview: false) => _colorScheme.surface,
+      EmailWidget(isSelected: true) => _colorScheme.primaryContainer,
+      _ => unselectedColor,
+    };
   }
 
   @override
@@ -117,15 +119,13 @@ class _EmailContentState extends State<EmailContent> {
   }
 
   TextStyle? get contentTextStyle {
-    if (widget.isThreaded) {
-      return _textTheme.bodyLarge;
-    }
-    if (widget.isSelected) {
-      return _textTheme.bodyMedium
-          ?.copyWith(color: _colorScheme.onPrimaryContainer);
-    }
-    return _textTheme.bodyMedium
-        ?.copyWith(color: _colorScheme.onSurfaceVariant);
+    return switch (widget) {
+      EmailContent(isThreaded: true) => _textTheme.bodyLarge,
+      EmailContent(isSelected: true) =>
+        _textTheme.bodyMedium?.copyWith(color: _colorScheme.onPrimaryContainer),
+      _ =>
+        _textTheme.bodyMedium?.copyWith(color: _colorScheme.onSurfaceVariant),
+    };
   }
 
   @override
