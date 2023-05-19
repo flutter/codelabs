@@ -107,11 +107,13 @@ class _EmailContentState extends State<EmailContent> {
     if (widget.email.sender.lastActive.isAfter(now)) throw ArgumentError();
     final Duration elapsedTime =
         widget.email.sender.lastActive.difference(now).abs();
-    if (elapsedTime.inSeconds < 60) return '${elapsedTime.inSeconds}s';
-    if (elapsedTime.inMinutes < 60) return '${elapsedTime.inMinutes}m';
-    if (elapsedTime.inHours < 60) return '${elapsedTime.inHours}h';
-    if (elapsedTime.inDays < 365) return '${elapsedTime.inDays}d';
-    throw UnimplementedError();
+    return switch (elapsedTime) {
+      Duration(inSeconds: < 60) => '${elapsedTime.inSeconds}s',
+      Duration(inMinutes: < 60) => '${elapsedTime.inMinutes}m',
+      Duration(inHours: < 24) => '${elapsedTime.inHours}h',
+      Duration(inDays: < 365) => '${elapsedTime.inDays}d',
+      _ => throw UnimplementedError(),
+    };
   }
 
   TextStyle? get contentTextStyle {
