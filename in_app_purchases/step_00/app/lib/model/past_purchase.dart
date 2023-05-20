@@ -30,14 +30,11 @@ class PastPurchase {
   final Status status;
 
   String get title {
-    switch (productId) {
-      case storeKeyConsumable:
-        return 'Consumable';
-      case storeKeySubscription:
-        return 'Subscription';
-      default:
-        return productId;
-    }
+    return switch (productId) {
+      storeKeyConsumable => 'Consumable',
+      storeKeySubscription => 'Subscription',
+      _ => productId
+    };
   }
 
   PastPurchase.fromJson(Map<String, dynamic> json)
@@ -51,38 +48,27 @@ class PastPurchase {
 }
 
 PurchaseType _typeFromString(String type) {
-  switch (type) {
-    case 'nonSubscription':
-      return PurchaseType.subscriptionPurchase;
-    case 'subscription':
-      return PurchaseType.nonSubscriptionPurchase;
-    default:
-      throw ArgumentError.value(type, '$type is not a supported type');
-  }
+  return switch (type) {
+    'nonSubscription' => PurchaseType.subscriptionPurchase,
+    'subscription' => PurchaseType.nonSubscriptionPurchase,
+    _ => throw ArgumentError.value(type, '$type is not a supported type')
+  };
 }
 
 Store _storeFromString(String store) {
-  switch (store) {
-    case 'googleplay':
-      return Store.googlePlay;
-    case 'appstore':
-      return Store.appStore;
-    default:
-      throw ArgumentError.value(store, '$store is not a supported store');
-  }
+  return switch (store) {
+    'googleplay' => Store.googlePlay,
+    'appstore' => Store.appStore,
+    _ => throw ArgumentError.value(store, '$store is not a supported store')
+  };
 }
 
 Status _statusFromString(String status) {
-  switch (status) {
-    case 'pending':
-      return Status.pending;
-    case 'completed':
-      return Status.completed;
-    case 'active':
-      return Status.active;
-    case 'expired':
-      return Status.expired;
-    default:
-      throw ArgumentError.value(status, '$status is not a supported status');
-  }
+  return switch (status) {
+    'pending' => Status.pending,
+    'completed' => Status.completed,
+    'active' => Status.active,
+    'expired' => Status.expired,
+    _ => throw ArgumentError.value(status, '$status is not a supported status')
+  };
 }

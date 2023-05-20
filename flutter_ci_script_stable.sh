@@ -12,7 +12,6 @@ declare -a CODELABS=(
   "cookbook"
   "cupertino_store"
   "dart-patterns-and-records"
-  "dart3"
   "dartpad_codelabs"
   "deeplink_cookbook"
   "ffigen_codelab"

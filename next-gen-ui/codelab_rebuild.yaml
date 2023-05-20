@@ -727,15 +727,15 @@ steps:
             static const String uiShader = '$_shaders/ui_glitch.frag';
           }
           
-          typedef Shaders = ({FragmentShader orb, FragmentShader ui});
+          typedef FragmentPrograms = ({FragmentProgram orb, FragmentProgram ui});
           
-          Future<Shaders> loadShaders() async => (
-                orb: (await _loadShader(AssetPaths.orbShader)),
-                ui: (await _loadShader(AssetPaths.uiShader)),
+          Future<FragmentPrograms> loadFragmentPrograms() async => (
+                orb: (await _loadFragmentProgram(AssetPaths.orbShader)),
+                ui: (await _loadFragmentProgram(AssetPaths.uiShader)),
               );
           
-          Future<FragmentShader> _loadShader(String path) async {
-            return (await FragmentProgram.fromAsset(path)).fragmentShader();
+          Future<FragmentProgram> _loadFragmentProgram(String path) async {
+            return (await FragmentProgram.fromAsset(path));
           }
       - name: Add lib/styles.dart
         path: next_gen_ui/lib/styles.dart
@@ -1575,9 +1575,9 @@ steps:
                 AnimationController(vsync: this, duration: 3000.ms)..repeat();
           
             @override
-            Widget build(BuildContext context) => Consumer<Shaders?>(
-                  builder: (context, shaders, _) {
-                    if (shaders == null) return const SizedBox.expand();
+            Widget build(BuildContext context) => Consumer<FragmentPrograms?>(
+                  builder: (context, fragmentPrograms, _) {
+                    if (fragmentPrograms == null) return const SizedBox.expand();
                     return ListenableBuilder(
                       listenable: _heartbeatAnim,
                       builder: (_, __) {
@@ -1607,7 +1607,7 @@ steps:
                                 return CustomPaint(
                                   size: size,
                                   painter: OrbShaderPainter(
-                                    shaders.orb,
+                                    fragmentPrograms.orb.fragmentShader(),
                                     config: widget.config,
                                     time: time,
                                     mousePos: widget.mousePos,
@@ -1787,7 +1787,7 @@ steps:
         patch-u: |
           --- b/next-gen-ui/step_02_b/lib/title_screen/title_screen.dart
           +++ a/next-gen-ui/step_02_b/lib/title_screen/title_screen.dart
-          @@ -45,3 +45,26 @@ class TitleScreen extends StatelessWidget {
+          @@ -45,3 +45,24 @@ class TitleScreen extends StatelessWidget {
                );
              }
            }
@@ -1805,12 +1805,10 @@ steps:
           +  @override
           +  Widget build(BuildContext context) {
           +    final hsl = HSLColor.fromColor(color);
-          +    return ColorFiltered(
-          +      colorFilter: ColorFilter.mode(
-          +        hsl.withLightness(hsl.lightness * lightAmt).toColor(),
-          +        BlendMode.modulate,
-          +      ),
-          +      child: Image.asset(imgSrc),
+          +    return Image.asset(
+          +      imgSrc,
+          +      color: hsl.withLightness(hsl.lightness * lightAmt).toColor(),
+          +      colorBlendMode: BlendMode.modulate,
           +    );
           +  }
           +}
@@ -2766,7 +2764,7 @@ steps:
                    ),
                  ),
                );
-          @@ -130,3 +137,35 @@ class _LitImage extends StatelessWidget {
+          @@ -128,3 +135,35 @@ class _LitImage extends StatelessWidget {
                );
              }
            }
@@ -2841,8 +2839,8 @@ steps:
              Animate.restartOnHotReload = true;
           -  runApp(const NextGenApp());
           +  runApp(
-          +    FutureProvider<Shaders?>(
-          +      create: (context) => loadShaders(),
+          +    FutureProvider<FragmentPrograms?>(
+          +      create: (context) => loadFragmentPrograms(),
           +      initialData: null,
           +      child: const NextGenApp(),
           +    ),
@@ -2876,26 +2874,27 @@ steps:
                  mainAxisSize: MainAxisSize.min,
                  crossAxisAlignment: CrossAxisAlignment.start,
                  children: [
-          @@ -93,6 +96,29 @@ class _TitleText extends StatelessWidget {
+          @@ -93,6 +96,30 @@ class _TitleText extends StatelessWidget {
                        .fadeIn(delay: 1.seconds, duration: .7.seconds),
                  ],
                );
-          +    return Consumer<Shaders?>(
-          +      builder: (context, shaders, _) {
-          +        if (shaders == null) return content;
+          +    return Consumer<FragmentPrograms?>(
+          +      builder: (context, fragmentPrograms, _) {
+          +        if (fragmentPrograms == null) return content;
           +        return TickingBuilder(
           +          builder: (context, time) {
           +            return AnimatedSampler(
           +              (image, size, canvas) {
           +                const double overdrawPx = 30;
-          +                shaders.ui
+          +                final shader = fragmentPrograms.ui.fragmentShader();
+          +                shader
           +                  ..setFloat(0, size.width)
           +                  ..setFloat(1, size.height)
           +                  ..setFloat(2, time)
           +                  ..setImageSampler(0, image);
           +                Rect rect = Rect.fromLTWH(-overdrawPx, -overdrawPx,
           +                    size.width + overdrawPx, size.height + overdrawPx);
-          +                canvas.drawRect(rect, Paint()..shader = shaders.ui);
+          +                canvas.drawRect(rect, Paint()..shader = shader);
           +              },
           +              child: content,
           +            );
@@ -3256,7 +3255,7 @@ steps:
                    ),
                  ),
                );
-          @@ -119,21 +244,29 @@ class _LitImage extends StatelessWidget {
+          @@ -119,19 +244,26 @@ class _LitImage extends StatelessWidget {
              const _LitImage({
                required this.color,
                required this.imgSrc,
@@ -3271,21 +3270,17 @@ steps:
              @override
              Widget build(BuildContext context) {
                final hsl = HSLColor.fromColor(color);
-          -    return ColorFiltered(
-          -      colorFilter: ColorFilter.mode(
-          -        hsl.withLightness(hsl.lightness * lightAmt).toColor(),
-          -        BlendMode.modulate,
-          -      ),
+          -    return Image.asset(
+          -      imgSrc,
+          -      color: hsl.withLightness(hsl.lightness * lightAmt).toColor(),
+          -      colorBlendMode: BlendMode.modulate,
           +    return ListenableBuilder(
           +      listenable: pulseEffect,
-                 child: Image.asset(imgSrc),
           +      builder: (context, child) {
-          +        return ColorFiltered(
-          +          colorFilter: ColorFilter.mode(
-          +            hsl.withLightness(hsl.lightness * lightAmt).toColor(),
-          +            BlendMode.modulate,
-          +          ),
-          +          child: child,
+          +        return Image.asset(
+          +          imgSrc,
+          +          color: hsl.withLightness(hsl.lightness * lightAmt).toColor(),
+          +          colorBlendMode: BlendMode.modulate,
           +        );
           +      },
                );

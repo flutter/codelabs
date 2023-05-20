@@ -12,7 +12,10 @@ Here is a list of the codelabs represented here:
   - [Building a board game with TensorFlow Agents and Flutter](https://codelabs.developers.google.com/tfagents-flutter) is in `tfagents-flutter`  
   - [Building a Cupertino app with Flutter](https://codelabs.developers.google.com/codelabs/flutter-cupertino) is in `cupertino_store`
   - [Building a full-stack movie recommendation system](https://codelabs.developers.google.com/tfrecommenders-flutter) is in `tfrs-flutter`
+  - [Building next generation UIs in Flutter](https://codelabs.developers.google.com/codelabs/flutter-next-gen-uis?hl=en#0) is in `next-gen-ui`
   - [Create haikus about Google products with the PaLM API and Flutter](https://codelabs.developers.google.com/haiku-generator) is in `haiku_generator`
+  - [Dive into Dart's patterns and records](https://codelabs.developers.google.com/codelabs/dart-patterns-records) is in `dart-patterns-and-records`
+  - [Get started with text classification in Flutter apps](https://developers.google.com/learn/pathways/text-classification-flutter) pathway is in `tfserving-flutter`
   - [Get to know Firebase for Flutter](https://firebase.google.com/codelabs/firebase-get-to-know-flutter) is in `firebase-get-to-know-flutter`
   - [How to test a Flutter app](https://codelabs.developers.google.com/codelabs/flutter-app-testing) is in `testing_codelab`
   - [Local development for your Flutter apps using the Firebase Emulator Suite](https://firebase.google.com/codelabs/get-started-firebase-emulators-and-flutter) in `firebase-emulator-suite`
@@ -21,7 +24,6 @@ Here is a list of the codelabs represented here:
   - [Using FFI in a Flutter plugin](https://codelabs.developers.google.com/codelabs/flutter-ffigen) is in `ffigen_codelab`
   - [Write a Flutter desktop application](https://codelabs.developers.google.com/codelabs/flutter-github-client) is in `github-client`
   - [Your first Flutter app](https://codelabs.developers.google.com/codelabs/flutter-codelab-first) is in `namer`
-  - [Get started with text classification in Flutter apps](https://developers.google.com/learn/pathways/text-classification-flutter) pathway is in `tfserving-flutter`
 
 To learn more about setting up Flutter and running apps, see
 [docs.flutter.dev/get-started][].
