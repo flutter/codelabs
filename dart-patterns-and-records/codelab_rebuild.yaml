@@ -26,6 +26,24 @@ steps:
               - prefer_final_in_for_each
       - name: Remove README
         rm: patterns_codelab/README.md
+      - name: Add .vscode directory
+        mkdir: patterns_codelab/.vscode
+      - name: Add .vscode/launch.json
+        path: patterns_codelab/.vscode/launch.json
+        replace-contents: |
+          {
+              // Use IntelliSense to learn about possible attributes.
+              // Hover to view descriptions of existing attributes.
+              // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+              "version": "0.2.0",
+              "configurations": [
+                  {
+                      "name": "patterns_codelab",
+                      "request": "launch",
+                      "type": "dart"
+                  }
+              ]
+          }
       - name: Patch lib/main.dart
         path: patterns_codelab/lib/main.dart
         patch-u: |
