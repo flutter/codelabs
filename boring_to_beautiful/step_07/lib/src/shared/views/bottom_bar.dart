@@ -135,9 +135,11 @@ class _BottomBar extends StatelessWidget {
     );
   }
 
-  double get songProgress => progress != null && song != null
-      ? progress!.inMilliseconds / song!.length.inMilliseconds
-      : 0;
+  double get songProgress => switch ((progress, song)) {
+        (Duration progress, Song song) =>
+          progress.inMilliseconds / song.length.inMilliseconds,
+        _ => 0,
+      };
 
   Widget _buildMobileBar(BuildContext context, BoxConstraints constraints) {
     return ColoredBox(
