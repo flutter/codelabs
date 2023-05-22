@@ -230,9 +230,11 @@ class _ProgressBar extends StatelessWidget {
 
   final Song? song;
 
-  double get songProgress => progress != null && song != null
-      ? progress!.inMilliseconds / song!.length.inMilliseconds
-      : 0;
+  double get songProgress => switch ((progress, song)) {
+        (Duration progress, Song song) =>
+          progress.inMilliseconds / song.length.inMilliseconds,
+        _ => 0,
+      };
 
   @override
   Widget build(BuildContext context) {
