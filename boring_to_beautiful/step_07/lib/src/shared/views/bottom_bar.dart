@@ -240,14 +240,11 @@ class _ProgressBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        late EdgeInsets padding = EdgeInsets.zero;
-        if (constraints.maxWidth > 500) {
-          padding = const EdgeInsets.symmetric(horizontal: 50);
-        } else if (constraints.maxWidth < 350) {
-          padding = const EdgeInsets.symmetric(horizontal: 25);
-        } else {
-          padding = const EdgeInsets.symmetric(horizontal: 20);
-        }
+        EdgeInsets padding = switch (constraints.maxWidth) {
+          > 500 => const EdgeInsets.symmetric(horizontal: 50),
+          > 350 => const EdgeInsets.symmetric(horizontal: 25),
+          _ => const EdgeInsets.symmetric(horizontal: 20),
+        };
         return Padding(
           padding: padding,
           child: Row(
