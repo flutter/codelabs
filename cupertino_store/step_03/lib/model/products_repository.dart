@@ -284,7 +284,7 @@ class ProductsRepository {
     ),
   ];
 
-static List<Product> loadProducts(Category category) => switch (category) {
+  static List<Product> loadProducts(Category category) => switch (category) {
         Category.all => _allProducts,
         _ => _allProducts.where((p) => p.category == category).toList(),
       };
