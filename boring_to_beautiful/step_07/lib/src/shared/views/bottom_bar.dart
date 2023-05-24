@@ -135,9 +135,11 @@ class _BottomBar extends StatelessWidget {
     );
   }
 
-  double get songProgress => progress != null && song != null
-      ? progress!.inMilliseconds / song!.length.inMilliseconds
-      : 0;
+  double get songProgress => switch ((progress, song)) {
+        (Duration progress, Song song) =>
+          progress.inMilliseconds / song.length.inMilliseconds,
+        _ => 0,
+      };
 
   Widget _buildMobileBar(BuildContext context, BoxConstraints constraints) {
     return ColoredBox(
@@ -228,22 +230,21 @@ class _ProgressBar extends StatelessWidget {
 
   final Song? song;
 
-  double get songProgress => progress != null && song != null
-      ? progress!.inMilliseconds / song!.length.inMilliseconds
-      : 0;
+  double get songProgress => switch ((progress, song)) {
+        (Duration progress, Song song) =>
+          progress.inMilliseconds / song.length.inMilliseconds,
+        _ => 0,
+      };
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        late EdgeInsets padding = EdgeInsets.zero;
-        if (constraints.maxWidth > 500) {
-          padding = const EdgeInsets.symmetric(horizontal: 50);
-        } else if (constraints.maxWidth < 350) {
-          padding = const EdgeInsets.symmetric(horizontal: 25);
-        } else {
-          padding = const EdgeInsets.symmetric(horizontal: 20);
-        }
+        EdgeInsets padding = switch (constraints.maxWidth) {
+          > 500 => const EdgeInsets.symmetric(horizontal: 50),
+          > 350 => const EdgeInsets.symmetric(horizontal: 25),
+          _ => const EdgeInsets.symmetric(horizontal: 20),
+        };
         return Padding(
           padding: padding,
           child: Row(
