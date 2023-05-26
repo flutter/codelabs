@@ -147,34 +147,39 @@ class Player extends SpriteGroupComponent<PlayerState>
 
     if (isMovingDown && isCollidingVertically) {
       current = PlayerState.center;
-      if (other is NormalPlatform) {
-        jump();
-        return;
-      } else if (other is SpringBoard) {
-        jump(specialJumpSpeed: jumpSpeed * 2);
-        return;
-      } else if (other is BrokenPlatform &&
-          other.current == BrokenPlatformState.cracked) {
-        jump();
-        other.breakPlatform();
-        return;
+      switch (other) {
+        case NormalPlatform():
+          jump();
+          return;
+        case SpringBoard():
+          jump(specialJumpSpeed: jumpSpeed * 2);
+          return;
+        case BrokenPlatform() when other.current == BrokenPlatformState.cracked:
+          jump();
+          other.breakPlatform();
+          return;
       }
     }
 
-    if (!hasPowerup && other is Rocket) {
-      current = PlayerState.rocket;
-      other.removeFromParent();
-      jump(specialJumpSpeed: jumpSpeed * other.jumpSpeedMultiplier);
-      return;
-    } else if (!hasPowerup && other is NooglerHat) {
-      if (current == PlayerState.center) current = PlayerState.nooglerCenter;
-      if (current == PlayerState.left) current = PlayerState.nooglerLeft;
-      if (current == PlayerState.right) current = PlayerState.nooglerRight;
-      other.removeFromParent();
-      _removePowerupAfterTime(other.activeLengthInMS);
-      jump(specialJumpSpeed: jumpSpeed * other.jumpSpeedMultiplier);
-      return;
-    }
+    if (!hasPowerup) {
+      switch (other) {
+        case Rocket():
+          current = PlayerState.rocket;
+          other.removeFromParent();
+          jump(specialJumpSpeed: jumpSpeed * other.jumpSpeedMultiplier);
+          return;
+        case NooglerHat():
+          current = switch (current) {
+            PlayerState.center => PlayerState.nooglerCenter,
+            PlayerState.left => PlayerState.nooglerLeft,
+            PlayerState.right => PlayerState.nooglerRight,
+            _ => current,
+          };
+          other.removeFromParent();
+          _removePowerupAfterTime(other.activeLengthInMS);
+          jump(specialJumpSpeed: jumpSpeed * other.jumpSpeedMultiplier);
+          return;
+      }
   }
 
   void jump({double? specialJumpSpeed}) {
