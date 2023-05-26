@@ -180,6 +180,7 @@ class Player extends SpriteGroupComponent<PlayerState>
           jump(specialJumpSpeed: jumpSpeed * other.jumpSpeedMultiplier);
           return;
       }
+    }
   }
 
   void jump({double? specialJumpSpeed}) {

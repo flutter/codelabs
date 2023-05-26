@@ -134,8 +134,8 @@ class Player extends SpriteGroupComponent<PlayerState>
       current = PlayerState.center;
       switch (other) {
         case NormalPlatform():
-        jump();
-        return;
+          jump();
+          return;
       }
       // More on platforms: Check SpringBoard platform
       // More on platforms: Check BrokenPlatform
