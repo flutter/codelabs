@@ -65,8 +65,8 @@ class _WideDisplayPlaylistsState extends State<WideDisplayPlaylists> {
     return Scaffold(
       appBar: AppBar(
         title: switch (selectedPlaylist?.snippet?.title) {
-          String title => Text('Your Playlist: $title'),
-          _ => const Text('Your Playlists'),
+          String title => Text('FlutterDev Playlist: $title'),
+          _ => const Text('FlutterDev Playlists'),
         },
       ),
       body: SplitView(
