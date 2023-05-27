@@ -37,7 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   google_maps_flutter: ^2.2.6
   google_maps_flutter_web: ^0.4.0+8
-  http: ^0.13.6
+  http: ^1.0.0
   json_annotation: ^4.8.1
   json_serializable: ^6.6.2
 
