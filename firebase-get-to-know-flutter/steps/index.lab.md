@@ -411,25 +411,25 @@ final _router = GoRouter(
                   context.push(uri.toString());
                 })),
                 AuthStateChangeAction(((context, state) {
-                  if (state is SignedIn || state is UserCreated) {
-                    var user = (state is SignedIn)
-                        ? state.user
-                        : (state as UserCreated).credential.user;
-                    if (user == null) {
-                      return;
-                    }
-                    if (state is UserCreated) {
-                      user.updateDisplayName(user.email!.split('@')[0]);
-                    }
-                    if (!user.emailVerified) {
-                      user.sendEmailVerification();
-                      const snackBar = SnackBar(
-                          content: Text(
-                              'Please check your email to verify your email address'));
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    }
-                    context.pushReplacement('/');
+                  final user = switch (state) {
+                    SignedIn state => state.user,
+                    UserCreated state => state.credential.user,
+                    _ => null
+                  };
+                  if (user == null) {
+                    return;
                   }
+                  if (state is UserCreated) {
+                    user.updateDisplayName(user.email!.split('@')[0]);
+                  }
+                  if (!user.emailVerified) {
+                    user.sendEmailVerification();
+                    const snackBar = SnackBar(
+                        content: Text(
+                            'Please check your email to verify your email address'));
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  }
+                  context.pushReplacement('/');
                 })),
               ],
             );
@@ -1330,12 +1330,11 @@ Consumer<ApplicationState>(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       // Add from here...
-      if (appState.attendees >= 2)
-        Paragraph('${appState.attendees} people going')
-      else if (appState.attendees == 1)
-        const Paragraph('1 person going')
-      else
-        const Paragraph('No one going'),
+      switch (appState.attendees) {
+        1 => const Paragraph('1 person going'),
+        >= 2 => Paragraph('${appState.attendees} people going'),
+        _ => const Paragraph('No one going'),
+      },
       // ...to here.
       if (appState.loggedIn) ...[
         // Add from here...
