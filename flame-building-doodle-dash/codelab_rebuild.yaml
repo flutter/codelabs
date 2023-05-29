@@ -35,7 +35,7 @@ steps:
           }
       - name: Add Flame and Google Fonts
         path: doodle_dash
-        flutter: pub add flame google_fonts
+        flutter: pub add flame:1.7.3 google_fonts
       - name: Add main.dart
         path: doodle_dash/lib/main.dart
         replace-contents: |
