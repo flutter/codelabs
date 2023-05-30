@@ -74,15 +74,12 @@ class AppStateModel extends foundation.ChangeNotifier {
   }
 
   // Returns a copy of the list of available products, filtered by category.
-  List<Product> getProducts() {
-    if (_selectedCategory == Category.all) {
-      return List.from(_availableProducts);
-    } else {
-      return _availableProducts.where((p) {
-        return p.category == _selectedCategory;
-      }).toList();
-    }
-  }
+  List<Product> getProducts() => switch (_selectedCategory) {
+        Category.all => List.from(_availableProducts),
+        _ => _availableProducts
+            .where((p) => p.category == _selectedCategory)
+            .toList(),
+      };
 
   // Search the product catalog
   List<Product> search(String searchTerms) {
