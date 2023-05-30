@@ -1035,9 +1035,10 @@ steps:
             Widget build(BuildContext context) {
               return Scaffold(
                 appBar: AppBar(
-                  title: selectedPlaylist == null
-                      ? const Text('FlutterDev Playlists')
-                      : Text('FlutterDev Playlist: ${selectedPlaylist!.snippet!.title!}'),
+                  title: switch (selectedPlaylist?.snippet?.title) {
+                    String title => Text('FlutterDev Playlist: $title'),
+                    _ => const Text('FlutterDev Playlists'),
+                  },
                 ),
                 body: SplitView(
                   viewMode: SplitViewMode.Horizontal,
@@ -1047,14 +1048,11 @@ steps:
                         selectedPlaylist = playlist;
                       });
                     }),
-                    if (selectedPlaylist != null)
-                      PlaylistDetails(
-                          playlistId: selectedPlaylist!.id!,
-                          playlistName: selectedPlaylist!.snippet!.title!)
-                    else
-                      const Center(
-                        child: Text('Select a playlist'),
-                      ),
+                    switch ((selectedPlaylist?.id, selectedPlaylist?.snippet?.title)) {
+                      (String id, String title) =>
+                        PlaylistDetails(playlistId: id, playlistName: title),
+                      _ => const Center(child: Text('Select a playlist')),
+                    },
                   ],
                 ),
               );
@@ -1256,13 +1254,10 @@ steps:
 
             @override
             Widget build(BuildContext context) {
-              switch (Theme.of(context).platform) {
-                case TargetPlatform.android:
-                case TargetPlatform.iOS:
-                  return Text(data, style: style);
-                default:
-                  return SelectableText(data, style: style);
-              }
+              return switch (Theme.of(context).platform) {
+                TargetPlatform.android || TargetPlatform.iOS => Text(data, style: style),
+                _ => SelectableText(data, style: style)
+              };
             }
           }
       - name: Copy step_06
@@ -1273,9 +1268,12 @@ steps:
     steps:
       - name: Remove generated code
         rmdir: step_07
+      - name: Remove http package
+        path: adaptive_app
+        flutter: pub remove http
       - name: Add googleapis_auth google_sign_in extension_google_sign_in_as_googleapis_auth
         path: adaptive_app
-        flutter: pub add googleapis_auth google_sign_in extension_google_sign_in_as_googleapis_auth
+        flutter: pub add googleapis_auth google_sign_in extension_google_sign_in_as_googleapis_auth http
       - name: Patch .gitignore
         path: adaptive_app/.gitignore
         patch-u: |
@@ -1578,14 +1576,14 @@ steps:
           @@ -65,8 +65,8 @@ class _WideDisplayPlaylistsState extends State<WideDisplayPlaylists> {
                return Scaffold(
                  appBar: AppBar(
-                   title: selectedPlaylist == null
-          -            ? const Text('FlutterDev Playlists')
-          -            : Text('FlutterDev Playlist: ${selectedPlaylist!.snippet!.title!}'),
-          +            ? const Text('Your Playlists')
-          +            : Text('Your Playlist: ${selectedPlaylist!.snippet!.title!}'),
+                   title: switch (selectedPlaylist?.snippet?.title) {
+          -          String title => Text('FlutterDev Playlist: $title'),
+          -          _ => const Text('FlutterDev Playlists'),
+          +          String title => Text('Your Playlist: $title'),
+          +          _ => const Text('Your Playlists'),
+                   },
                  ),
                  body: SplitView(
-                   viewMode: SplitViewMode.Horizontal,
       - name: Patch lib/src/app_state.dart
         path: adaptive_app/lib/src/app_state.dart
         patch-u: |
