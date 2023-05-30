@@ -11,12 +11,9 @@ class AdaptiveText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    switch (Theme.of(context).platform) {
-      case TargetPlatform.android:
-      case TargetPlatform.iOS:
-        return Text(data, style: style);
-      default:
-        return SelectableText(data, style: style);
-    }
+    return switch (Theme.of(context).platform) {
+      TargetPlatform.android || TargetPlatform.iOS => Text(data, style: style),
+      _ => SelectableText(data, style: style)
+    };
   }
 }
