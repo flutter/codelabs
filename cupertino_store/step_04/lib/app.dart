@@ -58,28 +58,24 @@ class CupertinoStoreHomePage extends StatelessWidget {
         ],
       ),
       tabBuilder: (context, index) {
-        late final CupertinoTabView returnValue;
-        switch (index) {
-          case 0:
-            returnValue = CupertinoTabView(builder: (context) {
-              return const CupertinoPageScaffold(
+        return switch (index) {
+          0 => CupertinoTabView(
+              builder: (context) => const CupertinoPageScaffold(
                 child: ProductListTab(),
-              );
-            });
-          case 1:
-            returnValue = CupertinoTabView(builder: (context) {
-              return const CupertinoPageScaffold(
+              ),
+            ),
+          1 => CupertinoTabView(
+              builder: (context) => const CupertinoPageScaffold(
                 child: SearchTab(),
-              );
-            });
-          case 2:
-            returnValue = CupertinoTabView(builder: (context) {
-              return const CupertinoPageScaffold(
+              ),
+            ),
+          2 => CupertinoTabView(
+              builder: (context) => const CupertinoPageScaffold(
                 child: ShoppingCartTab(),
-              );
-            });
-        }
-        return returnValue;
+              ),
+            ),
+          _ => throw Exception('Invalid index $index'),
+        };
       },
     );
   }
