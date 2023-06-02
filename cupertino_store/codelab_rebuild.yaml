@@ -305,7 +305,7 @@ steps:
            
            class CupertinoStoreApp extends StatelessWidget {
              const CupertinoStoreApp({super.key});
-          @@ -37,11 +40,47 @@ class CupertinoStoreHomePage extends StatelessWidget {
+          @@ -37,11 +40,43 @@ class CupertinoStoreHomePage extends StatelessWidget {
            
              @override
              Widget build(BuildContext context) {
@@ -331,28 +331,24 @@ steps:
                  ),
           -      child: SizedBox(),
           +      tabBuilder: (context, index) {
-          +        late final CupertinoTabView returnValue;
-          +        switch (index) {
-          +          case 0:
-          +            returnValue = CupertinoTabView(builder: (context) {
-          +              return const CupertinoPageScaffold(
+          +        return switch (index) {
+          +          0 => CupertinoTabView(
+          +              builder: (context) => const CupertinoPageScaffold(
           +                child: ProductListTab(),
-          +              );
-          +            });
-          +          case 1:
-          +            returnValue = CupertinoTabView(builder: (context) {
-          +              return const CupertinoPageScaffold(
+          +              ),
+          +            ),
+          +          1 => CupertinoTabView(
+          +              builder: (context) => const CupertinoPageScaffold(
           +                child: SearchTab(),
-          +              );
-          +            });
-          +          case 2:
-          +            returnValue = CupertinoTabView(builder: (context) {
-          +              return const CupertinoPageScaffold(
+          +              ),
+          +            ),
+          +          2 => CupertinoTabView(
+          +              builder: (context) => const CupertinoPageScaffold(
           +                child: ShoppingCartTab(),
-          +              );
-          +            });
-          +        }
-          +        return returnValue;
+          +              ),
+          +            ),
+          +          _ => throw Exception('Invalid index $index'),
+          +        };
           +      },
                );
              }
@@ -616,15 +612,12 @@ steps:
             }
 
             // Returns a copy of the list of available products, filtered by category.
-            List<Product> getProducts() {
-              if (_selectedCategory == Category.all) {
-                return List.from(_availableProducts);
-              } else {
-                return _availableProducts.where((p) {
-                  return p.category == _selectedCategory;
-                }).toList();
-              }
-            }
+            List<Product> getProducts() => switch (_selectedCategory) {
+                  Category.all => List.from(_availableProducts),
+                  _ => _availableProducts
+                      .where((p) => p.category == _selectedCategory)
+                      .toList(),
+                };
 
             // Search the product catalog
             List<Product> search(String searchTerms) {
@@ -1013,13 +1006,10 @@ steps:
               ),
             ];
 
-            static List<Product> loadProducts(Category category) {
-              if (category == Category.all) {
-                return _allProducts;
-              } else {
-                return _allProducts.where((p) => p.category == category).toList();
-              }
-            }
+            static List<Product> loadProducts(Category category) => switch (category) {
+                  Category.all => _allProducts,
+                  _ => _allProducts.where((p) => p.category == category).toList(),
+                };
           }
       - name: Copy step_01
         copydir:

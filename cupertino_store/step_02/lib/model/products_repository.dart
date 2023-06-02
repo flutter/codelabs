@@ -284,11 +284,8 @@ class ProductsRepository {
     ),
   ];
 
-  static List<Product> loadProducts(Category category) {
-    if (category == Category.all) {
-      return _allProducts;
-    } else {
-      return _allProducts.where((p) => p.category == category).toList();
-    }
-  }
+  static List<Product> loadProducts(Category category) => switch (category) {
+        Category.all => _allProducts,
+        _ => _allProducts.where((p) => p.category == category).toList(),
+      };
 }
