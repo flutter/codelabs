@@ -65,16 +65,12 @@ GoRouter buildRouter() {
               switch (index) {
                 case 0:
                   context.go('/notes');
-                  break;
                 case 1:
                   context.go('/');
-                  break;
                 case 2:
                   context.go('/profile');
-                  break;
                 case 3:
                   context.go('/settings');
-                  break;
               }
             },
             child: child,
