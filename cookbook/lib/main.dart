@@ -40,8 +40,8 @@ class Home extends StatelessWidget {
             leading: Icon(
               switch (item.recommendation) {
                 Recommendation.yes => const IconData(0x2705),
-                Recommendation.no => const IconData(0x2734),
-                _ => const IconData(0x26D4),
+                Recommendation.maybe => const IconData(0x2734),
+                Recommendation.no => const IconData(0x26D4),
               },
             ),
             title: Text(item.name),
