@@ -38,11 +38,11 @@ class Home extends StatelessWidget {
           return ListTile(
             onTap: () => context.go('/${item.path}'),
             leading: Icon(
-              (item.recommendation == Recommendation.yes)
-                  ? const IconData(0x2705)
-                  : (item.recommendation == Recommendation.maybe
-                      ? const IconData(0x2734)
-                      : const IconData(0x26D4)),
+              switch (item.recommendation) {
+                Recommendation.yes => const IconData(0x2705),
+                Recommendation.maybe => const IconData(0x2734),
+                Recommendation.no => const IconData(0x26D4),
+              },
             ),
             title: Text(item.name),
             subtitle: Text(item.type),
