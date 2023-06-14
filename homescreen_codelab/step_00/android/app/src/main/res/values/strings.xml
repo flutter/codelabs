@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="add_widget">Add widget</string>
+    <string name="app_widget_description">This is an app widget description</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="widget_image_directory_path">res/drawables/</string>
+</resources>
