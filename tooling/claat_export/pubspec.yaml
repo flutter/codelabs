@@ -1,14 +1,14 @@
 name: claat_export
-description: A sample command-line application.
+description: A tool to export CLAAT codelabs as markdown.
 version: 1.0.0
-# repository: https://github.com/my_org/my_repo
+repository: https://github.com/flutter/codelabs
 
 environment:
   sdk: ^3.0.5
 
-# Add regular dependencies here.
 dependencies:
-  # path: ^1.8.0
+  googleapis: ^11.2.0
+  googleapis_auth: ^1.4.1
 
 dev_dependencies:
   lints: ^2.0.0
