@@ -1,10 +1,3 @@
-//
-//  NewsWidgets.swift
-//  NewsWidgets
-//
-//  Created by Leigha Jarett on 12/13/22.
-//
-
 import WidgetKit
 import SwiftUI
 

@@ -3,7 +3,6 @@ import 'package:home_widget/home_widget.dart';
 import 'package:homescreen_widgets/home_screen.dart';
 import 'package:homescreen_widgets/news_data.dart';
 
-/// ArticleScreen is the screen that shows the article details.
 class ArticleScreen extends StatefulWidget {
   final NewsArticle article;
 
@@ -17,7 +16,6 @@ class ArticleScreen extends StatefulWidget {
 }
 
 class _ArticleScreenState extends State<ArticleScreen> {
-  // New: add this GlobalKey
   final _globalKey = GlobalKey();
   String? imagePath;
 
@@ -92,7 +90,6 @@ class LineChart extends StatelessWidget {
   }
 }
 
-/// LineChartPainter creates a custom line chart.
 class LineChartPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {

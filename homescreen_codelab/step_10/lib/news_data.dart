@@ -1,4 +1,3 @@
-// Mock up some news article data.
 class NewsArticle {
   final String? title;
   final String? description;

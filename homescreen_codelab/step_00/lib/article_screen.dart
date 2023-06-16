@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:homescreen_widgets/news_data.dart';
 
-/// ArticleScreen is the screen that shows the article details.
 class ArticleScreen extends StatefulWidget {
   final NewsArticle article;
 
@@ -56,7 +55,6 @@ class _ArticleScreenState extends State<ArticleScreen> {
   }
 }
 
-/// LineChart creates a custom line chart.
 class LineChart extends StatelessWidget {
   const LineChart({
     super.key,
