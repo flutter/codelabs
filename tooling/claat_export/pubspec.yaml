@@ -7,9 +7,13 @@ environment:
   sdk: ^3.0.5
 
 dependencies:
+  args: ^2.4.2
   googleapis: ^11.2.0
   googleapis_auth: ^1.4.1
+  json_annotation: ^4.8.1
 
 dev_dependencies:
+  build_runner: ^2.4.5
+  json_serializable: ^6.7.0
   lints: ^2.0.0
   test: ^1.21.0
