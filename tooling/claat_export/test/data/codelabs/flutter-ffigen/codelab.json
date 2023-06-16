@@ -1,0 +1,25 @@
+{
+  "environment": "web",
+  "format": "md",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2023-05-08T10:38:49Z",
+  "id": "codelabs/flutter-ffigen",
+  "duration": 0,
+  "title": "Using FFI in a Flutter plugin",
+  "authors": "Brett Morgan, Maksim Lin",
+  "summary": "In this codelab, you'll build a Flutter plugin for both mobile and desktop platforms using FFI to make use of an existing native C  library.",
+  "source": "1ihOxu-DK3SBrUYyppRtzKvfwceSIzk4ZWzP9F6nRtnw",
+  "theme": "flutter",
+  "status": [
+    "draft"
+  ],
+  "category": [
+    "flutter"
+  ],
+  "tags": [
+    "web"
+  ],
+  "feedback": "https://github.com/flutter/flutter/issues",
+  "url": "codelabs/flutter-ffigen"
+}

@@ -1,0 +1,26 @@
+{
+  "environment": "web",
+  "format": "md",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2023-05-23T19:05:55Z",
+  "id": "codelabs/dart-patterns-records",
+  "duration": 39,
+  "title": "Dive into Dart's patterns and records",
+  "authors": "John Ryan, Marya Belanger",
+  "summary": "Use patterns, records, and other new features of Dart 3 to rearchitect your UI design style in Flutter.",
+  "source": "17L9jk2dhTFrdEqyLb6Wxhq0NeRrtzpQLLJv09qROsA8",
+  "theme": "flutter",
+  "status": null,
+  "category": [
+    "flutter"
+  ],
+  "tags": [
+    "kiosk",
+    "tag-flutter",
+    "web"
+  ],
+  "feedback": "https://github.com/flutter/flutter/issues",
+  "ga": "UA-52746336-1",
+  "url": "codelabs/dart-patterns-records"
+}

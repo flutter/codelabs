@@ -1,0 +1,27 @@
+{
+  "environment": "web",
+  "format": "md",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2023-05-08T10:45:25Z",
+  "id": "codelabs/flutter-github-client",
+  "duration": 45,
+  "title": "Write a Flutter desktop application",
+  "authors": "Brett Morgan",
+  "summary": "In this codelab, you'll build a GitHub client in Flutter for desktop.",
+  "source": "1NJq1PfV9mB2avhoM2l12DSQ8p2x6s_epXcLwCcZwpcg",
+  "theme": "flutter",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "flutter"
+  ],
+  "tags": [
+    "kiosk",
+    "tag-flutter",
+    "web"
+  ],
+  "feedback": "https://github.com/flutter/flutter/issues",
+  "url": "codelabs/flutter-github-client"
+}

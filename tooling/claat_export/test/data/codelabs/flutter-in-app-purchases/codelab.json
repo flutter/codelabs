@@ -1,0 +1,25 @@
+{
+  "environment": "web",
+  "format": "md",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2023-05-16T14:12:25Z",
+  "id": "codelabs/flutter-in-app-purchases",
+  "duration": 0,
+  "title": "Adding in-app purchases to your Flutter app",
+  "authors": "Rene Floor, Bodhi Mulders, Jop Middelkamp, Miguel Beltran",
+  "summary": "In this codelab, you'll add in-app purchases to a Flutter app that are verified and managed using a Dart backend service.",
+  "source": "1EQtDsZv6vkvgreuOrF0KMo6kiKJ-534DShEFGankv20",
+  "theme": "flutter",
+  "status": [
+    "draft"
+  ],
+  "category": [
+    "flutter"
+  ],
+  "tags": [
+    "web"
+  ],
+  "feedback": "https://github.com/flutter/flutter/issues",
+  "url": "codelabs/flutter-in-app-purchases"
+}
