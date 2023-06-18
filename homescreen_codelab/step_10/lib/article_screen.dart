@@ -40,7 +40,7 @@ class _ArticleScreenState extends State<ArticleScreen> {
               logicalSize: _globalKey.currentContext!.size,
               pixelRatio:
                   MediaQuery.of(_globalKey.currentContext!).devicePixelRatio,
-            );
+            ) as String;
             setState(() {
               imagePath = path;
             });
