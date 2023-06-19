@@ -245,7 +245,7 @@ steps:
           // found in the LICENSE file.
           
           import 'dart:ffi';
-          import 'dart:io';
+          import 'dart:io' show Platform;
           import 'package:ffi/ffi.dart' as ffi;
           
           import 'duktape_bindings_generated.dart';
@@ -436,7 +436,7 @@ steps:
           +++ a/ffigen_codelab/step_07/lib/ffigen_app.dart
           @@ -5,6 +5,7 @@
            import 'dart:ffi';
-           import 'dart:io';
+           import 'dart:io' show Platform;
            import 'package:ffi/ffi.dart' as ffi;
           +import 'package:path/path.dart' as p;
            
