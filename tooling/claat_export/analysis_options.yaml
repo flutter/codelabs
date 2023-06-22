@@ -19,6 +19,7 @@ linter:
   rules:
     - camel_case_types
     - directives_ordering
+    - prefer_single_quotes
 
 # analyzer:
 #   exclude:

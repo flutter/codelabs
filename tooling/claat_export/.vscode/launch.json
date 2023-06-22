@@ -1,0 +1,23 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "claat_export",
+            "request": "launch",
+            "type": "dart",
+            "program": "bin/claat_export.dart"
+        },
+        {
+            "name": "render_codelab",
+            "request": "launch",
+            "type": "dart",
+            "program": "bin/render_codelab.dart",
+            "args": [
+                "test/data/exports/17L9jk2dhTFrdEqyLb6Wxhq0NeRrtzpQLLJv09qROsA8.json"
+            ]
+        }
+    ]
+}
