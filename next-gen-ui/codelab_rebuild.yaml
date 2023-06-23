@@ -2995,7 +2995,7 @@ steps:
              Color get _emitColor =>
                  AppColors.emitColors[_difficultyOverride ?? _difficulty];
              Color get _orbColor =>
-          @@ -27,88 +48,192 @@ class _TitleScreenState extends State<TitleScreen> {
+          @@ -27,88 +48,189 @@ class _TitleScreenState extends State<TitleScreen> {
            
              /// Currently focused difficulty (if any)
              int? _difficultyOverride;
@@ -3021,14 +3021,11 @@ steps:
           +
           +  Duration _getRndPulseDuration() => 100.ms + 200.ms * Random().nextDouble();
           +
-          +  double _getMinEnergyForDifficulty(int difficulty) {
-          +    if (difficulty == 1) {
-          +      return .3;
-          +    } else if (difficulty == 2) {
-          +      return .6;
-          +    }
-          +    return 0;
-          +  }
+          +  double _getMinEnergyForDifficulty(int difficulty) => switch (difficulty) {
+          +        1 => 0.3,
+          +        2 => 0.6,
+          +        _ => 0,
+          +      };
           +
           +  @override
           +  void initState() {
@@ -3255,7 +3252,7 @@ steps:
                    ),
                  ),
                );
-          @@ -119,19 +244,26 @@ class _LitImage extends StatelessWidget {
+          @@ -119,19 +241,26 @@ class _LitImage extends StatelessWidget {
              const _LitImage({
                required this.color,
                required this.imgSrc,
