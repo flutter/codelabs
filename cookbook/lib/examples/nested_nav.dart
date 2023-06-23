@@ -26,20 +26,14 @@ void main() {
         ),
       ),
       onGenerateRoute: (settings) {
-        late Widget page;
-        if (settings.name == routeHome) {
-          page = const HomeScreen();
-        } else if (settings.name == routeSettings) {
-          page = const SettingsScreen();
-        } else if (settings.name!.startsWith(routePrefixDeviceSetup)) {
-          final subRoute =
-              settings.name!.substring(routePrefixDeviceSetup.length);
-          page = SetupFlow(
-            setupPageRoute: subRoute,
-          );
-        } else {
-          throw Exception('Unknown route: ${settings.name}');
-        }
+        Widget page = switch (settings.name) {
+          routeHome => const HomeScreen(),
+          routeSettings => const SettingsScreen(),
+          String name when name.startsWith(routePrefixDeviceSetup) => SetupFlow(
+              setupPageRoute: name.substring(routePrefixDeviceSetup.length),
+            ),
+          _ => throw Exception('Unknown route: ${settings.name}'),
+        };
 
         return MaterialPageRoute<dynamic>(
           builder: (context) {
@@ -145,27 +139,23 @@ class SetupFlowState extends State<SetupFlow> {
   }
 
   Route _onGenerateRoute(RouteSettings settings) {
-    late Widget page;
-    switch (settings.name) {
-      case routeDeviceSetupStartPage:
-        page = WaitingPage(
+    Widget page = switch (settings.name) {
+      routeDeviceSetupStartPage => WaitingPage(
           message: 'Searching for nearby bulb...',
           onWaitComplete: _onDiscoveryComplete,
-        );
-      case routeDeviceSetupSelectDevicePage:
-        page = SelectDevicePage(
+        ),
+      routeDeviceSetupSelectDevicePage => SelectDevicePage(
           onDeviceSelected: _onDeviceSelected,
-        );
-      case routeDeviceSetupConnectingPage:
-        page = WaitingPage(
+        ),
+      routeDeviceSetupConnectingPage => WaitingPage(
           message: 'Connecting...',
           onWaitComplete: _onConnectionEstablished,
-        );
-      case routeDeviceSetupFinishedPage:
-        page = FinishedPage(
+        ),
+      routeDeviceSetupFinishedPage => FinishedPage(
           onFinishPressed: _exitSetup,
-        );
-    }
+        ),
+      _ => throw Exception('Unknown route: ${settings.name}'),
+    };
 
     return MaterialPageRoute<dynamic>(
       builder: (context) {

@@ -70,14 +70,11 @@ class _TitleScreenState extends State<TitleScreen>
 
   Duration _getRndPulseDuration() => 100.ms + 200.ms * Random().nextDouble();
 
-  double _getMinEnergyForDifficulty(int difficulty) {
-    if (difficulty == 1) {
-      return .3;
-    } else if (difficulty == 2) {
-      return .6;
-    }
-    return 0;
-  }
+  double _getMinEnergyForDifficulty(int difficulty) => switch (difficulty) {
+        1 => 0.3,
+        2 => 0.6,
+        _ => 0,
+      };
 
   @override
   void initState() {

@@ -132,17 +132,17 @@ class Player extends SpriteGroupComponent<PlayerState>
 
     if (isMovingDown && isCollidingVertically) {
       current = PlayerState.center;
-      if (other is NormalPlatform) {
-        jump();
-        return;
-      } else if (other is SpringBoard) {
-        jump(specialJumpSpeed: jumpSpeed * 2);
-        return;
-      } else if (other is BrokenPlatform &&
-          other.current == BrokenPlatformState.cracked) {
-        jump();
-        other.breakPlatform();
-        return;
+      switch (other) {
+        case NormalPlatform():
+          jump();
+          return;
+        case SpringBoard():
+          jump(specialJumpSpeed: jumpSpeed * 2);
+          return;
+        case BrokenPlatform() when other.current == BrokenPlatformState.cracked:
+          jump();
+          other.breakPlatform();
+          return;
       }
     }
 
