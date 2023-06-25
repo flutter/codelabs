@@ -124,8 +124,10 @@ class GeneratorPage extends StatelessWidget {
         children: [
           BigCard(pair: pair),
           SizedBox(height: 10),
-          Row(
-            mainAxisSize: MainAxisSize.min,
+          Wrap(
+            alignment: WrapAlignment.center,
+            spacing: 10,
+            runSpacing: 10,
             children: [
               ElevatedButton.icon(
                 onPressed: () {
@@ -134,7 +136,6 @@ class GeneratorPage extends StatelessWidget {
                 icon: Icon(icon),
                 label: Text('Like'),
               ),
-              SizedBox(width: 10),
               ElevatedButton(
                 onPressed: () {
                   appState.getNext();
