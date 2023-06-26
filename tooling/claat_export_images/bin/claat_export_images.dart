@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:args/args.dart';
+import 'package:claat_export_images/claat_export_images.dart';
 import 'package:claat_export_images/client_secret.dart';
 import 'package:googleapis/docs/v1.dart' as google_docs;
 import 'package:googleapis_auth/auth_io.dart';
@@ -24,7 +25,7 @@ void main(List<String> arguments) async {
     'doc-id',
     abbr: 'd',
     mandatory: true,
-    help: 'The document ID to export',
+    help: 'The document ID to export the images of',
   );
   argParser.parse(arguments);
   final args = argParser.parse(arguments);
@@ -48,10 +49,10 @@ void main(List<String> arguments) async {
   final apiClient = google_docs.DocsApi(client);
   final document = await apiClient.documents
       .get(gDocID, suggestionsViewMode: 'PREVIEW_WITHOUT_SUGGESTIONS');
-  final enc = JsonEncoder.withIndent('  ');
-  final output = File('$gDocID.json');
-  output.writeAsString(enc.convert(document.toJson()));
-  print('Wrote to ${output.path}');
+  final uris = claatImageUris(document);
+  for (final uri in uris) {
+    print(uri);
+  }
 }
 
 Future<AuthClient> obtainCredentials(
