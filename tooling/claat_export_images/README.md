@@ -1,0 +1,1 @@
+A tool to export the images for a CLAAT codelab.
