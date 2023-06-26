@@ -6,6 +6,8 @@ import 'package:claat_export_images/claat_export_images.dart';
 import 'package:claat_export_images/client_secret.dart';
 import 'package:googleapis/docs/v1.dart' as google_docs;
 import 'package:googleapis_auth/auth_io.dart';
+import 'package:image/image.dart';
+import 'package:path/path.dart' as path;
 
 void main(List<String> arguments) async {
   final argParser = ArgParser();
@@ -50,8 +52,36 @@ void main(List<String> arguments) async {
   final document = await apiClient.documents
       .get(gDocID, suggestionsViewMode: 'PREVIEW_WITHOUT_SUGGESTIONS');
   final uris = claatImageUris(document);
+  Directory('img').createSync();
   for (final uri in uris) {
-    print(uri);
+    var retrieved = false;
+    var milliseconds = 500;
+    print('Requesting $uri');
+    while (!retrieved) {
+      try {
+        final response = await client.get(uri);
+        if (PngDecoder().isValidFile(response.bodyBytes)) {
+          File(path.join('img', '${uri.pathSegments.last}.png'))
+              .writeAsBytesSync(response.bodyBytes);
+        } else if (JpegDecoder().isValidFile(response.bodyBytes)) {
+          File(path.join('img', '${uri.pathSegments.last}.jpg'))
+              .writeAsBytesSync(response.bodyBytes);
+        } else if (GifDecoder().isValidFile(response.bodyBytes)) {
+          File(path.join('img', '${uri.pathSegments.last}.gif'))
+              .writeAsBytesSync(response.bodyBytes);
+        } else if (WebPDecoder().isValidFile(response.bodyBytes)) {
+          File(path.join('img', '${uri.pathSegments.last}.webp'))
+              .writeAsBytesSync(response.bodyBytes);
+        } else {
+          print('Unknown image format: $uri');
+        }
+        retrieved = true;
+      } catch (_) {
+        print('Sleeping for $milliseconds ms');
+        sleep(Duration(milliseconds: milliseconds));
+        milliseconds = (milliseconds * 1.5).floor();
+      }
+    }
   }
 }
 
