@@ -448,15 +448,7 @@ steps:
         patch-u: |
           --- a/namer_app/lib/main.dart
           +++ b/namer_app/lib/main.dart
-          @@ -68,15 +68,19 @@ class BigCard extends StatelessWidget {
-             @override
-             Widget build(BuildContext context) {
-               final theme = Theme.of(context);
-               final style = theme.textTheme.displayMedium!.copyWith(
-                 color: theme.colorScheme.onPrimary,
-               );
-           
-               return Card(
+          @@ -76,7 +76,11 @@ class BigCard extends StatelessWidget {
                  color: theme.colorScheme.primary,
                  child: Padding(
                    padding: const EdgeInsets.all(20),
@@ -907,7 +899,7 @@ steps:
         patch-u: |
           --- b/namer/step_07_d_use_selectedindex/lib/main.dart
           +++ a/namer/step_07_d_use_selectedindex/lib/main.dart
-          @@ -55,6 +55,18 @@ class _MyHomePageState extends State<MyHomePage> {
+          @@ -55,6 +55,16 @@ class _MyHomePageState extends State<MyHomePage> {
            
              @override
              Widget build(BuildContext context) {
@@ -915,10 +907,8 @@ steps:
           +    switch (selectedIndex) {
           +      case 0:
           +        page = GeneratorPage();
-          +        break;
           +      case 1:
           +        page = Placeholder();
-          +        break;
           +      default:
           +        throw UnimplementedError('no widget for $selectedIndex');
           +    }
@@ -926,7 +916,7 @@ steps:
                return Scaffold(
                  body: Row(
                    children: [
-          @@ -82,7 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
+          @@ -82,7 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
                      Expanded(
                        child: Container(
                          color: Theme.of(context).colorScheme.primaryContainer,
@@ -948,7 +938,7 @@ steps:
         patch-u: |
           --- a/namer_app/lib/main.dart
           +++ b/namer_app/lib/main.dart
-          @@ -67,39 +67,41 @@
+          @@ -65,39 +65,41 @@
                    throw UnimplementedError('no widget for $selectedIndex');
                }
 
@@ -1033,16 +1023,16 @@ steps:
         patch-u: |
           --- b/namer/step_08/lib/main.dart
           +++ a/namer/step_08/lib/main.dart
-          @@ -61,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
+          @@ -60,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
+                 case 0:
                    page = GeneratorPage();
-                   break;
                  case 1:
           -        page = Placeholder();
           +        page = FavoritesPage();
-                   break;
                  default:
                    throw UnimplementedError('no widget for $selectedIndex');
-          @@ -177,3 +177,31 @@ class BigCard extends StatelessWidget {
+               }
+          @@ -175,3 +175,31 @@ class BigCard extends StatelessWidget {
                );
              }
            }
