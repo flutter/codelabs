@@ -1,11 +1,11 @@
-# CLAAT Image exporter, Dart version
+# CLAAT Image exporter, Python version
 
 A tool to export the images for a CLAAT codelab.
 
 ## Install dependencies
 
 ```shell
-dart pub get
+pip install -r requirements.txt
 ```
 
 ## Enabling API Access
@@ -21,5 +21,5 @@ You will wind up with a client secret JSON file that this script requires to wor
 After following the quickstart setup instructions, run the code:
 
 ```shell
-dart bin/claat_export_images.dart -s client_secret.json -d 1389diNFkkLUQUVIpJ1B2XGdk8wfsPNJOGeVYZWlEhpk
+python3 claat_export_images.py -s client_secret.json -d 1389diNFkkLUQUVIpJ1B2XGdk8wfsPNJOGeVYZWlEhpk
 ```
