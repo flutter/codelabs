@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 
 import 'dart:ffi';
-import 'dart:io';
+import 'dart:io' show Platform;
 import 'package:ffi/ffi.dart' as ffi;
 
 import 'duktape_bindings_generated.dart';

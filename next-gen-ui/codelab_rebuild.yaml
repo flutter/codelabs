@@ -1630,9 +1630,9 @@ steps:
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
           
-          import 'dart:io';
+          import 'dart:io' show Platform;
           
-          import 'package:flutter/foundation.dart';
+          import 'package:flutter/foundation.dart' show kIsWeb;
           import 'package:flutter/material.dart';
           import 'package:window_size/window_size.dart';
           
@@ -2428,9 +2428,9 @@ steps:
         patch-u: |
           --- b/next-gen-ui/step_04_a/lib/main.dart
           +++ a/next-gen-ui/step_04_a/lib/main.dart
-          @@ -6,6 +6,7 @@ import 'dart:io';
+          @@ -6,6 +6,7 @@ import 'dart:io' show Platform;
            
-           import 'package:flutter/foundation.dart';
+           import 'package:flutter/foundation.dart' show kIsWeb;
            import 'package:flutter/material.dart';
           +import 'package:flutter_animate/flutter_animate.dart';
            import 'package:window_size/window_size.dart';
@@ -2822,8 +2822,8 @@ steps:
         patch-u: |
           --- b/next-gen-ui/step_05_a/lib/main.dart
           +++ a/next-gen-ui/step_05_a/lib/main.dart
-          @@ -7,8 +7,10 @@ import 'dart:io';
-           import 'package:flutter/foundation.dart';
+          @@ -7,8 +7,10 @@ import 'dart:io' show Platform;
+           import 'package:flutter/foundation.dart' show kIsWeb;
            import 'package:flutter/material.dart';
            import 'package:flutter_animate/flutter_animate.dart';
           +import 'package:provider/provider.dart';
@@ -2995,7 +2995,7 @@ steps:
              Color get _emitColor =>
                  AppColors.emitColors[_difficultyOverride ?? _difficulty];
              Color get _orbColor =>
-          @@ -27,88 +48,192 @@ class _TitleScreenState extends State<TitleScreen> {
+          @@ -27,88 +48,189 @@ class _TitleScreenState extends State<TitleScreen> {
            
              /// Currently focused difficulty (if any)
              int? _difficultyOverride;
@@ -3021,14 +3021,11 @@ steps:
           +
           +  Duration _getRndPulseDuration() => 100.ms + 200.ms * Random().nextDouble();
           +
-          +  double _getMinEnergyForDifficulty(int difficulty) {
-          +    if (difficulty == 1) {
-          +      return .3;
-          +    } else if (difficulty == 2) {
-          +      return .6;
-          +    }
-          +    return 0;
-          +  }
+          +  double _getMinEnergyForDifficulty(int difficulty) => switch (difficulty) {
+          +        1 => 0.3,
+          +        2 => 0.6,
+          +        _ => 0,
+          +      };
           +
           +  @override
           +  void initState() {
@@ -3255,7 +3252,7 @@ steps:
                    ),
                  ),
                );
-          @@ -119,19 +244,26 @@ class _LitImage extends StatelessWidget {
+          @@ -119,19 +241,26 @@ class _LitImage extends StatelessWidget {
              const _LitImage({
                required this.color,
                required this.imgSrc,
