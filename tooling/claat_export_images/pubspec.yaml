@@ -10,6 +10,7 @@ dependencies:
   args: ^2.4.2
   googleapis: ^11.2.0
   googleapis_auth: ^1.4.1
+  http: ^1.1.0
   image: ^4.0.17
   json_annotation: ^4.8.1
   path: ^1.8.3
