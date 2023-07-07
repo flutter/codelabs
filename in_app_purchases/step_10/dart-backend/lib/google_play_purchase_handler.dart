@@ -9,6 +9,17 @@ import 'iap_repository.dart';
 import 'products.dart';
 import 'purchase_handler.dart';
 
+NonSubscriptionStatus _nonSubscriptionStatusFrom(int? state) {
+  return switch (state) {
+  // Payment completed
+    0 => NonSubscriptionStatus.completed,
+  // Payment pending
+    2 => NonSubscriptionStatus.pending,
+  // Payment expired or cancelled
+    _ => NonSubscriptionStatus.cancelled,
+  };
+}
+
 class GooglePlayPurchaseHandler extends PurchaseHandler {
   final ap.AndroidPublisherApi androidPublisher;
   final IapRepository iapRepository;
@@ -63,7 +74,7 @@ class GooglePlayPurchaseHandler extends PurchaseHandler {
         ),
         orderId: orderId,
         productId: productData.productId,
-        status: nonSubscriptionStatusFrom(response.purchaseState),
+        status: _nonSubscriptionStatusFrom(response.purchaseState),
         userId: userId,
         iapSource: IAPSource.googleplay,
       );
