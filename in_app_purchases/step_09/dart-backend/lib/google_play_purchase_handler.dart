@@ -7,17 +7,6 @@ import 'iap_repository.dart';
 import 'products.dart';
 import 'purchase_handler.dart';
 
-NonSubscriptionStatus _nonSubscriptionStatusFrom(int? state) {
-  return switch (state) {
-  // Payment completed
-    0 => NonSubscriptionStatus.completed,
-  // Payment pending
-    2 => NonSubscriptionStatus.pending,
-  // Payment expired or cancelled
-    _ => NonSubscriptionStatus.cancelled,
-  };
-}
-
 class GooglePlayPurchaseHandler extends PurchaseHandler {
   final ap.AndroidPublisherApi androidPublisher;
   final IapRepository iapRepository;
@@ -130,7 +119,7 @@ class GooglePlayPurchaseHandler extends PurchaseHandler {
         ),
         orderId: orderId,
         productId: productData.productId,
-        status: subscriptionStatusFrom(response.paymentState),
+        status: _subscriptionStatusFrom(response.paymentState),
         userId: userId,
         iapSource: IAPSource.googleplay,
         expiryDate: DateTime.fromMillisecondsSinceEpoch(
@@ -159,6 +148,29 @@ class GooglePlayPurchaseHandler extends PurchaseHandler {
     }
     return false;
   }
+}
+
+NonSubscriptionStatus _nonSubscriptionStatusFrom(int? state) {
+  return switch (state) {
+    0 => NonSubscriptionStatus.completed,
+    2 => NonSubscriptionStatus.pending,
+    _ => NonSubscriptionStatus.cancelled,
+  };
+}
+
+SubscriptionStatus _subscriptionStatusFrom(int? state) {
+  return switch (state) {
+  // Payment pending
+    0 => SubscriptionStatus.pending,
+  // Payment received
+    1 => SubscriptionStatus.active,
+  // Free trial
+    2 => SubscriptionStatus.active,
+  // Pending deferred upgrade/downgrade
+    3 => SubscriptionStatus.pending,
+  // Expired or cancelled
+    _ => SubscriptionStatus.expired,
+  };
 }
 
 /// If a subscription suffix is present (..#) extract the orderId.

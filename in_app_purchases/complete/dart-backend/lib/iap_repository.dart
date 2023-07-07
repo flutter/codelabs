@@ -76,27 +76,12 @@ abstract class Purchase {
 }
 
 enum NonSubscriptionStatus {
+  pending,
   completed,
   cancelled,
-  pending,
 }
 
 enum SubscriptionStatus { pending, active, expired }
-
-SubscriptionStatus subscriptionStatusFrom(int? state) {
-  return switch (state) {
-    // Payment pending
-    0 => SubscriptionStatus.pending,
-    // Payment received
-    1 => SubscriptionStatus.active,
-    // Free trial
-    2 => SubscriptionStatus.active,
-    // Pending deferred upgrade/downgrade
-    3 => SubscriptionStatus.pending,
-    // Expired or cancelled
-    _ => SubscriptionStatus.expired,
-  };
-}
 
 class NonSubscriptionPurchase extends Purchase {
   final NonSubscriptionStatus status;

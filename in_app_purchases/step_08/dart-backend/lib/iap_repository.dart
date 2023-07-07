@@ -78,7 +78,6 @@ abstract class Purchase {
 enum NonSubscriptionStatus {
   completed,
   cancelled,
-  pending,
 }
 
 enum SubscriptionStatus { pending, active, expired }
