@@ -81,6 +81,17 @@ enum NonSubscriptionStatus {
   pending,
 }
 
+NonSubscriptionStatus nonSubscriptionStatusFrom(int? state) {
+  return switch (state) {
+  // Payment completed
+    0 => NonSubscriptionStatus.completed,
+  // Payment pending
+    2 => NonSubscriptionStatus.pending,
+  // Expired or cancelled
+    _ => NonSubscriptionStatus.cancelled,
+  };
+}
+
 enum SubscriptionStatus { pending, active, expired }
 
 SubscriptionStatus subscriptionStatusFrom(int? state) {

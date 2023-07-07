@@ -63,7 +63,7 @@ class GooglePlayPurchaseHandler extends PurchaseHandler {
         ),
         orderId: orderId,
         productId: productData.productId,
-        status: NonSubscriptionStatus.values[response.purchaseState ?? 0],
+        status: nonSubscriptionStatusFrom(response.purchaseState),
         userId: userId,
         iapSource: IAPSource.googleplay,
       );
