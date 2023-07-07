@@ -160,15 +160,15 @@ NonSubscriptionStatus _nonSubscriptionStatusFrom(int? state) {
 
 SubscriptionStatus _subscriptionStatusFrom(int? state) {
   return switch (state) {
-  // Payment pending
+    // Payment pending
     0 => SubscriptionStatus.pending,
-  // Payment received
+    // Payment received
     1 => SubscriptionStatus.active,
-  // Free trial
+    // Free trial
     2 => SubscriptionStatus.active,
-  // Pending deferred upgrade/downgrade
+    // Pending deferred upgrade/downgrade
     3 => SubscriptionStatus.pending,
-  // Expired or cancelled
+    // Expired or cancelled
     _ => SubscriptionStatus.expired,
   };
 }
