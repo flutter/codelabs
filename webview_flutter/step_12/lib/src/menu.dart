@@ -91,10 +91,13 @@ req.send();''');
           case _MenuOptions.removeCookie:
             await _onRemoveCookie(widget.controller);
           case _MenuOptions.loadFlutterAsset:
+            if (!mounted) return;
             await _onLoadFlutterAssetExample(widget.controller, context);
           case _MenuOptions.loadLocalFile:
+            if (!mounted) return;
             await _onLoadLocalFileExample(widget.controller, context);
           case _MenuOptions.loadHtmlString:
+            if (!mounted) return;
             await _onLoadHtmlStringExample(widget.controller, context);
         }
       },
