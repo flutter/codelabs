@@ -920,20 +920,23 @@ steps:
            }
            
            class Menu extends StatefulWidget {
-          @@ -66,6 +90,12 @@ req.send();''');
+          @@ -66,6 +90,15 @@ req.send();''');
                        await _onSetCookie(widget.controller);
                      case _MenuOptions.removeCookie:
                        await _onRemoveCookie(widget.controller);
           +          case _MenuOptions.loadFlutterAsset:
+          +            if (!mounted) return;
           +            await _onLoadFlutterAssetExample(widget.controller, context);
           +          case _MenuOptions.loadLocalFile:
+          +            if (!mounted) return;
           +            await _onLoadLocalFileExample(widget.controller, context);
           +          case _MenuOptions.loadHtmlString:
+          +            if (!mounted) return;
           +            await _onLoadHtmlStringExample(widget.controller, context);
                    }
                  },
                  itemBuilder: (context) => [
-          @@ -101,6 +131,18 @@ req.send();''');
+          @@ -101,6 +134,18 @@ req.send();''');
                      value: _MenuOptions.removeCookie,
                      child: Text('Remove cookie'),
                    ),
@@ -952,7 +955,7 @@ steps:
                  ],
                );
              }
-          @@ -164,4 +206,31 @@ req.send();''');
+          @@ -164,4 +209,31 @@ req.send();''');
                  ),
                );
              }
