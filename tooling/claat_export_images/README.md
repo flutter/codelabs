@@ -1,6 +1,9 @@
 # CLAAT Image exporter, Dart version
 
-A tool to export the images for a CLAAT codelab.
+A tool to export the images for a CLAAT codelab. This tool uses the Google Docs API to 
+retrieve the images embedded in a Google Doc. This tool is being used to slim down the 
+images attached to Google Codelabs as a Thing (CLAAT) gDocs that are collectively too 
+large for the Google Docs HTML export API.
 
 ## Install dependencies
 
@@ -21,5 +24,5 @@ You will wind up with a client secret JSON file that this script requires to wor
 After following the quickstart setup instructions, run the code:
 
 ```shell
-dart bin/claat_export_images.dart -s client_secret.json -d 1389diNFkkLUQUVIpJ1B2XGdk8wfsPNJOGeVYZWlEhpk
+dart bin/claat_export_images.dart -s client_secret.json -d $CLAAT_GOOGLE_DOC_ID
 ```
