@@ -44,6 +44,7 @@ class _RecommenderDemoState extends State<RecommenderDemo> {
 
     return MaterialApp(
       title: title,
+      theme: ThemeData.light(useMaterial3: true),
       home: Scaffold(
         appBar: AppBar(
           title: const Text(title),
@@ -66,8 +67,8 @@ class _RecommenderDemoState extends State<RecommenderDemo> {
                         )),
                         Container(
                             margin: const EdgeInsets.only(left: 10.0),
-                            child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
+                            child: FilledButton(
+                                style: FilledButton.styleFrom(
                                   textStyle: const TextStyle(fontSize: 15),
                                 ),
                                 onPressed: () {
