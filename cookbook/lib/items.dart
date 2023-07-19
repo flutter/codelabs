@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'examples/cupertino_download_button.dart';
 import 'examples/drag_and_drop.dart';
 import 'examples/expandable_fab.dart';
-import 'examples/gradient_bubbles.dart';
 import 'examples/instagram_filter.dart';
 import 'examples/parallax.dart';
 import 'examples/staggered_animation.dart';
@@ -21,13 +20,6 @@ final items = <CookbookItem>[
     builder: (_) => const Scaffold(
         body: Center(child: ExampleParallax()), backgroundColor: darkBlue),
     path: 'parallax',
-  ),
-  CookbookItem(
-    name: 'Gradient Bubbles',
-    type: 'Transition',
-    recommendation: Recommendation.yes,
-    builder: (_) => const ExampleGradientBubbles(),
-    path: 'gradient',
   ),
   CookbookItem(
     name: 'Download Button',
