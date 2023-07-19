@@ -63,7 +63,7 @@ class GooglePlayPurchaseHandler extends PurchaseHandler {
         ),
         orderId: orderId,
         productId: productData.productId,
-        status: NonSubscriptionStatus.values[response.purchaseState ?? 0],
+        status: _nonSubscriptionStatusFrom(response.purchaseState),
         userId: userId,
         iapSource: IAPSource.googleplay,
       );
@@ -128,7 +128,7 @@ class GooglePlayPurchaseHandler extends PurchaseHandler {
         ),
         orderId: orderId,
         productId: productData.productId,
-        status: subscriptionStatusFrom(response.paymentState),
+        status: _subscriptionStatusFrom(response.paymentState),
         userId: userId,
         iapSource: IAPSource.googleplay,
         expiryDate: DateTime.fromMillisecondsSinceEpoch(
@@ -240,6 +240,29 @@ class GooglePlayPurchaseHandler extends PurchaseHandler {
       subscriptionName,
     );
   }
+}
+
+NonSubscriptionStatus _nonSubscriptionStatusFrom(int? state) {
+  return switch (state) {
+    0 => NonSubscriptionStatus.completed,
+    2 => NonSubscriptionStatus.pending,
+    _ => NonSubscriptionStatus.cancelled,
+  };
+}
+
+SubscriptionStatus _subscriptionStatusFrom(int? state) {
+  return switch (state) {
+    // Payment pending
+    0 => SubscriptionStatus.pending,
+    // Payment received
+    1 => SubscriptionStatus.active,
+    // Free trial
+    2 => SubscriptionStatus.active,
+    // Pending deferred upgrade/downgrade
+    3 => SubscriptionStatus.pending,
+    // Expired or cancelled
+    _ => SubscriptionStatus.expired,
+  };
 }
 
 /// If a subscription suffix is present (..#) extract the orderId.
