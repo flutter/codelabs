@@ -1,7 +1,7 @@
+import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:ffigen_app/ffigen_app.dart' as ffigen_app;
-import 'package:flutter/material.dart';
 
 void main() {
   runApp(const MyApp());
