@@ -8,8 +8,7 @@ source "$DIR/flutter_ci_script_shared.sh"
 declare -a CODELABS=(
   "adaptive_app"
   "animated-responsive-layout"
-  # TODO(DomesticMouse): material_color_utilities 0.3.0
-  # "boring_to_beautiful"
+  "boring_to_beautiful"
   "cookbook"
   "cupertino_store"
   "dart-patterns-and-records"
@@ -26,8 +25,7 @@ declare -a CODELABS=(
   "in_app_purchases"
   "namer"
   "next-gen-ui"
-  # TODO(DomesticMouse): material_color_utilities 0.3.0
-  # "pesto_flutter"
+  "pesto_flutter"
   "star_counter"
   "testing_codelab"
   "tfagents-flutter"
