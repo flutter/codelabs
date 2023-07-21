@@ -243,7 +243,7 @@ steps:
         patch-u: |
           --- b/adaptive_app/step_04/ios/Runner/Info.plist
           +++ a/adaptive_app/step_04/ios/Runner/Info.plist
-          @@ -47,5 +47,13 @@
+          @@ -45,5 +45,13 @@
            	<true/>
            	<key>UIApplicationSupportsIndirectInputEvents</key>
            	<true/>
@@ -1448,7 +1448,7 @@ steps:
         patch-u: |
           --- b/adaptive_app/step_07/ios/Runner/Info.plist
           +++ a/adaptive_app/step_07/ios/Runner/Info.plist
-          @@ -55,5 +55,18 @@
+          @@ -53,5 +53,18 @@
            		<string>tel</string>
            		<string>mailto</string>
            	</array>
