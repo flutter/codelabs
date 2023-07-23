@@ -75,7 +75,7 @@ steps:
           to: step_03
       - name: flutter pub get step_03
         path: step_03
-        flutter: pub get
+        dart: pub get
   - name: step_05
     steps:
       - name: Remove step_05
@@ -334,16 +334,16 @@ steps:
            target_compile_definitions(ffigen_app PUBLIC DART_SHARED_LIB)
       - name: Get deps in ffigen_app/example
         path: ffigen_app/example
-        flutter: pub get --directory .
+        dart: pub get --directory .
       - name: Get deps in ffigen_app
         path: ffigen_app
-        flutter: pub get --directory .
+        dart: pub get --directory .
       - name: Upgrade dep versions in ffigen_app/example
         path: ffigen_app/example
-        flutter: pub upgrade --major-versions --directory .
+        dart: pub upgrade --major-versions --directory .
       - name: Update version constraints on ffigen
         path: ffigen_app
-        flutter: pub add -d ffigen
+        dart: pub add -d ffigen
       - name: Move ffi dep from dev_deps to deps
         path: ffigen_app
         dart: pub add ffi
@@ -352,7 +352,7 @@ steps:
         flutter: clean
       - name: Re-get deps
         path: ffigen_app
-        flutter: pub get
+        dart: pub get
       - name: Run ffigen
         path: ffigen_app
         dart: run ffigen --config ffigen.yaml
@@ -778,19 +778,19 @@ steps:
         flutter: clean
       - name: Add path
         path: ffigen_app
-        flutter: pub add path
+        dart: pub add path
       - name: Add flutter_riverpod freezed_annotation google_fonts
         path: ffigen_app/example
-        flutter: pub add flutter_riverpod freezed_annotation google_fonts
+        dart: pub add flutter_riverpod freezed_annotation google_fonts
       - name: Add build_runner freezed
         path: ffigen_app/example
-        flutter: pub add -d build_runner freezed
+        dart: pub add -d build_runner freezed
       - name: pub get
         path: ffigen_app/example
-        flutter: pub get
+        dart: pub get
       - name: build runner
         path: ffigen_app/example
-        flutter: pub run build_runner build
+        dart: run build_runner build
       - name: Build iOS simulator bundle
         path: ffigen_app/example
         platforms: [ macos ]
