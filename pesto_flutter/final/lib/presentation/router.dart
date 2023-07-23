@@ -29,7 +29,7 @@ GoRouter buildRouter() {
       ShellRoute(
         builder: (context, state, child) {
           int index = 1;
-          final location = state.location;
+          final location = state.uri.toString();
           if (location.startsWith('/notes')) {
             index = 0;
           } else if (location.startsWith('/profile')) {
