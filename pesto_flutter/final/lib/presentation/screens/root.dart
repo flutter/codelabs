@@ -108,8 +108,8 @@ class RootLayout extends StatelessWidget {
   }
 
   Widget? buildFab(BuildContext context, {bool elevated = true}) {
-    final router = GoRouter.of(context);
-    if (router.location != '/') return null;
+    final uri = GoRouterState.of(context).uri;
+    if (uri.path != '/') return null;
     return FloatingActionButton(
       elevation: elevated ? null : 0,
       child: const Icon(Icons.edit_outlined),
