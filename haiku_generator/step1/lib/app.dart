@@ -103,7 +103,6 @@ class HaikuPageState extends State<HaikuPage> {
         FilledButton(
           onPressed: () => getHaikuTextData(productName.toString()),
           style: FilledButton.styleFrom(
-            backgroundColor: Colors.blue,
             padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 18),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
