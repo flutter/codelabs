@@ -557,10 +557,6 @@ updates:
     schedule:
       interval: "daily"
   - package-ecosystem: "pub"
-    directory: "/pesto_flutter/final/"
-    schedule:
-      interval: "daily"
-  - package-ecosystem: "pub"
     directory: "/star_counter/step_04/"
     schedule:
       interval: "daily"
