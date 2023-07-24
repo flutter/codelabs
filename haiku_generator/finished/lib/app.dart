@@ -100,21 +100,20 @@ class HaikuPageState extends State<HaikuPage> {
             isExpanded: true,
           ),
         ),
-        GestureDetector(
-          onTap: () => getHaikuTextData(productName.toString()),
-          child: Container(
+        FilledButton(
+          onPressed: () => getHaikuTextData(productName.toString()),
+          style: FilledButton.styleFrom(
             padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 18),
-            decoration: BoxDecoration(
+            shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
-              color: Colors.blue,
             ),
-            child: const Text(
-              'Generate haiku!',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-                fontWeight: FontWeight.w500,
-              ),
+          ),
+          child: const Text(
+            'Generate haiku!',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.w500,
             ),
           ),
         )
