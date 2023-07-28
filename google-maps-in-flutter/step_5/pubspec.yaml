@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.0.0 <4.0.0'
+  sdk: '>=3.1.0-262.2.beta <4.0.0'
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -35,11 +35,10 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  google_maps_flutter: ^2.2.6
-  google_maps_flutter_web: ^0.5.0
-  http: ^1.0.0
+  google_maps_flutter: ^2.4.0
+  http: ^1.1.0
   json_annotation: ^4.8.1
-  json_serializable: ^6.6.2
+  json_serializable: ^6.7.1
 
 dev_dependencies:
   flutter_test:
@@ -51,7 +50,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
-  build_runner: ^2.4.2
+  build_runner: ^2.4.6
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
