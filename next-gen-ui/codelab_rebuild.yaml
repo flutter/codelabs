@@ -79,9 +79,9 @@ steps:
       - name: patch ios/Runner/Info.plist
         path: next_gen_ui/ios/Runner/Info.plist
         patch-u: |
-          --- a/next-gen-ui/step_06/ios/Runner/Info.plist
-          +++ b/next-gen-ui/step_06/ios/Runner/Info.plist
-          @@ -47,5 +47,7 @@
+          --- b/next-gen-ui/step_01/ios/Runner/Info.plist
+          +++ a/next-gen-ui/step_01/ios/Runner/Info.plist
+          @@ -45,5 +45,7 @@
            	<true/>
            	<key>UIApplicationSupportsIndirectInputEvents</key>
            	<true/>
@@ -3383,7 +3383,7 @@ steps:
            import 'title_screen_ui.dart';
            
            class TitleScreen extends StatefulWidget {
-          @@ -202,6 +203,16 @@ class _TitleScreenState extends State<TitleScreen>
+          @@ -199,6 +200,16 @@ class _TitleScreenState extends State<TitleScreen>
                                lightAmt: _finalEmitLightAmt,
                              ),
            
