@@ -2,9 +2,9 @@ name: Get to know Firebase with Flutter
 steps:
   - name: step_02
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_02
-      - name: Create project.
+      - name: Create project
         flutter: create gtk_flutter --platforms=ios,android,web,macos
       - name: Strip DEVELOPMENT_TEAM
         strip-lines-containing: DEVELOPMENT_TEAM =
@@ -13,7 +13,7 @@ steps:
         path: gtk_flutter/analysis_options.yaml
         replace-contents: |
           include: ../../analysis_options.yaml
-      - name: Add dependencies.
+      - name: Add dependencies
         path: gtk_flutter
         flutter: pub add google_fonts:'>=4.0.0 < 6.0.0' go_router
       - name: Patch pubspec.yaml
@@ -43,7 +43,7 @@ steps:
         patch-u: |
           --- b/firebase-get-to-know-flutter/step_02/android/app/build.gradle
           +++ a/firebase-get-to-know-flutter/step_02/android/app/build.gradle
-          @@ -48,7 +48,7 @@ android {
+          @@ -45,7 +45,7 @@ android {
                    applicationId "com.example.gtk_flutter"
                    // You can update the following values to match your application needs.
                    // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
@@ -52,7 +52,7 @@ steps:
                    targetSdkVersion flutter.targetSdkVersion
                    versionCode flutterVersionCode.toInteger()
                    versionName flutterVersionName
-      - name: Remove the README.md.
+      - name: Remove the README.md
         rm: gtk_flutter/README.md
       - name: VSCode config
         path: gtk_flutter
@@ -1707,7 +1707,7 @@ steps:
           to: step_02
   - name: step_04
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_04
       - name: Update iOS podspec
         platforms: [ macos ]
@@ -1820,7 +1820,7 @@ steps:
           to: step_04
   - name: step_05
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_05
       - name: Patch lib/main.dart
         path: gtk_flutter/lib/main.dart
@@ -1898,7 +1898,7 @@ steps:
           +            GoRoute(
           +              path: 'forgot-password',
           +              builder: (context, state) {
-          +                final arguments = state.queryParameters;
+          +                final arguments = state.uri.queryParameters;
           +                return ForgotPasswordScreen(
           +                  email: arguments['email'],
           +                  headerMaxExtent: 200,
@@ -2081,7 +2081,7 @@ steps:
           to: step_05
   - name: step_06
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_06
       - name: Patch lib/app_state.dart
         path: gtk_flutter/lib/app_state.dart
@@ -2234,7 +2234,7 @@ steps:
           to: step_06
   - name: step_07
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_07
       - name: Patch lib/app_state.dart
         path: gtk_flutter/lib/app_state.dart
@@ -2447,7 +2447,7 @@ steps:
           to: step_07
   - name: step_09
     steps:
-      - name: Remove generated code.
+      - name: Remove generated code
         rmdir: step_09
       - name: Patch lib/src/authentication.dart
         path: gtk_flutter/lib/src/authentication.dart
@@ -2732,7 +2732,7 @@ steps:
                        );
                      },
                    ),
-      - name: Add
+      - name: Add lib/yes_no_selection.dart
         path: gtk_flutter/lib/yes_no_selection.dart
         replace-contents: |
           // Copyright 2022 The Flutter Authors. All rights reserved.
