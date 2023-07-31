@@ -16,9 +16,15 @@ steps:
       - name: Remove the README.md
         path: window_to_front
         rm: README.md
-      - name: Remove tests
+      - name: Remove test
         path: window_to_front
         rmdir: test
+      - name: Remove linux/test
+        path: window_to_front
+        rmdir: linux/test
+      - name: Remove windows/test
+        path: window_to_front
+        rmdir: windows/test
       - name: Patch pubspec.yaml
         path: window_to_front/pubspec.yaml
         patch: |
@@ -71,12 +77,14 @@ steps:
           +    return WindowToFrontPlatform.instance.activate();
              }
            }
+      - name: Remove linux/window_to_front_plugin_private.h
+        rm: window_to_front/linux/window_to_front_plugin_private.h
       - name: Patch linux/window_to_front_plugin.cc
         path: window_to_front/linux/window_to_front_plugin.cc
         patch-u: |
           --- b/github-client/window_to_front/linux/window_to_front_plugin.cc
           +++ a/github-client/window_to_front/linux/window_to_front_plugin.cc
-          @@ -1,17 +1,31 @@
+          @@ -1,19 +1,31 @@
           +// Copyright 2020 Google LLC
           +//
           +// Licensed under the Apache License, Version 2.0 (the "License");
@@ -99,6 +107,8 @@ steps:
            
           -#include <cstring>
           -
+          -#include "window_to_front_plugin_private.h"
+          -
            #define WINDOW_TO_FRONT_PLUGIN(obj) \
              (G_TYPE_CHECK_INSTANCE_CAST((obj), window_to_front_plugin_get_type(), \
                                          WindowToFrontPlugin))
@@ -110,16 +120,12 @@ steps:
            };
            
            G_DEFINE_TYPE(WindowToFrontPlugin, window_to_front_plugin, g_object_get_type())
-          @@ -24,12 +38,14 @@ static void window_to_front_plugin_handle_method_call(
+          @@ -26,8 +38,14 @@ static void window_to_front_plugin_handle_method_call(
            
              const gchar* method = fl_method_call_get_name(method_call);
            
           -  if (strcmp(method, "getPlatformVersion") == 0) {
-          -    struct utsname uname_data = {};
-          -    uname(&uname_data);
-          -    g_autofree gchar *version = g_strdup_printf("Linux %s", uname_data.version);
-          -    g_autoptr(FlValue) result = fl_value_new_string(version);
-          -    response = FL_METHOD_RESPONSE(fl_method_success_response_new(result));
+          -    response = get_platform_version();
           +  if (strcmp(method, "activate") == 0) {
           +    FlView* view = fl_plugin_registrar_get_view(self->registrar);
           +    if (view != nullptr) {
@@ -131,7 +137,22 @@ steps:
              } else {
                response = FL_METHOD_RESPONSE(fl_method_not_implemented_response_new());
              }
-          @@ -57,6 +73,8 @@ void window_to_front_plugin_register_with_registrar(FlPluginRegistrar* registrar
+          @@ -35,14 +53,6 @@ static void window_to_front_plugin_handle_method_call(
+             fl_method_call_respond(method_call, response, nullptr);
+           }
+           
+          -FlMethodResponse* get_platform_version() {
+          -  struct utsname uname_data = {};
+          -  uname(&uname_data);
+          -  g_autofree gchar *version = g_strdup_printf("Linux %s", uname_data.version);
+          -  g_autoptr(FlValue) result = fl_value_new_string(version);
+          -  return FL_METHOD_RESPONSE(fl_method_success_response_new(result));
+          -}
+          -
+           static void window_to_front_plugin_dispose(GObject* object) {
+             G_OBJECT_CLASS(window_to_front_plugin_parent_class)->dispose(object);
+           }
+          @@ -63,6 +73,8 @@ void window_to_front_plugin_register_with_registrar(FlPluginRegistrar* registrar
              WindowToFrontPlugin* plugin = WINDOW_TO_FRONT_PLUGIN(
                  g_object_new(window_to_front_plugin_get_type(), nullptr));
            
@@ -362,7 +383,7 @@ steps:
            
              virtual ~WindowToFrontPlugin();
            
-          @@ -25,6 +39,9 @@ class WindowToFrontPlugin : public flutter::Plugin {
+          @@ -24,6 +38,9 @@ class WindowToFrontPlugin : public flutter::Plugin {
              void HandleMethodCall(
                  const flutter::MethodCall<flutter::EncodableValue> &method_call,
                  std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> result);
