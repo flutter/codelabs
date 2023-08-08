@@ -10,7 +10,6 @@ declare -a CODELABS=(
   "animated-responsive-layout"
   # TODO(DomesticMouse): material_color_utilities 0.3.0
   # "boring_to_beautiful"
-  "cookbook"
   "cupertino_store"
   "dart-patterns-and-records"
   "dartpad_codelabs"
