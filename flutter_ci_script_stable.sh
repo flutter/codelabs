@@ -9,7 +9,6 @@ declare -a CODELABS=(
   "adaptive_app"
   "animated-responsive-layout"
   "boring_to_beautiful"
-  "cookbook"
   "cupertino_store"
   "dart-patterns-and-records"
   "dartpad_codelabs"
