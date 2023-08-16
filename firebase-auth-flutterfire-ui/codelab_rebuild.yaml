@@ -212,7 +212,7 @@ steps:
           +  <script src="https://apis.google.com/js/platform.js" async defer></script>
              <script>
                // The value below is injected by flutter build, do not touch.
-               var serviceWorkerVersion = null;
+               const serviceWorkerVersion = null;
           @@ -55,5 +57,29 @@
                  });
                });

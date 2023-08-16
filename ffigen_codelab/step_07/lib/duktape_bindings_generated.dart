@@ -5153,6 +5153,9 @@ class DuktapeBindings {
 /// where e.g. 'int' is a 16-bit type.  See practical typing discussion
 /// in Duktape web documentation.
 final class duk_thread_state extends ffi.Struct {
+  /// XXX: Enough space to hold internal suspend/resume structure.
+  /// This is rather awkward and to be fixed when the internal
+  /// structure is visible for the public API header.
   @ffi.Array.multi([128])
   external ffi.Array<ffi.Char> data;
 }
