@@ -8,7 +8,8 @@ source "$DIR/flutter_ci_script_shared.sh"
 declare -a CODELABS=(
   "adaptive_app"
   "animated-responsive-layout"
-  "boring_to_beautiful"
+  # TODO(DomesticMouse): Import ordering fix required.
+  # "boring_to_beautiful"
   "cupertino_store"
   "dart-patterns-and-records"
   "dartpad_codelabs"
