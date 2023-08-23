@@ -1,7 +1,7 @@
+import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:ffigen_app/ffigen_app.dart' as ffigen_app;
-import 'package:flutter/material.dart';
 
 void main() {
   runApp(const MyApp());
@@ -54,7 +54,7 @@ class _MyAppState extends State<MyApp> {
                 spacerSmall,
                 FutureBuilder<int>(
                   future: sumAsyncResult,
-                  builder: (context, value) {
+                  builder: (BuildContext context, AsyncSnapshot<int> value) {
                     final displayValue =
                         (value.hasData) ? value.data : 'loading';
                     return Text(
