@@ -152,7 +152,7 @@ class ThemeProvider extends InheritedWidget {
 
   ThemeData light([Color? targetColor]) {
     final colorScheme = colors(Brightness.light, targetColor);
-    return ThemeData.light().copyWith(
+    return ThemeData.light(useMaterial3: true).copyWith(
       pageTransitionsTheme: pageTransitionsTheme,
       colorScheme: colorScheme,
       appBarTheme: appBarTheme(colorScheme),
@@ -164,13 +164,12 @@ class ThemeProvider extends InheritedWidget {
       tabBarTheme: tabBarTheme(colorScheme),
       drawerTheme: drawerTheme(colorScheme),
       scaffoldBackgroundColor: colorScheme.background,
-      useMaterial3: true,
     );
   }
 
   ThemeData dark([Color? targetColor]) {
     final colorScheme = colors(Brightness.dark, targetColor);
-    return ThemeData.dark().copyWith(
+    return ThemeData.dark(useMaterial3: true).copyWith(
       pageTransitionsTheme: pageTransitionsTheme,
       colorScheme: colorScheme,
       appBarTheme: appBarTheme(colorScheme),
@@ -182,7 +181,6 @@ class ThemeProvider extends InheritedWidget {
       tabBarTheme: tabBarTheme(colorScheme),
       drawerTheme: drawerTheme(colorScheme),
       scaffoldBackgroundColor: colorScheme.background,
-      useMaterial3: true,
     );
   }
 

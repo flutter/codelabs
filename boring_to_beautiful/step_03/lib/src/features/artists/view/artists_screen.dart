@@ -6,9 +6,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import './artist_card.dart';
 
 import '../../../shared/providers/artists.dart';
+import './artist_card.dart';
 
 class ArtistsScreen extends StatelessWidget {
   const ArtistsScreen({super.key});
