@@ -54,8 +54,6 @@ steps:
                    versionName flutterVersionName
       - name: Remove the README.md
         rm: gtk_flutter/README.md
-      - name: Remove VSCode config
-        rmdir: gtk_flutter/.vscode
       - name: VSCode config
         path: gtk_flutter
         mkdir: .vscode
