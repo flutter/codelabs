@@ -6,9 +6,6 @@ steps:
         rmdir: step_03
       - name: Create ffigen_app
         flutter: create --template=plugin_ffi --platforms=android,ios,linux,macos,windows ffigen_app
-      - name: Strip DEVELOPMENT_TEAM
-        strip-lines-containing: DEVELOPMENT_TEAM =
-        path: ffigen_app/example/ios/Runner.xcodeproj/project.pbxproj
       - name: Remove CHANGELOG
         rm: ffigen_app/CHANGELOG.md
       - name: Remove LICENSE

@@ -6,9 +6,6 @@ steps:
         rmdir: complete
       - name: Create project
         flutter: create complete --empty
-      - name: Strip DEVELOPMENT_TEAM
-        strip-lines-containing: DEVELOPMENT_TEAM =
-        path: complete/ios/Runner.xcodeproj/project.pbxproj
       - name: Configure analysis_options.yaml
         path: complete/analysis_options.yaml
         replace-contents: |

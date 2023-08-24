@@ -6,9 +6,6 @@ steps:
         rmdir: step_03
       - name: Create project
         flutter: create webview_in_flutter --platforms=android,ios
-      - name: Strip DEVELOPMENT_TEAM
-        strip-lines-containing: DEVELOPMENT_TEAM =
-        path: webview_in_flutter/ios/Runner.xcodeproj/project.pbxproj
       - name: Configure analysis_options.yaml
         path: webview_in_flutter/analysis_options.yaml
         replace-contents: |

@@ -43,9 +43,6 @@ steps:
               await tester.pumpWidget(const MainApp());
             });
           }
-      - name: Strip DEVELOPMENT_TEAM
-        strip-lines-containing: DEVELOPMENT_TEAM =
-        path: animated_responsive_layout/ios/Runner.xcodeproj/project.pbxproj
       - name: Build iOS simulator bundle
         platforms: [ macos ]
         path: animated_responsive_layout
