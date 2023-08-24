@@ -5,39 +5,9 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "iPhone",
+      "name": "gtk_flutter",
       "request": "launch",
-      "type": "dart",
-      "deviceId": "iPhone"
-    },
-    {
-      "name": "Android",
-      "request": "launch",
-      "type": "dart",
-      "deviceId": "Android"
-    },
-    {
-      "name": "Chrome",
-      "request": "launch",
-      "type": "dart",
-      "deviceId": "Chrome"
-    },
-    {
-      "name": "macOS",
-      "request": "launch",
-      "type": "dart",
-      "deviceId": "macOS"
-    },
-  ],
-  "compounds": [
-    {
-      "name": "All devices",
-      "configurations": [
-        "Android",
-        "iPhone",
-        "Chrome",
-        "macOS"
-      ]
+      "type": "dart"
     }
   ]
 }
