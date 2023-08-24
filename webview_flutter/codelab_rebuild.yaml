@@ -53,7 +53,7 @@ steps:
       - name: Build iOS
         platforms: [ macos ]
         path: webview_in_flutter
-        flutter: build ios
+        flutter: build ios --simulator
       - name: Copy step_03
         copydir:
           from: webview_in_flutter
@@ -1028,7 +1028,7 @@ steps:
       - name: Build iOS
         platforms: [ macos ]
         path: webview_in_flutter
-        flutter: build ios
+        flutter: build ios --simulator
       - name: Build Android
         platforms: [ macos ]
         path: webview_in_flutter
