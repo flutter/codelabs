@@ -6,9 +6,6 @@ steps:
         rmdir: step_02
       - name: Create project
         flutter: create doodle_dash
-      - name: Strip DEVELOPMENT_TEAM
-        strip-lines-containing: DEVELOPMENT_TEAM =
-        path: doodle_dash/ios/Runner.xcodeproj/project.pbxproj
       - name: Configure analysis_options.yaml
         path: doodle_dash/analysis_options.yaml
         replace-contents: |

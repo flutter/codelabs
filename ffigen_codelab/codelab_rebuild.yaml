@@ -6,17 +6,6 @@ steps:
         rmdir: step_03
       - name: Create ffigen_app
         flutter: create --template=plugin_ffi --platforms=android,ios,linux,macos,windows ffigen_app
-      - name: Strip DEVELOPMENT_TEAM
-        strip-lines-containing: DEVELOPMENT_TEAM =
-        path: ffigen_app/example/ios/Runner.xcodeproj/project.pbxproj
-      - name: Configure analysis_options.yaml
-        path: ffigen_app/analysis_options.yaml
-        replace-contents: |
-          include: ../../analysis_options.yaml
-      - name: Configure example/analysis_options.yaml
-        path: ffigen_app/example/analysis_options.yaml
-        replace-contents: |
-          include: ../../../analysis_options.yaml
       - name: Remove CHANGELOG
         rm: ffigen_app/CHANGELOG.md
       - name: Remove LICENSE
@@ -45,11 +34,18 @@ steps:
       - name: dart format
         dart: format ffigen_app
       - name: dart fix
-        dart: fix --apply ffigen_app
+        path: ffigen_app
+        dart: fix --apply
+      - name: dart fix
+        path: ffigen_app/example
+        dart: fix --apply
       - name: Build iOS simulator bundle
         path: ffigen_app/example
         platforms: [ macos ]
         flutter: build ios --simulator
+      - name: dart analyze
+        path: ffigen_app
+        dart: analyze --fatal-infos
       - name: Build macOS app
         path: ffigen_app/example
         platforms: [ macos ]
@@ -120,17 +116,6 @@ steps:
       - name: Remove duktape-2.7.0
         path: ffigen_app/src
         rmdir: duktape-2.7.0
-      - name: Patch analysis_options.yaml
-        path: ffigen_app/analysis_options.yaml
-        patch-u: |
-          --- b/ffi_codelab/step_05/analysis_options.yaml
-          +++ a/ffi_codelab/step_05/analysis_options.yaml
-          @@ -1 +1,5 @@
-           include: ../../analysis_options.yaml
-          +
-          +analyzer:
-          +   exclude:
-          +    - lib/*bindings_generated.dart
       - name: Replace ffigen.yaml
         path: ffigen_app/ffigen.yaml
         patch-u: |
@@ -352,10 +337,13 @@ steps:
         flutter: clean
       - name: Re-get deps
         path: ffigen_app
-        dart: pub get
+        flutter: pub get
       - name: Run ffigen
         path: ffigen_app
         dart: run ffigen --config ffigen.yaml
+      - name: dart analyze
+        path: ffigen_app
+        dart: analyze --fatal-infos
       - name: Build Windows app
         path: ffigen_app/example
         platforms: [ windows ]
@@ -398,6 +386,9 @@ steps:
       - name: Flutter clean
         path: ffigen_app/example
         flutter: clean
+      - name: dart analyze
+        path: ffigen_app
+        dart: analyze --fatal-infos
       - name: Build iOS simulator bundle
         path: ffigen_app/example
         platforms: [ macos ]
@@ -785,12 +776,15 @@ steps:
       - name: Add build_runner freezed
         path: ffigen_app/example
         dart: pub add -d build_runner freezed
-      - name: pub get
+      - name: flutter clean
         path: ffigen_app/example
-        dart: pub get
+        flutter: clean
       - name: build runner
         path: ffigen_app/example
-        dart: run build_runner build
+        dart: run build_runner build --delete-conflicting-outputs
+      - name: dart analyze
+        path: ffigen_app
+        dart: analyze --fatal-infos
       - name: Build iOS simulator bundle
         path: ffigen_app/example
         platforms: [ macos ]

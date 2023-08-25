@@ -1,5 +1,4 @@
-include: ../../analysis_options.yaml
+include: package:flutter_lints/flutter.yaml
 
-analyzer:
-   exclude:
-    - lib/*bindings_generated.dart
+# Additional information about this file can be found at
+# https://dart.dev/guides/language/analysis-options

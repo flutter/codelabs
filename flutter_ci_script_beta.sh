@@ -8,7 +8,8 @@ source "$DIR/flutter_ci_script_shared.sh"
 declare -a CODELABS=(
   "adaptive_app"
   "animated-responsive-layout"
-  "boring_to_beautiful"
+  # TODO(DomesticMouse): Sort directive sections alphabetically.
+  # "boring_to_beautiful"
   "cupertino_store"
   "dart-patterns-and-records"
   "dartpad_codelabs"
@@ -17,7 +18,8 @@ declare -a CODELABS=(
   "firebase-auth-flutterfire-ui"
   "firebase-emulator-suite"
   "firebase-get-to-know-flutter"
-  "flame-building-doodle-dash"
+  # TODO(DomesticMouse): Sort directive sections alphabetically.
+  # "flame-building-doodle-dash"
   "github-client"
   "google-maps-in-flutter"
   "haiku_generator"

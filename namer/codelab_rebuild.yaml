@@ -6,9 +6,6 @@ steps:
         rmdir: step_03
       - name: Create project
         flutter: create namer_app
-      - name: Strip DEVELOPMENT_TEAM
-        strip-lines-containing: DEVELOPMENT_TEAM =
-        path: namer_app/ios/Runner.xcodeproj/project.pbxproj
       - name: Replace pubspec.yaml
         path: namer_app/pubspec.yaml
         replace-contents: |
@@ -20,7 +17,7 @@ steps:
           version: 0.0.1+1
 
           environment:
-            sdk: ^3.1.0-0
+            sdk: ^3.1.0
 
           dependencies:
             flutter:

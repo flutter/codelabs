@@ -106,7 +106,7 @@ Future<SendPort> _helperIsolateSendPort = () async {
     });
 
   // Start the helper isolate.
-  await Isolate.spawn((sendPort) async {
+  await Isolate.spawn((SendPort sendPort) async {
     final ReceivePort helperReceivePort = ReceivePort()
       ..listen((dynamic data) {
         // On the helper isolate listen to requests and respond to them.

@@ -6,9 +6,6 @@ steps:
         rmdir: complete
       - name: Create project
         flutter: create complete --empty
-      - name: Strip DEVELOPMENT_TEAM
-        strip-lines-containing: DEVELOPMENT_TEAM =
-        path: complete/ios/Runner.xcodeproj/project.pbxproj
       - name: Configure analysis_options.yaml
         path: complete/analysis_options.yaml
         replace-contents: |
@@ -4717,7 +4714,7 @@ steps:
       - name: Build iOS
         platforms: [ macos ]
         path: complete
-        flutter: build ios
+        flutter: build ios --simulator
       - name: Remove start
         rmdir: start
       - name: Copy start
@@ -4916,7 +4913,7 @@ steps:
       - name: Build iOS
         platforms: [ macos ]
         path: complete
-        flutter: build ios
+        flutter: build ios --simulator
       - name: Flutter clean
         path: start
         flutter: clean
