@@ -143,12 +143,6 @@ updates:
     labels:
       - "autosubmit"
   - package-ecosystem: "pub"
-    directory: "/cookbook/"
-    schedule:
-      interval: "daily"
-    labels:
-      - "autosubmit"
-  - package-ecosystem: "pub"
     directory: "/cupertino_store/step_00/"
     schedule:
       interval: "daily"
