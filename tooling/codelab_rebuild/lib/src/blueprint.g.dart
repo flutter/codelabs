@@ -63,7 +63,6 @@ BlueprintStep _$BlueprintStepFromJson(Map json) => $checkedCreate(
             'retrieve-url',
             'tar',
             '7z',
-            'strip-lines-containing',
             'stop'
           ],
           requiredKeys: const ['name'],
@@ -113,8 +112,6 @@ BlueprintStep _$BlueprintStepFromJson(Map json) => $checkedCreate(
           retrieveUrl: $checkedConvert('retrieve-url', (v) => v as String?),
           tar: $checkedConvert('tar', (v) => v as String?),
           sevenZip: $checkedConvert('7z', (v) => v as String?),
-          stripLinesContaining:
-              $checkedConvert('strip-lines-containing', (v) => v as String?),
           stop: $checkedConvert('stop', (v) => v as bool?),
         );
         return val;
@@ -125,8 +122,7 @@ BlueprintStep _$BlueprintStepFromJson(Map json) => $checkedCreate(
         'patchC': 'patch-c',
         'replaceContents': 'replace-contents',
         'retrieveUrl': 'retrieve-url',
-        'sevenZip': '7z',
-        'stripLinesContaining': 'strip-lines-containing'
+        'sevenZip': '7z'
       },
     );
 
@@ -156,7 +152,6 @@ Map<String, dynamic> _$BlueprintStepToJson(BlueprintStep instance) =>
       'retrieve-url': instance.retrieveUrl,
       'tar': instance.tar,
       '7z': instance.sevenZip,
-      'strip-lines-containing': instance.stripLinesContaining,
       'stop': instance.stop,
     };
 

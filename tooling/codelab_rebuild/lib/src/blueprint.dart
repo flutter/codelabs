@@ -115,10 +115,6 @@ class BlueprintStep {
   @JsonKey(name: '7z')
   final String? sevenZip;
 
-  // file modification
-  @JsonKey(name: 'strip-lines-containing')
-  final String? stripLinesContaining;
-
   // For debugging & development purposes
   final bool? stop;
 
@@ -147,7 +143,6 @@ class BlueprintStep {
     this.retrieveUrl,
     this.tar,
     this.sevenZip,
-    this.stripLinesContaining,
     this.stop,
   }) {
     if (name.isEmpty) {
@@ -185,8 +180,7 @@ class BlueprintStep {
         git == null &&
         retrieveUrl == null &&
         tar == null &&
-        sevenZip == null &&
-        stripLinesContaining == null) {
+        sevenZip == null) {
       _logger.warning('Invalid step with no action: $name');
       return false;
     }
@@ -213,8 +207,7 @@ class BlueprintStep {
           git != null ||
           retrieveUrl != null ||
           tar != null ||
-          sevenZip != null ||
-          stripLinesContaining != null) {
+          sevenZip != null) {
         _logger.warning('Invalid step sub-steps and other commands: $name');
         return false;
       }
@@ -265,13 +258,6 @@ class BlueprintStep {
     // If we have a 7z archive, we need a path to write it to
     if (sevenZip != null && path == null) {
       _logger.warning('Invalid step, 7z with no target path: $name');
-      return false;
-    }
-
-    // If we have a stripLinesContaining, we need a path to strip
-    if (stripLinesContaining != null && path == null) {
-      _logger.warning(
-          'Invalid step, strip-lines-containing with no target path: $name');
       return false;
     }
 
