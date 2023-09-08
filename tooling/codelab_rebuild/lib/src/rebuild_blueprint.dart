@@ -233,6 +233,27 @@ Future<void> _buildBlueprintStep(Directory cwd, BlueprintStep step) async {
     return;
   }
 
+  final xcodeAddFile = step.xcodeAddFile;
+  if (xcodeAddFile != null) {
+    final script = '''
+require "xcodeproj"
+project = Xcodeproj::Project.open("ios/Runner.xcodeproj")
+group = project.main_group["Runner"]
+project.targets.first.add_file_references([group.new_file("$xcodeAddFile")])
+project.save
+'''
+        .split('\n')
+        .map((str) => "-e '$str'")
+        .join(' ');
+    await _runNamedCommand(
+        command: 'ruby',
+        step: step,
+        cwd: cwd,
+        args: script,
+        exitOnStdErr: false);
+    return;
+  }
+
   final path = step.path;
   if (path == null) {
     _logger.severe(

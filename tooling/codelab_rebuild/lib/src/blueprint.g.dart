@@ -63,7 +63,8 @@ BlueprintStep _$BlueprintStepFromJson(Map json) => $checkedCreate(
             'retrieve-url',
             'tar',
             '7z',
-            'stop'
+            'stop',
+            'xcode-add-file'
           ],
           requiredKeys: const ['name'],
         );
@@ -113,6 +114,7 @@ BlueprintStep _$BlueprintStepFromJson(Map json) => $checkedCreate(
           tar: $checkedConvert('tar', (v) => v as String?),
           sevenZip: $checkedConvert('7z', (v) => v as String?),
           stop: $checkedConvert('stop', (v) => v as bool?),
+          xcodeAddFile: $checkedConvert('xcode-add-file', (v) => v as String?),
         );
         return val;
       },
@@ -122,7 +124,8 @@ BlueprintStep _$BlueprintStepFromJson(Map json) => $checkedCreate(
         'patchC': 'patch-c',
         'replaceContents': 'replace-contents',
         'retrieveUrl': 'retrieve-url',
-        'sevenZip': '7z'
+        'sevenZip': '7z',
+        'xcodeAddFile': 'xcode-add-file'
       },
     );
 
@@ -153,6 +156,7 @@ Map<String, dynamic> _$BlueprintStepToJson(BlueprintStep instance) =>
       'tar': instance.tar,
       '7z': instance.sevenZip,
       'stop': instance.stop,
+      'xcode-add-file': instance.xcodeAddFile,
     };
 
 FromTo _$FromToFromJson(Map json) => $checkedCreate(

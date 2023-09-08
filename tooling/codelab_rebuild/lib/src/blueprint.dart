@@ -118,6 +118,10 @@ class BlueprintStep {
   // For debugging & development purposes
   final bool? stop;
 
+  // Xcode project maintenance
+  @JsonKey(name: 'xcode-add-file')
+  final String? xcodeAddFile;
+
   BlueprintStep({
     required this.name,
     this.steps = const [],
@@ -144,6 +148,7 @@ class BlueprintStep {
     this.tar,
     this.sevenZip,
     this.stop,
+    this.xcodeAddFile,
   }) {
     if (name.isEmpty) {
       throw ArgumentError.value(name, 'name', 'Cannot be empty.');
@@ -180,7 +185,8 @@ class BlueprintStep {
         git == null &&
         retrieveUrl == null &&
         tar == null &&
-        sevenZip == null) {
+        sevenZip == null &&
+        xcodeAddFile == null) {
       _logger.warning('Invalid step with no action: $name');
       return false;
     }
@@ -207,7 +213,8 @@ class BlueprintStep {
           git != null ||
           retrieveUrl != null ||
           tar != null ||
-          sevenZip != null) {
+          sevenZip != null ||
+          xcodeAddFile != null) {
         _logger.warning('Invalid step sub-steps and other commands: $name');
         return false;
       }
@@ -278,7 +285,8 @@ class BlueprintStep {
             git != null ||
             retrieveUrl != null ||
             tar != null ||
-            sevenZip != null)) {
+            sevenZip != null ||
+            xcodeAddFile != null)) {
       _logger.warning(
           'Invalid step, patch with command(s), replace-contents, or base64-contents: $name');
       return false;
