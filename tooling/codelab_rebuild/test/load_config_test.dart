@@ -377,8 +377,8 @@ steps:
 name: Update Xcode configuration
 steps:
   - name: Add file to xcode
-    path: ios/Runner.xcodeproj
     xcode-add-file: AccelerometerStreamHandler.swift
+    xcode-project-path: ios/Runner.xcodeproj
 ''';
     final blueprint = Blueprint.fromString(input);
     expect(blueprint.isValid, equals(true));
