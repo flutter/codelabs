@@ -140,7 +140,7 @@ Some of these products need special configuration or you need to enable them in 
 The web app uses  [Firestore](https://firebase.google.com/docs/firestore/) to save chat messages and receive new chat messages.
 
 Enable Firestore:
-* In the **Build** menu, click **Cloud Firestore > Create database**.
+* In the **Build** menu, click **Firebase Database > Create database**.
 
 <img src="img/99e8429832d23fa3.png" alt="99e8429832d23fa3.png"  width="624.00" />
 
