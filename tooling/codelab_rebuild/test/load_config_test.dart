@@ -361,11 +361,23 @@ steps:
     expect(blueprint.isValid, equals(true));
   });
 
+  test('Add file to Xcode project, missing path', () {
+    final input = '''
+name: Update Xcode configuration
+steps:
+  - name: Add file to xcode
+    xcode-add-file: AccelerometerStreamHandler.swift
+''';
+    final blueprint = Blueprint.fromString(input);
+    expect(blueprint.isValid, equals(false));
+  });
+
   test('Add file to Xcode project', () {
     final input = '''
 name: Update Xcode configuration
 steps:
   - name: Add file to xcode
+    path: ios/Runner.xcodeproj
     xcode-add-file: AccelerometerStreamHandler.swift
 ''';
     final blueprint = Blueprint.fromString(input);

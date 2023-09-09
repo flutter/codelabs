@@ -268,6 +268,13 @@ class BlueprintStep {
       return false;
     }
 
+    // If we have a xcodeAddFile, we need a path to the xcode project path
+    if (xcodeAddFile != null && path == null) {
+      _logger
+          .warning('Invalid step, xcode-add-file with no target path: $name');
+      return false;
+    }
+
     // If we have a patch, we don't want a replace-contents, base64-contents or command(s)
     if ((patch != null || patchU != null || patchC != null) &&
         (replaceContents != null ||

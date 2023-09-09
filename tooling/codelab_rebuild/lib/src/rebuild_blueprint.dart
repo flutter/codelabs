@@ -233,11 +233,18 @@ Future<void> _buildBlueprintStep(Directory cwd, BlueprintStep step) async {
     return;
   }
 
+  final path = step.path;
+  if (path == null) {
+    _logger.severe(
+        'patch, base64-contents and replace-contents require a path: ${step.name}');
+    exit(-1);
+  }
+
   final xcodeAddFile = step.xcodeAddFile;
   if (xcodeAddFile != null) {
     final script = '''
 require "xcodeproj"
-project = Xcodeproj::Project.open("ios/Runner.xcodeproj")
+project = Xcodeproj::Project.open("$path")
 group = project.main_group["Runner"]
 project.targets.first.add_file_references([group.new_file("$xcodeAddFile")])
 project.save
@@ -252,13 +259,6 @@ project.save
         args: script,
         exitOnStdErr: false);
     return;
-  }
-
-  final path = step.path;
-  if (path == null) {
-    _logger.severe(
-        'patch, base64-contents and replace-contents require a path: ${step.name}');
-    exit(-1);
   }
 
   final patch = step.patch;
