@@ -63,8 +63,9 @@ BlueprintStep _$BlueprintStepFromJson(Map json) => $checkedCreate(
             'retrieve-url',
             'tar',
             '7z',
-            'strip-lines-containing',
-            'stop'
+            'stop',
+            'xcode-add-file',
+            'xcode-project-path'
           ],
           requiredKeys: const ['name'],
         );
@@ -113,9 +114,10 @@ BlueprintStep _$BlueprintStepFromJson(Map json) => $checkedCreate(
           retrieveUrl: $checkedConvert('retrieve-url', (v) => v as String?),
           tar: $checkedConvert('tar', (v) => v as String?),
           sevenZip: $checkedConvert('7z', (v) => v as String?),
-          stripLinesContaining:
-              $checkedConvert('strip-lines-containing', (v) => v as String?),
           stop: $checkedConvert('stop', (v) => v as bool?),
+          xcodeAddFile: $checkedConvert('xcode-add-file', (v) => v as String?),
+          xcodeProjectPath:
+              $checkedConvert('xcode-project-path', (v) => v as String?),
         );
         return val;
       },
@@ -126,7 +128,8 @@ BlueprintStep _$BlueprintStepFromJson(Map json) => $checkedCreate(
         'replaceContents': 'replace-contents',
         'retrieveUrl': 'retrieve-url',
         'sevenZip': '7z',
-        'stripLinesContaining': 'strip-lines-containing'
+        'xcodeAddFile': 'xcode-add-file',
+        'xcodeProjectPath': 'xcode-project-path'
       },
     );
 
@@ -156,8 +159,9 @@ Map<String, dynamic> _$BlueprintStepToJson(BlueprintStep instance) =>
       'retrieve-url': instance.retrieveUrl,
       'tar': instance.tar,
       '7z': instance.sevenZip,
-      'strip-lines-containing': instance.stripLinesContaining,
       'stop': instance.stop,
+      'xcode-add-file': instance.xcodeAddFile,
+      'xcode-project-path': instance.xcodeProjectPath,
     };
 
 FromTo _$FromToFromJson(Map json) => $checkedCreate(

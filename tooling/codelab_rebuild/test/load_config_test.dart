@@ -361,13 +361,24 @@ steps:
     expect(blueprint.isValid, equals(true));
   });
 
-  test('Strip lines containing "DEVELOPMENT_TEAM ="', () {
+  test('Add file to Xcode project, missing path', () {
     final input = '''
-name: Strip lines
+name: Update Xcode configuration
 steps:
- - name: Strip DEVELOPMENT_TEAM
-   strip-lines-containing: DEVELOPMENT_TEAM =
-   path: codelab_app/ios/Runner.xcodeproj/project.pbxproj
+  - name: Add file to xcode
+    xcode-add-file: AccelerometerStreamHandler.swift
+''';
+    final blueprint = Blueprint.fromString(input);
+    expect(blueprint.isValid, equals(false));
+  });
+
+  test('Add file to Xcode project', () {
+    final input = '''
+name: Update Xcode configuration
+steps:
+  - name: Add file to xcode
+    xcode-add-file: AccelerometerStreamHandler.swift
+    xcode-project-path: ios/Runner.xcodeproj
 ''';
     final blueprint = Blueprint.fromString(input);
     expect(blueprint.isValid, equals(true));

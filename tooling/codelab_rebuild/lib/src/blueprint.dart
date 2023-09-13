@@ -115,12 +115,14 @@ class BlueprintStep {
   @JsonKey(name: '7z')
   final String? sevenZip;
 
-  // file modification
-  @JsonKey(name: 'strip-lines-containing')
-  final String? stripLinesContaining;
-
   // For debugging & development purposes
   final bool? stop;
+
+  // Xcode project maintenance
+  @JsonKey(name: 'xcode-add-file')
+  final String? xcodeAddFile;
+  @JsonKey(name: 'xcode-project-path')
+  final String? xcodeProjectPath;
 
   BlueprintStep({
     required this.name,
@@ -147,8 +149,9 @@ class BlueprintStep {
     this.retrieveUrl,
     this.tar,
     this.sevenZip,
-    this.stripLinesContaining,
     this.stop,
+    this.xcodeAddFile,
+    this.xcodeProjectPath,
   }) {
     if (name.isEmpty) {
       throw ArgumentError.value(name, 'name', 'Cannot be empty.');
@@ -186,7 +189,8 @@ class BlueprintStep {
         retrieveUrl == null &&
         tar == null &&
         sevenZip == null &&
-        stripLinesContaining == null) {
+        xcodeAddFile == null &&
+        xcodeProjectPath == null) {
       _logger.warning('Invalid step with no action: $name');
       return false;
     }
@@ -214,7 +218,8 @@ class BlueprintStep {
           retrieveUrl != null ||
           tar != null ||
           sevenZip != null ||
-          stripLinesContaining != null) {
+          xcodeAddFile != null ||
+          xcodeProjectPath != null) {
         _logger.warning('Invalid step sub-steps and other commands: $name');
         return false;
       }
@@ -268,10 +273,10 @@ class BlueprintStep {
       return false;
     }
 
-    // If we have a stripLinesContaining, we need a path to strip
-    if (stripLinesContaining != null && path == null) {
+    // If we have a xcodeAddFile, we need a path to the xcode project path
+    if (xcodeAddFile != null && xcodeProjectPath == null) {
       _logger.warning(
-          'Invalid step, strip-lines-containing with no target path: $name');
+          'Invalid step, xcode-add-file with no xcode-project-path: $name');
       return false;
     }
 
@@ -292,7 +297,9 @@ class BlueprintStep {
             git != null ||
             retrieveUrl != null ||
             tar != null ||
-            sevenZip != null)) {
+            sevenZip != null ||
+            xcodeAddFile != null ||
+            xcodeProjectPath != null)) {
       _logger.warning(
           'Invalid step, patch with command(s), replace-contents, or base64-contents: $name');
       return false;

@@ -233,12 +233,25 @@ Future<void> _buildBlueprintStep(Directory cwd, BlueprintStep step) async {
     return;
   }
 
-  final stripLinesContaining = step.stripLinesContaining;
-  if (stripLinesContaining != null) {
-    final target = File(p.join(cwd.path, step.path));
-    var lines = target.readAsLinesSync();
-    lines.removeWhere((line) => line.contains(stripLinesContaining));
-    target.writeAsStringSync(lines.join('\n'));
+  final xcodeAddFile = step.xcodeAddFile;
+  final xcodeProjectPath = step.xcodeProjectPath;
+  if (xcodeAddFile != null && xcodeProjectPath != null) {
+    final script = '''
+require "xcodeproj"
+project = Xcodeproj::Project.open("$xcodeProjectPath")
+group = project.main_group["Runner"]
+project.targets.first.add_file_references([group.new_file("$xcodeAddFile")])
+project.save
+'''
+        .split('\n')
+        .map((str) => "-e '$str'")
+        .join(' ');
+    await _runNamedCommand(
+        command: 'ruby',
+        step: step,
+        cwd: cwd,
+        args: script,
+        exitOnStdErr: false);
     return;
   }
 
