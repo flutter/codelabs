@@ -14,7 +14,8 @@ declare -a CODELABS=(
   "dart-patterns-and-records"
   "dartpad_codelabs"
   "deeplink_cookbook"
-  "ffigen_codelab"
+  # TODO(DomesticMouse): Windows is not happy
+  # "ffigen_codelab"
   "firebase-auth-flutterfire-ui"
   "firebase-emulator-suite"
   "firebase-get-to-know-flutter"
