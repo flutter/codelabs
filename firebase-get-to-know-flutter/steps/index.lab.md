@@ -438,7 +438,7 @@ final _router = GoRouter(
             GoRoute(
               path: 'forgot-password',
               builder: (context, state) {
-                final arguments = state.queryParameters;
+                final arguments = state.uri.queryParameters;
                 return ForgotPasswordScreen(
                   email: arguments['email'],
                   headerMaxExtent: 200,
