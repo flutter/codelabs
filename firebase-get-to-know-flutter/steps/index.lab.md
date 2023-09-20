@@ -254,7 +254,7 @@ The configuration command guides you through the following processes:
 
 Flutter on macOS builds fully sandboxed apps. As this app integrates with the network to communicate with the Firebase servers, you need to configure your app with network client privileges.
 
-####  [macos/Runner/DebugProfile.entitlements](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_04/macos/Runner/DebugProfile.entitlements)
+####  [macos/Runner/DebugProfile.entitlements](https://github.com/flutter/codelabs/blob/main/firebase-get-to-know-flutter/step_04/macos/Runner/DebugProfile.entitlements)
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -273,7 +273,7 @@ Flutter on macOS builds fully sandboxed apps. As this app integrates with the ne
 </plist>
 ```
 
-####  [macos/Runner/Release.entitlements](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_04/macos/Runner/Release.entitlements)
+####  [macos/Runner/Release.entitlements](https://github.com/flutter/codelabs/blob/main/firebase-get-to-know-flutter/step_04/macos/Runner/Release.entitlements)
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -303,7 +303,7 @@ Use the  [`provider` package](https://pub.dev/packages/provider) to make a centr
 
 1. Create a new file named `app_state.dart` with the following content:
 
-####  [lib/app_state.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_05/lib/app_state.dart#L1)
+####  [lib/app_state.dart](https://github.com/flutter/codelabs/blob/main/firebase-get-to-know-flutter/step_05/lib/app_state.dart#L1)
 
 ```dart
 import 'package:firebase_auth/firebase_auth.dart'
@@ -352,7 +352,7 @@ You only use a provider to communicate the state of a user's login status to the
 
 1. Modify the imports at the top of the `lib/main.dart` file:
 
-####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_05/lib/main.dart#L1)
+####  [lib/main.dart](https://github.com/flutter/codelabs/blob/main/firebase-get-to-know-flutter/step_05/lib/main.dart#L1)
 
 ```dart
 import 'package:firebase_ui_auth/firebase_ui_auth.dart'; // new
@@ -367,7 +367,7 @@ import 'home_page.dart';
 
 2. Connect the app state with the app initialization and then add the authentication flow to `HomePage`:
 
-####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_05/lib/main.dart#L14)
+####  [lib/main.dart](https://github.com/flutter/codelabs/blob/main/firebase-get-to-know-flutter/step_05/lib/main.dart#L14)
 
 ```dart
 void main() {
@@ -386,7 +386,7 @@ The modification to the `main()` function makes the provider package responsible
 
 3. Update your app to handle navigation to different screens that FirebaseUI provides for you, by creating a `GoRouter` configuration:
 
-####  [lib/main.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_05/lib/main.dart#L23)
+####  [lib/main.dart](https://github.com/flutter/codelabs/blob/main/firebase-get-to-know-flutter/step_05/lib/main.dart#L23)
 
 ```dart
 // Add GoRouter configuration outside the App class
@@ -438,7 +438,7 @@ final _router = GoRouter(
             GoRoute(
               path: 'forgot-password',
               builder: (context, state) {
-                final arguments = state.queryParameters;
+                final arguments = state.uri.queryParameters;
                 return ForgotPasswordScreen(
                   email: arguments['email'],
                   headerMaxExtent: 200,
@@ -495,7 +495,7 @@ Each screen has a different type of action associated with it based on the new s
 
 4. In the `HomePage` class's build method, integrate the app state with the `AuthFunc` widget:
 
-####  [lib/home_page.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_05/lib/home_page.dart#L14)
+####  [lib/home_page.dart](https://github.com/flutter/codelabs/blob/main/firebase-get-to-know-flutter/step_05/lib/home_page.dart#L14)
 
 ```dart
 import 'package:firebase_auth/firebase_auth.dart' // new
@@ -596,7 +596,7 @@ In this section, you add the functionality for users to write messages to the da
 
 1. Create a new file named `guest_book.dart`, add a `GuestBook` stateful widget to construct the UI elements of a message field and a send button:
 
-####  [lib/guest_book.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_06/lib/guest_book.dart)
+####  [lib/guest_book.dart](https://github.com/flutter/codelabs/blob/main/firebase-get-to-know-flutter/step_06/lib/guest_book.dart)
 
 ```dart
 import 'dart:async';
@@ -696,7 +696,7 @@ Note that `FirebaseAuth.instance.currentUser.uid` is a reference to the autogene
 
 * In the `lib/app_state.dart` file, add the `addMessageToGuestBook` method. You connect this capability with the user interface in the next step.
 
-####  [lib/app_state.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_06/lib/app_state.dart#L41)
+####  [lib/app_state.dart](https://github.com/flutter/codelabs/blob/main/firebase-get-to-know-flutter/step_06/lib/app_state.dart#L41)
 
 ```dart
 import 'package:cloud_firestore/cloud_firestore.dart'; // new
@@ -737,7 +737,7 @@ You have a UI where the user can enter the text they want to add to the Guest Bo
 
 * In the `lib/home_page.dart` file, make the following change to the `HomePage` widget:
 
-####  [lib/home_page.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_06/lib/home_page.dart#L15)
+####  [lib/home_page.dart](https://github.com/flutter/codelabs/blob/main/firebase-get-to-know-flutter/step_06/lib/home_page.dart#L15)
 
 ```dart
 import 'package:firebase_auth/firebase_auth.dart'
@@ -830,7 +830,7 @@ To display messages, you need to add listeners that trigger when data changes an
 
 1. Create a new file `guest_book_message.dart`, add the following class to expose a structured view of the data that you store in Firestore.
 
-####  [lib/guest_book_message.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_07/lib/guest_book_message.dart)
+####  [lib/guest_book_message.dart](https://github.com/flutter/codelabs/blob/main/firebase-get-to-know-flutter/step_07/lib/guest_book_message.dart)
 
 ```dart
 class GuestBookMessage {
@@ -843,7 +843,7 @@ class GuestBookMessage {
 
 2. In the `lib/app_state.dart` file, add the following imports:
 
-####  [lib/app_state.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_07/lib/app_state.dart#L1)
+####  [lib/app_state.dart](https://github.com/flutter/codelabs/blob/main/firebase-get-to-know-flutter/step_07/lib/app_state.dart#L1)
 
 ```dart
 import 'dart:async';                                     // new
@@ -861,7 +861,7 @@ import 'guest_book_message.dart';                        // new
 
 3. In section of `ApplicationState` where you define state and getters, add the following lines:
 
-####  [lib/app_state.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_07/lib/app_state.dart#L22)
+####  [lib/app_state.dart](https://github.com/flutter/codelabs/blob/main/firebase-get-to-know-flutter/step_07/lib/app_state.dart#L22)
 
 ```dart
   bool _loggedIn = false;
@@ -876,7 +876,7 @@ import 'guest_book_message.dart';                        // new
 
 4. In the initialization section of `ApplicationState`, add the following lines to subscribe to a query over the document collection when a user logs in and unsubscribe when they log out:
 
-####  [lib/app_state.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_07/lib/app_state.dart#L29)
+####  [lib/app_state.dart](https://github.com/flutter/codelabs/blob/main/firebase-get-to-know-flutter/step_07/lib/app_state.dart#L29)
 
 ```dart
   Future<void> init() async {
@@ -930,7 +930,7 @@ import 'guest_book_message.dart';
 
 6. In the `GuestBook` widget, add a list of messages as part of the configuration to connect this changing state to the user interface:
 
-####  [lib/guest_book.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_07/lib/guest_book.dart#L12)
+####  [lib/guest_book.dart](https://github.com/flutter/codelabs/blob/main/firebase-get-to-know-flutter/step_07/lib/guest_book.dart#L12)
 
 ```dart
 class GuestBook extends StatefulWidget {
@@ -951,7 +951,7 @@ class GuestBook extends StatefulWidget {
 
 7. In `_GuestBookState`, modify the `build` method as follows to expose this configuration:
 
-####  [lib/guest_book.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_07/lib/guest_book.dart#L26)
+####  [lib/guest_book.dart](https://github.com/flutter/codelabs/blob/main/firebase-get-to-know-flutter/step_07/lib/guest_book.dart#L26)
 
 ```dart
 class _GuestBookState extends State<GuestBook> {
@@ -1021,7 +1021,7 @@ You wrap the previous content of the `build()` method with a `Column` widget and
 
 8. Update the body of `HomePage` to correctly construct `GuestBook` with the new `messages` parameter:
 
-####  [lib/home_page.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_07/lib/home_page.dart#L48)
+####  [lib/home_page.dart](https://github.com/flutter/codelabs/blob/main/firebase-get-to-know-flutter/step_07/lib/home_page.dart#L48)
 
 ```dart
 Consumer<ApplicationState>(
@@ -1140,7 +1140,7 @@ In this step, you get organized and let people know how many people are coming. 
 
 1. In the `lib/app_state.dart` file, add the following lines to the accessors section of the `ApplicationState` so that the UI code can interact with this state:
 
-####  [lib/app_state.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_09/lib/app_state.dart#L37)
+####  [lib/app_state.dart](https://github.com/flutter/codelabs/blob/main/firebase-get-to-know-flutter/step_09/lib/app_state.dart#L37)
 
 ```dart
 int _attendees = 0;
@@ -1163,7 +1163,7 @@ set attending(Attending attending) {
 
 2. Update the `ApplicationState`'s `init()` method as follows:
 
-####  [lib/app_state.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_09/lib/app_state.dart#L80)
+####  [lib/app_state.dart](https://github.com/flutter/codelabs/blob/main/firebase-get-to-know-flutter/step_09/lib/app_state.dart#L80)
 
 ```dart
   Future<void> init() async {
@@ -1237,7 +1237,7 @@ This code adds an always-subscribed query to determine the number of attendees a
 
 3. Add the following enumeration at the top of the `lib/app_state.dart` file.
 
-####  [lib/app_state.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_09/lib/app_state.dart#L5)
+####  [lib/app_state.dart](https://github.com/flutter/codelabs/blob/main/firebase-get-to-know-flutter/step_09/lib/app_state.dart#L5)
 
 ```dart
 enum Attending { yes, no, unknown }
@@ -1245,7 +1245,7 @@ enum Attending { yes, no, unknown }
 
 4. Create a new file `yes_no_selection.dart`, define a new widget that acts like radio buttons:
 
-####  [lib/yes_no_selection.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_09/lib/yes_no_selection.dart)
+####  [lib/yes_no_selection.dart](https://github.com/flutter/codelabs/blob/main/firebase-get-to-know-flutter/step_09/lib/yes_no_selection.dart)
 
 ```dart
 import 'package:flutter/material.dart';
@@ -1322,7 +1322,7 @@ It starts in an indeterminate state with neither **Yes** nor **No** selected. On
 
 5. Update `HomePage`'s `build()` method to take advantage of `YesNoSelection`, enable a logged-in user to nominate whether they're attending, and display the number of attendees for the event:
 
-####  [lib/home_page.dart](https://github.com/flutter/codelabs/blob/master/firebase-get-to-know-flutter/step_09/lib/home_page.dart#L56)
+####  [lib/home_page.dart](https://github.com/flutter/codelabs/blob/main/firebase-get-to-know-flutter/step_09/lib/home_page.dart#L56)
 
 ```dart
 Consumer<ApplicationState>(
