@@ -1,5 +1,5 @@
+import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterfire_ui/auth.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -28,9 +28,11 @@ class HomeScreen extends StatelessWidget {
                       const Divider(),
                       Padding(
                         padding: const EdgeInsets.all(2),
-                        child: Image.asset('flutterfire_300x.png', scale: 1),
+                        child: AspectRatio(
+                          aspectRatio: 1,
+                          child: Image.asset('flutterfire_300x.png'),
+                        ),
                       ),
-                      const Divider(),
                     ],
                   ),
                 ),
