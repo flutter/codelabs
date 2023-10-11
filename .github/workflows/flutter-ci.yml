@@ -31,7 +31,7 @@ jobs:
         with:
           distribution: 'zulu' # See https://github.com/actions/setup-java#supported-distributions
           java-version: "17"
-      - uses: subosito/flutter-action@48cafc24713cca54bbe03cdc3a423187d413aafa
+      - uses: subosito/flutter-action@cc97e1648fff6ca5cc647fa67f47e70f7895510b
         with:
           channel: ${{ matrix.flutter_version }}
       - run: dart --version
