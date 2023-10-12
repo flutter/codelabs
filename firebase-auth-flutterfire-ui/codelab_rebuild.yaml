@@ -5,7 +5,7 @@ steps:
       - name: Remove complete
         rmdir: complete
       - name: Create project
-        flutter: create complete --empty
+        flutter: create complete --empty --platforms=android,ios,macos,web
       - name: Configure analysis_options.yaml
         path: complete/analysis_options.yaml
         replace-contents: |
@@ -17,7 +17,7 @@ steps:
               constant_identifier_names: false
       - name: Add dependencies
         path: complete
-        flutter: pub add firebase_core firebase_auth cloud_firestore flutterfire_ui google_sign_in
+        flutter: pub add firebase_auth firebase_core firebase_ui_auth firebase_ui_oauth_google google_sign_in
       - name: Remove README.md
         path: complete
         rm: README.md
@@ -57,7 +57,6 @@ steps:
             @override
             Widget build(BuildContext context) {
               return MaterialApp(
-                debugShowCheckedModeBanner: false,
                 theme: ThemeData(
                   primarySwatch: Colors.blue,
                   useMaterial3: true,
@@ -4731,14 +4730,17 @@ steps:
         patch-u: |
           --- b/firebase-auth-flutterfire-ui/complete/lib/auth_gate.dart
           +++ a/firebase-auth-flutterfire-ui/complete/lib/auth_gate.dart
-          @@ -1,4 +1,6 @@
-          +import 'package:firebase_auth/firebase_auth.dart';
+          @@ -1,12 +1,56 @@
+          +import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
+          +import 'package:firebase_ui_auth/firebase_ui_auth.dart';
+          +import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart';
            import 'package:flutter/material.dart';
-          +import 'package:flutterfire_ui/auth.dart';
            
            import 'home.dart';
+          +import 'main.dart';
            
-          @@ -7,6 +9,57 @@ class AuthGate extends StatelessWidget {
+           class AuthGate extends StatelessWidget {
+             const AuthGate({super.key});
            
              @override
              Widget build(BuildContext context) {
@@ -4748,18 +4750,16 @@ steps:
           +      builder: (context, snapshot) {
           +        if (!snapshot.hasData) {
           +          return SignInScreen(
-          +            providerConfigs: const [
-          +              EmailProviderConfiguration(),
-          +              GoogleProviderConfiguration(
-          +                  clientId:
-          +                      '963656261848-v7r3vq1v6haupv0l1mdrmsf56ktnua60.apps.googleusercontent.com'),
+          +            providers: [
+          +              EmailAuthProvider(),
+          +              GoogleProvider(clientId: clientId),
           +            ],
           +            headerBuilder: (context, constraints, shrinkOffset) {
           +              return Padding(
           +                padding: const EdgeInsets.all(20),
           +                child: AspectRatio(
           +                  aspectRatio: 1,
-          +                  child: Image.asset('flutterfire_300x.png'),
+          +                  child: Image.asset('assets/flutterfire_300x.png'),
           +                ),
           +              );
           +            },
@@ -4780,15 +4780,6 @@ steps:
           +                ),
           +              );
           +            },
-          +            sideBuilder: (context, shrinkOffset) {
-          +              return Padding(
-          +                padding: const EdgeInsets.all(20),
-          +                child: AspectRatio(
-          +                  aspectRatio: 1,
-          +                  child: Image.asset('flutterfire_300x.png'),
-          +                ),
-          +              );
-          +            },
           +          );
           +        }
           +
@@ -4802,13 +4793,12 @@ steps:
         patch-u: |
           --- b/firebase-auth-flutterfire-ui/complete/lib/home.dart
           +++ a/firebase-auth-flutterfire-ui/complete/lib/home.dart
-          @@ -1,4 +1,5 @@
+          @@ -1,3 +1,4 @@
+          +import 'package:firebase_ui_auth/firebase_ui_auth.dart';
            import 'package:flutter/material.dart';
-          +import 'package:flutterfire_ui/auth.dart';
            
            class HomeScreen extends StatelessWidget {
-             const HomeScreen({super.key});
-          @@ -7,6 +8,36 @@ class HomeScreen extends StatelessWidget {
+          @@ -7,6 +8,38 @@ class HomeScreen extends StatelessWidget {
              Widget build(BuildContext context) {
                return Scaffold(
                  appBar: AppBar(
@@ -4832,9 +4822,11 @@ steps:
           +                      const Divider(),
           +                      Padding(
           +                        padding: const EdgeInsets.all(2),
-          +                        child: Image.asset('flutterfire_300x.png', scale: 1),
+          +                        child: AspectRatio(
+          +                          aspectRatio: 1,
+          +                          child: Image.asset('flutterfire_300x.png'),
+          +                        ),
           +                      ),
-          +                      const Divider(),
           +                    ],
           +                  ),
           +                ),
@@ -4845,7 +4837,7 @@ steps:
                    automaticallyImplyLeading: false,
                  ),
                  body: Center(
-          @@ -17,6 +48,7 @@ class HomeScreen extends StatelessWidget {
+          @@ -17,6 +50,7 @@ class HomeScreen extends StatelessWidget {
                          'Welcome!',
                          style: Theme.of(context).textTheme.displaySmall,
                        ),
@@ -4858,10 +4850,9 @@ steps:
         patch-u: |
           --- b/firebase-auth-flutterfire-ui/complete/lib/main.dart
           +++ a/firebase-auth-flutterfire-ui/complete/lib/main.dart
-          @@ -1,10 +1,23 @@
+          @@ -1,10 +1,17 @@
           +import 'package:firebase_core/firebase_core.dart';
            import 'package:flutter/material.dart';
-          +import 'package:flutterfire_ui/auth.dart';
            
            import 'app.dart';
           +import 'firebase_options.dart';
@@ -4874,11 +4865,6 @@ steps:
           +  await Firebase.initializeApp(
           +    options: DefaultFirebaseOptions.currentPlatform,
           +  );
-          +
-          +  FlutterFireUIAuth.configureProviders([
-          +    const EmailProviderConfiguration(),
-          +    const GoogleProviderConfiguration(clientId: clientId),
-          +  ]);
           +
              runApp(const MyApp());
            }
