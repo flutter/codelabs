@@ -35,14 +35,13 @@ class _ArticleScreenState extends State<ArticleScreen> {
           if (_globalKey.currentContext != null) {
             var path = await HomeWidget.renderFlutterWidget(
               const LineChart(),
-              fileName: 'screenshot',
               key: 'filename',
-              logicalSize: _globalKey.currentContext!.size,
+              logicalSize: _globalKey.currentContext!.size!,
               pixelRatio:
                   MediaQuery.of(_globalKey.currentContext!).devicePixelRatio,
             ) as String;
             setState(() {
-              imagePath = path as String?;
+              imagePath = path;
             });
           }
           updateHeadline(widget.article);
