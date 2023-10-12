@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'news_data.dart';
 
 class ArticleScreen extends StatefulWidget {
@@ -22,7 +23,7 @@ class _ArticleScreenState extends State<ArticleScreen> {
           titleTextStyle: const TextStyle(
               fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black)),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () async {
+        onPressed: () {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text('Updating home screen widget...'),
