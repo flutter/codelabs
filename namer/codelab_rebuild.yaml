@@ -41,12 +41,14 @@ steps:
 
           linter:
             rules:
-              prefer_const_constructors: false
-              prefer_final_fields: false
-              use_key_in_widget_constructors: false
-              prefer_const_literals_to_create_immutables: false
-              prefer_const_constructors_in_immutables: false
               avoid_print: false
+              prefer_const_constructors_in_immutables: false
+              prefer_const_constructors: false
+              prefer_const_literals_to_create_immutables: false
+              prefer_final_fields: false
+              unnecessary_breaks: true
+              use_key_in_widget_constructors: false
+
       - name: Replace lib/main.dart
         path: namer_app/lib/main.dart
         replace-contents: |
