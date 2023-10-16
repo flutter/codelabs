@@ -10,6 +10,7 @@ declare -a CODELABS=(
   "animated-responsive-layout"
   # TODO(DomesticMouse): Sort directive sections alphabetically.
   # "boring_to_beautiful"
+  "cookbook"
   "cupertino_store"
   "dart-patterns-and-records"
   "dartpad_codelabs"
@@ -24,6 +25,7 @@ declare -a CODELABS=(
   "github-client"
   "google-maps-in-flutter"
   "haiku_generator"
+  "homescreen_codelab"
   "in_app_purchases"
   "namer"
   "next-gen-ui"

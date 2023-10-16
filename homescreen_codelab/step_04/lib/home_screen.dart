@@ -62,11 +62,11 @@ class _MyHomePageState extends State<MyHomePage> {
             final article = getNewsStories()[idx];
             return ListTile(
               key: Key('$idx ${article.hashCode}'),
-              title: Text(article.title!),
-              subtitle: Text(article.description!),
+              title: Text(article.title),
+              subtitle: Text(article.description),
               onTap: () {
                 Navigator.of(context).push(
-                  MaterialPageRoute(
+                  MaterialPageRoute<ArticleScreen>(
                     builder: (context) {
                       return ArticleScreen(article: article);
                     },

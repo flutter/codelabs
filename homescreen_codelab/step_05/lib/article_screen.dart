@@ -20,7 +20,7 @@ class _ArticleScreenState extends State<ArticleScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text(widget.article.title!),
+          title: Text(widget.article.title),
           titleTextStyle: const TextStyle(
               fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black)),
       floatingActionButton: FloatingActionButton.extended(
@@ -37,7 +37,7 @@ class _ArticleScreenState extends State<ArticleScreen> {
         padding: const EdgeInsets.all(16.0),
         children: [
           Text(
-            widget.article.description!,
+            widget.article.description,
             style: Theme.of(context).textTheme.titleMedium,
           ),
           const SizedBox(height: 20.0),
