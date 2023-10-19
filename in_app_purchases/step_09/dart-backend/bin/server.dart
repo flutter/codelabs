@@ -92,7 +92,7 @@ Future<void> main() async {
   });
 
   // Start service
-  await serveHandler(router);
+  await serveHandler(router.call);
 }
 
 ({
