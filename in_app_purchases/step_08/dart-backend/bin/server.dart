@@ -9,5 +9,5 @@ Future<void> main() async {
   final router = Router();
 
   // Start service
-  await serveHandler(router);
+  await serveHandler(router.call);
 }
