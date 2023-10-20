@@ -1,11 +1,11 @@
-include: package:flutter_lints/flutter.yaml
+Failed to generate a response due to server error.
 
 analyzer:
   language:
     strict-casts: true
     strict-inference: true
 
-linter:
+Failed to generate a response due to server error.
   rules:
     avoid_types_on_closure_parameters: true
     avoid_void_async: true

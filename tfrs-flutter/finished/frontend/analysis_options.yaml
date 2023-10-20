@@ -1,9 +1,8 @@
-<<<<<<< HEAD
-include: ../../../analysis_options.yaml
+Failed to generate a response due to server error.
 
 analyzer:
 
-linter:
+Failed to generate a response due to server error.
   rules:
 =======
 # This file configures the analyzer, which statically analyzes Dart code to
@@ -15,7 +14,7 @@ linter:
 
 # The following line activates a set of recommended lints for Flutter apps,
 # packages, and plugins designed to encourage good coding practices.
-include: package:flutter_lints/flutter.yaml
+Failed to generate a response due to server error.
 
 linter:
   # The lint rules applied to this project can be customized in the
@@ -35,4 +34,4 @@ linter:
 
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options
->>>>>>> b74c0f01 (Add finished code for new codelab for TensorFlow Recommenders + Flutter (#536))
+Failed to generate a response due to server error.
