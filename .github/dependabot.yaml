@@ -17,150 +17,175 @@ updates:
       - "autosubmit"
   # Pub ecosystem.
   - package-ecosystem: "pub"
+    versioning-strategy: "increase-if-necessary"
     directory: "/adaptive_app/"
     schedule:
       interval: "daily"
     labels:
       - "autosubmit"
   - package-ecosystem: "pub"
+    versioning-strategy: "increase-if-necessary"
     directory: "/animated-responsive-layout/"
     schedule:
       interval: "daily"
     labels:
       - "autosubmit"
   - package-ecosystem: "pub"
+    versioning-strategy: "increase-if-necessary"
     directory: "/boring_to_beautiful/"
     schedule:
       interval: "daily"
     labels:
       - "autosubmit"
   - package-ecosystem: "pub"
+    versioning-strategy: "increase-if-necessary"
     directory: "/cupertino_store/"
     schedule:
       interval: "daily"
     labels:
       - "autosubmit"
   - package-ecosystem: "pub"
+    versioning-strategy: "increase-if-necessary"
     directory: "/dart-patterns-and-records/"
     schedule:
       interval: "daily"
     labels:
       - "autosubmit"
   - package-ecosystem: "pub"
+    versioning-strategy: "increase-if-necessary"
     directory: "/dartpad_codelabs/"
     schedule:
       interval: "daily"
     labels:
       - "autosubmit"
   - package-ecosystem: "pub"
+    versioning-strategy: "increase-if-necessary"
     directory: "/deeplink_cookbook/"
     schedule:
       interval: "daily"
     labels:
       - "autosubmit"
   - package-ecosystem: "pub"
+    versioning-strategy: "increase-if-necessary"
     directory: "/ffigen_codelab/"
     schedule:
       interval: "daily"
     labels:
       - "autosubmit"
   - package-ecosystem: "pub"
+    versioning-strategy: "increase-if-necessary"
     directory: "/firebase-auth-flutterfire-ui/"
     schedule:
       interval: "daily"
     labels:
       - "autosubmit"
   - package-ecosystem: "pub"
+    versioning-strategy: "increase-if-necessary"
     directory: "/flame-building-doodle-dash/finished_game/"
     schedule:
       interval: "daily"
     labels:
       - "autosubmit"
   - package-ecosystem: "pub"
+    versioning-strategy: "increase-if-necessary"
     directory: "/flame-building-doodle-dash/"
     schedule:
       interval: "daily"
     labels:
       - "autosubmit"
   - package-ecosystem: "pub"
+    versioning-strategy: "increase-if-necessary"
     directory: "/github-client/"
     schedule:
       interval: "daily"
     labels:
       - "autosubmit"
   - package-ecosystem: "pub"
+    versioning-strategy: "increase-if-necessary"
     directory: "/google-maps-in-flutter/"
     schedule:
       interval: "daily"
     labels:
       - "autosubmit"
   - package-ecosystem: "pub"
+    versioning-strategy: "increase-if-necessary"
     directory: "/haiku_generator/"
     schedule:
       interval: "daily"
     labels:
       - "autosubmit"
   - package-ecosystem: "pub"
+    versioning-strategy: "increase-if-necessary"
     directory: "/homescreen_codelab/"
     schedule:
       interval: "daily"
     labels:
       - "autosubmit"
   - package-ecosystem: "pub"
+    versioning-strategy: "increase-if-necessary"
     directory: "/in_app_purchases/"
     schedule:
       interval: "daily"
     labels:
       - "autosubmit"
   - package-ecosystem: "pub"
+    versioning-strategy: "increase-if-necessary"
     directory: "/namer/"
     schedule:
       interval: "daily"
     labels:
       - "autosubmit"
   - package-ecosystem: "pub"
+    versioning-strategy: "increase-if-necessary"
     directory: "/next-gen-ui/"
     schedule:
       interval: "daily"
     labels:
       - "autosubmit"
   - package-ecosystem: "pub"
+    versioning-strategy: "increase-if-necessary"
     directory: "/star_counter/"
     schedule:
       interval: "daily"
     labels:
       - "autosubmit"
   - package-ecosystem: "pub"
+    versioning-strategy: "increase-if-necessary"
     directory: "/testing_codelab/"
     schedule:
       interval: "daily"
     labels:
       - "autosubmit"
   - package-ecosystem: "pub"
+    versioning-strategy: "increase-if-necessary"
     directory: "/tfagents-flutter/"
     schedule:
       interval: "daily"
     labels:
       - "autosubmit"
   - package-ecosystem: "pub"
+    versioning-strategy: "increase-if-necessary"
     directory: "/tfrs-flutter/"
     schedule:
       interval: "daily"
     labels:
       - "autosubmit"
   - package-ecosystem: "pub"
+    versioning-strategy: "increase-if-necessary"
     directory: "/tfserving-flutter/"
     schedule:
       interval: "daily"
     labels:
       - "autosubmit"
   - package-ecosystem: "pub"
+    versioning-strategy: "increase-if-necessary"
     directory: "/tooling/"
     schedule:
       interval: "daily"
     labels:
       - "autosubmit"
   - package-ecosystem: "pub"
+    versioning-strategy: "increase-if-necessary"
     directory: "/webview_flutter/"
     schedule:
       interval: "daily"
