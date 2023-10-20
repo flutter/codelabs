@@ -930,7 +930,7 @@ steps:
                       ),
                     ],
                   ),
-                  const VerticalDivider(thickness: 1, width: 1),
+                  const VerticalDivider(thickness: 1, inline-size: 1),
                   // This is the main content.
                   Expanded(
                     child: IndexedStack(

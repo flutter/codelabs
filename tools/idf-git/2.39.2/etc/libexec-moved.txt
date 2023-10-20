@@ -1,0 +1,9 @@
+mingw64/libexec/git-core/git-credential-wincred.exe
+mingw64/libexec/git-core/git-http-fetch.exe
+mingw64/libexec/git-core/git-http-push.exe
+mingw64/libexec/git-core/git-remote-http.exe
+mingw64/libexec/git-core/git-remote-https.exe
+mingw64/libexec/git-core/git-sh-i18n--envsubst.exe
+mingw64/libexec/git-core/git.exe
+mingw64/libexec/git-core/headless-git.exe
+mingw64/libexec/git-core/scalar.exe
