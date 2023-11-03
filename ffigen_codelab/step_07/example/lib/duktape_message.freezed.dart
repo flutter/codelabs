@@ -81,20 +81,20 @@ class _$DuktapeMessageCopyWithImpl<$Res, $Val extends DuktapeMessage>
 }
 
 /// @nodoc
-abstract class _$$DuktapeMessageCodeCopyWith<$Res> {
-  factory _$$DuktapeMessageCodeCopyWith(_$DuktapeMessageCode value,
-          $Res Function(_$DuktapeMessageCode) then) =
-      __$$DuktapeMessageCodeCopyWithImpl<$Res>;
+abstract class _$$DuktapeMessageCodeImplCopyWith<$Res> {
+  factory _$$DuktapeMessageCodeImplCopyWith(_$DuktapeMessageCodeImpl value,
+          $Res Function(_$DuktapeMessageCodeImpl) then) =
+      __$$DuktapeMessageCodeImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String code});
 }
 
 /// @nodoc
-class __$$DuktapeMessageCodeCopyWithImpl<$Res>
-    extends _$DuktapeMessageCopyWithImpl<$Res, _$DuktapeMessageCode>
-    implements _$$DuktapeMessageCodeCopyWith<$Res> {
-  __$$DuktapeMessageCodeCopyWithImpl(
-      _$DuktapeMessageCode _value, $Res Function(_$DuktapeMessageCode) _then)
+class __$$DuktapeMessageCodeImplCopyWithImpl<$Res>
+    extends _$DuktapeMessageCopyWithImpl<$Res, _$DuktapeMessageCodeImpl>
+    implements _$$DuktapeMessageCodeImplCopyWith<$Res> {
+  __$$DuktapeMessageCodeImplCopyWithImpl(_$DuktapeMessageCodeImpl _value,
+      $Res Function(_$DuktapeMessageCodeImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -102,7 +102,7 @@ class __$$DuktapeMessageCodeCopyWithImpl<$Res>
   $Res call({
     Object? code = null,
   }) {
-    return _then(_$DuktapeMessageCode(
+    return _then(_$DuktapeMessageCodeImpl(
       null == code
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
@@ -113,8 +113,8 @@ class __$$DuktapeMessageCodeCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$DuktapeMessageCode implements DuktapeMessageCode {
-  _$DuktapeMessageCode(this.code);
+class _$DuktapeMessageCodeImpl implements DuktapeMessageCode {
+  _$DuktapeMessageCodeImpl(this.code);
 
   @override
   final String code;
@@ -128,7 +128,7 @@ class _$DuktapeMessageCode implements DuktapeMessageCode {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$DuktapeMessageCode &&
+            other is _$DuktapeMessageCodeImpl &&
             (identical(other.code, code) || other.code == code));
   }
 
@@ -138,8 +138,8 @@ class _$DuktapeMessageCode implements DuktapeMessageCode {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$DuktapeMessageCodeCopyWith<_$DuktapeMessageCode> get copyWith =>
-      __$$DuktapeMessageCodeCopyWithImpl<_$DuktapeMessageCode>(
+  _$$DuktapeMessageCodeImplCopyWith<_$DuktapeMessageCodeImpl> get copyWith =>
+      __$$DuktapeMessageCodeImplCopyWithImpl<_$DuktapeMessageCodeImpl>(
           this, _$identity);
 
   @override
@@ -212,29 +212,31 @@ class _$DuktapeMessageCode implements DuktapeMessageCode {
 }
 
 abstract class DuktapeMessageCode implements DuktapeMessage {
-  factory DuktapeMessageCode(final String code) = _$DuktapeMessageCode;
+  factory DuktapeMessageCode(final String code) = _$DuktapeMessageCodeImpl;
 
   String get code;
   @JsonKey(ignore: true)
-  _$$DuktapeMessageCodeCopyWith<_$DuktapeMessageCode> get copyWith =>
+  _$$DuktapeMessageCodeImplCopyWith<_$DuktapeMessageCodeImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$DuktapeMessageResponseCopyWith<$Res> {
-  factory _$$DuktapeMessageResponseCopyWith(_$DuktapeMessageResponse value,
-          $Res Function(_$DuktapeMessageResponse) then) =
-      __$$DuktapeMessageResponseCopyWithImpl<$Res>;
+abstract class _$$DuktapeMessageResponseImplCopyWith<$Res> {
+  factory _$$DuktapeMessageResponseImplCopyWith(
+          _$DuktapeMessageResponseImpl value,
+          $Res Function(_$DuktapeMessageResponseImpl) then) =
+      __$$DuktapeMessageResponseImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String result});
 }
 
 /// @nodoc
-class __$$DuktapeMessageResponseCopyWithImpl<$Res>
-    extends _$DuktapeMessageCopyWithImpl<$Res, _$DuktapeMessageResponse>
-    implements _$$DuktapeMessageResponseCopyWith<$Res> {
-  __$$DuktapeMessageResponseCopyWithImpl(_$DuktapeMessageResponse _value,
-      $Res Function(_$DuktapeMessageResponse) _then)
+class __$$DuktapeMessageResponseImplCopyWithImpl<$Res>
+    extends _$DuktapeMessageCopyWithImpl<$Res, _$DuktapeMessageResponseImpl>
+    implements _$$DuktapeMessageResponseImplCopyWith<$Res> {
+  __$$DuktapeMessageResponseImplCopyWithImpl(
+      _$DuktapeMessageResponseImpl _value,
+      $Res Function(_$DuktapeMessageResponseImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -242,7 +244,7 @@ class __$$DuktapeMessageResponseCopyWithImpl<$Res>
   $Res call({
     Object? result = null,
   }) {
-    return _then(_$DuktapeMessageResponse(
+    return _then(_$DuktapeMessageResponseImpl(
       null == result
           ? _value.result
           : result // ignore: cast_nullable_to_non_nullable
@@ -253,8 +255,8 @@ class __$$DuktapeMessageResponseCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$DuktapeMessageResponse implements DuktapeMessageResponse {
-  _$DuktapeMessageResponse(this.result);
+class _$DuktapeMessageResponseImpl implements DuktapeMessageResponse {
+  _$DuktapeMessageResponseImpl(this.result);
 
   @override
   final String result;
@@ -268,7 +270,7 @@ class _$DuktapeMessageResponse implements DuktapeMessageResponse {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$DuktapeMessageResponse &&
+            other is _$DuktapeMessageResponseImpl &&
             (identical(other.result, result) || other.result == result));
   }
 
@@ -278,9 +280,9 @@ class _$DuktapeMessageResponse implements DuktapeMessageResponse {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$DuktapeMessageResponseCopyWith<_$DuktapeMessageResponse> get copyWith =>
-      __$$DuktapeMessageResponseCopyWithImpl<_$DuktapeMessageResponse>(
-          this, _$identity);
+  _$$DuktapeMessageResponseImplCopyWith<_$DuktapeMessageResponseImpl>
+      get copyWith => __$$DuktapeMessageResponseImplCopyWithImpl<
+          _$DuktapeMessageResponseImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -353,29 +355,29 @@ class _$DuktapeMessageResponse implements DuktapeMessageResponse {
 
 abstract class DuktapeMessageResponse implements DuktapeMessage {
   factory DuktapeMessageResponse(final String result) =
-      _$DuktapeMessageResponse;
+      _$DuktapeMessageResponseImpl;
 
   String get result;
   @JsonKey(ignore: true)
-  _$$DuktapeMessageResponseCopyWith<_$DuktapeMessageResponse> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$DuktapeMessageResponseImplCopyWith<_$DuktapeMessageResponseImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$DuktapeMessageErrorCopyWith<$Res> {
-  factory _$$DuktapeMessageErrorCopyWith(_$DuktapeMessageError value,
-          $Res Function(_$DuktapeMessageError) then) =
-      __$$DuktapeMessageErrorCopyWithImpl<$Res>;
+abstract class _$$DuktapeMessageErrorImplCopyWith<$Res> {
+  factory _$$DuktapeMessageErrorImplCopyWith(_$DuktapeMessageErrorImpl value,
+          $Res Function(_$DuktapeMessageErrorImpl) then) =
+      __$$DuktapeMessageErrorImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String log});
 }
 
 /// @nodoc
-class __$$DuktapeMessageErrorCopyWithImpl<$Res>
-    extends _$DuktapeMessageCopyWithImpl<$Res, _$DuktapeMessageError>
-    implements _$$DuktapeMessageErrorCopyWith<$Res> {
-  __$$DuktapeMessageErrorCopyWithImpl(
-      _$DuktapeMessageError _value, $Res Function(_$DuktapeMessageError) _then)
+class __$$DuktapeMessageErrorImplCopyWithImpl<$Res>
+    extends _$DuktapeMessageCopyWithImpl<$Res, _$DuktapeMessageErrorImpl>
+    implements _$$DuktapeMessageErrorImplCopyWith<$Res> {
+  __$$DuktapeMessageErrorImplCopyWithImpl(_$DuktapeMessageErrorImpl _value,
+      $Res Function(_$DuktapeMessageErrorImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -383,7 +385,7 @@ class __$$DuktapeMessageErrorCopyWithImpl<$Res>
   $Res call({
     Object? log = null,
   }) {
-    return _then(_$DuktapeMessageError(
+    return _then(_$DuktapeMessageErrorImpl(
       null == log
           ? _value.log
           : log // ignore: cast_nullable_to_non_nullable
@@ -394,8 +396,8 @@ class __$$DuktapeMessageErrorCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$DuktapeMessageError implements DuktapeMessageError {
-  _$DuktapeMessageError(this.log);
+class _$DuktapeMessageErrorImpl implements DuktapeMessageError {
+  _$DuktapeMessageErrorImpl(this.log);
 
   @override
   final String log;
@@ -409,7 +411,7 @@ class _$DuktapeMessageError implements DuktapeMessageError {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$DuktapeMessageError &&
+            other is _$DuktapeMessageErrorImpl &&
             (identical(other.log, log) || other.log == log));
   }
 
@@ -419,8 +421,8 @@ class _$DuktapeMessageError implements DuktapeMessageError {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$DuktapeMessageErrorCopyWith<_$DuktapeMessageError> get copyWith =>
-      __$$DuktapeMessageErrorCopyWithImpl<_$DuktapeMessageError>(
+  _$$DuktapeMessageErrorImplCopyWith<_$DuktapeMessageErrorImpl> get copyWith =>
+      __$$DuktapeMessageErrorImplCopyWithImpl<_$DuktapeMessageErrorImpl>(
           this, _$identity);
 
   @override
@@ -493,10 +495,10 @@ class _$DuktapeMessageError implements DuktapeMessageError {
 }
 
 abstract class DuktapeMessageError implements DuktapeMessage {
-  factory DuktapeMessageError(final String log) = _$DuktapeMessageError;
+  factory DuktapeMessageError(final String log) = _$DuktapeMessageErrorImpl;
 
   String get log;
   @JsonKey(ignore: true)
-  _$$DuktapeMessageErrorCopyWith<_$DuktapeMessageError> get copyWith =>
+  _$$DuktapeMessageErrorImplCopyWith<_$DuktapeMessageErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

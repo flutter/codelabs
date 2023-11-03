@@ -46,6 +46,12 @@ steps:
       - name: dart analyze
         path: ffigen_app
         dart: analyze --fatal-infos
+      - name: Upgrade ffigen
+        path: ffigen_app
+        flutter: pub upgrade --major-versions
+      - name: Upgrade ffigen/example
+        path: ffigen_app/example
+        flutter: pub upgrade --major-versions
       - name: Build macOS app
         path: ffigen_app/example
         platforms: [ macos ]
