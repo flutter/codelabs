@@ -18,6 +18,9 @@ steps:
       - name: Add dependencies
         path: complete
         flutter: pub add firebase_auth firebase_core firebase_ui_auth firebase_ui_oauth_google google_sign_in
+      - name: Update dependencies
+        path: complete
+        flutter: pub upgrade --major-versions
       - name: Remove README.md
         path: complete
         rm: README.md
