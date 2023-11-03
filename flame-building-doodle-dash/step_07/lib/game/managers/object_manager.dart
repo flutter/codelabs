@@ -6,10 +6,10 @@ import 'dart:math';
 
 import 'package:flame/components.dart';
 
-import './managers.dart';
 import '../doodle_dash.dart';
 import '../sprites/sprites.dart';
 import '../util/util.dart';
+import './managers.dart';
 
 final Random _rand = Random();
 
