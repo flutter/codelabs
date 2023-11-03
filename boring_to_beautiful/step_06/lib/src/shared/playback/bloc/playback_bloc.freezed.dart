@@ -99,25 +99,25 @@ class _$PlaybackEventCopyWithImpl<$Res, $Val extends PlaybackEvent>
 }
 
 /// @nodoc
-abstract class _$$TogglePlayPauseCopyWith<$Res> {
-  factory _$$TogglePlayPauseCopyWith(
-          _$TogglePlayPause value, $Res Function(_$TogglePlayPause) then) =
-      __$$TogglePlayPauseCopyWithImpl<$Res>;
+abstract class _$$TogglePlayPauseImplCopyWith<$Res> {
+  factory _$$TogglePlayPauseImplCopyWith(_$TogglePlayPauseImpl value,
+          $Res Function(_$TogglePlayPauseImpl) then) =
+      __$$TogglePlayPauseImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$TogglePlayPauseCopyWithImpl<$Res>
-    extends _$PlaybackEventCopyWithImpl<$Res, _$TogglePlayPause>
-    implements _$$TogglePlayPauseCopyWith<$Res> {
-  __$$TogglePlayPauseCopyWithImpl(
-      _$TogglePlayPause _value, $Res Function(_$TogglePlayPause) _then)
+class __$$TogglePlayPauseImplCopyWithImpl<$Res>
+    extends _$PlaybackEventCopyWithImpl<$Res, _$TogglePlayPauseImpl>
+    implements _$$TogglePlayPauseImplCopyWith<$Res> {
+  __$$TogglePlayPauseImplCopyWithImpl(
+      _$TogglePlayPauseImpl _value, $Res Function(_$TogglePlayPauseImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$TogglePlayPause implements TogglePlayPause {
-  const _$TogglePlayPause();
+class _$TogglePlayPauseImpl implements TogglePlayPause {
+  const _$TogglePlayPauseImpl();
 
   @override
   String toString() {
@@ -127,7 +127,7 @@ class _$TogglePlayPause implements TogglePlayPause {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$TogglePlayPause);
+        (other.runtimeType == runtimeType && other is _$TogglePlayPauseImpl);
   }
 
   @override
@@ -221,24 +221,24 @@ class _$TogglePlayPause implements TogglePlayPause {
 }
 
 abstract class TogglePlayPause implements PlaybackEvent {
-  const factory TogglePlayPause() = _$TogglePlayPause;
+  const factory TogglePlayPause() = _$TogglePlayPauseImpl;
 }
 
 /// @nodoc
-abstract class _$$ChangeSongCopyWith<$Res> {
-  factory _$$ChangeSongCopyWith(
-          _$ChangeSong value, $Res Function(_$ChangeSong) then) =
-      __$$ChangeSongCopyWithImpl<$Res>;
+abstract class _$$ChangeSongImplCopyWith<$Res> {
+  factory _$$ChangeSongImplCopyWith(
+          _$ChangeSongImpl value, $Res Function(_$ChangeSongImpl) then) =
+      __$$ChangeSongImplCopyWithImpl<$Res>;
   @useResult
   $Res call({Song song});
 }
 
 /// @nodoc
-class __$$ChangeSongCopyWithImpl<$Res>
-    extends _$PlaybackEventCopyWithImpl<$Res, _$ChangeSong>
-    implements _$$ChangeSongCopyWith<$Res> {
-  __$$ChangeSongCopyWithImpl(
-      _$ChangeSong _value, $Res Function(_$ChangeSong) _then)
+class __$$ChangeSongImplCopyWithImpl<$Res>
+    extends _$PlaybackEventCopyWithImpl<$Res, _$ChangeSongImpl>
+    implements _$$ChangeSongImplCopyWith<$Res> {
+  __$$ChangeSongImplCopyWithImpl(
+      _$ChangeSongImpl _value, $Res Function(_$ChangeSongImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -246,7 +246,7 @@ class __$$ChangeSongCopyWithImpl<$Res>
   $Res call({
     Object? song = null,
   }) {
-    return _then(_$ChangeSong(
+    return _then(_$ChangeSongImpl(
       null == song
           ? _value.song
           : song // ignore: cast_nullable_to_non_nullable
@@ -257,8 +257,8 @@ class __$$ChangeSongCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$ChangeSong implements ChangeSong {
-  const _$ChangeSong(this.song);
+class _$ChangeSongImpl implements ChangeSong {
+  const _$ChangeSongImpl(this.song);
 
   @override
   final Song song;
@@ -272,7 +272,7 @@ class _$ChangeSong implements ChangeSong {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ChangeSong &&
+            other is _$ChangeSongImpl &&
             (identical(other.song, song) || other.song == song));
   }
 
@@ -282,8 +282,8 @@ class _$ChangeSong implements ChangeSong {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$ChangeSongCopyWith<_$ChangeSong> get copyWith =>
-      __$$ChangeSongCopyWithImpl<_$ChangeSong>(this, _$identity);
+  _$$ChangeSongImplCopyWith<_$ChangeSongImpl> get copyWith =>
+      __$$ChangeSongImplCopyWithImpl<_$ChangeSongImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -373,29 +373,29 @@ class _$ChangeSong implements ChangeSong {
 }
 
 abstract class ChangeSong implements PlaybackEvent {
-  const factory ChangeSong(final Song song) = _$ChangeSong;
+  const factory ChangeSong(final Song song) = _$ChangeSongImpl;
 
   Song get song;
   @JsonKey(ignore: true)
-  _$$ChangeSongCopyWith<_$ChangeSong> get copyWith =>
+  _$$ChangeSongImplCopyWith<_$ChangeSongImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$SetVolumeCopyWith<$Res> {
-  factory _$$SetVolumeCopyWith(
-          _$SetVolume value, $Res Function(_$SetVolume) then) =
-      __$$SetVolumeCopyWithImpl<$Res>;
+abstract class _$$SetVolumeImplCopyWith<$Res> {
+  factory _$$SetVolumeImplCopyWith(
+          _$SetVolumeImpl value, $Res Function(_$SetVolumeImpl) then) =
+      __$$SetVolumeImplCopyWithImpl<$Res>;
   @useResult
   $Res call({double value});
 }
 
 /// @nodoc
-class __$$SetVolumeCopyWithImpl<$Res>
-    extends _$PlaybackEventCopyWithImpl<$Res, _$SetVolume>
-    implements _$$SetVolumeCopyWith<$Res> {
-  __$$SetVolumeCopyWithImpl(
-      _$SetVolume _value, $Res Function(_$SetVolume) _then)
+class __$$SetVolumeImplCopyWithImpl<$Res>
+    extends _$PlaybackEventCopyWithImpl<$Res, _$SetVolumeImpl>
+    implements _$$SetVolumeImplCopyWith<$Res> {
+  __$$SetVolumeImplCopyWithImpl(
+      _$SetVolumeImpl _value, $Res Function(_$SetVolumeImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -403,7 +403,7 @@ class __$$SetVolumeCopyWithImpl<$Res>
   $Res call({
     Object? value = null,
   }) {
-    return _then(_$SetVolume(
+    return _then(_$SetVolumeImpl(
       null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
@@ -414,8 +414,8 @@ class __$$SetVolumeCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$SetVolume implements SetVolume {
-  const _$SetVolume(this.value);
+class _$SetVolumeImpl implements SetVolume {
+  const _$SetVolumeImpl(this.value);
 
   @override
   final double value;
@@ -429,7 +429,7 @@ class _$SetVolume implements SetVolume {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$SetVolume &&
+            other is _$SetVolumeImpl &&
             (identical(other.value, value) || other.value == value));
   }
 
@@ -439,8 +439,8 @@ class _$SetVolume implements SetVolume {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$SetVolumeCopyWith<_$SetVolume> get copyWith =>
-      __$$SetVolumeCopyWithImpl<_$SetVolume>(this, _$identity);
+  _$$SetVolumeImplCopyWith<_$SetVolumeImpl> get copyWith =>
+      __$$SetVolumeImplCopyWithImpl<_$SetVolumeImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -530,34 +530,34 @@ class _$SetVolume implements SetVolume {
 }
 
 abstract class SetVolume implements PlaybackEvent {
-  const factory SetVolume(final double value) = _$SetVolume;
+  const factory SetVolume(final double value) = _$SetVolumeImpl;
 
   double get value;
   @JsonKey(ignore: true)
-  _$$SetVolumeCopyWith<_$SetVolume> get copyWith =>
+  _$$SetVolumeImplCopyWith<_$SetVolumeImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$ToggleMuteCopyWith<$Res> {
-  factory _$$ToggleMuteCopyWith(
-          _$ToggleMute value, $Res Function(_$ToggleMute) then) =
-      __$$ToggleMuteCopyWithImpl<$Res>;
+abstract class _$$ToggleMuteImplCopyWith<$Res> {
+  factory _$$ToggleMuteImplCopyWith(
+          _$ToggleMuteImpl value, $Res Function(_$ToggleMuteImpl) then) =
+      __$$ToggleMuteImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$ToggleMuteCopyWithImpl<$Res>
-    extends _$PlaybackEventCopyWithImpl<$Res, _$ToggleMute>
-    implements _$$ToggleMuteCopyWith<$Res> {
-  __$$ToggleMuteCopyWithImpl(
-      _$ToggleMute _value, $Res Function(_$ToggleMute) _then)
+class __$$ToggleMuteImplCopyWithImpl<$Res>
+    extends _$PlaybackEventCopyWithImpl<$Res, _$ToggleMuteImpl>
+    implements _$$ToggleMuteImplCopyWith<$Res> {
+  __$$ToggleMuteImplCopyWithImpl(
+      _$ToggleMuteImpl _value, $Res Function(_$ToggleMuteImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$ToggleMute implements ToggleMute {
-  const _$ToggleMute();
+class _$ToggleMuteImpl implements ToggleMute {
+  const _$ToggleMuteImpl();
 
   @override
   String toString() {
@@ -567,7 +567,7 @@ class _$ToggleMute implements ToggleMute {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$ToggleMute);
+        (other.runtimeType == runtimeType && other is _$ToggleMuteImpl);
   }
 
   @override
@@ -661,24 +661,24 @@ class _$ToggleMute implements ToggleMute {
 }
 
 abstract class ToggleMute implements PlaybackEvent {
-  const factory ToggleMute() = _$ToggleMute;
+  const factory ToggleMute() = _$ToggleMuteImpl;
 }
 
 /// @nodoc
-abstract class _$$MoveToInSongCopyWith<$Res> {
-  factory _$$MoveToInSongCopyWith(
-          _$MoveToInSong value, $Res Function(_$MoveToInSong) then) =
-      __$$MoveToInSongCopyWithImpl<$Res>;
+abstract class _$$MoveToInSongImplCopyWith<$Res> {
+  factory _$$MoveToInSongImplCopyWith(
+          _$MoveToInSongImpl value, $Res Function(_$MoveToInSongImpl) then) =
+      __$$MoveToInSongImplCopyWithImpl<$Res>;
   @useResult
   $Res call({double percent});
 }
 
 /// @nodoc
-class __$$MoveToInSongCopyWithImpl<$Res>
-    extends _$PlaybackEventCopyWithImpl<$Res, _$MoveToInSong>
-    implements _$$MoveToInSongCopyWith<$Res> {
-  __$$MoveToInSongCopyWithImpl(
-      _$MoveToInSong _value, $Res Function(_$MoveToInSong) _then)
+class __$$MoveToInSongImplCopyWithImpl<$Res>
+    extends _$PlaybackEventCopyWithImpl<$Res, _$MoveToInSongImpl>
+    implements _$$MoveToInSongImplCopyWith<$Res> {
+  __$$MoveToInSongImplCopyWithImpl(
+      _$MoveToInSongImpl _value, $Res Function(_$MoveToInSongImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -686,7 +686,7 @@ class __$$MoveToInSongCopyWithImpl<$Res>
   $Res call({
     Object? percent = null,
   }) {
-    return _then(_$MoveToInSong(
+    return _then(_$MoveToInSongImpl(
       null == percent
           ? _value.percent
           : percent // ignore: cast_nullable_to_non_nullable
@@ -697,8 +697,8 @@ class __$$MoveToInSongCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$MoveToInSong implements MoveToInSong {
-  const _$MoveToInSong(this.percent);
+class _$MoveToInSongImpl implements MoveToInSong {
+  const _$MoveToInSongImpl(this.percent);
 
   @override
   final double percent;
@@ -712,7 +712,7 @@ class _$MoveToInSong implements MoveToInSong {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$MoveToInSong &&
+            other is _$MoveToInSongImpl &&
             (identical(other.percent, percent) || other.percent == percent));
   }
 
@@ -722,8 +722,8 @@ class _$MoveToInSong implements MoveToInSong {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$MoveToInSongCopyWith<_$MoveToInSong> get copyWith =>
-      __$$MoveToInSongCopyWithImpl<_$MoveToInSong>(this, _$identity);
+  _$$MoveToInSongImplCopyWith<_$MoveToInSongImpl> get copyWith =>
+      __$$MoveToInSongImplCopyWithImpl<_$MoveToInSongImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -813,29 +813,29 @@ class _$MoveToInSong implements MoveToInSong {
 }
 
 abstract class MoveToInSong implements PlaybackEvent {
-  const factory MoveToInSong(final double percent) = _$MoveToInSong;
+  const factory MoveToInSong(final double percent) = _$MoveToInSongImpl;
 
   double get percent;
   @JsonKey(ignore: true)
-  _$$MoveToInSongCopyWith<_$MoveToInSong> get copyWith =>
+  _$$MoveToInSongImplCopyWith<_$MoveToInSongImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$SongProgressCopyWith<$Res> {
-  factory _$$SongProgressCopyWith(
-          _$SongProgress value, $Res Function(_$SongProgress) then) =
-      __$$SongProgressCopyWithImpl<$Res>;
+abstract class _$$SongProgressImplCopyWith<$Res> {
+  factory _$$SongProgressImplCopyWith(
+          _$SongProgressImpl value, $Res Function(_$SongProgressImpl) then) =
+      __$$SongProgressImplCopyWithImpl<$Res>;
   @useResult
   $Res call({Duration duration});
 }
 
 /// @nodoc
-class __$$SongProgressCopyWithImpl<$Res>
-    extends _$PlaybackEventCopyWithImpl<$Res, _$SongProgress>
-    implements _$$SongProgressCopyWith<$Res> {
-  __$$SongProgressCopyWithImpl(
-      _$SongProgress _value, $Res Function(_$SongProgress) _then)
+class __$$SongProgressImplCopyWithImpl<$Res>
+    extends _$PlaybackEventCopyWithImpl<$Res, _$SongProgressImpl>
+    implements _$$SongProgressImplCopyWith<$Res> {
+  __$$SongProgressImplCopyWithImpl(
+      _$SongProgressImpl _value, $Res Function(_$SongProgressImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -843,7 +843,7 @@ class __$$SongProgressCopyWithImpl<$Res>
   $Res call({
     Object? duration = null,
   }) {
-    return _then(_$SongProgress(
+    return _then(_$SongProgressImpl(
       null == duration
           ? _value.duration
           : duration // ignore: cast_nullable_to_non_nullable
@@ -854,8 +854,8 @@ class __$$SongProgressCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$SongProgress implements SongProgress {
-  const _$SongProgress(this.duration);
+class _$SongProgressImpl implements SongProgress {
+  const _$SongProgressImpl(this.duration);
 
   @override
   final Duration duration;
@@ -869,7 +869,7 @@ class _$SongProgress implements SongProgress {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$SongProgress &&
+            other is _$SongProgressImpl &&
             (identical(other.duration, duration) ||
                 other.duration == duration));
   }
@@ -880,8 +880,8 @@ class _$SongProgress implements SongProgress {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$SongProgressCopyWith<_$SongProgress> get copyWith =>
-      __$$SongProgressCopyWithImpl<_$SongProgress>(this, _$identity);
+  _$$SongProgressImplCopyWith<_$SongProgressImpl> get copyWith =>
+      __$$SongProgressImplCopyWithImpl<_$SongProgressImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -971,11 +971,11 @@ class _$SongProgress implements SongProgress {
 }
 
 abstract class SongProgress implements PlaybackEvent {
-  const factory SongProgress(final Duration duration) = _$SongProgress;
+  const factory SongProgress(final Duration duration) = _$SongProgressImpl;
 
   Duration get duration;
   @JsonKey(ignore: true)
-  _$$SongProgressCopyWith<_$SongProgress> get copyWith =>
+  _$$SongProgressImplCopyWith<_$SongProgressImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -1068,11 +1068,11 @@ class _$PlaybackStateCopyWithImpl<$Res, $Val extends PlaybackState>
 }
 
 /// @nodoc
-abstract class _$$_PlaybackStateCopyWith<$Res>
+abstract class _$$PlaybackStateImplCopyWith<$Res>
     implements $PlaybackStateCopyWith<$Res> {
-  factory _$$_PlaybackStateCopyWith(
-          _$_PlaybackState value, $Res Function(_$_PlaybackState) then) =
-      __$$_PlaybackStateCopyWithImpl<$Res>;
+  factory _$$PlaybackStateImplCopyWith(
+          _$PlaybackStateImpl value, $Res Function(_$PlaybackStateImpl) then) =
+      __$$PlaybackStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -1087,11 +1087,11 @@ abstract class _$$_PlaybackStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_PlaybackStateCopyWithImpl<$Res>
-    extends _$PlaybackStateCopyWithImpl<$Res, _$_PlaybackState>
-    implements _$$_PlaybackStateCopyWith<$Res> {
-  __$$_PlaybackStateCopyWithImpl(
-      _$_PlaybackState _value, $Res Function(_$_PlaybackState) _then)
+class __$$PlaybackStateImplCopyWithImpl<$Res>
+    extends _$PlaybackStateCopyWithImpl<$Res, _$PlaybackStateImpl>
+    implements _$$PlaybackStateImplCopyWith<$Res> {
+  __$$PlaybackStateImplCopyWithImpl(
+      _$PlaybackStateImpl _value, $Res Function(_$PlaybackStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1103,7 +1103,7 @@ class __$$_PlaybackStateCopyWithImpl<$Res>
     Object? isPlaying = null,
     Object? songWithProgress = freezed,
   }) {
-    return _then(_$_PlaybackState(
+    return _then(_$PlaybackStateImpl(
       volume: null == volume
           ? _value.volume
           : volume // ignore: cast_nullable_to_non_nullable
@@ -1130,8 +1130,8 @@ class __$$_PlaybackStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_PlaybackState implements _PlaybackState {
-  const _$_PlaybackState(
+class _$PlaybackStateImpl implements _PlaybackState {
+  const _$PlaybackStateImpl(
       {this.volume = 0.5,
       this.previousVolume,
       this.isMuted = false,
@@ -1164,7 +1164,7 @@ class _$_PlaybackState implements _PlaybackState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PlaybackState &&
+            other is _$PlaybackStateImpl &&
             (identical(other.volume, volume) || other.volume == volume) &&
             (identical(other.previousVolume, previousVolume) ||
                 other.previousVolume == previousVolume) &&
@@ -1182,8 +1182,8 @@ class _$_PlaybackState implements _PlaybackState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PlaybackStateCopyWith<_$_PlaybackState> get copyWith =>
-      __$$_PlaybackStateCopyWithImpl<_$_PlaybackState>(this, _$identity);
+  _$$PlaybackStateImplCopyWith<_$PlaybackStateImpl> get copyWith =>
+      __$$PlaybackStateImplCopyWithImpl<_$PlaybackStateImpl>(this, _$identity);
 }
 
 abstract class _PlaybackState implements PlaybackState {
@@ -1192,7 +1192,7 @@ abstract class _PlaybackState implements PlaybackState {
       final double? previousVolume,
       final bool isMuted,
       final bool isPlaying,
-      final SongWithProgress? songWithProgress}) = _$_PlaybackState;
+      final SongWithProgress? songWithProgress}) = _$PlaybackStateImpl;
 
   @override
 
@@ -1210,7 +1210,7 @@ abstract class _PlaybackState implements PlaybackState {
   SongWithProgress? get songWithProgress;
   @override
   @JsonKey(ignore: true)
-  _$$_PlaybackStateCopyWith<_$_PlaybackState> get copyWith =>
+  _$$PlaybackStateImplCopyWith<_$PlaybackStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -1263,22 +1263,22 @@ class _$SongWithProgressCopyWithImpl<$Res, $Val extends SongWithProgress>
 }
 
 /// @nodoc
-abstract class _$$_SongWithProgressCopyWith<$Res>
+abstract class _$$SongWithProgressImplCopyWith<$Res>
     implements $SongWithProgressCopyWith<$Res> {
-  factory _$$_SongWithProgressCopyWith(
-          _$_SongWithProgress value, $Res Function(_$_SongWithProgress) then) =
-      __$$_SongWithProgressCopyWithImpl<$Res>;
+  factory _$$SongWithProgressImplCopyWith(_$SongWithProgressImpl value,
+          $Res Function(_$SongWithProgressImpl) then) =
+      __$$SongWithProgressImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({Duration progress, Song song});
 }
 
 /// @nodoc
-class __$$_SongWithProgressCopyWithImpl<$Res>
-    extends _$SongWithProgressCopyWithImpl<$Res, _$_SongWithProgress>
-    implements _$$_SongWithProgressCopyWith<$Res> {
-  __$$_SongWithProgressCopyWithImpl(
-      _$_SongWithProgress _value, $Res Function(_$_SongWithProgress) _then)
+class __$$SongWithProgressImplCopyWithImpl<$Res>
+    extends _$SongWithProgressCopyWithImpl<$Res, _$SongWithProgressImpl>
+    implements _$$SongWithProgressImplCopyWith<$Res> {
+  __$$SongWithProgressImplCopyWithImpl(_$SongWithProgressImpl _value,
+      $Res Function(_$SongWithProgressImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1287,7 +1287,7 @@ class __$$_SongWithProgressCopyWithImpl<$Res>
     Object? progress = null,
     Object? song = null,
   }) {
-    return _then(_$_SongWithProgress(
+    return _then(_$SongWithProgressImpl(
       progress: null == progress
           ? _value.progress
           : progress // ignore: cast_nullable_to_non_nullable
@@ -1302,8 +1302,8 @@ class __$$_SongWithProgressCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_SongWithProgress implements _SongWithProgress {
-  const _$_SongWithProgress({required this.progress, required this.song});
+class _$SongWithProgressImpl implements _SongWithProgress {
+  const _$SongWithProgressImpl({required this.progress, required this.song});
 
   @override
   final Duration progress;
@@ -1319,7 +1319,7 @@ class _$_SongWithProgress implements _SongWithProgress {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SongWithProgress &&
+            other is _$SongWithProgressImpl &&
             (identical(other.progress, progress) ||
                 other.progress == progress) &&
             (identical(other.song, song) || other.song == song));
@@ -1331,14 +1331,15 @@ class _$_SongWithProgress implements _SongWithProgress {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SongWithProgressCopyWith<_$_SongWithProgress> get copyWith =>
-      __$$_SongWithProgressCopyWithImpl<_$_SongWithProgress>(this, _$identity);
+  _$$SongWithProgressImplCopyWith<_$SongWithProgressImpl> get copyWith =>
+      __$$SongWithProgressImplCopyWithImpl<_$SongWithProgressImpl>(
+          this, _$identity);
 }
 
 abstract class _SongWithProgress implements SongWithProgress {
   const factory _SongWithProgress(
       {required final Duration progress,
-      required final Song song}) = _$_SongWithProgress;
+      required final Song song}) = _$SongWithProgressImpl;
 
   @override
   Duration get progress;
@@ -1346,6 +1347,6 @@ abstract class _SongWithProgress implements SongWithProgress {
   Song get song;
   @override
   @JsonKey(ignore: true)
-  _$$_SongWithProgressCopyWith<_$_SongWithProgress> get copyWith =>
+  _$$SongWithProgressImplCopyWith<_$SongWithProgressImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
