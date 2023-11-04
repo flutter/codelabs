@@ -6,6 +6,9 @@ steps:
         rmdir: window_to_front
       - name: Create window_to_front
         flutter: create -t plugin --platforms=linux,macos,windows window_to_front
+      - name: Update dependencies
+        path: window_to_front
+        flutter: pub upgrade --major-versions
       - name: Replace analysis_options.yaml
         path: window_to_front/analysis_options.yaml
         replace-contents: |
@@ -46,7 +49,7 @@ steps:
           +# limitations under the License.
           +
            name: window_to_front
-           description: A new Flutter plugin project.
+           description: "A new Flutter plugin project."
            version: 0.0.1
       - name: Patch lib/window_to_front.dart
         path: window_to_front/lib/window_to_front.dart
@@ -399,6 +402,9 @@ steps:
         rmdir: step_03
       - name: Create project
         flutter: create github_client --platforms windows,macos,linux
+      - name: Update dependencies
+        path: github_client
+        flutter: pub upgrade --major-versions
       - name: Configure analysis_options.yaml
         path: github_client/analysis_options.yaml
         replace-contents: |
