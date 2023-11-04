@@ -6,6 +6,9 @@ steps:
         rmdir: step_3
       - name: Create project
         flutter: create google_maps_in_flutter --platforms android,ios,web
+      - name: Update dependencies
+        path: google_maps_in_flutter
+        flutter: pub upgrade --major-versions
       - name: Configure analysis_options.yaml
         path: google_maps_in_flutter/analysis_options.yaml
         replace-contents: |
