@@ -6,6 +6,9 @@ steps:
         rmdir: step_03
       - name: Create project
         flutter: create webview_in_flutter --platforms=android,ios
+      - name: Upgrade dependencies
+        path: webview_in_flutter
+        flutter: pub upgrade --major-versions
       - name: Configure analysis_options.yaml
         path: webview_in_flutter/analysis_options.yaml
         replace-contents: |
