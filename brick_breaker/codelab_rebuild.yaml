@@ -902,5 +902,205 @@ steps:
       - name: Flutter clean
         path: step_09
         flutter: clean
+  - name: step_10
+    steps:
+      - name: Remove generated code
+        rmdir: step_10
+      - name: Patch lib/src/brick_breaker.dart
+        path: brick_breaker/lib/src/brick_breaker.dart
+        patch-u: |
+          --- b/brick_breaker/step_10/lib/src/brick_breaker.dart
+          +++ a/brick_breaker/step_10/lib/src/brick_breaker.dart
+          @@ -20,6 +20,7 @@ class BrickBreaker extends FlameGame
+                       camera: CameraComponent.withFixedResolution(
+                           width: gameWidth, height: gameHeight));
+           
+          +  final ValueNotifier<int> score = ValueNotifier(0);
+             final rand = math.Random();
+           
+             late PlayState _playState;
+          @@ -58,6 +59,7 @@ class BrickBreaker extends FlameGame
+               world.removeAll(world.children.whereType<Brick>());
+           
+               playState = PlayState.playing;
+          +    score.value = 0;
+           
+               final ball = Ball();
+               ball.position = Vector2(gameWidth / 2, gameHeight / 2);
+      - name: Patch lib/src/components/brick.dart
+        path: brick_breaker/lib/src/components/brick.dart
+        patch-u: |
+          --- b/brick_breaker/step_10/lib/src/components/brick.dart
+          +++ a/brick_breaker/step_10/lib/src/components/brick.dart
+          @@ -30,6 +30,7 @@ class Brick extends RectangleComponent
+               super.onCollisionStart(intersectionPoints, other);
+               if (other is Ball) {
+                 game.world.remove(this);
+          +      game.score.value++;
+           
+                 if (game.world.children.whereType<Brick>().length == 1) {
+                   game.playState = PlayState.won;
+      - name: Patch lib/src/widgets/game_app.dart
+        path: brick_breaker/lib/src/widgets/game_app.dart
+        patch-u: |
+          --- b/brick_breaker/step_10/lib/src/widgets/game_app.dart
+          +++ a/brick_breaker/step_10/lib/src/widgets/game_app.dart
+          @@ -4,6 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
+           
+           import '../brick_breaker.dart';
+           import '../config.dart';
+          +import 'overlay_screen.dart';
+          +import 'score_card.dart';
+           
+           class GameApp extends StatefulWidget {
+             const GameApp({super.key});
+          @@ -48,37 +50,38 @@ class _GameAppState extends State<GameApp> {
+                       child: Padding(
+                         padding: const EdgeInsets.all(16),
+                         child: Center(
+          -                child: FittedBox(
+          -                  child: SizedBox(
+          -                    width: gameWidth,
+          -                    height: gameHeight,
+          -                    child: GameWidget(
+          -                      game: game,
+          -                      overlayBuilderMap: {
+          -                        PlayState.welcome.name: (context, game) => Center(
+          -                              child: Text(
+          -                                'TAP TO PLAY',
+          -                                style:
+          -                                    Theme.of(context).textTheme.headlineLarge,
+          -                              ),
+          -                            ),
+          -                        PlayState.gameOver.name: (context, game) => Center(
+          -                              child: Text(
+          -                                'G A M E   O V E R',
+          -                                style:
+          -                                    Theme.of(context).textTheme.headlineLarge,
+          -                              ),
+          -                            ),
+          -                        PlayState.won.name: (context, game) => Center(
+          -                              child: Text(
+          -                                'Y O U   W O N ! ! !',
+          -                                style:
+          -                                    Theme.of(context).textTheme.headlineLarge,
+          -                              ),
+          -                            ),
+          -                      },
+          +                child: Column(
+          +                  children: [
+          +                    ScoreCard(score: game.score),
+          +                    Expanded(
+          +                      child: FittedBox(
+          +                        child: SizedBox(
+          +                          width: gameWidth,
+          +                          height: gameHeight,
+          +                          child: GameWidget(
+          +                            game: game,
+          +                            overlayBuilderMap: {
+          +                              PlayState.welcome.name: (context, game) =>
+          +                                  const OverlayScreen(
+          +                                    title: 'TAP TO PLAY',
+          +                                    subtitle: 'Use arrow keys or swipe',
+          +                                  ),
+          +                              PlayState.gameOver.name: (context, game) =>
+          +                                  const OverlayScreen(
+          +                                    title: 'G A M E   O V E R',
+          +                                    subtitle: 'Tap to Play Again',
+          +                                  ),
+          +                              PlayState.won.name: (context, game) =>
+          +                                  const OverlayScreen(
+          +                                    title: 'Y O U   W O N ! ! !',
+          +                                    subtitle: 'Tap to Play Again',
+          +                                  ),
+          +                            },
+          +                          ),
+          +                        ),
+          +                      ),
+                               ),
+          -                  ),
+          +                  ],
+                           ),
+                         ),
+                       ),
+      - name: Add lib/src/widgets/overlay_screen.dart
+        path: brick_breaker/lib/src/widgets/overlay_screen.dart
+        replace-contents: |
+          import 'package:flutter/material.dart';
+          import 'package:flutter_animate/flutter_animate.dart';
+          
+          class OverlayScreen extends StatelessWidget {
+            const OverlayScreen({
+              super.key,
+              required this.title,
+              this.subtitle,
+            });
+          
+            final String title;
+            final String? subtitle;
+          
+            @override
+            Widget build(BuildContext context) {
+              return Container(
+                alignment: Alignment(0, subtitle != null ? -0.15 : -0.2),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      title,
+                      style: Theme.of(context).textTheme.headlineLarge,
+                    ).animate().slideY(duration: 750.ms, begin: -3, end: 0),
+                    if (subtitle != null) ...[
+                      const SizedBox(height: 16),
+                      Text(
+                        subtitle!,
+                        style: Theme.of(context).textTheme.headlineSmall,
+                      )
+                          .animate(onPlay: (controller) => controller.repeat())
+                          .fadeIn(duration: 1.seconds)
+                          .then()
+                          .fadeOut(duration: 1.seconds),
+                    ],
+                  ],
+                ),
+              );
+            }
+          }
+      - name: Add lib/src/widgets/score_card.dart
+        path: brick_breaker/lib/src/widgets/score_card.dart
+        replace-contents: |
+          import 'package:flutter/material.dart';
+          
+          class ScoreCard extends StatelessWidget {
+            const ScoreCard({
+              super.key,
+              required this.score,
+            });
+          
+            final ValueNotifier<int> score;
+          
+            @override
+            Widget build(BuildContext context) {
+              return ValueListenableBuilder<int>(
+                valueListenable: score,
+                builder: (context, score, child) {
+                  return Padding(
+                    padding: const EdgeInsets.fromLTRB(12, 6, 12, 18),
+                    child: Text(
+                      'Score: $score'.toUpperCase(),
+                      style: Theme.of(context).textTheme.titleLarge!,
+                    ),
+                  );
+                },
+              );
+            }
+          }
+      - name: Copy step_10
+        copydir:
+          from: brick_breaker
+          to: step_10
+      - name: Flutter clean
+        path: step_10
+        flutter: clean
   - name: Cleanup
     rmdir: brick_breaker
