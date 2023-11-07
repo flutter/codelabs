@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flame/components.dart';
@@ -16,8 +15,8 @@ class BrickBreaker extends FlameGame {
   final rand = math.Random();
 
   @override
-  FutureOr<void> onLoad() async {
-    await super.onLoad();
+  onLoad() {
+    super.onLoad();
 
     camera.viewfinder.position = Vector2(0, 0);
     camera.viewfinder.anchor = Anchor.topLeft;

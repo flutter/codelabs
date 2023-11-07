@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 
@@ -13,8 +11,8 @@ class BrickBreaker extends FlameGame {
                 width: gameWidth, height: gameHeight));
 
   @override
-  FutureOr<void> onLoad() async {
-    await super.onLoad();
+  onLoad() {
+    super.onLoad();
 
     camera.viewfinder.position = Vector2(0, 0);
     camera.viewfinder.anchor = Anchor.topLeft;

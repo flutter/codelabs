@@ -41,7 +41,7 @@ steps:
         path: brick_breaker/lib/main.dart
         replace-contents: |
           import 'package:flame/game.dart';
-          import 'package:flutter/widgets.dart';
+          import 'package:flutter/material.dart';
 
           void main() {
             final game = FlameGame();
@@ -81,7 +81,7 @@ steps:
           +++ a/brick_breaker/step_04/lib/main.dart
           @@ -1,7 +1,9 @@
            import 'package:flame/game.dart';
-           import 'package:flutter/widgets.dart';
+           import 'package:flutter/material.dart';
            
           +import 'src/brick_breaker.dart';
           +
@@ -95,8 +95,6 @@ steps:
       - name: Add lib/src/brick_breaker.dart
         path: brick_breaker/lib/src/brick_breaker.dart
         replace-contents: |
-          import 'dart:async';
-          
           import 'package:flame/components.dart';
           import 'package:flame/game.dart';
           
@@ -110,8 +108,8 @@ steps:
                           width: gameWidth, height: gameHeight));
           
             @override
-            FutureOr<void> onLoad() async {
-              await super.onLoad();
+            onLoad() {
+              super.onLoad();
           
               camera.viewfinder.position = Vector2(0, 0);
               camera.viewfinder.anchor = Anchor.topLeft;
@@ -168,22 +166,22 @@ steps:
         patch-u: |
           --- b/brick_breaker/step_05/lib/src/brick_breaker.dart
           +++ a/brick_breaker/step_05/lib/src/brick_breaker.dart
-          @@ -1,4 +1,5 @@
-           import 'dart:async';
+          @@ -1,3 +1,5 @@
           +import 'dart:math' as math;
-           
+          +
            import 'package:flame/components.dart';
            import 'package:flame/game.dart';
-          @@ -12,6 +13,8 @@ class BrickBreaker extends FlameGame {
+           
+          @@ -10,6 +12,8 @@ class BrickBreaker extends FlameGame {
                        camera: CameraComponent.withFixedResolution(
                            width: gameWidth, height: gameHeight));
            
           +  final rand = math.Random();
           +
              @override
-             FutureOr<void> onLoad() async {
-               await super.onLoad();
-          @@ -20,5 +23,15 @@ class BrickBreaker extends FlameGame {
+             onLoad() {
+               super.onLoad();
+          @@ -18,5 +22,15 @@ class BrickBreaker extends FlameGame {
                camera.viewfinder.anchor = Anchor.topLeft;
            
                world.add(PlayArea());
@@ -266,7 +264,7 @@ steps:
         patch-u: |
           --- b/brick_breaker/step_06/lib/src/brick_breaker.dart
           +++ a/brick_breaker/step_06/lib/src/brick_breaker.dart
-          @@ -7,7 +7,7 @@ import 'package:flame/game.dart';
+          @@ -6,7 +6,7 @@ import 'package:flame/game.dart';
            import 'components/components.dart';
            import 'config.dart';
            
@@ -328,7 +326,7 @@ steps:
         patch-u: |
           --- b/brick_breaker/step_07/lib/src/brick_breaker.dart
           +++ a/brick_breaker/step_07/lib/src/brick_breaker.dart
-          @@ -2,12 +2,16 @@ import 'dart:async';
+          @@ -1,12 +1,16 @@
            import 'dart:math' as math;
            
            import 'package:flame/components.dart';
@@ -346,7 +344,7 @@ steps:
              BrickBreaker()
                  : super(
                        camera: CameraComponent.withFixedResolution(
-          @@ -32,6 +36,23 @@ class BrickBreaker extends FlameGame with HasCollisionDetection {
+          @@ -31,6 +35,23 @@ class BrickBreaker extends FlameGame with HasCollisionDetection {
                );
                world.add(ball);
            
@@ -497,12 +495,12 @@ steps:
         patch-u: |
           --- b/brick_breaker/step_08/lib/src/brick_breaker.dart
           +++ a/brick_breaker/step_08/lib/src/brick_breaker.dart
-          @@ -40,7 +40,17 @@
+          @@ -39,7 +39,17 @@ class BrickBreaker extends FlameGame
                bat.position = Vector2(gameWidth / 2, gameHeight * 0.95);
                world.add(bat);
            
           -    debugMode = true;
-          +    await world.addAll([
+          +    world.addAll([
           +      for (var i = 0; i < brickColors.length; i++)
           +        for (var j = 1; j <= 5; j++)
           +          Brick(
@@ -640,6 +638,269 @@ steps:
           to: step_08
       - name: Flutter clean
         path: step_08
+        flutter: clean
+  - name: step_09
+    steps:
+      - name: Remove generated code
+        rmdir: step_09
+      - name: Patch lib/main.dart
+        path: brick_breaker/lib/main.dart
+        patch-u: |
+          --- b/brick_breaker/step_09/lib/main.dart
+          +++ a/brick_breaker/step_09/lib/main.dart
+          @@ -1,9 +1,7 @@
+          -import 'package:flame/game.dart';
+           import 'package:flutter/material.dart';
+           
+           import 'src/brick_breaker.dart';
+           
+           void main() {
+          -  final game = BrickBreaker();
+          -  runApp(GameWidget(game: game));
+          +  runApp(const GameApp());
+           }
+      - name: Patch lib/src/brick_breaker.dart
+        path: brick_breaker/lib/src/brick_breaker.dart
+        patch-u: |
+          --- b/brick_breaker/step_09/lib/src/brick_breaker.dart
+          +++ a/brick_breaker/step_09/lib/src/brick_breaker.dart
+          @@ -9,8 +9,12 @@ import 'package:flutter/services.dart';
+           import 'components/components.dart';
+           import 'config.dart';
+           
+          +export 'widgets/game_app.dart';
+          +
+          +enum PlayState { welcome, playing, gameOver, won }
+          +
+           class BrickBreaker extends FlameGame
+          -    with HasCollisionDetection, KeyboardEvents {
+          +    with HasCollisionDetection, KeyboardEvents, TapDetector {
+             BrickBreaker()
+                 : super(
+                       camera: CameraComponent.withFixedResolution(
+          @@ -18,6 +22,22 @@ class BrickBreaker extends FlameGame
+           
+             final rand = math.Random();
+           
+          +  late PlayState _playState;
+          +  PlayState get playState => _playState;
+          +  set playState(PlayState playState) {
+          +    _playState = playState;
+          +    switch (playState) {
+          +      case PlayState.welcome:
+          +      case PlayState.gameOver:
+          +      case PlayState.won:
+          +        overlays.add(playState.name);
+          +      case PlayState.playing:
+          +        overlays.remove(PlayState.welcome.name);
+          +        overlays.remove(PlayState.gameOver.name);
+          +        overlays.remove(PlayState.won.name);
+          +    }
+          +  }
+          +
+             @override
+             onLoad() {
+               super.onLoad();
+          @@ -27,6 +47,18 @@ class BrickBreaker extends FlameGame
+           
+               world.add(PlayArea());
+           
+          +    playState = PlayState.welcome;
+          +  }
+          +
+          +  void startGame() {
+          +    if (playState == PlayState.playing) return;
+          +
+          +    world.removeAll(world.children.whereType<Ball>());
+          +    world.removeAll(world.children.whereType<Bat>());
+          +    world.removeAll(world.children.whereType<Brick>());
+          +
+          +    playState = PlayState.playing;
+          +
+               final ball = Ball();
+               ball.position = Vector2(gameWidth / 2, gameHeight / 2);
+               ball.velocity.setValues(
+          @@ -52,6 +84,12 @@ class BrickBreaker extends FlameGame
+               ]);
+             }
+           
+          +  @override
+          +  void onTap() {
+          +    super.onTap();
+          +    startGame();
+          +  }
+          +
+             @override
+             KeyEventResult onKeyEvent(
+                 RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
+          @@ -61,6 +99,9 @@ class BrickBreaker extends FlameGame
+                   world.children.whereType<Bat>().first.moveBy(-batStep);
+                 case LogicalKeyboardKey.arrowRight:
+                   world.children.whereType<Bat>().first.moveBy(batStep);
+          +      case LogicalKeyboardKey.space:
+          +      case LogicalKeyboardKey.enter:
+          +        startGame();
+               }
+               return KeyEventResult.handled;
+             }
+      - name: Patch lib/src/components/ball.dart
+        path: brick_breaker/lib/src/components/ball.dart
+        patch-u: |
+          --- b/brick_breaker/step_09/lib/src/components/ball.dart
+          +++ a/brick_breaker/step_09/lib/src/components/ball.dart
+          @@ -46,8 +46,10 @@ class Ball extends CircleComponent
+                   if (velocity.x > 0) velocity.x = -velocity.x;
+                 } else if (intersectionPoints.first.y >= gameHeight) {
+                   add(RemoveEffect(
+          -          delay: 0.35,
+          -        ));
+          +            delay: 0.35,
+          +            onComplete: () {
+          +              game.playState = PlayState.gameOver;
+          +            }));
+                 }
+               } else if (other is Bat) {
+                 if (velocity.y > 0) {
+      - name: Patch lib/src/components/brick.dart
+        path: brick_breaker/lib/src/components/brick.dart
+        patch-u: |
+          --- b/brick_breaker/step_09/lib/src/components/brick.dart
+          +++ a/brick_breaker/step_09/lib/src/components/brick.dart
+          @@ -32,6 +32,7 @@ class Brick extends RectangleComponent
+                 game.world.remove(this);
+           
+                 if (game.world.children.whereType<Brick>().length == 1) {
+          +        game.playState = PlayState.won;
+                   game.world.removeAll(game.world.children.whereType<Ball>());
+                   game.world.removeAll(game.world.children.whereType<Bat>());
+                 }
+      - name: Mkdir lib/src/widgets
+        mkdir: brick_breaker/lib/src/widgets
+      - name: Add lib/src/widgets/game_app.dart
+        path: brick_breaker/lib/src/widgets/game_app.dart
+        replace-contents: |
+          import 'package:flame/game.dart';
+          import 'package:flutter/material.dart';
+          import 'package:google_fonts/google_fonts.dart';
+          
+          import '../brick_breaker.dart';
+          import '../config.dart';
+          
+          class GameApp extends StatefulWidget {
+            const GameApp({super.key});
+          
+            @override
+            State<GameApp> createState() => _GameAppState();
+          }
+          
+          class _GameAppState extends State<GameApp> {
+            late final BrickBreaker game;
+          
+            @override
+            void initState() {
+              super.initState();
+              game = BrickBreaker();
+            }
+          
+            @override
+            Widget build(BuildContext context) {
+              return MaterialApp(
+                debugShowCheckedModeBanner: false,
+                theme: ThemeData(
+                  useMaterial3: true,
+                  textTheme: GoogleFonts.pressStart2pTextTheme().apply(
+                    bodyColor: const Color(0xff184e77),
+                    displayColor: const Color(0xff184e77),
+                  ),
+                ),
+                home: Scaffold(
+                  body: Container(
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Color(0xffa9d6e5),
+                          Color(0xfff2e8cf),
+                        ],
+                      ),
+                    ),
+                    child: SafeArea(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Center(
+                          child: FittedBox(
+                            child: SizedBox(
+                              width: gameWidth,
+                              height: gameHeight,
+                              child: GameWidget(
+                                game: game,
+                                overlayBuilderMap: {
+                                  PlayState.welcome.name: (context, game) => Center(
+                                        child: Text(
+                                          'TAP TO PLAY',
+                                          style:
+                                              Theme.of(context).textTheme.headlineLarge,
+                                        ),
+                                      ),
+                                  PlayState.gameOver.name: (context, game) => Center(
+                                        child: Text(
+                                          'G A M E   O V E R',
+                                          style:
+                                              Theme.of(context).textTheme.headlineLarge,
+                                        ),
+                                      ),
+                                  PlayState.won.name: (context, game) => Center(
+                                        child: Text(
+                                          'Y O U   W O N ! ! !',
+                                          style:
+                                              Theme.of(context).textTheme.headlineLarge,
+                                        ),
+                                      ),
+                                },
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            }
+          }
+      - name: Patch macos/Runner/Release.entitlements
+        path: brick_breaker/macos/Runner/Release.entitlements
+        patch-u: |
+          --- step_09/macos/Runner/Release.entitlements.orig	2023-09-01 15:04:05.839873573 +1000
+          +++ step_09/macos/Runner/Release.entitlements	2023-11-07 17:01:53.611544371 +1100
+          @@ -4,5 +4,7 @@
+           <dict>
+           	<key>com.apple.security.app-sandbox</key>
+           	<true/>
+          +	<key>com.apple.security.network.client</key>
+          +	<true/>
+           </dict>
+           </plist>
+      - name: Patch macos/Runner/DebugProfile.entitlements
+        path: brick_breaker/macos/Runner/DebugProfile.entitlements
+        patch-u: |
+          --- b/brick_breaker/step_09/macos/Runner/DebugProfile.entitlements
+          +++ a/brick_breaker/step_09/macos/Runner/DebugProfile.entitlements
+          @@ -8,5 +8,7 @@
+           	<true/>
+           	<key>com.apple.security.network.server</key>
+           	<true/>
+          +	<key>com.apple.security.network.client</key>
+          +	<true/>
+           </dict>
+           </plist>
+      - name: Copy step_09
+        copydir:
+          from: brick_breaker
+          to: step_09
+      - name: Flutter clean
+        path: step_09
         flutter: clean
   - name: Cleanup
     rmdir: brick_breaker
