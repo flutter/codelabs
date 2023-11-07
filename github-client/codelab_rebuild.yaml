@@ -399,6 +399,9 @@ steps:
         rmdir: step_03
       - name: Create project
         flutter: create github_client --platforms windows,macos,linux
+      - name: Update dependencies
+        path: github_client
+        flutter: pub upgrade --major-versions
       - name: Configure analysis_options.yaml
         path: github_client/analysis_options.yaml
         replace-contents: |
@@ -503,7 +506,7 @@ steps:
               return MaterialApp(
                 title: 'GitHub Client',
                 theme: ThemeData(
-                  primarySwatch: Colors.blue,
+                  colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
                   visualDensity: VisualDensity.adaptivePlatformDensity,
                   useMaterial3: true,
                 ),
