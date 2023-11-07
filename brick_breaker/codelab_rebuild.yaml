@@ -387,7 +387,11 @@ steps:
         patch-u: |
           --- b/brick_breaker/step_07/lib/src/components/ball.dart
           +++ a/brick_breaker/step_07/lib/src/components/ball.dart
-          @@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
+          @@ -1,9 +1,11 @@
+           import 'package:flame/collisions.dart';
+           import 'package:flame/components.dart';
+          +import 'package:flame/effects.dart';
+           import 'package:flutter/material.dart';
            
            import '../brick_breaker.dart';
            import '../config.dart';
@@ -395,19 +399,23 @@ steps:
            import 'play_area.dart';
            
            class Ball extends CircleComponent
-          @@ -44,6 +45,12 @@ class Ball extends CircleComponent
+          @@ -42,7 +44,15 @@ class Ball extends CircleComponent
+                 } else if (intersectionPoints.first.x >= gameWidth) {
+                   if (velocity.x > 0) velocity.x = -velocity.x;
                  } else if (intersectionPoints.first.y >= gameHeight) {
-                   game.world.remove(this);
-                 }
+          -        game.world.remove(this);
+          +        add(RemoveEffect(
+          +          delay: 0.35,
+          +        ));
+          +      }
           +    } else if (other is Bat) {
           +      if (velocity.y > 0) {
           +        velocity.y = -velocity.y;
           +        velocity.x = velocity.x +
           +            (position.x - other.position.x) / batWidth * gameWidth * 0.3;
-          +      }
+                 }
                } else {
                  debugPrint('collision with $other');
-               }
       - name: Patch lib/src/components/components.dart
         path: brick_breaker/lib/src/components/components.dart
         patch-u: |
@@ -494,7 +502,7 @@ steps:
                world.add(bat);
            
           -    debugMode = true;
-          +    world.addAll([
+          +    await world.addAll([
           +      for (var i = 0; i < brickColors.length; i++)
           +        for (var j = 1; j <= 5; j++)
           +          Brick(
@@ -545,7 +553,7 @@ steps:
         patch-u: |
           --- b/brick_breaker/step_08/lib/src/components/ball.dart
           +++ a/brick_breaker/step_08/lib/src/components/ball.dart
-          @@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
+          @@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
            import '../brick_breaker.dart';
            import '../config.dart';
            import 'bat.dart';
@@ -553,7 +561,7 @@ steps:
            import 'play_area.dart';
            
            class Ball extends CircleComponent
-          @@ -51,8 +52,17 @@ class Ball extends CircleComponent
+          @@ -54,8 +55,17 @@ class Ball extends CircleComponent
                    velocity.x = velocity.x +
                        (position.x - other.position.x) / batWidth * gameWidth * 0.3;
                  }

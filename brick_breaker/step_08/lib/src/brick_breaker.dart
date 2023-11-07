@@ -40,7 +40,7 @@ class BrickBreaker extends FlameGame
     bat.position = Vector2(gameWidth / 2, gameHeight * 0.95);
     world.add(bat);
 
-    world.addAll([
+    await world.addAll([
       for (var i = 0; i < brickColors.length; i++)
         for (var j = 1; j <= 5; j++)
           Brick(
