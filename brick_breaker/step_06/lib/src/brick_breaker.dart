@@ -24,8 +24,6 @@ class BrickBreaker extends FlameGame with HasCollisionDetection {
 
     world.add(PlayArea());
 
-    world.removeAll(world.children.whereType<Ball>());
-
     final ball = Ball();
     ball.position = Vector2(gameWidth / 2, gameHeight / 2);
     ball.velocity.setValues(

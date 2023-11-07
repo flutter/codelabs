@@ -183,12 +183,10 @@ steps:
              @override
              FutureOr<void> onLoad() async {
                await super.onLoad();
-          @@ -20,5 +23,17 @@ class BrickBreaker extends FlameGame {
+          @@ -20,5 +23,15 @@ class BrickBreaker extends FlameGame {
                camera.viewfinder.anchor = Anchor.topLeft;
            
                world.add(PlayArea());
-          +
-          +    world.removeAll(world.children.whereType<Ball>());
           +
           +    final ball = Ball();
           +    ball.position = Vector2(gameWidth / 2, gameHeight / 2);
@@ -348,15 +346,7 @@ steps:
              BrickBreaker()
                  : super(
                        camera: CameraComponent.withFixedResolution(
-          @@ -25,6 +29,7 @@ class BrickBreaker extends FlameGame with HasCollisionDetection {
-               world.add(PlayArea());
-           
-               world.removeAll(world.children.whereType<Ball>());
-          +    world.removeAll(world.children.whereType<Bat>());
-           
-               final ball = Ball();
-               ball.position = Vector2(gameWidth / 2, gameHeight / 2);
-          @@ -34,6 +39,23 @@ class BrickBreaker extends FlameGame with HasCollisionDetection {
+          @@ -32,6 +36,23 @@ class BrickBreaker extends FlameGame with HasCollisionDetection {
                );
                world.add(ball);
            
@@ -489,6 +479,159 @@ steps:
           to: step_07
       - name: Flutter clean
         path: step_07
+        flutter: clean
+  - name: step_08
+    steps:
+      - name: Remove generated code
+        rmdir: step_08
+      - name: Patch lib/src/brick_breaker.dart
+        path: brick_breaker/lib/src/brick_breaker.dart
+        patch-u: |
+          --- b/brick_breaker/step_08/lib/src/brick_breaker.dart
+          +++ a/brick_breaker/step_08/lib/src/brick_breaker.dart
+          @@ -40,7 +40,17 @@
+               bat.position = Vector2(gameWidth / 2, gameHeight * 0.95);
+               world.add(bat);
+           
+          -    debugMode = true;
+          +    world.addAll([
+          +      for (var i = 0; i < brickColors.length; i++)
+          +        for (var j = 1; j <= 5; j++)
+          +          Brick(
+          +            Vector2(
+          +              (i + 0.5) * brickWidth + (i + 1) * brickGutter,
+          +              (j + 2.0) * brickHeight + j * brickGutter,
+          +            ),
+          +            brickColors[i],
+          +          ),
+          +    ]);
+             }
+           
+             @override
+      - name: Patch lib/src/config.dart
+        path: brick_breaker/lib/src/config.dart
+        patch-u: |
+          --- b/brick_breaker/step_08/lib/src/config.dart
+          +++ a/brick_breaker/step_08/lib/src/config.dart
+          @@ -1,6 +1,26 @@
+          +import 'package:flutter/material.dart';
+          +
+          +const brickColors = [
+          +  Color(0xfff94144),
+          +  Color(0xfff3722c),
+          +  Color(0xfff8961e),
+          +  Color(0xfff9844a),
+          +  Color(0xfff9c74f),
+          +  Color(0xff90be6d),
+          +  Color(0xff43aa8b),
+          +  Color(0xff4d908e),
+          +  Color(0xff277da1),
+          +  Color(0xff577590),
+          +];
+          +
+           const gameWidth = 820.0;
+           const gameHeight = 1600.0;
+           const ballRadius = gameWidth * 0.02;
+           const batWidth = gameWidth * 0.2;
+           const batHeight = ballRadius * 2;
+           const batStep = gameWidth * 0.05;
+          +const brickGutter = gameWidth * 0.015;
+          +final brickWidth =
+          +    (gameWidth - (brickGutter * (brickColors.length + 1))) / brickColors.length;
+          +const brickHeight = gameHeight * 0.03;
+          +const difficultyModifier = 1.03;
+      - name: Patch lib/src/components/ball.dart
+        path: brick_breaker/lib/src/components/ball.dart
+        patch-u: |
+          --- b/brick_breaker/step_08/lib/src/components/ball.dart
+          +++ a/brick_breaker/step_08/lib/src/components/ball.dart
+          @@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
+           import '../brick_breaker.dart';
+           import '../config.dart';
+           import 'bat.dart';
+          +import 'brick.dart';
+           import 'play_area.dart';
+           
+           class Ball extends CircleComponent
+          @@ -51,8 +52,17 @@ class Ball extends CircleComponent
+                   velocity.x = velocity.x +
+                       (position.x - other.position.x) / batWidth * gameWidth * 0.3;
+                 }
+          -    } else {
+          -      debugPrint('collision with $other');
+          +    } else if (other is Brick) {
+          +      if (position.y < other.position.y - other.size.y / 2) {
+          +        if (velocity.y > 0) velocity.y = -velocity.y;
+          +      } else if (position.y > other.position.y + other.size.y / 2) {
+          +        if (velocity.y < 0) velocity.y = -velocity.y;
+          +      } else if (position.x < other.position.x) {
+          +        if (velocity.x > 0) velocity.x = -velocity.x;
+          +      } else if (position.x > other.position.x) {
+          +        if (velocity.x < 0) velocity.x = -velocity.x;
+          +      }
+          +      velocity.setFrom(velocity * difficultyModifier);
+               }
+             }
+           }
+      - name: Patch lib/src/components/components.dart
+        path: brick_breaker/lib/src/components/components.dart
+        patch-u: |
+          --- b/brick_breaker/step_08/lib/src/components/components.dart
+          +++ a/brick_breaker/step_08/lib/src/components/components.dart
+          @@ -1,3 +1,4 @@
+           export 'ball.dart';
+           export 'bat.dart';
+          +export 'brick.dart';
+           export 'play_area.dart';
+      - name: Add lib/src/components/brick.dart
+        path: brick_breaker/lib/src/components/brick.dart
+        replace-contents: |
+          import 'package:flame/collisions.dart';
+          import 'package:flame/components.dart';
+          import 'package:flutter/material.dart';
+          
+          import '../brick_breaker.dart';
+          import '../config.dart';
+          import 'ball.dart';
+          import 'bat.dart';
+          
+          class Brick extends RectangleComponent
+              with CollisionCallbacks, HasGameRef<BrickBreaker> {
+            Brick(Vector2 position, Color color)
+                : super(
+                      position: position,
+                      size: Vector2(brickWidth, brickHeight),
+                      anchor: Anchor.center,
+                      paint: Paint()
+                        ..color = color
+                        ..style = PaintingStyle.fill);
+          
+            @override
+            onLoad() async {
+              await super.onLoad();
+              add(RectangleHitbox());
+            }
+          
+            @override
+            void onCollisionStart(
+                Set<Vector2> intersectionPoints, PositionComponent other) {
+              super.onCollisionStart(intersectionPoints, other);
+              if (other is Ball) {
+                game.world.remove(this);
+          
+                if (game.world.children.whereType<Brick>().length == 1) {
+                  game.world.removeAll(game.world.children.whereType<Ball>());
+                  game.world.removeAll(game.world.children.whereType<Bat>());
+                }
+              }
+            }
+          }
+      - name: Copy step_08
+        copydir:
+          from: brick_breaker
+          to: step_08
+      - name: Flutter clean
+        path: step_08
         flutter: clean
   - name: Cleanup
     rmdir: brick_breaker
