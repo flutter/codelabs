@@ -57,7 +57,7 @@ steps:
               return MaterialApp(
                 title: 'Flutter Demo',
                 theme: ThemeData(
-                  primarySwatch: Colors.blue,
+                  colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
                 ),
                 home: const ResizeablePage(),
               );
@@ -180,6 +180,9 @@ steps:
               await tester.pumpWidget(const MyApp());
             });
           }
+      - name: Upgrade deps
+        path: adaptive_app
+        flutter: pub upgrade --major-versions
       - name: Build iOS simulator bundle
         platforms: [ macos ]
         path: adaptive_app
@@ -1072,6 +1075,9 @@ steps:
       - name: Add http shelf_cors_headers
         path: adaptive_app/yt_cors_proxy
         dart: pub add http shelf_cors_headers
+      - name: Upgrade dart dependencies
+        path: adaptive_app/yt_cors_proxy
+        dart: pub upgrade --major-versions
       - name: Patch yt_cors_proxy/pubspec.yaml
         path: adaptive_app/yt_cors_proxy/pubspec.yaml
         patch-u: |
