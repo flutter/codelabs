@@ -24,7 +24,6 @@ Here is a list of the codelabs represented here:
   - [How to test a Flutter app](https://codelabs.developers.google.com/codelabs/flutter-app-testing) is in [`testing_codelab`](testing_codelab)
   - [Local development for your Flutter apps using the Firebase Emulator Suite](https://firebase.google.com/codelabs/get-started-firebase-emulators-and-flutter) in [`firebase-emulator-suite`](firebase-emulator-suite)
   - [Take your Flutter app from boring to beautiful](https://codelabs.developers.google.com/codelabs/flutter-boring-to-beautiful) in [`boring_to_beautiful`](boring_to_beautiful)
-  - [Using a plugin with a Flutter web app](https://codelabs.developers.google.com/codelabs/web-url-launcher) is in [`star_counter`](star_counter)
   - [Using FFI in a Flutter plugin](https://codelabs.developers.google.com/codelabs/flutter-ffigen) is in [`ffigen_codelab`](ffigen_codelab)
   - [Write a Flutter desktop application](https://codelabs.developers.google.com/codelabs/flutter-github-client) is in [`github-client`](github-client)
   - [Your first Flutter app](https://codelabs.developers.google.com/codelabs/flutter-codelab-first) is in [`namer`](namer)
