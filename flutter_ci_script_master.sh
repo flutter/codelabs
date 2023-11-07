@@ -27,7 +27,6 @@ declare -a CODELABS=(
   "namer"
   "next-gen-ui"
   "pesto_flutter"
-  "star_counter"
   "testing_codelab"
   "tfagents-flutter"
   "tfrs-flutter"
