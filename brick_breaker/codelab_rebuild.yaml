@@ -47,22 +47,22 @@ steps:
             final game = FlameGame();
             runApp(GameWidget(game: game));
           }
-      # - name: Build iOS simulator bundle
-      #   platforms: [ macos ]
-      #   path: brick_breaker
-      #   flutter: build ios --simulator
-      # - name: Build macOS app
-      #   platforms: [ macos ]
-      #   path: brick_breaker
-      #   flutter: build macos
-      # - name: Build Linux app
-      #   platforms: [ linux ]
-      #   path: brick_breaker
-      #   flutter: build linux
-      # - name: Build Windows app
-      #   platforms: [ windows ]
-      #   path: brick_breaker
-      #   flutter: build windows
+      - name: Build iOS simulator bundle
+        platforms: [ macos ]
+        path: brick_breaker
+        flutter: build ios --simulator
+      - name: Build macOS app
+        platforms: [ macos ]
+        path: brick_breaker
+        flutter: build macos
+      - name: Build Linux app
+        platforms: [ linux ]
+        path: brick_breaker
+        flutter: build linux
+      - name: Build Windows app
+        platforms: [ windows ]
+        path: brick_breaker
+        flutter: build windows
       - name: Copy step_03
         copydir:
           from: brick_breaker
@@ -1095,6 +1095,22 @@ steps:
               );
             }
           }
+      - name: Build iOS simulator bundle
+        platforms: [ macos ]
+        path: brick_breaker
+        flutter: build ios --simulator
+      - name: Build macOS app
+        platforms: [ macos ]
+        path: brick_breaker
+        flutter: build macos
+      - name: Build Linux app
+        platforms: [ linux ]
+        path: brick_breaker
+        flutter: build linux
+      - name: Build Windows app
+        platforms: [ windows ]
+        path: brick_breaker
+        flutter: build windows
       - name: Copy step_10
         copydir:
           from: brick_breaker
