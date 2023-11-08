@@ -17,8 +17,11 @@ class BrickBreaker extends FlameGame
     with HasCollisionDetection, KeyboardEvents, TapDetector {
   BrickBreaker()
       : super(
-            camera: CameraComponent.withFixedResolution(
-                width: gameWidth, height: gameHeight));
+          camera: CameraComponent.withFixedResolution(
+            width: gameWidth,
+            height: gameHeight,
+          ),
+        );
 
   final rand = math.Random();
 
@@ -60,7 +63,7 @@ class BrickBreaker extends FlameGame
     playState = PlayState.playing;
 
     final ball = Ball();
-    ball.position = Vector2(gameWidth / 2, gameHeight / 2);
+    ball.position = size / 2;
     ball.velocity.setValues(
       (rand.nextDouble() - 0.5) * gameWidth,
       gameHeight * 0.2,

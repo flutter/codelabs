@@ -9,8 +9,11 @@ import 'config.dart';
 class BrickBreaker extends FlameGame {
   BrickBreaker()
       : super(
-            camera: CameraComponent.withFixedResolution(
-                width: gameWidth, height: gameHeight));
+          camera: CameraComponent.withFixedResolution(
+            width: gameWidth,
+            height: gameHeight,
+          ),
+        );
 
   final rand = math.Random();
 
