@@ -10,10 +10,6 @@ steps:
         path: brick_breaker/analysis_options.yaml
         replace-contents: |
           include: ../../analysis_options.yaml
-
-          linter:
-            rules:
-              avoid_print: false
       - name: Add dependencies
         path: brick_breaker
         flutter: pub add flame flutter_animate google_fonts
