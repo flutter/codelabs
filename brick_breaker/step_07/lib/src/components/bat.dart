@@ -9,18 +9,17 @@ import '../config.dart';
 
 class Bat extends PositionComponent
     with DragCallbacks, HasGameRef<BrickBreaker> {
-  Bat() : super(size: Vector2(batWidth, batHeight), anchor: Anchor.center);
+  Bat()
+      : super(
+          size: Vector2(batWidth, batHeight),
+          anchor: Anchor.center,
+          children: [RectangleHitbox()],
+        );
 
   final _paint = Paint()
     ..color = const Color(0xff1e6091)
     ..style = PaintingStyle.fill;
-
-  @override
-  onLoad() async {
-    await super.onLoad();
-    add(RectangleHitbox());
-  }
-
+          
   @override
   void render(Canvas canvas) {
     super.render(canvas);

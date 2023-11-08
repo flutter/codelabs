@@ -7,13 +7,9 @@ import '../config.dart';
 class PlayArea extends RectangleComponent {
   PlayArea()
       : super(
-            size: Vector2(gameWidth, gameHeight),
-            anchor: Anchor.topLeft,
-            paint: Paint()..color = const Color(0xfff2e8cf));
-
-  @override
-  onLoad() {
-    super.onLoad();
-    add(RectangleHitbox());
-  }
+          size: Vector2(gameWidth, gameHeight),
+          anchor: Anchor.topLeft,
+          paint: Paint()..color = const Color(0xfff2e8cf),
+          children: [RectangleHitbox()],
+        );
 }

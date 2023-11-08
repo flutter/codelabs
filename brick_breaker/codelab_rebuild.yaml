@@ -139,15 +139,11 @@ steps:
           class PlayArea extends RectangleComponent {
             PlayArea()
                 : super(
-                      size: Vector2(gameWidth, gameHeight),
-                      anchor: Anchor.topLeft,
-                      paint: Paint()..color = const Color(0xfff2e8cf));
-          
-            @override
-            onLoad() {
-              super.onLoad();
-              add(RectangleHitbox());
-            }
+                    size: Vector2(gameWidth, gameHeight),
+                    anchor: Anchor.topLeft,
+                    paint: Paint()..color = const Color(0xfff2e8cf),
+                    children: [RectangleHitbox()],
+                  );
           }
       - name: Copy step_04
         copydir:
@@ -231,15 +227,10 @@ steps:
                       anchor: Anchor.center,
                       paint: Paint()
                         ..color = const Color(0xff1e6091)
-                        ..style = PaintingStyle.fill);
+                        ..style = PaintingStyle.fill,
+                      children: [CircleHitbox(radius: ballRadius)]);
           
             final velocity = Vector2.zero();
-          
-            @override
-            onLoad() async {
-              await super.onLoad();
-              add(CircleHitbox(radius: ballRadius));
-            }
           
             @override
             void update(double dt) {
@@ -285,7 +276,7 @@ steps:
            
            class Ball extends CircleComponent
                with CollisionCallbacks, HasGameRef<BrickBreaker> {
-          @@ -28,4 +29,23 @@ class Ball extends CircleComponent
+          @@ -23,4 +24,23 @@ class Ball extends CircleComponent
                super.update(dt);
                position += velocity * dt;
              }
@@ -382,8 +373,8 @@ steps:
       - name: Patch lib/src/components/ball.dart
         path: brick_breaker/lib/src/components/ball.dart
         patch-u: |
-          --- b/brick_breaker/step_07/lib/src/components/ball.dart
-          +++ a/brick_breaker/step_07/lib/src/components/ball.dart
+          --- step_07/lib/src/components/ball.dart.orig	2023-11-09 00:18:28.756875039 +1100
+          +++ step_07/lib/src/components/ball.dart	2023-11-09 00:18:43.466489000 +1100
           @@ -1,9 +1,11 @@
            import 'package:flame/collisions.dart';
            import 'package:flame/components.dart';
@@ -396,7 +387,7 @@ steps:
            import 'play_area.dart';
            
            class Ball extends CircleComponent
-          @@ -42,7 +44,15 @@ class Ball extends CircleComponent
+          @@ -37,7 +39,15 @@
                  } else if (intersectionPoints.first.x >= gameWidth) {
                    if (velocity.x > 0) velocity.x = -velocity.x;
                  } else if (intersectionPoints.first.y >= gameHeight) {
@@ -436,18 +427,17 @@ steps:
           
           class Bat extends PositionComponent
               with DragCallbacks, HasGameRef<BrickBreaker> {
-            Bat() : super(size: Vector2(batWidth, batHeight), anchor: Anchor.center);
+            Bat()
+                : super(
+                    size: Vector2(batWidth, batHeight),
+                    anchor: Anchor.center,
+                    children: [RectangleHitbox()],
+                  );
           
             final _paint = Paint()
               ..color = const Color(0xff1e6091)
               ..style = PaintingStyle.fill;
-          
-            @override
-            onLoad() async {
-              await super.onLoad();
-              add(RectangleHitbox());
-            }
-          
+                    
             @override
             void render(Canvas canvas) {
               super.render(canvas);
@@ -548,9 +538,9 @@ steps:
       - name: Patch lib/src/components/ball.dart
         path: brick_breaker/lib/src/components/ball.dart
         patch-u: |
-          --- b/brick_breaker/step_08/lib/src/components/ball.dart
-          +++ a/brick_breaker/step_08/lib/src/components/ball.dart
-          @@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
+          --- step_08/lib/src/components/ball.dart.orig	2023-11-09 00:23:27.814316898 +1100
+          +++ step_08/lib/src/components/ball.dart	2023-11-09 00:23:41.398912101 +1100
+          @@ -6,6 +6,7 @@
            import '../brick_breaker.dart';
            import '../config.dart';
            import 'bat.dart';
@@ -558,7 +548,7 @@ steps:
            import 'play_area.dart';
            
            class Ball extends CircleComponent
-          @@ -54,8 +55,17 @@ class Ball extends CircleComponent
+          @@ -49,8 +50,17 @@
                    velocity.x = velocity.x +
                        (position.x - other.position.x) / batWidth * gameWidth * 0.3;
                  }
@@ -604,18 +594,14 @@ steps:
               with CollisionCallbacks, HasGameRef<BrickBreaker> {
             Brick(Vector2 position, Color color)
                 : super(
-                      position: position,
-                      size: Vector2(brickWidth, brickHeight),
-                      anchor: Anchor.center,
-                      paint: Paint()
-                        ..color = color
-                        ..style = PaintingStyle.fill);
-          
-            @override
-            onLoad() async {
-              await super.onLoad();
-              add(RectangleHitbox());
-            }
+                    position: position,
+                    size: Vector2(brickWidth, brickHeight),
+                    anchor: Anchor.center,
+                    paint: Paint()
+                      ..color = color
+                      ..style = PaintingStyle.fill,
+                    children: [RectangleHitbox()],
+                  );
           
             @override
             void onCollisionStart(
@@ -745,9 +731,9 @@ steps:
       - name: Patch lib/src/components/ball.dart
         path: brick_breaker/lib/src/components/ball.dart
         patch-u: |
-          --- b/brick_breaker/step_09/lib/src/components/ball.dart
-          +++ a/brick_breaker/step_09/lib/src/components/ball.dart
-          @@ -46,8 +46,10 @@ class Ball extends CircleComponent
+          --- step_09/lib/src/components/ball.dart.orig	2023-11-09 00:28:24.592810361 +1100
+          +++ step_09/lib/src/components/ball.dart	2023-11-09 00:28:37.623381683 +1100
+          @@ -41,8 +41,10 @@
                    if (velocity.x > 0) velocity.x = -velocity.x;
                  } else if (intersectionPoints.first.y >= gameHeight) {
                    add(RemoveEffect(
@@ -763,9 +749,9 @@ steps:
       - name: Patch lib/src/components/brick.dart
         path: brick_breaker/lib/src/components/brick.dart
         patch-u: |
-          --- b/brick_breaker/step_09/lib/src/components/brick.dart
-          +++ a/brick_breaker/step_09/lib/src/components/brick.dart
-          @@ -32,6 +32,7 @@ class Brick extends RectangleComponent
+          --- step_09/lib/src/components/brick.dart.orig	2023-11-09 00:28:24.611333711 +1100
+          +++ step_09/lib/src/components/brick.dart	2023-11-09 00:28:37.628998459 +1100
+          @@ -28,6 +28,7 @@
                  game.world.remove(this);
            
                  if (game.world.children.whereType<Brick>().length == 1) {
@@ -929,9 +915,9 @@ steps:
       - name: Patch lib/src/components/brick.dart
         path: brick_breaker/lib/src/components/brick.dart
         patch-u: |
-          --- b/brick_breaker/step_10/lib/src/components/brick.dart
-          +++ a/brick_breaker/step_10/lib/src/components/brick.dart
-          @@ -30,6 +30,7 @@ class Brick extends RectangleComponent
+          --- step_10/lib/src/components/brick.dart.orig	2023-11-09 00:34:42.685612264 +1100
+          +++ step_10/lib/src/components/brick.dart	2023-11-09 00:34:51.451131217 +1100
+          @@ -26,6 +26,7 @@
                super.onCollisionStart(intersectionPoints, other);
                if (other is Ball) {
                  game.world.remove(this);

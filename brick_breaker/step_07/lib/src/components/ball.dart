@@ -16,15 +16,10 @@ class Ball extends CircleComponent
             anchor: Anchor.center,
             paint: Paint()
               ..color = const Color(0xff1e6091)
-              ..style = PaintingStyle.fill);
+              ..style = PaintingStyle.fill,
+            children: [CircleHitbox(radius: ballRadius)]);
 
   final velocity = Vector2.zero();
-
-  @override
-  onLoad() async {
-    await super.onLoad();
-    add(CircleHitbox(radius: ballRadius));
-  }
 
   @override
   void update(double dt) {

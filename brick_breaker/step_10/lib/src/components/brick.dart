@@ -11,18 +11,14 @@ class Brick extends RectangleComponent
     with CollisionCallbacks, HasGameRef<BrickBreaker> {
   Brick(Vector2 position, Color color)
       : super(
-            position: position,
-            size: Vector2(brickWidth, brickHeight),
-            anchor: Anchor.center,
-            paint: Paint()
-              ..color = color
-              ..style = PaintingStyle.fill);
-
-  @override
-  onLoad() async {
-    await super.onLoad();
-    add(RectangleHitbox());
-  }
+          position: position,
+          size: Vector2(brickWidth, brickHeight),
+          anchor: Anchor.center,
+          paint: Paint()
+            ..color = color
+            ..style = PaintingStyle.fill,
+          children: [RectangleHitbox()],
+        );
 
   @override
   void onCollisionStart(
