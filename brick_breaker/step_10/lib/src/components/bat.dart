@@ -19,7 +19,7 @@ class Bat extends PositionComponent
   final _paint = Paint()
     ..color = const Color(0xff1e6091)
     ..style = PaintingStyle.fill;
-          
+
   @override
   void render(Canvas canvas) {
     super.render(canvas);

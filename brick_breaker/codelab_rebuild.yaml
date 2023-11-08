@@ -373,8 +373,8 @@ steps:
       - name: Patch lib/src/components/ball.dart
         path: brick_breaker/lib/src/components/ball.dart
         patch-u: |
-          --- step_07/lib/src/components/ball.dart.orig	2023-11-09 00:18:28.756875039 +1100
-          +++ step_07/lib/src/components/ball.dart	2023-11-09 00:18:43.466489000 +1100
+          --- b/brick_breaker/step_07/lib/src/components/ball.dart
+          +++ a/brick_breaker/step_07/lib/src/components/ball.dart
           @@ -1,9 +1,11 @@
            import 'package:flame/collisions.dart';
            import 'package:flame/components.dart';
@@ -387,7 +387,7 @@ steps:
            import 'play_area.dart';
            
            class Ball extends CircleComponent
-          @@ -37,7 +39,15 @@
+          @@ -37,7 +39,15 @@ class Ball extends CircleComponent
                  } else if (intersectionPoints.first.x >= gameWidth) {
                    if (velocity.x > 0) velocity.x = -velocity.x;
                  } else if (intersectionPoints.first.y >= gameHeight) {
@@ -437,7 +437,7 @@ steps:
             final _paint = Paint()
               ..color = const Color(0xff1e6091)
               ..style = PaintingStyle.fill;
-                    
+          
             @override
             void render(Canvas canvas) {
               super.render(canvas);
@@ -538,9 +538,9 @@ steps:
       - name: Patch lib/src/components/ball.dart
         path: brick_breaker/lib/src/components/ball.dart
         patch-u: |
-          --- step_08/lib/src/components/ball.dart.orig	2023-11-09 00:23:27.814316898 +1100
-          +++ step_08/lib/src/components/ball.dart	2023-11-09 00:23:41.398912101 +1100
-          @@ -6,6 +6,7 @@
+          --- b/brick_breaker/step_08/lib/src/components/ball.dart
+          +++ a/brick_breaker/step_08/lib/src/components/ball.dart
+          @@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
            import '../brick_breaker.dart';
            import '../config.dart';
            import 'bat.dart';
@@ -548,7 +548,7 @@ steps:
            import 'play_area.dart';
            
            class Ball extends CircleComponent
-          @@ -49,8 +50,17 @@
+          @@ -49,8 +50,17 @@ class Ball extends CircleComponent
                    velocity.x = velocity.x +
                        (position.x - other.position.x) / batWidth * gameWidth * 0.3;
                  }
@@ -915,9 +915,9 @@ steps:
       - name: Patch lib/src/components/brick.dart
         path: brick_breaker/lib/src/components/brick.dart
         patch-u: |
-          --- step_10/lib/src/components/brick.dart.orig	2023-11-09 00:34:42.685612264 +1100
-          +++ step_10/lib/src/components/brick.dart	2023-11-09 00:34:51.451131217 +1100
-          @@ -26,6 +26,7 @@
+          --- b/brick_breaker/step_10/lib/src/components/brick.dart
+          +++ a/brick_breaker/step_10/lib/src/components/brick.dart
+          @@ -26,6 +26,7 @@ class Brick extends RectangleComponent
                super.onCollisionStart(intersectionPoints, other);
                if (other is Ball) {
                  game.world.remove(this);
