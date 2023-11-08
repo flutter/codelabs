@@ -7,7 +7,7 @@ import '../config.dart';
 import 'play_area.dart';
 
 class Ball extends CircleComponent
-    with CollisionCallbacks, HasGameRef<BrickBreaker> {
+    with CollisionCallbacks, HasGameReference<BrickBreaker> {
   Ball()
       : super(
             radius: ballRadius,

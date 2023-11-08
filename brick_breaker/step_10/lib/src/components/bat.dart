@@ -8,7 +8,7 @@ import '../brick_breaker.dart';
 import '../config.dart';
 
 class Bat extends PositionComponent
-    with DragCallbacks, HasGameRef<BrickBreaker> {
+    with DragCallbacks, HasGameReference<BrickBreaker> {
   Bat()
       : super(
           size: Vector2(batWidth, batHeight),

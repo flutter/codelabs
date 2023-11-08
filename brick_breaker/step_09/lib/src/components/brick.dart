@@ -8,7 +8,7 @@ import 'ball.dart';
 import 'bat.dart';
 
 class Brick extends RectangleComponent
-    with CollisionCallbacks, HasGameRef<BrickBreaker> {
+    with CollisionCallbacks, HasGameReference<BrickBreaker> {
   Brick(Vector2 position, Color color)
       : super(
           position: position,

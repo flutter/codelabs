@@ -220,7 +220,7 @@ steps:
           import '../config.dart';
           
           class Ball extends CircleComponent
-              with CollisionCallbacks, HasGameRef<BrickBreaker> {
+              with CollisionCallbacks, HasGameReference<BrickBreaker> {
             Ball()
                 : super(
                       radius: ballRadius,
@@ -275,7 +275,7 @@ steps:
           +import 'play_area.dart';
            
            class Ball extends CircleComponent
-               with CollisionCallbacks, HasGameRef<BrickBreaker> {
+               with CollisionCallbacks, HasGameReference<BrickBreaker> {
           @@ -23,4 +24,23 @@ class Ball extends CircleComponent
                super.update(dt);
                position += velocity * dt;
@@ -426,7 +426,7 @@ steps:
           import '../config.dart';
           
           class Bat extends PositionComponent
-              with DragCallbacks, HasGameRef<BrickBreaker> {
+              with DragCallbacks, HasGameReference<BrickBreaker> {
             Bat()
                 : super(
                     size: Vector2(batWidth, batHeight),
@@ -591,7 +591,7 @@ steps:
           import 'bat.dart';
           
           class Brick extends RectangleComponent
-              with CollisionCallbacks, HasGameRef<BrickBreaker> {
+              with CollisionCallbacks, HasGameReference<BrickBreaker> {
             Brick(Vector2 position, Color color)
                 : super(
                     position: position,
