@@ -37,7 +37,7 @@ class Bat extends PositionComponent
     final cameraZoom = game.camera.viewfinder.zoom;
     var dx = (event.delta / cameraZoom).x;
     position.x =
-        (position.x + dx).clamp(batWidth / 2, gameWidth - batWidth / 2);
+        (position.x + dx).clamp(width / 2, gameRef.width - width / 2);
   }
 
   void moveBy(double dx) {
