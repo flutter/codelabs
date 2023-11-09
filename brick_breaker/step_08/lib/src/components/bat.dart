@@ -5,16 +5,19 @@ import 'package:flame/events.dart';
 import 'package:flutter/material.dart';
 
 import '../brick_breaker.dart';
-import '../config.dart';
 
 class Bat extends PositionComponent
     with DragCallbacks, HasGameReference<BrickBreaker> {
-  Bat()
-      : super(
-          size: Vector2(batWidth, batHeight),
+  Bat({
+    required this.cornerRadius,
+    required super.position,
+    required super.size,
+  }) : super(
           anchor: Anchor.center,
           children: [RectangleHitbox()],
         );
+
+  final Radius cornerRadius;
 
   final _paint = Paint()
     ..color = const Color(0xff1e6091)
@@ -26,7 +29,7 @@ class Bat extends PositionComponent
     canvas.drawRRect(
         RRect.fromRectAndRadius(
           Offset.zero & size.toSize(),
-          const Radius.circular(ballRadius / 2),
+          cornerRadius,
         ),
         _paint);
   }
@@ -36,14 +39,13 @@ class Bat extends PositionComponent
     super.onDragUpdate(event);
     final cameraZoom = game.camera.viewfinder.zoom;
     var dx = (event.delta / cameraZoom).x;
-    position.x =
-        (position.x + dx).clamp(batWidth / 2, gameWidth - batWidth / 2);
+    position.x = (position.x + dx).clamp(width / 2, game.width - width / 2);
   }
 
   void moveBy(double dx) {
     add(MoveToEffect(
       Vector2(
-        (position.x + dx).clamp(batWidth / 2, gameWidth - batWidth / 2),
+        (position.x + dx).clamp(width / 2, game.width - width / 2),
         position.y,
       ),
       EffectController(duration: 0.1),

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flame/components.dart';
@@ -25,6 +26,8 @@ class BrickBreaker extends FlameGame
 
   final ValueNotifier<int> score = ValueNotifier(0);
   final rand = math.Random();
+  final width = gameWidth;
+  final height = gameHeight;
 
   late PlayState _playState;
   PlayState get playState => _playState;
@@ -43,10 +46,9 @@ class BrickBreaker extends FlameGame
   }
 
   @override
-  onLoad() {
+  FutureOr<void> onLoad() async {
     super.onLoad();
 
-    camera.viewfinder.position = Vector2(0, 0);
     camera.viewfinder.anchor = Anchor.topLeft;
 
     world.add(PlayArea());
@@ -64,17 +66,18 @@ class BrickBreaker extends FlameGame
     playState = PlayState.playing;
     score.value = 0;
 
-    final ball = Ball();
-    ball.position = size / 2;
-    ball.velocity.setValues(
-      (rand.nextDouble() - 0.5) * gameWidth,
-      gameHeight * 0.2,
-    );
-    world.add(ball);
+    world.add(Ball(
+        batWidth: batWidth,
+        difficultyModifier: difficultyModifier,
+        radius: ballRadius,
+        position: size / 2,
+        velocity:
+            Vector2((rand.nextDouble() - 0.5) * gameWidth, gameHeight * 0.2)));
 
-    final bat = Bat();
-    bat.position = Vector2(gameWidth / 2, gameHeight * 0.95);
-    world.add(bat);
+    world.add(Bat(
+        size: Vector2(batWidth, batHeight),
+        cornerRadius: const Radius.circular(ballRadius / 2),
+        position: Vector2(gameWidth / 2, gameHeight * 0.95)));
 
     world.addAll([
       for (var i = 0; i < brickColors.length; i++)
@@ -110,4 +113,7 @@ class BrickBreaker extends FlameGame
     }
     return KeyEventResult.handled;
   }
+
+  @override
+  Color backgroundColor() => const Color(0xfff2e8cf);
 }

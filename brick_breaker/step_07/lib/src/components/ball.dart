@@ -4,22 +4,26 @@ import 'package:flame/effects.dart';
 import 'package:flutter/material.dart';
 
 import '../brick_breaker.dart';
-import '../config.dart';
 import 'bat.dart';
 import 'play_area.dart';
 
 class Ball extends CircleComponent
     with CollisionCallbacks, HasGameReference<BrickBreaker> {
-  Ball()
-      : super(
-            radius: ballRadius,
+  Ball({
+    required this.velocity,
+    required super.position,
+    required double radius,
+    required this.batWidth,
+  }) : super(
+            radius: radius,
             anchor: Anchor.center,
             paint: Paint()
               ..color = const Color(0xff1e6091)
               ..style = PaintingStyle.fill,
-            children: [CircleHitbox(radius: ballRadius)]);
+            children: [CircleHitbox(radius: radius)]);
 
-  final velocity = Vector2.zero();
+  final Vector2 velocity;
+  final double batWidth;
 
   @override
   void update(double dt) {
@@ -36,9 +40,9 @@ class Ball extends CircleComponent
         if (velocity.y < 0) velocity.y = -velocity.y;
       } else if (intersectionPoints.first.x <= 0) {
         if (velocity.x < 0) velocity.x = -velocity.x;
-      } else if (intersectionPoints.first.x >= gameWidth) {
+      } else if (intersectionPoints.first.x >= game.width) {
         if (velocity.x > 0) velocity.x = -velocity.x;
-      } else if (intersectionPoints.first.y >= gameHeight) {
+      } else if (intersectionPoints.first.y >= game.height) {
         add(RemoveEffect(
           delay: 0.35,
         ));
@@ -47,7 +51,7 @@ class Ball extends CircleComponent
       if (velocity.y > 0) {
         velocity.y = -velocity.y;
         velocity.x = velocity.x +
-            (position.x - other.position.x) / batWidth * gameWidth * 0.3;
+            (position.x - other.position.x) / batWidth * game.width * 0.3;
       }
     } else {
       debugPrint('collision with $other');

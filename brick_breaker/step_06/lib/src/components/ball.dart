@@ -3,21 +3,23 @@ import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 
 import '../brick_breaker.dart';
-import '../config.dart';
 import 'play_area.dart';
 
 class Ball extends CircleComponent
     with CollisionCallbacks, HasGameReference<BrickBreaker> {
-  Ball()
-      : super(
-            radius: ballRadius,
+  Ball({
+    required this.velocity,
+    required super.position,
+    required double radius,
+  }) : super(
+            radius: radius,
             anchor: Anchor.center,
             paint: Paint()
               ..color = const Color(0xff1e6091)
               ..style = PaintingStyle.fill,
-            children: [CircleHitbox(radius: ballRadius)]);
+            children: [CircleHitbox(radius: radius)]);
 
-  final velocity = Vector2.zero();
+  final Vector2 velocity;
 
   @override
   void update(double dt) {
@@ -34,9 +36,9 @@ class Ball extends CircleComponent
         if (velocity.y < 0) velocity.y = -velocity.y;
       } else if (intersectionPoints.first.x <= 0) {
         if (velocity.x < 0) velocity.x = -velocity.x;
-      } else if (intersectionPoints.first.x >= gameWidth) {
+      } else if (intersectionPoints.first.x >= game.width) {
         if (velocity.x > 0) velocity.x = -velocity.x;
-      } else if (intersectionPoints.first.y >= gameHeight) {
+      } else if (intersectionPoints.first.y >= game.height) {
         game.world.remove(this);
       }
     } else {
