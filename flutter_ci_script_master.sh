@@ -10,6 +10,7 @@ declare -a CODELABS=(
   "animated-responsive-layout"
   # TODO(DomesticMouse): Sort directive sections alphabetically.
   # "boring_to_beautiful"
+  "brick_breaker"
   "cookbook"
   "cupertino_store"
   "dart-patterns-and-records"
