@@ -2,9 +2,7 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 
-import '../brick_breaker.dart';
-
-class Ball extends CircleComponent with HasGameReference<BrickBreaker> {
+class Ball extends CircleComponent {
   Ball({
     required this.velocity,
     required super.position,

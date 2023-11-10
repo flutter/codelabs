@@ -25,8 +25,8 @@ class BrickBreaker extends FlameGame
         );
 
   final rand = math.Random();
-  final width = gameWidth;
-  final height = gameHeight;
+  double get width => size.x;
+  double get height => size.y;
 
   late PlayState _playState;
   PlayState get playState => _playState;
@@ -65,17 +65,15 @@ class BrickBreaker extends FlameGame
     playState = PlayState.playing;
 
     world.add(Ball(
-        batWidth: batWidth,
         difficultyModifier: difficultyModifier,
         radius: ballRadius,
         position: size / 2,
-        velocity:
-            Vector2((rand.nextDouble() - 0.5) * gameWidth, gameHeight * 0.2)));
+        velocity: Vector2((rand.nextDouble() - 0.5) * width, height * 0.2)));
 
     world.add(Bat(
         size: Vector2(batWidth, batHeight),
         cornerRadius: const Radius.circular(ballRadius / 2),
-        position: Vector2(gameWidth / 2, gameHeight * 0.95)));
+        position: Vector2(width / 2, height * 0.95)));
 
     world.addAll([
       for (var i = 0; i < brickColors.length; i++)

@@ -14,7 +14,6 @@ class Ball extends CircleComponent
     required this.velocity,
     required super.position,
     required double radius,
-    required this.batWidth,
     required this.difficultyModifier,
   }) : super(
             radius: radius,
@@ -25,7 +24,6 @@ class Ball extends CircleComponent
             children: [CircleHitbox(radius: radius)]);
 
   final Vector2 velocity;
-  final double batWidth;
   final double difficultyModifier;
 
   @override
@@ -56,7 +54,7 @@ class Ball extends CircleComponent
       if (velocity.y > 0) {
         velocity.y = -velocity.y;
         velocity.x = velocity.x +
-            (position.x - other.position.x) / batWidth * game.width * 0.3;
+            (position.x - other.position.x) / other.size.x * game.width * 0.3;
       }
     } else if (other is Brick) {
       if (position.y < other.position.y - other.size.y / 2) {

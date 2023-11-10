@@ -15,8 +15,8 @@ class BrickBreaker extends FlameGame {
           ),
         );
 
-  final width = gameWidth;
-  final height = gameHeight;
+  double get width => size.x;
+  double get height => size.y;
 
   @override
   FutureOr<void> onLoad() async {

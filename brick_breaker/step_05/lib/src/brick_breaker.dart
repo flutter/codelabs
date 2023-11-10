@@ -17,8 +17,8 @@ class BrickBreaker extends FlameGame {
         );
 
   final rand = math.Random();
-  final width = gameWidth;
-  final height = gameHeight;
+  double get width => size.x;
+  double get height => size.y;
 
   @override
   FutureOr<void> onLoad() async {
@@ -31,8 +31,7 @@ class BrickBreaker extends FlameGame {
     world.add(Ball(
         radius: ballRadius,
         position: size / 2,
-        velocity:
-            Vector2((rand.nextDouble() - 0.5) * gameWidth, gameHeight * 0.2)));
+        velocity: Vector2((rand.nextDouble() - 0.5) * width, height * 0.2)));
 
     debugMode = true;
   }

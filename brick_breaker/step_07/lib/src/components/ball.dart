@@ -13,7 +13,6 @@ class Ball extends CircleComponent
     required this.velocity,
     required super.position,
     required double radius,
-    required this.batWidth,
   }) : super(
             radius: radius,
             anchor: Anchor.center,
@@ -23,7 +22,6 @@ class Ball extends CircleComponent
             children: [CircleHitbox(radius: radius)]);
 
   final Vector2 velocity;
-  final double batWidth;
 
   @override
   void update(double dt) {
@@ -51,7 +49,7 @@ class Ball extends CircleComponent
       if (velocity.y > 0) {
         velocity.y = -velocity.y;
         velocity.x = velocity.x +
-            (position.x - other.position.x) / batWidth * game.width * 0.3;
+            (position.x - other.position.x) / other.size.x * game.width * 0.3;
       }
     } else {
       debugPrint('collision with $other');
