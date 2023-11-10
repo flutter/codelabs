@@ -25,7 +25,7 @@ class Brick extends RectangleComponent
       Set<Vector2> intersectionPoints, PositionComponent other) {
     super.onCollisionStart(intersectionPoints, other);
     if (other is Ball) {
-      game.world.remove(this);
+      removeFromParent();
 
       if (game.world.children.whereType<Brick>().length == 1) {
         game.world.removeAll(game.world.children.whereType<Ball>());
