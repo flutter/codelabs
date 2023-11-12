@@ -7,13 +7,13 @@ environment:
   sdk: '>=3.2.0-210.4.beta <4.0.0'
 
 dependencies:
-  firebase_auth: ^4.12.1
-  firebase_core: ^2.21.0
-  firebase_ui_auth: ^1.9.1
-  firebase_ui_oauth_google: ^1.2.13
+  firebase_auth: ^4.13.0
+  firebase_core: ^2.22.0
+  firebase_ui_auth: ^1.10.0
+  firebase_ui_oauth_google: ^1.2.14
   flutter:
     sdk: flutter
-  google_sign_in: ^6.1.5
+  google_sign_in: ^6.1.6
 
 dev_dependencies:
   flutter_test:

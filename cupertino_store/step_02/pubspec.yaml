@@ -51,7 +51,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   intl: ^0.18.1
-  provider: ^6.0.5
+  provider: ^6.1.1
   shrine_images: ^2.0.2
 
 dev_dependencies:

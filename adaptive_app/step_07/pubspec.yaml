@@ -36,13 +36,13 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   googleapis: ^11.4.0
-  provider: ^6.0.5
+  provider: ^6.1.1
   url_launcher: ^6.2.1
   flex_color_scheme: ^7.3.1
-  go_router: ^12.1.0
+  go_router: ^12.1.1
   split_view: ^3.2.1
   googleapis_auth: ^1.4.1
-  google_sign_in: ^6.1.5
+  google_sign_in: ^6.1.6
   extension_google_sign_in_as_googleapis_auth: ^2.0.11
   http: ^1.1.0
 
