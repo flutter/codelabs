@@ -30,7 +30,7 @@ final DynamicLibrary _dylib = () {
   if (Platform.isWindows) {
     if (Platform.environment.containsKey('FLUTTER_TEST')) {
       return DynamicLibrary.open(p.canonicalize(
-          p.join(r'build\windows\runner\Debug', '$_libName.dll')));
+          p.join(r'build\windows\x64\runner\Debug', '$_libName.dll')));
     }
     return DynamicLibrary.open('$_libName.dll');
   }
