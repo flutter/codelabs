@@ -1,0 +1,56 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "step_03",
+            "cwd": "step_03",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "step_04",
+            "cwd": "step_04",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "step_05",
+            "cwd": "step_05",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "step_06",
+            "cwd": "step_06",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "step_07",
+            "cwd": "step_07",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "step_08",
+            "cwd": "step_08",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "step_09",
+            "cwd": "step_09",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "step_10",
+            "cwd": "step_10",
+            "request": "launch",
+            "type": "dart"
+        }
+    ]
+}

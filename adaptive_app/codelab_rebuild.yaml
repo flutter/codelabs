@@ -1282,7 +1282,7 @@ steps:
         patch-u: |
           --- b/adaptive_app/step_07/.gitignore
           +++ a/adaptive_app/step_07/.gitignore
-          @@ -42,3 +42,6 @@ app.*.map.json
+          @@ -41,3 +41,6 @@ app.*.map.json
            /android/app/debug
            /android/app/profile
            /android/app/release

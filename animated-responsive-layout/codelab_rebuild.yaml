@@ -10,6 +10,9 @@ steps:
         path: animated_responsive_layout/analysis_options.yaml
         replace-contents: |
           include: ../../analysis_options.yaml
+      - name: Update dependencies
+        path: animated_responsive_layout
+        flutter: pub upgrade --major-versions
       - name: Remove README
         rm: animated_responsive_layout/README.md
       - name: Add .vscode directory

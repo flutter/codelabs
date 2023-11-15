@@ -6,13 +6,16 @@ steps:
         rmdir: step_02
       - name: Create project
         flutter: create gtk_flutter --platforms=ios,android,web,macos
+      - name: update dependencies
+        path: gtk_flutter
+        flutter: pub upgrade --major-versions
       - name: Configure analysis_options.yaml
         path: gtk_flutter/analysis_options.yaml
         replace-contents: |
           include: ../../analysis_options.yaml
       - name: Add dependencies
         path: gtk_flutter
-        flutter: pub add google_fonts:'>=4.0.0 < 6.0.0' go_router
+        flutter: pub add google_fonts go_router
       - name: Patch pubspec.yaml
         path: gtk_flutter/pubspec.yaml
         patch-u: |
@@ -20,8 +23,8 @@ steps:
           +++ a/firebase-get-to-know-flutter/step_02/pubspec.yaml
           @@ -1,5 +1,6 @@
            name: gtk_flutter
-          -description: A new Flutter project.
-          +description: Get to know Firebase with Flutter
+          -description: "A new Flutter project."
+          +description: "Get to know Firebase with Flutter"
           +
            # The following line prevents the package from being accidentally published to
            # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -97,7 +100,7 @@ steps:
                   buttonTheme: Theme.of(context).buttonTheme.copyWith(
                         highlightColor: Colors.deepPurple,
                       ),
-                  primarySwatch: Colors.deepPurple,
+                  colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
                   textTheme: GoogleFonts.robotoTextTheme(
                     Theme.of(context).textTheme,
                   ),

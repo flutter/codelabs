@@ -6,6 +6,9 @@ steps:
         rmdir: step_01
       - name: Create next_gen_ui
         flutter: create --empty next_gen_ui
+      - name: Update dependencies
+        path: next_gen_ui
+        flutter: pub upgrade --major-versions
       - name: Configure analysis_options.yaml
         path: next_gen_ui/analysis_options.yaml
         replace-contents: |
@@ -45,13 +48,13 @@ steps:
           +++ a/next-gen-ui/step_01/pubspec.yaml
           @@ -1,5 +1,5 @@
            name: next_gen_ui
-          -description: A new Flutter project.
-          +description: Building a Next Generation UI in Flutter
+          -description: "A new Flutter project."
+          +description: "Building a Next Generation UI in Flutter"
            publish_to: 'none'
            version: 0.1.0
            
           @@ -19,6 +19,10 @@ dependencies:
-             provider: ^6.0.5
+             provider: ^6.1.1
              rnd: ^0.2.0
              vector_math: ^2.1.4
           +  window_size:

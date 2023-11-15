@@ -63,7 +63,7 @@ steps:
           version: 0.1.0
           
           environment:
-            sdk: ^3.1.1
+            sdk: ^3.2.0-0
           
           dependencies:
             flutter:
@@ -72,7 +72,7 @@ steps:
           dev_dependencies:
             flutter_test:
               sdk: flutter
-            flutter_lints: ^2.0.0
+            flutter_lints: ^3.0.1
           
           flutter:
             uses-material-design: true

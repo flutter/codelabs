@@ -2,9 +2,9 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import './artists.dart';
 import '../classes/classes.dart';
 import '../extensions.dart';
+import './artists.dart';
 
 class SongsProvider {
   static SongsProvider get shared => SongsProvider();

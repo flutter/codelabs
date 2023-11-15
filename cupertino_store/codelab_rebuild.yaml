@@ -6,6 +6,9 @@ steps:
         rmdir: step_00
       - name: Create project
         flutter: create cupertino_store --platforms=ios
+      - name: Update dependencies
+        path: cupertino_store
+        flutter: pub upgrade --major-versions
       - name: Configure analysis_options.yaml
         path: cupertino_store/analysis_options.yaml
         replace-contents: |
@@ -48,8 +51,8 @@ steps:
           +# limitations under the License.
           +
            name: cupertino_store
-          -description: A new Flutter project.
-          +description: Creating a Store in Cupertino widgets
+          -description: "A new Flutter project."
+          +description: "Creating a Store in Cupertino widgets"
           +
            # The following line prevents the package from being accidentally published to
            # pub.dev using `flutter pub publish`. This is preferred for private packages.

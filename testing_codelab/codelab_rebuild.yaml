@@ -59,8 +59,8 @@ steps:
           +# found in the LICENSE file.
           +
            name: testing_app
-          -description: A new Flutter project.
-          +description: App behind Flutter testing codelab.
+          -description: "A new Flutter project."
+          +description: "App behind Flutter testing codelab."
            publish_to: 'none'
            version: 0.1.0
       - name: Patch lib/main.dart
