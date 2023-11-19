@@ -4,7 +4,7 @@ version: 0.0.1
 homepage:
 
 environment:
-  sdk: '>=3.2.0-210.4.beta <4.0.0'
+  sdk: '>=3.2.0 <4.0.0'
   flutter: '>=3.3.0'
 
 dependencies:
@@ -14,7 +14,7 @@ dependencies:
   plugin_platform_interface: ^2.0.2
 
 dev_dependencies:
-  ffigen: ^9.0.1
+  ffigen: ^10.0.0
   flutter_test:
     sdk: flutter
   flutter_lints: ^3.0.1

@@ -439,7 +439,7 @@ steps:
            
            import 'duktape_bindings_generated.dart';
            
-          @@ -13,12 +14,24 @@ const String _libName = 'ffigen_app';
+          @@ -13,12 +14,29 @@ const String _libName = 'ffigen_app';
            /// The dynamic library in which the symbols for [DuktapeBindings] can be found.
            final DynamicLibrary _dylib = () {
              if (Platform.isMacOS || Platform.isIOS) {
@@ -458,13 +458,18 @@ steps:
              }
              if (Platform.isWindows) {
           +    if (Platform.environment.containsKey('FLUTTER_TEST')) {
-          +      return DynamicLibrary.open(p.canonicalize(
-          +          p.join(r'build\windows\x64\runner\Debug', '$_libName.dll')));
+          +      return switch (Abi.current()) {
+          +        Abi.windowsArm64 => DynamicLibrary.open(p.canonicalize(
+          +            p.join(r'build\windows\arm64\runner\Debug', '$_libName.dll'))),
+          +        Abi.windowsX64 => DynamicLibrary.open(p.canonicalize(
+          +            p.join(r'build\windows\x64\runner\Debug', '$_libName.dll'))),
+          +        _ => throw 'Unsupported platform',
+          +      };
           +    }
                return DynamicLibrary.open('$_libName.dll');
              }
              throw UnsupportedError('Unknown platform: ${Platform.operatingSystem}');
-          @@ -33,13 +46,13 @@ class Duktape {
+          @@ -33,13 +51,13 @@ class Duktape {
                    _bindings.duk_create_heap(nullptr, nullptr, nullptr, nullptr, nullptr);
              }
            
@@ -480,7 +485,7 @@ steps:
                    ctx,
                    nativeUtf8.cast<Char>(),
                    0,
-          @@ -50,10 +63,21 @@ class Duktape {
+          @@ -50,10 +68,21 @@ class Duktape {
                        DUK_COMPILE_STRLEN |
                        DUK_COMPILE_NOFILENAME);
                ffi.malloc.free(nativeUtf8);
@@ -799,6 +804,10 @@ steps:
         path: ffigen_app/example
         platforms: [ macos ]
         flutter: build macos --debug
+      - name: Test macOS bundle
+        path: ffigen_app/example
+        platforms: [ macos ]
+        flutter: test
       - name: Build Android app
         path: ffigen_app/example
         platforms: [ macos ]
