@@ -158,7 +158,6 @@ steps:
         replace-contents: |
           import 'dart:async';
           
-          import 'package:flame/collisions.dart';
           import 'package:flame/components.dart';
           import 'package:flutter/material.dart';
           
@@ -168,7 +167,6 @@ steps:
             PlayArea()
                 : super(
                     paint: Paint()..color = const Color(0xfff2e8cf),
-                    children: [RectangleHitbox()],
                   );
           
             @override
@@ -240,7 +238,6 @@ steps:
       - name: Add lib/src/components/ball.dart
         path: brick_breaker/lib/src/components/ball.dart
         replace-contents: |
-          import 'package:flame/collisions.dart';
           import 'package:flame/components.dart';
           import 'package:flutter/material.dart';
           
@@ -254,8 +251,7 @@ steps:
                       anchor: Anchor.center,
                       paint: Paint()
                         ..color = const Color(0xff1e6091)
-                        ..style = PaintingStyle.fill,
-                      children: [CircleHitbox(radius: radius)]);
+                        ..style = PaintingStyle.fill);
           
             final Vector2 velocity;
           
@@ -295,7 +291,8 @@ steps:
         patch-u: |
           --- b/brick_breaker/step_06/lib/src/components/ball.dart
           +++ a/brick_breaker/step_06/lib/src/components/ball.dart
-          @@ -2,7 +2,11 @@ import 'package:flame/collisions.dart';
+          @@ -1,7 +1,12 @@
+          +import 'package:flame/collisions.dart';
            import 'package:flame/components.dart';
            import 'package:flutter/material.dart';
            
@@ -308,7 +305,17 @@ steps:
              Ball({
                required this.velocity,
                required super.position,
-          @@ -22,4 +26,23 @@ class Ball extends CircleComponent {
+          @@ -11,7 +16,8 @@ class Ball extends CircleComponent {
+                       anchor: Anchor.center,
+                       paint: Paint()
+                         ..color = const Color(0xff1e6091)
+          -              ..style = PaintingStyle.fill);
+          +              ..style = PaintingStyle.fill,
+          +            children: [CircleHitbox(radius: radius)]);
+           
+             final Vector2 velocity;
+           
+          @@ -20,4 +26,23 @@ class Ball extends CircleComponent {
                super.update(dt);
                position += velocity * dt;
              }
@@ -332,6 +339,26 @@ steps:
           +    }
           +  }
            }
+      - name: Patch lib/src/components/play_area.dart
+        path: brick_breaker/lib/src/components/play_area.dart
+        patch-u: |
+          --- b/brick_breaker/step_06/lib/src/components/play_area.dart
+          +++ a/brick_breaker/step_06/lib/src/components/play_area.dart
+          @@ -1,5 +1,6 @@
+           import 'dart:async';
+           
+          +import 'package:flame/collisions.dart';
+           import 'package:flame/components.dart';
+           import 'package:flutter/material.dart';
+           
+          @@ -9,6 +10,7 @@ class PlayArea extends RectangleComponent with HasGameReference<BrickBreaker> {
+             PlayArea()
+                 : super(
+                     paint: Paint()..color = const Color(0xfff2e8cf),
+          +          children: [RectangleHitbox()],
+                   );
+           
+             @override
       - name: Copy step_06
         copydir:
           from: brick_breaker
