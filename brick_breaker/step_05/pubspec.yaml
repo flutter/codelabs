@@ -1,5 +1,5 @@
 name: brick_breaker
-description: "A new Flutter project."
+description: "Re-implementing Woz's Breakout"
 publish_to: 'none'
 version: 0.1.0
 
@@ -10,13 +10,13 @@ dependencies:
   flame: ^1.10.1
   flutter:
     sdk: flutter
-  flutter_animate: ^4.2.0+1
+  flutter_animate: ^4.2.0
   google_fonts: ^6.1.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
+  flutter_lints: ^3.0.1
 
 flutter:
   uses-material-design: true

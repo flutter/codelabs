@@ -10,9 +10,31 @@ steps:
         path: brick_breaker/analysis_options.yaml
         replace-contents: |
           include: ../../analysis_options.yaml
-      - name: Add dependencies
-        path: brick_breaker
-        flutter: pub add flame flutter_animate google_fonts
+      - name: Configure dependencies
+        path: brick_breaker/pubspec.yaml
+        replace-contents: |
+          name: brick_breaker
+          description: "Re-implementing Woz's Breakout"
+          publish_to: 'none'
+          version: 0.1.0
+          
+          environment:
+            sdk: '>=3.2.0 <4.0.0'
+          
+          dependencies:
+            flame: ^1.10.1
+            flutter:
+              sdk: flutter
+            flutter_animate: ^4.2.0
+            google_fonts: ^6.1.0
+          
+          dev_dependencies:
+            flutter_test:
+              sdk: flutter
+            flutter_lints: ^3.0.1
+          
+          flutter:
+            uses-material-design: true
       - name: Remove README
         rm: brick_breaker/README.md
       - name: Add .vscode directory
