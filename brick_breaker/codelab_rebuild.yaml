@@ -10,9 +10,31 @@ steps:
         path: brick_breaker/analysis_options.yaml
         replace-contents: |
           include: ../../analysis_options.yaml
-      - name: Add dependencies
-        path: brick_breaker
-        flutter: pub add flame flutter_animate google_fonts
+      - name: Configure dependencies
+        path: brick_breaker/pubspec.yaml
+        replace-contents: |
+          name: brick_breaker
+          description: "Re-implementing Woz's Breakout"
+          publish_to: 'none'
+          version: 0.1.0
+          
+          environment:
+            sdk: '>=3.2.0 <4.0.0'
+          
+          dependencies:
+            flame: ^1.10.1
+            flutter:
+              sdk: flutter
+            flutter_animate: ^4.2.0
+            google_fonts: ^6.1.0
+          
+          dev_dependencies:
+            flutter_test:
+              sdk: flutter
+            flutter_lints: ^3.0.1
+          
+          flutter:
+            uses-material-design: true
       - name: Remove README
         rm: brick_breaker/README.md
       - name: Add .vscode directory
@@ -136,7 +158,6 @@ steps:
         replace-contents: |
           import 'dart:async';
           
-          import 'package:flame/collisions.dart';
           import 'package:flame/components.dart';
           import 'package:flutter/material.dart';
           
@@ -146,7 +167,6 @@ steps:
             PlayArea()
                 : super(
                     paint: Paint()..color = const Color(0xfff2e8cf),
-                    children: [RectangleHitbox()],
                   );
           
             @override
@@ -185,7 +205,7 @@ steps:
              double get width => size.x;
              double get height => size.y;
            
-          @@ -25,5 +27,12 @@ class BrickBreaker extends FlameGame {
+          @@ -25,5 +27,14 @@ class BrickBreaker extends FlameGame {
                camera.viewfinder.anchor = Anchor.topLeft;
            
                world.add(PlayArea());
@@ -193,7 +213,9 @@ steps:
           +    world.add(Ball(
           +        radius: ballRadius,
           +        position: size / 2,
-          +        velocity: Vector2((rand.nextDouble() - 0.5) * width, height * 0.2)));
+          +        velocity: Vector2((rand.nextDouble() - 0.5) * width, height * 0.2)
+          +            .normalized()
+          +          ..scale(height / 4)));
           +
           +    debugMode = true;
              }
@@ -218,7 +240,6 @@ steps:
       - name: Add lib/src/components/ball.dart
         path: brick_breaker/lib/src/components/ball.dart
         replace-contents: |
-          import 'package:flame/collisions.dart';
           import 'package:flame/components.dart';
           import 'package:flutter/material.dart';
           
@@ -232,8 +253,7 @@ steps:
                       anchor: Anchor.center,
                       paint: Paint()
                         ..color = const Color(0xff1e6091)
-                        ..style = PaintingStyle.fill,
-                      children: [CircleHitbox(radius: radius)]);
+                        ..style = PaintingStyle.fill);
           
             final Vector2 velocity;
           
@@ -273,7 +293,8 @@ steps:
         patch-u: |
           --- b/brick_breaker/step_06/lib/src/components/ball.dart
           +++ a/brick_breaker/step_06/lib/src/components/ball.dart
-          @@ -2,7 +2,11 @@ import 'package:flame/collisions.dart';
+          @@ -1,7 +1,12 @@
+          +import 'package:flame/collisions.dart';
            import 'package:flame/components.dart';
            import 'package:flutter/material.dart';
            
@@ -286,7 +307,17 @@ steps:
              Ball({
                required this.velocity,
                required super.position,
-          @@ -22,4 +26,23 @@ class Ball extends CircleComponent {
+          @@ -11,7 +16,8 @@ class Ball extends CircleComponent {
+                       anchor: Anchor.center,
+                       paint: Paint()
+                         ..color = const Color(0xff1e6091)
+          -              ..style = PaintingStyle.fill);
+          +              ..style = PaintingStyle.fill,
+          +            children: [CircleHitbox(radius: radius)]);
+           
+             final Vector2 velocity;
+           
+          @@ -20,4 +26,23 @@ class Ball extends CircleComponent {
                super.update(dt);
                position += velocity * dt;
              }
@@ -310,6 +341,26 @@ steps:
           +    }
           +  }
            }
+      - name: Patch lib/src/components/play_area.dart
+        path: brick_breaker/lib/src/components/play_area.dart
+        patch-u: |
+          --- b/brick_breaker/step_06/lib/src/components/play_area.dart
+          +++ a/brick_breaker/step_06/lib/src/components/play_area.dart
+          @@ -1,5 +1,6 @@
+           import 'dart:async';
+           
+          +import 'package:flame/collisions.dart';
+           import 'package:flame/components.dart';
+           import 'package:flutter/material.dart';
+           
+          @@ -9,6 +10,7 @@ class PlayArea extends RectangleComponent with HasGameReference<BrickBreaker> {
+             PlayArea()
+                 : super(
+                     paint: Paint()..color = const Color(0xfff2e8cf),
+          +          children: [RectangleHitbox()],
+                   );
+           
+             @override
       - name: Copy step_06
         copydir:
           from: brick_breaker
@@ -344,9 +395,9 @@ steps:
              BrickBreaker()
                  : super(
                      camera: CameraComponent.withFixedResolution(
-          @@ -33,6 +37,24 @@ class BrickBreaker extends FlameGame with HasCollisionDetection {
-                   position: size / 2,
-                   velocity: Vector2((rand.nextDouble() - 0.5) * width, height * 0.2)));
+          @@ -35,6 +39,24 @@ class BrickBreaker extends FlameGame with HasCollisionDetection {
+                       .normalized()
+                     ..scale(height / 4)));
            
           +    world.add(Bat(
           +        size: Vector2(batWidth, batHeight),
@@ -503,8 +554,8 @@ steps:
           +        difficultyModifier: difficultyModifier,
                    radius: ballRadius,
                    position: size / 2,
-                   velocity: Vector2((rand.nextDouble() - 0.5) * width, height * 0.2)));
-          @@ -42,6 +43,18 @@ class BrickBreaker extends FlameGame
+                   velocity: Vector2((rand.nextDouble() - 0.5) * width, height * 0.2)
+          @@ -44,6 +45,18 @@ class BrickBreaker extends FlameGame
                    cornerRadius: const Radius.circular(ballRadius / 2),
                    position: Vector2(width / 2, height * 0.95)));
            
@@ -740,7 +791,7 @@ steps:
                world.add(Ball(
                    difficultyModifier: difficultyModifier,
                    radius: ballRadius,
-          @@ -43,7 +75,7 @@ class BrickBreaker extends FlameGame
+          @@ -45,7 +77,7 @@ class BrickBreaker extends FlameGame
                    cornerRadius: const Radius.circular(ballRadius / 2),
                    position: Vector2(width / 2, height * 0.95)));
            
@@ -749,7 +800,7 @@ steps:
                  for (var i = 0; i < brickColors.length; i++)
                    for (var j = 1; j <= 5; j++)
                      Brick(
-          @@ -54,8 +86,12 @@ class BrickBreaker extends FlameGame
+          @@ -56,8 +88,12 @@ class BrickBreaker extends FlameGame
                        brickColors[i],
                      ),
                ]);
@@ -763,7 +814,7 @@ steps:
              }
            
              @override
-          @@ -67,7 +103,13 @@ class BrickBreaker extends FlameGame
+          @@ -69,7 +105,13 @@ class BrickBreaker extends FlameGame
                    world.children.whereType<Bat>().first.moveBy(-batStep);
                  case LogicalKeyboardKey.arrowRight:
                    world.children.whereType<Bat>().first.moveBy(batStep);

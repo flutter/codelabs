@@ -1,4 +1,3 @@
-import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 
@@ -12,8 +11,7 @@ class Ball extends CircleComponent {
             anchor: Anchor.center,
             paint: Paint()
               ..color = const Color(0xff1e6091)
-              ..style = PaintingStyle.fill,
-            children: [CircleHitbox(radius: radius)]);
+              ..style = PaintingStyle.fill);
 
   final Vector2 velocity;
 
