@@ -980,6 +980,17 @@ steps:
           +	<true/>
            </dict>
            </plist>
+      - name: Patch android/app/src/main/AndroidManifest.xml
+        path: brick_breaker/android/app/src/main/AndroidManifest.xml
+        patch-u: |
+          --- a/brick_breaker/step_09/android/app/src/main/AndroidManifest.xml
+          +++ b/brick_breaker/step_09/android/app/src/main/AndroidManifest.xml
+          @@ -1,4 +1,5 @@
+           <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+          +    <uses-permission android:name="android.permission.INTERNET" />
+               <application
+                   android:label="brick_breaker"
+                   android:name="${applicationName}"
       - name: Copy step_09
         copydir:
           from: brick_breaker
