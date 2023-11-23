@@ -723,7 +723,8 @@ steps:
           -import 'package:flame/game.dart';
            import 'package:flutter/material.dart';
            
-           import 'src/brick_breaker.dart';
+          -import 'src/brick_breaker.dart';
+          +import 'src/widgets/game_app.dart';
            
            void main() {
           -  final game = BrickBreaker();
@@ -735,12 +736,10 @@ steps:
         patch-u: |
           --- b/brick_breaker/step_09/lib/src/brick_breaker.dart
           +++ a/brick_breaker/step_09/lib/src/brick_breaker.dart
-          @@ -10,8 +10,12 @@ import 'package:flutter/services.dart';
+          @@ -10,8 +10,10 @@ import 'package:flutter/services.dart';
            import 'components/components.dart';
            import 'config.dart';
            
-          +export 'widgets/game_app.dart';
-          +
           +enum PlayState { welcome, playing, gameOver, won }
           +
            class BrickBreaker extends FlameGame
@@ -749,7 +748,7 @@ steps:
              BrickBreaker()
                  : super(
                      camera: CameraComponent.withFixedResolution(
-          @@ -24,6 +28,22 @@ class BrickBreaker extends FlameGame
+          @@ -24,6 +26,22 @@ class BrickBreaker extends FlameGame
              double get width => size.x;
              double get height => size.y;
            
@@ -772,7 +771,7 @@ steps:
              @override
              FutureOr<void> onLoad() async {
                super.onLoad();
-          @@ -32,6 +52,18 @@ class BrickBreaker extends FlameGame
+          @@ -32,6 +50,18 @@ class BrickBreaker extends FlameGame
            
                world.add(PlayArea());
            
@@ -791,7 +790,7 @@ steps:
                world.add(Ball(
                    difficultyModifier: difficultyModifier,
                    radius: ballRadius,
-          @@ -45,7 +77,7 @@ class BrickBreaker extends FlameGame
+          @@ -45,7 +75,7 @@ class BrickBreaker extends FlameGame
                    cornerRadius: const Radius.circular(ballRadius / 2),
                    position: Vector2(width / 2, height * 0.95)));
            
@@ -800,7 +799,7 @@ steps:
                  for (var i = 0; i < brickColors.length; i++)
                    for (var j = 1; j <= 5; j++)
                      Brick(
-          @@ -56,8 +88,12 @@ class BrickBreaker extends FlameGame
+          @@ -56,8 +86,12 @@ class BrickBreaker extends FlameGame
                        brickColors[i],
                      ),
                ]);
@@ -814,7 +813,7 @@ steps:
              }
            
              @override
-          @@ -69,7 +105,13 @@ class BrickBreaker extends FlameGame
+          @@ -69,7 +103,13 @@ class BrickBreaker extends FlameGame
                    world.children.whereType<Bat>().first.moveBy(-batStep);
                  case LogicalKeyboardKey.arrowRight:
                    world.children.whereType<Bat>().first.moveBy(batStep);
@@ -980,6 +979,17 @@ steps:
           +	<true/>
            </dict>
            </plist>
+      - name: Patch android/app/src/main/AndroidManifest.xml
+        path: brick_breaker/android/app/src/main/AndroidManifest.xml
+        patch-u: |
+          --- a/brick_breaker/step_09/android/app/src/main/AndroidManifest.xml
+          +++ b/brick_breaker/step_09/android/app/src/main/AndroidManifest.xml
+          @@ -1,4 +1,5 @@
+           <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+          +    <uses-permission android:name="android.permission.INTERNET" />
+               <application
+                   android:label="brick_breaker"
+                   android:name="${applicationName}"
       - name: Copy step_09
         copydir:
           from: brick_breaker
@@ -996,7 +1006,7 @@ steps:
         patch-u: |
           --- b/brick_breaker/step_10/lib/src/brick_breaker.dart
           +++ a/brick_breaker/step_10/lib/src/brick_breaker.dart
-          @@ -24,6 +24,7 @@ class BrickBreaker extends FlameGame
+          @@ -22,6 +22,7 @@ class BrickBreaker extends FlameGame
                      ),
                    );
            
@@ -1004,7 +1014,7 @@ steps:
              final rand = math.Random();
              double get width => size.x;
              double get height => size.y;
-          @@ -63,6 +64,7 @@ class BrickBreaker extends FlameGame
+          @@ -61,6 +62,7 @@ class BrickBreaker extends FlameGame
                world.removeAll(world.children.whereType<Brick>());
            
                playState = PlayState.playing;
@@ -1118,16 +1128,16 @@ steps:
             const OverlayScreen({
               super.key,
               required this.title,
-              this.subtitle,
+              required this.subtitle,
             });
           
             final String title;
-            final String? subtitle;
+            final String subtitle;
           
             @override
             Widget build(BuildContext context) {
               return Container(
-                alignment: Alignment(0, subtitle != null ? -0.15 : -0.2),
+                alignment: const Alignment(0, -0.15),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -1135,17 +1145,15 @@ steps:
                       title,
                       style: Theme.of(context).textTheme.headlineLarge,
                     ).animate().slideY(duration: 750.ms, begin: -3, end: 0),
-                    if (subtitle != null) ...[
-                      const SizedBox(height: 16),
-                      Text(
-                        subtitle!,
-                        style: Theme.of(context).textTheme.headlineSmall,
-                      )
-                          .animate(onPlay: (controller) => controller.repeat())
-                          .fadeIn(duration: 1.seconds)
-                          .then()
-                          .fadeOut(duration: 1.seconds),
-                    ],
+                    const SizedBox(height: 16),
+                    Text(
+                      subtitle,
+                      style: Theme.of(context).textTheme.headlineSmall,
+                    )
+                        .animate(onPlay: (controller) => controller.repeat())
+                        .fadeIn(duration: 1.seconds)
+                        .then()
+                        .fadeOut(duration: 1.seconds),
                   ],
                 ),
               );
