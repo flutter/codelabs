@@ -10,8 +10,6 @@ import 'package:flutter/services.dart';
 import 'components/components.dart';
 import 'config.dart';
 
-export 'widgets/game_app.dart';
-
 enum PlayState { welcome, playing, gameOver, won }
 
 class BrickBreaker extends FlameGame
