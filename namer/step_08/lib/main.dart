@@ -179,7 +179,7 @@ class BigCard extends StatelessWidget {
 class FavoritesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var appState = context.watch<MyAppState>();
+    var appState = context.read<MyAppState>();
 
     if (appState.favorites.isEmpty) {
       return Center(
