@@ -5,21 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import '../brick_breaker.dart';
 import '../config.dart';
 
-class GameApp extends StatefulWidget {
+class GameApp extends StatelessWidget {
   const GameApp({super.key});
-
-  @override
-  State<GameApp> createState() => _GameAppState();
-}
-
-class _GameAppState extends State<GameApp> {
-  late final BrickBreaker game;
-
-  @override
-  void initState() {
-    super.initState();
-    game = BrickBreaker();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,8 +39,8 @@ class _GameAppState extends State<GameApp> {
                   child: SizedBox(
                     width: gameWidth,
                     height: gameHeight,
-                    child: GameWidget(
-                      game: game,
+                    child: GameWidget.controlled(
+                      gameFactory: BrickBreaker.new,
                       overlayBuilderMap: {
                         PlayState.welcome.name: (context, game) => Center(
                               child: Text(
