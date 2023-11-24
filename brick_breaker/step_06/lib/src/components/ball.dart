@@ -17,7 +17,7 @@ class Ball extends CircleComponent
             paint: Paint()
               ..color = const Color(0xff1e6091)
               ..style = PaintingStyle.fill,
-            children: [CircleHitbox(radius: radius)]);
+            children: [CircleHitbox()]);
 
   final Vector2 velocity;
 
