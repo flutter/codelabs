@@ -413,9 +413,9 @@ steps:
           +    super.onKeyEvent(event, keysPressed);
           +    switch (event.logicalKey) {
           +      case LogicalKeyboardKey.arrowLeft:
-          +        world.children.whereType<Bat>().first.moveBy(-batStep);
+          +        world.children.query<Bat>().first.moveBy(-batStep);
           +      case LogicalKeyboardKey.arrowRight:
-          +        world.children.whereType<Bat>().first.moveBy(batStep);
+          +        world.children.query<Bat>().first.moveBy(batStep);
           +    }
           +    return KeyEventResult.handled;
           +  }
@@ -694,9 +694,9 @@ steps:
               super.onCollisionStart(intersectionPoints, other);
               removeFromParent();
           
-              if (game.world.children.whereType<Brick>().length == 1) {
-                game.world.removeAll(game.world.children.whereType<Ball>());
-                game.world.removeAll(game.world.children.whereType<Bat>());
+              if (game.world.children.query<Brick>().length == 1) {
+                game.world.removeAll(game.world.children.query<Ball>());
+                game.world.removeAll(game.world.children.query<Bat>());
               }
             }
           }
@@ -778,9 +778,9 @@ steps:
           +  void startGame() {
           +    if (playState == PlayState.playing) return;
           +
-          +    world.removeAll(world.children.whereType<Ball>());
-          +    world.removeAll(world.children.whereType<Bat>());
-          +    world.removeAll(world.children.whereType<Brick>());
+          +    world.removeAll(world.children.query<Ball>());
+          +    world.removeAll(world.children.query<Bat>());
+          +    world.removeAll(world.children.query<Brick>());
           +
           +    playState = PlayState.playing;
           +
@@ -811,9 +811,9 @@ steps:
            
              @override
           @@ -69,7 +103,13 @@ class BrickBreaker extends FlameGame
-                   world.children.whereType<Bat>().first.moveBy(-batStep);
+                   world.children.query<Bat>().first.moveBy(-batStep);
                  case LogicalKeyboardKey.arrowRight:
-                   world.children.whereType<Bat>().first.moveBy(batStep);
+                   world.children.query<Bat>().first.moveBy(batStep);
           +      case LogicalKeyboardKey.space:
           +      case LogicalKeyboardKey.enter:
           +        startGame();
@@ -850,10 +850,10 @@ steps:
           @@ -27,6 +27,7 @@ class Brick extends RectangleComponent
                removeFromParent();
            
-               if (game.world.children.whereType<Brick>().length == 1) {
+               if (game.world.children.query<Brick>().length == 1) {
           +      game.playState = PlayState.won;
-                 game.world.removeAll(game.world.children.whereType<Ball>());
-                 game.world.removeAll(game.world.children.whereType<Bat>());
+                 game.world.removeAll(game.world.children.query<Ball>());
+                 game.world.removeAll(game.world.children.query<Bat>());
                }
       - name: Mkdir lib/src/widgets
         mkdir: brick_breaker/lib/src/widgets
@@ -999,7 +999,7 @@ steps:
              double get width => size.x;
              double get height => size.y;
           @@ -61,6 +62,7 @@ class BrickBreaker extends FlameGame
-               world.removeAll(world.children.whereType<Brick>());
+               world.removeAll(world.children.query<Brick>());
            
                playState = PlayState.playing;
           +    score.value = 0;
@@ -1017,7 +1017,7 @@ steps:
                removeFromParent();
           +    game.score.value++;
            
-               if (game.world.children.whereType<Brick>().length == 1) {
+               if (game.world.children.query<Brick>().length == 1) {
                  game.playState = PlayState.won;
       - name: Patch lib/src/widgets/game_app.dart
         path: brick_breaker/lib/src/widgets/game_app.dart
