@@ -27,8 +27,8 @@ class Brick extends RectangleComponent
     removeFromParent();
 
     if (game.world.children.query<Brick>().length == 1) {
-      game.world.removeAll(game.world.children.whereType<Ball>());
-      game.world.removeAll(game.world.children.whereType<Bat>());
+      game.world.removeAll(game.world.children.query<Ball>());
+      game.world.removeAll(game.world.children.query<Bat>());
     }
   }
 }
