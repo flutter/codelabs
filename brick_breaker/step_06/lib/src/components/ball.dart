@@ -17,7 +17,7 @@ class Ball extends CircleComponent
             paint: Paint()
               ..color = const Color(0xff1e6091)
               ..style = PaintingStyle.fill,
-            children: [CircleHitbox(radius: radius)]);
+            children: [CircleHitbox()]);
 
   final Vector2 velocity;
 
@@ -33,11 +33,11 @@ class Ball extends CircleComponent
     super.onCollisionStart(intersectionPoints, other);
     if (other is PlayArea) {
       if (intersectionPoints.first.y <= 0) {
-        if (velocity.y < 0) velocity.y = -velocity.y;
+        velocity.y = -velocity.y;
       } else if (intersectionPoints.first.x <= 0) {
-        if (velocity.x < 0) velocity.x = -velocity.x;
+        velocity.x = -velocity.x;
       } else if (intersectionPoints.first.x >= game.width) {
-        if (velocity.x > 0) velocity.x = -velocity.x;
+        velocity.x = -velocity.x;
       } else if (intersectionPoints.first.y >= game.height) {
         removeFromParent();
       }

@@ -57,9 +57,9 @@ class BrickBreaker extends FlameGame
   void startGame() {
     if (playState == PlayState.playing) return;
 
-    world.removeAll(world.children.whereType<Ball>());
-    world.removeAll(world.children.whereType<Bat>());
-    world.removeAll(world.children.whereType<Brick>());
+    world.removeAll(world.children.query<Ball>());
+    world.removeAll(world.children.query<Bat>());
+    world.removeAll(world.children.query<Brick>());
 
     playState = PlayState.playing;
     score.value = 0;
@@ -102,9 +102,9 @@ class BrickBreaker extends FlameGame
     super.onKeyEvent(event, keysPressed);
     switch (event.logicalKey) {
       case LogicalKeyboardKey.arrowLeft:
-        world.children.whereType<Bat>().first.moveBy(-batStep);
+        world.children.query<Bat>().first.moveBy(-batStep);
       case LogicalKeyboardKey.arrowRight:
-        world.children.whereType<Bat>().first.moveBy(batStep);
+        world.children.query<Bat>().first.moveBy(batStep);
       case LogicalKeyboardKey.space:
       case LogicalKeyboardKey.enter:
         startGame();

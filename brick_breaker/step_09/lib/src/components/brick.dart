@@ -24,14 +24,12 @@ class Brick extends RectangleComponent
   void onCollisionStart(
       Set<Vector2> intersectionPoints, PositionComponent other) {
     super.onCollisionStart(intersectionPoints, other);
-    if (other is Ball) {
-      removeFromParent();
+    removeFromParent();
 
-      if (game.world.children.whereType<Brick>().length == 1) {
-        game.playState = PlayState.won;
-        game.world.removeAll(game.world.children.whereType<Ball>());
-        game.world.removeAll(game.world.children.whereType<Bat>());
-      }
+    if (game.world.children.query<Brick>().length == 1) {
+      game.playState = PlayState.won;
+      game.world.removeAll(game.world.children.query<Ball>());
+      game.world.removeAll(game.world.children.query<Bat>());
     }
   }
 }

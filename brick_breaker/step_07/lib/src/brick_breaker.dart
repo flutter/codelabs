@@ -53,9 +53,9 @@ class BrickBreaker extends FlameGame
     super.onKeyEvent(event, keysPressed);
     switch (event.logicalKey) {
       case LogicalKeyboardKey.arrowLeft:
-        world.children.whereType<Bat>().first.moveBy(-batStep);
+        world.children.query<Bat>().first.moveBy(-batStep);
       case LogicalKeyboardKey.arrowRight:
-        world.children.whereType<Bat>().first.moveBy(batStep);
+        world.children.query<Bat>().first.moveBy(batStep);
     }
     return KeyEventResult.handled;
   }
