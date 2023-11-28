@@ -115,7 +115,7 @@ The display of event information is great for your guests, but it isn't very use
 
 <img src="img/4395e4e67c08043a.png" alt="4395e4e67c08043a.png"  width="624.00" />
 
-4. Click through the project creation options. If prompted, accept the Firebase terms, but skip setup of Google Analytics because you won't be use it for this app.
+4. Click through the project creation options. If prompted, accept the Firebase terms, but skip setup of Google Analytics because you won't be using it for this app.
 
 <img src="img/b7138cde5f2c7b61.png" alt="b7138cde5f2c7b61.png"  width="624.00" />
 
