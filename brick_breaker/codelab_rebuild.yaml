@@ -22,7 +22,7 @@ steps:
             sdk: '>=3.2.0 <4.0.0'
           
           dependencies:
-            flame: ^1.10.1
+            flame: ^1.11.0
             flutter:
               sdk: flutter
             flutter_animate: ^4.2.0
@@ -515,9 +515,8 @@ steps:
             @override
             void onDragUpdate(DragUpdateEvent event) {
               super.onDragUpdate(event);
-              final cameraZoom = game.camera.viewfinder.zoom;
-              var dx = (event.delta / cameraZoom).x;
-              position.x = (position.x + dx).clamp(width / 2, game.width - width / 2);
+              position.x = (position.x + event.localDelta.x)
+                  .clamp(width / 2, game.width - width / 2);
             }
           
             void moveBy(double dx) {
