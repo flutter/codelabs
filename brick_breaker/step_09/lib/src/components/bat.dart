@@ -37,9 +37,8 @@ class Bat extends PositionComponent
   @override
   void onDragUpdate(DragUpdateEvent event) {
     super.onDragUpdate(event);
-    final cameraZoom = game.camera.viewfinder.zoom;
-    var dx = (event.delta / cameraZoom).x;
-    position.x = (position.x + dx).clamp(width / 2, game.width - width / 2);
+    position.x = (position.x + event.localDelta.x)
+        .clamp(width / 2, game.width - width / 2);
   }
 
   void moveBy(double dx) {
