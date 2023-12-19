@@ -125,7 +125,7 @@ class _$DuktapeMessageCodeImpl implements DuktapeMessageCode {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$DuktapeMessageCodeImpl &&
@@ -267,7 +267,7 @@ class _$DuktapeMessageResponseImpl implements DuktapeMessageResponse {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$DuktapeMessageResponseImpl &&
@@ -408,7 +408,7 @@ class _$DuktapeMessageErrorImpl implements DuktapeMessageError {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$DuktapeMessageErrorImpl &&
