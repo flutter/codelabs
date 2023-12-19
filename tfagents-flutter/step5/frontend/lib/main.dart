@@ -329,7 +329,7 @@ class _PlaneStrikeState extends State<PlaneStrike>
 
     if (userPrompt != '') {
       Future.delayed(const Duration(seconds: 2), () => setState(_resetGame));
-      if (!mounted) return;
+      if (!context.mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(
           userPrompt,
