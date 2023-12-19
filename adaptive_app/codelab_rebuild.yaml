@@ -6,6 +6,9 @@ steps:
         rmdir: step_03
       - name: Create project
         flutter: create adaptive_app
+      - name: Strip DEVELOPMENT_TEAM
+        strip-lines-containing: DEVELOPMENT_TEAM =
+        path: adaptive_app/ios/Runner.xcodeproj/project.pbxproj
       - name: Configure analysis_options.yaml
         path: adaptive_app/analysis_options.yaml
         replace-contents: |
@@ -1277,6 +1280,17 @@ steps:
       - name: Add googleapis_auth google_sign_in extension_google_sign_in_as_googleapis_auth
         path: adaptive_app
         flutter: pub add googleapis_auth google_sign_in extension_google_sign_in_as_googleapis_auth http
+      - name: Patch macos/Podfile
+        path: adaptive_app/macos/Podfile
+        patch-u: |
+          --- b/adaptive_app/step_07/macos/Podfile
+          +++ a/adaptive_app/step_07/macos/Podfile
+          @@ -1,4 +1,4 @@
+          -platform :osx, '10.14'
+          +platform :osx, '10.15'
+           
+           # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
+           ENV['COCOAPODS_DISABLE_STATS'] = 'true'
       - name: Patch .gitignore
         path: adaptive_app/.gitignore
         patch-u: |
