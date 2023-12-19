@@ -39,7 +39,7 @@ class _MenuState extends State<Menu> {
           case _MenuOptions.userAgent:
             final userAgent = await widget.controller
                 .runJavaScriptReturningResult('navigator.userAgent');
-            if (!mounted) return;
+            if (!context.mounted) return;
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text('$userAgent'),
             ));
@@ -108,7 +108,7 @@ req.send();''');
   Future<void> _onListCookies(WebViewController controller) async {
     final String cookies = await controller
         .runJavaScriptReturningResult('document.cookie') as String;
-    if (!mounted) return;
+    if (!context.mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(cookies.isNotEmpty ? cookies : 'There are no cookies.'),
@@ -122,7 +122,7 @@ req.send();''');
     if (!hadCookies) {
       message = 'There were no cookies to clear.';
     }
-    if (!mounted) return;
+    if (!context.mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
@@ -134,7 +134,7 @@ req.send();''');
     await controller.runJavaScript('''var date = new Date();
     date.setTime(date.getTime()+(30*24*60*60*1000));
     document.cookie = "FirstName=John; expires=" + date.toGMTString();''');
-    if (!mounted) return;
+    if (!context.mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Custom cookie added.'),
@@ -146,7 +146,7 @@ req.send();''');
     await cookieManager.setCookie(
       const WebViewCookie(name: 'foo', value: 'bar', domain: 'flutter.dev'),
     );
-    if (!mounted) return;
+    if (!context.mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Custom cookie is set.'),
@@ -157,7 +157,7 @@ req.send();''');
   Future<void> _onRemoveCookie(WebViewController controller) async {
     await controller.runJavaScript(
         'document.cookie="FirstName=John; expires=Thu, 01 Jan 1970 00:00:00 UTC" ');
-    if (!mounted) return;
+    if (!context.mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Custom cookie removed.'),
