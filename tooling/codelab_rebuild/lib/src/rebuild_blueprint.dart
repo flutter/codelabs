@@ -236,7 +236,7 @@ Future<void> _buildBlueprintStep(Directory cwd, BlueprintStep step) async {
   final stripLinesContaining = step.stripLinesContaining;
   if (stripLinesContaining != null) {
     final target = File(p.join(cwd.path, step.path));
-    var lines = target.readAsLinesSync();
+    final lines = target.readAsLinesSync();
     lines.removeWhere((line) => line.contains(stripLinesContaining));
     target.writeAsStringSync(lines.join('\n'));
     return;
