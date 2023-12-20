@@ -6,6 +6,9 @@ steps:
         rmdir: step_03
       - name: Create project
         flutter: create animated_responsive_layout --empty
+      - name: Strip DEVELOPMENT_TEAM
+        strip-lines-containing: DEVELOPMENT_TEAM =
+        path: animated_responsive_layout/ios/Runner.xcodeproj/project.pbxproj
       - name: Configure analysis_options.yaml
         path: animated_responsive_layout/analysis_options.yaml
         replace-contents: |

@@ -4,7 +4,7 @@ publish_to: 'none'
 version: 0.1.0
 
 environment:
-  sdk: '>=3.2.0 <4.0.0'
+  sdk: '>=3.2.3 <4.0.0'
 
 dependencies:
   cupertino_icons: ^1.0.6
@@ -12,7 +12,7 @@ dependencies:
   flextras: ^1.0.0
   flutter:
     sdk: flutter
-  flutter_animate: ^4.2.0+1
+  flutter_animate: ^4.3.0
   focusable_control_builder: ^1.0.2+1
   gap: ^3.0.1
   particle_field: ^1.0.0

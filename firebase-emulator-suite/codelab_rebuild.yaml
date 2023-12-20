@@ -7,6 +7,9 @@ steps:
         rmdir: complete
       - name: Create project
         flutter: create complete --platforms android,ios,macos,web
+      - name: Strip DEVELOPMENT_TEAM
+        strip-lines-containing: DEVELOPMENT_TEAM =
+        path: complete/ios/Runner.xcodeproj/project.pbxproj
       - name: Update deps
         path: complete
         flutter: pub upgrade --major-versions
