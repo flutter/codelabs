@@ -125,7 +125,7 @@ class _$TogglePlayPauseImpl implements TogglePlayPause {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType && other is _$TogglePlayPauseImpl);
   }
@@ -269,7 +269,7 @@ class _$ChangeSongImpl implements ChangeSong {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChangeSongImpl &&
@@ -426,7 +426,7 @@ class _$SetVolumeImpl implements SetVolume {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SetVolumeImpl &&
@@ -565,7 +565,7 @@ class _$ToggleMuteImpl implements ToggleMute {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType && other is _$ToggleMuteImpl);
   }
@@ -709,7 +709,7 @@ class _$MoveToInSongImpl implements MoveToInSong {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$MoveToInSongImpl &&
@@ -866,7 +866,7 @@ class _$SongProgressImpl implements SongProgress {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SongProgressImpl &&
@@ -1161,7 +1161,7 @@ class _$PlaybackStateImpl implements _PlaybackState {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$PlaybackStateImpl &&
@@ -1316,7 +1316,7 @@ class _$SongWithProgressImpl implements _SongWithProgress {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SongWithProgressImpl &&

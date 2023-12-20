@@ -39,7 +39,7 @@ class _MenuState extends State<Menu> {
           case _MenuOptions.userAgent:
             final userAgent = await widget.controller
                 .runJavaScriptReturningResult('navigator.userAgent');
-            if (!mounted) return;
+            if (!context.mounted) return;
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text('$userAgent'),
             ));
