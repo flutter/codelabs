@@ -6,6 +6,9 @@ steps:
         rmdir: step_03
       - name: Create project
         flutter: create --empty patterns_codelab
+      - name: Strip DEVELOPMENT_TEAM
+        strip-lines-containing: DEVELOPMENT_TEAM =
+        path: patterns_codelab/ios/Runner.xcodeproj/project.pbxproj
       - name: Configure analysis_options.yaml
         path: patterns_codelab/analysis_options.yaml
         replace-contents: |

@@ -6,6 +6,9 @@ steps:
         rmdir: step_02
       - name: Create project
         flutter: create gtk_flutter --platforms=ios,android,web,macos
+      - name: Strip DEVELOPMENT_TEAM
+        strip-lines-containing: DEVELOPMENT_TEAM =
+        path: gtk_flutter/ios/Runner.xcodeproj/project.pbxproj
       - name: update dependencies
         path: gtk_flutter
         flutter: pub upgrade --major-versions

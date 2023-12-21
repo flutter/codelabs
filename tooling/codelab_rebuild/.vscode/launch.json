@@ -9,7 +9,7 @@
             "request": "launch",
             "type": "dart",
             "program": "bin/codelab_rebuild.dart",
-            "args": ["../../adaptive_app/codelab_rebuild.yaml"]
+            "args": ["../../dart-patterns-and-records/codelab_rebuild.yaml"]
         }
     ]
 }

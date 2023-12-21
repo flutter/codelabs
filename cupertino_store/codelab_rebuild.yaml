@@ -6,6 +6,9 @@ steps:
         rmdir: step_00
       - name: Create project
         flutter: create cupertino_store --platforms=ios
+      - name: Strip DEVELOPMENT_TEAM
+        strip-lines-containing: DEVELOPMENT_TEAM =
+        path: cupertino_store/ios/Runner.xcodeproj/project.pbxproj
       - name: Update dependencies
         path: cupertino_store
         flutter: pub upgrade --major-versions

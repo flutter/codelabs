@@ -6,6 +6,9 @@ steps:
         rmdir: step_3
       - name: Create project
         flutter: create google_maps_in_flutter --platforms android,ios,web
+      - name: Strip DEVELOPMENT_TEAM
+        strip-lines-containing: DEVELOPMENT_TEAM =
+        path: google_maps_in_flutter/ios/Runner.xcodeproj/project.pbxproj
       - name: Update dependencies
         path: google_maps_in_flutter
         flutter: pub upgrade --major-versions

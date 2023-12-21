@@ -233,6 +233,19 @@ Future<void> _buildBlueprintStep(Directory cwd, BlueprintStep step) async {
     return;
   }
 
+  final stripLinesContaining = step.stripLinesContaining;
+  if (stripLinesContaining != null) {
+    final target = File(p.join(cwd.path, step.path));
+    final lines = target.readAsLinesSync();
+    lines.removeWhere((line) => line.contains(stripLinesContaining));
+    final buff = StringBuffer();
+    for (final line in lines) {
+      buff.writeln(line);
+    }
+    target.writeAsStringSync(buff.toString());
+    return;
+  }
+
   final xcodeAddFile = step.xcodeAddFile;
   final xcodeProjectPath = step.xcodeProjectPath;
   if (xcodeAddFile != null && xcodeProjectPath != null) {

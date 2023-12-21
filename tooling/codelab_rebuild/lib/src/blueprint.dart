@@ -115,6 +115,10 @@ class BlueprintStep {
   @JsonKey(name: '7z')
   final String? sevenZip;
 
+  // file modification
+  @JsonKey(name: 'strip-lines-containing')
+  final String? stripLinesContaining;
+
   // For debugging & development purposes
   final bool? stop;
 
@@ -149,6 +153,7 @@ class BlueprintStep {
     this.retrieveUrl,
     this.tar,
     this.sevenZip,
+    this.stripLinesContaining,
     this.stop,
     this.xcodeAddFile,
     this.xcodeProjectPath,
@@ -189,6 +194,7 @@ class BlueprintStep {
         retrieveUrl == null &&
         tar == null &&
         sevenZip == null &&
+        stripLinesContaining == null &&
         xcodeAddFile == null &&
         xcodeProjectPath == null) {
       _logger.warning('Invalid step with no action: $name');
@@ -218,6 +224,7 @@ class BlueprintStep {
           retrieveUrl != null ||
           tar != null ||
           sevenZip != null ||
+          stripLinesContaining != null ||
           xcodeAddFile != null ||
           xcodeProjectPath != null) {
         _logger.warning('Invalid step sub-steps and other commands: $name');
@@ -273,6 +280,13 @@ class BlueprintStep {
       return false;
     }
 
+    // If we have a stripLinesContaining, we need a path to strip
+    if (stripLinesContaining != null && path == null) {
+      _logger.warning(
+          'Invalid step, strip-lines-containing with no target path: $name');
+      return false;
+    }
+
     // If we have a xcodeAddFile, we need a path to the xcode project path
     if (xcodeAddFile != null && xcodeProjectPath == null) {
       _logger.warning(
@@ -298,6 +312,7 @@ class BlueprintStep {
             retrieveUrl != null ||
             tar != null ||
             sevenZip != null ||
+            stripLinesContaining != null ||
             xcodeAddFile != null ||
             xcodeProjectPath != null)) {
       _logger.warning(
