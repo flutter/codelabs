@@ -238,7 +238,11 @@ Future<void> _buildBlueprintStep(Directory cwd, BlueprintStep step) async {
     final target = File(p.join(cwd.path, step.path));
     final lines = target.readAsLinesSync();
     lines.removeWhere((line) => line.contains(stripLinesContaining));
-    target.writeAsStringSync(lines.join('\n'));
+    final buff = StringBuffer();
+    for (final line in lines) {
+      buff.writeln(line);
+    }
+    target.writeAsStringSync(buff.toString());
     return;
   }
 
