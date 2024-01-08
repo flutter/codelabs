@@ -125,7 +125,7 @@ steps:
       - name: Remove duktape-2.7.0
         path: ffigen_app/src
         rmdir: duktape-2.7.0
-      - name: Replace ffigen.yaml
+      - name: Patch ffigen.yaml
         path: ffigen_app/ffigen.yaml
         patch-u: |
           --- b/ffigen_codelab/step_05/ffigen.yaml
@@ -151,6 +151,11 @@ steps:
            preamble: |
              // ignore_for_file: always_specify_types
              // ignore_for_file: camel_case_types
+          @@ -17,3 +17,4 @@ preamble: |
+           comments:
+             style: any
+             length: full
+          +ignore-source-errors: true
       - name: Replace example/lib/main.dart
         path: ffigen_app/example/lib/main.dart
         replace-contents: |
