@@ -17,3 +17,4 @@ preamble: |
 comments:
   style: any
   length: full
+ignore-source-errors: true

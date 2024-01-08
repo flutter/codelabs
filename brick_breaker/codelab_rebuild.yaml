@@ -38,6 +38,9 @@ steps:
           
           flutter:
             uses-material-design: true
+      - name: flutter pub upgrade
+        path: brick_breaker
+        flutter: pub upgrade --major-versions
       - name: Remove README
         rm: brick_breaker/README.md
       - name: Add .vscode directory
