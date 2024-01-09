@@ -72,7 +72,7 @@ class _PlaylistDetailsListView extends StatelessWidget {
           gradient: LinearGradient(
             colors: [
               Colors.transparent,
-              Theme.of(context).colorScheme.background
+              Theme.of(context).colorScheme.background,
             ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
