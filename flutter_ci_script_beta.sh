@@ -9,7 +9,8 @@ declare -a CODELABS=(
   "adaptive_app"
   "animated-responsive-layout"
   "boring_to_beautiful"
-  "brick_breaker"
+  # TODO(DomesticMouse): 'RawKeyEvent' is deprecated and shouldn't be used.
+  # "brick_breaker"
   "cookbook"
   "cupertino_store"
   "dart-patterns-and-records"
