@@ -11,7 +11,6 @@ declare -a CODELABS=(
   "boring_to_beautiful"
   "brick_breaker"
   "cookbook"
-  "cupertino_store"
   "dart-patterns-and-records"
   "dartpad_codelabs"
   "deeplink_cookbook"

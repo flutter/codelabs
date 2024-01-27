@@ -12,7 +12,6 @@ declare -a CODELABS=(
   # TODO(DomesticMouse): 'RawKeyEvent' is deprecated and shouldn't be used.
   # "brick_breaker"
   "cookbook"
-  "cupertino_store"
   "dart-patterns-and-records"
   "dartpad_codelabs"
   "deeplink_cookbook"
