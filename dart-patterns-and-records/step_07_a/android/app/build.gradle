@@ -24,7 +24,7 @@ if (flutterVersionName == null) {
 
 android {
     namespace "com.example.patterns_codelab"
-    compileSdkVersion flutter.compileSdkVersion
+    compileSdk flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 
     compileOptions {
