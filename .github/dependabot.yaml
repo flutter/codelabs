@@ -53,13 +53,6 @@ updates:
       - "autosubmit"
   - package-ecosystem: "pub"
     versioning-strategy: "increase-if-necessary"
-    directory: "/dartpad_codelabs/"
-    schedule:
-      interval: "daily"
-    labels:
-      - "autosubmit"
-  - package-ecosystem: "pub"
-    versioning-strategy: "increase-if-necessary"
     directory: "/deeplink_cookbook/"
     schedule:
       interval: "daily"

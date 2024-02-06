@@ -27,12 +27,13 @@ Here is a list of the codelabs represented here:
   - [Write a Flutter desktop application](https://codelabs.developers.google.com/codelabs/flutter-github-client) is in [`github-client`](github-client)
   - [Your first Flutter app](https://codelabs.developers.google.com/codelabs/flutter-codelab-first) is in [`namer`](namer)
 
-To learn more about setting up Flutter and running apps, see
+To learn more about setting up Flutter and running apps, visit
 [docs.flutter.dev/get-started][].
 
 [docs.flutter.dev/get-started]: https://docs.flutter.dev/get-started
 
 ## Maintenance & Deprecation of Codelabs
 
-Codelabs should be kept up to date with the current Flutter stable release. Codelabs that are more than two stable releases 
-behind will be candidates for deprecation and removal from the repository.
+Codelabs should be kept up to date with the current Flutter stable release.
+Codelabs that are more than two stable releases behind will be
+candidates for deprecation and removal from the repository.
