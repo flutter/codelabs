@@ -13,7 +13,6 @@ declare -a CODELABS=(
   # "brick_breaker"
   "cookbook"
   "dart-patterns-and-records"
-  "dartpad_codelabs"
   "deeplink_cookbook"
   "ffigen_codelab"
   "firebase-auth-flutterfire-ui"
