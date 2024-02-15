@@ -221,7 +221,7 @@ steps:
         patch-u: |
           --- b/adaptive_app/step_04/android/app/src/main/AndroidManifest.xml
           +++ a/adaptive_app/step_04/android/app/src/main/AndroidManifest.xml
-          @@ -30,4 +30,19 @@
+          @@ -30,6 +30,21 @@
                        android:name="flutterEmbedding"
                        android:value="2" />
                </application>
@@ -240,7 +240,9 @@ steps:
           +            <data android:mimeType="*/*" />
           +        </intent>
           +    </queries>
-           </manifest>
+               <!-- Required to query activities that can process text, see:
+                    https://developer.android.com/training/package-visibility?hl=en and
+                    https://developer.android.com/reference/android/content/Intent#ACTION_PROCESS_TEXT.
       - name: Patch ios/Runner/Info.plist
         path: adaptive_app/ios/Runner/Info.plist
         patch-u: |
@@ -724,11 +726,11 @@ steps:
       - name: Rebuild ios/Podfile.lock
         platforms: [ macos ]
         path: adaptive_app/ios
-        pod: update
+        pod: install
       - name: Rebuild macos/Podfile.lock
         platforms: [ macos ]
         path: adaptive_app/macos
-        pod: update
+        pod: install
       - name: Copy step_04
         copydir:
           from: adaptive_app 
@@ -1781,11 +1783,11 @@ steps:
       - name: Rebuild ios/Podfile.lock
         platforms: [ macos ]
         path: adaptive_app/ios
-        pod: update
+        pod: install
       - name: Rebuild macos/Podfile.lock
         platforms: [ macos ]
         path: adaptive_app/macos
-        pod: update
+        pod: install
       - name: Build iOS simulator bundle
         platforms: [ macos ]
         path: adaptive_app

@@ -22,13 +22,13 @@ steps:
           version: 0.1.0
           
           environment:
-            sdk: '>=3.2.0 <4.0.0'
+            sdk: '>=3.3.0-0 <4.0.0'
           
           dependencies:
-            flame: ^1.11.0
+            flame: ^1.14.0
             flutter:
               sdk: flutter
-            flutter_animate: ^4.2.0
+            flutter_animate: ^4.5.0
             google_fonts: ^6.1.0
           
           dev_dependencies:
@@ -401,7 +401,7 @@ steps:
              BrickBreaker()
                  : super(
                      camera: CameraComponent.withFixedResolution(
-          @@ -35,6 +39,24 @@ class BrickBreaker extends FlameGame with HasCollisionDetection {
+          @@ -35,6 +39,27 @@ class BrickBreaker extends FlameGame with HasCollisionDetection {
                        .normalized()
                      ..scale(height / 4)));
            
@@ -415,7 +415,10 @@ steps:
           +
           +  @override
           +  KeyEventResult onKeyEvent(
-          +      RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
+          +      // Waiting for https://github.com/flame-engine/flame/pull/3002 to land
+          +      // ignore: deprecated_member_use
+          +      RawKeyEvent event,
+          +      Set<LogicalKeyboardKey> keysPressed) {
           +    super.onKeyEvent(event, keysPressed);
           +    switch (event.logicalKey) {
           +      case LogicalKeyboardKey.arrowLeft:
@@ -815,7 +818,7 @@ steps:
              }
            
              @override
-          @@ -69,7 +103,13 @@ class BrickBreaker extends FlameGame
+          @@ -72,7 +106,13 @@ class BrickBreaker extends FlameGame
                    world.children.query<Bat>().first.moveBy(-batStep);
                  case LogicalKeyboardKey.arrowRight:
                    world.children.query<Bat>().first.moveBy(batStep);

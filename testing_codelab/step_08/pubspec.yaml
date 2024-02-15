@@ -8,18 +8,18 @@ publish_to: 'none'
 version: 0.1.0
 
 environment:
-  sdk: '>=3.2.3 <4.0.0'
+  sdk: '>=3.3.0-279.2.beta <4.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
-  go_router: ^13.0.1
+  go_router: ^13.1.0
   provider: ^6.1.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.1
+  flutter_lints: ^3.0.0
   flutter_driver:
     sdk: flutter
   integration_test:

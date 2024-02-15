@@ -73,7 +73,7 @@ steps:
           +++ a/google-maps-in-flutter/step_3/ios/Podfile
           @@ -1,5 +1,6 @@
           -# Uncomment this line to define a global platform for your project
-          -# platform :ios, '11.0'
+          -# platform :ios, '12.0'
           +# Google Maps SDK requires platform version 14
           +# https://developers.google.com/maps/flutter-plugin/config#ios
           +platform :ios, '14.0'
@@ -133,9 +133,9 @@ steps:
       - name: flutter clean
         path: google_maps_in_flutter
         flutter: clean
-      - name: flutter get
+      - name: flutter pub upgrade
         path: google_maps_in_flutter
-        flutter: pub get
+        flutter: pub upgrade
       - name: build Android
         platforms: [ macos ]
         path: google_maps_in_flutter
@@ -1463,6 +1463,9 @@ steps:
       - name: flutter clean
         path: google_maps_in_flutter
         flutter: clean
+      - name: flutter pub upgrade
+        path: google_maps_in_flutter
+        flutter: pub upgrade
       - name: build Android
         platforms: [ macos ]
         path: google_maps_in_flutter
