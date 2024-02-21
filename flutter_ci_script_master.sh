@@ -9,7 +9,8 @@ declare -a CODELABS=(
   # TODO(DomesticMouse): 'background' is deprecated and shouldn't be used. Use surface instead.
   # "adaptive_app"
   "animated-responsive-layout"
-  "boring_to_beautiful"
+  # TODO(DomesticMouse): 'surfaceVariant' is deprecated and shouldn't be used. Use surfaceContainerHighest instead.
+  # "boring_to_beautiful"
   "brick_breaker"
   "cookbook"
   "dart-patterns-and-records"
