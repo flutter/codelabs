@@ -6,7 +6,8 @@ DIR="${BASH_SOURCE%/*}"
 source "$DIR/flutter_ci_script_shared.sh"
 
 declare -a CODELABS=(
-  "adaptive_app"
+  # TODO(DomesticMouse): 'background' is deprecated and shouldn't be used. Use surface instead.
+  # "adaptive_app"
   "animated-responsive-layout"
   "boring_to_beautiful"
   "brick_breaker"
