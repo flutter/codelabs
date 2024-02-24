@@ -22,7 +22,7 @@ steps:
           version: 0.1.0
           
           environment:
-            sdk: '>=3.3.0-0 <4.0.0'
+            sdk: '>=3.3.0 <4.0.0'
           
           dependencies:
             flame: ^1.16.0
@@ -521,16 +521,12 @@ steps:
             @override
             void onDragUpdate(DragUpdateEvent event) {
               super.onDragUpdate(event);
-              position.x = (position.x + event.localDelta.x)
-                  .clamp(width / 2, game.width - width / 2);
+              position.x = (position.x + event.localDelta.x).clamp(0, game.width);
             }
           
             void moveBy(double dx) {
               add(MoveToEffect(
-                Vector2(
-                  (position.x + dx).clamp(width / 2, game.width - width / 2),
-                  position.y,
-                ),
+                Vector2((position.x + dx).clamp(0, game.width), position.y),
                 EffectController(duration: 0.1),
               ));
             }
@@ -567,11 +563,11 @@ steps:
           +      for (var i = 0; i < brickColors.length; i++)
           +        for (var j = 1; j <= 5; j++)
           +          Brick(
-          +            Vector2(
+          +            position: Vector2(
           +              (i + 0.5) * brickWidth + (i + 1) * brickGutter,
           +              (j + 2.0) * brickHeight + j * brickGutter,
           +            ),
-          +            brickColors[i],
+          +            color: brickColors[i],
           +          ),
           +    ]);
           +
@@ -682,9 +678,8 @@ steps:
           
           class Brick extends RectangleComponent
               with CollisionCallbacks, HasGameReference<BrickBreaker> {
-            Brick(Vector2 position, Color color)
+            Brick({required super.position, required Color color})
                 : super(
-                    position: position,
                     size: Vector2(brickWidth, brickHeight),
                     anchor: Anchor.center,
                     paint: Paint()
@@ -802,7 +797,7 @@ steps:
                    for (var j = 1; j <= 5; j++)
                      Brick(
           @@ -56,8 +86,12 @@ class BrickBreaker extends FlameGame
-                       brickColors[i],
+                       color: brickColors[i],
                      ),
                ]);
           +  }
@@ -852,7 +847,7 @@ steps:
         patch-u: |
           --- b/brick_breaker/step_09/lib/src/components/brick.dart
           +++ a/brick_breaker/step_09/lib/src/components/brick.dart
-          @@ -27,6 +27,7 @@ class Brick extends RectangleComponent
+          @@ -26,6 +26,7 @@ class Brick extends RectangleComponent
                removeFromParent();
            
                if (game.world.children.query<Brick>().length == 1) {
@@ -1016,7 +1011,7 @@ steps:
         patch-u: |
           --- b/brick_breaker/step_10/lib/src/components/brick.dart
           +++ a/brick_breaker/step_10/lib/src/components/brick.dart
-          @@ -25,6 +25,7 @@ class Brick extends RectangleComponent
+          @@ -24,6 +24,7 @@ class Brick extends RectangleComponent
                  Set<Vector2> intersectionPoints, PositionComponent other) {
                super.onCollisionStart(intersectionPoints, other);
                removeFromParent();
