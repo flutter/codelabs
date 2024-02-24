@@ -49,11 +49,11 @@ class BrickBreaker extends FlameGame
       for (var i = 0; i < brickColors.length; i++)
         for (var j = 1; j <= 5; j++)
           Brick(
-            Vector2(
+            position: Vector2(
               (i + 0.5) * brickWidth + (i + 1) * brickGutter,
               (j + 2.0) * brickHeight + j * brickGutter,
             ),
-            brickColors[i],
+            color: brickColors[i],
           ),
     ]);
 
