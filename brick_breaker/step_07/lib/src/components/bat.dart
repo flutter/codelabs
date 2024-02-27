@@ -37,16 +37,12 @@ class Bat extends PositionComponent
   @override
   void onDragUpdate(DragUpdateEvent event) {
     super.onDragUpdate(event);
-    position.x = (position.x + event.localDelta.x)
-        .clamp(width / 2, game.width - width / 2);
+    position.x = (position.x + event.localDelta.x).clamp(0, game.width);
   }
 
   void moveBy(double dx) {
     add(MoveToEffect(
-      Vector2(
-        (position.x + dx).clamp(width / 2, game.width - width / 2),
-        position.y,
-      ),
+      Vector2((position.x + dx).clamp(0, game.width), position.y),
       EffectController(duration: 0.1),
     ));
   }
