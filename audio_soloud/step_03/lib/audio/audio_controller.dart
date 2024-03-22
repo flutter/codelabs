@@ -10,11 +10,11 @@ class AudioController {
 
   Future<void> initialize() async {
     _soloud = SoLoud.instance;
-    await _soloud!.initialize();
+    await _soloud!.init();
   }
 
-  Future<void> shutdown() async {
-    _soloud?.shutdown();
+  void dispose() {
+    _soloud?.deinit();
   }
 
   Future<void> playSound(String assetKey) async {

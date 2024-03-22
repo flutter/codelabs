@@ -8,6 +8,7 @@ source "$DIR/flutter_ci_script_shared.sh"
 declare -a CODELABS=(
   "adaptive_app"
   "animated-responsive-layout"
+  "audio_soloud"
   "boring_to_beautiful"
   "brick_breaker"
   "cookbook"

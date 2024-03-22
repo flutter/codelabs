@@ -44,7 +44,7 @@ class MockAudioController implements AudioController {
   void removeFilter() {}
 
   @override
-  Future<void> shutdown() async {}
+  void dispose() {}
 
   @override
   Future<void> startMusic() async {}

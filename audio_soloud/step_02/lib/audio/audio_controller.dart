@@ -9,7 +9,7 @@ class AudioController {
     // TODO
   }
 
-  Future<void> shutdown() async {
+  void dispose() {
     // TODO
   }
 

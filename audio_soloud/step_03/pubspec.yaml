@@ -31,7 +31,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  flutter_soloud: ^2.0.0-pre.2
+  flutter_soloud: ^2.0.0-pre.4
   logging: ^1.2.0
 
   # The following adds the Cupertino Icons font to your application.
