@@ -4,7 +4,7 @@ import 'package:logging/logging.dart';
 
 class AudioController {
   static final Logger _log = Logger('AudioController');
-  
+
   Future<void> initialize() async {
     // TODO
   }
