@@ -9,7 +9,8 @@ declare -a CODELABS=(
   "adaptive_app"
   # TODO: 'MaterialStateProperty' is deprecated and shouldn't be used.
   # "animated-responsive-layout"
-  "boring_to_beautiful"
+  # TODO: 'MaterialStateProperty' is deprecated and shouldn't be used.
+  # "boring_to_beautiful"
   "brick_breaker"
   "cookbook"
   "dart-patterns-and-records"
