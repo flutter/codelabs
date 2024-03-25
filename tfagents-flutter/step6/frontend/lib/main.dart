@@ -102,6 +102,7 @@ class _PlaneStrikeState extends State<PlaneStrike>
             hiddenBoardCellOccupied;
         hiddenBoardState[planeCoreX + 1][planeCoreY - 2] =
             hiddenBoardCellOccupied;
+        break;
       case 1:
         planeCoreX = rng.nextInt(_boardSize - 3) + 1;
         planeCoreY = rng.nextInt(_boardSize - 2) + 1;
@@ -111,6 +112,7 @@ class _PlaneStrikeState extends State<PlaneStrike>
             hiddenBoardCellOccupied;
         hiddenBoardState[planeCoreX + 2][planeCoreY - 1] =
             hiddenBoardCellOccupied;
+        break;
       case 2:
         planeCoreX = rng.nextInt(_boardSize - 2) + 1;
         planeCoreY = rng.nextInt(_boardSize - 3) + 1;
@@ -120,6 +122,7 @@ class _PlaneStrikeState extends State<PlaneStrike>
             hiddenBoardCellOccupied;
         hiddenBoardState[planeCoreX + 1][planeCoreY + 2] =
             hiddenBoardCellOccupied;
+        break;
       default:
         planeCoreX = rng.nextInt(_boardSize - 3) + 2;
         planeCoreY = rng.nextInt(_boardSize - 2) + 1;
@@ -264,9 +267,11 @@ class _PlaneStrikeState extends State<PlaneStrike>
       // hit
       case 1:
         gridItemColor = Colors.red;
+        break;
       // miss
       case -1:
         gridItemColor = Colors.yellow;
+        break;
       default:
         if (hiddenBoardState[x][y] == hiddenBoardCellOccupied &&
             agentOrPlayer == 'player') {
