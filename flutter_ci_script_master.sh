@@ -7,7 +7,8 @@ source "$DIR/flutter_ci_script_shared.sh"
 
 declare -a CODELABS=(
   "adaptive_app"
-  "animated-responsive-layout"
+  # TODO: 'MaterialStateProperty' is deprecated and shouldn't be used.
+  # "animated-responsive-layout"
   "boring_to_beautiful"
   "brick_breaker"
   "cookbook"
