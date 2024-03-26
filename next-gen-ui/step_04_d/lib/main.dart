@@ -2,20 +2,12 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'dart:io' show Platform;
-
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:window_size/window_size.dart';
 
 import 'title_screen/title_screen.dart';
 
 void main() {
-  if (!kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
-    WidgetsFlutterBinding.ensureInitialized();
-    setWindowMinSize(const Size(800, 500));
-  }
   Animate.restartOnHotReload = true;
   runApp(const NextGenApp());
 }

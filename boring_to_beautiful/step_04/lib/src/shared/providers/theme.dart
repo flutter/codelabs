@@ -132,7 +132,7 @@ class ThemeProvider extends InheritedWidget {
   BottomNavigationBarThemeData bottomNavigationBarTheme(ColorScheme colors) {
     return BottomNavigationBarThemeData(
       type: BottomNavigationBarType.fixed,
-      backgroundColor: colors.surfaceVariant,
+      backgroundColor: colors.surfaceContainerHighest,
       selectedItemColor: colors.onSurface,
       unselectedItemColor: colors.onSurfaceVariant,
       elevation: 0,
@@ -163,7 +163,7 @@ class ThemeProvider extends InheritedWidget {
       navigationRailTheme: navigationRailTheme(colorScheme),
       tabBarTheme: tabBarTheme(colorScheme),
       drawerTheme: drawerTheme(colorScheme),
-      scaffoldBackgroundColor: colorScheme.background,
+      scaffoldBackgroundColor: colorScheme.surface,
     );
   }
 
@@ -180,7 +180,7 @@ class ThemeProvider extends InheritedWidget {
       navigationRailTheme: navigationRailTheme(colorScheme),
       tabBarTheme: tabBarTheme(colorScheme),
       drawerTheme: drawerTheme(colorScheme),
-      scaffoldBackgroundColor: colorScheme.background,
+      scaffoldBackgroundColor: colorScheme.surface,
     );
   }
 

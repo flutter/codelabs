@@ -538,7 +538,7 @@ class _FullScreenPlayerState extends State<_FullScreenPlayer> {
           child: IconButton(
             color: song != null
                 ? context.colors.onSurface
-                : context.colors.onBackground,
+                : context.colors.onSurface,
             icon: const Icon(Icons.fullscreen_exit),
             onPressed: widget.onClose,
           ),
@@ -661,7 +661,7 @@ class _MobilePlayer extends StatelessWidget {
           child: IconButton(
             color: current?.song != null
                 ? context.colors.onSurface
-                : context.colors.onBackground,
+                : context.colors.onSurface,
             icon: const RotatedBox(
               quarterTurns: 1,
               child: Icon(Icons.chevron_right),
