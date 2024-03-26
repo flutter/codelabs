@@ -13,11 +13,14 @@ steps:
         path: generate_crossword/analysis_options.yaml
         replace-contents: |
           include: ../../analysis_options.yaml
-
+          
+          analyzer:
+            language:
+              strict-inference: false
+          
           linter:
             rules:
               prefer_const_constructors: false
-
       - name: Remove README
         rm: generate_crossword/README.md
       - name: Add .vscode directory
@@ -74,7 +77,6 @@ steps:
               ),
             );
           }
-
       - name: Build iOS simulator bundle
         platforms: [ macos ]
         path: generate_crossword
@@ -216,9 +218,15 @@ steps:
               ..removeWhere((str) => str.length < 3)
               ..removeWhere((str) => re.stringMatch(str) == null));
           }
-      - name: generate lib/providers.g.dart
+      - name: Flutter clean
         path: generate_crossword
-        flutter: pub run build_runner build --delete-conflicting-outputs
+        flutter: clean
+      - name: Flutter pub get
+        path: generate_crossword
+        flutter: pub get
+      - name: Run build_runner
+        path: generate_crossword
+        dart: run build_runner build --delete-conflicting-outputs
       - name: mkdir assets
         mkdir: generate_crossword/assets
       - name: add words.txt
@@ -49000,8 +49008,6 @@ steps:
           1PVEVDSE5JQ0FMClpZTU9URUNITklDUwpaWU1PVElDClpZTU9USUNBTExZClpZTU9USUNTClpZ
           TVVSR0lFUwpaWU1VUkdZClpZVEhVTQpaWVRIVU1TClpZWlpZVkEKWllaWllWQVMKWlpaClpaWl
           M=
-
-
       - name: Patch lib/main.dart
         path: generate_crossword/lib/main.dart
         patch: |
@@ -49038,6 +49044,591 @@ steps:
           to: step_04
       - name: Flutter clean
         path: step_04
+        flutter: clean
+  - name: step_05
+    steps:
+      - name: Remove generated code
+        rmdir: step_05
+      - name: Create lib/model.dart
+        path: generate_crossword/lib/model.dart
+        replace-contents: |
+          // Copyright 2024 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+          
+          import 'package:built_collection/built_collection.dart';
+          import 'package:built_value/built_value.dart';
+          import 'package:built_value/serializer.dart';
+          import 'package:characters/characters.dart';
+          
+          part 'model.g.dart';
+          
+          /// A location in a crossword.
+          abstract class Location implements Built<Location, LocationBuilder> {
+            static Serializer<Location> get serializer => _$locationSerializer;
+          
+            /// The horizontal part of the location. The location is 0 based.
+            int get x;
+          
+            /// The vertical part of the location. The location is 0 based.
+            int get y;
+          
+            /// Returns a new location that is one step to the left of this location.
+            Location get left => rebuild((b) => b.x = x - 1);
+          
+            /// Returns a new location that is one step to the right of this location.
+            Location get right => rebuild((b) => b.x = x + 1);
+          
+            /// Returns a new location that is one step up from this location.
+            Location get up => rebuild((b) => b.y = y - 1);
+          
+            /// Returns a new location that is one step down from this location.
+            Location get down => rebuild((b) => b.y = y + 1);
+          
+            /// Returns a new location that is [offset] steps to the left of this location.
+            Location leftOffset(int offset) => rebuild((b) => b.x = x - offset);
+          
+            /// Returns a new location that is [offset] steps to the right of this location.
+            Location rightOffset(int offset) => rebuild((b) => b.x = x + offset);
+          
+            /// Returns a new location that is [offset] steps up from this location.
+            Location upOffset(int offset) => rebuild((b) => b.y = y - offset);
+          
+            /// Returns a new location that is [offset] steps down from this location.
+            Location downOffset(int offset) => rebuild((b) => b.y = y + offset);
+          
+            /// Pretty print a location as a (x,y) co-ordinate.
+            String prettyPrint() => '($x,$y)';
+          
+            /// Returns a new location built from [updates]. Both [x] and [y] are
+            /// required to be non-null.
+            factory Location([Function(LocationBuilder) updates]) = _$Location;
+            Location._();
+          
+            /// Returns a location at the given coordinates.
+            factory Location.at(int x, int y) {
+              return Location((b) {
+                b
+                  ..x = x
+                  ..y = y;
+              });
+            }
+          }
+          
+          /// The direction of a word in a crossword.
+          enum Direction {
+            across,
+            down;
+          
+            @override
+            String toString() => name;
+          }
+          
+          /// A word in a crossword. This is a word at a location in a crossword, in either
+          /// the across or down direction.
+          abstract class CrosswordWord
+              implements Built<CrosswordWord, CrosswordWordBuilder> {
+            static Serializer<CrosswordWord> get serializer => _$crosswordWordSerializer;
+          
+            /// The word itself.
+            String get word;
+          
+            /// The location of this word in the crossword.
+            Location get location;
+          
+            /// The direction of this word in the crossword.
+            Direction get direction;
+          
+            /// Compare two CrosswordWord by co-ordinates, x then y.
+            static int locationComparator(CrosswordWord a, CrosswordWord b) {
+              final compareRows = a.location.y.compareTo(b.location.y);
+              final compareColumns = a.location.x.compareTo(b.location.x);
+              return compareColumns == 0 ? compareRows : compareColumns;
+            }
+          
+            /// Constructor for [CrosswordWord].
+            factory CrosswordWord.word({
+              required String word,
+              required Location location,
+              required Direction direction,
+            }) {
+              return CrosswordWord((b) => b
+                ..word = word
+                ..direction = direction
+                ..location.replace(location));
+            }
+          
+            /// Constructor for [CrosswordWord].
+            /// Use [CrosswordWord.word] instead.
+            factory CrosswordWord([Function(CrosswordWordBuilder)? updates]) =
+                _$CrosswordWord;
+            CrosswordWord._();
+          }
+          
+          /// A character in a crossword. This is a single character at a location in a
+          /// crossword. It may be part of an across word, a down word, both, but not
+          /// neither. The neither constraint is enforced elsewhere.
+          abstract class CrosswordCharacter
+              implements Built<CrosswordCharacter, CrosswordCharacterBuilder> {
+            static Serializer<CrosswordCharacter> get serializer =>
+                _$crosswordCharacterSerializer;
+          
+            /// The character at this location.
+            String get character;
+          
+            /// The across word that this character is a part of.
+            CrosswordWord? get acrossWord;
+          
+            /// The down word that this character is a part of.
+            CrosswordWord? get downWord;
+          
+            /// Constructor for [CrosswordCharacter].
+            /// [acrossWord] and [downWord] are optional.
+            factory CrosswordCharacter.character({
+              required String character,
+              CrosswordWord? acrossWord,
+              CrosswordWord? downWord,
+            }) {
+              return CrosswordCharacter((b) {
+                b.character = character;
+                if (acrossWord != null) {
+                  b.acrossWord.replace(acrossWord);
+                }
+                if (downWord != null) {
+                  b.downWord.replace(downWord);
+                }
+              });
+            }
+          
+            /// Constructor for [CrosswordCharacter]
+            /// Use [CrosswordCharacter.character] instead.
+            factory CrosswordCharacter([Function(CrosswordCharacterBuilder) updates]) =
+                _$CrosswordCharacter;
+            CrosswordCharacter._();
+          }
+          
+          /// A crossword puzzle. This is a grid of characters with words placed in it.
+          /// The puzzle constraint is in the English crossword puzzle tradition.
+          abstract class Crossword implements Built<Crossword, CrosswordBuilder> {
+            /// Serializes and deserializes the [Crossword] class
+            static Serializer<Crossword> get serializer => _$crosswordSerializer;
+          
+            /// Width across the [Crossword] puzzle.
+            int get width;
+          
+            /// Height down the [Crossword] puzzle.
+            int get height;
+          
+            /// The words in the crossword.
+            BuiltList<CrosswordWord> get words;
+          
+            /// The characters by location. Useful for displaying the crossword.
+            BuiltMap<Location, CrosswordCharacter> get characters;
+          
+            /// Add a word to the crossword at the given location and direction.
+            Crossword addWord({
+              required Location location,
+              required String word,
+              required Direction direction,
+            }) {
+              return rebuild(
+                (b) => b
+                  ..words.add(
+                    CrosswordWord.word(
+                      word: word,
+                      direction: direction,
+                      location: location,
+                    ),
+                  ),
+              );
+            }
+          
+            /// As a finalize step, fill in the characters map.
+            @BuiltValueHook(finalizeBuilder: true)
+            static void _fillCharacters(CrosswordBuilder b) {
+              b.characters.clear();
+          
+              for (final word in b.words.build()) {
+                for (final (idx, character) in word.word.characters.indexed) {
+                  switch (word.direction) {
+                    case Direction.across:
+                      b.characters.updateValue(
+                        word.location.rightOffset(idx),
+                        (b) => b.rebuild((bInner) => bInner.acrossWord.replace(word)),
+                        ifAbsent: () => CrosswordCharacter.character(
+                          acrossWord: word,
+                          character: character,
+                        ),
+                      );
+                    case Direction.down:
+                      b.characters.updateValue(
+                        word.location.downOffset(idx),
+                        (b) => b.rebuild((bInner) => bInner.downWord.replace(word)),
+                        ifAbsent: () => CrosswordCharacter.character(
+                          downWord: word,
+                          character: character,
+                        ),
+                      );
+                  }
+                }
+              }
+            }
+          
+            /// Pretty print a crossword. Generates the character grid, and lists
+            /// the down words and across words sorted by location.
+            String prettyPrintCrossword() {
+              final buffer = StringBuffer();
+              final grid = List.generate(
+                height,
+                (_) => List.generate(
+                  width, (_) => '░', // https://www.compart.com/en/unicode/U+2591
+                ),
+              );
+          
+              for (final entry in characters.entries) {
+                final location = entry.key;
+                final character = entry.value;
+                grid[location.y][location.x] = character.character;
+              }
+          
+              for (final row in grid) {
+                buffer.writeln(row.join());
+              }
+          
+              buffer.writeln();
+              buffer.writeln('Across:');
+              for (final word
+                  in words.where((word) => word.direction == Direction.across).toList()
+                    ..sort(CrosswordWord.locationComparator)) {
+                buffer.writeln('${word.location.prettyPrint()}: ${word.word}');
+              }
+          
+              buffer.writeln();
+              buffer.writeln('Down:');
+              for (final word
+                  in words.where((word) => word.direction == Direction.down).toList()
+                    ..sort(CrosswordWord.locationComparator)) {
+                buffer.writeln('${word.location.prettyPrint()}: ${word.word}');
+              }
+          
+              return buffer.toString();
+            }
+          
+            /// Constructor for [Crossword].
+            factory Crossword.crossword({
+              required int width,
+              required int height,
+              Iterable<CrosswordWord>? words,
+            }) {
+              return Crossword((b) {
+                b
+                  ..width = width
+                  ..height = height;
+                if (words != null) {
+                  b.words.addAll(words);
+                }
+              });
+            }
+          
+            /// Constructor for [Crossword].
+            /// Use [Crossword.crossword] instead.
+            factory Crossword([Function(CrosswordBuilder) updates]) = _$Crossword;
+            Crossword._();
+          }
+          
+          /// Construct the serialisation/deserialisation code for the data model.
+          @SerializersFor([
+            Location,
+            Crossword,
+            CrosswordWord,
+            CrosswordCharacter,
+          ])
+          final Serializers serializers = _$serializers;
+      - name: Create lib/utils.dart
+        path: generate_crossword/lib/utils.dart
+        replace-contents: |
+          import 'dart:math';
+          
+          import 'package:built_collection/built_collection.dart';
+          
+          /// A [Random] instance for generating random numbers.
+          final _random = Random();
+          
+          /// An extension on [BuiltSet] that adds a method to get a random element.
+          extension RandomElements<E> on BuiltSet<E> {
+            E randomElement() {
+              return elementAt(_random.nextInt(length));
+            }
+          }
+      - name: Patch lib/providers.dart
+        path: generate_crossword/lib/providers.dart
+        patch: |
+          --- b/generate_crossword/step_05/lib/providers.dart
+          +++ a/generate_crossword/step_05/lib/providers.dart
+          @@ -2,10 +2,15 @@
+           // Use of this source code is governed by a BSD-style license that can be
+           // found in the LICENSE file.
+           
+          +import 'dart:math';
+          +
+           import 'package:built_collection/built_collection.dart';
+           import 'package:flutter/services.dart';
+           import 'package:riverpod_annotation/riverpod_annotation.dart';
+           
+          +import 'model.dart' as model;
+          +import 'utils.dart';
+          +
+           part 'providers.g.dart';
+           
+           /// A provider for the wordlist to use when generating the crossword.
+          @@ -23,3 +28,71 @@ Future<BuiltSet<String>> wordList(WordListRef ref) async {
+               ..removeWhere((str) => str.length < 3)
+               ..removeWhere((str) => re.stringMatch(str) == null));
+           }
+          +
+          +/// An enumeration for different sizes of [Crossword]s.
+          +enum CrosswordSize {
+          +  small(width: 20, height: 11),
+          +  medium(width: 40, height: 22),
+          +  large(width: 80, height: 44),
+          +  xlarge(width: 160, height: 88),
+          +  xxlarge(width: 500, height: 500);
+          +
+          +  const CrosswordSize({
+          +    required this.width,
+          +    required this.height,
+          +  });
+          +
+          +  final int width;
+          +  final int height;
+          +  String get label => '$width x $height';
+          +}
+          +
+          +/// A provider that holds the current size of the crossword to generate.
+          +@Riverpod(keepAlive: true)
+          +class Size extends _$Size {
+          +  var _size = CrosswordSize.medium;
+          +
+          +  @override
+          +  CrosswordSize build() => _size;
+          +
+          +  void setSize(CrosswordSize size) {
+          +    _size = size;
+          +    ref.invalidateSelf();
+          +  }
+          +}
+          +
+          +final _random = Random();
+          +
+          +@riverpod
+          +Stream<model.Crossword> crossword(CrosswordRef ref) async* {
+          +  final size = ref.watch(sizeProvider);
+          +  final wordListAsync = ref.watch(wordListProvider);
+          +
+          +  var crossword =
+          +      model.Crossword.crossword(width: size.width, height: size.height);
+          +
+          +  yield* wordListAsync.when(
+          +    data: (wordList) async* {
+          +      while (crossword.characters.length < size.width * size.height * 0.8) {
+          +        final word = wordList.randomElement();
+          +        final direction =
+          +            _random.nextBool() ? model.Direction.across : model.Direction.down;
+          +        final location = model.Location.at(
+          +            _random.nextInt(size.width), _random.nextInt(size.height));
+          +
+          +        crossword = crossword.addWord(
+          +            word: word, direction: direction, location: location);
+          +        yield crossword;
+          +        await Future.delayed(Duration(milliseconds: 100));
+          +      }
+          +
+          +      yield crossword;
+          +    },
+          +    error: (error, stackTrace) async* {
+          +      yield crossword;
+          +    },
+          +    loading: () async* {
+          +      yield crossword;
+          +    },
+          +  );
+          +}
+      - name: Patch lib/widgets/crossword_generator_app.dart
+        path: generate_crossword/lib/widgets/crossword_generator_app.dart
+        patch: |
+          --- b/generate_crossword/step_05/lib/widgets/crossword_generator_app.dart
+          +++ a/generate_crossword/step_05/lib/widgets/crossword_generator_app.dart
+          @@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
+           import 'package:flutter_riverpod/flutter_riverpod.dart';
+           
+           import '../providers.dart';
+          +import 'crossword_widget.dart';
+           
+           class CrosswordGeneratorApp extends StatelessWidget {
+             const CrosswordGeneratorApp({super.key});
+          @@ -15,6 +16,7 @@ class CrosswordGeneratorApp extends StatelessWidget {
+               return _EagerInitialization(
+                 child: Scaffold(
+                   appBar: AppBar(
+          +          actions: [_CrosswordGeneratorMenu()],
+                     titleTextStyle: TextStyle(
+                       color: Theme.of(context).colorScheme.primary,
+                       fontSize: 16,
+          @@ -23,27 +25,7 @@ class CrosswordGeneratorApp extends StatelessWidget {
+                     title: Text('Crossword Generator'),
+                   ),
+                   body: SafeArea(
+          -          child: Consumer(
+          -            builder: (context, ref, _) {
+          -              final wordListAsync = ref.watch(wordListProvider);
+          -              return wordListAsync.when(
+          -                data: (wordList) => ListView.builder(
+          -                  itemCount: wordList.length,
+          -                  itemBuilder: (context, index) {
+          -                    return ListTile(
+          -                      title: Text(wordList.elementAt(index)),
+          -                    );
+          -                  },
+          -                ),
+          -                error: (error, stackTrace) => Center(
+          -                  child: Text('$error'),
+          -                ),
+          -                loading: () => Center(
+          -                  child: CircularProgressIndicator(),
+          -                ),
+          -              );
+          -            },
+          -          ),
+          +          child: CrosswordWidget(),
+                   ),
+                 ),
+               );
+          @@ -60,3 +42,23 @@ class _EagerInitialization extends ConsumerWidget {
+               return child;
+             }
+           }
+          +
+          +class _CrosswordGeneratorMenu extends ConsumerWidget {
+          +  @override
+          +  Widget build(BuildContext context, WidgetRef ref) => MenuAnchor(
+          +        menuChildren: [
+          +          for (final entry in CrosswordSize.values)
+          +            MenuItemButton(
+          +              onPressed: () => ref.read(sizeProvider.notifier).setSize(entry),
+          +              leadingIcon: entry == ref.watch(sizeProvider)
+          +                  ? Icon(Icons.radio_button_checked_outlined)
+          +                  : Icon(Icons.radio_button_unchecked_outlined),
+          +              child: Text(entry.label),
+          +            ),
+          +        ],
+          +        builder: (context, controller, child) => IconButton(
+          +          onPressed: () => controller.open(),
+          +          icon: Icon(Icons.settings),
+          +        ),
+          +      );
+          +}
+      - name: Create lib/widgets/crossword_widget.dart
+        path: generate_crossword/lib/widgets/crossword_widget.dart
+        replace-contents: |
+          // Copyright 2024 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+          
+          import 'package:flutter/material.dart';
+          import 'package:flutter_riverpod/flutter_riverpod.dart';
+          import 'package:two_dimensional_scrollables/two_dimensional_scrollables.dart';
+          
+          import '../model.dart';
+          import '../providers.dart';
+          
+          class CrosswordWidget extends ConsumerWidget {
+            const CrosswordWidget({super.key});
+          
+            @override
+            Widget build(BuildContext context, WidgetRef ref) {
+              final size = ref.watch(sizeProvider);
+              return TableView.builder(
+                diagonalDragBehavior: DiagonalDragBehavior.free,
+                cellBuilder: _buildCell,
+                columnCount: size.width,
+                columnBuilder: (index) => _buildSpan(context, index),
+                rowCount: size.height,
+                rowBuilder: (index) => _buildSpan(context, index),
+              );
+            }
+          
+            TableViewCell _buildCell(BuildContext context, TableVicinity vicinity) {
+              final location = Location.at(vicinity.column, vicinity.row);
+          
+              return TableViewCell(
+                child: Consumer(
+                  builder: (context, ref, _) {
+                    final character = ref.watch(
+                      crosswordProvider.select(
+                        (crossword) => crossword.when(
+                          data: (crossword) => crossword.characters[location],
+                          error: (error, stackTrace) => null,
+                          loading: () => null,
+                        ),
+                      ),
+                    );
+          
+                    if (character != null) {
+                      return Container(
+                        color: Theme.of(context).colorScheme.onPrimary,
+                        child: Center(
+                          child: Text(
+                            character.character,
+                            style: TextStyle(
+                              fontSize: 24,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+          
+                    return ColoredBox(
+                      color: Theme.of(context).colorScheme.primaryContainer,
+                    );
+                  },
+                ),
+              );
+            }
+          
+            TableSpan _buildSpan(BuildContext context, int index) {
+              return TableSpan(
+                extent: FixedTableSpanExtent(32),
+                foregroundDecoration: TableSpanDecoration(
+                  border: TableSpanBorder(
+                    leading: BorderSide(
+                        color: Theme.of(context).colorScheme.onPrimaryContainer),
+                    trailing: BorderSide(
+                        color: Theme.of(context).colorScheme.onPrimaryContainer),
+                  ),
+                ),
+              );
+            }
+          }
+      - name: Patch lib/widgets/widgets.dart
+        path: generate_crossword/lib/widgets/widgets.dart
+        patch: |
+          --- b/generate_crossword/step_05/lib/widgets/widgets.dart
+          +++ a/generate_crossword/step_05/lib/widgets/widgets.dart
+          @@ -3,3 +3,4 @@
+           // found in the LICENSE file.
+           
+           export 'crossword_generator_app.dart';
+          +export 'crossword_widget.dart';
+      - name: Run build_runner
+        path: generate_crossword
+        dart: run build_runner build --delete-conflicting-outputs
+      - name: Copy step_05
+        copydir:
+          from: generate_crossword
+          to: step_05
+      - name: Flutter clean
+        path: step_05
         flutter: clean
 
   - name: Cleanup
