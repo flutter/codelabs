@@ -1,0 +1,102 @@
+name: Generate Crossword rebuild script
+steps:
+  - name: step_03
+    steps:
+      - name: Remove generated code
+        rmdir: step_03
+      - name: Create project
+        flutter: create --empty generate_crossword --platforms=macos,linux,windows,ios,android
+      - name: Strip DEVELOPMENT_TEAM
+        strip-lines-containing: DEVELOPMENT_TEAM =
+        path: generate_crossword/ios/Runner.xcodeproj/project.pbxproj
+      - name: Configure analysis_options.yaml
+        path: generate_crossword/analysis_options.yaml
+        replace-contents: |
+          include: ../../analysis_options.yaml
+
+          analyzer:
+            plugins:
+              - custom_lint
+      - name: Remove README
+        rm: generate_crossword/README.md
+      - name: Add .vscode directory
+        mkdir: generate_crossword/.vscode
+      - name: Add .vscode/launch.json
+        path: generate_crossword/.vscode/launch.json
+        replace-contents: |
+          {
+              // Use IntelliSense to learn about possible attributes.
+              // Hover to view descriptions of existing attributes.
+              // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+              "version": "0.2.0",
+              "configurations": [
+                  {
+                      "name": "generate_crossword",
+                      "request": "launch",
+                      "type": "dart"
+                  }
+              ]
+          }
+      - name: Add dependencies
+        path: generate_crossword
+        flutter: pub add built_collection built_value characters flutter_riverpod intl riverpod riverpod_annotation two_dimensional_scrollables worker_manager dev:build_runner dev:built_value_generator dev:custom_lint dev:riverpod_generator dev:riverpod_lint
+      - name: Replace lib/main.dart
+        path: generate_crossword/lib/main.dart
+        replace-contents: |
+          // Copyright 2024 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+          
+          import 'package:flutter/material.dart';
+          import 'package:flutter_riverpod/flutter_riverpod.dart';
+          
+          void main() {
+            runApp(
+              ProviderScope(
+                child: MaterialApp(
+                  title: 'Crossword Builder',
+                  debugShowCheckedModeBanner: false,
+                  theme: ThemeData(
+                    useMaterial3: true,
+                    colorSchemeSeed: Colors.blueGrey,
+                    brightness: Brightness.light,
+                  ),
+                  home: Scaffold(
+                    body: Center(
+                      child: Text(
+                        'Hello, World!',
+                        style: TextStyle(fontSize: 24),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            );
+          }
+
+      - name: Build iOS simulator bundle
+        platforms: [ macos ]
+        path: generate_crossword
+        flutter: build ios --simulator
+      - name: Build macOS app
+        platforms: [ macos ]
+        path: generate_crossword
+        flutter: build macos
+      - name: Build Linux app
+        platforms: [ linux ]
+        path: generate_crossword
+        flutter: build linux
+      - name: Build Windows app
+        platforms: [ windows ]
+        path: generate_crossword
+        flutter: build windows
+      - name: Copy step_03
+        copydir:
+          from: generate_crossword
+          to: step_03
+      - name: Flutter clean
+        path: step_03
+        flutter: clean
+
+  - name: Cleanup
+    rmdir: generate_crossword
