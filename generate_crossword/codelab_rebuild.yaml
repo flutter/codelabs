@@ -17,6 +17,11 @@ steps:
           analyzer:
             plugins:
               - custom_lint
+
+          linter:
+            rules:
+              prefer_const_constructors: false
+
       - name: Remove README
         rm: generate_crossword/README.md
       - name: Add .vscode directory
