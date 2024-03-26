@@ -6,10 +6,11 @@ DIR="${BASH_SOURCE%/*}"
 source "$DIR/flutter_ci_script_shared.sh"
 
 declare -a CODELABS=(
-  "adaptive_app"
+  # TODO(DomesticMouse): 'background' is deprecated and shouldn't be used. Use surface instead.
+  # "adaptive_app"
   # TODO: 'MaterialStateProperty' is deprecated and shouldn't be used.
   # "animated-responsive-layout"
-  # TODO: 'MaterialStateProperty' is deprecated and shouldn't be used.
+  # TODO(DomesticMouse): 'surfaceVariant' is deprecated and shouldn't be used. Use surfaceContainerHighest instead.
   # "boring_to_beautiful"
   "brick_breaker"
   "cookbook"
