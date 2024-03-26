@@ -3,7 +3,8 @@ import 'dart:developer' as dev;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
-import 'package:audio_soloud/audio/audio_controller.dart';
+
+import 'audio/audio_controller.dart';
 
 void main() async {
   // The `flutter_soloud` package logs everything
