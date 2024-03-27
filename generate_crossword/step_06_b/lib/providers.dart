@@ -5,6 +5,7 @@
 import 'dart:math';
 
 import 'package:built_collection/built_collection.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:worker_manager/worker_manager.dart';
@@ -80,18 +81,22 @@ Stream<model.Crossword> crossword(CrosswordRef ref) async* {
             _random.nextBool() ? model.Direction.across : model.Direction.down;
         final location = model.Location.at(
             _random.nextInt(size.width), _random.nextInt(size.height));
-
-        var candidate = await workerManager.execute(() => crossword.addWord(
-            word: word, direction: direction, location: location));
-        if (candidate != null) {
-          crossword = candidate;
-          yield crossword;
+        try {
+          var candidate = await workerManager.execute(() => crossword.addWord(
+              word: word, direction: direction, location: location));
+          if (candidate != null) {
+            crossword = candidate;
+            yield crossword;
+          }
+        } catch (e) {
+          debugPrint('Error running isolate: $e');
         }
       }
 
       yield crossword;
     },
     error: (error, stackTrace) async* {
+      debugPrint('Error loading word list: $error');
       yield crossword;
     },
     loading: () async* {
