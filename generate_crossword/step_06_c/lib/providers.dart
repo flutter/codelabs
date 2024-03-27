@@ -2,16 +2,13 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'dart:math';
-
 import 'package:built_collection/built_collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:worker_manager/worker_manager.dart';
 
+import 'isolates.dart';
 import 'model.dart' as model;
-import 'utils.dart';
 
 part 'providers.g.dart';
 
@@ -63,44 +60,25 @@ class Size extends _$Size {
   }
 }
 
-final _random = Random();
-
 @riverpod
 Stream<model.Crossword> crossword(CrosswordRef ref) async* {
   final size = ref.watch(sizeProvider);
   final wordListAsync = ref.watch(wordListProvider);
 
-  var crossword =
+  final emptyCrossword =
       model.Crossword.crossword(width: size.width, height: size.height);
 
   yield* wordListAsync.when(
-    data: (wordList) async* {
-      while (crossword.characters.length < size.width * size.height * 0.8) {
-        final word = wordList.randomElement();
-        final direction =
-            _random.nextBool() ? model.Direction.across : model.Direction.down;
-        final location = model.Location.at(
-            _random.nextInt(size.width), _random.nextInt(size.height));
-        try {
-          var candidate = await workerManager.execute(() => crossword.addWord(
-              word: word, direction: direction, location: location));
-          if (candidate != null) {
-            crossword = candidate;
-            yield crossword;
-          }
-        } catch (e) {
-          debugPrint('Error running isolate: $e');
-        }
-      }
-
-      yield crossword;
-    },
+    data: (wordList) => exploreCrosswordSolutions(
+      crossword: emptyCrossword,
+      wordList: wordList,
+    ),
     error: (error, stackTrace) async* {
       debugPrint('Error loading word list: $error');
-      yield crossword;
+      yield emptyCrossword;
     },
     loading: () async* {
-      yield crossword;
+      yield emptyCrossword;
     },
   );
 }

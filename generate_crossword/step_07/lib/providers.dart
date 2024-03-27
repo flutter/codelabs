@@ -6,10 +6,9 @@ import 'package:built_collection/built_collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:worker_manager/worker_manager.dart';
 
+import 'isolates.dart';
 import 'model.dart' as model;
-import 'utils.dart';
 
 part 'providers.g.dart';
 
@@ -66,77 +65,20 @@ Stream<model.Crossword> crossword(CrosswordRef ref) async* {
   final size = ref.watch(sizeProvider);
   final wordListAsync = ref.watch(wordListProvider);
 
+  final emptyCrossword =
+      model.Crossword.crossword(width: size.width, height: size.height);
+
   yield* wordListAsync.when(
-    data: (wordList) async* {
-      final start = DateTime.now();
-      var workQueue = model.WorkQueue.from(
-        crossword:
-            model.Crossword.crossword(width: size.width, height: size.height),
-        candidateWords: wordList,
-        startLocation: model.Location.at(0, 0),
-      );
-      while (!workQueue.isCompleted) {
-        final location =
-            workQueue.locationsToTry.keys.toBuiltSet().randomElement();
-        try {
-          final crossword = await workerManager.execute(() {
-            final direction = workQueue.locationsToTry[location]!;
-            final target = workQueue.crossword.characters[location];
-            if (target == null) {
-              return workQueue.crossword.addWord(
-                direction: direction,
-                location: location,
-                word: workQueue.candidateWords.randomElement(),
-              );
-            }
-            var words = workQueue.candidateWords.toBuiltList().rebuild((b) => b
-              ..where((b) => b.characters.contains(target.character))
-              ..shuffle());
-            int tryCount = 0;
-            for (final word in words) {
-              tryCount++;
-              for (final (index, character) in word.characters.indexed) {
-                if (character != target.character) continue;
-
-                final candidate = switch (direction) {
-                  model.Direction.across => workQueue.crossword.addWord(
-                      direction: model.Direction.across,
-                      location: location.leftOffset(index),
-                      word: word),
-                  model.Direction.down => workQueue.crossword.addWord(
-                      direction: model.Direction.down,
-                      location: location.upOffset(index),
-                      word: word)
-                };
-                if (candidate != null) {
-                  return candidate;
-                }
-              }
-              if (tryCount > 1000) {
-                break;
-              }
-            }
-          });
-          if (crossword != null) {
-            workQueue = workQueue.updateFrom(crossword);
-
-            yield crossword;
-          } else {
-            workQueue = workQueue.remove(location);
-          }
-        } catch (e) {
-          debugPrint('Error running isolate: $e');
-        }
-      }
-      debugPrint(
-          'Crossword generated in ${DateTime.now().difference(start).formatted}');
-    },
+    data: (wordList) => exploreCrosswordSolutions(
+      crossword: emptyCrossword,
+      wordList: wordList,
+    ),
     error: (error, stackTrace) async* {
       debugPrint('Error loading word list: $error');
-      yield model.Crossword.crossword(width: size.width, height: size.height);
+      yield emptyCrossword;
     },
     loading: () async* {
-      yield model.Crossword.crossword(width: size.width, height: size.height);
+      yield emptyCrossword;
     },
   );
 }
