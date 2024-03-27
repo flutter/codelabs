@@ -86,7 +86,6 @@ Stream<model.Crossword> crossword(CrosswordRef ref) async* {
           crossword = candidate;
           yield crossword;
         }
-        await Future.delayed(Duration(milliseconds: 100));
       }
 
       yield crossword;

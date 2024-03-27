@@ -48,7 +48,7 @@ abstract class Location implements Built<Location, LocationBuilder> {
 
   /// Returns a new location built from [updates]. Both [x] and [y] are
   /// required to be non-null.
-  factory Location([Function(LocationBuilder) updates]) = _$Location;
+  factory Location([Function(LocationBuilder)? updates]) = _$Location;
   Location._();
 
   /// Returns a location at the given coordinates.
@@ -148,7 +148,7 @@ abstract class CrosswordCharacter
 
   /// Constructor for [CrosswordCharacter]
   /// Use [CrosswordCharacter.character] instead.
-  factory CrosswordCharacter([Function(CrosswordCharacterBuilder) updates]) =
+  factory CrosswordCharacter([Function(CrosswordCharacterBuilder)? updates]) =
       _$CrosswordCharacter;
   CrosswordCharacter._();
 }
@@ -386,7 +386,7 @@ abstract class Crossword implements Built<Crossword, CrosswordBuilder> {
 
   /// Constructor for [Crossword].
   /// Use [Crossword.crossword] instead.
-  factory Crossword([Function(CrosswordBuilder) updates]) = _$Crossword;
+  factory Crossword([Function(CrosswordBuilder)? updates]) = _$Crossword;
   Crossword._();
 }
 
