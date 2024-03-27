@@ -32,9 +32,9 @@ class CrosswordWidget extends ConsumerWidget {
       child: Consumer(
         builder: (context, ref, _) {
           final character = ref.watch(
-            crosswordProvider.select(
-              (crosswordAsync) => crosswordAsync.when(
-                data: (crossword) => crossword.characters[location],
+            workQueueProvider.select(
+              (workQueueAsync) => workQueueAsync.when(
+                data: (workQueue) => workQueue.crossword.characters[location],
                 error: (error, stackTrace) => null,
                 loading: () => null,
               ),
