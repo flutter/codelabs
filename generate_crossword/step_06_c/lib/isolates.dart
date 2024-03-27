@@ -26,6 +26,7 @@ Stream<Crossword> exploreCrosswordSolutions({
     try {
       var candidate = await workerManager.execute(() => crossword.addWord(
           word: word, direction: direction, location: location));
+      await workerManager.dispose();
       if (candidate != null) {
         crossword = candidate;
         yield crossword;

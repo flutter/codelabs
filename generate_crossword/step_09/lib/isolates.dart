@@ -31,6 +31,7 @@ Stream<WorkQueue> exploreCrosswordSolutions({
       debugPrint('Error running isolate: $e');
     }
   }
+  await workerManager.dispose();
 
   debugPrint('Generated ${workQueue.crossword.width} x '
       '${workQueue.crossword.height} crossword in '

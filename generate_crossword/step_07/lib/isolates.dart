@@ -60,6 +60,7 @@ Stream<Crossword> exploreCrosswordSolutions({
           }
         }
       });
+      await workerManager.dispose();
       if (crossword != null) {
         workQueue = workQueue.updateFrom(crossword);
         yield crossword;
