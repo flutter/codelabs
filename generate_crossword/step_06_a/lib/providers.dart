@@ -80,9 +80,12 @@ Stream<model.Crossword> crossword(CrosswordRef ref) async* {
         final location = model.Location.at(
             _random.nextInt(size.width), _random.nextInt(size.height));
 
-        crossword = crossword.addWord(
+        var candidate = crossword.addWord(
             word: word, direction: direction, location: location);
-        yield crossword;
+        if (candidate != null) {
+          crossword = candidate;
+          yield crossword;
+        }
         await Future.delayed(Duration(milliseconds: 100));
       }
 
