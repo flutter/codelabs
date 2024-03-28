@@ -252,12 +252,15 @@ abstract class Crossword implements Built<Crossword, CrosswordBuilder> {
     required String word,
     required Direction direction,
   }) {
-    if (words.map((word) => word.word).contains(word)) {
+    // Require that the word is not already in the crossword.
+    if (words.map((crosswordWord) => crosswordWord.word).contains(word)) {
       return null;
     }
 
     final wordCharacters = word.characters;
     bool overlap = false;
+
+    // Check that the word fits in the crossword.
     for (final (index, character) in wordCharacters.indexed) {
       final characterLocation = direction == Direction.across
           ? location.rightOffset(index)
