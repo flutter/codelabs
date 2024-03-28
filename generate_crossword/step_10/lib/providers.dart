@@ -8,6 +8,7 @@ import 'package:built_collection/built_collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:worker_manager/worker_manager.dart';
 
 import 'isolates.dart';
 import 'model.dart' as model;
@@ -266,16 +267,18 @@ class Puzzle extends _$Puzzle {
     return _puzzle;
   }
 
-  void selectWord({
+  Future<void> selectWord({
     required model.Location location,
     required String word,
     required model.Direction direction,
-  }) {
-    final candidate = _puzzle.selectWord(
+  }) async {
+    final candidate = await _puzzleSelectWordIsolateTrampoline(
+      puzzle: _puzzle,
       location: location,
       word: word,
       direction: direction,
     );
+
     if (candidate != null) {
       _puzzle = candidate;
       ref.invalidateSelf();
@@ -296,3 +299,18 @@ class Puzzle extends _$Puzzle {
     );
   }
 }
+
+/// Trampoline function to disentangle this computation from the
+/// unsendable reference to the [Puzzle] provider.
+Future<model.CrosswordPuzzleGame?> _puzzleSelectWordIsolateTrampoline(
+        {required model.CrosswordPuzzleGame puzzle,
+        required model.Location location,
+        required String word,
+        required model.Direction direction}) async =>
+    workerManager.execute(
+      () => puzzle.selectWord(
+        location: location,
+        word: word,
+        direction: direction,
+      ),
+    );
