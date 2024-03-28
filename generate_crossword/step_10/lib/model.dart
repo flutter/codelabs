@@ -252,13 +252,17 @@ abstract class Crossword implements Built<Crossword, CrosswordBuilder> {
     required Location location,
     required String word,
     required Direction direction,
+    bool requireOverlap = true,
   }) {
-    if (words.map((word) => word.word).contains(word)) {
+    // Require that the word is not already in the crossword.
+    if (words.map((crosswordWord) => crosswordWord.word).contains(word)) {
       return null;
     }
 
     final wordCharacters = word.characters;
     bool overlap = false;
+
+    // Check that the word fits in the crossword.
     for (final (index, character) in wordCharacters.indexed) {
       final characterLocation = direction == Direction.across
           ? location.rightOffset(index)
@@ -276,7 +280,10 @@ abstract class Crossword implements Built<Crossword, CrosswordBuilder> {
         }
       }
     }
-    if (words.isNotEmpty && !overlap) {
+
+    // If overlap is required, make sure that the word overlaps with an existing
+    // word. Skip this test if the crossword is empty.
+    if (words.isNotEmpty && !overlap && requireOverlap) {
       return null;
     }
 
@@ -487,6 +494,7 @@ abstract class WorkQueue implements Built<WorkQueue, WorkQueueBuilder> {
   WorkQueue._();
 }
 
+/// Display information for the current state of the crossword solve.
 abstract class DisplayInfo implements Built<DisplayInfo, DisplayInfoBuilder> {
   static Serializer<DisplayInfo> get serializer => _$displayInfoSerializer;
 
@@ -534,6 +542,173 @@ abstract class DisplayInfo implements Built<DisplayInfo, DisplayInfoBuilder> {
   DisplayInfo._();
 }
 
+/// Creates a puzzle from a crossword and a set of candidate words.
+abstract class CrosswordPuzzleGame
+    implements Built<CrosswordPuzzleGame, CrosswordPuzzleGameBuilder> {
+  static Serializer<CrosswordPuzzleGame> get serializer =>
+      _$crosswordPuzzleGameSerializer;
+
+  /// The [Crossword] that this puzzle is based on.
+  Crossword get crossword;
+
+  /// The alternate words for each [CrosswordWord] in the crossword.
+  BuiltMap<Location, BuiltMap<Direction, BuiltList<String>>> get alternateWords;
+
+  /// The player's selected words.
+  BuiltList<CrosswordWord> get selectedWords;
+
+  bool canSelectWord(
+      {required Location location,
+      required String word,
+      required Direction direction}) {
+    final crosswordWord = CrosswordWord.word(
+      word: word,
+      location: location,
+      direction: direction,
+    );
+
+    if (selectedWords.contains(crosswordWord)) {
+      return true;
+    }
+
+    var puzzle = this;
+
+    if (puzzle.selectedWords
+        .where((b) => b.direction == direction && b.location == location)
+        .isNotEmpty) {
+      puzzle = puzzle.rebuild((b) => b
+        ..selectedWords.removeWhere(
+          (selectedWord) =>
+              selectedWord.location == location &&
+              selectedWord.direction == direction,
+        ));
+    }
+
+    return null !=
+        puzzle.crosswordFromSelectedWords.addWord(
+            location: location,
+            word: word,
+            direction: direction,
+            requireOverlap: false);
+  }
+
+  CrosswordPuzzleGame? selectWord({
+    required Location location,
+    required String word,
+    required Direction direction,
+  }) {
+    final crosswordWord = CrosswordWord.word(
+      word: word,
+      location: location,
+      direction: direction,
+    );
+
+    if (selectedWords.contains(crosswordWord)) {
+      return rebuild((b) => b.selectedWords.remove(crosswordWord));
+    }
+
+    var puzzle = this;
+
+    if (puzzle.selectedWords
+        .where((b) => b.direction == direction && b.location == location)
+        .isNotEmpty) {
+      puzzle = puzzle.rebuild((b) => b
+        ..selectedWords.removeWhere(
+          (selectedWord) =>
+              selectedWord.location == location &&
+              selectedWord.direction == direction,
+        ));
+    }
+
+    // Check if the selected word meshes with the alread selected words.
+    // Note this version of the crossword does not enforce overlap to
+    // allow the player to select words anywhere on the grid. Enforcing words
+    // to be solved in order is a possible alternative.
+    final updatedSelectedWordsCrossword =
+        puzzle.crosswordFromSelectedWords.addWord(
+      location: location,
+      word: word,
+      direction: direction,
+      requireOverlap: false,
+    );
+
+    // Make sure the selected word is in the crossword or is an alternate word
+    if ((puzzle.crossword.words.contains(crosswordWord) ||
+            puzzle.alternateWords[location]?[direction]?.contains(word) ==
+                true) &&
+        (updatedSelectedWordsCrossword != null)) {
+      return puzzle.rebuild((b) => b
+        ..selectedWords.add(CrosswordWord.word(
+            word: word, location: location, direction: direction)));
+    }
+    return null;
+  }
+
+  /// The crossword from the selected words.
+  Crossword get crosswordFromSelectedWords => Crossword.crossword(
+      width: crossword.width, height: crossword.height, words: selectedWords);
+
+  /// Test if the puzzle is solved. Note, this allows for the possibility of
+  /// multiple solutions.
+  bool get solved =>
+      crosswordFromSelectedWords.valid &&
+      crosswordFromSelectedWords.words.length == crossword.words.length;
+
+  /// Create a crossword puzzle game from a crossword and a set of candidate
+  /// words.
+  factory CrosswordPuzzleGame.from({
+    required Crossword crossword,
+    required BuiltSet<String> candidateWords,
+  }) {
+    // Remove all of the currently used words from the list of candidates
+    candidateWords = candidateWords
+        .rebuild((p0) => p0.removeAll(crossword.words.map((p1) => p1.word)));
+
+    // This is the list of alternate words for each word in the crossword
+    var alternates =
+        BuiltMap<Location, BuiltMap<Direction, BuiltList<String>>>();
+
+    // Build the alternate words for each word in the crossword
+    for (final crosswordWord in crossword.words) {
+      final alterateWords = candidateWords
+          .toBuiltList()
+          .rebuild((b) => b
+            ..where((b) => b.length == crosswordWord.word.length)
+            ..shuffle())
+          .take(4)
+          .toBuiltList()
+          .rebuild((b) => b..sort());
+
+      candidateWords =
+          candidateWords.rebuild((b) => b.removeAll(alterateWords));
+
+      alternates = alternates.rebuild(
+        (b) => b.updateValue(
+          crosswordWord.location,
+          (b) => b.rebuild(
+            (b) => b.updateValue(
+              crosswordWord.direction,
+              (b) => b.rebuild((b) => b.replace(alterateWords)),
+              ifAbsent: () => alterateWords,
+            ),
+          ),
+          ifAbsent: () => {crosswordWord.direction: alterateWords}.build(),
+        ),
+      );
+    }
+
+    return CrosswordPuzzleGame((b) {
+      b
+        ..crossword.replace(crossword)
+        ..alternateWords.replace(alternates);
+    });
+  }
+
+  factory CrosswordPuzzleGame([Function(CrosswordPuzzleGameBuilder)? updates]) =
+      _$CrosswordPuzzleGame;
+  CrosswordPuzzleGame._();
+}
+
 /// Construct the serialisation/deserialisation code for the data model.
 @SerializersFor([
   Location,
@@ -542,5 +717,6 @@ abstract class DisplayInfo implements Built<DisplayInfo, DisplayInfoBuilder> {
   CrosswordCharacter,
   WorkQueue,
   DisplayInfo,
+  CrosswordPuzzleGame,
 ])
 final Serializers serializers = _$serializers;

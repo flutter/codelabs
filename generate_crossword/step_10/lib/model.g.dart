@@ -9,6 +9,7 @@ part of 'model.dart';
 Serializers _$serializers = (new Serializers().toBuilder()
       ..add(Crossword.serializer)
       ..add(CrosswordCharacter.serializer)
+      ..add(CrosswordPuzzleGame.serializer)
       ..add(CrosswordWord.serializer)
       ..add(DisplayInfo.serializer)
       ..add(Location.serializer)
@@ -22,6 +23,19 @@ Serializers _$serializers = (new Serializers().toBuilder()
             const FullType(CrosswordCharacter)
           ]),
           () => new MapBuilder<Location, CrosswordCharacter>())
+      ..addBuilderFactory(
+          const FullType(BuiltMap, const [
+            const FullType(Location),
+            const FullType(BuiltMap, const [
+              const FullType(Direction),
+              const FullType(BuiltList, const [const FullType(String)])
+            ])
+          ]),
+          () => new MapBuilder<Location,
+              BuiltMap<Direction, BuiltList<String>>>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(CrosswordWord)]),
+          () => new ListBuilder<CrosswordWord>())
       ..addBuilderFactory(
           const FullType(BuiltMap,
               const [const FullType(Location), const FullType(Direction)]),
@@ -41,6 +55,8 @@ Serializer<CrosswordCharacter> _$crosswordCharacterSerializer =
 Serializer<Crossword> _$crosswordSerializer = new _$CrosswordSerializer();
 Serializer<WorkQueue> _$workQueueSerializer = new _$WorkQueueSerializer();
 Serializer<DisplayInfo> _$displayInfoSerializer = new _$DisplayInfoSerializer();
+Serializer<CrosswordPuzzleGame> _$crosswordPuzzleGameSerializer =
+    new _$CrosswordPuzzleGameSerializer();
 
 class _$LocationSerializer implements StructuredSerializer<Location> {
   @override
@@ -405,6 +421,81 @@ class _$DisplayInfoSerializer implements StructuredSerializer<DisplayInfo> {
         case 'gridFilledPercentage':
           result.gridFilledPercentage = serializers.deserialize(value,
               specifiedType: const FullType(String))! as String;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$CrosswordPuzzleGameSerializer
+    implements StructuredSerializer<CrosswordPuzzleGame> {
+  @override
+  final Iterable<Type> types = const [
+    CrosswordPuzzleGame,
+    _$CrosswordPuzzleGame
+  ];
+  @override
+  final String wireName = 'CrosswordPuzzleGame';
+
+  @override
+  Iterable<Object?> serialize(
+      Serializers serializers, CrosswordPuzzleGame object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      'crossword',
+      serializers.serialize(object.crossword,
+          specifiedType: const FullType(Crossword)),
+      'alternateWords',
+      serializers.serialize(object.alternateWords,
+          specifiedType: const FullType(BuiltMap, const [
+            const FullType(Location),
+            const FullType(BuiltMap, const [
+              const FullType(Direction),
+              const FullType(BuiltList, const [const FullType(String)])
+            ])
+          ])),
+      'selectedWords',
+      serializers.serialize(object.selectedWords,
+          specifiedType:
+              const FullType(BuiltList, const [const FullType(CrosswordWord)])),
+    ];
+
+    return result;
+  }
+
+  @override
+  CrosswordPuzzleGame deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new CrosswordPuzzleGameBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'crossword':
+          result.crossword.replace(serializers.deserialize(value,
+              specifiedType: const FullType(Crossword))! as Crossword);
+          break;
+        case 'alternateWords':
+          result.alternateWords.replace(serializers.deserialize(value,
+              specifiedType: const FullType(BuiltMap, const [
+                const FullType(Location),
+                const FullType(BuiltMap, const [
+                  const FullType(Direction),
+                  const FullType(BuiltList, const [const FullType(String)])
+                ])
+              ]))!);
+          break;
+        case 'selectedWords':
+          result.selectedWords.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(CrosswordWord)]))!
+              as BuiltList<Object?>);
           break;
       }
     }
@@ -1208,6 +1299,149 @@ class DisplayInfoBuilder implements Builder<DisplayInfo, DisplayInfoBuilder> {
                 'knownBadLocationsCount'),
             gridFilledPercentage: BuiltValueNullFieldError.checkNotNull(
                 gridFilledPercentage, r'DisplayInfo', 'gridFilledPercentage'));
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$CrosswordPuzzleGame extends CrosswordPuzzleGame {
+  @override
+  final Crossword crossword;
+  @override
+  final BuiltMap<Location, BuiltMap<Direction, BuiltList<String>>>
+      alternateWords;
+  @override
+  final BuiltList<CrosswordWord> selectedWords;
+
+  factory _$CrosswordPuzzleGame(
+          [void Function(CrosswordPuzzleGameBuilder)? updates]) =>
+      (new CrosswordPuzzleGameBuilder()..update(updates))._build();
+
+  _$CrosswordPuzzleGame._(
+      {required this.crossword,
+      required this.alternateWords,
+      required this.selectedWords})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        crossword, r'CrosswordPuzzleGame', 'crossword');
+    BuiltValueNullFieldError.checkNotNull(
+        alternateWords, r'CrosswordPuzzleGame', 'alternateWords');
+    BuiltValueNullFieldError.checkNotNull(
+        selectedWords, r'CrosswordPuzzleGame', 'selectedWords');
+  }
+
+  @override
+  CrosswordPuzzleGame rebuild(
+          void Function(CrosswordPuzzleGameBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  CrosswordPuzzleGameBuilder toBuilder() =>
+      new CrosswordPuzzleGameBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is CrosswordPuzzleGame &&
+        crossword == other.crossword &&
+        alternateWords == other.alternateWords &&
+        selectedWords == other.selectedWords;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, crossword.hashCode);
+    _$hash = $jc(_$hash, alternateWords.hashCode);
+    _$hash = $jc(_$hash, selectedWords.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'CrosswordPuzzleGame')
+          ..add('crossword', crossword)
+          ..add('alternateWords', alternateWords)
+          ..add('selectedWords', selectedWords))
+        .toString();
+  }
+}
+
+class CrosswordPuzzleGameBuilder
+    implements Builder<CrosswordPuzzleGame, CrosswordPuzzleGameBuilder> {
+  _$CrosswordPuzzleGame? _$v;
+
+  CrosswordBuilder? _crossword;
+  CrosswordBuilder get crossword =>
+      _$this._crossword ??= new CrosswordBuilder();
+  set crossword(CrosswordBuilder? crossword) => _$this._crossword = crossword;
+
+  MapBuilder<Location, BuiltMap<Direction, BuiltList<String>>>? _alternateWords;
+  MapBuilder<Location, BuiltMap<Direction, BuiltList<String>>>
+      get alternateWords => _$this._alternateWords ??=
+          new MapBuilder<Location, BuiltMap<Direction, BuiltList<String>>>();
+  set alternateWords(
+          MapBuilder<Location, BuiltMap<Direction, BuiltList<String>>>?
+              alternateWords) =>
+      _$this._alternateWords = alternateWords;
+
+  ListBuilder<CrosswordWord>? _selectedWords;
+  ListBuilder<CrosswordWord> get selectedWords =>
+      _$this._selectedWords ??= new ListBuilder<CrosswordWord>();
+  set selectedWords(ListBuilder<CrosswordWord>? selectedWords) =>
+      _$this._selectedWords = selectedWords;
+
+  CrosswordPuzzleGameBuilder();
+
+  CrosswordPuzzleGameBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _crossword = $v.crossword.toBuilder();
+      _alternateWords = $v.alternateWords.toBuilder();
+      _selectedWords = $v.selectedWords.toBuilder();
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(CrosswordPuzzleGame other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$CrosswordPuzzleGame;
+  }
+
+  @override
+  void update(void Function(CrosswordPuzzleGameBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  CrosswordPuzzleGame build() => _build();
+
+  _$CrosswordPuzzleGame _build() {
+    _$CrosswordPuzzleGame _$result;
+    try {
+      _$result = _$v ??
+          new _$CrosswordPuzzleGame._(
+              crossword: crossword.build(),
+              alternateWords: alternateWords.build(),
+              selectedWords: selectedWords.build());
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'crossword';
+        crossword.build();
+        _$failedField = 'alternateWords';
+        alternateWords.build();
+        _$failedField = 'selectedWords';
+        selectedWords.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            r'CrosswordPuzzleGame', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }

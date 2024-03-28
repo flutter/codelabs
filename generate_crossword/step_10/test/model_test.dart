@@ -1,4 +1,5 @@
 import 'package:built_collection/built_collection.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:generate_crossword/model.dart';
 
@@ -483,5 +484,299 @@ void main() {
       startLocation: Location.at(0, 0),
     );
     expect(queue.candidateWords.length, equals(0));
+  });
+
+  test('WordcrossPuzzle from a crossword', () async {
+    Crossword crossword = Crossword.crossword(
+      width: 50,
+      height: 50,
+      words: [
+        CrosswordWord.word(
+          word: 'word',
+          location: Location.at(0, 0),
+          direction: Direction.across,
+        ),
+        CrosswordWord.word(
+          word: 'works',
+          location: Location.at(0, 0),
+          direction: Direction.down,
+        )
+      ],
+    );
+
+    final re = RegExp('^[a-z]+\$');
+    final str = await rootBundle.loadString('assets/words.txt');
+    final words = str.split('\n').toBuiltSet().rebuild((b) => b
+      ..map((str) => str.toLowerCase().trim())
+      ..removeWhere((str) => str.length < 3)
+      ..removeWhere((str) => re.stringMatch(str) == null));
+
+    final puzzle = CrosswordPuzzleGame.from(
+      crossword: crossword,
+      candidateWords: words,
+    );
+
+    expect(puzzle.crossword.words.length, 2);
+    expect(puzzle.alternateWords.keys.length, 1);
+    expect(puzzle.alternateWords[Location.at(0, 0)]?.keys.length, 2);
+    expect(
+        puzzle.alternateWords[Location.at(0, 0)]?[Direction.down]?.length, 4);
+    expect(
+        puzzle.alternateWords[Location.at(0, 0)]?[Direction.across]?.length, 4);
+  });
+
+  test('Allow non-overlapping words with requireOverlap: false', () {
+    Crossword? crossword = Crossword.crossword(width: 50, height: 50);
+
+    crossword = crossword.addWord(
+        direction: Direction.across,
+        location: Location.at(0, 0),
+        word: 'word',
+        requireOverlap: false);
+
+    if (crossword == null) fail("crossword shouldn't be null");
+
+    crossword = crossword.addWord(
+        direction: Direction.across,
+        location: Location.at(3, 3),
+        word: 'another',
+        requireOverlap: false);
+
+    if (crossword == null) fail("crossword shouldn't be null");
+  });
+
+  test(
+      'Adding overlapping across words returns null with requireOverlap: false',
+      () {
+    Crossword? crossword = Crossword.crossword(width: 50, height: 50);
+    expect(crossword.valid, isTrue);
+
+    final topLeft = Location.at(0, 0);
+
+    crossword = crossword.addWord(
+      direction: Direction.across,
+      location: topLeft,
+      word: 'this',
+      requireOverlap: false,
+    );
+    if (crossword == null) fail("crossword shouldn't be null");
+    expect(crossword.valid, true);
+
+    final crossword2 = crossword.addWord(
+      direction: Direction.across,
+      location: topLeft,
+      word: 'that',
+      requireOverlap: false,
+    );
+    expect(crossword2, isNull);
+  });
+
+  test('Adding overlapping down words returns null with requireOverlap: false',
+      () {
+    Crossword? crossword = Crossword.crossword(width: 50, height: 50);
+
+    expect(crossword.valid, true);
+
+    final topLeft = Location.at(0, 0);
+
+    crossword = crossword
+        .addWord(
+          location: topLeft,
+          word: 'this',
+          direction: Direction.down,
+          requireOverlap: false,
+        )!
+        .addWord(
+          location: topLeft,
+          word: 'total',
+          direction: Direction.across,
+          requireOverlap: false,
+        )!;
+
+    expect(crossword.valid, isTrue);
+
+    final crossword2 = crossword.addWord(
+      direction: Direction.down,
+      location: topLeft,
+      word: 'that',
+      requireOverlap: false,
+    );
+    expect(crossword2, isNull);
+  });
+
+  test('Adding words out of bounds returns null with requireOverlap: false',
+      () {
+    final crossword = Crossword.crossword(width: 50, height: 50);
+
+    expect(crossword.valid, true);
+
+    // Above the top of the board
+    final crossword1 = crossword.addWord(
+      direction: Direction.down,
+      location: Location.at(0, -1),
+      word: 'this',
+      requireOverlap: false,
+    );
+    expect(crossword1, isNull);
+
+    // To the left of the board
+    final crossword2 = crossword.addWord(
+      direction: Direction.down,
+      location: Location.at(-1, 0),
+      word: 'that',
+      requireOverlap: false,
+    );
+    expect(crossword2, isNull);
+
+    // To the right of the board
+    final crossword3 = crossword.addWord(
+      direction: Direction.down,
+      location: Location.at(51, 0),
+      word: 'this',
+      requireOverlap: false,
+    );
+    expect(crossword3, isNull);
+
+    // Below the bottom of the board
+    final crossword4 = crossword.addWord(
+      direction: Direction.down,
+      location: Location.at(0, 51),
+      word: 'that',
+      requireOverlap: false,
+    );
+    expect(crossword4, isNull);
+  });
+
+  test('WordcrossPuzzle allows alternate play', () async {
+    final topLeft = Location.at(0, 0);
+    final downBy4 = topLeft.downOffset(4);
+    Crossword crossword = Crossword.crossword(
+      width: 50,
+      height: 50,
+      words: [
+        CrosswordWord.word(
+          word: 'word',
+          location: topLeft,
+          direction: Direction.across,
+        ),
+        CrosswordWord.word(
+          word: 'works',
+          location: topLeft,
+          direction: Direction.down,
+        ),
+        CrosswordWord.word(
+          word: 'silent',
+          location: downBy4,
+          direction: Direction.across,
+        ),
+      ],
+    );
+
+    expect(crossword.valid, true);
+
+    final re = RegExp('^[a-z]+\$');
+    final str = await rootBundle.loadString('assets/words.txt');
+    final words = str.split('\n').toBuiltSet().rebuild((b) => b
+      ..map((str) => str.toLowerCase().trim())
+      ..removeWhere((str) => str.length < 3)
+      ..removeWhere((str) => re.stringMatch(str) == null));
+
+    CrosswordPuzzleGame? puzzle = CrosswordPuzzleGame.from(
+      crossword: crossword,
+      candidateWords: words,
+    );
+
+    expect(puzzle.crossword.words.length, 3);
+    expect(puzzle.alternateWords.keys.length, 2);
+
+    final topLeftAcrossAlternates =
+        puzzle.alternateWords[topLeft]?[Direction.across];
+    if (topLeftAcrossAlternates == null) {
+      fail('topLeftAcrossAlternates should not be null');
+    }
+
+    final downBy4AcrossAlternates =
+        puzzle.alternateWords[downBy4]?[Direction.across];
+    if (downBy4AcrossAlternates == null) {
+      fail('topLeftAcrossAlternates should not be null');
+    }
+
+    puzzle = puzzle.selectWord(
+        location: topLeft,
+        word: topLeftAcrossAlternates.first,
+        direction: Direction.across);
+    if (puzzle == null) {
+      fail('puzzle should not be null');
+    }
+
+    puzzle = puzzle.selectWord(
+        location: downBy4,
+        word: downBy4AcrossAlternates.first,
+        direction: Direction.across);
+    if (puzzle == null) {
+      fail('puzzle should not be null');
+    }
+
+    expect(puzzle.solved, false);
+  });
+
+  test('WordcrossPuzzle succeeds with expected words', () async {
+    final topLeft = Location.at(0, 0);
+    final downBy4 = topLeft.downOffset(4);
+    Crossword crossword = Crossword.crossword(
+      width: 50,
+      height: 50,
+      words: [
+        CrosswordWord.word(
+          word: 'word',
+          location: topLeft,
+          direction: Direction.across,
+        ),
+        CrosswordWord.word(
+          word: 'works',
+          location: topLeft,
+          direction: Direction.down,
+        ),
+        CrosswordWord.word(
+          word: 'silent',
+          location: downBy4,
+          direction: Direction.across,
+        ),
+      ],
+    );
+
+    expect(crossword.valid, true);
+
+    final re = RegExp('^[a-z]+\$');
+    final str = await rootBundle.loadString('assets/words.txt');
+    final words = str.split('\n').toBuiltSet().rebuild((b) => b
+      ..map((str) => str.toLowerCase().trim())
+      ..removeWhere((str) => str.length < 3)
+      ..removeWhere((str) => re.stringMatch(str) == null));
+
+    CrosswordPuzzleGame? puzzle = CrosswordPuzzleGame.from(
+      crossword: crossword,
+      candidateWords: words,
+    );
+
+    puzzle = puzzle.selectWord(
+        location: topLeft, word: 'word', direction: Direction.across);
+    if (puzzle == null) {
+      fail('puzzle should not be null');
+    }
+
+    puzzle = puzzle.selectWord(
+        location: topLeft, word: 'works', direction: Direction.down);
+    if (puzzle == null) {
+      fail('puzzle should not be null');
+    }
+
+    puzzle = puzzle.selectWord(
+        location: downBy4, word: 'silent', direction: Direction.across);
+    if (puzzle == null) {
+      fail('puzzle should not be null');
+    }
+
+    expect(puzzle.solved, true);
   });
 }

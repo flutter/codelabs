@@ -213,3 +213,86 @@ class WorkerCount extends _$WorkerCount {
     ref.invalidateSelf();
   }
 }
+
+enum GamePhase {
+  loading,
+  generatePuzzle,
+  playPuzzle,
+  completedPuzzle;
+}
+
+@riverpod
+GamePhase gamePhase(GamePhaseRef ref) {
+  final workQueueAsync = ref.watch(workQueueProvider);
+  final puzzle = ref.watch(puzzleProvider);
+
+  return switch ((
+    workQueueAsync.hasValue,
+    workQueueAsync.value?.isCompleted ?? false,
+    puzzle.solved
+  )) {
+    (false, _, _) => GamePhase.loading,
+    (true, false, _) => GamePhase.generatePuzzle,
+    (true, true, false) => GamePhase.playPuzzle,
+    (true, true, true) => GamePhase.completedPuzzle,
+  };
+}
+
+@riverpod
+class Puzzle extends _$Puzzle {
+  model.CrosswordPuzzleGame _puzzle = model.CrosswordPuzzleGame.from(
+    crossword: model.Crossword.crossword(width: 0, height: 0),
+    candidateWords: BuiltSet<String>(),
+  );
+
+  @override
+  model.CrosswordPuzzleGame build() {
+    final size = ref.watch(sizeProvider);
+    final wordListAsync = ref.watch(wordListProvider);
+    final workQueueAsync = ref.watch(workQueueProvider);
+
+    if (wordListAsync.hasValue && workQueueAsync.hasValue) {
+      // Reset the game if required.
+      if (workQueueAsync.value!.isCompleted &&
+          (_puzzle.crossword.height != size.height ||
+              _puzzle.crossword.width != size.width ||
+              _puzzle.crossword != workQueueAsync.value!.crossword)) {
+        _puzzle = model.CrosswordPuzzleGame.from(
+            crossword: workQueueAsync.value!.crossword,
+            candidateWords: wordListAsync.value!);
+      }
+    }
+
+    return _puzzle;
+  }
+
+  void selectWord({
+    required model.Location location,
+    required String word,
+    required model.Direction direction,
+  }) {
+    final candidate = _puzzle.selectWord(
+      location: location,
+      word: word,
+      direction: direction,
+    );
+    if (candidate != null) {
+      _puzzle = candidate;
+      ref.invalidateSelf();
+    } else {
+      debugPrint('Invalid word selection: $word');
+    }
+  }
+
+  bool canSelectWord({
+    required model.Location location,
+    required String word,
+    required model.Direction direction,
+  }) {
+    return _puzzle.canSelectWord(
+      location: location,
+      word: word,
+      direction: direction,
+    );
+  }
+}

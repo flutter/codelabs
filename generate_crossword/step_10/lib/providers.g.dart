@@ -52,6 +52,20 @@ final expectedRemainingTimeProvider = AutoDisposeProvider<Duration>.internal(
 );
 
 typedef ExpectedRemainingTimeRef = AutoDisposeProviderRef<Duration>;
+String _$gamePhaseHash() => r'311669ca482440247addee96b4c4080e45d35ac3';
+
+/// See also [gamePhase].
+@ProviderFor(gamePhase)
+final gamePhaseProvider = AutoDisposeProvider<GamePhase>.internal(
+  gamePhase,
+  name: r'gamePhaseProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$gamePhaseHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef GamePhaseRef = AutoDisposeProviderRef<GamePhase>;
 String _$sizeHash() => r'e551985965bf4119e8d90c0e8aa4f4d68a555b73';
 
 /// A provider that holds the current size of the crossword to generate.
@@ -148,5 +162,20 @@ final workerCountProvider =
 );
 
 typedef _$WorkerCount = Notifier<BackgroundWorkers>;
+String _$puzzleHash() => r'd610698ca0c80b164fb2c55eb2e59b992c7eb10a';
+
+/// See also [Puzzle].
+@ProviderFor(Puzzle)
+final puzzleProvider =
+    AutoDisposeNotifierProvider<Puzzle, model.CrosswordPuzzleGame>.internal(
+  Puzzle.new,
+  name: r'puzzleProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$puzzleHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$Puzzle = AutoDisposeNotifier<model.CrosswordPuzzleGame>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

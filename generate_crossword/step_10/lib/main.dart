@@ -5,20 +5,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'widgets/widgets.dart';
+import 'game_widgets/widgets.dart';
 
 void main() {
   runApp(
     ProviderScope(
       child: MaterialApp(
-        title: 'Crossword Builder',
+        title: 'Crossword Puzzle',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           useMaterial3: true,
           colorSchemeSeed: Colors.blueGrey,
           brightness: Brightness.light,
         ),
-        home: CrosswordGeneratorApp(),
+        home: CrosswordPuzzleApp(),
       ),
     ),
   );
