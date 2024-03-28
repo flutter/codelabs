@@ -215,13 +215,6 @@ class WorkerCount extends _$WorkerCount {
   }
 }
 
-enum GamePhase {
-  loading,
-  generatePuzzle,
-  playPuzzle,
-  completedPuzzle;
-}
-
 @riverpod
 class Puzzle extends _$Puzzle {
   model.CrosswordPuzzleGame _puzzle = model.CrosswordPuzzleGame.from(
