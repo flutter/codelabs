@@ -223,23 +223,6 @@ enum GamePhase {
 }
 
 @riverpod
-GamePhase gamePhase(GamePhaseRef ref) {
-  final workQueueAsync = ref.watch(workQueueProvider);
-  final puzzle = ref.watch(puzzleProvider);
-
-  return switch ((
-    workQueueAsync.hasValue,
-    workQueueAsync.value?.isCompleted ?? false,
-    puzzle.solved
-  )) {
-    (false, _, _) => GamePhase.loading,
-    (true, false, _) => GamePhase.generatePuzzle,
-    (true, true, false) => GamePhase.playPuzzle,
-    (true, true, true) => GamePhase.completedPuzzle,
-  };
-}
-
-@riverpod
 class Puzzle extends _$Puzzle {
   model.CrosswordPuzzleGame _puzzle = model.CrosswordPuzzleGame.from(
     crossword: model.Crossword.crossword(width: 0, height: 0),

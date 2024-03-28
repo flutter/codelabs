@@ -52,20 +52,6 @@ final expectedRemainingTimeProvider = AutoDisposeProvider<Duration>.internal(
 );
 
 typedef ExpectedRemainingTimeRef = AutoDisposeProviderRef<Duration>;
-String _$gamePhaseHash() => r'311669ca482440247addee96b4c4080e45d35ac3';
-
-/// See also [gamePhase].
-@ProviderFor(gamePhase)
-final gamePhaseProvider = AutoDisposeProvider<GamePhase>.internal(
-  gamePhase,
-  name: r'gamePhaseProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$gamePhaseHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef GamePhaseRef = AutoDisposeProviderRef<GamePhase>;
 String _$sizeHash() => r'e551985965bf4119e8d90c0e8aa4f4d68a555b73';
 
 /// A provider that holds the current size of the crossword to generate.

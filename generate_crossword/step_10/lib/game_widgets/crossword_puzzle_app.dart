@@ -10,13 +10,11 @@ import 'crossword_generator_widget.dart';
 import 'crossword_puzzle_widget.dart';
 import 'puzzle_completed_widget.dart';
 
-class CrosswordPuzzleApp extends ConsumerWidget {
+class CrosswordPuzzleApp extends StatelessWidget {
   const CrosswordPuzzleApp({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final gamePhase = ref.watch(gamePhaseProvider);
-
+  Widget build(BuildContext context) {
     return _EagerInitialization(
       child: Scaffold(
         appBar: AppBar(
@@ -29,12 +27,22 @@ class CrosswordPuzzleApp extends ConsumerWidget {
           title: Text('Crossword Puzzle'),
         ),
         body: SafeArea(
-          child: switch (gamePhase) {
-            GamePhase.loading => Center(child: CircularProgressIndicator()),
-            GamePhase.generatePuzzle => CrosswordGeneratorWidget(),
-            GamePhase.playPuzzle => CrosswordPuzzleWidget(),
-            GamePhase.completedPuzzle => PuzzleCompletedWidget(),
-          },
+          child: Consumer(builder: (context, ref, _) {
+            final workQueueAsync = ref.watch(workQueueProvider);
+            final puzzleSolved =
+                ref.watch(puzzleProvider.select((puzzle) => puzzle.solved));
+
+            return workQueueAsync.when(
+              data: (workQueue) => workQueue.isCompleted &&
+                      workQueue.crossword.characters.isNotEmpty
+                  ? puzzleSolved
+                      ? PuzzleCompletedWidget()
+                      : CrosswordPuzzleWidget()
+                  : CrosswordGeneratorWidget(),
+              loading: () => Center(child: CircularProgressIndicator()),
+              error: (error, stackTrace) => Center(child: Text('$error')),
+            );
+          }),
         ),
       ),
     );
