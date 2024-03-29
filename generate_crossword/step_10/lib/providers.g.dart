@@ -148,7 +148,7 @@ final workerCountProvider =
 );
 
 typedef _$WorkerCount = Notifier<BackgroundWorkers>;
-String _$puzzleHash() => r'd80b4716f41bbaf64137af197bf80b3756b06a4f';
+String _$puzzleHash() => r'b196c65e93a450c5f33bc463f8cf0c4ebbbf3ec9';
 
 /// See also [Puzzle].
 @ProviderFor(Puzzle)

@@ -5,10 +5,9 @@
 import 'dart:math';
 
 import 'package:built_collection/built_collection.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:worker_manager/worker_manager.dart';
 
 import 'model.dart' as model;
 import 'utils.dart';
@@ -82,9 +81,13 @@ Stream<model.Crossword> crossword(CrosswordRef ref) async* {
         final location = model.Location.at(
             _random.nextInt(size.width), _random.nextInt(size.height));
         try {
-          var candidate = await workerManager.execute(() => crossword.addWord(
-              word: word, direction: direction, location: location));
-          await workerManager.dispose();
+          var candidate =
+              await compute(((String, model.Direction, model.Location) args) {
+            final (word, direction, location) = args;
+            return crossword.addWord(
+                word: word, direction: direction, location: location);
+          }, (word, direction, location));
+
           if (candidate != null) {
             crossword = candidate;
             yield crossword;

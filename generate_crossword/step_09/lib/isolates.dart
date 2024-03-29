@@ -5,8 +5,8 @@
 import 'dart:math';
 
 import 'package:built_collection/built_collection.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
-import 'package:worker_manager/worker_manager.dart';
 
 import 'model.dart';
 import 'utils.dart';
@@ -24,14 +24,12 @@ Stream<WorkQueue> exploreCrosswordSolutions({
   );
   while (!workQueue.isCompleted) {
     try {
-      workQueue = await workerManager
-          .execute(() => _generate(workQueue, maxWorkerCount));
+      workQueue = await compute(_generate, (workQueue, maxWorkerCount));
       yield workQueue;
     } catch (e) {
       debugPrint('Error running isolate: $e');
     }
   }
-  await workerManager.dispose();
 
   debugPrint('Generated ${workQueue.crossword.width} x '
       '${workQueue.crossword.height} crossword in '
@@ -39,10 +37,9 @@ Stream<WorkQueue> exploreCrosswordSolutions({
       'with $maxWorkerCount workers.');
 }
 
-Future<WorkQueue> _generate(
-  WorkQueue workQueue,
-  int maxWorkerCount,
-) async {
+Future<WorkQueue> _generate((WorkQueue, int) args) async {
+  var workQueue = args.$1;
+  final maxWorkerCount = args.$2;
   final futures = <Future<(Location, Direction, String?)>>[];
   var locations =
       workQueue.locationsToTry.keys.toBuiltList().rebuild((b) => b.shuffle());
@@ -54,8 +51,8 @@ Future<WorkQueue> _generate(
     locations = locations.rebuild((b) => b.remove(location));
     final direction = workQueue.locationsToTry[location]!;
 
-    futures.add(workerManager.execute(() => _generateWorker(workQueue.crossword,
-        workQueue.candidateWords, location, direction, 'Worker-$id')));
+    futures.add(compute(_generateWorker,
+        (workQueue.crossword, workQueue.candidateWords, location, direction)));
   }
 
   try {
@@ -82,12 +79,9 @@ Future<WorkQueue> _generate(
 }
 
 (Location, Direction, String?) _generateWorker(
-  final Crossword crossword,
-  final BuiltSet<String> candidateWords,
-  final Location location,
-  final Direction direction,
-  final String workerId,
-) {
+    (Crossword, BuiltSet<String>, Location, Direction) args) {
+  final (crossword, candidateWords, location, direction) = args;
+
   final target = crossword.characters[location];
   if (target == null) {
     return (location, direction, candidateWords.randomElement());

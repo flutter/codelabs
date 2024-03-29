@@ -6,7 +6,6 @@ import 'dart:math';
 
 import 'package:built_collection/built_collection.dart';
 import 'package:flutter/foundation.dart';
-import 'package:worker_manager/worker_manager.dart';
 
 import 'model.dart';
 import 'utils.dart';
@@ -24,9 +23,12 @@ Stream<Crossword> exploreCrosswordSolutions({
     final location = Location.at(
         _random.nextInt(crossword.width), _random.nextInt(crossword.height));
     try {
-      var candidate = await workerManager.execute(() => crossword.addWord(
-          word: word, direction: direction, location: location));
-      await workerManager.dispose();
+      var candidate = await compute(((String, Direction, Location) args) {
+        final (word, direction, location) = args;
+        return crossword.addWord(
+            word: word, direction: direction, location: location);
+      }, (word, direction, location));
+
       if (candidate != null) {
         crossword = candidate;
         yield crossword;

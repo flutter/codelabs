@@ -17,7 +17,6 @@ dependencies:
   riverpod: ^2.5.1
   riverpod_annotation: ^2.3.5
   two_dimensional_scrollables: ^0.1.2
-  worker_manager: ^6.3.2
 
 dev_dependencies:
   flutter_test:

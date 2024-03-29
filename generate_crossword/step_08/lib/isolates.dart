@@ -3,8 +3,8 @@
 // found in the LICENSE file.
 
 import 'package:built_collection/built_collection.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
-import 'package:worker_manager/worker_manager.dart';
 
 import 'model.dart';
 import 'utils.dart';
@@ -22,7 +22,8 @@ Stream<WorkQueue> exploreCrosswordSolutions({
   while (!workQueue.isCompleted) {
     final location = workQueue.locationsToTry.keys.toBuiltSet().randomElement();
     try {
-      final crossword = await workerManager.execute(() {
+      final crossword = await compute(((WorkQueue, Location) args) {
+        final (workQueue, location) = args;
         final direction = workQueue.locationsToTry[location]!;
         final target = workQueue.crossword.characters[location];
         if (target == null) {
@@ -59,8 +60,7 @@ Stream<WorkQueue> exploreCrosswordSolutions({
             break;
           }
         }
-      });
-      await workerManager.dispose();
+      }, (workQueue, location));
       if (crossword != null) {
         workQueue = workQueue.updateFrom(crossword);
       } else {

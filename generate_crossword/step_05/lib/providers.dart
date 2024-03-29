@@ -5,7 +5,7 @@
 import 'dart:math';
 
 import 'package:built_collection/built_collection.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
