@@ -5,8 +5,8 @@
 import 'dart:math';
 
 import 'package:built_collection/built_collection.dart';
+import 'package:characters/characters.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
 
 import 'model.dart';
 import 'utils.dart';
