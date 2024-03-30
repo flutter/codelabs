@@ -8,6 +8,8 @@ import 'dart:io';
 import 'package:io/io.dart' as io;
 import 'package:logging/logging.dart';
 import 'package:path/path.dart' as p;
+import 'package:xml/xml.dart';
+import 'package:xml/xpath.dart';
 
 import 'blueprint.dart';
 
@@ -265,6 +267,28 @@ project.save
         cwd: cwd,
         args: script,
         exitOnStdErr: false);
+    return;
+  }
+
+  // Modifies a macOS MainMenu.xib file to make the titlebar transparent,
+  // content full window, and hide the title bar.
+  final macOsMainMenuXib = step.macOsMainMenuXib;
+  if (macOsMainMenuXib != null) {
+    final File file;
+    if (step.path?.isNotEmpty ?? false) {
+      file = File(p.join(cwd.path, step.path, macOsMainMenuXib));
+    } else {
+      file = File(p.join(cwd.path, macOsMainMenuXib));
+    }
+    var document = XmlDocument.parse(file.readAsStringSync());
+    document.xpath('//document/objects/window').first
+      ..setAttribute('titlebarAppearsTransparent', 'YES')
+      ..setAttribute('titleVisibility', 'hidden');
+    document
+        .xpath('//document/objects/window/windowStyleMask')
+        .first
+        .setAttribute('fullSizeContentView', 'YES');
+    file.writeAsStringSync(document.toString());
     return;
   }
 
