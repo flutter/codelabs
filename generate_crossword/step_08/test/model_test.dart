@@ -1,3 +1,7 @@
+// Copyright 2024 The Flutter Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:built_collection/built_collection.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:generate_crossword/model.dart';
@@ -37,14 +41,14 @@ void main() {
     expect(
         crossword.words
             .rebuild(
-              (b) => b.removeWhere((b) => b.direction == Direction.down),
+              (b) => b.where((b) => b.direction == Direction.across),
             )
             .length,
         1);
     expect(
         crossword.words
             .rebuild(
-              (b) => b.removeWhere((b) => b.direction == Direction.across),
+              (b) => b.where((b) => b.direction == Direction.down),
             )
             .length,
         1);
@@ -84,14 +88,14 @@ void main() {
     expect(
         crossword.words
             .rebuild(
-              (b) => b.removeWhere((b) => b.direction == Direction.down),
+              (b) => b.where((b) => b.direction == Direction.across),
             )
             .length,
         2);
     expect(
         crossword.words
             .rebuild(
-              (b) => b.removeWhere((b) => b.direction == Direction.across),
+              (b) => b.where((b) => b.direction == Direction.down),
             )
             .isEmpty,
         true);
@@ -316,7 +320,6 @@ void main() {
     )!;
 
     expect(
-        // Note: this will emit a logged warning about a word being duplicated
         crossword.addWord(
           direction: Direction.across,
           location: Location.at(4, 4),
@@ -341,11 +344,10 @@ void main() {
             ),
           ]));
 
-    // Note: this will emit a logged warning about duplicate words
     expect(crossword.valid, false);
   });
 
-  test('Aadding duplicate down words returns null', () {
+  test('Adding duplicate down words returns null', () {
     Crossword? crossword = Crossword.crossword(width: 50, height: 50);
 
     crossword = crossword.addWord(
@@ -355,7 +357,6 @@ void main() {
     )!;
 
     expect(
-        // Note: this will emit a logged warning about a word being duplicated
         crossword.addWord(
           direction: Direction.down,
           location: Location.at(4, 4),
@@ -380,7 +381,6 @@ void main() {
             ),
           ]));
 
-    // Note: this will emit a logged warning about duplicate words
     expect(crossword.valid, false);
   });
 
