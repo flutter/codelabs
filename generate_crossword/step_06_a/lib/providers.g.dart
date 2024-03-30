@@ -22,7 +22,7 @@ final wordListProvider = AutoDisposeFutureProvider<BuiltSet<String>>.internal(
 );
 
 typedef WordListRef = AutoDisposeFutureProviderRef<BuiltSet<String>>;
-String _$crosswordHash() => r'ef1684f077a5e61e82475ebbf4ad03f33b591f68';
+String _$crosswordHash() => r'88347f829031e496221c562ab2483a560585dd52';
 
 /// See also [crossword].
 @ProviderFor(crossword)
