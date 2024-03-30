@@ -5,7 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'game_widgets/widgets.dart';
+import 'game_widgets/crossword_puzzle_app.dart';
 
 void main() {
   runApp(
