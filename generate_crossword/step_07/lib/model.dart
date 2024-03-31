@@ -490,7 +490,7 @@ abstract class WorkQueue implements Built<WorkQueue, WorkQueueBuilder> {
   WorkQueue._();
 }
 
-/// Construct the serialisation/deserialisation code for the data model.
+/// Construct the serialization/deserialization code for the data model.
 @SerializersFor([
   Location,
   Crossword,

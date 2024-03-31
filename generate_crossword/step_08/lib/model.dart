@@ -539,7 +539,7 @@ abstract class DisplayInfo implements Built<DisplayInfo, DisplayInfoBuilder> {
   DisplayInfo._();
 }
 
-/// Construct the serialisation/deserialisation code for the data model.
+/// Construct the serialization/deserialization code for the data model.
 @SerializersFor([
   Location,
   Crossword,

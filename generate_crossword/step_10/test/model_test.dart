@@ -486,7 +486,7 @@ void main() {
     expect(queue.candidateWords.length, equals(0));
   });
 
-  test('WordcrossPuzzle from a crossword', () async {
+  test('CrosswordPuzzleGame from a crossword', () async {
     Crossword crossword = Crossword.crossword(
       width: 50,
       height: 50,
@@ -647,7 +647,7 @@ void main() {
     expect(crossword4, isNull);
   });
 
-  test('WordcrossPuzzle allows alternate play', () async {
+  test('CrosswordPuzzleGame allows alternate play', () async {
     final topLeft = Location.at(0, 0);
     final downBy4 = topLeft.downOffset(4);
     Crossword crossword = Crossword.crossword(
@@ -720,7 +720,7 @@ void main() {
     expect(puzzle.solved, false);
   });
 
-  test('WordcrossPuzzle succeeds with expected words', () async {
+  test('CrosswordPuzzleGame succeeds with expected words', () async {
     final topLeft = Location.at(0, 0);
     final downBy4 = topLeft.downOffset(4);
     Crossword crossword = Crossword.crossword(
