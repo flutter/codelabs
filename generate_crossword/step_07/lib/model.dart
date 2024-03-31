@@ -43,7 +43,7 @@ abstract class Location implements Built<Location, LocationBuilder> {
   /// Returns a new location that is [offset] steps down from this location.
   Location downOffset(int offset) => rebuild((b) => b.y = y + offset);
 
-  /// Pretty print a location as a (x,y) co-ordinate.
+  /// Pretty print a location as a (x,y) coordinate.
   String prettyPrint() => '($x,$y)';
 
   /// Returns a new location built from [updates]. Both [x] and [y] are
@@ -85,11 +85,11 @@ abstract class CrosswordWord
   /// The direction of this word in the crossword.
   Direction get direction;
 
-  /// Compare two CrosswordWord by co-ordinates, x then y.
+  /// Compare two CrosswordWord by coordinates, x then y.
   static int locationComparator(CrosswordWord a, CrosswordWord b) {
     final compareRows = a.location.y.compareTo(b.location.y);
     final compareColumns = a.location.x.compareTo(b.location.x);
-    return compareColumns == 0 ? compareRows : compareColumns;
+    return switch (compareColumns) { 0 => compareRows, _ => compareColumns };
   }
 
   /// Constructor for [CrosswordWord].
@@ -262,9 +262,10 @@ abstract class Crossword implements Built<Crossword, CrosswordBuilder> {
 
     // Check that the word fits in the crossword.
     for (final (index, character) in wordCharacters.indexed) {
-      final characterLocation = direction == Direction.across
-          ? location.rightOffset(index)
-          : location.downOffset(index);
+      final characterLocation = switch (direction) {
+        Direction.across => location.rightOffset(index),
+        Direction.down => location.downOffset(index),
+      };
 
       final target = characters[characterLocation];
       if (target != null) {
