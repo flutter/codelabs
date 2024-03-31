@@ -653,7 +653,8 @@ abstract class CrosswordPuzzleGame
   /// multiple solutions.
   bool get solved =>
       crosswordFromSelectedWords.valid &&
-      crosswordFromSelectedWords.words.length == crossword.words.length;
+      crosswordFromSelectedWords.words.length == crossword.words.length &&
+      crossword.words.isNotEmpty;
 
   /// Create a crossword puzzle game from a crossword and a set of candidate
   /// words.

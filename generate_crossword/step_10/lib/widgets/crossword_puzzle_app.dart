@@ -33,12 +33,16 @@ class CrosswordPuzzleApp extends StatelessWidget {
                 ref.watch(puzzleProvider.select((puzzle) => puzzle.solved));
 
             return workQueueAsync.when(
-              data: (workQueue) => workQueue.isCompleted &&
-                      workQueue.crossword.characters.isNotEmpty
-                  ? puzzleSolved
-                      ? PuzzleCompletedWidget()
-                      : CrosswordPuzzleWidget()
-                  : CrosswordGeneratorWidget(),
+              data: (workQueue) {
+                if (puzzleSolved) {
+                  return PuzzleCompletedWidget();
+                }
+                if (workQueue.isCompleted &&
+                    workQueue.crossword.characters.isNotEmpty) {
+                  return CrosswordPuzzleWidget();
+                }
+                return CrosswordGeneratorWidget();
+              },
               loading: () => Center(child: CircularProgressIndicator()),
               error: (error, stackTrace) => Center(child: Text('$error')),
             );
