@@ -71,6 +71,6 @@ Stream<Crossword> exploreCrosswordSolutions({
       debugPrint('Error running isolate: $e');
     }
   }
-  debugPrint(
-      'Crossword generated in ${DateTime.now().difference(start).formatted}');
+  debugPrint('${crossword.width} x ${crossword.height} Crossword generated in '
+      '${DateTime.now().difference(start).formatted}');
 }
