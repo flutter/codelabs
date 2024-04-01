@@ -1,0 +1,174 @@
+name: Forge2D Game rebuild script
+steps:
+  - name: step_03
+    steps:
+      - name: Remove generated code
+        rmdir: step_03
+      - name: Create project
+        flutter: create --empty forge2d_game 
+      # - name: Make the macOS titlebar transparent, content full window, and hide the title bar.
+      #   full-screen-macos-main-menu-xib: forge2d_game/macos/Runner/Base.lproj/MainMenu.xib
+      - name: Strip DEVELOPMENT_TEAM
+        strip-lines-containing: DEVELOPMENT_TEAM =
+        path: forge2d_game/ios/Runner.xcodeproj/project.pbxproj
+      - name: Configure analysis_options.yaml
+        path: forge2d_game/analysis_options.yaml
+        replace-contents: |
+          include: ../../analysis_options.yaml
+          
+          analyzer:
+            language:
+              strict-inference: false
+            plugins:
+              - custom_lint
+          
+          linter:
+            rules:
+              prefer_const_constructors: false
+      - name: Remove README
+        rm: forge2d_game/README.md
+      - name: Add .vscode directory
+        mkdir: forge2d_game/.vscode
+      - name: Add .vscode/launch.json
+        path: forge2d_game/.vscode/launch.json
+        replace-contents: |
+          {
+              // Use IntelliSense to learn about possible attributes.
+              // Hover to view descriptions of existing attributes.
+              // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+              "version": "0.2.0",
+              "configurations": [
+                  {
+                      "name": "forge2d_game",
+                      "request": "launch",
+                      "type": "dart"
+                  }
+              ]
+          }
+      - name: Add dependencies
+        path: forge2d_game
+        flutter: pub add flame flame_forge2d flame_riverpod flutter_riverpod riverpod riverpod_annotation dev:build_runner dev:custom_lint dev:riverpod_generator dev:riverpod_lint
+      - name: Update lib/main.dart
+        path: forge2d_game/lib/main.dart
+        replace-contents: |
+          import 'package:flame/components.dart';
+          import 'package:flame/events.dart';
+          import 'package:flame/extensions.dart';
+          import 'package:flame/game.dart';
+          import 'package:flame_forge2d/flame_forge2d.dart';
+          import 'package:flame_riverpod/flame_riverpod.dart';
+          import 'package:flutter/widgets.dart';
+          import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+          void main() {
+            runApp(
+              ProviderScope(
+                child: GameWidget.controlled(
+                  gameFactory: Forge2DExample.new,
+                ),
+              ),
+            );
+          }
+
+          class Forge2DExample extends Forge2DGame with RiverpodGameMixin {
+            @override
+            Future<void> onLoad() async {
+              await super.onLoad();
+
+              final size = camera.viewport.size;
+
+              camera.viewport.add(
+                FpsTextComponent(
+                  anchor: Anchor.bottomRight,
+                  position: size - Vector2(10, 10),
+                ),
+              );
+              world.add(Ball());
+              await world.addAll(createBoundaries());
+            }
+
+            List<Component> createBoundaries() {
+              final visibleRect = camera.visibleWorldRect;
+              final topLeft = visibleRect.topLeft.toVector2();
+              final topRight = visibleRect.topRight.toVector2();
+              final bottomRight = visibleRect.bottomRight.toVector2();
+              final bottomLeft = visibleRect.bottomLeft.toVector2();
+
+              return [
+                Wall(topLeft, topRight),
+                Wall(topRight, bottomRight),
+                Wall(bottomLeft, bottomRight),
+                Wall(topLeft, bottomLeft),
+              ];
+            }
+          }
+
+          class Ball extends BodyComponent with TapCallbacks {
+            Ball({Vector2? initialPosition})
+                : super(
+                    fixtureDefs: [
+                      FixtureDef(
+                        CircleShape()..radius = 5,
+                        restitution: 0.8,
+                        friction: 0.4,
+                      ),
+                    ],
+                    bodyDef: BodyDef(
+                      angularDamping: 0.8,
+                      position: initialPosition ?? Vector2.zero(),
+                      type: BodyType.dynamic,
+                    ),
+                  );
+
+            @override
+            void onTapDown(event) {
+              body.applyLinearImpulse(Vector2.random() * 5000);
+            }
+          }
+
+          class Wall extends BodyComponent {
+            final Vector2 _start;
+            final Vector2 _end;
+
+            Wall(this._start, this._end);
+
+            @override
+            Body createBody() {
+              final shape = EdgeShape()..set(_start, _end);
+              final fixtureDef = FixtureDef(shape, friction: 0.3);
+              final bodyDef = BodyDef(
+                position: Vector2.zero(),
+              );
+
+              return world.createBody(bodyDef)..createFixture(fixtureDef);
+            }
+          }
+      - name: Build iOS simulator bundle
+        platforms: [ macos ]
+        path: forge2d_game
+        flutter: build ios --simulator
+      - name: Build Android APK
+        platforms: [ macos ]
+        path: forge2d_game
+        flutter: build apk
+      - name: Build macOS app
+        platforms: [ macos ]
+        path: forge2d_game
+        flutter: build macos
+      - name: Build Linux app
+        platforms: [ linux ]
+        path: forge2d_game
+        flutter: build linux
+      - name: Build Windows app
+        platforms: [ windows ]
+        path: forge2d_game
+        flutter: build windows
+      - name: Copy step_03
+        copydir:
+          from: forge2d_game
+          to: step_03
+      - name: Flutter clean
+        path: step_03
+        flutter: clean
+  - name: Cleanup
+    rmdir: forge2d_game
