@@ -52,7 +52,7 @@ final sizeProvider = NotifierProvider<Size, CrosswordSize>.internal(
 );
 
 typedef _$Size = Notifier<CrosswordSize>;
-String _$puzzleHash() => r'20e49a994e2f5f9f70efc15479c84d91e02fefb5';
+String _$puzzleHash() => r'dddad218b4318b008af2db67dd0ff284bcef3231';
 
 /// See also [Puzzle].
 @ProviderFor(Puzzle)

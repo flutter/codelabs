@@ -109,7 +109,7 @@ class Puzzle extends _$Puzzle {
         (_puzzle.crossword.height != size.height ||
             _puzzle.crossword.width != size.width ||
             _puzzle.crossword != workQueue.crossword)) {
-      _crosswordPuzzleGameFromCrossword((workQueue.crossword, wordList))
+      compute(_puzzleFromCrosswordTrampoline, (workQueue.crossword, wordList))
           .then((puzzle) {
         _puzzle = puzzle;
         ref.invalidateSelf();
@@ -119,21 +119,13 @@ class Puzzle extends _$Puzzle {
     return _puzzle;
   }
 
-  Future<model.CrosswordPuzzleGame> _crosswordPuzzleGameFromCrossword(
-      (model.Crossword, BuiltSet<String>) args) async {
-    return compute(
-        (args) => model.CrosswordPuzzleGame.from(
-            crossword: args.$1, candidateWords: args.$2),
-        args);
-  }
-
   Future<void> selectWord({
     required model.Location location,
     required String word,
     required model.Direction direction,
   }) async {
-    final candidate = await compute(_puzzleSelectWordIsolateTrampoline,
-        (_puzzle, location, word, direction));
+    final candidate = await compute(
+        _puzzleSelectWordTrampoline, (_puzzle, location, word, direction));
 
     if (candidate != null) {
       _puzzle = candidate;
@@ -156,11 +148,18 @@ class Puzzle extends _$Puzzle {
   }
 }
 
-/// Trampoline function to disentangle this computation from the
-/// unsendable reference to the [Puzzle] provider.
-model.CrosswordPuzzleGame? _puzzleSelectWordIsolateTrampoline(
-    (model.CrosswordPuzzleGame, model.Location, String, model.Direction) args) {
-  final (puzzle, location, word, direction) = args;
-  return puzzle.selectWord(
-      location: location, word: word, direction: direction);
-}
+// Trampoline functions to disentangle these Isolate target calls from the
+// unsendable reference to the [Puzzle] provider.
+
+Future<model.CrosswordPuzzleGame> _puzzleFromCrosswordTrampoline(
+        (model.Crossword, BuiltSet<String>) args) async =>
+    model.CrosswordPuzzleGame.from(crossword: args.$1, candidateWords: args.$2);
+
+model.CrosswordPuzzleGame? _puzzleSelectWordTrampoline(
+        (
+          model.CrosswordPuzzleGame,
+          model.Location,
+          String,
+          model.Direction
+        ) args) =>
+    args.$1.selectWord(location: args.$2, word: args.$3, direction: args.$4);
