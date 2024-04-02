@@ -404,7 +404,7 @@ steps:
             }
           }
 
-          class RiverpodAwareTextComponent extends PositionComponent
+          class TapCountComponent extends PositionComponent
               with RiverpodComponentMixin, HasGameRef<Forge2DExample> {
             TextComponent? textComponent;
             int currentValue = 0;
@@ -640,7 +640,153 @@ steps:
     steps:
       - name: Remove generated code
         rmdir: step_06
+      - name: Add dependencies
+        path: forge2d_game
+        flutter: pub add intl
+      - name: Add lib/ticker_builder.dart
+        path: forge2d_game/lib/ticker_builder.dart
+        replace-contents: |
+          // Copyright 2024 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
 
+          import 'package:flutter/material.dart';
+          import 'package:flutter/scheduler.dart';
+
+          /// A Builder widget that invokes its [builder] function on every animation frame.
+          class TickerBuilder extends StatefulWidget {
+            const TickerBuilder({super.key, required this.builder});
+            final Widget Function(BuildContext context) builder;
+            @override
+            State<TickerBuilder> createState() => _TickerBuilderState();
+          }
+
+          class _TickerBuilderState extends State<TickerBuilder>
+              with SingleTickerProviderStateMixin {
+            late final Ticker _ticker;
+
+            @override
+            void initState() {
+              super.initState();
+              _ticker = createTicker(_handleTick)..start();
+            }
+
+            @override
+            void dispose() {
+              _ticker.dispose();
+              super.dispose();
+            }
+
+            void _handleTick(Duration elapsed) {
+              setState(() {
+                // Force a rebuild without changing the widget tree.
+              });
+            }
+
+            @override
+            Widget build(BuildContext context) => widget.builder.call(context);
+          }
+      - name: Patch lib/main.dart
+        path: forge2d_game/lib/main.dart
+        patch: |
+          --- a/forge2d_game/step_06/lib/main.dart
+          +++ b/forge2d_game/step_06/lib/main.dart
+          @@ -2,12 +2,15 @@
+           // Use of this source code is governed by a BSD-style license that can be
+           // found in the LICENSE file.
+           
+          +import 'package:flame_forge2d/flame_forge2d.dart';
+           import 'package:flame_riverpod/flame_riverpod.dart';
+           import 'package:flutter/material.dart';
+           import 'package:flutter_riverpod/flutter_riverpod.dart';
+          +import 'package:intl/intl.dart';
+           
+           import 'game.dart';
+           import 'providers.dart';
+          +import 'ticker_builder.dart';
+           
+           void main() {
+             runApp(
+          @@ -30,15 +33,71 @@ class GameHolderWidget extends ConsumerWidget {
+             @override
+             Widget build(BuildContext context, WidgetRef ref) {
+               final game = ref.watch(forge2dGameProvider);
+          -    return RiverpodAwareGameWidget(
+          -      game: game,
+          -      loadingBuilder: (context) => Center(
+          -        child: CircularProgressIndicator(),
+          -      ),
+          -      errorBuilder: (context, error) => Center(
+          -        child: Text('Error: $error'),
+          +    return Row(
+          +      children: [
+          +        Expanded(
+          +          child: RiverpodAwareGameWidget(
+          +            game: game,
+          +            loadingBuilder: (context) => Center(
+          +              child: CircularProgressIndicator(),
+          +            ),
+          +            errorBuilder: (context, error) => Center(
+          +              child: Text('Error: $error'),
+          +            ),
+          +            key: key,
+          +          ),
+          +        ),
+          +        SizedBox(
+          +          width: 350,
+          +          child: GameComponentsList(),
+          +        ),
+          +      ],
+          +    );
+          +  }
+          +}
+          +
+          +class GameComponentsList extends ConsumerWidget {
+          +  const GameComponentsList({super.key});
+          +
+          +  @override
+          +  Widget build(BuildContext context, WidgetRef ref) {
+          +    final game = ref.watch(forge2dGameProvider);
+          +    return TickerBuilder(
+          +      builder: (context) => ListView(
+          +        children: [
+          +          for (final (index, ball)
+          +              in game.world.children.whereType<Ball>().indexed)
+          +            ListTile(
+          +              title: Text('Ball ${index + 1}'),
+          +              subtitle: Text('Position: ${ball.body.position.label}'),
+          +            ),
+          +          for (final wall in game.world.children.whereType<Wall>())
+          +            _WallListTile(wall),
+          +        ],
+                 ),
+          -      key: key,
+          +    );
+          +  }
+          +}
+          +
+          +extension Vector2Label on Vector2 {
+          +  String get label {
+          +    final fmt = NumberFormat('##0.0#');
+          +    return '(${fmt.format(x)}, ${fmt.format(y)})';
+          +  }
+          +}
+          +
+          +class _WallListTile extends StatelessWidget {
+          +  const _WallListTile(this.wall);
+          +  final Wall wall;
+          +
+          +  @override
+          +  Widget build(BuildContext context) {
+          +    final edgeShape = wall.body.fixtures.first.shape as EdgeShape;
+          +
+          +    return ListTile(
+          +      title: Text('${wall.wallPosition.label} Wall'),
+          +      subtitle: Text('Position: ${edgeShape.vertex1.label} '
+          +          '${edgeShape.vertex2.label}'),
+               );
+             }
+           }
       - name: Run build_runner
         path: forge2d_game
         dart: run build_runner build --delete-conflicting-outputs
@@ -651,6 +797,5 @@ steps:
       - name: Flutter clean
         path: step_06
         flutter: clean
-
   - name: Cleanup
     rmdir: forge2d_game

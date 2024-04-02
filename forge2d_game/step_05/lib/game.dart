@@ -116,7 +116,7 @@ class Wall extends BodyComponent {
   }
 }
 
-class RiverpodAwareTextComponent extends PositionComponent
+class TapCountComponent extends PositionComponent
     with RiverpodComponentMixin, HasGameRef<Forge2DExample> {
   TextComponent? textComponent;
   int currentValue = 0;
