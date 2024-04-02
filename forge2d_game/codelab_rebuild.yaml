@@ -801,8 +801,124 @@ steps:
     steps:
       - name: Remove generated code
         rmdir: step_07
-
-
+      - name: Patch lib/providers.dart
+        path: forge2d_game/lib/providers.dart
+        patch: |
+          --- a/forge2d_game/step_07/lib/providers.dart
+          +++ b/forge2d_game/step_07/lib/providers.dart
+          @@ -7,9 +7,19 @@ import 'game.dart';
+           
+           part 'providers.g.dart';
+           
+          -/// The game instance.
+          +/// The resettable game instance.
+           @riverpod
+          -Forge2DExample forge2dGame(Forge2dGameRef ref) => Forge2DExample();
+          +class Forge2dGame extends _$Forge2dGame {
+          +  var _game = Forge2DExample();
+          +
+          +  @override
+          +  Forge2DExample build() => _game;
+          +
+          +  void reset() {
+          +    _game = Forge2DExample();
+          +    ref.invalidateSelf();
+          +  }
+          +}
+           
+           /// An on tap callback.
+           @riverpod
+          @@ -24,3 +34,22 @@ class OnTap extends _$OnTap {
+               ref.invalidateSelf();
+             }
+           }
+          +
+          +/// The number of balls to have on screen
+          +@riverpod
+          +class BallCount extends _$BallCount {
+          +  int _count = 1;
+          +
+          +  @override
+          +  int build() => _count;
+          +
+          +  addBall() {
+          +    _count++;
+          +    ref.invalidateSelf();
+          +  }
+          +
+          +  removeBall() {
+          +    _count--;
+          +    ref.invalidateSelf();
+          +  }
+          +}
+      - name: Patch lib/game.dart
+        path: forge2d_game/lib/game.dart
+        patch: |
+          --- a/forge2d_game/step_07/lib/game.dart
+          +++ b/forge2d_game/step_07/lib/game.dart
+          @@ -24,6 +24,21 @@ class Forge2DExample extends Forge2DGame with RiverpodGameMixin {
+             List<Component> createBoundaries() =>
+                 [for (final position in WallPosition.values) Wall(position)];
+           
+          +  @override
+          +  void onMount() {
+          +    super.onMount();
+          +    addToGameWidgetBuild(() {
+          +      ref.listen(ballCountProvider, (prev, next) {
+          +        var diff = world.children.whereType<Ball>().length.compareTo(next);
+          +        if (diff < 0) {
+          +          world.add(Ball());
+          +        } else if (diff > 0) {
+          +          world.children.whereType<Ball>().firstOrNull?.removeFromParent();
+          +        }
+          +      });
+          +    });
+          +  }
+          +
+             @override
+             void onGameResize(Vector2 size) {
+               super.onGameResize(size);
+      - name: Patch lib/main.dart
+        path: forge2d_game/lib/main.dart
+        patch: |
+          --- a/forge2d_game/step_07/lib/main.dart
+          +++ b/forge2d_game/step_07/lib/main.dart
+          @@ -65,6 +65,35 @@ class GameComponentsList extends ConsumerWidget {
+               return TickerBuilder(
+                 builder: (context) => ListView(
+                   children: [
+          +          ListTile(
+          +            title: Center(
+          +              child: Row(mainAxisSize: MainAxisSize.min, children: [
+          +                ElevatedButton(
+          +                  child: Text('Add ball'),
+          +                  onPressed: () =>
+          +                      ref.read(ballCountProvider.notifier).addBall(),
+          +                ),
+          +
+          +                SizedBox(width: 16), // Add some space between the buttons
+          +                ElevatedButton(
+          +                  onPressed: switch (ref.read(ballCountProvider)) {
+          +                    0 => null,
+          +                    _ => () =>
+          +                        ref.read(ballCountProvider.notifier).removeBall(),
+          +                  },
+          +                  child: Text('Remove ball'),
+          +                ),
+          +              ]),
+          +            ),
+          +          ),
+          +          ListTile(
+          +            title: Center(
+          +              child: ElevatedButton(
+          +                child: Text('Reset Game'),
+          +                onPressed: () => ref.read(forge2dGameProvider.notifier).reset(),
+          +              ),
+          +            ),
+          +          ),
+                     for (final (index, ball)
+                         in game.world.children.whereType<Ball>().indexed)
+                       ListTile(
       - name: Run build_runner
         path: forge2d_game
         dart: run build_runner build --delete-conflicting-outputs

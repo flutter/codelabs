@@ -65,6 +65,35 @@ class GameComponentsList extends ConsumerWidget {
     return TickerBuilder(
       builder: (context) => ListView(
         children: [
+          ListTile(
+            title: Center(
+              child: Row(mainAxisSize: MainAxisSize.min, children: [
+                ElevatedButton(
+                  child: Text('Add ball'),
+                  onPressed: () =>
+                      ref.read(ballCountProvider.notifier).addBall(),
+                ),
+
+                SizedBox(width: 16), // Add some space between the buttons
+                ElevatedButton(
+                  onPressed: switch (ref.read(ballCountProvider)) {
+                    0 => null,
+                    _ => () =>
+                        ref.read(ballCountProvider.notifier).removeBall(),
+                  },
+                  child: Text('Remove ball'),
+                ),
+              ]),
+            ),
+          ),
+          ListTile(
+            title: Center(
+              child: ElevatedButton(
+                child: Text('Reset Game'),
+                onPressed: () => ref.read(forge2dGameProvider.notifier).reset(),
+              ),
+            ),
+          ),
           for (final (index, ball)
               in game.world.children.whereType<Ball>().indexed)
             ListTile(

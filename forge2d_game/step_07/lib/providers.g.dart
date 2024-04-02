@@ -6,14 +6,15 @@ part of 'providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$forge2dGameHash() => r'd9d8b5e2f152baeaf4985c6673ae7ac1174e607f';
+String _$forge2dGameHash() => r'b728952ccd85a184fbe4eee7f42a69f2e393065b';
 
-/// The game instance.
+/// The resettable game instance.
 ///
-/// Copied from [forge2dGame].
-@ProviderFor(forge2dGame)
-final forge2dGameProvider = AutoDisposeProvider<Forge2DExample>.internal(
-  forge2dGame,
+/// Copied from [Forge2dGame].
+@ProviderFor(Forge2dGame)
+final forge2dGameProvider =
+    AutoDisposeNotifierProvider<Forge2dGame, Forge2DExample>.internal(
+  Forge2dGame.new,
   name: r'forge2dGameProvider',
   debugGetCreateSourceHash:
       const bool.fromEnvironment('dart.vm.product') ? null : _$forge2dGameHash,
@@ -21,7 +22,7 @@ final forge2dGameProvider = AutoDisposeProvider<Forge2DExample>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef Forge2dGameRef = AutoDisposeProviderRef<Forge2DExample>;
+typedef _$Forge2dGame = AutoDisposeNotifier<Forge2DExample>;
 String _$onTapHash() => r'ca855493b840f5b515f38d083dd0d5b508db28bd';
 
 /// An on tap callback.
@@ -38,5 +39,21 @@ final onTapProvider = AutoDisposeNotifierProvider<OnTap, int>.internal(
 );
 
 typedef _$OnTap = AutoDisposeNotifier<int>;
+String _$ballCountHash() => r'522ee3430dcf47baeb43312fabdedb2fa597985d';
+
+/// The number of balls to have on screen
+///
+/// Copied from [BallCount].
+@ProviderFor(BallCount)
+final ballCountProvider = AutoDisposeNotifierProvider<BallCount, int>.internal(
+  BallCount.new,
+  name: r'ballCountProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$ballCountHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$BallCount = AutoDisposeNotifier<int>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

@@ -25,6 +25,21 @@ class Forge2DExample extends Forge2DGame with RiverpodGameMixin {
       [for (final position in WallPosition.values) Wall(position)];
 
   @override
+  void onMount() {
+    super.onMount();
+    addToGameWidgetBuild(() {
+      ref.listen(ballCountProvider, (prev, next) {
+        var diff = world.children.whereType<Ball>().length.compareTo(next);
+        if (diff < 0) {
+          world.add(Ball());
+        } else if (diff > 0) {
+          world.children.whereType<Ball>().firstOrNull?.removeFromParent();
+        }
+      });
+    });
+  }
+
+  @override
   void onGameResize(Vector2 size) {
     super.onGameResize(size);
     world.removeAll(world.children.whereType<Wall>());

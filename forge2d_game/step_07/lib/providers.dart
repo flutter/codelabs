@@ -7,9 +7,19 @@ import 'game.dart';
 
 part 'providers.g.dart';
 
-/// The game instance.
+/// The resettable game instance.
 @riverpod
-Forge2DExample forge2dGame(Forge2dGameRef ref) => Forge2DExample();
+class Forge2dGame extends _$Forge2dGame {
+  var _game = Forge2DExample();
+
+  @override
+  Forge2DExample build() => _game;
+
+  void reset() {
+    _game = Forge2DExample();
+    ref.invalidateSelf();
+  }
+}
 
 /// An on tap callback.
 @riverpod
@@ -21,6 +31,25 @@ class OnTap extends _$OnTap {
 
   void increment() {
     _counter++;
+    ref.invalidateSelf();
+  }
+}
+
+/// The number of balls to have on screen
+@riverpod
+class BallCount extends _$BallCount {
+  int _count = 1;
+
+  @override
+  int build() => _count;
+
+  addBall() {
+    _count++;
+    ref.invalidateSelf();
+  }
+
+  removeBall() {
+    _count--;
     ref.invalidateSelf();
   }
 }
