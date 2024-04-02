@@ -16,7 +16,7 @@ class Forge2DExample extends Forge2DGame with RiverpodGameMixin {
     await super.onLoad();
 
     await camera.viewport
-        .addAll([BottomRightFpsTextComponent(), RiverpodAwareTextComponent()]);
+        .addAll([BottomRightFpsTextComponent(), TapCountComponent()]);
     world.add(Ball());
     await world.addAll(createBoundaries());
   }
@@ -116,7 +116,7 @@ class Wall extends BodyComponent {
   }
 }
 
-class RiverpodAwareTextComponent extends PositionComponent
+class TapCountComponent extends PositionComponent
     with RiverpodComponentMixin, HasGameRef<Forge2DExample> {
   TextComponent? textComponent;
   int currentValue = 0;

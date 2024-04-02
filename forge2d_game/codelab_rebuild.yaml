@@ -304,7 +304,7 @@ steps:
               await super.onLoad();
 
               await camera.viewport
-                  .addAll([BottomRightFpsTextComponent(), RiverpodAwareTextComponent()]);
+                  .addAll([BottomRightFpsTextComponent(), TapCountComponent()]);
               world.add(Ball());
               await world.addAll(createBoundaries());
             }

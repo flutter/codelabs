@@ -16,7 +16,7 @@ class Forge2DExample extends Forge2DGame with RiverpodGameMixin {
     await super.onLoad();
 
     await camera.viewport
-        .addAll([BottomRightFpsTextComponent(), RiverpodAwareTextComponent()]);
+        .addAll([BottomRightFpsTextComponent(), TapCountComponent()]);
     world.add(Ball());
     await world.addAll(createBoundaries());
   }
