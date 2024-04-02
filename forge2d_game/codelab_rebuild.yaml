@@ -797,5 +797,21 @@ steps:
       - name: Flutter clean
         path: step_06
         flutter: clean
+  - name: step_07
+    steps:
+      - name: Remove generated code
+        rmdir: step_07
+
+
+      - name: Run build_runner
+        path: forge2d_game
+        dart: run build_runner build --delete-conflicting-outputs
+      - name: Copy step_07
+        copydir:
+          from: forge2d_game
+          to: step_07
+      - name: Flutter clean
+        path: step_07
+        flutter: clean
   - name: Cleanup
     rmdir: forge2d_game
