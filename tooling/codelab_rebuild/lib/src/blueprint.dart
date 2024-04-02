@@ -128,6 +128,11 @@ class BlueprintStep {
   @JsonKey(name: 'xcode-project-path')
   final String? xcodeProjectPath;
 
+  // Modifies a macOS MainMenu.xib file to make the titlebar transparent,
+  // content full window, and hide the title bar.
+  @JsonKey(name: 'full-screen-macos-main-menu-xib')
+  final String? macOsMainMenuXib;
+
   BlueprintStep({
     required this.name,
     this.steps = const [],
@@ -157,6 +162,7 @@ class BlueprintStep {
     this.stop,
     this.xcodeAddFile,
     this.xcodeProjectPath,
+    this.macOsMainMenuXib,
   }) {
     if (name.isEmpty) {
       throw ArgumentError.value(name, 'name', 'Cannot be empty.');
@@ -196,7 +202,8 @@ class BlueprintStep {
         sevenZip == null &&
         stripLinesContaining == null &&
         xcodeAddFile == null &&
-        xcodeProjectPath == null) {
+        xcodeProjectPath == null &&
+        macOsMainMenuXib == null) {
       _logger.warning('Invalid step with no action: $name');
       return false;
     }
@@ -226,7 +233,8 @@ class BlueprintStep {
           sevenZip != null ||
           stripLinesContaining != null ||
           xcodeAddFile != null ||
-          xcodeProjectPath != null) {
+          xcodeProjectPath != null ||
+          macOsMainMenuXib != null) {
         _logger.warning('Invalid step sub-steps and other commands: $name');
         return false;
       }

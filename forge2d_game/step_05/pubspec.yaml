@@ -1,0 +1,29 @@
+name: forge2d_game
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: '>=3.3.3 <4.0.0'
+
+dependencies:
+  flame: ^1.17.0
+  flame_forge2d: ^0.17.1
+  flame_riverpod: ^5.4.1
+  flutter:
+    sdk: flutter
+  flutter_riverpod: ^2.5.1
+  riverpod: ^2.5.1
+  riverpod_annotation: ^2.3.5
+
+dev_dependencies:
+  build_runner: ^2.4.9
+  custom_lint: ^0.6.4
+  flutter_lints: ^3.0.0
+  flutter_test:
+    sdk: flutter
+  riverpod_generator: ^2.4.0
+  riverpod_lint: ^2.3.10
+
+flutter:
+  uses-material-design: true

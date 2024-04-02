@@ -1,92 +1,48 @@
+// Copyright 2024 The Flutter Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flame/components.dart';
-import 'package:flame/events.dart';
-import 'package:flame/extensions.dart';
 import 'package:flame/game.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:flame_riverpod/flame_riverpod.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/material.dart';
 
 void main() {
   runApp(
-    ProviderScope(
-      child: GameWidget.controlled(
-        gameFactory: Forge2DExample.new,
+    MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        body: GameWidget.controlled(
+          gameFactory: Forge2DExample.new,
+          loadingBuilder: (context) => Center(
+            child: CircularProgressIndicator(),
+          ),
+          errorBuilder: (context, error) => Center(
+            child: Text('Error: $error'),
+          ),
+        ),
       ),
     ),
   );
 }
 
-class Forge2DExample extends Forge2DGame with RiverpodGameMixin {
+class Forge2DExample extends Forge2DGame {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
 
-    final size = camera.viewport.size;
-
     camera.viewport.add(
-      FpsTextComponent(
-        anchor: Anchor.bottomRight,
-        position: size - Vector2(10, 10),
-      ),
+      BottomRightFpsTextComponent(),
     );
-    world.add(Ball());
-    await world.addAll(createBoundaries());
-  }
-
-  List<Component> createBoundaries() {
-    final visibleRect = camera.visibleWorldRect;
-    final topLeft = visibleRect.topLeft.toVector2();
-    final topRight = visibleRect.topRight.toVector2();
-    final bottomRight = visibleRect.bottomRight.toVector2();
-    final bottomLeft = visibleRect.bottomLeft.toVector2();
-
-    return [
-      Wall(topLeft, topRight),
-      Wall(topRight, bottomRight),
-      Wall(bottomLeft, bottomRight),
-      Wall(topLeft, bottomLeft),
-    ];
   }
 }
 
-class Ball extends BodyComponent with TapCallbacks {
-  Ball({Vector2? initialPosition})
-      : super(
-          fixtureDefs: [
-            FixtureDef(
-              CircleShape()..radius = 5,
-              restitution: 0.8,
-              friction: 0.4,
-            ),
-          ],
-          bodyDef: BodyDef(
-            angularDamping: 0.8,
-            position: initialPosition ?? Vector2.zero(),
-            type: BodyType.dynamic,
-          ),
-        );
+class BottomRightFpsTextComponent extends FpsTextComponent {
+  BottomRightFpsTextComponent() : super(anchor: Anchor.bottomRight);
 
   @override
-  void onTapDown(event) {
-    body.applyLinearImpulse(Vector2.random() * 5000);
-  }
-}
-
-class Wall extends BodyComponent {
-  final Vector2 _start;
-  final Vector2 _end;
-
-  Wall(this._start, this._end);
-
-  @override
-  Body createBody() {
-    final shape = EdgeShape()..set(_start, _end);
-    final fixtureDef = FixtureDef(shape, friction: 0.3);
-    final bodyDef = BodyDef(
-      position: Vector2.zero(),
-    );
-
-    return world.createBody(bodyDef)..createFixture(fixtureDef);
+  void onGameResize(Vector2 size) {
+    super.onGameResize(size);
+    position = size - Vector2(12, 10);
   }
 }
