@@ -1,9 +1,9 @@
 name: Forge2D Game rebuild script
 steps:
-  - name: step_03
+  - name: step_13
     steps:
       - name: Remove generated code
-        rmdir: step_03
+        rmdir: step_13
       - name: Create project
         flutter: create --empty forge2d_game 
       - name: Make the macOS titlebar transparent, content full window, and hide the title bar.
@@ -50,8 +50,8 @@ steps:
       - name: fix pubspec.yaml ordering
         path: forge2d_game/pubspec.yaml
         patch: |
-          --- b/forge2d_game/step_03/pubspec.yaml
-          +++ a/forge2d_game/step_03/pubspec.yaml
+          --- b/forge2d_game/step_13/pubspec.yaml
+          +++ a/forge2d_game/step_13/pubspec.yaml
           @@ -13,9 +13,9 @@ dependencies:
                sdk: flutter
            
@@ -134,22 +134,22 @@ steps:
         platforms: [ windows ]
         path: forge2d_game
         flutter: build windows
-      - name: Copy step_03
+      - name: Copy step_13
         copydir:
           from: forge2d_game
-          to: step_03
+          to: step_13
       - name: Flutter clean
-        path: step_03
+        path: step_13
         flutter: clean
-  - name: step_04
+  - name: step_14
     steps:
       - name: Remove generated code
-        rmdir: step_04
+        rmdir: step_14
       - name: Patch lib/main
         path: forge2d_game/lib/main.dart
         patch: |
-          --- b/forge2d_game/step_04/lib/main.dart
-          +++ a/forge2d_game/step_04/lib/main.dart
+          --- b/forge2d_game/step_14/lib/main.dart
+          +++ a/forge2d_game/step_14/lib/main.dart
           @@ -3,6 +3,8 @@
            // found in the LICENSE file.
            
@@ -255,25 +255,25 @@ steps:
           +    return world.createBody(bodyDef)..createFixture(fixtureDef);
           +  }
           +}
-      - name: Copy step_04
+      - name: Copy step_14
         copydir:
           from: forge2d_game
-          to: step_04
+          to: step_14
       - name: Flutter clean
-        path: step_04
+        path: step_14
         flutter: clean
-  - name: step_05
+  - name: step_15
     steps:
       - name: Remove generated code
-        rmdir: step_05
+        rmdir: step_15
       - name: Add dependencies
         path: forge2d_game
         flutter: pub add riverpod flutter_riverpod flame_riverpod riverpod_annotation dev:riverpod_generator dev:build_runner dev:custom_lint dev:riverpod_lint
       - name: Patch analysis_options.yaml
         path: forge2d_game/analysis_options.yaml
         patch: |
-          --- b/forge2d_game/step_05/analysis_options.yaml
-          +++ a/forge2d_game/step_05/analysis_options.yaml
+          --- b/forge2d_game/step_15/analysis_options.yaml
+          +++ a/forge2d_game/step_15/analysis_options.yaml
           @@ -3,6 +3,8 @@ include: ../../analysis_options.yaml
            analyzer:
              language:
@@ -465,8 +465,8 @@ steps:
       - name: Patch main.dart
         path: forge2d_game/lib/main.dart
         patch: |
-          --- b/forge2d_game/step_05/lib/main.dart
-          +++ a/forge2d_game/step_05/lib/main.dart
+          --- b/forge2d_game/step_15/lib/main.dart
+          +++ a/forge2d_game/step_15/lib/main.dart
           @@ -2,134 +2,43 @@
            // Use of this source code is governed by a BSD-style license that can be
            // found in the LICENSE file.
@@ -629,17 +629,17 @@ steps:
       - name: Run build_runner
         path: forge2d_game
         dart: run build_runner build --delete-conflicting-outputs
-      - name: Copy step_05
+      - name: Copy step_15
         copydir:
           from: forge2d_game
-          to: step_05
+          to: step_15
       - name: Flutter clean
-        path: step_05
+        path: step_15
         flutter: clean
-  - name: step_06
+  - name: step_16
     steps:
       - name: Remove generated code
-        rmdir: step_06
+        rmdir: step_16
       - name: Add dependencies
         path: forge2d_game
         flutter: pub add intl
@@ -689,8 +689,8 @@ steps:
       - name: Patch lib/main.dart
         path: forge2d_game/lib/main.dart
         patch: |
-          --- a/forge2d_game/step_06/lib/main.dart
-          +++ b/forge2d_game/step_06/lib/main.dart
+          --- a/forge2d_game/step_16/lib/main.dart
+          +++ b/forge2d_game/step_16/lib/main.dart
           @@ -2,12 +2,15 @@
            // Use of this source code is governed by a BSD-style license that can be
            // found in the LICENSE file.
@@ -790,22 +790,22 @@ steps:
       - name: Run build_runner
         path: forge2d_game
         dart: run build_runner build --delete-conflicting-outputs
-      - name: Copy step_06
+      - name: Copy step_16
         copydir:
           from: forge2d_game
-          to: step_06
+          to: step_16
       - name: Flutter clean
-        path: step_06
+        path: step_16
         flutter: clean
-  - name: step_07
+  - name: step_17
     steps:
       - name: Remove generated code
-        rmdir: step_07
+        rmdir: step_17
       - name: Patch lib/providers.dart
         path: forge2d_game/lib/providers.dart
         patch: |
-          --- a/forge2d_game/step_07/lib/providers.dart
-          +++ b/forge2d_game/step_07/lib/providers.dart
+          --- a/forge2d_game/step_17/lib/providers.dart
+          +++ b/forge2d_game/step_17/lib/providers.dart
           @@ -7,9 +7,19 @@ import 'game.dart';
            
            part 'providers.g.dart';
@@ -854,8 +854,8 @@ steps:
       - name: Patch lib/game.dart
         path: forge2d_game/lib/game.dart
         patch: |
-          --- a/forge2d_game/step_07/lib/game.dart
-          +++ b/forge2d_game/step_07/lib/game.dart
+          --- a/forge2d_game/step_17/lib/game.dart
+          +++ b/forge2d_game/step_17/lib/game.dart
           @@ -24,6 +24,21 @@ class Forge2DExample extends Forge2DGame with RiverpodGameMixin {
              List<Component> createBoundaries() =>
                  [for (final position in WallPosition.values) Wall(position)];
@@ -881,8 +881,8 @@ steps:
       - name: Patch lib/main.dart
         path: forge2d_game/lib/main.dart
         patch: |
-          --- a/forge2d_game/step_07/lib/main.dart
-          +++ b/forge2d_game/step_07/lib/main.dart
+          --- a/forge2d_game/step_17/lib/main.dart
+          +++ b/forge2d_game/step_17/lib/main.dart
           @@ -65,6 +65,35 @@ class GameComponentsList extends ConsumerWidget {
                return TickerBuilder(
                  builder: (context) => ListView(
@@ -922,12 +922,12 @@ steps:
       - name: Run build_runner
         path: forge2d_game
         dart: run build_runner build --delete-conflicting-outputs
-      - name: Copy step_07
+      - name: Copy step_17
         copydir:
           from: forge2d_game
-          to: step_07
+          to: step_17
       - name: Flutter clean
-        path: step_07
+        path: step_17
         flutter: clean
   - name: Cleanup
     rmdir: forge2d_game
