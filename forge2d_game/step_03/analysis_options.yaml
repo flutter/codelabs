@@ -1,0 +1,10 @@
+include: ../../analysis_options.yaml
+
+analyzer:
+  language:
+    strict-inference: false
+
+linter:
+  rules:
+    prefer_const_constructors: false
+    sort_pub_dependencies: true
