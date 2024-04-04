@@ -39,7 +39,7 @@ class AudioController {
     final musicSource = await _soloud!
         .loadAsset('assets/music/looped-song.ogg', mode: LoadMode.disk);
     musicSource.allInstancesFinished.first.then((_) {
-      _soloud!.disposeSound(musicSource);
+      _soloud!.disposeSource(musicSource);
       _log.info('Music source disposed');
       _musicHandle = null;
     });
