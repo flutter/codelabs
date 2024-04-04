@@ -11,9 +11,13 @@ import 'ground.dart';
 import 'player.dart';
 
 class PhysicsGame extends Forge2DGame {
-  PhysicsGame() : super(gravity: Vector2(0, 10));
+  PhysicsGame()
+      : super(
+          gravity: Vector2(0, 10),
+          cameraComponent:
+              CameraComponent.withFixedResolution(width: 800, height: 600),
+        );
 
-  bool _imagesLoaded = false;
   late final XmlSpriteSheet aliens;
   late final XmlSpriteSheet elements;
   late final XmlSpriteSheet tiles;
@@ -32,7 +36,6 @@ class PhysicsGame extends Forge2DGame {
         await rootBundle.loadString('assets/spritesheet_elements.xml'));
     tiles = XmlSpriteSheet(loadedImages[3],
         await rootBundle.loadString('assets/spritesheet_tiles.xml'));
-    _imagesLoaded = true;
 
     await world.add(Background(sprite: Sprite(loadedImages[0])));
     await addGround();
@@ -43,7 +46,6 @@ class PhysicsGame extends Forge2DGame {
   }
 
   Future<void> addGround() async {
-    world.removeAll(world.children.whereType<Ground>());
     final grounds = <Ground>[];
     final groundHeight = camera.visibleWorldRect.height / 2 - 3;
     for (var x = camera.visibleWorldRect.left;
@@ -76,14 +78,6 @@ class PhysicsGame extends Forge2DGame {
         ),
       ),
     );
-  }
-
-  @override
-  void onGameResize(Vector2 size) {
-    super.onGameResize(size);
-    if (_imagesLoaded) {
-      addGround();
-    }
   }
 
   @override
