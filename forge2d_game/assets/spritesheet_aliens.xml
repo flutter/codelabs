@@ -1,0 +1,17 @@
+<TextureAtlas imagePath="sheet.png">
+	<SubTexture name="alienBeige_round.png" x="0" y="70" width="70" height="70"/>
+	<SubTexture name="alienBeige_square.png" x="0" y="0" width="70" height="70"/>
+	<SubTexture name="alienBeige_suit.png" x="140" y="70" width="70" height="70"/>
+	<SubTexture name="alienBlue_round.png" x="280" y="70" width="70" height="70"/>
+	<SubTexture name="alienBlue_square.png" x="280" y="0" width="70" height="70"/>
+	<SubTexture name="alienBlue_suit.png" x="210" y="140" width="70" height="70"/>
+	<SubTexture name="alienGreen_round.png" x="210" y="70" width="70" height="70"/>
+	<SubTexture name="alienGreen_square.png" x="210" y="0" width="70" height="70"/>
+	<SubTexture name="alienGreen_suit.png" x="140" y="140" width="70" height="70"/>
+	<SubTexture name="alienPink_round.png" x="280" y="140" width="70" height="70"/>
+	<SubTexture name="alienPink_square.png" x="140" y="0" width="70" height="70"/>
+	<SubTexture name="alienPink_suit.png" x="70" y="140" width="70" height="70"/>
+	<SubTexture name="alienYellow_round.png" x="70" y="70" width="70" height="70"/>
+	<SubTexture name="alienYellow_square.png" x="70" y="0" width="70" height="70"/>
+	<SubTexture name="alienYellow_suit.png" x="0" y="140" width="70" height="70"/>
+</TextureAtlas>

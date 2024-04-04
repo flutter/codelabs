@@ -1,0 +1,8 @@
+include: package:flutter_lints/flutter.yaml
+
+# Lint rules
+linter:
+  rules:
+    directives_ordering: true
+    prefer_const_constructors: false
+    sort_pub_dependencies: true

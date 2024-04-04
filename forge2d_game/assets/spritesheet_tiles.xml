@@ -1,0 +1,22 @@
+<TextureAtlas imagePath="sheet.png">
+	<SubTexture name="bush.png" x="70" y="140" width="70" height="70"/>
+	<SubTexture name="cactus.png" x="70" y="70" width="70" height="70"/>
+	<SubTexture name="coinBronze.png" x="70" y="0" width="70" height="70"/>
+	<SubTexture name="coinDiamond.png" x="0" y="140" width="70" height="70"/>
+	<SubTexture name="coinGold.png" x="0" y="70" width="70" height="70"/>
+	<SubTexture name="coinSilver.png" x="0" y="0" width="70" height="70"/>
+	<SubTexture name="dirt.png" x="210" y="0" width="70" height="70"/>
+	<SubTexture name="flagBlue.png" x="420" y="0" width="70" height="70"/>
+	<SubTexture name="flagGreen.png" x="350" y="140" width="70" height="70"/>
+	<SubTexture name="flagRed.png" x="350" y="70" width="70" height="70"/>
+	<SubTexture name="flagYellow.png" x="350" y="0" width="70" height="70"/>
+	<SubTexture name="frozenBush.png" x="280" y="140" width="70" height="70"/>
+	<SubTexture name="grass.png" x="280" y="70" width="70" height="70"/>
+	<SubTexture name="rock.png" x="280" y="0" width="70" height="70"/>
+	<SubTexture name="sand.png" x="210" y="140" width="70" height="70"/>
+	<SubTexture name="snow.png" x="210" y="70" width="70" height="70"/>
+	<SubTexture name="starBronze.png" x="420" y="70" width="70" height="70"/>
+	<SubTexture name="starDiamond.png" x="140" y="140" width="70" height="70"/>
+	<SubTexture name="starGold.png" x="140" y="70" width="70" height="70"/>
+	<SubTexture name="starSilver.png" x="140" y="0" width="70" height="70"/>
+</TextureAtlas>
