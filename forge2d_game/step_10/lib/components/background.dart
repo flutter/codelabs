@@ -4,7 +4,7 @@ import 'package:flame/components.dart';
 
 import 'game.dart';
 
-class Background extends SpriteComponent with HasGameReference<PhysicsGame> {
+class Background extends SpriteComponent with HasGameReference<MyPhysicsGame> {
   Background({required super.sprite})
       : super(
           anchor: Anchor.center,

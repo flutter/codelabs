@@ -17,7 +17,7 @@ class Ground extends BodyComponent {
     add(SpriteComponent(
       anchor: Anchor.center,
       scale: Vector2.all(groundSize / groundImageSize),
-      sprite: (game as PhysicsGame).tiles.getSprite('grass.png'),
+      sprite: (game as MyPhysicsGame).tiles.getSprite('grass.png'),
       size: Vector2(groundSize, groundSize),
       position: Vector2(0, 0),
     ));

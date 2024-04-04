@@ -52,7 +52,7 @@ class Brick extends BodyComponent with ContactCallbacks {
   BrickDamage get damage => _damage;
   set damage(BrickDamage value) {
     _damage = value;
-    final sprite = (game as PhysicsGame).elements.getSprite(
+    final sprite = (game as MyPhysicsGame).elements.getSprite(
           _brickFileName(type, size, _damage),
         );
     _spriteComponent.sprite = sprite;
@@ -324,7 +324,7 @@ class Brick extends BodyComponent with ContactCallbacks {
     _spriteComponent = SpriteComponent(
       anchor: Anchor.center,
       scale: Vector2.all(1),
-      sprite: (game as PhysicsGame).elements.getSprite(
+      sprite: (game as MyPhysicsGame).elements.getSprite(
             _brickFileName(type, size, _damage),
           ),
       size: size.size.toVector2() / 10,
