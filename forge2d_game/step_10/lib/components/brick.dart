@@ -1,12 +1,9 @@
 import 'dart:ui' as ui;
 
 import 'package:flame/components.dart';
-import 'package:flame/events.dart';
 import 'package:flame/extensions.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:flutter/foundation.dart';
 
-import '../utils.dart';
 import 'game.dart';
 
 const playerSize = 19.0;
