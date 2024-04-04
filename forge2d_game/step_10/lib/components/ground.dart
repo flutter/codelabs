@@ -6,9 +6,11 @@ const groundSize = 21.0;
 const groundImageSize = 70.0;
 
 class Ground extends BodyComponent {
-  Ground(this.groundPosition);
+  Ground(Vector2 position)
+      : _initialPosition = position,
+        super(renderBody: false);
 
-  final Vector2 groundPosition;
+  final Vector2 _initialPosition;
 
   @override
   Body createBody() {
@@ -21,7 +23,7 @@ class Ground extends BodyComponent {
     ));
     return world.createBody(
       BodyDef()
-        ..position = groundPosition
+        ..position = _initialPosition
         ..type = BodyType.static,
     )..createFixture(FixtureDef(
         PolygonShape()..setAsBox(3, 3, Vector2.zero(), 0),

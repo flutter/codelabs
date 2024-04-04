@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:forge2d_game/components/brick.dart';
 
 import '../utils.dart';
 import 'background.dart';
@@ -32,15 +34,11 @@ class PhysicsGame extends Forge2DGame {
     tiles = XmlSpriteSheet(loadedImages[3],
         await rootBundle.loadString('assets/spritesheet_tiles.xml'));
     _imagesLoaded = true;
-    await addGround();
 
-    await world.addAll([
-      Background(sprite: Sprite(loadedImages[0])),
-      Player(
-        Vector2(camera.visibleWorldRect.left * 2 / 3,
-            camera.visibleWorldRect.top / 3),
-      ),
-    ]);
+    await world.add(Background(sprite: Sprite(loadedImages[0])));
+    await addGround();
+    await addPlayer();
+    await addBricks();
 
     return super.onLoad();
   }
@@ -57,11 +55,43 @@ class PhysicsGame extends Forge2DGame {
     return world.addAll(grounds);
   }
 
+  Future<void> addPlayer() async => world.add(
+        Player(
+          Vector2(
+            camera.visibleWorldRect.left * 2 / 3,
+            camera.visibleWorldRect.top / 3,
+          ),
+          color: PlayerColor.randomColor,
+        ),
+      );
+
+  Future<void> addBricks() async {
+    return world.add(
+      Brick(
+        type: BrickType.metal,
+        size: BrickSize.size70x70,
+        damage: BrickDamage.some,
+        position: Vector2(
+          camera.visibleWorldRect.right * 2 / 3,
+          camera.visibleWorldRect.bottom / 3,
+        ),
+      ),
+    );
+  }
+
   @override
   void onGameResize(Vector2 size) {
     super.onGameResize(size);
     if (_imagesLoaded) {
       addGround();
+    }
+  }
+
+  @override
+  update(dt) {
+    super.update(dt);
+    if (isMounted && world.children.whereType<Player>().isEmpty) {
+      addPlayer();
     }
   }
 }
