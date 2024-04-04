@@ -2,7 +2,6 @@ import 'dart:ui' as ui;
 
 import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
-import 'package:flame/sprite.dart';
 import 'package:xml/xml.dart';
 import 'package:xml/xpath.dart';
 
