@@ -1,6 +1,5 @@
 include: ../../analysis_options.yaml
 
-# Lint rules
 linter:
   rules:
     directives_ordering: true
