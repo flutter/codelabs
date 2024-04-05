@@ -1,9 +1,9 @@
 name: Forge2D Game rebuild script
 steps:
-  - name: step_10
+  - name: step_03
     steps:
       - name: Remove generated code
-        rmdir: step_10
+        rmdir: step_03
       - name: Create project
         flutter: create --empty forge2d_game
       - name: Make the macOS titlebar transparent, content full window, and hide the title bar.
@@ -59,8 +59,8 @@ steps:
       - name: Patch pubspec.yaml
         path: forge2d_game/pubspec.yaml
         patch: |
-          --- b/forge2d_game/step_10/pubspec.yaml
-          +++ a/forge2d_game/step_10/pubspec.yaml
+          --- b/forge2d_game/step_03/pubspec.yaml
+          +++ a/forge2d_game/step_03/pubspec.yaml
           @@ -21,3 +21,6 @@ dev_dependencies:
            
            flutter:
@@ -78,11 +78,85 @@ steps:
           import 'package:flame/game.dart';
           import 'package:flutter/material.dart';
 
-          import 'components/game.dart';
-
           void main() {
-            runApp(GameWidget.controlled(gameFactory: MyPhysicsGame.new));
+            runApp(GameWidget.controlled(gameFactory: FlameGame.new));
           }
+      - name: mkdir bin
+        mkdir: forge2d_game/bin
+      - name: Add bin/modify_macos_config.dart
+        path: forge2d_game/bin/modify_macos_config.dart
+        replace-contents: |
+          // Copyright 2024 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+          
+          import 'dart:io';
+          import 'package:xml/xml.dart';
+          import 'package:xml/xpath.dart';
+          
+          void main() {
+            final file = File('macos/Runner/Base.lproj/MainMenu.xib');
+            var document = XmlDocument.parse(file.readAsStringSync());
+            document.xpath('//document/objects/window').first
+              ..setAttribute('titlebarAppearsTransparent', 'YES')
+              ..setAttribute('titleVisibility', 'hidden');
+            document
+                .xpath('//document/objects/window/windowStyleMask')
+                .first
+                .setAttribute('fullSizeContentView', 'YES');
+            file.writeAsStringSync(document.toString());
+          }
+      - name: mkdir assets/images
+        mkdir: forge2d_game/assets/images
+      - name: Build iOS simulator bundle
+        platforms: [ macos ]
+        path: forge2d_game
+        flutter: build ios --simulator
+      - name: Build Android APK
+        platforms: [ macos ]
+        path: forge2d_game
+        flutter: build apk
+      - name: Build macOS app
+        platforms: [ macos ]
+        path: forge2d_game
+        flutter: build macos
+      - name: Build Linux app
+        platforms: [ linux ]
+        path: forge2d_game
+        flutter: build linux
+      - name: Build Windows app
+        platforms: [ windows ]
+        path: forge2d_game
+        flutter: build windows
+      - name: Build web app
+        path: forge2d_game
+        flutter: build web
+      - name: Copy step_03
+        copydir:
+          from: forge2d_game
+          to: step_03
+      - name: Flutter clean
+        path: step_03
+        flutter: clean
+  - name: step_10
+    steps:
+      - name: Remove generated code
+        rmdir: step_10
+      - name: Patch lib/main.dart
+        path: forge2d_game/lib/main.dart
+        patch: |
+          --- b/forge2d_game/step_10/lib/main.dart
+          +++ a/forge2d_game/step_10/lib/main.dart
+          @@ -5,6 +5,8 @@
+           import 'package:flame/game.dart';
+           import 'package:flutter/material.dart';
+           
+          +import 'components/game.dart';
+          +
+           void main() {
+          -  runApp(GameWidget.controlled(gameFactory: FlameGame.new));
+          +  runApp(GameWidget.controlled(gameFactory: MyPhysicsGame.new));
+           }
       - name: mkdir lib/components
         mkdir: forge2d_game/lib/components
       - name: Add lib/components/game.dart
@@ -801,31 +875,6 @@ steps:
               add(_spriteComponent);
               return body;
             }
-          }
-      - name: mkdir bin
-        mkdir: forge2d_game/bin
-      - name: Add bin/modify_macos_config.dart
-        path: forge2d_game/bin/modify_macos_config.dart
-        replace-contents: |
-          // Copyright 2024 The Flutter Authors. All rights reserved.
-          // Use of this source code is governed by a BSD-style license that can be
-          // found in the LICENSE file.
-          
-          import 'dart:io';
-          import 'package:xml/xml.dart';
-          import 'package:xml/xpath.dart';
-          
-          void main() {
-            final file = File('macos/Runner/Base.lproj/MainMenu.xib');
-            var document = XmlDocument.parse(file.readAsStringSync());
-            document.xpath('//document/objects/window').first
-              ..setAttribute('titlebarAppearsTransparent', 'YES')
-              ..setAttribute('titleVisibility', 'hidden');
-            document
-                .xpath('//document/objects/window/windowStyleMask')
-                .first
-                .setAttribute('fullSizeContentView', 'YES');
-            file.writeAsStringSync(document.toString());
           }
       - name: mkdir assets/images
         mkdir: forge2d_game/assets/images
