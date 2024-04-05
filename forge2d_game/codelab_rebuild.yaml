@@ -141,8 +141,8 @@ steps:
       - name: Patch lib/main.dart
         path: forge2d_game/lib/main.dart
         patch: |
-          --- b/forge2d_game/step_10/lib/main.dart
-          +++ a/forge2d_game/step_10/lib/main.dart
+          --- b/forge2d_game/step_07/lib/main.dart
+          +++ a/forge2d_game/step_07/lib/main.dart
           @@ -5,6 +5,8 @@
            import 'package:flame/game.dart';
            import 'package:flutter/material.dart';
@@ -11876,7 +11876,6 @@ steps:
       - name: Flutter clean
         path: step_04
         flutter: clean
-
   - name: step_05
     steps:
       - name: Remove generated code
@@ -11966,36 +11965,33 @@ steps:
       - name: Flutter clean
         path: step_05
         flutter: clean
-
-  - name: step_10
+  - name: step_06
     steps:
       - name: Remove generated code
-        rmdir: step_10
+        rmdir: step_06
       - name: Patch lib/components/game.dart
         path: forge2d_game/lib/components/game.dart
         patch: |
-          --- b/forge2d_game/step_10/lib/components/game.dart
-          +++ a/forge2d_game/step_10/lib/components/game.dart
-          @@ -13,7 +13,9 @@ import 'package:xml/xml.dart';
+          --- b/forge2d_game/step_07/lib/components/game.dart
+          +++ a/forge2d_game/step_07/lib/components/game.dart
+          @@ -13,7 +13,8 @@ import 'package:xml/xml.dart';
            import 'package:xml/xpath.dart';
            
            import 'background.dart';
-          +import 'brick.dart';
            import 'ground.dart';
           +import 'player.dart';
            
            class MyPhysicsGame extends Forge2DGame {
              MyPhysicsGame()
-          @@ -44,6 +46,8 @@ class MyPhysicsGame extends Forge2DGame {
+          @@ -44,6 +45,7 @@ class MyPhysicsGame extends Forge2DGame {
            
                await world.add(Background(sprite: Sprite(loadedImages[0])));
                await addGround();
           +    await addPlayer();
-          +    await addBricks();
            
                return super.onLoad();
              }
-          @@ -58,6 +62,38 @@ class MyPhysicsGame extends Forge2DGame {
+          @@ -58,6 +60,24 @@ class MyPhysicsGame extends Forge2DGame {
                }
                return world.addAll(grounds);
              }
@@ -12009,20 +12005,6 @@ steps:
           +          color: PlayerColor.randomColor,
           +        ),
           +      );
-          +
-          +  Future<void> addBricks() async {
-          +    return world.add(
-          +      Brick(
-          +        type: BrickType.metal,
-          +        size: BrickSize.size70x70,
-          +        damage: BrickDamage.some,
-          +        position: Vector2(
-          +          camera.visibleWorldRect.right * 2 / 3,
-          +          camera.visibleWorldRect.bottom / 3,
-          +        ),
-          +      ),
-          +    );
-          +  }
           +
           +  @override
           +  update(dt) {
@@ -12147,6 +12129,62 @@ steps:
             String capitalize() =>
                 characters.first.toUpperCase() + characters.skip(1).toLowerCase().join();
           }
+      - name: Build web app
+        path: forge2d_game
+        flutter: build web
+      - name: Copy step_06
+        copydir:
+          from: forge2d_game
+          to: step_06
+      - name: Flutter clean
+        path: step_06
+        flutter: clean
+  - name: step_07
+    steps:
+      - name: Remove generated code
+        rmdir: step_07
+      - name: Patch lib/components/game.dart
+        path: forge2d_game/lib/components/game.dart
+        patch: |
+          --- b/forge2d_game/step_07/lib/components/game.dart
+          +++ a/forge2d_game/step_07/lib/components/game.dart
+          @@ -13,6 +13,7 @@ import 'package:xml/xml.dart';
+           import 'package:xml/xpath.dart';
+           
+           import 'background.dart';
+          +import 'brick.dart';
+           import 'ground.dart';
+           import 'player.dart';
+           
+          @@ -46,6 +47,7 @@ class MyPhysicsGame extends Forge2DGame {
+               await world.add(Background(sprite: Sprite(loadedImages[0])));
+               await addGround();
+               await addPlayer();
+          +    await addBricks();
+           
+               return super.onLoad();
+             }
+          @@ -71,6 +73,20 @@ class MyPhysicsGame extends Forge2DGame {
+                   ),
+                 );
+           
+          +  Future<void> addBricks() async {
+          +    return world.add(
+          +      Brick(
+          +        type: BrickType.metal,
+          +        size: BrickSize.size70x70,
+          +        damage: BrickDamage.some,
+          +        position: Vector2(
+          +          camera.visibleWorldRect.right * 2 / 3,
+          +          camera.visibleWorldRect.bottom / 3,
+          +        ),
+          +      ),
+          +    );
+          +  }
+          +
+             @override
+             update(dt) {
+               super.update(dt);
       - name: Add lib/components/brick.dart
         path: forge2d_game/lib/components/brick.dart
         replace-contents: |
@@ -12493,12 +12531,12 @@ steps:
       - name: Build web app
         path: forge2d_game
         flutter: build web
-      - name: Copy step_10
+      - name: Copy step_07
         copydir:
           from: forge2d_game
-          to: step_10
+          to: step_07
       - name: Flutter clean
-        path: step_10
+        path: step_07
         flutter: clean
   - name: Cleanup
     rmdir: forge2d_game
