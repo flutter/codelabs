@@ -10,7 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  flutter_soloud: ^2.0.0-pre.5
+  flutter_soloud: ^2.0.0
   logging: ^1.2.0
 
 dev_dependencies:
