@@ -68,7 +68,7 @@ class MyPhysicsGame extends Forge2DGame {
             camera.visibleWorldRect.left * 2 / 3,
             camera.visibleWorldRect.top / 3,
           ),
-          color: PlayerColor.randomColor,
+          aliens.getSprite(PlayerColor.randomColor.fileName),
         ),
       );
 

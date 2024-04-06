@@ -4,16 +4,12 @@
 
 import 'dart:math';
 
-import 'package:characters/characters.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
-import 'game.dart';
-
-const playerSize = 19.0;
-const playerImageSize = 70.0;
+const playerSize = 5.0;
 
 enum PlayerColor {
   pink,
@@ -29,16 +25,32 @@ enum PlayerColor {
 }
 
 class Player extends BodyComponent with ContactCallbacks, DragCallbacks {
-  Player(Vector2 position, {this.color = PlayerColor.pink})
+  Player(Vector2 position, Sprite sprite)
       : _initialPosition = position,
+        _sprite = sprite,
         super(renderBody: false);
 
   final Vector2 _initialPosition;
-  final PlayerColor color;
+  final Sprite _sprite;
 
   @override
   Body createBody() {
-    final body = world.createBody(
+    addAll([
+      CustomPainterComponent(
+        painter: _DragPainter(this),
+        anchor: Anchor.center,
+        size: Vector2(playerSize, playerSize),
+        position: Vector2(0, 0),
+      ),
+      SpriteComponent(
+        anchor: Anchor.center,
+        sprite: _sprite,
+        size: Vector2(playerSize, playerSize),
+        position: Vector2(0, 0),
+      )
+    ]);
+
+    return world.createBody(
       BodyDef()
         ..position = _initialPosition
         ..type = BodyType.static
@@ -46,25 +58,17 @@ class Player extends BodyComponent with ContactCallbacks, DragCallbacks {
         ..linearDamping = 0.1
         ..userData = this,
     )..createFixture(
-        FixtureDef(CircleShape()..radius = 2.5)
+        FixtureDef(CircleShape()..radius = playerSize / 2)
           ..restitution = 0.4
-          ..density = 1
+          ..density = 0.75
           ..friction = 0.5,
       );
-
-    add(SpriteComponent(
-      anchor: Anchor.center,
-      scale: Vector2.all(playerSize / playerImageSize),
-      sprite: (game as MyPhysicsGame).aliens.getSprite(color.fileName),
-      size: Vector2(playerSize, playerSize),
-      position: Vector2(0, 0),
-    ));
-    return body;
   }
 
   @override
   update(double dt) {
     super.update(dt);
+
     if (!body.isAwake) {
       // TODO: Add some animation before removing the player.
       removeFromParent();
@@ -77,17 +81,27 @@ class Player extends BodyComponent with ContactCallbacks, DragCallbacks {
     }
   }
 
+  Vector2 _dragStart = Vector2.zero();
+  Vector2 _dragDelta = Vector2.zero();
+  Vector2 get dragDelta => _dragDelta;
+
+  @override
+  void onDragStart(DragStartEvent event) {
+    super.onDragStart(event);
+    _dragStart = event.localPosition;
+  }
+
   @override
   void onDragUpdate(DragUpdateEvent event) {
-    debugPrint('Dragged from ${event.localStartPosition.label} '
-        'to ${event.localEndPosition.label}');
+    _dragDelta = event.localEndPosition - _dragStart;
   }
 
   @override
   void onDragEnd(DragEndEvent event) {
     super.onDragEnd(event);
+    children.whereType<CustomPainterComponent>().first.removeFromParent();
     body.setType(BodyType.dynamic);
-    body.applyLinearImpulse(Vector2(250, -250));
+    body.applyLinearImpulse(_dragDelta * -50);
   }
 
   @override
@@ -100,11 +114,30 @@ class Player extends BodyComponent with ContactCallbacks, DragCallbacks {
   }
 }
 
-extension Vector2Label on Vector2 {
-  String get label => '(${x.toStringAsFixed(2)}, ${y.toStringAsFixed(2)})';
-}
-
-extension CapitalizeString on String {
+extension on String {
   String capitalize() =>
       characters.first.toUpperCase() + characters.skip(1).toLowerCase().join();
+}
+
+class _DragPainter extends CustomPainter {
+  _DragPainter(this.player);
+
+  final Player player;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    if (player.dragDelta != Vector2.zero()) {
+      var center = size.center(Offset.zero);
+      canvas.drawLine(
+          center,
+          center + (player.dragDelta * -1).toOffset(),
+          Paint()
+            ..color = Colors.orange.withOpacity(0.7)
+            ..strokeWidth = 0.4
+            ..strokeCap = StrokeCap.round);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }
