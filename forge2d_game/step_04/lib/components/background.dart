@@ -3,9 +3,7 @@
 // found in the LICENSE file.
 
 import 'dart:math';
-
 import 'package:flame/components.dart';
-
 import 'game.dart';
 
 class Background extends SpriteComponent with HasGameReference<MyPhysicsGame> {
@@ -13,14 +11,13 @@ class Background extends SpriteComponent with HasGameReference<MyPhysicsGame> {
       : super(
           anchor: Anchor.center,
           position: Vector2(0, 0),
-          size: Vector2(100, 100),
         );
 
   @override
-  void onGameResize(Vector2 size) {
-    super.onGameResize(size);
+  void onMount() {
+    super.onMount();
 
-    this.size = Vector2.all(max(
+    size = Vector2.all(max(
       game.camera.visibleWorldRect.width,
       game.camera.visibleWorldRect.height,
     ));
