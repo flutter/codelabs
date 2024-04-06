@@ -18,8 +18,7 @@ class MyPhysicsGame extends Forge2DGame {
   MyPhysicsGame()
       : super(
           gravity: Vector2(0, 10),
-          cameraComponent:
-              CameraComponent.withFixedResolution(width: 800, height: 600),
+          camera: CameraComponent.withFixedResolution(width: 800, height: 600),
         );
 
   late final XmlSpriteSheet aliens;
@@ -73,66 +72,5 @@ class XmlSpriteSheet {
       srcPosition: rect.topLeft.toVector2(),
       srcSize: rect.size.toVector2(),
     );
-  }
-
-  Map<ui.Size, List<String>> groupSpriteNamesBySize() {
-    final groups = <ui.Size, List<String>>{};
-    for (final entry in _rects.entries) {
-      final size = entry.value.size;
-      groups.putIfAbsent(size, () => []).add(entry.key);
-    }
-
-    return groups;
-  }
-
-  String groupElementsBySizeToString() {
-    final groups = groupSpriteNamesBySize();
-    final buff = StringBuffer();
-    for (final size in groups.keys) {
-      buff.writeln('## Size: $size');
-      final entries = groups[size]!;
-      entries.sort();
-      for (final type in ['Explosive', 'Glass', 'Metal', 'Stone', 'Wood']) {
-        buff.writeln('### $type');
-        var where = entries.where((element) => element.contains(type));
-        if (where.length == 5) {
-          buff.writeln(
-              "(BrickType.${type.toLowerCase()}, BrickSize.size${size.width.toInt()}x${size.height.toInt()}, BrickDamage.none) => '${where.elementAt(0)}',");
-          buff.writeln(
-              "(BrickType.${type.toLowerCase()}, BrickSize.size${size.width.toInt()}x${size.height.toInt()}, BrickDamage.some) => '${where.elementAt(1)}',");
-          buff.writeln(
-              "(BrickType.${type.toLowerCase()}, BrickSize.size${size.width.toInt()}x${size.height.toInt()}, BrickDamage.lots) => '${where.elementAt(4)}',");
-        } else if (where.length == 10) {
-          buff.writeln(
-              "(BrickType.${type.toLowerCase()}, BrickSize.size${size.width.toInt()}x${size.height.toInt()}, BrickDamage.none) => '${where.elementAt(3)}',");
-          buff.writeln(
-              "(BrickType.${type.toLowerCase()}, BrickSize.size${size.width.toInt()}x${size.height.toInt()}, BrickDamage.some) => '${where.elementAt(4)}',");
-          buff.writeln(
-              "(BrickType.${type.toLowerCase()}, BrickSize.size${size.width.toInt()}x${size.height.toInt()}, BrickDamage.lots) => '${where.elementAt(9)}',");
-        } else if (where.length == 15) {
-          buff.writeln(
-              "(BrickType.${type.toLowerCase()}, BrickSize.size${size.width.toInt()}x${size.height.toInt()}, BrickDamage.none) => '${where.elementAt(7)}',");
-          buff.writeln(
-              "(BrickType.${type.toLowerCase()}, BrickSize.size${size.width.toInt()}x${size.height.toInt()}, BrickDamage.some) => '${where.elementAt(8)}',");
-          buff.writeln(
-              "(BrickType.${type.toLowerCase()}, BrickSize.size${size.width.toInt()}x${size.height.toInt()}, BrickDamage.lots) => '${where.elementAt(13)}',");
-        } else {
-          buff.writeln(where.toList().join(', '));
-        }
-      }
-    }
-    return buff.toString();
-  }
-
-  String groupSpriteNamesBySizeToString() {
-    final groups = groupSpriteNamesBySize();
-    final buff = StringBuffer();
-    for (final key in groups.keys) {
-      buff.writeln('## Size: $key');
-      buff.writeln(groups[key]!.toList()
-        ..sort()
-        ..join(', '));
-    }
-    return buff.toString();
   }
 }
