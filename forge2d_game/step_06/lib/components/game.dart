@@ -56,7 +56,12 @@ class MyPhysicsGame extends Forge2DGame {
     for (var x = camera.visibleWorldRect.left;
         x < camera.visibleWorldRect.right + 6.3;
         x += 6.3) {
-      grounds.add(Ground(Vector2(x, groundHeight)));
+      grounds.add(
+        Ground(
+          Vector2(x, groundHeight),
+          tiles.getSprite('grass.png'),
+        ),
+      );
     }
     return world.addAll(grounds);
   }

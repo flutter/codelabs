@@ -11822,6 +11822,43 @@ steps:
     steps:
       - name: Remove generated code
         rmdir: step_05
+      - name: Add lib/components/ground.dart
+        path: forge2d_game/lib/components/ground.dart
+        replace-contents: |
+          // Copyright 2024 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+
+          import 'package:flame/components.dart';
+          import 'package:flame_forge2d/flame_forge2d.dart';
+
+          const groundSize = 21.0;
+          const groundImageSize = 70.0;
+
+          class Ground extends BodyComponent {
+            Ground(Vector2 position, Sprite sprite)
+                : super(
+                    renderBody: false,
+                    bodyDef: BodyDef()
+                      ..position = position
+                      ..type = BodyType.static,
+                    fixtureDefs: [
+                      FixtureDef(
+                        PolygonShape()..setAsBox(3, 3, Vector2.zero(), 0),
+                        friction: 0.3,
+                      )
+                    ],
+                    children: [
+                      SpriteComponent(
+                        anchor: Anchor.center,
+                        scale: Vector2.all(groundSize / groundImageSize),
+                        sprite: sprite,
+                        size: Vector2.all(groundSize),
+                        position: Vector2(0, 0),
+                      ),
+                    ],
+                  );
+          }
       - name: Patch lib/components/game.dart
         path: forge2d_game/lib/components/game.dart
         patch: |
@@ -11835,7 +11872,7 @@ steps:
            
            class MyPhysicsGame extends Forge2DGame {
              MyPhysicsGame()
-          @@ -42,9 +43,21 @@ class MyPhysicsGame extends Forge2DGame {
+          @@ -42,9 +43,26 @@ class MyPhysicsGame extends Forge2DGame {
                    await rootBundle.loadString('assets/spritesheet_tiles.xml'));
            
                await world.add(Background(sprite: Sprite(backgroundImage)));
@@ -11850,53 +11887,18 @@ steps:
           +    for (var x = camera.visibleWorldRect.left;
           +        x < camera.visibleWorldRect.right + 6.3;
           +        x += 6.3) {
-          +      grounds.add(Ground(Vector2(x, groundHeight)));
+          +      grounds.add(
+          +        Ground(
+          +          Vector2(x, groundHeight),
+          +          tiles.getSprite('grass.png'),
+          +        ),
+          +      );
           +    }
           +    return world.addAll(grounds);
           +  }
            }
            
            class XmlSpriteSheet {
-      - name: Add lib/components/ground.dart
-        path: forge2d_game/lib/components/ground.dart
-        replace-contents: |
-          // Copyright 2024 The Flutter Authors. All rights reserved.
-          // Use of this source code is governed by a BSD-style license that can be
-          // found in the LICENSE file.
-
-          import 'package:flame/components.dart';
-          import 'package:flame_forge2d/flame_forge2d.dart';
-          import 'game.dart';
-
-          const groundSize = 21.0;
-          const groundImageSize = 70.0;
-
-          class Ground extends BodyComponent {
-            Ground(Vector2 position)
-                : _initialPosition = position,
-                  super(renderBody: false);
-
-            final Vector2 _initialPosition;
-
-            @override
-            Body createBody() {
-              add(SpriteComponent(
-                anchor: Anchor.center,
-                scale: Vector2.all(groundSize / groundImageSize),
-                sprite: (game as MyPhysicsGame).tiles.getSprite('grass.png'),
-                size: Vector2(groundSize, groundSize),
-                position: Vector2(0, 0),
-              ));
-              return world.createBody(
-                BodyDef()
-                  ..position = _initialPosition
-                  ..type = BodyType.static,
-              )..createFixture(FixtureDef(
-                  PolygonShape()..setAsBox(3, 3, Vector2.zero(), 0),
-                  friction: 0.3,
-                ));
-            }
-          }
       - name: Build web app
         path: forge2d_game
         flutter: build web
@@ -11932,7 +11934,7 @@ steps:
            
                return super.onLoad();
              }
-          @@ -58,6 +60,24 @@ class MyPhysicsGame extends Forge2DGame {
+          @@ -63,6 +65,24 @@ class MyPhysicsGame extends Forge2DGame {
                }
                return world.addAll(grounds);
              }
@@ -12105,7 +12107,7 @@ steps:
                await addPlayer();
            
                return super.onLoad();
-          @@ -71,6 +73,20 @@ class MyPhysicsGame extends Forge2DGame {
+          @@ -76,6 +78,20 @@ class MyPhysicsGame extends Forge2DGame {
                    ),
                  );
            
