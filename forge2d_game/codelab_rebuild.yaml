@@ -78,12 +78,16 @@ steps:
           // Copyright 2024 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-          
+
           import 'package:flame/game.dart';
           import 'package:flutter/material.dart';
 
           void main() {
-            runApp(GameWidget.controlled(gameFactory: FlameGame.new));
+            runApp(
+              GameWidget.controlled(
+                gameFactory: FlameGame.new,
+              ),
+            );
           }
       - name: mkdir bin
         mkdir: forge2d_game/bin
@@ -11788,17 +11792,21 @@ steps:
       - name: Patch lib/main.dart
         path: forge2d_game/lib/main.dart
         patch: |
-          --- b/forge2d_game/step_07/lib/main.dart
-          +++ a/forge2d_game/step_07/lib/main.dart
-          @@ -5,6 +5,8 @@
+          --- b/forge2d_game/step_04/lib/main.dart
+          +++ a/forge2d_game/step_04/lib/main.dart
+          @@ -5,10 +5,12 @@
            import 'package:flame/game.dart';
            import 'package:flutter/material.dart';
            
           +import 'components/game.dart';
           +
            void main() {
-          -  runApp(GameWidget.controlled(gameFactory: FlameGame.new));
-          +  runApp(GameWidget.controlled(gameFactory: MyPhysicsGame.new));
+             runApp(
+               GameWidget.controlled(
+          -      gameFactory: FlameGame.new,
+          +      gameFactory: MyPhysicsGame.new,
+               ),
+             );
            }
       - name: Build web app
         path: forge2d_game
