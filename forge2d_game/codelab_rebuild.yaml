@@ -11832,8 +11832,7 @@ steps:
           import 'package:flame/components.dart';
           import 'package:flame_forge2d/flame_forge2d.dart';
 
-          const groundSize = 21.0;
-          const groundImageSize = 70.0;
+          const groundSize = 7.0;
 
           class Ground extends BodyComponent {
             Ground(Vector2 position, Sprite sprite)
@@ -11844,14 +11843,13 @@ steps:
                       ..type = BodyType.static,
                     fixtureDefs: [
                       FixtureDef(
-                        PolygonShape()..setAsBox(3, 3, Vector2.zero(), 0),
+                        PolygonShape()..setAsBoxXY(groundSize / 2, groundSize / 2),
                         friction: 0.3,
                       )
                     ],
                     children: [
                       SpriteComponent(
                         anchor: Anchor.center,
-                        scale: Vector2.all(groundSize / groundImageSize),
                         sprite: sprite,
                         size: Vector2.all(groundSize),
                         position: Vector2(0, 0),
@@ -11872,7 +11870,7 @@ steps:
            
            class MyPhysicsGame extends Forge2DGame {
              MyPhysicsGame()
-          @@ -42,9 +43,26 @@ class MyPhysicsGame extends Forge2DGame {
+          @@ -42,9 +43,22 @@ class MyPhysicsGame extends Forge2DGame {
                    await rootBundle.loadString('assets/spritesheet_tiles.xml'));
            
                await world.add(Background(sprite: Sprite(backgroundImage)));
@@ -11881,20 +11879,16 @@ steps:
                return super.onLoad();
              }
           +
-          +  Future<void> addGround() async {
-          +    final grounds = <Ground>[];
-          +    final groundHeight = camera.visibleWorldRect.height / 2 - 3;
-          +    for (var x = camera.visibleWorldRect.left;
-          +        x < camera.visibleWorldRect.right + 6.3;
-          +        x += 6.3) {
-          +      grounds.add(
+          +  Future<void> addGround() {
+          +    return world.addAll([
+          +      for (var x = camera.visibleWorldRect.left;
+          +          x < camera.visibleWorldRect.right + groundSize;
+          +          x += groundSize)
           +        Ground(
-          +          Vector2(x, groundHeight),
+          +          Vector2(x, (camera.visibleWorldRect.height - groundSize) / 2),
           +          tiles.getSprite('grass.png'),
           +        ),
-          +      );
-          +    }
-          +    return world.addAll(grounds);
+          +    ]);
           +  }
            }
            
@@ -11934,9 +11928,9 @@ steps:
            
                return super.onLoad();
              }
-          @@ -63,6 +65,24 @@ class MyPhysicsGame extends Forge2DGame {
-               }
-               return world.addAll(grounds);
+          @@ -59,6 +61,24 @@ class MyPhysicsGame extends Forge2DGame {
+                   ),
+               ]);
              }
           +
           +  Future<void> addPlayer() async => world.add(
@@ -12107,7 +12101,7 @@ steps:
                await addPlayer();
            
                return super.onLoad();
-          @@ -76,6 +78,20 @@ class MyPhysicsGame extends Forge2DGame {
+          @@ -72,6 +74,20 @@ class MyPhysicsGame extends Forge2DGame {
                    ),
                  );
            

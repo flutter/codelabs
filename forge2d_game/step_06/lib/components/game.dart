@@ -50,20 +50,16 @@ class MyPhysicsGame extends Forge2DGame {
     return super.onLoad();
   }
 
-  Future<void> addGround() async {
-    final grounds = <Ground>[];
-    final groundHeight = camera.visibleWorldRect.height / 2 - 3;
-    for (var x = camera.visibleWorldRect.left;
-        x < camera.visibleWorldRect.right + 6.3;
-        x += 6.3) {
-      grounds.add(
+  Future<void> addGround() {
+    return world.addAll([
+      for (var x = camera.visibleWorldRect.left;
+          x < camera.visibleWorldRect.right + groundSize;
+          x += groundSize)
         Ground(
-          Vector2(x, groundHeight),
+          Vector2(x, (camera.visibleWorldRect.height - groundSize) / 2),
           tiles.getSprite('grass.png'),
         ),
-      );
-    }
-    return world.addAll(grounds);
+    ]);
   }
 
   Future<void> addPlayer() async => world.add(
