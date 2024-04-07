@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'dart:async';
+import 'dart:math';
 import 'dart:ui' as ui;
 
 import 'package:flame/components.dart';
@@ -13,8 +14,8 @@ import 'package:xml/xml.dart';
 import 'package:xml/xpath.dart';
 
 import 'background.dart';
+import 'brick.dart';
 import 'ground.dart';
-import 'player.dart';
 
 class MyPhysicsGame extends Forge2DGame {
   MyPhysicsGame()
@@ -45,7 +46,7 @@ class MyPhysicsGame extends Forge2DGame {
 
     await world.add(Background(sprite: Sprite(backgroundImage)));
     await addGround();
-    await addPlayer();
+    unawaited(addBricks());
 
     return super.onLoad();
   }
@@ -62,21 +63,30 @@ class MyPhysicsGame extends Forge2DGame {
     ]);
   }
 
-  Future<void> addPlayer() async => world.add(
-        Player(
-          Vector2(
-            camera.visibleWorldRect.left * 2 / 3,
-            camera.visibleWorldRect.top / 3,
+  final _random = Random();
+
+  Future<void> addBricks() async {
+    for (var i = 0; i < 5; i++) {
+      final type = BrickType.randomType;
+      final size = BrickSize.randomSize;
+      await world.add(
+        Brick(
+          type: type,
+          size: size,
+          damage: BrickDamage.some,
+          position: Vector2(
+              camera.visibleWorldRect.right / 3 +
+                  (_random.nextDouble() * 5 - 2.5),
+              0),
+          sprites: brickFileNames(type, size).map(
+            (key, filename) => MapEntry(
+              key,
+              elements.getSprite(filename),
+            ),
           ),
-          aliens.getSprite(PlayerColor.randomColor.fileName),
         ),
       );
-
-  @override
-  update(dt) {
-    super.update(dt);
-    if (isMounted && world.children.whereType<Player>().isEmpty) {
-      addPlayer();
+      await Future<void>.delayed(const Duration(milliseconds: 500));
     }
   }
 }

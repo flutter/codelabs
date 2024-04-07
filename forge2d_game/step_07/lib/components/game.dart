@@ -65,13 +65,6 @@ class MyPhysicsGame extends Forge2DGame {
     ]);
   }
 
-  Future<void> addPlayer() async => world.add(
-        Player(
-          Vector2(camera.visibleWorldRect.left * 2 / 3, 0),
-          aliens.getSprite(PlayerColor.randomColor.fileName),
-        ),
-      );
-
   final _random = Random();
 
   Future<void> addBricks() async {
@@ -98,6 +91,13 @@ class MyPhysicsGame extends Forge2DGame {
       await Future<void>.delayed(const Duration(milliseconds: 500));
     }
   }
+
+  Future<void> addPlayer() async => world.add(
+        Player(
+          Vector2(camera.visibleWorldRect.left * 2 / 3, 0),
+          aliens.getSprite(PlayerColor.randomColor.fileName),
+        ),
+      );
 
   @override
   update(dt) {

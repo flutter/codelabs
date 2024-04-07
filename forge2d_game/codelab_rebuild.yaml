@@ -11907,212 +11907,6 @@ steps:
     steps:
       - name: Remove generated code
         rmdir: step_06
-      - name: Patch lib/components/game.dart
-        path: forge2d_game/lib/components/game.dart
-        patch: |
-          --- b/forge2d_game/step_06/lib/components/game.dart
-          +++ a/forge2d_game/step_06/lib/components/game.dart
-          @@ -14,6 +14,7 @@ import 'package:xml/xpath.dart';
-           
-           import 'background.dart';
-           import 'ground.dart';
-          +import 'player.dart';
-           
-           class MyPhysicsGame extends Forge2DGame {
-             MyPhysicsGame()
-          @@ -44,6 +45,7 @@ class MyPhysicsGame extends Forge2DGame {
-           
-               await world.add(Background(sprite: Sprite(backgroundImage)));
-               await addGround();
-          +    await addPlayer();
-           
-               return super.onLoad();
-             }
-          @@ -59,6 +61,24 @@ class MyPhysicsGame extends Forge2DGame {
-                   ),
-               ]);
-             }
-          +
-          +  Future<void> addPlayer() async => world.add(
-          +        Player(
-          +          Vector2(
-          +            camera.visibleWorldRect.left * 2 / 3,
-          +            camera.visibleWorldRect.top / 3,
-          +          ),
-          +          aliens.getSprite(PlayerColor.randomColor.fileName),
-          +        ),
-          +      );
-          +
-          +  @override
-          +  update(dt) {
-          +    super.update(dt);
-          +    if (isMounted && world.children.whereType<Player>().isEmpty) {
-          +      addPlayer();
-          +    }
-          +  }
-           }
-           
-           class XmlSpriteSheet {
-      - name: Add lib/components/player.dart
-        path: forge2d_game/lib/components/player.dart
-        replace-contents: |
-          // Copyright 2024 The Flutter Authors. All rights reserved.
-          // Use of this source code is governed by a BSD-style license that can be
-          // found in the LICENSE file.
-
-          import 'dart:math';
-
-          import 'package:flame/components.dart';
-          import 'package:flame/events.dart';
-          import 'package:flame_forge2d/flame_forge2d.dart';
-          import 'package:flutter/material.dart';
-
-          const playerSize = 5.0;
-
-          enum PlayerColor {
-            pink,
-            blue,
-            green,
-            yellow;
-
-            static PlayerColor get randomColor =>
-                PlayerColor.values[Random().nextInt(PlayerColor.values.length)];
-
-            String get fileName =>
-                'alien${toString().split('.').last.capitalize()}_round.png';
-          }
-
-          class Player extends BodyComponent with ContactCallbacks, DragCallbacks {
-            Player(Vector2 position, Sprite sprite)
-                : _initialPosition = position,
-                  _sprite = sprite,
-                  super(renderBody: false);
-
-            final Vector2 _initialPosition;
-            final Sprite _sprite;
-
-            @override
-            Body createBody() {
-              addAll([
-                CustomPainterComponent(
-                  painter: _DragPainter(this),
-                  anchor: Anchor.center,
-                  size: Vector2(playerSize, playerSize),
-                  position: Vector2(0, 0),
-                ),
-                SpriteComponent(
-                  anchor: Anchor.center,
-                  sprite: _sprite,
-                  size: Vector2(playerSize, playerSize),
-                  position: Vector2(0, 0),
-                )
-              ]);
-
-              return world.createBody(
-                BodyDef()
-                  ..position = _initialPosition
-                  ..type = BodyType.static
-                  ..angularDamping = 0.1
-                  ..linearDamping = 0.1
-                  ..userData = this,
-              )..createFixture(
-                  FixtureDef(CircleShape()..radius = playerSize / 2)
-                    ..restitution = 0.4
-                    ..density = 0.75
-                    ..friction = 0.5,
-                );
-            }
-
-            @override
-            update(double dt) {
-              super.update(dt);
-
-              if (!body.isAwake) {
-                // TODO: Add some animation before removing the player.
-                removeFromParent();
-              }
-
-              if (position.y > camera.visibleWorldRect.bottom + 10 ||
-                  position.x > camera.visibleWorldRect.right + 10 ||
-                  position.x < camera.visibleWorldRect.left - 10) {
-                removeFromParent();
-              }
-            }
-
-            Vector2 _dragStart = Vector2.zero();
-            Vector2 _dragDelta = Vector2.zero();
-            Vector2 get dragDelta => _dragDelta;
-
-            @override
-            void onDragStart(DragStartEvent event) {
-              super.onDragStart(event);
-              _dragStart = event.localPosition;
-            }
-
-            @override
-            void onDragUpdate(DragUpdateEvent event) {
-              _dragDelta = event.localEndPosition - _dragStart;
-            }
-
-            @override
-            void onDragEnd(DragEndEvent event) {
-              super.onDragEnd(event);
-              children.whereType<CustomPainterComponent>().first.removeFromParent();
-              body.setType(BodyType.dynamic);
-              body.applyLinearImpulse(_dragDelta * -50);
-            }
-
-            @override
-            void beginContact(Object other, Contact contact) {
-              super.beginContact(other, contact);
-              debugPrint('$contact');
-              if (other is BodyComponent) {
-                debugPrint('Player began contact with ${other.runtimeType}');
-              }
-            }
-          }
-
-          extension on String {
-            String capitalize() =>
-                characters.first.toUpperCase() + characters.skip(1).toLowerCase().join();
-          }
-
-          class _DragPainter extends CustomPainter {
-            _DragPainter(this.player);
-
-            final Player player;
-
-            @override
-            void paint(Canvas canvas, Size size) {
-              if (player.dragDelta != Vector2.zero()) {
-                var center = size.center(Offset.zero);
-                canvas.drawLine(
-                    center,
-                    center + (player.dragDelta * -1).toOffset(),
-                    Paint()
-                      ..color = Colors.orange.withOpacity(0.7)
-                      ..strokeWidth = 0.4
-                      ..strokeCap = StrokeCap.round);
-              }
-            }
-
-            @override
-            bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
-          }
-      - name: Build web app
-        path: forge2d_game
-        flutter: build web
-      - name: Copy step_06
-        copydir:
-          from: forge2d_game
-          to: step_06
-      - name: Flutter clean
-        path: step_06
-        flutter: clean
-  - name: step_07
-    steps:
-      - name: Remove generated code
-        rmdir: step_07
       - name: Add equatable as a dependency
         path: forge2d_game
         dart: pub add equatable
@@ -12534,8 +12328,8 @@ steps:
       - name: Patch lib/components/game.dart
         path: forge2d_game/lib/components/game.dart
         patch: |
-          --- b/forge2d_game/step_07/lib/components/game.dart
-          +++ a/forge2d_game/step_07/lib/components/game.dart
+          --- b/forge2d_game/step_06/lib/components/game.dart
+          +++ a/forge2d_game/step_06/lib/components/game.dart
           @@ -3,6 +3,7 @@
            // found in the LICENSE file.
            
@@ -12550,29 +12344,21 @@ steps:
            import 'background.dart';
           +import 'brick.dart';
            import 'ground.dart';
-           import 'player.dart';
            
-          @@ -45,6 +47,7 @@ class MyPhysicsGame extends Forge2DGame {
+           class MyPhysicsGame extends Forge2DGame {
+          @@ -44,6 +46,7 @@ class MyPhysicsGame extends Forge2DGame {
            
                await world.add(Background(sprite: Sprite(backgroundImage)));
                await addGround();
           +    unawaited(addBricks());
-               await addPlayer();
            
                return super.onLoad();
-          @@ -64,14 +67,38 @@ class MyPhysicsGame extends Forge2DGame {
-           
-             Future<void> addPlayer() async => world.add(
-                   Player(
-          -          Vector2(
-          -            camera.visibleWorldRect.left * 2 / 3,
-          -            camera.visibleWorldRect.top / 3,
-          -          ),
-          +          Vector2(camera.visibleWorldRect.left * 2 / 3, 0),
-                     aliens.getSprite(PlayerColor.randomColor.fileName),
+             }
+          @@ -59,6 +62,33 @@ class MyPhysicsGame extends Forge2DGame {
                    ),
-                 );
-           
+               ]);
+             }
+          +
           +  final _random = Random();
           +
           +  Future<void> addBricks() async {
@@ -12599,10 +12385,212 @@ steps:
           +      await Future<void>.delayed(const Duration(milliseconds: 500));
           +    }
           +  }
+           }
+           
+           class XmlSpriteSheet {
+      - name: Build web app
+        path: forge2d_game
+        flutter: build web
+      - name: Copy step_06
+        copydir:
+          from: forge2d_game
+          to: step_06
+      - name: Flutter clean
+        path: step_06
+        flutter: clean
+  - name: step_07
+    steps:
+      - name: Remove generated code
+        rmdir: step_07
+      - name: Add lib/components/player.dart
+        path: forge2d_game/lib/components/player.dart
+        replace-contents: |
+          // Copyright 2024 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+
+          import 'dart:math';
+
+          import 'package:flame/components.dart';
+          import 'package:flame/events.dart';
+          import 'package:flame_forge2d/flame_forge2d.dart';
+          import 'package:flutter/material.dart';
+
+          const playerSize = 5.0;
+
+          enum PlayerColor {
+            pink,
+            blue,
+            green,
+            yellow;
+
+            static PlayerColor get randomColor =>
+                PlayerColor.values[Random().nextInt(PlayerColor.values.length)];
+
+            String get fileName =>
+                'alien${toString().split('.').last.capitalize()}_round.png';
+          }
+
+          class Player extends BodyComponent with ContactCallbacks, DragCallbacks {
+            Player(Vector2 position, Sprite sprite)
+                : _initialPosition = position,
+                  _sprite = sprite,
+                  super(renderBody: false);
+
+            final Vector2 _initialPosition;
+            final Sprite _sprite;
+
+            @override
+            Body createBody() {
+              addAll([
+                CustomPainterComponent(
+                  painter: _DragPainter(this),
+                  anchor: Anchor.center,
+                  size: Vector2(playerSize, playerSize),
+                  position: Vector2(0, 0),
+                ),
+                SpriteComponent(
+                  anchor: Anchor.center,
+                  sprite: _sprite,
+                  size: Vector2(playerSize, playerSize),
+                  position: Vector2(0, 0),
+                )
+              ]);
+
+              return world.createBody(
+                BodyDef()
+                  ..position = _initialPosition
+                  ..type = BodyType.static
+                  ..angularDamping = 0.1
+                  ..linearDamping = 0.1
+                  ..userData = this,
+              )..createFixture(
+                  FixtureDef(CircleShape()..radius = playerSize / 2)
+                    ..restitution = 0.4
+                    ..density = 0.75
+                    ..friction = 0.5,
+                );
+            }
+
+            @override
+            update(double dt) {
+              super.update(dt);
+
+              if (!body.isAwake) {
+                // TODO: Add some animation before removing the player.
+                removeFromParent();
+              }
+
+              if (position.y > camera.visibleWorldRect.bottom + 10 ||
+                  position.x > camera.visibleWorldRect.right + 10 ||
+                  position.x < camera.visibleWorldRect.left - 10) {
+                removeFromParent();
+              }
+            }
+
+            Vector2 _dragStart = Vector2.zero();
+            Vector2 _dragDelta = Vector2.zero();
+            Vector2 get dragDelta => _dragDelta;
+
+            @override
+            void onDragStart(DragStartEvent event) {
+              super.onDragStart(event);
+              _dragStart = event.localPosition;
+            }
+
+            @override
+            void onDragUpdate(DragUpdateEvent event) {
+              _dragDelta = event.localEndPosition - _dragStart;
+            }
+
+            @override
+            void onDragEnd(DragEndEvent event) {
+              super.onDragEnd(event);
+              children.whereType<CustomPainterComponent>().first.removeFromParent();
+              body.setType(BodyType.dynamic);
+              body.applyLinearImpulse(_dragDelta * -50);
+            }
+
+            @override
+            void beginContact(Object other, Contact contact) {
+              super.beginContact(other, contact);
+              debugPrint('$contact');
+              if (other is BodyComponent) {
+                debugPrint('Player began contact with ${other.runtimeType}');
+              }
+            }
+          }
+
+          extension on String {
+            String capitalize() =>
+                characters.first.toUpperCase() + characters.skip(1).toLowerCase().join();
+          }
+
+          class _DragPainter extends CustomPainter {
+            _DragPainter(this.player);
+
+            final Player player;
+
+            @override
+            void paint(Canvas canvas, Size size) {
+              if (player.dragDelta != Vector2.zero()) {
+                var center = size.center(Offset.zero);
+                canvas.drawLine(
+                    center,
+                    center + (player.dragDelta * -1).toOffset(),
+                    Paint()
+                      ..color = Colors.orange.withOpacity(0.7)
+                      ..strokeWidth = 0.4
+                      ..strokeCap = StrokeCap.round);
+              }
+            }
+
+            @override
+            bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
+          }
+      - name: Patch lib/components/game.dart
+        path: forge2d_game/lib/components/game.dart
+        patch: |
+          --- b/forge2d_game/step_07/lib/components/game.dart
+          +++ a/forge2d_game/step_07/lib/components/game.dart
+          @@ -16,6 +16,7 @@ import 'package:xml/xpath.dart';
+           import 'background.dart';
+           import 'brick.dart';
+           import 'ground.dart';
+          +import 'player.dart';
+           
+           class MyPhysicsGame extends Forge2DGame {
+             MyPhysicsGame()
+          @@ -47,6 +48,7 @@ class MyPhysicsGame extends Forge2DGame {
+               await world.add(Background(sprite: Sprite(backgroundImage)));
+               await addGround();
+               unawaited(addBricks());
+          +    await addPlayer();
+           
+               return super.onLoad();
+             }
+          @@ -89,6 +91,21 @@ class MyPhysicsGame extends Forge2DGame {
+                 await Future<void>.delayed(const Duration(milliseconds: 500));
+               }
+             }
           +
-             @override
-             update(dt) {
-               super.update(dt);
+          +  Future<void> addPlayer() async => world.add(
+          +        Player(
+          +          Vector2(camera.visibleWorldRect.left * 2 / 3, 0),
+          +          aliens.getSprite(PlayerColor.randomColor.fileName),
+          +        ),
+          +      );
+          +
+          +  @override
+          +  update(dt) {
+          +    super.update(dt);
+          +    if (isMounted && world.children.whereType<Player>().isEmpty) {
+          +      addPlayer();
+          +    }
+          +  }
+           }
+           
+           class XmlSpriteSheet {
       - name: Build web app
         path: forge2d_game
         flutter: build web
