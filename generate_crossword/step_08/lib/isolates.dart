@@ -22,8 +22,8 @@ Stream<WorkQueue> exploreCrosswordSolutions({
   while (!workQueue.isCompleted) {
     final location = workQueue.locationsToTry.keys.toBuiltSet().randomElement();
     try {
-      final crossword = await compute(((WorkQueue, Location) args) {
-        final (workQueue, location) = args;
+      final crossword = await compute(((WorkQueue, Location) workMessage) {
+        final (workQueue, location) = workMessage;
         final direction = workQueue.locationsToTry[location]!;
         final target = workQueue.crossword.characters[location];
         if (target == null) {
@@ -42,16 +42,14 @@ Stream<WorkQueue> exploreCrosswordSolutions({
           for (final (index, character) in word.characters.indexed) {
             if (character != target.character) continue;
 
-            final candidate = switch (direction) {
-              Direction.across => workQueue.crossword.addWord(
-                  direction: Direction.across,
-                  location: location.leftOffset(index),
-                  word: word),
-              Direction.down => workQueue.crossword.addWord(
-                  direction: Direction.down,
-                  location: location.upOffset(index),
-                  word: word)
-            };
+            final candidate = workQueue.crossword.addWord(
+              location: switch (direction) {
+                Direction.across => location.leftOffset(index),
+                Direction.down => location.upOffset(index),
+              },
+              word: word,
+              direction: direction,
+            );
             if (candidate != null) {
               return candidate;
             }

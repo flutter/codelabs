@@ -23,8 +23,8 @@ Stream<Crossword> exploreCrosswordSolutions({
     final location = Location.at(
         _random.nextInt(crossword.width), _random.nextInt(crossword.height));
     try {
-      var candidate = await compute(((String, Direction, Location) args) {
-        final (word, direction, location) = args;
+      var candidate = await compute(((String, Direction, Location) wordToAdd) {
+        final (word, direction, location) = wordToAdd;
         return crossword.addWord(
             word: word, direction: direction, location: location);
       }, (word, direction, location));

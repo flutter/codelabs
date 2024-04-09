@@ -49,7 +49,7 @@ abstract class Location implements Built<Location, LocationBuilder> {
 
   /// Returns a new location built from [updates]. Both [x] and [y] are
   /// required to be non-null.
-  factory Location([Function(LocationBuilder)? updates]) = _$Location;
+  factory Location([void Function(LocationBuilder)? updates]) = _$Location;
   Location._();
 
   /// Returns a location at the given coordinates.
@@ -107,7 +107,7 @@ abstract class CrosswordWord
 
   /// Constructor for [CrosswordWord].
   /// Use [CrosswordWord.word] instead.
-  factory CrosswordWord([Function(CrosswordWordBuilder)? updates]) =
+  factory CrosswordWord([void Function(CrosswordWordBuilder)? updates]) =
       _$CrosswordWord;
   CrosswordWord._();
 }
@@ -147,9 +147,10 @@ abstract class CrosswordCharacter
     });
   }
 
-  /// Constructor for [CrosswordCharacter]
+  /// Constructor for [CrosswordCharacter].
   /// Use [CrosswordCharacter.character] instead.
-  factory CrosswordCharacter([Function(CrosswordCharacterBuilder)? updates]) =
+  factory CrosswordCharacter(
+          [void Function(CrosswordCharacterBuilder)? updates]) =
       _$CrosswordCharacter;
   CrosswordCharacter._();
 }
@@ -157,7 +158,7 @@ abstract class CrosswordCharacter
 /// A crossword puzzle. This is a grid of characters with words placed in it.
 /// The puzzle constraint is in the English crossword puzzle tradition.
 abstract class Crossword implements Built<Crossword, CrosswordBuilder> {
-  /// Serializes and deserializes the [Crossword] class
+  /// Serializes and deserializes the [Crossword] class.
   static Serializer<Crossword> get serializer => _$crosswordSerializer;
 
   /// Width across the [Crossword] puzzle.
@@ -181,10 +182,8 @@ abstract class Crossword implements Built<Crossword, CrosswordBuilder> {
       return false;
     }
 
-    for (final entry in characters.entries) {
-      final location = entry.key;
-      final character = entry.value;
-
+    for (final MapEntry(key: location, value: character)
+        in characters.entries) {
       // All characters must be a part of an across or down word.
       if (character.acrossWord == null && character.downWord == null) {
         return false;
@@ -201,8 +200,7 @@ abstract class Crossword implements Built<Crossword, CrosswordBuilder> {
 
       // Characters above and below this character must be related
       // by a vertical word
-      final up = characters[location.up];
-      if (up != null) {
+      if (characters[location.up] case final up?) {
         if (character.downWord == null) {
           return false;
         }
@@ -211,8 +209,7 @@ abstract class Crossword implements Built<Crossword, CrosswordBuilder> {
         }
       }
 
-      final down = characters[location.down];
-      if (down != null) {
+      if (characters[location.down] case final down?) {
         if (character.downWord == null) {
           return false;
         }
@@ -344,10 +341,9 @@ abstract class Crossword implements Built<Crossword, CrosswordBuilder> {
       ),
     );
 
-    for (final entry in characters.entries) {
-      final location = entry.key;
-      final character = entry.value;
-      grid[location.y][location.x] = character.character;
+    for (final MapEntry(key: Location(:x, :y), value: character)
+        in characters.entries) {
+      grid[y][x] = character.character;
     }
 
     for (final row in grid) {
@@ -391,7 +387,7 @@ abstract class Crossword implements Built<Crossword, CrosswordBuilder> {
 
   /// Constructor for [Crossword].
   /// Use [Crossword.crossword] instead.
-  factory Crossword([Function(CrosswordBuilder)? updates]) = _$Crossword;
+  factory Crossword([void Function(CrosswordBuilder)? updates]) = _$Crossword;
   Crossword._();
 }
 
@@ -401,13 +397,13 @@ abstract class Crossword implements Built<Crossword, CrosswordBuilder> {
 abstract class WorkQueue implements Built<WorkQueue, WorkQueueBuilder> {
   static Serializer<WorkQueue> get serializer => _$workQueueSerializer;
 
-  /// The crossword the worker is working on
+  /// The crossword the worker is working on.
   Crossword get crossword;
 
-  /// The outstanding queue of locations to try
+  /// The outstanding queue of locations to try.
   BuiltMap<Location, Direction> get locationsToTry;
 
-  /// Known bad locations
+  /// Known bad locations.
   BuiltSet<Location> get badLocations;
 
   /// The list of unused candidate words that can be added to this crossword.
@@ -486,7 +482,7 @@ abstract class WorkQueue implements Built<WorkQueue, WorkQueueBuilder> {
             .removeWhere((location, _) => badLocations.contains(location)));
 
   /// Factory constructor for [WorkQueue]
-  factory WorkQueue([Function(WorkQueueBuilder)? updates]) = _$WorkQueue;
+  factory WorkQueue([void Function(WorkQueueBuilder)? updates]) = _$WorkQueue;
 
   WorkQueue._();
 }
@@ -514,16 +510,13 @@ abstract class DisplayInfo implements Built<DisplayInfo, DisplayInfoBuilder> {
   factory DisplayInfo.from({required WorkQueue workQueue}) {
     final gridFilled = (workQueue.crossword.characters.length /
         (workQueue.crossword.width * workQueue.crossword.height));
+    final fmt = NumberFormat.decimalPattern();
 
     return DisplayInfo((b) => b
-      ..wordsInGridCount =
-          NumberFormat.decimalPattern().format(workQueue.crossword.words.length)
-      ..candidateWordsCount =
-          NumberFormat.decimalPattern().format(workQueue.candidateWords.length)
-      ..locationsToExploreCount =
-          NumberFormat.decimalPattern().format(workQueue.locationsToTry.length)
-      ..knownBadLocationsCount =
-          NumberFormat.decimalPattern().format(workQueue.badLocations.length)
+      ..wordsInGridCount = fmt.format(workQueue.crossword.words.length)
+      ..candidateWordsCount = fmt.format(workQueue.candidateWords.length)
+      ..locationsToExploreCount = fmt.format(workQueue.locationsToTry.length)
+      ..knownBadLocationsCount = fmt.format(workQueue.badLocations.length)
       ..gridFilledPercentage = '${(gridFilled * 100).toStringAsFixed(2)}%');
   }
 
@@ -535,7 +528,8 @@ abstract class DisplayInfo implements Built<DisplayInfo, DisplayInfoBuilder> {
     ..knownBadLocationsCount = '0'
     ..gridFilledPercentage = '0%');
 
-  factory DisplayInfo([Function(DisplayInfoBuilder) updates]) = _$DisplayInfo;
+  factory DisplayInfo([void Function(DisplayInfoBuilder)? updates]) =
+      _$DisplayInfo;
   DisplayInfo._();
 }
 

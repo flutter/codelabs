@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'dart:convert';
+
 import 'package:built_collection/built_collection.dart';
 import 'package:flutter/services.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -16,10 +18,10 @@ Future<BuiltSet<String>> wordList(WordListRef ref) async {
   // lowercased, and words containing runes outside this range will
   // be removed.
 
-  final re = RegExp('^[a-z]+\$');
-  final str = await rootBundle.loadString('assets/words.txt');
-  return str.split('\n').toBuiltSet().rebuild((b) => b
-    ..map((str) => str.toLowerCase().trim())
-    ..removeWhere((str) => str.length < 3)
-    ..removeWhere((str) => re.stringMatch(str) == null));
+  final re = RegExp(r'^[a-z]+$');
+  final words = await rootBundle.loadString('assets/words.txt');
+  return const LineSplitter().convert(words).toBuiltSet().rebuild((b) => b
+    ..map((word) => word.toLowerCase().trim())
+    ..where((word) => word.length > 2)
+    ..where((word) => re.hasMatch(word)));
 }

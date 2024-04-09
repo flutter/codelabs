@@ -2,8 +2,6 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'dart:math';
-
 import 'package:built_collection/built_collection.dart';
 import 'package:characters/characters.dart';
 import 'package:flutter/foundation.dart';
@@ -37,26 +35,22 @@ Stream<WorkQueue> exploreCrosswordSolutions({
       'with $maxWorkerCount workers.');
 }
 
-Future<WorkQueue> _generate((WorkQueue, int) args) async {
-  var workQueue = args.$1;
-  final maxWorkerCount = args.$2;
-  final futures = <Future<(Location, Direction, String?)>>[];
-  var locations =
-      workQueue.locationsToTry.keys.toBuiltList().rebuild((b) => b.shuffle());
+Future<WorkQueue> _generate((WorkQueue, int) workMessage) async {
+  var (workQueue, maxWorkerCount) = workMessage;
+  final candidateGeneratorFutures = <Future<(Location, Direction, String?)>>[];
+  final locations = workQueue.locationsToTry.keys.toBuiltList().rebuild((b) => b
+    ..shuffle()
+    ..take(maxWorkerCount));
 
-  for (int id = 0;
-      id < min(maxWorkerCount, workQueue.locationsToTry.length);
-      id = id + 1) {
-    final location = locations.first;
-    locations = locations.rebuild((b) => b.remove(location));
+  for (final location in locations) {
     final direction = workQueue.locationsToTry[location]!;
 
-    futures.add(compute(_generateWorker,
+    candidateGeneratorFutures.add(compute(_generateCandidate,
         (workQueue.crossword, workQueue.candidateWords, location, direction)));
   }
 
   try {
-    final results = await Future.wait(futures);
+    final results = await candidateGeneratorFutures.wait;
     var crossword = workQueue.crossword;
     for (final (location, direction, word) in results) {
       if (word != null) {
@@ -78,9 +72,9 @@ Future<WorkQueue> _generate((WorkQueue, int) args) async {
   return workQueue;
 }
 
-(Location, Direction, String?) _generateWorker(
-    (Crossword, BuiltSet<String>, Location, Direction) args) {
-  final (crossword, candidateWords, location, direction) = args;
+(Location, Direction, String?) _generateCandidate(
+    (Crossword, BuiltSet<String>, Location, Direction) searchDetailMessage) {
+  final (crossword, candidateWords, location, direction) = searchDetailMessage;
 
   final target = crossword.characters[location];
   if (target == null) {
@@ -89,7 +83,7 @@ Future<WorkQueue> _generate((WorkQueue, int) args) async {
 
   // Filter down the candidate word list to those that contain the letter
   // at the current location
-  var words = candidateWords.toBuiltList().rebuild((b) => b
+  final words = candidateWords.toBuiltList().rebuild((b) => b
     ..where((b) => b.characters.contains(target.character))
     ..shuffle());
   int tryCount = 0;
@@ -99,16 +93,14 @@ Future<WorkQueue> _generate((WorkQueue, int) args) async {
     for (final (index, character) in word.characters.indexed) {
       if (character != target.character) continue;
 
-      final candidate = switch (direction) {
-        Direction.across => crossword.addWord(
-            direction: Direction.across,
-            location: location.leftOffset(index),
-            word: word),
-        Direction.down => crossword.addWord(
-            direction: Direction.down,
-            location: location.upOffset(index),
-            word: word)
-      };
+      final candidate = crossword.addWord(
+        location: switch (direction) {
+          Direction.across => location.leftOffset(index),
+          Direction.down => location.upOffset(index),
+        },
+        word: word,
+        direction: direction,
+      );
       if (candidate != null) {
         return switch (direction) {
           Direction.across => (location.leftOffset(index), direction, word),

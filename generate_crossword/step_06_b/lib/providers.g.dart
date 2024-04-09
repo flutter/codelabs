@@ -6,7 +6,7 @@ part of 'providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$wordListHash() => r'7c934cab1da2aa87a2254c7916e8528f2af2fefb';
+String _$wordListHash() => r'8e3e9cd4555ba4baa045ccddd8dd45a25cfb6653';
 
 /// A provider for the wordlist to use when generating the crossword.
 ///
@@ -22,7 +22,7 @@ final wordListProvider = AutoDisposeFutureProvider<BuiltSet<String>>.internal(
 );
 
 typedef WordListRef = AutoDisposeFutureProviderRef<BuiltSet<String>>;
-String _$crosswordHash() => r'2ccfa8a6f279ce16778b863f2ca8aea46e50734b';
+String _$crosswordHash() => r'abe739a5ad52279f376ef7bda652c2998d01d0a7';
 
 /// See also [crossword].
 @ProviderFor(crossword)

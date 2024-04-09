@@ -2,6 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:built_collection/built_collection.dart';
@@ -22,15 +23,15 @@ Future<BuiltSet<String>> wordList(WordListRef ref) async {
   // lowercased, and words containing runes outside this range will
   // be removed.
 
-  final re = RegExp('^[a-z]+\$');
-  final str = await rootBundle.loadString('assets/words.txt');
-  return str.split('\n').toBuiltSet().rebuild((b) => b
-    ..map((str) => str.toLowerCase().trim())
-    ..removeWhere((str) => str.length < 3)
-    ..removeWhere((str) => re.stringMatch(str) == null));
+  final re = RegExp(r'^[a-z]+$');
+  final words = await rootBundle.loadString('assets/words.txt');
+  return const LineSplitter().convert(words).toBuiltSet().rebuild((b) => b
+    ..map((word) => word.toLowerCase().trim())
+    ..where((word) => word.length > 2)
+    ..where((word) => re.hasMatch(word)));
 }
 
-/// An enumeration for different sizes of [Crossword]s.
+/// An enumeration for different sizes of [model.Crossword]s.
 enum CrosswordSize {
   small(width: 20, height: 11),
   medium(width: 40, height: 22),
@@ -81,9 +82,9 @@ Stream<model.Crossword> crossword(CrosswordRef ref) async* {
         final location = model.Location.at(
             _random.nextInt(size.width), _random.nextInt(size.height));
         try {
-          var candidate =
-              await compute(((String, model.Direction, model.Location) args) {
-            final (word, direction, location) = args;
+          var candidate = await compute(
+              ((String, model.Direction, model.Location) wordToAdd) {
+            final (word, direction, location) = wordToAdd;
             return crossword.addWord(
                 word: word, direction: direction, location: location);
           }, (word, direction, location));

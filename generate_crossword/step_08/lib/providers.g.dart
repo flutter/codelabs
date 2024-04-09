@@ -6,7 +6,7 @@ part of 'providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$wordListHash() => r'7c934cab1da2aa87a2254c7916e8528f2af2fefb';
+String _$wordListHash() => r'8e3e9cd4555ba4baa045ccddd8dd45a25cfb6653';
 
 /// A provider for the wordlist to use when generating the crossword.
 ///
