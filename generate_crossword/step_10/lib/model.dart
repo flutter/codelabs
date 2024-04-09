@@ -667,14 +667,14 @@ abstract class CrosswordPuzzleGame
 
     // Build the alternate words for each word in the crossword
     for (final crosswordWord in crossword.words) {
-      final alterateWords = candidateWords.toBuiltList().rebuild((b) => b
+      final alternateWords = candidateWords.toBuiltList().rebuild((b) => b
         ..where((b) => b.length == crosswordWord.word.length)
         ..shuffle()
         ..take(4)
         ..sort());
 
       candidateWords =
-          candidateWords.rebuild((b) => b.removeAll(alterateWords));
+          candidateWords.rebuild((b) => b.removeAll(alternateWords));
 
       alternates = alternates.rebuild(
         (b) => b.updateValue(
@@ -682,11 +682,11 @@ abstract class CrosswordPuzzleGame
           (b) => b.rebuild(
             (b) => b.updateValue(
               crosswordWord.direction,
-              (b) => b.rebuild((b) => b.replace(alterateWords)),
-              ifAbsent: () => alterateWords,
+              (b) => b.rebuild((b) => b.replace(alternateWords)),
+              ifAbsent: () => alternateWords,
             ),
           ),
-          ifAbsent: () => {crosswordWord.direction: alterateWords}.build(),
+          ifAbsent: () => {crosswordWord.direction: alternateWords}.build(),
         ),
       );
     }
