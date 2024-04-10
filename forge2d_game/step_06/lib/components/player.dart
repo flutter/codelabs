@@ -5,6 +5,7 @@
 import 'dart:math';
 
 import 'package:flame/components.dart';
+import 'package:flame/effects.dart';
 import 'package:flame/events.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
@@ -102,15 +103,9 @@ class Player extends BodyComponent with ContactCallbacks, DragCallbacks {
     children.whereType<CustomPainterComponent>().first.removeFromParent();
     body.setType(BodyType.dynamic);
     body.applyLinearImpulse(_dragDelta * -50);
-  }
-
-  @override
-  void beginContact(Object other, Contact contact) {
-    super.beginContact(other, contact);
-    debugPrint('$contact');
-    if (other is BodyComponent) {
-      debugPrint('Player began contact with ${other.runtimeType}');
-    }
+    add(RemoveEffect(
+      delay: 5.0,
+    ));
   }
 }
 
