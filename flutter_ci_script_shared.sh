@@ -2,6 +2,9 @@ function ci_codelabs () {
     local channel="$1"
     shift
 
+    # Disable analytics to avoid https://github.com/dart-lang/tools/issues/249
+    dart --disable-analytics
+
     # ffigen_codelab/step_07 needs to build the native library before running the tests
     pushd ffigen_codelab/step_07/example
         # RUNNER_OS from https://stackoverflow.com/a/72926104/2142626
