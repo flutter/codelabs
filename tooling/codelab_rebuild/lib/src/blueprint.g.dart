@@ -66,7 +66,8 @@ BlueprintStep _$BlueprintStepFromJson(Map json) => $checkedCreate(
             'strip-lines-containing',
             'stop',
             'xcode-add-file',
-            'xcode-project-path'
+            'xcode-project-path',
+            'full-screen-macos-main-menu-xib'
           ],
           requiredKeys: const ['name'],
         );
@@ -121,6 +122,8 @@ BlueprintStep _$BlueprintStepFromJson(Map json) => $checkedCreate(
           xcodeAddFile: $checkedConvert('xcode-add-file', (v) => v as String?),
           xcodeProjectPath:
               $checkedConvert('xcode-project-path', (v) => v as String?),
+          macOsMainMenuXib: $checkedConvert(
+              'full-screen-macos-main-menu-xib', (v) => v as String?),
         );
         return val;
       },
@@ -133,7 +136,8 @@ BlueprintStep _$BlueprintStepFromJson(Map json) => $checkedCreate(
         'sevenZip': '7z',
         'stripLinesContaining': 'strip-lines-containing',
         'xcodeAddFile': 'xcode-add-file',
-        'xcodeProjectPath': 'xcode-project-path'
+        'xcodeProjectPath': 'xcode-project-path',
+        'macOsMainMenuXib': 'full-screen-macos-main-menu-xib'
       },
     );
 
@@ -167,6 +171,7 @@ Map<String, dynamic> _$BlueprintStepToJson(BlueprintStep instance) =>
       'stop': instance.stop,
       'xcode-add-file': instance.xcodeAddFile,
       'xcode-project-path': instance.xcodeProjectPath,
+      'full-screen-macos-main-menu-xib': instance.macOsMainMenuXib,
     };
 
 FromTo _$FromToFromJson(Map json) => $checkedCreate(
