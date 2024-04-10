@@ -22,7 +22,7 @@ enum PlayerColor {
       PlayerColor.values[Random().nextInt(PlayerColor.values.length)];
 
   String get fileName =>
-      'alien${toString().split('.').last.capitalize()}_round.png';
+      'alien${toString().split('.').last.capitalize}_round.png';
 }
 
 class Player extends BodyComponent with DragCallbacks {
@@ -116,7 +116,7 @@ class Player extends BodyComponent with DragCallbacks {
 }
 
 extension on String {
-  String capitalize() =>
+  String get capitalize =>
       characters.first.toUpperCase() + characters.skip(1).toLowerCase().join();
 }
 
