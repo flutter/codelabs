@@ -256,12 +256,27 @@ class Brick extends BodyComponent {
     required Vector2 position,
     required Map<BrickDamage, Sprite> sprites,
   })  : _damage = damage,
-        _initialPosition = position,
         _sprites = sprites,
-        super(renderBody: false);
+        super(
+            renderBody: false,
+            bodyDef: BodyDef()
+              ..position = position
+              ..type = BodyType.dynamic,
+            fixtureDefs: [
+              FixtureDef(
+                PolygonShape()
+                  ..setAsBoxXY(
+                    size.size.width / 20 * brickScale,
+                    size.size.height / 20 * brickScale,
+                  ),
+              )
+                ..restitution = 0.4
+                ..density = type.density
+                ..friction = type.friction
+            ]);
 
   late final SpriteComponent _spriteComponent;
-  final Vector2 _initialPosition;
+
   final BrickType type;
   final BrickSize size;
   final Map<BrickDamage, Sprite> _sprites;
@@ -274,25 +289,7 @@ class Brick extends BodyComponent {
   }
 
   @override
-  Body createBody() {
-    final body = world.createBody(
-      BodyDef()
-        ..position = _initialPosition
-        ..type = BodyType.dynamic
-        ..userData = this,
-    )..createFixture(
-        FixtureDef(
-          PolygonShape()
-            ..setAsBoxXY(
-              size.size.width / 20 * brickScale,
-              size.size.height / 20 * brickScale,
-            ),
-        )
-          ..restitution = 0.4
-          ..density = type.density
-          ..friction = type.friction,
-      );
-
+  Future<void> onLoad() {
     _spriteComponent = SpriteComponent(
       anchor: Anchor.center,
       scale: Vector2.all(1),
@@ -301,6 +298,6 @@ class Brick extends BodyComponent {
       position: Vector2(0, 0),
     );
     add(_spriteComponent);
-    return body;
+    return super.onLoad();
   }
 }

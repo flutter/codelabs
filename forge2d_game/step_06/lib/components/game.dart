@@ -31,13 +31,12 @@ class MyPhysicsGame extends Forge2DGame {
 
   @override
   FutureOr<void> onLoad() async {
-    final [backgroundImage, aliensImage, elementsImage, tilesImage] =
-        await Future.wait([
+    final [backgroundImage, aliensImage, elementsImage, tilesImage] = await [
       images.load('colored_grass.png'),
       images.load('spritesheet_aliens.png'),
       images.load('spritesheet_elements.png'),
       images.load('spritesheet_tiles.png'),
-    ]);
+    ].wait;
     aliens = XmlSpriteSheet(aliensImage,
         await rootBundle.loadString('assets/spritesheet_aliens.xml'));
     elements = XmlSpriteSheet(elementsImage,

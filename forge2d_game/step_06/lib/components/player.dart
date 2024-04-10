@@ -27,15 +27,26 @@ enum PlayerColor {
 
 class Player extends BodyComponent with DragCallbacks {
   Player(Vector2 position, Sprite sprite)
-      : _initialPosition = position,
-        _sprite = sprite,
-        super(renderBody: false);
+      : _sprite = sprite,
+        super(
+          renderBody: false,
+          bodyDef: BodyDef()
+            ..position = position
+            ..type = BodyType.static
+            ..angularDamping = 0.1
+            ..linearDamping = 0.1,
+          fixtureDefs: [
+            FixtureDef(CircleShape()..radius = playerSize / 2)
+              ..restitution = 0.4
+              ..density = 0.75
+              ..friction = 0.5
+          ],
+        );
 
-  final Vector2 _initialPosition;
   final Sprite _sprite;
 
   @override
-  Body createBody() {
+  Future<void> onLoad() {
     addAll([
       CustomPainterComponent(
         painter: _DragPainter(this),
@@ -50,20 +61,7 @@ class Player extends BodyComponent with DragCallbacks {
         position: Vector2(0, 0),
       )
     ]);
-
-    return world.createBody(
-      BodyDef()
-        ..position = _initialPosition
-        ..type = BodyType.static
-        ..angularDamping = 0.1
-        ..linearDamping = 0.1
-        ..userData = this,
-    )..createFixture(
-        FixtureDef(CircleShape()..radius = playerSize / 2)
-          ..restitution = 0.4
-          ..density = 0.75
-          ..friction = 0.5,
-      );
+    return super.onLoad();
   }
 
   @override
@@ -89,23 +87,32 @@ class Player extends BodyComponent with DragCallbacks {
   @override
   void onDragStart(DragStartEvent event) {
     super.onDragStart(event);
-    _dragStart = event.localPosition;
+    if (body.bodyType == BodyType.static) {
+      _dragStart = event.localPosition;
+    }
   }
 
   @override
   void onDragUpdate(DragUpdateEvent event) {
-    _dragDelta = event.localEndPosition - _dragStart;
+    if (body.bodyType == BodyType.static) {
+      _dragDelta = event.localEndPosition - _dragStart;
+    }
   }
 
   @override
   void onDragEnd(DragEndEvent event) {
     super.onDragEnd(event);
-    children.whereType<CustomPainterComponent>().first.removeFromParent();
-    body.setType(BodyType.dynamic);
-    body.applyLinearImpulse(_dragDelta * -50);
-    add(RemoveEffect(
-      delay: 5.0,
-    ));
+    if (body.bodyType == BodyType.static) {
+      children
+          .whereType<CustomPainterComponent>()
+          .firstOrNull
+          ?.removeFromParent();
+      body.setType(BodyType.dynamic);
+      body.applyLinearImpulse(_dragDelta * -50);
+      add(RemoveEffect(
+        delay: 5.0,
+      ));
+    }
   }
 }
 

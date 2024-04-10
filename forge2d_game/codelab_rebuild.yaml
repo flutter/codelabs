@@ -11741,13 +11741,12 @@ steps:
 
             @override
             FutureOr<void> onLoad() async {
-              final [backgroundImage, aliensImage, elementsImage, tilesImage] =
-                  await Future.wait([
+              final [backgroundImage, aliensImage, elementsImage, tilesImage] = await [
                 images.load('colored_grass.png'),
                 images.load('spritesheet_aliens.png'),
                 images.load('spritesheet_elements.png'),
                 images.load('spritesheet_tiles.png'),
-              ]);
+              ].wait;
               aliens = XmlSpriteSheet(aliensImage,
                   await rootBundle.loadString('assets/spritesheet_aliens.xml'));
               elements = XmlSpriteSheet(elementsImage,
@@ -11870,7 +11869,7 @@ steps:
            
            class MyPhysicsGame extends Forge2DGame {
              MyPhysicsGame()
-          @@ -42,9 +43,22 @@ class MyPhysicsGame extends Forge2DGame {
+          @@ -41,9 +42,22 @@ class MyPhysicsGame extends Forge2DGame {
                    await rootBundle.loadString('assets/spritesheet_tiles.xml'));
            
                await world.add(Background(sprite: Sprite(backgroundImage)));
@@ -12277,12 +12276,27 @@ steps:
               required Vector2 position,
               required Map<BrickDamage, Sprite> sprites,
             })  : _damage = damage,
-                  _initialPosition = position,
                   _sprites = sprites,
-                  super(renderBody: false);
+                  super(
+                      renderBody: false,
+                      bodyDef: BodyDef()
+                        ..position = position
+                        ..type = BodyType.dynamic,
+                      fixtureDefs: [
+                        FixtureDef(
+                          PolygonShape()
+                            ..setAsBoxXY(
+                              size.size.width / 20 * brickScale,
+                              size.size.height / 20 * brickScale,
+                            ),
+                        )
+                          ..restitution = 0.4
+                          ..density = type.density
+                          ..friction = type.friction
+                      ]);
 
             late final SpriteComponent _spriteComponent;
-            final Vector2 _initialPosition;
+
             final BrickType type;
             final BrickSize size;
             final Map<BrickDamage, Sprite> _sprites;
@@ -12295,25 +12309,7 @@ steps:
             }
 
             @override
-            Body createBody() {
-              final body = world.createBody(
-                BodyDef()
-                  ..position = _initialPosition
-                  ..type = BodyType.dynamic
-                  ..userData = this,
-              )..createFixture(
-                  FixtureDef(
-                    PolygonShape()
-                      ..setAsBoxXY(
-                        size.size.width / 20 * brickScale,
-                        size.size.height / 20 * brickScale,
-                      ),
-                  )
-                    ..restitution = 0.4
-                    ..density = type.density
-                    ..friction = type.friction,
-                );
-
+            Future<void> onLoad() {
               _spriteComponent = SpriteComponent(
                 anchor: Anchor.center,
                 scale: Vector2.all(1),
@@ -12322,7 +12318,7 @@ steps:
                 position: Vector2(0, 0),
               );
               add(_spriteComponent);
-              return body;
+              return super.onLoad();
             }
           }
       - name: Patch lib/components/game.dart
@@ -12346,7 +12342,7 @@ steps:
            import 'ground.dart';
            
            class MyPhysicsGame extends Forge2DGame {
-          @@ -44,6 +46,7 @@ class MyPhysicsGame extends Forge2DGame {
+          @@ -43,6 +45,7 @@ class MyPhysicsGame extends Forge2DGame {
            
                await world.add(Background(sprite: Sprite(backgroundImage)));
                await addGround();
@@ -12354,7 +12350,7 @@ steps:
            
                return super.onLoad();
              }
-          @@ -59,6 +62,33 @@ class MyPhysicsGame extends Forge2DGame {
+          @@ -58,6 +61,33 @@ class MyPhysicsGame extends Forge2DGame {
                    ),
                ]);
              }
@@ -12434,15 +12430,26 @@ steps:
 
           class Player extends BodyComponent with DragCallbacks {
             Player(Vector2 position, Sprite sprite)
-                : _initialPosition = position,
-                  _sprite = sprite,
-                  super(renderBody: false);
+                : _sprite = sprite,
+                  super(
+                    renderBody: false,
+                    bodyDef: BodyDef()
+                      ..position = position
+                      ..type = BodyType.static
+                      ..angularDamping = 0.1
+                      ..linearDamping = 0.1,
+                    fixtureDefs: [
+                      FixtureDef(CircleShape()..radius = playerSize / 2)
+                        ..restitution = 0.4
+                        ..density = 0.75
+                        ..friction = 0.5
+                    ],
+                  );
 
-            final Vector2 _initialPosition;
             final Sprite _sprite;
 
             @override
-            Body createBody() {
+            Future<void> onLoad() {
               addAll([
                 CustomPainterComponent(
                   painter: _DragPainter(this),
@@ -12457,20 +12464,7 @@ steps:
                   position: Vector2(0, 0),
                 )
               ]);
-
-              return world.createBody(
-                BodyDef()
-                  ..position = _initialPosition
-                  ..type = BodyType.static
-                  ..angularDamping = 0.1
-                  ..linearDamping = 0.1
-                  ..userData = this,
-              )..createFixture(
-                  FixtureDef(CircleShape()..radius = playerSize / 2)
-                    ..restitution = 0.4
-                    ..density = 0.75
-                    ..friction = 0.5,
-                );
+              return super.onLoad();
             }
 
             @override
@@ -12496,23 +12490,32 @@ steps:
             @override
             void onDragStart(DragStartEvent event) {
               super.onDragStart(event);
-              _dragStart = event.localPosition;
+              if (body.bodyType == BodyType.static) {
+                _dragStart = event.localPosition;
+              }
             }
 
             @override
             void onDragUpdate(DragUpdateEvent event) {
-              _dragDelta = event.localEndPosition - _dragStart;
+              if (body.bodyType == BodyType.static) {
+                _dragDelta = event.localEndPosition - _dragStart;
+              }
             }
 
             @override
             void onDragEnd(DragEndEvent event) {
               super.onDragEnd(event);
-              children.whereType<CustomPainterComponent>().first.removeFromParent();
-              body.setType(BodyType.dynamic);
-              body.applyLinearImpulse(_dragDelta * -50);
-              add(RemoveEffect(
-                delay: 5.0,
-              ));
+              if (body.bodyType == BodyType.static) {
+                children
+                    .whereType<CustomPainterComponent>()
+                    .firstOrNull
+                    ?.removeFromParent();
+                body.setType(BodyType.dynamic);
+                body.applyLinearImpulse(_dragDelta * -50);
+                add(RemoveEffect(
+                  delay: 5.0,
+                ));
+              }
             }
           }
 
@@ -12556,7 +12559,7 @@ steps:
            
            class MyPhysicsGame extends Forge2DGame {
              MyPhysicsGame()
-          @@ -47,6 +48,7 @@ class MyPhysicsGame extends Forge2DGame {
+          @@ -46,6 +47,7 @@ class MyPhysicsGame extends Forge2DGame {
                await world.add(Background(sprite: Sprite(backgroundImage)));
                await addGround();
                unawaited(addBricks());
@@ -12564,7 +12567,7 @@ steps:
            
                return super.onLoad();
              }
-          @@ -89,6 +91,21 @@ class MyPhysicsGame extends Forge2DGame {
+          @@ -88,6 +90,21 @@ class MyPhysicsGame extends Forge2DGame {
                  await Future<void>.delayed(const Duration(milliseconds: 500));
                }
              }
