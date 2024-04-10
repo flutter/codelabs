@@ -248,7 +248,7 @@ Map<BrickDamage, String> brickFileNames(BrickType type, BrickSize size) {
   };
 }
 
-class Brick extends BodyComponent with ContactCallbacks {
+class Brick extends BodyComponent {
   Brick({
     required this.type,
     required this.size,

@@ -25,7 +25,7 @@ enum PlayerColor {
       'alien${toString().split('.').last.capitalize()}_round.png';
 }
 
-class Player extends BodyComponent with ContactCallbacks, DragCallbacks {
+class Player extends BodyComponent with DragCallbacks {
   Player(Vector2 position, Sprite sprite)
       : _initialPosition = position,
         _sprite = sprite,
