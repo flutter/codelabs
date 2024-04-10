@@ -12472,7 +12472,6 @@ steps:
               super.update(dt);
 
               if (!body.isAwake) {
-                // TODO: Add some animation before removing the player.
                 removeFromParent();
               }
 
@@ -12598,6 +12597,20 @@ steps:
           to: step_06
       - name: Flutter clean
         path: step_06
+        flutter: clean
+  - name: step_07
+    steps:
+      - name: Remove generated code
+        rmdir: step_07
+      - name: Build web app
+        path: forge2d_game
+        flutter: build web
+      - name: Copy step_07
+        copydir:
+          from: forge2d_game
+          to: step_07
+      - name: Flutter clean
+        path: step_07
         flutter: clean
   - name: Cleanup
     rmdir: forge2d_game

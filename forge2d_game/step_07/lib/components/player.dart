@@ -10,6 +10,8 @@ import 'package:flame/events.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 
+import 'body_component_with_user_data.dart';
+
 const playerSize = 5.0;
 
 enum PlayerColor {
@@ -22,10 +24,10 @@ enum PlayerColor {
       PlayerColor.values[Random().nextInt(PlayerColor.values.length)];
 
   String get fileName =>
-      'alien${toString().split('.').last.capitalize()}_round.png';
+      'alien${toString().split('.').last.capitalize}_round.png';
 }
 
-class Player extends BodyComponent with DragCallbacks {
+class Player extends BodyComponentWithUserData with DragCallbacks {
   Player(Vector2 position, Sprite sprite)
       : _sprite = sprite,
         super(
@@ -116,7 +118,7 @@ class Player extends BodyComponent with DragCallbacks {
 }
 
 extension on String {
-  String capitalize() =>
+  String get capitalize =>
       characters.first.toUpperCase() + characters.skip(1).toLowerCase().join();
 }
 
