@@ -64,11 +64,21 @@ class Enemy extends BodyComponentWithUserData with ContactCallbacks {
             .length
             .abs();
     debugPrint('interceptVelocity: $interceptVelocity');
-    if (interceptVelocity > 10) {
+    if (interceptVelocity > 35) {
       removeFromParent();
     }
 
     super.beginContact(other, contact);
+  }
+
+  @override
+  update(double dt) {
+    super.update(dt);
+
+    if (position.x > camera.visibleWorldRect.right + 10 ||
+        position.x < camera.visibleWorldRect.left - 10) {
+      removeFromParent();
+    }
   }
 }
 

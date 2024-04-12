@@ -6,9 +6,12 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 
 class BodyComponentWithUserData extends BodyComponent {
   BodyComponentWithUserData({
+    super.key,
     super.bodyDef,
-    super.fixtureDefs,
     super.children,
+    super.fixtureDefs,
+    super.paint,
+    super.priority,
     super.renderBody,
   });
 

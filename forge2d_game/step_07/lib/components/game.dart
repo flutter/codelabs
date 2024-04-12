@@ -9,6 +9,7 @@ import 'dart:ui' as ui;
 import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:xml/xml.dart';
 import 'package:xml/xpath.dart';
@@ -68,7 +69,7 @@ class MyPhysicsGame extends Forge2DGame {
   final _random = Random();
 
   Future<void> addBricks() async {
-    for (var i = 0; i < 3; i++) {
+    for (var i = 0; i < 5; i++) {
       final type = BrickType.randomType;
       final size = BrickSize.randomSize;
       await world.add(
@@ -102,25 +103,50 @@ class MyPhysicsGame extends Forge2DGame {
   @override
   update(dt) {
     super.update(dt);
-    if (isMounted && world.children.whereType<Player>().isEmpty) {
+    if (isMounted &&
+        world.children.whereType<Player>().isEmpty &&
+        world.children.whereType<Enemy>().isNotEmpty) {
       addPlayer();
+    }
+    if (isMounted &&
+        enemiesFullyAdded &&
+        world.children.whereType<Enemy>().isEmpty &&
+        world.children.whereType<TextComponent>().isEmpty) {
+      world.addAll(
+        [
+          (position: Vector2(0.5, 0.5), color: Colors.white),
+          (position: Vector2.zero(), color: Colors.orangeAccent),
+        ].map(
+          (e) => TextComponent(
+            text: 'You win!',
+            anchor: Anchor.center,
+            position: e.position,
+            textRenderer: TextPaint(
+              style: TextStyle(color: e.color, fontSize: 16),
+            ),
+          ),
+        ),
+      );
     }
   }
 
+  var enemiesFullyAdded = false;
+
   Future<void> addEnemies() async {
-    await Future<void>.delayed(const Duration(seconds: 1));
+    await Future<void>.delayed(const Duration(seconds: 2));
     for (var i = 0; i < 3; i++) {
       await world.add(
         Enemy(
           Vector2(
               camera.visibleWorldRect.right / 3 +
                   (_random.nextDouble() * 7 - 3.5),
-              (_random.nextDouble() * -7)),
+              (_random.nextDouble() * 3)),
           aliens.getSprite(EnemyColor.randomColor.fileName),
         ),
       );
+      await Future<void>.delayed(const Duration(seconds: 1));
     }
-    await Future<void>.delayed(const Duration(seconds: 1));
+    enemiesFullyAdded = true;
   }
 }
 
