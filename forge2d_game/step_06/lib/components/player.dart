@@ -72,8 +72,7 @@ class Player extends BodyComponent with DragCallbacks {
       removeFromParent();
     }
 
-    if (position.y > camera.visibleWorldRect.bottom + 10 ||
-        position.x > camera.visibleWorldRect.right + 10 ||
+    if (position.x > camera.visibleWorldRect.right + 10 ||
         position.x < camera.visibleWorldRect.left - 10) {
       removeFromParent();
     }
