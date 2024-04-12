@@ -75,6 +75,15 @@ class _CrosswordGeneratorMenu extends ConsumerWidget {
                 ref.read(showDisplayInfoProvider.notifier).toggle(),
             child: Text('Display Info'),
           ),
+          for (final count in BackgroundWorkers.values)
+            MenuItemButton(
+              leadingIcon: count == ref.watch(workerCountProvider)
+                  ? Icon(Icons.radio_button_checked_outlined)
+                  : Icon(Icons.radio_button_unchecked_outlined),
+              onPressed: () =>
+                  ref.read(workerCountProvider.notifier).setCount(count),
+              child: Text(count.label),
+            ),
         ],
         builder: (context, controller, child) => IconButton(
           onPressed: () => controller.open(),
