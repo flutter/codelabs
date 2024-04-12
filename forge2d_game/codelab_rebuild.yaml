@@ -12812,15 +12812,6 @@ steps:
                await addPlayer();
            
                return super.onLoad();
-          @@ -87,7 +89,7 @@ class MyPhysicsGame extends Forge2DGame {
-                     ),
-                   ),
-                 );
-          -      await Future<void>.delayed(const Duration(milliseconds: 500));
-          +      await Future<void>.delayed(const Duration(seconds: 1));
-               }
-             }
-           
           @@ -101,9 +103,50 @@ class MyPhysicsGame extends Forge2DGame {
              @override
              update(dt) {

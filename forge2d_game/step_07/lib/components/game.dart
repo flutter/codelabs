@@ -89,7 +89,7 @@ class MyPhysicsGame extends Forge2DGame {
           ),
         ),
       );
-      await Future<void>.delayed(const Duration(seconds: 1));
+      await Future<void>.delayed(const Duration(milliseconds: 500));
     }
   }
 
