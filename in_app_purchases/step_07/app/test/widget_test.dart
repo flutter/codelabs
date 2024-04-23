@@ -56,4 +56,10 @@ class TestIAPConnection implements InAppPurchase {
     // TODO: implement restorePurchases
     throw UnimplementedError();
   }
+
+  @override
+  Future<String> countryCode() {
+    // TODO: implement countryCode
+    throw UnimplementedError();
+  }
 }
