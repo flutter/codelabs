@@ -8,13 +8,13 @@ publish_to: 'none'
 version: 0.1.0
 
 environment:
-  sdk: '>=3.3.0-279.2.beta <4.0.0'
+  sdk: '>=3.4.0-0 <4.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
-  go_router: ^13.1.0
-  provider: ^6.1.1
+  go_router: ^14.0.1
+  provider: ^6.1.2
 
 dev_dependencies:
   flutter_test:
@@ -24,7 +24,7 @@ dev_dependencies:
     sdk: flutter
   integration_test:
     sdk: flutter
-  test: ^1.24.9
+  test: ^1.25.2
 
 flutter:
   uses-material-design: true
