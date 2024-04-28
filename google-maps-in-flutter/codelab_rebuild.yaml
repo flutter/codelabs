@@ -52,19 +52,19 @@ steps:
         patch-u: |
           --- b/google-maps-in-flutter/step_3/android/app/build.gradle
           +++ a/google-maps-in-flutter/step_3/android/app/build.gradle
-          @@ -43,9 +43,9 @@ android {
+          @@ -36,9 +36,9 @@ android {
                defaultConfig {
                    // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-                   applicationId "com.example.google_maps_in_flutter"
+                   applicationId = "com.example.google_maps_in_flutter"
           -        // You can update the following values to match your application needs.
           -        // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-          -        minSdkVersion flutter.minSdkVersion
+          -        minSdk = flutter.minSdkVersion
           +        // Minimum Android version for Google Maps SDK
           +        // https://developers.google.com/maps/flutter-plugin/config#android
-          +        minSdkVersion 21
-                   targetSdkVersion flutter.targetSdkVersion
-                   versionCode flutterVersionCode.toInteger()
-                   versionName flutterVersionName
+          +        minSdk = 21
+                   targetSdk = flutter.targetSdkVersion
+                   versionCode = flutterVersionCode.toInteger()
+                   versionName = flutterVersionName
       - name: Patch ios/Podfile
         platforms: [ macos ]
         path: google_maps_in_flutter/ios/Podfile
@@ -178,13 +178,13 @@ steps:
           --- b/google-maps-in-flutter/step_4/ios/Runner/AppDelegate.swift
           +++ a/google-maps-in-flutter/step_4/ios/Runner/AppDelegate.swift
           @@ -1,5 +1,6 @@
-           import UIKit
            import Flutter
+           import UIKit
           +import GoogleMaps
            
            @UIApplicationMain
            @objc class AppDelegate: FlutterAppDelegate {
-          @@ -8,6 +9,10 @@ import Flutter
+          @@ -8,6 +9,10 @@ import UIKit
                didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
              ) -> Bool {
                GeneratedPluginRegistrant.register(with: self)
@@ -209,6 +209,7 @@ steps:
           +
              <title>google_maps_in_flutter</title>
              <link rel="manifest" href="manifest.json">
+           </head>
       - name: Replace lib/main.dart
         path: google_maps_in_flutter/lib/main.dart
         replace-contents: |
