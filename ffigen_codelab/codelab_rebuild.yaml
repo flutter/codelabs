@@ -131,14 +131,14 @@ steps:
           --- b/ffigen_codelab/step_05/ffigen.yaml
           +++ a/ffigen_codelab/step_05/ffigen.yaml
           @@ -1,15 +1,15 @@
-           # Run with `flutter pub run ffigen --config ffigen.yaml`.
+           # Run with `dart run ffigen --config ffigen.yaml`.
           -name: FfigenAppBindings
           +name: DuktapeBindings
            description: |
           -  Bindings for `src/ffigen_app.h`.
           +  Bindings for `src/duktape.h`.
            
-             Regenerate bindings with `flutter pub run ffigen --config ffigen.yaml`.
+             Regenerate bindings with `dart run ffigen --config ffigen.yaml`.
           -output: 'lib/ffigen_app_bindings_generated.dart'
           +output: 'lib/duktape_bindings_generated.dart'
            headers:

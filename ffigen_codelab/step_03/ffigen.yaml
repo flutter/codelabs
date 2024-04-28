@@ -1,9 +1,9 @@
-# Run with `flutter pub run ffigen --config ffigen.yaml`.
+# Run with `dart run ffigen --config ffigen.yaml`.
 name: FfigenAppBindings
 description: |
   Bindings for `src/ffigen_app.h`.
 
-  Regenerate bindings with `flutter pub run ffigen --config ffigen.yaml`.
+  Regenerate bindings with `dart run ffigen --config ffigen.yaml`.
 output: 'lib/ffigen_app_bindings_generated.dart'
 headers:
   entry-points:

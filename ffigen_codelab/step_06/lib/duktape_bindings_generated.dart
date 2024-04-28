@@ -10,7 +10,7 @@ import 'dart:ffi' as ffi;
 
 /// Bindings for `src/duktape.h`.
 ///
-/// Regenerate bindings with `flutter pub run ffigen --config ffigen.yaml`.
+/// Regenerate bindings with `dart run ffigen --config ffigen.yaml`.
 ///
 class DuktapeBindings {
   /// Holds the symbol lookup function.
