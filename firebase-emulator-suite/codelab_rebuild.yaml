@@ -490,15 +490,15 @@ steps:
         patch-u: |
           --- b/firebase-emulator-suite/complete/android/app/build.gradle
           +++ a/firebase-emulator-suite/complete/android/app/build.gradle
-          @@ -45,7 +45,7 @@ android {
-                   applicationId "com.example.complete"
+          @@ -38,7 +38,7 @@ android {
+                   applicationId = "com.example.complete"
                    // You can update the following values to match your application needs.
                    // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-          -        minSdkVersion flutter.minSdkVersion
-          +        minSdkVersion 19
-                   targetSdkVersion flutter.targetSdkVersion
-                   versionCode flutterVersionCode.toInteger()
-                   versionName flutterVersionName
+          -        minSdk = flutter.minSdkVersion
+          +        minSdk = 19
+                   targetSdk = flutter.targetSdkVersion
+                   versionCode = flutterVersionCode.toInteger()
+                   versionName = flutterVersionName
       - name: Patch lib/app_state.dart
         path: complete/lib/app_state.dart
         patch-u: |
