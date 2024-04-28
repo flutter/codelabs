@@ -3,7 +3,7 @@ steps:
   - name: step_02
     steps:
       - name: Remove generated code
-        rmdir: step_03
+        rmdir: step_02
       - name: Create project
         flutter: create --empty forge2d_game
       - name: Make the macOS titlebar transparent, content full window, and hide the title bar.
@@ -117,12 +117,12 @@ steps:
       - name: Build web app
         path: forge2d_game
         flutter: build web
-      - name: Copy step_03
+      - name: Copy step_02
         copydir:
           from: forge2d_game
-          to: step_03
+          to: step_02
       - name: Flutter clean
-        path: step_03
+        path: step_02
         flutter: clean
   - name: step_03
     steps:
@@ -12760,7 +12760,6 @@ steps:
                   (contact.bodyA.linearVelocity - contact.bodyB.linearVelocity)
                       .length
                       .abs();
-              debugPrint('interceptVelocity: $interceptVelocity');
               if (interceptVelocity > 35) {
                 removeFromParent();
               }
