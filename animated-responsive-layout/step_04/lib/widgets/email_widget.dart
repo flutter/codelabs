@@ -334,7 +334,7 @@ class _EmailReplyOptionsState extends State<EmailReplyOptions> {
               child: TextButton(
                 style: ButtonStyle(
                   backgroundColor:
-                      MaterialStateProperty.all(_colorScheme.onInverseSurface),
+                      WidgetStateProperty.all(_colorScheme.onInverseSurface),
                 ),
                 onPressed: () {},
                 child: Text(
@@ -348,7 +348,7 @@ class _EmailReplyOptionsState extends State<EmailReplyOptions> {
               child: TextButton(
                 style: ButtonStyle(
                   backgroundColor:
-                      MaterialStateProperty.all(_colorScheme.onInverseSurface),
+                      WidgetStateProperty.all(_colorScheme.onInverseSurface),
                 ),
                 onPressed: () {},
                 child: Text(
