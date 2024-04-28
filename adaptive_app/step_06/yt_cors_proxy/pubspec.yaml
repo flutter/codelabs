@@ -3,10 +3,10 @@ description: A YouTube CORS Proxy Server.
 version: 1.0.0
 
 environment:
-  sdk: ^3.3.0-279.2.beta
+  sdk: ^3.4.0-0
 
 dependencies:
-  http: ^1.2.0
+  http: ^1.2.1
   shelf: ^1.4.0
   shelf_cors_headers: ^0.1.5
 
