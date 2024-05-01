@@ -232,7 +232,9 @@ steps:
           import 'package:flutter/material.dart';
           import 'package:google_maps_flutter/google_maps_flutter.dart';
           
-          void main() => runApp(const MyApp());
+          void main() {
+            runApp(const MyApp());
+          }
           
           class MyApp extends StatefulWidget {
             const MyApp({super.key});
@@ -310,12 +312,9 @@ steps:
     steps:
       - name: Remove generated code
         rmdir: step_5
-      - name: Add http json_annotation json_serializable
+      - name: Add http json_annotation json_serializable build_runner
         path: google_maps_in_flutter
-        flutter: pub add http json_annotation json_serializable
-      - name: Add build_runner
-        path: google_maps_in_flutter
-        flutter: pub add --dev build_runner
+        flutter: pub add http json_annotation json_serializable dev:build_runner
       - name: Mkdir assets
         path: google_maps_in_flutter
         mkdir: assets
@@ -1355,20 +1354,15 @@ steps:
         patch-u: |
           --- b/google-maps-in-flutter/step_5/lib/main.dart
           +++ a/google-maps-in-flutter/step_5/lib/main.dart
-          @@ -16,8 +16,11 @@
+          @@ -16,6 +16,7 @@
            
            import 'package:flutter/material.dart';
            import 'package:google_maps_flutter/google_maps_flutter.dart';
           +import 'src/locations.dart' as locations;
            
-          -void main() => runApp(const MyApp());
-          +void main() {
-          +  runApp(const MyApp());
-          +}
-           
-           class MyApp extends StatefulWidget {
-             const MyApp({super.key});
-          @@ -27,12 +30,23 @@ class MyApp extends StatefulWidget {
+           void main() {
+             runApp(const MyApp());
+          @@ -29,12 +30,23 @@ class MyApp extends StatefulWidget {
            }
            
            class _MyAppState extends State<MyApp> {
@@ -1398,7 +1392,7 @@ steps:
              }
            
              @override
-          @@ -44,15 +58,16 @@ class _MyAppState extends State<MyApp> {
+          @@ -46,15 +58,16 @@ class _MyAppState extends State<MyApp> {
                  ),
                  home: Scaffold(
                    appBar: AppBar(
@@ -1435,7 +1429,7 @@ steps:
         flutter: doctor
       - name: Run build_runner
         path: google_maps_in_flutter
-        flutter: pub run build_runner build
+        dart: run build_runner build
       - name: Patch lib/src/locations.g.dart
         path: google_maps_in_flutter/lib/src/locations.g.dart
         patch-u: |
