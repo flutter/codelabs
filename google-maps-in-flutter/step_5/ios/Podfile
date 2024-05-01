@@ -1,5 +1,5 @@
 # Google Maps SDK requires platform version 14
-# https://developers.google.com/maps/flutter-plugin/config#ios
+# https://developers.google.com/maps/flutter-package/config#ios
 platform :ios, '14.0'
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.

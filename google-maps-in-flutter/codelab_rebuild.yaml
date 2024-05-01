@@ -60,7 +60,7 @@ steps:
           -        // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
           -        minSdk = flutter.minSdkVersion
           +        // Minimum Android version for Google Maps SDK
-          +        // https://developers.google.com/maps/flutter-plugin/config#android
+          +        // https://developers.google.com/maps/flutter-package/config#android
           +        minSdk = 21
                    targetSdk = flutter.targetSdkVersion
                    versionCode = flutterVersionCode.toInteger()
@@ -75,7 +75,7 @@ steps:
           -# Uncomment this line to define a global platform for your project
           -# platform :ios, '12.0'
           +# Google Maps SDK requires platform version 14
-          +# https://developers.google.com/maps/flutter-plugin/config#ios
+          +# https://developers.google.com/maps/flutter-package/config#ios
           +platform :ios, '14.0'
            
            # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
