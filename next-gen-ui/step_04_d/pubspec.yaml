@@ -19,6 +19,10 @@ dependencies:
   provider: ^6.1.2
   rnd: ^0.2.0
   vector_math: ^2.1.4
+  window_size:
+    git:
+      url: https://github.com/google/flutter-desktop-embedding.git
+      path: plugins/window_size
 
 dev_dependencies:
   flutter_test:

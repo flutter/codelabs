@@ -43,7 +43,10 @@ steps:
           }
       - name: add deps from pub
         path: next_gen_ui
-        flutter: pub add extra_alignments flextras flutter_animate focusable_control_builder gap particle_field rnd vector_math cupertino_icons provider
+        dart: pub add extra_alignments flextras flutter_animate focusable_control_builder gap particle_field rnd vector_math cupertino_icons provider
+      - name: Add window_size
+        path: next_gen_ui
+        dart: pub add 'window_size:{"git":{"url":"https://github.com/google/flutter-desktop-embedding.git","path":"plugins/window_size"}}'
       - name: patch pubspec.yaml
         path: next_gen_ui/pubspec.yaml
         patch-u: |
@@ -56,7 +59,7 @@ steps:
            publish_to: 'none'
            version: 0.1.0
            
-          @@ -27,3 +27,14 @@ dev_dependencies:
+          @@ -31,3 +31,14 @@ dev_dependencies:
            
            flutter:
              uses-material-design: true
@@ -1625,11 +1628,19 @@ steps:
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
           
+          import 'dart:io' show Platform;
+          
+          import 'package:flutter/foundation.dart' show kIsWeb;
           import 'package:flutter/material.dart';
+          import 'package:window_size/window_size.dart';
           
           import 'styles.dart';
           
           void main() {
+            if (!kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
+              WidgetsFlutterBinding.ensureInitialized();
+              setWindowMinSize(const Size(800, 500));
+            }
             runApp(const NextGenApp());
           }
           
@@ -1725,18 +1736,18 @@ steps:
       - name: Patch lib/main.dart
         path: next_gen_ui/lib/main.dart
         patch-u: |
-          --- b/next-gen-ui/step_02_a/lib/main.dart
-          +++ a/next-gen-ui/step_02_a/lib/main.dart
-          @@ -4,7 +4,7 @@
-           
+          --- b/next-gen-ui/step_02_e/lib/main.dart
+          +++ a/next-gen-ui/step_02_e/lib/main.dart
+          @@ -8,7 +8,7 @@ import 'package:flutter/foundation.dart';
            import 'package:flutter/material.dart';
+           import 'package:window_size/window_size.dart';
            
           -import 'styles.dart';
           +import 'title_screen/title_screen.dart';
            
            void main() {
-             runApp(const NextGenApp());
-          @@ -18,14 +18,7 @@ class NextGenApp extends StatelessWidget {
+             if (!kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
+          @@ -26,14 +26,7 @@ class NextGenApp extends StatelessWidget {
                return MaterialApp(
                  themeMode: ThemeMode.dark,
                  darkTheme: ThemeData(brightness: Brightness.dark),
@@ -2415,15 +2426,18 @@ steps:
         patch-u: |
           --- b/next-gen-ui/step_04_a/lib/main.dart
           +++ a/next-gen-ui/step_04_a/lib/main.dart
-          @@ -3,10 +3,12 @@
-           // found in the LICENSE file.
+          @@ -6,6 +6,7 @@ import 'dart:io' show Platform;
            
+           import 'package:flutter/foundation.dart' show kIsWeb;
            import 'package:flutter/material.dart';
           +import 'package:flutter_animate/flutter_animate.dart';
+           import 'package:window_size/window_size.dart';
            
            import 'title_screen/title_screen.dart';
-           
-           void main() {
+          @@ -15,6 +16,7 @@ void main() {
+               WidgetsFlutterBinding.ensureInitialized();
+               setWindowMinSize(const Size(800, 500));
+             }
           +  Animate.restartOnHotReload = true;
              runApp(const NextGenApp());
            }
@@ -2806,16 +2820,20 @@ steps:
         patch-u: |
           --- b/next-gen-ui/step_05_a/lib/main.dart
           +++ a/next-gen-ui/step_05_a/lib/main.dart
-          @@ -4,12 +4,20 @@
-           
+          @@ -7,8 +7,10 @@ import 'dart:io' show Platform;
+           import 'package:flutter/foundation.dart' show kIsWeb;
            import 'package:flutter/material.dart';
            import 'package:flutter_animate/flutter_animate.dart';
           +import 'package:provider/provider.dart';
+           import 'package:window_size/window_size.dart';
            
           +import 'assets.dart';
            import 'title_screen/title_screen.dart';
            
            void main() {
+          @@ -17,7 +19,13 @@ void main() {
+               setWindowMinSize(const Size(800, 500));
+             }
              Animate.restartOnHotReload = true;
           -  runApp(const NextGenApp());
           +  runApp(
