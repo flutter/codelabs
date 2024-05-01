@@ -3379,17 +3379,6 @@ steps:
           +
                              /// Fg-Rocks
                              Image.asset(AssetPaths.titleFgBase),
-      - name: Add web/flutter_bootstrap.js
-        path: next_gen_ui/web/flutter_bootstrap.js
-        replace-contents: |
-          {{flutter_js}}
-          {{flutter_build_config}}
-
-          _flutter.loader.load({
-            config: {
-              renderer: 'canvaskit',
-            },
-          });
       - name: Build Web app
         path: next_gen_ui
         flutter: build web
