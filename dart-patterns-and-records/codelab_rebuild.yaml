@@ -61,12 +61,12 @@ steps:
         path: patterns_codelab/pubspec.yaml
         replace-contents: |
           name: patterns_codelab
-          description: A new Flutter project.
+          description: "A new Flutter project."
           publish_to: 'none'
           version: 0.1.0
           
           environment:
-            sdk: ^3.2.0
+            sdk: '>=3.4.0-0 <4.0.0'
           
           dependencies:
             flutter:
@@ -75,7 +75,7 @@ steps:
           dev_dependencies:
             flutter_test:
               sdk: flutter
-            flutter_lints: ^3.0.1
+            flutter_lints: ^3.0.0
           
           flutter:
             uses-material-design: true
