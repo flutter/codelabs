@@ -20,7 +20,7 @@ dependencies:
     sdk: flutter
   flutter_bloc: ^8.1.5
   freezed_annotation: ^2.4.1
-  go_router: ^14.0.1
+  go_router: ^14.0.2
   material_color_utilities: any
   universal_platform: ^1.0.0+1
   url_launcher: ^6.2.6
