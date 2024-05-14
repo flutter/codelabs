@@ -27,7 +27,7 @@ class LoggedOutView extends StatelessWidget {
                   // TODO: update email and password
                   await state.logIn('TODO', 'TODO').then((_) {
                     // TODO: update to check that state.user is not null
-                    if (true) {
+                    if (context.mounted) {
                       context.go('/');
                     }
                   });
