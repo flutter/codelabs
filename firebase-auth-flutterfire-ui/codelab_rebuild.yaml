@@ -195,8 +195,8 @@ steps:
       - name: Patch web/index.html
         path: complete/web/index.html
         patch-u: |
-          --- b/firebase-auth-flutterfire-ui/start/web/index.html
-          +++ a/firebase-auth-flutterfire-ui/start/web/index.html
+          --- b/firebase-auth-flutterfire-ui/complete/web/index.html
+          +++ a/firebase-auth-flutterfire-ui/complete/web/index.html
           @@ -20,6 +20,8 @@
              <meta content="IE=Edge" http-equiv="X-UA-Compatible">
              <meta name="description" content="A new Flutter project.">
@@ -206,19 +206,14 @@ steps:
              <!-- iOS meta tags & icons -->
              <meta name="apple-mobile-web-app-capable" content="yes">
              <meta name="apple-mobile-web-app-status-bar-style" content="black">
-          @@ -31,7 +33,7 @@
+          @@ -31,8 +33,33 @@
            
              <title>complete</title>
              <link rel="manifest" href="manifest.json">
-          -
           +  <script src="https://apis.google.com/js/platform.js" async defer></script>
-             <script>
-               // The value below is injected by flutter build, do not touch.
-               const serviceWorkerVersion = null;
-          @@ -55,5 +57,29 @@
-                 });
-               });
-             </script>
+           </head>
+           <body>
+             <script src="flutter_bootstrap.js" async></script>
           +
           +  <script type="module">
           +    // Import the functions you need from the SDKs you need

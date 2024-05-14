@@ -1,9 +1,9 @@
-# Run with `flutter pub run ffigen --config ffigen.yaml`.
+# Run with `dart run ffigen --config ffigen.yaml`.
 name: DuktapeBindings
 description: |
   Bindings for `src/duktape.h`.
 
-  Regenerate bindings with `flutter pub run ffigen --config ffigen.yaml`.
+  Regenerate bindings with `dart run ffigen --config ffigen.yaml`.
 output: 'lib/duktape_bindings_generated.dart'
 headers:
   entry-points:

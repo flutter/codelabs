@@ -9,9 +9,6 @@ steps:
       - name: Strip DEVELOPMENT_TEAM
         strip-lines-containing: DEVELOPMENT_TEAM =
         path: testing_app/ios/Runner.xcodeproj/project.pbxproj
-      - name: Upgrade dependencies
-        path: testing_app
-        flutter: pub upgrade --major-versions
       - name: Configure analysis_options.yaml
         path: testing_app/analysis_options.yaml
         replace-contents: |
@@ -36,21 +33,9 @@ steps:
                   }
               ]
           }
-      - name: Add provider
+      - name: Add dependencies
         path: testing_app
-        flutter: pub add provider
-      - name: Add flutter_driver 
-        path: testing_app
-        flutter: pub add --dev --sdk=flutter flutter_driver 
-      - name: Add integration_test
-        path: testing_app
-        flutter: pub add --dev --sdk=flutter integration_test
-      - name: Add test
-        path: testing_app
-        flutter: pub add --dev test
-      - name: Add go_router
-        flutter: pub add go_router
-        path: testing_app
+        flutter: pub add provider go_router dev:test 'dev:flutter_driver:{"sdk":"flutter"}' 'dev:integration_test:{"sdk":"flutter"}'
       - name: Patch pubspec.yaml
         path: testing_app/pubspec.yaml
         patch-u: |
@@ -136,7 +121,9 @@ steps:
                 child: MaterialApp.router(
                   title: 'Testing Sample',
                   theme: ThemeData(
-                    colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+                    colorScheme: ColorScheme.fromSeed(
+                      seedColor: Colors.deepPurple,
+                    ),
                     useMaterial3: true,
                   ),
                   routerConfig: _router,
@@ -246,7 +233,7 @@ steps:
       - name: Add lib/screens/home.dart
         path: testing_app/lib/screens/home.dart
         replace-contents: |
-          // Copyright 2020 The Flutter team. All rights reserved.
+          // Copyright 2020 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
           

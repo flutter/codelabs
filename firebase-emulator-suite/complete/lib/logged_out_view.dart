@@ -25,7 +25,7 @@ class LoggedOutView extends StatelessWidget {
               child: FilledButton(
                 onPressed: () async {
                   await state.logIn('dash@email.com', 'dashword').then((_) {
-                    if (state.user != null) {
+                    if (state.user != null && context.mounted) {
                       context.go('/');
                     }
                   });

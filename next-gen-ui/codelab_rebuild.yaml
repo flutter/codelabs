@@ -43,7 +43,10 @@ steps:
           }
       - name: add deps from pub
         path: next_gen_ui
-        flutter: pub add extra_alignments flextras flutter_animate focusable_control_builder gap particle_field rnd vector_math cupertino_icons provider
+        dart: pub add extra_alignments flextras flutter_animate focusable_control_builder gap particle_field rnd vector_math cupertino_icons provider
+      - name: Add window_size
+        path: next_gen_ui
+        dart: pub add 'window_size:{"git":{"url":"https://github.com/google/flutter-desktop-embedding.git","path":"plugins/window_size"}}'
       - name: patch pubspec.yaml
         path: next_gen_ui/pubspec.yaml
         patch-u: |
@@ -56,18 +59,7 @@ steps:
            publish_to: 'none'
            version: 0.1.0
            
-          @@ -19,6 +19,10 @@ dependencies:
-             provider: ^6.1.1
-             rnd: ^0.2.0
-             vector_math: ^2.1.4
-          +  window_size:
-          +    git:
-          +      url: https://github.com/google/flutter-desktop-embedding.git
-          +      path: plugins/window_size
-           
-           dev_dependencies:
-             flutter_test:
-          @@ -27,3 +31,14 @@ dev_dependencies:
+          @@ -31,3 +31,14 @@ dev_dependencies:
            
            flutter:
              uses-material-design: true
@@ -3405,31 +3397,6 @@ steps:
           +
                              /// Fg-Rocks
                              Image.asset(AssetPaths.titleFgBase),
-      - name: Patch web/index.html
-        path: next_gen_ui/web/index.html
-        patch-u: |
-          --- b/next-gen-ui/final/web/index.html
-          +++ a/next-gen-ui/final/web/index.html
-          @@ -41,14 +41,16 @@
-           </head>
-           <body>
-             <script>
-          -    window.addEventListener('load', function(ev) {
-          +    window.addEventListener('load', function (ev) {
-                 // Download main.dart.js
-                 _flutter.loader.loadEntrypoint({
-                   serviceWorker: {
-                     serviceWorkerVersion: serviceWorkerVersion,
-                   },
-          -        onEntrypointLoaded: function(engineInitializer) {
-          -          engineInitializer.initializeEngine().then(function(appRunner) {
-          +        onEntrypointLoaded: function (engineInitializer) {
-          +          engineInitializer.initializeEngine({
-          +            renderer: 'canvaskit'
-          +          }).then(function (appRunner) {
-                       appRunner.runApp();
-                     });
-                   }
       - name: Build Web app
         path: next_gen_ui
         flutter: build web

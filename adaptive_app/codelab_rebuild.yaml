@@ -221,7 +221,7 @@ steps:
         patch-u: |
           --- b/adaptive_app/step_04/android/app/src/main/AndroidManifest.xml
           +++ a/adaptive_app/step_04/android/app/src/main/AndroidManifest.xml
-          @@ -30,6 +30,21 @@
+          @@ -31,6 +31,21 @@
                        android:name="flutterEmbedding"
                        android:value="2" />
                </application>
@@ -241,7 +241,7 @@ steps:
           +        </intent>
           +    </queries>
                <!-- Required to query activities that can process text, see:
-                    https://developer.android.com/training/package-visibility?hl=en and
+                    https://developer.android.com/training/package-visibility and
                     https://developer.android.com/reference/android/content/Intent#ACTION_PROCESS_TEXT.
       - name: Patch ios/Runner/Info.plist
         path: adaptive_app/ios/Runner/Info.plist
@@ -523,7 +523,7 @@ steps:
                     gradient: LinearGradient(
                       colors: [
                         Colors.transparent,
-                        Theme.of(context).colorScheme.background,
+                        Theme.of(context).colorScheme.surface,
                       ],
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
@@ -1780,6 +1780,7 @@ steps:
           +
              <title>adaptive_app</title>
              <link rel="manifest" href="manifest.json">
+           </head>
       - name: Rebuild ios/Podfile.lock
         platforms: [ macos ]
         path: adaptive_app/ios

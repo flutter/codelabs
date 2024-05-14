@@ -76,7 +76,8 @@ class _GoogleSignInLoginState extends State<_GoogleSignInLogin> {
     _googleSignIn.onCurrentUserChanged.listen((account) {
       if (account != null) {
         _googleSignIn.authenticatedClient().then((authClient) {
-          if (authClient != null) {
+          final context = this.context;
+          if (authClient != null && context.mounted) {
             context.read<AuthedUserPlaylists>().authClient = authClient;
             context.go('/');
           }
@@ -123,8 +124,11 @@ class _GoogleApisAuthLoginState extends State<_GoogleApisAuthLogin> {
         _authUrl = Uri.parse(url);
       });
     }).then((authClient) {
-      context.read<AuthedUserPlaylists>().authClient = authClient;
-      context.go('/');
+      final context = this.context;
+      if (context.mounted) {
+        context.read<AuthedUserPlaylists>().authClient = authClient;
+        context.go('/');
+      }
     });
   }
 

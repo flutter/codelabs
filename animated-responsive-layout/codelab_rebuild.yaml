@@ -674,7 +674,7 @@ steps:
                         child: TextButton(
                           style: ButtonStyle(
                             backgroundColor:
-                                MaterialStateProperty.all(_colorScheme.onInverseSurface),
+                                WidgetStateProperty.all(_colorScheme.onInverseSurface),
                           ),
                           onPressed: () {},
                           child: Text(
@@ -688,7 +688,7 @@ steps:
                         child: TextButton(
                           style: ButtonStyle(
                             backgroundColor:
-                                MaterialStateProperty.all(_colorScheme.onInverseSurface),
+                                WidgetStateProperty.all(_colorScheme.onInverseSurface),
                           ),
                           onPressed: () {},
                           child: Text(
