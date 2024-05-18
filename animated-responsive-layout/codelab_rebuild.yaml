@@ -50,19 +50,19 @@ steps:
             });
           }
       - name: Build iOS simulator bundle
-        platforms: [ macos ]
+        platforms: [macos]
         path: animated_responsive_layout
         flutter: build ios --simulator
       - name: Build macOS app
-        platforms: [ macos ]
+        platforms: [macos]
         path: animated_responsive_layout
         flutter: build macos
       - name: Build Linux app
-        platforms: [ linux ]
+        platforms: [linux]
         path: animated_responsive_layout
         flutter: build linux
       - name: Build Windows app
-        platforms: [ windows ]
+        platforms: [windows]
         path: animated_responsive_layout
         flutter: build windows
       - name: Copy step_03
@@ -145,15 +145,15 @@ steps:
           // Copyright 2022 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-          
+
           class Attachment {
             const Attachment({
               required this.url,
             });
-          
+
             final String url;
           }
-          
+
           class Email {
             const Email({
               required this.sender,
@@ -163,7 +163,7 @@ steps:
               this.replies = 0,
               this.attachments = const [],
             });
-          
+
             final User sender;
             final List<User> recipients;
             final String subject;
@@ -171,25 +171,25 @@ steps:
             final List<Attachment> attachments;
             final double replies;
           }
-          
+
           class Name {
             const Name({
               required this.first,
               required this.last,
             });
-          
+
             final String first;
             final String last;
             String get fullName => '$first $last';
           }
-          
+
           class User {
             const User({
               required this.name,
               required this.avatarUrl,
               required this.lastActive,
             });
-          
+
             final Name name;
             final String avatarUrl;
             final DateTime lastActive;
@@ -200,9 +200,9 @@ steps:
           // Copyright 2022 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-          
+
           import 'models.dart';
-          
+
           final User user_0 = User(
               name: const Name(first: 'Me', last: ''),
               avatarUrl: 'assets/avatar_1.png',
@@ -223,7 +223,7 @@ steps:
               name: const Name(first: 'Ziad', last: 'Aouad'),
               avatarUrl: 'assets/avatar_5.png',
               lastActive: DateTime.now().subtract(const Duration(hours: 6)));
-          
+
           final List<Email> emails = [
             Email(
               sender: user_1,
@@ -253,7 +253,7 @@ steps:
                   'What do you think about training to be volunteer EMTs? We could do it together for moral support. Think about it??',
             ),
           ];
-          
+
           final List<Email> replies = [
             Email(
               sender: user_2,
@@ -284,14 +284,14 @@ steps:
           // Copyright 2022 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-          
+
           import 'package:flutter/material.dart';
-          
+
           import '../models/data.dart' as data;
           import '../models/models.dart';
           import 'email_widget.dart';
           import 'search_bar.dart' as search_bar;
-          
+
           class EmailListView extends StatelessWidget {
             const EmailListView({
               super.key,
@@ -299,11 +299,11 @@ steps:
               this.onSelected,
               required this.currentUser,
             });
-          
+
             final int? selectedIndex;
             final ValueChanged<int>? onSelected;
             final User currentUser;
-          
+
             @override
             Widget build(BuildContext context) {
               return Padding(
@@ -674,7 +674,7 @@ steps:
                         child: TextButton(
                           style: ButtonStyle(
                             backgroundColor:
-                                WidgetStateProperty.all(_colorScheme.onInverseSurface),
+                                MaterialStateProperty.all(_colorScheme.onInverseSurface),
                           ),
                           onPressed: () {},
                           child: Text(
@@ -688,7 +688,7 @@ steps:
                         child: TextButton(
                           style: ButtonStyle(
                             backgroundColor:
-                                WidgetStateProperty.all(_colorScheme.onInverseSurface),
+                                MaterialStateProperty.all(_colorScheme.onInverseSurface),
                           ),
                           onPressed: () {},
                           child: Text(
@@ -709,19 +709,19 @@ steps:
           // Copyright 2022 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-          
+
           import 'package:flutter/material.dart';
-          
+
           import '../models/models.dart';
-          
+
           class SearchBar extends StatelessWidget {
             const SearchBar({
               super.key,
               required this.currentUser,
             });
-          
+
             final User currentUser;
-          
+
             @override
             Widget build(BuildContext context) {
               return SizedBox(
@@ -763,38 +763,38 @@ steps:
           // Copyright 2022 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-          
+
           import 'package:flutter/material.dart';
-          
+
           class StarButton extends StatefulWidget {
             const StarButton({super.key});
-          
+
             @override
             State<StarButton> createState() => _StarButtonState();
           }
-          
+
           class _StarButtonState extends State<StarButton> {
             bool state = false;
             late final ColorScheme _colorScheme = Theme.of(context).colorScheme;
-          
+
             Icon get icon {
               final IconData iconData = state ? Icons.star : Icons.star_outline;
-          
+
               return Icon(
                 iconData,
                 color: Colors.grey,
                 size: 20,
               );
             }
-          
+
             void _toggle() {
               setState(() {
                 state = !state;
               });
             }
-          
+
             double get turns => state ? 1 : 0;
-          
+
             @override
             Widget build(BuildContext context) {
               return AnimatedRotation(
@@ -820,20 +820,20 @@ steps:
           // Copyright 2022 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-          
+
           import 'package:flutter/material.dart';
-          
+
           import 'models/data.dart' as data;
           import 'models/models.dart';
           import 'widgets/email_list_view.dart';
-          
+
           void main() {
             runApp(const MainApp());
           }
-          
+
           class MainApp extends StatelessWidget {
             const MainApp({super.key});
-          
+
             @override
             Widget build(BuildContext context) {
               return MaterialApp(
@@ -842,24 +842,24 @@ steps:
               );
             }
           }
-          
+
           class Feed extends StatefulWidget {
             const Feed({
               super.key,
               required this.currentUser,
             });
-          
+
             final User currentUser;
-          
+
             @override
             State<Feed> createState() => _FeedState();
           }
-          
+
           class _FeedState extends State<Feed> {
             late final _colorScheme = Theme.of(context).colorScheme;
             late final _backgroundColor = Color.alphaBlend(
                 _colorScheme.primary.withOpacity(0.14), _colorScheme.surface);
-          
+
             @override
             Widget build(BuildContext context) {
               return Scaffold(
@@ -895,15 +895,15 @@ steps:
           // Copyright 2022 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-          
+
           import 'package:flutter/material.dart';
-          
+
           class Destination {
             const Destination(this.icon, this.label);
             final IconData icon;
             final String label;
           }
-          
+
           const List<Destination> destinations = <Destination>[
             Destination(Icons.inbox_rounded, 'Inbox'),
             Destination(Icons.article_outlined, 'Articles'),
@@ -984,21 +984,21 @@ steps:
           // Copyright 2022 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-          
+
           import 'package:flutter/material.dart';
-          
+
           import '../destinations.dart';
-          
+
           class DisappearingBottomNavigationBar extends StatelessWidget {
             const DisappearingBottomNavigationBar({
               super.key,
               required this.selectedIndex,
               this.onDestinationSelected,
             });
-          
+
             final int selectedIndex;
             final ValueChanged<int>? onDestinationSelected;
-          
+
             @override
             Widget build(BuildContext context) {
               return NavigationBar(
@@ -1021,11 +1021,11 @@ steps:
           // Copyright 2022 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-          
+
           import 'package:flutter/material.dart';
-          
+
           import '../destinations.dart';
-          
+
           class DisappearingNavigationRail extends StatelessWidget {
             const DisappearingNavigationRail({
               super.key,
@@ -1033,11 +1033,11 @@ steps:
               required this.selectedIndex,
               this.onDestinationSelected,
             });
-          
+
             final Color backgroundColor;
             final int selectedIndex;
             final ValueChanged<int>? onDestinationSelected;
-          
+
             @override
             Widget build(BuildContext context) {
               final colorScheme = Theme.of(context).colorScheme;
@@ -1208,9 +1208,9 @@ steps:
           // Copyright 2022 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-          
+
           import 'package:flutter/animation.dart';
-          
+
           class BarAnimation extends ReverseAnimation {
             BarAnimation({required AnimationController parent})
                 : super(
@@ -1221,7 +1221,7 @@ steps:
                     ),
                   );
           }
-          
+
           class OffsetAnimation extends CurvedAnimation {
             OffsetAnimation({required super.parent})
                 : super(
@@ -1237,7 +1237,7 @@ steps:
                     ),
                   );
           }
-          
+
           class RailAnimation extends CurvedAnimation {
             RailAnimation({required super.parent})
                 : super(
@@ -1245,14 +1245,14 @@ steps:
                     reverseCurve: const Interval(3 / 5, 1),
                   );
           }
-          
+
           class RailFabAnimation extends CurvedAnimation {
             RailFabAnimation({required super.parent})
                 : super(
                     curve: const Interval(3 / 5, 1),
                   );
           }
-          
+
           class ScaleAnimation extends CurvedAnimation {
             ScaleAnimation({required super.parent})
                 : super(
@@ -1268,7 +1268,7 @@ steps:
                     ),
                   );
           }
-          
+
           class ShapeAnimation extends CurvedAnimation {
             ShapeAnimation({required super.parent})
                 : super(
@@ -1279,7 +1279,7 @@ steps:
                     ),
                   );
           }
-          
+
           class SizeAnimation extends CurvedAnimation {
             SizeAnimation({required super.parent})
                 : super(
@@ -1303,36 +1303,36 @@ steps:
           // Copyright 2022 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-          
+
           import 'package:flutter/material.dart';
           import '../animations.dart';
-          
+
           class BottomBarTransition extends StatefulWidget {
             const BottomBarTransition(
                 {super.key,
                 required this.animation,
                 required this.backgroundColor,
                 required this.child});
-          
+
             final Animation<double> animation;
             final Color backgroundColor;
             final Widget child;
-          
+
             @override
             State<BottomBarTransition> createState() => _BottomBarTransition();
           }
-          
+
           class _BottomBarTransition extends State<BottomBarTransition> {
             late final Animation<Offset> offsetAnimation = Tween<Offset>(
               begin: const Offset(0, 1),
               end: Offset.zero,
             ).animate(OffsetAnimation(parent: widget.animation));
-          
+
             late final Animation<double> heightAnimation = Tween<double>(
               begin: 0,
               end: 1,
             ).animate(SizeAnimation(parent: widget.animation));
-          
+
             @override
             Widget build(BuildContext context) {
               return ClipRect(
@@ -1356,25 +1356,25 @@ steps:
           // Copyright 2022 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-          
+
           import 'package:flutter/material.dart';
           import '../animations.dart';
-          
+
           class NavRailTransition extends StatefulWidget {
             const NavRailTransition(
                 {super.key,
                 required this.animation,
                 required this.backgroundColor,
                 required this.child});
-          
+
             final Animation<double> animation;
             final Widget child;
             final Color backgroundColor;
-          
+
             @override
             State<NavRailTransition> createState() => _NavRailTransitionState();
           }
-          
+
           class _NavRailTransitionState extends State<NavRailTransition> {
             // The animations are only rebuilt by this method when the text
             // direction changes because this widget only depends on Directionality.
@@ -1387,7 +1387,7 @@ steps:
               begin: 0,
               end: 1,
             ).animate(SizeAnimation(parent: widget.animation));
-          
+
             @override
             Widget build(BuildContext context) {
               return ClipRect(
@@ -1416,12 +1416,12 @@ steps:
           // Copyright 2022 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-          
+
           import 'dart:ui';
-          
+
           import 'package:flutter/material.dart';
           import '../animations.dart';
-          
+
           class AnimatedFloatingActionButton extends StatefulWidget {
             const AnimatedFloatingActionButton({
               super.key,
@@ -1430,17 +1430,17 @@ steps:
               this.onPressed,
               this.child,
             });
-          
+
             final Animation<double> animation;
             final VoidCallback? onPressed;
             final Widget? child;
             final double? elevation;
-          
+
             @override
             State<AnimatedFloatingActionButton> createState() =>
                 _AnimatedFloatingActionButton();
           }
-          
+
           class _AnimatedFloatingActionButton
               extends State<AnimatedFloatingActionButton> {
             late final ColorScheme _colorScheme = Theme.of(context).colorScheme;
@@ -1448,7 +1448,7 @@ steps:
                 ScaleAnimation(parent: widget.animation);
             late final Animation<double> _shapeAnimation =
                 ShapeAnimation(parent: widget.animation);
-          
+
             @override
             Widget build(BuildContext context) {
               return ScaleTransition(
@@ -1902,15 +1902,15 @@ steps:
           // Copyright 2022 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-          
+
           import 'package:flutter/material.dart';
-          
+
           import '../models/data.dart' as data;
           import 'email_widget.dart';
-          
+
           class ReplyListView extends StatelessWidget {
             const ReplyListView({super.key});
-          
+
             @override
             Widget build(BuildContext context) {
               return Padding(
@@ -1980,19 +1980,19 @@ steps:
                            ),
                          ),
       - name: Build iOS simulator bundle
-        platforms: [ macos ]
+        platforms: [macos]
         path: animated_responsive_layout
         flutter: build ios --simulator
       - name: Build macOS app
-        platforms: [ macos ]
+        platforms: [macos]
         path: animated_responsive_layout
         flutter: build macos
       - name: Build Linux app
-        platforms: [ linux ]
+        platforms: [linux]
         path: animated_responsive_layout
         flutter: build linux
       - name: Build Windows app
-        platforms: [ windows ]
+        platforms: [windows]
         path: animated_responsive_layout
         flutter: build windows
       - name: Copy step_08
