@@ -15,4 +15,4 @@ If you need help, consider asking for advice on the #hackers-devrel channel on [
 <!-- Links -->
 [Effective Dart: Style]: https://dart.dev/guides/language/effective-dart/style
 [CLA]: https://cla.developers.google.com/
-[Discord]: https://github.com/flutter/flutter/wiki/Chat
+[Discord]: https://github.com/flutter/flutter/blob/master/docs/contributing/Chat.md
