@@ -38,6 +38,7 @@ enum BrickSize {
   final ui.Size size;
 
   const BrickSize(this.size);
+
   static BrickSize get randomSize => values[Random().nextInt(values.length)];
 }
 
