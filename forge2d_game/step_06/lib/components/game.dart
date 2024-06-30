@@ -4,14 +4,10 @@
 
 import 'dart:async';
 import 'dart:math';
-import 'dart:ui' as ui;
 
 import 'package:flame/components.dart';
-import 'package:flame/extensions.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:flutter/services.dart';
-import 'package:xml/xml.dart';
-import 'package:xml/xpath.dart';
+import 'package:flame_kenney_xml/flame_kenney_xml.dart';
 
 import 'background.dart';
 import 'brick.dart';
@@ -31,18 +27,25 @@ class MyPhysicsGame extends Forge2DGame {
 
   @override
   FutureOr<void> onLoad() async {
-    final [backgroundImage, aliensImage, elementsImage, tilesImage] = await [
-      images.load('colored_grass.png'),
-      images.load('spritesheet_aliens.png'),
-      images.load('spritesheet_elements.png'),
-      images.load('spritesheet_tiles.png'),
-    ].wait;
-    aliens = XmlSpriteSheet(aliensImage,
-        await rootBundle.loadString('assets/spritesheet_aliens.xml'));
-    elements = XmlSpriteSheet(elementsImage,
-        await rootBundle.loadString('assets/spritesheet_elements.xml'));
-    tiles = XmlSpriteSheet(tilesImage,
-        await rootBundle.loadString('assets/spritesheet_tiles.xml'));
+    final backgroundImage = await images.load('colored_grass.png');
+    final spriteSheets = await Future.wait([
+      XmlSpriteSheet.load(
+        imagePath: 'spritesheet_aliens.png',
+        xmlPath: 'spritesheet_aliens.xml',
+      ),
+      XmlSpriteSheet.load(
+        imagePath: 'spritesheet_elements.png',
+        xmlPath: 'spritesheet_elements.xml',
+      ),
+      XmlSpriteSheet.load(
+        imagePath: 'spritesheet_tiles.png',
+        xmlPath: 'spritesheet_tiles.xml',
+      ),
+    ]);
+
+    aliens = spriteSheets[0];
+    elements = spriteSheets[1];
+    tiles = spriteSheets[2];
 
     await world.add(Background(sprite: Sprite(backgroundImage)));
     await addGround();
@@ -99,39 +102,10 @@ class MyPhysicsGame extends Forge2DGame {
       );
 
   @override
-  update(dt) {
+  void update(double dt) {
     super.update(dt);
     if (isMounted && world.children.whereType<Player>().isEmpty) {
       addPlayer();
     }
-  }
-}
-
-class XmlSpriteSheet {
-  XmlSpriteSheet(this.image, String xml) {
-    final document = XmlDocument.parse(xml);
-    for (final node in document.xpath('//TextureAtlas/SubTexture')) {
-      final name = node.getAttribute('name')!;
-      final x = double.parse(node.getAttribute('x')!);
-      final y = double.parse(node.getAttribute('y')!);
-      final width = double.parse(node.getAttribute('width')!);
-      final height = double.parse(node.getAttribute('height')!);
-      _rects[name] = Rect.fromLTWH(x, y, width, height);
-    }
-  }
-
-  final ui.Image image;
-  final _rects = <String, Rect>{};
-
-  Sprite getSprite(String name) {
-    final rect = _rects[name];
-    if (rect == null) {
-      throw ArgumentError('Sprite $name not found');
-    }
-    return Sprite(
-      image,
-      srcPosition: rect.topLeft.toVector2(),
-      srcSize: rect.size.toVector2(),
-    );
   }
 }
