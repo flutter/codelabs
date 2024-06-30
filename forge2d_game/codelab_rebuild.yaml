@@ -59,9 +59,9 @@ steps:
       - name: Patch pubspec.yaml
         path: forge2d_game/pubspec.yaml
         patch: |
-          --- b/forge2d_game/step_03/pubspec.yaml
-          +++ a/forge2d_game/step_03/pubspec.yaml
-          @@ -15,9 +15,9 @@ dependencies:
+          --- b/forge2d_game/step_02/pubspec.yaml
+          +++ a/forge2d_game/step_02/pubspec.yaml
+          @@ -16,9 +16,9 @@ dependencies:
              xml: ^6.5.0
            
            dev_dependencies:
@@ -133,7 +133,7 @@ steps:
         patch: |
           --- b/forge2d_game/step_03/pubspec.yaml
           +++ a/forge2d_game/step_03/pubspec.yaml
-          @@ -21,3 +21,6 @@ dev_dependencies:
+          @@ -22,3 +22,6 @@ dev_dependencies:
            
            flutter:
              uses-material-design: true
@@ -11715,29 +11715,26 @@ steps:
           // Copyright 2024 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-
+          
           import 'dart:async';
-          import 'dart:ui' as ui;
-
+          
           import 'package:flame/components.dart';
-          import 'package:flame/extensions.dart';
           import 'package:flame_forge2d/flame_forge2d.dart';
           import 'package:flame_kenney_xml/flame_kenney_xml.dart';
-          import 'package:flutter/services.dart';
-
+          
           import 'background.dart';
-
+          
           class MyPhysicsGame extends Forge2DGame {
             MyPhysicsGame()
                 : super(
                     gravity: Vector2(0, 10),
                     camera: CameraComponent.withFixedResolution(width: 800, height: 600),
                   );
-
+          
             late final XmlSpriteSheet aliens;
             late final XmlSpriteSheet elements;
             late final XmlSpriteSheet tiles;
-
+          
             @override
             FutureOr<void> onLoad() async {
               final backgroundImage = await images.load('colored_grass.png');
@@ -11755,13 +11752,13 @@ steps:
                   xmlPath: 'spritesheet_tiles.xml',
                 ),
               ]);
-
+          
               aliens = spriteSheets[0];
               elements = spriteSheets[1];
               tiles = spriteSheets[2];
-
+          
               await world.add(Background(sprite: Sprite(backgroundImage)));
-
+          
               return super.onLoad();
             }
           }
@@ -11838,14 +11835,15 @@ steps:
         patch: |
           --- b/forge2d_game/step_04/lib/components/game.dart
           +++ a/forge2d_game/step_04/lib/components/game.dart
-          @@ -13,5 +13,6 @@ import 'package:flame_kenney_xml/flame_kenney_xml.dart';
+          @@ -9,6 +9,7 @@ import 'package:flame_forge2d/flame_forge2d.dart';
+           import 'package:flame_kenney_xml/flame_kenney_xml.dart';
            
            import 'background.dart';
           +import 'ground.dart';
            
            class MyPhysicsGame extends Forge2DGame {
              MyPhysicsGame()
-          @@ -41,9 +42,22 @@ class MyPhysicsGame extends Forge2DGame {
+          @@ -44,7 +45,20 @@ class MyPhysicsGame extends Forge2DGame {
                tiles = spriteSheets[2];
            
                await world.add(Background(sprite: Sprite(backgroundImage)));
@@ -12301,22 +12299,22 @@ steps:
         patch: |
           --- b/forge2d_game/step_05/lib/components/game.dart
           +++ a/forge2d_game/step_05/lib/components/game.dart
-          @@ -3,6 +3,7 @@
+          @@ -3,12 +3,14 @@
            // found in the LICENSE file.
            
            import 'dart:async';
           +import 'dart:math';
-           import 'dart:ui' as ui;
            
            import 'package:flame/components.dart';
-          @@ -13,5 +14,6 @@ import 'package:flame_kenney_xml/flame_kenney_xml.dart';
+           import 'package:flame_forge2d/flame_forge2d.dart';
+           import 'package:flame_kenney_xml/flame_kenney_xml.dart';
            
            import 'background.dart';
           +import 'brick.dart';
            import 'ground.dart';
            
            class MyPhysicsGame extends Forge2DGame {
-          @@ -43,6 +45,7 @@ class MyPhysicsGame extends Forge2DGame {
+          @@ -46,6 +48,7 @@ class MyPhysicsGame extends Forge2DGame {
            
                await world.add(Background(sprite: Sprite(backgroundImage)));
                await addGround();
@@ -12324,7 +12322,7 @@ steps:
            
                return super.onLoad();
              }
-          @@ -58,6 +61,33 @@ class MyPhysicsGame extends Forge2DGame {
+          @@ -61,4 +64,31 @@ class MyPhysicsGame extends Forge2DGame {
                    ),
                ]);
              }
@@ -12521,7 +12519,7 @@ steps:
         patch: |
           --- b/forge2d_game/step_06/lib/components/game.dart
           +++ a/forge2d_game/step_06/lib/components/game.dart
-          @@ -16,6 +16,7 @@ import 'package:xml/xpath.dart';
+          @@ -12,6 +12,7 @@ import 'package:flame_kenney_xml/flame_kenney_xml.dart';
            import 'background.dart';
            import 'brick.dart';
            import 'ground.dart';
@@ -12529,7 +12527,7 @@ steps:
            
            class MyPhysicsGame extends Forge2DGame {
              MyPhysicsGame()
-          @@ -46,6 +47,7 @@ class MyPhysicsGame extends Forge2DGame {
+          @@ -49,6 +50,7 @@ class MyPhysicsGame extends Forge2DGame {
                await world.add(Background(sprite: Sprite(backgroundImage)));
                await addGround();
                unawaited(addBricks());
@@ -12537,7 +12535,7 @@ steps:
            
                return super.onLoad();
              }
-          @@ -88,6 +90,21 @@ class MyPhysicsGame extends Forge2DGame {
+          @@ -91,4 +93,19 @@ class MyPhysicsGame extends Forge2DGame {
                  await Future<void>.delayed(const Duration(milliseconds: 500));
                }
              }
@@ -12557,8 +12555,6 @@ steps:
           +    }
           +  }
            }
-           
-           class XmlSpriteSheet {
       - name: Build web app
         path: forge2d_game
         flutter: build web
@@ -12614,7 +12610,7 @@ steps:
            const brickScale = 0.5;
            
            enum BrickType {
-          @@ -248,7 +250,7 @@ Map<BrickDamage, String> brickFileNames(BrickType type, BrickSize size) {
+          @@ -249,7 +251,7 @@ Map<BrickDamage, String> brickFileNames(BrickType type, BrickSize size) {
              };
            }
            
@@ -12757,14 +12753,13 @@ steps:
       - name: Patch lib/components/game.dart
         path: forge2d_game/lib/components/game.dart
         patch: |
-          --- forge2d_game/step_06/lib/components/game.dart       2024-06-25 01:33:36.366379062 +0200
-          +++ forge2d_game/step_07/lib/components/game.dart       2024-06-25 01:43:51.820430259 +0200
-          @@ -10,10 +10,12 @@
-           import 'package:flame/extensions.dart';
+          --- b/forge2d_game/step_07/lib/components/game.dart
+          +++ a/forge2d_game/step_07/lib/components/game.dart
+          @@ -8,9 +8,11 @@ import 'dart:math';
+           import 'package:flame/components.dart';
            import 'package:flame_forge2d/flame_forge2d.dart';
            import 'package:flame_kenney_xml/flame_kenney_xml.dart';
           +import 'package:flutter/material.dart';
-           import 'package:flutter/services.dart';
            
            import 'background.dart';
            import 'brick.dart';
@@ -12772,7 +12767,7 @@ steps:
            import 'ground.dart';
            import 'player.dart';
            
-          @@ -52,7 +54,7 @@
+          @@ -49,7 +51,7 @@ class MyPhysicsGame extends Forge2DGame {
            
                await world.add(Background(sprite: Sprite(backgroundImage)));
                await addGround();
@@ -12781,7 +12776,7 @@ steps:
                await addPlayer();
            
                return super.onLoad();
-          @@ -107,8 +109,49 @@
+          @@ -104,8 +106,49 @@ class MyPhysicsGame extends Forge2DGame {
              @override
              void update(double dt) {
                super.update(dt);

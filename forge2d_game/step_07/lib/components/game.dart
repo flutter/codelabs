@@ -4,14 +4,11 @@
 
 import 'dart:async';
 import 'dart:math';
-import 'dart:ui' as ui;
 
 import 'package:flame/components.dart';
-import 'package:flame/extensions.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_kenney_xml/flame_kenney_xml.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import 'background.dart';
 import 'brick.dart';
