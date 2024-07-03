@@ -39,6 +39,7 @@
         "flutter_ci_script_stable.sh": true,
         "flutter_ci_script_shared.sh": true,
         "flutter_ci_script_master.sh": true,
-        "flutter_ci_script_beta.sh": true
+        "flutter_ci_script_beta.sh": true,
+        "firebase-get-to-know-flutter\\codelab_rebuild.yaml": true
     }
 }
