@@ -1076,10 +1076,10 @@ steps:
         dart: create --template server-shelf yt_cors_proxy
       - name: Remove args
         path: adaptive_app/yt_cors_proxy
-        dart: pub remove args shelf_router test
+        dart: pub remove args shelf shelf_router test
       - name: Add http shelf_cors_headers
         path: adaptive_app/yt_cors_proxy
-        dart: pub add http shelf_cors_headers
+        dart: pub add http shelf shelf_cors_headers
       - name: Upgrade dart dependencies
         path: adaptive_app/yt_cors_proxy
         dart: pub upgrade --major-versions
