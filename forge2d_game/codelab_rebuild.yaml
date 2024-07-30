@@ -18,9 +18,7 @@ steps:
           
           linter:
             rules:
-              directives_ordering: true
               prefer_const_constructors: false
-              sort_pub_dependencies: true
       - name: Remove README
         rm: forge2d_game/README.md
       - name: Add .vscode directory
@@ -56,22 +54,6 @@ steps:
       - name: Add dependencies
         path: forge2d_game
         flutter: pub add characters flame flame_forge2d xml
-      - name: Patch pubspec.yaml
-        path: forge2d_game/pubspec.yaml
-        patch: |
-          --- b/forge2d_game/step_03/pubspec.yaml
-          +++ a/forge2d_game/step_03/pubspec.yaml
-          @@ -15,9 +15,9 @@ dependencies:
-             xml: ^6.5.0
-           
-           dev_dependencies:
-          +  flutter_lints: ^3.0.0
-             flutter_test:
-               sdk: flutter
-          -  flutter_lints: ^3.0.0
-           
-           flutter:
-             uses-material-design: true
       - name: Replace lib/main.dart
         path: forge2d_game/lib/main.dart
         replace-contents: |
@@ -128,7 +110,7 @@ steps:
     steps:
       - name: Remove generated code
         rmdir: step_03
-      - name: Patch pubspec.yaml
+      - name: Add asset paths to pubspec.yaml
         path: forge2d_game/pubspec.yaml
         patch: |
           --- b/forge2d_game/step_03/pubspec.yaml
