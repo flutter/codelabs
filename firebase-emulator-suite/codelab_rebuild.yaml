@@ -485,10 +485,6 @@ steps:
               }
             }
           }
-      - name: Patch android/app/build.gradle
-        path: complete/android/app/build.gradle
-        patch-u: |
-
       - name: Patch lib/app_state.dart
         path: complete/lib/app_state.dart
         patch-u: |
