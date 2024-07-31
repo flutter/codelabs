@@ -19,7 +19,7 @@
 	<key>STORAGE_BUCKET</key>
 	<string>flutterfire-ui-codelab.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<true></true>
+	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
 	<false></false>
 	<key>IS_APPINVITE_ENABLED</key>
