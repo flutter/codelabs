@@ -1,4 +1,4 @@
-# Uncomment this line to define a global platform for your project
+# Native Firebase plugins require iOS 13.0 minimum, Flutter only requires 12.0
 platform :ios, '13.0'
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.

@@ -1,4 +1,5 @@
-platform :osx, '10.14'
+# Native Firebase plugins require MacOS 10.15 minimum, Flutter only requires 10.14
+platform :osx, '10.15'
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
