@@ -67,7 +67,7 @@ class Player extends BodyComponentWithUserData with DragCallbacks {
   }
 
   @override
-  update(double dt) {
+  void update(double dt) {
     super.update(dt);
 
     if (!body.isAwake) {
