@@ -55,13 +55,13 @@ steps:
           }
       - name: Add dependencies
         path: forge2d_game
-        flutter: pub add characters flame flame_forge2d xml
+        flutter: pub add characters flame flame_forge2d flame_kenney_xml xml
       - name: Patch pubspec.yaml
         path: forge2d_game/pubspec.yaml
         patch: |
-          --- b/forge2d_game/step_03/pubspec.yaml
-          +++ a/forge2d_game/step_03/pubspec.yaml
-          @@ -15,9 +15,9 @@ dependencies:
+          --- b/forge2d_game/step_02/pubspec.yaml
+          +++ a/forge2d_game/step_02/pubspec.yaml
+          @@ -16,9 +16,9 @@ dependencies:
              xml: ^6.5.0
            
            dev_dependencies:
@@ -133,7 +133,7 @@ steps:
         patch: |
           --- b/forge2d_game/step_03/pubspec.yaml
           +++ a/forge2d_game/step_03/pubspec.yaml
-          @@ -21,3 +21,6 @@ dev_dependencies:
+          @@ -22,3 +22,6 @@ dev_dependencies:
            
            flutter:
              uses-material-design: true
@@ -11715,77 +11715,51 @@ steps:
           // Copyright 2024 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-
+          
           import 'dart:async';
-          import 'dart:ui' as ui;
-
+          
           import 'package:flame/components.dart';
-          import 'package:flame/extensions.dart';
           import 'package:flame_forge2d/flame_forge2d.dart';
-          import 'package:flutter/services.dart';
-          import 'package:xml/xml.dart';
-          import 'package:xml/xpath.dart';
-
+          import 'package:flame_kenney_xml/flame_kenney_xml.dart';
+          
           import 'background.dart';
-
+          
           class MyPhysicsGame extends Forge2DGame {
             MyPhysicsGame()
                 : super(
                     gravity: Vector2(0, 10),
                     camera: CameraComponent.withFixedResolution(width: 800, height: 600),
                   );
-
+          
             late final XmlSpriteSheet aliens;
             late final XmlSpriteSheet elements;
             late final XmlSpriteSheet tiles;
-
+          
             @override
             FutureOr<void> onLoad() async {
-              final [backgroundImage, aliensImage, elementsImage, tilesImage] = await [
-                images.load('colored_grass.png'),
-                images.load('spritesheet_aliens.png'),
-                images.load('spritesheet_elements.png'),
-                images.load('spritesheet_tiles.png'),
-              ].wait;
-              aliens = XmlSpriteSheet(aliensImage,
-                  await rootBundle.loadString('assets/spritesheet_aliens.xml'));
-              elements = XmlSpriteSheet(elementsImage,
-                  await rootBundle.loadString('assets/spritesheet_elements.xml'));
-              tiles = XmlSpriteSheet(tilesImage,
-                  await rootBundle.loadString('assets/spritesheet_tiles.xml'));
-
+              final backgroundImage = await images.load('colored_grass.png');
+              final spriteSheets = await Future.wait([
+                XmlSpriteSheet.load(
+                  imagePath: 'spritesheet_aliens.png',
+                  xmlPath: 'spritesheet_aliens.xml',
+                ),
+                XmlSpriteSheet.load(
+                  imagePath: 'spritesheet_elements.png',
+                  xmlPath: 'spritesheet_elements.xml',
+                ),
+                XmlSpriteSheet.load(
+                  imagePath: 'spritesheet_tiles.png',
+                  xmlPath: 'spritesheet_tiles.xml',
+                ),
+              ]);
+          
+              aliens = spriteSheets[0];
+              elements = spriteSheets[1];
+              tiles = spriteSheets[2];
+          
               await world.add(Background(sprite: Sprite(backgroundImage)));
-
+          
               return super.onLoad();
-            }
-          }
-
-          class XmlSpriteSheet {
-            XmlSpriteSheet(this.image, String xml) {
-              final document = XmlDocument.parse(xml);
-              for (final node in document.xpath('//TextureAtlas/SubTexture')) {
-                final name = node.getAttribute('name')!;
-                final x = double.parse(node.getAttribute('x')!);
-                final y = double.parse(node.getAttribute('y')!);
-                final width = double.parse(node.getAttribute('width')!);
-                final height = double.parse(node.getAttribute('height')!);
-                _rects[name] = Rect.fromLTWH(x, y, width, height);
-              }
-            }
-
-            final ui.Image image;
-            final _rects = <String, Rect>{};
-
-            Sprite getSprite(String name) {
-              final rect = _rects[name];
-              if (rect == null) {
-                throw ArgumentError('Sprite $name not found');
-              }
-              return Sprite(
-                image,
-                srcPosition: rect.topLeft.toVector2(),
-                srcSize: rect.size.toVector2(),
-              );
             }
           }
       - name: Patch lib/main.dart
@@ -11861,16 +11835,16 @@ steps:
         patch: |
           --- b/forge2d_game/step_04/lib/components/game.dart
           +++ a/forge2d_game/step_04/lib/components/game.dart
-          @@ -13,6 +13,7 @@ import 'package:xml/xml.dart';
-           import 'package:xml/xpath.dart';
+          @@ -9,6 +9,7 @@ import 'package:flame_forge2d/flame_forge2d.dart';
+           import 'package:flame_kenney_xml/flame_kenney_xml.dart';
            
            import 'background.dart';
           +import 'ground.dart';
            
            class MyPhysicsGame extends Forge2DGame {
              MyPhysicsGame()
-          @@ -41,9 +42,22 @@ class MyPhysicsGame extends Forge2DGame {
-                   await rootBundle.loadString('assets/spritesheet_tiles.xml'));
+          @@ -44,7 +45,20 @@ class MyPhysicsGame extends Forge2DGame {
+               tiles = spriteSheets[2];
            
                await world.add(Background(sprite: Sprite(backgroundImage)));
           +    await addGround();
@@ -11890,8 +11864,6 @@ steps:
           +    ]);
           +  }
            }
-           
-           class XmlSpriteSheet {
       - name: Build web app
         path: forge2d_game
         flutter: build web
@@ -12058,6 +12030,7 @@ steps:
             final ui.Size size;
 
             const BrickSize(this.size);
+
             static BrickSize get randomSize => values[Random().nextInt(values.length)];
           }
 
@@ -12326,23 +12299,22 @@ steps:
         patch: |
           --- b/forge2d_game/step_05/lib/components/game.dart
           +++ a/forge2d_game/step_05/lib/components/game.dart
-          @@ -3,6 +3,7 @@
+          @@ -3,12 +3,14 @@
            // found in the LICENSE file.
            
            import 'dart:async';
           +import 'dart:math';
-           import 'dart:ui' as ui;
            
            import 'package:flame/components.dart';
-          @@ -13,6 +14,7 @@ import 'package:xml/xml.dart';
-           import 'package:xml/xpath.dart';
+           import 'package:flame_forge2d/flame_forge2d.dart';
+           import 'package:flame_kenney_xml/flame_kenney_xml.dart';
            
            import 'background.dart';
           +import 'brick.dart';
            import 'ground.dart';
            
            class MyPhysicsGame extends Forge2DGame {
-          @@ -43,6 +45,7 @@ class MyPhysicsGame extends Forge2DGame {
+          @@ -46,6 +48,7 @@ class MyPhysicsGame extends Forge2DGame {
            
                await world.add(Background(sprite: Sprite(backgroundImage)));
                await addGround();
@@ -12350,7 +12322,7 @@ steps:
            
                return super.onLoad();
              }
-          @@ -58,6 +61,33 @@ class MyPhysicsGame extends Forge2DGame {
+          @@ -61,4 +64,31 @@ class MyPhysicsGame extends Forge2DGame {
                    ),
                ]);
              }
@@ -12382,8 +12354,6 @@ steps:
           +    }
           +  }
            }
-           
-           class XmlSpriteSheet {
       - name: Build web app
         path: forge2d_game
         flutter: build web
@@ -12468,7 +12438,7 @@ steps:
             }
 
             @override
-            update(double dt) {
+            void update(double dt) {
               super.update(dt);
 
               if (!body.isAwake) {
@@ -12549,7 +12519,7 @@ steps:
         patch: |
           --- b/forge2d_game/step_06/lib/components/game.dart
           +++ a/forge2d_game/step_06/lib/components/game.dart
-          @@ -16,6 +16,7 @@ import 'package:xml/xpath.dart';
+          @@ -12,6 +12,7 @@ import 'package:flame_kenney_xml/flame_kenney_xml.dart';
            import 'background.dart';
            import 'brick.dart';
            import 'ground.dart';
@@ -12557,7 +12527,7 @@ steps:
            
            class MyPhysicsGame extends Forge2DGame {
              MyPhysicsGame()
-          @@ -46,6 +47,7 @@ class MyPhysicsGame extends Forge2DGame {
+          @@ -49,6 +50,7 @@ class MyPhysicsGame extends Forge2DGame {
                await world.add(Background(sprite: Sprite(backgroundImage)));
                await addGround();
                unawaited(addBricks());
@@ -12565,7 +12535,7 @@ steps:
            
                return super.onLoad();
              }
-          @@ -88,6 +90,21 @@ class MyPhysicsGame extends Forge2DGame {
+          @@ -91,4 +93,19 @@ class MyPhysicsGame extends Forge2DGame {
                  await Future<void>.delayed(const Duration(milliseconds: 500));
                }
              }
@@ -12578,15 +12548,13 @@ steps:
           +      );
           +
           +  @override
-          +  update(dt) {
+          +  void update(double dt) {
           +    super.update(dt);
           +    if (isMounted && world.children.whereType<Player>().isEmpty) {
           +      addPlayer();
           +    }
           +  }
            }
-           
-           class XmlSpriteSheet {
       - name: Build web app
         path: forge2d_game
         flutter: build web
@@ -12642,7 +12610,7 @@ steps:
            const brickScale = 0.5;
            
            enum BrickType {
-          @@ -248,7 +250,7 @@ Map<BrickDamage, String> brickFileNames(BrickType type, BrickSize size) {
+          @@ -249,7 +251,7 @@ Map<BrickDamage, String> brickFileNames(BrickType type, BrickSize size) {
              };
            }
            
@@ -12768,7 +12736,7 @@ steps:
             }
 
             @override
-            update(double dt) {
+            void update(double dt) {
               super.update(dt);
 
               if (position.x > camera.visibleWorldRect.right + 10 ||
@@ -12787,14 +12755,11 @@ steps:
         patch: |
           --- b/forge2d_game/step_07/lib/components/game.dart
           +++ a/forge2d_game/step_07/lib/components/game.dart
-          @@ -9,12 +9,14 @@ import 'dart:ui' as ui;
+          @@ -8,9 +8,11 @@ import 'dart:math';
            import 'package:flame/components.dart';
-           import 'package:flame/extensions.dart';
            import 'package:flame_forge2d/flame_forge2d.dart';
+           import 'package:flame_kenney_xml/flame_kenney_xml.dart';
           +import 'package:flutter/material.dart';
-           import 'package:flutter/services.dart';
-           import 'package:xml/xml.dart';
-           import 'package:xml/xpath.dart';
            
            import 'background.dart';
            import 'brick.dart';
@@ -12802,7 +12767,7 @@ steps:
            import 'ground.dart';
            import 'player.dart';
            
-          @@ -46,7 +48,7 @@ class MyPhysicsGame extends Forge2DGame {
+          @@ -49,7 +51,7 @@ class MyPhysicsGame extends Forge2DGame {
            
                await world.add(Background(sprite: Sprite(backgroundImage)));
                await addGround();
@@ -12811,9 +12776,9 @@ steps:
                await addPlayer();
            
                return super.onLoad();
-          @@ -101,9 +103,50 @@ class MyPhysicsGame extends Forge2DGame {
+          @@ -104,8 +106,49 @@ class MyPhysicsGame extends Forge2DGame {
              @override
-             update(dt) {
+             void update(double dt) {
                super.update(dt);
           -    if (isMounted && world.children.whereType<Player>().isEmpty) {
           +    if (isMounted &&
