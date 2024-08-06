@@ -4,21 +4,21 @@ publish_to: 'none'
 version: 0.1.0
 
 environment:
-  sdk: '>=3.4.0-0 <4.0.0'
+  sdk: ^3.5.0-0
 
 dependencies:
-  cupertino_icons: ^1.0.8
-  extra_alignments: ^1.0.0+1
-  flextras: ^1.0.0
   flutter:
     sdk: flutter
+  extra_alignments: ^1.0.0+1
+  flextras: ^1.0.0
   flutter_animate: ^4.5.0
   focusable_control_builder: ^1.0.2+1
   gap: ^3.0.1
   particle_field: ^1.0.0
-  provider: ^6.1.2
   rnd: ^0.2.0
   vector_math: ^2.1.4
+  cupertino_icons: ^1.0.8
+  provider: ^6.1.2
   window_size:
     git:
       url: https://github.com/google/flutter-desktop-embedding.git
@@ -27,7 +27,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.0
+  flutter_lints: ^4.0.0
 
 flutter:
   uses-material-design: true

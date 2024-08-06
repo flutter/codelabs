@@ -96,6 +96,9 @@ class _$PlaybackEventCopyWithImpl<$Res, $Val extends PlaybackEvent>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of PlaybackEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -112,6 +115,9 @@ class __$$TogglePlayPauseImplCopyWithImpl<$Res>
   __$$TogglePlayPauseImplCopyWithImpl(
       _$TogglePlayPauseImpl _value, $Res Function(_$TogglePlayPauseImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of PlaybackEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -241,6 +247,8 @@ class __$$ChangeSongImplCopyWithImpl<$Res>
       _$ChangeSongImpl _value, $Res Function(_$ChangeSongImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of PlaybackEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -279,7 +287,9 @@ class _$ChangeSongImpl implements ChangeSong {
   @override
   int get hashCode => Object.hash(runtimeType, song);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PlaybackEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChangeSongImplCopyWith<_$ChangeSongImpl> get copyWith =>
@@ -376,7 +386,10 @@ abstract class ChangeSong implements PlaybackEvent {
   const factory ChangeSong(final Song song) = _$ChangeSongImpl;
 
   Song get song;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of PlaybackEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChangeSongImplCopyWith<_$ChangeSongImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -398,6 +411,8 @@ class __$$SetVolumeImplCopyWithImpl<$Res>
       _$SetVolumeImpl _value, $Res Function(_$SetVolumeImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of PlaybackEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -436,7 +451,9 @@ class _$SetVolumeImpl implements SetVolume {
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PlaybackEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SetVolumeImplCopyWith<_$SetVolumeImpl> get copyWith =>
@@ -533,7 +550,10 @@ abstract class SetVolume implements PlaybackEvent {
   const factory SetVolume(final double value) = _$SetVolumeImpl;
 
   double get value;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of PlaybackEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SetVolumeImplCopyWith<_$SetVolumeImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -552,6 +572,9 @@ class __$$ToggleMuteImplCopyWithImpl<$Res>
   __$$ToggleMuteImplCopyWithImpl(
       _$ToggleMuteImpl _value, $Res Function(_$ToggleMuteImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of PlaybackEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -681,6 +704,8 @@ class __$$MoveToInSongImplCopyWithImpl<$Res>
       _$MoveToInSongImpl _value, $Res Function(_$MoveToInSongImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of PlaybackEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -719,7 +744,9 @@ class _$MoveToInSongImpl implements MoveToInSong {
   @override
   int get hashCode => Object.hash(runtimeType, percent);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PlaybackEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MoveToInSongImplCopyWith<_$MoveToInSongImpl> get copyWith =>
@@ -816,7 +843,10 @@ abstract class MoveToInSong implements PlaybackEvent {
   const factory MoveToInSong(final double percent) = _$MoveToInSongImpl;
 
   double get percent;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of PlaybackEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MoveToInSongImplCopyWith<_$MoveToInSongImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -838,6 +868,8 @@ class __$$SongProgressImplCopyWithImpl<$Res>
       _$SongProgressImpl _value, $Res Function(_$SongProgressImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of PlaybackEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -877,7 +909,9 @@ class _$SongProgressImpl implements SongProgress {
   @override
   int get hashCode => Object.hash(runtimeType, duration);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PlaybackEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SongProgressImplCopyWith<_$SongProgressImpl> get copyWith =>
@@ -974,7 +1008,10 @@ abstract class SongProgress implements PlaybackEvent {
   const factory SongProgress(final Duration duration) = _$SongProgressImpl;
 
   Duration get duration;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of PlaybackEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SongProgressImplCopyWith<_$SongProgressImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -990,7 +1027,9 @@ mixin _$PlaybackState {
   bool get isPlaying => throw _privateConstructorUsedError;
   SongWithProgress? get songWithProgress => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PlaybackState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $PlaybackStateCopyWith<PlaybackState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1021,6 +1060,8 @@ class _$PlaybackStateCopyWithImpl<$Res, $Val extends PlaybackState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of PlaybackState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1054,6 +1095,8 @@ class _$PlaybackStateCopyWithImpl<$Res, $Val extends PlaybackState>
     ) as $Val);
   }
 
+  /// Create a copy of PlaybackState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SongWithProgressCopyWith<$Res>? get songWithProgress {
@@ -1094,6 +1137,8 @@ class __$$PlaybackStateImplCopyWithImpl<$Res>
       _$PlaybackStateImpl _value, $Res Function(_$PlaybackStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of PlaybackState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1179,7 +1224,9 @@ class _$PlaybackStateImpl implements _PlaybackState {
   int get hashCode => Object.hash(runtimeType, volume, previousVolume, isMuted,
       isPlaying, songWithProgress);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PlaybackState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PlaybackStateImplCopyWith<_$PlaybackStateImpl> get copyWith =>
@@ -1194,13 +1241,12 @@ abstract class _PlaybackState implements PlaybackState {
       final bool isPlaying,
       final SongWithProgress? songWithProgress}) = _$PlaybackStateImpl;
 
-  @override
-
   /// Legal values are between 0 and 1.
-  double get volume;
   @override
+  double get volume;
 
   /// Used to restore the volume after un-muting.
+  @override
   double? get previousVolume;
   @override
   bool get isMuted;
@@ -1208,8 +1254,11 @@ abstract class _PlaybackState implements PlaybackState {
   bool get isPlaying;
   @override
   SongWithProgress? get songWithProgress;
+
+  /// Create a copy of PlaybackState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PlaybackStateImplCopyWith<_$PlaybackStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1219,7 +1268,9 @@ mixin _$SongWithProgress {
   Duration get progress => throw _privateConstructorUsedError;
   Song get song => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SongWithProgress
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SongWithProgressCopyWith<SongWithProgress> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1243,6 +1294,8 @@ class _$SongWithProgressCopyWithImpl<$Res, $Val extends SongWithProgress>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SongWithProgress
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1281,6 +1334,8 @@ class __$$SongWithProgressImplCopyWithImpl<$Res>
       $Res Function(_$SongWithProgressImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SongWithProgress
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1328,7 +1383,9 @@ class _$SongWithProgressImpl implements _SongWithProgress {
   @override
   int get hashCode => Object.hash(runtimeType, progress, song);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SongWithProgress
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SongWithProgressImplCopyWith<_$SongWithProgressImpl> get copyWith =>
@@ -1345,8 +1402,11 @@ abstract class _SongWithProgress implements SongWithProgress {
   Duration get progress;
   @override
   Song get song;
+
+  /// Create a copy of SongWithProgress
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SongWithProgressImplCopyWith<_$SongWithProgressImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

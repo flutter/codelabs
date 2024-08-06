@@ -570,6 +570,12 @@ steps:
       - name: Flutter test
         path: testing_app
         flutter: test
+      - name: Flutter clean
+        path: testing_app
+        flutter: clean
+      - name: Flutter pub get
+        path: testing_app
+        flutter: pub get
       - name: Flutter integration test (macos)
         platforms: [macos]
         path: testing_app

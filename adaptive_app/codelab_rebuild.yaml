@@ -1150,7 +1150,6 @@ steps:
               avoid_print: false
               directives_ordering: true
               prefer_single_quotes: true
-              sort_pub_dependencies: true
 
           # For additional information about configuring this file, see
           # https://dart.dev/guides/language/analysis-options
@@ -1386,7 +1385,8 @@ steps:
               _googleSignIn.onCurrentUserChanged.listen((account) {
                 if (account != null) {
                   _googleSignIn.authenticatedClient().then((authClient) {
-                    if (authClient != null) {
+                    final context = this.context;
+                    if (authClient != null && context.mounted) {
                       context.read<AuthedUserPlaylists>().authClient = authClient;
                       context.go('/');
                     }
@@ -1433,8 +1433,11 @@ steps:
                   _authUrl = Uri.parse(url);
                 });
               }).then((authClient) {
-                context.read<AuthedUserPlaylists>().authClient = authClient;
-                context.go('/');
+                final context = this.context;
+                if (context.mounted) {
+                  context.read<AuthedUserPlaylists>().authClient = authClient;
+                  context.go('/');
+                }
               });
             }
           
