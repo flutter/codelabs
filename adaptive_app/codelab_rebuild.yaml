@@ -1278,6 +1278,12 @@ steps:
       - name: Remove http package
         path: adaptive_app
         flutter: pub remove http
+      - name: flutter clean
+        path: adaptive_app
+        flutter: clean
+      - name: flutter pub get
+        path: adaptive_app
+        flutter: pub get
       - name: Add googleapis_auth google_sign_in extension_google_sign_in_as_googleapis_auth
         path: adaptive_app
         flutter: pub add googleapis_auth google_sign_in extension_google_sign_in_as_googleapis_auth http
