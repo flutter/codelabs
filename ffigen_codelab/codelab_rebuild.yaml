@@ -36,10 +36,10 @@ steps:
           }
       - name: dart format
         dart: format ffigen_app
-      - name: dart fix
+      - name: dart fix ffigen_app
         path: ffigen_app
         dart: fix --apply
-      - name: dart fix
+      - name: dart fix ffigen_app/example
         path: ffigen_app/example
         dart: fix --apply
       - name: Build iOS simulator bundle
