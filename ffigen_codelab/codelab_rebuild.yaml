@@ -36,16 +36,12 @@ steps:
           }
       - name: dart format
         dart: format ffigen_app
-      - name: dart fix
+      - name: dart fix ffigen_app
         path: ffigen_app
         dart: fix --apply
-      - name: dart fix
+      - name: dart fix ffigen_app/example
         path: ffigen_app/example
         dart: fix --apply
-      - name: Build iOS simulator bundle
-        path: ffigen_app/example
-        platforms: [ macos ]
-        flutter: build ios --simulator
       - name: dart analyze
         path: ffigen_app
         dart: analyze --fatal-infos
@@ -55,6 +51,10 @@ steps:
       - name: Upgrade ffigen/example
         path: ffigen_app/example
         flutter: pub upgrade --major-versions
+      - name: Build iOS simulator bundle
+        path: ffigen_app/example
+        platforms: [ macos ]
+        flutter: build ios --simulator
       - name: Build macOS app
         path: ffigen_app/example
         platforms: [ macos ]
