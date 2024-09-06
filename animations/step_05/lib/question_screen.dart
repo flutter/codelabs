@@ -39,21 +39,10 @@ class _QuestionScreenState extends State<QuestionScreen> {
           body: Center(
             child: Column(
               children: [
-                Expanded(
-                  child: OpenContainer(
-                    tappable: false,
-                    closedColor: Colors.transparent,
-                    closedShape: Border(),
-                    closedElevation: 0,
-                    closedBuilder: (context, openContainer) {
-                      _showGameOverScreen = openContainer;
-                      return QuestionCard(
-                          question: viewModel.currentQuestion?.question);
-                    },
-                    openBuilder: (context, closeContainer) {
-                      return GameOverScreen(viewModel: viewModel);
-                    },
-                  ),
+                QuestionCard(
+                  onChangeOpenContainer: _handleChangeOpenContainer,
+                  question: viewModel.currentQuestion?.question,
+                  viewModel: viewModel,
                 ),
                 Spacer(),
                 AnswerCards(
@@ -74,6 +63,10 @@ class _QuestionScreenState extends State<QuestionScreen> {
         );
       },
     );
+  }
+
+  void _handleChangeOpenContainer(VoidCallback openContainer) {
+    _showGameOverScreen = openContainer;
   }
 
   void _handleGameOver() {
@@ -128,22 +121,21 @@ class QuestionCard extends StatelessWidget {
   final String? question;
 
   const QuestionCard({
+    required this.onChangeOpenContainer,
     required this.question,
+    required this.viewModel,
     super.key,
   });
+
+  final ValueChanged<VoidCallback> onChangeOpenContainer;
+  final QuizViewModel viewModel;
+
+  static const _backgroundColor = Color(0xfff2f3fa);
 
   @override
   Widget build(BuildContext context) {
     return PageTransitionSwitcher(
       duration: const Duration(milliseconds: 200),
-      layoutBuilder: (List<Widget> entries) {
-        return Stack(
-          alignment: Alignment.topCenter,
-          children: <Widget>[
-            ...entries,
-          ],
-        );
-      },
       transitionBuilder: (Widget child, animation, secondaryAnimation) {
         return FadeThroughTransition(
           animation: animation,
@@ -151,16 +143,30 @@ class QuestionCard extends StatelessWidget {
           child: child,
         );
       },
-      child: Card(
+      child: OpenContainer(
         key: ValueKey(question),
-        elevation: 4,
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Text(
-            question ?? "",
-            style: Theme.of(context).textTheme.displaySmall,
-          ),
+        tappable: false,
+        closedColor: _backgroundColor,
+        closedShape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(12.0)),
         ),
+        closedElevation: 4,
+        closedBuilder: (context, openContainer) {
+          onChangeOpenContainer(openContainer);
+          return ColoredBox(
+            color: _backgroundColor,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                question ?? "",
+                style: Theme.of(context).textTheme.displaySmall,
+              ),
+            ),
+          );
+        },
+        openBuilder: (context, closeContainer) {
+          return GameOverScreen(viewModel: viewModel);
+        },
       ),
     );
   }
