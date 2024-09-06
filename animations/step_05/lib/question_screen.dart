@@ -1,5 +1,6 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'flip_effect.dart';
 import 'scoreboard.dart';
 import 'view_model.dart';
@@ -14,6 +15,7 @@ class QuestionScreen extends StatefulWidget {
 class _QuestionScreenState extends State<QuestionScreen> {
   late final QuizViewModel viewModel =
       QuizViewModel(onGameOver: _handleGameOver);
+  VoidCallback? _showGameOverScreen;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +39,22 @@ class _QuestionScreenState extends State<QuestionScreen> {
           body: Center(
             child: Column(
               children: [
-                QuestionCard(question: viewModel.currentQuestion?.question),
+                Expanded(
+                  child: OpenContainer(
+                    tappable: false,
+                    closedColor: Colors.transparent,
+                    closedShape: Border(),
+                    closedElevation: 0,
+                    closedBuilder: (context, openContainer) {
+                      _showGameOverScreen = openContainer;
+                      return QuestionCard(
+                          question: viewModel.currentQuestion?.question);
+                    },
+                    openBuilder: (context, closeContainer) {
+                      return GameOverScreen(viewModel: viewModel);
+                    },
+                  ),
+                ),
                 Spacer(),
                 AnswerCards(
                   onTapped: (index) {
@@ -48,7 +65,9 @@ class _QuestionScreenState extends State<QuestionScreen> {
                       ? viewModel.currentQuestion?.correctAnswer
                       : null,
                 ),
-                StatusBar(viewModel: viewModel),
+                StatusBar(
+                  viewModel: viewModel,
+                )
               ],
             ),
           ),
@@ -58,23 +77,49 @@ class _QuestionScreenState extends State<QuestionScreen> {
   }
 
   void _handleGameOver() {
-    showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text('Game Over!'),
-          content: Text('Score: ${viewModel.score}'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.popUntil(context, (route) => route.isFirst);
-              },
+    if (_showGameOverScreen != null) {
+      _showGameOverScreen!();
+    }
+  }
+}
+
+class GameOverScreen extends StatelessWidget {
+  final QuizViewModel viewModel;
+  const GameOverScreen({required this.viewModel, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Scoreboard(
+              score: viewModel.score,
+              totalQuestions: viewModel.totalQuestions,
+            ),
+            Text(
+              'You Win!',
+              style: Theme.of(context).textTheme.displayLarge,
+            ),
+            Text(
+              'Score: ${viewModel.score} / ${viewModel.totalQuestions}',
+              style: Theme.of(context).textTheme.displaySmall,
+            ),
+            ElevatedButton(
               child: Text('OK'),
+              onPressed: () {
+                Navigator.pop(context);
+                // Navigator.popUntil(
+                //     context, (route) => route.isFirst);
+              },
             ),
           ],
-        );
-      },
+        ),
+      ),
     );
   }
 }
