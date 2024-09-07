@@ -8,6 +8,7 @@ source "$DIR/flutter_ci_script_shared.sh"
 declare -a CODELABS=(
   "adaptive_app"
   "animated-responsive-layout"
+  "animations"
   # TODO(filiph): Re-enable this when the codelab is fixed.
   # "audio_soloud"
   "boring_to_beautiful"
