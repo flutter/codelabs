@@ -1,6 +1,5 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'flip_effect.dart';
 import 'scoreboard.dart';
 import 'view_model.dart';
