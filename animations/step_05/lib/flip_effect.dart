@@ -74,8 +74,8 @@ class _CardFlipEffectState extends State<CardFlipEffect>
             ..rotateX(_animationWithDelay.value * math.pi),
           child: _animationController.isAnimating
               ? _animationWithDelay.value < 0.5
-              ? _previousChild
-              : Transform.flip(flipY: true, child: widget.child)
+                  ? _previousChild
+                  : Transform.flip(flipY: true, child: widget.child)
               : widget.child,
         );
       },
