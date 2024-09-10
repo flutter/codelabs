@@ -570,7 +570,7 @@ class _FullScreenPlayerState extends State<_FullScreenPlayer> {
                       song.artist.name,
                       style: context.labelSmall!.copyWith(
                           fontSize: 20,
-                          color: context.colors.onSurface.withOpacity(0.8)),
+                          color: context.colors.onSurface.withAlpha(204)),
                       overflow: TextOverflow.clip,
                     ),
                   ],
@@ -706,7 +706,7 @@ class _MobilePlayer extends StatelessWidget {
                         current.song.artist.name,
                         style: context.labelSmall!.copyWith(
                             fontSize: 12,
-                            color: context.colors.onSurface.withOpacity(0.8)),
+                            color: context.colors.onSurface.withAlpha(204)),
                         overflow: TextOverflow.clip,
                       ),
                     ],

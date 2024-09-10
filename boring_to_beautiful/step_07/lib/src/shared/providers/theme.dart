@@ -59,6 +59,7 @@ class ThemeProvider extends InheritedWidget {
 
   Color blend(Color targetColor) {
     return Color(
+        // ignore: deprecated_member_use
         Blend.harmonize(targetColor.value, settings.value.sourceColor.value));
   }
 

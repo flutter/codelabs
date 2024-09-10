@@ -37,7 +37,7 @@ class EmailWidget extends StatefulWidget {
 class _EmailWidgetState extends State<EmailWidget> {
   late final ColorScheme _colorScheme = Theme.of(context).colorScheme;
   late Color unselectedColor = Color.alphaBlend(
-    _colorScheme.primary.withOpacity(0.08),
+    _colorScheme.primary.withAlpha(20),
     _colorScheme.surface,
   );
 
@@ -247,7 +247,7 @@ class _EmailHeadlineState extends State<EmailHeadline> {
       return Container(
         height: 84,
         color: Color.alphaBlend(
-          _colorScheme.primary.withOpacity(0.05),
+          _colorScheme.primary.withAlpha(12),
           _colorScheme.surface,
         ),
         child: Padding(

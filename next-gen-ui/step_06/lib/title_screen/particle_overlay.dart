@@ -57,7 +57,7 @@ class ParticleOverlay extends StatelessWidget {
             scale: p.scale * 1.025,
             vx: p.vx * 1.025,
             vy: p.vy * 1.025,
-            color: color.withOpacity(p.lifespan * 0.001 + 0.01),
+            color: color.withAlpha((p.lifespan * 0.255 + 2.55).ceil()),
             lifespan: p.lifespan - 1,
           );
         }

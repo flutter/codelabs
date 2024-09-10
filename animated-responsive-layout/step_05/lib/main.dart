@@ -40,7 +40,7 @@ class Feed extends StatefulWidget {
 class _FeedState extends State<Feed> {
   late final _colorScheme = Theme.of(context).colorScheme;
   late final _backgroundColor = Color.alphaBlend(
-      _colorScheme.primary.withOpacity(0.14), _colorScheme.surface);
+      _colorScheme.primary.withAlpha(36), _colorScheme.surface);
 
   int selectedIndex = 0;
 

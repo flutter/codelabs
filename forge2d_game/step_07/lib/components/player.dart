@@ -134,7 +134,7 @@ class _DragPainter extends CustomPainter {
           center,
           center + (player.dragDelta * -1).toOffset(),
           Paint()
-            ..color = Colors.orange.withOpacity(0.7)
+            ..color = Colors.orange.withAlpha(180)
             ..strokeWidth = 0.4
             ..strokeCap = StrokeCap.round);
     }

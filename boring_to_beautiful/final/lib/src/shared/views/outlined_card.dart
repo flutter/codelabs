@@ -52,8 +52,8 @@ class _OutlinedCardState extends State<OutlinedCard> {
           borderRadius: borderRadius,
         ),
         foregroundDecoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.onSurface.withOpacity(
-                _hovered ? 0.12 : 0,
+          color: Theme.of(context).colorScheme.onSurface.withAlpha(
+                _hovered ? 30 : 0,
               ),
           borderRadius: borderRadius,
         ),

@@ -161,7 +161,7 @@ class _DifficultyBtn extends StatelessWidget {
                 /// Bg with fill and outline
                 Container(
                   decoration: BoxDecoration(
-                    color: const Color(0xFF00D1FF).withOpacity(.1),
+                    color: const Color(0xFF00D1FF).withAlpha(25),
                     border: Border.all(color: Colors.white, width: 5),
                   ),
                 ),
@@ -169,7 +169,7 @@ class _DifficultyBtn extends StatelessWidget {
                 if (state.isHovered || state.isFocused) ...[
                   Container(
                     decoration: BoxDecoration(
-                      color: const Color(0xFF00D1FF).withOpacity(.1),
+                      color: const Color(0xFF00D1FF).withAlpha(25),
                     ),
                   ),
                 ],
