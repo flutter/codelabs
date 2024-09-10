@@ -377,7 +377,7 @@ steps:
           class _EmailWidgetState extends State<EmailWidget> {
             late final ColorScheme _colorScheme = Theme.of(context).colorScheme;
             late Color unselectedColor = Color.alphaBlend(
-              _colorScheme.primary.withOpacity(0.08),
+              _colorScheme.primary.withAlpha(20),
               _colorScheme.surface,
             );
 
@@ -587,7 +587,7 @@ steps:
                 return Container(
                   height: 84,
                   color: Color.alphaBlend(
-                    _colorScheme.primary.withOpacity(0.05),
+                    _colorScheme.primary.withAlpha(12),
                     _colorScheme.surface,
                   ),
                   child: Padding(
@@ -858,7 +858,7 @@ steps:
           class _FeedState extends State<Feed> {
             late final _colorScheme = Theme.of(context).colorScheme;
             late final _backgroundColor = Color.alphaBlend(
-                _colorScheme.primary.withOpacity(0.14), _colorScheme.surface);
+                _colorScheme.primary.withAlpha(36), _colorScheme.surface);
           
             @override
             Widget build(BuildContext context) {
@@ -925,7 +925,7 @@ steps:
            import 'widgets/email_list_view.dart';
           @@ -41,12 +42,20 @@ class _FeedState extends State<Feed> {
              late final _backgroundColor = Color.alphaBlend(
-                 _colorScheme.primary.withOpacity(0.14), _colorScheme.surface);
+                 _colorScheme.primary.withAlpha(36), _colorScheme.surface);
            
           +  int selectedIndex = 0;
           +
@@ -1093,7 +1093,7 @@ steps:
            
            void main() {
           @@ -43,44 +44,65 @@ class _FeedState extends State<Feed> {
-                 _colorScheme.primary.withOpacity(0.14), _colorScheme.surface);
+                 _colorScheme.primary.withAlpha(36), _colorScheme.surface);
            
              int selectedIndex = 0;
           +  bool wideScreen = false;
@@ -1641,7 +1641,7 @@ steps:
           +class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
              late final _colorScheme = Theme.of(context).colorScheme;
              late final _backgroundColor = Color.alphaBlend(
-                 _colorScheme.primary.withOpacity(0.14), _colorScheme.surface);
+                 _colorScheme.primary.withAlpha(36), _colorScheme.surface);
           +  late final _controller = AnimationController(
           +      duration: const Duration(milliseconds: 1000),
           +      reverseDuration: const Duration(milliseconds: 1250),
