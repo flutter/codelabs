@@ -134,7 +134,7 @@ class _PlaylistNavItemState extends State<_PlaylistNavItem> {
         ),
       ),
       onTap: () => GoRouter.of(context).go('/playlists/${widget.playlistId}'),
-      hoverColor: Theme.of(context).colorScheme.primary.withOpacity(0.04),
+      hoverColor: Theme.of(context).colorScheme.primary.withAlpha(10),
       selected: _isSelected,
       focusNode: _focusNode,
     );
