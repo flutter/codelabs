@@ -41,13 +41,3 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
-
-# Since this is a codelab, ignore all target platform project files
-# Readers are instructed to run 'flutter create .' before starting the
-# codelab.
-android/
-ios/
-linux/
-macos/
-web/
-windows/
