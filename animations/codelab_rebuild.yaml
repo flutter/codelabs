@@ -11,25 +11,6 @@ steps:
         path: quiz/ios/Runner.xcodeproj/project.pbxproj
       - name: Remove README
         rm: quiz/README.md
-      - name: Ignore platform project files
-        path: quiz/.gitignore
-        patch-u: |
-          --- a/animations/step_01/.gitignore
-          +++ b/animations/step_01/.gitignore
-          @@ -41,3 +41,13 @@ app.*.map.json
-           /android/app/debug
-           /android/app/profile
-           /android/app/release
-          +
-          +# Since this is a codelab, ignore all target platform project files
-          +# Readers are instructed to run 'flutter create .' before starting the
-          +# codelab.
-          +android/
-          +ios/
-          +linux/
-          +macos/
-          +web/
-          +windows/
       - name: Replace pubspec.yaml
         path: quiz/pubspec.yaml
         replace-contents: |
