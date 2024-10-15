@@ -1,6 +1,6 @@
 name: codelab_rebuild
 description: Rebuild codelabs from a yaml file.
-version: 1.0.0
+version: 1.0.1
 
 environment:
   sdk: ^3.6.0-0
