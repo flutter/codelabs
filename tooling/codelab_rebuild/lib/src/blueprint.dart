@@ -33,7 +33,15 @@ class Blueprint {
 
   /// Verifies if this blueprint is valid by checking that the steps
   /// are valid.
-  bool get isValid => !steps.any((s) => s.isNotValid);
+  bool get isValid {
+    for (final step in steps) {
+      if (step.isNotValid) {
+        _logger.warning('Invalid step: $step');
+        return false;
+      }
+    }
+    return true;
+  }
 
   factory Blueprint.fromJson(Map json) => _$BlueprintFromJson(json);
 
@@ -128,6 +136,13 @@ class BlueprintStep {
   @JsonKey(name: 'xcode-project-path')
   final String? xcodeProjectPath;
 
+  // IPHONEOS_DEPLOYMENT_TARGET
+  @JsonKey(name: 'iphoneos-deployment-target')
+  final String? iphoneosDeploymentTarget;
+  // MACOSX_DEPLOYMENT_TARGET
+  @JsonKey(name: 'macosx-deployment-target')
+  final String? macosxDeploymentTarget;
+
   // Modifies a macOS MainMenu.xib file to make the titlebar transparent,
   // content full window, and hide the title bar.
   @JsonKey(name: 'full-screen-macos-main-menu-xib')
@@ -163,6 +178,8 @@ class BlueprintStep {
     this.xcodeAddFile,
     this.xcodeProjectPath,
     this.macOsMainMenuXib,
+    this.iphoneosDeploymentTarget,
+    this.macosxDeploymentTarget,
   }) {
     if (name.isEmpty) {
       throw ArgumentError.value(name, 'name', 'Cannot be empty.');
@@ -296,9 +313,12 @@ class BlueprintStep {
     }
 
     // If we have a xcodeAddFile, we need a path to the xcode project path
-    if (xcodeAddFile != null && xcodeProjectPath == null) {
+    if (xcodeAddFile != null &&
+        xcodeProjectPath == null &&
+        iphoneosDeploymentTarget == null &&
+        macosxDeploymentTarget == null) {
       _logger.warning(
-          'Invalid step, xcode-add-file with no xcode-project-path: $name');
+          'Invalid step, xcode-add-file with no xcode-project-path, iphoneos-deployment-target or macosx-deployment-target: $name');
       return false;
     }
 

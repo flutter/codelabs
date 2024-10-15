@@ -67,6 +67,8 @@ BlueprintStep _$BlueprintStepFromJson(Map json) => $checkedCreate(
             'stop',
             'xcode-add-file',
             'xcode-project-path',
+            'iphoneos-deployment-target',
+            'macosx-deployment-target',
             'full-screen-macos-main-menu-xib'
           ],
           requiredKeys: const ['name'],
@@ -124,6 +126,10 @@ BlueprintStep _$BlueprintStepFromJson(Map json) => $checkedCreate(
               $checkedConvert('xcode-project-path', (v) => v as String?),
           macOsMainMenuXib: $checkedConvert(
               'full-screen-macos-main-menu-xib', (v) => v as String?),
+          iphoneosDeploymentTarget: $checkedConvert(
+              'iphoneos-deployment-target', (v) => v as String?),
+          macosxDeploymentTarget:
+              $checkedConvert('macosx-deployment-target', (v) => v as String?),
         );
         return val;
       },
@@ -137,7 +143,9 @@ BlueprintStep _$BlueprintStepFromJson(Map json) => $checkedCreate(
         'stripLinesContaining': 'strip-lines-containing',
         'xcodeAddFile': 'xcode-add-file',
         'xcodeProjectPath': 'xcode-project-path',
-        'macOsMainMenuXib': 'full-screen-macos-main-menu-xib'
+        'macOsMainMenuXib': 'full-screen-macos-main-menu-xib',
+        'iphoneosDeploymentTarget': 'iphoneos-deployment-target',
+        'macosxDeploymentTarget': 'macosx-deployment-target'
       },
     );
 
@@ -171,6 +179,8 @@ Map<String, dynamic> _$BlueprintStepToJson(BlueprintStep instance) =>
       'stop': instance.stop,
       'xcode-add-file': instance.xcodeAddFile,
       'xcode-project-path': instance.xcodeProjectPath,
+      'iphoneos-deployment-target': instance.iphoneosDeploymentTarget,
+      'macosx-deployment-target': instance.macosxDeploymentTarget,
       'full-screen-macos-main-menu-xib': instance.macOsMainMenuXib,
     };
 
