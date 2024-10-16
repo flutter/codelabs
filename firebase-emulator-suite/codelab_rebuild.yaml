@@ -352,7 +352,7 @@ steps:
                             // TODO: update email and password
                             await state.logIn('TODO', 'TODO').then((_) {
                               // TODO: update to check that state.user is not null
-                              if (true) {
+                              if (context.mounted) {
                                 context.go('/');
                               }
                             });
@@ -485,20 +485,6 @@ steps:
               }
             }
           }
-      - name: Patch android/app/build.gradle
-        path: complete/android/app/build.gradle
-        patch-u: |
-          --- b/firebase-emulator-suite/complete/android/app/build.gradle
-          +++ a/firebase-emulator-suite/complete/android/app/build.gradle
-          @@ -38,7 +38,7 @@ android {
-                   applicationId = "com.example.complete"
-                   // You can update the following values to match your application needs.
-                   // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-          -        minSdk = flutter.minSdkVersion
-          +        minSdk = 19
-                   targetSdk = flutter.targetSdkVersion
-                   versionCode = flutterVersionCode.toInteger()
-                   versionName = flutterVersionName
       - name: Patch lib/app_state.dart
         path: complete/lib/app_state.dart
         patch-u: |
@@ -683,9 +669,9 @@ steps:
           -                  // TODO: update email and password
           -                  await state.logIn('TODO', 'TODO').then((_) {
           -                    // TODO: update to check that state.user is not null
-          -                    if (true) {
+          -                    if (context.mounted) {
           +                  await state.logIn('dash@email.com', 'dashword').then((_) {
-          +                    if (state.user != null) {
+          +                    if (state.user != null && context.mounted) {
                                  context.go('/');
                                }
                              });

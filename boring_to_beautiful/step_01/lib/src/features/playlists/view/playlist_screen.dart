@@ -84,7 +84,7 @@ class PlaylistScreen extends StatelessWidget {
                       Text(
                         playlist.description,
                         style: context.bodyLarge!.copyWith(
-                          color: colors.onSurface.withOpacity(0.8),
+                          color: colors.onSurface.withAlpha(204),
                         ),
                       ),
                       const SizedBox(height: 8),

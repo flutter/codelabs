@@ -71,7 +71,7 @@ class Enemy extends BodyComponentWithUserData with ContactCallbacks {
   }
 
   @override
-  update(double dt) {
+  void update(double dt) {
     super.update(dt);
 
     if (position.x > camera.visibleWorldRect.right + 10 ||

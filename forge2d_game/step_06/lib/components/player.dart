@@ -65,7 +65,7 @@ class Player extends BodyComponent with DragCallbacks {
   }
 
   @override
-  update(double dt) {
+  void update(double dt) {
     super.update(dt);
 
     if (!body.isAwake) {
@@ -132,7 +132,7 @@ class _DragPainter extends CustomPainter {
           center,
           center + (player.dragDelta * -1).toOffset(),
           Paint()
-            ..color = Colors.orange.withOpacity(0.7)
+            ..color = Colors.orange.withAlpha(180)
             ..strokeWidth = 0.4
             ..strokeCap = StrokeCap.round);
     }
