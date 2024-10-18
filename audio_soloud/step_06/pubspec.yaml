@@ -10,13 +10,13 @@ dependencies:
   flutter:
     sdk: flutter
 
-  flutter_soloud: ^2.0.0
+  flutter_soloud: ^2.1.6
   logging: ^1.2.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^4.0.0
+  flutter_lints: ^5.0.0
 
 flutter:
   uses-material-design: true
