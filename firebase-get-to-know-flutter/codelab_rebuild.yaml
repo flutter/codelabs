@@ -32,7 +32,7 @@ steps:
            # The following line prevents the package from being accidentally published to
            # pub.dev using `flutter pub publish`. This is preferred for private packages.
            publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-          @@ -58,6 +59,8 @@ flutter:
+          @@ -59,6 +60,8 @@ flutter:
              # included with your application, so that you can use the icons in
              # the material Icons class.
              uses-material-design: true
@@ -1699,11 +1699,10 @@ steps:
         platforms: [ macos ]
         path: gtk_flutter
         flutter: build apk
-      # TODO: Re-enable once macOS Firebase configuration builds
-      # - name: Build for macOS
-      #   platforms: [ macos ]
-      #   path: gtk_flutter
-      #   flutter: build macos --debug
+      - name: Build for macOS
+        platforms: [ macos ]
+        path: gtk_flutter
+        flutter: build macos --debug
       - name: Copy step_02
         copydir:
           from: gtk_flutter
@@ -1825,11 +1824,10 @@ steps:
         platforms: [ macos ]
         path: gtk_flutter
         flutter: build apk
-      # TODO: Re-enable once macOS Firebase configuration builds
-      # - name: Build for macOS
-      #   platforms: [ macos ]
-      #   path: gtk_flutter
-      #   flutter: build macos --debug
+      - name: Build for macOS
+        platforms: [ macos ]
+        path: gtk_flutter
+        flutter: build macos --debug
       - name: Copy step_04
         copydir:
           from: gtk_flutter
@@ -2834,11 +2832,10 @@ steps:
         platforms: [ macos ]
         path: gtk_flutter
         flutter: build apk
-      # TODO: Re-enable once macOS Firebase configuration builds
-      # - name: Build for macOS
-      #   platforms: [ macos ]
-      #   path: gtk_flutter
-      #   flutter: build macos --debug
+      - name: Build for macOS
+        platforms: [ macos ]
+        path: gtk_flutter
+        flutter: build macos --debug
       - name: Build for iOS
         platforms: [ macos ]
         path: gtk_flutter
