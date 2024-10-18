@@ -4,19 +4,19 @@ publish_to: 'none'
 version: 0.1.0
 
 environment:
-  sdk: ^3.5.1
+  sdk: ^3.5.3
 
 dependencies:
   flutter:
     sdk: flutter
 
-  flutter_soloud: ^2.0.0
+  flutter_soloud: ^2.1.6
   logging: ^1.2.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^4.0.0
+  flutter_lints: ^5.0.0
 
 flutter:
   uses-material-design: true

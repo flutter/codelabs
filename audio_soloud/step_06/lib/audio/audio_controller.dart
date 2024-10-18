@@ -64,12 +64,12 @@ class AudioController {
   }
 
   void applyFilter() {
-    _soloud!.addGlobalFilter(FilterType.freeverbFilter);
-    _soloud!.setFilterParameter(FilterType.freeverbFilter, 0, 0.2);
-    _soloud!.setFilterParameter(FilterType.freeverbFilter, 2, 0.9);
+    _soloud!.filters.freeverbFilter.activate();
+    _soloud!.filters.freeverbFilter.wet.value = 0.2;
+    _soloud!.filters.freeverbFilter.roomSize.value = 0.9;
   }
 
   void removeFilter() {
-    _soloud!.removeGlobalFilter(FilterType.freeverbFilter);
+    _soloud!.filters.freeverbFilter.deactivate();
   }
 }
