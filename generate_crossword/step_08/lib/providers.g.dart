@@ -6,7 +6,7 @@ part of 'providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$wordListHash() => r'8e3e9cd4555ba4baa045ccddd8dd45a25cfb6653';
+String _$wordListHash() => r'07003444d7241448561b638500001e31610b4717';
 
 /// A provider for the wordlist to use when generating the crossword.
 ///
@@ -21,8 +21,10 @@ final wordListProvider = AutoDisposeFutureProvider<BuiltSet<String>>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef WordListRef = AutoDisposeFutureProviderRef<BuiltSet<String>>;
-String _$workQueueHash() => r'5267451dbdc9b229975d927509d5d14b8f3bcafa';
+String _$workQueueHash() => r'dca73cc7fb2cef3f5dcfdcc3a0926167e88c1083';
 
 /// See also [workQueue].
 @ProviderFor(workQueue)
@@ -35,9 +37,11 @@ final workQueueProvider = AutoDisposeStreamProvider<model.WorkQueue>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef WorkQueueRef = AutoDisposeStreamProviderRef<model.WorkQueue>;
 String _$expectedRemainingTimeHash() =>
-    r'1d054d63860240169de82ae4cdca3fc408d1d6f9';
+    r'45f19e0d3e281c34cb54ed7f67cc783ec5073889';
 
 /// See also [expectedRemainingTime].
 @ProviderFor(expectedRemainingTime)
@@ -51,6 +55,8 @@ final expectedRemainingTimeProvider = AutoDisposeProvider<Duration>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef ExpectedRemainingTimeRef = AutoDisposeProviderRef<Duration>;
 String _$sizeHash() => r'e551985965bf4119e8d90c0e8aa4f4d68a555b73';
 
@@ -149,4 +155,4 @@ final workerCountProvider =
 
 typedef _$WorkerCount = Notifier<BackgroundWorkers>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

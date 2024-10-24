@@ -6,7 +6,7 @@ part of 'providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$wordListHash() => r'8e3e9cd4555ba4baa045ccddd8dd45a25cfb6653';
+String _$wordListHash() => r'07003444d7241448561b638500001e31610b4717';
 
 /// A provider for the wordlist to use when generating the crossword.
 ///
@@ -21,8 +21,10 @@ final wordListProvider = AutoDisposeFutureProvider<BuiltSet<String>>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef WordListRef = AutoDisposeFutureProviderRef<BuiltSet<String>>;
-String _$crosswordHash() => r'88347f829031e496221c562ab2483a560585dd52';
+String _$crosswordHash() => r'1cb202ed90e863d0c3eefeea25e9dc54e2302aa7';
 
 /// See also [crossword].
 @ProviderFor(crossword)
@@ -35,6 +37,8 @@ final crosswordProvider = AutoDisposeStreamProvider<model.Crossword>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef CrosswordRef = AutoDisposeStreamProviderRef<model.Crossword>;
 String _$sizeHash() => r'e551985965bf4119e8d90c0e8aa4f4d68a555b73';
 
@@ -53,4 +57,4 @@ final sizeProvider = NotifierProvider<Size, CrosswordSize>.internal(
 
 typedef _$Size = Notifier<CrosswordSize>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
