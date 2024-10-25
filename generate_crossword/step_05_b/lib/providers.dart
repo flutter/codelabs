@@ -8,6 +8,7 @@ import 'dart:math';
 import 'package:built_collection/built_collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'model.dart' as model;
@@ -17,7 +18,7 @@ part 'providers.g.dart';
 
 /// A provider for the wordlist to use when generating the crossword.
 @riverpod
-Future<BuiltSet<String>> wordList(WordListRef ref) async {
+Future<BuiltSet<String>> wordList(Ref ref) async {
   // This codebase requires that all words consist of lowercase characters
   // in the range 'a'-'z'. Words containing uppercase letters will be
   // lowercased, and words containing runes outside this range will
@@ -66,7 +67,7 @@ class Size extends _$Size {
 final _random = Random();
 
 @riverpod
-Stream<model.Crossword> crossword(CrosswordRef ref) async* {
+Stream<model.Crossword> crossword(Ref ref) async* {
   final size = ref.watch(sizeProvider);
   final wordListAsync = ref.watch(wordListProvider);
 
