@@ -3,6 +3,8 @@ include: ../../analysis_options.yaml
 analyzer:
   language:
     strict-inference: false
+  exclude:
+    - lib/*.g.dart
 
 linter:
   rules:
