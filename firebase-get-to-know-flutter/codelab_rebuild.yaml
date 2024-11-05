@@ -2207,6 +2207,12 @@ steps:
                 ),
               );
             }
+          
+            @override
+            void dispose() {
+              _controller.dispose();
+              super.dispose();
+            }
           }
       - name: Patch lib/home_page.dart
         path: gtk_flutter/lib/home_page.dart

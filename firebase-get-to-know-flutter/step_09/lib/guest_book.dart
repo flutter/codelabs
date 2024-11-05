@@ -79,4 +79,10 @@ class _GuestBookState extends State<GuestBook> {
       ],
     );
   }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 }
