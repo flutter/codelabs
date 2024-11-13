@@ -25,8 +25,9 @@ class ListDetailTransition extends StatefulWidget {
 
 class _ListDetailTransitionState extends State<ListDetailTransition> {
   Animation<double> widthAnimation = const AlwaysStoppedAnimation(0);
-  late final Animation<double> sizeAnimation =
-      SizeAnimation(parent: widget.animation);
+  late final Animation<double> sizeAnimation = SizeAnimation(
+    parent: widget.animation,
+  );
   late final Animation<Offset> offsetAnimation = Tween<Offset>(
     begin: const Offset(1, 0),
     end: Offset.zero,
@@ -56,8 +57,10 @@ class _ListDetailTransitionState extends State<ListDetailTransition> {
     }
 
     if (currentFlexFactor == 0) {
-      widthAnimation =
-          Tween<double>(begin: 0, end: nextFlexFactor).animate(sizeAnimation);
+      widthAnimation = Tween<double>(
+        begin: 0,
+        end: nextFlexFactor,
+      ).animate(sizeAnimation);
     } else {
       final TweenSequence<double> sequence = TweenSequence([
         if (sizeAnimation.value > 0) ...[
@@ -85,19 +88,16 @@ class _ListDetailTransitionState extends State<ListDetailTransition> {
     return widthAnimation.value.toInt() == 0
         ? widget.one
         : Row(
-            children: [
-              Flexible(
-                flex: 1000,
-                child: widget.one,
+          children: [
+            Flexible(flex: 1000, child: widget.one),
+            Flexible(
+              flex: widthAnimation.value.toInt(),
+              child: FractionalTranslation(
+                translation: offsetAnimation.value,
+                child: widget.two,
               ),
-              Flexible(
-                flex: widthAnimation.value.toInt(),
-                child: FractionalTranslation(
-                  translation: offsetAnimation.value,
-                  child: widget.two,
-                ),
-              ),
-            ],
-          );
+            ),
+          ],
+        );
   }
 }

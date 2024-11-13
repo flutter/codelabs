@@ -1,5 +1,1 @@
-enum StoreState {
-  loading,
-  available,
-  notAvailable,
-}
+enum StoreState { loading, available, notAvailable }

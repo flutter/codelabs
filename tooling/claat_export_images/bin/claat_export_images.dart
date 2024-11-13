@@ -16,12 +16,7 @@ import 'package:path/path.dart' as path;
 
 void main(List<String> arguments) async {
   final argParser = ArgParser();
-  argParser.addFlag(
-    'help',
-    abbr: 'h',
-    negatable: false,
-    help: 'Display usage',
-  );
+  argParser.addFlag('help', abbr: 'h', negatable: false, help: 'Display usage');
   argParser.addOption(
     'client-secrets',
     abbr: 's',
@@ -42,9 +37,7 @@ void main(List<String> arguments) async {
   }
 
   final clientSecret = ClientSecret.fromJson(
-    jsonDecode(
-      await File(args['client-secrets']).readAsString(),
-    ),
+    jsonDecode(await File(args['client-secrets']).readAsString()),
   );
 
   final gDocID = args['doc-id'];
@@ -54,28 +47,34 @@ void main(List<String> arguments) async {
     clientSecret: clientSecret.installed.clientSecret,
   );
   final apiClient = google_docs.DocsApi(client);
-  final document = await apiClient.documents
-      .get(gDocID, suggestionsViewMode: 'PREVIEW_WITHOUT_SUGGESTIONS');
+  final document = await apiClient.documents.get(
+    gDocID,
+    suggestionsViewMode: 'PREVIEW_WITHOUT_SUGGESTIONS',
+  );
   final uris = claatImageUris(document);
   Directory('img').createSync();
   int imageCount = 0;
   for (final uri in uris) {
     final response = await http.get(uri);
     if (PngDecoder().isValidFile(response.bodyBytes)) {
-      File(path.join('img', '${uri.pathSegments.last}.png'))
-          .writeAsBytesSync(response.bodyBytes);
+      File(
+        path.join('img', '${uri.pathSegments.last}.png'),
+      ).writeAsBytesSync(response.bodyBytes);
       imageCount += 1;
     } else if (JpegDecoder().isValidFile(response.bodyBytes)) {
-      File(path.join('img', '${uri.pathSegments.last}.jpg'))
-          .writeAsBytesSync(response.bodyBytes);
+      File(
+        path.join('img', '${uri.pathSegments.last}.jpg'),
+      ).writeAsBytesSync(response.bodyBytes);
       imageCount += 1;
     } else if (GifDecoder().isValidFile(response.bodyBytes)) {
-      File(path.join('img', '${uri.pathSegments.last}.gif'))
-          .writeAsBytesSync(response.bodyBytes);
+      File(
+        path.join('img', '${uri.pathSegments.last}.gif'),
+      ).writeAsBytesSync(response.bodyBytes);
       imageCount += 1;
     } else if (WebPDecoder().isValidFile(response.bodyBytes)) {
-      File(path.join('img', '${uri.pathSegments.last}.webp'))
-          .writeAsBytesSync(response.bodyBytes);
+      File(
+        path.join('img', '${uri.pathSegments.last}.webp'),
+      ).writeAsBytesSync(response.bodyBytes);
       imageCount += 1;
     } else {
       print('Unknown image format: $uri');
@@ -84,13 +83,12 @@ void main(List<String> arguments) async {
   print('Wrote $imageCount images to img/');
 }
 
-Future<AuthClient> obtainCredentials(
-        {required String clientID, required String clientSecret}) async =>
-    await clientViaUserConsent(
-      ClientId(clientID, clientSecret),
-      [google_docs.DocsApi.driveReadonlyScope],
-      _prompt,
-    );
+Future<AuthClient> obtainCredentials({
+  required String clientID,
+  required String clientSecret,
+}) async => await clientViaUserConsent(ClientId(clientID, clientSecret), [
+  google_docs.DocsApi.driveReadonlyScope,
+], _prompt);
 
 void _prompt(String url) {
   print('Please go to the following URL and grant access:');

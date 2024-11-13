@@ -52,38 +52,30 @@ class _MyHomePageState extends State<MyHomePage> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<FirebaseNotifier>(
-            create: (_) => FirebaseNotifier()),
+          create: (_) => FirebaseNotifier(),
+        ),
         ChangeNotifierProvider<DashCounter>(create: (_) => DashCounter()),
         ChangeNotifierProvider<DashUpgrades>(
-          create: (context) => DashUpgrades(
-            context.read<DashCounter>(),
-            context.read<FirebaseNotifier>(),
-          ),
+          create:
+              (context) => DashUpgrades(
+                context.read<DashCounter>(),
+                context.read<FirebaseNotifier>(),
+              ),
         ),
         ChangeNotifierProvider<IAPRepo>(
           create: (context) => IAPRepo(context.read<FirebaseNotifier>()),
         ),
         ChangeNotifierProvider<DashPurchases>(
-          create: (context) => DashPurchases(
-            context.read<DashCounter>(),
-          ),
+          create: (context) => DashPurchases(context.read<DashCounter>()),
         ),
       ],
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(widget.title),
-        ),
+        appBar: AppBar(title: Text(widget.title)),
         body: _widgetOptions[_selectedIndex],
         bottomNavigationBar: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.shop),
-              label: 'Purchase',
-            ),
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+            BottomNavigationBarItem(icon: Icon(Icons.shop), label: 'Purchase'),
           ],
           currentIndex: _selectedIndex,
           selectedItemColor: Colors.amber[800],

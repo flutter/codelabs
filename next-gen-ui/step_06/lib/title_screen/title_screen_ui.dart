@@ -37,10 +37,7 @@ class TitleScreenUi extends StatelessWidget {
         children: [
           /// Title Text
           const TopLeft(
-            child: UiScaler(
-              alignment: Alignment.topLeft,
-              child: _TitleText(),
-            ),
+            child: UiScaler(alignment: Alignment.topLeft, child: _TitleText()),
           ),
 
           /// Difficulty Btns
@@ -93,9 +90,10 @@ class _TitleText extends StatelessWidget {
             Image.asset(AssetPaths.titleSelectedRight, height: 65),
           ],
         ).animate().fadeIn(delay: .8.seconds, duration: .7.seconds),
-        Text('INTO THE UNKNOWN', style: TextStyles.h3)
-            .animate()
-            .fadeIn(delay: 1.seconds, duration: .7.seconds),
+        Text(
+          'INTO THE UNKNOWN',
+          style: TextStyles.h3,
+        ).animate().fadeIn(delay: 1.seconds, duration: .7.seconds),
       ],
     );
     return Consumer<FragmentPrograms?>(
@@ -103,21 +101,22 @@ class _TitleText extends StatelessWidget {
         if (fragmentPrograms == null) return content;
         return TickingBuilder(
           builder: (context, time) {
-            return AnimatedSampler(
-              (image, size, canvas) {
-                const double overdrawPx = 30;
-                final shader = fragmentPrograms.ui.fragmentShader();
-                shader
-                  ..setFloat(0, size.width)
-                  ..setFloat(1, size.height)
-                  ..setFloat(2, time)
-                  ..setImageSampler(0, image);
-                Rect rect = Rect.fromLTWH(-overdrawPx, -overdrawPx,
-                    size.width + overdrawPx, size.height + overdrawPx);
-                canvas.drawRect(rect, Paint()..shader = shader);
-              },
-              child: content,
-            );
+            return AnimatedSampler((image, size, canvas) {
+              const double overdrawPx = 30;
+              final shader = fragmentPrograms.ui.fragmentShader();
+              shader
+                ..setFloat(0, size.width)
+                ..setFloat(1, size.height)
+                ..setFloat(2, time)
+                ..setImageSampler(0, image);
+              Rect rect = Rect.fromLTWH(
+                -overdrawPx,
+                -overdrawPx,
+                size.width + overdrawPx,
+                size.height + overdrawPx,
+              );
+              canvas.drawRect(rect, Paint()..shader = shader);
+            }, child: content);
           },
         );
       },
@@ -142,29 +141,29 @@ class _DifficultyBtns extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         _DifficultyBtn(
-          label: 'Casual',
-          selected: difficulty == 0,
-          onPressed: () => onDifficultyPressed(0),
-          onHover: (over) => onDifficultyFocused(over ? 0 : null),
-        )
+              label: 'Casual',
+              selected: difficulty == 0,
+              onPressed: () => onDifficultyPressed(0),
+              onHover: (over) => onDifficultyFocused(over ? 0 : null),
+            )
             .animate()
             .fadeIn(delay: 1.3.seconds, duration: .35.seconds)
             .slide(begin: const Offset(0, .2)),
         _DifficultyBtn(
-          label: 'Normal',
-          selected: difficulty == 1,
-          onPressed: () => onDifficultyPressed(1),
-          onHover: (over) => onDifficultyFocused(over ? 1 : null),
-        )
+              label: 'Normal',
+              selected: difficulty == 1,
+              onPressed: () => onDifficultyPressed(1),
+              onHover: (over) => onDifficultyFocused(over ? 1 : null),
+            )
             .animate()
             .fadeIn(delay: 1.5.seconds, duration: .35.seconds)
             .slide(begin: const Offset(0, .2)),
         _DifficultyBtn(
-          label: 'Hardcore',
-          selected: difficulty == 2,
-          onPressed: () => onDifficultyPressed(2),
-          onHover: (over) => onDifficultyFocused(over ? 2 : null),
-        )
+              label: 'Hardcore',
+              selected: difficulty == 2,
+              onPressed: () => onDifficultyPressed(2),
+              onHover: (over) => onDifficultyFocused(over ? 2 : null),
+            )
             .animate()
             .fadeIn(delay: 1.7.seconds, duration: .35.seconds)
             .slide(begin: const Offset(0, .2)),
@@ -201,9 +200,10 @@ class _DifficultyBtn extends StatelessWidget {
               children: [
                 /// Bg with fill and outline
                 AnimatedOpacity(
-                  opacity: (!selected && (state.isHovered || state.isFocused))
-                      ? 1
-                      : 0,
+                  opacity:
+                      (!selected && (state.isHovered || state.isFocused))
+                          ? 1
+                          : 0,
                   duration: .3.seconds,
                   child: Container(
                     decoration: BoxDecoration(
@@ -223,18 +223,14 @@ class _DifficultyBtn extends StatelessWidget {
 
                 /// cross-hairs (selected state)
                 if (selected) ...[
-                  CenterLeft(
-                    child: Image.asset(AssetPaths.titleSelectedLeft),
-                  ),
+                  CenterLeft(child: Image.asset(AssetPaths.titleSelectedLeft)),
                   CenterRight(
                     child: Image.asset(AssetPaths.titleSelectedRight),
                   ),
                 ],
 
                 /// Label
-                Center(
-                  child: Text(label.toUpperCase(), style: TextStyles.btn),
-                ),
+                Center(child: Text(label.toUpperCase(), style: TextStyles.btn)),
               ],
             ),
           ),
@@ -269,30 +265,37 @@ class _StartBtnState extends State<_StartBtn> {
         }
         _wasHovered = (state.isHovered || state.isFocused);
         return SizedBox(
-          width: 520,
-          height: 100,
-          child: Stack(
-            children: [
-              Positioned.fill(child: Image.asset(AssetPaths.titleStartBtn)),
-              if (state.isHovered || state.isFocused) ...[
-                Positioned.fill(
-                    child: Image.asset(AssetPaths.titleStartBtnHover)),
-              ],
-              Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text('START MISSION',
-                        style: TextStyles.btn
-                            .copyWith(fontSize: 24, letterSpacing: 18)),
-                  ],
-                ),
-              ),
-            ],
-          )
-              .animate(autoPlay: false, onInit: (c) => _btnAnim = c)
-              .shimmer(duration: .7.seconds, color: Colors.black),
-        )
+              width: 520,
+              height: 100,
+              child: Stack(
+                    children: [
+                      Positioned.fill(
+                        child: Image.asset(AssetPaths.titleStartBtn),
+                      ),
+                      if (state.isHovered || state.isFocused) ...[
+                        Positioned.fill(
+                          child: Image.asset(AssetPaths.titleStartBtnHover),
+                        ),
+                      ],
+                      Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              'START MISSION',
+                              style: TextStyles.btn.copyWith(
+                                fontSize: 24,
+                                letterSpacing: 18,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  )
+                  .animate(autoPlay: false, onInit: (c) => _btnAnim = c)
+                  .shimmer(duration: .7.seconds, color: Colors.black),
+            )
             .animate()
             .fadeIn(delay: 2.3.seconds)
             .slide(begin: const Offset(0, .2));

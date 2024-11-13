@@ -11,11 +11,13 @@ class Ball extends CircleComponent {
     required super.position,
     required double radius,
   }) : super(
-            radius: radius,
-            anchor: Anchor.center,
-            paint: Paint()
-              ..color = const Color(0xff1e6091)
-              ..style = PaintingStyle.fill);
+         radius: radius,
+         anchor: Anchor.center,
+         paint:
+             Paint()
+               ..color = const Color(0xff1e6091)
+               ..style = PaintingStyle.fill,
+       );
 
   final Vector2 velocity;
 

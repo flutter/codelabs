@@ -5,11 +5,7 @@
 import 'package:flutter/material.dart';
 
 class ArticleContent extends StatelessWidget {
-  const ArticleContent({
-    super.key,
-    required this.child,
-    this.maxWidth = 960,
-  });
+  const ArticleContent({super.key, required this.child, this.maxWidth = 960});
 
   final double maxWidth;
   final Widget child;
@@ -19,13 +15,8 @@ class ArticleContent extends StatelessWidget {
     return Container(
       alignment: Alignment.topCenter,
       child: ConstrainedBox(
-        constraints: BoxConstraints(
-          maxWidth: maxWidth,
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(15),
-          child: child,
-        ),
+        constraints: BoxConstraints(maxWidth: maxWidth),
+        child: Padding(padding: const EdgeInsets.all(15), child: child),
       ),
     );
   }

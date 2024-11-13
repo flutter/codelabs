@@ -19,8 +19,9 @@ import 'package:http/http.dart' as http;
 import 'package:oauth2/oauth2.dart' as oauth2;
 import 'package:url_launcher/url_launcher.dart';
 
-final _authorizationEndpoint =
-    Uri.parse('https://github.com/login/oauth/authorize');
+final _authorizationEndpoint = Uri.parse(
+  'https://github.com/login/oauth/authorize',
+);
 final _tokenEndpoint = Uri.parse('https://github.com/login/oauth/access_token');
 
 class GithubLoginWidget extends StatefulWidget {
@@ -40,8 +41,8 @@ class GithubLoginWidget extends StatefulWidget {
   State<GithubLoginWidget> createState() => _GithubLoginState();
 }
 
-typedef AuthenticatedBuilder = Widget Function(
-    BuildContext context, oauth2.Client client);
+typedef AuthenticatedBuilder =
+    Widget Function(BuildContext context, oauth2.Client client);
 
 class _GithubLoginState extends State<GithubLoginWidget> {
   HttpServer? _redirectServer;
@@ -55,10 +56,7 @@ class _GithubLoginState extends State<GithubLoginWidget> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Github Login'),
-        elevation: 2,
-      ),
+      appBar: AppBar(title: const Text('Github Login'), elevation: 2),
       body: Center(
         child: ElevatedButton(
           onPressed: () async {
@@ -66,7 +64,8 @@ class _GithubLoginState extends State<GithubLoginWidget> {
             // Bind to an ephemeral port on localhost
             _redirectServer = await HttpServer.bind('localhost', 0);
             var authenticatedHttpClient = await _getOAuth2Client(
-                Uri.parse('http://localhost:${_redirectServer!.port}/auth'));
+              Uri.parse('http://localhost:${_redirectServer!.port}/auth'),
+            );
             setState(() {
               _client = authenticatedHttpClient;
             });
@@ -80,8 +79,9 @@ class _GithubLoginState extends State<GithubLoginWidget> {
   Future<oauth2.Client> _getOAuth2Client(Uri redirectUrl) async {
     if (widget.githubClientId.isEmpty || widget.githubClientSecret.isEmpty) {
       throw const GithubLoginException(
-          'githubClientId and githubClientSecret must be not empty. '
-          'See `lib/github_oauth_credentials.dart` for more detail.');
+        'githubClientId and githubClientSecret must be not empty. '
+        'See `lib/github_oauth_credentials.dart` for more detail.',
+      );
     }
     var grant = oauth2.AuthorizationCodeGrant(
       widget.githubClientId,
@@ -90,13 +90,16 @@ class _GithubLoginState extends State<GithubLoginWidget> {
       secret: widget.githubClientSecret,
       httpClient: _JsonAcceptingHttpClient(),
     );
-    var authorizationUrl =
-        grant.getAuthorizationUrl(redirectUrl, scopes: widget.githubScopes);
+    var authorizationUrl = grant.getAuthorizationUrl(
+      redirectUrl,
+      scopes: widget.githubScopes,
+    );
 
     await _redirect(authorizationUrl);
     var responseQueryParameters = await _listen();
-    var client =
-        await grant.handleAuthorizationResponse(responseQueryParameters);
+    var client = await grant.handleAuthorizationResponse(
+      responseQueryParameters,
+    );
     return client;
   }
 

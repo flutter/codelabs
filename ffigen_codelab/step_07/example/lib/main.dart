@@ -15,31 +15,22 @@ void main() {
 
 final duktapeMessagesProvider =
     StateNotifierProvider<DuktapeMessageNotifier, List<DuktapeMessage>>((ref) {
-  return DuktapeMessageNotifier(messages: <DuktapeMessage>[]);
-});
+      return DuktapeMessageNotifier(messages: <DuktapeMessage>[]);
+    });
 
 class DuktapeMessageNotifier extends StateNotifier<List<DuktapeMessage>> {
   DuktapeMessageNotifier({required List<DuktapeMessage> messages})
-      : duktape = Duktape(),
-        super(messages);
+    : duktape = Duktape(),
+      super(messages);
   final Duktape duktape;
 
   void eval(String code) {
-    state = [
-      DuktapeMessage.evaluate(code),
-      ...state,
-    ];
+    state = [DuktapeMessage.evaluate(code), ...state];
     try {
       final response = duktape.evalString(code);
-      state = [
-        DuktapeMessage.response(response),
-        ...state,
-      ];
+      state = [DuktapeMessage.response(response), ...state];
     } catch (e) {
-      state = [
-        DuktapeMessage.error('$e'),
-        ...state,
-      ];
+      state = [DuktapeMessage.error('$e'), ...state];
     }
   }
 }
@@ -49,17 +40,12 @@ class DuktapeApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'Duktape App',
-      home: DuktapeRepl(),
-    );
+    return const MaterialApp(title: 'Duktape App', home: DuktapeRepl());
   }
 }
 
 class DuktapeRepl extends ConsumerStatefulWidget {
-  const DuktapeRepl({
-    super.key,
-  });
+  const DuktapeRepl({super.key});
 
   @override
   ConsumerState<DuktapeRepl> createState() => _DuktapeReplState();
@@ -100,38 +86,45 @@ class _DuktapeReplState extends ConsumerState<DuktapeRepl> {
                 child: ListView.builder(
                   padding: const EdgeInsets.all(8.0),
                   reverse: true,
-                  itemBuilder: (context, idx) => messages[idx].when(
-                    evaluate: (str) => Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 2),
-                      child: Text(
-                        '> $str',
-                        style: GoogleFonts.firaCode(
-                          textStyle: Theme.of(context).textTheme.titleMedium,
-                        ),
+                  itemBuilder:
+                      (context, idx) => messages[idx].when(
+                        evaluate:
+                            (str) => Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 2),
+                              child: Text(
+                                '> $str',
+                                style: GoogleFonts.firaCode(
+                                  textStyle:
+                                      Theme.of(context).textTheme.titleMedium,
+                                ),
+                              ),
+                            ),
+                        response:
+                            (str) => Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 2),
+                              child: Text(
+                                '= $str',
+                                style: GoogleFonts.firaCode(
+                                  textStyle:
+                                      Theme.of(context).textTheme.titleMedium,
+                                  color: Colors.blue[800],
+                                ),
+                              ),
+                            ),
+                        error:
+                            (str) => Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 2),
+                              child: Text(
+                                str,
+                                style: GoogleFonts.firaCode(
+                                  textStyle:
+                                      Theme.of(context).textTheme.titleSmall,
+                                  color: Colors.red[800],
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
                       ),
-                    ),
-                    response: (str) => Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 2),
-                      child: Text(
-                        '= $str',
-                        style: GoogleFonts.firaCode(
-                          textStyle: Theme.of(context).textTheme.titleMedium,
-                          color: Colors.blue[800],
-                        ),
-                      ),
-                    ),
-                    error: (str) => Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 2),
-                      child: Text(
-                        str,
-                        style: GoogleFonts.firaCode(
-                          textStyle: Theme.of(context).textTheme.titleSmall,
-                          color: Colors.red[800],
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
                   itemCount: messages.length,
                 ),
               ),
@@ -162,9 +155,7 @@ class _DuktapeReplState extends ConsumerState<DuktapeRepl> {
             Flexible(
               child: TextField(
                 controller: _controller,
-                decoration: const InputDecoration(
-                  border: InputBorder.none,
-                ),
+                decoration: const InputDecoration(border: InputBorder.none),
                 onChanged: (text) {
                   setState(() {
                     _isComposing = text.isNotEmpty;
@@ -178,9 +169,10 @@ class _DuktapeReplState extends ConsumerState<DuktapeRepl> {
               margin: const EdgeInsets.symmetric(horizontal: 4.0),
               child: IconButton(
                 icon: const Icon(Icons.send),
-                onPressed: _isComposing
-                    ? () => _handleSubmitted(_controller.text)
-                    : null,
+                onPressed:
+                    _isComposing
+                        ? () => _handleSubmitted(_controller.text)
+                        : null,
               ),
             ),
           ],

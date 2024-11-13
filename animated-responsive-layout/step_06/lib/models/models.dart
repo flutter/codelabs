@@ -3,9 +3,7 @@
 // found in the LICENSE file.
 
 class Attachment {
-  const Attachment({
-    required this.url,
-  });
+  const Attachment({required this.url});
 
   final String url;
 }
@@ -29,10 +27,7 @@ class Email {
 }
 
 class Name {
-  const Name({
-    required this.first,
-    required this.last,
-  });
+  const Name({required this.first, required this.last});
 
   final String first;
   final String last;

@@ -20,7 +20,7 @@ steps:
           version: 0.0.1+1
 
           environment:
-            sdk: ^3.6.0-0
+            sdk: ^3.7.0-0
 
           dependencies:
             flutter:

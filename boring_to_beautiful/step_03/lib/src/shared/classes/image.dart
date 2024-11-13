@@ -3,10 +3,11 @@
 // found in the LICENSE file.
 
 class MyArtistImage {
-  const MyArtistImage(
-      {required this.image,
-      required this.sourceName,
-      required this.sourceLink});
+  const MyArtistImage({
+    required this.image,
+    required this.sourceName,
+    required this.sourceLink,
+  });
 
   final String image;
   final String sourceName;

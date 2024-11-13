@@ -23,36 +23,33 @@ Future<Map<String, PurchaseHandler>> _createPurchaseHandlers() async {
   // Configure Android Publisher API access
   final serviceAccountGooglePlay =
       File('assets/service-account-google-play.json').readAsStringSync();
-  final clientCredentialsGooglePlay =
-      auth.ServiceAccountCredentials.fromJson(serviceAccountGooglePlay);
-  final clientGooglePlay =
-      await auth.clientViaServiceAccount(clientCredentialsGooglePlay, [
-    ap.AndroidPublisherApi.androidpublisherScope,
-  ]);
+  final clientCredentialsGooglePlay = auth.ServiceAccountCredentials.fromJson(
+    serviceAccountGooglePlay,
+  );
+  final clientGooglePlay = await auth.clientViaServiceAccount(
+    clientCredentialsGooglePlay,
+    [ap.AndroidPublisherApi.androidpublisherScope],
+  );
   final androidPublisher = ap.AndroidPublisherApi(clientGooglePlay);
 
   // Configure Firestore API access
   final serviceAccountFirebase =
       File('assets/service-account-firebase.json').readAsStringSync();
-  final clientCredentialsFirebase =
-      auth.ServiceAccountCredentials.fromJson(serviceAccountFirebase);
-  final clientFirebase =
-      await auth.clientViaServiceAccount(clientCredentialsFirebase, [
-    fs.FirestoreApi.cloudPlatformScope,
-  ]);
+  final clientCredentialsFirebase = auth.ServiceAccountCredentials.fromJson(
+    serviceAccountFirebase,
+  );
+  final clientFirebase = await auth.clientViaServiceAccount(
+    clientCredentialsFirebase,
+    [fs.FirestoreApi.cloudPlatformScope],
+  );
   final firestoreApi = fs.FirestoreApi(clientFirebase);
   final dynamic json = jsonDecode(serviceAccountFirebase);
   final projectId = json['project_id'] as String;
   final iapRepository = IapRepository(firestoreApi, projectId);
 
   return {
-    'google_play': GooglePlayPurchaseHandler(
-      androidPublisher,
-      iapRepository,
-    ),
-    'app_store': AppStorePurchaseHandler(
-      iapRepository,
-    ),
+    'google_play': GooglePlayPurchaseHandler(androidPublisher, iapRepository),
+    'app_store': AppStorePurchaseHandler(iapRepository),
   };
 }
 
@@ -95,19 +92,14 @@ Future<void> main() async {
   await serveHandler(router.call);
 }
 
-({
-  String userId,
-  String source,
-  ProductData productData,
-  String token,
-}) getPurchaseData(dynamic payload) {
-  if (payload
-      case {
-        'userId': String userId,
-        'source': String source,
-        'productId': String productId,
-        'verificationData': String token,
-      }) {
+({String userId, String source, ProductData productData, String token})
+getPurchaseData(dynamic payload) {
+  if (payload case {
+    'userId': String userId,
+    'source': String source,
+    'productId': String productId,
+    'verificationData': String token,
+  }) {
     return (
       userId: userId,
       source: source,

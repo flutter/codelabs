@@ -41,7 +41,8 @@ Future<void> _buildBlueprintStep(Directory cwd, BlueprintStep step) async {
   if (platforms != null) {
     if (!platforms.contains(Platform.operatingSystem)) {
       _logger.info(
-          'Skipping because ${Platform.operatingSystem} is not in [${platforms.join(',')}].');
+        'Skipping because ${Platform.operatingSystem} is not in [${platforms.join(',')}].',
+      );
       return;
     }
   }
@@ -58,17 +59,19 @@ Future<void> _buildBlueprintStep(Directory cwd, BlueprintStep step) async {
     final dir = step.mkdir;
     if (dir != null) {
       _mkdir(
-          step.path != null
-              ? p.join(cwd.path, step.path, dir)
-              : p.join(cwd.path, dir),
-          step: step);
+        step.path != null
+            ? p.join(cwd.path, step.path, dir)
+            : p.join(cwd.path, dir),
+        step: step,
+      );
     } else {
       for (final dir in step.mkdirs) {
         _mkdir(
-            step.path != null
-                ? p.join(cwd.path, step.path, dir)
-                : p.join(cwd.path, dir),
-            step: step);
+          step.path != null
+              ? p.join(cwd.path, step.path, dir)
+              : p.join(cwd.path, dir),
+          step: step,
+        );
       }
     }
     return;
@@ -78,17 +81,19 @@ Future<void> _buildBlueprintStep(Directory cwd, BlueprintStep step) async {
     final dir = step.rmdir;
     if (dir != null) {
       _rmdir(
-          step.path != null
-              ? p.join(cwd.path, step.path, dir)
-              : p.join(cwd.path, dir),
-          step: step);
+        step.path != null
+            ? p.join(cwd.path, step.path, dir)
+            : p.join(cwd.path, dir),
+        step: step,
+      );
     } else {
       for (final dir in step.rmdirs) {
         _rmdir(
-            step.path != null
-                ? p.join(cwd.path, step.path, dir)
-                : p.join(cwd.path, dir),
-            step: step);
+          step.path != null
+              ? p.join(cwd.path, step.path, dir)
+              : p.join(cwd.path, dir),
+          step: step,
+        );
       }
     }
     return;
@@ -98,14 +103,16 @@ Future<void> _buildBlueprintStep(Directory cwd, BlueprintStep step) async {
   if (rename != null) {
     if (step.path != null) {
       _rename(
-          from: p.join(cwd.path, step.path, rename.from),
-          to: p.join(cwd.path, step.path, rename.to),
-          step: step);
+        from: p.join(cwd.path, step.path, rename.from),
+        to: p.join(cwd.path, step.path, rename.to),
+        step: step,
+      );
     } else {
       _rename(
-          from: p.join(cwd.path, rename.from),
-          to: p.join(cwd.path, rename.to),
-          step: step);
+        from: p.join(cwd.path, rename.from),
+        to: p.join(cwd.path, rename.to),
+        step: step,
+      );
     }
     return;
   }
@@ -114,14 +121,16 @@ Future<void> _buildBlueprintStep(Directory cwd, BlueprintStep step) async {
   if (cpdir != null) {
     if (step.path != null) {
       _cpdir(
-          from: p.join(cwd.path, step.path, cpdir.from),
-          to: p.join(cwd.path, step.path, cpdir.to),
-          step: step);
+        from: p.join(cwd.path, step.path, cpdir.from),
+        to: p.join(cwd.path, step.path, cpdir.to),
+        step: step,
+      );
     } else {
       _cpdir(
-          from: p.join(cwd.path, cpdir.from),
-          to: p.join(cwd.path, cpdir.to),
-          step: step);
+        from: p.join(cwd.path, cpdir.from),
+        to: p.join(cwd.path, cpdir.to),
+        step: step,
+      );
     }
     return;
   }
@@ -130,14 +139,16 @@ Future<void> _buildBlueprintStep(Directory cwd, BlueprintStep step) async {
   if (cp != null) {
     if (step.path != null) {
       _cp(
-          from: p.join(cwd.path, step.path, cp.from),
-          to: p.join(cwd.path, step.path, cp.to),
-          step: step);
+        from: p.join(cwd.path, step.path, cp.from),
+        to: p.join(cwd.path, step.path, cp.to),
+        step: step,
+      );
     } else {
       _cp(
-          from: p.join(cwd.path, cp.from),
-          to: p.join(cwd.path, cp.to),
-          step: step);
+        from: p.join(cwd.path, cp.from),
+        to: p.join(cwd.path, cp.to),
+        step: step,
+      );
     }
     return;
   }
@@ -180,12 +191,7 @@ Future<void> _buildBlueprintStep(Directory cwd, BlueprintStep step) async {
 
   final dart = step.dart;
   if (dart != null) {
-    await _runNamedCommand(
-      command: 'dart',
-      step: step,
-      cwd: cwd,
-      args: dart,
-    );
+    await _runNamedCommand(command: 'dart', step: step, cwd: cwd, args: dart);
     return;
   }
 
@@ -215,23 +221,13 @@ Future<void> _buildBlueprintStep(Directory cwd, BlueprintStep step) async {
 
   final tar = step.tar;
   if (tar != null) {
-    await _runNamedCommand(
-      command: 'tar',
-      step: step,
-      cwd: cwd,
-      args: tar,
-    );
+    await _runNamedCommand(command: 'tar', step: step, cwd: cwd, args: tar);
     return;
   }
 
   final sevenZip = step.sevenZip;
   if (sevenZip != null) {
-    await _runNamedCommand(
-      command: '7z',
-      step: step,
-      cwd: cwd,
-      args: sevenZip,
-    );
+    await _runNamedCommand(command: '7z', step: step, cwd: cwd, args: sevenZip);
     return;
   }
 
@@ -261,10 +257,7 @@ project = Xcodeproj::Project.open("$xcodeProjectPath")
 group = project.main_group["Runner"]
 project.targets.first.add_file_references([group.new_file("$xcodeAddFile")])
 project.save
-'''
-          .split('\n')
-          .map((str) => "-e '$str'")
-          .join(' ');
+'''.split('\n').map((str) => "-e '$str'").join(' ');
     } else if (iphoneosDeploymentTarget != null &&
         iphoneosDeploymentTarget.isNotEmpty) {
       script = '''
@@ -273,10 +266,7 @@ project = Xcodeproj::Project.open("$xcodeProjectPath")
 group = project.main_group["Runner"]
 project.targets.each { |t| t.build_configurations.each { |c| c.build_settings["IPHONEOS_DEPLOYMENT_TARGET"] ||= $iphoneosDeploymentTarget } }
 project.save
-'''
-          .split('\n')
-          .map((str) => "-e '$str'")
-          .join(' ');
+'''.split('\n').map((str) => "-e '$str'").join(' ');
     } else if (macosxDeploymentTarget != null &&
         macosxDeploymentTarget.isNotEmpty) {
       script = '''
@@ -285,23 +275,22 @@ project = Xcodeproj::Project.open("$xcodeProjectPath")
 group = project.main_group["Runner"]
 project.targets.each { |t| t.build_configurations.each { |c| c.build_settings["MACOSX_DEPLOYMENT_TARGET"] ||= $macosxDeploymentTarget } }
 project.save
-'''
-          .split('\n')
-          .map((str) => "-e '$str'")
-          .join(' ');
+'''.split('\n').map((str) => "-e '$str'").join(' ');
     } else {
       _logger.severe(
-          'xcode-add-file requires xcode-project-path, iphoneos-deployment-target'
-          ' or macosx-deployment-target: ${step.name}');
+        'xcode-add-file requires xcode-project-path, iphoneos-deployment-target'
+        ' or macosx-deployment-target: ${step.name}',
+      );
       exit(-1);
     }
 
     await _runNamedCommand(
-        command: 'ruby',
-        step: step,
-        cwd: cwd,
-        args: script,
-        exitOnStdErr: false);
+      command: 'ruby',
+      step: step,
+      cwd: cwd,
+      args: script,
+      exitOnStdErr: false,
+    );
     return;
   }
   // Modifies a macOS MainMenu.xib file to make the titlebar transparent,
@@ -329,7 +318,8 @@ project.save
   final path = step.path;
   if (path == null) {
     _logger.severe(
-        'patch, base64-contents and replace-contents require a path: ${step.name}');
+      'patch, base64-contents and replace-contents require a path: ${step.name}',
+    );
     exit(-1);
   }
 
@@ -346,14 +336,19 @@ project.save
 
     late final Process process;
     if (patch != null) {
-      process =
-          await Process.start('patch', [fullPath], workingDirectory: cwd.path);
+      process = await Process.start('patch', [
+        fullPath,
+      ], workingDirectory: cwd.path);
     } else if (patchC != null) {
-      process = await Process.start('patch', ['-c', fullPath],
-          workingDirectory: cwd.path);
+      process = await Process.start('patch', [
+        '-c',
+        fullPath,
+      ], workingDirectory: cwd.path);
     } else if (patchU != null) {
-      process = await Process.start('patch', ['-u', fullPath],
-          workingDirectory: cwd.path);
+      process = await Process.start('patch', [
+        '-u',
+        fullPath,
+      ], workingDirectory: cwd.path);
     }
     process.stderr.transform(utf8.decoder).listen((str) {
       seenError = true;
@@ -378,8 +373,9 @@ project.save
 
   final base64Contents = step.base64Contents;
   if (base64Contents != null) {
-    File(p.join(cwd.path, path))
-        .writeAsBytesSync(base64Decode(base64Contents.split('\n').join('')));
+    File(
+      p.join(cwd.path, path),
+    ).writeAsBytesSync(base64Decode(base64Contents.split('\n').join('')));
     return;
   }
 
@@ -402,8 +398,9 @@ Future<void> _runNamedCommand({
   bool exitOnStdErr = true,
 }) async {
   var seenStdErr = false;
-  final String workingDirectory = p
-      .canonicalize(step.path != null ? p.join(cwd.path, step.path) : cwd.path);
+  final String workingDirectory = p.canonicalize(
+    step.path != null ? p.join(cwd.path, step.path) : cwd.path,
+  );
   final shellSplit = io.shellSplit(args);
   final process = await Process.start(
     command,

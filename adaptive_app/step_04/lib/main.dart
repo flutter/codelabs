@@ -32,10 +32,7 @@ final _router = GoRouter(
           builder: (context, state) {
             final title = state.uri.queryParameters['title']!;
             final id = state.pathParameters['id']!;
-            return PlaylistDetails(
-              playlistId: id,
-              playlistName: title,
-            );
+            return PlaylistDetails(playlistId: id, playlistName: title);
           },
         ),
       ],
@@ -49,13 +46,16 @@ void main() {
     exit(1);
   }
 
-  runApp(ChangeNotifierProvider<FlutterDevPlaylists>(
-    create: (context) => FlutterDevPlaylists(
-      flutterDevAccountId: flutterDevAccountId,
-      youTubeApiKey: youTubeApiKey,
+  runApp(
+    ChangeNotifierProvider<FlutterDevPlaylists>(
+      create:
+          (context) => FlutterDevPlaylists(
+            flutterDevAccountId: flutterDevAccountId,
+            youTubeApiKey: youTubeApiKey,
+          ),
+      child: const PlaylistsApp(),
     ),
-    child: const PlaylistsApp(),
-  ));
+  );
 }
 
 class PlaylistsApp extends StatelessWidget {
@@ -65,14 +65,16 @@ class PlaylistsApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       title: 'FlutterDev Playlists',
-      theme: FlexColorScheme.light(
-        scheme: FlexScheme.red,
-        useMaterial3: true,
-      ).toTheme,
-      darkTheme: FlexColorScheme.dark(
-        scheme: FlexScheme.red,
-        useMaterial3: true,
-      ).toTheme,
+      theme:
+          FlexColorScheme.light(
+            scheme: FlexScheme.red,
+            useMaterial3: true,
+          ).toTheme,
+      darkTheme:
+          FlexColorScheme.dark(
+            scheme: FlexScheme.red,
+            useMaterial3: true,
+          ).toTheme,
       themeMode: ThemeMode.dark, // Or ThemeMode.System if you'd prefer
       debugShowCheckedModeBanner: false,
       routerConfig: _router,

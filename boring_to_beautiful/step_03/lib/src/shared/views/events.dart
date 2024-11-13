@@ -24,43 +24,18 @@ class Events extends StatelessWidget {
         child: DataTable(
           horizontalMargin: 5.0,
           columns: const <DataColumn>[
-            DataColumn(
-              label: Text(
-                'Date',
-              ),
-              numeric: true,
-            ),
-            DataColumn(
-              label: Text(
-                'Event',
-              ),
-            ),
-            DataColumn(
-              label: Text(
-                'Location',
-              ),
-            ),
-            DataColumn(
-              label: Text(
-                'More info',
-              ),
-            ),
+            DataColumn(label: Text('Date'), numeric: true),
+            DataColumn(label: Text('Event')),
+            DataColumn(label: Text('Location')),
+            DataColumn(label: Text('More info')),
           ],
           rows: <DataRow>[
             for (final event in artist.events)
               DataRow(
                 cells: <DataCell>[
-                  DataCell(
-                    Text(event.date),
-                  ),
-                  DataCell(
-                    Row(children: [
-                      Expanded(child: Text(event.title)),
-                    ]),
-                  ),
-                  DataCell(
-                    Text(event.location),
-                  ),
+                  DataCell(Text(event.date)),
+                  DataCell(Row(children: [Expanded(child: Text(event.title))])),
+                  DataCell(Text(event.location)),
                   DataCell(
                     Clickable(
                       child: Text(
@@ -70,8 +45,9 @@ class Events extends StatelessWidget {
                           decoration: TextDecoration.underline,
                         ),
                       ),
-                      onTap: () =>
-                          launchUrl(Uri.parse('https://docs.flutter.dev')),
+                      onTap:
+                          () =>
+                              launchUrl(Uri.parse('https://docs.flutter.dev')),
                     ),
                   ),
                 ],

@@ -6,11 +6,12 @@ import 'package:flutter/material.dart';
 import '../animations.dart';
 
 class BottomBarTransition extends StatefulWidget {
-  const BottomBarTransition(
-      {super.key,
-      required this.animation,
-      required this.backgroundColor,
-      required this.child});
+  const BottomBarTransition({
+    super.key,
+    required this.animation,
+    required this.backgroundColor,
+    required this.child,
+  });
 
   final Animation<double> animation;
   final Color backgroundColor;

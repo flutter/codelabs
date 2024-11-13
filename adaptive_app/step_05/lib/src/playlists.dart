@@ -19,9 +19,7 @@ class Playlists extends StatelessWidget {
       builder: (context, flutterDev, child) {
         final playlists = flutterDev.playlists;
         if (playlists.isEmpty) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
+          return const Center(child: CircularProgressIndicator());
         }
 
         return _PlaylistsListView(
@@ -77,9 +75,7 @@ class _PlaylistsListViewState extends State<_PlaylistsListView> {
               playlist.snippet!.thumbnails!.default_!.url!,
             ),
             title: Text(playlist.snippet!.title!),
-            subtitle: Text(
-              playlist.snippet!.description!,
-            ),
+            subtitle: Text(playlist.snippet!.description!),
             onTap: () {
               widget.playlistSelected(playlist);
             },

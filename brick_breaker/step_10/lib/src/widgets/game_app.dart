@@ -44,10 +44,7 @@ class _GameAppState extends State<GameApp> {
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
-              colors: [
-                Color(0xffa9d6e5),
-                Color(0xfff2e8cf),
-              ],
+              colors: [Color(0xffa9d6e5), Color(0xfff2e8cf)],
             ),
           ),
           child: SafeArea(
@@ -65,18 +62,18 @@ class _GameAppState extends State<GameApp> {
                           child: GameWidget(
                             game: game,
                             overlayBuilderMap: {
-                              PlayState.welcome.name: (context, game) =>
-                                  const OverlayScreen(
+                              PlayState.welcome.name:
+                                  (context, game) => const OverlayScreen(
                                     title: 'TAP TO PLAY',
                                     subtitle: 'Use arrow keys or swipe',
                                   ),
-                              PlayState.gameOver.name: (context, game) =>
-                                  const OverlayScreen(
+                              PlayState.gameOver.name:
+                                  (context, game) => const OverlayScreen(
                                     title: 'G A M E   O V E R',
                                     subtitle: 'Tap to Play Again',
                                   ),
-                              PlayState.won.name: (context, game) =>
-                                  const OverlayScreen(
+                              PlayState.won.name:
+                                  (context, game) => const OverlayScreen(
                                     title: 'Y O U   W O N ! ! !',
                                     subtitle: 'Tap to Play Again',
                                   ),

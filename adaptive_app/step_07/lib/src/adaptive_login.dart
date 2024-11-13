@@ -15,9 +15,8 @@ import 'package:url_launcher/link.dart';
 
 import 'app_state.dart';
 
-typedef _AdaptiveLoginButtonWidget = Widget Function({
-  required VoidCallback? onPressed,
-});
+typedef _AdaptiveLoginButtonWidget =
+    Widget Function({required VoidCallback? onPressed});
 
 class AdaptiveLogin extends StatelessWidget {
   const AdaptiveLogin({
@@ -34,10 +33,7 @@ class AdaptiveLogin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (kIsWeb || Platform.isAndroid || Platform.isIOS) {
-      return _GoogleSignInLogin(
-        button: _loginButton,
-        scopes: scopes,
-      );
+      return _GoogleSignInLogin(button: _loginButton, scopes: scopes);
     } else {
       return _GoogleApisAuthLogin(
         button: _loginButton,
@@ -47,17 +43,12 @@ class AdaptiveLogin extends StatelessWidget {
     }
   }
 
-  Widget _loginButton({required VoidCallback? onPressed}) => ElevatedButton(
-        onPressed: onPressed,
-        child: loginButtonChild,
-      );
+  Widget _loginButton({required VoidCallback? onPressed}) =>
+      ElevatedButton(onPressed: onPressed, child: loginButtonChild);
 }
 
 class _GoogleSignInLogin extends StatefulWidget {
-  const _GoogleSignInLogin({
-    required this.button,
-    required this.scopes,
-  });
+  const _GoogleSignInLogin({required this.button, required this.scopes});
 
   final _AdaptiveLoginButtonWidget button;
   final List<String> scopes;
@@ -70,9 +61,7 @@ class _GoogleSignInLoginState extends State<_GoogleSignInLogin> {
   @override
   initState() {
     super.initState();
-    _googleSignIn = GoogleSignIn(
-      scopes: widget.scopes,
-    );
+    _googleSignIn = GoogleSignIn(scopes: widget.scopes);
     _googleSignIn.onCurrentUserChanged.listen((account) {
       if (account != null) {
         _googleSignIn.authenticatedClient().then((authClient) {
@@ -92,9 +81,11 @@ class _GoogleSignInLoginState extends State<_GoogleSignInLogin> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: widget.button(onPressed: () {
-          _googleSignIn.signIn();
-        }),
+        child: widget.button(
+          onPressed: () {
+            _googleSignIn.signIn();
+          },
+        ),
       ),
     );
   }
@@ -142,17 +133,13 @@ class _GoogleApisAuthLoginState extends State<_GoogleApisAuthLogin> {
         body: Center(
           child: Link(
             uri: authUrl,
-            builder: (context, followLink) =>
-                widget.button(onPressed: followLink),
+            builder:
+                (context, followLink) => widget.button(onPressed: followLink),
           ),
         ),
       );
     }
 
-    return const Scaffold(
-      body: Center(
-        child: CircularProgressIndicator(),
-      ),
-    );
+    return const Scaffold(body: Center(child: CircularProgressIndicator()));
   }
 }

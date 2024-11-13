@@ -51,10 +51,7 @@ class MyHomePage extends StatelessWidget {
       builder: (context, httpClient) {
         WindowToFront.activate();
         return Scaffold(
-          appBar: AppBar(
-            title: Text(title),
-            elevation: 2,
-          ),
+          appBar: AppBar(title: Text(title), elevation: 2),
           body: GitHubSummary(
             gitHub: _getGitHub(httpClient.credentials.accessToken),
           ),

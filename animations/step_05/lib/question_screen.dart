@@ -12,8 +12,9 @@ class QuestionScreen extends StatefulWidget {
 }
 
 class _QuestionScreenState extends State<QuestionScreen> {
-  late final QuizViewModel viewModel =
-      QuizViewModel(onGameOver: _handleGameOver);
+  late final QuizViewModel viewModel = QuizViewModel(
+    onGameOver: _handleGameOver,
+  );
   VoidCallback? _showGameOverScreen;
 
   @override
@@ -28,11 +29,11 @@ class _QuestionScreenState extends State<QuestionScreen> {
                 onPressed:
                     viewModel.hasNextQuestion && viewModel.didAnswerQuestion
                         ? () {
-                            viewModel.getNextQuestion();
-                          }
+                          viewModel.getNextQuestion();
+                        }
                         : null,
                 child: const Text('Next'),
-              )
+              ),
             ],
           ),
           body: Center(
@@ -49,13 +50,12 @@ class _QuestionScreenState extends State<QuestionScreen> {
                     viewModel.checkAnswer(index);
                   },
                   answers: viewModel.currentQuestion?.possibleAnswers ?? [],
-                  correctAnswer: viewModel.didAnswerQuestion
-                      ? viewModel.currentQuestion?.correctAnswer
-                      : null,
+                  correctAnswer:
+                      viewModel.didAnswerQuestion
+                          ? viewModel.currentQuestion?.correctAnswer
+                          : null,
                 ),
-                StatusBar(
-                  viewModel: viewModel,
-                )
+                StatusBar(viewModel: viewModel),
               ],
             ),
           ),
@@ -82,9 +82,7 @@ class GameOverScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-      ),
+      appBar: AppBar(automaticallyImplyLeading: false),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -93,10 +91,7 @@ class GameOverScreen extends StatelessWidget {
               score: viewModel.score,
               totalQuestions: viewModel.totalQuestions,
             ),
-            Text(
-              'You Win!',
-              style: Theme.of(context).textTheme.displayLarge,
-            ),
+            Text('You Win!', style: Theme.of(context).textTheme.displayLarge),
             Text(
               'Score: ${viewModel.score} / ${viewModel.totalQuestions}',
               style: Theme.of(context).textTheme.displaySmall,

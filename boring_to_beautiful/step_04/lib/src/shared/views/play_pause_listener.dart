@@ -16,10 +16,7 @@ import '../playback/bloc/bloc.dart';
 /// shortcuts. By sitting below that machinery, this installs a global Spacebar
 /// listener which toggles Playback, as is customary in music-playing apps.
 class PlayPauseListener extends StatelessWidget {
-  const PlayPauseListener({
-    super.key,
-    required this.child,
-  });
+  const PlayPauseListener({super.key, required this.child});
 
   final Widget child;
 
@@ -28,9 +25,7 @@ class PlayPauseListener extends StatelessWidget {
     // Immediately catch any [_PlayPauseIntent] events released by the inner
     // [Shortcuts] widget.
     return Actions(
-      actions: <Type, Action<Intent>>{
-        _PlayPauseIntent: _PlayPauseAction(),
-      },
+      actions: <Type, Action<Intent>>{_PlayPauseIntent: _PlayPauseAction()},
       child: Shortcuts(
         // Register a shortcut for Spacebar presses that release a
         // [_PlayPauseIntent] up the tree to the nearest [Actions] widget.
@@ -38,9 +33,9 @@ class PlayPauseListener extends StatelessWidget {
           const SingleActivator(LogicalKeyboardKey.space): _PlayPauseIntent(
             // Create a closure which sends a [TogglePlayPause] event to the
             // [PlaybackBloc].
-            () => BlocProvider.of<PlaybackBloc>(context).add(
-              const PlaybackEvent.togglePlayPause(),
-            ),
+            () => BlocProvider.of<PlaybackBloc>(
+              context,
+            ).add(const PlaybackEvent.togglePlayPause()),
           ),
         },
         child: child,

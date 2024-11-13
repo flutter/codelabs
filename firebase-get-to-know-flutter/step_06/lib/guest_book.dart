@@ -32,9 +32,7 @@ class _GuestBookState extends State<GuestBook> {
             Expanded(
               child: TextFormField(
                 controller: _controller,
-                decoration: const InputDecoration(
-                  hintText: 'Leave a message',
-                ),
+                decoration: const InputDecoration(hintText: 'Leave a message'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Enter your message to continue';
@@ -52,11 +50,7 @@ class _GuestBookState extends State<GuestBook> {
                 }
               },
               child: const Row(
-                children: [
-                  Icon(Icons.send),
-                  SizedBox(width: 4),
-                  Text('SEND'),
-                ],
+                children: [Icon(Icons.send), SizedBox(width: 4), Text('SEND')],
               ),
             ),
           ],

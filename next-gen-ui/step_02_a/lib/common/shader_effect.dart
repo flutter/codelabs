@@ -32,11 +32,8 @@ class ShaderEffect extends Effect<double> {
     this.shader,
     this.update,
     ShaderLayer? layer,
-  })  : layer = layer ?? ShaderLayer.replace,
-        super(
-          begin: 0,
-          end: 1,
-        );
+  }) : layer = layer ?? ShaderLayer.replace,
+       super(begin: 0, end: 1);
 
   final ui.FragmentShader? shader;
   final ShaderUpdateCallback? update;
@@ -91,22 +88,28 @@ extension ShaderEffectExtensions<T> on AnimateManager<T> {
     ui.FragmentShader? shader,
     ShaderUpdateCallback? update,
     ShaderLayer? layer,
-  }) =>
-      addEffect(ShaderEffect(
-        delay: delay,
-        duration: duration,
-        curve: curve,
-        shader: shader,
-        update: update,
-        layer: layer,
-      ));
+  }) => addEffect(
+    ShaderEffect(
+      delay: delay,
+      duration: duration,
+      curve: curve,
+      shader: shader,
+      update: update,
+      layer: layer,
+    ),
+  );
 }
 
 enum ShaderLayer { foreground, background, replace }
 
 /// Function signature for [ShaderEffect] update handlers.
-typedef ShaderUpdateCallback = EdgeInsets? Function(
-    ui.FragmentShader shader, double value, Size size, ui.Image image);
+typedef ShaderUpdateCallback =
+    EdgeInsets? Function(
+      ui.FragmentShader shader,
+      double value,
+      Size size,
+      ui.Image image,
+    );
 
 /******************************************************************************/
 // TODO: add this as a dependency instead of copying it in once it is stable:
@@ -117,11 +120,8 @@ typedef ShaderUpdateCallback = EdgeInsets? Function(
 // found in the LICENSE file.
 
 /// A callback for the [AnimatedSamplerBuilder] widget.
-typedef AnimatedSamplerBuilder = void Function(
-  ui.Image image,
-  Size size,
-  ui.Canvas canvas,
-);
+typedef AnimatedSamplerBuilder =
+    void Function(ui.Image image, Size size, ui.Canvas canvas);
 
 /// A widget that allows access to a snapshot of the child widgets for painting
 /// with a sampler applied to a [FragmentProgram].
@@ -181,11 +181,7 @@ class AnimatedSampler extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _ShaderSamplerBuilder(
-      builder,
-      enabled: enabled,
-      child: child,
-    );
+    return _ShaderSamplerBuilder(builder, enabled: enabled, child: child);
   }
 }
 
@@ -210,7 +206,9 @@ class _ShaderSamplerBuilder extends SingleChildRenderObjectWidget {
 
   @override
   void updateRenderObject(
-      BuildContext context, covariant RenderObject renderObject) {
+    BuildContext context,
+    covariant RenderObject renderObject,
+  ) {
     (renderObject as _RenderShaderSamplerBuilderWidget)
       ..devicePixelRatio = MediaQuery.of(context).devicePixelRatio
       ..builder = builder
@@ -226,13 +224,14 @@ class _RenderShaderSamplerBuilderWidget extends RenderProxyBox {
     required double devicePixelRatio,
     required AnimatedSamplerBuilder builder,
     required bool enabled,
-  })  : _devicePixelRatio = devicePixelRatio,
-        _builder = builder,
-        _enabled = enabled;
+  }) : _devicePixelRatio = devicePixelRatio,
+       _builder = builder,
+       _enabled = enabled;
 
   @override
-  OffsetLayer updateCompositedLayer(
-      {required covariant _ShaderSamplerBuilderLayer? oldLayer}) {
+  OffsetLayer updateCompositedLayer({
+    required covariant _ShaderSamplerBuilderLayer? oldLayer,
+  }) {
     final _ShaderSamplerBuilderLayer layer =
         oldLayer ?? _ShaderSamplerBuilderLayer(builder);
     layer
@@ -328,24 +327,24 @@ class _ShaderSamplerBuilderLayer extends OffsetLayer {
 
   ui.Image _buildChildScene(Rect bounds, double pixelRatio) {
     final ui.SceneBuilder builder = ui.SceneBuilder();
-    final Matrix4 transform =
-        Matrix4.diagonal3Values(pixelRatio, pixelRatio, 1);
+    final Matrix4 transform = Matrix4.diagonal3Values(
+      pixelRatio,
+      pixelRatio,
+      1,
+    );
     builder.pushTransform(transform.storage);
     addChildrenToScene(builder);
     builder.pop();
     return builder.build().toImageSync(
-          (pixelRatio * bounds.width).ceil(),
-          (pixelRatio * bounds.height).ceil(),
-        );
+      (pixelRatio * bounds.width).ceil(),
+      (pixelRatio * bounds.height).ceil(),
+    );
   }
 
   @override
   void addToScene(ui.SceneBuilder builder) {
     if (size.isEmpty) return;
-    final ui.Image image = _buildChildScene(
-      offset & size,
-      devicePixelRatio,
-    );
+    final ui.Image image = _buildChildScene(offset & size, devicePixelRatio);
     final ui.PictureRecorder pictureRecorder = ui.PictureRecorder();
     final Canvas canvas = Canvas(pictureRecorder);
     try {

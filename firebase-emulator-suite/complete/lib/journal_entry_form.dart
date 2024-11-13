@@ -42,8 +42,9 @@ class _EntryFormState extends State<EntryForm> {
                 },
               ),
               TextFormField(
-                decoration:
-                    const InputDecoration(labelText: 'Date (DD/MM/YYYY):'),
+                decoration: const InputDecoration(
+                  labelText: 'Date (DD/MM/YYYY):',
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter some text';
