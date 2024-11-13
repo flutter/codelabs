@@ -611,7 +611,6 @@ steps:
         copydir:
           from: quiz
           to: step_02_e
-
       # TODO(DomesticMouse): Delete step_02 once the codelab is published with individual steps
       - name: Remove step_02
         rmdir: step_02
@@ -772,8 +771,8 @@ steps:
             void initState() {
               super.initState();
 
-              _animationController = AnimationController(
-                  vsync: this, duration: widget.duration);
+              _animationController =
+                  AnimationController(vsync: this, duration: widget.duration);
 
               _animationController.addListener(() {
                 if (_animationController.value == 1) {
@@ -927,8 +926,9 @@ steps:
              void initState() {
                super.initState();
            
-               _animationController = AnimationController(
-          -        vsync: this, duration: widget.duration);
+          -    _animationController =
+          -        AnimationController(vsync: this, duration: widget.duration);
+          +    _animationController = AnimationController(
           +        vsync: this, duration: widget.duration * (widget.delayAmount + 1));
            
                _animationController.addListener(() {
@@ -986,7 +986,6 @@ steps:
         copydir:
           from: quiz
           to: step_04_d
-
       # TODO(DomesticMouse): Delete step_04 once the codelab is published with individual steps
       - name: Remove step_04
         rmdir: step_04
@@ -1075,7 +1074,6 @@ steps:
                  ),
                  home: HomeScreen(),
                );
-
       - name: Change back to MaterialPageRoute
         path: quiz/lib/home_screen.dart
         patch-u: |
@@ -1328,7 +1326,6 @@ steps:
                  ),
                );
              }
-
       - name: Build Android app
         platforms: [ macos ]
         path: quiz
@@ -1352,8 +1349,6 @@ steps:
       - name: Build Web app
         path: quiz
         flutter: build web
-
-      # TODO(DomesticMouse): Delete step_05 once the codelab is published with individual steps
       - name: Remove step_05
         rmdir: step_05
       - name: Copy step_05

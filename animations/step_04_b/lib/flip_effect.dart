@@ -26,8 +26,8 @@ class _CardFlipEffectState extends State<CardFlipEffect>
   void initState() {
     super.initState();
 
-    _animationController = AnimationController(
-        vsync: this, duration: widget.duration);
+    _animationController =
+        AnimationController(vsync: this, duration: widget.duration);
 
     _animationController.addListener(() {
       if (_animationController.value == 1) {
