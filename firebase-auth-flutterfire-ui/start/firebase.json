@@ -1,4 +1,7 @@
 {
+  "projects": {
+    "default": "flutterfire-ui-codelab"
+  },
   "firestore": {
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"
