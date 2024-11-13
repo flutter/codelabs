@@ -2,8 +2,6 @@ name: Add animation effects to your Flutter app
 steps:
   - name: step_01
     steps:
-      - name: Remove generated code
-        rmdir: step_01
       - name: Create project
         flutter: create --empty quiz
       - name: Strip DEVELOPMENT_TEAM
@@ -410,24 +408,22 @@ steps:
               );
             }
           }
-      # - name: Build web app
-      #   path: patterns_codelab
-      #   flutter: build web
       - name: Fetch dependencies
         path: quiz
         dart: pub get
       - name: Run Dart Analzyer
         path: quiz
         dart: analyze --fatal-infos
-      # - name: Check formatting
-      #   path: quiz
-      #   dart: format --set-exit-if-changed
+      - name: Remove step_01
+        rmdir: step_01
       - name: Copy step_01
         copydir:
           from: quiz
           to: step_01
   - name: step_02
     steps:
+      - name: Remove generated code
+        rmdir: step_02
       - name: Create scoreboard.dart
         path: quiz/lib/scoreboard.dart
         replace-contents: |
@@ -462,6 +458,12 @@ steps:
               );
             }
           }
+      - name: Remove step_02_a
+        rmdir: step_02_a
+      - name: Copy step_02_a
+        copydir:
+          from: quiz
+          to: step_02_a
       - name: Use Scoreboard widget
         path: quiz/lib/question_screen.dart
         patch-u: |
@@ -490,6 +492,12 @@ steps:
                        ),
                      ],
                    ),
+      - name: Remove step_02_b
+        rmdir: step_02_b
+      - name: Copy step_02_b
+        copydir:
+          from: quiz
+          to: step_02_b
       - name: Use an ImplicitlyAnimatedWidget
         path: quiz/lib/scoreboard.dart
         patch-u: |
@@ -534,6 +542,12 @@ steps:
           +    );
           +  }
           +}
+      - name: Remove step_02_c
+        rmdir: step_02_c
+      - name: Copy step_02_c
+        copydir:
+          from: quiz
+          to: step_02_c
       - name: Use a TweenAnimationBuilder to change the color
         path: quiz/lib/scoreboard.dart
         patch-u: |
@@ -563,6 +577,12 @@ steps:
                  ),
                );
              }
+      - name: Remove step_02_d
+        rmdir: step_02_d
+      - name: Copy step_02_d
+        copydir:
+          from: quiz
+          to: step_02_d     
       - name: Use a Curve
         path: quiz/lib/scoreboard.dart
         patch-u: |
@@ -587,7 +607,14 @@ steps:
                    duration: _duration,
                    tween: ColorTween(
                      begin: _deactivatedColor,
-          
+      - name: Remove step_02_e
+        rmdir: step_02_e
+      - name: Copy step_02_e
+        copydir:
+          from: quiz
+          to: step_02_e
+
+      # TODO(DomesticMouse): Delete step_02 once the codelab is published with individual steps
       - name: Copy step_02
         copydir:
           from: quiz
@@ -597,9 +624,9 @@ steps:
       - name: Use AnimatedSwitcher
         path: quiz/lib/question_screen.dart
         patch-u: |
-          --- a/animations/step_02/lib/question_screen.dart
-          +++ b/animations/step_02/lib/question_screen.dart
-          @@ -88,13 +88,17 @@ class QuestionCard extends StatelessWidget {
+          --- b/animations/step_03_a/lib/question_screen.dart
+          +++ a/animations/step_03_a/lib/question_screen.dart
+          @@ -87,13 +87,17 @@ class QuestionCard extends StatelessWidget {
            
              @override
              Widget build(BuildContext context) {
@@ -624,6 +651,12 @@ steps:
                    ),
                  ),
                );
+      - name: Remove step_03_a
+        rmdir: step_03_a
+      - name: Copy step_03_a
+        copydir:
+          from: quiz
+          to: step_03_a
       - name: Use a custom transitionBuilder
         path: quiz/lib/question_screen.dart
         patch-u: |
@@ -644,6 +677,12 @@ steps:
                  duration: const Duration(milliseconds: 300),
                  child: Card(
                    key: ValueKey(question),
+      - name: Remove step_03_b
+        rmdir: step_03_b
+      - name: Copy step_03_b
+        copydir:
+          from: quiz
+          to: step_03_b
       - name: Apply a fade effect to the transitionBuilder
         path: quiz/lib/question_screen.dart
         patch-u: |
@@ -662,6 +701,12 @@ steps:
                  },
                  duration: const Duration(milliseconds: 300),
                  child: Card(
+      - name: Remove step_03_c
+        rmdir: step_03_c
+      - name: Copy step_03_c
+        copydir:
+          from: quiz
+          to: step_03_c     
       - name: Customize the layoutBuilder
         path: quiz/lib/question_screen.dart
         patch-u: |
@@ -683,6 +728,15 @@ steps:
                  transitionBuilder: (Widget child, Animation<double> animation) {
                    final curveAnimation =
                        CurveTween(curve: Curves.easeInCubic).animate(animation);
+      - name: Remove step_03_d
+        rmdir: step_03_d
+      - name: Copy step_03_d
+        copydir:
+          from: quiz
+          to: step_03_d
+      # TODO(DomesticMouse): Delete step_03 once the codelab is published with individual steps
+      - name: Remove step_03
+        rmdir: step_03
       - name: Copy step_03
         copydir:
           from: quiz
@@ -814,6 +868,12 @@ steps:
                            ),
                          ),
                        ),
+      - name: Remove step_04_a
+        rmdir: step_04_a
+      - name: Copy step_04_a
+        copydir:
+          from: quiz
+          to: step_04_a
       - name: Add delay using TweenSequence
         path: quiz/lib/flip_effect.dart
         patch-u: |
@@ -833,7 +893,31 @@ steps:
              });
            
              @override
-          @@ -19,19 +21,32 @@ class _CardFlipEffectState extends State<CardFlipEffect>
+      - name: Add delay to question screen
+        path: quiz/lib/question_screen.dart
+        patch-u: |
+          --- a/animations/step_04/lib/question_screen.dart
+          +++ b/animations/step_04/lib/question_screen.dart
+          @@ -151,6 +151,7 @@ class AnswerCards extends StatelessWidget {
+                   }
+           
+                   return CardFlipEffect(
+          +          delayAmount: index.toDouble() / 2,
+                     duration: const Duration(milliseconds: 300),
+                     child: Card.filled(
+                       key: ValueKey(answers[index]),
+      - name: Remove step_04_b
+        rmdir: step_04_b
+      - name: Copy step_04_b
+        copydir:
+          from: quiz
+          to: step_04_b
+      - name: Add delay using TweenSequence, part 2
+        path: quiz/lib/flip_effect.dart
+        patch-u: |
+          --- b/animations/step_04_c/lib/flip_effect.dart
+          +++ a/animations/step_04_c/lib/flip_effect.dart
+          @@ -21,19 +21,32 @@ class _CardFlipEffectState extends State<CardFlipEffect>
                with SingleTickerProviderStateMixin {
              late final AnimationController _animationController;
              Widget? _previousChild;
@@ -867,7 +951,18 @@ steps:
              }
            
              @override
-          @@ -51,14 +66,14 @@ class _CardFlipEffectState extends State<CardFlipEffect>
+      - name: Remove step_04_c
+        rmdir: step_04_c
+      - name: Copy step_04_c
+        copydir:
+          from: quiz
+          to: step_04_c
+      - name: Add delay using TweenSequence, part 3
+        path: quiz/lib/flip_effect.dart
+        patch-u: |
+          --- b/animations/step_04_d/lib/flip_effect.dart
+          +++ a/animations/step_04_d/lib/flip_effect.dart
+          @@ -66,14 +66,14 @@ class _CardFlipEffectState extends State<CardFlipEffect>
              @override
              Widget build(BuildContext context) {
                return AnimatedBuilder(
@@ -885,19 +980,16 @@ steps:
                              ? _previousChild
                              : Transform.flip(flipY: true, child: widget.child)
                          : widget.child,
-      - name: Add delay to question screen
-        path: quiz/lib/question_screen.dart
-        patch-u: |
-          --- a/animations/step_04/lib/question_screen.dart
-          +++ b/animations/step_04/lib/question_screen.dart
-          @@ -151,6 +151,7 @@ class AnswerCards extends StatelessWidget {
-                   }
-           
-                   return CardFlipEffect(
-          +          delayAmount: index.toDouble() / 2,
-                     duration: const Duration(milliseconds: 300),
-                     child: Card.filled(
-                       key: ValueKey(answers[index]),
+      - name: Remove step_04_d
+        rmdir: step_04_d
+      - name: Copy step_04_d
+        copydir:
+          from: quiz
+          to: step_04_d
+
+      # TODO(DomesticMouse): Delete step_04 once the codelab is published with individual steps
+      - name: Remove step_04
+        rmdir: step_04
       - name: Copy step_04
         copydir:
           from: quiz
@@ -1236,9 +1328,7 @@ steps:
                  ),
                );
              }
-      - name: dart analyze
-        path: quiz
-        dart: analyze --fatal-infos
+
       - name: Build Android app
         platforms: [ macos ]
         path: quiz
@@ -1262,6 +1352,10 @@ steps:
       - name: Build Web app
         path: quiz
         flutter: build web
+
+      # TODO(DomesticMouse): Delete step_05 once the codelab is published with individual steps
+      - name: Remove step_05
+        rmdir: step_05
       - name: Copy step_05
         copydir:
           from: quiz
