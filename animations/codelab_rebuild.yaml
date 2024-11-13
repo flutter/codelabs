@@ -422,8 +422,6 @@ steps:
           to: step_01
   - name: step_02
     steps:
-      - name: Remove generated code
-        rmdir: step_02
       - name: Create scoreboard.dart
         path: quiz/lib/scoreboard.dart
         replace-contents: |
@@ -615,6 +613,8 @@ steps:
           to: step_02_e
 
       # TODO(DomesticMouse): Delete step_02 once the codelab is published with individual steps
+      - name: Remove step_02
+        rmdir: step_02
       - name: Copy step_02
         copydir:
           from: quiz
