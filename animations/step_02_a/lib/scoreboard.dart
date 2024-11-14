@@ -23,7 +23,7 @@ class Scoreboard extends StatelessWidget {
               size: 50,
               color:
                   score < i + 1 ? Colors.grey.shade400 : Colors.yellow.shade700,
-            )
+            ),
         ],
       ),
     );

@@ -11,15 +11,13 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              '✏️',
-              style: Theme.of(context).textTheme.displayLarge,
-            ),
+            Text('✏️', style: Theme.of(context).textTheme.displayLarge),
             Text(
               'Flutter Quiz',
               style: Theme.of(context).textTheme.displayLarge!.copyWith(
-                  fontWeight: FontWeight.w700,
-                  color: Theme.of(context).colorScheme.onPrimaryFixedVariant),
+                fontWeight: FontWeight.w700,
+                color: Theme.of(context).colorScheme.onPrimaryFixedVariant,
+              ),
             ),
             ElevatedButton(
               onPressed: () {

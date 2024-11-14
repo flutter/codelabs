@@ -18,9 +18,7 @@ class Scoreboard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           for (var i = 0; i < totalQuestions; i++)
-            AnimatedStar(
-              isActive: score > i,
-            )
+            AnimatedStar(isActive: score > i),
         ],
       ),
     );

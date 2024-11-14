@@ -26,8 +26,10 @@ class _CardFlipEffectState extends State<CardFlipEffect>
   void initState() {
     super.initState();
 
-    _animationController =
-        AnimationController(vsync: this, duration: widget.duration);
+    _animationController = AnimationController(
+      vsync: this,
+      duration: widget.duration,
+    );
 
     _animationController.addListener(() {
       if (_animationController.value == 1) {
@@ -57,13 +59,14 @@ class _CardFlipEffectState extends State<CardFlipEffect>
       builder: (context, child) {
         return Transform(
           alignment: Alignment.center,
-          transform: Matrix4.identity()
-            ..rotateX(_animationController.value * math.pi),
-          child: _animationController.isAnimating
-              ? _animationController.value < 0.5
-                  ? _previousChild
-                  : Transform.flip(flipY: true, child: widget.child)
-              : widget.child,
+          transform:
+              Matrix4.identity()..rotateX(_animationController.value * math.pi),
+          child:
+              _animationController.isAnimating
+                  ? _animationController.value < 0.5
+                      ? _previousChild
+                      : Transform.flip(flipY: true, child: widget.child)
+                  : widget.child,
         );
       },
       child: widget.child,
