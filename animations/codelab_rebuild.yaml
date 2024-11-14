@@ -1030,6 +1030,12 @@ steps:
                        ),
                      ],
                    ),
+      - name: Remove step_05_a
+        rmdir: step_05_a
+      - name: Copy step_05_a
+        copydir:
+          from: quiz
+          to: step_05_a
       - name: Use package:animations FadeThroughTransition
         path: quiz/lib/home_screen.dart
         patch-u: |
@@ -1078,6 +1084,12 @@ steps:
                  ),
                  home: HomeScreen(),
                );
+      - name: Remove step_05_b
+        rmdir: step_05_b
+      - name: Copy step_05_b
+        copydir:
+          from: quiz
+          to: step_05_b
       - name: Change back to MaterialPageRoute
         path: quiz/lib/home_screen.dart
         patch-u: |
@@ -1156,6 +1168,12 @@ steps:
                  child: Card(
                    key: ValueKey(question),
                    elevation: 4,
+      - name: Remove step_05_c
+        rmdir: step_05_c
+      - name: Copy step_05_c
+        copydir:
+          from: quiz
+          to: step_05_c
       - name: Use OpenContainer
         path: quiz/lib/question_screen.dart
         patch-u: | 
@@ -1330,6 +1348,12 @@ steps:
                  ),
                );
              }
+      - name: Remove step_05_d
+        rmdir: step_05_d
+      - name: Copy step_05_d
+        copydir:
+          from: quiz
+          to: step_05_d
       - name: dart analyze
         path: quiz
         dart: analyze --fatal-infos
