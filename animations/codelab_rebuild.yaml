@@ -1002,8 +1002,8 @@ steps:
       - name: Use PageRouteBuilder
         path: quiz/lib/home_screen.dart
         patch-u: |
-          --- a/animations/step_05/lib/home_screen.dart
-          +++ b/animations/step_05/lib/home_screen.dart
+          --- b/animations/step_05_a/lib/home_screen.dart
+          +++ a/animations/step_05_a/lib/home_screen.dart
           @@ -26,14 +26,19 @@ class HomeScreen extends StatelessWidget {
                            // Show the question screen to start the game
                            Navigator.push(
@@ -1015,9 +1015,9 @@ steps:
           -                  ),
           +                  PageRouteBuilder(
           +                      pageBuilder: (context, animation, secondaryAnimation) {
-          +                        return const QuestionScreen();
-          +                      }, transitionsBuilder:
-          +                      (context, animation, secondaryAnimation, child) {
+          +                    return const QuestionScreen();
+          +                  }, transitionsBuilder:
+          +                          (context, animation, secondaryAnimation, child) {
           +                    return FadeTransition(
           +                      opacity: animation,
           +                      child: child,
@@ -1030,20 +1030,26 @@ steps:
                        ),
                      ],
                    ),
+      - name: Remove step_05_a
+        rmdir: step_05_a
+      - name: Copy step_05_a
+        copydir:
+          from: quiz
+          to: step_05_a
       - name: Use package:animations FadeThroughTransition
         path: quiz/lib/home_screen.dart
         patch-u: |
-          --- a/animations/step_05/lib/home_screen.dart
-          +++ b/animations/step_05/lib/home_screen.dart
+          --- b/animations/step_05_b/lib/home_screen.dart
+          +++ a/animations/step_05_b/lib/home_screen.dart
           @@ -1,3 +1,4 @@
           +import 'package:animations/animations.dart';
            import 'package:flutter/material.dart';
            import 'question_screen.dart';
            
           @@ -31,8 +32,9 @@ class HomeScreen extends StatelessWidget {
-                                   return const QuestionScreen();
-                                 }, transitionsBuilder:
-                                 (context, animation, secondaryAnimation, child) {
+                               return const QuestionScreen();
+                             }, transitionsBuilder:
+                                     (context, animation, secondaryAnimation, child) {
           -                    return FadeTransition(
           -                      opacity: animation,
           +                    return FadeThroughTransition(
@@ -1078,11 +1084,17 @@ steps:
                  ),
                  home: HomeScreen(),
                );
+      - name: Remove step_05_b
+        rmdir: step_05_b
+      - name: Copy step_05_b
+        copydir:
+          from: quiz
+          to: step_05_b
       - name: Change back to MaterialPageRoute
         path: quiz/lib/home_screen.dart
         patch-u: |
-          --- a/animations/step_05/lib/home_screen.dart
-          +++ b/animations/step_05/lib/home_screen.dart
+          --- b/animations/step_05_c/lib/home_screen.dart
+          +++ a/animations/step_05_c/lib/home_screen.dart
           @@ -1,4 +1,3 @@
           -import 'package:animations/animations.dart';
            import 'package:flutter/material.dart';
@@ -1094,16 +1106,15 @@ steps:
                              context,
           -                  PageRouteBuilder(
           -                      pageBuilder: (context, animation, secondaryAnimation) {
-          -                        return const QuestionScreen();
-          -                      }, transitionsBuilder:
-          -                      (context, animation, secondaryAnimation, child) {
+          +                  MaterialPageRoute(builder: (context) {
+                               return const QuestionScreen();
+          -                  }, transitionsBuilder:
+          -                          (context, animation, secondaryAnimation, child) {
           -                    return FadeThroughTransition(
           -                      animation: animation,
           -                      secondaryAnimation: secondaryAnimation,
           -                      child: child,
           -                    );
-          +                  MaterialPageRoute(builder: (context) {
-          +                    return const QuestionScreen();
                              }),
                            );
                          },
@@ -1156,6 +1167,12 @@ steps:
                  child: Card(
                    key: ValueKey(question),
                    elevation: 4,
+      - name: Remove step_05_c
+        rmdir: step_05_c
+      - name: Copy step_05_c
+        copydir:
+          from: quiz
+          to: step_05_c
       - name: Use OpenContainer
         path: quiz/lib/question_screen.dart
         patch-u: | 
@@ -1330,6 +1347,12 @@ steps:
                  ),
                );
              }
+      - name: Remove step_05_d
+        rmdir: step_05_d
+      - name: Copy step_05_d
+        copydir:
+          from: quiz
+          to: step_05_d
       - name: dart analyze
         path: quiz
         dart: analyze --fatal-infos
