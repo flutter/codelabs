@@ -1026,11 +1026,52 @@ steps:
       - name: Use package:animations FadeThroughTransition
         path: quiz/lib/home_screen.dart
         patch-u: |
-
+          --- b/animations/step_05_b/lib/home_screen.dart
+          +++ a/animations/step_05_b/lib/home_screen.dart
+          @@ -1,3 +1,4 @@
+          +import 'package:animations/animations.dart';
+           import 'package:flutter/material.dart';
+           import 'question_screen.dart';
+           
+          @@ -34,7 +35,11 @@ class HomeScreen extends StatelessWidget {
+                                 secondaryAnimation,
+                                 child,
+                               ) {
+          -                      return FadeTransition(opacity: animation, child: child);
+          +                      return FadeThroughTransition(
+          +                        animation: animation,
+          +                        secondaryAnimation: secondaryAnimation,
+          +                        child: child,
+          +                      );
+                               },
+                             ),
+                           );
       - name: Configure Predictive Back on Android
         path: quiz/lib/main.dart
         patch-u: |
-
+          --- b/animations/step_05_b/lib/main.dart
+          +++ a/animations/step_05_b/lib/main.dart
+          @@ -1,3 +1,4 @@
+          +import 'package:animations/animations.dart';
+           import 'package:flutter/material.dart';
+           
+           import 'home_screen.dart';
+          @@ -16,6 +17,15 @@ class MainApp extends StatelessWidget {
+                 theme: ThemeData(
+                   colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+                   useMaterial3: true,
+          +        pageTransitionsTheme: PageTransitionsTheme(
+          +          builders: {
+          +            TargetPlatform.android: PredictiveBackPageTransitionsBuilder(),
+          +            TargetPlatform.iOS: FadeThroughPageTransitionsBuilder(),
+          +            TargetPlatform.macOS: FadeThroughPageTransitionsBuilder(),
+          +            TargetPlatform.windows: FadeThroughPageTransitionsBuilder(),
+          +            TargetPlatform.linux: FadeThroughPageTransitionsBuilder(),
+          +          },
+          +        ),
+                 ),
+                 home: HomeScreen(),
+               );
       - name: Remove step_05_b
         rmdir: step_05_b
       - name: Copy step_05_b
@@ -1040,11 +1081,89 @@ steps:
       - name: Change back to MaterialPageRoute
         path: quiz/lib/home_screen.dart
         patch-u: |
-
+          --- b/animations/step_05_c/lib/home_screen.dart
+          +++ a/animations/step_05_c/lib/home_screen.dart
+          @@ -1,4 +1,3 @@
+          -import 'package:animations/animations.dart';
+           import 'package:flutter/material.dart';
+           import 'question_screen.dart';
+           
+          @@ -25,22 +24,10 @@ class HomeScreen extends StatelessWidget {
+                           // Show the question screen to start the game
+                           Navigator.push(
+                             context,
+          -                  PageRouteBuilder(
+          -                    pageBuilder: (context, animation, secondaryAnimation) {
+          +                  MaterialPageRoute(
+          +                    builder: (context) {
+                                 return const QuestionScreen();
+                               },
+          -                    transitionsBuilder: (
+          -                      context,
+          -                      animation,
+          -                      secondaryAnimation,
+          -                      child,
+          -                    ) {
+          -                      return FadeThroughTransition(
+          -                        animation: animation,
+          -                        secondaryAnimation: secondaryAnimation,
+          -                        child: child,
+          -                      );
+          -                    },
+                             ),
+                           );
+                         },
       - name: Use FadeThroughTransition
         path: quiz/lib/question_screen.dart
         patch-u: |
-
+          --- b/animations/step_05_c/lib/question_screen.dart
+          +++ a/animations/step_05_c/lib/question_screen.dart
+          @@ -1,3 +1,4 @@
+          +import 'package:animations/animations.dart';
+           import 'package:flutter/material.dart';
+           import 'flip_effect.dart';
+           import 'scoreboard.dart';
+          @@ -87,31 +88,21 @@ class QuestionCard extends StatelessWidget {
+           
+             @override
+             Widget build(BuildContext context) {
+          -    return AnimatedSwitcher(
+          -      layoutBuilder: (Widget? currentChild, List<Widget> previousChildren) {
+          +    return PageTransitionSwitcher(
+          +      duration: const Duration(milliseconds: 200),
+          +      layoutBuilder: (List<Widget> entries) {
+                   return Stack(
+                     alignment: Alignment.topCenter,
+          -          children: <Widget>[
+          -            ...previousChildren,
+          -            if (currentChild != null) currentChild,
+          -          ],
+          +          children: <Widget>[...entries],
+                   );
+                 },
+          -      transitionBuilder: (Widget child, Animation<double> animation) {
+          -        final curveAnimation = CurveTween(
+          -          curve: Curves.easeInCubic,
+          -        ).animate(animation);
+          -        final offsetAnimation = Tween<Offset>(
+          -          begin: Offset(-0.1, 0.0),
+          -          end: Offset.zero,
+          -        ).animate(curveAnimation);
+          -        final fadeInAnimation = curveAnimation;
+          -        return FadeTransition(
+          -          opacity: fadeInAnimation,
+          -          child: SlideTransition(position: offsetAnimation, child: child),
+          +      transitionBuilder: (Widget child, animation, secondaryAnimation) {
+          +        return FadeThroughTransition(
+          +          animation: animation,
+          +          secondaryAnimation: secondaryAnimation,
+          +          child: child,
+                   );
+                 },
+          -      duration: const Duration(milliseconds: 300),
+                 child: Card(
+                   key: ValueKey(question),
+                   elevation: 4,
       - name: Remove step_05_c
         rmdir: step_05_c
       - name: Copy step_05_c
@@ -1054,7 +1173,161 @@ steps:
       - name: Use OpenContainer
         path: quiz/lib/question_screen.dart
         patch-u: |
-
+          --- b/animations/step_05_d/lib/question_screen.dart
+          +++ a/animations/step_05_d/lib/question_screen.dart
+          @@ -15,6 +15,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
+             late final QuizViewModel viewModel = QuizViewModel(
+               onGameOver: _handleGameOver,
+             );
+          +  VoidCallback? _showGameOverScreen;
+           
+             @override
+             Widget build(BuildContext context) {
+          @@ -38,7 +39,11 @@ class _QuestionScreenState extends State<QuestionScreen> {
+                     body: Center(
+                       child: Column(
+                         children: [
+          -                QuestionCard(question: viewModel.currentQuestion?.question),
+          +                QuestionCard(
+          +                  onChangeOpenContainer: _handleChangeOpenContainer,
+          +                  question: viewModel.currentQuestion?.question,
+          +                  viewModel: viewModel,
+          +                ),
+                           Spacer(),
+                           AnswerCards(
+                             onTapped: (index) {
+          @@ -59,24 +64,49 @@ class _QuestionScreenState extends State<QuestionScreen> {
+               );
+             }
+           
+          +  void _handleChangeOpenContainer(VoidCallback openContainer) {
+          +    _showGameOverScreen = openContainer;
+          +  }
+          +
+             void _handleGameOver() {
+          -    showDialog(
+          -      barrierDismissible: false,
+          -      context: context,
+          -      builder: (context) {
+          -        return AlertDialog(
+          -          title: Text('Game Over!'),
+          -          content: Text('Score: ${viewModel.score}'),
+          -          actions: [
+          -            TextButton(
+          +    if (_showGameOverScreen != null) {
+          +      _showGameOverScreen!();
+          +    }
+          +  }
+          +}
+          +
+          +class GameOverScreen extends StatelessWidget {
+          +  final QuizViewModel viewModel;
+          +  const GameOverScreen({required this.viewModel, super.key});
+          +
+          +  @override
+          +  Widget build(BuildContext context) {
+          +    return Scaffold(
+          +      appBar: AppBar(automaticallyImplyLeading: false),
+          +      body: Center(
+          +        child: Column(
+          +          mainAxisAlignment: MainAxisAlignment.center,
+          +          children: [
+          +            Scoreboard(
+          +              score: viewModel.score,
+          +              totalQuestions: viewModel.totalQuestions,
+          +            ),
+          +            Text('You Win!', style: Theme.of(context).textTheme.displayLarge),
+          +            Text(
+          +              'Score: ${viewModel.score} / ${viewModel.totalQuestions}',
+          +              style: Theme.of(context).textTheme.displaySmall,
+          +            ),
+          +            ElevatedButton(
+          +              child: Text('OK'),
+                         onPressed: () {
+          -                Navigator.popUntil(context, (route) => route.isFirst);
+          +                Navigator.pop(context);
+          +                // Navigator.popUntil(
+          +                //     context, (route) => route.isFirst);
+                         },
+          -              child: Text('OK'),
+                       ),
+                     ],
+          -        );
+          -      },
+          +        ),
+          +      ),
+               );
+             }
+           }
+          @@ -84,18 +114,22 @@ class _QuestionScreenState extends State<QuestionScreen> {
+           class QuestionCard extends StatelessWidget {
+             final String? question;
+           
+          -  const QuestionCard({required this.question, super.key});
+          +  const QuestionCard({
+          +    required this.onChangeOpenContainer,
+          +    required this.question,
+          +    required this.viewModel,
+          +    super.key,
+          +  });
+          +
+          +  final ValueChanged<VoidCallback> onChangeOpenContainer;
+          +  final QuizViewModel viewModel;
+          +
+          +  static const _backgroundColor = Color(0xfff2f3fa);
+           
+             @override
+             Widget build(BuildContext context) {
+               return PageTransitionSwitcher(
+                 duration: const Duration(milliseconds: 200),
+          -      layoutBuilder: (List<Widget> entries) {
+          -        return Stack(
+          -          alignment: Alignment.topCenter,
+          -          children: <Widget>[...entries],
+          -        );
+          -      },
+                 transitionBuilder: (Widget child, animation, secondaryAnimation) {
+                   return FadeThroughTransition(
+                     animation: animation,
+          @@ -103,16 +137,30 @@ class QuestionCard extends StatelessWidget {
+                     child: child,
+                   );
+                 },
+          -      child: Card(
+          +      child: OpenContainer(
+                   key: ValueKey(question),
+          -        elevation: 4,
+          -        child: Padding(
+          -          padding: const EdgeInsets.all(16.0),
+          -          child: Text(
+          -            question ?? "",
+          -            style: Theme.of(context).textTheme.displaySmall,
+          -          ),
+          +        tappable: false,
+          +        closedColor: _backgroundColor,
+          +        closedShape: const RoundedRectangleBorder(
+          +          borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                   ),
+          +        closedElevation: 4,
+          +        closedBuilder: (context, openContainer) {
+          +          onChangeOpenContainer(openContainer);
+          +          return ColoredBox(
+          +            color: _backgroundColor,
+          +            child: Padding(
+          +              padding: const EdgeInsets.all(16.0),
+          +              child: Text(
+          +                question ?? "",
+          +                style: Theme.of(context).textTheme.displaySmall,
+          +              ),
+          +            ),
+          +          );
+          +        },
+          +        openBuilder: (context, closeContainer) {
+          +          return GameOverScreen(viewModel: viewModel);
+          +        },
+                 ),
+               );
+             }
       - name: Remove step_05_d
         rmdir: step_05_d
       - name: Copy step_05_d
