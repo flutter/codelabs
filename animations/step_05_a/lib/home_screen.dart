@@ -28,9 +28,9 @@ class HomeScreen extends StatelessWidget {
                   context,
                   PageRouteBuilder(
                       pageBuilder: (context, animation, secondaryAnimation) {
-                        return const QuestionScreen();
-                      }, transitionsBuilder:
-                      (context, animation, secondaryAnimation, child) {
+                    return const QuestionScreen();
+                  }, transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
                     return FadeTransition(
                       opacity: animation,
                       child: child,
