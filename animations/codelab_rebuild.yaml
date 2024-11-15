@@ -1334,6 +1334,9 @@ steps:
         copydir:
           from: quiz
           to: step_05_d
+      - name: dart analyze
+        path: quiz
+        dart: analyze --fatal-infos
       - name: Build Android app
         platforms: [ macos ]
         path: quiz
