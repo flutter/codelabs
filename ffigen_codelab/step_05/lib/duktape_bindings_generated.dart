@@ -4798,18 +4798,9 @@ final class duk_thread_state extends ffi.Struct {
   external ffi.Array<ffi.Char> data;
 }
 
-final class duk_memory_functions extends ffi.Struct {
-  external duk_alloc_function alloc_func;
-
-  external duk_realloc_function realloc_func;
-
-  external duk_free_function free_func;
-
-  external ffi.Pointer<ffi.Void> udata;
-}
-
-typedef duk_alloc_function =
-    ffi.Pointer<ffi.NativeFunction<duk_alloc_functionFunction>>;
+/// A few types are assumed to always exist.
+typedef duk_size_t = ffi.Size;
+typedef Dartduk_size_t = int;
 typedef duk_alloc_functionFunction =
     ffi.Pointer<ffi.Void> Function(
       ffi.Pointer<ffi.Void> udata,
@@ -4820,12 +4811,8 @@ typedef Dartduk_alloc_functionFunction =
       ffi.Pointer<ffi.Void> udata,
       Dartduk_size_t size,
     );
-
-/// A few types are assumed to always exist.
-typedef duk_size_t = ffi.Size;
-typedef Dartduk_size_t = int;
-typedef duk_realloc_function =
-    ffi.Pointer<ffi.NativeFunction<duk_realloc_functionFunction>>;
+typedef duk_alloc_function =
+    ffi.Pointer<ffi.NativeFunction<duk_alloc_functionFunction>>;
 typedef duk_realloc_functionFunction =
     ffi.Pointer<ffi.Void> Function(
       ffi.Pointer<ffi.Void> udata,
@@ -4838,12 +4825,52 @@ typedef Dartduk_realloc_functionFunction =
       ffi.Pointer<ffi.Void> ptr,
       Dartduk_size_t size,
     );
-typedef duk_free_function =
-    ffi.Pointer<ffi.NativeFunction<duk_free_functionFunction>>;
+typedef duk_realloc_function =
+    ffi.Pointer<ffi.NativeFunction<duk_realloc_functionFunction>>;
 typedef duk_free_functionFunction =
     ffi.Void Function(ffi.Pointer<ffi.Void> udata, ffi.Pointer<ffi.Void> ptr);
 typedef Dartduk_free_functionFunction =
     void Function(ffi.Pointer<ffi.Void> udata, ffi.Pointer<ffi.Void> ptr);
+typedef duk_free_function =
+    ffi.Pointer<ffi.NativeFunction<duk_free_functionFunction>>;
+
+final class duk_memory_functions extends ffi.Struct {
+  external duk_alloc_function alloc_func;
+
+  external duk_realloc_function realloc_func;
+
+  external duk_free_function free_func;
+
+  external ffi.Pointer<ffi.Void> udata;
+}
+
+/// Small integers (16 bits or more) can fall back to the 'int' type, but
+/// have a typedef so they are marked "small" explicitly.
+typedef duk_small_int_t = ffi.Int;
+typedef Dartduk_small_int_t = int;
+
+/// Duktape/C function return value, platform int is enough for now to
+/// represent 0, 1, or negative error code.  Must be compatible with
+/// assigning truth values (e.g. duk_ret_t rc = (foo == bar);).
+typedef duk_ret_t = duk_small_int_t;
+
+final class duk_hthread extends ffi.Opaque {}
+
+/// Type used in public API declarations and user code.  Typedef maps to
+/// 'struct duk_hthread' like the 'duk_hthread' typedef which is used
+/// exclusively in internals.
+typedef duk_context = duk_hthread;
+typedef duk_c_functionFunction =
+    duk_ret_t Function(ffi.Pointer<duk_context> ctx);
+typedef Dartduk_c_functionFunction =
+    Dartduk_small_int_t Function(ffi.Pointer<duk_context> ctx);
+typedef duk_c_function =
+    ffi.Pointer<ffi.NativeFunction<duk_c_functionFunction>>;
+typedef duk_int_t = ffi.Int;
+typedef Dartduk_int_t = int;
+
+/// Index values must have at least 32-bit signed range.
+typedef duk_idx_t = duk_int_t;
 
 final class duk_function_list_entry extends ffi.Struct {
   external ffi.Pointer<ffi.Char> key;
@@ -4854,34 +4881,8 @@ final class duk_function_list_entry extends ffi.Struct {
   external int nargs;
 }
 
-typedef duk_c_function =
-    ffi.Pointer<ffi.NativeFunction<duk_c_functionFunction>>;
-typedef duk_c_functionFunction =
-    duk_ret_t Function(ffi.Pointer<duk_context> ctx);
-typedef Dartduk_c_functionFunction =
-    Dartduk_small_int_t Function(ffi.Pointer<duk_context> ctx);
-
-/// Duktape/C function return value, platform int is enough for now to
-/// represent 0, 1, or negative error code.  Must be compatible with
-/// assigning truth values (e.g. duk_ret_t rc = (foo == bar);).
-typedef duk_ret_t = duk_small_int_t;
-
-/// Small integers (16 bits or more) can fall back to the 'int' type, but
-/// have a typedef so they are marked "small" explicitly.
-typedef duk_small_int_t = ffi.Int;
-typedef Dartduk_small_int_t = int;
-
-/// Type used in public API declarations and user code.  Typedef maps to
-/// 'struct duk_hthread' like the 'duk_hthread' typedef which is used
-/// exclusively in internals.
-typedef duk_context = duk_hthread;
-
-final class duk_hthread extends ffi.Opaque {}
-
-/// Index values must have at least 32-bit signed range.
-typedef duk_idx_t = duk_int_t;
-typedef duk_int_t = ffi.Int;
-typedef Dartduk_int_t = int;
+typedef duk_double_t = ffi.Double;
+typedef Dartduk_double_t = double;
 
 final class duk_number_list_entry extends ffi.Struct {
   external ffi.Pointer<ffi.Char> key;
@@ -4889,9 +4890,6 @@ final class duk_number_list_entry extends ffi.Struct {
   @duk_double_t()
   external double value;
 }
-
-typedef duk_double_t = ffi.Double;
-typedef Dartduk_double_t = double;
 
 final class duk_time_components extends ffi.Struct {
   /// year, e.g. 2016, ECMAScript year range
@@ -4927,41 +4925,12 @@ final class duk_time_components extends ffi.Struct {
   external double weekday;
 }
 
-typedef duk_fatal_function =
-    ffi.Pointer<ffi.NativeFunction<duk_fatal_functionFunction>>;
 typedef duk_fatal_functionFunction =
     ffi.Void Function(ffi.Pointer<ffi.Void> udata, ffi.Pointer<ffi.Char> msg);
 typedef Dartduk_fatal_functionFunction =
     void Function(ffi.Pointer<ffi.Void> udata, ffi.Pointer<ffi.Char> msg);
-typedef duk_uint_t = ffi.UnsignedInt;
-typedef Dartduk_uint_t = int;
-
-/// Error codes are represented with platform int.  High bits are used
-/// for flags and such, so 32 bits are needed.
-typedef duk_errcode_t = duk_int_t;
-typedef va_list = __builtin_va_list;
-typedef __builtin_va_list = ffi.Pointer<ffi.Char>;
-
-/// Boolean values are represented with the platform 'unsigned int'.
-typedef duk_bool_t = duk_small_uint_t;
-typedef duk_small_uint_t = ffi.UnsignedInt;
-typedef Dartduk_small_uint_t = int;
-typedef duk_int32_t = ffi.Int32;
-typedef Dartduk_int32_t = int;
-typedef duk_uint32_t = ffi.Uint32;
-typedef Dartduk_uint32_t = int;
-typedef duk_uint16_t = ffi.Uint16;
-typedef Dartduk_uint16_t = int;
-
-/// Array index values, could be exact 32 bits.
-/// Currently no need for signed duk_arridx_t.
-typedef duk_uarridx_t = duk_uint_t;
-typedef duk_decode_char_function =
-    ffi.Pointer<ffi.NativeFunction<duk_decode_char_functionFunction>>;
-typedef duk_decode_char_functionFunction =
-    ffi.Void Function(ffi.Pointer<ffi.Void> udata, duk_codepoint_t codepoint);
-typedef Dartduk_decode_char_functionFunction =
-    void Function(ffi.Pointer<ffi.Void> udata, Dartduk_int_t codepoint);
+typedef duk_fatal_function =
+    ffi.Pointer<ffi.NativeFunction<duk_fatal_functionFunction>>;
 
 /// Codepoint type.  Must be 32 bits or more because it is used also for
 /// internal codepoints.  The type is signed because negative codepoints
@@ -4970,8 +4939,12 @@ typedef Dartduk_decode_char_functionFunction =
 /// ensure duk_uint32_t casts back and forth nicely.  Almost everything
 /// else uses the signed one.
 typedef duk_codepoint_t = duk_int_t;
-typedef duk_map_char_function =
-    ffi.Pointer<ffi.NativeFunction<duk_map_char_functionFunction>>;
+typedef duk_decode_char_functionFunction =
+    ffi.Void Function(ffi.Pointer<ffi.Void> udata, duk_codepoint_t codepoint);
+typedef Dartduk_decode_char_functionFunction =
+    void Function(ffi.Pointer<ffi.Void> udata, Dartduk_int_t codepoint);
+typedef duk_decode_char_function =
+    ffi.Pointer<ffi.NativeFunction<duk_decode_char_functionFunction>>;
 typedef duk_map_char_functionFunction =
     duk_codepoint_t Function(
       ffi.Pointer<ffi.Void> udata,
@@ -4982,8 +4955,8 @@ typedef Dartduk_map_char_functionFunction =
       ffi.Pointer<ffi.Void> udata,
       Dartduk_int_t codepoint,
     );
-typedef duk_safe_call_function =
-    ffi.Pointer<ffi.NativeFunction<duk_safe_call_functionFunction>>;
+typedef duk_map_char_function =
+    ffi.Pointer<ffi.NativeFunction<duk_map_char_functionFunction>>;
 typedef duk_safe_call_functionFunction =
     duk_ret_t Function(
       ffi.Pointer<duk_context> ctx,
@@ -4994,8 +4967,8 @@ typedef Dartduk_safe_call_functionFunction =
       ffi.Pointer<duk_context> ctx,
       ffi.Pointer<ffi.Void> udata,
     );
-typedef duk_debug_read_function =
-    ffi.Pointer<ffi.NativeFunction<duk_debug_read_functionFunction>>;
+typedef duk_safe_call_function =
+    ffi.Pointer<ffi.NativeFunction<duk_safe_call_functionFunction>>;
 typedef duk_debug_read_functionFunction =
     duk_size_t Function(
       ffi.Pointer<ffi.Void> udata,
@@ -5008,8 +4981,8 @@ typedef Dartduk_debug_read_functionFunction =
       ffi.Pointer<ffi.Char> buffer,
       Dartduk_size_t length,
     );
-typedef duk_debug_write_function =
-    ffi.Pointer<ffi.NativeFunction<duk_debug_write_functionFunction>>;
+typedef duk_debug_read_function =
+    ffi.Pointer<ffi.NativeFunction<duk_debug_read_functionFunction>>;
 typedef duk_debug_write_functionFunction =
     duk_size_t Function(
       ffi.Pointer<ffi.Void> udata,
@@ -5022,26 +4995,26 @@ typedef Dartduk_debug_write_functionFunction =
       ffi.Pointer<ffi.Char> buffer,
       Dartduk_size_t length,
     );
-typedef duk_debug_peek_function =
-    ffi.Pointer<ffi.NativeFunction<duk_debug_peek_functionFunction>>;
+typedef duk_debug_write_function =
+    ffi.Pointer<ffi.NativeFunction<duk_debug_write_functionFunction>>;
 typedef duk_debug_peek_functionFunction =
     duk_size_t Function(ffi.Pointer<ffi.Void> udata);
 typedef Dartduk_debug_peek_functionFunction =
     Dartduk_size_t Function(ffi.Pointer<ffi.Void> udata);
-typedef duk_debug_read_flush_function =
-    ffi.Pointer<ffi.NativeFunction<duk_debug_read_flush_functionFunction>>;
+typedef duk_debug_peek_function =
+    ffi.Pointer<ffi.NativeFunction<duk_debug_peek_functionFunction>>;
 typedef duk_debug_read_flush_functionFunction =
     ffi.Void Function(ffi.Pointer<ffi.Void> udata);
 typedef Dartduk_debug_read_flush_functionFunction =
     void Function(ffi.Pointer<ffi.Void> udata);
-typedef duk_debug_write_flush_function =
-    ffi.Pointer<ffi.NativeFunction<duk_debug_write_flush_functionFunction>>;
+typedef duk_debug_read_flush_function =
+    ffi.Pointer<ffi.NativeFunction<duk_debug_read_flush_functionFunction>>;
 typedef duk_debug_write_flush_functionFunction =
     ffi.Void Function(ffi.Pointer<ffi.Void> udata);
 typedef Dartduk_debug_write_flush_functionFunction =
     void Function(ffi.Pointer<ffi.Void> udata);
-typedef duk_debug_request_function =
-    ffi.Pointer<ffi.NativeFunction<duk_debug_request_functionFunction>>;
+typedef duk_debug_write_flush_function =
+    ffi.Pointer<ffi.NativeFunction<duk_debug_write_flush_functionFunction>>;
 typedef duk_debug_request_functionFunction =
     duk_idx_t Function(
       ffi.Pointer<duk_context> ctx,
@@ -5054,8 +5027,8 @@ typedef Dartduk_debug_request_functionFunction =
       ffi.Pointer<ffi.Void> udata,
       Dartduk_int_t nvalues,
     );
-typedef duk_debug_detached_function =
-    ffi.Pointer<ffi.NativeFunction<duk_debug_detached_functionFunction>>;
+typedef duk_debug_request_function =
+    ffi.Pointer<ffi.NativeFunction<duk_debug_request_functionFunction>>;
 typedef duk_debug_detached_functionFunction =
     ffi.Void Function(
       ffi.Pointer<duk_context> ctx,
@@ -5063,6 +5036,31 @@ typedef duk_debug_detached_functionFunction =
     );
 typedef Dartduk_debug_detached_functionFunction =
     void Function(ffi.Pointer<duk_context> ctx, ffi.Pointer<ffi.Void> udata);
+typedef duk_debug_detached_function =
+    ffi.Pointer<ffi.NativeFunction<duk_debug_detached_functionFunction>>;
+typedef duk_uint_t = ffi.UnsignedInt;
+typedef Dartduk_uint_t = int;
+
+/// Error codes are represented with platform int.  High bits are used
+/// for flags and such, so 32 bits are needed.
+typedef duk_errcode_t = duk_int_t;
+typedef __builtin_va_list = ffi.Pointer<ffi.Char>;
+typedef va_list = __builtin_va_list;
+typedef duk_small_uint_t = ffi.UnsignedInt;
+typedef Dartduk_small_uint_t = int;
+
+/// Boolean values are represented with the platform 'unsigned int'.
+typedef duk_bool_t = duk_small_uint_t;
+typedef duk_int32_t = ffi.Int32;
+typedef Dartduk_int32_t = int;
+typedef duk_uint32_t = ffi.Uint32;
+typedef Dartduk_uint32_t = int;
+typedef duk_uint16_t = ffi.Uint16;
+typedef Dartduk_uint16_t = int;
+
+/// Array index values, could be exact 32 bits.
+/// Currently no need for signed duk_arridx_t.
+typedef duk_uarridx_t = duk_uint_t;
 
 const int DUK_VERSION = 20700;
 
