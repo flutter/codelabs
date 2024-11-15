@@ -44,6 +44,9 @@ steps:
                   }
               ]
           }
+      - name: Format lib/main.dart
+        path: patterns_codelab
+        dart: format lib/main.dart
       - name: Patch lib/main.dart
         path: patterns_codelab/lib/main.dart
         patch-u: |
@@ -57,28 +60,6 @@ steps:
            import 'package:flutter/material.dart';
            
            void main() {
-      - name: Replace pubspec.yaml
-        path: patterns_codelab/pubspec.yaml
-        replace-contents: |
-          name: patterns_codelab
-          description: "A new Flutter project."
-          publish_to: 'none'
-          version: 0.1.0
-          
-          environment:
-            sdk: ^3.7.0-0
-          
-          dependencies:
-            flutter:
-              sdk: flutter
-          
-          dev_dependencies:
-            flutter_test:
-              sdk: flutter
-            flutter_lints: ^4.0.0
-          
-          flutter:
-            uses-material-design: true
       - name: Build web app
         path: patterns_codelab
         flutter: build web
@@ -136,50 +117,37 @@ steps:
           // Copyright 2023 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-          
+
           import 'package:flutter/material.dart';
-          
+
           import 'data.dart';
-          
+
           void main() {
             runApp(const DocumentApp());
           }
-          
+
           class DocumentApp extends StatelessWidget {
             const DocumentApp({super.key});
-          
+
             @override
             Widget build(BuildContext context) {
               return MaterialApp(
                 theme: ThemeData(useMaterial3: true),
-                home: DocumentScreen(
-                  document: Document(),
-                ),
+                home: DocumentScreen(document: Document()),
               );
             }
           }
-          
+
           class DocumentScreen extends StatelessWidget {
             final Document document;
-          
-            const DocumentScreen({
-              required this.document,
-              super.key,
-            });
-          
+
+            const DocumentScreen({required this.document, super.key});
+
             @override
             Widget build(BuildContext context) {
               return Scaffold(
-                appBar: AppBar(
-                  title: const Text('Title goes here'),
-                ),
-                body: const Column(
-                  children: [
-                    Center(
-                      child: Text('Body goes here'),
-                    ),
-                  ],
-                ),
+                appBar: AppBar(title: const Text('Title goes here')),
+                body: const Column(children: [Center(child: Text('Body goes here'))]),
               );
             }
           }
@@ -221,28 +189,24 @@ steps:
         patch-u: |
           --- b/dart-patterns-and-records/step_05/lib/main.dart
           +++ a/dart-patterns-and-records/step_05/lib/main.dart
-          @@ -34,14 +34,18 @@ class DocumentScreen extends StatelessWidget {
+          @@ -29,9 +29,15 @@ class DocumentScreen extends StatelessWidget {
            
              @override
              Widget build(BuildContext context) {
           +    final metadataRecord = document.metadata;
           +
                return Scaffold(
-                 appBar: AppBar(
-          -        title: const Text('Title goes here'),
-          +        title: Text(metadataRecord.$1),
-                 ),
-          -      body: const Column(
+          -      appBar: AppBar(title: const Text('Title goes here')),
+          -      body: const Column(children: [Center(child: Text('Body goes here'))]),
+          +      appBar: AppBar(title: Text(metadataRecord.$1)),
           +      body: Column(
-                   children: [
-                     Center(
-          -            child: Text('Body goes here'),
-          +            child: Text(
-          +              'Last modified ${metadataRecord.modified}',
-          +            ),
-                     ),
-                   ],
-                 ),
+          +        children: [
+          +          Center(child: Text('Last modified ${metadataRecord.modified}')),
+          +        ],
+          +      ),
+               );
+             }
+           }
       - name: Build web app
         path: patterns_codelab
         flutter: build web
@@ -262,7 +226,7 @@ steps:
         patch-u: |
           --- b/dart-patterns-and-records/step_06_a/lib/main.dart
           +++ a/dart-patterns-and-records/step_06_a/lib/main.dart
-          @@ -34,17 +34,17 @@ class DocumentScreen extends StatelessWidget {
+          @@ -29,15 +29,11 @@ class DocumentScreen extends StatelessWidget {
            
              @override
              Widget build(BuildContext context) {
@@ -270,19 +234,17 @@ steps:
           +    final (title, modified: modified) = document.metadata;
            
                return Scaffold(
-                 appBar: AppBar(
-          -        title: Text(metadataRecord.$1),
-          +        title: Text(title),
-                 ),
-                 body: Column(
-                   children: [
-                     Center(
-                       child: Text(
-          -              'Last modified ${metadataRecord.modified}',
-          +              'Last modified $modified',
-                       ),
-                     ),
-                   ],
+          -      appBar: AppBar(title: Text(metadataRecord.$1)),
+          -      body: Column(
+          -        children: [
+          -          Center(child: Text('Last modified ${metadataRecord.modified}')),
+          -        ],
+          -      ),
+          +      appBar: AppBar(title: Text(title)),
+          +      body: Column(children: [Center(child: Text('Last modified $modified'))]),
+               );
+             }
+           }
       - name: Build web app
         path: patterns_codelab
         flutter: build web
@@ -302,7 +264,7 @@ steps:
         patch-u: |
           --- b/dart-patterns-and-records/step_06_b/lib/main.dart
           +++ a/dart-patterns-and-records/step_06_b/lib/main.dart
-          @@ -34,7 +34,7 @@ class DocumentScreen extends StatelessWidget {
+          @@ -29,7 +29,7 @@ class DocumentScreen extends StatelessWidget {
            
              @override
              Widget build(BuildContext context) {
@@ -310,7 +272,7 @@ steps:
           +    final (title, :modified) = document.metadata;
            
                return Scaffold(
-                 appBar: AppBar(
+                 appBar: AppBar(title: Text(title)),
       - name: Build web app
         path: patterns_codelab
         flutter: build web
@@ -330,7 +292,7 @@ steps:
         patch-u: |
           --- b/dart-patterns-and-records/step_07_a/lib/data.dart
           +++ a/dart-patterns-and-records/step_07_a/lib/data.dart
-          @@ -9,10 +9,16 @@ class Document {
+          @@ -9,10 +9,17 @@ class Document {
              Document() : _json = jsonDecode(documentJson);
            
              (String, {DateTime modified}) get metadata {
@@ -342,8 +304,9 @@ steps:
           +      final metadataJson = _json['metadata'];
           +      if (metadataJson is Map) {
           +        final title = metadataJson['title'] as String;
-          +        final localModified =
-          +            DateTime.parse(metadataJson['modified'] as String);
+          +        final localModified = DateTime.parse(
+          +          metadataJson['modified'] as String,
+          +        );
           +        return (title, modified: localModified);
           +      }
           +    }
@@ -369,7 +332,7 @@ steps:
         patch-u: |
           --- b/dart-patterns-and-records/step_07_b/lib/data.dart
           +++ a/dart-patterns-and-records/step_07_b/lib/data.dart
-          @@ -9,16 +9,17 @@ class Document {
+          @@ -9,17 +9,13 @@ class Document {
              Document() : _json = jsonDecode(documentJson);
            
              (String, {DateTime modified}) get metadata {
@@ -377,17 +340,14 @@ steps:
           -      final metadataJson = _json['metadata'];
           -      if (metadataJson is Map) {
           -        final title = metadataJson['title'] as String;
-          -        final localModified =
-          -            DateTime.parse(metadataJson['modified'] as String);
+          -        final localModified = DateTime.parse(
+          -          metadataJson['modified'] as String,
+          -        );
           -        return (title, modified: localModified);
           -      }
-          +    if (_json
-          +        case {
-          +          'metadata': {
-          +            'title': String title,
-          +            'modified': String localModified,
-          +          }
-          +        }) {
+          +    if (_json case {
+          +      'metadata': {'title': String title, 'modified': String localModified},
+          +    }) {
           +      return (title, modified: DateTime.parse(localModified));
           +    } else {
           +      throw const FormatException('Unexpected JSON');
@@ -414,7 +374,7 @@ steps:
         patch-u: |
           --- b/dart-patterns-and-records/step_08/lib/data.dart
           +++ a/dart-patterns-and-records/step_08/lib/data.dart
-          @@ -21,6 +21,14 @@ class Document {
+          @@ -17,6 +17,14 @@ class Document {
                  throw const FormatException('Unexpected JSON');
                }
              }
@@ -429,7 +389,7 @@ steps:
            }
            
            const documentJson = '''
-          @@ -46,3 +56,17 @@ const documentJson = '''
+          @@ -42,3 +50,17 @@ const documentJson = '''
              ]
            }
            ''';
@@ -466,21 +426,17 @@ steps:
         patch-u: |
           --- b/dart-patterns-and-records/step_09/lib/main.dart
           +++ a/dart-patterns-and-records/step_09/lib/main.dart
-          @@ -35,6 +35,7 @@ class DocumentScreen extends StatelessWidget {
+          @@ -30,10 +30,47 @@ class DocumentScreen extends StatelessWidget {
              @override
              Widget build(BuildContext context) {
                final (title, :modified) = document.metadata;
           +    final blocks = document.getBlocks();
            
                return Scaffold(
-                 appBar: AppBar(
-          @@ -42,9 +43,13 @@ class DocumentScreen extends StatelessWidget {
-                 ),
-                 body: Column(
-                   children: [
-          -          Center(
-          -            child: Text(
-          -              'Last modified $modified',
+                 appBar: AppBar(title: Text(title)),
+          -      body: Column(children: [Center(child: Text('Last modified $modified'))]),
+          +      body: Column(
+          +        children: [
           +          Text('Last modified: $modified'),
           +          Expanded(
           +            child: ListView.builder(
@@ -488,21 +444,18 @@ steps:
           +              itemBuilder: (context, index) {
           +                return BlockWidget(block: blocks[index]);
           +              },
-                       ),
-                     ),
-                   ],
-          @@ -52,3 +57,33 @@ class DocumentScreen extends StatelessWidget {
-               );
-             }
-           }
+          +            ),
+          +          ),
+          +        ],
+          +      ),
+          +    );
+          +  }
+          +}
           +
           +class BlockWidget extends StatelessWidget {
           +  final Block block;
           +
-          +  const BlockWidget({
-          +    required this.block,
-          +    super.key,
-          +  });
+          +  const BlockWidget({required this.block, super.key});
           +
           +  @override
           +  Widget build(BuildContext context) {
@@ -518,13 +471,10 @@ steps:
           +
           +    return Container(
           +      margin: const EdgeInsets.all(8),
-          +      child: Text(
-          +        block.text,
-          +        style: textStyle,
-          +      ),
-          +    );
-          +  }
-          +}
+          +      child: Text(block.text, style: textStyle),
+               );
+             }
+           }
       - name: Build web app
         path: patterns_codelab
         flutter: build web
@@ -544,7 +494,7 @@ steps:
         patch-u: |
           --- b/dart-patterns-and-records/step_10/lib/main.dart
           +++ a/dart-patterns-and-records/step_10/lib/main.dart
-          @@ -69,14 +69,11 @@ class BlockWidget extends StatelessWidget {
+          @@ -59,14 +59,11 @@ class BlockWidget extends StatelessWidget {
              @override
              Widget build(BuildContext context) {
                TextStyle? textStyle;
@@ -559,7 +509,7 @@ steps:
           +    textStyle = switch (block.type) {
           +      'h1' => Theme.of(context).textTheme.displayMedium,
           +      'p' || 'checkbox' => Theme.of(context).textTheme.bodyMedium,
-          +      _ => Theme.of(context).textTheme.bodySmall
+          +      _ => Theme.of(context).textTheme.bodySmall,
           +    };
            
                return Container(
@@ -631,7 +581,7 @@ steps:
                Duration(inDays: final days, isNegative: true) => '${days.abs()} days ago',
                Duration(inDays: final days) => '$days days from now',
              };
-          @@ -48,6 +51,7 @@ class DocumentScreen extends StatelessWidget {
+          @@ -43,13 +46,14 @@ class DocumentScreen extends StatelessWidget {
              @override
              Widget build(BuildContext context) {
                final (title, :modified) = document.metadata;
@@ -639,8 +589,7 @@ steps:
                final blocks = document.getBlocks();
            
                return Scaffold(
-          @@ -56,7 +60,7 @@ class DocumentScreen extends StatelessWidget {
-                 ),
+                 appBar: AppBar(title: Text(title)),
                  body: Column(
                    children: [
           -          Text('Last modified: $modified'),
@@ -667,7 +616,7 @@ steps:
         patch-u: |
           --- b/dart-patterns-and-records/step_12/lib/data.dart
           +++ a/dart-patterns-and-records/step_12/lib/data.dart
-          @@ -55,16 +55,32 @@ const documentJson = '''
+          @@ -51,16 +51,32 @@ const documentJson = '''
            }
            ''';
            
@@ -715,7 +664,7 @@ steps:
         patch-u: |
           --- b/dart-patterns-and-records/step_12/lib/main.dart
           +++ a/dart-patterns-and-records/step_12/lib/main.dart
-          @@ -85,19 +85,21 @@ class BlockWidget extends StatelessWidget {
+          @@ -75,16 +75,18 @@ class BlockWidget extends StatelessWidget {
            
              @override
              Widget build(BuildContext context) {
@@ -723,27 +672,21 @@ steps:
           -    textStyle = switch (block.type) {
           -      'h1' => Theme.of(context).textTheme.displayMedium,
           -      'p' || 'checkbox' => Theme.of(context).textTheme.bodyMedium,
-          -      _ => Theme.of(context).textTheme.bodySmall
+          -      _ => Theme.of(context).textTheme.bodySmall,
           -    };
           -
                return Container(
                  margin: const EdgeInsets.all(8),
-          -      child: Text(
-          -        block.text,
-          -        style: textStyle,
-          -      ),
+          -      child: Text(block.text, style: textStyle),
           +      child: switch (block) {
           +        HeaderBlock(:final text) => Text(
-          +            text,
-          +            style: Theme.of(context).textTheme.displayMedium,
-          +          ),
+          +          text,
+          +          style: Theme.of(context).textTheme.displayMedium,
+          +        ),
           +        ParagraphBlock(:final text) => Text(text),
           +        CheckboxBlock(:final text, :final isChecked) => Row(
-          +            children: [
-          +              Checkbox(value: isChecked, onChanged: (_) {}),
-          +              Text(text),
-          +            ],
-          +          ),
+          +          children: [Checkbox(value: isChecked, onChanged: (_) {}), Text(text)],
+          +        ),
           +      },
                );
              }
