@@ -94,7 +94,7 @@ steps:
           import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
           import 'package:flutter/foundation.dart'
               show defaultTargetPlatform, kIsWeb, TargetPlatform;
-          
+
           /// Default [FirebaseOptions] for use with your Firebase apps.
           ///
           /// Example:
@@ -120,10 +120,11 @@ steps:
                   return macos;
                 default:
                   throw UnsupportedError(
-                      'DefaultFirebaseOptions are not supported for this platform.');
+                    'DefaultFirebaseOptions are not supported for this platform.',
+                  );
               }
             }
-          
+
             // TODO (codelab user): Replace with your Firebase credentials
             // Generate this file with credentials with the FlutterFire CLI
             static const FirebaseOptions web = FirebaseOptions(
@@ -135,7 +136,7 @@ steps:
               storageBucket: 'flutterfire-ui-codelab.appspot.com',
               measurementId: 'MEASUREMENT ID',
             );
-          
+
             static const FirebaseOptions android = FirebaseOptions(
               apiKey: 'YOUR API KEY',
               appId: 'YOUR APP ID',
@@ -143,7 +144,7 @@ steps:
               projectId: 'flutterfire-ui-codelab',
               storageBucket: 'flutterfire-ui-codelab.appspot.com',
             );
-          
+
             static const FirebaseOptions ios = FirebaseOptions(
               apiKey: 'YOUR API KEY',
               appId: 'YOUR APP ID',
@@ -153,7 +154,7 @@ steps:
               iosClientId: 'IOS CLIENT ID',
               iosBundleId: 'com.example.BUNDLE',
             );
-          
+
             static const FirebaseOptions macos = FirebaseOptions(
               apiKey: 'YOUR API KEY',
               appId: 'YOUR APP ID',
@@ -168,24 +169,19 @@ steps:
         path: start/lib/home.dart
         replace-contents: |
           import 'package:flutter/material.dart';
-          
+
           class HomeScreen extends StatelessWidget {
             const HomeScreen({super.key});
-          
+
             @override
             Widget build(BuildContext context) {
               return Scaffold(
-                appBar: AppBar(
-                  automaticallyImplyLeading: false,
-                ),
+                appBar: AppBar(automaticallyImplyLeading: false),
                 body: Center(
                   child: Column(
                     children: [
                       Image.asset('dash.png'),
-                      Text(
-                        'Welcome!',
-                        style: Theme.of(context).textTheme.displaySmall,
-                      ),
+                      Text('Welcome!', style: Theme.of(context).textTheme.displaySmall),
                     ],
                   ),
                 ),
@@ -425,7 +421,6 @@ steps:
               flutter_additional_macos_build_settings(target)
             end
           end
-
       - name: Mkdir assets
         path: start
         mkdir: assets
@@ -4919,7 +4914,7 @@ steps:
         patch-u: |
           --- b/firebase-auth-flutterfire-ui/complete/lib/auth_gate.dart
           +++ a/firebase-auth-flutterfire-ui/complete/lib/auth_gate.dart
-          @@ -1,12 +1,56 @@
+          @@ -1,12 +1,57 @@
           +import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
           +import 'package:firebase_ui_auth/firebase_ui_auth.dart';
           +import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart';
@@ -4955,9 +4950,10 @@ steps:
           +            subtitleBuilder: (context, action) {
           +              return Padding(
           +                padding: const EdgeInsets.symmetric(vertical: 8.0),
-          +                child: action == AuthAction.signIn
-          +                    ? const Text('Welcome to FlutterFire, please sign in!')
-          +                    : const Text('Welcome to Flutterfire, please sign up!'),
+          +                child:
+          +                    action == AuthAction.signIn
+          +                        ? const Text('Welcome to FlutterFire, please sign in!')
+          +                        : const Text('Welcome to Flutterfire, please sign up!'),
           +              );
           +            },
           +            footerBuilder: (context, action) {
@@ -4987,10 +4983,12 @@ steps:
            import 'package:flutter/material.dart';
            
            class HomeScreen extends StatelessWidget {
-          @@ -7,6 +8,38 @@ class HomeScreen extends StatelessWidget {
+          @@ -6,12 +7,46 @@ class HomeScreen extends StatelessWidget {
+             @override
              Widget build(BuildContext context) {
                return Scaffold(
-                 appBar: AppBar(
+          -      appBar: AppBar(automaticallyImplyLeading: false),
+          +      appBar: AppBar(
           +        actions: [
           +          IconButton(
           +            icon: const Icon(Icons.person),
@@ -4998,38 +4996,37 @@ steps:
           +              Navigator.push(
           +                context,
           +                MaterialPageRoute<ProfileScreen>(
-          +                  builder: (context) => ProfileScreen(
-          +                    appBar: AppBar(
-          +                      title: const Text('User Profile'),
-          +                    ),
-          +                    actions: [
-          +                      SignedOutAction((context) {
-          +                        Navigator.of(context).pop();
-          +                      })
-          +                    ],
-          +                    children: [
-          +                      const Divider(),
-          +                      Padding(
-          +                        padding: const EdgeInsets.all(2),
-          +                        child: AspectRatio(
-          +                          aspectRatio: 1,
-          +                          child: Image.asset('flutterfire_300x.png'),
-          +                        ),
+          +                  builder:
+          +                      (context) => ProfileScreen(
+          +                        appBar: AppBar(title: const Text('User Profile')),
+          +                        actions: [
+          +                          SignedOutAction((context) {
+          +                            Navigator.of(context).pop();
+          +                          }),
+          +                        ],
+          +                        children: [
+          +                          const Divider(),
+          +                          Padding(
+          +                            padding: const EdgeInsets.all(2),
+          +                            child: AspectRatio(
+          +                              aspectRatio: 1,
+          +                              child: Image.asset('flutterfire_300x.png'),
+          +                            ),
+          +                          ),
+          +                        ],
           +                      ),
-          +                    ],
-          +                  ),
           +                ),
           +              );
           +            },
-          +          )
+          +          ),
           +        ],
-                   automaticallyImplyLeading: false,
-                 ),
+          +        automaticallyImplyLeading: false,
+          +      ),
                  body: Center(
-          @@ -17,6 +50,7 @@ class HomeScreen extends StatelessWidget {
-                         'Welcome!',
-                         style: Theme.of(context).textTheme.displaySmall,
-                       ),
+                   child: Column(
+                     children: [
+                       Image.asset('dash.png'),
+                       Text('Welcome!', style: Theme.of(context).textTheme.displaySmall),
           +            const SignOutButton(),
                      ],
                    ),
@@ -5039,7 +5036,7 @@ steps:
         patch-u: |
           --- b/firebase-auth-flutterfire-ui/complete/lib/main.dart
           +++ a/firebase-auth-flutterfire-ui/complete/lib/main.dart
-          @@ -1,10 +1,17 @@
+          @@ -1,10 +1,15 @@
           +import 'package:firebase_core/firebase_core.dart';
            import 'package:flutter/material.dart';
            
@@ -5051,9 +5048,7 @@ steps:
            
            void main() async {
           +  WidgetsFlutterBinding.ensureInitialized();
-          +  await Firebase.initializeApp(
-          +    options: DefaultFirebaseOptions.currentPlatform,
-          +  );
+          +  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
           +
              runApp(const MyApp());
            }
