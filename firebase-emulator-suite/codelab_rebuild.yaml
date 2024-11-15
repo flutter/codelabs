@@ -1,7 +1,7 @@
 name: Firebase Emulator Suite
 steps:
 
-  - name: complete
+  - name: start
     steps:
       - name: Remove complete
         rmdir: complete
@@ -44,44 +44,46 @@ steps:
         path: complete/lib/app_state.dart
         replace-contents: |
           import 'dart:async';
-          
+
           import 'entry.dart';
-          
+
           class AppState {
             AppState() {
-              _entriesStreamController = StreamController.broadcast(onListen: () {
-                _entriesStreamController.add([
-                  Entry(
-                    date: '10/09/2022',
-                    text: lorem,
-                    title: '[Example] My Journal Entry',
-                  )
-                ]);
-              });
+              _entriesStreamController = StreamController.broadcast(
+                onListen: () {
+                  _entriesStreamController.add([
+                    Entry(
+                      date: '10/09/2022',
+                      text: lorem,
+                      title: '[Example] My Journal Entry',
+                    ),
+                  ]);
+                },
+              );
             }
-          
+
             // This will change to the type User from the Firebase Authentication package
             // Changing it’s type now would cause the app to throw an error
             Object? user;
             late StreamController<List<Entry>> _entriesStreamController;
             Stream<List<Entry>> get entries =>
                 _entriesStreamController.stream.asBroadcastStream();
-          
+
             Future<void> logIn(String email, String password) async {
               print('TODO: AppState.login');
               user = Object();
               await _listenForEntries();
             }
-          
+
             void writeEntryToFirebase(Entry entry) {
               print('TODO: AppState.writeEntryToFirebase');
             }
-          
+
             Future<void> _listenForEntries() async {
               print('TODO: AppState._listenForEntries');
             }
           }
-          
+
           const lorem =
               '''Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
               ''';
@@ -92,37 +94,33 @@ steps:
             final String date;
             final String text;
             final String title;
-          
-            Entry({
-              required this.date,
-              required this.text,
-              required this.title,
-            });
+
+            Entry({required this.date, required this.text, required this.title});
           }
       - name: Add lib/journal_entry_form.dart
         path: complete/lib/journal_entry_form.dart
         replace-contents: |
           import 'package:flutter/material.dart';
-          
+
           import 'entry.dart';
-          
+
           typedef SubmitCallback = void Function(Entry);
-          
+
           class EntryForm extends StatefulWidget {
             final SubmitCallback onSubmit;
             const EntryForm({super.key, required this.onSubmit});
-          
+
             @override
             State<EntryForm> createState() => _EntryFormState();
           }
-          
+
           class _EntryFormState extends State<EntryForm> {
             final _formKey = GlobalKey<FormState>();
-          
+
             late String title;
             late String text;
             late String date;
-          
+
             @override
             Widget build(BuildContext context) {
               return Card(
@@ -146,8 +144,9 @@ steps:
                           },
                         ),
                         TextFormField(
-                          decoration:
-                              const InputDecoration(labelText: 'Date (DD/MM/YYYY):'),
+                          decoration: const InputDecoration(
+                            labelText: 'Date (DD/MM/YYYY):',
+                          ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please enter some text';
@@ -180,9 +179,9 @@ steps:
                                     text: text,
                                     date: date,
                                   );
-          
+
                                   widget.onSubmit(entry);
-          
+
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(content: Text('Submitting Entry')),
                                   );
@@ -203,14 +202,14 @@ steps:
         path: complete/lib/journal_entry_widget.dart
         replace-contents: |
           import 'package:flutter/material.dart';
-          
+
           import 'entry.dart';
-          
+
           class EntryView extends StatelessWidget {
             final Entry entry;
-          
+
             const EntryView({super.key, required this.entry});
-          
+
             @override
             Widget build(BuildContext context) {
               return Card(
@@ -239,10 +238,10 @@ steps:
                         child: Text(
                           entry.text,
                           style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                height: 1.3,
-                                wordSpacing: 1.2,
-                                letterSpacing: 1.05,
-                              ),
+                            height: 1.3,
+                            wordSpacing: 1.2,
+                            letterSpacing: 1.05,
+                          ),
                         ),
                       ),
                     ],
@@ -255,20 +254,20 @@ steps:
         path: complete/lib/logged_in_view.dart
         replace-contents: |
           import 'dart:math';
-          
+
           import 'package:flutter/material.dart';
-          
+
           import 'app_state.dart';
           import 'entry.dart';
           import 'journal_entry_form.dart';
           import 'journal_entry_widget.dart';
-          
+
           class LoggedInView extends StatelessWidget {
             final AppState state;
             LoggedInView({super.key, required this.state});
-          
+
             final PageController _controller = PageController(initialPage: 1);
-          
+
             @override
             Widget build(BuildContext context) {
               // TODO: get name from Firebase User
@@ -278,9 +277,7 @@ steps:
                   children: [
                     Center(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 16.0,
-                        ),
+                        padding: const EdgeInsets.symmetric(vertical: 16.0),
                         child: Text(
                           'Welcome back, $name!',
                           style: Theme.of(context).textTheme.headlineSmall!.copyWith(),
@@ -305,16 +302,13 @@ steps:
                                     state.writeEntryToFirebase(e);
                                   },
                                 ),
-                                for (var entry in allEntries!)
-                                  EntryView(
-                                    entry: entry,
-                                  )
+                                for (var entry in allEntries!) EntryView(entry: entry),
                               ],
                             );
                           },
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               );
@@ -325,18 +319,16 @@ steps:
         replace-contents: |
           import 'package:flutter/material.dart';
           import 'package:go_router/go_router.dart';
-          
+
           import 'app_state.dart';
-          
+
           class LoggedOutView extends StatelessWidget {
             final AppState state;
             const LoggedOutView({super.key, required this.state});
             @override
             Widget build(BuildContext context) {
               return Scaffold(
-                appBar: AppBar(
-                  title: const Text('Firebase Emulator Suite Codelab'),
-                ),
+                appBar: AppBar(title: const Text('Firebase Emulator Suite Codelab')),
                 body: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -372,21 +364,21 @@ steps:
           import 'package:flutter/gestures.dart';
           import 'package:flutter/material.dart';
           import 'package:go_router/go_router.dart';
-          
+
           import 'app_state.dart';
           import 'logged_in_view.dart';
           import 'logged_out_view.dart';
-          
+
           void main() async {
             // TODO: Initialize Firebase
             runApp(MyApp());
           }
-          
+
           class MyApp extends StatelessWidget {
             final state = AppState();
-          
+
             MyApp({super.key});
-          
+
             @override
             Widget build(BuildContext context) {
               return MaterialApp.router(
@@ -395,7 +387,7 @@ steps:
                 theme: ThemeData(useMaterial3: true),
               );
             }
-          
+
             GoRouter _router() {
               return GoRouter(
                 redirect: (context, routerState) => state.user == null ? '/login' : null,
@@ -412,13 +404,13 @@ steps:
               );
             }
           }
-          
+
           class AppScrollBehavior extends MaterialScrollBehavior {
             @override
             Set<PointerDeviceKind> get dragDevices => {
-                  PointerDeviceKind.touch,
-                  PointerDeviceKind.mouse,
-                };
+              PointerDeviceKind.touch,
+              PointerDeviceKind.mouse,
+            };
           }
       - name: Build web
         path: complete
@@ -499,8 +491,8 @@ steps:
            import 'entry.dart';
            
            class AppState {
-          @@ -15,28 +18,51 @@ class AppState {
-               });
+          @@ -17,28 +20,53 @@ class AppState {
+               );
              }
            
           -  // This will change to the type User from the Firebase Authentication package
@@ -517,8 +509,10 @@ steps:
           -    print('TODO: AppState.login');
           -    user = Object();
           -    await _listenForEntries();
-          +    final credential = await FirebaseAuth.instance
-          +        .signInWithEmailAndPassword(email: email, password: password);
+          +    final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+          +      email: email,
+          +      password: password,
+          +    );
           +    if (credential.user != null) {
           +      user = credential.user!;
           +      _listenForEntries();
@@ -537,18 +531,18 @@ steps:
           +  }
           +
           +  void _listenForEntries() {
-          +    FirebaseFirestore.instance
-          +        .collection('Entries')
-          +        .snapshots()
-          +        .listen((event) {
-          +      final entries = event.docs.map((doc) {
-          +        final data = doc.data();
-          +        return Entry(
-          +          date: data['date'] as String,
-          +          text: data['text'] as String,
-          +          title: data['title'] as String,
-          +        );
-          +      }).toList();
+          +    FirebaseFirestore.instance.collection('Entries').snapshots().listen((
+          +      event,
+          +    ) {
+          +      final entries =
+          +          event.docs.map((doc) {
+          +            final data = doc.data();
+          +            return Entry(
+          +              date: data['date'] as String,
+          +              text: data['text'] as String,
+          +              title: data['title'] as String,
+          +            );
+          +          }).toList();
           +
           +      _entriesStreamController.add(entries);
           +    });
@@ -570,7 +564,7 @@ steps:
         patch-u: |
           --- b/firebase-emulator-suite/complete/lib/journal_entry_form.dart
           +++ a/firebase-emulator-suite/complete/lib/journal_entry_form.dart
-          @@ -80,7 +80,7 @@ class _EntryFormState extends State<EntryForm> {
+          @@ -81,7 +81,7 @@ class _EntryFormState extends State<EntryForm> {
                                    widget.onSubmit(entry);
            
                                    ScaffoldMessenger.of(context).showSnackBar(
@@ -584,7 +578,7 @@ steps:
         patch-u: |
           --- b/firebase-emulator-suite/complete/lib/logged_in_view.dart
           +++ a/firebase-emulator-suite/complete/lib/logged_in_view.dart
-          @@ -15,20 +15,14 @@ class LoggedInView extends StatelessWidget {
+          @@ -15,18 +15,14 @@ class LoggedInView extends StatelessWidget {
            
              @override
              Widget build(BuildContext context) {
@@ -596,9 +590,7 @@ steps:
                    children: [
                      Center(
           -            child: Padding(
-          -              padding: const EdgeInsets.symmetric(
-          -                vertical: 16.0,
-          -              ),
+          -              padding: const EdgeInsets.symmetric(vertical: 16.0),
           -              child: Text(
           -                'Welcome back, $name!',
           -                style: Theme.of(context).textTheme.headlineSmall!.copyWith(),
@@ -609,7 +601,7 @@ steps:
                        ),
                      ),
                      Flexible(
-          @@ -36,25 +30,29 @@ class LoggedInView extends StatelessWidget {
+          @@ -34,22 +30,29 @@ class LoggedInView extends StatelessWidget {
                          padding: const EdgeInsets.all(16.0),
                          child: StreamBuilder<List<Entry>>(
                            stream: state.entries,
@@ -626,10 +618,7 @@ steps:
           -                          state.writeEntryToFirebase(e);
           -                        },
           -                      ),
-          -                      for (var entry in allEntries!)
-          -                        EntryView(
-          -                          entry: entry,
-          -                        )
+          -                      for (var entry in allEntries!) EntryView(entry: entry),
           -                    ],
           -                  );
           +                  if (snapshot.hasData) {
@@ -648,7 +637,7 @@ steps:
           +                          EntryView(
           +                            key: Key('${Random().nextDouble()}'),
           +                            entry: entry,
-          +                          )
+          +                          ),
           +                      ],
           +                    );
           +                  } else {
@@ -662,7 +651,7 @@ steps:
         patch-u: |
           --- b/firebase-emulator-suite/complete/lib/logged_out_view.dart
           +++ a/firebase-emulator-suite/complete/lib/logged_out_view.dart
-          @@ -24,10 +24,8 @@ class LoggedOutView extends StatelessWidget {
+          @@ -22,10 +22,8 @@ class LoggedOutView extends StatelessWidget {
                          padding: const EdgeInsets.all(8.0),
                          child: FilledButton(
                            onPressed: () async {
@@ -680,7 +669,7 @@ steps:
         patch-u: |
           --- b/firebase-emulator-suite/complete/lib/main.dart
           +++ a/firebase-emulator-suite/complete/lib/main.dart
-          @@ -1,13 +1,32 @@
+          @@ -1,13 +1,30 @@
           +import 'package:cloud_firestore/cloud_firestore.dart';
           +import 'package:firebase_auth/firebase_auth.dart';
           +import 'package:firebase_core/firebase_core.dart';
@@ -697,9 +686,7 @@ steps:
            void main() async {
           -  // TODO: Initialize Firebase
           +  WidgetsFlutterBinding.ensureInitialized();
-          +  await Firebase.initializeApp(
-          +    options: DefaultFirebaseOptions.currentPlatform,
-          +  );
+          +  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
           +
           +  if (kDebugMode) {
           +    try {
@@ -721,7 +708,7 @@ steps:
           import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
           import 'package:flutter/foundation.dart'
               show defaultTargetPlatform, kIsWeb, TargetPlatform;
-          
+
           /// Default [FirebaseOptions] for use with your Firebase apps.
           ///
           /// Example:
@@ -747,10 +734,11 @@ steps:
                   return macos;
                 default:
                   throw UnsupportedError(
-                      'DefaultFirebaseOptions are not supported for this platform.');
+                    'DefaultFirebaseOptions are not supported for this platform.',
+                  );
               }
             }
-          
+
             static const FirebaseOptions web = FirebaseOptions(
               apiKey: 'AIzaSyBqTAGMEPyYPrraQColhTWE3gpBCHwBHaY',
               appId: '1:249605288217:web:f8441e30c5cc335b089588',
@@ -759,7 +747,7 @@ steps:
               authDomain: 'flutter-firebase-codelab-d6b79.firebaseapp.com',
               storageBucket: 'flutter-firebase-codelab-d6b79.appspot.com',
             );
-          
+
             static const FirebaseOptions android = FirebaseOptions(
               apiKey: 'AIzaSyDOhizxfIPR8Qs4_isZnE_AnteC0zOxod4',
               appId: '1:249605288217:android:27c0f0a1ef464773089588',
@@ -767,7 +755,7 @@ steps:
               projectId: 'flutter-firebase-codelab-d6b79',
               storageBucket: 'flutter-firebase-codelab-d6b79.appspot.com',
             );
-          
+
             static const FirebaseOptions ios = FirebaseOptions(
               apiKey: 'AIzaSyCvSrqVklmfWxE_SM8HNHvxqOLZTQCsUtk',
               appId: '1:249605288217:ios:ef9f4946a0d08a35089588',
@@ -778,7 +766,7 @@ steps:
                   '249605288217-9sn136tgsd0vg7nae831gahubpoph3ih.apps.googleusercontent.com',
               iosBundleId: 'com.example.complete',
             );
-          
+
             static const FirebaseOptions macos = FirebaseOptions(
               apiKey: 'AIzaSyCvSrqVklmfWxE_SM8HNHvxqOLZTQCsUtk',
               appId: '1:249605288217:ios:ef9f4946a0d08a35089588',
