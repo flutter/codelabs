@@ -48,10 +48,9 @@ String _$expectedRemainingTimeHash() =>
 final expectedRemainingTimeProvider = AutoDisposeProvider<Duration>.internal(
   expectedRemainingTime,
   name: r'expectedRemainingTimeProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$expectedRemainingTimeHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$expectedRemainingTimeHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
@@ -111,15 +110,14 @@ String _$showDisplayInfoHash() => r'75a0679db4cc1a0d5cfa7aa33afc633faf08fc24';
 @ProviderFor(ShowDisplayInfo)
 final showDisplayInfoProvider =
     NotifierProvider<ShowDisplayInfo, bool>.internal(
-      ShowDisplayInfo.new,
-      name: r'showDisplayInfoProvider',
-      debugGetCreateSourceHash:
-          const bool.fromEnvironment('dart.vm.product')
-              ? null
-              : _$showDisplayInfoHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+  ShowDisplayInfo.new,
+  name: r'showDisplayInfoProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$showDisplayInfoHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 typedef _$ShowDisplayInfo = Notifier<bool>;
 String _$displayInfoHash() => r'6516f6bf346baa6914fdfffad1ccee8a5345a137';
@@ -130,15 +128,13 @@ String _$displayInfoHash() => r'6516f6bf346baa6914fdfffad1ccee8a5345a137';
 @ProviderFor(DisplayInfo)
 final displayInfoProvider =
     AutoDisposeNotifierProvider<DisplayInfo, model.DisplayInfo>.internal(
-      DisplayInfo.new,
-      name: r'displayInfoProvider',
-      debugGetCreateSourceHash:
-          const bool.fromEnvironment('dart.vm.product')
-              ? null
-              : _$displayInfoHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+  DisplayInfo.new,
+  name: r'displayInfoProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$displayInfoHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 typedef _$DisplayInfo = AutoDisposeNotifier<model.DisplayInfo>;
 String _$workerCountHash() => r'36dad09ba2cfe03b0879e7bf20059cec12e5118c';
@@ -149,15 +145,13 @@ String _$workerCountHash() => r'36dad09ba2cfe03b0879e7bf20059cec12e5118c';
 @ProviderFor(WorkerCount)
 final workerCountProvider =
     NotifierProvider<WorkerCount, BackgroundWorkers>.internal(
-      WorkerCount.new,
-      name: r'workerCountProvider',
-      debugGetCreateSourceHash:
-          const bool.fromEnvironment('dart.vm.product')
-              ? null
-              : _$workerCountHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+  WorkerCount.new,
+  name: r'workerCountProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$workerCountHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 typedef _$WorkerCount = Notifier<BackgroundWorkers>;
 // ignore_for_file: type=lint

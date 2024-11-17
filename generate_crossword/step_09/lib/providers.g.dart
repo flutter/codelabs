@@ -62,13 +62,13 @@ String _$puzzleHash() => r'dddad218b4318b008af2db67dd0ff284bcef3231';
 @ProviderFor(Puzzle)
 final puzzleProvider =
     AutoDisposeNotifierProvider<Puzzle, model.CrosswordPuzzleGame>.internal(
-      Puzzle.new,
-      name: r'puzzleProvider',
-      debugGetCreateSourceHash:
-          const bool.fromEnvironment('dart.vm.product') ? null : _$puzzleHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+  Puzzle.new,
+  name: r'puzzleProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$puzzleHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 typedef _$Puzzle = AutoDisposeNotifier<model.CrosswordPuzzleGame>;
 // ignore_for_file: type=lint
