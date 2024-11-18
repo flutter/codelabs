@@ -47,8 +47,8 @@ steps:
                   }
               ]
           }
-      - name: Patch android/app/build.gradle
-        path: google_maps_in_flutter/android/app/build.gradle
+      - name: Patch android/app/build.gradle.kts
+        path: google_maps_in_flutter/android/app/build.gradle.kts
         patch-u: |
           --- b/google-maps-in-flutter/step_3/android/app/build.gradle
           +++ a/google-maps-in-flutter/step_3/android/app/build.gradle
@@ -268,21 +268,12 @@ steps:
             @override
             Widget build(BuildContext context) {
               return MaterialApp(
-                theme: ThemeData(
-                  useMaterial3: true,
-                  colorSchemeSeed: Colors.green[700],
-                ),
+                theme: ThemeData(useMaterial3: true, colorSchemeSeed: Colors.green[700]),
                 home: Scaffold(
-                  appBar: AppBar(
-                    title: const Text('Maps Sample App'),
-                    elevation: 2,
-                  ),
+                  appBar: AppBar(title: const Text('Maps Sample App'), elevation: 2),
                   body: GoogleMap(
                     onMapCreated: _onMapCreated,
-                    initialCameraPosition: CameraPosition(
-                      target: _center,
-                      zoom: 11.0,
-                    ),
+                    initialCameraPosition: CameraPosition(target: _center, zoom: 11.0),
                   ),
                 ),
               );
@@ -1256,30 +1247,27 @@ steps:
            * See the License for the specific language governing permissions and
            * limitations under the License.
            */
-
+          
           import 'dart:convert';
-
+          
           import 'package:flutter/foundation.dart';
           import 'package:flutter/services.dart' show rootBundle;
           import 'package:http/http.dart' as http;
           import 'package:json_annotation/json_annotation.dart';
-
+          
           part 'locations.g.dart';
-
+          
           @JsonSerializable()
           class LatLng {
-            LatLng({
-              required this.lat,
-              required this.lng,
-            });
-
+            LatLng({required this.lat, required this.lng});
+          
             factory LatLng.fromJson(Map<String, dynamic> json) => _$LatLngFromJson(json);
             Map<String, dynamic> toJson() => _$LatLngToJson(this);
-
+          
             final double lat;
             final double lng;
           }
-
+          
           @JsonSerializable()
           class Region {
             Region({
@@ -1288,16 +1276,16 @@ steps:
               required this.name,
               required this.zoom,
             });
-
+          
             factory Region.fromJson(Map<String, dynamic> json) => _$RegionFromJson(json);
             Map<String, dynamic> toJson() => _$RegionToJson(this);
-
+          
             final LatLng coords;
             final String id;
             final String name;
             final double zoom;
           }
-
+          
           @JsonSerializable()
           class Office {
             Office({
@@ -1310,10 +1298,10 @@ steps:
               required this.phone,
               required this.region,
             });
-
+          
             factory Office.fromJson(Map<String, dynamic> json) => _$OfficeFromJson(json);
             Map<String, dynamic> toJson() => _$OfficeToJson(this);
-
+          
             final String address;
             final String id;
             final String image;
@@ -1323,43 +1311,40 @@ steps:
             final String phone;
             final String region;
           }
-
+          
           @JsonSerializable()
           class Locations {
-            Locations({
-              required this.offices,
-              required this.regions,
-            });
-
+            Locations({required this.offices, required this.regions});
+          
             factory Locations.fromJson(Map<String, dynamic> json) =>
                 _$LocationsFromJson(json);
             Map<String, dynamic> toJson() => _$LocationsToJson(this);
-
+          
             final List<Office> offices;
             final List<Region> regions;
           }
-
+          
           Future<Locations> getGoogleOffices() async {
             const googleLocationsURL = 'https://about.google/static/data/locations.json';
-
+          
             // Retrieve the locations of Google offices
             try {
               final response = await http.get(Uri.parse(googleLocationsURL));
               if (response.statusCode == 200) {
                 return Locations.fromJson(
-                    json.decode(response.body) as Map<String, dynamic>);
+                  json.decode(response.body) as Map<String, dynamic>,
+                );
               }
             } catch (e) {
               if (kDebugMode) {
                 print(e);
               }
             }
-
+          
             // Fallback for when the above HTTP request fails.
             return Locations.fromJson(
-              json.decode(
-                await rootBundle.loadString('assets/locations.json'),
-              ) as Map<String, dynamic>,
+              json.decode(await rootBundle.loadString('assets/locations.json'))
+                  as Map<String, dynamic>,
             );
           }
       - name: Patch lib/main.dart
@@ -1375,7 +1360,7 @@ steps:
            
            void main() {
              runApp(const MyApp());
-          @@ -29,12 +30,23 @@ class MyApp extends StatefulWidget {
+          @@ -29,12 +30,20 @@ class MyApp extends StatefulWidget {
            }
            
            class _MyAppState extends State<MyApp> {
@@ -1394,10 +1379,7 @@ steps:
           +        final marker = Marker(
           +          markerId: MarkerId(office.name),
           +          position: LatLng(office.lat, office.lng),
-          +          infoWindow: InfoWindow(
-          +            title: office.name,
-          +            snippet: office.address,
-          +          ),
+          +          infoWindow: InfoWindow(title: office.name, snippet: office.address),
           +        );
           +        _markers[office.name] = marker;
           +      }
@@ -1405,23 +1387,22 @@ steps:
              }
            
              @override
-          @@ -46,15 +58,16 @@ class _MyAppState extends State<MyApp> {
-                 ),
+          @@ -42,10 +51,17 @@ class _MyAppState extends State<MyApp> {
+               return MaterialApp(
+                 theme: ThemeData(useMaterial3: true, colorSchemeSeed: Colors.green[700]),
                  home: Scaffold(
-                   appBar: AppBar(
-          -          title: const Text('Maps Sample App'),
+          -        appBar: AppBar(title: const Text('Maps Sample App'), elevation: 2),
+          +        appBar: AppBar(
           +          title: const Text('Google Office Locations'),
-                     elevation: 2,
-                   ),
+          +          elevation: 2,
+          +        ),
                    body: GoogleMap(
                      onMapCreated: _onMapCreated,
-          -          initialCameraPosition: CameraPosition(
-          -            target: _center,
-          -            zoom: 11.0,
+          -          initialCameraPosition: CameraPosition(target: _center, zoom: 11.0),
           +          initialCameraPosition: const CameraPosition(
           +            target: LatLng(0, 0),
           +            zoom: 2,
-                     ),
+          +          ),
           +          markers: _markers.values.toSet(),
                    ),
                  ),
@@ -1443,6 +1424,9 @@ steps:
       - name: Run build_runner
         path: google_maps_in_flutter
         dart: run build_runner build
+      - name: format locations.g.dart
+        path: google_maps_in_flutter
+        dart: format lib/src/locations.g.dart
       - name: Patch lib/src/locations.g.dart
         path: google_maps_in_flutter/lib/src/locations.g.dart
         patch-u: |
