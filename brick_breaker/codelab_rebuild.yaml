@@ -278,26 +278,26 @@ steps:
           // Copyright 2023 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-
+          
           import 'package:flame/components.dart';
           import 'package:flutter/material.dart';
-
+          
           class Ball extends CircleComponent {
             Ball({
               required this.velocity,
               required super.position,
               required double radius,
             }) : super(
-                  radius: radius,
-                  anchor: Anchor.center,
-                  paint:
-                      Paint()
-                        ..color = const Color(0xff1e6091)
-                        ..style = PaintingStyle.fill,
-                );
-
+                   radius: radius,
+                   anchor: Anchor.center,
+                   paint:
+                       Paint()
+                         ..color = const Color(0xff1e6091)
+                         ..style = PaintingStyle.fill,
+                 );
+          
             final Vector2 velocity;
-
+          
             @override
             void update(double dt) {
               super.update(dt);
@@ -599,17 +599,17 @@ steps:
         patch-u: |
           --- b/brick_breaker/step_08/lib/src/brick_breaker.dart
           +++ a/brick_breaker/step_08/lib/src/brick_breaker.dart
-          @@ -37,6 +37,7 @@ class BrickBreaker extends FlameGame
-               world.add(PlayArea());
+          @@ -38,6 +38,7 @@ class BrickBreaker extends FlameGame
            
-               world.add(Ball(
+               world.add(
+                 Ball(
           +        difficultyModifier: difficultyModifier,
                    radius: ballRadius,
                    position: size / 2,
-                   velocity: Vector2((rand.nextDouble() - 0.5) * width, height * 0.2)
-          @@ -48,6 +49,18 @@ class BrickBreaker extends FlameGame
-                   cornerRadius: const Radius.circular(ballRadius / 2),
-                   position: Vector2(width / 2, height * 0.95)));
+                   velocity:
+          @@ -57,6 +58,18 @@ class BrickBreaker extends FlameGame
+                 ),
+               );
            
           +    await world.addAll([
           +      for (var i = 0; i < brickColors.length; i++)
@@ -679,19 +679,19 @@ steps:
                required double radius,
           +    required this.difficultyModifier,
              }) : super(
-                       radius: radius,
-                       anchor: Anchor.center,
-          @@ -26,6 +28,7 @@ class Ball extends CircleComponent
-                       children: [CircleHitbox()]);
+                    radius: radius,
+                    anchor: Anchor.center,
+          @@ -28,6 +30,7 @@ class Ball extends CircleComponent
+                  );
            
              final Vector2 velocity;
           +  final double difficultyModifier;
            
              @override
              void update(double dt) {
-          @@ -53,8 +56,17 @@ class Ball extends CircleComponent
-                 velocity.y = -velocity.y;
-                 velocity.x = velocity.x +
+          @@ -56,8 +59,17 @@ class Ball extends CircleComponent
+                 velocity.x =
+                     velocity.x +
                      (position.x - other.position.x) / other.size.x * game.width * 0.3;
           -    } else {
           -      debugPrint('collision with $other');
@@ -726,7 +726,7 @@ steps:
           // Copyright 2023 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-
+          
           import 'package:flame/collisions.dart';
           import 'package:flame/components.dart';
           import 'package:flutter/material.dart';
@@ -739,18 +739,21 @@ steps:
           class Brick extends RectangleComponent
               with CollisionCallbacks, HasGameReference<BrickBreaker> {
             Brick({required super.position, required Color color})
-                : super(
-                    size: Vector2(brickWidth, brickHeight),
-                    anchor: Anchor.center,
-                    paint: Paint()
-                      ..color = color
-                      ..style = PaintingStyle.fill,
-                    children: [RectangleHitbox()],
-                  );
+              : super(
+                  size: Vector2(brickWidth, brickHeight),
+                  anchor: Anchor.center,
+                  paint:
+                      Paint()
+                        ..color = color
+                        ..style = PaintingStyle.fill,
+                  children: [RectangleHitbox()],
+                );
           
             @override
             void onCollisionStart(
-                Set<Vector2> intersectionPoints, PositionComponent other) {
+              Set<Vector2> intersectionPoints,
+              PositionComponent other,
+            ) {
               super.onCollisionStart(intersectionPoints, other);
               removeFromParent();
           
@@ -806,8 +809,8 @@ steps:
           -    with HasCollisionDetection, KeyboardEvents {
           +    with HasCollisionDetection, KeyboardEvents, TapDetector {
              BrickBreaker()
-                 : super(
-                     camera: CameraComponent.withFixedResolution(
+               : super(
+                   camera: CameraComponent.withFixedResolution(
           @@ -28,6 +30,22 @@ class BrickBreaker extends FlameGame
              double get width => size.x;
              double get height => size.y;
@@ -847,19 +850,19 @@ steps:
           +
           +    playState = PlayState.playing;
           +
-               world.add(Ball(
+               world.add(
+                 Ball(
                    difficultyModifier: difficultyModifier,
-                   radius: ballRadius,
-          @@ -49,7 +79,7 @@ class BrickBreaker extends FlameGame
-                   cornerRadius: const Radius.circular(ballRadius / 2),
-                   position: Vector2(width / 2, height * 0.95)));
+          @@ -58,7 +88,7 @@ class BrickBreaker extends FlameGame
+                 ),
+               );
            
           -    await world.addAll([
           +    world.addAll([
                  for (var i = 0; i < brickColors.length; i++)
                    for (var j = 1; j <= 5; j++)
                      Brick(
-          @@ -60,8 +90,12 @@ class BrickBreaker extends FlameGame
+          @@ -69,8 +99,12 @@ class BrickBreaker extends FlameGame
                        color: brickColors[i],
                      ),
                ]);
@@ -873,7 +876,7 @@ steps:
              }
            
              @override
-          @@ -73,7 +107,13 @@ class BrickBreaker extends FlameGame
+          @@ -84,7 +118,13 @@ class BrickBreaker extends FlameGame
                    world.children.query<Bat>().first.moveBy(-batStep);
                  case LogicalKeyboardKey.arrowRight:
                    world.children.query<Bat>().first.moveBy(batStep);
@@ -892,16 +895,19 @@ steps:
         patch-u: |
           --- b/brick_breaker/step_09/lib/src/components/ball.dart
           +++ a/brick_breaker/step_09/lib/src/components/ball.dart
-          @@ -49,8 +49,10 @@ class Ball extends CircleComponent
+          @@ -52,7 +52,14 @@ class Ball extends CircleComponent
+                 } else if (intersectionPoints.first.x >= game.width) {
                    velocity.x = -velocity.x;
                  } else if (intersectionPoints.first.y >= game.height) {
-                   add(RemoveEffect(
-          -          delay: 0.35,
-          -        ));
+          -        add(RemoveEffect(delay: 0.35));
+          +        add(
+          +          RemoveEffect(
           +            delay: 0.35,
           +            onComplete: () {
           +              game.playState = PlayState.gameOver;
-          +            }));
+          +            },
+          +          ),
+          +        );
                  }
                } else if (other is Bat) {
                  velocity.y = -velocity.y;
@@ -910,7 +916,7 @@ steps:
         patch-u: |
           --- b/brick_breaker/step_09/lib/src/components/brick.dart
           +++ a/brick_breaker/step_09/lib/src/components/brick.dart
-          @@ -30,6 +30,7 @@ class Brick extends RectangleComponent
+          @@ -33,6 +33,7 @@ class Brick extends RectangleComponent
                removeFromParent();
            
                if (game.world.children.query<Brick>().length == 1) {
@@ -930,13 +936,13 @@ steps:
           import 'package:flame/game.dart';
           import 'package:flutter/material.dart';
           import 'package:google_fonts/google_fonts.dart';
-          
+
           import '../brick_breaker.dart';
           import '../config.dart';
-          
+
           class GameApp extends StatelessWidget {
             const GameApp({super.key});
-          
+
             @override
             Widget build(BuildContext context) {
               return MaterialApp(
@@ -954,10 +960,7 @@ steps:
                       gradient: LinearGradient(
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
-                        colors: [
-                          Color(0xffa9d6e5),
-                          Color(0xfff2e8cf),
-                        ],
+                        colors: [Color(0xffa9d6e5), Color(0xfff2e8cf)],
                       ),
                     ),
                     child: SafeArea(
@@ -971,21 +974,24 @@ steps:
                               child: GameWidget.controlled(
                                 gameFactory: BrickBreaker.new,
                                 overlayBuilderMap: {
-                                  PlayState.welcome.name: (context, game) => Center(
+                                  PlayState.welcome.name:
+                                      (context, game) => Center(
                                         child: Text(
                                           'TAP TO PLAY',
                                           style:
                                               Theme.of(context).textTheme.headlineLarge,
                                         ),
                                       ),
-                                  PlayState.gameOver.name: (context, game) => Center(
+                                  PlayState.gameOver.name:
+                                      (context, game) => Center(
                                         child: Text(
                                           'G A M E   O V E R',
                                           style:
                                               Theme.of(context).textTheme.headlineLarge,
                                         ),
                                       ),
-                                  PlayState.won.name: (context, game) => Center(
+                                  PlayState.won.name:
+                                      (context, game) => Center(
                                         child: Text(
                                           'Y O U   W O N ! ! !',
                                           style:
@@ -1058,8 +1064,8 @@ steps:
           --- b/brick_breaker/step_10/lib/src/brick_breaker.dart
           +++ a/brick_breaker/step_10/lib/src/brick_breaker.dart
           @@ -26,6 +26,7 @@ class BrickBreaker extends FlameGame
-                     ),
-                   );
+                   ),
+                 );
            
           +  final ValueNotifier<int> score = ValueNotifier(0);
              final rand = math.Random();
@@ -1071,15 +1077,15 @@ steps:
                playState = PlayState.playing;
           +    score.value = 0;
            
-               world.add(Ball(
-                   difficultyModifier: difficultyModifier,
+               world.add(
+                 Ball(
       - name: Patch lib/src/components/brick.dart
         path: brick_breaker/lib/src/components/brick.dart
         patch-u: |
           --- b/brick_breaker/step_10/lib/src/components/brick.dart
           +++ a/brick_breaker/step_10/lib/src/components/brick.dart
-          @@ -28,6 +28,7 @@ class Brick extends RectangleComponent
-                 Set<Vector2> intersectionPoints, PositionComponent other) {
+          @@ -31,6 +31,7 @@ class Brick extends RectangleComponent
+             ) {
                super.onCollisionStart(intersectionPoints, other);
                removeFromParent();
           +    game.score.value++;
@@ -1118,7 +1124,7 @@ steps:
              @override
              Widget build(BuildContext context) {
                return MaterialApp(
-          @@ -39,37 +54,38 @@ class GameApp extends StatelessWidget {
+          @@ -36,40 +51,38 @@ class GameApp extends StatelessWidget {
                        child: Padding(
                          padding: const EdgeInsets.all(16),
                          child: Center(
@@ -1129,21 +1135,24 @@ steps:
           -                    child: GameWidget.controlled(
           -                      gameFactory: BrickBreaker.new,
           -                      overlayBuilderMap: {
-          -                        PlayState.welcome.name: (context, game) => Center(
+          -                        PlayState.welcome.name:
+          -                            (context, game) => Center(
           -                              child: Text(
           -                                'TAP TO PLAY',
           -                                style:
           -                                    Theme.of(context).textTheme.headlineLarge,
           -                              ),
           -                            ),
-          -                        PlayState.gameOver.name: (context, game) => Center(
+          -                        PlayState.gameOver.name:
+          -                            (context, game) => Center(
           -                              child: Text(
           -                                'G A M E   O V E R',
           -                                style:
           -                                    Theme.of(context).textTheme.headlineLarge,
           -                              ),
           -                            ),
-          -                        PlayState.won.name: (context, game) => Center(
+          -                        PlayState.won.name:
+          -                            (context, game) => Center(
           -                              child: Text(
           -                                'Y O U   W O N ! ! !',
           -                                style:
@@ -1162,18 +1171,18 @@ steps:
           +                          child: GameWidget(
           +                            game: game,
           +                            overlayBuilderMap: {
-          +                              PlayState.welcome.name: (context, game) =>
-          +                                  const OverlayScreen(
+          +                              PlayState.welcome.name:
+          +                                  (context, game) => const OverlayScreen(
           +                                    title: 'TAP TO PLAY',
           +                                    subtitle: 'Use arrow keys or swipe',
           +                                  ),
-          +                              PlayState.gameOver.name: (context, game) =>
-          +                                  const OverlayScreen(
+          +                              PlayState.gameOver.name:
+          +                                  (context, game) => const OverlayScreen(
           +                                    title: 'G A M E   O V E R',
           +                                    subtitle: 'Tap to Play Again',
           +                                  ),
-          +                              PlayState.won.name: (context, game) =>
-          +                                  const OverlayScreen(
+          +                              PlayState.won.name:
+          +                                  (context, game) => const OverlayScreen(
           +                                    title: 'Y O U   W O N ! ! !',
           +                                    subtitle: 'Tap to Play Again',
           +                                  ),
@@ -1196,17 +1205,13 @@ steps:
 
           import 'package:flutter/material.dart';
           import 'package:flutter_animate/flutter_animate.dart';
-          
+
           class OverlayScreen extends StatelessWidget {
-            const OverlayScreen({
-              super.key,
-              required this.title,
-              required this.subtitle,
-            });
-          
+            const OverlayScreen({super.key, required this.title, required this.subtitle});
+
             final String title;
             final String subtitle;
-          
+
             @override
             Widget build(BuildContext context) {
               return Container(
@@ -1219,10 +1224,7 @@ steps:
                       style: Theme.of(context).textTheme.headlineLarge,
                     ).animate().slideY(duration: 750.ms, begin: -3, end: 0),
                     const SizedBox(height: 16),
-                    Text(
-                      subtitle,
-                      style: Theme.of(context).textTheme.headlineSmall,
-                    )
+                    Text(subtitle, style: Theme.of(context).textTheme.headlineSmall)
                         .animate(onPlay: (controller) => controller.repeat())
                         .fadeIn(duration: 1.seconds)
                         .then()
@@ -1240,15 +1242,12 @@ steps:
           // found in the LICENSE file.
 
           import 'package:flutter/material.dart';
-          
+
           class ScoreCard extends StatelessWidget {
-            const ScoreCard({
-              super.key,
-              required this.score,
-            });
-          
+            const ScoreCard({super.key, required this.score});
+
             final ValueNotifier<int> score;
-          
+
             @override
             Widget build(BuildContext context) {
               return ValueListenableBuilder<int>(
