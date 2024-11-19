@@ -25,8 +25,8 @@ dev_dependencies:
   build_runner: ^2.4.13
   built_value_generator: ^8.9.2
   custom_lint: ^0.7.0
-  riverpod_generator: ^2.6.2
-  riverpod_lint: ^2.6.2
+  riverpod_generator: ^2.6.3
+  riverpod_lint: ^2.6.3
 
 flutter:
   uses-material-design: true
