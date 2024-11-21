@@ -157,12 +157,12 @@ class AnswerCards extends StatelessWidget {
             key: ValueKey(answers[index]),
             color: color,
             elevation: 2,
-            margin: const EdgeInsets.all(8),
+            margin: EdgeInsets.all(8),
             clipBehavior: Clip.hardEdge,
             child: InkWell(
               onTap: () => onTapped(index),
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: EdgeInsets.all(16.0),
                 child: Center(
                   child: Text(
                     answers.length > index ? answers[index] : '',
