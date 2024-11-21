@@ -38,7 +38,7 @@ steps:
       - name: Replace analysis_options.yaml
         path: quiz/analysis_options.yaml
         replace-contents: |
-          include: package:flutter_lints/flutter.yaml
+          include: ../../analysis_options.yaml
 
           analyzer:
             errors:
@@ -56,10 +56,10 @@ steps:
         replace-contents: |
           import 'package:flutter/material.dart';
           import 'question_screen.dart';
-        
+
           class HomeScreen extends StatelessWidget {
             const HomeScreen({super.key});
-        
+
             @override
             Widget build(BuildContext context) {
               return Scaffold(
@@ -83,7 +83,7 @@ steps:
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (BuildContext context) {
+                              builder: (context) {
                                 return QuestionScreen();
                               },
                             ),
@@ -239,18 +239,18 @@ steps:
         replace-contents: |
           import 'package:flutter/material.dart';
           import 'view_model.dart';
-          
+
           class QuestionScreen extends StatefulWidget {
             const QuestionScreen({super.key});
-          
+
             @override
             State<QuestionScreen> createState() => _QuestionScreenState();
           }
-          
+
           class _QuestionScreenState extends State<QuestionScreen> {
             late final QuizViewModel viewModel =
                 QuizViewModel(onGameOver: _handleGameOver);
-          
+
             @override
             Widget build(BuildContext context) {
               return ListenableBuilder(
@@ -292,7 +292,7 @@ steps:
                 },
               );
             }
-          
+
             void _handleGameOver() {
               showDialog(
                 barrierDismissible: false,
@@ -314,15 +314,15 @@ steps:
               );
             }
           }
-          
+
           class QuestionCard extends StatelessWidget {
             final String? question;
-          
+
             const QuestionCard({
               required this.question,
               super.key,
             });
-          
+
             @override
             Widget build(BuildContext context) {
               return Card(
@@ -330,26 +330,26 @@ steps:
                 child: Padding(
                   padding: EdgeInsets.all(16.0),
                   child: Text(
-                    question ?? "",
+                    question ?? '',
                     style: Theme.of(context).textTheme.displaySmall,
                   ),
                 ),
               );
             }
           }
-          
+
           class AnswerCards extends StatelessWidget {
             final List<String> answers;
             final ValueChanged<int> onTapped;
             final int? correctAnswer;
-          
+
             const AnswerCards({
               required this.answers,
               required this.onTapped,
               required this.correctAnswer,
               super.key,
             });
-          
+
             @override
             Widget build(BuildContext context) {
               return GridView.count(
@@ -373,7 +373,7 @@ steps:
                         padding: EdgeInsets.all(16.0),
                         child: Center(
                           child: Text(
-                            answers.length > index ? answers[index] : "",
+                            answers.length > index ? answers[index] : '',
                             style: Theme.of(context).textTheme.titleMedium,
                             overflow: TextOverflow.clip,
                           ),
@@ -385,12 +385,12 @@ steps:
               );
             }
           }
-          
+
           class StatusBar extends StatelessWidget {
             final QuizViewModel viewModel;
-          
+
             const StatusBar({required this.viewModel, super.key});
-          
+
             @override
             Widget build(BuildContext context) {
               return Card(
@@ -417,9 +417,6 @@ steps:
       - name: Fetch dependencies
         path: quiz
         dart: pub get
-      - name: Run Dart Analzyer
-        path: quiz
-        dart: analyze --fatal-infos
       - name: Copy step_01
         copydir:
           from: quiz
@@ -647,7 +644,7 @@ steps:
           -      child: Padding(
           -        padding: EdgeInsets.all(16.0),
           -        child: Text(
-          -          question ?? "",
+          -          question ?? '',
           -          style: Theme.of(context).textTheme.displaySmall,
           +    return AnimatedSwitcher(
           +      duration: const Duration(milliseconds: 300),
@@ -657,7 +654,7 @@ steps:
           +        child: Padding(
           +          padding: const EdgeInsets.all(16.0),
           +          child: Text(
-          +            question ?? "",
+          +            question ?? '',
           +            style: Theme.of(context).textTheme.displaySmall,
           +          ),
                    ),
@@ -675,13 +672,13 @@ steps:
       - name: Patch lib/question_screen.dart
         path: quiz/lib/question_screen.dart
         patch-u: |
-          --- a/animations/step_03/lib/question_screen.dart
-          +++ b/animations/step_03/lib/question_screen.dart
+          --- b/animations/step_03_b/lib/question_screen.dart
+          +++ a/animations/step_03_b/lib/question_screen.dart
           @@ -88,6 +88,14 @@ class QuestionCard extends StatelessWidget {
              @override
              Widget build(BuildContext context) {
                return AnimatedSwitcher(
-          +      transitionBuilder: (Widget child, Animation<double> animation) {
+          +      transitionBuilder: (child, animation) {
           +        final curveAnimation =
           +            CurveTween(curve: Curves.easeInCubic).animate(animation);
           +        final offsetAnimation =
@@ -731,13 +728,13 @@ steps:
       - name: Patch lib/question_screen.dart
         path: quiz/lib/question_screen.dart
         patch-u: |
-          --- a/animations/step_03/lib/question_screen.dart
-          +++ b/animations/step_03/lib/question_screen.dart
+          --- b/animations/step_03_d/lib/question_screen.dart
+          +++ a/animations/step_03_d/lib/question_screen.dart
           @@ -88,6 +88,15 @@ class QuestionCard extends StatelessWidget {
              @override
              Widget build(BuildContext context) {
                return AnimatedSwitcher(
-          +      layoutBuilder: (Widget? currentChild, List<Widget> previousChildren) {
+          +      layoutBuilder: (currentChild, previousChildren) {
           +        return Stack(
           +          alignment: Alignment.topCenter,
           +          children: <Widget>[
@@ -746,7 +743,7 @@ steps:
           +          ],
           +        );
           +      },
-                 transitionBuilder: (Widget child, Animation<double> animation) {
+                 transitionBuilder: (child, animation) {
                    final curveAnimation =
                        CurveTween(curve: Curves.easeInCubic).animate(animation);
       - name: Copy step_03_d
@@ -761,8 +758,9 @@ steps:
       - name: Add lib/flip_effect.dart
         path: quiz/lib/flip_effect.dart
         replace-contents: |
-          import 'package:flutter/widgets.dart';
           import 'dart:math' as math;
+
+          import 'package:flutter/widgets.dart';
 
           class CardFlipEffect extends StatefulWidget {
             final Widget child;
@@ -834,8 +832,8 @@ steps:
       - name: Patch lib/question_screen.dart
         path: quiz/lib/question_screen.dart
         patch-u: |
-          --- a/animations/step_04/lib/question_screen.dart
-          +++ b/animations/step_04/lib/question_screen.dart
+          --- b/animations/step_04_a/lib/question_screen.dart
+          +++ a/animations/step_04_a/lib/question_screen.dart
           @@ -1,4 +1,5 @@
            import 'package:flutter/material.dart';
           +import 'flip_effect.dart';
@@ -858,7 +856,7 @@ steps:
           -              padding: EdgeInsets.all(16.0),
           -              child: Center(
           -                child: Text(
-          -                  answers.length > index ? answers[index] : "",
+          -                  answers.length > index ? answers[index] : '',
           -                  style: Theme.of(context).textTheme.titleMedium,
           -                  overflow: TextOverflow.clip,
           +
@@ -876,7 +874,7 @@ steps:
           +                padding: const EdgeInsets.all(16.0),
           +                child: Center(
           +                  child: Text(
-          +                    answers.length > index ? answers[index] : "",
+          +                    answers.length > index ? answers[index] : '',
           +                    style: Theme.of(context).textTheme.titleMedium,
           +                    overflow: TextOverflow.clip,
           +                  ),
@@ -895,9 +893,9 @@ steps:
       - name: Patch lib/flp_effect.dart
         path: quiz/lib/flip_effect.dart
         patch-u: |
-          --- a/animations/step_04/lib/flip_effect.dart
-          +++ b/animations/step_04/lib/flip_effect.dart
-          @@ -4,11 +4,13 @@ import 'dart:math' as math;
+          --- b/animations/step_04_b/lib/flip_effect.dart
+          +++ a/animations/step_04_b/lib/flip_effect.dart
+          @@ -5,11 +5,13 @@ import 'package:flutter/widgets.dart';
            class CardFlipEffect extends StatefulWidget {
              final Widget child;
              final Duration duration;
@@ -938,7 +936,7 @@ steps:
         patch-u: |
           --- b/animations/step_04_c/lib/flip_effect.dart
           +++ a/animations/step_04_c/lib/flip_effect.dart
-          @@ -21,19 +21,32 @@ class _CardFlipEffectState extends State<CardFlipEffect>
+          @@ -22,19 +22,32 @@ class _CardFlipEffectState extends State<CardFlipEffect>
                with SingleTickerProviderStateMixin {
              late final AnimationController _animationController;
              Widget? _previousChild;
@@ -987,7 +985,7 @@ steps:
         patch-u: |
           --- b/animations/step_04_d/lib/flip_effect.dart
           +++ a/animations/step_04_d/lib/flip_effect.dart
-          @@ -66,14 +66,14 @@ class _CardFlipEffectState extends State<CardFlipEffect>
+          @@ -67,14 +67,14 @@ class _CardFlipEffectState extends State<CardFlipEffect>
              @override
              Widget build(BuildContext context) {
                return AnimatedBuilder(
@@ -1024,7 +1022,7 @@ steps:
                            Navigator.push(
                              context,
           -                  MaterialPageRoute(
-          -                    builder: (BuildContext context) {
+          -                    builder: (context) {
           -                      return QuestionScreen();
           -                    },
           -                  ),
@@ -1142,8 +1140,8 @@ steps:
       - name: Patch lib/question_screen.dart
         path: quiz/lib/question_screen.dart
         patch-u: |
-          --- a/animations/step_05/lib/question_screen.dart
-          +++ b/animations/step_05/lib/question_screen.dart
+          --- b/animations/step_05_c/lib/question_screen.dart
+          +++ a/animations/step_05_c/lib/question_screen.dart
           @@ -1,3 +1,4 @@
           +import 'package:animations/animations.dart';
            import 'package:flutter/material.dart';
@@ -1154,10 +1152,10 @@ steps:
              @override
              Widget build(BuildContext context) {
           -    return AnimatedSwitcher(
-          -      layoutBuilder: (Widget? currentChild, List<Widget> previousChildren) {
+          -      layoutBuilder: (currentChild, previousChildren) {
           +    return PageTransitionSwitcher(
           +      duration: const Duration(milliseconds: 200),
-          +      layoutBuilder: (List<Widget> entries) {
+          +      layoutBuilder: (entries) {
                    return Stack(
                      alignment: Alignment.topCenter,
                      children: <Widget>[
@@ -1167,7 +1165,7 @@ steps:
                      ],
                    );
                  },
-          -      transitionBuilder: (Widget child, Animation<double> animation) {
+          -      transitionBuilder: (child, animation) {
           -        final curveAnimation =
           -            CurveTween(curve: Curves.easeInCubic).animate(animation);
           -        final offsetAnimation =
@@ -1177,7 +1175,7 @@ steps:
           -        return FadeTransition(
           -          opacity: fadeInAnimation,
           -          child: SlideTransition(position: offsetAnimation, child: child),
-          +      transitionBuilder: (Widget child, animation, secondaryAnimation) {
+          +      transitionBuilder: (child, animation, secondaryAnimation) {
           +        return FadeThroughTransition(
           +          animation: animation,
           +          secondaryAnimation: secondaryAnimation,
@@ -1199,9 +1197,9 @@ steps:
         rmdir: step_05_d
       - name: Patch lib/question_screen.dart
         path: quiz/lib/question_screen.dart
-        patch-u: | 
-          --- a/animations/step_05/lib/question_screen.dart
-          +++ b/animations/step_05/lib/question_screen.dart
+        patch-u: |
+          --- b/animations/step_05_d/lib/question_screen.dart
+          +++ a/animations/step_05_d/lib/question_screen.dart
           @@ -14,6 +14,7 @@ class QuestionScreen extends StatefulWidget {
            class _QuestionScreenState extends State<QuestionScreen> {
              late final QuizViewModel viewModel =
@@ -1321,7 +1319,7 @@ steps:
              Widget build(BuildContext context) {
                return PageTransitionSwitcher(
                  duration: const Duration(milliseconds: 200),
-          -      layoutBuilder: (List<Widget> entries) {
+          -      layoutBuilder: (entries) {
           -        return Stack(
           -          alignment: Alignment.topCenter,
           -          children: <Widget>[
@@ -1329,7 +1327,7 @@ steps:
           -          ],
           -        );
           -      },
-                 transitionBuilder: (Widget child, animation, secondaryAnimation) {
+                 transitionBuilder: (child, animation, secondaryAnimation) {
                    return FadeThroughTransition(
                      animation: animation,
           @@ -106,16 +142,30 @@ class QuestionCard extends StatelessWidget {
@@ -1343,7 +1341,7 @@ steps:
           -        child: Padding(
           -          padding: const EdgeInsets.all(16.0),
           -          child: Text(
-          -            question ?? "",
+          -            question ?? '',
           -            style: Theme.of(context).textTheme.displaySmall,
           -          ),
           +        tappable: false,
@@ -1359,7 +1357,7 @@ steps:
           +            child: Padding(
           +              padding: const EdgeInsets.all(16.0),
           +              child: Text(
-          +                question ?? "",
+          +                question ?? '',
           +                style: Theme.of(context).textTheme.displaySmall,
           +              ),
           +            ),

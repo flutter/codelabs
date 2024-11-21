@@ -135,7 +135,7 @@ class QuestionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return PageTransitionSwitcher(
       duration: const Duration(milliseconds: 200),
-      transitionBuilder: (Widget child, animation, secondaryAnimation) {
+      transitionBuilder: (child, animation, secondaryAnimation) {
         return FadeThroughTransition(
           animation: animation,
           secondaryAnimation: secondaryAnimation,
@@ -157,7 +157,7 @@ class QuestionCard extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(
-                question ?? "",
+                question ?? '',
                 style: Theme.of(context).textTheme.displaySmall,
               ),
             ),
@@ -210,7 +210,7 @@ class AnswerCards extends StatelessWidget {
                 padding: const EdgeInsets.all(16.0),
                 child: Center(
                   child: Text(
-                    answers.length > index ? answers[index] : "",
+                    answers.length > index ? answers[index] : '',
                     style: Theme.of(context).textTheme.titleMedium,
                     overflow: TextOverflow.clip,
                   ),
