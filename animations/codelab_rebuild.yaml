@@ -821,8 +821,8 @@ steps:
                     child: _animationController.isAnimating
                         ? _animationController.value < 0.5
                             ? _previousChild
-                            : Transform.flip(flipY: true, child: widget.child)
-                        : widget.child,
+                            : Transform.flip(flipY: true, child: child)
+                        : child,
                   );
                 },
                 child: widget.child,
@@ -1001,8 +1001,8 @@ steps:
           -              ? _animationController.value < 0.5
           +              ? _animationWithDelay.value < 0.5
                              ? _previousChild
-                             : Transform.flip(flipY: true, child: widget.child)
-                         : widget.child,
+                             : Transform.flip(flipY: true, child: child)
+                         : child,
       - name: Copy step_04_d
         copydir:
           from: quiz
