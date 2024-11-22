@@ -149,7 +149,6 @@ class AnswerCards extends StatelessWidget {
         if (correctAnswer == index) {
           color = Theme.of(context).colorScheme.tertiaryContainer;
         }
-
         return CardFlipEffect(
           duration: const Duration(milliseconds: 300),
           child: Card.filled(

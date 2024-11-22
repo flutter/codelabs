@@ -840,7 +840,7 @@ steps:
            import 'scoreboard.dart';
            import 'view_model.dart';
            
-          @@ -148,21 +149,25 @@ class AnswerCards extends StatelessWidget {
+          @@ -148,21 +149,24 @@ class AnswerCards extends StatelessWidget {
                    if (correctAnswer == index) {
                      color = Theme.of(context).colorScheme.tertiaryContainer;
                    }
@@ -859,7 +859,6 @@ steps:
           -                  answers.length > index ? answers[index] : '',
           -                  style: Theme.of(context).textTheme.titleMedium,
           -                  overflow: TextOverflow.clip,
-          +
           +        return CardFlipEffect(
           +          duration: const Duration(milliseconds: 300),
           +          child: Card.filled(
@@ -912,11 +911,11 @@ steps:
       - name: Patch lib/question_screen.dart
         path: quiz/lib/question_screen.dart
         patch-u: |
-          --- a/animations/step_04/lib/question_screen.dart
-          +++ b/animations/step_04/lib/question_screen.dart
-          @@ -151,6 +151,7 @@ class AnswerCards extends StatelessWidget {
+          --- b/animations/step_04_b/lib/question_screen.dart
+          +++ a/animations/step_04_b/lib/question_screen.dart
+          @@ -150,6 +150,7 @@ class AnswerCards extends StatelessWidget {
+                     color = Theme.of(context).colorScheme.tertiaryContainer;
                    }
-           
                    return CardFlipEffect(
           +          delayAmount: index.toDouble() / 2,
                      duration: const Duration(milliseconds: 300),
