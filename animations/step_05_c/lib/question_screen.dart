@@ -90,13 +90,10 @@ class QuestionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PageTransitionSwitcher(
-      duration: const Duration(milliseconds: 200),
       layoutBuilder: (entries) {
         return Stack(
           alignment: Alignment.topCenter,
-          children: <Widget>[
-            ...entries,
-          ],
+          children: entries,
         );
       },
       transitionBuilder: (child, animation, secondaryAnimation) {
@@ -106,6 +103,7 @@ class QuestionCard extends StatelessWidget {
           child: child,
         );
       },
+      duration: const Duration(milliseconds: 300),
       child: Card(
         key: ValueKey(question),
         elevation: 4,

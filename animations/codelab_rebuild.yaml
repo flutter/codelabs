@@ -1016,32 +1016,26 @@ steps:
         patch-u: |
           --- b/animations/step_05_a/lib/home_screen.dart
           +++ a/animations/step_05_a/lib/home_screen.dart
-          @@ -26,14 +26,19 @@ class HomeScreen extends StatelessWidget {
+          @@ -26,9 +26,16 @@ class HomeScreen extends StatelessWidget {
                            // Show the question screen to start the game
                            Navigator.push(
                              context,
           -                  MaterialPageRoute(
           -                    builder: (context) {
           -                      return QuestionScreen();
-          -                    },
-          -                  ),
           +                  PageRouteBuilder(
-          +                      pageBuilder: (context, animation, secondaryAnimation) {
-          +                    return const QuestionScreen();
-          +                  }, transitionsBuilder:
-          +                          (context, animation, secondaryAnimation, child) {
-          +                    return FadeTransition(
-          +                      opacity: animation,
-          +                      child: child,
-          +                    );
-          +                  }),
+          +                    pageBuilder: (context, animation, secondaryAnimation) {
+          +                      return const QuestionScreen();
+          +                    },
+          +                    transitionsBuilder:
+          +                        (context, animation, secondaryAnimation, child) {
+          +                      return FadeTransition(
+          +                        opacity: animation,
+          +                        child: child,
+          +                      );
+                               },
+                             ),
                            );
-                         },
-          -              child: Text('New Game'),
-          +              child: const Text('New Game'),
-                       ),
-                     ],
-                   ),
       - name: Copy step_05_a
         copydir:
           from: quiz
@@ -1061,18 +1055,18 @@ steps:
            import 'package:flutter/material.dart';
            import 'question_screen.dart';
            
-          @@ -31,8 +32,9 @@ class HomeScreen extends StatelessWidget {
-                               return const QuestionScreen();
-                             }, transitionsBuilder:
-                                     (context, animation, secondaryAnimation, child) {
-          -                    return FadeTransition(
-          -                      opacity: animation,
-          +                    return FadeThroughTransition(
-          +                      animation: animation,
-          +                      secondaryAnimation: secondaryAnimation,
-                                 child: child,
-                               );
-                             }),
+          @@ -32,8 +33,9 @@ class HomeScreen extends StatelessWidget {
+                               },
+                               transitionsBuilder:
+                                   (context, animation, secondaryAnimation, child) {
+          -                      return FadeTransition(
+          -                        opacity: animation,
+          +                      return FadeThroughTransition(
+          +                        animation: animation,
+          +                        secondaryAnimation: secondaryAnimation,
+                                   child: child,
+                                 );
+                               },
       - name: Patch lib/main.dart
         path: quiz/lib/main.dart
         patch-u: |
@@ -1118,24 +1112,29 @@ steps:
            import 'package:flutter/material.dart';
            import 'question_screen.dart';
            
-          @@ -27,16 +26,8 @@ class HomeScreen extends StatelessWidget {
+          @@ -27,19 +26,9 @@ class HomeScreen extends StatelessWidget {
                            // Show the question screen to start the game
                            Navigator.push(
                              context,
           -                  PageRouteBuilder(
-          -                      pageBuilder: (context, animation, secondaryAnimation) {
+          -                    pageBuilder: (context, animation, secondaryAnimation) {
+          -                      return const QuestionScreen();
+          -                    },
+          -                    transitionsBuilder:
+          -                        (context, animation, secondaryAnimation, child) {
+          -                      return FadeThroughTransition(
+          -                        animation: animation,
+          -                        secondaryAnimation: secondaryAnimation,
+          -                        child: child,
+          -                      );
+          -                    },
+          -                  ),
           +                  MaterialPageRoute(builder: (context) {
-                               return const QuestionScreen();
-          -                  }, transitionsBuilder:
-          -                          (context, animation, secondaryAnimation, child) {
-          -                    return FadeThroughTransition(
-          -                      animation: animation,
-          -                      secondaryAnimation: secondaryAnimation,
-          -                      child: child,
-          -                    );
-                             }),
+          +                    return const QuestionScreen();
+          +                  }),
                            );
                          },
+                         child: Text('New Game'),
       - name: Patch lib/question_screen.dart
         path: quiz/lib/question_screen.dart
         patch-u: |
@@ -1146,22 +1145,21 @@ steps:
            import 'package:flutter/material.dart';
            import 'flip_effect.dart';
            import 'scoreboard.dart';
-          @@ -88,29 +89,23 @@ class QuestionCard extends StatelessWidget {
+          @@ -88,26 +89,18 @@ class QuestionCard extends StatelessWidget {
            
              @override
              Widget build(BuildContext context) {
           -    return AnimatedSwitcher(
           -      layoutBuilder: (currentChild, previousChildren) {
           +    return PageTransitionSwitcher(
-          +      duration: const Duration(milliseconds: 200),
           +      layoutBuilder: (entries) {
                    return Stack(
                      alignment: Alignment.topCenter,
-                     children: <Widget>[
+          -          children: <Widget>[
           -            ...previousChildren,
           -            if (currentChild != null) currentChild,
-          +            ...entries,
-                     ],
+          -          ],
+          +          children: entries,
                    );
                  },
           -      transitionBuilder: (child, animation) {
@@ -1181,10 +1179,7 @@ steps:
           +          child: child,
                    );
                  },
-          -      duration: const Duration(milliseconds: 300),
-                 child: Card(
-                   key: ValueKey(question),
-                   elevation: 4,
+                 duration: const Duration(milliseconds: 300),
       - name: Copy step_05_c
         copydir:
           from: quiz
@@ -1220,18 +1215,7 @@ steps:
                            Spacer(),
                            AnswerCards(
                              onTapped: (index) {
-          @@ -48,7 +53,9 @@ class _QuestionScreenState extends State<QuestionScreen> {
-                                 ? viewModel.currentQuestion?.correctAnswer
-                                 : null,
-                           ),
-          -                StatusBar(viewModel: viewModel),
-          +                StatusBar(
-          +                  viewModel: viewModel,
-          +                )
-                         ],
-                       ),
-                     ),
-          @@ -57,24 +64,54 @@ class _QuestionScreenState extends State<QuestionScreen> {
+          @@ -57,24 +62,52 @@ class _QuestionScreenState extends State<QuestionScreen> {
                );
              }
            
@@ -1284,10 +1268,7 @@ steps:
           +            ElevatedButton(
           +              child: Text('OK'),
                          onPressed: () {
-          -                Navigator.popUntil(context, (route) => route.isFirst);
-          +                Navigator.pop(context);
-          +                // Navigator.popUntil(
-          +                //     context, (route) => route.isFirst);
+                           Navigator.popUntil(context, (route) => route.isFirst);
                          },
           -              child: Text('OK'),
                        ),
@@ -1299,7 +1280,7 @@ steps:
                );
              }
            }
-          @@ -83,22 +120,21 @@ class QuestionCard extends StatelessWidget {
+          @@ -83,19 +116,21 @@ class QuestionCard extends StatelessWidget {
              final String? question;
            
              const QuestionCard({
@@ -1317,22 +1298,21 @@ steps:
              @override
              Widget build(BuildContext context) {
                return PageTransitionSwitcher(
-                 duration: const Duration(milliseconds: 200),
           -      layoutBuilder: (entries) {
           -        return Stack(
           -          alignment: Alignment.topCenter,
-          -          children: <Widget>[
-          -            ...entries,
-          -          ],
+          -          children: entries,
           -        );
           -      },
+          +      duration: const Duration(milliseconds: 200),
                  transitionBuilder: (child, animation, secondaryAnimation) {
                    return FadeThroughTransition(
                      animation: animation,
-          @@ -106,16 +142,30 @@ class QuestionCard extends StatelessWidget {
+          @@ -103,17 +138,30 @@ class QuestionCard extends StatelessWidget {
                      child: child,
                    );
                  },
+          -      duration: const Duration(milliseconds: 300),
           -      child: Card(
           +      child: OpenContainer(
                    key: ValueKey(question),

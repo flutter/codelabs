@@ -53,9 +53,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                       ? viewModel.currentQuestion?.correctAnswer
                       : null,
                 ),
-                StatusBar(
-                  viewModel: viewModel,
-                )
+                StatusBar(viewModel: viewModel),
               ],
             ),
           ),
@@ -104,9 +102,7 @@ class GameOverScreen extends StatelessWidget {
             ElevatedButton(
               child: Text('OK'),
               onPressed: () {
-                Navigator.pop(context);
-                // Navigator.popUntil(
-                //     context, (route) => route.isFirst);
+                Navigator.popUntil(context, (route) => route.isFirst);
               },
             ),
           ],
