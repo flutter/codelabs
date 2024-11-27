@@ -25,6 +25,7 @@ declare -a CODELABS=(
   "haiku_generator"
   "homescreen_codelab"
   "in_app_purchases"
+  "intro_flutter_gpu"
   "namer"
   # TODO(domesticmouse): Color.red/green/blue are deprecated
   # "next-gen-ui"
