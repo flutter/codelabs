@@ -50,7 +50,12 @@ function ci_codelabs () {
             if [ -d "test" ]
             then
                 if grep -q "flutter:" "pubspec.yaml"; then
-                  flutter test
+                  if [ $RUNNER_OS = 'macOS' ]; then
+                    # Impeller is required for intro_flutter_gpu
+                    flutter test --enable-impeller
+                  else
+                    flutter test
+                  fi
                 else
                   # If the project is not a Flutter project, use the Dart CLI.
                   dart test
