@@ -1956,7 +1956,7 @@ steps:
         patch-u: |
           --- b/intro_flutter_gpu/step_12/lib/main.dart
           +++ a/intro_flutter_gpu/step_12/lib/main.dart
-          @@ -3,14 +3,11 @@
+          @@ -3,20 +3,21 @@
            // found in the LICENSE file.
            
            import 'dart:math' as math;
@@ -1970,9 +1970,21 @@ steps:
           -import 'shaders.dart';
           -
            void main() {
-             runApp(const MainApp());
+          -  runApp(const MainApp());
+          +  runApp(
+          +    MainApp(staticResourcesInitialized: scn.Scene.initializeStaticResources()),
+          +  );
            }
-          @@ -25,6 +22,7 @@ class MainApp extends StatefulWidget {
+           
+           class MainApp extends StatefulWidget {
+          -  const MainApp({super.key});
+          +  const MainApp({super.key, required this.staticResourcesInitialized});
+          +
+          +  final Future<void> staticResourcesInitialized;
+           
+             @override
+             State<MainApp> createState() => _MainAppState();
+          @@ -25,6 +26,7 @@ class MainApp extends StatefulWidget {
            class _MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
              late AnimationController _controller;
              late Animation<double> _animation;
@@ -1980,7 +1992,7 @@ steps:
            
              @override
              void initState() {
-          @@ -35,6 +33,11 @@ class _MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
+          @@ -35,6 +37,11 @@ class _MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
                )..repeat();
            
                _animation = Tween<double>(begin: 0, end: 4 * math.pi).animate(_controller);
@@ -1992,7 +2004,7 @@ steps:
              }
            
              @override
-          @@ -46,14 +49,24 @@ class _MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
+          @@ -46,17 +53,35 @@ class _MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
              @override
              Widget build(BuildContext context) {
                return MaterialApp(
@@ -2001,25 +2013,40 @@ steps:
                  debugShowCheckedModeBanner: false,
                  home: Scaffold(
                    body: SizedBox.expand(
-                     child: AnimatedBuilder(
-                       builder: (context, child) {
-                         return CustomPaint(
+          -          child: AnimatedBuilder(
+          -            builder: (context, child) {
+          -              return CustomPaint(
           -                painter: TrianglePainter(angle: _animation.value),
-          +                painter: ScenePainter(
-          +                  scene: scene,
-          +                  camera: scn.PerspectiveCamera(
-          +                    position: vm.Vector3(
-          +                      math.sin(_animation.value) * 3,
-          +                      2,
-          +                      math.cos(_animation.value) * 3,
+          +          child: FutureBuilder(
+          +            future: widget.staticResourcesInitialized,
+          +            builder: (context, snapshot) {
+          +              if (snapshot.connectionState != ConnectionState.done) {
+          +                return const Center(child: CircularProgressIndicator());
+          +              }
+          +              return AnimatedBuilder(
+          +                builder: (context, child) {
+          +                  return CustomPaint(
+          +                    painter: ScenePainter(
+          +                      scene: scene,
+          +                      camera: scn.PerspectiveCamera(
+          +                        position: vm.Vector3(
+          +                          math.sin(_animation.value) * 3,
+          +                          2,
+          +                          math.cos(_animation.value) * 3,
+          +                        ),
+          +                        target: vm.Vector3(0, 0, 0),
+          +                      ),
           +                    ),
-          +                    target: vm.Vector3(0, 0, 0),
-          +                  ),
-          +                ),
+          +                  );
+          +                },
+          +                animation: _animation,
                          );
                        },
-                       animation: _animation,
-          @@ -64,151 +77,14 @@ class _MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
+          -            animation: _animation,
+                     ),
+                   ),
+                 ),
+          @@ -64,151 +89,14 @@ class _MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
              }
            }
            
@@ -2176,6 +2203,29 @@ steps:
              }
            
              @override
+      - name: Patch text/widget_test.dart
+        path: intro_flutter_gpu/test/widget_test.dart
+        patch-u: |
+          --- b/intro_flutter_gpu/step_12/test/widget_test.dart
+          +++ a/intro_flutter_gpu/step_12/test/widget_test.dart
+          @@ -2,6 +2,7 @@
+           // Use of this source code is governed by a BSD-style license that can be
+           // found in the LICENSE file.
+           
+          +import 'package:flutter_scene/scene.dart';
+           import 'package:flutter_test/flutter_test.dart';
+           
+           import 'package:intro_flutter_gpu/main.dart';
+          @@ -9,6 +10,8 @@ import 'package:intro_flutter_gpu/main.dart';
+           void main() {
+             testWidgets('smoke test', (tester) async {
+               // Build our app and trigger a frame.
+          -    await tester.pumpWidget(const MainApp());
+          +    await tester.pumpWidget(
+          +      MainApp(staticResourcesInitialized: Scene.initializeStaticResources()),
+          +    );
+             });
+           }
       - name: Copy step_12
         copydir:
           from: intro_flutter_gpu

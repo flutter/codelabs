@@ -9,11 +9,15 @@ import 'package:flutter_scene/scene.dart' as scn;
 import 'package:vector_math/vector_math.dart' as vm;
 
 void main() {
-  runApp(const MainApp());
+  runApp(
+    MainApp(staticResourcesInitialized: scn.Scene.initializeStaticResources()),
+  );
 }
 
 class MainApp extends StatefulWidget {
-  const MainApp({super.key});
+  const MainApp({super.key, required this.staticResourcesInitialized});
+
+  final Future<void> staticResourcesInitialized;
 
   @override
   State<MainApp> createState() => _MainAppState();
@@ -53,23 +57,31 @@ class _MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: SizedBox.expand(
-          child: AnimatedBuilder(
-            builder: (context, child) {
-              return CustomPaint(
-                painter: ScenePainter(
-                  scene: scene,
-                  camera: scn.PerspectiveCamera(
-                    position: vm.Vector3(
-                      math.sin(_animation.value) * 3,
-                      2,
-                      math.cos(_animation.value) * 3,
+          child: FutureBuilder(
+            future: widget.staticResourcesInitialized,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState != ConnectionState.done) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              return AnimatedBuilder(
+                builder: (context, child) {
+                  return CustomPaint(
+                    painter: ScenePainter(
+                      scene: scene,
+                      camera: scn.PerspectiveCamera(
+                        position: vm.Vector3(
+                          math.sin(_animation.value) * 3,
+                          2,
+                          math.cos(_animation.value) * 3,
+                        ),
+                        target: vm.Vector3(0, 0, 0),
+                      ),
                     ),
-                    target: vm.Vector3(0, 0, 0),
-                  ),
-                ),
+                  );
+                },
+                animation: _animation,
               );
             },
-            animation: _animation,
           ),
         ),
       ),
