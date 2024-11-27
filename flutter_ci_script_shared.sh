@@ -64,7 +64,7 @@ function ci_codelabs () {
                 if grep -q "flutter:" "pubspec.yaml"; then
 
                     # intro_flutter_gpu only runs with Impeller on macOS
-                    if [$CODELAB = 'intro_flutter_gpu']; then
+                    if [ $CODELAB = 'intro_flutter_gpu' ]; then
                         if [ $RUNNER_OS = 'macOS' ]; then
                             flutter test --enable-impeller                    
                         fi
