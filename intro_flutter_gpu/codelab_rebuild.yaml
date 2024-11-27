@@ -2,6 +2,8 @@ name: Introduction to Flutter GPU rebuild script
 steps:
   - name: step_01
     steps:
+      - name: Enable native assets
+        flutter: config --enable-native-assets
       - name: Remove generated code
         rmdir: step_01
       - name: Create project
