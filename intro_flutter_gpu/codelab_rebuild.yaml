@@ -1,0 +1,2185 @@
+name: Introduction to Flutter GPU rebuild script
+steps:
+  - name: step_01
+    steps:
+      - name: Remove generated code
+        rmdir: step_01
+      - name: Create project
+        flutter: create --empty intro_flutter_gpu --platforms android,ios,macos
+      - name: Make the macOS titlebar transparent, content full window, and hide the title bar.
+        full-screen-macos-main-menu-xib: intro_flutter_gpu/macos/Runner/Base.lproj/MainMenu.xib
+      - name: Strip DEVELOPMENT_TEAM
+        strip-lines-containing: DEVELOPMENT_TEAM =
+        path: intro_flutter_gpu/ios/Runner.xcodeproj/project.pbxproj
+      - name: Configure analysis_options.yaml
+        path: intro_flutter_gpu/analysis_options.yaml
+        replace-contents: |
+          include: ../../analysis_options.yaml
+      - name: Remove README
+        rm: intro_flutter_gpu/README.md
+      - name: Add .vscode directory
+        mkdir: intro_flutter_gpu/.vscode
+      - name: Add .vscode/launch.json
+        path: intro_flutter_gpu/.vscode/launch.json
+        replace-contents: |
+          {
+              // Use IntelliSense to learn about possible attributes.
+              // Hover to view descriptions of existing attributes.
+              // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+              "version": "0.2.0",
+              "configurations": [
+                  {
+                      "name": "intro_flutter_gpu",
+                      "request": "launch",
+                      "type": "dart"
+                  },
+                  {
+                      "name": "intro_flutter_gpu (profile mode)",
+                      "request": "launch",
+                      "type": "dart",
+                      "flutterMode": "profile"
+                  },
+                  {
+                      "name": "intro_flutter_gpu (release mode)",
+                      "request": "launch",
+                      "type": "dart",
+                      "flutterMode": "release"
+                  }
+              ]
+          }
+      - name: Add flutter_gpu dependency
+        path: intro_flutter_gpu
+        flutter: pub add flutter_gpu --sdk=flutter 
+      - name: Add dependencies
+        path: intro_flutter_gpu
+        flutter: pub add flutter_gpu_shaders native_assets_cli vector_math xml
+      - name: Patch pubspec.yaml
+        path: intro_flutter_gpu/pubspec.yaml
+        patch-u : |
+          --- b/intro_flutter_gpu/step_01/pubspec.yaml
+          +++ a/intro_flutter_gpu/step_01/pubspec.yaml
+          @@ -23,3 +23,6 @@ dev_dependencies:
+           
+           flutter:
+             uses-material-design: true
+          +
+          +  assets:
+          +    - build/shaderbundles/
+      - name: mkdir build/shaderbundles
+        mkdir: intro_flutter_gpu/build/shaderbundles
+      - name: Add build/shaderbundles/.gitkeep
+        path: intro_flutter_gpu/build/shaderbundles/.gitkeep
+        replace-contents: ''
+      - name: Add lib/shaders.dart
+        path: intro_flutter_gpu/lib/shaders.dart
+        replace-contents: |
+          // Copyright 2024 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+
+          import 'package:flutter_gpu/gpu.dart' as gpu;
+
+          const String _kShaderBundlePath =
+              'build/shaderbundles/my_first_triangle.shaderbundle';
+
+          gpu.ShaderLibrary? _shaderLibrary;
+
+          gpu.ShaderLibrary get shaderLibrary {
+            _shaderLibrary ??= gpu.ShaderLibrary.fromAsset(_kShaderBundlePath);
+
+            try {
+              return _shaderLibrary!;
+            } catch (e) {
+              throw Exception('Failed to load shader bundle! ($_kShaderBundlePath)');
+            }
+          }
+      - name: Replace lib/main.dart
+        path: intro_flutter_gpu/lib/main.dart
+        replace-contents: |
+          // Copyright 2024 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+
+          import 'dart:typed_data';
+
+          import 'package:flutter/material.dart';
+          import 'package:flutter_gpu/gpu.dart' as gpu;
+
+          import 'shaders.dart';
+
+          void main() {
+            runApp(const MainApp());
+          }
+
+          class MainApp extends StatelessWidget {
+            const MainApp({super.key});
+
+            @override
+            Widget build(BuildContext context) {
+              return MaterialApp(
+                title: 'Flutter GPU Triangle Demo',
+                debugShowCheckedModeBanner: false,
+                home: Scaffold(
+                  body: SizedBox.expand(child: CustomPaint(painter: TrianglePainter())),
+                ),
+              );
+            }
+          }
+
+          class TrianglePainter extends CustomPainter {
+            const TrianglePainter();
+
+            @override
+            void paint(Canvas canvas, Size size) {
+              final texture = gpu.gpuContext.createTexture(
+                gpu.StorageMode.devicePrivate,
+                size.width.ceil(),
+                size.height.ceil(),
+              );
+              if (texture == null) {
+                throw Exception('Failed to create texture');
+              }
+
+              final renderTarget = gpu.RenderTarget.singleColor(
+                gpu.ColorAttachment(texture: texture),
+              );
+
+              final commandBuffer = gpu.gpuContext.createCommandBuffer();
+              final renderPass = commandBuffer.createRenderPass(renderTarget);
+
+              final vert = shaderLibrary['SimpleVertex'];
+              if (vert == null) {
+                throw Exception('Failed to load SimpleVertex vertex shader');
+              }
+
+              final frag = shaderLibrary['SimpleFragment'];
+              if (frag == null) {
+                throw Exception('Failed to load SimpleFragment fragment shader');
+              }
+
+              final pipeline = gpu.gpuContext.createRenderPipeline(vert, frag);
+
+              const floatsPerVertex = 2;
+              final vertices = Float32List.fromList([
+                -0.5, -0.5, // First vertex
+                0.5, -0.5, // Second vertex
+                0.0, 0.5, // Third vertex
+              ]);
+
+              final verticesDeviceBuffer = gpu.gpuContext.createDeviceBufferWithCopy(
+                ByteData.sublistView(vertices),
+              );
+              if (verticesDeviceBuffer == null) {
+                throw Exception('Failed to create vertices device buffer');
+              }
+
+              renderPass.bindPipeline(pipeline);
+
+              final verticesView = gpu.BufferView(
+                verticesDeviceBuffer,
+                offsetInBytes: 0,
+                lengthInBytes: verticesDeviceBuffer.sizeInBytes,
+              );
+              renderPass.bindVertexBuffer(
+                verticesView,
+                vertices.length ~/ floatsPerVertex,
+              );
+
+              renderPass.draw();
+
+              commandBuffer.submit();
+              final image = texture.asImage();
+              canvas.drawImage(image, Offset.zero, Paint());
+            }
+
+            @override
+            bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
+          }
+      - name: mkdir bin
+        mkdir: intro_flutter_gpu/bin
+      - name: Add bin/modify_macos_config.dart
+        path: intro_flutter_gpu/bin/modify_macos_config.dart
+        replace-contents: |
+          // Copyright 2024 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+          
+          import 'dart:io';
+          import 'package:xml/xml.dart';
+          import 'package:xml/xpath.dart';
+          
+          void main() {
+            final file = File('macos/Runner/Base.lproj/MainMenu.xib');
+            var document = XmlDocument.parse(file.readAsStringSync());
+            document.xpath('//document/objects/window').first
+              ..setAttribute('titlebarAppearsTransparent', 'YES')
+              ..setAttribute('titleVisibility', 'hidden');
+            document
+                .xpath('//document/objects/window/windowStyleMask')
+                .first
+                .setAttribute('fullSizeContentView', 'YES');
+            file.writeAsStringSync(document.toString());
+          }
+      - name: Add my_first_triangle.shaderbundle.json
+        path: intro_flutter_gpu/my_first_triangle.shaderbundle.json
+        replace-contents: |
+          {
+              "SimpleVertex": {
+                  "type": "vertex",
+                  "file": "shaders/simple.vert"
+              },
+              "SimpleFragment": {
+                  "type": "fragment",
+                  "file": "shaders/simple.frag"
+              }
+          }
+      - name: mkdir hook
+        mkdir: intro_flutter_gpu/hook
+      - name: Add hook/build.dart
+        path: intro_flutter_gpu/hook/build.dart
+        replace-contents: |
+          // Copyright 2024 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+
+          import 'package:flutter_gpu_shaders/build.dart';
+          import 'package:native_assets_cli/native_assets_cli.dart';
+
+          void main(List<String> args) async {
+            await build(args, (config, output) async {
+              await buildShaderBundleJson(
+                buildConfig: config,
+                buildOutput: output,
+                manifestFileName: 'my_first_triangle.shaderbundle.json',
+              );
+            });
+          }
+      - name: mkdir shaders
+        mkdir: intro_flutter_gpu/shaders
+      - name: Add shaders/simple.frag
+        path: intro_flutter_gpu/shaders/simple.frag
+        replace-contents: |
+          // Copyright 2024 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+
+          #version 460 core
+
+          out vec4 frag_color;
+
+          void main() {
+            frag_color = vec4(0, 1, 0, 1);
+          }
+      - name: Add shaders/simple.vert
+        path: intro_flutter_gpu/shaders/simple.vert
+        replace-contents: |
+          // Copyright 2024 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+
+          #version 460 core
+
+          in vec2 position;
+
+          void main() {
+            gl_Position = vec4(position, 0.0, 1.0);
+          }
+      - name: mkdir test
+        mkdir: intro_flutter_gpu/test
+      - name: Add test/widget_test.dart
+        path: intro_flutter_gpu/test/widget_test.dart
+        replace-contents: |
+          // Copyright 2024 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+
+          import 'package:flutter_test/flutter_test.dart';
+
+          import 'package:intro_flutter_gpu/main.dart';
+
+          void main() {
+            testWidgets('smoke test', (tester) async {
+              // Build our app and trigger a frame.
+              await tester.pumpWidget(const MainApp());
+            });
+          }
+      - name: Patch macos/Runner/Info.plist
+        path: intro_flutter_gpu/macos/Runner/Info.plist
+        patch-u: |
+          --- b/intro_flutter_gpu/step_01/macos/Runner/Info.plist
+          +++ a/intro_flutter_gpu/step_01/macos/Runner/Info.plist
+          @@ -28,5 +28,8 @@
+           	<string>MainMenu</string>
+           	<key>NSPrincipalClass</key>
+           	<string>NSApplication</string>
+          +	<!-- flutter_gpu requires Impeller -->
+          +	<key>FLTEnableImpeller</key>
+          +	<true />
+           </dict>
+           </plist>
+      - name: Copy step_01
+        copydir:
+          from: intro_flutter_gpu
+          to: step_01
+
+  - name: step_02
+    steps:
+      - name: Remove generated code
+        rmdir: step_02
+      - name: Patch lib/main.dart
+        path: intro_flutter_gpu/lib/main.dart
+        patch-u: |
+          --- b/intro_flutter_gpu/step_02/lib/main.dart
+          +++ a/intro_flutter_gpu/step_02/lib/main.dart
+          @@ -61,11 +61,12 @@ class TrianglePainter extends CustomPainter {
+           
+               final pipeline = gpu.gpuContext.createRenderPipeline(vert, frag);
+           
+          -    const floatsPerVertex = 2;
+          +    const floatsPerVertex = 5;
+               final vertices = Float32List.fromList([
+          -      -0.5, -0.5, // First vertex
+          -      0.5, -0.5, // Second vertex
+          -      0.0, 0.5, // Third vertex
+          +      // Format: x, y, r, g, b,
+          +      -0.5, -0.5, 1.0, 0.0, 0.0,
+          +      0.5, -0.5, 0.0, 1.0, 0.0,
+          +      0.0, 0.5, 0.0, 0.0, 1.0,
+               ]);
+           
+               final verticesDeviceBuffer = gpu.gpuContext.createDeviceBufferWithCopy(
+      - name: Patch shaders/simple.frag
+        path: intro_flutter_gpu/shaders/simple.frag
+        patch-u: |
+          --- b/intro_flutter_gpu/step_02/shaders/simple.frag
+          +++ a/intro_flutter_gpu/step_02/shaders/simple.frag
+          @@ -4,8 +4,9 @@
+           
+           #version 460 core
+           
+          +in vec3 vertex_color;
+           out vec4 frag_color;
+           
+           void main() {
+          -  frag_color = vec4(0, 1, 0, 1);
+          +  frag_color = vec4(vertex_color, 1);
+           }
+      - name: Patch shaders/simple.vert
+        path: intro_flutter_gpu/shaders/simple.vert
+        patch-u: |
+          --- b/intro_flutter_gpu/step_02/shaders/simple.vert
+          +++ a/intro_flutter_gpu/step_02/shaders/simple.vert
+          @@ -5,7 +5,11 @@
+           #version 460 core
+           
+           in vec2 position;
+          +in vec3 color;
+          +
+          +out vec3 vertex_color;
+           
+           void main() {
+             gl_Position = vec4(position, 0.0, 1.0);
+          -}
+          +  vertex_color = color;
+          +}
+      - name: Copy step_02
+        copydir:
+          from: intro_flutter_gpu
+          to: step_02
+
+  - name: step_03
+    steps:
+      - name: Remove generated code
+        rmdir: step_03
+      - name: Patch lib/main.dart
+        path: intro_flutter_gpu/lib/main.dart
+        patch-u: |
+          --- b/intro_flutter_gpu/step_03/lib/main.dart
+          +++ a/intro_flutter_gpu/step_03/lib/main.dart
+          @@ -64,9 +64,15 @@ class TrianglePainter extends CustomPainter {
+               const floatsPerVertex = 5;
+               final vertices = Float32List.fromList([
+                 // Format: x, y, r, g, b,
+          -      -0.5, -0.5, 1.0, 0.0, 0.0,
+          -      0.5, -0.5, 0.0, 1.0, 0.0,
+          -      0.0, 0.5, 0.0, 0.0, 1.0,
+          +
+          +      // Traingle #1
+          +      -0.5, -0.5, 1.0, 0.0, 0.0, // bottom left
+          +      0.5, -0.5, 0.0, 1.0, 0.0, // bottom right
+          +      -0.5, 0.5, 0.0, 0.0, 1.0, // top left
+          +      // Traingle #2
+          +      0.5, -0.5, 0.0, 1.0, 0.0, // bottom right
+          +      0.5, 0.5, 1.0, 1.0, 0.0, // top right
+          +      -0.5, 0.5, 0.0, 0.0, 1.0, // top left
+               ]);
+           
+               final verticesDeviceBuffer = gpu.gpuContext.createDeviceBufferWithCopy(
+      - name: Copy step_03
+        copydir:
+          from: intro_flutter_gpu
+          to: step_03
+
+  - name: step_04
+    steps:
+      - name: Remove generated code
+        rmdir: step_04
+      - name: Patch lib/main.dart
+        path: intro_flutter_gpu/lib/main.dart
+        patch-u: |
+          --- b/intro_flutter_gpu/step_04/lib/main.dart
+          +++ a/intro_flutter_gpu/step_04/lib/main.dart
+          @@ -66,13 +66,13 @@ class TrianglePainter extends CustomPainter {
+                 // Format: x, y, r, g, b,
+           
+                 // Traingle #1
+          -      -0.5, -0.5, 1.0, 0.0, 0.0, // bottom left
+          -      0.5, -0.5, 0.0, 1.0, 0.0, // bottom right
+          -      -0.5, 0.5, 0.0, 0.0, 1.0, // top left
+          +      -0.5, -0.5, 0.0, 0.0, 1.0, // bottom left
+          +      0.5, -0.5, 1.0, 1.0, 0.0, // bottom right
+          +      -0.5, 0.5, 1.0, 0.0, 0.0, // top left
+                 // Traingle #2
+          -      0.5, -0.5, 0.0, 1.0, 0.0, // bottom right
+          -      0.5, 0.5, 1.0, 1.0, 0.0, // top right
+          -      -0.5, 0.5, 0.0, 0.0, 1.0, // top left
+          +      0.5, -0.5, 1.0, 1.0, 0.0, // bottom right
+          +      0.5, 0.5, 0.0, 1.0, 0.0, // top right
+          +      -0.5, 0.5, 1.0, 0.0, 0.0, // top left
+               ]);
+           
+               final verticesDeviceBuffer = gpu.gpuContext.createDeviceBufferWithCopy(
+      - name: Copy step_04
+        copydir:
+          from: intro_flutter_gpu
+          to: step_04
+
+  - name: step_05
+    steps:
+      - name: Remove generated code
+        rmdir: step_05
+      - name: Patch lib/main.dart
+        path: intro_flutter_gpu/lib/main.dart
+        patch-u: |
+          --- b/intro_flutter_gpu/step_05/lib/main.dart
+          +++ a/intro_flutter_gpu/step_05/lib/main.dart
+          @@ -61,18 +61,18 @@ class TrianglePainter extends CustomPainter {
+           
+               final pipeline = gpu.gpuContext.createRenderPipeline(vert, frag);
+           
+          -    const floatsPerVertex = 5;
+          +    const floatsPerVertex = 4;
+               final vertices = Float32List.fromList([
+          -      // Format: x, y, r, g, b,
+          +      // Format: x, y, u, v,
+           
+                 // Traingle #1
+          -      -0.5, -0.5, 0.0, 0.0, 1.0, // bottom left
+          -      0.5, -0.5, 1.0, 1.0, 0.0, // bottom right
+          -      -0.5, 0.5, 1.0, 0.0, 0.0, // top left
+          +      -0.5, -0.5, 0.0, 0.0, // bottom left
+          +      0.5, -0.5, 1.0, 0.0, // bottom right
+          +      -0.5, 0.5, 0.0, 1.0, // top left
+                 // Traingle #2
+          -      0.5, -0.5, 1.0, 1.0, 0.0, // bottom right
+          -      0.5, 0.5, 0.0, 1.0, 0.0, // top right
+          -      -0.5, 0.5, 1.0, 0.0, 0.0, // top left
+          +      0.5, -0.5, 1.0, 0.0, // bottom right
+          +      0.5, 0.5, 1.0, 1.0, // top right
+          +      -0.5, 0.5, 0.0, 1.0, // top left
+               ]);
+           
+               final verticesDeviceBuffer = gpu.gpuContext.createDeviceBufferWithCopy(
+      - name: Patch shaders/simple.frag
+        path: intro_flutter_gpu/shaders/simple.frag
+        patch-u: |
+          --- b/intro_flutter_gpu/step_05/shaders/simple.frag
+          +++ a/intro_flutter_gpu/step_05/shaders/simple.frag
+          @@ -4,9 +4,16 @@
+           
+           #version 460 core
+           
+          -in vec3 vertex_color;
+          +in vec2 vertex_uv;
+           out vec4 frag_color;
+           
+          +const vec4 top_left_color = vec4(1, 0, 0, 1);
+          +const vec4 top_right_color = vec4(0, 1, 0, 1);
+          +const vec4 bottom_left_color = vec4(0, 0, 1, 1);
+          +const vec4 bottom_right_color = vec4(1, 1, 0, 1);
+          +
+           void main() {
+          -  frag_color = vec4(vertex_color, 1);
+          +  frag_color =
+          +      mix(mix(bottom_left_color, bottom_right_color, vertex_uv.x),
+          +          mix(top_left_color, top_right_color, vertex_uv.x), vertex_uv.y);
+           }
+      - name: Patch shaders/simple.vert
+        path: intro_flutter_gpu/shaders/simple.vert
+        patch-u: |
+          --- b/intro_flutter_gpu/step_05/shaders/simple.vert
+          +++ a/intro_flutter_gpu/step_05/shaders/simple.vert
+          @@ -5,11 +5,11 @@
+           #version 460 core
+           
+           in vec2 position;
+          -in vec3 color;
+          +in vec2 uv;
+           
+          -out vec3 vertex_color;
+          +out vec2 vertex_uv;
+           
+           void main() {
+             gl_Position = vec4(position, 0.0, 1.0);
+          -  vertex_color = color;
+          -}
+          +  vertex_uv = uv;
+          +}
+      - name: Copy step_05
+        copydir:
+          from: intro_flutter_gpu
+          to: step_05
+
+  - name: step_06
+    steps:
+      - name: Remove generated code
+        rmdir: step_06
+      - name: Patch lib/main.dart
+        path: intro_flutter_gpu/lib/main.dart
+        patch-u: |
+          --- b/intro_flutter_gpu/step_06/lib/main.dart
+          +++ a/intro_flutter_gpu/step_06/lib/main.dart
+          @@ -66,13 +66,13 @@ class TrianglePainter extends CustomPainter {
+                 // Format: x, y, u, v,
+           
+                 // Traingle #1
+          -      -0.5, -0.5, 0.0, 0.0, // bottom left
+          -      0.5, -0.5, 1.0, 0.0, // bottom right
+          -      -0.5, 0.5, 0.0, 1.0, // top left
+          +      -0.8, -0.8, -1.0, -1.0, // bottom left
+          +      0.8, -0.8, 1.0, -1.0, // bottom right
+          +      -0.8, 0.8, -1.0, 1.0, // top left
+                 // Traingle #2
+          -      0.5, -0.5, 1.0, 0.0, // bottom right
+          -      0.5, 0.5, 1.0, 1.0, // top right
+          -      -0.5, 0.5, 0.0, 1.0, // top left
+          +      0.8, -0.8, 1.0, -1.0, // bottom right
+          +      0.8, 0.8, 1.0, 1.0, // top right
+          +      -0.8, 0.8, -1.0, 1.0, // top left
+               ]);
+           
+               final verticesDeviceBuffer = gpu.gpuContext.createDeviceBufferWithCopy(
+      - name: Patch shaders/simple.frag
+        path: intro_flutter_gpu/shaders/simple.frag
+        patch-u: |
+          --- b/intro_flutter_gpu/step_06/shaders/simple.frag
+          +++ a/intro_flutter_gpu/step_06/shaders/simple.frag
+          @@ -7,13 +7,27 @@
+           in vec2 vertex_uv;
+           out vec4 frag_color;
+           
+          -const vec4 top_left_color = vec4(1, 0, 0, 1);
+          -const vec4 top_right_color = vec4(0, 1, 0, 1);
+          -const vec4 bottom_left_color = vec4(0, 0, 1, 1);
+          -const vec4 bottom_right_color = vec4(1, 1, 0, 1);
+          +// Adapted from https://www.youtube.com/shorts/h5PuIm6fRr8
+          +float mandelbrot(vec2 uv) {
+          +  const float MAX_ITER = 128;
+          +  vec2 c =  1.2 * uv - vec2(0.7, 0.0);
+          +  vec2 z = vec2(0.0);
+          +
+          +  for (float iter = 0.0; iter < MAX_ITER; iter++) {
+          +    z = vec2(z.x * z.x - z.y * z.y, 2.0 * z.x * z.y) + c;
+          +    if (length(z) > 4.0) {
+          +      return iter / MAX_ITER;
+          +    }
+          +  }
+          +
+          +  return 0.0;
+          +}
+          +
+           
+           void main() {
+          -  frag_color =
+          -      mix(mix(bottom_left_color, bottom_right_color, vertex_uv.x),
+          -          mix(top_left_color, top_right_color, vertex_uv.x), vertex_uv.y);
+          +    float m = mandelbrot(vertex_uv);
+          +    vec3 col = vec3(m);
+          +    col = pow(col, vec3(0.4545, 0.3, 0.1));
+          +    frag_color = vec4(col, 1.0);
+          +
+           }
+      - name: Copy step_06
+        copydir:
+          from: intro_flutter_gpu
+          to: step_06
+
+  - name: step_07
+    steps:
+      - name: Remove generated code
+        rmdir: step_07
+      - name: Patch lib/main.dart
+        path: intro_flutter_gpu/lib/main.dart
+        patch-u: |
+          --- b/intro_flutter_gpu/step_07/lib/main.dart
+          +++ a/intro_flutter_gpu/step_07/lib/main.dart
+          @@ -2,10 +2,12 @@
+           // Use of this source code is governed by a BSD-style license that can be
+           // found in the LICENSE file.
+           
+          +import 'dart:math' as math;
+           import 'dart:typed_data';
+           
+           import 'package:flutter/material.dart';
+           import 'package:flutter_gpu/gpu.dart' as gpu;
+          +import 'package:vector_math/vector_math.dart' as vm;
+           
+           import 'shaders.dart';
+           
+          @@ -13,23 +15,58 @@ void main() {
+             runApp(const MainApp());
+           }
+           
+          -class MainApp extends StatelessWidget {
+          +class MainApp extends StatefulWidget {
+             const MainApp({super.key});
+           
+          +  @override
+          +  State<MainApp> createState() => _MainAppState();
+          +}
+          +
+          +class _MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
+          +  late AnimationController _controller;
+          +  late Animation<double> _animation;
+          +
+          +  @override
+          +  void initState() {
+          +    super.initState();
+          +    _controller = AnimationController(
+          +      duration: const Duration(seconds: 15),
+          +      vsync: this,
+          +    )..repeat();
+          +
+          +    _animation = Tween<double>(begin: 0, end: 2 * math.pi).animate(_controller);
+          +  }
+          +
+          +  @override
+          +  void dispose() {
+          +    _controller.dispose();
+          +    super.dispose();
+          +  }
+          +
+             @override
+             Widget build(BuildContext context) {
+               return MaterialApp(
+                 title: 'Flutter GPU Triangle Demo',
+                 debugShowCheckedModeBanner: false,
+                 home: Scaffold(
+          -        body: SizedBox.expand(child: CustomPaint(painter: TrianglePainter())),
+          +        body: SizedBox.expand(
+          +          child: AnimatedBuilder(
+          +            builder: (context, child) {
+          +              return CustomPaint(
+          +                painter: TrianglePainter(angle: _animation.value),
+          +              );
+          +            },
+          +            animation: _animation,
+          +          ),
+          +        ),
+                 ),
+               );
+             }
+           }
+           
+           class TrianglePainter extends CustomPainter {
+          -  const TrianglePainter();
+          +  const TrianglePainter({required this.angle});
+          +  final double angle;
+           
+             @override
+             void paint(Canvas canvas, Size size) {
+          @@ -82,6 +119,20 @@ class TrianglePainter extends CustomPainter {
+                 throw Exception('Failed to create vertices device buffer');
+               }
+           
+          +    final model = vm.Matrix4.rotationY(angle);
+          +
+          +    final vertUniforms = [model];
+          +
+          +    final vertUniformsDeviceBuffer = gpu.gpuContext.createDeviceBufferWithCopy(
+          +      ByteData.sublistView(
+          +        Float32List.fromList(vertUniforms.expand((m) => m.storage).toList()),
+          +      ),
+          +    );
+          +
+          +    if (vertUniformsDeviceBuffer == null) {
+          +      throw Exception('Failed to create vert uniforms device buffer');
+          +    }
+          +
+               renderPass.bindPipeline(pipeline);
+           
+               final verticesView = gpu.BufferView(
+          @@ -94,6 +145,14 @@ class TrianglePainter extends CustomPainter {
+                 vertices.length ~/ floatsPerVertex,
+               );
+           
+          +    final vertUniformsView = gpu.BufferView(
+          +      vertUniformsDeviceBuffer,
+          +      offsetInBytes: 0,
+          +      lengthInBytes: vertUniformsDeviceBuffer.sizeInBytes,
+          +    );
+          +
+          +    renderPass.bindUniform(vert.getUniformSlot('VertInfo'), vertUniformsView);
+          +
+               renderPass.draw();
+           
+               commandBuffer.submit();
+      - name: Patch shaders/simple.vert
+        path: intro_flutter_gpu/shaders/simple.vert
+        patch-u: |
+          --- b/intro_flutter_gpu/step_07/shaders/simple.vert
+          +++ a/intro_flutter_gpu/step_07/shaders/simple.vert
+          @@ -9,7 +9,11 @@ in vec2 uv;
+           
+           out vec2 vertex_uv;
+           
+          +uniform VertInfo {
+          +  mat4 model;
+          +};
+          +
+           void main() {
+          -  gl_Position = vec4(position, 0.0, 1.0);
+          +  gl_Position = model * vec4(position, 0.0, 1.0);
+             vertex_uv = uv;
+           }
+      - name: Copy step_07
+        copydir:
+          from: intro_flutter_gpu
+          to: step_07
+
+  - name: step_08
+    steps:
+      - name: Remove generated code
+        rmdir: step_08
+      - name: Patch lib/main.dart
+        path: intro_flutter_gpu/lib/main.dart
+        patch-u: |
+          --- b/intro_flutter_gpu/step_08/lib/main.dart
+          +++ a/intro_flutter_gpu/step_08/lib/main.dart
+          @@ -120,8 +120,15 @@ class TrianglePainter extends CustomPainter {
+               }
+           
+               final model = vm.Matrix4.rotationY(angle);
+          +    final view = vm.Matrix4.translation(vm.Vector3(0.0, 0.0, -2.0));
+          +    final projection = vm.makePerspectiveMatrix(
+          +      vm.radians(45),
+          +      size.aspectRatio,
+          +      0.1,
+          +      100,
+          +    );
+           
+          -    final vertUniforms = [model];
+          +    final vertUniforms = [model, view, projection];
+           
+               final vertUniformsDeviceBuffer = gpu.gpuContext.createDeviceBufferWithCopy(
+                 ByteData.sublistView(
+      - name: Patch shaders/simple.vert
+        path: intro_flutter_gpu/shaders/simple.vert
+        patch-u: |
+          --- b/intro_flutter_gpu/step_08/shaders/simple.vert
+          +++ a/intro_flutter_gpu/step_08/shaders/simple.vert
+          @@ -11,9 +11,11 @@ out vec2 vertex_uv;
+           
+           uniform VertInfo {
+             mat4 model;
+          +  mat4 view;
+          +  mat4 projection;
+           };
+           
+           void main() {
+          -  gl_Position = model * vec4(position, 0.0, 1.0);
+          +  gl_Position = projection * view * model * vec4(position, 0.0, 1.0);
+             vertex_uv = uv;
+           }
+      - name: Copy step_08
+        copydir:
+          from: intro_flutter_gpu
+          to: step_08
+
+  - name: step_09
+    steps:
+      - name: Remove generated code
+        rmdir: step_09
+      - name: Patch lib/main.dart
+        path: intro_flutter_gpu/lib/main.dart
+        patch-u: |
+          --- b/intro_flutter_gpu/step_09/lib/main.dart
+          +++ a/intro_flutter_gpu/step_09/lib/main.dart
+          @@ -98,18 +98,57 @@ class TrianglePainter extends CustomPainter {
+           
+               final pipeline = gpu.gpuContext.createRenderPipeline(vert, frag);
+           
+          -    const floatsPerVertex = 4;
+          +    const floatsPerVertex = 6;
+               final vertices = Float32List.fromList([
+          -      // Format: x, y, u, v,
+          -
+          -      // Traingle #1
+          -      -0.8, -0.8, -1.0, -1.0, // bottom left
+          -      0.8, -0.8, 1.0, -1.0, // bottom right
+          -      -0.8, 0.8, -1.0, 1.0, // top left
+          -      // Traingle #2
+          -      0.8, -0.8, 1.0, -1.0, // bottom right
+          -      0.8, 0.8, 1.0, 1.0, // top right
+          -      -0.8, 0.8, -1.0, 1.0, // top left
+          +      // layout: x, y, z, r, g, b
+          +
+          +      // Back Face
+          +      -0.5, -0.5, -0.5, 1.0, 0.0, 0.0,
+          +      0.5, -0.5, -0.5, 0.0, 1.0, 0.0,
+          +      0.5, 0.5, -0.5, 0.0, 0.0, 1.0,
+          +      0.5, 0.5, -0.5, 0.0, 0.0, 1.0,
+          +      -0.5, 0.5, -0.5, 1.0, 1.0, 0.0,
+          +      -0.5, -0.5, -0.5, 1.0, 0.0, 0.0,
+          +
+          +      // Front Face
+          +      -0.5, -0.5, 0.5, 1.0, 0.0, 0.0,
+          +      0.5, 0.5, 0.5, 0.0, 0.0, 1.0,
+          +      0.5, -0.5, 0.5, 0.0, 1.0, 0.0,
+          +      0.5, 0.5, 0.5, 0.0, 0.0, 1.0,
+          +      -0.5, -0.5, 0.5, 1.0, 0.0, 0.0,
+          +      -0.5, 0.5, 0.5, 1.0, 1.0, 0.0,
+          +
+          +      // Left Face
+          +      -0.5, 0.5, 0.5, 1.0, 0.0, 0.0,
+          +      -0.5, -0.5, -0.5, 0.0, 0.0, 1.0,
+          +      -0.5, 0.5, -0.5, 0.0, 1.0, 0.0,
+          +      -0.5, -0.5, -0.5, 0.0, 0.0, 1.0,
+          +      -0.5, 0.5, 0.5, 1.0, 0.0, 0.0,
+          +      -0.5, -0.5, 0.5, 1.0, 1.0, 0.0,
+          +
+          +      // Right Face
+          +      0.5, 0.5, 0.5, 1.0, 0.0, 0.0,
+          +      0.5, 0.5, -0.5, 0.0, 1.0, 0.0,
+          +      0.5, -0.5, -0.5, 0.0, 0.0, 1.0,
+          +      0.5, -0.5, -0.5, 0.0, 0.0, 1.0,
+          +      0.5, -0.5, 0.5, 1.0, 1.0, 0.0,
+          +      0.5, 0.5, 0.5, 1.0, 0.0, 0.0,
+          +
+          +      // Bottom Face
+          +      0.5, -0.5, -0.5, 0.0, 1.0, 0.0,
+          +      -0.5, -0.5, -0.5, 1.0, 0.0, 0.0,
+          +      0.5, -0.5, 0.5, 0.0, 0.0, 1.0,
+          +      -0.5, -0.5, 0.5, 1.0, 1.0, 0.0,
+          +      0.5, -0.5, 0.5, 0.0, 0.0, 1.0,
+          +      -0.5, -0.5, -0.5, 1.0, 0.0, 0.0,
+          +
+          +      // Top Face
+          +      -0.5, 0.5, -0.5, 1.0, 0.0, 0.0,
+          +      0.5, 0.5, -0.5, 0.0, 1.0, 0.0,
+          +      0.5, 0.5, 0.5, 0.0, 0.0, 1.0,
+          +      0.5, 0.5, 0.5, 0.0, 0.0, 1.0,
+          +      -0.5, 0.5, 0.5, 1.0, 1.0, 0.0,
+          +      -0.5, 0.5, -0.5, 1.0, 0.0, 0.0,
+               ]);
+           
+               final verticesDeviceBuffer = gpu.gpuContext.createDeviceBufferWithCopy(
+      - name: Patch shaders/simple.frag
+        path: intro_flutter_gpu/shaders/simple.frag
+        patch-u: |
+          --- b/intro_flutter_gpu/step_09/shaders/simple.frag
+          +++ a/intro_flutter_gpu/step_09/shaders/simple.frag
+          @@ -4,30 +4,9 @@
+           
+           #version 460 core
+           
+          -in vec2 vertex_uv;
+          +in vec3 vertex_color;
+           out vec4 frag_color;
+           
+          -// Adapted from https://www.youtube.com/shorts/h5PuIm6fRr8
+          -float mandelbrot(vec2 uv) {
+          -  const float MAX_ITER = 128;
+          -  vec2 c =  1.2 * uv - vec2(0.7, 0.0);
+          -  vec2 z = vec2(0.0);
+          -
+          -  for (float iter = 0.0; iter < MAX_ITER; iter++) {
+          -    z = vec2(z.x * z.x - z.y * z.y, 2.0 * z.x * z.y) + c;
+          -    if (length(z) > 4.0) {
+          -      return iter / MAX_ITER;
+          -    }
+          -  }
+          -
+          -  return 0.0;
+          -}
+          -
+          -
+          -void main() {
+          -    float m = mandelbrot(vertex_uv);
+          -    vec3 col = vec3(m);
+          -    col = pow(col, vec3(0.4545, 0.3, 0.1));
+          -    frag_color = vec4(col, 1.0);
+          -
+          +void main() { 
+          +  frag_color = vec4(vertex_color, 1.0); 
+           }
+      - name: Patch shaders/simple.vert
+        path: intro_flutter_gpu/shaders/simple.vert
+        patch-u: |
+          --- b/intro_flutter_gpu/step_09/shaders/simple.vert
+          +++ a/intro_flutter_gpu/step_09/shaders/simple.vert
+          @@ -4,10 +4,10 @@
+           
+           #version 460 core
+           
+          -in vec2 position;
+          -in vec2 uv;
+          +in vec3 position;
+          +in vec3 color;
+           
+          -out vec2 vertex_uv;
+          +out vec3 vertex_color;
+           
+           uniform VertInfo {
+             mat4 model;
+          @@ -16,6 +16,6 @@ uniform VertInfo {
+           };
+           
+           void main() {
+          -  gl_Position = projection * view * model * vec4(position, 0.0, 1.0);
+          -  vertex_uv = uv;
+          +  gl_Position = projection * view * model * vec4(position, 1.0);
+          +  vertex_color = color;
+           }
+      - name: Copy step_09
+        copydir:
+          from: intro_flutter_gpu
+          to: step_09
+
+  - name: step_10
+    steps:
+      - name: Remove generated code
+        rmdir: step_10
+      - name: Patch lib/main.dart
+        path: intro_flutter_gpu/lib/main.dart
+        patch-u: |
+          --- b/intro_flutter_gpu/step_10/lib/main.dart
+          +++ a/intro_flutter_gpu/step_10/lib/main.dart
+          @@ -181,6 +181,8 @@ class TrianglePainter extends CustomPainter {
+           
+               renderPass.bindPipeline(pipeline);
+           
+          +    renderPass.setCullMode(gpu.CullMode.backFace);
+          +
+               final verticesView = gpu.BufferView(
+                 verticesDeviceBuffer,
+                 offsetInBytes: 0,
+      - name: Copy step_10
+        copydir:
+          from: intro_flutter_gpu
+          to: step_10
+
+  - name: step_11
+    steps:
+      - name: Remove generated code
+        rmdir: step_11
+      - name: Patch lib/main.dart
+        path: intro_flutter_gpu/lib/main.dart
+        patch-u: |
+          --- b/intro_flutter_gpu/step_11/lib/main.dart
+          +++ a/intro_flutter_gpu/step_11/lib/main.dart
+          @@ -30,11 +30,11 @@ class _MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
+             void initState() {
+               super.initState();
+               _controller = AnimationController(
+          -      duration: const Duration(seconds: 15),
+          +      duration: const Duration(seconds: 30),
+                 vsync: this,
+               )..repeat();
+           
+          -    _animation = Tween<double>(begin: 0, end: 2 * math.pi).animate(_controller);
+          +    _animation = Tween<double>(begin: 0, end: 4 * math.pi).animate(_controller);
+             }
+           
+             @override
+          @@ -158,8 +158,11 @@ class TrianglePainter extends CustomPainter {
+                 throw Exception('Failed to create vertices device buffer');
+               }
+           
+          -    final model = vm.Matrix4.rotationY(angle);
+          -    final view = vm.Matrix4.translation(vm.Vector3(0.0, 0.0, -2.0));
+          +    final model =
+          +        vm.Matrix4.identity()
+          +          ..rotateY(angle)
+          +          ..rotateX(angle / 2);
+          +    final view = vm.Matrix4.translation(vm.Vector3(0.0, 0.0, -2.5));
+               final projection = vm.makePerspectiveMatrix(
+                 vm.radians(45),
+                 size.aspectRatio,
+      - name: Copy step_11
+        copydir:
+          from: intro_flutter_gpu
+          to: step_11
+
+  - name: step_12
+    steps:
+      - name: Remove generated code
+        rmdir: step_12
+      - name: Remove flutter_gpu dependencies
+        path: intro_flutter_gpu
+        flutter: pub remove flutter_gpu flutter_gpu_shaders
+      - name: Add flutter_scene dependencies
+        path: intro_flutter_gpu
+        flutter: pub add flutter_scene flutter_scene_importer
+      - name: Remove my_first_triangle.shaderbundle.json
+        rm: intro_flutter_gpu/my_first_triangle.shaderbundle.json
+      - name: Remove lib/shaders.dart
+        rm: intro_flutter_gpu/lib/shaders.dart
+      - name: Remove simple.vert
+        rm: intro_flutter_gpu/shaders/simple.vert
+      - name: Remove simple.frag
+        rm: intro_flutter_gpu/shaders/simple.frag
+      - name: Patch lib/main.dart
+        path: intro_flutter_gpu/pubspec.yaml
+        patch-u: |
+          --- b/intro_flutter_gpu/step_12/pubspec.yaml
+          +++ a/intro_flutter_gpu/step_12/pubspec.yaml
+          @@ -24,4 +24,4 @@ flutter:
+             uses-material-design: true
+           
+             assets:
+          -    - build/shaderbundles/
+          +    - build/models/
+      - name: mkdir build/models
+        mkdir: intro_flutter_gpu/build/models
+      - name: Touch build/models/.gitkeep
+        path: intro_flutter_gpu/build/models/.gitkeep
+        replace-contents: ''
+      - name: mkdir assets
+        mkdir: intro_flutter_gpu/assets
+      - name: Add README.md
+        path: intro_flutter_gpu/assets/README.md
+        replace-contents: |
+          # Kenney.nl Hexagon Kit glTF assets 
+
+          These assets are [licensed][] under Creative Commons CC0, from [Kenney.nl][]'s [Hexagon Kit][]. 
+          These [glTF][] assets are from version 2.0 of the Hexagon Kit, downloaded from Kenney.nl on 2nd of October, 2024.
+
+          [glTF]: https://en.wikipedia.org/wiki/GlTF
+          [licensed]: License.txt
+          [Hexagon Kit]: https://kenney.nl/assets/hexagon-kit
+          [Kenney.nl]: https://kenney.nl/
+      - name: Add License.txt
+        path: intro_flutter_gpu/assets/License.txt
+        replace-contents: |
+          	
+          	
+          	Hexagon Kit (2.0)
+          
+          	Created/distributed by Kenney (www.kenney.nl)
+          	Creation date: 23-01-2024 11:58
+          	
+          			------------------------------
+          
+          	License: (Creative Commons Zero, CC0)
+          	http://creativecommons.org/publicdomain/zero/1.0/
+          
+          	You can use this content for personal, educational, and commercial purposes.
+          
+          	Support by crediting 'Kenney' or 'www.kenney.nl' (this is not a requirement)
+          
+          			------------------------------
+          
+          	• Website : www.kenney.nl
+          	• Donate  : www.kenney.nl/donate
+          
+          	• Patreon : patreon.com/kenney
+          	
+          	Follow on social media for updates:
+          
+          	• Twitter:   twitter.com/KenneyNL
+          	• Instagram: instagram.com/kenney_nl
+          	• Mastodon:  mastodon.gamedev.place/@kenney
+      - name: Add assets/building-port.glb
+        path: intro_flutter_gpu/assets/building-port.glb
+        base64-contents: |
+          Z2xURgIAAADwlAAAwAYAAEpTT057ImFzc2V0Ijp7ImdlbmVyYXRvciI6IlVuaXR5R0xURiIsInZlcnNp
+          b24iOiIyLjAifSwiZXh0ZW5zaW9uc1VzZWQiOlsiS0hSX3RleHR1cmVfdHJhbnNmb3JtIl0sInNjZW5l
+          IjowLCJzY2VuZXMiOlt7Im5vZGVzIjpbMF0sIm5hbWUiOiJidWlsZGluZy1wb3J0In1dLCJhY2Nlc3Nv
+          cnMiOlt7ImJ1ZmZlclZpZXciOjAsImNvbXBvbmVudFR5cGUiOjUxMjYsImNvdW50Ijo3MTIsInR5cGUi
+          OiJWRUMzIiwibWF4IjpbMC41LDAuNzE3NTc4OTQ3NTQ0MDk3OSwwLjU3NzM1MDI1ODgyNzIwOTQ3XSwi
+          bWluIjpbLTAuNSwwLjAsLTAuNTc3MzUwMjU4ODI3MjA5NDddfSx7ImJ1ZmZlclZpZXciOjEsImNvbXBv
+          bmVudFR5cGUiOjUxMjYsImNvdW50Ijo3MTIsInR5cGUiOiJWRUMzIiwibWF4IjpbMS4wLDEuMCwxLjBd
+          LCJtaW4iOlstMS4wLC0xLjAsLTEuMF19LHsiYnVmZmVyVmlldyI6MiwiY29tcG9uZW50VHlwZSI6NTEy
+          NiwiY291bnQiOjcxMiwidHlwZSI6IlZFQzQiLCJtYXgiOlsxLjAsMC42MzE1ODQ4MjMxMzE1NjEyOCwx
+          LjAsMS4wXSwibWluIjpbLTEuMCwtMC42MzE1ODQ4MjMxMzE1NjEyOCwtMS4wLDEuMF19LHsiYnVmZmVy
+          VmlldyI6MywiY29tcG9uZW50VHlwZSI6NTEyNiwiY291bnQiOjcxMiwidHlwZSI6IlZFQzIiLCJtYXgi
+          OlswLjk2ODc1LDAuOTc1MDAwMDIzODQxODU3OTFdLCJtaW4iOlswLjA5Mzc1LDAuNTI0OTk5OTc2MTU4
+          MTQyMDldfSx7ImJ1ZmZlclZpZXciOjQsImNvbXBvbmVudFR5cGUiOjUxMjMsImNvdW50IjoxMDk4LCJ0
+          eXBlIjoiU0NBTEFSIiwibWF4IjpbNzExLjBdLCJtaW4iOlswLjBdfV0sImJ1ZmZlcnMiOlt7ImJ5dGVM
+          ZW5ndGgiOjM2MzcyfV0sImJ1ZmZlclZpZXdzIjpbeyJidWZmZXIiOjAsImJ5dGVMZW5ndGgiOjg1NDQs
+          ImJ5dGVTdHJpZGUiOjEyLCJ0YXJnZXQiOjM0OTYyfSx7ImJ1ZmZlciI6MCwiYnl0ZU9mZnNldCI6ODU0
+          NCwiYnl0ZUxlbmd0aCI6ODU0NCwiYnl0ZVN0cmlkZSI6MTIsInRhcmdldCI6MzQ5NjJ9LHsiYnVmZmVy
+          IjowLCJieXRlT2Zmc2V0IjoxNzA4OCwiYnl0ZUxlbmd0aCI6MTEzOTIsInRhcmdldCI6MzQ5NjJ9LHsi
+          YnVmZmVyIjowLCJieXRlT2Zmc2V0IjoyODQ4MCwiYnl0ZUxlbmd0aCI6NTY5NiwidGFyZ2V0IjozNDk2
+          Mn0seyJidWZmZXIiOjAsImJ5dGVPZmZzZXQiOjM0MTc2LCJieXRlTGVuZ3RoIjoyMTk2LCJ0YXJnZXQi
+          OjM0OTYzfV0sImltYWdlcyI6W3sidXJpIjoiVGV4dHVyZXMvY29sb3JtYXAucG5nIiwibmFtZSI6ImNv
+          bG9ybWFwIn1dLCJtYXRlcmlhbHMiOlt7InBick1ldGFsbGljUm91Z2huZXNzIjp7ImJhc2VDb2xvclRl
+          eHR1cmUiOnsiaW5kZXgiOjAsImV4dGVuc2lvbnMiOnsiS0hSX3RleHR1cmVfdHJhbnNmb3JtIjp7InRl
+          eENvb3JkIjowfX19LCJtZXRhbGxpY0ZhY3RvciI6MC4wfSwiZG91YmxlU2lkZWQiOnRydWUsIm5hbWUi
+          OiJjb2xvcm1hcCJ9XSwibWVzaGVzIjpbeyJwcmltaXRpdmVzIjpbeyJhdHRyaWJ1dGVzIjp7IlBPU0lU
+          SU9OIjowLCJOT1JNQUwiOjEsIlRBTkdFTlQiOjIsIlRFWENPT1JEXzAiOjN9LCJpbmRpY2VzIjo0LCJt
+          YXRlcmlhbCI6MH1dLCJuYW1lIjoiYnVpbGRpbmctcG9ydCJ9XSwibm9kZXMiOlt7Im1lc2giOjAsIm5h
+          bWUiOiJidWlsZGluZy1wb3J0In1dLCJzYW1wbGVycyI6W3sibWFnRmlsdGVyIjo5NzI4LCJtaW5GaWx0
+          ZXIiOjk5ODR9XSwidGV4dHVyZXMiOlt7InNhbXBsZXIiOjAsInNvdXJjZSI6MCwibmFtZSI6ImNvbG9y
+          bWFwIn1dfSAUjgAAQklOAFsjHj7NzEw+qxEyvv/WUD7NzEw+gPEqvlsjHj6amVk+qxEyvv/WUD6amVk+
+          gPEqvv/WUD6amVk+gPEqvv/WUD7NzEw+gPEqvn12Oz6amVk+mLSWvH12Oz7NzEw+mLSWvFsjHj6amVk+
+          qxEyvtjCCD6amVk+9LXPvFsjHj7NzEw+qxEyvtjCCD7NzEw+9LXPvNjCCD7NzEw+9LXPvNjCCD6amVk+
+          9LXPvH12Oz7NzEw+mLSWvH12Oz6amVk+mLSWvP/WUD6amVk+gPEqvn12Oz6amVk+mLSWvFsjHj6amVk+
+          qxEyvtjCCD6amVk+9LXPvCQcEj2amVk+CPsrvtqHVT2amVk+MHeavCQcEj3NzEw+CPsrvtqHVT3NzEw+
+          MHeavCnWrj2amVk+WJkxvinWrj3NzEw+WJkxvgSM0D2amVk+rGnHvASM0D3NzEw+rGnHvASM0D3NzEw+
+          rGnHvNqHVT3NzEw+MHeavASM0D2amVk+rGnHvNqHVT2amVk+MHeavCnWrj3NzEw+WJkxvinWrj2amVk+
+          WJkxviQcEj3NzEw+CPsrviQcEj2amVk+CPsrvgSM0D2amVk+rGnHvNqHVT2amVk+MHeavCnWrj2amVk+
+          WJkxviQcEj2amVk+CPsrvrAmbT6amVk+qOgpvidigz6amVk+uK2TvLAmbT7NzEw+qOgpvidigz7NzEw+
+          uK2TvCvRjz7NzEw+h3IyvivRjz6amVk+h3IyvrAmbT7NzEw+qOgpvrAmbT6amVk+qOgpvvqfnD7NzEw+
+          sPzXvCdigz7NzEw+uK2TvPqfnD6amVk+sPzXvCdigz6amVk+uK2TvPqfnD6amVk+sPzXvCdigz6amVk+
+          uK2TvCvRjz6amVk+h3IyvrAmbT6amVk+qOgpvivRjz6amVk+h3IyvivRjz7NzEw+h3IyvvqfnD6amVk+
+          sPzXvPqfnD7NzEw+sPzXvE3w+z3NzEw+38MYPojUIT7NzEw+38MYPk3w+z3IQoo+38MYPojUIT7IQoo+
+          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
+          mplZvgAAAIDMzEw+yMxMPAAAAIAzMzM+yMxMPDIz874zMzM+uB5FvjIz877MzEw+uB5FvjIz874zMzM+
+          oML1uzIz877MzEw+oML1uwAAAIAzMzM+yMxMPML16L4zMzM+yMxMPAAAAIDMzEw+yMxMPML16L7MzEw+
+          yMxMPAAAAIAzMzM+yMxMPAAAAIAzMzM+mplZvsL16L4zMzM+yMxMPML16L4zMzM+mplZvjIz874zMzM+
+          oML1uzIz874zMzM+uB5FvsL16L4zMzM+mplZvsL16L7MzEw+mplZvjIz874zMzM+uB5FvjIz877MzEw+
+          uB5FvjIz874zMzM+oML1uzIz877MzEw+oML1u8L16L4zMzM+yMxMPML16L7MzEw+yMxMPML16L4zMzM+
+          mplZvgAAAIAzMzM+mplZvsL16L7MzEw+mplZvgAAAIDMzEw+mplZvgAAAIDMzEw+mplZvgAAAIDMzEw+
+          yMxMPML16L7MzEw+mplZvsL16L7MzEw+yMxMPDIz877MzEw+uB5FvjIz877MzEw+oML1u4QsvD7NzMw+
+          mBCbPYQsvD7NzMw+S8qnPnqZ7D3NzMw+mBCbPXqZ7D3NzMw+S8qnPoQsvD7NzEw+S8qnPoQsvD7NzEw+
+          mBCbPVfmDz7NzEw+S8qnPlfmDz7NzEw+mBCbPVfmDz7NzEw+mBCbPYQsvD7NzEw+mBCbPXqZ7D3NzMw+
+          mBCbPYQsvD7NzMw+mBCbPYQsvD7NzMw+mBCbPYQsvD7NzEw+mBCbPYQsvD7NzMw+S8qnPoQsvD7NzEw+
+          S8qnPoQsvD7NzEw+S8qnPlfmDz7NzEw+S8qnPoQsvD7NzMw+S8qnPnqZ7D3NzMw+S8qnPlfmDz7NzEw+
+          mBCbPXqZ7D3NzMw+mBCbPVfmDz7NzEw+S8qnPnqZ7D3NzMw+S8qnPm+gAr7qQy0+7aLLvgFGq73qQy0+
+          +KnRvlnp7L3qQy0+1uy0vnvukr3qQy0+4fO6vrnhA77NzMw9GSupvlnp7L3qQy0+1uy0vrtTSL3NzMw9
+          oiC0vnvukr3qQy0+4fO6vuhrkL3NzMw9tWvdvrtTSL3NzMw9oiC0vgFGq73qQy0++KnRvnvukr3qQy0+
+          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
+          PWp8PwAAAIAAAIA/AAAAAAAAAIAAAIA/AAAAAAAAAIAAAIA/AAAAAAAAAIAAAIA/AAAAAD1qfD8AAAAA
+          bsUqvj1qfD8AAAAAbsUqvj1qfD8AAAAAbsUqvj1qfD8AAAAAbsUqvgAAAIAAAAAAAACAvwAAAIAAAAAA
+          AACAvwAAAID+67c9Mfd+vwAAAID+67c9Mfd+vwAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAA
+          AAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAIAAAAAA
+          AACAPwAAAIAAAAAAAACAPwAAAID+67c9Mfd+PwAAAID+67c9Mfd+PwAAgL8AAAAAAAAAAAAAgL8AAAAA
+          AAAAAAAAgL8AAAAAAAAAAAAAgL8AAAAAAAAAAAAAgL8AAAAAAAAAAAAAgL8AAAAAAAAAAAAAgL8AAAAA
+          AAAAAAAAAID+67c9Mfd+PwAAAID+67c9Mfd+PwAAAICamRk/zcxMPwAAAICamRk/zcxMPwAAAID+67c9
+          Mfd+vwAAAID+67c9Mfd+vwAAAICamRk/zcxMvwAAAICamRk/zcxMvwAAAICamRk/zcxMvwAAAIAAAIA/
+          AAAAAAAAAICamRk/zcxMvwAAAIAAAIA/AAAAAAAAAIAAAIA/AAAAAAAAAICamRk/zcxMPwAAAIAAAIA/
+          AAAAAAAAAICamRk/zcxMPwAAAD8AAAAA2LNdvwAAAD8AAAAA2LNdvwAAAD8AAAAA2LNdvwAAAD8AAAAA
+          2LNdvwAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAD8AAAAA
+          2LNdPwAAAD8AAAAA2LNdPwAAAD8AAAAA2LNdPwAAAD8AAAAA2LNdPwAAAIAAAIC/AAAAAAAAAIAAAIC/
+          AAAAAAAAAIAAAIC/AAAAAAAAAIAAAIC/AAAAAAAAAIAAAIC/AAAAAAAAAIAAAIC/AAAAADWCfT8AAAAA
+          ZYMOPjWCfT8AAAAAZYMOPjWCfT8AAAAAZYMOPjWCfb8AAAAAZYMOvjWCfb8AAAAAZYMOvjWCfb8AAAAA
+          ZYMOvjp0fj8AAAAAY7zgvTp0fj8AAAAAY7zgvTp0fj8AAAAAY7zgvT1qfD8AAAAAbsUqvj1qfD8AAAAA
+          bsUqvj1qfD8AAAAAbsUqvj1qfL8AAAAAbsUqPj1qfL8AAAAAbsUqPj1qfL8AAAAAbsUqPjp0fr8AAAAA
+          Y7zgPTp0fr8AAAAAY7zgPTp0fr8AAAAAY7zgPWWDDr4AAAAANYJ9P2WDDr4AAAAANYJ9P2WDDr4AAAAA
+          NYJ9P2WDDr4AAAAANYJ9P2O84L0AAAAAOnR+v2O84L0AAAAAOnR+v2O84L0AAAAAOnR+v2O84L0AAAAA
+          OnR+v27FKr4AAAAAPWp8v27FKr4AAAAAPWp8v27FKr4AAAAAPWp8v27FKr4AAAAAPWp8v3BOFTyfHX8/
+          0AypPXBOFTyfHX8/0AypPXBOFTyfHX8/0AypPXBOFTyfHX8/0AypPYBcPTyfHX8/B2yovYBcPTyfHX8/
+          B2yovYBcPTyfHX8/B2yovYBcPTyfHX8/B2yovZDoYjyfHX8/BbKnPZDoYjyfHX8/BbKnPZDoYjyfHX8/
+          BbKnPZDoYjyfHX8/BbKnPQAAAIAAAIC/AAAAAAAAAIAAAIC/AAAAAAAAAIAAAIC/AAAAAAAAAIAAAIC/
+          AAAAAAAAAIAAAIA/AAAAAAAAAIAAAIA/AAAAAAAAAIAAAIA/AAAAAAAAAIAAAIA/AAAAAIjrfz9tvMy8
+          AAAAAIjrfz9tvMy8AAAAAIjrfz9tvMy8AAAAAIjrfz9tvMy8AAAAAAAAAIBgvMy8iOt/PwAAAIBgvMy8
+          iOt/PwAAAIBgvMy8iOt/PwAAAIBgvMy8iOt/PwAAAIB5vMy8iOt/vwAAAIB5vMy8iOt/vwAAAIB5vMy8
+          iOt/vwAAAIB5vMy8iOt/v4jrf79tvMy8AAAAAIjrf79tvMy8AAAAAIjrf79tvMy8AAAAAIjrf79tvMy8
+          AAAAAAAAAIAAAIC/AAAAAAAAAIAAAIC/AAAAAAAAAIAAAIC/AAAAAAAAAIAAAIC/AAAAAAAAAIAAAIA/
+          AAAAAAAAAIAAAIA/AAAAAAAAAIAAAIA/AAAAAAAAAIAAAIA/AAAAAIjrfz9tvMy8AAAAAIjrfz9tvMy8
+          AAAAAIjrfz9tvMy8AAAAAIjrfz9tvMy8AAAAAAAAAIBgvMy8iOt/PwAAAIBgvMy8iOt/PwAAAIBgvMy8
+          iOt/PwAAAIBgvMy8iOt/PwAAAIB5vMy8iOt/vwAAAIB5vMy8iOt/vwAAAIB5vMy8iOt/vwAAAIB5vMy8
+          iOt/v4jrf79tvMy8AAAAAIjrf79tvMy8AAAAAIjrf79tvMy8AAAAAIjrf79tvMy8AAAAAAAAAIAAAAAA
+          //9/PwAAAIAAAAAA//9/PwAAAIAAAAAA//9/PwAAAIAAAAAA//9/PwAAAIAAAAAA//9/vwAAAIAAAAAA
+          //9/vwAAAIAAAAAA//9/vwAAAIAAAAAA//9/v///f78AAAAAAAAAAP//f78AAAAAAAAAAP//f78AAAAA
+          AAAAAP//f78AAAAAAAAAAP//f78AAAAAAAAAAP//fz8AAAAAAAAAAP//fz8AAAAAAAAAAP//fz8AAAAA
+          AAAAAP//fz8AAAAAAAAAAP//fz8AAAAAAAAAAAAAAIAAAIC/AAAAAAAAAIAAAIC/AAAAAAAAAIAAAIC/
+          AAAAAAAAAIAAAIC/AAAAAAAAAIAAAIA/AAAAAAAAAIAAAIA/AAAAAAAAAIAAAIA/AAAAAAAAAIAAAIA/
+          AAAAAJ/bf78idQi9AAAAAJ/bf78idQi9AAAAAJ/bf78idQi9AAAAAJ/bf78idQi9AAAAAAAAAIAqdQi9
+          n9t/vwAAAIAqdQi9n9t/vwAAAIAqdQi9n9t/vwAAAIAqdQi9n9t/vwAAAIAadQi9n9t/PwAAAIAadQi9
+          n9t/PwAAAIAadQi9n9t/PwAAAIAadQi9n9t/P5/bfz8idQi9AAAAAJ/bfz8idQi9AAAAAJ/bfz8idQi9
+          AAAAAJ/bfz8idQi9AAAAAAAAAIAAAIC/AAAAAAAAAIAAAIC/AAAAAAAAAIAAAIC/AAAAAAAAAIAAAIC/
+          AAAAAAAAAIAAAIA/AAAAAAAAAIAAAIA/AAAAAAAAAIAAAIA/AAAAAAAAAIAAAIA/AAAAAJ/bfz8idQi9
+          AAAAAJ/bfz8idQi9AAAAAJ/bfz8idQi9AAAAAJ/bfz8idQi9AAAAAAAAAIAadQi9n9t/PwAAAIAadQi9
+          n9t/PwAAAIAadQi9n9t/PwAAAIAadQi9n9t/PwAAAIAqdQi9n9t/vwAAAIAqdQi9n9t/vwAAAIAqdQi9
+          n9t/vwAAAIAqdQi9n9t/v5/bf78idQi9AAAAAJ/bf78idQi9AAAAAJ/bf78idQi9AAAAAJ/bf78idQi9
+          AAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAF6DbL8AAAAA
+          Fe/Dvl6DbL8AAAAAFe/Dvl6DbL8AAAAAFe/DPl6DbL8AAAAAFe/DPgAAAIAAAAAAAACAPxXvw74AAAAA
+          XoNsPwAAAIAAAAAAAACAPxXvw74AAAAAXoNsPwAAAIAAAIC/AAAAAAAAAIAAAIC/AAAAAAAAAIAAAIC/
+          AAAAAAAAAIAAAIC/AAAAAAAAAIAAAIC/AAAAAAAAAIAAAIC/AAAAABXvw74AAAAAXoNsvxXvw74AAAAA
+          XoNsv16DbL8AAAAAFe/Dvl6DbL8AAAAAFe/Dvl6DbL8AAAAAFe/DPl6DbL8AAAAAFe/DPhXvw74AAAAA
+          XoNsPxXvw74AAAAAXoNsPxXvw74AAAAAXoNsvwAAAIAAAAAAAACAvxXvw74AAAAAXoNsvwAAAIAAAAAA
+          AACAvwAAAIAAAIA/AAAAAAAAAIAAAIA/AAAAAAAAAIAAAIA/AAAAAAAAAIAAAIA/AAAAAAAAAIAAAIA/
+          AAAAAAAAAIAAAIA/AAAAAAAAAIAAAIA/AAAAAAAAAIAAAIA/AAAAAAAAAIAAAIA/AAAAAAAAAIAAAIA/
+          AAAAAAAAAIAAAIC/AAAAAAAAAIAAAIC/AAAAAAAAAIAAAIC/AAAAAAAAAIAAAIC/AAAAAAAAAIAAAAAA
+          AACAvwAAAIAAAAAAAACAvwAAAIAAAAAAAACAvwAAAIAAAAAAAACAvwAAgD8AAAAAAAAAAAAAgD8AAAAA
+          AAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAIAAAAAAAACAPwAAAIAAAAAAAACAPwAAAIAAAAAA
+          AACAPwAAAIAAAAAAAACAP+wFfr/sBf69AAAAAOwFfr/sBf69AAAAAOwFfr/sBf69AAAAAOwFfr/sBf69
+          AAAAAAAAAIAAAIA/AAAAAAAAAIAAAIA/AAAAAAAAAIAAAIA/AAAAAAAAAIAAAIA/AAAAAHke8b5bvLY+
+          24ZOP3ke8b5bvLY+24ZOP8arTz9bvLY+yiftPsarTz9bvLY+yiftPnke8T5bvLY+24ZOv8arTz9bvLY+
+          yiftPnke8T5bvLY+24ZOv8arTz9bvLY+yiftPsarT79bvLY+yiftvnke8T5bvLY+24ZOv8arT79bvLY+
+          yiftvnke8T5bvLY+24ZOv3ke8b5bvLY+24ZOP8arT79bvLY+yiftvnke8b5bvLY+24ZOP8arT79bvLY+
+          yiftvgAAAIAAAIA/AAAAAAAAAIAAAIA/AAAAAAAAAIAAAIA/AAAAAAAAAIAAAIA/AAAAALcNLb/tmxE/
+          HOPvPrcNLb/tmxE/HOPvPigw8z7smxE/3OUrPygw8z7smxE/3OUrP7cNLT/tmxE/HOPvvigw8z7smxE/
+          3OUrP7cNLT/tmxE/HOPvvigw8z7smxE/3OUrPygw877smxE/3OUrv7cNLT/tmxE/HOPvvigw877smxE/
+          3OUrv7cNLT/tmxE/HOPvvrcNLb/tmxE/HOPvPigw877smxE/3OUrv7cNLb/tmxE/HOPvPigw877smxE/
+          3OUrvwAAgL8AAAAAAAAAAAAAgL8AAAAAAAAAAAAAgL8AAAAAAAAAAAAAgL8AAAAAAAAAAAAAAIAAAIA/
+          AAAAAAAAAIAAAIA/AAAAAAAAAIAAAIA/AAAAAAAAAIAAAIA/AAAAAAAAAL8AAAAA2LNdvwAAAL8AAAAA
+          2LNdvwAAAL8AAAAA2LNdvwAAAL8AAAAA2LNdvwAAAL8AAAAA2LNdPwAAAL8AAAAA2LNdPwAAAL8AAAAA
+          2LNdPwAAAL8AAAAA2LNdPwAAAD8AAAAA2LNdvwAAAD8AAAAA2LNdvwAAAD8AAAAA2LNdvwAAAD8AAAAA
+          2LNdvwAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgL8AAAAA
+          AAAAAAAAgL8AAAAAAAAAAAAAgL8AAAAAAAAAAAAAgL8AAAAAAAAAAAAAAIAAAIA/AAAAAAAAAIAAAIA/
+          AAAAAAAAAIAAAIA/AAAAAAAAAIAAAIA/AAAAAAAAAD8AAAAA2LNdPwAAAD8AAAAA2LNdPwAAAD8AAAAA
+          2LNdPwAAAD8AAAAA2LNdP+oLKT+jjto+SCsevwhYgT6AekY/PzAUv0CYgTujjto+goBnvwhYgb6AekY/
+          PzAUP0CYgbujjto+goBnP+oLKb+jjto+SCseP4KAZz+jjto+QJiBO0grHj+jjto+6gspPz8wFD+AekY/
+          CFiBPoKAZ7+jjto+QJiBu0grHr+jjto+6gspvz8wFL+AekY/CFiBvghYgb6AekY/PzAUPz8wFL+AekY/
+          CFiBvj8wFD+AekY/CFiBPghYgT6AekY/PzAUvwAAAID//3+/AAAAAAAAAID//3+/AAAAAAAAAID//3+/
+          AAAAAAAAAID//3+/AAAAAAAAAID//3+/AAAAAAAAAID//3+/AAAAAAAAAID//3+/AAAAAAAAAID//3+/
+          AAAAAOoLKb+jjto+SCseP4KAZ7+jjto+QJiBuwhYgb6AekY/PzAUPz8wFL+AekY/CFiBvghYgT6AekY/
+          PzAUvz8wFL+AekY/CFiBvkCYgTujjto+goBnv0grHr+jjto+6gspv+oLKT+jjto+SCsev4KAZz+jjto+
+          QJiBOwhYgT6AekY/PzAUvz8wFD+AekY/CFiBPkgrHj+jjto+6gspP0CYgbujjto+goBnPz8wFD+AekY/
+          CFiBPghYgb6AekY/PzAUP4ylI79zlaA+Pr8zv44YL78XzJw+oYApv4YSc79zlaA+YN8PPM5Yc78XzJw+
+          AM9RvT6/Mz9zlaA+jKUjv6GAKT8XzJw+jhgvv2DfD7xzlaA+hhJzvwDPUT0XzJw+zlhzv4ylIz9zlaA+
+          Pr8zP44YLz8XzJw+oYApP4YScz9zlaA+YN8PvM5Ycz8XzJw+AM9RPWDfDzxzlaA+hhJzPz6/M79zlaA+
+          jKUjPwDPUb0XzJw+zlhzP6GAKb8XzJw+jhgvP4ylI79zlaA+Pr8zv2DfD7xzlaA+hhJzv44YL78XzJw+
+          oYApvwDPUT0XzJw+zlhzv4YScz9zlaA+YN8PvM5Ycz8XzJw+AM9RPT6/Mz9zlaA+jKUjv6GAKT8XzJw+
+          jhgvvz6/M79zlaA+jKUjP4YSc79zlaA+YN8PPKGAKb8XzJw+jhgvP85Yc78XzJw+AM9RvYylIz9zlaA+
+          Pr8zP2DfDzxzlaA+hhJzP44YLz8XzJw+oYApPwDPUb0XzJw+zlhzPwAAAID//3+/AAAAAAAAAID//3+/
+          AAAAAAAAAID//3+/AAAAAAAAAID//3+/AAAAAAAAAID//3+/AAAAAAAAAID//3+/AAAAAAAAAID//3+/
+          AAAAAAAAAID//3+/AAAAAA09Rz6kjto+EBViv+Ci9L2BekY/hcQev3A4Ar+kjto+UGg/v+Ci9D2BekY/
+          hcQeP3A4Aj+kjto+UGg/Pw09R76kjto+EBViP1BoPz+kjto+cDgCvxAVYj+kjto+DT1HPoXEHj+BekY/
+          4KL0vVBoP7+kjto+cDgCPxAVYr+kjto+DT1HvoXEHr+BekY/4KL0PeCi9D2BekY/hcQeP4XEHr+BekY/
+          4KL0PYXEHj+BekY/4KL0veCi9L2BekY/hcQevwAAAIAAAIC/AAAAAAAAAIAAAIC/AAAAAAAAAIAAAIC/
+          AAAAAAAAAIAAAIC/AAAAAAAAAIAAAIC/AAAAAAAAAIAAAIC/AAAAAAAAAIAAAIC/AAAAAAAAAIAAAIC/
+          AAAAAA09R76kjto+EBViP1BoP7+kjto+cDgCP+Ci9D2BekY/hcQeP4XEHr+BekY/4KL0PeCi9L2BekY/
+          hcQev4XEHr+BekY/4KL0PXA4Ar+kjto+UGg/vxAVYr+kjto+DT1Hvg09Rz6kjto+EBViv1BoPz+kjto+
+          cDgCv+Ci9L2BekY/hcQev4XEHj+BekY/4KL0vRAVYj+kjto+DT1HPnA4Aj+kjto+UGg/P4XEHj+BekY/
+          4KL0veCi9D2BekY/hcQeP76nbL90laA+KR5evi9LcL8YzJw+fmkivnoZR790laA+T3ULP5cFUL8YzJw+
+          8+b9PikeXj50laA+vqdsv35pIj4YzJw+L0twv091C790laA+ehlHv/Pm/b4YzJw+lwVQv76nbD90laA+
+          KR5ePi9LcD8YzJw+fmkiPnoZRz90laA+T3ULv5cFUD8YzJw+8+b9vk91Cz90laA+ehlHPykeXr50laA+
+          vqdsP/Pm/T4YzJw+lwVQP35pIr4YzJw+L0twP76nbL90laA+KR5evk91C790laA+ehlHvy9LcL8YzJw+
+          fmkivvPm/b4YzJw+lwVQv3oZRz90laA+T3ULv5cFUD8YzJw+8+b9vikeXj50laA+vqdsv35pIj4YzJw+
+          L0twvykeXr50laA+vqdsP3oZR790laA+T3ULP35pIr4YzJw+L0twP5cFUL8YzJw+8+b9Pr6nbD90laA+
+          KR5ePk91Cz90laA+ehlHPy9LcD8YzJw+fmkiPvPm/T4YzJw+lwVQPwAAAIAAAIC/AAAAAAAAAIAAAIC/
+          AAAAAAAAAIAAAIC/AAAAAAAAAIAAAIC/AAAAAAAAAIAAAIC/AAAAAAAAAIAAAIC/AAAAAAAAAIAAAIC/
+          AAAAAAAAAIAAAIC/AAAAAAAAAIDMzEy/mZkZPwAAAIDMzEy/mZkZPwAAAIDMzEy/mZkZPwAAAIDMzEy/
+          mZkZPwAAAICZmRm/zMxMvwAAAICZmRm/zMxMvwAAAICZmRm/zMxMvwAAAICZmRm/zMxMv///f78AAAAA
+          AAAAAP//f78AAAAAAAAAAP//f78AAAAAAAAAAP//f78AAAAAAAAAAP//f78AAAAAAAAAAP//f78AAAAA
+          AAAAAAAAAIDMzEy/mZkZvwAAAIDMzEy/mZkZvwAAAIDMzEy/mZkZvwAAAIDMzEy/mZkZvwAAAICZmRk/
+          zMxMvwAAAICZmRk/zMxMvwAAAICZmRk/zMxMvwAAAICZmRk/zMxMvwAAAICZmRk/zMxMPwAAAICZmRk/
+          zMxMPwAAAICZmRk/zMxMPwAAAICZmRk/zMxMP///fz8AAAAAAAAAAP//fz8AAAAAAAAAAP//fz8AAAAA
+          AAAAAP//fz8AAAAAAAAAAP//fz8AAAAAAAAAAP//fz8AAAAAAAAAAAAAAICZmRm/zMxMPwAAAICZmRm/
+          zMxMPwAAAICZmRm/zMxMPwAAAICZmRm/zMxMPwAAAIDMzEw/mZkZPwAAAIDMzEw/mZkZPwAAAIDMzEw/
+          mZkZPwAAAIDMzEw/mZkZPwAAAICZmRm/zMxMvwAAAICZmRm/zMxMvwAAAICZmRm/zMxMvwAAAICZmRm/
+          zMxMvwAAAIDMzEw/mZkZvwAAAIDMzEw/mZkZvwAAAIDMzEw/mZkZvwAAAIDMzEw/mZkZvwAAAICZmRk/
+          zMxMPwAAAICZmRk/zMxMPwAAAICZmRk/zMxMPwAAAICZmRk/zMxMPwAAAICZmRk/zMxMvwAAAICZmRk/
+          zMxMvwAAAICZmRk/zMxMvwAAAICZmRk/zMxMv///fz8AAAAAAAAAAP//fz8AAAAAAAAAAP//fz8AAAAA
+          AAAAAP//fz8AAAAAAAAAAAAAAICZmRm/zMxMPwAAAICZmRm/zMxMPwAAAICZmRm/zMxMPwAAAICZmRm/
+          zMxMPwAAAIDMzEy/mZkZvwAAAIDMzEy/mZkZvwAAAIDMzEy/mZkZvwAAAIDMzEy/mZkZv///fz8AAAAA
+          AAAAAP//fz8AAAAAAAAAAP//fz8AAAAAAAAAAP//fz8AAAAAAAAAAAAAAIDMzEy/mZkZPwAAAIDMzEy/
+          mZkZPwAAAIDMzEy/mZkZPwAAAIDMzEy/mZkZP///f78AAAAAAAAAAP//f78AAAAAAAAAAP//f78AAAAA
+          AAAAAP//f78AAAAAAAAAAP//f78AAAAAAAAAAP//f78AAAAAAAAAAP//f78AAAAAAAAAAP//f78AAAAA
+          AAAAAP//f78AAAAAAAAAAP//f78AAAAAAAAAAP//f78AAAAAAAAAAP//f78AAAAAAAAAAAAAAIAAAAAA
+          //9/vwAAAIAAAAAA//9/vwAAAIAAAAAA//9/vwAAAIAAAAAA//9/v///fz8AAAAAAAAAAP//fz8AAAAA
+          AAAAAP//fz8AAAAAAAAAAP//fz8AAAAAAAAAAAAAAIAAAAAA//9/PwAAAIAAAAAA//9/PwAAAIAAAAAA
+          //9/PwAAAIAAAAAA//9/PwAAAID//3+/AAAAAAAAAID//3+/AAAAAAAAAID//3+/AAAAAAAAAID//3+/
+          AAAAAAAAAID//3+/AAAAAAAAAID//3+/AAAAAAAAAID//3+/AAAAAAAAAID//3+/AAAAAGCcZr8itjw+
+          8EjJvmCcZr8itjw+8EjJvmCcZr8itjw+8EjJvmCcZr8itjw+8EjJvvBIyb4itjw+YJxmP/BIyb4itjw+
+          YJxmP/BIyb4itjw+YJxmP/BIyb4itjw+YJxmP2CcZj8itjw+8EjJPmCcZj8itjw+8EjJPmCcZj8itjw+
+          8EjJPmCcZj8itjw+8EjJPvBIyT4itjw+YJxmv/BIyT4itjw+YJxmv/BIyT4itjw+YJxmv/BIyT4itjw+
+          YJxmvwAAAIAAAIC/AAAAAAAAAIAAAIC/AAAAAAAAAIAAAIC/AAAAAAAAAIAAAIC/AAAAAP4Sd78jtjw+
+          91k+Pv4Sd78jtjw+91k+Pv4Sd78jtjw+91k+Pv4Sd78jtjw+91k+PvdZPj4jtjw+/hJ3P/dZPj4jtjw+
+          /hJ3P/dZPj4jtjw+/hJ3P/dZPj4jtjw+/hJ3P/4Sdz8jtjw+91k+vv4Sdz8jtjw+91k+vv4Sdz8jtjw+
+          91k+vv4Sdz8jtjw+91k+vvdZPr4jtjw+/hJ3v/dZPr4jtjw+/hJ3v/dZPr4jtjw+/hJ3v/dZPr4jtjw+
+          /hJ3vzWCfb8AAAAAZYMOvgAAgD81gn2/AAAAAGWDDr4AAIA/NYJ9vwAAAABlgw6+AACAPzWCfb8AAAAA
+          ZYMOvgAAgD9lgw4+AAAAADWCfb8AAIA/ZYMOPgAAAAA1gn2/AACAP2WDDj4AAAAANYJ9vwAAgD9lgw4+
+          AAAAADWCfb8AAIA/ZYMOvgAAAAA1gn0/AACAP2WDDr4AAAAANYJ9PwAAgD9lgw6+AAAAADWCfT8AAIA/
+          ZYMOvgAAAAA1gn0/AACAPzWCfT8AAAAAZoMOPgAAgD81gn0/AAAAAGaDDj4AAIA/NYJ9PwAAAABmgw4+
+          AACAPzWCfT8AAAAAZoMOPgAAgD8AAIC/AAAAAAAAAAAAAIA/AACAvwAAAAAAAAAAAACAPwAAgL8AAAAA
+          AAAAAAAAgD8AAIC/AAAAAAAAAAAAAIA/Y7zgPQAAAAA6dH4/AACAP2O84D0AAAAAOnR+PwAAgD9jvOA9
+          AAAAADp0fj8AAIA/Y7zgPQAAAAA6dH4/AACAP2K84L0AAAAAOnR+vwAAgD9hvOC9AAAAADp0fr8AAIA/
+          YbzgvQAAAAA6dH6/AACAP2K84L0AAAAAOnR+vwAAgD86dH4/AAAAAGO84L0AAIA/OnR+PwAAAABjvOC9
+          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
+          AAAAAAAAAAAAAIA/AACAvwAAAAAAAAAAAACAPwAAgL8AAAAAAAAAAAAAgD8AAACAAAAAAAAAgL8AAIA/
+          AAAAgAAAAAAAAIC/AACAPwAAAIAAAAAAAACAvwAAgD8AAACAAAAAAAAAgL8AAIA/AACAPwAAAAAAAAAA
+          AACAPwAAgD8AAAAAAAAAAAAAgD8AAIA/AAAAAAAAAAAAAIA/AACAPwAAAAAAAAAAAACAPwAAgL8AAAAA
+          AAAAAAAAgD8AAIC/AAAAAAAAAAAAAIA/AACAvwAAAAAAAAAAAACAPwAAgL8AAAAAAAAAAAAAgD8AAACA
+          AAAAAAAAgD8AAIA/AAAAgAAAAAAAAIA/AACAPwAAAIAAAAAAAACAPwAAgD8AAACAAAAAAAAAgD8AAIA/
+          //9/PwAAAAAAAAAAAACAP///fz8AAAAAAAAAAAAAgD///38/AAAAAAAAAAAAAIA///9/PwAAAAAAAAAA
+          AACAP///f78AAAAAAAAAAAAAgD///3+/AAAAAAAAAAAAAIA///9/vwAAAAAAAAAAAACAP///f78AAAAA
+          AAAAAAAAgD8AAACAAAAAAP//fz8AAIA/AAAAgAAAAAD//38/AACAPwAAAIAAAAAA//9/PwAAgD8AAACA
+          AAAAAP//fz8AAIA/AAAAgAAAAAD//38/AACAPwAAAIAAAAAA//9/vwAAgD8AAACAAAAAAP//f78AAIA/
+          AAAAgAAAAAD//3+/AACAPwAAAIAAAAAA//9/vwAAgD8AAACAAAAAAP//f78AAIA/AACAPwAAAAAAAAAA
+          AACAPwAAgD8AAAAAAAAAAAAAgD8AAIA/AAAAAAAAAAAAAIA/AACAPwAAAAAAAAAAAACAPwAAgL8AAAAA
+          AAAAAAAAgD8AAIC/AAAAAAAAAAAAAIA/AACAvwAAAAAAAAAAAACAPwAAgL8AAAAAAAAAAAAAgD8AAACA
+          AAAAAAAAgD8AAIA/AAAAgAAAAAAAAIA/AACAPwAAAIAAAAAAAACAPwAAgD8AAACAAAAAAAAAgD8AAIA/
+          AACAvwAAAAAAAAAAAACAPwAAgL8AAAAAAAAAAAAAgD8AAIC/AAAAAAAAAAAAAIA/AACAvwAAAAAAAAAA
+          AACAPwAAgD8AAAAAAAAAAAAAgD8AAIA/AAAAAAAAAAAAAIA/AACAPwAAAAAAAAAAAACAPwAAgD8AAAAA
+          AAAAAAAAgD8AAACAAAAAAAAAgL8AAIA/AAAAgAAAAAAAAIC/AACAPwAAAIAAAAAAAACAvwAAgD8AAACA
+          AAAAAAAAgL8AAIA/AACAPwAAAAAAAAAAAACAPwAAgD8AAAAAAAAAAAAAgD8AAIA/AAAAAAAAAAAAAIA/
+          AACAPwAAAAAAAAAAAACAPwAAgL8AAAAAAAAAAAAAgD8AAIC/AAAAAAAAAAAAAIA/AACAvwAAAAAAAAAA
+          AACAPwAAgL8AAAAAAAAAAAAAgD8AAACAAAAAAAAAgL8AAIA/AAAAgAAAAAAAAIC/AACAPwAAAIAAAAAA
+          AACAvwAAgD8AAACAAAAAAAAAgL8AAIA/AACAPwAAAAAAAAAAAACAPwAAgD8AAAAAAAAAAAAAgD8AAIA/
+          AAAAAAAAAAAAAIA/AACAPwAAAAAAAAAAAACAPwAAgL8AAAAAAAAAAAAAgD8AAIC/AAAAAAAAAAAAAIA/
+          AACAvwAAAAAAAAAAAACAPwAAgL8AAAAAAAAAAAAAgD8AAACAAAAAAAAAgD8AAIA/AAAAgAAAAAAAAIA/
+          AACAPwAAAIAAAAAAAACAPwAAgD8AAACAAAAAAAAAgD8AAIA/AAAAgAAAAAAAAIC/AACAPwAAAIAAAAAA
+          AACAvwAAgD8AAACAAAAAAAAAgL8AAIA/AAAAgAAAAAAAAIC/AACAPxbvw74AAAAAXoNsPwAAgD8W78O+
+          AAAAAF6DbD8AAIA/Fu/DPgAAAABeg2w/AACAPxbvwz4AAAAAXoNsPwAAgD8AAIA/AAAAAAAAAAAAAIA/
+          XoNsPwAAAAAW78M+AACAPwAAgD8AAAAAAAAAAAAAgD9eg2w/AAAAABbvwz4AAIA/AACAPwAAAAAAAAAA
+          AACAPwAAgD8AAAAAAAAAAAAAgD8AAIA/AAAAAAAAAAAAAIA/AACAPwAAAAAAAAAAAACAPwAAgD8AAAAA
+          AAAAAAAAgD8AAIA/AAAAAAAAAAAAAIA/XoNsvwAAAAAV78M+AACAP16DbL8AAAAAFO/DPgAAgD8U78O+
+          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
+          AACAP6pUDT/nyAY+d8ZSPwAAgD82t4Y+XyvnvYxIdb8AAIA/jLdKP18r5z0spRm/AACAP5a5Uz7myAa+
+          8TB4vwAAgD93xlI/58gGPqpUDb8AAIA/JatBPgAAAAA4YXs/AACAPyWrQT4AAAAAOGF7PwAAgD8lq0E+
+          AAAAADhhez8AAIA/JatBPgAAAAA4YXs/AACAPyWrQT4AAAAAOGF7PwAAgD8lq0E+AAAAADhhez8AAIA/
+          JatBPgAAAAA4YXs/AACAPyWrQT4AAAAAOGF7PwAAgD///38/AAAAAAAAAAAAAIA///9/PwAAAAAAAAAA
+          AACAP///fz8AAAAAAAAAAAAAgD///38/AAAAAAAAAAAAAIA///9/vwAAAAAAAAAAAACAP///f78AAAAA
+          AAAAAAAAgD///3+/AAAAAAAAAAAAAIA///9/vwAAAAAAAAAAAACAPwAAAIAAAAAA//9/PwAAgD8AAACA
+          AAAAAP//fz8AAIA/AAAAgAAAAAD//38/AACAPwAAAIAAAAAA//9/PwAAgD8AAACAAAAAAP//fz8AAIA/
+          AAAAgAAAAAD//38/AACAP///f78AAAAAAAAAAAAAgD///3+/AAAAAAAAAAAAAIA///9/vwAAAAAAAAAA
+          AACAP///f78AAAAAAAAAAAAAgD///3+/AAAAAAAAAAAAAIA///9/vwAAAAAAAAAAAACAP///f78AAAAA
+          AAAAAAAAgD///3+/AAAAAAAAAAAAAIA///9/PwAAAAAAAAAAAACAP///fz8AAAAAAAAAAAAAgD///38/
+          AAAAAAAAAAAAAIA///9/PwAAAAAAAAAAAACAPwAAAIAAAAAA//9/vwAAgD8AAACAAAAAAP//f78AAIA/
+          AAAAgAAAAAD//3+/AACAPwAAAIAAAAAA//9/vwAAgD8AAACAAAAAAP//f78AAIA/AAAAgAAAAAD//3+/
+          AACAP///fz8AAAAAAAAAAAAAgD///38/AAAAAAAAAAAAAIA///9/PwAAAAAAAAAAAACAP///fz8AAAAA
+          AAAAAAAAgD///38/AAAAAAAAAAAAAIA///9/PwAAAAAAAAAAAACAP///fz8AAAAAAAAAAAAAgD///38/
+          AAAAAAAAAAAAAIA///9/vwAAAAAAAAAAAACAP///f78AAAAAAAAAAAAAgD///3+/AAAAAAAAAAAAAIA/
+          //9/vwAAAAAAAAAAAACAP///f78AAAAAAAAAAAAAgD///3+/AAAAAAAAAAAAAIA///9/vwAAAAAAAAAA
+          AACAP///f78AAAAAAAAAAAAAgD///38/AAAAAAAAAAAAAIA///9/PwAAAAAAAAAAAACAP///fz8AAAAA
+          AAAAAAAAgD///38/AAAAAAAAAAAAAIA///9/vwAAAAAAAAAAAACAP///f78AAAAAAAAAAAAAgD///3+/
+          AAAAAAAAAAAAAIA///9/vwAAAAAAAAAAAACAPwAAAIAAAAAA//9/vwAAgD8AAACAAAAAAP//f78AAIA/
+          AAAAgAAAAAD//3+/AACAPwAAAIAAAAAA//9/vwAAgD///38/AAAAAAAAAAAAAIA///9/PwAAAAAAAAAA
+          AACAP///fz8AAAAAAAAAAAAAgD///38/AAAAAAAAAAAAAIA///9/vwAAAAAAAAAAAACAP///f78AAAAA
+          AAAAAAAAgD///3+/AAAAAAAAAAAAAIA///9/vwAAAAAAAAAAAACAPwAAAIAAAAAA//9/vwAAgD8AAACA
+          AAAAAP//f78AAIA/AAAAgAAAAAD//3+/AACAPwAAAIAAAAAA//9/vwAAgD///38/AAAAAAAAAAAAAIA/
+          //9/PwAAAAAAAAAAAACAP///fz8AAAAAAAAAAAAAgD///38/AAAAAAAAAAAAAIA/AAAAgAAAAAD//38/
+          AACAPwAAAIAAAAAA//9/PwAAgD8AAACAAAAAAP//fz8AAIA/AAAAgAAAAAD//38/AACAPwAAAIAAAAAA
+          //9/PwAAgD8AAACAAAAAAP//fz8AAIA/AAAAgAAAAAD//38/AACAPwAAAIAAAAAA//9/PwAAgD8AAACA
+          AAAAAP//fz8AAIA/AAAAgAAAAAD//38/AACAPwAAAIAAAAAA//9/PwAAgD8AAACAAAAAAP//fz8AAIA/
+          //9/vwAAAAAAAAAAAACAP///f78AAAAAAAAAAAAAgD///3+/AAAAAAAAAAAAAIA///9/vwAAAAAAAAAA
+          AACAPwAAAIAAAAAA//9/vwAAgD8AAACAAAAAAP//f78AAIA/AAAAgAAAAAD//3+/AACAPwAAAIAAAAAA
+          //9/vwAAgD///38/AAAAAAAAAAAAAIA///9/PwAAAAAAAAAAAACAP///fz8AAAAAAAAAAAAAgD///38/
+          AAAAAAAAAAAAAIA///9/PwAAAAAAAAAAAACAP///fz8AAAAAAAAAAAAAgD///38/AAAAAAAAAAAAAIA/
+          //9/PwAAAAAAAAAAAACAP+TKzL4AAAAAKKFqPwAAgD/kysy+AAAAACihaj8AAIA/5MrMvgAAAAAooWo/
+          AACAP+TKzL4AAAAAKKFqPwAAgD/kysy+AAAAACihaj8AAIA/5MrMvgAAAAAooWo/AACAP+TKzL4AAAAA
+          KKFqPwAAgD/kysy+AAAAACihaj8AAIA/KKFqPwAAAADkysw+AACAPyihaj8AAAAA5MrMPgAAgD8ooWo/
+          AAAAAOTKzD4AAIA/KKFqPwAAAADkysw+AACAP+TKzD4AAAAAKKFqvwAAgD/kysw+AAAAACihar8AAIA/
+          5MrMPgAAAAAooWq/AACAP+TKzD4AAAAAKKFqvwAAgD8ooWq/AAAAAOTKzL4AAIA/KKFqvwAAAADkysy+
+          AACAPyihar8AAAAA5MrMvgAAgD8ooWq/AAAAAOTKzL4AAIA/JatBPgAAAAA4YXs/AACAPyWrQT4AAAAA
+          OGF7PwAAgD8lq0E+AAAAADhhez8AAIA/JatBPgAAAAA4YXs/AACAPyWrQT4AAAAAOGF7PwAAgD8lq0E+
+          AAAAADhhez8AAIA/JatBPgAAAAA4YXs/AACAPyWrQT4AAAAAOGF7PwAAgD84YXs/AAAAACWrQb4AAIA/
+          OGF7PwAAAAAlq0G+AACAPzhhez8AAAAAJatBvgAAgD84YXs/AAAAACWrQb4AAIA/JatBvgAAAAA4YXu/
+          AACAPyWrQb4AAAAAOGF7vwAAgD8lq0G+AAAAADhhe78AAIA/JatBvgAAAAA4YXu/AACAPzhhe78AAAAA
+          JatBPgAAgD84YXu/AAAAACWrQT4AAIA/OGF7vwAAAAAlq0E+AACAPzhhe78AAAAAJatBPgAAgD8AAHg/
+          mpl5PwAAeD+amXk/AAB4P2dmRj8AAHg/Z2ZGPwAAeD9nZkY/AAB4P5qZeT8AAHg/ZmZGPwAAeD+ZmXk/
+          AAB4P2dmRj8AAHg/ZmZGPwAAeD+amXk/AAB4P5mZeT8AAHg/mZl5PwAAeD9mZkY/AAB4P5mZeT8AAHg/
+          ZmZGPwAAeD9nZkY/AAB4P2ZmRj8AAHg/Z2ZGPwAAeD9mZkY/AAB4P2dmRj8AAHg/ZmZGPwAAeD+amXk/
+          AAB4P5mZeT8AAHg/Z2ZGPwAAeD+amXk/AAB4P2ZmRj8AAHg/mZl5PwAAeD+ZmXk/AAB4P5mZeT8AAHg/
+          ZmZGPwAAeD9mZkY/AAB4P5qZeT8AAHg/Z2ZGPwAAeD+amXk/AAB4P2dmRj8AAHg/ZmZGPwAAeD9mZkY/
+          AAB4P2dmRj8AAHg/Z2ZGPwAAeD9nZkY/AAB4P2ZmRj8AAHg/mpl5PwAAeD+ZmXk/AAB4P5qZeT8AAHg/
+          Z2ZGPwAAeD+amXk/AAB4P2dmRj8AAHg/mZl5PwAAeD+ZmXk/AAB4P2ZmRj8AAHg/ZmZGPwAAeD9mZkY/
+          AAB4P2ZmRj8AAHg/Z2ZGPwAAeD9nZkY/AAB4P2dmRj8AAHg/mpl5PwAAeD9mZkY/AAB4P5mZeT8AAHg/
+          mpl5PwAAeD+amXk/AAB4PwAAYD8AAHg/AABgPwAAeD8AAGA/AAB4P5qZeT8AAHg/Z2ZOPwAAeD+amXk/
+          AAB4P2ZmRj8AAHg/Z2ZOPwAAeD8AAGA/AAB4P5qZeT8AAHg/mpl5PwAAeD8AAGA/AAB4PwAAYD8AAHg/
+          mpl5PwAAeD8AAGA/AAB4P5qZeT8AAHg/Z2ZOPwAAeD9mZkY/AAB4P2dmTj8AAHg/AABgPwAAeD8AAGA/
+          AAB4PwAAYD8AAHg/Z2ZOPwAAeD9nZk4/AAB4PwAAYD8AAHg/AABgPwAAeD9nZk4/AAB4P2dmTj8AAHg/
+          Z2ZOPwAAeD9mZkY/AAB4P2dmTj8AAHg/ZmZGPwAAeD9mZkY/AAB4P2dmTj8AAHg/ZmZGPwAAeD9nZk4/
+          AABoPwAAYD8AAGg/AABgPwAAaD8AAGA/AABoPwAAYD8AAGg/AABgPwAAaD8AAGA/AABoPwAAYD8AAGg/
+          AABgPwAAaD8AAGA/AABoPwAAYD8AAGg/AABgPwAAaD8AAGA/AABoPwAAYD8AAGg/AABgPwAAaD8AAGA/
+          AABoPwAAYD8AAGg/AABgPwAAaD8AAGA/AAB4P2ZmRj8AAHg/AABgPwAAeD8AAGA/AAB4PwAAYD8AAHg/
+          ZmZGPwAAeD8AAGA/AAB4P2ZmRj8AAHg/AABgPwAAeD8AAGA/AAB4P2ZmRj8AAHg/AABgPwAAeD8AAGA/
+          AAB4PwAAYD8AAHg/ZmZGPwAAeD8AAGA/AAB4PwAAYD8AAHg/ZmZGPwAAeD8AAGA/AAB4PwAAYD8AAHg/
+          ZmZGPwAAeD8AAGA/AAB4P2ZmRj8AAHg/AABgPwAAeD9mZkY/AAB4PwAAYD8AAHg/ZmZGPwAAeD8AAGA/
+          AAB4P2ZmRj8AAHg/AABgPwAAeD9mZkY/AAB4PwAAYD8AAHg/AABgPwAAeD9mZkY/AAB4P2ZmRj8AAHg/
+          AABgPwAAeD9mZkY/AAB4PwAAYD8AAHg/ZmZGPwAAeD8AAGA/AAB4PwAAYD8AAHg/ZmZGPwAAeD9mZkY/
+          AAB4P83MbD8AAHg/zcxsPwAAeD/NzGw/AAB4P83MbD8AAHg/MzNTPwAAeD8zM1M/AAB4PzMzUz8AAHg/
+          MzNTPwAAeD8zM1M/AAB4P83MbD8AAHg/MzNTPwAAeD/NzGw/AAB4P83MbD8AAHg/zcxsPwAAeD8zM1M/
+          AAB4PzMzUz8AAHg/zcxsPwAAeD/NzGw/AAB4PzMzUz8AAHg/MzNTPwAAeD8zM1M/AAB4PzMzUz8AAHg/
+          zcxsPwAAeD/NzGw/AAB4P83MbD8AAHg/zcxsPwAAeD/NzGw/AAB4P83MbD8AAHg/MzNTPwAAeD8zM1M/
+          AAB4PzMzUz8AAHg/MzNTPwAAeD8zM1M/AAB4P83MbD8AAHg/MzNTPwAAeD/NzGw/AAB4P83MbD8AAHg/
+          zcxsPwAAeD8zM1M/AAB4PzMzUz8AAHg/zcxsPwAAeD/NzGw/AAB4PzMzUz8AAHg/MzNTPwAAeD8zM1M/
+          AAB4PzMzUz8AAHg/zcxsPwAAeD/NzGw/AAB4P9pAZz8AAHg/2kBnPwAAeD9ERGQ/AAB4P0REZD8AAHg/
+          2kBnPwAAeD/aQGc/AAB4P0REZD8AAHg/RERkPwAAeD/aQGc/AAB4P0REZD8AAHg/2kBnPwAAeD8zM1M/
+          AAB4P0REZD8AAHg/RERkPwAAeD/aQGc/AAB4PzMzUz8AAHg/2kBnPwAAeD9ERGQ/AAB4P83MbD8AAHg/
+          zcxsPwAAeD/NzGw/AAB4P83MbD8AAHg/MzNTPwAAeD8zM1M/AAB4PzMzUz8AAHg/MzNTPwAAeD8zM1M/
+          AAB4PzMzUz8AAHg/zcxsPwAAeD/NzGw/AAB4P83MbD8AAHg/zcxsPwAAeD8zM1M/AAB4PzMzUz8AAHg/
+          zcxsPwAAeD/NzGw/AAB4PzMzUz8AAHg/MzNTPwAAeD8zM1M/AAB4P83MbD8AAHg/MzNTPwAAeD/NzGw/
+          AAB4P83MbD8AAHg/zcxsPwAAeD/NzGw/AAB4P83MbD8AAHg/MzNTPwAAeD8zM1M/AAB4PzMzUz8AAHg/
+          MzNTPwAAeD8zM1M/AAB4P83MbD8AAHg/MzNTPwAAeD/NzGw/AAB4P83MbD8AAHg/zcxsPwAAeD8zM1M/
+          AAB4PzMzUz8AAHg/zcxsPwAAeD/NzGw/AAB4PzMzUz8AAHg/MzNTPwAAeD8zM1M/AAB4PzMzUz8AAHg/
+          zcxsPwAAeD/NzGw/AAB4PzMzUz8AAHg/zcxsPwAAeD8zM1M/AAB4P83MbD8AAHg/zcxsPwAAeD8zM1M/
+          AAB4P83MbD8AAHg/MzNTPwAAeD/NzGw/AAB4P83MbD8AAHg/MzNTPwAAeD8zM1M/AAB4P83MbD8AAHg/
+          zcxsPwAAeD/NzGw/AAB4P83MbD8AAHg/zcxsPwAAeD/NzGw/AAB4P83MbD8AAHg/MzNTPwAAeD/NzGw/
+          AAB4PzMzUz8AAHg/zcxsPwAAeD8zM1M/AAB4P83MbD8AAHg/MzNTPwAAeD/NzGw/AAB4P83MbD8AAHg/
+          MzNTPwAAeD8zM1M/AAB4PzMzUz8AAHg/MzNTPwAAeD8zM1M/AAB4PzMzUz8AAHg/MzNTPwAAeD8zM1M/
+          AAA4P2ZmRj8AADg/ZmZGPwAAOD9mZkY/AAA4P2ZmRj8AADg/mpl5PwAAOD+amXk/AAA4P5qZeT8AADg/
+          mpl5PwAAOD+amXk/AAA4P5qZeT8AADg/ZmZGPwAAOD9mZkY/AAA4P2ZmRj8AADg/mpl5PwAAOD9mZkY/
+          AAA4P5qZeT8AADg/mpl5PwAAOD+amXk/AAA4P2ZmRj8AADg/ZmZGPwAAOD+amXk/AAA4P2ZmRj8AADg/
+          mpl5PwAAOD9mZkY/AAA4P8h0Tz8AADg/yHRPPwAAOD/IdE8/AAA4P8h0Tz8AADg/ZaVkPwAAOD/IdE8/
+          AAA4P2WlZD8AADg/yHRPPwAAOD9lpWQ/AAA4P2WlZD8AADg/yHRPPwAAOD/IdE8/AAA4P2WlZD8AADg/
+          ZaVkPwAAOD/IdE8/AAA4P8h0Tz8AADg/ZaVkPwAAOD9lpWQ/AAA4P8h0Tz8AADg/yHRPPwAAOD8AjGA/
+          AAA4PwCMYD8AADg/AIxgPwAAOD8AjGA/AAA4P9hCbj8AADg/AIxgPwAAOD/YQm4/AAA4PwCMYD8AADg/
+          2EJuPwAAOD/YQm4/AAA4PwCMYD8AADg/AIxgPwAAOD/YQm4/AAA4P9hCbj8AADg/AIxgPwAAOD8AjGA/
+          AAA4P9hCbj8AADg/2EJuPwAAOD8AjGA/AAA4PwCMYD8AACA+AABgPwAAID4AAGA/AAAgPgAAYD8AACA+
+          AABgPwAAID4AAGA/AAAgPgAAYD8AACA+AABgPwAAID4AAGA/AAAgPgAAYD8AACA+AABgPwAAID4AAGA/
+          AAAgPgAAYD8AACA+AABgPwAAID4AAGA/AAAgPgAAYD8AACA+AABgPwAAsD7NzGw/AACwPs3MbD8AALA+
+          MzNTPwAAsD4zM1M/AACwPjMzUz8AALA+zcxsPwAAsD4zM1M/AACwPs3MbD8AALA+zcxsPwAAsD4zM1M/
+          AACwPs3MbD8AALA+MzNTPwAAsD4zM1M/AACwPjMzUz8AALA+MzNTPwAAsD4zM1M/AACwPs3MbD8AALA+
+          zcxsPwAAsD4zM1M/AACwPjMzUz8AALA+zcxsPwAAsD4zM1M/AACwPs3MbD8AALA+MzNTPwAAsD7NzGw/
+          AACwPs3MbD8AALA+zcxsPwAAsD7NzGw/AACwPjMzUz8AALA+zcxsPwAAsD7NzGw/AACwPjMzUz8AALA+
+          MzNTPwAAsD4zM1M/AACwPjMzUz8AALA+MzNTPwAAsD7NzGw/AACwPs3MbD8AALA+zcxsPwAAsD7NzGw/
+          AACwPs3MbD8AALA+zcxsPwAAsD7NzGw/AACwPs3MbD8AALA+zcxsPwAAsD7NzGw/AACwPjMzUz8AALA+
+          MzNTPwAAsD4zM1M/AACwPjMzUz8AALA+zcxsPwAAsD7NzGw/AACwPs3MbD8AALA+zcxsPwAAsD4zM1M/
+          AACwPjMzUz8AALA+zcxsPwAAsD7NzGw/AACwPjMzUz8AALA+MzNTPwAAsD7NzGw/AACwPjMzUz8AALA+
+          zcxsPwAAsD4zM1M/AACwPs3MbD8AALA+MzNTPwAAsD7NzGw/AACwPjMzUz8AALA+zcxsPwAAsD4zM1M/
+          AACwPs3MbD8AALA+MzNTPwAAsD7NzGw/AACwPs3MbD8AALA+MzNTPwAAsD4zM1M/AACwPs3MbD8AALA+
+          zcxsPwAAsD4zM1M/AACwPjMzUz8AALA+zcxsPwAAsD4zM1M/AACwPs3MbD8AALA+MzNTPwAAsD7NzGw/
+          AACwPs3MbD8AALA+MzNTPwAAsD4zM1M/AACwPs3MbD8AALA+zcxsPwAAsD4zM1M/AACwPjMzUz8AALA+
+          zcxsPwAAsD7NzGw/AACwPs3MbD8AALA+zcxsPwAAsD7NzGw/AACwPs3MbD8AALA+zcxsPwAAsD7NzGw/
+          AACwPs3MbD8AALA+MzNTPwAAsD7NzGw/AACwPjMzUz8AALA+zcxsPwAAsD7NzGw/AACwPs3MbD8AALA+
+          zcxsPwAAsD4zM1M/AACwPs3MbD8AALA+zcxsPwAAsD4zM1M/AACwPjMzUz8AALA+MzNTPwAAsD4zM1M/
+          AACwPjMzUz8AALA+zcxsPwAAsD7NzGw/AACwPs3MbD8AALA+zcxsPwAAsD7NzGw/AACwPs3MbD8AALA+
+          zcxsPwAAsD7NzGw/AACwPs3MbD8AALA+zcxsPwAAsD4zM1M/AACwPjMzUz8AALA+MzNTPwAAsD4zM1M/
+          AACwPs3MbD8AALA+zcxsPwAAsD7NzGw/AACwPs3MbD8AALA+MzNTPwAAsD4zM1M/AACwPs3MbD8AALA+
+          zcxsPwAAsD4zM1M/AACwPjMzUz8AALA+zcxsPwAAsD4zM1M/AACwPs3MbD8AALA+MzNTPwAAsD7NzGw/
+          AACwPjMzUz8AALA+zcxsPwAAsD4zM1M/AACwPs3MbD8AALA+MzNTPwAAsD7NzGw/AACwPjMzUz8AALA+
+          zcxsPwAAsD7NzGw/AACwPjMzUz8AALA+MzNTPwAAsD7NzGw/AACwPs3MbD8AALA+MzNTPwAAsD4zM1M/
+          AACwPs3MbD8AALA+MzNTPwAAsD7NzGw/AACwPjMzUz8AALA+zcxsPwAAsD7NzGw/AACwPjMzUz8AALA+
+          MzNTPwAAsD7NzGw/AACwPs3MbD8AALA+MzNTPwAAsD4zM1M/AACwPs3MbD8AALA+zcxsPwAAsD7NzGw/
+          AACwPs3MbD8AALA+zcxsPwAAsD7NzGw/AACwPs3MbD8AALA+zcxsPwAAwD2pqmg/AADAPc3MbD8AAMA9
+          qapoPwAAwD3NzGw/AADAPc3MbD8AAMA9eq5ePwAAwD3NzGw/AADAPXquXj8AAMA9qapoPwAAwD0zM1M/
+          AADAPc3MbD8AAMA9eq5ePwAAwD3NzGw/AADAPamqaD8AAMA9zcxsPwAAwD2pqmg/AADAPc3MbD8AAMA9
+          qapoPwAAwD2pqmg/AADAPamqaD8AAMA9MzNTPwAAwD0zM1M/AADAPamqaD8AAMA9qapoPwAAwD0zM1M/
+          AADAPTMzUz8AAMA9qapoPwAAwD3NzGw/AADAPTMzUz8AAMA9eq5ePwAAwD2pqmg/AADAPc3MbD8AAMA9
+          zcxsPwAAwD16rl4/AADAPc3MbD8AAMA9eq5ePwAAwD0zM1M/AADAPS5bVj8AAMA9MzNTPwAAwD0uW1Y/
+          AADAPc3MbD8AAMA9zcxsPwAAwD0uW1Y/AADAPS5bVj8AAMA9LltWPwAAwD0zM1M/AADAPS5bVj8AAMA9
+          MzNTPwAAwD3SpGk/AADAPdKkaT8AAMA9MzNTPwAAwD0zM1M/AADAPdKkaT8AAMA90qRpPwAAwD0zM1M/
+          AADAPTMzUz8AAMA90qRpPwAAwD3NzGw/AADAPTMzUz8AAMA9LltWPwAAwD3NzGw/AADAPc3MbD8AAMA9
+          LltWPwAAwD0uW1Y/AADAPc3MbD8AAMA90qRpPwAAwD3NzGw/AADAPdKkaT8AAMA9LltWPwAAwD3NzGw/
+          AADAPTMzUz8AAMA90qRpPwAAwD3SpGk/AADAPc3MbD8AAMA90qRpPwAAwD3NzGw/AADAPS5bVj8AAMA9
+          MzNTPwAAwD3NzGw/AADAPdKkaT8AAMA90qRpPwAAwD0zM1M/AADAPc3MbD8AAMA9LltWPwAAwD3NzCw/
+          AADAPTMzEz8AAMA9zcwsPwAAwD0zMxM/AADAPc3MLD8AAMA9zcwsPwAAwD0zMxM/AADAPTMzEz8AAMA9
+          MzMTPwAAwD3NzCw/AADAPTMzEz8AAMA9zcwsPwAAwD3NzCw/AADAPc3MLD8AAMA9MzMTPwAAwD0zMxM/
+          AADAPc3MLD8AAMA9zcwsPwAAwD3NzCw/AADAPc3MLD8AAMA9ZmYGPwAAwD1mZgY/AADAPWZmBj8AAMA9
+          ZmYGPwAAwD1mZgY/AADAPWZmBj8AAMA9AAAgPwAAwD0AACA/AADAPWZmBj8AAMA9ZmYGPwAAwD0AACA/
+          AADAPQAAID8AAMA9ZmYGPwAAwD1mZgY/AADAPQAAID8AAMA9AAAgPwAAwD1mZgY/AADAPQAAID8AAMA9
+          ZmYGPwAAwD0AACA/AADAPWZmBj8AAMA9ZmYGPwAAwD1mZgY/AADAPWZmBj8AAMA9ZmYGPwAAwD1mZgY/
+          AADAPQAAID8AAMA9AAAgPwAAwD1mZgY/AADAPWZmBj8AAMA9AAAgPwAAwD0AACA/AADAPWZmBj8AAMA9
+          ZmYGPwAAwD0AACA/AADAPQAAID8AAMA9ZmYGPwAAwD0AACA/AADAPWZmBj8AAMA9AAAgPwIAAQAAAAEA
+          AgADAAYABQAEAAUABgAHAAoACQAIAAkACgALAA4ADQAMAA0ADgAPABIAEQAQABEAEgATABYAFQAUABUA
+          FgAXABoAGQAYABkAGgAbAB4AHQAcAB0AHgAfACIAIQAgACEAIgAjACYAJQAkACUAJgAnACoAKQAoACkA
+          KgArAC4ALQAsAC0ALgAvADIAMQAwADEAMgAzADYANQA0ADUANgA3ADoAOQA4ADkAOgA7AD4APQA8AD0A
+          PgA/AEIAQQBAAEEAQgBDAEMAQgBEAEMARABFAEMARQBGAEkASABHAEgASQBKAE0ATABLAEwATQBOAE4A
+          TQBPAE8ATQBQAFAATQBRAFQAUwBSAFMAVABVAFgAVwBWAFcAWABZAFwAWwBaAFsAXABdAGAAXwBeAF8A
+          YABhAGQAYwBiAGMAZABlAGgAZwBmAGcAaABpAGwAawBqAGsAbABtAHAAbwBuAG8AcABxAHEAcAByAHEA
+          cgBzAHYAdQB0AHkAeAB3AHwAewB6AH8AfgB9AIIAgQCAAIUAhACDAIgAhwCGAIcAiACJAIwAiwCKAIsA
+          jACNAJAAjwCOAI8AkACRAJQAkwCSAJMAlACVAJgAlwCWAJcAmACZAJwAmwCaAJsAnACdAKAAnwCeAJ8A
+          oAChAKQAowCiAKMApAClAKgApwCmAKcAqACpAKwAqwCqAKsArACtALAArwCuAK8AsACxALQAswCyALMA
+          tAC1ALgAtwC2ALcAuAC5ALwAuwC6ALsAvAC9AMAAvwC+AL8AwADBAMQAwwDCAMMAxADFAMgAxwDGAMcA
+          yADJAMwAywDKAMsAzADNANAAzwDOAM8A0ADRANQA0wDSANMA1ADVANgA1wDWANcA2ADZANkA2ADaAN0A
+          3ADbANwA3QDeAN4A3QDfAOIA4QDgAOEA4gDjAOYA5QDkAOUA5gDnAOoA6QDoAOkA6gDrAO4A7QDsAO0A
+          7gDvAPIA8QDwAPEA8gDzAPYA9QD0APUA9gD3APoA+QD4APkA+gD7AP4A/QD8AP0A/gD/AAIBAQEAAQEB
+          AgEDAQYBBQEEAQUBBgEHAQoBCQEIAQkBCgELAQ4BDQEMAQ0BDgEPARIBEQEQAREBEgETARYBFQEUARUB
+          FgEXARoBGQEYARkBGgEbAR4BHQEcAR0BHgEfAR8BHgEgAR8BIAEhASQBIwEiASMBJAElASgBJwEmAScB
+          KAEpASwBKwEqASsBLAEtATABLwEuAS8BMAExATEBMAEyATEBMgEzATYBNQE0ATUBNgE3AToBOQE4ATkB
+          OgE7AT4BPQE8AT0BPgE/AUIBQQFAAUEBQgFDAUYBRQFEAUUBRgFHAUoBSQFIAUkBSgFLAU4BTQFMAU0B
+          TgFPAVIBUQFQAVEBUgFTAVYBVQFUAVUBVgFXAVoBWQFYAVkBWgFbAV4BXQFcAV0BXgFfAWIBYQFgAWEB
+          YgFjAWYBZQFkAWUBZgFnAWoBaQFoAWkBagFrAW4BbQFsAW0BbgFvAXIBcQFwAXEBcgFzAXYBdQF0AXUB
+          dgF3AXoBeQF4AXkBegF7AX4BfQF8AX0BfgF/AYIBgQGAAYEBggGDAYYBhQGEAYUBhgGHAYoBiQGIAYkB
+          igGLAY4BjQGMAY0BjgGPAZIBkQGQAZEBkgGTAZYBlQGUAZUBlgGXAZoBmQGYAZ0BnAGbAaABnwGeAaMB
+          ogGhAaYBpQGkAaUBpgGnAaoBqQGoAakBqgGrAasBqgGsAasBrAGtAa0BrAGuAa0BrgGvAbIBsQGwAbEB
+          sgGzAbYBtQG0AbUBtgG3AboBuQG4AbkBugG7Ab4BvQG8Ab0BvgG/AcIBwQHAAcEBwgHDAcYBxQHEAcUB
+          xgHHAcoByQHIAckBygHLAc4BzQHMAc0BzgHPAdIB0QHQAdEB0gHTAdYB1QHUAdUB1gHXAdoB2QHYAdkB
+          2gHbAd4B3QHcAd0B3gHfAeIB4QHgAeEB4gHjAeMB4gHkAeMB5AHlAeUB5AHmAeUB5gHnAeoB6QHoAe0B
+          7AHrAfAB7wHuAfMB8gHxAfYB9QH0AfUB9gH3AfoB+QH4AfkB+gH7AfsB+gH8AfsB/AH9Af0B/AH+Af0B
+          /gH/AQICAQIAAgECAgIDAgYCBQIEAgUCBgIHAgoCCQIIAgkCCgILAg4CDQIMAg0CDgIPAhICEQIQAhEC
+          EgITAhYCFQIUAhUCFgIXAhoCGQIYAhkCGgIbAh4CHQIcAh0CHgIfAiICIQIgAiECIgIjAiYCJQIkAiUC
+          JgInAioCKQIoAikCKgIrAi4CLQIsAi0CLgIvAjICMQIwAjECMgIzAjMCMgI0AjMCNAI1AjUCNAI2AjUC
+          NgI3AjoCOQI4AjkCOgI7Aj4CPQI8Aj0CPgI/AkICQQJAAkECQgJDAkECQwJEAkECRAJFAkgCRwJGAkcC
+          SAJJAkwCSwJKAksCTAJNAlACTwJOAk8CUAJRAlQCUwJSAlMCVAJVAlUCVAJWAlUCVgJXAloCWQJYAlkC
+          WgJbAl4CXQJcAl0CXgJfAmICYQJgAmECYgJjAmYCZQJkAmUCZgJnAmoCaQJoAmkCagJrAm4CbQJsAm0C
+          bgJvAnICcQJwAnECcgJzAnYCdQJ0AnUCdgJ3AnoCeQJ4AnkCegJ7An4CfQJ8An0CfgJ/AoICgQKAAoEC
+          ggKDAoYChQKEAoUChgKHAooCiQKIAokCigKLAo4CjQKMAo0CjgKPApICkQKQApECkgKTApYClQKUApUC
+          lgKXApoCmQKYApkCmgKbAp4CnQKcAp0CngKfAqICoQKgAqECogKjAqYCpQKkAqUCpgKnAqoCqQKoAqkC
+          qgKrAq4CrQKsAq0CrgKvArICsQKwArECsgKzArYCtQK0ArUCtgK3AroCuQK4ArkCugK7Ar4CvQK8Ar0C
+          vgK/AsICwQLAAsECwgLDAsYCxQLEAsUCxgLHAg==
+      - name: mkdir Textures
+        mkdir: intro_flutter_gpu/Textures
+      - name: Add Textures/colormap.png
+        path: intro_flutter_gpu/Textures/colormap.png
+        base64-contents: |
+          iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAMAAADDpiTIAAADAFBMVEUAAAD95Mfyv5lS07OwYEHeQz6G
+          i6E4OD1nlNn/fkSgqMnQ6P+oeOhhy4v///9tpPiP2//xl2z/wERCQkqAhp3/jUT/hkQ1NTmYWUF8gpn5
+          2bP63Lj1zZ7/ekQ6OkA/P0erX0GdW0GTWEGmXUFYXnb/02OWad3JdVL5ZT/XgVtdbceJVUH/lS/Qe1ZE
+          RE720KOEVEL84sJzyfBNyqt7zfLWOT1eO7liZ3/7373nTj7sVD7RMj2k4Pz/nESAp/pRu4P0ypneh1/o
+          sIr/vFBCt5plj9daYMFec8rl5e5dYnr41q3ExNpig9F+n/kym3RkidTKhFx5fpZmbINbZsSDr/w6qY7/
+          gUT/kkT/dUT306j/wlWOV0HwWj+Hvf+iXEHOiWJKtICPY9g9rpLDcE3Kyt5Qz7BlQL6D0PTkjGP/pT1F
+          vJ/bPj18l/ed3friSD7q6vL9a0Cdb+FErn1XwobPz+ErlXE+qHr/tks4one9bEqSmbf0Xz+K0/V6kPbb
+          nXZhfc/stY9IwaOW2fjRjmfvupR0ffLYmHH09PmIXtTeontYW7/Vk2z/q0LU1OT/sUdKxqf/mUSYn76C
+          WdCw5v8/s5aFtv3lq4X/oDj/zV7/mzRXVr1txu+jdOVdx4k1oYbhpoDv7/V2g/S+vtZqcId8VM14ivXa
+          2ueQ1vc3pYqr4/3f3+v/x1n/lUT/ckS5wulgeMzpkGa5aEe31PZyd/G+2vmNk7F3UMnF3/t2e5O+x+8+
+          PkVGRlA8PEKx0PSXu+txcvCsy/K1vuMag2hynd2mx/DL5P2DiaQmkG7DzPVqRcGIjqqStultmdtzTMZx
+          do35+fuyYkOcv+0znoM9PUOttdm1ZUVzeJDsk2mxut+cpMSpsdVow+1vScT8/P6Ns+cjjW2hw+5kwuxw
+          bu+mrtCBqeN3od9tcor/qkRHR1FvdIyjqsyEq+TvlWrywZeJr+aAYNk5pIR8m/IfiWu64v1va+59puJ7
+          pOAdhmp1epHwl2vM0O1bytAhimxGtItHR1KGreRJvxhoAAAgAElEQVR42uyWPWgeVxaGs8suZNndZiEh
+          +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
+      - name: Patch hooks/build.dart
+        path: intro_flutter_gpu/hook/build.dart
+        patch-u: | 
+          --- b/intro_flutter_gpu/step_12/hook/build.dart
+          +++ a/intro_flutter_gpu/step_12/hook/build.dart
+          @@ -2,15 +2,14 @@
+           // Use of this source code is governed by a BSD-style license that can be
+           // found in the LICENSE file.
+           
+          -import 'package:flutter_gpu_shaders/build.dart';
+          +import 'package:flutter_scene_importer/build_hooks.dart';
+           import 'package:native_assets_cli/native_assets_cli.dart';
+           
+          -void main(List<String> args) async {
+          -  await build(args, (config, output) async {
+          -    await buildShaderBundleJson(
+          +void main(List<String> args) {
+          +  build(args, (config, output) async {
+          +    buildModels(
+                 buildConfig: config,
+          -      buildOutput: output,
+          -      manifestFileName: 'my_first_triangle.shaderbundle.json',
+          +      inputFilePaths: ['assets/building-port.glb'],
+               );
+             });
+           }
+      - name: Patch lib/main.dart
+        path: intro_flutter_gpu/lib/main.dart
+        patch-u: |
+          --- b/intro_flutter_gpu/step_12/lib/main.dart
+          +++ a/intro_flutter_gpu/step_12/lib/main.dart
+          @@ -3,14 +3,11 @@
+           // found in the LICENSE file.
+           
+           import 'dart:math' as math;
+          -import 'dart:typed_data';
+           
+           import 'package:flutter/material.dart';
+          -import 'package:flutter_gpu/gpu.dart' as gpu;
+          +import 'package:flutter_scene/scene.dart' as scn;
+           import 'package:vector_math/vector_math.dart' as vm;
+           
+          -import 'shaders.dart';
+          -
+           void main() {
+             runApp(const MainApp());
+           }
+          @@ -25,6 +22,7 @@ class MainApp extends StatefulWidget {
+           class _MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
+             late AnimationController _controller;
+             late Animation<double> _animation;
+          +  final scene = scn.Scene();
+           
+             @override
+             void initState() {
+          @@ -35,6 +33,11 @@ class _MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
+               )..repeat();
+           
+               _animation = Tween<double>(begin: 0, end: 4 * math.pi).animate(_controller);
+          +
+          +    scn.Node.fromAsset('build/models/building-port.model').then((model) {
+          +      model.name = 'Port Building';
+          +      scene.add(model);
+          +    });
+             }
+           
+             @override
+          @@ -46,14 +49,24 @@ class _MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
+             @override
+             Widget build(BuildContext context) {
+               return MaterialApp(
+          -      title: 'Flutter GPU Triangle Demo',
+          +      title: 'Hexagon Explorer',
+                 debugShowCheckedModeBanner: false,
+                 home: Scaffold(
+                   body: SizedBox.expand(
+                     child: AnimatedBuilder(
+                       builder: (context, child) {
+                         return CustomPaint(
+          -                painter: TrianglePainter(angle: _animation.value),
+          +                painter: ScenePainter(
+          +                  scene: scene,
+          +                  camera: scn.PerspectiveCamera(
+          +                    position: vm.Vector3(
+          +                      math.sin(_animation.value) * 3,
+          +                      2,
+          +                      math.cos(_animation.value) * 3,
+          +                    ),
+          +                    target: vm.Vector3(0, 0, 0),
+          +                  ),
+          +                ),
+                         );
+                       },
+                       animation: _animation,
+          @@ -64,151 +77,14 @@ class _MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
+             }
+           }
+           
+          -class TrianglePainter extends CustomPainter {
+          -  const TrianglePainter({required this.angle});
+          -  final double angle;
+          +class ScenePainter extends CustomPainter {
+          +  ScenePainter({required this.scene, required this.camera});
+          +  final scn.Scene scene;
+          +  final scn.Camera camera;
+           
+             @override
+             void paint(Canvas canvas, Size size) {
+          -    final texture = gpu.gpuContext.createTexture(
+          -      gpu.StorageMode.devicePrivate,
+          -      size.width.ceil(),
+          -      size.height.ceil(),
+          -    );
+          -    if (texture == null) {
+          -      throw Exception('Failed to create texture');
+          -    }
+          -
+          -    final renderTarget = gpu.RenderTarget.singleColor(
+          -      gpu.ColorAttachment(texture: texture),
+          -    );
+          -
+          -    final commandBuffer = gpu.gpuContext.createCommandBuffer();
+          -    final renderPass = commandBuffer.createRenderPass(renderTarget);
+          -
+          -    final vert = shaderLibrary['SimpleVertex'];
+          -    if (vert == null) {
+          -      throw Exception('Failed to load SimpleVertex vertex shader');
+          -    }
+          -
+          -    final frag = shaderLibrary['SimpleFragment'];
+          -    if (frag == null) {
+          -      throw Exception('Failed to load SimpleFragment fragment shader');
+          -    }
+          -
+          -    final pipeline = gpu.gpuContext.createRenderPipeline(vert, frag);
+          -
+          -    const floatsPerVertex = 6;
+          -    final vertices = Float32List.fromList([
+          -      // layout: x, y, z, r, g, b
+          -
+          -      // Back Face
+          -      -0.5, -0.5, -0.5, 1.0, 0.0, 0.0,
+          -      0.5, -0.5, -0.5, 0.0, 1.0, 0.0,
+          -      0.5, 0.5, -0.5, 0.0, 0.0, 1.0,
+          -      0.5, 0.5, -0.5, 0.0, 0.0, 1.0,
+          -      -0.5, 0.5, -0.5, 1.0, 1.0, 0.0,
+          -      -0.5, -0.5, -0.5, 1.0, 0.0, 0.0,
+          -
+          -      // Front Face
+          -      -0.5, -0.5, 0.5, 1.0, 0.0, 0.0,
+          -      0.5, 0.5, 0.5, 0.0, 0.0, 1.0,
+          -      0.5, -0.5, 0.5, 0.0, 1.0, 0.0,
+          -      0.5, 0.5, 0.5, 0.0, 0.0, 1.0,
+          -      -0.5, -0.5, 0.5, 1.0, 0.0, 0.0,
+          -      -0.5, 0.5, 0.5, 1.0, 1.0, 0.0,
+          -
+          -      // Left Face
+          -      -0.5, 0.5, 0.5, 1.0, 0.0, 0.0,
+          -      -0.5, -0.5, -0.5, 0.0, 0.0, 1.0,
+          -      -0.5, 0.5, -0.5, 0.0, 1.0, 0.0,
+          -      -0.5, -0.5, -0.5, 0.0, 0.0, 1.0,
+          -      -0.5, 0.5, 0.5, 1.0, 0.0, 0.0,
+          -      -0.5, -0.5, 0.5, 1.0, 1.0, 0.0,
+          -
+          -      // Right Face
+          -      0.5, 0.5, 0.5, 1.0, 0.0, 0.0,
+          -      0.5, 0.5, -0.5, 0.0, 1.0, 0.0,
+          -      0.5, -0.5, -0.5, 0.0, 0.0, 1.0,
+          -      0.5, -0.5, -0.5, 0.0, 0.0, 1.0,
+          -      0.5, -0.5, 0.5, 1.0, 1.0, 0.0,
+          -      0.5, 0.5, 0.5, 1.0, 0.0, 0.0,
+          -
+          -      // Bottom Face
+          -      0.5, -0.5, -0.5, 0.0, 1.0, 0.0,
+          -      -0.5, -0.5, -0.5, 1.0, 0.0, 0.0,
+          -      0.5, -0.5, 0.5, 0.0, 0.0, 1.0,
+          -      -0.5, -0.5, 0.5, 1.0, 1.0, 0.0,
+          -      0.5, -0.5, 0.5, 0.0, 0.0, 1.0,
+          -      -0.5, -0.5, -0.5, 1.0, 0.0, 0.0,
+          -
+          -      // Top Face
+          -      -0.5, 0.5, -0.5, 1.0, 0.0, 0.0,
+          -      0.5, 0.5, -0.5, 0.0, 1.0, 0.0,
+          -      0.5, 0.5, 0.5, 0.0, 0.0, 1.0,
+          -      0.5, 0.5, 0.5, 0.0, 0.0, 1.0,
+          -      -0.5, 0.5, 0.5, 1.0, 1.0, 0.0,
+          -      -0.5, 0.5, -0.5, 1.0, 0.0, 0.0,
+          -    ]);
+          -
+          -    final verticesDeviceBuffer = gpu.gpuContext.createDeviceBufferWithCopy(
+          -      ByteData.sublistView(vertices),
+          -    );
+          -    if (verticesDeviceBuffer == null) {
+          -      throw Exception('Failed to create vertices device buffer');
+          -    }
+          -
+          -    final model =
+          -        vm.Matrix4.identity()
+          -          ..rotateY(angle)
+          -          ..rotateX(angle / 2);
+          -    final view = vm.Matrix4.translation(vm.Vector3(0.0, 0.0, -2.5));
+          -    final projection = vm.makePerspectiveMatrix(
+          -      vm.radians(45),
+          -      size.aspectRatio,
+          -      0.1,
+          -      100,
+          -    );
+          -
+          -    final vertUniforms = [model, view, projection];
+          -
+          -    final vertUniformsDeviceBuffer = gpu.gpuContext.createDeviceBufferWithCopy(
+          -      ByteData.sublistView(
+          -        Float32List.fromList(vertUniforms.expand((m) => m.storage).toList()),
+          -      ),
+          -    );
+          -
+          -    if (vertUniformsDeviceBuffer == null) {
+          -      throw Exception('Failed to create vert uniforms device buffer');
+          -    }
+          -
+          -    renderPass.bindPipeline(pipeline);
+          -
+          -    renderPass.setCullMode(gpu.CullMode.backFace);
+          -
+          -    final verticesView = gpu.BufferView(
+          -      verticesDeviceBuffer,
+          -      offsetInBytes: 0,
+          -      lengthInBytes: verticesDeviceBuffer.sizeInBytes,
+          -    );
+          -    renderPass.bindVertexBuffer(
+          -      verticesView,
+          -      vertices.length ~/ floatsPerVertex,
+          -    );
+          -
+          -    final vertUniformsView = gpu.BufferView(
+          -      vertUniformsDeviceBuffer,
+          -      offsetInBytes: 0,
+          -      lengthInBytes: vertUniformsDeviceBuffer.sizeInBytes,
+          -    );
+          -
+          -    renderPass.bindUniform(vert.getUniformSlot('VertInfo'), vertUniformsView);
+          -
+          -    renderPass.draw();
+          -
+          -    commandBuffer.submit();
+          -    final image = texture.asImage();
+          -    canvas.drawImage(image, Offset.zero, Paint());
+          +    scene.render(camera, canvas, viewport: Offset.zero & size);
+             }
+           
+             @override
+      - name: Copy step_12
+        copydir:
+          from: intro_flutter_gpu
+          to: step_12
+
+  - name: Cleanup
+    rmdir: intro_flutter_gpu

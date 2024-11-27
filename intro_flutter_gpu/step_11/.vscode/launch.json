@@ -5,18 +5,18 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "my_first_triangle",
+            "name": "intro_flutter_gpu",
             "request": "launch",
             "type": "dart"
         },
         {
-            "name": "my_first_triangle (profile mode)",
+            "name": "intro_flutter_gpu (profile mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"
         },
         {
-            "name": "my_first_triangle (release mode)",
+            "name": "intro_flutter_gpu (release mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release"

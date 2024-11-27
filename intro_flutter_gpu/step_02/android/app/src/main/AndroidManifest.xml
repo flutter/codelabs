@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="my_first_triangle"
+        android:label="intro_flutter_gpu"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

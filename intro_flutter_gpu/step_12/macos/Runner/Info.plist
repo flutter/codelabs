@@ -28,7 +28,7 @@
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
-	<!-- Flutter Scene requires Impeller to render via flutter_gpu -->
+	<!-- flutter_gpu requires Impeller -->
 	<key>FLTEnableImpeller</key>
 	<true />
 </dict>
