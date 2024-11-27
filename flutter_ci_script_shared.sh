@@ -53,9 +53,10 @@ function ci_codelabs () {
                         if [ $RUNNER_OS = 'macOS' ]; then
                             flutter config --enable-native-assets
                             flutter build `echo $RUNNER_OS | tr '[:upper:]' '[:lower:]'` --debug
-                            flutter test --enable-impeller                    
+                            flutter test --enable-impeller
+                        else
+                            echo "Skipping $CODELAB on $RUNNER_OS"
                         fi
-                        # This skips the test if the runner OS is not macOS
                     else
                         flutter test
                     fi
