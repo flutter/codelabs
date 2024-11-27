@@ -5,16 +5,20 @@ function ci_codelabs () {
     # Disable analytics to avoid https://github.com/dart-lang/tools/issues/249
     dart --disable-analytics
 
-    # Enable native assets for intro_flutter_gpu
-    flutter config --enable-native-assets
+    # intro_flutter_gpu requires the master channel
+    if [ $channel = "master" ]; then
+        # Enable native assets for intro_flutter_gpu
+        flutter config --enable-native-assets
 
-    # intro_flutter_gpu needs to build the shaders before running the tests
-    for step in "01" "02" "03" "04" "05" "06" "07" "08" "09" "10" "11" "12" 
-    do
-        pushd intro_flutter_gpu/step_$step
-            flutter build `echo $RUNNER_OS | tr '[:upper:]' '[:lower:]'` --debug
-        popd
-    done
+        # intro_flutter_gpu needs to build the shaders before running the tests
+        for step in "01" "02" "03" "04" "05" "06" "07" "08" "09" "10" "11" "12" 
+        do
+            pushd intro_flutter_gpu/step_$step
+                flutter build `echo $RUNNER_OS | tr '[:upper:]' '[:lower:]'` --debug
+            popd
+        done    
+    fi
+
 
     # ffigen_codelab/step_07 needs to build the native library before running the tests
     pushd ffigen_codelab/step_07/example
