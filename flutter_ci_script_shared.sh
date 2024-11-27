@@ -5,8 +5,8 @@ function ci_codelabs () {
     # Disable analytics to avoid https://github.com/dart-lang/tools/issues/249
     dart --disable-analytics
 
-    # intro_flutter_gpu requires the master channel
-    if [ $channel = "master" ]; then
+    # intro_flutter_gpu requires the master channel and macOS
+    if [ $channel = "master" && $RUNNER_OS = 'macOS' ]; then
         # Enable native assets for intro_flutter_gpu
         flutter config --enable-native-assets
 
@@ -62,12 +62,16 @@ function ci_codelabs () {
             if [ -d "test" ]
             then
                 if grep -q "flutter:" "pubspec.yaml"; then
-                  if [ $RUNNER_OS = 'macOS' ]; then
-                    # Impeller is required for intro_flutter_gpu
-                    flutter test --enable-impeller
-                  else
-                    flutter test
-                  fi
+
+                    # intro_flutter_gpu only runs with Impeller on macOS
+                    if [$CODELAB = 'intro_flutter_gpu']; then
+                        if [ $RUNNER_OS = 'macOS' ]; then
+                            flutter test --enable-impeller                    
+                        fi
+                        # This skips the test if the runner OS is not macOS
+                    else
+                        flutter test
+                    fi
                 else
                   # If the project is not a Flutter project, use the Dart CLI.
                   dart test
