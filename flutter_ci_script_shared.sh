@@ -30,7 +30,7 @@ function ci_codelabs () {
             echo "== Getting dependencies for ${PROJECT}"
             for dir in `find . -name pubspec.yaml  -not -path '*/*symlinks/*' -exec dirname {} \;`; do
                 pushd $dir
-                    flutter pub get
+                flutter pub get
                 popd
             done
 
