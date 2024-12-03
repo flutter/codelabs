@@ -28,19 +28,21 @@ class HomeScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   PageRouteBuilder(
-                      pageBuilder: (context, animation, secondaryAnimation) {
-                    return const QuestionScreen();
-                  }, transitionsBuilder:
-                          (context, animation, secondaryAnimation, child) {
-                    return FadeThroughTransition(
-                      animation: animation,
-                      secondaryAnimation: secondaryAnimation,
-                      child: child,
-                    );
-                  }),
+                    pageBuilder: (context, animation, secondaryAnimation) {
+                      return const QuestionScreen();
+                    },
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                      return FadeThroughTransition(
+                        animation: animation,
+                        secondaryAnimation: secondaryAnimation,
+                        child: child,
+                      );
+                    },
+                  ),
                 );
               },
-              child: const Text('New Game'),
+              child: Text('New Game'),
             ),
           ],
         ),
