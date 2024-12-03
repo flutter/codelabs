@@ -1,5 +1,6 @@
-import 'package:flutter/widgets.dart';
 import 'dart:math' as math;
+
+import 'package:flutter/widgets.dart';
 
 class CardFlipEffect extends StatefulWidget {
   final Widget child;
@@ -60,8 +61,8 @@ class _CardFlipEffectState extends State<CardFlipEffect>
           child: _animationController.isAnimating
               ? _animationController.value < 0.5
                   ? _previousChild
-                  : Transform.flip(flipY: true, child: widget.child)
-              : widget.child,
+                  : Transform.flip(flipY: true, child: child)
+              : child,
         );
       },
       child: widget.child,
