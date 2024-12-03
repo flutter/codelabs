@@ -92,7 +92,7 @@ class QuestionCard extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.all(16.0),
         child: Text(
-          question ?? "",
+          question ?? '',
           style: Theme.of(context).textTheme.displaySmall,
         ),
       ),
@@ -135,7 +135,7 @@ class AnswerCards extends StatelessWidget {
               padding: EdgeInsets.all(16.0),
               child: Center(
                 child: Text(
-                  answers.length > index ? answers[index] : "",
+                  answers.length > index ? answers[index] : '',
                   style: Theme.of(context).textTheme.titleMedium,
                   overflow: TextOverflow.clip,
                 ),

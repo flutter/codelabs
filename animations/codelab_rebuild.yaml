@@ -2,6 +2,8 @@ name: Add animation effects to your Flutter app
 steps:
   - name: step_01
     steps:
+      - name: Remove step_01
+        rmdir: step_01
       - name: Create project
         flutter: create --empty quiz
       - name: Strip DEVELOPMENT_TEAM
@@ -36,7 +38,7 @@ steps:
       - name: Replace analysis_options.yaml
         path: quiz/analysis_options.yaml
         replace-contents: |
-          include: package:flutter_lints/flutter.yaml
+          include: ../../analysis_options.yaml
 
           analyzer:
             errors:
@@ -49,15 +51,15 @@ steps:
               prefer_const_constructors_in_immutables: false
               prefer_const_declarations: false
               prefer_const_literals_to_create_immutables: false
-      - name: Create the HomeScreen
+      - name: Add lib/home_screen.dart
         path: quiz/lib/home_screen.dart
         replace-contents: |
           import 'package:flutter/material.dart';
           import 'question_screen.dart';
-        
+
           class HomeScreen extends StatelessWidget {
             const HomeScreen({super.key});
-        
+
             @override
             Widget build(BuildContext context) {
               return Scaffold(
@@ -81,7 +83,7 @@ steps:
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (BuildContext context) {
+                              builder: (context) {
                                 return QuestionScreen();
                               },
                             ),
@@ -95,7 +97,7 @@ steps:
               );
             }
           }
-      - name: Show the HomeScreen in MaterialApp
+      - name: Add lib/main.dart
         path: quiz/lib/main.dart
         replace-contents: |
           import 'package:flutter/material.dart';
@@ -121,7 +123,7 @@ steps:
               );
             }
           }
-      - name: Create the Model
+      - name: Add lib/model.dart
         path: quiz/lib/model.dart
         replace-contents: |
           import 'dart:math' as math;
@@ -186,7 +188,7 @@ steps:
               ),
             ];
           }
-      - name: Create the ViewModel
+      - name: Add lib/view_model.dart
         path: quiz/lib/view_model.dart
         replace-contents: |
           import 'package:flutter/cupertino.dart';
@@ -232,23 +234,23 @@ steps:
               notifyListeners();
             }
           }
-      - name: Create the QuestionScreen
+      - name: Add lib/question_screen.dart
         path: quiz/lib/question_screen.dart
         replace-contents: |
           import 'package:flutter/material.dart';
           import 'view_model.dart';
-          
+
           class QuestionScreen extends StatefulWidget {
             const QuestionScreen({super.key});
-          
+
             @override
             State<QuestionScreen> createState() => _QuestionScreenState();
           }
-          
+
           class _QuestionScreenState extends State<QuestionScreen> {
             late final QuizViewModel viewModel =
                 QuizViewModel(onGameOver: _handleGameOver);
-          
+
             @override
             Widget build(BuildContext context) {
               return ListenableBuilder(
@@ -290,7 +292,7 @@ steps:
                 },
               );
             }
-          
+
             void _handleGameOver() {
               showDialog(
                 barrierDismissible: false,
@@ -312,15 +314,15 @@ steps:
               );
             }
           }
-          
+
           class QuestionCard extends StatelessWidget {
             final String? question;
-          
+
             const QuestionCard({
               required this.question,
               super.key,
             });
-          
+
             @override
             Widget build(BuildContext context) {
               return Card(
@@ -328,26 +330,26 @@ steps:
                 child: Padding(
                   padding: EdgeInsets.all(16.0),
                   child: Text(
-                    question ?? "",
+                    question ?? '',
                     style: Theme.of(context).textTheme.displaySmall,
                   ),
                 ),
               );
             }
           }
-          
+
           class AnswerCards extends StatelessWidget {
             final List<String> answers;
             final ValueChanged<int> onTapped;
             final int? correctAnswer;
-          
+
             const AnswerCards({
               required this.answers,
               required this.onTapped,
               required this.correctAnswer,
               super.key,
             });
-          
+
             @override
             Widget build(BuildContext context) {
               return GridView.count(
@@ -371,7 +373,7 @@ steps:
                         padding: EdgeInsets.all(16.0),
                         child: Center(
                           child: Text(
-                            answers.length > index ? answers[index] : "",
+                            answers.length > index ? answers[index] : '',
                             style: Theme.of(context).textTheme.titleMedium,
                             overflow: TextOverflow.clip,
                           ),
@@ -383,12 +385,12 @@ steps:
               );
             }
           }
-          
+
           class StatusBar extends StatelessWidget {
             final QuizViewModel viewModel;
-          
+
             const StatusBar({required this.viewModel, super.key});
-          
+
             @override
             Widget build(BuildContext context) {
               return Card(
@@ -415,18 +417,16 @@ steps:
       - name: Fetch dependencies
         path: quiz
         dart: pub get
-      - name: Run Dart Analzyer
-        path: quiz
-        dart: analyze --fatal-infos
-      - name: Remove step_01
-        rmdir: step_01
       - name: Copy step_01
         copydir:
           from: quiz
           to: step_01
-  - name: step_02
+
+  - name: step_02_a
     steps:
-      - name: Create scoreboard.dart
+      - name: Remove step_02_a
+        rmdir: step_02_a
+      - name: Add lib/scoreboard.dart
         path: quiz/lib/scoreboard.dart
         replace-contents: |
           import 'package:flutter/material.dart';
@@ -460,13 +460,16 @@ steps:
               );
             }
           }
-      - name: Remove step_02_a
-        rmdir: step_02_a
       - name: Copy step_02_a
         copydir:
           from: quiz
           to: step_02_a
-      - name: Use Scoreboard widget
+
+  - name: step_02_b
+    steps:
+      - name: Remove step_02_b
+        rmdir: step_02_b
+      - name: Patch lib/question_screen.dart
         path: quiz/lib/question_screen.dart
         patch-u: |
           --- a/animations/step_01/lib/question_screen.dart
@@ -494,13 +497,16 @@ steps:
                        ),
                      ],
                    ),
-      - name: Remove step_02_b
-        rmdir: step_02_b
       - name: Copy step_02_b
         copydir:
           from: quiz
           to: step_02_b
-      - name: Use an ImplicitlyAnimatedWidget
+
+  - name: step_02_c
+    steps:
+      - name: Remove step_02_c
+        rmdir: step_02_c
+      - name: Patch lib/scoreboard.dart
         path: quiz/lib/scoreboard.dart
         patch-u: |
           --- a/animations/step_02/lib/scoreboard.dart
@@ -544,13 +550,16 @@ steps:
           +    );
           +  }
           +}
-      - name: Remove step_02_c
-        rmdir: step_02_c
       - name: Copy step_02_c
         copydir:
           from: quiz
           to: step_02_c
-      - name: Use a TweenAnimationBuilder to change the color
+
+  - name: step_02_d
+    steps:
+      - name: Remove step_02_d
+        rmdir: step_02_d
+      - name: Patch lib/scoreboard.dart
         path: quiz/lib/scoreboard.dart
         patch-u: |
           --- a/animations/step_02/lib/scoreboard.dart
@@ -579,13 +588,16 @@ steps:
                  ),
                );
              }
-      - name: Remove step_02_d
-        rmdir: step_02_d
       - name: Copy step_02_d
         copydir:
           from: quiz
-          to: step_02_d     
-      - name: Use a Curve
+          to: step_02_d
+
+  - name: step_02_e
+    steps:
+      - name: Remove step_02_e
+        rmdir: step_02_e
+      - name: Patch lib/scoreboard.dart
         path: quiz/lib/scoreboard.dart
         patch-u: |
           --- a/animations/step_02/lib/scoreboard.dart
@@ -609,22 +621,16 @@ steps:
                    duration: _duration,
                    tween: ColorTween(
                      begin: _deactivatedColor,
-      - name: Remove step_02_e
-        rmdir: step_02_e
       - name: Copy step_02_e
         copydir:
           from: quiz
           to: step_02_e
-      # TODO(DomesticMouse): Delete step_02 once the codelab is published with individual steps
-      - name: Remove step_02
-        rmdir: step_02
-      - name: Copy step_02
-        copydir:
-          from: quiz
-          to: step_02
-  - name: step_03
+
+  - name: step_03_a
     steps:
-      - name: Use AnimatedSwitcher
+      - name: Remove step_03_a
+        rmdir: step_03_a
+      - name: Patch lib/question_screen.dart
         path: quiz/lib/question_screen.dart
         patch-u: |
           --- b/animations/step_03_a/lib/question_screen.dart
@@ -638,7 +644,7 @@ steps:
           -      child: Padding(
           -        padding: EdgeInsets.all(16.0),
           -        child: Text(
-          -          question ?? "",
+          -          question ?? '',
           -          style: Theme.of(context).textTheme.displaySmall,
           +    return AnimatedSwitcher(
           +      duration: const Duration(milliseconds: 300),
@@ -648,28 +654,31 @@ steps:
           +        child: Padding(
           +          padding: const EdgeInsets.all(16.0),
           +          child: Text(
-          +            question ?? "",
+          +            question ?? '',
           +            style: Theme.of(context).textTheme.displaySmall,
           +          ),
                    ),
                  ),
                );
-      - name: Remove step_03_a
-        rmdir: step_03_a
       - name: Copy step_03_a
         copydir:
           from: quiz
           to: step_03_a
-      - name: Use a custom transitionBuilder
+
+  - name: step_03_b
+    steps:
+      - name: Remove step_03_b
+        rmdir: step_03_b
+      - name: Patch lib/question_screen.dart
         path: quiz/lib/question_screen.dart
         patch-u: |
-          --- a/animations/step_03/lib/question_screen.dart
-          +++ b/animations/step_03/lib/question_screen.dart
+          --- b/animations/step_03_b/lib/question_screen.dart
+          +++ a/animations/step_03_b/lib/question_screen.dart
           @@ -88,6 +88,14 @@ class QuestionCard extends StatelessWidget {
              @override
              Widget build(BuildContext context) {
                return AnimatedSwitcher(
-          +      transitionBuilder: (Widget child, Animation<double> animation) {
+          +      transitionBuilder: (child, animation) {
           +        final curveAnimation =
           +            CurveTween(curve: Curves.easeInCubic).animate(animation);
           +        final offsetAnimation =
@@ -680,13 +689,16 @@ steps:
                  duration: const Duration(milliseconds: 300),
                  child: Card(
                    key: ValueKey(question),
-      - name: Remove step_03_b
-        rmdir: step_03_b
       - name: Copy step_03_b
         copydir:
           from: quiz
           to: step_03_b
-      - name: Apply a fade effect to the transitionBuilder
+
+  - name: step_03_c
+    steps:
+      - name: Remove step_03_c
+        rmdir: step_03_c
+      - name: Patch lib/question_screen.dart
         path: quiz/lib/question_screen.dart
         patch-u: |
           --- a/animations/step_03/lib/question_screen.dart
@@ -704,22 +716,25 @@ steps:
                  },
                  duration: const Duration(milliseconds: 300),
                  child: Card(
-      - name: Remove step_03_c
-        rmdir: step_03_c
       - name: Copy step_03_c
         copydir:
           from: quiz
           to: step_03_c     
-      - name: Customize the layoutBuilder
+
+  - name: step_03_d
+    steps:
+      - name: Remove step_03_d
+        rmdir: step_03_d
+      - name: Patch lib/question_screen.dart
         path: quiz/lib/question_screen.dart
         patch-u: |
-          --- a/animations/step_03/lib/question_screen.dart
-          +++ b/animations/step_03/lib/question_screen.dart
+          --- b/animations/step_03_d/lib/question_screen.dart
+          +++ a/animations/step_03_d/lib/question_screen.dart
           @@ -88,6 +88,15 @@ class QuestionCard extends StatelessWidget {
              @override
              Widget build(BuildContext context) {
                return AnimatedSwitcher(
-          +      layoutBuilder: (Widget? currentChild, List<Widget> previousChildren) {
+          +      layoutBuilder: (currentChild, previousChildren) {
           +        return Stack(
           +          alignment: Alignment.topCenter,
           +          children: <Widget>[
@@ -728,29 +743,24 @@ steps:
           +          ],
           +        );
           +      },
-                 transitionBuilder: (Widget child, Animation<double> animation) {
+                 transitionBuilder: (child, animation) {
                    final curveAnimation =
                        CurveTween(curve: Curves.easeInCubic).animate(animation);
-      - name: Remove step_03_d
-        rmdir: step_03_d
       - name: Copy step_03_d
         copydir:
           from: quiz
           to: step_03_d
-      # TODO(DomesticMouse): Delete step_03 once the codelab is published with individual steps
-      - name: Remove step_03
-        rmdir: step_03
-      - name: Copy step_03
-        copydir:
-          from: quiz
-          to: step_03
-  - name: step_04
+
+  - name: step_04_a
     steps:
-      - name: Add flip_effect.dart
+      - name: Remove step_04_a
+        rmdir: step_04_a
+      - name: Add lib/flip_effect.dart
         path: quiz/lib/flip_effect.dart
         replace-contents: |
-          import 'package:flutter/widgets.dart';
           import 'dart:math' as math;
+
+          import 'package:flutter/widgets.dart';
 
           class CardFlipEffect extends StatefulWidget {
             final Widget child;
@@ -811,26 +821,26 @@ steps:
                     child: _animationController.isAnimating
                         ? _animationController.value < 0.5
                             ? _previousChild
-                            : Transform.flip(flipY: true, child: widget.child)
-                        : widget.child,
+                            : Transform.flip(flipY: true, child: child)
+                        : child,
                   );
                 },
                 child: widget.child,
               );
             }
           }
-      - name: Use CardFlipEffect
+      - name: Patch lib/question_screen.dart
         path: quiz/lib/question_screen.dart
         patch-u: |
-          --- a/animations/step_04/lib/question_screen.dart
-          +++ b/animations/step_04/lib/question_screen.dart
+          --- b/animations/step_04_a/lib/question_screen.dart
+          +++ a/animations/step_04_a/lib/question_screen.dart
           @@ -1,4 +1,5 @@
            import 'package:flutter/material.dart';
           +import 'flip_effect.dart';
            import 'scoreboard.dart';
            import 'view_model.dart';
            
-          @@ -148,21 +149,25 @@ class AnswerCards extends StatelessWidget {
+          @@ -148,21 +149,24 @@ class AnswerCards extends StatelessWidget {
                    if (correctAnswer == index) {
                      color = Theme.of(context).colorScheme.tertiaryContainer;
                    }
@@ -846,43 +856,45 @@ steps:
           -              padding: EdgeInsets.all(16.0),
           -              child: Center(
           -                child: Text(
-          -                  answers.length > index ? answers[index] : "",
+          -                  answers.length > index ? answers[index] : '',
           -                  style: Theme.of(context).textTheme.titleMedium,
           -                  overflow: TextOverflow.clip,
-          +
           +        return CardFlipEffect(
           +          duration: const Duration(milliseconds: 300),
           +          child: Card.filled(
           +            key: ValueKey(answers[index]),
           +            color: color,
           +            elevation: 2,
-          +            margin: const EdgeInsets.all(8),
+          +            margin: EdgeInsets.all(8),
           +            clipBehavior: Clip.hardEdge,
           +            child: InkWell(
           +              onTap: () => onTapped(index),
           +              child: Padding(
-          +                padding: const EdgeInsets.all(16.0),
+          +                padding: EdgeInsets.all(16.0),
           +                child: Center(
           +                  child: Text(
-          +                    answers.length > index ? answers[index] : "",
+          +                    answers.length > index ? answers[index] : '',
           +                    style: Theme.of(context).textTheme.titleMedium,
           +                    overflow: TextOverflow.clip,
           +                  ),
                            ),
                          ),
                        ),
-      - name: Remove step_04_a
-        rmdir: step_04_a
       - name: Copy step_04_a
         copydir:
           from: quiz
           to: step_04_a
-      - name: Add delay using TweenSequence
+
+  - name: step_04_b
+    steps:
+      - name: Remove step_04_b
+        rmdir: step_04_b
+      - name: Patch lib/flp_effect.dart
         path: quiz/lib/flip_effect.dart
         patch-u: |
-          --- a/animations/step_04/lib/flip_effect.dart
-          +++ b/animations/step_04/lib/flip_effect.dart
-          @@ -4,11 +4,13 @@ import 'dart:math' as math;
+          --- b/animations/step_04_b/lib/flip_effect.dart
+          +++ a/animations/step_04_b/lib/flip_effect.dart
+          @@ -5,11 +5,13 @@ import 'package:flutter/widgets.dart';
            class CardFlipEffect extends StatefulWidget {
              final Widget child;
              final Duration duration;
@@ -896,31 +908,34 @@ steps:
              });
            
              @override
-      - name: Add delay to question screen
+      - name: Patch lib/question_screen.dart
         path: quiz/lib/question_screen.dart
         patch-u: |
-          --- a/animations/step_04/lib/question_screen.dart
-          +++ b/animations/step_04/lib/question_screen.dart
-          @@ -151,6 +151,7 @@ class AnswerCards extends StatelessWidget {
+          --- b/animations/step_04_b/lib/question_screen.dart
+          +++ a/animations/step_04_b/lib/question_screen.dart
+          @@ -150,6 +150,7 @@ class AnswerCards extends StatelessWidget {
+                     color = Theme.of(context).colorScheme.tertiaryContainer;
                    }
-           
                    return CardFlipEffect(
           +          delayAmount: index.toDouble() / 2,
                      duration: const Duration(milliseconds: 300),
                      child: Card.filled(
                        key: ValueKey(answers[index]),
-      - name: Remove step_04_b
-        rmdir: step_04_b
       - name: Copy step_04_b
         copydir:
           from: quiz
           to: step_04_b
-      - name: Add delay using TweenSequence, part 2
+
+  - name: step_04_c
+    steps:
+      - name: Remove step_04_c
+        rmdir: step_04_c
+      - name: Patch lib/flip_effect.dart
         path: quiz/lib/flip_effect.dart
         patch-u: |
           --- b/animations/step_04_c/lib/flip_effect.dart
           +++ a/animations/step_04_c/lib/flip_effect.dart
-          @@ -21,19 +21,32 @@ class _CardFlipEffectState extends State<CardFlipEffect>
+          @@ -22,19 +22,32 @@ class _CardFlipEffectState extends State<CardFlipEffect>
                with SingleTickerProviderStateMixin {
              late final AnimationController _animationController;
              Widget? _previousChild;
@@ -955,18 +970,21 @@ steps:
              }
            
              @override
-      - name: Remove step_04_c
-        rmdir: step_04_c
       - name: Copy step_04_c
         copydir:
           from: quiz
           to: step_04_c
-      - name: Add delay using TweenSequence, part 3
+
+  - name: step_04_d
+    steps:
+      - name: Remove step_04_d
+        rmdir: step_04_d
+      - name: Patch lib/flip_effect.dart
         path: quiz/lib/flip_effect.dart
         patch-u: |
           --- b/animations/step_04_d/lib/flip_effect.dart
           +++ a/animations/step_04_d/lib/flip_effect.dart
-          @@ -66,14 +66,14 @@ class _CardFlipEffectState extends State<CardFlipEffect>
+          @@ -67,14 +67,14 @@ class _CardFlipEffectState extends State<CardFlipEffect>
              @override
              Widget build(BuildContext context) {
                return AnimatedBuilder(
@@ -982,61 +1000,52 @@ steps:
           -              ? _animationController.value < 0.5
           +              ? _animationWithDelay.value < 0.5
                              ? _previousChild
-                             : Transform.flip(flipY: true, child: widget.child)
-                         : widget.child,
-      - name: Remove step_04_d
-        rmdir: step_04_d
+                             : Transform.flip(flipY: true, child: child)
+                         : child,
       - name: Copy step_04_d
         copydir:
           from: quiz
           to: step_04_d
-      # TODO(DomesticMouse): Delete step_04 once the codelab is published with individual steps
-      - name: Remove step_04
-        rmdir: step_04
-      - name: Copy step_04
-        copydir:
-          from: quiz
-          to: step_04
-  - name: step_05
+
+  - name: step_05_a
     steps:
-      - name: Use PageRouteBuilder
+      - name: Remove step_05_a
+        rmdir: step_05_a
+      - name: Patch lib/home_screen.dart
         path: quiz/lib/home_screen.dart
         patch-u: |
           --- b/animations/step_05_a/lib/home_screen.dart
           +++ a/animations/step_05_a/lib/home_screen.dart
-          @@ -26,14 +26,19 @@ class HomeScreen extends StatelessWidget {
+          @@ -26,9 +26,16 @@ class HomeScreen extends StatelessWidget {
                            // Show the question screen to start the game
                            Navigator.push(
                              context,
           -                  MaterialPageRoute(
-          -                    builder: (BuildContext context) {
+          -                    builder: (context) {
           -                      return QuestionScreen();
-          -                    },
-          -                  ),
           +                  PageRouteBuilder(
-          +                      pageBuilder: (context, animation, secondaryAnimation) {
-          +                    return const QuestionScreen();
-          +                  }, transitionsBuilder:
-          +                          (context, animation, secondaryAnimation, child) {
-          +                    return FadeTransition(
-          +                      opacity: animation,
-          +                      child: child,
-          +                    );
-          +                  }),
+          +                    pageBuilder: (context, animation, secondaryAnimation) {
+          +                      return const QuestionScreen();
+          +                    },
+          +                    transitionsBuilder:
+          +                        (context, animation, secondaryAnimation, child) {
+          +                      return FadeTransition(
+          +                        opacity: animation,
+          +                        child: child,
+          +                      );
+                               },
+                             ),
                            );
-                         },
-          -              child: Text('New Game'),
-          +              child: const Text('New Game'),
-                       ),
-                     ],
-                   ),
-      - name: Remove step_05_a
-        rmdir: step_05_a
       - name: Copy step_05_a
         copydir:
           from: quiz
           to: step_05_a
-      - name: Use package:animations FadeThroughTransition
+
+  - name: step_05_b
+    steps:
+      - name: Remove step_05_b
+        rmdir: step_05_b
+      - name: Patch lib/home_screen.dart
         path: quiz/lib/home_screen.dart
         patch-u: |
           --- b/animations/step_05_b/lib/home_screen.dart
@@ -1046,19 +1055,19 @@ steps:
            import 'package:flutter/material.dart';
            import 'question_screen.dart';
            
-          @@ -31,8 +32,9 @@ class HomeScreen extends StatelessWidget {
-                               return const QuestionScreen();
-                             }, transitionsBuilder:
-                                     (context, animation, secondaryAnimation, child) {
-          -                    return FadeTransition(
-          -                      opacity: animation,
-          +                    return FadeThroughTransition(
-          +                      animation: animation,
-          +                      secondaryAnimation: secondaryAnimation,
-                                 child: child,
-                               );
-                             }),
-      - name: Configure Predictive Back on Android
+          @@ -32,8 +33,9 @@ class HomeScreen extends StatelessWidget {
+                               },
+                               transitionsBuilder:
+                                   (context, animation, secondaryAnimation, child) {
+          -                      return FadeTransition(
+          -                        opacity: animation,
+          +                      return FadeThroughTransition(
+          +                        animation: animation,
+          +                        secondaryAnimation: secondaryAnimation,
+                                   child: child,
+                                 );
+                               },
+      - name: Patch lib/main.dart
         path: quiz/lib/main.dart
         patch-u: |
           --- a/animations/step_05/lib/main.dart
@@ -1084,13 +1093,16 @@ steps:
                  ),
                  home: HomeScreen(),
                );
-      - name: Remove step_05_b
-        rmdir: step_05_b
       - name: Copy step_05_b
         copydir:
           from: quiz
           to: step_05_b
-      - name: Change back to MaterialPageRoute
+
+  - name: step_05_c
+    steps:
+      - name: Remove step_05_c
+        rmdir: step_05_c
+      - name: Patch lib/home_screen.dart
         path: quiz/lib/home_screen.dart
         patch-u: |
           --- b/animations/step_05_c/lib/home_screen.dart
@@ -1100,53 +1112,57 @@ steps:
            import 'package:flutter/material.dart';
            import 'question_screen.dart';
            
-          @@ -27,16 +26,8 @@ class HomeScreen extends StatelessWidget {
+          @@ -27,19 +26,9 @@ class HomeScreen extends StatelessWidget {
                            // Show the question screen to start the game
                            Navigator.push(
                              context,
           -                  PageRouteBuilder(
-          -                      pageBuilder: (context, animation, secondaryAnimation) {
+          -                    pageBuilder: (context, animation, secondaryAnimation) {
+          -                      return const QuestionScreen();
+          -                    },
+          -                    transitionsBuilder:
+          -                        (context, animation, secondaryAnimation, child) {
+          -                      return FadeThroughTransition(
+          -                        animation: animation,
+          -                        secondaryAnimation: secondaryAnimation,
+          -                        child: child,
+          -                      );
+          -                    },
+          -                  ),
           +                  MaterialPageRoute(builder: (context) {
-                               return const QuestionScreen();
-          -                  }, transitionsBuilder:
-          -                          (context, animation, secondaryAnimation, child) {
-          -                    return FadeThroughTransition(
-          -                      animation: animation,
-          -                      secondaryAnimation: secondaryAnimation,
-          -                      child: child,
-          -                    );
-                             }),
+          +                    return const QuestionScreen();
+          +                  }),
                            );
                          },
-      - name: Use FadeThroughTransition
+                         child: Text('New Game'),
+      - name: Patch lib/question_screen.dart
         path: quiz/lib/question_screen.dart
         patch-u: |
-          --- a/animations/step_05/lib/question_screen.dart
-          +++ b/animations/step_05/lib/question_screen.dart
+          --- b/animations/step_05_c/lib/question_screen.dart
+          +++ a/animations/step_05_c/lib/question_screen.dart
           @@ -1,3 +1,4 @@
           +import 'package:animations/animations.dart';
            import 'package:flutter/material.dart';
            import 'flip_effect.dart';
            import 'scoreboard.dart';
-          @@ -88,29 +89,23 @@ class QuestionCard extends StatelessWidget {
+          @@ -88,26 +89,18 @@ class QuestionCard extends StatelessWidget {
            
              @override
              Widget build(BuildContext context) {
           -    return AnimatedSwitcher(
-          -      layoutBuilder: (Widget? currentChild, List<Widget> previousChildren) {
+          -      layoutBuilder: (currentChild, previousChildren) {
           +    return PageTransitionSwitcher(
-          +      duration: const Duration(milliseconds: 200),
-          +      layoutBuilder: (List<Widget> entries) {
+          +      layoutBuilder: (entries) {
                    return Stack(
                      alignment: Alignment.topCenter,
-                     children: <Widget>[
+          -          children: <Widget>[
           -            ...previousChildren,
           -            if (currentChild != null) currentChild,
-          +            ...entries,
-                     ],
+          -          ],
+          +          children: entries,
                    );
                  },
-          -      transitionBuilder: (Widget child, Animation<double> animation) {
+          -      transitionBuilder: (child, animation) {
           -        final curveAnimation =
           -            CurveTween(curve: Curves.easeInCubic).animate(animation);
           -        final offsetAnimation =
@@ -1156,28 +1172,28 @@ steps:
           -        return FadeTransition(
           -          opacity: fadeInAnimation,
           -          child: SlideTransition(position: offsetAnimation, child: child),
-          +      transitionBuilder: (Widget child, animation, secondaryAnimation) {
+          +      transitionBuilder: (child, animation, secondaryAnimation) {
           +        return FadeThroughTransition(
           +          animation: animation,
           +          secondaryAnimation: secondaryAnimation,
           +          child: child,
                    );
                  },
-          -      duration: const Duration(milliseconds: 300),
-                 child: Card(
-                   key: ValueKey(question),
-                   elevation: 4,
-      - name: Remove step_05_c
-        rmdir: step_05_c
+                 duration: const Duration(milliseconds: 300),
       - name: Copy step_05_c
         copydir:
           from: quiz
           to: step_05_c
-      - name: Use OpenContainer
+
+  - name: step_05_d
+    steps:
+      - name: Remove step_05_d
+        rmdir: step_05_d
+      - name: Patch lib/question_screen.dart
         path: quiz/lib/question_screen.dart
-        patch-u: | 
-          --- a/animations/step_05/lib/question_screen.dart
-          +++ b/animations/step_05/lib/question_screen.dart
+        patch-u: |
+          --- b/animations/step_05_d/lib/question_screen.dart
+          +++ a/animations/step_05_d/lib/question_screen.dart
           @@ -14,6 +14,7 @@ class QuestionScreen extends StatefulWidget {
            class _QuestionScreenState extends State<QuestionScreen> {
              late final QuizViewModel viewModel =
@@ -1199,18 +1215,7 @@ steps:
                            Spacer(),
                            AnswerCards(
                              onTapped: (index) {
-          @@ -48,7 +53,9 @@ class _QuestionScreenState extends State<QuestionScreen> {
-                                 ? viewModel.currentQuestion?.correctAnswer
-                                 : null,
-                           ),
-          -                StatusBar(viewModel: viewModel),
-          +                StatusBar(
-          +                  viewModel: viewModel,
-          +                )
-                         ],
-                       ),
-                     ),
-          @@ -57,24 +64,54 @@ class _QuestionScreenState extends State<QuestionScreen> {
+          @@ -57,24 +62,52 @@ class _QuestionScreenState extends State<QuestionScreen> {
                );
              }
            
@@ -1263,10 +1268,7 @@ steps:
           +            ElevatedButton(
           +              child: Text('OK'),
                          onPressed: () {
-          -                Navigator.popUntil(context, (route) => route.isFirst);
-          +                Navigator.pop(context);
-          +                // Navigator.popUntil(
-          +                //     context, (route) => route.isFirst);
+                           Navigator.popUntil(context, (route) => route.isFirst);
                          },
           -              child: Text('OK'),
                        ),
@@ -1278,7 +1280,7 @@ steps:
                );
              }
            }
-          @@ -83,22 +120,21 @@ class QuestionCard extends StatelessWidget {
+          @@ -83,19 +116,21 @@ class QuestionCard extends StatelessWidget {
              final String? question;
            
              const QuestionCard({
@@ -1296,22 +1298,21 @@ steps:
              @override
              Widget build(BuildContext context) {
                return PageTransitionSwitcher(
-                 duration: const Duration(milliseconds: 200),
-          -      layoutBuilder: (List<Widget> entries) {
+          -      layoutBuilder: (entries) {
           -        return Stack(
           -          alignment: Alignment.topCenter,
-          -          children: <Widget>[
-          -            ...entries,
-          -          ],
+          -          children: entries,
           -        );
           -      },
-                 transitionBuilder: (Widget child, animation, secondaryAnimation) {
+          +      duration: const Duration(milliseconds: 200),
+                 transitionBuilder: (child, animation, secondaryAnimation) {
                    return FadeThroughTransition(
                      animation: animation,
-          @@ -106,16 +142,30 @@ class QuestionCard extends StatelessWidget {
+          @@ -103,17 +138,30 @@ class QuestionCard extends StatelessWidget {
                      child: child,
                    );
                  },
+          -      duration: const Duration(milliseconds: 300),
           -      child: Card(
           +      child: OpenContainer(
                    key: ValueKey(question),
@@ -1319,7 +1320,7 @@ steps:
           -        child: Padding(
           -          padding: const EdgeInsets.all(16.0),
           -          child: Text(
-          -            question ?? "",
+          -            question ?? '',
           -            style: Theme.of(context).textTheme.displaySmall,
           -          ),
           +        tappable: false,
@@ -1335,7 +1336,7 @@ steps:
           +            child: Padding(
           +              padding: const EdgeInsets.all(16.0),
           +              child: Text(
-          +                question ?? "",
+          +                question ?? '',
           +                style: Theme.of(context).textTheme.displaySmall,
           +              ),
           +            ),
@@ -1347,8 +1348,6 @@ steps:
                  ),
                );
              }
-      - name: Remove step_05_d
-        rmdir: step_05_d
       - name: Copy step_05_d
         copydir:
           from: quiz
@@ -1379,11 +1378,6 @@ steps:
       - name: Build Web app
         path: quiz
         flutter: build web
-      - name: Remove step_05
-        rmdir: step_05
-      - name: Copy step_05
-        copydir:
-          from: quiz
-          to: step_05
+
   - name: Cleanup
     rmdir: quiz
