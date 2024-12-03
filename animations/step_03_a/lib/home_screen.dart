@@ -25,7 +25,7 @@ class HomeScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (BuildContext context) {
+                    builder: (context) {
                       return QuestionScreen();
                     },
                   ),

@@ -39,7 +39,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                 );
               },
-              child: const Text('New Game'),
+              child: Text('New Game'),
             ),
           ],
         ),

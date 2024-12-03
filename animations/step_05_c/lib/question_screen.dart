@@ -89,27 +89,24 @@ class QuestionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PageTransitionSwitcher(
-      duration: const Duration(milliseconds: 200),
-      layoutBuilder: (List<Widget> entries) {
-        return Stack(
-          alignment: Alignment.topCenter,
-          children: <Widget>[...entries],
-        );
+      layoutBuilder: (entries) {
+        return Stack(alignment: Alignment.topCenter, children: entries);
       },
-      transitionBuilder: (Widget child, animation, secondaryAnimation) {
+      transitionBuilder: (child, animation, secondaryAnimation) {
         return FadeThroughTransition(
           animation: animation,
           secondaryAnimation: secondaryAnimation,
           child: child,
         );
       },
+      duration: const Duration(milliseconds: 300),
       child: Card(
         key: ValueKey(question),
         elevation: 4,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Text(
-            question ?? "",
+            question ?? '',
             style: Theme.of(context).textTheme.displaySmall,
           ),
         ),
@@ -141,7 +138,6 @@ class AnswerCards extends StatelessWidget {
         if (correctAnswer == index) {
           color = Theme.of(context).colorScheme.tertiaryContainer;
         }
-
         return CardFlipEffect(
           delayAmount: index.toDouble() / 2,
           duration: const Duration(milliseconds: 300),
@@ -149,15 +145,15 @@ class AnswerCards extends StatelessWidget {
             key: ValueKey(answers[index]),
             color: color,
             elevation: 2,
-            margin: const EdgeInsets.all(8),
+            margin: EdgeInsets.all(8),
             clipBehavior: Clip.hardEdge,
             child: InkWell(
               onTap: () => onTapped(index),
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: EdgeInsets.all(16.0),
                 child: Center(
                   child: Text(
-                    answers.length > index ? answers[index] : "",
+                    answers.length > index ? answers[index] : '',
                     style: Theme.of(context).textTheme.titleMedium,
                     overflow: TextOverflow.clip,
                   ),

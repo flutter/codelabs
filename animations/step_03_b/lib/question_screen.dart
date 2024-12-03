@@ -87,7 +87,7 @@ class QuestionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedSwitcher(
-      transitionBuilder: (Widget child, Animation<double> animation) {
+      transitionBuilder: (child, animation) {
         final curveAnimation = CurveTween(
           curve: Curves.easeInCubic,
         ).animate(animation);
@@ -104,7 +104,7 @@ class QuestionCard extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Text(
-            question ?? "",
+            question ?? '',
             style: Theme.of(context).textTheme.displaySmall,
           ),
         ),
@@ -148,7 +148,7 @@ class AnswerCards extends StatelessWidget {
               padding: EdgeInsets.all(16.0),
               child: Center(
                 child: Text(
-                  answers.length > index ? answers[index] : "",
+                  answers.length > index ? answers[index] : '',
                   style: Theme.of(context).textTheme.titleMedium,
                   overflow: TextOverflow.clip,
                 ),
