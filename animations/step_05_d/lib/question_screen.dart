@@ -53,9 +53,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                       ? viewModel.currentQuestion?.correctAnswer
                       : null,
                 ),
-                StatusBar(
-                  viewModel: viewModel,
-                )
+                StatusBar(viewModel: viewModel),
               ],
             ),
           ),
@@ -104,9 +102,7 @@ class GameOverScreen extends StatelessWidget {
             ElevatedButton(
               child: Text('OK'),
               onPressed: () {
-                Navigator.pop(context);
-                // Navigator.popUntil(
-                //     context, (route) => route.isFirst);
+                Navigator.popUntil(context, (route) => route.isFirst);
               },
             ),
           ],
@@ -135,7 +131,7 @@ class QuestionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return PageTransitionSwitcher(
       duration: const Duration(milliseconds: 200),
-      transitionBuilder: (Widget child, animation, secondaryAnimation) {
+      transitionBuilder: (child, animation, secondaryAnimation) {
         return FadeThroughTransition(
           animation: animation,
           secondaryAnimation: secondaryAnimation,
@@ -157,7 +153,7 @@ class QuestionCard extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(
-                question ?? "",
+                question ?? '',
                 style: Theme.of(context).textTheme.displaySmall,
               ),
             ),
@@ -194,7 +190,6 @@ class AnswerCards extends StatelessWidget {
         if (correctAnswer == index) {
           color = Theme.of(context).colorScheme.tertiaryContainer;
         }
-
         return CardFlipEffect(
           delayAmount: index.toDouble() / 2,
           duration: const Duration(milliseconds: 300),
@@ -202,15 +197,15 @@ class AnswerCards extends StatelessWidget {
             key: ValueKey(answers[index]),
             color: color,
             elevation: 2,
-            margin: const EdgeInsets.all(8),
+            margin: EdgeInsets.all(8),
             clipBehavior: Clip.hardEdge,
             child: InkWell(
               onTap: () => onTapped(index),
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: EdgeInsets.all(16.0),
                 child: Center(
                   child: Text(
-                    answers.length > index ? answers[index] : "",
+                    answers.length > index ? answers[index] : '',
                     style: Theme.of(context).textTheme.titleMedium,
                     overflow: TextOverflow.clip,
                   ),
