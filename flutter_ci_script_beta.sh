@@ -25,6 +25,8 @@ declare -a CODELABS=(
   "haiku_generator"
   "homescreen_codelab"
   "in_app_purchases"
+  # TODO(domesticmouse): Add after beta is above Dart 3.7.0-0
+  # "intro_flutter_gpu"
   "namer"
   # TODO(domesticmouse): Color.red/green/blue are deprecated
   # "next-gen-ui"
