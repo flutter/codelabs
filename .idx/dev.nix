@@ -21,7 +21,7 @@
     workspace = {
       # Runs when a workspace is first created
       onCreate = {
-        updateStable = "flutter channel stable && flutter upgrade && for dir in `find . -name pubspec.yaml -exec dirname {} \; | sort`; do pushd $dir ; flutter pub get; popd; done";
+        updateStable = "flutter channel stable && flutter upgrade";
       };
     };
   };
