@@ -23,10 +23,6 @@
       onCreate = {
         updateStable = "flutter channel stable && flutter upgrade && flutter pub get";
       };
-      # Runs when the workspace is (re)started
-      onStart = {
-        updateStable = "flutter channel stable && flutter upgrade && flutter pub get";
-      };
     };
   };
 }
