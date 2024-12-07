@@ -59,9 +59,13 @@ steps:
     expect(blueprint.steps[0].steps[1].isValid, equals(true));
     expect(blueprint.steps[0].steps[2].isValid, equals(true));
     expect(blueprint.steps[0].steps[2].name, equals('blueprint'));
-    expect(blueprint.steps[0].steps[2].path,
-        equals('cupertino_store/analysis_options.yaml'));
-    expect(blueprint.steps[0].steps[2].replaceContents, equals('''
+    expect(
+      blueprint.steps[0].steps[2].path,
+      equals('cupertino_store/analysis_options.yaml'),
+    );
+    expect(
+      blueprint.steps[0].steps[2].replaceContents,
+      equals('''
 # Copyright 2019 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -77,16 +81,16 @@ steps:
 # limitations under the License.
 
 include: ../../analysis_options.yaml
-'''));
+'''),
+    );
     expect(blueprint.steps[0].steps[3].isValid, equals(true));
     expect(blueprint.steps[0].steps[4].isValid, equals(true));
     expect(blueprint.steps[0].steps[5].isValid, equals(true));
-    expect(blueprint.steps[0].steps[5].name,
-        equals('Remove the Android, Web, and Desktop runners'));
     expect(
-      blueprint.steps[0].steps[5].path,
-      equals('cupertino_store'),
+      blueprint.steps[0].steps[5].name,
+      equals('Remove the Android, Web, and Desktop runners'),
     );
+    expect(blueprint.steps[0].steps[5].path, equals('cupertino_store'));
     expect(
       blueprint.steps[0].steps[5].rmdirs,
       equals(['android', 'linux', 'macos', 'web', 'windows']),
@@ -391,6 +395,30 @@ steps:
  - name: Strip DEVELOPMENT_TEAM
    strip-lines-containing: DEVELOPMENT_TEAM =
    path: codelab_app/ios/Runner.xcodeproj/project.pbxproj
+''';
+    final blueprint = Blueprint.fromString(input);
+    expect(blueprint.isValid, equals(true));
+  });
+
+  test('Test macosx-deployment-target', () {
+    final input = '''
+name: macosx-deployment-target
+steps:
+  - name: Patch macos/Runner.xcodeproj/project.pbxproj
+    xcode-project-path: gtk_flutter/macos/Runner.xcodeproj
+    macosx-deployment-target: '10.15'
+''';
+    final blueprint = Blueprint.fromString(input);
+    expect(blueprint.isValid, equals(true));
+  });
+
+  test('Test iphoneos-deployment-target', () {
+    final input = '''
+name: iphoneos-deployment-target
+steps:
+  - name: Patch ios/Runner.xcodeproj/project.pbxproj
+    xcode-project-path: gtk_flutter/ios/Runner.xcodeproj
+    iphoneos-deployment-target: '13.0'
 ''';
     final blueprint = Blueprint.fromString(input);
     expect(blueprint.isValid, equals(true));

@@ -27,8 +27,7 @@ declare -a CODELABS=(
   "in_app_purchases"
   "intro_flutter_gpu"
   "namer"
-  # TODO(domesticmouse): Color.red/green/blue are deprecated
-  # "next-gen-ui"
+  "next-gen-ui"
   "testing_codelab"
   "tfagents-flutter"
   "tfrs-flutter"

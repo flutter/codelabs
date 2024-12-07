@@ -4,11 +4,9 @@ class Product {
   Product(this.productName);
 
   Product.fromMap(Map<String, dynamic> json)
-      : productName = json['productName'];
+    : productName = json['productName'];
 
   Map<String, dynamic> toMap() {
-    return {
-      'productName': productName,
-    };
+    return {'productName': productName};
   }
 }

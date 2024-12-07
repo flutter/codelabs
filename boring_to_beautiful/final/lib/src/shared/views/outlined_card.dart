@@ -5,11 +5,7 @@
 import 'package:flutter/material.dart';
 
 class OutlinedCard extends StatefulWidget {
-  const OutlinedCard({
-    super.key,
-    required this.child,
-    this.clickable = true,
-  });
+  const OutlinedCard({super.key, required this.child, this.clickable = true});
 
   final Widget child;
   final bool clickable;
@@ -38,9 +34,10 @@ class _OutlinedCardState extends State<OutlinedCard> {
           _hovered = false;
         });
       },
-      cursor: widget.clickable
-          ? SystemMouseCursors.click
-          : SystemMouseCursors.basic,
+      cursor:
+          widget.clickable
+              ? SystemMouseCursors.click
+              : SystemMouseCursors.basic,
       child: AnimatedContainer(
         duration: kThemeAnimationDuration,
         curve: animationCurve,
@@ -52,20 +49,21 @@ class _OutlinedCardState extends State<OutlinedCard> {
           borderRadius: borderRadius,
         ),
         foregroundDecoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.onSurface.withAlpha(
-                _hovered ? 30 : 0,
-              ),
+          color: Theme.of(
+            context,
+          ).colorScheme.onSurface.withAlpha(_hovered ? 30 : 0),
           borderRadius: borderRadius,
         ),
         child: TweenAnimationBuilder<BorderRadius>(
           duration: kThemeAnimationDuration,
           curve: animationCurve,
           tween: Tween(begin: BorderRadius.zero, end: borderRadius),
-          builder: (context, borderRadius, child) => ClipRRect(
-            clipBehavior: Clip.antiAlias,
-            borderRadius: borderRadius,
-            child: child,
-          ),
+          builder:
+              (context, borderRadius, child) => ClipRRect(
+                clipBehavior: Clip.antiAlias,
+                borderRadius: borderRadius,
+                child: child,
+              ),
           child: widget.child,
         ),
       ),

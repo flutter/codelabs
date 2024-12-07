@@ -26,16 +26,18 @@ class BottomBar extends StatelessWidget implements PreferredSizeWidget {
     final bloc = BlocProvider.of<PlaybackBloc>(context);
     return BlocBuilder<PlaybackBloc, PlaybackState>(
       bloc: bloc,
-      builder: (context, state) => _BottomBar(
-        artist: state.songWithProgress?.song.artist,
-        isMuted: state.isMuted,
-        isPlaying: state.isPlaying,
-        preferredSize: preferredSize,
-        progress: state.songWithProgress?.progress,
-        song: state.songWithProgress?.song,
-        togglePlayPause: () => bloc.add(const PlaybackEvent.togglePlayPause()),
-        volume: state.volume,
-      ),
+      builder:
+          (context, state) => _BottomBar(
+            artist: state.songWithProgress?.song.artist,
+            isMuted: state.isMuted,
+            isPlaying: state.isPlaying,
+            preferredSize: preferredSize,
+            progress: state.songWithProgress?.progress,
+            song: state.songWithProgress?.song,
+            togglePlayPause:
+                () => bloc.add(const PlaybackEvent.togglePlayPause()),
+            volume: state.volume,
+          ),
     );
   }
 }
@@ -63,10 +65,12 @@ class _BottomBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => LayoutBuilder(
-        builder: (context, constraints) => constraints.isTablet
-            ? _buildDesktopBar(context, constraints)
-            : _buildMobileBar(context, constraints),
-      );
+    builder:
+        (context, constraints) =>
+            constraints.isTablet
+                ? _buildDesktopBar(context, constraints)
+                : _buildMobileBar(context, constraints),
+  );
 
   Widget _buildDesktopBar(BuildContext context, BoxConstraints constraints) {
     return ColoredBox(
@@ -79,10 +83,7 @@ class _BottomBar extends StatelessWidget {
             Row(
               children: [
                 _AlbumArt(song: song),
-                _SongDetails(
-                  artist: artist,
-                  song: song,
-                ),
+                _SongDetails(artist: artist, song: song),
               ],
             ),
             Flexible(
@@ -95,12 +96,7 @@ class _BottomBar extends StatelessWidget {
                     isPlaying: isPlaying,
                     togglePlayPause: togglePlayPause,
                   ),
-                  Center(
-                    child: _ProgressBar(
-                      progress: progress,
-                      song: song,
-                    ),
-                  ),
+                  Center(child: _ProgressBar(progress: progress, song: song)),
                 ],
               ),
             ),
@@ -114,17 +110,18 @@ class _BottomBar extends StatelessWidget {
                   final overlay = Overlay.of(context);
                   OverlayEntry? entry;
                   entry = OverlayEntry(
-                    builder: (context) => Stack(
-                      children: [
-                        Positioned(
-                          child: _FullScreenPlayer(
-                            onClose: () {
-                              entry?.remove();
-                            },
-                          ),
+                    builder:
+                        (context) => Stack(
+                          children: [
+                            Positioned(
+                              child: _FullScreenPlayer(
+                                onClose: () {
+                                  entry?.remove();
+                                },
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
                   );
                   overlay.insert(entry);
                 },
@@ -136,10 +133,10 @@ class _BottomBar extends StatelessWidget {
   }
 
   double get songProgress => switch ((progress, song)) {
-        (Duration progress, Song song) =>
-          progress.inMilliseconds / song.length.inMilliseconds,
-        _ => 0,
-      };
+    (Duration progress, Song song) =>
+      progress.inMilliseconds / song.length.inMilliseconds,
+    _ => 0,
+  };
 
   Widget _buildMobileBar(BuildContext context, BoxConstraints constraints) {
     return ColoredBox(
@@ -152,17 +149,18 @@ class _BottomBar extends StatelessWidget {
             final overlay = Overlay.of(context);
             OverlayEntry? entry;
             entry = OverlayEntry(
-              builder: (context) => Stack(
-                children: [
-                  Positioned(
-                    child: _MobilePlayer(
-                      onClose: () {
-                        entry?.remove();
-                      },
-                    ),
+              builder:
+                  (context) => Stack(
+                    children: [
+                      Positioned(
+                        child: _MobilePlayer(
+                          onClose: () {
+                            entry?.remove();
+                          },
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
             );
             overlay.insert(entry);
           },
@@ -191,10 +189,7 @@ class _BottomBar extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          song?.title ?? '',
-                          style: context.labelMedium,
-                        ),
+                        Text(song?.title ?? '', style: context.labelMedium),
                         Text(
                           song?.artist.name ?? '',
                           style: context.labelSmall,
@@ -220,10 +215,7 @@ class _BottomBar extends StatelessWidget {
 }
 
 class _ProgressBar extends StatelessWidget {
-  const _ProgressBar({
-    required this.progress,
-    required this.song,
-  });
+  const _ProgressBar({required this.progress, required this.song});
 
   /// Current playback depth into user is into [song].
   final Duration? progress;
@@ -231,10 +223,10 @@ class _ProgressBar extends StatelessWidget {
   final Song? song;
 
   double get songProgress => switch ((progress, song)) {
-        (Duration progress, Song song) =>
-          progress.inMilliseconds / song.length.inMilliseconds,
-        _ => 0,
-      };
+    (Duration progress, Song song) =>
+      progress.inMilliseconds / song.length.inMilliseconds,
+    _ => 0,
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -252,29 +244,32 @@ class _ProgressBar extends StatelessWidget {
             children: [
               const SizedBox(width: 10),
               SizedBox(
-                child: progress != null
-                    ? Text(progress!.toHumanizedString(),
-                        style: Theme.of(context).textTheme.bodySmall)
-                    : const Text('-'),
+                child:
+                    progress != null
+                        ? Text(
+                          progress!.toHumanizedString(),
+                          style: Theme.of(context).textTheme.bodySmall,
+                        )
+                        : const Text('-'),
               ),
               Expanded(
                 child: Slider(
                   value: songProgress.clamp(0, 1),
                   divisions: 1000,
                   onChanged: (percent) {
-                    BlocProvider.of<PlaybackBloc>(context).add(
-                      PlaybackEvent.moveToInSong(percent),
-                    );
+                    BlocProvider.of<PlaybackBloc>(
+                      context,
+                    ).add(PlaybackEvent.moveToInSong(percent));
                   },
                   onChangeEnd: (percent) {
-                    BlocProvider.of<PlaybackBloc>(context).add(
-                      PlaybackEvent.moveToInSong(percent),
-                    );
+                    BlocProvider.of<PlaybackBloc>(
+                      context,
+                    ).add(PlaybackEvent.moveToInSong(percent));
                     // Because dragging pauses auto playback, resume playing
                     // once the user finishes dragging.
-                    BlocProvider.of<PlaybackBloc>(context).add(
-                      const PlaybackEvent.togglePlayPause(),
-                    );
+                    BlocProvider.of<PlaybackBloc>(
+                      context,
+                    ).add(const PlaybackEvent.togglePlayPause());
                   },
                   activeColor:
                       Theme.of(context).colorScheme.onTertiaryContainer,
@@ -282,12 +277,15 @@ class _ProgressBar extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                child: song != null
-                    ? Text(song!.length.toHumanizedString(),
-                        style: Theme.of(context).textTheme.bodySmall)
-                    : const Text('-'),
+                child:
+                    song != null
+                        ? Text(
+                          song!.length.toHumanizedString(),
+                          style: Theme.of(context).textTheme.bodySmall,
+                        )
+                        : const Text('-'),
               ),
-              const SizedBox(width: 10)
+              const SizedBox(width: 10),
             ],
           ),
         );
@@ -297,10 +295,7 @@ class _ProgressBar extends StatelessWidget {
 }
 
 class _VolumeBar extends StatelessWidget {
-  const _VolumeBar({
-    required this.volume,
-    required this.isMuted,
-  });
+  const _VolumeBar({required this.volume, required this.isMuted});
 
   /// The percentage, between 0 and 1, at which to render the volume slider.
   final double volume;
@@ -313,17 +308,16 @@ class _VolumeBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
-      constraints: const BoxConstraints(
-        maxWidth: 200,
-      ),
+      constraints: const BoxConstraints(maxWidth: 200),
       child: Padding(
         padding: const EdgeInsets.all(8),
         child: Row(
           children: [
             GestureDetector(
-              onTap: () => BlocProvider.of<PlaybackBloc>(context).add(
-                const PlaybackEvent.toggleMute(),
-              ),
+              onTap:
+                  () => BlocProvider.of<PlaybackBloc>(
+                    context,
+                  ).add(const PlaybackEvent.toggleMute()),
               child: Icon(!isMuted ? Icons.volume_mute : Icons.volume_off),
             ),
             Expanded(
@@ -332,8 +326,10 @@ class _VolumeBar extends StatelessWidget {
                 min: 0,
                 max: 1,
                 divisions: 100,
-                onChanged: (newValue) => BlocProvider.of<PlaybackBloc>(context)
-                    .add(PlaybackEvent.setVolume(newValue)),
+                onChanged:
+                    (newValue) => BlocProvider.of<PlaybackBloc>(
+                      context,
+                    ).add(PlaybackEvent.setVolume(newValue)),
                 activeColor: Theme.of(context).colorScheme.onTertiaryContainer,
                 inactiveColor: Theme.of(context).colorScheme.onSurface,
               ),
@@ -356,49 +352,50 @@ class _PlaybackControls extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
-      double iconSize = 24;
-      double playIconSize = 32;
-      double innerPadding = 16;
-      double playPadding = 20;
-      if (constraints.maxWidth < 500) {
-        iconSize = 21;
-        playIconSize = 28;
-        innerPadding = 14;
-        playPadding = 17;
-      }
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        double iconSize = 24;
+        double playIconSize = 32;
+        double innerPadding = 16;
+        double playPadding = 20;
+        if (constraints.maxWidth < 500) {
+          iconSize = 21;
+          playIconSize = 28;
+          innerPadding = 14;
+          playPadding = 17;
+        }
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
               padding: EdgeInsets.fromLTRB(0, 0, innerPadding, 0),
-              child: Icon(Icons.shuffle, size: iconSize)),
-          Icon(Icons.skip_previous, size: iconSize),
-          Padding(
-            padding: EdgeInsets.fromLTRB(playPadding, 0, innerPadding, 0),
-            child: GestureDetector(
-              onTap: togglePlayPause,
-              child: Icon(
-                isPlaying ? Icons.pause_circle : Icons.play_circle,
-                size: playIconSize,
+              child: Icon(Icons.shuffle, size: iconSize),
+            ),
+            Icon(Icons.skip_previous, size: iconSize),
+            Padding(
+              padding: EdgeInsets.fromLTRB(playPadding, 0, innerPadding, 0),
+              child: GestureDetector(
+                onTap: togglePlayPause,
+                child: Icon(
+                  isPlaying ? Icons.pause_circle : Icons.play_circle,
+                  size: playIconSize,
+                ),
               ),
             ),
-          ),
-          Icon(Icons.skip_next, size: iconSize),
-          Padding(
-            padding: EdgeInsets.fromLTRB(innerPadding, 0, 0, 0),
-            child: Icon(Icons.repeat, size: iconSize),
-          ),
-        ],
-      );
-    });
+            Icon(Icons.skip_next, size: iconSize),
+            Padding(
+              padding: EdgeInsets.fromLTRB(innerPadding, 0, 0, 0),
+              child: Icon(Icons.repeat, size: iconSize),
+            ),
+          ],
+        );
+      },
+    );
   }
 }
 
 class _AlbumArt extends StatelessWidget {
-  const _AlbumArt({
-    required this.song,
-  });
+  const _AlbumArt({required this.song});
 
   final Song? song;
 
@@ -409,21 +406,17 @@ class _AlbumArt extends StatelessWidget {
       child: SizedBox(
         width: 70,
         height: 70,
-        child: song != null
-            ? Image.asset(song!.image.image)
-            : Container(
-                color: Colors.pink[100],
-              ),
+        child:
+            song != null
+                ? Image.asset(song!.image.image)
+                : Container(color: Colors.pink[100]),
       ),
     );
   }
 }
 
 class _SongDetails extends StatelessWidget {
-  const _SongDetails({
-    required this.artist,
-    required this.song,
-  });
+  const _SongDetails({required this.artist, required this.song});
 
   final Artist? artist;
   final Song? song;
@@ -455,9 +448,7 @@ class _SongDetails extends StatelessWidget {
 }
 
 class _FullScreenPlayer extends StatefulWidget {
-  const _FullScreenPlayer({
-    required this.onClose,
-  });
+  const _FullScreenPlayer({required this.onClose});
 
   final VoidCallback onClose;
 
@@ -489,29 +480,33 @@ class _FullScreenPlayerState extends State<_FullScreenPlayer> {
     final bloc = BlocProvider.of<PlaybackBloc>(context);
     return BlocBuilder<PlaybackBloc, PlaybackState>(
       bloc: bloc,
-      builder: (context, state) => Theme(
-        data: ThemeProvider.of(context).dark(),
-        child: Scaffold(
-          body: LayoutBuilder(
-            builder: (context, dimens) {
-              return MouseRegion(
-                onHover: (_) {
-                  setState(() {
-                    _showControls = true;
-                  });
-                  hideControls();
+      builder:
+          (context, state) => Theme(
+            data: ThemeProvider.of(context).dark(),
+            child: Scaffold(
+              body: LayoutBuilder(
+                builder: (context, dimens) {
+                  return MouseRegion(
+                    onHover: (_) {
+                      setState(() {
+                        _showControls = true;
+                      });
+                      hideControls();
+                    },
+                    child: buildPlayer(context, state, dimens),
+                  );
                 },
-                child: buildPlayer(context, state, dimens),
-              );
-            },
+              ),
+            ),
           ),
-        ),
-      ),
     );
   }
 
   Widget buildPlayer(
-      BuildContext context, PlaybackState state, BoxConstraints dimens) {
+    BuildContext context,
+    PlaybackState state,
+    BoxConstraints dimens,
+  ) {
     final bloc = BlocProvider.of<PlaybackBloc>(context);
     final current = state.songWithProgress;
     final song = current?.song;
@@ -519,26 +514,25 @@ class _FullScreenPlayerState extends State<_FullScreenPlayer> {
       fit: StackFit.expand,
       children: [
         Positioned.fill(
-          child: current == null
-              ? const Center(child: Text('No song selected'))
-              : Container(
-                  color: context.colors.shadow,
-                  child: Opacity(
-                    opacity: 0.3,
-                    child: Image.asset(
-                      song!.image.image,
-                      fit: BoxFit.cover,
+          child:
+              current == null
+                  ? const Center(child: Text('No song selected'))
+                  : Container(
+                    color: context.colors.shadow,
+                    child: Opacity(
+                      opacity: 0.3,
+                      child: Image.asset(song!.image.image, fit: BoxFit.cover),
                     ),
                   ),
-                ),
         ),
         Positioned(
           top: 20,
           right: 20,
           child: IconButton(
-            color: song != null
-                ? context.colors.onSurface
-                : context.colors.onSurface,
+            color:
+                song != null
+                    ? context.colors.onSurface
+                    : context.colors.onSurface,
             icon: const Icon(Icons.fullscreen_exit),
             onPressed: widget.onClose,
           ),
@@ -569,8 +563,9 @@ class _FullScreenPlayerState extends State<_FullScreenPlayer> {
                     Text(
                       song.artist.name,
                       style: context.labelSmall!.copyWith(
-                          fontSize: 20,
-                          color: context.colors.onSurface.withAlpha(204)),
+                        fontSize: 20,
+                        color: context.colors.onSurface.withAlpha(204),
+                      ),
                       overflow: TextOverflow.clip,
                     ),
                   ],
@@ -582,10 +577,7 @@ class _FullScreenPlayerState extends State<_FullScreenPlayer> {
             right: 20,
             left: 20,
             bottom: dimens.biggest.height * 0.2,
-            child: _ProgressBar(
-              progress: current?.progress,
-              song: song,
-            ),
+            child: _ProgressBar(progress: current?.progress, song: song),
           ),
           Positioned(
             right: 20,
@@ -598,8 +590,8 @@ class _FullScreenPlayerState extends State<_FullScreenPlayer> {
                 scale: 1.5,
                 child: _PlaybackControls(
                   isPlaying: state.isPlaying,
-                  togglePlayPause: () =>
-                      bloc.add(const PlaybackEvent.togglePlayPause()),
+                  togglePlayPause:
+                      () => bloc.add(const PlaybackEvent.togglePlayPause()),
                 ),
               ),
             ),
@@ -611,9 +603,7 @@ class _FullScreenPlayerState extends State<_FullScreenPlayer> {
 }
 
 class _MobilePlayer extends StatelessWidget {
-  const _MobilePlayer({
-    required this.onClose,
-  });
+  const _MobilePlayer({required this.onClose});
 
   final VoidCallback onClose;
 
@@ -622,46 +612,52 @@ class _MobilePlayer extends StatelessWidget {
     final bloc = BlocProvider.of<PlaybackBloc>(context);
     return BlocBuilder<PlaybackBloc, PlaybackState>(
       bloc: bloc,
-      builder: (context, state) => Theme(
-        data: ThemeProvider.of(context).dark(),
-        child: Scaffold(
-          body: LayoutBuilder(
-            builder: (context, dimens) {
-              return buildPlayer(context, state, dimens);
-            },
+      builder:
+          (context, state) => Theme(
+            data: ThemeProvider.of(context).dark(),
+            child: Scaffold(
+              body: LayoutBuilder(
+                builder: (context, dimens) {
+                  return buildPlayer(context, state, dimens);
+                },
+              ),
+            ),
           ),
-        ),
-      ),
     );
   }
 
   Widget buildPlayer(
-      BuildContext context, PlaybackState state, BoxConstraints dimens) {
+    BuildContext context,
+    PlaybackState state,
+    BoxConstraints dimens,
+  ) {
     final bloc = BlocProvider.of<PlaybackBloc>(context);
     final current = state.songWithProgress;
     return Stack(
       children: [
         Positioned.fill(
-          child: current == null
-              ? const Center(child: Text('No song selected'))
-              : Container(
-                  color: context.colors.shadow,
-                  child: Opacity(
-                    opacity: 0.3,
-                    child: Image.asset(
-                      current.song.image.image,
-                      fit: BoxFit.cover,
+          child:
+              current == null
+                  ? const Center(child: Text('No song selected'))
+                  : Container(
+                    color: context.colors.shadow,
+                    child: Opacity(
+                      opacity: 0.3,
+                      child: Image.asset(
+                        current.song.image.image,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
-                ),
         ),
         Positioned(
           top: 20,
           left: 20,
           child: IconButton(
-            color: current?.song != null
-                ? context.colors.onSurface
-                : context.colors.onSurface,
+            color:
+                current?.song != null
+                    ? context.colors.onSurface
+                    : context.colors.onSurface,
             icon: const RotatedBox(
               quarterTurns: 1,
               child: Icon(Icons.chevron_right),
@@ -676,10 +672,7 @@ class _MobilePlayer extends StatelessWidget {
               left: 0,
               right: 0,
               height: dimens.biggest.height * 0.5,
-              child: Image.asset(
-                current.song.image.image,
-                fit: BoxFit.contain,
-              ),
+              child: Image.asset(current.song.image.image, fit: BoxFit.contain),
             ),
           Positioned(
             left: 0,
@@ -705,8 +698,9 @@ class _MobilePlayer extends StatelessWidget {
                       Text(
                         current.song.artist.name,
                         style: context.labelSmall!.copyWith(
-                            fontSize: 12,
-                            color: context.colors.onSurface.withAlpha(204)),
+                          fontSize: 12,
+                          color: context.colors.onSurface.withAlpha(204),
+                        ),
                         overflow: TextOverflow.clip,
                       ),
                     ],
@@ -718,15 +712,12 @@ class _MobilePlayer extends StatelessWidget {
                     scale: 1.5,
                     child: _PlaybackControls(
                       isPlaying: state.isPlaying,
-                      togglePlayPause: () =>
-                          bloc.add(const PlaybackEvent.togglePlayPause()),
+                      togglePlayPause:
+                          () => bloc.add(const PlaybackEvent.togglePlayPause()),
                     ),
                   ),
                 ),
-                _ProgressBar(
-                  progress: current.progress,
-                  song: current.song,
-                ),
+                _ProgressBar(progress: current.progress, song: current.song),
               ],
             ),
           ),

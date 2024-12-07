@@ -22,11 +22,10 @@ class ApplicationState extends ChangeNotifier {
 
   Future<void> init() async {
     await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform);
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
 
-    FirebaseUIAuth.configureProviders([
-      EmailAuthProvider(),
-    ]);
+    FirebaseUIAuth.configureProviders([EmailAuthProvider()]);
 
     FirebaseAuth.instance.userChanges().listen((user) {
       if (user != null) {
@@ -46,10 +45,10 @@ class ApplicationState extends ChangeNotifier {
     return FirebaseFirestore.instance
         .collection('guestbook')
         .add(<String, dynamic>{
-      'text': message,
-      'timestamp': DateTime.now().millisecondsSinceEpoch,
-      'name': FirebaseAuth.instance.currentUser!.displayName,
-      'userId': FirebaseAuth.instance.currentUser!.uid,
-    });
+          'text': message,
+          'timestamp': DateTime.now().millisecondsSinceEpoch,
+          'name': FirebaseAuth.instance.currentUser!.displayName,
+          'userId': FirebaseAuth.instance.currentUser!.uid,
+        });
   }
 }

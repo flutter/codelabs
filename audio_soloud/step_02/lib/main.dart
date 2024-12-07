@@ -29,9 +29,7 @@ void main() async {
   final audioController = AudioController();
   await audioController.initialize();
 
-  runApp(
-    MyApp(audioController: audioController),
-  );
+  runApp(MyApp(audioController: audioController));
 }
 
 class MyApp extends StatelessWidget {

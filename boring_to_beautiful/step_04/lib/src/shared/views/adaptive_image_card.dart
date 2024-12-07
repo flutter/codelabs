@@ -36,20 +36,13 @@ class AdaptiveImageCard extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: child,
-            ),
+            child: Padding(padding: const EdgeInsets.all(20), child: child),
           ),
         ],
       );
     }
     return Padding(
-      padding: const EdgeInsets.only(
-        left: 20,
-        bottom: 20,
-        top: 20,
-      ),
+      padding: const EdgeInsets.only(left: 20, bottom: 20, top: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -65,11 +58,8 @@ class AdaptiveImageCard extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: child,
-            ),
-          )
+            child: Padding(padding: const EdgeInsets.all(20), child: child),
+          ),
         ],
       ),
     );

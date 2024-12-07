@@ -17,8 +17,9 @@ class Playlist {
     this.description = '',
     required this.songs,
     this.cover = const MyArtistImage(
-        image: 'assets/images/record.jpeg',
-        sourceName: 'Adobe Stock Images',
-        sourceLink: ''),
+      image: 'assets/images/record.jpeg',
+      sourceName: 'Adobe Stock Images',
+      sourceLink: '',
+    ),
   });
 }
