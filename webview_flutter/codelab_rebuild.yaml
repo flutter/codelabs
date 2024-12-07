@@ -52,7 +52,7 @@ steps:
                    // You can update the following values to match your application needs.
                    // For more information, see: https://flutter.dev/to/review-gradle-config.
           -        minSdk = flutter.minSdkVersion
-          +        minSdk = 20
+          +        minSdk = 21
                    targetSdk = flutter.targetSdkVersion
                    versionCode = flutter.versionCode
                    versionName = flutter.versionName
@@ -60,6 +60,10 @@ steps:
         platforms: [ macos ]
         path: webview_in_flutter
         flutter: build ios --simulator
+      - name: Build Android
+        platforms: [ macos ]
+        path: webview_in_flutter
+        flutter: build apk
       - name: Copy step_03
         copydir:
           from: webview_in_flutter
@@ -867,7 +871,7 @@ steps:
         patch-u: |
           --- b/webview_flutter/step_12/pubspec.yaml
           +++ a/webview_flutter/step_12/pubspec.yaml
-          @@ -59,6 +60,9 @@ flutter:
+          @@ -58,6 +59,9 @@ flutter:
              # included with your application, so that you can use the icons in
              # the material Icons class.
              uses-material-design: true
