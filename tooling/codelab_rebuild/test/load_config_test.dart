@@ -395,4 +395,17 @@ steps:
     final blueprint = Blueprint.fromString(input);
     expect(blueprint.isValid, equals(true));
   });
+
+  test('Rename dir',(){
+    final input = '''
+name: Rename directory
+steps:
+  - name: Rename to dart-server
+    renamedir:
+      from: steps/firebase_backend_dart
+      to: steps/dart-server
+''';
+    final blueprint = Blueprint.fromString(input);
+    expect(blueprint.isValid, equals(true));
+  });
 }
