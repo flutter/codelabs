@@ -74,6 +74,32 @@ steps:
           +	</array>
            </dict>
            </plist>
+      - name: Patch app/ios/Podfile
+        path: steps/app/ios/Podfile
+        patch-u: |
+          --- b/in_app_purchases/step_00/app/ios/Podfile
+          +++ a/in_app_purchases/step_00/app/ios/Podfile
+          @@ -1,5 +1,5 @@
+          -# Uncomment this line to define a global platform for your project
+          -# platform :ios, '12.0'
+          +# Per https://firebase.google.com/support/release-notes/ios cloud_firestore requires a minimum iOS version of 13.0
+          +platform :ios, '13.0'
+           
+           # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
+           ENV['COCOAPODS_DISABLE_STATS'] = 'true'
+      - name: Patch app/android/settings.gradle
+        path: steps/app/android/settings.gradle
+        patch-u: |
+          --- b/in_app_purchases/step_00/app/android/settings.gradle
+          +++ a/in_app_purchases/step_00/app/android/settings.gradle
+          @@ -18,7 +18,7 @@ pluginManagement {
+           
+           plugins {
+               id "dev.flutter.flutter-plugin-loader" version "1.0.0"
+          -    id "com.android.application" version "8.1.0" apply false
+          +    id "com.android.application" version "8.2.1" apply false
+               id "org.jetbrains.kotlin.android" version "1.8.22" apply false
+           }
       - name: Mkdir app/assets
         mkdir: steps/app/assets
       - name: Add app/assets/dash_old.png
@@ -16838,24 +16864,24 @@ steps:
           ///
           /// [ProcessSignal.sigterm] is listened to on all platforms except Windows.
           Future<void> terminateRequestFuture() {
-            final completer = Completer<bool>.sync();
+            final completer = Completer<bool>();
 
-            // sigIntSub is copied below to avoid a race condition - ignoring this lint
-            // ignore: cancel_subscriptions
             StreamSubscription? sigIntSub, sigTermSub;
 
             Future<void> signalHandler(ProcessSignal signal) async {
               print('Received signal $signal - closing');
 
-              final subCopy = sigIntSub;
-              if (subCopy != null) {
+              if (sigIntSub != null) {
+                await sigIntSub!.cancel();
                 sigIntSub = null;
-                await subCopy.cancel();
-                sigIntSub = null;
-                if (sigTermSub != null) {
-                  await sigTermSub!.cancel();
-                  sigTermSub = null;
-                }
+              }
+
+              if (sigTermSub != null) {
+                await sigTermSub!.cancel();
+                sigTermSub = null;
+              }
+
+              if (!completer.isCompleted) {
                 completer.complete(true);
               }
             }
@@ -18132,14 +18158,13 @@ steps:
            import 'dash_counter.dart';
            import 'firebase_notifier.dart';
            
-          @@ -19,19 +20,21 @@ class DashPurchases extends ChangeNotifier {
+          @@ -19,19 +20,20 @@ class DashPurchases extends ChangeNotifier {
              StoreState storeState = StoreState.loading;
              late StreamSubscription<List<PurchaseDetails>> _subscription;
              List<PurchasableProduct> products = [];
           +  IAPRepo iapRepo;
            
              bool get beautifiedDash => _beautifiedDashUpgrade;
-          +  // ignore: prefer_final_fields
              bool _beautifiedDashUpgrade = false;
           -
              final iapConnection = IAPConnection.instance;
@@ -18156,7 +18181,7 @@ steps:
                loadPurchases();
              }
            
-          @@ -57,6 +60,7 @@ class DashPurchases extends ChangeNotifier {
+          @@ -57,6 +59,7 @@ class DashPurchases extends ChangeNotifier {
              @override
              void dispose() {
                _subscription.cancel();
@@ -18164,7 +18189,7 @@ steps:
                super.dispose();
              }
            
-          @@ -136,4 +140,54 @@ class DashPurchases extends ChangeNotifier {
+          @@ -136,4 +139,54 @@ class DashPurchases extends ChangeNotifier {
              void _updateStreamOnError(dynamic error) {
                //Handle error here
              }
@@ -18504,6 +18529,158 @@ steps:
           from: steps
           to: step_10
 
+  - name: complete
+    steps:
+      - name: Remove complete
+        rmdir: complete
+      - name: Patch app/lib/logic/dash_purchases.dart
+        path: steps/app/lib/logic/dash_purchases.dart
+        patch-u: |
+          --- b/in_app_purchases/complete/app/lib/logic/dash_purchases.dart
+          +++ a/in_app_purchases/complete/app/lib/logic/dash_purchases.dart
+          @@ -1,3 +1,5 @@
+          +// ignore_for_file: avoid_print
+          +
+           import 'dart:async';
+           import 'dart:convert';
+           
+          @@ -17,10 +19,10 @@ import 'firebase_notifier.dart';
+           class DashPurchases extends ChangeNotifier {
+             DashCounter counter;
+             FirebaseNotifier firebaseNotifier;
+          +  IAPRepo iapRepo;
+             StoreState storeState = StoreState.loading;
+             late StreamSubscription<List<PurchaseDetails>> _subscription;
+             List<PurchasableProduct> products = [];
+          -  IAPRepo iapRepo;
+           
+             bool get beautifiedDash => _beautifiedDashUpgrade;
+             bool _beautifiedDashUpgrade = false;
+          @@ -44,6 +46,7 @@ class DashPurchases extends ChangeNotifier {
+                 notifyListeners();
+                 return;
+               }
+          +
+               const ids = <String>{
+                 storeKeyConsumable,
+                 storeKeySubscription,
+          @@ -58,8 +61,8 @@ class DashPurchases extends ChangeNotifier {
+           
+             @override
+             void dispose() {
+          -    _subscription.cancel();
+               iapRepo.removeListener(purchasesUpdate);
+          +    _subscription.cancel();
+               super.dispose();
+             }
+           
+          @@ -126,8 +129,10 @@ class DashPurchases extends ChangeNotifier {
+                 headers: headers,
+               );
+               if (response.statusCode == 200) {
+          +      print('Successfully verified purchase');
+                 return true;
+               } else {
+          +      print('failed request: ${response.statusCode} - ${response.body}');
+                 return false;
+               }
+             }
+          @@ -137,7 +142,7 @@ class DashPurchases extends ChangeNotifier {
+             }
+           
+             void _updateStreamOnError(dynamic error) {
+          -    //Handle error here
+          +    print(error);
+             }
+           
+             void purchasesUpdate() {
+          @@ -158,21 +163,21 @@ class DashPurchases extends ChangeNotifier {
+               // purchases page.
+               if (iapRepo.hasActiveSubscription) {
+                 counter.applyPaidMultiplier();
+          -      for (var element in subscriptions) {
+          +      for (final element in subscriptions) {
+                   _updateStatus(element, ProductStatus.purchased);
+                 }
+               } else {
+                 counter.removePaidMultiplier();
+          -      for (var element in subscriptions) {
+          +      for (final element in subscriptions) {
+                   _updateStatus(element, ProductStatus.purchasable);
+                 }
+               }
+           
+          -    // Set the Dash beautifier and show/hide purchased on
+          +    // Set the dash beautifier and show/hide purchased on
+               // the purchases page.
+               if (iapRepo.hasUpgrade != _beautifiedDashUpgrade) {
+                 _beautifiedDashUpgrade = iapRepo.hasUpgrade;
+          -      for (var element in upgrades) {
+          +      for (final element in upgrades) {
+                   _updateStatus(
+                       element,
+                       _beautifiedDashUpgrade
+          @@ -184,8 +189,8 @@ class DashPurchases extends ChangeNotifier {
+             }
+           
+             void _updateStatus(PurchasableProduct product, ProductStatus status) {
+          -    if (product.status != ProductStatus.purchased) {
+          -      product.status = ProductStatus.purchased;
+          +    if (product.status != status) {
+          +      product.status = status;
+                 notifyListeners();
+               }
+             }
+      - name: mkdir dart-backend/test
+        mkdir: steps/dart-backend/test
+      - name: Add dart-backend/test/firebase_backend_dart_test.dart
+        path: steps/dart-backend/test/firebase_backend_dart_test.dart
+        replace-contents: |
+          import 'package:firebase_backend_dart/google_play_purchase_handler.dart';
+          import 'package:firebase_backend_dart/products.dart';
+          import 'package:test/test.dart';
+          
+          import '../bin/server.dart';
+          
+          void main() {
+            test('extractOrderId with subscription suffix', () {
+              final orderId = extractOrderId('googleplay_GPA.3391-7354-8735-85865..0');
+              expect(orderId, 'googleplay_GPA.3391-7354-8735-85865');
+            });
+          
+            test('extractOrderId without subscription suffix', () {
+              final orderId = extractOrderId('googleplay_GPA.3391-7354-8735-85865');
+              expect(orderId, 'googleplay_GPA.3391-7354-8735-85865');
+            });
+          
+            test('Parse Purchase data should fail', () {
+              expect(() => getPurchaseData('{}'), throwsFormatException);
+            });
+          
+            test('Parse Purchase data should succeed', () {
+              final (
+                :userId,
+                :source,
+                productData: ProductData(:productId, :type),
+                :token,
+              ) = getPurchaseData({
+                'userId': 'USER_ID',
+                'source': 'google_play',
+                'productId': 'dash_consumable_2k',
+                'verificationData': 'TOKEN',
+              });
+              expect(userId, 'USER_ID');
+              expect(source, 'google_play');
+              expect(productId, 'dash_consumable_2k');
+              expect(type, ProductType.nonSubscription);
+              expect(token, 'TOKEN');
+            });
+          }
+      - name: Copy to complete
+        copydir:
+          from: steps
+          to: complete
+             
   - name: Cleanup
     steps:
       - name: Remove steps
