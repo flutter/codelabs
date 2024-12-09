@@ -396,7 +396,7 @@ steps:
     expect(blueprint.isValid, equals(true));
   });
 
-  test('Rename dir',(){
+  test('Rename dir', () {
     final input = '''
 name: Rename directory
 steps:
