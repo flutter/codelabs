@@ -41,24 +41,24 @@ int listenPort() => int.parse(Platform.environment['PORT'] ?? '8080');
 ///
 /// [ProcessSignal.sigterm] is listened to on all platforms except Windows.
 Future<void> terminateRequestFuture() {
-  final completer = Completer<bool>.sync();
+  final completer = Completer<bool>();
 
-  // sigIntSub is copied below to avoid a race condition - ignoring this lint
-  // ignore: cancel_subscriptions
   StreamSubscription? sigIntSub, sigTermSub;
 
   Future<void> signalHandler(ProcessSignal signal) async {
     print('Received signal $signal - closing');
 
-    final subCopy = sigIntSub;
-    if (subCopy != null) {
+    if (sigIntSub != null) {
+      await sigIntSub!.cancel();
       sigIntSub = null;
-      await subCopy.cancel();
-      sigIntSub = null;
-      if (sigTermSub != null) {
-        await sigTermSub!.cancel();
-        sigTermSub = null;
-      }
+    }
+
+    if (sigTermSub != null) {
+      await sigTermSub!.cancel();
+      sigTermSub = null;
+    }
+
+    if (!completer.isCompleted) {
       completer.complete(true);
     }
   }
