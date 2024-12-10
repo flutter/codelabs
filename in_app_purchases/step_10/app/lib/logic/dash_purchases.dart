@@ -23,7 +23,6 @@ class DashPurchases extends ChangeNotifier {
   IAPRepo iapRepo;
 
   bool get beautifiedDash => _beautifiedDashUpgrade;
-  // ignore: prefer_final_fields
   bool _beautifiedDashUpgrade = false;
   final iapConnection = IAPConnection.instance;
 

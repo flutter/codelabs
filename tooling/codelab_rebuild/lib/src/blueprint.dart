@@ -103,6 +103,7 @@ class BlueprintStep {
   final List<String> rmdirs;
   final FromTo? copydir;
   final FromTo? copy;
+  final FromTo? renamedir;
   final FromTo? rename;
 
   // Retreiving URLs and unarchiving them
@@ -152,6 +153,7 @@ class BlueprintStep {
     this.rmdirs = const [],
     this.copydir,
     this.copy,
+    this.renamedir,
     this.rename,
     this.platforms,
     this.dart,
@@ -197,6 +199,7 @@ class BlueprintStep {
         rmdirs.isEmpty &&
         copydir == null &&
         copy == null &&
+        renamedir == null &&
         rename == null &&
         rm == null &&
         pod == null &&
@@ -228,6 +231,7 @@ class BlueprintStep {
           rmdirs.isNotEmpty ||
           copydir != null ||
           copy != null ||
+          renamedir != null ||
           rename != null ||
           rm != null ||
           pod != null ||
@@ -326,6 +330,7 @@ class BlueprintStep {
             rmdirs.isNotEmpty ||
             copydir != null ||
             copy != null ||
+            renamedir != null ||
             rename != null ||
             pod != null ||
             dart != null ||
