@@ -59,6 +59,7 @@ BlueprintStep _$BlueprintStepFromJson(Map json) => $checkedCreate(
             'rmdirs',
             'copydir',
             'copy',
+            'renamedir',
             'rename',
             'retrieve-url',
             'tar',
@@ -106,6 +107,8 @@ BlueprintStep _$BlueprintStepFromJson(Map json) => $checkedCreate(
               'copydir', (v) => v == null ? null : FromTo.fromJson(v as Map)),
           copy: $checkedConvert(
               'copy', (v) => v == null ? null : FromTo.fromJson(v as Map)),
+          renamedir: $checkedConvert(
+              'renamedir', (v) => v == null ? null : FromTo.fromJson(v as Map)),
           rename: $checkedConvert(
               'rename', (v) => v == null ? null : FromTo.fromJson(v as Map)),
           platforms: $checkedConvert('platforms',
@@ -171,6 +174,7 @@ Map<String, dynamic> _$BlueprintStepToJson(BlueprintStep instance) =>
       'rmdirs': instance.rmdirs,
       'copydir': instance.copydir,
       'copy': instance.copy,
+      'renamedir': instance.renamedir,
       'rename': instance.rename,
       'retrieve-url': instance.retrieveUrl,
       'tar': instance.tar,

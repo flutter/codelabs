@@ -94,6 +94,22 @@ Future<void> _buildBlueprintStep(Directory cwd, BlueprintStep step) async {
     return;
   }
 
+  final renamedir = step.renamedir;
+  if (renamedir != null) {
+    if (step.path != null) {
+      _renamedir(
+          from: p.join(cwd.path, step.path, renamedir.from),
+          to: p.join(cwd.path, step.path, renamedir.to),
+          step: step);
+    } else {
+      _renamedir(
+          from: p.join(cwd.path, renamedir.from),
+          to: p.join(cwd.path, renamedir.to),
+          step: step);
+    }
+    return;
+  }
+
   final rename = step.rename;
   if (rename != null) {
     if (step.path != null) {
@@ -425,6 +441,16 @@ Future<void> _runNamedCommand({
     exit(-1);
   }
   return;
+}
+
+void _renamedir({
+  required String from,
+  required String to,
+  required BlueprintStep step,
+}) {
+  from = p.canonicalize(from);
+  to = p.canonicalize(to);
+  Directory(from).renameSync(to);
 }
 
 void _rename({
