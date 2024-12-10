@@ -28,9 +28,11 @@ class AuthedUserPlaylists extends ChangeNotifier {
         pageToken: nextPageToken,
       );
       _playlists.addAll(response.items!);
-      _playlists.sort((a, b) => a.snippet!.title!
-          .toLowerCase()
-          .compareTo(b.snippet!.title!.toLowerCase()));
+      _playlists.sort(
+        (a, b) => a.snippet!.title!.toLowerCase().compareTo(
+          b.snippet!.title!.toLowerCase(),
+        ),
+      );
       notifyListeners();
       nextPageToken = response.nextPageToken;
     } while (nextPageToken != null);

@@ -70,12 +70,15 @@ class DashPurchases extends ChangeNotifier {
         await iapConnection.buyNonConsumable(purchaseParam: purchaseParam);
       default:
         throw ArgumentError.value(
-            product.productDetails, '${product.id} is not a known product');
+          product.productDetails,
+          '${product.id} is not a known product',
+        );
     }
   }
 
   Future<void> _onPurchaseUpdate(
-      List<PurchaseDetails> purchaseDetailsList) async {
+    List<PurchaseDetails> purchaseDetailsList,
+  ) async {
     for (var purchaseDetails in purchaseDetailsList) {
       await _handlePurchase(purchaseDetails);
     }

@@ -43,20 +43,14 @@ class _MyAppState extends State<MyApp> {
     const spacerSmall = SizedBox(height: 10);
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Duktape Test'),
-        ),
+        appBar: AppBar(title: const Text('Duktape Test')),
         body: Center(
           child: Container(
             padding: const EdgeInsets.all(10),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                  output,
-                  style: textStyle,
-                  textAlign: TextAlign.center,
-                ),
+                Text(output, style: textStyle, textAlign: TextAlign.center),
                 spacerSmall,
                 ElevatedButton(
                   child: const Text('Run JavaScript'),

@@ -11,16 +11,15 @@ class LoginPage extends StatelessWidget {
     var firebaseNotifier = context.watch<FirebaseNotifier>();
 
     if (firebaseNotifier.isLoggingIn) {
-      return const Center(
-        child: Text('Logging in...'),
-      );
+      return const Center(child: Text('Logging in...'));
     }
     return Center(
-        child: FilledButton(
-      onPressed: () {
-        firebaseNotifier.login();
-      },
-      child: const Text('Login'),
-    ));
+      child: FilledButton(
+        onPressed: () {
+          firebaseNotifier.login();
+        },
+        child: const Text('Login'),
+      ),
+    );
   }
 }

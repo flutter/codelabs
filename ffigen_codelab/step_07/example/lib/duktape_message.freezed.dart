@@ -12,7 +12,8 @@ part of 'duktape_message.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 /// @nodoc
 mixin _$DuktapeMessage {
@@ -21,52 +22,47 @@ mixin _$DuktapeMessage {
     required TResult Function(String code) evaluate,
     required TResult Function(String result) response,
     required TResult Function(String log) error,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String code)? evaluate,
     TResult? Function(String result)? response,
     TResult? Function(String log)? error,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String code)? evaluate,
     TResult Function(String result)? response,
     TResult Function(String log)? error,
     required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(DuktapeMessageCode value) evaluate,
     required TResult Function(DuktapeMessageResponse value) response,
     required TResult Function(DuktapeMessageError value) error,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(DuktapeMessageCode value)? evaluate,
     TResult? Function(DuktapeMessageResponse value)? response,
     TResult? Function(DuktapeMessageError value)? error,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(DuktapeMessageCode value)? evaluate,
     TResult Function(DuktapeMessageResponse value)? response,
     TResult Function(DuktapeMessageError value)? error,
     required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $DuktapeMessageCopyWith<$Res> {
   factory $DuktapeMessageCopyWith(
-          DuktapeMessage value, $Res Function(DuktapeMessage) then) =
-      _$DuktapeMessageCopyWithImpl<$Res, DuktapeMessage>;
+    DuktapeMessage value,
+    $Res Function(DuktapeMessage) then,
+  ) = _$DuktapeMessageCopyWithImpl<$Res, DuktapeMessage>;
 }
 
 /// @nodoc
@@ -85,9 +81,10 @@ class _$DuktapeMessageCopyWithImpl<$Res, $Val extends DuktapeMessage>
 
 /// @nodoc
 abstract class _$$DuktapeMessageCodeImplCopyWith<$Res> {
-  factory _$$DuktapeMessageCodeImplCopyWith(_$DuktapeMessageCodeImpl value,
-          $Res Function(_$DuktapeMessageCodeImpl) then) =
-      __$$DuktapeMessageCodeImplCopyWithImpl<$Res>;
+  factory _$$DuktapeMessageCodeImplCopyWith(
+    _$DuktapeMessageCodeImpl value,
+    $Res Function(_$DuktapeMessageCodeImpl) then,
+  ) = __$$DuktapeMessageCodeImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String code});
 }
@@ -96,23 +93,24 @@ abstract class _$$DuktapeMessageCodeImplCopyWith<$Res> {
 class __$$DuktapeMessageCodeImplCopyWithImpl<$Res>
     extends _$DuktapeMessageCopyWithImpl<$Res, _$DuktapeMessageCodeImpl>
     implements _$$DuktapeMessageCodeImplCopyWith<$Res> {
-  __$$DuktapeMessageCodeImplCopyWithImpl(_$DuktapeMessageCodeImpl _value,
-      $Res Function(_$DuktapeMessageCodeImpl) _then)
-      : super(_value, _then);
+  __$$DuktapeMessageCodeImplCopyWithImpl(
+    _$DuktapeMessageCodeImpl _value,
+    $Res Function(_$DuktapeMessageCodeImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of DuktapeMessage
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? code = null,
-  }) {
-    return _then(_$DuktapeMessageCodeImpl(
-      null == code
-          ? _value.code
-          : code // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+  $Res call({Object? code = null}) {
+    return _then(
+      _$DuktapeMessageCodeImpl(
+        null == code
+            ? _value.code
+            : code // ignore: cast_nullable_to_non_nullable
+                as String,
+      ),
+    );
   }
 }
 
@@ -147,7 +145,9 @@ class _$DuktapeMessageCodeImpl implements DuktapeMessageCode {
   @pragma('vm:prefer-inline')
   _$$DuktapeMessageCodeImplCopyWith<_$DuktapeMessageCodeImpl> get copyWith =>
       __$$DuktapeMessageCodeImplCopyWithImpl<_$DuktapeMessageCodeImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 
   @override
   @optionalTypeArgs
@@ -233,9 +233,9 @@ abstract class DuktapeMessageCode implements DuktapeMessage {
 /// @nodoc
 abstract class _$$DuktapeMessageResponseImplCopyWith<$Res> {
   factory _$$DuktapeMessageResponseImplCopyWith(
-          _$DuktapeMessageResponseImpl value,
-          $Res Function(_$DuktapeMessageResponseImpl) then) =
-      __$$DuktapeMessageResponseImplCopyWithImpl<$Res>;
+    _$DuktapeMessageResponseImpl value,
+    $Res Function(_$DuktapeMessageResponseImpl) then,
+  ) = __$$DuktapeMessageResponseImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String result});
 }
@@ -245,23 +245,23 @@ class __$$DuktapeMessageResponseImplCopyWithImpl<$Res>
     extends _$DuktapeMessageCopyWithImpl<$Res, _$DuktapeMessageResponseImpl>
     implements _$$DuktapeMessageResponseImplCopyWith<$Res> {
   __$$DuktapeMessageResponseImplCopyWithImpl(
-      _$DuktapeMessageResponseImpl _value,
-      $Res Function(_$DuktapeMessageResponseImpl) _then)
-      : super(_value, _then);
+    _$DuktapeMessageResponseImpl _value,
+    $Res Function(_$DuktapeMessageResponseImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of DuktapeMessage
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? result = null,
-  }) {
-    return _then(_$DuktapeMessageResponseImpl(
-      null == result
-          ? _value.result
-          : result // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+  $Res call({Object? result = null}) {
+    return _then(
+      _$DuktapeMessageResponseImpl(
+        null == result
+            ? _value.result
+            : result // ignore: cast_nullable_to_non_nullable
+                as String,
+      ),
+    );
   }
 }
 
@@ -295,8 +295,11 @@ class _$DuktapeMessageResponseImpl implements DuktapeMessageResponse {
   @override
   @pragma('vm:prefer-inline')
   _$$DuktapeMessageResponseImplCopyWith<_$DuktapeMessageResponseImpl>
-      get copyWith => __$$DuktapeMessageResponseImplCopyWithImpl<
-          _$DuktapeMessageResponseImpl>(this, _$identity);
+  get copyWith =>
+      __$$DuktapeMessageResponseImplCopyWithImpl<_$DuktapeMessageResponseImpl>(
+        this,
+        _$identity,
+      );
 
   @override
   @optionalTypeArgs
@@ -377,14 +380,15 @@ abstract class DuktapeMessageResponse implements DuktapeMessage {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DuktapeMessageResponseImplCopyWith<_$DuktapeMessageResponseImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class _$$DuktapeMessageErrorImplCopyWith<$Res> {
-  factory _$$DuktapeMessageErrorImplCopyWith(_$DuktapeMessageErrorImpl value,
-          $Res Function(_$DuktapeMessageErrorImpl) then) =
-      __$$DuktapeMessageErrorImplCopyWithImpl<$Res>;
+  factory _$$DuktapeMessageErrorImplCopyWith(
+    _$DuktapeMessageErrorImpl value,
+    $Res Function(_$DuktapeMessageErrorImpl) then,
+  ) = __$$DuktapeMessageErrorImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String log});
 }
@@ -393,23 +397,24 @@ abstract class _$$DuktapeMessageErrorImplCopyWith<$Res> {
 class __$$DuktapeMessageErrorImplCopyWithImpl<$Res>
     extends _$DuktapeMessageCopyWithImpl<$Res, _$DuktapeMessageErrorImpl>
     implements _$$DuktapeMessageErrorImplCopyWith<$Res> {
-  __$$DuktapeMessageErrorImplCopyWithImpl(_$DuktapeMessageErrorImpl _value,
-      $Res Function(_$DuktapeMessageErrorImpl) _then)
-      : super(_value, _then);
+  __$$DuktapeMessageErrorImplCopyWithImpl(
+    _$DuktapeMessageErrorImpl _value,
+    $Res Function(_$DuktapeMessageErrorImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of DuktapeMessage
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? log = null,
-  }) {
-    return _then(_$DuktapeMessageErrorImpl(
-      null == log
-          ? _value.log
-          : log // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+  $Res call({Object? log = null}) {
+    return _then(
+      _$DuktapeMessageErrorImpl(
+        null == log
+            ? _value.log
+            : log // ignore: cast_nullable_to_non_nullable
+                as String,
+      ),
+    );
   }
 }
 
@@ -444,7 +449,9 @@ class _$DuktapeMessageErrorImpl implements DuktapeMessageError {
   @pragma('vm:prefer-inline')
   _$$DuktapeMessageErrorImplCopyWith<_$DuktapeMessageErrorImpl> get copyWith =>
       __$$DuktapeMessageErrorImplCopyWithImpl<_$DuktapeMessageErrorImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 
   @override
   @optionalTypeArgs

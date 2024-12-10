@@ -12,10 +12,10 @@ import 'background.dart';
 
 class MyPhysicsGame extends Forge2DGame {
   MyPhysicsGame()
-      : super(
-          gravity: Vector2(0, 10),
-          camera: CameraComponent.withFixedResolution(width: 800, height: 600),
-        );
+    : super(
+        gravity: Vector2(0, 10),
+        camera: CameraComponent.withFixedResolution(width: 800, height: 600),
+      );
 
   late final XmlSpriteSheet aliens;
   late final XmlSpriteSheet elements;

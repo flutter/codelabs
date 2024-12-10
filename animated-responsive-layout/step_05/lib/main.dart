@@ -26,10 +26,7 @@ class MainApp extends StatelessWidget {
 }
 
 class Feed extends StatefulWidget {
-  const Feed({
-    super.key,
-    required this.currentUser,
-  });
+  const Feed({super.key, required this.currentUser});
 
   final User currentUser;
 
@@ -40,7 +37,9 @@ class Feed extends StatefulWidget {
 class _FeedState extends State<Feed> {
   late final _colorScheme = Theme.of(context).colorScheme;
   late final _backgroundColor = Color.alphaBlend(
-      _colorScheme.primary.withAlpha(36), _colorScheme.surface);
+    _colorScheme.primary.withAlpha(36),
+    _colorScheme.surface,
+  );
 
   int selectedIndex = 0;
 
@@ -68,12 +67,10 @@ class _FeedState extends State<Feed> {
       bottomNavigationBar: NavigationBar(
         elevation: 0,
         backgroundColor: Colors.white,
-        destinations: destinations.map<NavigationDestination>((d) {
-          return NavigationDestination(
-            icon: Icon(d.icon),
-            label: d.label,
-          );
-        }).toList(),
+        destinations:
+            destinations.map<NavigationDestination>((d) {
+              return NavigationDestination(icon: Icon(d.icon), label: d.label);
+            }).toList(),
         selectedIndex: selectedIndex,
         onDestinationSelected: (index) {
           setState(() {

@@ -51,10 +51,7 @@ class MyHomePage extends StatelessWidget {
           future: viewerDetail(httpClient.credentials.accessToken),
           builder: (context, snapshot) {
             return Scaffold(
-              appBar: AppBar(
-                title: Text(title),
-                elevation: 2,
-              ),
+              appBar: AppBar(title: Text(title), elevation: 2),
               body: Center(
                 child: Text(
                   snapshot.hasData
