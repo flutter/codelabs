@@ -25,7 +25,8 @@ declare -a CODELABS=(
   "haiku_generator"
   "homescreen_codelab"
   "in_app_purchases"
-  "intro_flutter_gpu"
+  # TODO(domesticmouse): Building assets for package:flutter_scene_importer failed.
+  # "intro_flutter_gpu"
   "namer"
   "next-gen-ui"
   "testing_codelab"
