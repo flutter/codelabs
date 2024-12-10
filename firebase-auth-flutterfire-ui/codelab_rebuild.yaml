@@ -204,7 +204,7 @@ steps:
           +  <meta name="google-signin-client_id" content="963656261848-bor24o4vro2n6fo65h1tc7ktv7d3j065.apps.googleusercontent.com">
           +
              <!-- iOS meta tags & icons -->
-             <meta name="apple-mobile-web-app-capable" content="yes">
+             <meta name="mobile-web-app-capable" content="yes">
              <meta name="apple-mobile-web-app-status-bar-style" content="black">
           @@ -31,8 +33,33 @@
            
@@ -4896,7 +4896,7 @@ steps:
           +++ a/firebase-auth-flutterfire-ui/complete/web/index.html
           @@ -25,13 +25,13 @@
              <!-- iOS meta tags & icons -->
-             <meta name="apple-mobile-web-app-capable" content="yes">
+             <meta name="mobile-web-app-capable" content="yes">
              <meta name="apple-mobile-web-app-status-bar-style" content="black">
           -  <meta name="apple-mobile-web-app-title" content="start">
           +  <meta name="apple-mobile-web-app-title" content="complete">
