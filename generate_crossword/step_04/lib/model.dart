@@ -89,7 +89,10 @@ abstract class CrosswordWord
   static int locationComparator(CrosswordWord a, CrosswordWord b) {
     final compareRows = a.location.y.compareTo(b.location.y);
     final compareColumns = a.location.x.compareTo(b.location.x);
-    return switch (compareColumns) { 0 => compareRows, _ => compareColumns };
+    return switch (compareColumns) {
+      0 => compareRows,
+      _ => compareColumns,
+    };
   }
 
   /// Constructor for [CrosswordWord].
@@ -98,10 +101,13 @@ abstract class CrosswordWord
     required Location location,
     required Direction direction,
   }) {
-    return CrosswordWord((b) => b
-      ..word = word
-      ..direction = direction
-      ..location.replace(location));
+    return CrosswordWord(
+      (b) =>
+          b
+            ..word = word
+            ..direction = direction
+            ..location.replace(location),
+    );
   }
 
   /// Constructor for [CrosswordWord].
@@ -148,9 +154,9 @@ abstract class CrosswordCharacter
 
   /// Constructor for [CrosswordCharacter].
   /// Use [CrosswordCharacter.character] instead.
-  factory CrosswordCharacter(
-          [void Function(CrosswordCharacterBuilder)? updates]) =
-      _$CrosswordCharacter;
+  factory CrosswordCharacter([
+    void Function(CrosswordCharacterBuilder)? updates,
+  ]) = _$CrosswordCharacter;
   CrosswordCharacter._();
 }
 
@@ -179,14 +185,15 @@ abstract class Crossword implements Built<Crossword, CrosswordBuilder> {
     required Direction direction,
   }) {
     return rebuild(
-      (b) => b
-        ..words.add(
-          CrosswordWord.word(
-            word: word,
-            direction: direction,
-            location: location,
-          ),
-        ),
+      (b) =>
+          b
+            ..words.add(
+              CrosswordWord.word(
+                word: word,
+                direction: direction,
+                location: location,
+              ),
+            ),
     );
   }
 
@@ -202,19 +209,21 @@ abstract class Crossword implements Built<Crossword, CrosswordBuilder> {
             b.characters.updateValue(
               word.location.rightOffset(idx),
               (b) => b.rebuild((bInner) => bInner.acrossWord.replace(word)),
-              ifAbsent: () => CrosswordCharacter.character(
-                acrossWord: word,
-                character: character,
-              ),
+              ifAbsent:
+                  () => CrosswordCharacter.character(
+                    acrossWord: word,
+                    character: character,
+                  ),
             );
           case Direction.down:
             b.characters.updateValue(
               word.location.downOffset(idx),
               (b) => b.rebuild((bInner) => bInner.downWord.replace(word)),
-              ifAbsent: () => CrosswordCharacter.character(
-                downWord: word,
-                character: character,
-              ),
+              ifAbsent:
+                  () => CrosswordCharacter.character(
+                    downWord: word,
+                    character: character,
+                  ),
             );
         }
       }
@@ -228,7 +237,8 @@ abstract class Crossword implements Built<Crossword, CrosswordBuilder> {
     final grid = List.generate(
       height,
       (_) => List.generate(
-        width, (_) => '░', // https://www.compart.com/en/unicode/U+2591
+        width,
+        (_) => '░', // https://www.compart.com/en/unicode/U+2591
       ),
     );
 
@@ -283,10 +293,5 @@ abstract class Crossword implements Built<Crossword, CrosswordBuilder> {
 }
 
 /// Construct the serialization/deserialization code for the data model.
-@SerializersFor([
-  Location,
-  Crossword,
-  CrosswordWord,
-  CrosswordCharacter,
-])
+@SerializersFor([Location, Crossword, CrosswordWord, CrosswordCharacter])
 final Serializers serializers = _$serializers;

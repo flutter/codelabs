@@ -14,11 +14,7 @@ part 'blueprint.g.dart';
 
 final _logger = Logger('blueprint');
 
-@JsonSerializable(
-  anyMap: true,
-  checked: true,
-  disallowUnrecognizedKeys: true,
-)
+@JsonSerializable(anyMap: true, checked: true, disallowUnrecognizedKeys: true)
 class Blueprint {
   @JsonKey(required: true)
   final String name;
@@ -33,7 +29,15 @@ class Blueprint {
 
   /// Verifies if this blueprint is valid by checking that the steps
   /// are valid.
-  bool get isValid => !steps.any((s) => s.isNotValid);
+  bool get isValid {
+    for (final step in steps) {
+      if (step.isNotValid) {
+        _logger.warning('Invalid step: $step');
+        return false;
+      }
+    }
+    return true;
+  }
 
   factory Blueprint.fromJson(Map json) => _$BlueprintFromJson(json);
 
@@ -54,10 +58,7 @@ class Blueprint {
   }
 
   factory Blueprint.fromString(String yaml) {
-    return checkedYamlDecode(
-      yaml,
-      (m) => Blueprint.fromJson(m!),
-    );
+    return checkedYamlDecode(yaml, (m) => Blueprint.fromJson(m!));
   }
 
   /// Rebuild a blueprint in a target directory.
@@ -69,11 +70,7 @@ class Blueprint {
   String toString() => 'Blueprint: ${toJson()}';
 }
 
-@JsonSerializable(
-  anyMap: true,
-  checked: true,
-  disallowUnrecognizedKeys: true,
-)
+@JsonSerializable(anyMap: true, checked: true, disallowUnrecognizedKeys: true)
 class BlueprintStep {
   @JsonKey(required: true)
   final String name;
@@ -128,6 +125,13 @@ class BlueprintStep {
   @JsonKey(name: 'xcode-project-path')
   final String? xcodeProjectPath;
 
+  // IPHONEOS_DEPLOYMENT_TARGET
+  @JsonKey(name: 'iphoneos-deployment-target')
+  final String? iphoneosDeploymentTarget;
+  // MACOSX_DEPLOYMENT_TARGET
+  @JsonKey(name: 'macosx-deployment-target')
+  final String? macosxDeploymentTarget;
+
   // Modifies a macOS MainMenu.xib file to make the titlebar transparent,
   // content full window, and hide the title bar.
   @JsonKey(name: 'full-screen-macos-main-menu-xib')
@@ -163,6 +167,8 @@ class BlueprintStep {
     this.xcodeAddFile,
     this.xcodeProjectPath,
     this.macOsMainMenuXib,
+    this.iphoneosDeploymentTarget,
+    this.macosxDeploymentTarget,
   }) {
     if (name.isEmpty) {
       throw ArgumentError.value(name, 'name', 'Cannot be empty.');
@@ -252,21 +258,24 @@ class BlueprintStep {
     // We can't have patch and patch-u and patch-c
     if (patch != null && patchU != null && patchC != null) {
       _logger.warning(
-          'Invalid step, multiple of patch, patch-u and patch-c specified: $name');
+        'Invalid step, multiple of patch, patch-u and patch-c specified: $name',
+      );
       return false;
     }
 
     // If we have replace-contents, we need a file to apply it to.
     if (replaceContents != null && path == null) {
-      _logger
-          .warning('Invalid step, replace-contents with no target path: $name');
+      _logger.warning(
+        'Invalid step, replace-contents with no target path: $name',
+      );
       return false;
     }
 
     // If we have base64-contents, we need a file to apply it to.
     if (base64Contents != null && path == null) {
-      _logger
-          .warning('Invalid step, base64-contents with no target path: $name');
+      _logger.warning(
+        'Invalid step, base64-contents with no target path: $name',
+      );
       return false;
     }
 
@@ -291,14 +300,19 @@ class BlueprintStep {
     // If we have a stripLinesContaining, we need a path to strip
     if (stripLinesContaining != null && path == null) {
       _logger.warning(
-          'Invalid step, strip-lines-containing with no target path: $name');
+        'Invalid step, strip-lines-containing with no target path: $name',
+      );
       return false;
     }
 
     // If we have a xcodeAddFile, we need a path to the xcode project path
-    if (xcodeAddFile != null && xcodeProjectPath == null) {
+    if (xcodeAddFile != null &&
+        xcodeProjectPath == null &&
+        iphoneosDeploymentTarget == null &&
+        macosxDeploymentTarget == null) {
       _logger.warning(
-          'Invalid step, xcode-add-file with no xcode-project-path: $name');
+        'Invalid step, xcode-add-file with no xcode-project-path, iphoneos-deployment-target or macosx-deployment-target: $name',
+      );
       return false;
     }
 
@@ -324,7 +338,8 @@ class BlueprintStep {
             xcodeAddFile != null ||
             xcodeProjectPath != null)) {
       _logger.warning(
-          'Invalid step, patch with command(s), replace-contents, or base64-contents: $name');
+        'Invalid step, patch with command(s), replace-contents, or base64-contents: $name',
+      );
       return false;
     }
 
@@ -339,11 +354,7 @@ class BlueprintStep {
   String toString() => 'BlueprintStep: ${toJson()}';
 }
 
-@JsonSerializable(
-  anyMap: true,
-  checked: true,
-  disallowUnrecognizedKeys: true,
-)
+@JsonSerializable(anyMap: true, checked: true, disallowUnrecognizedKeys: true)
 class FromTo {
   final String from;
   final String to;

@@ -27,16 +27,11 @@ class DisappearingNavigationRail extends StatelessWidget {
       onDestinationSelected: onDestinationSelected,
       leading: Column(
         children: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.menu),
-          ),
+          IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
           const SizedBox(height: 8),
           FloatingActionButton(
             shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(15),
-              ),
+              borderRadius: BorderRadius.all(Radius.circular(15)),
             ),
             backgroundColor: colorScheme.tertiaryContainer,
             foregroundColor: colorScheme.onTertiaryContainer,
@@ -46,12 +41,13 @@ class DisappearingNavigationRail extends StatelessWidget {
         ],
       ),
       groupAlignment: -0.85,
-      destinations: destinations.map((d) {
-        return NavigationRailDestination(
-          icon: Icon(d.icon),
-          label: Text(d.label),
-        );
-      }).toList(),
+      destinations:
+          destinations.map((d) {
+            return NavigationRailDestination(
+              icon: Icon(d.icon),
+              label: Text(d.label),
+            );
+          }).toList(),
     );
   }
 }

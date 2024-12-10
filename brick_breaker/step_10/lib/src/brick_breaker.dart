@@ -19,12 +19,12 @@ enum PlayState { welcome, playing, gameOver, won }
 class BrickBreaker extends FlameGame
     with HasCollisionDetection, KeyboardEvents, TapDetector {
   BrickBreaker()
-      : super(
-          camera: CameraComponent.withFixedResolution(
-            width: gameWidth,
-            height: gameHeight,
-          ),
-        );
+    : super(
+        camera: CameraComponent.withFixedResolution(
+          width: gameWidth,
+          height: gameHeight,
+        ),
+      );
 
   final ValueNotifier<int> score = ValueNotifier(0);
   final rand = math.Random();
@@ -68,18 +68,27 @@ class BrickBreaker extends FlameGame
     playState = PlayState.playing;
     score.value = 0;
 
-    world.add(Ball(
+    world.add(
+      Ball(
         difficultyModifier: difficultyModifier,
         radius: ballRadius,
         position: size / 2,
-        velocity: Vector2((rand.nextDouble() - 0.5) * width, height * 0.2)
-            .normalized()
-          ..scale(height / 4)));
+        velocity:
+            Vector2(
+                (rand.nextDouble() - 0.5) * width,
+                height * 0.2,
+              ).normalized()
+              ..scale(height / 4),
+      ),
+    );
 
-    world.add(Bat(
+    world.add(
+      Bat(
         size: Vector2(batWidth, batHeight),
         cornerRadius: const Radius.circular(ballRadius / 2),
-        position: Vector2(width / 2, height * 0.95)));
+        position: Vector2(width / 2, height * 0.95),
+      ),
+    );
 
     world.addAll([
       for (var i = 0; i < brickColors.length; i++)
@@ -102,7 +111,9 @@ class BrickBreaker extends FlameGame
 
   @override
   KeyEventResult onKeyEvent(
-      KeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
+    KeyEvent event,
+    Set<LogicalKeyboardKey> keysPressed,
+  ) {
     super.onKeyEvent(event, keysPressed);
     switch (event.logicalKey) {
       case LogicalKeyboardKey.arrowLeft:

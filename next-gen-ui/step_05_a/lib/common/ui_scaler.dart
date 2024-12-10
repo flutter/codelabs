@@ -22,10 +22,6 @@ class UiScaler extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     final double scale = min(screenSize.height / referenceHeight, 1.0);
-    return Transform.scale(
-      scale: scale,
-      alignment: alignment,
-      child: child,
-    );
+    return Transform.scale(scale: scale, alignment: alignment, child: child);
   }
 }

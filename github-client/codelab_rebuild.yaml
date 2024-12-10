@@ -492,18 +492,18 @@ steps:
           // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
           // See the License for the specific language governing permissions and
           // limitations under the License.
-          
+
           import 'package:flutter/material.dart';
           import 'github_oauth_credentials.dart';
           import 'src/github_login.dart';
-          
+
           void main() {
             runApp(const MyApp());
           }
-          
+
           class MyApp extends StatelessWidget {
             const MyApp({super.key});
-          
+
             @override
             Widget build(BuildContext context) {
               return MaterialApp(
@@ -517,25 +517,18 @@ steps:
               );
             }
           }
-          
+
           class MyHomePage extends StatelessWidget {
             const MyHomePage({super.key, required this.title});
             final String title;
-          
+
             @override
             Widget build(BuildContext context) {
               return GithubLoginWidget(
                 builder: (context, httpClient) {
                   return Scaffold(
-                    appBar: AppBar(
-                      title: Text(title),
-                      elevation: 2,
-                    ),
-                    body: const Center(
-                      child: Text(
-                        'You are logged in to GitHub!',
-                      ),
-                    ),
+                    appBar: AppBar(title: Text(title), elevation: 2),
+                    body: const Center(child: Text('You are logged in to GitHub!')),
                   );
                 },
                 githubClientId: githubClientId,
@@ -594,8 +587,9 @@ steps:
           import 'package:oauth2/oauth2.dart' as oauth2;
           import 'package:url_launcher/url_launcher.dart';
 
-          final _authorizationEndpoint =
-              Uri.parse('https://github.com/login/oauth/authorize');
+          final _authorizationEndpoint = Uri.parse(
+            'https://github.com/login/oauth/authorize',
+          );
           final _tokenEndpoint = Uri.parse('https://github.com/login/oauth/access_token');
 
           class GithubLoginWidget extends StatefulWidget {
@@ -615,8 +609,8 @@ steps:
             State<GithubLoginWidget> createState() => _GithubLoginState();
           }
 
-          typedef AuthenticatedBuilder = Widget Function(
-              BuildContext context, oauth2.Client client);
+          typedef AuthenticatedBuilder =
+              Widget Function(BuildContext context, oauth2.Client client);
 
           class _GithubLoginState extends State<GithubLoginWidget> {
             HttpServer? _redirectServer;
@@ -630,10 +624,7 @@ steps:
               }
 
               return Scaffold(
-                appBar: AppBar(
-                  title: const Text('Github Login'),
-                  elevation: 2,
-                ),
+                appBar: AppBar(title: const Text('Github Login'), elevation: 2),
                 body: Center(
                   child: ElevatedButton(
                     onPressed: () async {
@@ -641,7 +632,8 @@ steps:
                       // Bind to an ephemeral port on localhost
                       _redirectServer = await HttpServer.bind('localhost', 0);
                       var authenticatedHttpClient = await _getOAuth2Client(
-                          Uri.parse('http://localhost:${_redirectServer!.port}/auth'));
+                        Uri.parse('http://localhost:${_redirectServer!.port}/auth'),
+                      );
                       setState(() {
                         _client = authenticatedHttpClient;
                       });
@@ -655,8 +647,9 @@ steps:
             Future<oauth2.Client> _getOAuth2Client(Uri redirectUrl) async {
               if (widget.githubClientId.isEmpty || widget.githubClientSecret.isEmpty) {
                 throw const GithubLoginException(
-                    'githubClientId and githubClientSecret must be not empty. '
-                    'See `lib/github_oauth_credentials.dart` for more detail.');
+                  'githubClientId and githubClientSecret must be not empty. '
+                  'See `lib/github_oauth_credentials.dart` for more detail.',
+                );
               }
               var grant = oauth2.AuthorizationCodeGrant(
                 widget.githubClientId,
@@ -665,13 +658,16 @@ steps:
                 secret: widget.githubClientSecret,
                 httpClient: _JsonAcceptingHttpClient(),
               );
-              var authorizationUrl =
-                  grant.getAuthorizationUrl(redirectUrl, scopes: widget.githubScopes);
+              var authorizationUrl = grant.getAuthorizationUrl(
+                redirectUrl,
+                scopes: widget.githubScopes,
+              );
 
               await _redirect(authorizationUrl);
               var responseQueryParameters = await _listen();
-              var client =
-                  await grant.handleAuthorizationResponse(responseQueryParameters);
+              var client = await grant.handleAuthorizationResponse(
+                responseQueryParameters,
+              );
               return client;
             }
 
@@ -800,28 +796,18 @@ steps:
            import 'github_oauth_credentials.dart';
            import 'src/github_login.dart';
            
-          @@ -45,16 +47,23 @@ class MyHomePage extends StatelessWidget {
+          @@ -45,9 +47,20 @@ class MyHomePage extends StatelessWidget {
              Widget build(BuildContext context) {
                return GithubLoginWidget(
                  builder: (context, httpClient) {
           -        return Scaffold(
-          -          appBar: AppBar(
-          -            title: Text(title),
-          -            elevation: 2,
-          -          ),
-          -          body: const Center(
-          -            child: Text(
-          -              'You are logged in to GitHub!',
-          -            ),
-          -          ),
+          -          appBar: AppBar(title: Text(title), elevation: 2),
+          -          body: const Center(child: Text('You are logged in to GitHub!')),
           +        return FutureBuilder<CurrentUser>(
           +          future: viewerDetail(httpClient.credentials.accessToken),
           +          builder: (context, snapshot) {
           +            return Scaffold(
-          +              appBar: AppBar(
-          +                title: Text(title),
-          +                elevation: 2,
-          +              ),
+          +              appBar: AppBar(title: Text(title), elevation: 2),
           +              body: Center(
           +                child: Text(
           +                  snapshot.hasData
@@ -834,7 +820,7 @@ steps:
                    );
                  },
                  githubClientId: githubClientId,
-          @@ -63,3 +72,8 @@ class MyHomePage extends StatelessWidget {
+          @@ -56,3 +69,8 @@ class MyHomePage extends StatelessWidget {
                );
              }
            }
@@ -914,23 +900,23 @@ steps:
           // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
           // See the License for the specific language governing permissions and
           // limitations under the License.
-          
+
           import 'package:flutter/material.dart';
           import 'package:fluttericon/octicons_icons.dart';
           import 'package:github/github.dart';
           import 'package:url_launcher/url_launcher_string.dart';
-          
+
           class GitHubSummary extends StatefulWidget {
             const GitHubSummary({required this.gitHub, super.key});
             final GitHub gitHub;
-          
+
             @override
             State<GitHubSummary> createState() => _GitHubSummaryState();
           }
-          
+
           class _GitHubSummaryState extends State<GitHubSummary> {
             int _selectedIndex = 0;
-          
+
             @override
             Widget build(BuildContext context) {
               return Row(
@@ -974,24 +960,24 @@ steps:
               );
             }
           }
-          
+
           class RepositoriesList extends StatefulWidget {
             const RepositoriesList({required this.gitHub, super.key});
             final GitHub gitHub;
-          
+
             @override
             State<RepositoriesList> createState() => _RepositoriesListState();
           }
-          
+
           class _RepositoriesListState extends State<RepositoriesList> {
             @override
             initState() {
               super.initState();
               _repositories = widget.gitHub.repositories.listRepositories().toList();
             }
-          
+
             late Future<List<Repository>> _repositories;
-          
+
             @override
             Widget build(BuildContext context) {
               return FutureBuilder<List<Repository>>(
@@ -1009,8 +995,9 @@ steps:
                     itemBuilder: (context, index) {
                       var repository = repositories[index];
                       return ListTile(
-                        title:
-                            Text('${repository.owner?.login ?? ''}/${repository.name}'),
+                        title: Text(
+                          '${repository.owner?.login ?? ''}/${repository.name}',
+                        ),
                         subtitle: Text(repository.description),
                         onTap: () => _launchUrl(this, repository.htmlUrl),
                       );
@@ -1021,24 +1008,24 @@ steps:
               );
             }
           }
-          
+
           class AssignedIssuesList extends StatefulWidget {
             const AssignedIssuesList({required this.gitHub, super.key});
             final GitHub gitHub;
-          
+
             @override
             State<AssignedIssuesList> createState() => _AssignedIssuesListState();
           }
-          
+
           class _AssignedIssuesListState extends State<AssignedIssuesList> {
             @override
             initState() {
               super.initState();
               _assignedIssues = widget.gitHub.issues.listByUser().toList();
             }
-          
+
             late Future<List<Issue>> _assignedIssues;
-          
+
             @override
             Widget build(BuildContext context) {
               return FutureBuilder<List<Issue>>(
@@ -1057,9 +1044,11 @@ steps:
                       var assignedIssue = assignedIssues[index];
                       return ListTile(
                         title: Text(assignedIssue.title),
-                        subtitle: Text('${_nameWithOwner(assignedIssue)} '
-                            'Issue #${assignedIssue.number} '
-                            'opened by ${assignedIssue.user?.login ?? ''}'),
+                        subtitle: Text(
+                          '${_nameWithOwner(assignedIssue)} '
+                          'Issue #${assignedIssue.number} '
+                          'opened by ${assignedIssue.user?.login ?? ''}',
+                        ),
                         onTap: () => _launchUrl(this, assignedIssue.htmlUrl),
                       );
                     },
@@ -1068,32 +1057,33 @@ steps:
                 },
               );
             }
-          
+
             String _nameWithOwner(Issue assignedIssue) {
               final endIndex = assignedIssue.url.lastIndexOf('/issues/');
               return assignedIssue.url.substring(29, endIndex);
             }
           }
-          
+
           class PullRequestsList extends StatefulWidget {
             const PullRequestsList({required this.gitHub, super.key});
             final GitHub gitHub;
-          
+
             @override
             State<PullRequestsList> createState() => _PullRequestsListState();
           }
-          
+
           class _PullRequestsListState extends State<PullRequestsList> {
             @override
             initState() {
               super.initState();
-              _pullRequests = widget.gitHub.pullRequests
-                  .list(RepositorySlug('flutter', 'flutter'))
-                  .toList();
+              _pullRequests =
+                  widget.gitHub.pullRequests
+                      .list(RepositorySlug('flutter', 'flutter'))
+                      .toList();
             }
-          
+
             late Future<List<PullRequest>> _pullRequests;
-          
+
             @override
             Widget build(BuildContext context) {
               return FutureBuilder<List<PullRequest>>(
@@ -1112,10 +1102,12 @@ steps:
                       var pullRequest = pullRequests[index];
                       return ListTile(
                         title: Text(pullRequest.title ?? ''),
-                        subtitle: Text('flutter/flutter '
-                            'PR #${pullRequest.number} '
-                            'opened by ${pullRequest.user?.login ?? ''} '
-                            '(${pullRequest.state?.toLowerCase() ?? ''})'),
+                        subtitle: Text(
+                          'flutter/flutter '
+                          'PR #${pullRequest.number} '
+                          'opened by ${pullRequest.user?.login ?? ''} '
+                          '(${pullRequest.state?.toLowerCase() ?? ''})',
+                        ),
                         onTap: () => _launchUrl(this, pullRequest.htmlUrl ?? ''),
                       );
                     },
@@ -1125,7 +1117,7 @@ steps:
               );
             }
           }
-          
+
           Future<void> _launchUrl(State state, String url) async {
             if (await canLaunchUrlString(url)) {
               await launchUrlString(url);
@@ -1133,18 +1125,19 @@ steps:
               if (state.mounted) {
                 return showDialog(
                   context: state.context,
-                  builder: (context) => AlertDialog(
-                    title: const Text('Navigation error'),
-                    content: Text('Could not launch $url'),
-                    actions: <Widget>[
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text('Close'),
+                  builder:
+                      (context) => AlertDialog(
+                        title: const Text('Navigation error'),
+                        content: Text('Could not launch $url'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('Close'),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
                 );
               }
             }
@@ -1162,7 +1155,7 @@ steps:
            
            void main() {
              runApp(const MyApp());
-          @@ -49,23 +50,14 @@ class MyHomePage extends StatelessWidget {
+          @@ -49,20 +50,11 @@ class MyHomePage extends StatelessWidget {
                return GithubLoginWidget(
                  builder: (context, httpClient) {
                    WindowToFront.activate();
@@ -1170,10 +1163,7 @@ steps:
           -          future: viewerDetail(httpClient.credentials.accessToken),
           -          builder: (context, snapshot) {
           -            return Scaffold(
-          -              appBar: AppBar(
-          -                title: Text(title),
-          -                elevation: 2,
-          -              ),
+          -              appBar: AppBar(title: Text(title), elevation: 2),
           -              body: Center(
           -                child: Text(
           -                  snapshot.hasData
@@ -1184,17 +1174,14 @@ steps:
           -            );
           -          },
           +        return Scaffold(
-          +          appBar: AppBar(
-          +            title: Text(title),
-          +            elevation: 2,
-          +          ),
+          +          appBar: AppBar(title: Text(title), elevation: 2),
           +          body: GitHubSummary(
           +            gitHub: _getGitHub(httpClient.credentials.accessToken),
           +          ),
                    );
                  },
                  githubClientId: githubClientId,
-          @@ -75,7 +67,6 @@ class MyHomePage extends StatelessWidget {
+          @@ -72,7 +64,6 @@ class MyHomePage extends StatelessWidget {
              }
            }
            

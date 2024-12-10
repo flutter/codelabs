@@ -4,15 +4,17 @@ import 'entry.dart';
 
 class AppState {
   AppState() {
-    _entriesStreamController = StreamController.broadcast(onListen: () {
-      _entriesStreamController.add([
-        Entry(
-          date: '10/09/2022',
-          text: lorem,
-          title: '[Example] My Journal Entry',
-        )
-      ]);
-    });
+    _entriesStreamController = StreamController.broadcast(
+      onListen: () {
+        _entriesStreamController.add([
+          Entry(
+            date: '10/09/2022',
+            text: lorem,
+            title: '[Example] My Journal Entry',
+          ),
+        ]);
+      },
+    );
   }
 
   // This will change to the type User from the Firebase Authentication package

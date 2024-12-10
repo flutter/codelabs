@@ -6,11 +6,12 @@ import 'package:flutter/material.dart';
 import '../animations.dart';
 
 class NavRailTransition extends StatefulWidget {
-  const NavRailTransition(
-      {super.key,
-      required this.animation,
-      required this.backgroundColor,
-      required this.child});
+  const NavRailTransition({
+    super.key,
+    required this.animation,
+    required this.backgroundColor,
+    required this.child,
+  });
 
   final Animation<double> animation;
   final Widget child;
