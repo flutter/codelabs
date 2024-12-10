@@ -396,6 +396,30 @@ steps:
     expect(blueprint.isValid, equals(true));
   });
 
+  test('Test macosx-deployment-target', () {
+    final input = '''
+name: macosx-deployment-target
+steps:
+  - name: Patch macos/Runner.xcodeproj/project.pbxproj
+    xcode-project-path: gtk_flutter/macos/Runner.xcodeproj
+    macosx-deployment-target: '10.15'
+''';
+    final blueprint = Blueprint.fromString(input);
+    expect(blueprint.isValid, equals(true));
+  });
+
+  test('Test iphoneos-deployment-target', () {
+    final input = '''
+name: iphoneos-deployment-target
+steps:
+  - name: Patch ios/Runner.xcodeproj/project.pbxproj
+    xcode-project-path: gtk_flutter/ios/Runner.xcodeproj
+    iphoneos-deployment-target: '13.0'
+''';
+    final blueprint = Blueprint.fromString(input);
+    expect(blueprint.isValid, equals(true));
+  });
+
   test('Rename dir', () {
     final input = '''
 name: Rename directory

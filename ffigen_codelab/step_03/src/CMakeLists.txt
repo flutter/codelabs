@@ -15,3 +15,8 @@ set_target_properties(ffigen_app PROPERTIES
 )
 
 target_compile_definitions(ffigen_app PUBLIC DART_SHARED_LIB)
+
+if (ANDROID)
+  # Support Android 15 16k page size
+  target_link_options(ffigen_app PRIVATE "-Wl,-z,max-page-size=16384")
+endif()

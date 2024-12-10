@@ -14,7 +14,7 @@ steps:
         patch-u: |
           --- b/in_app_purchases/step_00/app/.gitignore
           +++ a/in_app_purchases/step_00/app/.gitignore
-          @@ -41,3 +41,9 @@ app.*.map.json
+          @@ -43,3 +43,9 @@ app.*.map.json
            /android/app/debug
            /android/app/profile
            /android/app/release
@@ -16720,9 +16720,6 @@ steps:
       - name: Add dependencies
         path: steps/dart-backend
         dart: pub add googleapis googleapis_auth http app_store_server_sdk
-      - name: Remove not required dependency
-        path: steps/dart-backend
-        dart: pub remove args
       - name: Replace .github
         path: steps/dart-backend/.gitignore
         replace-contents: |
