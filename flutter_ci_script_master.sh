@@ -25,8 +25,7 @@ declare -a CODELABS=(
   "haiku_generator"
   "homescreen_codelab"
   "in_app_purchases"
-  # TODO(domesticmouse): Building assets for package:flutter_scene_importer failed.
-  # "intro_flutter_gpu"
+  "intro_flutter_gpu"
   "namer"
   # TODO(domesticmouse): Color.red/green/blue are deprecated
   # "next-gen-ui"
