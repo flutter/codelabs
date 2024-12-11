@@ -1,6 +1,6 @@
-# Files and directories created by pub.
+# https://dart.dev/guides/libraries/private-files
+# Created by `dart pub`
 .dart_tool/
-.packages
 
 # Conventional directory for build output.
 build/
@@ -10,4 +10,3 @@ assets/*.p8
 assets/appstore.token
 assets/service-account*.json
 lib/constants.dart
-
