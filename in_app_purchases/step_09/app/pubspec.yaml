@@ -4,7 +4,7 @@ publish_to: 'none'
 version: 0.1.0
 
 environment:
-  sdk: ^3.5.4
+  sdk: ^3.6.0
 
 dependencies:
   flutter:
@@ -15,15 +15,15 @@ dependencies:
   firebase_core: ^3.8.1
   google_sign_in: ^6.2.2
   http: ^1.2.2
-  in_app_purchase: ^3.2.0
-  in_app_purchase_platform_interface: ^1.4.0
   intl: ^0.20.1
   provider: ^6.1.2
+  in_app_purchase: ^3.2.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^4.0.0
+  flutter_lints: ^5.0.0
+  in_app_purchase_platform_interface: ^1.4.0
 
 flutter:
   uses-material-design: true
