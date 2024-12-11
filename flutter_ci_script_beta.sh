@@ -28,8 +28,7 @@ declare -a CODELABS=(
   # TODO(domesticmouse): Add after beta is above Dart 3.7.0-0
   # "intro_flutter_gpu"
   "namer"
-  # TODO(domesticmouse): Color.red/green/blue are deprecated
-  # "next-gen-ui"
+  "next-gen-ui"
   "testing_codelab"
   "tfagents-flutter"
   "tfrs-flutter"

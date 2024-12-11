@@ -1431,7 +1431,7 @@ steps:
         patch-u: |
           --- b/google-maps-in-flutter/step_5/pubspec.yaml
           +++ a/google-maps-in-flutter/step_5/pubspec.yaml
-          @@ -93,3 +93,5 @@ flutter:
+          @@ -92,3 +92,5 @@ flutter:
              #
              # For details regarding fonts from package dependencies,
              # see https://flutter.dev/to/font-from-package
