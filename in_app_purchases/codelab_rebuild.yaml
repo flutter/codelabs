@@ -14,7 +14,7 @@ steps:
         patch-u: |
           --- b/in_app_purchases/step_00/app/.gitignore
           +++ a/in_app_purchases/step_00/app/.gitignore
-          @@ -43,3 +43,9 @@ app.*.map.json
+          @@ -43,3 +43,8 @@ app.*.map.json
            /android/app/debug
            /android/app/profile
            /android/app/release
@@ -23,7 +23,6 @@ steps:
           +GoogleService-Info.plist
           +google-services.json
           +ios/firebase_app_id_file.json
-          +lib/firebase_options.dart
       - name: Add app dependencies
         path: steps/app
         flutter: pub add cloud_firestore cupertino_icons firebase_auth firebase_core google_sign_in http intl provider
