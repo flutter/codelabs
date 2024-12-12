@@ -1418,9 +1418,9 @@ steps:
              # see https://flutter.dev/to/font-from-package
           +  assets:
           +    - assets/locations.json
-      - name: flutter doctor
+      - name: Flutter pub get
         path: google_maps_in_flutter
-        flutter: doctor
+        flutter: pub get
       - name: Run build_runner
         path: google_maps_in_flutter
         dart: run build_runner build

@@ -13,7 +13,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  go_router: ^14.6.0
+  go_router: ^14.6.2
   provider: ^6.1.2
 
 dev_dependencies:
