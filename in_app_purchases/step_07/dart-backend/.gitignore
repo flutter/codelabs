@@ -9,4 +9,3 @@ build/
 assets/*.p8
 assets/appstore.token
 assets/service-account*.json
-lib/constants.dart

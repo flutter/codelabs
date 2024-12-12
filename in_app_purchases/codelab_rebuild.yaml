@@ -16733,7 +16733,6 @@ steps:
           assets/*.p8
           assets/appstore.token
           assets/service-account*.json
-          lib/constants.dart
       - name: Replace analysis_options.yaml
         path: steps/dart-backend/analysis_options.yaml
         replace-contents: |
