@@ -23,7 +23,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        flutter_version: [stable, beta, master]
+        # Add master back once https://github.com/flutter/flutter/issues/160558 is fixed
+        flutter_version: [stable, beta]
         os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
