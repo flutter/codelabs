@@ -34,5 +34,4 @@ jobs:
       - uses: subosito/flutter-action@f2c4f6686ca8e8d6e6d0f28410eeef506ed66aff
         with:
           channel: ${{ matrix.flutter_version }}
-      - run: flutter --version
       - run: ./flutter_ci_script_${{ matrix.flutter_version }}.sh
