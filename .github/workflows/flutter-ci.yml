@@ -23,6 +23,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        # Add master back once https://github.com/flutter/flutter/issues/160558 is fixed
         flutter_version: [stable, beta]
         os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
