@@ -42,13 +42,14 @@ class ClientSecretInstalled {
   final List<String> redirectUris;
 
   ClientSecretInstalled(
-      this.clientId,
-      this.projectId,
-      this.authUri,
-      this.tokenUri,
-      this.authProviderX509CertUrl,
-      this.clientSecret,
-      this.redirectUris);
+    this.clientId,
+    this.projectId,
+    this.authUri,
+    this.tokenUri,
+    this.authProviderX509CertUrl,
+    this.clientSecret,
+    this.redirectUris,
+  );
 
   factory ClientSecretInstalled.fromJson(Map<String, dynamic> json) =>
       _$ClientSecretInstalledFromJson(json);

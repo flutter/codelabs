@@ -13,10 +13,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Column(
       children: [
-        Expanded(
-          flex: 2,
-          child: DashClickerWidget(),
-        ),
+        Expanded(flex: 2, child: DashClickerWidget()),
         Expanded(child: UpgradeList()),
       ],
     );
@@ -36,10 +33,12 @@ class DashClickerWidget extends StatelessWidget {
           InkWell(
             // Don't listen as we don't need a rebuild when the count changes
             onTap: Provider.of<DashCounter>(context, listen: false).increment,
-            child: Image.asset(context.read<DashPurchases>().beautifiedDash
-                ? 'assets/dash.png'
-                : 'assets/dash_old.png'),
-          )
+            child: Image.asset(
+              context.read<DashPurchases>().beautifiedDash
+                  ? 'assets/dash.png'
+                  : 'assets/dash_old.png',
+            ),
+          ),
         ],
       ),
     );
@@ -60,8 +59,9 @@ class CounterStateWidget extends StatelessWidget {
         style: DefaultTextStyle.of(context).style,
         children: <TextSpan>[
           TextSpan(
-              text: counter.countString,
-              style: const TextStyle(fontWeight: FontWeight.bold)),
+            text: counter.countString,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
           const TextSpan(text: ' times!'),
         ],
       ),
@@ -75,13 +75,15 @@ class UpgradeList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var upgrades = context.watch<DashUpgrades>();
-    return ListView(children: [
-      _UpgradeWidget(
-        upgrade: upgrades.tim,
-        title: 'Tim Sneath',
-        onPressed: upgrades.addTim,
-      ),
-    ]);
+    return ListView(
+      children: [
+        _UpgradeWidget(
+          upgrade: upgrades.tim,
+          title: 'Tim Sneath',
+          onPressed: upgrades.addTim,
+        ),
+      ],
+    );
   }
 }
 
@@ -99,24 +101,19 @@ class _UpgradeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-        onTap: onPressed,
-        child: ListTile(
-          leading: Center(
-            widthFactor: 1,
-            child: Text(
-              upgrade.count.toString(),
-            ),
-          ),
-          title: Text(
-            title,
-            style: !upgrade.purchasable
-                ? const TextStyle(color: Colors.redAccent)
-                : null,
-          ),
-          subtitle: Text('Produces ${upgrade.work} dashes per second'),
-          trailing: Text(
-            '${NumberFormat.compact().format(upgrade.cost)} dashes',
-          ),
-        ));
+      onTap: onPressed,
+      child: ListTile(
+        leading: Center(widthFactor: 1, child: Text(upgrade.count.toString())),
+        title: Text(
+          title,
+          style:
+              !upgrade.purchasable
+                  ? const TextStyle(color: Colors.redAccent)
+                  : null,
+        ),
+        subtitle: Text('Produces ${upgrade.work} dashes per second'),
+        trailing: Text('${NumberFormat.compact().format(upgrade.cost)} dashes'),
+      ),
+    );
   }
 }

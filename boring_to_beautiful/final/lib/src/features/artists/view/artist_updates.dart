@@ -30,7 +30,7 @@ class ArtistUpdates extends StatelessWidget {
                 child: Text(update),
               ),
             ),
-          )
+          ),
       ],
     );
   }

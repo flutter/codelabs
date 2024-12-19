@@ -10,12 +10,9 @@ class Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Text(
-          heading,
-          style: const TextStyle(fontSize: 24),
-        ),
-      );
+    padding: const EdgeInsets.all(8.0),
+    child: Text(heading, style: const TextStyle(fontSize: 24)),
+  );
 }
 
 class Paragraph extends StatelessWidget {
@@ -23,12 +20,9 @@ class Paragraph extends StatelessWidget {
   final String content;
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-        child: Text(
-          content,
-          style: const TextStyle(fontSize: 18),
-        ),
-      );
+    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+    child: Text(content, style: const TextStyle(fontSize: 18)),
+  );
 }
 
 class IconAndDetail extends StatelessWidget {
@@ -38,18 +32,15 @@ class IconAndDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          children: [
-            Icon(icon),
-            const SizedBox(width: 8),
-            Text(
-              detail,
-              style: const TextStyle(fontSize: 18),
-            )
-          ],
-        ),
-      );
+    padding: const EdgeInsets.all(8.0),
+    child: Row(
+      children: [
+        Icon(icon),
+        const SizedBox(width: 8),
+        Text(detail, style: const TextStyle(fontSize: 18)),
+      ],
+    ),
+  );
 }
 
 class StyledButton extends StatelessWidget {
@@ -59,9 +50,10 @@ class StyledButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => OutlinedButton(
-        style: OutlinedButton.styleFrom(
-            side: const BorderSide(color: Colors.deepPurple)),
-        onPressed: onPressed,
-        child: child,
-      );
+    style: OutlinedButton.styleFrom(
+      side: const BorderSide(color: Colors.deepPurple),
+    ),
+    onPressed: onPressed,
+    child: child,
+  );
 }

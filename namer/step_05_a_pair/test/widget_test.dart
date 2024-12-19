@@ -13,21 +13,20 @@ void main() {
     await tester.pumpWidget(const MyApp());
 
     String findWordPair() {
-      final wordPairTextWidget = tester
-          // Get all Text widgets...
-          .widgetList<Text>(find.byType(Text))
-          // ... skip one ('A random AWESOME idea:') ...
-          .skip(1)
-          // ... and take the first after it.
-          .first;
+      final wordPairTextWidget =
+          tester
+              // Get all Text widgets...
+              .widgetList<Text>(find.byType(Text))
+              // ... skip one ('A random AWESOME idea:') ...
+              .skip(1)
+              // ... and take the first after it.
+              .first;
       return wordPairTextWidget.data!;
     }
 
     // Tap several times and keep a list of word pair values.
     const tryCount = 5;
-    final pairs = <String>[
-      findWordPair(),
-    ];
+    final pairs = <String>[findWordPair()];
     for (var i = 1; i < tryCount; i++) {
       await tester.tap(find.text('Next'));
       await tester.pumpAndSettle();
@@ -41,7 +40,8 @@ void main() {
       // We only fail this test when there is zero variance - all the
       // word pairs are the same, even though we clicked 'Next' several times.
       hasLength(greaterThan(1)),
-      reason: 'After clicking $tryCount times, '
+      reason:
+          'After clicking $tryCount times, '
           'the app should have generated at least two different word pairs. '
           'Instead, the app showed these: $pairs. '
           'That almost certainly means that the word pair is not being '

@@ -12,12 +12,12 @@ import 'config.dart';
 
 class BrickBreaker extends FlameGame {
   BrickBreaker()
-      : super(
-          camera: CameraComponent.withFixedResolution(
-            width: gameWidth,
-            height: gameHeight,
-          ),
-        );
+    : super(
+        camera: CameraComponent.withFixedResolution(
+          width: gameWidth,
+          height: gameHeight,
+        ),
+      );
 
   double get width => size.x;
   double get height => size.y;

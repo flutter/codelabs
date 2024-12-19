@@ -32,41 +32,60 @@ class CrosswordPuzzleWidget extends ConsumerWidget {
     return TableViewCell(
       child: Consumer(
         builder: (context, ref, _) {
-          final character = ref.watch(puzzleProvider
-              .select((puzzle) => puzzle.crossword.characters[location]));
-          final selectedCharacter = ref.watch(puzzleProvider.select((puzzle) =>
-              puzzle.crosswordFromSelectedWords.characters[location]));
-          final alternateWords = ref
-              .watch(puzzleProvider.select((puzzle) => puzzle.alternateWords));
+          final character = ref.watch(
+            puzzleProvider.select(
+              (puzzle) => puzzle.crossword.characters[location],
+            ),
+          );
+          final selectedCharacter = ref.watch(
+            puzzleProvider.select(
+              (puzzle) =>
+                  puzzle.crosswordFromSelectedWords.characters[location],
+            ),
+          );
+          final alternateWords = ref.watch(
+            puzzleProvider.select((puzzle) => puzzle.alternateWords),
+          );
 
           if (character != null) {
             final acrossWord = character.acrossWord;
             var acrossWords = BuiltList<String>();
             if (acrossWord != null) {
-              acrossWords = acrossWords.rebuild((b) => b
-                ..add(acrossWord.word)
-                ..addAll(alternateWords[acrossWord.location]
-                        ?[acrossWord.direction] ??
-                    [])
-                ..sort());
+              acrossWords = acrossWords.rebuild(
+                (b) =>
+                    b
+                      ..add(acrossWord.word)
+                      ..addAll(
+                        alternateWords[acrossWord.location]?[acrossWord
+                                .direction] ??
+                            [],
+                      )
+                      ..sort(),
+              );
             }
 
             final downWord = character.downWord;
             var downWords = BuiltList<String>();
             if (downWord != null) {
-              downWords = downWords.rebuild((b) => b
-                ..add(downWord.word)
-                ..addAll(alternateWords[downWord.location]
-                        ?[downWord.direction] ??
-                    [])
-                ..sort());
+              downWords = downWords.rebuild(
+                (b) =>
+                    b
+                      ..add(downWord.word)
+                      ..addAll(
+                        alternateWords[downWord.location]?[downWord
+                                .direction] ??
+                            [],
+                      )
+                      ..sort(),
+              );
             }
 
             return MenuAnchor(
               builder: (context, controller, _) {
                 return GestureDetector(
-                  onTapDown: (details) =>
-                      controller.open(position: details.localPosition),
+                  onTapDown:
+                      (details) =>
+                          controller.open(position: details.localPosition),
                   child: AnimatedContainer(
                     duration: Durations.extralong1,
                     curve: Curves.easeInOut,
@@ -128,9 +147,11 @@ class CrosswordPuzzleWidget extends ConsumerWidget {
       foregroundDecoration: TableSpanDecoration(
         border: TableSpanBorder(
           leading: BorderSide(
-              color: Theme.of(context).colorScheme.onPrimaryContainer),
+            color: Theme.of(context).colorScheme.onPrimaryContainer,
+          ),
           trailing: BorderSide(
-              color: Theme.of(context).colorScheme.onPrimaryContainer),
+            color: Theme.of(context).colorScheme.onPrimaryContainer,
+          ),
         ),
       ),
     );
@@ -154,18 +175,29 @@ class _WordSelectMenuItem extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final notifier = ref.read(puzzleProvider.notifier);
     return MenuItemButton(
-      onPressed: ref.watch(puzzleProvider.select((puzzle) =>
-              puzzle.canSelectWord(
-                  location: location, word: word, direction: direction)))
-          ? () => notifier.selectWord(
-              location: location, word: word, direction: direction)
-          : null,
-      leadingIcon: switch (direction) {
-        Direction.across => selectedCharacter?.acrossWord?.word == word,
-        Direction.down => selectedCharacter?.downWord?.word == word,
-      }
-          ? Icon(Icons.radio_button_checked_outlined)
-          : Icon(Icons.radio_button_unchecked_outlined),
+      onPressed:
+          ref.watch(
+                puzzleProvider.select(
+                  (puzzle) => puzzle.canSelectWord(
+                    location: location,
+                    word: word,
+                    direction: direction,
+                  ),
+                ),
+              )
+              ? () => notifier.selectWord(
+                location: location,
+                word: word,
+                direction: direction,
+              )
+              : null,
+      leadingIcon:
+          switch (direction) {
+                Direction.across => selectedCharacter?.acrossWord?.word == word,
+                Direction.down => selectedCharacter?.downWord?.word == word,
+              }
+              ? Icon(Icons.radio_button_checked_outlined)
+              : Icon(Icons.radio_button_unchecked_outlined),
       child: Text(word),
     );
   }
