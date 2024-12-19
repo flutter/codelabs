@@ -70,9 +70,11 @@ class CrosswordWidget extends ConsumerWidget {
       foregroundDecoration: TableSpanDecoration(
         border: TableSpanBorder(
           leading: BorderSide(
-              color: Theme.of(context).colorScheme.onPrimaryContainer),
+            color: Theme.of(context).colorScheme.onPrimaryContainer,
+          ),
           trailing: BorderSide(
-              color: Theme.of(context).colorScheme.onPrimaryContainer),
+            color: Theme.of(context).colorScheme.onPrimaryContainer,
+          ),
         ),
       ),
     );

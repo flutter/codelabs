@@ -36,17 +36,20 @@ class PurchasePage extends StatelessWidget {
       case StoreState.notAvailable:
         storeWidget = _PurchasesNotAvailable();
     }
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      storeWidget,
-      const Padding(
-        padding: EdgeInsets.fromLTRB(32.0, 32.0, 32.0, 0.0),
-        child: Text(
-          'Past purchases',
-          style: TextStyle(fontWeight: FontWeight.bold),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        storeWidget,
+        const Padding(
+          padding: EdgeInsets.fromLTRB(32.0, 32.0, 32.0, 0.0),
+          child: Text(
+            'Past purchases',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
         ),
-      ),
-      const PastPurchasesWidget(),
-    ]);
+        const PastPurchasesWidget(),
+      ],
+    );
   }
 }
 
@@ -70,13 +73,17 @@ class _PurchaseList extends StatelessWidget {
     var purchases = context.watch<DashPurchases>();
     var products = purchases.products;
     return Column(
-      children: products
-          .map((product) => _PurchaseWidget(
-              product: product,
-              onPressed: () {
-                purchases.buy(product);
-              }))
-          .toList(),
+      children:
+          products
+              .map(
+                (product) => _PurchaseWidget(
+                  product: product,
+                  onPressed: () {
+                    purchases.buy(product);
+                  },
+                ),
+              )
+              .toList(),
     );
   }
 }
@@ -85,10 +92,7 @@ class _PurchaseWidget extends StatelessWidget {
   final PurchasableProduct product;
   final VoidCallback onPressed;
 
-  const _PurchaseWidget({
-    required this.product,
-    required this.onPressed,
-  });
+  const _PurchaseWidget({required this.product, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -97,21 +101,20 @@ class _PurchaseWidget extends StatelessWidget {
       title += ' (purchased)';
     }
     return InkWell(
-        onTap: onPressed,
-        child: ListTile(
-          title: Text(
-            title,
-          ),
-          subtitle: Text(product.description),
-          trailing: Text(_trailing()),
-        ));
+      onTap: onPressed,
+      child: ListTile(
+        title: Text(title),
+        subtitle: Text(product.description),
+        trailing: Text(_trailing()),
+      ),
+    );
   }
 
   String _trailing() {
     return switch (product.status) {
       ProductStatus.purchasable => product.price,
       ProductStatus.purchased => 'purchased',
-      ProductStatus.pending => 'buying...'
+      ProductStatus.pending => 'buying...',
     };
   }
 }
@@ -125,10 +128,11 @@ class PastPurchasesWidget extends StatelessWidget {
     return ListView.separated(
       shrinkWrap: true,
       itemCount: purchases.length,
-      itemBuilder: (context, index) => ListTile(
-        title: Text(purchases[index].title),
-        subtitle: Text(purchases[index].status.toString()),
-      ),
+      itemBuilder:
+          (context, index) => ListTile(
+            title: Text(purchases[index].title),
+            subtitle: Text(purchases[index].status.toString()),
+          ),
       separatorBuilder: (context, index) => const Divider(),
     );
   }

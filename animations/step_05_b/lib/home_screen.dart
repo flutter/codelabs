@@ -12,15 +12,13 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              '✏️',
-              style: Theme.of(context).textTheme.displayLarge,
-            ),
+            Text('✏️', style: Theme.of(context).textTheme.displayLarge),
             Text(
               'Flutter Quiz',
               style: Theme.of(context).textTheme.displayLarge!.copyWith(
-                  fontWeight: FontWeight.w700,
-                  color: Theme.of(context).colorScheme.onPrimaryFixedVariant),
+                fontWeight: FontWeight.w700,
+                color: Theme.of(context).colorScheme.onPrimaryFixedVariant,
+              ),
             ),
             ElevatedButton(
               onPressed: () {
@@ -31,8 +29,12 @@ class HomeScreen extends StatelessWidget {
                     pageBuilder: (context, animation, secondaryAnimation) {
                       return const QuestionScreen();
                     },
-                    transitionsBuilder:
-                        (context, animation, secondaryAnimation, child) {
+                    transitionsBuilder: (
+                      context,
+                      animation,
+                      secondaryAnimation,
+                      child,
+                    ) {
                       return FadeThroughTransition(
                         animation: animation,
                         secondaryAnimation: secondaryAnimation,

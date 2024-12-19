@@ -35,6 +35,6 @@ List<NewsArticle> getNewsStories() {
       title: 'Flutter DAU surpasses 10 billion',
       description:
           'There are more Flutter users than there are human beings. What gives?',
-    )
+    ),
   ];
 }

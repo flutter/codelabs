@@ -14,9 +14,7 @@ import 'src/app_state.dart';
 import 'src/playlist_details.dart';
 
 // From https://developers.google.com/youtube/v3/guides/auth/installed-apps#identify-access-scopes
-final scopes = [
-  'https://www.googleapis.com/auth/youtube.readonly',
-];
+final scopes = ['https://www.googleapis.com/auth/youtube.readonly'];
 
 // TODO: Replace with your Client ID and Client Secret for Desktop configuration
 final clientId = ClientId(
@@ -56,10 +54,7 @@ final _router = GoRouter(
             final id = state.pathParameters['id']!;
             return Scaffold(
               appBar: AppBar(title: Text(title)),
-              body: PlaylistDetails(
-                playlistId: id,
-                playlistName: title,
-              ),
+              body: PlaylistDetails(playlistId: id, playlistName: title),
             );
           },
         ),
@@ -69,10 +64,12 @@ final _router = GoRouter(
 );
 
 void main() {
-  runApp(ChangeNotifierProvider<AuthedUserPlaylists>(
-    create: (context) => AuthedUserPlaylists(),
-    child: const PlaylistsApp(),
-  ));
+  runApp(
+    ChangeNotifierProvider<AuthedUserPlaylists>(
+      create: (context) => AuthedUserPlaylists(),
+      child: const PlaylistsApp(),
+    ),
+  );
 }
 
 class PlaylistsApp extends StatelessWidget {
@@ -82,14 +79,16 @@ class PlaylistsApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       title: 'Your Playlists',
-      theme: FlexColorScheme.light(
-        scheme: FlexScheme.red,
-        useMaterial3: true,
-      ).toTheme,
-      darkTheme: FlexColorScheme.dark(
-        scheme: FlexScheme.red,
-        useMaterial3: true,
-      ).toTheme,
+      theme:
+          FlexColorScheme.light(
+            scheme: FlexScheme.red,
+            useMaterial3: true,
+          ).toTheme,
+      darkTheme:
+          FlexColorScheme.dark(
+            scheme: FlexScheme.red,
+            useMaterial3: true,
+          ).toTheme,
       themeMode: ThemeMode.dark, // Or ThemeMode.System if you'd prefer
       debugShowCheckedModeBanner: false,
       routerConfig: _router,

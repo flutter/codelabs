@@ -29,21 +29,22 @@ enum PlayerColor {
 
 class Player extends BodyComponentWithUserData with DragCallbacks {
   Player(Vector2 position, Sprite sprite)
-      : _sprite = sprite,
-        super(
-          renderBody: false,
-          bodyDef: BodyDef()
-            ..position = position
-            ..type = BodyType.static
-            ..angularDamping = 0.1
-            ..linearDamping = 0.1,
-          fixtureDefs: [
-            FixtureDef(CircleShape()..radius = playerSize / 2)
-              ..restitution = 0.4
-              ..density = 0.75
-              ..friction = 0.5
-          ],
-        );
+    : _sprite = sprite,
+      super(
+        renderBody: false,
+        bodyDef:
+            BodyDef()
+              ..position = position
+              ..type = BodyType.static
+              ..angularDamping = 0.1
+              ..linearDamping = 0.1,
+        fixtureDefs: [
+          FixtureDef(CircleShape()..radius = playerSize / 2)
+            ..restitution = 0.4
+            ..density = 0.75
+            ..friction = 0.5,
+        ],
+      );
 
   final Sprite _sprite;
 
@@ -61,7 +62,7 @@ class Player extends BodyComponentWithUserData with DragCallbacks {
         sprite: _sprite,
         size: Vector2(playerSize, playerSize),
         position: Vector2(0, 0),
-      )
+      ),
     ]);
     return super.onLoad();
   }
@@ -109,9 +110,7 @@ class Player extends BodyComponentWithUserData with DragCallbacks {
           ?.removeFromParent();
       body.setType(BodyType.dynamic);
       body.applyLinearImpulse(_dragDelta * -50);
-      add(RemoveEffect(
-        delay: 5.0,
-      ));
+      add(RemoveEffect(delay: 5.0));
     }
   }
 }
@@ -131,12 +130,13 @@ class _DragPainter extends CustomPainter {
     if (player.dragDelta != Vector2.zero()) {
       var center = size.center(Offset.zero);
       canvas.drawLine(
-          center,
-          center + (player.dragDelta * -1).toOffset(),
-          Paint()
-            ..color = Colors.orange.withAlpha(180)
-            ..strokeWidth = 0.4
-            ..strokeCap = StrokeCap.round);
+        center,
+        center + (player.dragDelta * -1).toOffset(),
+        Paint()
+          ..color = Colors.orange.withAlpha(180)
+          ..strokeWidth = 0.4
+          ..strokeCap = StrokeCap.round,
+      );
     }
   }
 

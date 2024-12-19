@@ -10,17 +10,18 @@ import 'package:url_launcher/link.dart';
 import 'app_state.dart';
 
 class PlaylistDetails extends StatelessWidget {
-  const PlaylistDetails(
-      {required this.playlistId, required this.playlistName, super.key});
+  const PlaylistDetails({
+    required this.playlistId,
+    required this.playlistName,
+    super.key,
+  });
   final String playlistId;
   final String playlistName;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(playlistName),
-      ),
+      appBar: AppBar(title: Text(playlistName)),
       body: Consumer<FlutterDevPlaylists>(
         builder: (context, playlists, _) {
           final playlistItems = playlists.playlistItems(playlistId: playlistId);
@@ -70,10 +71,7 @@ class _PlaylistDetailsListView extends StatelessWidget {
       child: DecoratedBox(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              Colors.transparent,
-              Theme.of(context).colorScheme.surface,
-            ],
+            colors: [Colors.transparent, Theme.of(context).colorScheme.surface],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             stops: const [0.5, 0.95],
@@ -84,7 +82,9 @@ class _PlaylistDetailsListView extends StatelessWidget {
   }
 
   Widget _buildTitleAndSubtitle(
-      BuildContext context, PlaylistItem playlistItem) {
+    BuildContext context,
+    PlaylistItem playlistItem,
+  ) {
     return Positioned(
       left: 20,
       right: 0,
@@ -96,16 +96,16 @@ class _PlaylistDetailsListView extends StatelessWidget {
           Text(
             playlistItem.snippet!.title!,
             style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                  fontSize: 18,
-                  // fontWeight: FontWeight.bold,
-                ),
+              fontSize: 18,
+              // fontWeight: FontWeight.bold,
+            ),
           ),
           if (playlistItem.snippet!.videoOwnerChannelTitle != null)
             Text(
               playlistItem.snippet!.videoOwnerChannelTitle!,
-              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    fontSize: 12,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium!.copyWith(fontSize: 12),
             ),
         ],
       ),
@@ -121,20 +121,20 @@ class _PlaylistDetailsListView extends StatelessWidget {
           height: 42,
           decoration: const BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.all(
-              Radius.circular(21),
-            ),
+            borderRadius: BorderRadius.all(Radius.circular(21)),
           ),
         ),
         Link(
           uri: Uri.parse(
-              'https://www.youtube.com/watch?v=${playlistItem.snippet!.resourceId!.videoId}'),
-          builder: (context, followLink) => IconButton(
-            onPressed: followLink,
-            color: Colors.red,
-            icon: const Icon(Icons.play_circle_fill),
-            iconSize: 45,
+            'https://www.youtube.com/watch?v=${playlistItem.snippet!.resourceId!.videoId}',
           ),
+          builder:
+              (context, followLink) => IconButton(
+                onPressed: followLink,
+                color: Colors.red,
+                icon: const Icon(Icons.play_circle_fill),
+                iconSize: 45,
+              ),
         ),
       ],
     );

@@ -10,8 +10,9 @@ class QuestionScreen extends StatefulWidget {
 }
 
 class _QuestionScreenState extends State<QuestionScreen> {
-  late final QuizViewModel viewModel =
-      QuizViewModel(onGameOver: _handleGameOver);
+  late final QuizViewModel viewModel = QuizViewModel(
+    onGameOver: _handleGameOver,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -25,11 +26,11 @@ class _QuestionScreenState extends State<QuestionScreen> {
                 onPressed:
                     viewModel.hasNextQuestion && viewModel.didAnswerQuestion
                         ? () {
-                            viewModel.getNextQuestion();
-                          }
+                          viewModel.getNextQuestion();
+                        }
                         : null,
                 child: const Text('Next'),
-              )
+              ),
             ],
           ),
           body: Center(
@@ -42,9 +43,10 @@ class _QuestionScreenState extends State<QuestionScreen> {
                     viewModel.checkAnswer(index);
                   },
                   answers: viewModel.currentQuestion?.possibleAnswers ?? [],
-                  correctAnswer: viewModel.didAnswerQuestion
-                      ? viewModel.currentQuestion?.correctAnswer
-                      : null,
+                  correctAnswer:
+                      viewModel.didAnswerQuestion
+                          ? viewModel.currentQuestion?.correctAnswer
+                          : null,
                 ),
                 StatusBar(viewModel: viewModel),
               ],
@@ -80,10 +82,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
 class QuestionCard extends StatelessWidget {
   final String? question;
 
-  const QuestionCard({
-    required this.question,
-    super.key,
-  });
+  const QuestionCard({required this.question, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -98,11 +97,13 @@ class QuestionCard extends StatelessWidget {
         );
       },
       transitionBuilder: (child, animation) {
-        final curveAnimation =
-            CurveTween(curve: Curves.easeInCubic).animate(animation);
-        final offsetAnimation =
-            Tween<Offset>(begin: Offset(-0.1, 0.0), end: Offset.zero)
-                .animate(curveAnimation);
+        final curveAnimation = CurveTween(
+          curve: Curves.easeInCubic,
+        ).animate(animation);
+        final offsetAnimation = Tween<Offset>(
+          begin: Offset(-0.1, 0.0),
+          end: Offset.zero,
+        ).animate(curveAnimation);
         final fadeInAnimation = curveAnimation;
         return FadeTransition(
           opacity: fadeInAnimation,

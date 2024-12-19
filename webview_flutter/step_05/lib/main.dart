@@ -8,10 +8,7 @@ import 'src/web_view_stack.dart';
 
 void main() {
   runApp(
-    MaterialApp(
-      theme: ThemeData(useMaterial3: true),
-      home: const WebViewApp(),
-    ),
+    MaterialApp(theme: ThemeData(useMaterial3: true), home: const WebViewApp()),
   );
 }
 
@@ -26,9 +23,7 @@ class _WebViewAppState extends State<WebViewApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Flutter WebView'),
-      ),
+      appBar: AppBar(title: const Text('Flutter WebView')),
       body: const WebViewStack(),
     );
   }
