@@ -1,6 +1,8 @@
 I'd like to create a codelab for introducing medium level Flutter developers to the new
 Flutter GPU APIs exposed in Flutter's Impeller on Android, iOS, Windows, macOS and Linux.
 
+# Codelab content
+
 The codelab is called "Introduction to Flutter GPU". The codelab is made up of a series of steps.
 
 This codelab requires Flutter version 3.28, which comes with Dart 3.7.
@@ -10,7 +12,7 @@ This codelab requires Flutter version 3.28, which comes with Dart 3.7.
 Create the empty Flutter application for the supported platforms
 
 ```console
-$ create --empty intro_flutter_gpu --platforms android,ios,macos,windows
+$ flutter create --empty intro_flutter_gpu --platforms android,ios,macos,windows,linux
 ```
 
 Add `flutter_gpu` dependency from the Flutter SDK.
@@ -1170,7 +1172,7 @@ class ScenePainter extends CustomPainter {
 *   The codelab code will be hosted at https://github.com/flutter/codelabs
 *   The codelab should have a tone of informal conversational prose.
 *   The level of detail should be appropriate for intermediate developers.
-*   Assume the developers understand the basics of Flutter development.
+*   Assume the developers understand Flutter programming.
 *   Assume the developers are seeing 3D programming for the first time.
 
 **4. Testing and Validation:**
@@ -1192,7 +1194,7 @@ class ScenePainter extends CustomPainter {
         *   Matrix operations and order.
         *   `flutter_scene` features and benefits.
 *   **Diagram Creation:**
-    *   No diagrams are required at this point
+    *   No diagrams are required
 
 
 Notes
@@ -1207,7 +1209,7 @@ Notes
 
 *   Flutter SDK version 3.28 or later (includes Dart 3.7).
 *   Basic understanding of Flutter development (Widgets, layouts, state management).
-*   Familiarity with command-line interface.
+*   Familiarity with the command-line interface.
 
 **Learning Objectives:**
 
@@ -1224,9 +1226,17 @@ Notes
 *   Implement back-face culling for optimization.
 *   Learn how to use `flutter_scene` to load and render 3D models from assets.
 
-## Codelab Structure
+**Supported Platforms**
 
-**Step 1: Setting Up and Drawing Your First Green Triangle**
+* This codelab will target iOS, Android, macOS, Windows and Linux.
+* Impeller is the default engine for iOS.
+* Impeller is available on Android for newer devices.
+* Impeller is available behind a flag on macOS, Windows and Linux.
+
+
+# Codelab Structure
+
+**Step 1: Setting Up and Drawing A Green Triangle**
 
 *   **Introduction:**
     *   Briefly introduce Flutter GPU and Impeller.
@@ -1433,113 +1443,103 @@ Notes
 *   Provide links to relevant resources (documentation, examples).
 
 
-Here is the introductory page for the "Introduction to Flutter GPU" codelab, including the overview and prerequisites:
-
 # Introduction to Flutter GPU
 
-## Welcome
+Welcome to the exciting world of GPU programming in Flutter. 
+This codelab will guide you through the fundamentals of harnessing the power of the GPU directly within your Flutter apps using Impeller, Flutter's new rendering engine. 
+You'll start by drawing a simple triangle and progress to rendering and animating a 3D model.
 
-Welcome to the exciting world of GPU programming in Flutter! In this codelab, you'll embark on a journey to harness the power of the GPU to create stunning visuals and performant graphics directly within your Flutter applications.  We'll be using Flutter's Impeller rendering engine, which unlocks a new level of graphics capabilities on Android, iOS, Windows, macOS, and Linux.
+Impeller exposes a new API surface called `flutter_gpu` enabling more access to the underlying GPU primitives exposed by the hardware of your target devices. 
+This codelabd explores this API surface, showing you how to use it to achieve different visual effects. 
+For more detail on Impeller, please see the [Impeller rendering engine](https://docs.flutter.dev/perf/impeller) documentation.
 
-This codelab is designed for **intermediate Flutter developers** who are comfortable with the basics of Flutter development but may be new to the realm of 3D graphics and GPU programming.  Don't worry if you've never worked with shaders or 3D models before – we'll guide you through each step, explaining the core concepts along the way.
+**What You Will Learn**
 
-## What You'll Learn
+In this codelab, you'll get hands-on experience with the following:
 
-Throughout this codelab, you will:
+*   **Setting up your Flutter project** to work with Flutter GPU APIs.
+*   **Understanding the basics of GPU programming** concepts like textures, buffers, and render passes.
+*   **Writing vertex and fragment shaders** using the OpenGL Shading Language (GLSL).
+*   **Drawing basic shapes** (triangles) using Flutter GPU and controlling their appearance.
+*   **Implementing smooth color transitions** with attribute interpolation.
+*   **Understanding and applying UV mapping** to control how colors or textures are applied to surfaces.
+*   **Harnessing the power of shaders** to compute a Mandelbrot set, creating a visually captivating fractal.
+*   **Diving into the fundamentals of 3D graphics** with concepts like model, view, and projection matrices.
+*   **Animating 3D objects** using matrix transformations.
+*   **Optimizing rendering performance** with back-face culling.
+*   **Using the `flutter_scene` library** to load and render complex 3D models from glTF assets.
+*   **Discover how to create stunning visuals** and take your Flutter applications to the next level.
 
-*   Get hands-on experience with Flutter's new GPU APIs.
-*   Dive into the fundamentals of GPU programming using the Impeller rendering engine.
-*   Write your own vertex and fragment shaders using GLSL (OpenGL Shading Language).
-*   Create and manage essential GPU resources, such as textures and buffers.
-*   Draw basic shapes, starting with a simple triangle and progressing to a fully rendered 3D model.
-*   Implement smooth color transitions using attribute interpolation.
-*   Master UV mapping to apply colors (and textures) to surfaces.
-*   Explore the fascinating world of fractals by generating a Mandelbrot set directly on the GPU.
-*   Grasp fundamental 3D concepts, including model, view, and projection matrices.
-*   Animate 3D objects using matrix transformations.
-*   Optimize your rendering with techniques like back-face culling.
-*   Transition to a higher-level 3D scene management with `flutter_scene` for efficient model loading and rendering.
+**Who is this Codelab For?**
 
-By the end of this codelab, you'll have a solid foundation in Flutter GPU programming, enabling you to create visually rich and performant experiences in your Flutter applications.
+This codelab is designed for **intermediate Flutter developers** who are comfortable with Flutter's core concepts (widgets, layouts, state management) and are eager to explore the realm of GPU programming. 
+While prior experience with 3D graphics is not required, a willingness to learn new concepts is essential.
 
-## Overview of the Codelab
+**Prerequisites**
 
-This codelab is structured as a series of progressive steps, each building upon the previous one. Here's a sneak peek at what you'll be creating:
+Before you begin, make sure you have the following set up:
 
-1.  **Setting Up and Drawing Your First Green Triangle:** You'll start by setting up your Flutter project, adding the necessary dependencies, and writing your first GLSL shaders to render a simple green triangle.
-2.  **Adding Color to the Triangle:**  Learn how to add color attributes to your vertices and see how the GPU smoothly interpolates them across the triangle's surface.
-3.  **Drawing Two Triangles:** Expand your rendering to draw two adjacent triangles, forming a rectangle.
-4.  **Fixing Color Interpolation (Part 1):**  Discover a common issue with color interpolation when vertices are shared between triangles and prepare for the solution.
-5.  **Fixing Color Interpolation (Part 2) - Introducing UV Mapping:**  Solve the color interpolation problem using the powerful technique of UV mapping.
-6.  **Rendering a Mandelbrot Set:**  Dive into the world of fractals and learn how to generate a visually stunning Mandelbrot set using a fragment shader.
-7.  **Broken 3D Animation:**  Take your first steps into 3D by animating the rotation of your shape. You'll encounter some visual quirks that need fixing.
-8.  **Fixing 3D Animation with View and Projection Matrices:**  Learn about view and projection matrices and how they create the illusion of 3D perspective, correcting the animation issues from the previous step.
-9.  **Rendering a Rotating Cube:**  Replace your simple triangles with a fully rendered 3D cube.
-10. **Adding Back-Face Culling:**  Optimize your rendering by implementing back-face culling, preventing unnecessary drawing of hidden surfaces.
-11. **Rotating in Two Dimensions:** Enhance your animation by rotating the cube around two axes for a more dynamic effect.
-12. **Using Flutter Scene to Load and Render a 3D Model:**  Transition from manual rendering to using the `flutter_scene` library to load and display a 3D model from a glTF asset, simplifying your workflow.
+*   **Flutter SDK version 3.28 or later:** This version includes the necessary Flutter GPU APIs. 
+    You can check your Flutter version by running `flutter --version` in your terminal. To upgrade, run `flutter upgrade`.
+*   **A supported IDE:** You can use Android Studio, IntelliJ IDEA, or VS Code with the Flutter and Dart plugins installed.
+*   **Basic understanding of Flutter development:** You should be familiar with creating Flutter projects, working with widgets, managing state, and using the command-line interface.
+*   **A device or simulator/emulator:** You'll need a physical device or a simulator/emulator to run and test your code. 
+    This codelab will target iOS, Android, macOS, Windows, and Linux. Impeller is the default rendering engine on iOS. Impeller is available for use on newer Android devices and available behind a flag on macOS, Windows and Linux.
 
-## Prerequisites
+**Let's Get Started!**
 
-Before you begin, make sure you have the following:
-
-*   **Flutter SDK:** You'll need Flutter version **3.28** or later. This version includes the necessary Flutter GPU APIs and Dart 3.7. You can check your Flutter version by running `flutter --version` in your terminal. If you need to upgrade, run `flutter upgrade`.
-*   **Development Environment:** You should have a working Flutter development environment set up, including either Android Studio, IntelliJ IDEA, or VS Code with the Flutter and Dart plugins installed.
-*   **Basic Flutter Knowledge:** This codelab assumes you have a basic understanding of Flutter development. You should be comfortable with:
-    *   Creating and running Flutter projects.
-    *   Working with widgets and layouts.
-    *   Managing state in your Flutter apps.
-*   **Command-Line Familiarity:** You'll need to be comfortable using the command line (terminal) to execute Flutter commands.
-*   **Patience and Curiosity:**  GPU programming can be challenging, but it's also incredibly rewarding! Be prepared to learn new concepts and experiment with the code.
-
-## Let's Get Started
-
-If you're ready to dive into the exciting world of Flutter GPU programming, then let's move on to the next step and set up your development environment!
+If you're ready to embark on this exciting journey into the world of Flutter GPU programming, proceed to the next step and prepare to unlock the full potential of your Flutter applications!
 
 
+# Introduction to Flutter GPU: Step 1 - Setting Up and Drawing A Green Triangle
 
-# Step 1: Setting Up and Drawing Your First Green Triangle
+## Introduction
 
-In this first step, we'll lay the groundwork for our exploration of Flutter GPU. We'll set up a new Flutter project, add the essential dependencies, and write our very first shader programs to render a simple, yet satisfying, green triangle on the screen. This might seem like a small step, but it's the foundation upon which we'll build all the exciting visuals to come!
+Welcome to the first step of your journey into the world of Flutter GPU.
+In this step, you'll set up your Flutter project, learn about the basics of GPU programming with Impeller, and write your very first shader programs to draw a green triangle on the screen.
 
-## 1.1 Project Setup
+You'll be using Flutter's new GPU APIs, which allow you to directly interact with the device's GPU for rendering. 
+This opens up a whole new level of control and performance for creating visually stunning effects and animations in your Flutter apps.
 
-Let's start by creating a new Flutter project. Open your terminal or command prompt and run the following command:
+## Project Setup
+
+Start by creating a new Flutter project. Open your terminal and run the following command:
 
 ```console
 $ flutter create --empty intro_flutter_gpu --platforms android,ios,macos,windows,linux
 ```
 
-This command does the following:
+This command creates an empty Flutter project named `intro_flutter_gpu` in a new directory, targeting Android, iOS, macOS, Windows, and Linux. 
+The `--empty` flag tells Flutter to create a project with minimal starter code, which is perfect for our purpose as we'll be building everything from scratch.
 
-*   `flutter create`: This is the standard command to create a new Flutter project.
-*   `--empty`: This flag tells Flutter to create a project with minimal template code, giving us a clean slate to work with.
-*   `intro_flutter_gpu`: This is the name of our project. You can choose a different name if you like, but we'll use this name throughout the codelab.
-*   `--platforms android,ios,macos,windows,linux`: This specifies that we want to support Android, iOS, macOS, Windows and Linux platforms.
-
-Now, navigate into the newly created project directory:
+Next, navigate into the newly created project directory:
 
 ```console
 $ cd intro_flutter_gpu
 ```
 
-## 1.2 Adding Dependencies
+### Adding Dependencies
 
-We need to add a few dependencies to our project to work with Flutter GPU and some helper utilities. Run the following commands in your terminal:
+We'll need to add a few dependencies to our project:
+
+*   `flutter_gpu`: This is the core Flutter GPU library that provides the APIs for interacting with the GPU.
+*   `flutter_gpu_shaders`: This is a helper library that will assist us in building shader bundles.
+*   `native_assets_cli`: A build system for native code that will be used to compile our shader code into each platform's native shader format.
+*   `vector_math`: This library provides vector and matrix math operations, which are essential for 3D graphics programming.
+
+Run the following commands in your terminal to add these dependencies:
 
 ```console
 $ flutter pub add flutter_gpu --sdk=flutter
 $ flutter pub add flutter_gpu_shaders native_assets_cli vector_math
 ```
 
-Let's break down what each of these dependencies does:
+### Updating `pubspec.yaml`
 
-*   `flutter_gpu`: This is the core package that provides the Flutter GPU APIs, allowing us to interact directly with the GPU. We're adding it directly from the Flutter SDK using `--sdk=flutter`.
-*   `flutter_gpu_shaders`: This package provides tools for compiling our shader code (which we'll write in GLSL) into a format that Flutter GPU can understand.
-*   `native_assets_cli`: This is a general-purpose tool to compile and package native code. We'll use it as a part of the pipeline to build our shader bundle.
-*   `vector_math`: This package provides classes and functions for working with vectors and matrices, which are essential for 3D graphics.
+Flutter assets must be declared in the `pubspec.yaml` file to be included in the final application bundle. 
+Our compiled shader bundles will be placed in the `build/shaderbundles` directory, so we need to add this directory to our assets.
 
-Now, let's make sure our `pubspec.yaml` file correctly includes our shader assets. Open `pubspec.yaml` in a text editor and make the following changes:
+Open your `pubspec.yaml` file, and you'll see an `assets` section under `flutter`. Modify it as follows:
 
 ```yaml
 flutter:
@@ -1549,57 +1549,20 @@ flutter:
     - build/shaderbundles/
 ```
 
-This tells Flutter to include any files located under the `build/shaderbundles/` directory in our application's assets. We'll be placing our compiled shaders there.
+With this change, your shader bundles will be correctly included in your built application.
 
-Here is the complete `pubspec.yaml` file for reference:
+## GLSL Basics
 
-```yaml
-name: intro_flutter_gpu
-description: "A new Flutter project."
-publish_to: 'none'
-version: 0.1.0
+Before we write our first shader programs, let's briefly introduce GLSL (OpenGL Shading Language). GLSL is a high-level shading language with syntax similar to C. It's used to write shaders, which are small programs that run on the GPU and determine how objects are rendered.
 
-environment:
-  sdk: ^3.7.0
+There are two main types of shaders we'll be working with:
 
-dependencies:
-  flutter:
-    sdk: flutter
-  flutter_gpu:
-    sdk: flutter
-  flutter_gpu_shaders: ^0.2.0
-  native_assets_cli: ^0.9.0
-  vector_math: ^2.1.4
+1.  **Vertex Shaders:** These shaders are executed for each vertex of a shape. They are responsible for transforming the vertex's position from model space to clip space, which is the coordinate system used by the GPU for rendering. Vertex shaders can also pass data to the fragment shader.
+2.  **Fragment Shaders:** These shaders are executed for each pixel (or fragment) of a shape. They determine the color of that pixel.
 
-dev_dependencies:
-  flutter_test:
-    sdk: flutter
-  flutter_lints: ^5.0.0
+### Our First Vertex Shader (`shaders/simple.vert`)
 
-flutter:
-  uses-material-design: true
-
-  assets:
-    - build/shaderbundles/
-```
-
-## 1.3 Introduction to GLSL
-
-Before we write our shaders, let's have a quick introduction to GLSL (OpenGL Shading Language). GLSL is the language we'll use to write small programs that run directly on the GPU. It's a C-like language with some special features for graphics programming.
-
-In this codelab, we'll primarily be using two types of shaders:
-
-*   **Vertex Shader:** This shader runs for each vertex of our geometry (in our case, the vertices of the triangle). It's responsible for determining the final position of each vertex on the screen.
-*   **Fragment Shader:** This shader runs for each pixel (or "fragment") within the shapes we draw. It determines the color of each pixel.
-
-## 1.4 Creating Our Shaders
-
-Let's create our shaders. First, create a directory named `shaders` in the root of your project. Inside this directory, create two files:
-
-1.  `simple.vert` (our vertex shader)
-2.  `simple.frag` (our fragment shader)
-
-Now, open `shaders/simple.vert` and add the following code:
+Create a new directory named `shaders` in the root of your project. Inside the `shaders` directory, create a file named `simple.vert` and add the following code:
 
 ```glsl
 #version 460 core
@@ -1611,14 +1574,16 @@ void main() {
 }
 ```
 
-Let's break down this vertex shader:
+Let's break down this code:
 
-*   `#version 460 core`: This line specifies the version of GLSL we're using. While not strictly required by Flutter GPU, it's good practice to include it, as it helps with code editors and IDEs to provide correct syntax highlighting and error checking.
-*   `in vec2 position;`: This declares an input variable named `position` of type `vec2` (a 2-dimensional vector). This variable will receive the position of each vertex from our Flutter code.
-*   `void main() { ... }`: This is the main function of our shader, which gets executed for each vertex.
-*   `gl_Position = vec4(position, 0.0, 1.0);`: This line sets the special output variable `gl_Position`, which determines the final position of the vertex on the screen. We're converting our 2D `position` into a 4D vector (required by `gl_Position`) by adding `0.0` as the z-component and `1.0` as the w-component. We'll cover the z and w components later in the codelab.
+*   `#version 460 core`: This line specifies the version of GLSL we're using. `460 core` refers to OpenGL version 4.6 in the forward-compatible subset of the language. While not required by Flutter GPU, it's included as an aid to IDEs and text editors.
+*   `in vec2 position;`: This declares an input variable named `position` of type `vec2`, which represents a 2D vector. This variable will receive the position of each vertex from our Flutter code. `vec2` is a data type that holds two floating point numbers.
+*   `void main()`: This is the main function of the shader, which gets executed for each vertex.
+*   `gl_Position = vec4(position, 0.0, 1.0);`: This line sets the built-in `gl_Position` variable, which represents the final position of the vertex in clip space. We're converting our 2D `position` to a 4D vector (`vec4`) by adding `z` and `w` components (0.0 and 1.0, respectively). `vec4` is a data type that holds four floating point numbers. A `vec4` is required for `gl_Position` because of perspective division that happens later in the graphics pipeline.
 
-Next, open `shaders/simple.frag` and add the following code:
+### Our First Fragment Shader (`shaders/simple.frag`)
+
+In the `shaders` directory, create another file named `simple.frag` and add the following code:
 
 ```glsl
 #version 460 core
@@ -1630,18 +1595,20 @@ void main() {
 }
 ```
 
-Here's what's happening in our fragment shader:
+Here's what this code does:
 
-*   `#version 460 core`:  Again, we specify the GLSL version.
-*   `out vec4 frag_color;`: This declares an output variable named `frag_color` of type `vec4` (a 4-dimensional vector representing a color with red, green, blue, and alpha components).
-*   `void main() { ... }`: The main function of our fragment shader.
-*   `frag_color = vec4(0, 1, 0, 1);`: This line sets the `frag_color` to green. The values represent (red, green, blue, alpha), where each component ranges from 0.0 to 1.0. In this case, we have full green (1.0) and full opacity (1.0).
+*   `#version 460 core`: Again, specifies the GLSL version.
+*   `out vec4 frag_color;`: This declares an output variable named `frag_color` of type `vec4`. This variable will hold the color of the current fragment (pixel).
+*   `void main()`: The main function of the fragment shader, executed for each fragment.
+*   `frag_color = vec4(0, 1, 0, 1);`: This line sets the `frag_color` to green. The four components of the `vec4` represent the red, green, blue, and alpha (opacity) values, respectively, ranging from 0 to 1.
 
-## 1.5 Defining the Shader Bundle
+## Shader Bundle
 
-Now we need to tell Flutter GPU which shader files to include in our application and how to compile them. We do this using a "shader bundle" definition.
+A shader bundle is a collection of shader programs that are compiled together and can be used in your Flutter app. We'll define our shader bundle using a JSON file.
 
-Create a file named `my_first_triangle.shaderbundle.json` in the root of your project and add the following content:
+### `my_first_triangle.shaderbundle.json`
+
+Create a file named `my_first_triangle.shaderbundle.json` in the root of your project and add the following:
 
 ```json
 {
@@ -1656,16 +1623,12 @@ Create a file named `my_first_triangle.shaderbundle.json` in the root of your pr
 }
 ```
 
-This JSON file defines our shader bundle.  It specifies two shaders:
+This file tells the build system which vertex and fragment shaders to include in the bundle and what to name them within the bundle.
 
-*   `SimpleVertex`: This is the name we'll use to refer to our vertex shader in our Flutter code. It's of type `"vertex"` and its source code is in the file `shaders/simple.vert`.
-*   `SimpleFragment`: Similarly, this is the name for our fragment shader, of type `"fragment"`, and its source code is in `shaders/simple.frag`.
+### `hook/build.dart`
 
-## 1.6 Building the Shader Bundle
-
-To compile our GLSL shaders into a format that Flutter GPU can use, we'll create a build script using `native_assets_cli`.
-
-Create a directory named `hook` in the root of your project, and inside it, create a file named `build.dart`. Add the following code to `hook/build.dart`:
+Now, we need to define how to build our shader bundle. We will do this using Dart code and the `native_assets_cli` infrastructure.
+Create a `hook` directory in the root of your project and inside it create a file called `build.dart`. Inside `build.dart`, add the following code:
 
 ```dart
 import 'package:flutter_gpu_shaders/build.dart';
@@ -1682,11 +1645,15 @@ void main(List<String> args) async {
 }
 ```
 
-This script uses the `buildShaderBundleJson` function from the `flutter_gpu_shaders` package to process our `my_first_triangle.shaderbundle.json` file and generate the compiled shader bundle.
+This script uses the `buildShaderBundleJson` function from the `flutter_gpu_shaders` package to compile our GLSL shaders into a shader bundle that can be loaded by Flutter GPU.
 
-## 1.7 Loading the Shaders in Flutter
+## Loading Shaders
 
-Let's create a helper file to load our compiled shader bundle at runtime. Create a file named `lib/shaders.dart` and add the following code:
+Now that we have our shader bundle defined, let's write some Dart code to load it at runtime.
+
+### `lib/shaders.dart`
+
+Create a new file named `shaders.dart` inside the `lib` directory and add the following code:
 
 ```dart
 import 'package:flutter_gpu/gpu.dart' as gpu;
@@ -1707,16 +1674,15 @@ gpu.ShaderLibrary get shaderLibrary {
 }
 ```
 
-This code does the following:
+This code defines a simple helper function, `shaderLibrary`, which loads the shader bundle from the asset specified by `_kShaderBundlePath`. It uses the `gpu.ShaderLibrary.fromAsset` function to load and parse the shader bundle. We use a simple lazy-loading pattern with `_shaderLibrary` to ensure that the bundle is loaded only once.
 
-*   Defines a constant `_kShaderBundlePath` to store the path to our compiled shader bundle asset.
-*   Declares a nullable `_shaderLibrary` variable to hold our loaded `gpu.ShaderLibrary`.
-*   Defines a getter `shaderLibrary` that lazily loads the shader bundle from the asset if it hasn't been loaded already, using `gpu.ShaderLibrary.fromAsset()`.
-*   Includes basic error handling to catch any issues during shader loading.
+## Flutter GPU API
 
-## 1.8 The Main Flutter Application
+Now comes the exciting part: writing the Flutter code that will use Flutter GPU to render our triangle.
 
-Now it's time to write the main Flutter code that will use Flutter GPU to render our triangle. Open `lib/main.dart` and replace its entire content with the following:
+### `lib/main.dart`
+
+Replace the contents of `lib/main.dart` with the following code:
 
 ```dart
 import 'dart:typed_data';
@@ -1816,123 +1782,57 @@ class TrianglePainter extends CustomPainter {
 }
 ```
 
-Let's go through the most important parts of this code:
+Let's break down this code section by section:
 
-*   **`TrianglePainter`:** This is a `CustomPainter` that will handle the GPU rendering.
-*   **`paint(Canvas canvas, Size size)`:** This is where the magic happens. Let's break it down further:
-    *   **Texture Creation:**
-        ```dart
-        final texture = gpu.gpuContext.createTexture(
-          gpu.StorageMode.devicePrivate,
-          size.width.ceil(),
-          size.height.ceil(),
-        );
-        ```
-        We create a `Texture` using `gpu.gpuContext.createTexture()`.
-        *   `gpu.StorageMode.devicePrivate`: This specifies that the texture will reside in GPU-only memory, which is the most efficient for rendering. We'll talk more about storage modes later.
-        *   `size.width.ceil()`, `size.height.ceil()`: We set the texture dimensions to match the size of the `CustomPaint` widget, rounding up to the nearest integer.
-    *   **RenderTarget:**
-        ```dart
-        final renderTarget = gpu.RenderTarget.singleColor(
-          gpu.ColorAttachment(texture: texture),
-        );
-        ```
-        We create a `RenderTarget`, which represents the surface we'll be drawing to. In this case, it's a single-color render target associated with our texture.
-    *   **CommandBuffer and RenderPass:**
-        ```dart
-        final commandBuffer = gpu.gpuContext.createCommandBuffer();
-        final renderPass = commandBuffer.createRenderPass(renderTarget);
-        ```
-        We create a `CommandBuffer` to hold our rendering commands and a `RenderPass` to describe a sequence of rendering operations.
-    *   **Shader Loading:**
-        ```dart
-        final vert = shaderLibrary['SimpleVertex'];
-        final frag = shaderLibrary['SimpleFragment'];
-        ```
-        We retrieve our vertex and fragment shaders from the `shaderLibrary` we created earlier.
-    *   **RenderPipeline:**
-        ```dart
-        final pipeline = gpu.gpuContext.createRenderPipeline(vert, frag);
-        ```
-        We create a `RenderPipeline`, which combines our vertex and fragment shaders into a single unit that the GPU can execute.
-    *   **Vertex Data:**
-        ```dart
-        const floatsPerVertex = 2;
-        final vertices = Float32List.fromList([
-          -0.5, -0.5, // First vertex
-          0.5, -0.5, // Second vertex
-          0.0, 0.5, // Third vertex
-        ]);
-        ```
-        We define the vertices of our triangle as a `Float32List`. Each vertex has two components (x, y).
-    *   **DeviceBuffer:**
-        ```dart
-        final verticesDeviceBuffer = gpu.gpuContext.createDeviceBufferWithCopy(
-          ByteData.sublistView(vertices),
-        );
-        ```
-        We create a `DeviceBuffer` to store our vertex data on the GPU and copy the data from the `vertices` list to the buffer.
-    *   **Binding Resources:**
-        ```dart
-        renderPass.bindPipeline(pipeline);
+*   `import 'dart:typed_data';`: Imports the `dart:typed_data` library, which provides classes for working with typed data, such as `Float32List`.
+*   `import 'package:flutter/material.dart';`: Imports the Flutter Material library, which provides the basic building blocks for Flutter apps.
+*   `import 'package:flutter_gpu/gpu.dart' as gpu;`: Imports the Flutter GPU library, which provides the APIs for interacting with the GPU.
+*   `import 'shaders.dart';`: Imports our `shaders.dart` file, which contains the code for loading the shader bundle.
 
-        final verticesView = gpu.BufferView(
-          verticesDeviceBuffer,
-          offsetInBytes: 0,
-          lengthInBytes: verticesDeviceBuffer.sizeInBytes,
-        );
-        renderPass.bindVertexBuffer(
-          verticesView,
-          vertices.length ~/ floatsPerVertex,
-        );
-        ```
-        We bind our `RenderPipeline` to the `RenderPass`. We also create a view of our `DeviceBuffer` using `gpu.BufferView` and then bind this view as the vertex buffer for the `RenderPass`.
-    *   **Drawing:**
-        ```dart
-        renderPass.draw();
-        ```
-        This is where we tell the GPU to draw our triangle! The `draw()` method, in this case, will draw triangles using the currently bound vertex buffer and shaders.
+The `MainApp` widget is a simple stateless widget that creates a `MaterialApp` with a `CustomPaint` widget. The `CustomPaint` widget uses our custom `TrianglePainter` to render the triangle.
 
-*   **Submitting to the GPU:**
-    *   `commandBuffer.submit();` : This is a crucial step! The `draw()` method only adds a draw command to the `commandBuffer`. It does not immediately execute the drawing on the GPU. The `commandBuffer.submit()` call sends all the accumulated commands in the `commandBuffer` to the GPU for execution. This is where the GPU actually renders our triangle to the texture.
-*   **Converting to an Image:**
-    *   `final image = texture.asImage();` : We convert the `Texture` that we rendered into an `Image` object. This allows us to use it with the standard Flutter `Canvas` API.
-*   **Drawing to the Canvas:**
-    *   `canvas.drawImage(image, Offset.zero, Paint());` : Finally, we draw the `Image` onto the `Canvas` provided by the `CustomPaint` widget. This makes our triangle visible on the screen.
+The `TrianglePainter` class is where all the GPU magic happens:
 
-*   **`shouldRepaint`:**
-    *   `@override`
-    *   `bool shouldRepaint(covariant CustomPainter oldDelegate) => true;`
-    *   This method tells Flutter whether the `CustomPainter` should be repainted. For this simple example, we always return `true`, indicating that we want to repaint every frame. In a more complex application, you'd want to optimize this to repaint only when necessary.
+*   `final texture = gpu.gpuContext.createTexture(...)`: This creates a `Texture` object, which represents a region of memory on the GPU that can be used to store image data. We're creating a texture with the same size as the `CustomPaint` widget, rounded up to the nearest whole number. The `StorageMode` is set to `devicePrivate`, which means the texture is stored in GPU memory and is not directly accessible by the CPU. The choice of storage mode affects performance. `devicePrivate` is generally the fastest for rendering, but the texture cannot be read back to the CPU. `hostVisible` allows both CPU and GPU access but might be slower for rendering. `shared` is another option that offers a balance between accessibility and performance.
+*   `final renderTarget = gpu.RenderTarget.singleColor(...)`: This creates a `RenderTarget`, which represents a collection of textures that can be rendered to. We're creating a render target with a single color attachment, which is our `texture`.
+*   `final commandBuffer = gpu.gpuContext.createCommandBuffer()`: This creates a `CommandBuffer`, which is used to record a sequence of commands to be executed on the GPU.
+*   `final renderPass = commandBuffer.createRenderPass(renderTarget)`: This creates a `RenderPass`, which represents a sequence of rendering operations. We're associating the render pass with our `renderTarget`.
+*   `final vert = shaderLibrary['SimpleVertex'];`: This retrieves the vertex shader from our loaded shader library.
+*   `final frag = shaderLibrary['SimpleFragment'];`: This retrieves the fragment shader from our loaded shader library.
+*   `final pipeline = gpu.gpuContext.createRenderPipeline(vert, frag);`: This creates a `RenderPipeline`, which represents a complete rendering pipeline, including the vertex and fragment shaders.
+*   `final vertices = Float32List.fromList(...)`: This creates a `Float32List` containing the vertex data for our triangle. Each vertex has two components (x, y).
+*   `final verticesDeviceBuffer = gpu.gpuContext.createDeviceBufferWithCopy(...)`: This creates a `DeviceBuffer` and copies our vertex data to it. A `DeviceBuffer` is a region of memory on the GPU that can be used to store vertex data, uniform data, or other data used by shaders.
+*   `renderPass.bindPipeline(pipeline);`: This binds our `RenderPipeline` to the render pass, making it the active pipeline.
+*   `final verticesView = gpu.BufferView(...)`: Creates a view into the `verticesDeviceBuffer`. Views are important because they allow you to specify which part of the buffer to use without copying data.
+*   `renderPass.bindVertexBuffer(verticesView, vertices.length ~/ floatsPerVertex);`: This binds our vertex buffer to the render pass, making it available to the vertex shader.
+*   `renderPass.draw();`: This adds a draw command to the render pass. This command will draw a triangle using the currently bound pipeline and vertex buffer. Note that this doesn't immediately draw anything; it just adds the command to the `commandBuffer`.
+*   `commandBuffer.submit();`: This submits the `commandBuffer` to the GPU for execution. This is when the rendering actually happens. The GPU will execute the commands in the command buffer, including our draw command, and render the triangle to the texture.
+*   `final image = texture.asImage();`: This converts the `Texture` object into an `Image` that can be drawn using the regular Flutter `Canvas` API.
+*   `canvas.drawImage(image, Offset.zero, Paint());`: This draws the `Image` (which now contains our rendered triangle) onto the `Canvas` at position (0, 0).
 
+## Run the App
 
-## 1.9 Running the Application
+Now you're ready to run the app! Connect a device or start a simulator/emulator and run the following command in your terminal:
 
-Now you're ready to run the application and see your green triangle!
+```console
+$ flutter run
+```
 
-1.  **Run the App:**
+If everything is set up correctly, you should see a beautiful green triangle rendered on the screen. Congratulations, you've just created your first Flutter GPU application!
 
-    *   In your terminal, run your Flutter application using the standard command:
+## Conclusion of Step 1
 
-        ```console
-        $ flutter run
-        ```
+In this step, you've learned how to:
 
-        This will launch the app on your connected device or simulator/emulator. The Flutter build system will automatically detect and execute the `hook/build.dart` script during the build process, compiling your shaders and creating the `my_first_triangle.shaderbundle` file in the `build/shaderbundles` directory. Then the application will load the shader bundle and run the application.
+*   Set up a Flutter project to use Flutter GPU.
+*   Write basic vertex and fragment shaders using GLSL.
+*   Create and build a shader bundle.
+*   Load a shader bundle at runtime.
+*   Use the Flutter GPU APIs to create textures, buffers, render targets, command buffers, render passes, and render pipelines.
+*   Draw a simple triangle using Flutter GPU.
 
-You should see a beautiful green triangle displayed on the screen!
+This is just the beginning of your journey into the world of Flutter GPU programming. In the following steps, we'll explore more advanced concepts and techniques to create even more impressive visuals.
 
-**Congratulations!** You've successfully created your first Flutter GPU application. You've written vertex and fragment shaders, set up the shader bundle compilation pipeline, and used the Flutter GPU APIs to render a triangle directly on the GPU.
-
-## Troubleshooting
-
-*   **"Shader compilation failed" error:** Double-check your GLSL code for syntax errors. Make sure you've correctly defined your `my_first_triangle.shaderbundle.json` file and that the paths to the shader files are correct.
-*   **"Failed to load shader bundle" error:** Ensure that the `build/shaderbundles` directory is correctly listed in your `pubspec.yaml` under `assets`. If the shader bundle is not generated, try running `flutter clean` and then `flutter run` again.
-*   **Nothing appears on the screen:** Verify that your `CustomPaint` widget is properly integrated into your widget tree and that `shouldRepaint` is returning `true`. Also, ensure that your device or simulator/emulator supports the required graphics APIs.
-
-## What's Next?
-
-In the next step, we'll add some color to our triangle and learn about attribute interpolation, making our visuals more interesting!
 
 
 # Step 2: Adding Color to the Triangle
