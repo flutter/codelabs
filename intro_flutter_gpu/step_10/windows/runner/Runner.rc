@@ -93,7 +93,7 @@ BEGIN
             VALUE "FileDescription", "intro_flutter_gpu" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "intro_flutter_gpu" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2024 com.example. All rights reserved." "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2025 com.example. All rights reserved." "\0"
             VALUE "OriginalFilename", "intro_flutter_gpu.exe" "\0"
             VALUE "ProductName", "intro_flutter_gpu" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
