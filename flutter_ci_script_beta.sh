@@ -25,7 +25,8 @@ declare -a CODELABS=(
   "haiku_generator"
   "homescreen_codelab"
   "in_app_purchases"
-  "intro_flutter_gpu"
+  # TODO(domesticmouse): Add after beta is above Dart 3.8.0-0
+  # "intro_flutter_gpu"
   "namer"
   "next-gen-ui"
   "testing_codelab"
