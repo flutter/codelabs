@@ -5,7 +5,7 @@ steps:
       - name: Remove generated code
         rmdir: step_01
       - name: Create project
-        flutter: create --empty intro_flutter_gpu --platforms android,ios,macos,windows
+        flutter: create --empty intro_flutter_gpu --platforms android,ios,macos,windows,linux
       - name: Make the macOS titlebar transparent, content full window, and hide the title bar.
         full-screen-macos-main-menu-xib: intro_flutter_gpu/macos/Runner/Base.lproj/MainMenu.xib
       - name: Strip DEVELOPMENT_TEAM
