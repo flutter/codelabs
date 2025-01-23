@@ -14,7 +14,7 @@ steps:
         patch-u: |
           --- b/in_app_purchases/step_00/app/.gitignore
           +++ a/in_app_purchases/step_00/app/.gitignore
-          @@ -43,3 +43,9 @@ app.*.map.json
+          @@ -43,3 +43,8 @@ app.*.map.json
            /android/app/debug
            /android/app/profile
            /android/app/release
@@ -23,10 +23,9 @@ steps:
           +GoogleService-Info.plist
           +google-services.json
           +ios/firebase_app_id_file.json
-          +lib/firebase_options.dart
       - name: Add app dependencies
         path: steps/app
-        flutter: pub add cloud_firestore cupertino_icons firebase_auth firebase_core google_sign_in http in_app_purchase in_app_purchase_platform_interface intl provider
+        flutter: pub add cloud_firestore cupertino_icons firebase_auth firebase_core google_sign_in http intl provider
       - name: Patch app/pubspec.yaml
         path: steps/app/pubspec.yaml
         patch-u: |
@@ -39,7 +38,7 @@ steps:
            publish_to: 'none'
            version: 0.1.0
            
-          @@ -27,3 +27,6 @@ dev_dependencies:
+          @@ -25,3 +25,6 @@ dev_dependencies:
            
            flutter:
              uses-material-design: true
@@ -16692,7 +16691,6 @@ steps:
           assets/*.p8
           assets/appstore.token
           assets/service-account*.json
-          lib/constants.dart
       - name: Replace analysis_options.yaml
         path: steps/dart-backend/analysis_options.yaml
         replace-contents: |
@@ -17132,6 +17130,18 @@ steps:
         copydir:
           from: steps
           to: step_00
+
+  - name: step_03
+    steps:
+      - name: Remove step_03
+        rmdir: step_03
+      - name: Add dependencies
+        path: steps/app
+        flutter: pub add in_app_purchase dev:in_app_purchase_platform_interface
+      - name: Copy to step_03
+        copydir:
+          from: steps
+          to: step_03
 
   - name: step_07
     steps:
@@ -18514,89 +18524,7 @@ steps:
         patch-u: |
           --- b/in_app_purchases/complete/app/lib/logic/dash_purchases.dart
           +++ a/in_app_purchases/complete/app/lib/logic/dash_purchases.dart
-          @@ -1,3 +1,5 @@
-          +// ignore_for_file: avoid_print
-          +
-           import 'dart:async';
-           import 'dart:convert';
-           
-          @@ -17,10 +19,10 @@ import 'firebase_notifier.dart';
-           class DashPurchases extends ChangeNotifier {
-             DashCounter counter;
-             FirebaseNotifier firebaseNotifier;
-          +  IAPRepo iapRepo;
-             StoreState storeState = StoreState.loading;
-             late StreamSubscription<List<PurchaseDetails>> _subscription;
-             List<PurchasableProduct> products = [];
-          -  IAPRepo iapRepo;
-           
-             bool get beautifiedDash => _beautifiedDashUpgrade;
-             bool _beautifiedDashUpgrade = false;
-          @@ -44,6 +46,7 @@ class DashPurchases extends ChangeNotifier {
-                 notifyListeners();
-                 return;
-               }
-          +
-               const ids = <String>{
-                 storeKeyConsumable,
-                 storeKeySubscription,
-          @@ -58,8 +61,8 @@ class DashPurchases extends ChangeNotifier {
-           
-             @override
-             void dispose() {
-          -    _subscription.cancel();
-               iapRepo.removeListener(purchasesUpdate);
-          +    _subscription.cancel();
-               super.dispose();
-             }
-           
-          @@ -129,8 +132,10 @@ class DashPurchases extends ChangeNotifier {
-                 headers: headers,
-               );
-               if (response.statusCode == 200) {
-          +      print('Successfully verified purchase');
-                 return true;
-               } else {
-          +      print('failed request: ${response.statusCode} - ${response.body}');
-                 return false;
-               }
-             }
-          @@ -140,7 +145,7 @@ class DashPurchases extends ChangeNotifier {
-             }
-           
-             void _updateStreamOnError(dynamic error) {
-          -    //Handle error here
-          +    print(error);
-             }
-           
-             void purchasesUpdate() {
-          @@ -165,21 +170,21 @@ class DashPurchases extends ChangeNotifier {
-               // purchases page.
-               if (iapRepo.hasActiveSubscription) {
-                 counter.applyPaidMultiplier();
-          -      for (var element in subscriptions) {
-          +      for (final element in subscriptions) {
-                   _updateStatus(element, ProductStatus.purchased);
-                 }
-               } else {
-                 counter.removePaidMultiplier();
-          -      for (var element in subscriptions) {
-          +      for (final element in subscriptions) {
-                   _updateStatus(element, ProductStatus.purchasable);
-                 }
-               }
-           
-          -    // Set the Dash beautifier and show/hide purchased on
-          +    // Set the dash beautifier and show/hide purchased on
-               // the purchases page.
-               if (iapRepo.hasUpgrade != _beautifiedDashUpgrade) {
-                 _beautifiedDashUpgrade = iapRepo.hasUpgrade;
-          -      for (var element in upgrades) {
-          +      for (final element in upgrades) {
-                   _updateStatus(
-                     element,
-                     _beautifiedDashUpgrade
-          @@ -192,8 +197,8 @@ class DashPurchases extends ChangeNotifier {
+          @@ -192,8 +192,8 @@ class DashPurchases extends ChangeNotifier {
              }
            
              void _updateStatus(PurchasableProduct product, ProductStatus status) {
