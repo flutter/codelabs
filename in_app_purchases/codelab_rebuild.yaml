@@ -18553,10 +18553,10 @@ steps:
           from: steps
           to: step_10
 
-  - name: step_11
+  - name: complete
     steps:
-      - name: Remove step_11
-        rmdir: step_11
+      - name: Remove complete
+        rmdir: complete
       - name: Patch app/lib/logic/dash_purchases.dart
         path: steps/app/lib/logic/dash_purchases.dart
         patch-u: |
@@ -18618,10 +18618,10 @@ steps:
               expect(token, 'TOKEN');
             });
           }
-      - name: Copy to step_11
+      - name: Copy to complete
         copydir:
           from: steps
-          to: step_11
+          to: complete
              
   - name: Cleanup
     steps:
