@@ -64,16 +64,15 @@ class TrianglePainter extends CustomPainter {
     const floatsPerVertex = 4; // 2 for position + 2 for UV
     final vertices = Float32List.fromList([
       // Format: x, y, u, v
-      
-      // Triangle #1
-      -0.8, -0.8, -1.0, -1.0, // bottom left
-      0.8, -0.8, 1.0, -1.0,   // bottom right
-      -0.8, 0.8, -1.0, 1.0,   // top left
 
+      // Triangle #1
+      -0.8, -0.8, -1.0, -1.0,
+      0.8, -0.8, 1.0, -1.0,
+      -0.8, 0.8, -1.0, 1.0,
       // Triangle #2
-      0.8, -0.8, 1.0, -1.0,   // bottom right
-      0.8, 0.8, 1.0, 1.0,     // top right
-      -0.8, 0.8, -1.0, 1.0,   // top left
+      0.8, -0.8, 1.0, -1.0,
+      0.8, 0.8, 1.0, 1.0,
+      -0.8, 0.8, -1.0, 1.0,
     ]);
 
     final verticesDeviceBuffer = gpu.gpuContext.createDeviceBufferWithCopy(

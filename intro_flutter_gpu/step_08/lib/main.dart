@@ -101,12 +101,12 @@ class TrianglePainter extends CustomPainter {
     const floatsPerVertex = 4;
     final vertices = Float32List.fromList([
       // Format: x, y, u, v
-      -0.8, -0.8, -1.0, -1.0, // bottom left
-      0.8, -0.8, 1.0, -1.0,   // bottom right
-      -0.8, 0.8, -1.0, 1.0,   // top left
-      0.8, -0.8, 1.0, -1.0,   // bottom right
-      0.8, 0.8, 1.0, 1.0,     // top right
-      -0.8, 0.8, -1.0, 1.0,   // top left
+      -0.8, -0.8, -1.0, -1.0,
+      0.8, -0.8, 1.0, -1.0,
+      -0.8, 0.8, -1.0, 1.0,
+      0.8, -0.8, 1.0, -1.0,
+      0.8, 0.8, 1.0, 1.0,
+      -0.8, 0.8, -1.0, 1.0,
     ]);
 
     final verticesDeviceBuffer = gpu.gpuContext.createDeviceBufferWithCopy(
@@ -120,10 +120,10 @@ class TrianglePainter extends CustomPainter {
     final model = vm.Matrix4.rotationY(angle);
     final view = vm.Matrix4.translation(vm.Vector3(0.0, 0.0, -2.0));
     final projection = vm.makePerspectiveMatrix(
-      vm.radians(45),      // 45-degree field of view
-      size.aspectRatio,    // Screen aspect ratio
-      0.1,                 // Near clipping plane
-      100.0,               // Far clipping plane
+      vm.radians(45),
+      size.aspectRatio,
+      0.1,
+      100.0,
     );
 
     // Pack matrices into uniform buffer

@@ -66,14 +66,13 @@ class TrianglePainter extends CustomPainter {
       // Format: x, y, r, g, b
 
       // Triangle #1
-      -0.5, -0.5, 1.0, 0.0, 0.0, // bottom left - red
-      0.5, -0.5, 0.0, 1.0, 0.0,  // bottom right - green
-      -0.5, 0.5, 0.0, 0.0, 1.0,  // top left - blue
-
+      -0.5, -0.5, 1.0, 0.0, 0.0,
+      0.5, -0.5, 0.0, 1.0, 0.0,
+      -0.5, 0.5, 0.0, 0.0, 1.0,
       // Triangle #2
-      0.5, -0.5, 0.0, 1.0, 0.0,  // bottom right - green
-      0.5, 0.5, 1.0, 1.0, 0.0,   // top right - yellow
-      -0.5, 0.5, 0.0, 0.0, 1.0,  // top left - blue
+      0.5, -0.5, 0.0, 1.0, 0.0,
+      0.5, 0.5, 1.0, 1.0, 0.0,
+      -0.5, 0.5, 0.0, 0.0, 1.0,
     ]);
 
     final verticesDeviceBuffer = gpu.gpuContext.createDeviceBufferWithCopy(

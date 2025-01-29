@@ -68,11 +68,7 @@ class TrianglePainter extends CustomPainter {
 
     // Define our triangle vertices
     const floatsPerVertex = 2;
-    final vertices = Float32List.fromList([
-      -0.5, -0.5, // First vertex
-      0.5, -0.5,  // Second vertex
-      0.0, 0.5,   // Third vertex
-    ]);
+    final vertices = Float32List.fromList([-0.5, -0.5, 0.5, -0.5, 0.0, 0.5]);
 
     // Create a GPU buffer for our vertices
     final verticesDeviceBuffer = gpu.gpuContext.createDeviceBufferWithCopy(
