@@ -38,6 +38,7 @@ class _MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
 
     _animation = Tween<double>(begin: 0, end: 4 * math.pi).animate(_controller);
 
+    // Load and add the 3D model
     scn.Node.fromAsset('build/models/building-port.model').then((model) {
       model.name = 'Port Building';
       scene.add(model);

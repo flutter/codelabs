@@ -131,6 +131,7 @@ steps:
 
             @override
             void paint(Canvas canvas, Size size) {
+              // Create a texture to render to
               final texture = gpu.gpuContext.createTexture(
                 gpu.StorageMode.devicePrivate,
                 size.width.ceil(),
@@ -140,13 +141,16 @@ steps:
                 throw Exception('Failed to create texture');
               }
 
+              // Create a render target for the texture
               final renderTarget = gpu.RenderTarget.singleColor(
                 gpu.ColorAttachment(texture: texture),
               );
 
+              // Create a command buffer and render pass
               final commandBuffer = gpu.gpuContext.createCommandBuffer();
               final renderPass = commandBuffer.createRenderPass(renderTarget);
 
+              // Load our shaders
               final vert = shaderLibrary['SimpleVertex'];
               if (vert == null) {
                 throw Exception('Failed to load SimpleVertex vertex shader');
@@ -157,15 +161,18 @@ steps:
                 throw Exception('Failed to load SimpleFragment fragment shader');
               }
 
+              // Create the rendering pipeline
               final pipeline = gpu.gpuContext.createRenderPipeline(vert, frag);
 
+              // Define our triangle vertices
               const floatsPerVertex = 2;
               final vertices = Float32List.fromList([
                 -0.5, -0.5, // First vertex
-                0.5, -0.5, // Second vertex
-                0.0, 0.5, // Third vertex
+                0.5, -0.5,  // Second vertex
+                0.0, 0.5,   // Third vertex
               ]);
 
+              // Create a GPU buffer for our vertices
               final verticesDeviceBuffer = gpu.gpuContext.createDeviceBufferWithCopy(
                 ByteData.sublistView(vertices),
               );
@@ -173,6 +180,7 @@ steps:
                 throw Exception('Failed to create vertices device buffer');
               }
 
+              // Bind the pipeline and vertex buffer
               renderPass.bindPipeline(pipeline);
 
               final verticesView = gpu.BufferView(
@@ -185,8 +193,10 @@ steps:
                 vertices.length ~/ floatsPerVertex,
               );
 
+              // Draw the triangle
               renderPass.draw();
 
+              // Submit commands to GPU and render to screen
               commandBuffer.submit();
               final image = texture.asImage();
               canvas.drawImage(image, Offset.zero, Paint());
@@ -331,23 +341,74 @@ steps:
         patch-u: |
           --- b/intro_flutter_gpu/step_02/lib/main.dart
           +++ a/intro_flutter_gpu/step_02/lib/main.dart
-          @@ -61,11 +61,12 @@ class TrianglePainter extends CustomPainter {
+          @@ -33,7 +33,6 @@ class TrianglePainter extends CustomPainter {
            
+             @override
+             void paint(Canvas canvas, Size size) {
+          -    // Create a texture to render to
+               final texture = gpu.gpuContext.createTexture(
+                 gpu.StorageMode.devicePrivate,
+                 size.width.ceil(),
+          @@ -43,16 +42,13 @@ class TrianglePainter extends CustomPainter {
+                 throw Exception('Failed to create texture');
+               }
+           
+          -    // Create a render target for the texture
+               final renderTarget = gpu.RenderTarget.singleColor(
+                 gpu.ColorAttachment(texture: texture),
+               );
+           
+          -    // Create a command buffer and render pass
+               final commandBuffer = gpu.gpuContext.createCommandBuffer();
+               final renderPass = commandBuffer.createRenderPass(renderTarget);
+           
+          -    // Load our shaders
+               final vert = shaderLibrary['SimpleVertex'];
+               if (vert == null) {
+                 throw Exception('Failed to load SimpleVertex vertex shader');
+          @@ -63,18 +59,16 @@ class TrianglePainter extends CustomPainter {
+                 throw Exception('Failed to load SimpleFragment fragment shader');
+               }
+           
+          -    // Create the rendering pipeline
                final pipeline = gpu.gpuContext.createRenderPipeline(vert, frag);
            
+          -    // Define our triangle vertices
           -    const floatsPerVertex = 2;
-          +    const floatsPerVertex = 5;
+          +    const floatsPerVertex = 5; // Now 2 for position + 3 for color
                final vertices = Float32List.fromList([
           -      -0.5, -0.5, // First vertex
-          -      0.5, -0.5, // Second vertex
-          -      0.0, 0.5, // Third vertex
-          +      // Format: x, y, r, g, b,
-          +      -0.5, -0.5, 1.0, 0.0, 0.0,
-          +      0.5, -0.5, 0.0, 1.0, 0.0,
-          +      0.0, 0.5, 0.0, 0.0, 1.0,
+          -      0.5, -0.5,  // Second vertex
+          -      0.0, 0.5,   // Third vertex
+          +      // Format: x, y, r, g, b
+          +      -0.5, -0.5, 1.0, 0.0, 0.0, // bottom left - red
+          +      0.5, -0.5, 0.0, 1.0, 0.0,  // bottom right - green
+          +      0.0, 0.5, 0.0, 0.0, 1.0,   // top - blue
                ]);
            
+          -    // Create a GPU buffer for our vertices
                final verticesDeviceBuffer = gpu.gpuContext.createDeviceBufferWithCopy(
+                 ByteData.sublistView(vertices),
+               );
+          @@ -82,7 +76,6 @@ class TrianglePainter extends CustomPainter {
+                 throw Exception('Failed to create vertices device buffer');
+               }
+           
+          -    // Bind the pipeline and vertex buffer
+               renderPass.bindPipeline(pipeline);
+           
+               final verticesView = gpu.BufferView(
+          @@ -95,10 +88,8 @@ class TrianglePainter extends CustomPainter {
+                 vertices.length ~/ floatsPerVertex,
+               );
+           
+          -    // Draw the triangle
+               renderPass.draw();
+           
+          -    // Submit commands to GPU and render to screen
+               commandBuffer.submit();
+               final image = texture.asImage();
+               canvas.drawImage(image, Offset.zero, Paint());
       - name: Patch shaders/simple.frag
         path: intro_flutter_gpu/shaders/simple.frag
         patch-u: |
@@ -396,22 +457,25 @@ steps:
         patch-u: |
           --- b/intro_flutter_gpu/step_03/lib/main.dart
           +++ a/intro_flutter_gpu/step_03/lib/main.dart
-          @@ -64,9 +64,15 @@ class TrianglePainter extends CustomPainter {
-               const floatsPerVertex = 5;
+          @@ -61,12 +61,19 @@ class TrianglePainter extends CustomPainter {
+           
+               final pipeline = gpu.gpuContext.createRenderPipeline(vert, frag);
+           
+          -    const floatsPerVertex = 5; // Now 2 for position + 3 for color
+          +    const floatsPerVertex = 5;
                final vertices = Float32List.fromList([
-                 // Format: x, y, r, g, b,
-          -      -0.5, -0.5, 1.0, 0.0, 0.0,
-          -      0.5, -0.5, 0.0, 1.0, 0.0,
-          -      0.0, 0.5, 0.0, 0.0, 1.0,
+                 // Format: x, y, r, g, b
           +
-          +      // Traingle #1
-          +      -0.5, -0.5, 1.0, 0.0, 0.0, // bottom left
-          +      0.5, -0.5, 0.0, 1.0, 0.0, // bottom right
-          +      -0.5, 0.5, 0.0, 0.0, 1.0, // top left
-          +      // Traingle #2
-          +      0.5, -0.5, 0.0, 1.0, 0.0, // bottom right
-          +      0.5, 0.5, 1.0, 1.0, 0.0, // top right
-          +      -0.5, 0.5, 0.0, 0.0, 1.0, // top left
+          +      // Triangle #1
+                 -0.5, -0.5, 1.0, 0.0, 0.0, // bottom left - red
+                 0.5, -0.5, 0.0, 1.0, 0.0,  // bottom right - green
+          -      0.0, 0.5, 0.0, 0.0, 1.0,   // top - blue
+          +      -0.5, 0.5, 0.0, 0.0, 1.0,  // top left - blue
+          +
+          +      // Triangle #2
+          +      0.5, -0.5, 0.0, 1.0, 0.0,  // bottom right - green
+          +      0.5, 0.5, 1.0, 1.0, 0.0,   // top right - yellow
+          +      -0.5, 0.5, 0.0, 0.0, 1.0,  // top left - blue
                ]);
            
                final verticesDeviceBuffer = gpu.gpuContext.createDeviceBufferWithCopy(
@@ -429,23 +493,24 @@ steps:
         patch-u: |
           --- b/intro_flutter_gpu/step_04/lib/main.dart
           +++ a/intro_flutter_gpu/step_04/lib/main.dart
-          @@ -66,13 +66,13 @@ class TrianglePainter extends CustomPainter {
-                 // Format: x, y, r, g, b,
+          @@ -66,14 +66,14 @@ class TrianglePainter extends CustomPainter {
+                 // Format: x, y, r, g, b
            
-                 // Traingle #1
-          -      -0.5, -0.5, 1.0, 0.0, 0.0, // bottom left
-          -      0.5, -0.5, 0.0, 1.0, 0.0, // bottom right
-          -      -0.5, 0.5, 0.0, 0.0, 1.0, // top left
-          +      -0.5, -0.5, 0.0, 0.0, 1.0, // bottom left
-          +      0.5, -0.5, 1.0, 1.0, 0.0, // bottom right
-          +      -0.5, 0.5, 1.0, 0.0, 0.0, // top left
-                 // Traingle #2
-          -      0.5, -0.5, 0.0, 1.0, 0.0, // bottom right
-          -      0.5, 0.5, 1.0, 1.0, 0.0, // top right
-          -      -0.5, 0.5, 0.0, 0.0, 1.0, // top left
-          +      0.5, -0.5, 1.0, 1.0, 0.0, // bottom right
-          +      0.5, 0.5, 0.0, 1.0, 0.0, // top right
-          +      -0.5, 0.5, 1.0, 0.0, 0.0, // top left
+                 // Triangle #1
+          -      -0.5, -0.5, 1.0, 0.0, 0.0, // bottom left - red
+          -      0.5, -0.5, 0.0, 1.0, 0.0,  // bottom right - green
+          -      -0.5, 0.5, 0.0, 0.0, 1.0,  // top left - blue
+          +      -0.5, -0.5, 0.0, 0.0, 1.0, // bottom left - blue
+          +      0.5, -0.5, 1.0, 1.0, 0.0,  // bottom right - yellow
+          +      -0.5, 0.5, 1.0, 0.0, 0.0,  // top left - red
+           
+                 // Triangle #2
+          -      0.5, -0.5, 0.0, 1.0, 0.0,  // bottom right - green
+          -      0.5, 0.5, 1.0, 1.0, 0.0,   // top right - yellow
+          -      -0.5, 0.5, 0.0, 0.0, 1.0,  // top left - blue
+          +      0.5, -0.5, 1.0, 1.0, 0.0,  // bottom right - yellow
+          +      0.5, 0.5, 0.0, 1.0, 0.0,   // top right - green
+          +      -0.5, 0.5, 1.0, 0.0, 0.0,  // top left - red
                ]);
            
                final verticesDeviceBuffer = gpu.gpuContext.createDeviceBufferWithCopy(
@@ -463,30 +528,31 @@ steps:
         patch-u: |
           --- b/intro_flutter_gpu/step_05/lib/main.dart
           +++ a/intro_flutter_gpu/step_05/lib/main.dart
-          @@ -61,18 +61,18 @@ class TrianglePainter extends CustomPainter {
+          @@ -61,19 +61,19 @@ class TrianglePainter extends CustomPainter {
            
                final pipeline = gpu.gpuContext.createRenderPipeline(vert, frag);
            
           -    const floatsPerVertex = 5;
-          +    const floatsPerVertex = 4;
+          +    const floatsPerVertex = 4; // Now 2 for position + 2 for UV
                final vertices = Float32List.fromList([
-          -      // Format: x, y, r, g, b,
-          +      // Format: x, y, u, v,
+          -      // Format: x, y, r, g, b
+          +      // Format: x, y, u, v
            
-                 // Traingle #1
-          -      -0.5, -0.5, 0.0, 0.0, 1.0, // bottom left
-          -      0.5, -0.5, 1.0, 1.0, 0.0, // bottom right
-          -      -0.5, 0.5, 1.0, 0.0, 0.0, // top left
+                 // Triangle #1
+          -      -0.5, -0.5, 0.0, 0.0, 1.0, // bottom left - blue
+          -      0.5, -0.5, 1.0, 1.0, 0.0,  // bottom right - yellow
+          -      -0.5, 0.5, 1.0, 0.0, 0.0,  // top left - red
           +      -0.5, -0.5, 0.0, 0.0, // bottom left
-          +      0.5, -0.5, 1.0, 0.0, // bottom right
-          +      -0.5, 0.5, 0.0, 1.0, // top left
-                 // Traingle #2
-          -      0.5, -0.5, 1.0, 1.0, 0.0, // bottom right
-          -      0.5, 0.5, 0.0, 1.0, 0.0, // top right
-          -      -0.5, 0.5, 1.0, 0.0, 0.0, // top left
-          +      0.5, -0.5, 1.0, 0.0, // bottom right
-          +      0.5, 0.5, 1.0, 1.0, // top right
-          +      -0.5, 0.5, 0.0, 1.0, // top left
+          +      0.5, -0.5, 1.0, 0.0,  // bottom right
+          +      -0.5, 0.5, 0.0, 1.0,  // top left
+           
+                 // Triangle #2
+          -      0.5, -0.5, 1.0, 1.0, 0.0,  // bottom right - yellow
+          -      0.5, 0.5, 0.0, 1.0, 0.0,   // top right - green
+          -      -0.5, 0.5, 1.0, 0.0, 0.0,  // top left - red
+          +      0.5, -0.5, 1.0, 0.0,  // bottom right
+          +      0.5, 0.5, 1.0, 1.0,   // top right
+          +      -0.5, 0.5, 0.0, 1.0,  // top left
                ]);
            
                final verticesDeviceBuffer = gpu.gpuContext.createDeviceBufferWithCopy(
@@ -503,16 +569,16 @@ steps:
           +in vec2 vertex_uv;
            out vec4 frag_color;
            
-          +const vec4 top_left_color = vec4(1, 0, 0, 1);
-          +const vec4 top_right_color = vec4(0, 1, 0, 1);
-          +const vec4 bottom_left_color = vec4(0, 0, 1, 1);
-          +const vec4 bottom_right_color = vec4(1, 1, 0, 1);
+          +const vec4 red = vec4(1, 0, 0, 1);
+          +const vec4 green = vec4(0, 1, 0, 1);
+          +const vec4 blue = vec4(0, 0, 1, 1);
+          +const vec4 yellow = vec4(1, 1, 0, 1);
           +
            void main() {
           -  frag_color = vec4(vertex_color, 1);
           +  frag_color =
-          +      mix(mix(bottom_left_color, bottom_right_color, vertex_uv.x),
-          +          mix(top_left_color, top_right_color, vertex_uv.x), vertex_uv.y);
+          +      mix(mix(blue, yellow, vertex_uv.x),
+          +          mix(red, green, vertex_uv.x), vertex_uv.y);
            }
       - name: Patch shaders/simple.vert
         path: intro_flutter_gpu/shaders/simple.vert
@@ -549,23 +615,31 @@ steps:
         patch-u: |
           --- b/intro_flutter_gpu/step_06/lib/main.dart
           +++ a/intro_flutter_gpu/step_06/lib/main.dart
-          @@ -66,13 +66,13 @@ class TrianglePainter extends CustomPainter {
-                 // Format: x, y, u, v,
+          @@ -61,19 +61,19 @@ class TrianglePainter extends CustomPainter {
            
-                 // Traingle #1
+               final pipeline = gpu.gpuContext.createRenderPipeline(vert, frag);
+           
+          -    const floatsPerVertex = 4; // Now 2 for position + 2 for UV
+          +    const floatsPerVertex = 4; // 2 for position + 2 for UV
+               final vertices = Float32List.fromList([
+                 // Format: x, y, u, v
+          -
+          +      
+                 // Triangle #1
           -      -0.5, -0.5, 0.0, 0.0, // bottom left
-          -      0.5, -0.5, 1.0, 0.0, // bottom right
-          -      -0.5, 0.5, 0.0, 1.0, // top left
+          -      0.5, -0.5, 1.0, 0.0,  // bottom right
+          -      -0.5, 0.5, 0.0, 1.0,  // top left
           +      -0.8, -0.8, -1.0, -1.0, // bottom left
-          +      0.8, -0.8, 1.0, -1.0, // bottom right
-          +      -0.8, 0.8, -1.0, 1.0, // top left
-                 // Traingle #2
-          -      0.5, -0.5, 1.0, 0.0, // bottom right
-          -      0.5, 0.5, 1.0, 1.0, // top right
-          -      -0.5, 0.5, 0.0, 1.0, // top left
-          +      0.8, -0.8, 1.0, -1.0, // bottom right
-          +      0.8, 0.8, 1.0, 1.0, // top right
-          +      -0.8, 0.8, -1.0, 1.0, // top left
+          +      0.8, -0.8, 1.0, -1.0,   // bottom right
+          +      -0.8, 0.8, -1.0, 1.0,   // top left
+           
+                 // Triangle #2
+          -      0.5, -0.5, 1.0, 0.0,  // bottom right
+          -      0.5, 0.5, 1.0, 1.0,   // top right
+          -      -0.5, 0.5, 0.0, 1.0,  // top left
+          +      0.8, -0.8, 1.0, -1.0,   // bottom right
+          +      0.8, 0.8, 1.0, 1.0,     // top right
+          +      -0.8, 0.8, -1.0, 1.0,   // top left
                ]);
            
                final verticesDeviceBuffer = gpu.gpuContext.createDeviceBufferWithCopy(
@@ -574,22 +648,23 @@ steps:
         patch-u: |
           --- b/intro_flutter_gpu/step_06/shaders/simple.frag
           +++ a/intro_flutter_gpu/step_06/shaders/simple.frag
-          @@ -7,13 +7,27 @@
+          @@ -7,13 +7,26 @@
            in vec2 vertex_uv;
            out vec4 frag_color;
            
-          -const vec4 top_left_color = vec4(1, 0, 0, 1);
-          -const vec4 top_right_color = vec4(0, 1, 0, 1);
-          -const vec4 bottom_left_color = vec4(0, 0, 1, 1);
-          -const vec4 bottom_right_color = vec4(1, 1, 0, 1);
+          -const vec4 red = vec4(1, 0, 0, 1);
+          -const vec4 green = vec4(0, 1, 0, 1);
+          -const vec4 blue = vec4(0, 0, 1, 1);
+          -const vec4 yellow = vec4(1, 1, 0, 1);
           +// Adapted from https://www.youtube.com/shorts/h5PuIm6fRr8
           +float mandelbrot(vec2 uv) {
-          +  const float MAX_ITER = 128;
-          +  vec2 c =  1.2 * uv - vec2(0.7, 0.0);
+          +  const float MAX_ITER = 128.0;
+          +  vec2 c = 1.2 * uv - vec2(0.7, 0.0);
           +  vec2 z = vec2(0.0);
           +
           +  for (float iter = 0.0; iter < MAX_ITER; iter++) {
           +    z = vec2(z.x * z.x - z.y * z.y, 2.0 * z.x * z.y) + c;
+          +    
           +    if (length(z) > 4.0) {
           +      return iter / MAX_ITER;
           +    }
@@ -597,17 +672,15 @@ steps:
           +
           +  return 0.0;
           +}
-          +
            
            void main() {
           -  frag_color =
-          -      mix(mix(bottom_left_color, bottom_right_color, vertex_uv.x),
-          -          mix(top_left_color, top_right_color, vertex_uv.x), vertex_uv.y);
-          +    float m = mandelbrot(vertex_uv);
-          +    vec3 col = vec3(m);
-          +    col = pow(col, vec3(0.4545, 0.3, 0.1));
-          +    frag_color = vec4(col, 1.0);
-          +
+          -      mix(mix(blue, yellow, vertex_uv.x),
+          -          mix(red, green, vertex_uv.x), vertex_uv.y);
+          +  float m = mandelbrot(vertex_uv);
+          +  vec3 col = vec3(m);
+          +  col = pow(col, vec3(0.4545, 0.3, 0.1)); // Color grading
+          +  frag_color = vec4(col, 1.0);
            }
       - name: Copy step_06
         copydir:
@@ -678,12 +751,12 @@ steps:
           -        body: SizedBox.expand(child: CustomPaint(painter: TrianglePainter())),
           +        body: SizedBox.expand(
           +          child: AnimatedBuilder(
+          +            animation: _animation,
           +            builder: (context, child) {
           +              return CustomPaint(
           +                painter: TrianglePainter(angle: _animation.value),
           +              );
           +            },
-          +            animation: _animation,
           +          ),
           +        ),
                  ),
@@ -698,12 +771,32 @@ steps:
            
              @override
              void paint(Canvas canvas, Size size) {
-          @@ -82,6 +119,20 @@ class TrianglePainter extends CustomPainter {
+          @@ -61,16 +98,12 @@ class TrianglePainter extends CustomPainter {
+           
+               final pipeline = gpu.gpuContext.createRenderPipeline(vert, frag);
+           
+          -    const floatsPerVertex = 4; // 2 for position + 2 for UV
+          +    const floatsPerVertex = 4;
+               final vertices = Float32List.fromList([
+                 // Format: x, y, u, v
+          -      
+          -      // Triangle #1
+                 -0.8, -0.8, -1.0, -1.0, // bottom left
+                 0.8, -0.8, 1.0, -1.0,   // bottom right
+                 -0.8, 0.8, -1.0, 1.0,   // top left
+          -
+          -      // Triangle #2
+                 0.8, -0.8, 1.0, -1.0,   // bottom right
+                 0.8, 0.8, 1.0, 1.0,     // top right
+                 -0.8, 0.8, -1.0, 1.0,   // top left
+          @@ -83,6 +116,22 @@ class TrianglePainter extends CustomPainter {
                  throw Exception('Failed to create vertices device buffer');
                }
            
+          +    // Create model matrix for rotation
           +    final model = vm.Matrix4.rotationY(angle);
           +
+          +    // Create uniform buffer with transformation matrix
           +    final vertUniforms = [model];
           +
           +    final vertUniformsDeviceBuffer = gpu.gpuContext.createDeviceBufferWithCopy(
@@ -719,7 +812,7 @@ steps:
                renderPass.bindPipeline(pipeline);
            
                final verticesView = gpu.BufferView(
-          @@ -94,6 +145,14 @@ class TrianglePainter extends CustomPainter {
+          @@ -95,6 +144,14 @@ class TrianglePainter extends CustomPainter {
                  vertices.length ~/ floatsPerVertex,
                );
            
@@ -752,6 +845,19 @@ steps:
           +  gl_Position = model * vec4(position, 0.0, 1.0);
              vertex_uv = uv;
            }
+      - name: Patch shaders/simple.frag
+        path: intro_flutter_gpu/shaders/simple.frag
+        patch-u: |
+          --- b/intro_flutter_gpu/step_07/shaders/simple.frag
+          +++ a/intro_flutter_gpu/step_07/shaders/simple.frag
+          @@ -27,6 +27,6 @@ float mandelbrot(vec2 uv) {
+           void main() {
+             float m = mandelbrot(vertex_uv);
+             vec3 col = vec3(m);
+          -  col = pow(col, vec3(0.4545, 0.3, 0.1)); // Color grading
+          +  col = pow(col, vec3(0.4545, 0.3, 0.1));
+             frag_color = vec4(col, 1.0);
+           }
       - name: Copy step_07
         copydir:
           from: intro_flutter_gpu
@@ -766,19 +872,24 @@ steps:
         patch-u: |
           --- b/intro_flutter_gpu/step_08/lib/main.dart
           +++ a/intro_flutter_gpu/step_08/lib/main.dart
-          @@ -120,8 +120,15 @@ class TrianglePainter extends CustomPainter {
+          @@ -116,11 +116,18 @@ class TrianglePainter extends CustomPainter {
+                 throw Exception('Failed to create vertices device buffer');
                }
            
+          -    // Create model matrix for rotation
+          +    // Create transformation matrices
                final model = vm.Matrix4.rotationY(angle);
           +    final view = vm.Matrix4.translation(vm.Vector3(0.0, 0.0, -2.0));
           +    final projection = vm.makePerspectiveMatrix(
-          +      vm.radians(45),
-          +      size.aspectRatio,
-          +      0.1,
-          +      100,
+          +      vm.radians(45),      // 45-degree field of view
+          +      size.aspectRatio,    // Screen aspect ratio
+          +      0.1,                 // Near clipping plane
+          +      100.0,               // Far clipping plane
           +    );
            
+          -    // Create uniform buffer with transformation matrix
           -    final vertUniforms = [model];
+          +    // Pack matrices into uniform buffer
           +    final vertUniforms = [model, view, projection];
            
                final vertUniformsDeviceBuffer = gpu.gpuContext.createDeviceBufferWithCopy(
@@ -815,24 +926,21 @@ steps:
         patch-u: |
           --- b/intro_flutter_gpu/step_09/lib/main.dart
           +++ a/intro_flutter_gpu/step_09/lib/main.dart
-          @@ -98,18 +98,57 @@ class TrianglePainter extends CustomPainter {
+          @@ -98,15 +98,57 @@ class TrianglePainter extends CustomPainter {
            
                final pipeline = gpu.gpuContext.createRenderPipeline(vert, frag);
            
           -    const floatsPerVertex = 4;
-          +    const floatsPerVertex = 6;
+          +    const floatsPerVertex = 6; // 3 for position + 3 for color
                final vertices = Float32List.fromList([
-          -      // Format: x, y, u, v,
-          -
-          -      // Traingle #1
+          -      // Format: x, y, u, v
           -      -0.8, -0.8, -1.0, -1.0, // bottom left
-          -      0.8, -0.8, 1.0, -1.0, // bottom right
-          -      -0.8, 0.8, -1.0, 1.0, // top left
-          -      // Traingle #2
-          -      0.8, -0.8, 1.0, -1.0, // bottom right
-          -      0.8, 0.8, 1.0, 1.0, // top right
-          -      -0.8, 0.8, -1.0, 1.0, // top left
-          +      // layout: x, y, z, r, g, b
+          -      0.8, -0.8, 1.0, -1.0,   // bottom right
+          -      -0.8, 0.8, -1.0, 1.0,   // top left
+          -      0.8, -0.8, 1.0, -1.0,   // bottom right
+          -      0.8, 0.8, 1.0, 1.0,     // top right
+          -      -0.8, 0.8, -1.0, 1.0,   // top left
+          +      // Format: x, y, z, r, g, b
           +
           +      // Back Face
           +      -0.5, -0.5, -0.5, 1.0, 0.0, 0.0,
@@ -884,12 +992,34 @@ steps:
                ]);
            
                final verticesDeviceBuffer = gpu.gpuContext.createDeviceBufferWithCopy(
+          @@ -116,17 +158,15 @@ class TrianglePainter extends CustomPainter {
+                 throw Exception('Failed to create vertices device buffer');
+               }
+           
+          -    // Create transformation matrices
+               final model = vm.Matrix4.rotationY(angle);
+               final view = vm.Matrix4.translation(vm.Vector3(0.0, 0.0, -2.0));
+               final projection = vm.makePerspectiveMatrix(
+          -      vm.radians(45),      // 45-degree field of view
+          -      size.aspectRatio,    // Screen aspect ratio
+          -      0.1,                 // Near clipping plane
+          -      100.0,               // Far clipping plane
+          +      vm.radians(45),
+          +      size.aspectRatio,
+          +      0.1,
+          +      100.0,
+               );
+           
+          -    // Pack matrices into uniform buffer
+               final vertUniforms = [model, view, projection];
+           
+               final vertUniformsDeviceBuffer = gpu.gpuContext.createDeviceBufferWithCopy(
       - name: Patch shaders/simple.frag
         path: intro_flutter_gpu/shaders/simple.frag
         patch-u: |
           --- b/intro_flutter_gpu/step_09/shaders/simple.frag
           +++ a/intro_flutter_gpu/step_09/shaders/simple.frag
-          @@ -4,30 +4,9 @@
+          @@ -4,29 +4,9 @@
            
            #version 460 core
            
@@ -899,12 +1029,13 @@ steps:
            
           -// Adapted from https://www.youtube.com/shorts/h5PuIm6fRr8
           -float mandelbrot(vec2 uv) {
-          -  const float MAX_ITER = 128;
-          -  vec2 c =  1.2 * uv - vec2(0.7, 0.0);
+          -  const float MAX_ITER = 128.0;
+          -  vec2 c = 1.2 * uv - vec2(0.7, 0.0);
           -  vec2 z = vec2(0.0);
           -
           -  for (float iter = 0.0; iter < MAX_ITER; iter++) {
           -    z = vec2(z.x * z.x - z.y * z.y, 2.0 * z.x * z.y) + c;
+          -    
           -    if (length(z) > 4.0) {
           -      return iter / MAX_ITER;
           -    }
@@ -913,13 +1044,11 @@ steps:
           -  return 0.0;
           -}
           -
-          -
           -void main() {
-          -    float m = mandelbrot(vertex_uv);
-          -    vec3 col = vec3(m);
-          -    col = pow(col, vec3(0.4545, 0.3, 0.1));
-          -    frag_color = vec4(col, 1.0);
-          -
+          -  float m = mandelbrot(vertex_uv);
+          -  vec3 col = vec3(m);
+          -  col = pow(col, vec3(0.4545, 0.3, 0.1));
+          -  frag_color = vec4(col, 1.0);
           +void main() { 
           +  frag_color = vec4(vertex_color, 1.0); 
            }
@@ -965,10 +1094,20 @@ steps:
         patch-u: |
           --- b/intro_flutter_gpu/step_10/lib/main.dart
           +++ a/intro_flutter_gpu/step_10/lib/main.dart
-          @@ -181,6 +181,8 @@ class TrianglePainter extends CustomPainter {
+          @@ -98,7 +98,7 @@ class TrianglePainter extends CustomPainter {
+           
+               final pipeline = gpu.gpuContext.createRenderPipeline(vert, frag);
+           
+          -    const floatsPerVertex = 6; // 3 for position + 3 for color
+          +    const floatsPerVertex = 6;
+               final vertices = Float32List.fromList([
+                 // Format: x, y, z, r, g, b
+           
+          @@ -181,6 +181,9 @@ class TrianglePainter extends CustomPainter {
            
                renderPass.bindPipeline(pipeline);
            
+          +    // Add back-face culling
           +    renderPass.setCullMode(gpu.CullMode.backFace);
           +
                final verticesView = gpu.BufferView(
@@ -1002,20 +1141,32 @@ steps:
              }
            
              @override
-          @@ -158,8 +158,11 @@ class TrianglePainter extends CustomPainter {
+          @@ -158,8 +158,15 @@ class TrianglePainter extends CustomPainter {
                  throw Exception('Failed to create vertices device buffer');
                }
            
           -    final model = vm.Matrix4.rotationY(angle);
           -    final view = vm.Matrix4.translation(vm.Vector3(0.0, 0.0, -2.0));
+          +    // Create model matrix with multiple rotations
           +    final model =
           +        vm.Matrix4.identity()
           +          ..rotateY(angle)
           +          ..rotateX(angle / 2);
+          +
+          +    // Move camera back a bit more for better view
           +    final view = vm.Matrix4.translation(vm.Vector3(0.0, 0.0, -2.5));
+          +
                final projection = vm.makePerspectiveMatrix(
                  vm.radians(45),
                  size.aspectRatio,
+          @@ -181,7 +188,6 @@ class TrianglePainter extends CustomPainter {
+           
+               renderPass.bindPipeline(pipeline);
+           
+          -    // Add back-face culling
+               renderPass.setCullMode(gpu.CullMode.backFace);
+           
+               final verticesView = gpu.BufferView(
       - name: Copy step_11
         copydir:
           from: intro_flutter_gpu
@@ -1035,11 +1186,11 @@ steps:
         rm: intro_flutter_gpu/my_first_triangle.shaderbundle.json
       - name: Remove lib/shaders.dart
         rm: intro_flutter_gpu/lib/shaders.dart
-      - name: Remove simple.vert
+      - name: Remove shaders/simple.vert
         rm: intro_flutter_gpu/shaders/simple.vert
-      - name: Remove simple.frag
+      - name: Remove shaders/simple.frag
         rm: intro_flutter_gpu/shaders/simple.frag
-      - name: Patch lib/main.dart
+      - name: Patch pubspec.yaml
         path: intro_flutter_gpu/pubspec.yaml
         patch-u: |
           --- b/intro_flutter_gpu/step_12/pubspec.yaml
@@ -1951,258 +2102,114 @@ steps:
                );
              });
            }
-      - name: Patch lib/main.dart
+      - name: Replace lib/main.dart
         path: intro_flutter_gpu/lib/main.dart
-        patch-u: |
-          --- b/intro_flutter_gpu/step_12/lib/main.dart
-          +++ a/intro_flutter_gpu/step_12/lib/main.dart
-          @@ -3,20 +3,21 @@
-           // found in the LICENSE file.
-           
-           import 'dart:math' as math;
-          -import 'dart:typed_data';
-           
-           import 'package:flutter/material.dart';
-          -import 'package:flutter_gpu/gpu.dart' as gpu;
-          +import 'package:flutter_scene/scene.dart' as scn;
-           import 'package:vector_math/vector_math.dart' as vm;
-           
-          -import 'shaders.dart';
-          -
-           void main() {
-          -  runApp(const MainApp());
-          +  runApp(
-          +    MainApp(staticResourcesInitialized: scn.Scene.initializeStaticResources()),
-          +  );
-           }
-           
-           class MainApp extends StatefulWidget {
-          -  const MainApp({super.key});
-          +  const MainApp({super.key, required this.staticResourcesInitialized});
-          +
-          +  final Future<void> staticResourcesInitialized;
-           
-             @override
-             State<MainApp> createState() => _MainAppState();
-          @@ -25,6 +26,7 @@ class MainApp extends StatefulWidget {
-           class _MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
-             late AnimationController _controller;
-             late Animation<double> _animation;
-          +  final scene = scn.Scene();
-           
-             @override
-             void initState() {
-          @@ -35,6 +37,11 @@ class _MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
-               )..repeat();
-           
-               _animation = Tween<double>(begin: 0, end: 4 * math.pi).animate(_controller);
-          +
-          +    scn.Node.fromAsset('build/models/building-port.model').then((model) {
-          +      model.name = 'Port Building';
-          +      scene.add(model);
-          +    });
-             }
-           
-             @override
-          @@ -46,17 +53,35 @@ class _MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
-             @override
-             Widget build(BuildContext context) {
-               return MaterialApp(
-          -      title: 'Flutter GPU Triangle Demo',
-          +      title: 'Hexagon Explorer',
-                 debugShowCheckedModeBanner: false,
-                 home: Scaffold(
-                   body: SizedBox.expand(
-          -          child: AnimatedBuilder(
-          -            builder: (context, child) {
-          -              return CustomPaint(
-          -                painter: TrianglePainter(angle: _animation.value),
-          +          child: FutureBuilder(
-          +            future: widget.staticResourcesInitialized,
-          +            builder: (context, snapshot) {
-          +              if (snapshot.connectionState != ConnectionState.done) {
-          +                return const Center(child: CircularProgressIndicator());
-          +              }
-          +              return AnimatedBuilder(
-          +                builder: (context, child) {
-          +                  return CustomPaint(
-          +                    painter: ScenePainter(
-          +                      scene: scene,
-          +                      camera: scn.PerspectiveCamera(
-          +                        position: vm.Vector3(
-          +                          math.sin(_animation.value) * 3,
-          +                          2,
-          +                          math.cos(_animation.value) * 3,
-          +                        ),
-          +                        target: vm.Vector3(0, 0, 0),
-          +                      ),
-          +                    ),
-          +                  );
-          +                },
-          +                animation: _animation,
-                         );
-                       },
-          -            animation: _animation,
-                     ),
-                   ),
-                 ),
-          @@ -64,151 +89,14 @@ class _MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
-             }
-           }
-           
-          -class TrianglePainter extends CustomPainter {
-          -  const TrianglePainter({required this.angle});
-          -  final double angle;
-          +class ScenePainter extends CustomPainter {
-          +  ScenePainter({required this.scene, required this.camera});
-          +  final scn.Scene scene;
-          +  final scn.Camera camera;
-           
-             @override
-             void paint(Canvas canvas, Size size) {
-          -    final texture = gpu.gpuContext.createTexture(
-          -      gpu.StorageMode.devicePrivate,
-          -      size.width.ceil(),
-          -      size.height.ceil(),
-          -    );
-          -    if (texture == null) {
-          -      throw Exception('Failed to create texture');
-          -    }
-          -
-          -    final renderTarget = gpu.RenderTarget.singleColor(
-          -      gpu.ColorAttachment(texture: texture),
-          -    );
-          -
-          -    final commandBuffer = gpu.gpuContext.createCommandBuffer();
-          -    final renderPass = commandBuffer.createRenderPass(renderTarget);
-          -
-          -    final vert = shaderLibrary['SimpleVertex'];
-          -    if (vert == null) {
-          -      throw Exception('Failed to load SimpleVertex vertex shader');
-          -    }
-          -
-          -    final frag = shaderLibrary['SimpleFragment'];
-          -    if (frag == null) {
-          -      throw Exception('Failed to load SimpleFragment fragment shader');
-          -    }
-          -
-          -    final pipeline = gpu.gpuContext.createRenderPipeline(vert, frag);
-          -
-          -    const floatsPerVertex = 6;
-          -    final vertices = Float32List.fromList([
-          -      // layout: x, y, z, r, g, b
-          -
-          -      // Back Face
-          -      -0.5, -0.5, -0.5, 1.0, 0.0, 0.0,
-          -      0.5, -0.5, -0.5, 0.0, 1.0, 0.0,
-          -      0.5, 0.5, -0.5, 0.0, 0.0, 1.0,
-          -      0.5, 0.5, -0.5, 0.0, 0.0, 1.0,
-          -      -0.5, 0.5, -0.5, 1.0, 1.0, 0.0,
-          -      -0.5, -0.5, -0.5, 1.0, 0.0, 0.0,
-          -
-          -      // Front Face
-          -      -0.5, -0.5, 0.5, 1.0, 0.0, 0.0,
-          -      0.5, 0.5, 0.5, 0.0, 0.0, 1.0,
-          -      0.5, -0.5, 0.5, 0.0, 1.0, 0.0,
-          -      0.5, 0.5, 0.5, 0.0, 0.0, 1.0,
-          -      -0.5, -0.5, 0.5, 1.0, 0.0, 0.0,
-          -      -0.5, 0.5, 0.5, 1.0, 1.0, 0.0,
-          -
-          -      // Left Face
-          -      -0.5, 0.5, 0.5, 1.0, 0.0, 0.0,
-          -      -0.5, -0.5, -0.5, 0.0, 0.0, 1.0,
-          -      -0.5, 0.5, -0.5, 0.0, 1.0, 0.0,
-          -      -0.5, -0.5, -0.5, 0.0, 0.0, 1.0,
-          -      -0.5, 0.5, 0.5, 1.0, 0.0, 0.0,
-          -      -0.5, -0.5, 0.5, 1.0, 1.0, 0.0,
-          -
-          -      // Right Face
-          -      0.5, 0.5, 0.5, 1.0, 0.0, 0.0,
-          -      0.5, 0.5, -0.5, 0.0, 1.0, 0.0,
-          -      0.5, -0.5, -0.5, 0.0, 0.0, 1.0,
-          -      0.5, -0.5, -0.5, 0.0, 0.0, 1.0,
-          -      0.5, -0.5, 0.5, 1.0, 1.0, 0.0,
-          -      0.5, 0.5, 0.5, 1.0, 0.0, 0.0,
-          -
-          -      // Bottom Face
-          -      0.5, -0.5, -0.5, 0.0, 1.0, 0.0,
-          -      -0.5, -0.5, -0.5, 1.0, 0.0, 0.0,
-          -      0.5, -0.5, 0.5, 0.0, 0.0, 1.0,
-          -      -0.5, -0.5, 0.5, 1.0, 1.0, 0.0,
-          -      0.5, -0.5, 0.5, 0.0, 0.0, 1.0,
-          -      -0.5, -0.5, -0.5, 1.0, 0.0, 0.0,
-          -
-          -      // Top Face
-          -      -0.5, 0.5, -0.5, 1.0, 0.0, 0.0,
-          -      0.5, 0.5, -0.5, 0.0, 1.0, 0.0,
-          -      0.5, 0.5, 0.5, 0.0, 0.0, 1.0,
-          -      0.5, 0.5, 0.5, 0.0, 0.0, 1.0,
-          -      -0.5, 0.5, 0.5, 1.0, 1.0, 0.0,
-          -      -0.5, 0.5, -0.5, 1.0, 0.0, 0.0,
-          -    ]);
-          -
-          -    final verticesDeviceBuffer = gpu.gpuContext.createDeviceBufferWithCopy(
-          -      ByteData.sublistView(vertices),
-          -    );
-          -    if (verticesDeviceBuffer == null) {
-          -      throw Exception('Failed to create vertices device buffer');
-          -    }
-          -
-          -    final model =
-          -        vm.Matrix4.identity()
-          -          ..rotateY(angle)
-          -          ..rotateX(angle / 2);
-          -    final view = vm.Matrix4.translation(vm.Vector3(0.0, 0.0, -2.5));
-          -    final projection = vm.makePerspectiveMatrix(
-          -      vm.radians(45),
-          -      size.aspectRatio,
-          -      0.1,
-          -      100,
-          -    );
-          -
-          -    final vertUniforms = [model, view, projection];
-          -
-          -    final vertUniformsDeviceBuffer = gpu.gpuContext.createDeviceBufferWithCopy(
-          -      ByteData.sublistView(
-          -        Float32List.fromList(vertUniforms.expand((m) => m.storage).toList()),
-          -      ),
-          -    );
-          -
-          -    if (vertUniformsDeviceBuffer == null) {
-          -      throw Exception('Failed to create vert uniforms device buffer');
-          -    }
-          -
-          -    renderPass.bindPipeline(pipeline);
-          -
-          -    renderPass.setCullMode(gpu.CullMode.backFace);
-          -
-          -    final verticesView = gpu.BufferView(
-          -      verticesDeviceBuffer,
-          -      offsetInBytes: 0,
-          -      lengthInBytes: verticesDeviceBuffer.sizeInBytes,
-          -    );
-          -    renderPass.bindVertexBuffer(
-          -      verticesView,
-          -      vertices.length ~/ floatsPerVertex,
-          -    );
-          -
-          -    final vertUniformsView = gpu.BufferView(
-          -      vertUniformsDeviceBuffer,
-          -      offsetInBytes: 0,
-          -      lengthInBytes: vertUniformsDeviceBuffer.sizeInBytes,
-          -    );
-          -
-          -    renderPass.bindUniform(vert.getUniformSlot('VertInfo'), vertUniformsView);
-          -
-          -    renderPass.draw();
-          -
-          -    commandBuffer.submit();
-          -    final image = texture.asImage();
-          -    canvas.drawImage(image, Offset.zero, Paint());
-          +    scene.render(camera, canvas, viewport: Offset.zero & size);
-             }
-           
-             @override
+        replace-contents: |
+          // Copyright 2024 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+
+          import 'dart:math' as math;
+
+          import 'package:flutter/material.dart';
+          import 'package:flutter_scene/scene.dart' as scn;
+          import 'package:vector_math/vector_math.dart' as vm;
+
+          void main() {
+            runApp(
+              MainApp(staticResourcesInitialized: scn.Scene.initializeStaticResources()),
+            );
+          }
+
+          class MainApp extends StatefulWidget {
+            const MainApp({super.key, required this.staticResourcesInitialized});
+
+            final Future<void> staticResourcesInitialized;
+
+            @override
+            State<MainApp> createState() => _MainAppState();
+          }
+
+          class _MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
+            late AnimationController _controller;
+            late Animation<double> _animation;
+            final scene = scn.Scene();
+
+            @override
+            void initState() {
+              super.initState();
+              _controller = AnimationController(
+                duration: const Duration(seconds: 30),
+                vsync: this,
+              )..repeat();
+
+              _animation = Tween<double>(begin: 0, end: 4 * math.pi).animate(_controller);
+
+              // Load and add the 3D model
+              scn.Node.fromAsset('build/models/building-port.model').then((model) {
+                model.name = 'Port Building';
+                scene.add(model);
+              });
+            }
+
+            @override
+            void dispose() {
+              _controller.dispose();
+              super.dispose();
+            }
+
+            @override
+            Widget build(BuildContext context) {
+              return MaterialApp(
+                title: 'Hexagon Explorer',
+                debugShowCheckedModeBanner: false,
+                home: Scaffold(
+                  body: SizedBox.expand(
+                    child: FutureBuilder(
+                      future: widget.staticResourcesInitialized,
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState != ConnectionState.done) {
+                          return const Center(child: CircularProgressIndicator());
+                        }
+                        return AnimatedBuilder(
+                          builder: (context, child) {
+                            return CustomPaint(
+                              painter: ScenePainter(
+                                scene: scene,
+                                camera: scn.PerspectiveCamera(
+                                  position: vm.Vector3(
+                                    math.sin(_animation.value) * 3,
+                                    2,
+                                    math.cos(_animation.value) * 3,
+                                  ),
+                                  target: vm.Vector3(0, 0, 0),
+                                ),
+                              ),
+                            );
+                          },
+                          animation: _animation,
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              );
+            }
+          }
+
+          class ScenePainter extends CustomPainter {
+            ScenePainter({required this.scene, required this.camera});
+            final scn.Scene scene;
+            final scn.Camera camera;
+
+            @override
+            void paint(Canvas canvas, Size size) {
+              scene.render(camera, canvas, viewport: Offset.zero & size);
+            }
+
+            @override
+            bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
+          }
       - name: Patch text/widget_test.dart
         path: intro_flutter_gpu/test/widget_test.dart
         patch-u: |

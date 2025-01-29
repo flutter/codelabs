@@ -7,13 +7,13 @@
 in vec2 vertex_uv;
 out vec4 frag_color;
 
-const vec4 top_left_color = vec4(1, 0, 0, 1);
-const vec4 top_right_color = vec4(0, 1, 0, 1);
-const vec4 bottom_left_color = vec4(0, 0, 1, 1);
-const vec4 bottom_right_color = vec4(1, 1, 0, 1);
+const vec4 red = vec4(1, 0, 0, 1);
+const vec4 green = vec4(0, 1, 0, 1);
+const vec4 blue = vec4(0, 0, 1, 1);
+const vec4 yellow = vec4(1, 1, 0, 1);
 
 void main() {
   frag_color =
-      mix(mix(bottom_left_color, bottom_right_color, vertex_uv.x),
-          mix(top_left_color, top_right_color, vertex_uv.x), vertex_uv.y);
+      mix(mix(blue, yellow, vertex_uv.x),
+          mix(red, green, vertex_uv.x), vertex_uv.y);
 }

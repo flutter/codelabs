@@ -33,6 +33,7 @@ class TrianglePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    // Create a texture to render to
     final texture = gpu.gpuContext.createTexture(
       gpu.StorageMode.devicePrivate,
       size.width.ceil(),
@@ -42,13 +43,16 @@ class TrianglePainter extends CustomPainter {
       throw Exception('Failed to create texture');
     }
 
+    // Create a render target for the texture
     final renderTarget = gpu.RenderTarget.singleColor(
       gpu.ColorAttachment(texture: texture),
     );
 
+    // Create a command buffer and render pass
     final commandBuffer = gpu.gpuContext.createCommandBuffer();
     final renderPass = commandBuffer.createRenderPass(renderTarget);
 
+    // Load our shaders
     final vert = shaderLibrary['SimpleVertex'];
     if (vert == null) {
       throw Exception('Failed to load SimpleVertex vertex shader');
@@ -59,15 +63,18 @@ class TrianglePainter extends CustomPainter {
       throw Exception('Failed to load SimpleFragment fragment shader');
     }
 
+    // Create the rendering pipeline
     final pipeline = gpu.gpuContext.createRenderPipeline(vert, frag);
 
+    // Define our triangle vertices
     const floatsPerVertex = 2;
     final vertices = Float32List.fromList([
       -0.5, -0.5, // First vertex
-      0.5, -0.5, // Second vertex
-      0.0, 0.5, // Third vertex
+      0.5, -0.5,  // Second vertex
+      0.0, 0.5,   // Third vertex
     ]);
 
+    // Create a GPU buffer for our vertices
     final verticesDeviceBuffer = gpu.gpuContext.createDeviceBufferWithCopy(
       ByteData.sublistView(vertices),
     );
@@ -75,6 +82,7 @@ class TrianglePainter extends CustomPainter {
       throw Exception('Failed to create vertices device buffer');
     }
 
+    // Bind the pipeline and vertex buffer
     renderPass.bindPipeline(pipeline);
 
     final verticesView = gpu.BufferView(
@@ -87,8 +95,10 @@ class TrianglePainter extends CustomPainter {
       vertices.length ~/ floatsPerVertex,
     );
 
+    // Draw the triangle
     renderPass.draw();
 
+    // Submit commands to GPU and render to screen
     commandBuffer.submit();
     final image = texture.asImage();
     canvas.drawImage(image, Offset.zero, Paint());

@@ -61,18 +61,19 @@ class TrianglePainter extends CustomPainter {
 
     final pipeline = gpu.gpuContext.createRenderPipeline(vert, frag);
 
-    const floatsPerVertex = 4;
+    const floatsPerVertex = 4; // Now 2 for position + 2 for UV
     final vertices = Float32List.fromList([
-      // Format: x, y, u, v,
+      // Format: x, y, u, v
 
-      // Traingle #1
+      // Triangle #1
       -0.5, -0.5, 0.0, 0.0, // bottom left
-      0.5, -0.5, 1.0, 0.0, // bottom right
-      -0.5, 0.5, 0.0, 1.0, // top left
-      // Traingle #2
-      0.5, -0.5, 1.0, 0.0, // bottom right
-      0.5, 0.5, 1.0, 1.0, // top right
-      -0.5, 0.5, 0.0, 1.0, // top left
+      0.5, -0.5, 1.0, 0.0,  // bottom right
+      -0.5, 0.5, 0.0, 1.0,  // top left
+
+      // Triangle #2
+      0.5, -0.5, 1.0, 0.0,  // bottom right
+      0.5, 0.5, 1.0, 1.0,   // top right
+      -0.5, 0.5, 0.0, 1.0,  // top left
     ]);
 
     final verticesDeviceBuffer = gpu.gpuContext.createDeviceBufferWithCopy(

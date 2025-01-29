@@ -51,12 +51,12 @@ class _MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
       home: Scaffold(
         body: SizedBox.expand(
           child: AnimatedBuilder(
+            animation: _animation,
             builder: (context, child) {
               return CustomPaint(
                 painter: TrianglePainter(angle: _animation.value),
               );
             },
-            animation: _animation,
           ),
         ),
       ),
@@ -100,16 +100,13 @@ class TrianglePainter extends CustomPainter {
 
     const floatsPerVertex = 4;
     final vertices = Float32List.fromList([
-      // Format: x, y, u, v,
-
-      // Traingle #1
+      // Format: x, y, u, v
       -0.8, -0.8, -1.0, -1.0, // bottom left
-      0.8, -0.8, 1.0, -1.0, // bottom right
-      -0.8, 0.8, -1.0, 1.0, // top left
-      // Traingle #2
-      0.8, -0.8, 1.0, -1.0, // bottom right
-      0.8, 0.8, 1.0, 1.0, // top right
-      -0.8, 0.8, -1.0, 1.0, // top left
+      0.8, -0.8, 1.0, -1.0,   // bottom right
+      -0.8, 0.8, -1.0, 1.0,   // top left
+      0.8, -0.8, 1.0, -1.0,   // bottom right
+      0.8, 0.8, 1.0, 1.0,     // top right
+      -0.8, 0.8, -1.0, 1.0,   // top left
     ]);
 
     final verticesDeviceBuffer = gpu.gpuContext.createDeviceBufferWithCopy(
@@ -119,8 +116,10 @@ class TrianglePainter extends CustomPainter {
       throw Exception('Failed to create vertices device buffer');
     }
 
+    // Create model matrix for rotation
     final model = vm.Matrix4.rotationY(angle);
 
+    // Create uniform buffer with transformation matrix
     final vertUniforms = [model];
 
     final vertUniformsDeviceBuffer = gpu.gpuContext.createDeviceBufferWithCopy(
