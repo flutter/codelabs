@@ -51,12 +51,12 @@ class _MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
       home: Scaffold(
         body: SizedBox.expand(
           child: AnimatedBuilder(
+            animation: _animation,
             builder: (context, child) {
               return CustomPaint(
                 painter: TrianglePainter(angle: _animation.value),
               );
             },
-            animation: _animation,
           ),
         ),
       ),
@@ -100,7 +100,7 @@ class TrianglePainter extends CustomPainter {
 
     const floatsPerVertex = 6;
     final vertices = Float32List.fromList([
-      // layout: x, y, z, r, g, b
+      // Format: x, y, z, r, g, b
 
       // Back Face
       -0.5, -0.5, -0.5, 1.0, 0.0, 0.0,
@@ -164,7 +164,7 @@ class TrianglePainter extends CustomPainter {
       vm.radians(45),
       size.aspectRatio,
       0.1,
-      100,
+      100.0,
     );
 
     final vertUniforms = [model, view, projection];
@@ -181,6 +181,7 @@ class TrianglePainter extends CustomPainter {
 
     renderPass.bindPipeline(pipeline);
 
+    // Add back-face culling
     renderPass.setCullMode(gpu.CullMode.backFace);
 
     final verticesView = gpu.BufferView(

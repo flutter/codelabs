@@ -51,12 +51,12 @@ class _MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
       home: Scaffold(
         body: SizedBox.expand(
           child: AnimatedBuilder(
+            animation: _animation,
             builder: (context, child) {
               return CustomPaint(
                 painter: TrianglePainter(angle: _animation.value),
               );
             },
-            animation: _animation,
           ),
         ),
       ),
@@ -100,7 +100,7 @@ class TrianglePainter extends CustomPainter {
 
     const floatsPerVertex = 6;
     final vertices = Float32List.fromList([
-      // layout: x, y, z, r, g, b
+      // Format: x, y, z, r, g, b
 
       // Back Face
       -0.5, -0.5, -0.5, 1.0, 0.0, 0.0,
@@ -158,16 +158,20 @@ class TrianglePainter extends CustomPainter {
       throw Exception('Failed to create vertices device buffer');
     }
 
+    // Create model matrix with multiple rotations
     final model =
         vm.Matrix4.identity()
           ..rotateY(angle)
           ..rotateX(angle / 2);
+
+    // Move camera back a bit more for better view
     final view = vm.Matrix4.translation(vm.Vector3(0.0, 0.0, -2.5));
+
     final projection = vm.makePerspectiveMatrix(
       vm.radians(45),
       size.aspectRatio,
       0.1,
-      100,
+      100.0,
     );
 
     final vertUniforms = [model, view, projection];
