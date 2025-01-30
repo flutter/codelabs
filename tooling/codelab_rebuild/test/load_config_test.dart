@@ -59,9 +59,13 @@ steps:
     expect(blueprint.steps[0].steps[1].isValid, equals(true));
     expect(blueprint.steps[0].steps[2].isValid, equals(true));
     expect(blueprint.steps[0].steps[2].name, equals('blueprint'));
-    expect(blueprint.steps[0].steps[2].path,
-        equals('cupertino_store/analysis_options.yaml'));
-    expect(blueprint.steps[0].steps[2].replaceContents, equals('''
+    expect(
+      blueprint.steps[0].steps[2].path,
+      equals('cupertino_store/analysis_options.yaml'),
+    );
+    expect(
+      blueprint.steps[0].steps[2].replaceContents,
+      equals('''
 # Copyright 2019 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -77,16 +81,16 @@ steps:
 # limitations under the License.
 
 include: ../../analysis_options.yaml
-'''));
+'''),
+    );
     expect(blueprint.steps[0].steps[3].isValid, equals(true));
     expect(blueprint.steps[0].steps[4].isValid, equals(true));
     expect(blueprint.steps[0].steps[5].isValid, equals(true));
-    expect(blueprint.steps[0].steps[5].name,
-        equals('Remove the Android, Web, and Desktop runners'));
     expect(
-      blueprint.steps[0].steps[5].path,
-      equals('cupertino_store'),
+      blueprint.steps[0].steps[5].name,
+      equals('Remove the Android, Web, and Desktop runners'),
     );
+    expect(blueprint.steps[0].steps[5].path, equals('cupertino_store'));
     expect(
       blueprint.steps[0].steps[5].rmdirs,
       equals(['android', 'linux', 'macos', 'web', 'windows']),

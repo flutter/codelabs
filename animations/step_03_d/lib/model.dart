@@ -30,12 +30,7 @@ List<Question> _createQuestions() {
   return [
     Question(
       'What class used to create custom explicit animations in Flutter?',
-      [
-        'AnimationController',
-        'AnimatedWidget',
-        'AnimatedBuilder',
-        'Tween',
-      ],
+      ['AnimationController', 'AnimatedWidget', 'AnimatedBuilder', 'Tween'],
       0,
     ),
     Question(
@@ -50,12 +45,7 @@ List<Question> _createQuestions() {
     ),
     Question(
       'What class is used to define the start and end values for an animation?',
-      [
-        'Tween',
-        'Curve',
-        'AnimationController',
-        'AnimatedWidget',
-      ],
+      ['Tween', 'Curve', 'AnimationController', 'AnimatedWidget'],
       0,
     ),
   ];

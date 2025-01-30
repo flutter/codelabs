@@ -11,14 +11,12 @@ import 'package:testing_app/screens/favorites.dart';
 late Favorites favoritesList;
 
 Widget createFavoritesScreen() => ChangeNotifierProvider<Favorites>(
-      create: (context) {
-        favoritesList = Favorites();
-        return favoritesList;
-      },
-      child: const MaterialApp(
-        home: FavoritesPage(),
-      ),
-    );
+  create: (context) {
+    favoritesList = Favorites();
+    return favoritesList;
+  },
+  child: const MaterialApp(home: FavoritesPage()),
+);
 
 void addItems() {
   for (var i = 0; i < 10; i += 2) {
@@ -42,8 +40,10 @@ void main() {
       var totalItems = tester.widgetList(find.byIcon(Icons.close)).length;
       await tester.tap(find.byIcon(Icons.close).first);
       await tester.pumpAndSettle();
-      expect(tester.widgetList(find.byIcon(Icons.close)).length,
-          lessThan(totalItems));
+      expect(
+        tester.widgetList(find.byIcon(Icons.close)).length,
+        lessThan(totalItems),
+      );
       expect(find.text('Removed from favorites.'), findsOneWidget);
     });
   });

@@ -16,14 +16,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
         appBarTheme: AppBarTheme(
-          backgroundColor: ColorScheme.fromSeed(seedColor: Colors.deepPurple)
-              .primaryContainer,
+          backgroundColor:
+              ColorScheme.fromSeed(
+                seedColor: Colors.deepPurple,
+              ).primaryContainer,
         ),
         textTheme: const TextTheme(
-          titleMedium: TextStyle(
-            fontFamily: 'Chewy',
-            fontSize: 20,
-          ),
+          titleMedium: TextStyle(fontFamily: 'Chewy', fontSize: 20),
         ),
       ),
       home: const MyHomePage(),

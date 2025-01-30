@@ -51,7 +51,8 @@ class ResizeablePage extends StatelessWidget {
                   _fillTableRow(
                     context: context,
                     property: 'Window Size',
-                    value: '${mediaQuery.size.width.toStringAsFixed(1)} x '
+                    value:
+                        '${mediaQuery.size.width.toStringAsFixed(1)} x '
                         '${mediaQuery.size.height.toStringAsFixed(1)}',
                   ),
                   _fillTableRow(
@@ -78,10 +79,11 @@ class ResizeablePage extends StatelessWidget {
     );
   }
 
-  TableRow _fillTableRow(
-      {required BuildContext context,
-      required String property,
-      required String value}) {
+  TableRow _fillTableRow({
+    required BuildContext context,
+    required String property,
+    required String value,
+  }) {
     return TableRow(
       children: [
         TableCell(

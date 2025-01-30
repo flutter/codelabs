@@ -10,10 +10,7 @@ import 'src/web_view_stack.dart';
 
 void main() {
   runApp(
-    MaterialApp(
-      theme: ThemeData(useMaterial3: true),
-      home: const WebViewApp(),
-    ),
+    MaterialApp(theme: ThemeData(useMaterial3: true), home: const WebViewApp()),
   );
 }
 
@@ -30,10 +27,8 @@ class _WebViewAppState extends State<WebViewApp> {
   @override
   void initState() {
     super.initState();
-    controller = WebViewController()
-      ..loadRequest(
-        Uri.parse('https://flutter.dev'),
-      );
+    controller =
+        WebViewController()..loadRequest(Uri.parse('https://flutter.dev'));
   }
 
   @override
@@ -41,9 +36,7 @@ class _WebViewAppState extends State<WebViewApp> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Flutter WebView'),
-        actions: [
-          NavigationControls(controller: controller),
-        ],
+        actions: [NavigationControls(controller: controller)],
       ),
       body: WebViewStack(controller: controller),
     );

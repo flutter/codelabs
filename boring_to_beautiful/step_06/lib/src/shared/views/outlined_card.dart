@@ -5,11 +5,7 @@
 import 'package:flutter/material.dart';
 
 class OutlinedCard extends StatefulWidget {
-  const OutlinedCard({
-    super.key,
-    required this.child,
-    this.clickable = true,
-  });
+  const OutlinedCard({super.key, required this.child, this.clickable = true});
 
   final Widget child;
   final bool clickable;
@@ -22,9 +18,10 @@ class _OutlinedCardState extends State<OutlinedCard> {
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
-      cursor: widget.clickable
-          ? SystemMouseCursors.click
-          : SystemMouseCursors.basic,
+      cursor:
+          widget.clickable
+              ? SystemMouseCursors.click
+              : SystemMouseCursors.basic,
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(

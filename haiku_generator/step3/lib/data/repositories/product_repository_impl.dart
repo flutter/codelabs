@@ -11,7 +11,7 @@ class ProductRepositoryImpl implements ProductRepository {
       {'productName': 'YouTube'},
       {'productName': 'Android'},
       {'productName': 'Google Maps'},
-      {'productName': 'GMail'}
+      {'productName': 'GMail'},
     ];
     return dummyData.map((item) => Product.fromMap(item)).toList();
   }

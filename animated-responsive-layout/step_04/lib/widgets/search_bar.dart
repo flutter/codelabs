@@ -7,10 +7,7 @@ import 'package:flutter/material.dart';
 import '../models/models.dart';
 
 class SearchBar extends StatelessWidget {
-  const SearchBar({
-    super.key,
-    required this.currentUser,
-  });
+  const SearchBar({super.key, required this.currentUser});
 
   final User currentUser;
 
@@ -40,9 +37,7 @@ class SearchBar extends StatelessWidget {
                 ),
               ),
             ),
-            CircleAvatar(
-              backgroundImage: AssetImage(currentUser.avatarUrl),
-            ),
+            CircleAvatar(backgroundImage: AssetImage(currentUser.avatarUrl)),
           ],
         ),
       ),

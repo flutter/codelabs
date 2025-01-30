@@ -11,10 +11,7 @@ class GooglePlayPurchaseHandler extends PurchaseHandler {
   final ap.AndroidPublisherApi androidPublisher;
   final IapRepository iapRepository;
 
-  GooglePlayPurchaseHandler(
-    this.androidPublisher,
-    this.iapRepository,
-  );
+  GooglePlayPurchaseHandler(this.androidPublisher, this.iapRepository);
 
   /// Handle non-subscription purchases (one time purchases).
   ///

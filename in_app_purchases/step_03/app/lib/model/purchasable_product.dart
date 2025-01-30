@@ -1,8 +1,4 @@
-enum ProductStatus {
-  purchasable,
-  purchased,
-  pending,
-}
+enum ProductStatus { purchasable, purchased, pending }
 
 class PurchasableProduct {
   final String title;
@@ -11,5 +7,5 @@ class PurchasableProduct {
   ProductStatus status;
 
   PurchasableProduct(this.title, this.description, this.price)
-      : status = ProductStatus.purchasable;
+    : status = ProductStatus.purchasable;
 }

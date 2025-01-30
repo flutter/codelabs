@@ -18,9 +18,7 @@ class Scoreboard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           for (var i = 0; i < totalQuestions; i++)
-            AnimatedStar(
-              isActive: score > i,
-            )
+            AnimatedStar(isActive: score > i),
         ],
       ),
     );
@@ -50,11 +48,7 @@ class AnimatedStar extends StatelessWidget {
           end: isActive ? _activatedColor : _deactivatedColor,
         ),
         builder: (context, value, child) {
-          return Icon(
-            Icons.star,
-            size: 50,
-            color: value,
-          );
+          return Icon(Icons.star, size: 50, color: value);
         },
       ),
     );

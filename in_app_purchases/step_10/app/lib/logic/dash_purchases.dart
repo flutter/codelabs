@@ -73,12 +73,15 @@ class DashPurchases extends ChangeNotifier {
         await iapConnection.buyNonConsumable(purchaseParam: purchaseParam);
       default:
         throw ArgumentError.value(
-            product.productDetails, '${product.id} is not a known product');
+          product.productDetails,
+          '${product.id} is not a known product',
+        );
     }
   }
 
   Future<void> _onPurchaseUpdate(
-      List<PurchaseDetails> purchaseDetailsList) async {
+    List<PurchaseDetails> purchaseDetailsList,
+  ) async {
     for (var purchaseDetails in purchaseDetailsList) {
       await _handlePurchase(purchaseDetails);
     }
@@ -146,12 +149,16 @@ class DashPurchases extends ChangeNotifier {
     // Get a list of purchasable products for the subscription and upgrade.
     // This should be 1 per type.
     if (products.isNotEmpty) {
-      subscriptions = products
-          .where((element) => element.productDetails.id == storeKeySubscription)
-          .toList();
-      upgrades = products
-          .where((element) => element.productDetails.id == storeKeyUpgrade)
-          .toList();
+      subscriptions =
+          products
+              .where(
+                (element) => element.productDetails.id == storeKeySubscription,
+              )
+              .toList();
+      upgrades =
+          products
+              .where((element) => element.productDetails.id == storeKeyUpgrade)
+              .toList();
     }
 
     // Set the subscription in the counter logic and show/hide purchased on the
@@ -174,10 +181,11 @@ class DashPurchases extends ChangeNotifier {
       _beautifiedDashUpgrade = iapRepo.hasUpgrade;
       for (var element in upgrades) {
         _updateStatus(
-            element,
-            _beautifiedDashUpgrade
-                ? ProductStatus.purchased
-                : ProductStatus.purchasable);
+          element,
+          _beautifiedDashUpgrade
+              ? ProductStatus.purchased
+              : ProductStatus.purchasable,
+        );
       }
       notifyListeners();
     }

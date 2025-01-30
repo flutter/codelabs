@@ -41,9 +41,8 @@ class PlaybackBloc extends Bloc<PlaybackEvent, PlaybackState> {
     }
   }
 
-  void _handlePlaybackProgress(Duration progress) => add(
-        PlaybackEvent.songProgress(progress),
-      );
+  void _handlePlaybackProgress(Duration progress) =>
+      add(PlaybackEvent.songProgress(progress));
 
   void _togglePlayPause(TogglePlayPause event, Emitter<PlaybackState> emit) {
     state.isPlaying ? _pausePlayback() : _resumePlayback();
@@ -52,8 +51,10 @@ class PlaybackBloc extends Bloc<PlaybackEvent, PlaybackState> {
 
   void _pausePlayback() => _currentlyPlayingSubscription!.cancel();
 
-  void _resumePlayback() => _currentlyPlayingSubscription =
-      _startPlayingStream().listen(_handlePlaybackProgress);
+  void _resumePlayback() =>
+      _currentlyPlayingSubscription = _startPlayingStream().listen(
+        _handlePlaybackProgress,
+      );
 
   void _changeSong(ChangeSong event, Emitter<PlaybackState> emit) {
     emit(
@@ -69,19 +70,15 @@ class PlaybackBloc extends Bloc<PlaybackEvent, PlaybackState> {
   }
 
   void _songProgress(SongProgress event, Emitter<PlaybackState> emit) => emit(
-        state.copyWith(
-          songWithProgress: state.songWithProgress!.copyWith(
-            progress: state.songWithProgress!.progress + event.duration,
-          ),
-        ),
-      );
+    state.copyWith(
+      songWithProgress: state.songWithProgress!.copyWith(
+        progress: state.songWithProgress!.progress + event.duration,
+      ),
+    ),
+  );
   void _setVolume(SetVolume event, Emitter<PlaybackState> emit) => emit(
-        state.copyWith(
-          volume: event.value,
-          isMuted: false,
-          previousVolume: null,
-        ),
-      );
+    state.copyWith(volume: event.value, isMuted: false, previousVolume: null),
+  );
 
   void _toggleMute(ToggleMute event, Emitter<PlaybackState> emit) {
     if (state.isMuted) {
@@ -94,11 +91,7 @@ class PlaybackBloc extends Bloc<PlaybackEvent, PlaybackState> {
       );
     } else {
       emit(
-        state.copyWith(
-          isMuted: true,
-          volume: 0,
-          previousVolume: state.volume,
-        ),
+        state.copyWith(isMuted: true, volume: 0, previousVolume: state.volume),
       );
     }
   }

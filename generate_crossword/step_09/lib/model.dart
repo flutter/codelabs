@@ -90,7 +90,10 @@ abstract class CrosswordWord
   static int locationComparator(CrosswordWord a, CrosswordWord b) {
     final compareRows = a.location.y.compareTo(b.location.y);
     final compareColumns = a.location.x.compareTo(b.location.x);
-    return switch (compareColumns) { 0 => compareRows, _ => compareColumns };
+    return switch (compareColumns) {
+      0 => compareRows,
+      _ => compareColumns,
+    };
   }
 
   /// Constructor for [CrosswordWord].
@@ -99,10 +102,13 @@ abstract class CrosswordWord
     required Location location,
     required Direction direction,
   }) {
-    return CrosswordWord((b) => b
-      ..word = word
-      ..direction = direction
-      ..location.replace(location));
+    return CrosswordWord(
+      (b) =>
+          b
+            ..word = word
+            ..direction = direction
+            ..location.replace(location),
+    );
   }
 
   /// Constructor for [CrosswordWord].
@@ -149,9 +155,9 @@ abstract class CrosswordCharacter
 
   /// Constructor for [CrosswordCharacter].
   /// Use [CrosswordCharacter.character] instead.
-  factory CrosswordCharacter(
-          [void Function(CrosswordCharacterBuilder)? updates]) =
-      _$CrosswordCharacter;
+  factory CrosswordCharacter([
+    void Function(CrosswordCharacterBuilder)? updates,
+  ]) = _$CrosswordCharacter;
   CrosswordCharacter._();
 }
 
@@ -286,14 +292,15 @@ abstract class Crossword implements Built<Crossword, CrosswordBuilder> {
     }
 
     final candidate = rebuild(
-      (b) => b
-        ..words.add(
-          CrosswordWord.word(
-            word: word,
-            direction: direction,
-            location: location,
-          ),
-        ),
+      (b) =>
+          b
+            ..words.add(
+              CrosswordWord.word(
+                word: word,
+                direction: direction,
+                location: location,
+              ),
+            ),
     );
 
     if (candidate.valid) {
@@ -315,19 +322,21 @@ abstract class Crossword implements Built<Crossword, CrosswordBuilder> {
             b.characters.updateValue(
               word.location.rightOffset(idx),
               (b) => b.rebuild((bInner) => bInner.acrossWord.replace(word)),
-              ifAbsent: () => CrosswordCharacter.character(
-                acrossWord: word,
-                character: character,
-              ),
+              ifAbsent:
+                  () => CrosswordCharacter.character(
+                    acrossWord: word,
+                    character: character,
+                  ),
             );
           case Direction.down:
             b.characters.updateValue(
               word.location.downOffset(idx),
               (b) => b.rebuild((bInner) => bInner.downWord.replace(word)),
-              ifAbsent: () => CrosswordCharacter.character(
-                downWord: word,
-                character: character,
-              ),
+              ifAbsent:
+                  () => CrosswordCharacter.character(
+                    downWord: word,
+                    character: character,
+                  ),
             );
         }
       }
@@ -341,7 +350,8 @@ abstract class Crossword implements Built<Crossword, CrosswordBuilder> {
     final grid = List.generate(
       height,
       (_) => List.generate(
-        width, (_) => '░', // https://www.compart.com/en/unicode/U+2591
+        width,
+        (_) => '░', // https://www.compart.com/en/unicode/U+2591
       ),
     );
 
@@ -421,40 +431,44 @@ abstract class WorkQueue implements Built<WorkQueue, WorkQueueBuilder> {
     required Crossword crossword,
     required Iterable<String> candidateWords,
     required Location startLocation,
-  }) =>
-      WorkQueue((b) {
-        if (crossword.words.isEmpty) {
-          // Strip candidate words too long to fit in the crossword
-          b.candidateWords.addAll(candidateWords
-              .where((word) => word.characters.length <= crossword.width));
+  }) => WorkQueue((b) {
+    if (crossword.words.isEmpty) {
+      // Strip candidate words too long to fit in the crossword
+      b.candidateWords.addAll(
+        candidateWords.where(
+          (word) => word.characters.length <= crossword.width,
+        ),
+      );
 
-          b.crossword.replace(crossword);
+      b.crossword.replace(crossword);
 
-          b.locationsToTry.addAll({startLocation: Direction.across});
-        } else {
-          // Assuming words have already been stripped to length
-          b.candidateWords.addAll(
-            candidateWords.toBuiltSet().rebuild(
-                (b) => b.removeAll(crossword.words.map((word) => word.word))),
-          );
-          b.crossword.replace(crossword);
-          crossword.characters
-              .rebuild((b) => b.removeWhere((location, character) {
-                    if (character.acrossWord != null &&
-                        character.downWord != null) {
-                      return true;
-                    }
-                    final left = crossword.characters[location.left];
-                    if (left != null && left.downWord != null) return true;
-                    final right = crossword.characters[location.right];
-                    if (right != null && right.downWord != null) return true;
-                    final up = crossword.characters[location.up];
-                    if (up != null && up.acrossWord != null) return true;
-                    final down = crossword.characters[location.down];
-                    if (down != null && down.acrossWord != null) return true;
-                    return false;
-                  }))
-              .forEach((location, character) {
+      b.locationsToTry.addAll({startLocation: Direction.across});
+    } else {
+      // Assuming words have already been stripped to length
+      b.candidateWords.addAll(
+        candidateWords.toBuiltSet().rebuild(
+          (b) => b.removeAll(crossword.words.map((word) => word.word)),
+        ),
+      );
+      b.crossword.replace(crossword);
+      crossword.characters
+          .rebuild(
+            (b) => b.removeWhere((location, character) {
+              if (character.acrossWord != null && character.downWord != null) {
+                return true;
+              }
+              final left = crossword.characters[location.left];
+              if (left != null && left.downWord != null) return true;
+              final right = crossword.characters[location.right];
+              if (right != null && right.downWord != null) return true;
+              final up = crossword.characters[location.up];
+              if (up != null && up.acrossWord != null) return true;
+              final down = crossword.characters[location.down];
+              if (down != null && down.acrossWord != null) return true;
+              return false;
+            }),
+          )
+          .forEach((location, character) {
             b.locationsToTry.addAll({
               location: switch ((character.acrossWord, character.downWord)) {
                 (null, null) =>
@@ -462,28 +476,36 @@ abstract class WorkQueue implements Built<WorkQueue, WorkQueueBuilder> {
                 (null, _) => Direction.across,
                 (_, null) => Direction.down,
                 (_, _) => throw StateError('Character is part of two words'),
-              }
+              },
             });
           });
-        }
-      });
+    }
+  });
 
-  WorkQueue remove(Location location) => rebuild((b) => b
-    ..locationsToTry.remove(location)
-    ..badLocations.add(location));
+  WorkQueue remove(Location location) => rebuild(
+    (b) =>
+        b
+          ..locationsToTry.remove(location)
+          ..badLocations.add(location),
+  );
 
   /// Update the work queue from a crossword derived from the current crossword
   /// that this work queue is built from.
   WorkQueue updateFrom(final Crossword crossword) => WorkQueue.from(
-        crossword: crossword,
-        candidateWords: candidateWords,
-        startLocation: locationsToTry.isNotEmpty
+    crossword: crossword,
+    candidateWords: candidateWords,
+    startLocation:
+        locationsToTry.isNotEmpty
             ? locationsToTry.keys.first
             : Location.at(0, 0),
-      ).rebuild((b) => b
-        ..badLocations.addAll(badLocations)
-        ..locationsToTry
-            .removeWhere((location, _) => badLocations.contains(location)));
+  ).rebuild(
+    (b) =>
+        b
+          ..badLocations.addAll(badLocations)
+          ..locationsToTry.removeWhere(
+            (location, _) => badLocations.contains(location),
+          ),
+  );
 
   /// Factory constructor for [WorkQueue]
   factory WorkQueue([void Function(WorkQueueBuilder)? updates]) = _$WorkQueue;
@@ -512,25 +534,35 @@ abstract class DisplayInfo implements Built<DisplayInfo, DisplayInfoBuilder> {
 
   /// Construct a [DisplayInfo] instance from a [WorkQueue].
   factory DisplayInfo.from({required WorkQueue workQueue}) {
-    final gridFilled = (workQueue.crossword.characters.length /
-        (workQueue.crossword.width * workQueue.crossword.height));
+    final gridFilled =
+        (workQueue.crossword.characters.length /
+            (workQueue.crossword.width * workQueue.crossword.height));
     final fmt = NumberFormat.decimalPattern();
 
-    return DisplayInfo((b) => b
-      ..wordsInGridCount = fmt.format(workQueue.crossword.words.length)
-      ..candidateWordsCount = fmt.format(workQueue.candidateWords.length)
-      ..locationsToExploreCount = fmt.format(workQueue.locationsToTry.length)
-      ..knownBadLocationsCount = fmt.format(workQueue.badLocations.length)
-      ..gridFilledPercentage = '${(gridFilled * 100).toStringAsFixed(2)}%');
+    return DisplayInfo(
+      (b) =>
+          b
+            ..wordsInGridCount = fmt.format(workQueue.crossword.words.length)
+            ..candidateWordsCount = fmt.format(workQueue.candidateWords.length)
+            ..locationsToExploreCount = fmt.format(
+              workQueue.locationsToTry.length,
+            )
+            ..knownBadLocationsCount = fmt.format(workQueue.badLocations.length)
+            ..gridFilledPercentage =
+                '${(gridFilled * 100).toStringAsFixed(2)}%',
+    );
   }
 
   /// An empty [DisplayInfo] instance.
-  static DisplayInfo get empty => DisplayInfo((b) => b
-    ..wordsInGridCount = '0'
-    ..candidateWordsCount = '0'
-    ..locationsToExploreCount = '0'
-    ..knownBadLocationsCount = '0'
-    ..gridFilledPercentage = '0%');
+  static DisplayInfo get empty => DisplayInfo(
+    (b) =>
+        b
+          ..wordsInGridCount = '0'
+          ..candidateWordsCount = '0'
+          ..locationsToExploreCount = '0'
+          ..knownBadLocationsCount = '0'
+          ..gridFilledPercentage = '0%',
+  );
 
   factory DisplayInfo([void Function(DisplayInfoBuilder)? updates]) =
       _$DisplayInfo;
@@ -572,20 +604,24 @@ abstract class CrosswordPuzzleGame
     if (puzzle.selectedWords
         .where((b) => b.direction == direction && b.location == location)
         .isNotEmpty) {
-      puzzle = puzzle.rebuild((b) => b
-        ..selectedWords.removeWhere(
-          (selectedWord) =>
-              selectedWord.location == location &&
-              selectedWord.direction == direction,
-        ));
+      puzzle = puzzle.rebuild(
+        (b) =>
+            b
+              ..selectedWords.removeWhere(
+                (selectedWord) =>
+                    selectedWord.location == location &&
+                    selectedWord.direction == direction,
+              ),
+      );
     }
 
     return null !=
         puzzle.crosswordFromSelectedWords.addWord(
-            location: location,
-            word: word,
-            direction: direction,
-            requireOverlap: false);
+          location: location,
+          word: word,
+          direction: direction,
+          requireOverlap: false,
+        );
   }
 
   CrosswordPuzzleGame? selectWord({
@@ -608,33 +644,44 @@ abstract class CrosswordPuzzleGame
     if (puzzle.selectedWords
         .where((b) => b.direction == direction && b.location == location)
         .isNotEmpty) {
-      puzzle = puzzle.rebuild((b) => b
-        ..selectedWords.removeWhere(
-          (selectedWord) =>
-              selectedWord.location == location &&
-              selectedWord.direction == direction,
-        ));
+      puzzle = puzzle.rebuild(
+        (b) =>
+            b
+              ..selectedWords.removeWhere(
+                (selectedWord) =>
+                    selectedWord.location == location &&
+                    selectedWord.direction == direction,
+              ),
+      );
     }
 
     // Check if the selected word meshes with the already selected words.
     // Note this version of the crossword does not enforce overlap to
     // allow the player to select words anywhere on the grid. Enforcing words
     // to be solved in order is a possible alternative.
-    final updatedSelectedWordsCrossword =
-        puzzle.crosswordFromSelectedWords.addWord(
-      location: location,
-      word: word,
-      direction: direction,
-      requireOverlap: false,
-    );
+    final updatedSelectedWordsCrossword = puzzle.crosswordFromSelectedWords
+        .addWord(
+          location: location,
+          word: word,
+          direction: direction,
+          requireOverlap: false,
+        );
 
     // Make sure the selected word is in the crossword or is an alternate word.
     if (updatedSelectedWordsCrossword != null) {
       if (puzzle.crossword.words.contains(crosswordWord) ||
           puzzle.alternateWords[location]?[direction]?.contains(word) == true) {
-        return puzzle.rebuild((b) => b
-          ..selectedWords.add(CrosswordWord.word(
-              word: word, location: location, direction: direction)));
+        return puzzle.rebuild(
+          (b) =>
+              b
+                ..selectedWords.add(
+                  CrosswordWord.word(
+                    word: word,
+                    location: location,
+                    direction: direction,
+                  ),
+                ),
+        );
       }
     }
     return null;
@@ -642,7 +689,10 @@ abstract class CrosswordPuzzleGame
 
   /// The crossword from the selected words.
   Crossword get crosswordFromSelectedWords => Crossword.crossword(
-      width: crossword.width, height: crossword.height, words: selectedWords);
+    width: crossword.width,
+    height: crossword.height,
+    words: selectedWords,
+  );
 
   /// Test if the puzzle is solved. Note, this allows for the possibility of
   /// multiple solutions.
@@ -658,8 +708,9 @@ abstract class CrosswordPuzzleGame
     required BuiltSet<String> candidateWords,
   }) {
     // Remove all of the currently used words from the list of candidates
-    candidateWords = candidateWords
-        .rebuild((p0) => p0.removeAll(crossword.words.map((p1) => p1.word)));
+    candidateWords = candidateWords.rebuild(
+      (p0) => p0.removeAll(crossword.words.map((p1) => p1.word)),
+    );
 
     // This is the list of alternate words for each word in the crossword
     var alternates =
@@ -667,14 +718,18 @@ abstract class CrosswordPuzzleGame
 
     // Build the alternate words for each word in the crossword
     for (final crosswordWord in crossword.words) {
-      final alternateWords = candidateWords.toBuiltList().rebuild((b) => b
-        ..where((b) => b.length == crosswordWord.word.length)
-        ..shuffle()
-        ..take(4)
-        ..sort());
+      final alternateWords = candidateWords.toBuiltList().rebuild(
+        (b) =>
+            b
+              ..where((b) => b.length == crosswordWord.word.length)
+              ..shuffle()
+              ..take(4)
+              ..sort(),
+      );
 
-      candidateWords =
-          candidateWords.rebuild((b) => b.removeAll(alternateWords));
+      candidateWords = candidateWords.rebuild(
+        (b) => b.removeAll(alternateWords),
+      );
 
       alternates = alternates.rebuild(
         (b) => b.updateValue(
@@ -698,9 +753,9 @@ abstract class CrosswordPuzzleGame
     });
   }
 
-  factory CrosswordPuzzleGame(
-          [void Function(CrosswordPuzzleGameBuilder)? updates]) =
-      _$CrosswordPuzzleGame;
+  factory CrosswordPuzzleGame([
+    void Function(CrosswordPuzzleGameBuilder)? updates,
+  ]) = _$CrosswordPuzzleGame;
   CrosswordPuzzleGame._();
 }
 

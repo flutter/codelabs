@@ -6,17 +6,12 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-      ),
+      appBar: AppBar(automaticallyImplyLeading: false),
       body: Center(
         child: Column(
           children: [
             Image.asset('dash.png'),
-            Text(
-              'Welcome!',
-              style: Theme.of(context).textTheme.displaySmall,
-            ),
+            Text('Welcome!', style: Theme.of(context).textTheme.displaySmall),
           ],
         ),
       ),

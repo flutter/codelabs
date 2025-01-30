@@ -10,9 +10,7 @@ import '../utils.dart';
 import 'ticker_builder.dart';
 
 class CrosswordInfoWidget extends ConsumerWidget {
-  const CrosswordInfoWidget({
-    super.key,
-  });
+  const CrosswordInfoWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -26,64 +24,72 @@ class CrosswordInfoWidget extends ConsumerWidget {
     return Align(
       alignment: Alignment.bottomRight,
       child: Padding(
-        padding: const EdgeInsets.only(
-          right: 32.0,
-          bottom: 32.0,
-        ),
+        padding: const EdgeInsets.only(right: 32.0, bottom: 32.0),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(8),
           child: ColoredBox(
             color: Theme.of(context).colorScheme.onPrimary.withAlpha(230),
             child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 12,
-                vertical: 8,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               child: DefaultTextStyle(
                 style: TextStyle(
-                    fontSize: 16, color: Theme.of(context).colorScheme.primary),
+                  fontSize: 16,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _CrosswordInfoRichText(
-                        label: 'Grid Size',
-                        value: '${size.width} x ${size.height}'),
+                      label: 'Grid Size',
+                      value: '${size.width} x ${size.height}',
+                    ),
                     _CrosswordInfoRichText(
-                        label: 'Words in grid',
-                        value: displayInfo.wordsInGridCount),
+                      label: 'Words in grid',
+                      value: displayInfo.wordsInGridCount,
+                    ),
                     _CrosswordInfoRichText(
-                        label: 'Candidate words',
-                        value: displayInfo.candidateWordsCount),
+                      label: 'Candidate words',
+                      value: displayInfo.candidateWordsCount,
+                    ),
                     _CrosswordInfoRichText(
-                        label: 'Locations to explore',
-                        value: displayInfo.locationsToExploreCount),
+                      label: 'Locations to explore',
+                      value: displayInfo.locationsToExploreCount,
+                    ),
                     _CrosswordInfoRichText(
-                        label: 'Known bad locations',
-                        value: displayInfo.knownBadLocationsCount),
+                      label: 'Known bad locations',
+                      value: displayInfo.knownBadLocationsCount,
+                    ),
                     _CrosswordInfoRichText(
-                        label: 'Grid filled',
-                        value: displayInfo.gridFilledPercentage),
+                      label: 'Grid filled',
+                      value: displayInfo.gridFilledPercentage,
+                    ),
                     _CrosswordInfoRichText(
-                        label: 'Max worker count', value: workerCount),
+                      label: 'Max worker count',
+                      value: workerCount,
+                    ),
                     switch ((startTime, endTime)) {
                       (null, _) => _CrosswordInfoRichText(
-                          label: 'Time elapsed',
-                          value: 'Not started yet',
-                        ),
+                        label: 'Time elapsed',
+                        value: 'Not started yet',
+                      ),
                       (DateTime start, null) => TickerBuilder(
-                          builder: (context) => _CrosswordInfoRichText(
-                            label: 'Time elapsed',
-                            value: DateTime.now().difference(start).formatted,
-                          ),
-                        ),
+                        builder:
+                            (context) => _CrosswordInfoRichText(
+                              label: 'Time elapsed',
+                              value: DateTime.now().difference(start).formatted,
+                            ),
+                      ),
                       (DateTime start, DateTime end) => _CrosswordInfoRichText(
-                          label: 'Completed in',
-                          value: end.difference(start).formatted),
+                        label: 'Completed in',
+                        value: end.difference(start).formatted,
+                      ),
                     },
                     if (startTime != null && endTime == null)
                       _CrosswordInfoRichText(
-                          label: 'Est. remaining', value: remaining.formatted),
+                        label: 'Est. remaining',
+                        value: remaining.formatted,
+                      ),
                   ],
                 ),
               ),
@@ -103,19 +109,16 @@ class _CrosswordInfoRichText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => RichText(
-        text: TextSpan(
-          children: [
-            TextSpan(
-              text: '$label ',
-              style: DefaultTextStyle.of(context).style,
-            ),
-            TextSpan(
-              text: value,
-              style: DefaultTextStyle.of(context)
-                  .style
-                  .copyWith(fontWeight: FontWeight.bold),
-            ),
-          ],
+    text: TextSpan(
+      children: [
+        TextSpan(text: '$label ', style: DefaultTextStyle.of(context).style),
+        TextSpan(
+          text: value,
+          style: DefaultTextStyle.of(
+            context,
+          ).style.copyWith(fontWeight: FontWeight.bold),
         ),
-      );
+      ],
+    ),
+  );
 }

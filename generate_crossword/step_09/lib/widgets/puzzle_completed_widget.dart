@@ -12,10 +12,7 @@ class PuzzleCompletedWidget extends StatelessWidget {
     return Center(
       child: Text(
         'Puzzle Completed!',
-        style: TextStyle(
-          fontSize: 36,
-          fontWeight: FontWeight.bold,
-        ),
+        style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
       ),
     );
   }

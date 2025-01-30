@@ -2,22 +2,11 @@ import 'package:flutter/widgets.dart';
 
 import '../constants.dart';
 
-enum PurchaseType {
-  subscriptionPurchase,
-  nonSubscriptionPurchase,
-}
+enum PurchaseType { subscriptionPurchase, nonSubscriptionPurchase }
 
-enum Store {
-  googlePlay,
-  appStore,
-}
+enum Store { googlePlay, appStore }
 
-enum Status {
-  pending,
-  completed,
-  active,
-  expired,
-}
+enum Status { pending, completed, active, expired }
 
 @immutable
 class PastPurchase {
@@ -33,25 +22,25 @@ class PastPurchase {
     return switch (productId) {
       storeKeyConsumable => 'Consumable',
       storeKeySubscription => 'Subscription',
-      _ => productId
+      _ => productId,
     };
   }
 
   PastPurchase.fromJson(Map<String, dynamic> json)
-      : type = _typeFromString(json['type'] as String),
-        store = _storeFromString(json['iapSource'] as String),
-        orderId = json['orderId'] as String,
-        productId = json['productId'] as String,
-        purchaseDate = DateTime.now(),
-        expiryDate = null,
-        status = _statusFromString(json['status'] as String);
+    : type = _typeFromString(json['type'] as String),
+      store = _storeFromString(json['iapSource'] as String),
+      orderId = json['orderId'] as String,
+      productId = json['productId'] as String,
+      purchaseDate = DateTime.now(),
+      expiryDate = null,
+      status = _statusFromString(json['status'] as String);
 }
 
 PurchaseType _typeFromString(String type) {
   return switch (type) {
     'nonSubscription' => PurchaseType.subscriptionPurchase,
     'subscription' => PurchaseType.nonSubscriptionPurchase,
-    _ => throw ArgumentError.value(type, '$type is not a supported type')
+    _ => throw ArgumentError.value(type, '$type is not a supported type'),
   };
 }
 
@@ -59,7 +48,7 @@ Store _storeFromString(String store) {
   return switch (store) {
     'googleplay' => Store.googlePlay,
     'appstore' => Store.appStore,
-    _ => throw ArgumentError.value(store, '$store is not a supported store')
+    _ => throw ArgumentError.value(store, '$store is not a supported store'),
   };
 }
 
@@ -69,6 +58,6 @@ Status _statusFromString(String status) {
     'completed' => Status.completed,
     'active' => Status.active,
     'expired' => Status.expired,
-    _ => throw ArgumentError.value(status, '$status is not a supported status')
+    _ => throw ArgumentError.value(status, '$status is not a supported status'),
   };
 }
