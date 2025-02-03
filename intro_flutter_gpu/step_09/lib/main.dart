@@ -75,9 +75,6 @@ class TrianglePainter extends CustomPainter {
       size.width.ceil(),
       size.height.ceil(),
     );
-    if (texture == null) {
-      throw Exception('Failed to create texture');
-    }
 
     final renderTarget = gpu.RenderTarget.singleColor(
       gpu.ColorAttachment(texture: texture),
@@ -154,9 +151,6 @@ class TrianglePainter extends CustomPainter {
     final verticesDeviceBuffer = gpu.gpuContext.createDeviceBufferWithCopy(
       ByteData.sublistView(vertices),
     );
-    if (verticesDeviceBuffer == null) {
-      throw Exception('Failed to create vertices device buffer');
-    }
 
     final model = vm.Matrix4.rotationY(angle);
     final view = vm.Matrix4.translation(vm.Vector3(0.0, 0.0, -2.0));
@@ -174,10 +168,6 @@ class TrianglePainter extends CustomPainter {
         Float32List.fromList(vertUniforms.expand((m) => m.storage).toList()),
       ),
     );
-
-    if (vertUniformsDeviceBuffer == null) {
-      throw Exception('Failed to create vert uniforms device buffer');
-    }
 
     renderPass.bindPipeline(pipeline);
 
