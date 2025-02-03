@@ -137,9 +137,6 @@ steps:
                 size.width.ceil(),
                 size.height.ceil(),
               );
-              if (texture == null) {
-                throw Exception('Failed to create texture');
-              }
 
               // Create a render target for the texture
               final renderTarget = gpu.RenderTarget.singleColor(
@@ -172,9 +169,6 @@ steps:
               final verticesDeviceBuffer = gpu.gpuContext.createDeviceBufferWithCopy(
                 ByteData.sublistView(vertices),
               );
-              if (verticesDeviceBuffer == null) {
-                throw Exception('Failed to create vertices device buffer');
-              }
 
               // Bind the pipeline and vertex buffer
               renderPass.bindPipeline(pipeline);
@@ -337,7 +331,7 @@ steps:
         patch-u: |
           --- b/intro_flutter_gpu/step_02/lib/main.dart
           +++ a/intro_flutter_gpu/step_02/lib/main.dart
-          @@ -33,7 +33,6 @@ class TrianglePainter extends CustomPainter {
+          @@ -33,23 +33,19 @@ class TrianglePainter extends CustomPainter {
            
              @override
              void paint(Canvas canvas, Size size) {
@@ -345,9 +339,8 @@ steps:
                final texture = gpu.gpuContext.createTexture(
                  gpu.StorageMode.devicePrivate,
                  size.width.ceil(),
-          @@ -43,16 +42,13 @@ class TrianglePainter extends CustomPainter {
-                 throw Exception('Failed to create texture');
-               }
+                 size.height.ceil(),
+               );
            
           -    // Create a render target for the texture
                final renderTarget = gpu.RenderTarget.singleColor(
@@ -362,7 +355,7 @@ steps:
                final vert = shaderLibrary['SimpleVertex'];
                if (vert == null) {
                  throw Exception('Failed to load SimpleVertex vertex shader');
-          @@ -63,14 +59,16 @@ class TrianglePainter extends CustomPainter {
+          @@ -60,19 +56,20 @@ class TrianglePainter extends CustomPainter {
                  throw Exception('Failed to load SimpleFragment fragment shader');
                }
            
@@ -384,15 +377,12 @@ steps:
                final verticesDeviceBuffer = gpu.gpuContext.createDeviceBufferWithCopy(
                  ByteData.sublistView(vertices),
                );
-          @@ -78,7 +76,6 @@ class TrianglePainter extends CustomPainter {
-                 throw Exception('Failed to create vertices device buffer');
-               }
            
           -    // Bind the pipeline and vertex buffer
                renderPass.bindPipeline(pipeline);
            
                final verticesView = gpu.BufferView(
-          @@ -91,10 +88,8 @@ class TrianglePainter extends CustomPainter {
+          @@ -85,10 +82,8 @@ class TrianglePainter extends CustomPainter {
                  vertices.length ~/ floatsPerVertex,
                );
            
@@ -451,7 +441,7 @@ steps:
         patch-u: |
           --- b/intro_flutter_gpu/step_03/lib/main.dart
           +++ a/intro_flutter_gpu/step_03/lib/main.dart
-          @@ -61,12 +61,18 @@ class TrianglePainter extends CustomPainter {
+          @@ -58,12 +58,18 @@ class TrianglePainter extends CustomPainter {
            
                final pipeline = gpu.gpuContext.createRenderPipeline(vert, frag);
            
@@ -486,7 +476,7 @@ steps:
         patch-u: |
           --- b/intro_flutter_gpu/step_04/lib/main.dart
           +++ a/intro_flutter_gpu/step_04/lib/main.dart
-          @@ -66,13 +66,13 @@ class TrianglePainter extends CustomPainter {
+          @@ -63,13 +63,13 @@ class TrianglePainter extends CustomPainter {
                  // Format: x, y, r, g, b
            
                  // Triangle #1
@@ -520,7 +510,7 @@ steps:
         patch-u: |
           --- b/intro_flutter_gpu/step_05/lib/main.dart
           +++ a/intro_flutter_gpu/step_05/lib/main.dart
-          @@ -61,18 +61,18 @@ class TrianglePainter extends CustomPainter {
+          @@ -58,18 +58,18 @@ class TrianglePainter extends CustomPainter {
            
                final pipeline = gpu.gpuContext.createRenderPipeline(vert, frag);
            
@@ -606,7 +596,7 @@ steps:
         patch-u: |
           --- b/intro_flutter_gpu/step_06/lib/main.dart
           +++ a/intro_flutter_gpu/step_06/lib/main.dart
-          @@ -61,18 +61,18 @@ class TrianglePainter extends CustomPainter {
+          @@ -58,18 +58,18 @@ class TrianglePainter extends CustomPainter {
            
                final pipeline = gpu.gpuContext.createRenderPipeline(vert, frag);
            
@@ -760,7 +750,7 @@ steps:
            
              @override
              void paint(Canvas canvas, Size size) {
-          @@ -61,15 +98,12 @@ class TrianglePainter extends CustomPainter {
+          @@ -58,15 +95,12 @@ class TrianglePainter extends CustomPainter {
            
                final pipeline = gpu.gpuContext.createRenderPipeline(vert, frag);
            
@@ -777,9 +767,9 @@ steps:
                  0.8, -0.8, 1.0, -1.0,
                  0.8, 0.8, 1.0, 1.0,
                  -0.8, 0.8, -1.0, 1.0,
-          @@ -82,6 +116,22 @@ class TrianglePainter extends CustomPainter {
-                 throw Exception('Failed to create vertices device buffer');
-               }
+          @@ -76,6 +110,18 @@ class TrianglePainter extends CustomPainter {
+                 ByteData.sublistView(vertices),
+               );
            
           +    // Create model matrix for rotation
           +    final model = vm.Matrix4.rotationY(angle);
@@ -793,14 +783,10 @@ steps:
           +      ),
           +    );
           +
-          +    if (vertUniformsDeviceBuffer == null) {
-          +      throw Exception('Failed to create vert uniforms device buffer');
-          +    }
-          +
                renderPass.bindPipeline(pipeline);
            
                final verticesView = gpu.BufferView(
-          @@ -94,6 +144,14 @@ class TrianglePainter extends CustomPainter {
+          @@ -88,6 +134,14 @@ class TrianglePainter extends CustomPainter {
                  vertices.length ~/ floatsPerVertex,
                );
            
@@ -860,9 +846,9 @@ steps:
         patch-u: |
           --- b/intro_flutter_gpu/step_08/lib/main.dart
           +++ a/intro_flutter_gpu/step_08/lib/main.dart
-          @@ -116,11 +116,18 @@ class TrianglePainter extends CustomPainter {
-                 throw Exception('Failed to create vertices device buffer');
-               }
+          @@ -110,11 +110,18 @@ class TrianglePainter extends CustomPainter {
+                 ByteData.sublistView(vertices),
+               );
            
           -    // Create model matrix for rotation
           +    // Create transformation matrices
@@ -914,7 +900,7 @@ steps:
         patch-u: |
           --- b/intro_flutter_gpu/step_09/lib/main.dart
           +++ a/intro_flutter_gpu/step_09/lib/main.dart
-          @@ -98,15 +98,57 @@ class TrianglePainter extends CustomPainter {
+          @@ -95,22 +95,63 @@ class TrianglePainter extends CustomPainter {
            
                final pipeline = gpu.gpuContext.createRenderPipeline(vert, frag);
            
@@ -980,15 +966,14 @@ steps:
                ]);
            
                final verticesDeviceBuffer = gpu.gpuContext.createDeviceBufferWithCopy(
-          @@ -116,7 +158,6 @@ class TrianglePainter extends CustomPainter {
-                 throw Exception('Failed to create vertices device buffer');
-               }
+                 ByteData.sublistView(vertices),
+               );
            
           -    // Create transformation matrices
                final model = vm.Matrix4.rotationY(angle);
                final view = vm.Matrix4.translation(vm.Vector3(0.0, 0.0, -2.0));
                final projection = vm.makePerspectiveMatrix(
-          @@ -126,7 +167,6 @@ class TrianglePainter extends CustomPainter {
+          @@ -120,7 +161,6 @@ class TrianglePainter extends CustomPainter {
                  100.0,
                );
            
@@ -1076,7 +1061,7 @@ steps:
         patch-u: |
           --- b/intro_flutter_gpu/step_10/lib/main.dart
           +++ a/intro_flutter_gpu/step_10/lib/main.dart
-          @@ -98,7 +98,7 @@ class TrianglePainter extends CustomPainter {
+          @@ -95,7 +95,7 @@ class TrianglePainter extends CustomPainter {
            
                final pipeline = gpu.gpuContext.createRenderPipeline(vert, frag);
            
@@ -1085,7 +1070,7 @@ steps:
                final vertices = Float32List.fromList([
                  // Format: x, y, z, r, g, b
            
-          @@ -181,6 +181,9 @@ class TrianglePainter extends CustomPainter {
+          @@ -171,6 +171,9 @@ class TrianglePainter extends CustomPainter {
            
                renderPass.bindPipeline(pipeline);
            
@@ -1123,9 +1108,9 @@ steps:
              }
            
              @override
-          @@ -158,8 +158,15 @@ class TrianglePainter extends CustomPainter {
-                 throw Exception('Failed to create vertices device buffer');
-               }
+          @@ -152,8 +152,15 @@ class TrianglePainter extends CustomPainter {
+                 ByteData.sublistView(vertices),
+               );
            
           -    final model = vm.Matrix4.rotationY(angle);
           -    final view = vm.Matrix4.translation(vm.Vector3(0.0, 0.0, -2.0));
@@ -1141,7 +1126,7 @@ steps:
                final projection = vm.makePerspectiveMatrix(
                  vm.radians(45),
                  size.aspectRatio,
-          @@ -181,7 +188,6 @@ class TrianglePainter extends CustomPainter {
+          @@ -171,7 +178,6 @@ class TrianglePainter extends CustomPainter {
            
                renderPass.bindPipeline(pipeline);
            

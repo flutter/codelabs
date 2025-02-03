@@ -39,9 +39,6 @@ class TrianglePainter extends CustomPainter {
       size.width.ceil(),
       size.height.ceil(),
     );
-    if (texture == null) {
-      throw Exception('Failed to create texture');
-    }
 
     // Create a render target for the texture
     final renderTarget = gpu.RenderTarget.singleColor(
@@ -74,9 +71,6 @@ class TrianglePainter extends CustomPainter {
     final verticesDeviceBuffer = gpu.gpuContext.createDeviceBufferWithCopy(
       ByteData.sublistView(vertices),
     );
-    if (verticesDeviceBuffer == null) {
-      throw Exception('Failed to create vertices device buffer');
-    }
 
     // Bind the pipeline and vertex buffer
     renderPass.bindPipeline(pipeline);
