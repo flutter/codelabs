@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
       title: 'Dash Clicker',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+        
       ),
       home: const MyHomePage(title: 'Dash Clicker'),
     );

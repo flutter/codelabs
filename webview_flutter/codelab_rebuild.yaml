@@ -85,7 +85,7 @@ steps:
           void main() {
             runApp(
               MaterialApp(
-                theme: ThemeData(useMaterial3: true),
+                theme: ThemeData(),
                 home: const WebViewApp(),
               ),
             );

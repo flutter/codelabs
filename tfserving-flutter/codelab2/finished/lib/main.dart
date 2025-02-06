@@ -62,7 +62,7 @@ class _TFServingDemoState extends State<TFServingDemo> {
       title: 'TF Serving Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+        
       ),
       home: Scaffold(
         appBar: AppBar(

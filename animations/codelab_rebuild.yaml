@@ -117,7 +117,6 @@ steps:
                 debugShowCheckedModeBanner: false,
                 theme: ThemeData(
                   colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-                  useMaterial3: true,
                 ),
                 home: HomeScreen(),
               );
@@ -1080,7 +1079,6 @@ steps:
           @@ -16,6 +17,15 @@ class MainApp extends StatelessWidget {
                  theme: ThemeData(
                    colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-                   useMaterial3: true,
           +        pageTransitionsTheme: PageTransitionsTheme(
           +          builders: {
           +            TargetPlatform.android: PredictiveBackPageTransitionsBuilder(),

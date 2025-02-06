@@ -20929,7 +20929,7 @@
                             "endIndex": 17585,
                             "startIndex": 17557,
                             "textRun": {
-                              "content": "        useMaterial3: true,\n",
+                              "content": "        \n",
                               "textStyle": {
                                 "weightedFontFamily": {
                                   "fontFamily": "Courier New",
@@ -24067,7 +24067,7 @@
                             "endIndex": 20316,
                             "startIndex": 20288,
                             "textRun": {
-                              "content": "        useMaterial3: true,\n",
+                              "content": "        \n",
                               "textStyle": {
                                 "weightedFontFamily": {
                                   "fontFamily": "Courier New",
@@ -37903,7 +37903,7 @@
                             "endIndex": 35778,
                             "startIndex": 35750,
                             "textRun": {
-                              "content": "        useMaterial3: true,\n",
+                              "content": "        \n",
                               "textStyle": {
                                 "weightedFontFamily": {
                                   "fontFamily": "Courier New",
@@ -48203,7 +48203,7 @@
                             "endIndex": 47114,
                             "startIndex": 47086,
                             "textRun": {
-                              "content": "        useMaterial3: true,\n",
+                              "content": "        \n",
                               "textStyle": {
                                 "weightedFontFamily": {
                                   "fontFamily": "Courier New",

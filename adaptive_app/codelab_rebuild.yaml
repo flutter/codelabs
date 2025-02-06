@@ -334,11 +334,9 @@ steps:
                 title: 'FlutterDev Playlists',
                 theme: FlexColorScheme.light(
                   scheme: FlexScheme.red,
-                  useMaterial3: true,
                 ).toTheme,
                 darkTheme: FlexColorScheme.dark(
                   scheme: FlexScheme.red,
-                  useMaterial3: true,
                 ).toTheme,
                 themeMode: ThemeMode.dark, // Or ThemeMode.System if you'd prefer
                 debugShowCheckedModeBanner: false,
@@ -1586,7 +1584,6 @@ steps:
           +      title: 'Your Playlists',
                  theme: FlexColorScheme.light(
                    scheme: FlexScheme.red,
-                   useMaterial3: true,
       - name: Patch lib/src/adaptive_playlists.dart
         path: adaptive_app/lib/src/adaptive_playlists.dart
         patch-u: |

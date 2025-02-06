@@ -137,7 +137,6 @@ steps:
                     Theme.of(context).textTheme,
                   ),
                   visualDensity: VisualDensity.adaptivePlatformDensity,
-                  useMaterial3: true,
                 ),
                 home: const HomePage(),
               );
@@ -1951,7 +1950,6 @@ steps:
                    buttonTheme: Theme.of(context).buttonTheme.copyWith(
           @@ -29,7 +113,7 @@ class App extends StatelessWidget {
                    visualDensity: VisualDensity.adaptivePlatformDensity,
-                   useMaterial3: true,
                  ),
           -      home: const HomePage(),
           +      routerConfig: _router,

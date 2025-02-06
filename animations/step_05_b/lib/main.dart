@@ -16,7 +16,6 @@ class MainApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-        useMaterial3: true,
         pageTransitionsTheme: PageTransitionsTheme(
           builders: {
             TargetPlatform.android: PredictiveBackPageTransitionsBuilder(),

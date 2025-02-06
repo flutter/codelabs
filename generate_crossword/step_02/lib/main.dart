@@ -12,16 +12,12 @@ void main() {
         title: 'Crossword Builder',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          useMaterial3: true,
           colorSchemeSeed: Colors.blueGrey,
           brightness: Brightness.light,
         ),
         home: Scaffold(
           body: Center(
-            child: Text(
-              'Hello, World!',
-              style: TextStyle(fontSize: 24),
-            ),
+            child: Text('Hello, World!', style: TextStyle(fontSize: 24)),
           ),
         ),
       ),
