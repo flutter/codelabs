@@ -1584,6 +1584,7 @@ steps:
           +      title: 'Your Playlists',
                  theme: FlexColorScheme.light(
                    scheme: FlexScheme.red,
+                 ).toTheme,
       - name: Patch lib/src/adaptive_playlists.dart
         path: adaptive_app/lib/src/adaptive_playlists.dart
         patch-u: |

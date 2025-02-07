@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.6.0-0
+  sdk: ^3.6.1
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -37,13 +37,13 @@ dependencies:
   googleapis: ^13.2.0
   provider: ^6.1.2
   url_launcher: ^6.3.1
-  flex_color_scheme: ^8.0.0
-  go_router: ^14.4.1
+  flex_color_scheme: ^8.1.0
+  go_router: ^14.7.2
   split_view: ^3.2.1
   googleapis_auth: ^1.6.0
   google_sign_in: ^6.2.2
   extension_google_sign_in_as_googleapis_auth: ^2.0.12
-  http: ^1.2.2
+  http: ^1.3.0
 
 dev_dependencies:
   flutter_test:
