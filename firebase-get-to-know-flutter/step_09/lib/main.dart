@@ -126,7 +126,6 @@ class App extends StatelessWidget {
           Theme.of(context).textTheme,
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
-        
       ),
       routerConfig: _router,
     );
