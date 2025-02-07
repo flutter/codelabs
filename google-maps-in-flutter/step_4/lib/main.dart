@@ -41,7 +41,6 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        
         colorSchemeSeed: Colors.green[700],
       ),
       home: Scaffold(
