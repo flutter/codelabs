@@ -1106,7 +1106,7 @@ steps:
              @override
              Widget build(BuildContext context) {
                return MaterialApp(
-          @@ -39,37 +54,38 @@ class GameApp extends StatelessWidget {
+          @@ -38,37 +53,38 @@ class GameApp extends StatelessWidget {
                        child: Padding(
                          padding: const EdgeInsets.all(16),
                          child: Center(
