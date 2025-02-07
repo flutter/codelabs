@@ -30,7 +30,6 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         visualDensity: VisualDensity.adaptivePlatformDensity,
-        
       ),
       home: const MyHomePage(title: 'GitHub Client'),
     );

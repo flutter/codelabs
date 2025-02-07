@@ -799,7 +799,7 @@ steps:
            import 'github_oauth_credentials.dart';
            import 'src/github_login.dart';
            
-          @@ -45,16 +47,23 @@ class MyHomePage extends StatelessWidget {
+          @@ -44,16 +46,23 @@ class MyHomePage extends StatelessWidget {
              Widget build(BuildContext context) {
                return GithubLoginWidget(
                  builder: (context, httpClient) {
@@ -833,7 +833,7 @@ steps:
                    );
                  },
                  githubClientId: githubClientId,
-          @@ -63,3 +72,8 @@ class MyHomePage extends StatelessWidget {
+          @@ -62,3 +71,8 @@ class MyHomePage extends StatelessWidget {
                );
              }
            }
@@ -866,7 +866,7 @@ steps:
            
            import 'github_oauth_credentials.dart';
            import 'src/github_login.dart';
-          @@ -47,6 +48,7 @@ class MyHomePage extends StatelessWidget {
+          @@ -46,6 +47,7 @@ class MyHomePage extends StatelessWidget {
              Widget build(BuildContext context) {
                return GithubLoginWidget(
                  builder: (context, httpClient) {
@@ -1161,7 +1161,7 @@ steps:
            
            void main() {
              runApp(const MyApp());
-          @@ -49,23 +50,14 @@ class MyHomePage extends StatelessWidget {
+          @@ -48,23 +49,14 @@ class MyHomePage extends StatelessWidget {
                return GithubLoginWidget(
                  builder: (context, httpClient) {
                    WindowToFront.activate();
@@ -1193,7 +1193,7 @@ steps:
                    );
                  },
                  githubClientId: githubClientId,
-          @@ -75,7 +67,6 @@ class MyHomePage extends StatelessWidget {
+          @@ -74,7 +66,6 @@ class MyHomePage extends StatelessWidget {
              }
            }
            
