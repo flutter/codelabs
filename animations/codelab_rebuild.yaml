@@ -20,7 +20,7 @@ steps:
           version: 1.0.0
 
           environment:
-            sdk: ^3.6.0-0
+            sdk: ^3.6.1
 
           dependencies:
             animations: ^2.0.0
