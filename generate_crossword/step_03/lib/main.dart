@@ -14,7 +14,6 @@ void main() {
         title: 'Crossword Builder',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          
           colorSchemeSeed: Colors.blueGrey,
           brightness: Brightness.light,
         ),
