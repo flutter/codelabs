@@ -56,6 +56,30 @@ steps:
                    targetSdk = flutter.targetSdkVersion
                    versionCode = flutter.versionCode
                    versionName = flutter.versionName
+      - name: Patch android/settings.gradle
+        path: webview_in_flutter/android/settings.gradle
+        patch-u: |
+          --- b/boring_to_beautiful/step_01/android/settings.gradle
+          +++ a/boring_to_beautiful/step_01/android/settings.gradle
+          @@ -18,7 +18,7 @@ pluginManagement {
+           
+           plugins {
+               id "dev.flutter.flutter-plugin-loader" version "1.0.0"
+          -    id "com.android.application" version "8.1.0" apply false
+          +    id "com.android.application" version "8.7.3" apply false
+               id "org.jetbrains.kotlin.android" version "1.8.22" apply false
+           }
+      - name: Patch android/gradle/wrapper/gradle-wrapper.properties
+        path: webview_in_flutter/android/gradle/wrapper/gradle-wrapper.properties
+        patch-u: |
+          --- b/boring_to_beautiful/step_01/android/gradle/wrapper/gradle-wrapper.properties
+          +++ a/boring_to_beautiful/step_01/android/gradle/wrapper/gradle-wrapper.properties
+          @@ -2,4 +2,4 @@ distributionBase=GRADLE_USER_HOME
+           distributionPath=wrapper/dists
+           zipStoreBase=GRADLE_USER_HOME
+           zipStorePath=wrapper/dists
+          -distributionUrl=https\://services.gradle.org/distributions/gradle-8.3-all.zip
+          +distributionUrl=https\://services.gradle.org/distributions/gradle-8.12-all.zip
       - name: Build iOS
         platforms: [ macos ]
         path: webview_in_flutter
