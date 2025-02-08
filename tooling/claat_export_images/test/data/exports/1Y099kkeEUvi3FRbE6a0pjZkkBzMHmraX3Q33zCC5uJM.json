@@ -9866,7 +9866,7 @@
                             "endIndex": 6707,
                             "startIndex": 6679,
                             "textRun": {
-                              "content": "        useMaterial3: true,\n",
+                              "content": "        \n",
                               "textStyle": {
                                 "weightedFontFamily": {
                                   "fontFamily": "Courier New",

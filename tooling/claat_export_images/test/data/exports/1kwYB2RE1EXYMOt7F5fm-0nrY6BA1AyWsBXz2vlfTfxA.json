@@ -22051,7 +22051,7 @@
                             "endIndex": 12550,
                             "startIndex": 12522,
                             "textRun": {
-                              "content": "        useMaterial3: true,\n",
+                              "content": "        \n",
                               "textStyle": {
                                 "fontSize": {
                                   "magnitude": 12.0,
@@ -33615,7 +33615,7 @@
                             "endIndex": 22657,
                             "startIndex": 22629,
                             "textRun": {
-                              "content": "        useMaterial3: true,\n",
+                              "content": "        \n",
                               "textStyle": {
                                 "weightedFontFamily": {
                                   "fontFamily": "Courier New",

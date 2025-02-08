@@ -137,7 +137,6 @@ steps:
                     Theme.of(context).textTheme,
                   ),
                   visualDensity: VisualDensity.adaptivePlatformDensity,
-                  useMaterial3: true,
                 ),
                 home: const HomePage(),
               );
@@ -1691,6 +1690,30 @@ steps:
           AAAAWBEAAAAAAKwIAAAAAABWBAAAAAAAKwIAAAAAgBUBAAAAAMCKAAAAAABgRQAAAAAAsCIAAAAAAFgR
           AAAAAACsCAAAAAAAVgQAAAAAACsCAAAAAIAVAQAAAADAigAAAAAAYEUAAAAAALAiAAAAAABYEQAAAAAA
           rAgAAAAAAFYEAAAAAAArAgAAAACAFQEAAAAA3G78fwEGAOYQ2S/g6/WJAAAAAElFTkSuQmCC
+      - name: Patch android/settings.gradle
+        path: gtk_flutter/android/settings.gradle
+        patch-u: |
+          --- b/boring_to_beautiful/step_01/android/settings.gradle
+          +++ a/boring_to_beautiful/step_01/android/settings.gradle
+          @@ -18,7 +18,7 @@ pluginManagement {
+           
+           plugins {
+               id "dev.flutter.flutter-plugin-loader" version "1.0.0"
+          -    id "com.android.application" version "8.1.0" apply false
+          +    id "com.android.application" version "8.7.3" apply false
+               id "org.jetbrains.kotlin.android" version "1.8.22" apply false
+           }
+      - name: Patch 
+        path: gtk_flutter/android/gradle/wrapper/gradle-wrapper.properties
+        patch-u: |
+          --- b/boring_to_beautiful/step_01/android/gradle/wrapper/gradle-wrapper.properties
+          +++ a/boring_to_beautiful/step_01/android/gradle/wrapper/gradle-wrapper.properties
+          @@ -2,4 +2,4 @@ distributionBase=GRADLE_USER_HOME
+           distributionPath=wrapper/dists
+           zipStoreBase=GRADLE_USER_HOME
+           zipStorePath=wrapper/dists
+          -distributionUrl=https\://services.gradle.org/distributions/gradle-8.3-all.zip
+          +distributionUrl=https\://services.gradle.org/distributions/gradle-8.12-all.zip
       - name: Build for iOS
         platforms: [ macos ]
         path: gtk_flutter
@@ -1949,9 +1972,9 @@ steps:
                  title: 'Firebase Meetup',
                  theme: ThemeData(
                    buttonTheme: Theme.of(context).buttonTheme.copyWith(
-          @@ -29,7 +113,7 @@ class App extends StatelessWidget {
+          @@ -28,7 +112,7 @@ class App extends StatelessWidget {
+                   ),
                    visualDensity: VisualDensity.adaptivePlatformDensity,
-                   useMaterial3: true,
                  ),
           -      home: const HomePage(),
           +      routerConfig: _router,
@@ -2447,7 +2470,6 @@ steps:
           +      ],
                );
              }
-           }
       - name: Patch lib/home_page.dart
         path: gtk_flutter/lib/home_page.dart
         patch-u: |
