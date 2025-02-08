@@ -20660,7 +20660,7 @@
                             "endIndex": 13662,
                             "startIndex": 13632,
                             "textRun": {
-                              "content": "          useMaterial3: true,\n",
+                              "content": "          \n",
                               "textStyle": {
                                 "weightedFontFamily": {
                                   "fontFamily": "Courier New",

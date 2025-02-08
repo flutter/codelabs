@@ -13,9 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Haiku Generator Demo',
-      theme: ThemeData(
-        useMaterial3: true,
-      ),
+      theme: ThemeData(),
       home: const HaikuPage(title: 'Haiku generator for Google products'),
     );
   }

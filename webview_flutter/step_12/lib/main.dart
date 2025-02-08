@@ -12,7 +12,7 @@ import 'src/web_view_stack.dart';
 void main() {
   runApp(
     MaterialApp(
-      theme: ThemeData(useMaterial3: true),
+      theme: ThemeData(),
       home: const WebViewApp(),
     ),
   );

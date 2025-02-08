@@ -66,7 +66,7 @@ steps:
           version: 0.1.0
           
           environment:
-            sdk: ^3.6.0-0
+            sdk: ^3.6.2
           
           dependencies:
             flutter:
@@ -151,7 +151,7 @@ steps:
             @override
             Widget build(BuildContext context) {
               return MaterialApp(
-                theme: ThemeData(useMaterial3: true),
+                theme: ThemeData(),
                 home: DocumentScreen(
                   document: Document(),
                 ),

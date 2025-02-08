@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.6.0-0
+  sdk: ^3.6.2
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -35,11 +35,11 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   googleapis: ^13.2.0
-  http: ^1.2.2
+  http: ^1.3.0
   provider: ^6.1.2
   url_launcher: ^6.3.1
-  flex_color_scheme: ^8.0.0
-  go_router: ^14.4.1
+  flex_color_scheme: ^8.1.0
+  go_router: ^14.7.2
   split_view: ^3.2.1
 
 dev_dependencies:
