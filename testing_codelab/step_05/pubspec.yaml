@@ -8,12 +8,12 @@ publish_to: 'none'
 version: 0.1.0
 
 environment:
-  sdk: ^3.6.0-0
+  sdk: ^3.6.2
 
 dependencies:
   flutter:
     sdk: flutter
-  go_router: ^14.6.0
+  go_router: ^14.8.0
   provider: ^6.1.2
 
 dev_dependencies:

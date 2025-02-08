@@ -20,7 +20,7 @@ steps:
           version: 1.0.0
 
           environment:
-            sdk: ^3.6.0-0
+            sdk: ^3.6.2
 
           dependencies:
             animations: ^2.0.0
@@ -117,7 +117,6 @@ steps:
                 debugShowCheckedModeBanner: false,
                 theme: ThemeData(
                   colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-                  useMaterial3: true,
                 ),
                 home: HomeScreen(),
               );
@@ -1070,17 +1069,17 @@ steps:
       - name: Patch lib/main.dart
         path: quiz/lib/main.dart
         patch-u: |
-          --- a/animations/step_05/lib/main.dart
-          +++ b/animations/step_05/lib/main.dart
+          --- b/animations/step_05_b/lib/main.dart
+          +++ a/animations/step_05_b/lib/main.dart
           @@ -1,3 +1,4 @@
           +import 'package:animations/animations.dart';
            import 'package:flutter/material.dart';
            
            import 'home_screen.dart';
-          @@ -16,6 +17,15 @@ class MainApp extends StatelessWidget {
+          @@ -15,6 +16,15 @@ class MainApp extends StatelessWidget {
+                 debugShowCheckedModeBanner: false,
                  theme: ThemeData(
                    colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-                   useMaterial3: true,
           +        pageTransitionsTheme: PageTransitionsTheme(
           +          builders: {
           +            TargetPlatform.android: PredictiveBackPageTransitionsBuilder(),

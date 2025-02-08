@@ -589,8 +589,9 @@ class LocationBuilder implements Builder<Location, LocationBuilder> {
   _$Location _build() {
     final _$result = _$v ??
         new _$Location._(
-            x: BuiltValueNullFieldError.checkNotNull(x, r'Location', 'x'),
-            y: BuiltValueNullFieldError.checkNotNull(y, r'Location', 'y'));
+          x: BuiltValueNullFieldError.checkNotNull(x, r'Location', 'x'),
+          y: BuiltValueNullFieldError.checkNotNull(y, r'Location', 'y'),
+        );
     replace(_$result);
     return _$result;
   }
@@ -701,11 +702,12 @@ class CrosswordWordBuilder
     try {
       _$result = _$v ??
           new _$CrosswordWord._(
-              word: BuiltValueNullFieldError.checkNotNull(
-                  word, r'CrosswordWord', 'word'),
-              location: location.build(),
-              direction: BuiltValueNullFieldError.checkNotNull(
-                  direction, r'CrosswordWord', 'direction'));
+            word: BuiltValueNullFieldError.checkNotNull(
+                word, r'CrosswordWord', 'word'),
+            location: location.build(),
+            direction: BuiltValueNullFieldError.checkNotNull(
+                direction, r'CrosswordWord', 'direction'),
+          );
     } catch (_) {
       late String _$failedField;
       try {
@@ -830,10 +832,11 @@ class CrosswordCharacterBuilder
     try {
       _$result = _$v ??
           new _$CrosswordCharacter._(
-              character: BuiltValueNullFieldError.checkNotNull(
-                  character, r'CrosswordCharacter', 'character'),
-              acrossWord: _acrossWord?.build(),
-              downWord: _downWord?.build());
+            character: BuiltValueNullFieldError.checkNotNull(
+                character, r'CrosswordCharacter', 'character'),
+            acrossWord: _acrossWord?.build(),
+            downWord: _downWord?.build(),
+          );
     } catch (_) {
       late String _$failedField;
       try {
@@ -973,12 +976,13 @@ class CrosswordBuilder implements Builder<Crossword, CrosswordBuilder> {
     try {
       _$result = _$v ??
           new _$Crossword._(
-              width: BuiltValueNullFieldError.checkNotNull(
-                  width, r'Crossword', 'width'),
-              height: BuiltValueNullFieldError.checkNotNull(
-                  height, r'Crossword', 'height'),
-              words: words.build(),
-              characters: characters.build());
+            width: BuiltValueNullFieldError.checkNotNull(
+                width, r'Crossword', 'width'),
+            height: BuiltValueNullFieldError.checkNotNull(
+                height, r'Crossword', 'height'),
+            words: words.build(),
+            characters: characters.build(),
+          );
     } catch (_) {
       late String _$failedField;
       try {
@@ -1123,10 +1127,11 @@ class WorkQueueBuilder implements Builder<WorkQueue, WorkQueueBuilder> {
     try {
       _$result = _$v ??
           new _$WorkQueue._(
-              crossword: crossword.build(),
-              locationsToTry: locationsToTry.build(),
-              badLocations: badLocations.build(),
-              candidateWords: candidateWords.build());
+            crossword: crossword.build(),
+            locationsToTry: locationsToTry.build(),
+            badLocations: badLocations.build(),
+            candidateWords: candidateWords.build(),
+          );
     } catch (_) {
       late String _$failedField;
       try {
@@ -1285,20 +1290,19 @@ class DisplayInfoBuilder implements Builder<DisplayInfo, DisplayInfoBuilder> {
   _$DisplayInfo _build() {
     final _$result = _$v ??
         new _$DisplayInfo._(
-            wordsInGridCount: BuiltValueNullFieldError.checkNotNull(
-                wordsInGridCount, r'DisplayInfo', 'wordsInGridCount'),
-            candidateWordsCount: BuiltValueNullFieldError.checkNotNull(
-                candidateWordsCount, r'DisplayInfo', 'candidateWordsCount'),
-            locationsToExploreCount: BuiltValueNullFieldError.checkNotNull(
-                locationsToExploreCount,
-                r'DisplayInfo',
-                'locationsToExploreCount'),
-            knownBadLocationsCount: BuiltValueNullFieldError.checkNotNull(
-                knownBadLocationsCount,
-                r'DisplayInfo',
-                'knownBadLocationsCount'),
-            gridFilledPercentage: BuiltValueNullFieldError.checkNotNull(
-                gridFilledPercentage, r'DisplayInfo', 'gridFilledPercentage'));
+          wordsInGridCount: BuiltValueNullFieldError.checkNotNull(
+              wordsInGridCount, r'DisplayInfo', 'wordsInGridCount'),
+          candidateWordsCount: BuiltValueNullFieldError.checkNotNull(
+              candidateWordsCount, r'DisplayInfo', 'candidateWordsCount'),
+          locationsToExploreCount: BuiltValueNullFieldError.checkNotNull(
+              locationsToExploreCount,
+              r'DisplayInfo',
+              'locationsToExploreCount'),
+          knownBadLocationsCount: BuiltValueNullFieldError.checkNotNull(
+              knownBadLocationsCount, r'DisplayInfo', 'knownBadLocationsCount'),
+          gridFilledPercentage: BuiltValueNullFieldError.checkNotNull(
+              gridFilledPercentage, r'DisplayInfo', 'gridFilledPercentage'),
+        );
     replace(_$result);
     return _$result;
   }
@@ -1424,9 +1428,10 @@ class CrosswordPuzzleGameBuilder
     try {
       _$result = _$v ??
           new _$CrosswordPuzzleGame._(
-              crossword: crossword.build(),
-              alternateWords: alternateWords.build(),
-              selectedWords: selectedWords.build());
+            crossword: crossword.build(),
+            alternateWords: alternateWords.build(),
+            selectedWords: selectedWords.build(),
+          );
     } catch (_) {
       late String _$failedField;
       try {

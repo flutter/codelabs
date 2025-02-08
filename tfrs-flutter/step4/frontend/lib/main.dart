@@ -58,7 +58,7 @@ class _RecommenderDemoState extends State<RecommenderDemo> {
 
     return MaterialApp(
       title: title,
-      theme: ThemeData.light(useMaterial3: true),
+      theme: ThemeData.light(),
       home: Scaffold(
         appBar: AppBar(
           title: const Text(title),

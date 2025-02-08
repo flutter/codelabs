@@ -12620,7 +12620,7 @@
                             "endIndex": 7526,
                             "startIndex": 7482,
                             "textRun": {
-                              "content": "      theme: ThemeData(useMaterial3: true),\n",
+                              "content": "      theme: ThemeData(),\n",
                               "textStyle": {
                                 "weightedFontFamily": {
                                   "fontFamily": "Courier New",

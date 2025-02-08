@@ -22,7 +22,7 @@ steps:
           version: 0.1.0
           
           environment:
-            sdk: ^3.6.0-0
+            sdk: ^3.6.2
           
           dependencies:
             flame: ^1.18.0
@@ -931,7 +931,6 @@ steps:
               return MaterialApp(
                 debugShowCheckedModeBanner: false,
                 theme: ThemeData(
-                  useMaterial3: true,
                   textTheme: GoogleFonts.pressStart2pTextTheme().apply(
                     bodyColor: const Color(0xff184e77),
                     displayColor: const Color(0xff184e77),
@@ -1107,7 +1106,7 @@ steps:
              @override
              Widget build(BuildContext context) {
                return MaterialApp(
-          @@ -39,37 +54,38 @@ class GameApp extends StatelessWidget {
+          @@ -38,37 +53,38 @@ class GameApp extends StatelessWidget {
                        child: Padding(
                          padding: const EdgeInsets.all(16),
                          child: Center(

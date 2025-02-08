@@ -9,6 +9,9 @@ steps:
       - name: Make flutter app
         path: steps
         flutter: create app --project-name dashclicker --empty --platforms android,ios
+      - name: Strip DEVELOPMENT_TEAM
+        strip-lines-containing: DEVELOPMENT_TEAM =
+        path: steps/app/ios/Runner.xcodeproj/project.pbxproj
       - name: Patch .gitignore
         path: steps/app/.gitignore
         patch-u: |
@@ -15858,7 +15861,6 @@ steps:
                 title: 'Dash Clicker',
                 theme: ThemeData(
                   colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-                  useMaterial3: true,
                 ),
                 home: const MyHomePage(title: 'Dash Clicker'),
               );
@@ -17224,7 +17226,7 @@ steps:
            void main() {
              runApp(const MyApp());
            }
-          @@ -67,6 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
+          @@ -66,6 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
                      create: (context) => DashPurchases(
                        context.read<DashCounter>(),
                      ),
@@ -17539,7 +17541,7 @@ steps:
         patch-u: |
           --- b/in_app_purchases/step_09/app/lib/main.dart
           +++ a/in_app_purchases/step_09/app/lib/main.dart
-          @@ -80,6 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
+          @@ -79,6 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
                    ChangeNotifierProvider<DashPurchases>(
                      create: (context) => DashPurchases(
                        context.read<DashCounter>(),
@@ -18161,7 +18163,7 @@ steps:
         patch-u: |
           --- b/in_app_purchases/step_10/app/lib/main.dart
           +++ a/in_app_purchases/step_10/app/lib/main.dart
-          @@ -81,6 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
+          @@ -80,6 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
                      create: (context) => DashPurchases(
                        context.read<DashCounter>(),
                        context.read<FirebaseNotifier>(),
