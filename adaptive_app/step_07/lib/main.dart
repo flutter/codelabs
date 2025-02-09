@@ -79,16 +79,8 @@ class PlaylistsApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       title: 'Your Playlists',
-      theme:
-          FlexColorScheme.light(
-            scheme: FlexScheme.red,
-            useMaterial3: true,
-          ).toTheme,
-      darkTheme:
-          FlexColorScheme.dark(
-            scheme: FlexScheme.red,
-            useMaterial3: true,
-          ).toTheme,
+      theme: FlexColorScheme.light(scheme: FlexScheme.red).toTheme,
+      darkTheme: FlexColorScheme.dark(scheme: FlexScheme.red).toTheme,
       themeMode: ThemeMode.dark, // Or ThemeMode.System if you'd prefer
       debugShowCheckedModeBanner: false,
       routerConfig: _router,

@@ -334,16 +334,8 @@ steps:
             Widget build(BuildContext context) {
               return MaterialApp.router(
                 title: 'FlutterDev Playlists',
-                theme:
-                    FlexColorScheme.light(
-                      scheme: FlexScheme.red,
-                      useMaterial3: true,
-                    ).toTheme,
-                darkTheme:
-                    FlexColorScheme.dark(
-                      scheme: FlexScheme.red,
-                      useMaterial3: true,
-                    ).toTheme,
+                theme: FlexColorScheme.light(scheme: FlexScheme.red).toTheme,
+                darkTheme: FlexColorScheme.dark(scheme: FlexScheme.red).toTheme,
                 themeMode: ThemeMode.dark, // Or ThemeMode.System if you'd prefer
                 debugShowCheckedModeBanner: false,
                 routerConfig: _router,
@@ -1561,9 +1553,9 @@ steps:
                return MaterialApp.router(
           -      title: 'FlutterDev Playlists',
           +      title: 'Your Playlists',
-                 theme:
-                     FlexColorScheme.light(
-                       scheme: FlexScheme.red,
+                 theme: FlexColorScheme.light(scheme: FlexScheme.red).toTheme,
+                 darkTheme: FlexColorScheme.dark(scheme: FlexScheme.red).toTheme,
+                 themeMode: ThemeMode.dark, // Or ThemeMode.System if you'd prefer
       - name: Patch lib/src/adaptive_playlists.dart
         path: adaptive_app/lib/src/adaptive_playlists.dart
         patch-u: |

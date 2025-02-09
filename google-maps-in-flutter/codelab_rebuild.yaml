@@ -268,7 +268,7 @@ steps:
             @override
             Widget build(BuildContext context) {
               return MaterialApp(
-                theme: ThemeData(useMaterial3: true, colorSchemeSeed: Colors.green[700]),
+                theme: ThemeData(colorSchemeSeed: Colors.green[700]),
                 home: Scaffold(
                   appBar: AppBar(title: const Text('Maps Sample App'), elevation: 2),
                   body: GoogleMap(
@@ -1389,7 +1389,7 @@ steps:
              @override
           @@ -42,10 +51,17 @@ class _MyAppState extends State<MyApp> {
                return MaterialApp(
-                 theme: ThemeData(useMaterial3: true, colorSchemeSeed: Colors.green[700]),
+                 theme: ThemeData(colorSchemeSeed: Colors.green[700]),
                  home: Scaffold(
           -        appBar: AppBar(title: const Text('Maps Sample App'), elevation: 2),
           +        appBar: AppBar(

@@ -75,7 +75,6 @@ steps:
                 child: MaterialApp(
                   title: 'Namer App',
                   theme: ThemeData(
-                    useMaterial3: true,
                     colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
                   ),
                   home: MyHomePage(),
@@ -147,7 +146,7 @@ steps:
         patch-u: |
           --- b/namer/step_04_a_widget/lib/main.dart
           +++ a/namer/step_04_a_widget/lib/main.dart
-          @@ -36,7 +36,16 @@ class MyHomePage extends StatelessWidget {
+          @@ -35,7 +35,16 @@ class MyHomePage extends StatelessWidget {
            
                return Scaffold(
                  body: Column(
@@ -189,10 +188,10 @@ steps:
       - name: Add button behavior
         path: namer_app/lib/main.dart
         patch-u: |
-          --- a/namer_app/lib/main.dart
-          +++ b/namer_app/lib/main.dart
-          @@ -27,6 +27,11 @@ class MyApp extends StatelessWidget {
-
+          --- b/namer/step_04_b_behavior/lib/main.dart
+          +++ a/namer/step_04_b_behavior/lib/main.dart
+          @@ -26,6 +26,11 @@ class MyApp extends StatelessWidget {
+           
            class MyAppState extends ChangeNotifier {
              var current = WordPair.random();
           +
@@ -201,9 +200,9 @@ steps:
           +    notifyListeners();
           +  }
            }
-
+           
            class MyHomePage extends StatelessWidget {
-          @@ -41,7 +46,7 @@ class MyHomePage extends StatelessWidget {
+          @@ -40,7 +45,7 @@ class MyHomePage extends StatelessWidget {
                      Text(appState.current.asLowerCase),
                      ElevatedButton(
                        onPressed: () {
@@ -280,7 +279,7 @@ steps:
         patch-u: |
           --- b/namer/step_05_a_pair/lib/main.dart
           +++ a/namer/step_05_a_pair/lib/main.dart
-          @@ -38,12 +38,13 @@ class MyHomePage extends StatelessWidget {
+          @@ -37,12 +37,13 @@ class MyHomePage extends StatelessWidget {
              @override
              Widget build(BuildContext context) {
                var appState = context.watch<MyAppState>();
@@ -308,7 +307,7 @@ steps:
         patch-u: |
           --- b/namer/step_05_b_extract/lib/main.dart
           +++ a/namer/step_05_b_extract/lib/main.dart
-          @@ -44,7 +44,7 @@ class MyHomePage extends StatelessWidget {
+          @@ -43,7 +43,7 @@ class MyHomePage extends StatelessWidget {
                  body: Column(
                    children: [
                      Text('A random AWESOME idea:'),
@@ -317,7 +316,7 @@ steps:
                      ElevatedButton(
                        onPressed: () {
                          appState.getNext();
-          @@ -56,3 +56,14 @@ class MyHomePage extends StatelessWidget {
+          @@ -55,3 +55,14 @@ class MyHomePage extends StatelessWidget {
                );
              }
            }
@@ -367,7 +366,7 @@ steps:
         patch-u: |
           --- b/namer/step_05_c_card_padding/lib/main.dart
           +++ a/namer/step_05_c_card_padding/lib/main.dart
-          @@ -64,6 +64,11 @@ class BigCard extends StatelessWidget {
+          @@ -63,6 +63,11 @@ class BigCard extends StatelessWidget {
            
              @override
              Widget build(BuildContext context) {
@@ -393,7 +392,7 @@ steps:
         patch-u: |
           --- b/namer/step_05_d_theme/lib/main.dart
           +++ a/namer/step_05_d_theme/lib/main.dart
-          @@ -64,7 +64,10 @@ class BigCard extends StatelessWidget {
+          @@ -63,7 +63,10 @@ class BigCard extends StatelessWidget {
            
              @override
              Widget build(BuildContext context) {
@@ -417,7 +416,7 @@ steps:
         patch-u: |
           --- b/namer/step_05_e_text_style/lib/main.dart
           +++ a/namer/step_05_e_text_style/lib/main.dart
-          @@ -65,12 +65,15 @@ class BigCard extends StatelessWidget {
+          @@ -64,12 +64,15 @@ class BigCard extends StatelessWidget {
              @override
              Widget build(BuildContext context) {
                final theme = Theme.of(context);
@@ -447,7 +446,7 @@ steps:
         patch-u: |
           --- b/namer/step_05_f_accessibility/lib/main.dart
           +++ a/namer/step_05_f_accessibility/lib/main.dart
-          @@ -73,7 +73,11 @@ class BigCard extends StatelessWidget {
+          @@ -72,7 +72,11 @@ class BigCard extends StatelessWidget {
                  color: theme.colorScheme.primary,
                  child: Padding(
                    padding: const EdgeInsets.all(20),
@@ -473,7 +472,7 @@ steps:
         patch-u: |
           --- b/namer/step_05_g_center_vertical/lib/main.dart
           +++ a/namer/step_05_g_center_vertical/lib/main.dart
-          @@ -42,6 +42,7 @@ class MyHomePage extends StatelessWidget {
+          @@ -41,6 +41,7 @@ class MyHomePage extends StatelessWidget {
            
                return Scaffold(
                  body: Column(
@@ -494,7 +493,7 @@ steps:
         patch-u: |
           --- b/namer/step_05_h_center_horizontal/lib/main.dart
           +++ a/namer/step_05_h_center_horizontal/lib/main.dart
-          @@ -41,18 +41,20 @@ class MyHomePage extends StatelessWidget {
+          @@ -40,18 +40,20 @@ class MyHomePage extends StatelessWidget {
                var pair = appState.current;
            
                return Scaffold(
@@ -540,7 +539,7 @@ steps:
         patch-u: |
           --- a/namer_app/lib/main.dart
           +++ b/namer_app/lib/main.dart
-          @@ -45,8 +45,8 @@ class MyHomePage extends StatelessWidget {
+          @@ -44,8 +44,8 @@ class MyHomePage extends StatelessWidget {
                    child: Column(
                      mainAxisAlignment: MainAxisAlignment.center,
                      children: [
@@ -577,7 +576,7 @@ steps:
         patch-u: |
           --- a/namer_app/lib/main.dart
           +++ b/namer_app/lib/main.dart
-          @@ -32,6 +32,17 @@ class MyAppState extends ChangeNotifier {
+          @@ -31,6 +31,17 @@ class MyAppState extends ChangeNotifier {
                current = WordPair.random();
                notifyListeners();
              }
@@ -608,7 +607,7 @@ steps:
         patch-u: |
           --- a/namer_app/lib/main.dart
           +++ b/namer_app/lib/main.dart
-          @@ -58,11 +58,16 @@ class MyHomePage extends StatelessWidget {
+          @@ -57,11 +57,16 @@ class MyHomePage extends StatelessWidget {
                      children: [
                        BigCard(pair: pair),
                        SizedBox(height: 10),
@@ -641,9 +640,9 @@ steps:
       - name: Add 'Like' button to UI
         path: namer_app/lib/main.dart
         patch-u: |
-          --- a/namer_app/lib/main.dart
-          +++ b/namer_app/lib/main.dart
-          @@ -51,6 +51,13 @@ class MyHomePage extends StatelessWidget {
+          --- b/namer/step_06_c_add_like_button/lib/main.dart
+          +++ a/namer/step_06_c_add_like_button/lib/main.dart
+          @@ -50,6 +50,13 @@ class MyHomePage extends StatelessWidget {
                var appState = context.watch<MyAppState>();
                var pair = appState.current;
            
@@ -657,7 +656,7 @@ steps:
                return Scaffold(
                  body: Center(
                    child: Column(
-          @@ -61,6 +68,14 @@ class MyHomePage extends StatelessWidget {
+          @@ -60,6 +67,14 @@ class MyHomePage extends StatelessWidget {
                        Row(
                          mainAxisSize: MainAxisSize.min,
                          children: [
@@ -717,7 +716,7 @@ steps:
         patch-u: |
           --- a/namer_app/lib/main.dart
           +++ b/namer_app/lib/main.dart
-          @@ -48,6 +48,43 @@
+          @@ -47,6 +47,43 @@
            class MyHomePage extends StatelessWidget {
              @override
              Widget build(BuildContext context) {
@@ -761,7 +760,7 @@ steps:
                var appState = context.watch<MyAppState>();
                var pair = appState.current;
            
-          @@ -58,34 +95,32 @@
+          @@ -57,34 +94,32 @@
                  icon = Icons.favorite_border;
                }
            
@@ -835,7 +834,7 @@ steps:
         patch-u: |
           --- a/namer_app/lib/main.dart
           +++ b/namer_app/lib/main.dart
-          @@ -45,7 +45,12 @@ class MyAppState extends ChangeNotifier {
+          @@ -44,7 +44,12 @@ class MyAppState extends ChangeNotifier {
              }
            }
            
@@ -862,7 +861,7 @@ steps:
         patch-u: |
           --- a/namer_app/lib/main.dart
           +++ b/namer_app/lib/main.dart
-          @@ -51,6 +51,8 @@
+          @@ -50,6 +50,8 @@
            }
 
            class _MyHomePageState extends State<MyHomePage> {
@@ -871,7 +870,7 @@ steps:
              @override
              Widget build(BuildContext context) {
                return Scaffold(
-          @@ -69,9 +71,11 @@
+          @@ -68,9 +70,11 @@
                              label: Text('Favorites'),
                            ),
                          ],
@@ -898,7 +897,7 @@ steps:
         patch-u: |
           --- b/namer/step_07_d_use_selectedindex/lib/main.dart
           +++ a/namer/step_07_d_use_selectedindex/lib/main.dart
-          @@ -55,6 +55,16 @@ class _MyHomePageState extends State<MyHomePage> {
+          @@ -54,6 +54,16 @@ class _MyHomePageState extends State<MyHomePage> {
            
              @override
              Widget build(BuildContext context) {
@@ -915,7 +914,7 @@ steps:
                return Scaffold(
                  body: Row(
                    children: [
-          @@ -82,7 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
+          @@ -81,7 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
                      Expanded(
                        child: Container(
                          color: Theme.of(context).colorScheme.primaryContainer,
@@ -937,7 +936,7 @@ steps:
         patch-u: |
           --- b/namer/step_07_e_add_layout_builder/lib/main.dart
           +++ a/namer/step_07_e_add_layout_builder/lib/main.dart
-          @@ -65,38 +65,42 @@ class _MyHomePageState extends State<MyHomePage> {
+          @@ -64,38 +64,42 @@ class _MyHomePageState extends State<MyHomePage> {
                    throw UnimplementedError('no widget for $selectedIndex');
                }
            
@@ -1022,7 +1021,7 @@ steps:
         patch-u: |
           --- b/namer/step_08/lib/main.dart
           +++ a/namer/step_08/lib/main.dart
-          @@ -60,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
+          @@ -59,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
                  case 0:
                    page = GeneratorPage();
                  case 1:
@@ -1031,7 +1030,7 @@ steps:
                  default:
                    throw UnimplementedError('no widget for $selectedIndex');
                }
-          @@ -174,3 +174,31 @@ class BigCard extends StatelessWidget {
+          @@ -173,3 +173,31 @@ class BigCard extends StatelessWidget {
                );
              }
            }

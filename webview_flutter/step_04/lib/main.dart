@@ -6,9 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 void main() {
-  runApp(
-    MaterialApp(theme: ThemeData(useMaterial3: true), home: const WebViewApp()),
-  );
+  runApp(MaterialApp(theme: ThemeData(), home: const WebViewApp()));
 }
 
 class WebViewApp extends StatefulWidget {

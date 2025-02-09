@@ -22,7 +22,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData.light(useMaterial3: true),
+      theme: ThemeData.light(),
       home: Feed(currentUser: data.user_0),
     );
   }

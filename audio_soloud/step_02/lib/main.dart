@@ -43,7 +43,6 @@ class MyApp extends StatelessWidget {
       title: 'Flutter SoLoud Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.brown),
-        useMaterial3: true,
       ),
       home: MyHomePage(audioController: audioController),
     );

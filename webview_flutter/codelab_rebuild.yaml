@@ -83,9 +83,7 @@ steps:
           import 'package:webview_flutter/webview_flutter.dart';
 
           void main() {
-            runApp(
-              MaterialApp(theme: ThemeData(useMaterial3: true), home: const WebViewApp()),
-            );
+            runApp(MaterialApp(theme: ThemeData(), home: const WebViewApp()));
           }
 
           class WebViewApp extends StatefulWidget {
@@ -199,8 +197,8 @@ steps:
           +import 'src/web_view_stack.dart';
            
            void main() {
-             runApp(
-          @@ -19,20 +20,11 @@ class WebViewApp extends StatefulWidget {
+             runApp(MaterialApp(theme: ThemeData(), home: const WebViewApp()));
+          @@ -17,20 +18,11 @@ class WebViewApp extends StatefulWidget {
            }
            
            class _WebViewAppState extends State<WebViewApp> {
@@ -302,7 +300,7 @@ steps:
            import 'src/web_view_stack.dart';
            
            void main() {
-          @@ -20,11 +22,23 @@ class WebViewApp extends StatefulWidget {
+          @@ -18,11 +20,23 @@ class WebViewApp extends StatefulWidget {
            }
            
            class _WebViewAppState extends State<WebViewApp> {
@@ -492,7 +490,7 @@ steps:
            import 'src/navigation_controls.dart';
            import 'src/web_view_stack.dart';
            
-          @@ -36,7 +37,10 @@ class _WebViewAppState extends State<WebViewApp> {
+          @@ -34,7 +35,10 @@ class _WebViewAppState extends State<WebViewApp> {
                return Scaffold(
                  appBar: AppBar(
                    title: const Text('Flutter WebView'),
