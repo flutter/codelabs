@@ -13,8 +13,10 @@ void main() {
 
 class TestIAPConnection implements InAppPurchase {
   @override
-  Future<bool> buyConsumable(
-      {required PurchaseParam purchaseParam, bool autoConsume = true}) {
+  Future<bool> buyConsumable({
+    required PurchaseParam purchaseParam,
+    bool autoConsume = true,
+  }) {
     return Future.value(false);
   }
 
@@ -35,10 +37,9 @@ class TestIAPConnection implements InAppPurchase {
 
   @override
   Future<ProductDetailsResponse> queryProductDetails(Set<String> identifiers) {
-    return Future.value(ProductDetailsResponse(
-      productDetails: [],
-      notFoundIDs: [],
-    ));
+    return Future.value(
+      ProductDetailsResponse(productDetails: [], notFoundIDs: []),
+    );
   }
 
   @override

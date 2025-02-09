@@ -12,8 +12,11 @@ import '../../../shared/views/image_clipper.dart';
 import '../../../shared/views/outlined_card.dart';
 
 class HomeRecent extends StatelessWidget {
-  const HomeRecent(
-      {super.key, required this.playlists, this.axis = Axis.horizontal});
+  const HomeRecent({
+    super.key,
+    required this.playlists,
+    this.axis = Axis.horizontal,
+  });
 
   final List<Playlist> playlists;
   final Axis axis;
@@ -43,8 +46,10 @@ class HomeRecent extends StatelessWidget {
                         Row(
                           children: [
                             Expanded(
-                              child: Image.asset(playlist.cover.image,
-                                  fit: BoxFit.cover),
+                              child: Image.asset(
+                                playlist.cover.image,
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ],
                         ),
@@ -79,10 +84,7 @@ class HomeRecent extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  ClippedImage(
-                    playlist.cover.image,
-                    height: 200,
-                  ),
+                  ClippedImage(playlist.cover.image, height: 200),
                   Expanded(
                     child: Center(
                       child: Padding(
@@ -104,23 +106,24 @@ class HomeRecent extends StatelessWidget {
     return Column(
       children: [
         Padding(
-            padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
-            child: Text(
-              playlist.title,
-              style: context.titleSmall!.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
-              textAlign: TextAlign.center,
-            )),
+          padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+          child: Text(
+            playlist.title,
+            style: context.titleSmall!.copyWith(fontWeight: FontWeight.bold),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+            textAlign: TextAlign.center,
+          ),
+        ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-          child: Text(playlist.description,
-              overflow: TextOverflow.ellipsis,
-              style: context.labelSmall,
-              maxLines: 2,
-              textAlign: TextAlign.center),
+          child: Text(
+            playlist.description,
+            overflow: TextOverflow.ellipsis,
+            style: context.labelSmall,
+            maxLines: 2,
+            textAlign: TextAlign.center,
+          ),
         ),
       ],
     );

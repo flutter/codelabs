@@ -31,10 +31,7 @@ class MainApp extends StatelessWidget {
 }
 
 class Feed extends StatefulWidget {
-  const Feed({
-    super.key,
-    required this.currentUser,
-  });
+  const Feed({super.key, required this.currentUser});
 
   final User currentUser;
 
@@ -45,12 +42,15 @@ class Feed extends StatefulWidget {
 class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
   late final _colorScheme = Theme.of(context).colorScheme;
   late final _backgroundColor = Color.alphaBlend(
-      _colorScheme.primary.withAlpha(36), _colorScheme.surface);
+    _colorScheme.primary.withAlpha(36),
+    _colorScheme.surface,
+  );
   late final _controller = AnimationController(
-      duration: const Duration(milliseconds: 1000),
-      reverseDuration: const Duration(milliseconds: 1250),
-      value: 0,
-      vsync: this);
+    duration: const Duration(milliseconds: 1000),
+    reverseDuration: const Duration(milliseconds: 1250),
+    value: 0,
+    vsync: this,
+  );
   late final _railAnimation = RailAnimation(parent: _controller);
   late final _railFabAnimation = RailFabAnimation(parent: _controller);
   late final _barAnimation = BarAnimation(parent: _controller);

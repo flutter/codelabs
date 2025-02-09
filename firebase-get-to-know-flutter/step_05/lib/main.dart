@@ -14,10 +14,12 @@ import 'home_page.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  runApp(ChangeNotifierProvider(
-    create: (context) => ApplicationState(),
-    builder: ((context, child) => const App()),
-  ));
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => ApplicationState(),
+      builder: ((context, child) => const App()),
+    ),
+  );
 }
 
 final _router = GoRouter(
@@ -34,9 +36,7 @@ final _router = GoRouter(
                 ForgotPasswordAction(((context, email) {
                   final uri = Uri(
                     path: '/sign-in/forgot-password',
-                    queryParameters: <String, String?>{
-                      'email': email,
-                    },
+                    queryParameters: <String, String?>{'email': email},
                   );
                   context.push(uri.toString());
                 })),
@@ -44,7 +44,7 @@ final _router = GoRouter(
                   final user = switch (state) {
                     SignedIn state => state.user,
                     UserCreated state => state.credential.user,
-                    _ => null
+                    _ => null,
                   };
                   if (user == null) {
                     return;
@@ -55,8 +55,10 @@ final _router = GoRouter(
                   if (!user.emailVerified) {
                     user.sendEmailVerification();
                     const snackBar = SnackBar(
-                        content: Text(
-                            'Please check your email to verify your email address'));
+                      content: Text(
+                        'Please check your email to verify your email address',
+                      ),
+                    );
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   }
                   context.pushReplacement('/');
@@ -103,13 +105,11 @@ class App extends StatelessWidget {
     return MaterialApp.router(
       title: 'Firebase Meetup',
       theme: ThemeData(
-        buttonTheme: Theme.of(context).buttonTheme.copyWith(
-              highlightColor: Colors.deepPurple,
-            ),
+        buttonTheme: Theme.of(
+          context,
+        ).buttonTheme.copyWith(highlightColor: Colors.deepPurple),
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        textTheme: GoogleFonts.robotoTextTheme(
-          Theme.of(context).textTheme,
-        ),
+        textTheme: GoogleFonts.robotoTextTheme(Theme.of(context).textTheme),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       routerConfig: _router,

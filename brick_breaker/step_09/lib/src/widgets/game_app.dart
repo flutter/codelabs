@@ -28,10 +28,7 @@ class GameApp extends StatelessWidget {
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
-              colors: [
-                Color(0xffa9d6e5),
-                Color(0xfff2e8cf),
-              ],
+              colors: [Color(0xffa9d6e5), Color(0xfff2e8cf)],
             ),
           ),
           child: SafeArea(
@@ -45,21 +42,24 @@ class GameApp extends StatelessWidget {
                     child: GameWidget.controlled(
                       gameFactory: BrickBreaker.new,
                       overlayBuilderMap: {
-                        PlayState.welcome.name: (context, game) => Center(
+                        PlayState.welcome.name:
+                            (context, game) => Center(
                               child: Text(
                                 'TAP TO PLAY',
                                 style:
                                     Theme.of(context).textTheme.headlineLarge,
                               ),
                             ),
-                        PlayState.gameOver.name: (context, game) => Center(
+                        PlayState.gameOver.name:
+                            (context, game) => Center(
                               child: Text(
                                 'G A M E   O V E R',
                                 style:
                                     Theme.of(context).textTheme.headlineLarge,
                               ),
                             ),
-                        PlayState.won.name: (context, game) => Center(
+                        PlayState.won.name:
+                            (context, game) => Center(
                               child: Text(
                                 'Y O U   W O N ! ! !',
                                 style:

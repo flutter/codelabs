@@ -72,10 +72,10 @@ class _TitleScreenState extends State<TitleScreen>
   Duration _getRndPulseDuration() => 100.ms + 200.ms * Random().nextDouble();
 
   double _getMinEnergyForDifficulty(int difficulty) => switch (difficulty) {
-        1 => 0.3,
-        2 => 0.6,
-        _ => 0,
-      };
+    1 => 0.3,
+    2 => 0.6,
+    _ => 0,
+  };
 
   @override
   void initState() {
@@ -168,9 +168,10 @@ class _TitleScreenState extends State<TitleScreen>
                             materialColor: orbColor,
                             lightColor: orbColor,
                           ),
-                          onUpdate: (energy) => setState(() {
-                            _orbEnergy = energy;
-                          }),
+                          onUpdate:
+                              (energy) => setState(() {
+                                _orbEnergy = energy;
+                              }),
                         ),
                       ],
                     ),
@@ -287,7 +288,7 @@ class _AnimatedColors extends StatelessWidget {
   final Color orbColor;
 
   final Widget Function(BuildContext context, Color orbColor, Color emitColor)
-      builder;
+  builder;
 
   @override
   Widget build(BuildContext context) {

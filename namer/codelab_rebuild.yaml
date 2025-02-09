@@ -20,7 +20,7 @@ steps:
           version: 0.0.1+1
 
           environment:
-            sdk: ^3.6.2
+            sdk: ^3.7.0-0
 
           dependencies:
             flutter:
@@ -54,7 +54,6 @@ steps:
               prefer_final_fields: false
               unnecessary_breaks: true
               use_key_in_widget_constructors: false
-
       - name: Replace lib/main.dart
         path: namer_app/lib/main.dart
         replace-contents: |
@@ -95,10 +94,7 @@ steps:
 
               return Scaffold(
                 body: Column(
-                  children: [
-                    Text('A random idea:'),
-                    Text(appState.current.asLowerCase),
-                  ],
+                  children: [Text('A random idea:'), Text(appState.current.asLowerCase)],
                 ),
               );
             }
@@ -150,22 +146,24 @@ steps:
         patch-u: |
           --- b/namer/step_04_a_widget/lib/main.dart
           +++ a/namer/step_04_a_widget/lib/main.dart
-          @@ -36,8 +36,14 @@ class MyHomePage extends StatelessWidget {
+          @@ -35,7 +35,16 @@ class MyHomePage extends StatelessWidget {
+           
                return Scaffold(
                  body: Column(
-                   children: [
-          -          Text('A random idea:'),
+          -        children: [Text('A random idea:'), Text(appState.current.asLowerCase)],
+          +        children: [
           +          Text('A random AWESOME idea:'),
-                     Text(appState.current.asLowerCase),
+          +          Text(appState.current.asLowerCase),
           +          ElevatedButton(
           +            onPressed: () {
           +              print('button pressed!');
           +            },
           +            child: Text('Next'),
           +          ),
-                   ],
+          +        ],
                  ),
                );
+             }
       - name: Patch test/widget_test.dart
         path: namer_app/test/widget_test.dart
         patch-u: |
@@ -216,38 +214,36 @@ steps:
       - name: Add additional test
         path: namer_app/test/widget_test.dart
         patch-u: |
-          --- a/namer_app/test/widget_test.dart
-          +++ b/namer_app/test/widget_test.dart
+          --- b/namer/step_04_b_behavior/test/widget_test.dart
+          +++ a/namer/step_04_b_behavior/test/widget_test.dart
           @@ -1,3 +1,4 @@
           +import 'package:flutter/material.dart';
            import 'package:flutter_test/flutter_test.dart';
            
            import 'package:namer_app/main.dart';
-          @@ -6,5 +7,45 @@
-             testWidgets('App starts', (WidgetTester tester) async {
+          @@ -7,4 +8,44 @@ void main() {
                await tester.pumpWidget(const MyApp());
                expect(find.text('A random AWESOME idea:'), findsOneWidget);
-          +  });
+             });
           +
           +  testWidgets('Tapping button changes word pair', (WidgetTester tester) async {
           +    await tester.pumpWidget(const MyApp());
           +
           +    String findWordPair() {
-          +      final wordPairTextWidget = tester
-          +          // Get all Text widgets...
-          +          .widgetList<Text>(find.byType(Text))
-          +          // ... skip one ('A random AWESOME idea:') ...
-          +          .skip(1)
-          +          // ... and take the first after it.
-          +          .first;
+          +      final wordPairTextWidget =
+          +          tester
+          +              // Get all Text widgets...
+          +              .widgetList<Text>(find.byType(Text))
+          +              // ... skip one ('A random AWESOME idea:') ...
+          +              .skip(1)
+          +              // ... and take the first after it.
+          +              .first;
           +      return wordPairTextWidget.data!;
           +    }
           +
           +    // Tap several times and keep a list of word pair values.
           +    const tryCount = 5;
-          +    final pairs = <String>[
-          +      findWordPair(),
-          +    ];
+          +    final pairs = <String>[findWordPair()];
           +    for (var i = 1; i < tryCount; i++) {
           +      await tester.tap(find.text('Next'));
           +      await tester.pumpAndSettle();
@@ -261,13 +257,14 @@ steps:
           +      // We only fail this test when there is zero variance - all the
           +      // word pairs are the same, even though we clicked 'Next' several times.
           +      hasLength(greaterThan(1)),
-          +      reason: 'After clicking $tryCount times, '
+          +      reason:
+          +          'After clicking $tryCount times, '
           +          'the app should have generated at least two different word pairs. '
           +          'Instead, the app showed these: $pairs. '
           +          'That almost certainly means that the word pair is not being '
           +          'randomly generated at all. The button does not work.',
           +    );
-             });
+          +  });
            }
       - name: Copy step_04_b_behavior
         copydir:
@@ -319,16 +316,13 @@ steps:
                      ElevatedButton(
                        onPressed: () {
                          appState.getNext();
-          @@ -55,3 +55,17 @@ class MyHomePage extends StatelessWidget {
+          @@ -55,3 +55,14 @@ class MyHomePage extends StatelessWidget {
                );
              }
            }
           +
           +class BigCard extends StatelessWidget {
-          +  const BigCard({
-          +    super.key,
-          +    required this.pair,
-          +  });
+          +  const BigCard({super.key, required this.pair});
           +
           +  final WordPair pair;
           +
@@ -340,23 +334,23 @@ steps:
       - name: Update test to use BigCard
         path: namer_app/test/widget_test.dart
         patch-u: |
-          --- a/namer_app/test/widget_test.dart
-          +++ b/namer_app/test/widget_test.dart
-          @@ -13,13 +13,10 @@ void main() {
+          --- b/namer/step_05_b_extract/test/widget_test.dart
+          +++ a/namer/step_05_b_extract/test/widget_test.dart
+          @@ -13,14 +13,9 @@ void main() {
                await tester.pumpWidget(const MyApp());
            
                String findWordPair() {
-          -      final wordPairTextWidget = tester
-          -          // Get all Text widgets...
-          -          .widgetList<Text>(find.byType(Text))
-          -          // ... skip one ('A random AWESOME idea:') ...
-          -          .skip(1)
-          -          // ... and take the first after it.
-          -          .first;
-          +      final wordPairTextWidget = tester.widget<Text>(find.descendant(
-          +        of: find.byType(BigCard),
-          +        matching: find.byType(Text),
-          +      ));
+          -      final wordPairTextWidget =
+          -          tester
+          -              // Get all Text widgets...
+          -              .widgetList<Text>(find.byType(Text))
+          -              // ... skip one ('A random AWESOME idea:') ...
+          -              .skip(1)
+          -              // ... and take the first after it.
+          -              .first;
+          +      final wordPairTextWidget = tester.widget<Text>(
+          +        find.descendant(of: find.byType(BigCard), matching: find.byType(Text)),
+          +      );
                  return wordPairTextWidget.data!;
                }
       - name: Copy step_05_b_extract
@@ -370,9 +364,9 @@ steps:
       - name: Add Card and Padding
         path: namer_app/lib/main.dart
         patch-u: |
-          --- a/namer_app/lib/main.dart
-          +++ b/namer_app/lib/main.dart
-          @@ -66,6 +66,11 @@ class BigCard extends StatelessWidget {
+          --- b/namer/step_05_c_card_padding/lib/main.dart
+          +++ a/namer/step_05_c_card_padding/lib/main.dart
+          @@ -63,6 +63,11 @@ class BigCard extends StatelessWidget {
            
              @override
              Widget build(BuildContext context) {
@@ -396,9 +390,9 @@ steps:
       - name: Add Theme
         path: namer_app/lib/main.dart
         patch-u: |
-          --- a/namer_app/lib/main.dart
-          +++ b/namer_app/lib/main.dart
-          @@ -66,7 +66,10 @@ class BigCard extends StatelessWidget {
+          --- b/namer/step_05_d_theme/lib/main.dart
+          +++ a/namer/step_05_d_theme/lib/main.dart
+          @@ -63,7 +63,10 @@ class BigCard extends StatelessWidget {
            
              @override
              Widget build(BuildContext context) {
@@ -420,9 +414,9 @@ steps:
       - name: Add textStyle
         path: namer_app/lib/main.dart
         patch-u: |
-          --- a/namer_app/lib/main.dart
-          +++ b/namer_app/lib/main.dart
-          @@ -67,12 +67,15 @@ class BigCard extends StatelessWidget {
+          --- b/namer/step_05_e_text_style/lib/main.dart
+          +++ a/namer/step_05_e_text_style/lib/main.dart
+          @@ -64,12 +64,15 @@ class BigCard extends StatelessWidget {
              @override
              Widget build(BuildContext context) {
                final theme = Theme.of(context);
@@ -450,9 +444,9 @@ steps:
       - name: Add semanticsLabel
         path: namer_app/lib/main.dart
         patch-u: |
-          --- a/namer_app/lib/main.dart
-          +++ b/namer_app/lib/main.dart
-          @@ -75,7 +75,11 @@ class BigCard extends StatelessWidget {
+          --- b/namer/step_05_f_accessibility/lib/main.dart
+          +++ a/namer/step_05_f_accessibility/lib/main.dart
+          @@ -72,7 +72,11 @@ class BigCard extends StatelessWidget {
                  color: theme.colorScheme.primary,
                  child: Padding(
                    padding: const EdgeInsets.all(20),
@@ -680,9 +674,9 @@ steps:
       - name: Add test to check 'Like' button
         path: namer_app/test/widget_test.dart
         patch-u: |
-          --- a/namer_app/test/widget_test.dart
-          +++ b/namer_app/test/widget_test.dart
-          @@ -45,4 +45,26 @@
+          --- b/namer/step_06_c_add_like_button/test/widget_test.dart
+          +++ a/namer/step_06_c_add_like_button/test/widget_test.dart
+          @@ -43,4 +43,26 @@ void main() {
                      'randomly generated at all. The button does not work.',
                );
              });
@@ -940,12 +934,12 @@ steps:
       - name: Add LayoutBuilder
         path: namer_app/lib/main.dart
         patch-u: |
-          --- a/namer_app/lib/main.dart
-          +++ b/namer_app/lib/main.dart
-          @@ -64,39 +64,41 @@
+          --- b/namer/step_07_e_add_layout_builder/lib/main.dart
+          +++ a/namer/step_07_e_add_layout_builder/lib/main.dart
+          @@ -64,38 +64,42 @@ class _MyHomePageState extends State<MyHomePage> {
                    throw UnimplementedError('no widget for $selectedIndex');
                }
-
+           
           -    return Scaffold(
           -      body: Row(
           -        children: [
@@ -956,11 +950,40 @@ steps:
           -                NavigationRailDestination(
           -                  icon: Icon(Icons.home),
           -                  label: Text('Home'),
-          -                ),
+          +    return LayoutBuilder(
+          +      builder: (context, constraints) {
+          +        return Scaffold(
+          +          body: Row(
+          +            children: [
+          +              SafeArea(
+          +                child: NavigationRail(
+          +                  extended: constraints.maxWidth >= 600,
+          +                  destinations: [
+          +                    NavigationRailDestination(
+          +                      icon: Icon(Icons.home),
+          +                      label: Text('Home'),
+          +                    ),
+          +                    NavigationRailDestination(
+          +                      icon: Icon(Icons.favorite),
+          +                      label: Text('Favorites'),
+          +                    ),
+          +                  ],
+          +                  selectedIndex: selectedIndex,
+          +                  onDestinationSelected: (value) {
+          +                    setState(() {
+          +                      selectedIndex = value;
+          +                    });
+          +                  },
+                           ),
           -                NavigationRailDestination(
           -                  icon: Icon(Icons.favorite),
           -                  label: Text('Favorites'),
-          -                ),
+          +              ),
+          +              Expanded(
+          +                child: Container(
+          +                  color: Theme.of(context).colorScheme.primaryContainer,
+          +                  child: page,
+                           ),
           -              ],
           -              selectedIndex: selectedIndex,
           -              onDestinationSelected: (value) {
@@ -968,50 +991,21 @@ steps:
           -                  selectedIndex = value;
           -                });
           -              },
-          +    return LayoutBuilder(builder: (context, constraints) {
-          +      return Scaffold(
-          +        body: Row(
-          +          children: [
-          +            SafeArea(
-          +              child: NavigationRail(
-          +                extended: constraints.maxWidth >= 600,
-          +                destinations: [
-          +                  NavigationRailDestination(
-          +                    icon: Icon(Icons.home),
-          +                    label: Text('Home'),
-          +                  ),
-          +                  NavigationRailDestination(
-          +                    icon: Icon(Icons.favorite),
-          +                    label: Text('Favorites'),
-          +                  ),
-          +                ],
-          +                selectedIndex: selectedIndex,
-          +                onDestinationSelected: (value) {
-          +                  setState(() {
-          +                    selectedIndex = value;
-          +                  });
-          +                },
-          +              ),
-                       ),
+          -            ),
           -          ),
           -          Expanded(
           -            child: Container(
           -              color: Theme.of(context).colorScheme.primaryContainer,
           -              child: page,
-          +            Expanded(
-          +              child: Container(
-          +                color: Theme.of(context).colorScheme.primaryContainer,
-          +                child: page,
+          -            ),
           +              ),
-                       ),
-          -          ),
+          +            ],
+                     ),
           -        ],
           -      ),
-          -    );
-          +          ],
-          +        ),
-          +      );
-          +    });
+          +        );
+          +      },
+               );
              }
            }
       - name: Copy step_07_e_add_layout_builder
@@ -1036,7 +1030,7 @@ steps:
                  default:
                    throw UnimplementedError('no widget for $selectedIndex');
                }
-          @@ -174,3 +174,31 @@ class BigCard extends StatelessWidget {
+          @@ -173,3 +173,31 @@ class BigCard extends StatelessWidget {
                );
              }
            }
@@ -1047,17 +1041,17 @@ steps:
           +    var appState = context.watch<MyAppState>();
           +
           +    if (appState.favorites.isEmpty) {
-          +      return Center(
-          +        child: Text('No favorites yet.'),
-          +      );
+          +      return Center(child: Text('No favorites yet.'));
           +    }
           +
           +    return ListView(
           +      children: [
           +        Padding(
           +          padding: const EdgeInsets.all(20),
-          +          child: Text('You have '
-          +              '${appState.favorites.length} favorites:'),
+          +          child: Text(
+          +            'You have '
+          +            '${appState.favorites.length} favorites:',
+          +          ),
           +        ),
           +        for (var pair in appState.favorites)
           +          ListTile(
@@ -1071,48 +1065,54 @@ steps:
       - name: Add test to check FavoritesPage
         path: namer_app/test/widget_test.dart
         patch-u: |
-          --- a/namer_app/test/widget_test.dart
-          +++ b/namer_app/test/widget_test.dart
-          @@ -67,4 +67,45 @@ void main() {
+          --- b/namer/step_08/test/widget_test.dart
+          +++ a/namer/step_08/test/widget_test.dart
+          @@ -65,4 +65,51 @@ void main() {
                expect(findElevatedButtonByIcon(Icons.favorite_border), findsNothing);
                expect(findElevatedButtonByIcon(Icons.favorite), findsOneWidget);
              });
           +
-          +  testWidgets('Liked word pair shows up in Favorites',
-          +      (WidgetTester tester) async {
+          +  testWidgets('Liked word pair shows up in Favorites', (
+          +    WidgetTester tester,
+          +  ) async {
           +    await tester.pumpWidget(const MyApp());
           +
           +    // Find the currently shown word pair.
-          +    final wordPairTextWidget = tester.widget<Text>(find.descendant(
-          +      of: find.byType(BigCard),
-          +      matching: find.byType(Text),
-          +    ));
+          +    final wordPairTextWidget = tester.widget<Text>(
+          +      find.descendant(of: find.byType(BigCard), matching: find.byType(Text)),
+          +    );
           +    final current = wordPairTextWidget.data!;
           +
           +    // Go to the Favorites page.
-          +    await tester.tap(find.descendant(
-          +      of: find.byType(NavigationRail),
-          +      matching: find.byIcon(Icons.favorite),
-          +    ));
+          +    await tester.tap(
+          +      find.descendant(
+          +        of: find.byType(NavigationRail),
+          +        matching: find.byIcon(Icons.favorite),
+          +      ),
+          +    );
           +    await tester.pumpAndSettle();
           +
           +    // Not there yet.
           +    expect(find.text(current), findsNothing);
           +
           +    // Go back to the Generator page.
-          +    await tester.tap(find.descendant(
-          +      of: find.byType(NavigationRail),
-          +      matching: find.byIcon(Icons.home),
-          +    ));
+          +    await tester.tap(
+          +      find.descendant(
+          +        of: find.byType(NavigationRail),
+          +        matching: find.byIcon(Icons.home),
+          +      ),
+          +    );
           +    await tester.pumpAndSettle();
           +
           +    await tester.tap(find.text('Like'));
           +
           +    // Go to Favorites page once again.
-          +    await tester.tap(find.descendant(
-          +      of: find.byType(NavigationRail),
-          +      matching: find.byIcon(Icons.favorite),
-          +    ));
+          +    await tester.tap(
+          +      find.descendant(
+          +        of: find.byType(NavigationRail),
+          +        matching: find.byIcon(Icons.favorite),
+          +      ),
+          +    );
           +    await tester.pumpAndSettle();
           +
           +    // Should be there.

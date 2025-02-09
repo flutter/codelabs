@@ -2,10 +2,7 @@ import 'package:googleapis/firestore/v1.dart';
 
 import 'products.dart';
 
-enum IAPSource {
-  googleplay,
-  appstore,
-}
+enum IAPSource { googleplay, appstore }
 
 abstract class Purchase {
   final IAPSource iapSource;
@@ -30,8 +27,9 @@ abstract class Purchase {
       'orderId': Value(stringValue: orderId),
       'productId': Value(stringValue: productId),
       'userId': Value(stringValue: userId),
-      'purchaseDate':
-          Value(timestampValue: purchaseDate.toUtc().toIso8601String()),
+      'purchaseDate': Value(
+        timestampValue: purchaseDate.toUtc().toIso8601String(),
+      ),
       'type': Value(stringValue: type.name),
     };
   }
@@ -40,46 +38,51 @@ abstract class Purchase {
 
   static Purchase fromDocument(Document e) {
     final type = ProductType.values.firstWhere(
-        (element) => element.name == e.fields!['type']!.stringValue);
+      (element) => element.name == e.fields!['type']!.stringValue,
+    );
     switch (type) {
       case ProductType.subscription:
         return SubscriptionPurchase(
-          iapSource: e.fields!['iapSource']!.stringValue == 'googleplay'
-              ? IAPSource.googleplay
-              : IAPSource.appstore,
+          iapSource:
+              e.fields!['iapSource']!.stringValue == 'googleplay'
+                  ? IAPSource.googleplay
+                  : IAPSource.appstore,
           orderId: e.fields!['orderId']!.stringValue!,
           productId: e.fields!['productId']!.stringValue!,
           userId: e.fields!['userId']!.stringValue,
-          purchaseDate:
-              DateTime.parse(e.fields!['purchaseDate']!.timestampValue!),
+          purchaseDate: DateTime.parse(
+            e.fields!['purchaseDate']!.timestampValue!,
+          ),
           status: SubscriptionStatus.values.firstWhere(
-              (element) => element.name == e.fields!['status']!.stringValue),
-          expiryDate: DateTime.tryParse(
-                  e.fields!['expiryDate']?.timestampValue ?? '') ??
+            (element) => element.name == e.fields!['status']!.stringValue,
+          ),
+          expiryDate:
+              DateTime.tryParse(
+                e.fields!['expiryDate']?.timestampValue ?? '',
+              ) ??
               DateTime.now(),
         );
       case ProductType.nonSubscription:
         return NonSubscriptionPurchase(
-          iapSource: e.fields!['iapSource']!.stringValue == 'googleplay'
-              ? IAPSource.googleplay
-              : IAPSource.appstore,
+          iapSource:
+              e.fields!['iapSource']!.stringValue == 'googleplay'
+                  ? IAPSource.googleplay
+                  : IAPSource.appstore,
           orderId: e.fields!['orderId']!.stringValue!,
           productId: e.fields!['productId']!.stringValue!,
           userId: e.fields!['userId']!.stringValue,
-          purchaseDate:
-              DateTime.parse(e.fields!['purchaseDate']!.timestampValue!),
+          purchaseDate: DateTime.parse(
+            e.fields!['purchaseDate']!.timestampValue!,
+          ),
           status: NonSubscriptionStatus.values.firstWhere(
-              (element) => element.name == e.fields!['status']!.stringValue),
+            (element) => element.name == e.fields!['status']!.stringValue,
+          ),
         );
     }
   }
 }
 
-enum NonSubscriptionStatus {
-  pending,
-  completed,
-  cancelled,
-}
+enum NonSubscriptionStatus { pending, completed, cancelled }
 
 enum SubscriptionStatus { pending, active, expired }
 
@@ -99,17 +102,13 @@ class NonSubscriptionPurchase extends Purchase {
   @override
   Map<String, Value> toDocument() {
     final doc = super.toDocument();
-    doc.addAll({
-      'status': Value(stringValue: status.name),
-    });
+    doc.addAll({'status': Value(stringValue: status.name)});
     return doc;
   }
 
   @override
   Map<String, Value> updateDocument() {
-    return {
-      'status': Value(stringValue: status.name),
-    };
+    return {'status': Value(stringValue: status.name)};
   }
 
   @override
@@ -153,9 +152,7 @@ class SubscriptionPurchase extends Purchase {
 
   @override
   Map<String, Value> updateDocument() {
-    return {
-      'status': Value(stringValue: status.name),
-    };
+    return {'status': Value(stringValue: status.name)};
   }
 
   @override
@@ -187,9 +184,10 @@ class IapRepository {
         writes: [
           Write(
             update: Document(
-                fields: purchaseData.toDocument(),
-                name:
-                    'projects/$projectId/databases/(default)/documents/purchases/$purchaseId'),
+              fields: purchaseData.toDocument(),
+              name:
+                  'projects/$projectId/databases/(default)/documents/purchases/$purchaseId',
+            ),
           ),
         ],
       ),
@@ -205,9 +203,10 @@ class IapRepository {
         writes: [
           Write(
             update: Document(
-                fields: purchaseData.updateDocument(),
-                name:
-                    'projects/$projectId/databases/(default)/documents/purchases/$purchaseId'),
+              fields: purchaseData.updateDocument(),
+              name:
+                  'projects/$projectId/databases/(default)/documents/purchases/$purchaseId',
+            ),
             updateMask: DocumentMask(fieldPaths: ['status']),
           ),
         ],

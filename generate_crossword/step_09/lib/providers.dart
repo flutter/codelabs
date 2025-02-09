@@ -27,10 +27,16 @@ Future<BuiltSet<String>> wordList(Ref ref) async {
 
   final re = RegExp(r'^[a-z]+$');
   final words = await rootBundle.loadString('assets/words.txt');
-  return const LineSplitter().convert(words).toBuiltSet().rebuild((b) => b
-    ..map((word) => word.toLowerCase().trim())
-    ..where((word) => word.length > 2)
-    ..where((word) => re.hasMatch(word)));
+  return const LineSplitter()
+      .convert(words)
+      .toBuiltSet()
+      .rebuild(
+        (b) =>
+            b
+              ..map((word) => word.toLowerCase().trim())
+              ..where((word) => word.length > 2)
+              ..where((word) => re.hasMatch(word)),
+      );
 }
 
 /// An enumeration for different sizes of [model.Crossword]s.
@@ -41,10 +47,7 @@ enum CrosswordSize {
   xlarge(width: 160, height: 88),
   xxlarge(width: 500, height: 500);
 
-  const CrosswordSize({
-    required this.width,
-    required this.height,
-  });
+  const CrosswordSize({required this.width, required this.height});
 
   final int width;
   final int height;
@@ -69,8 +72,10 @@ class Size extends _$Size {
 Stream<model.WorkQueue> workQueue(Ref ref) async* {
   final size = ref.watch(sizeProvider);
   final wordListAsync = ref.watch(wordListProvider);
-  final emptyCrossword =
-      model.Crossword.crossword(width: size.width, height: size.height);
+  final emptyCrossword = model.Crossword.crossword(
+    width: size.width,
+    height: size.height,
+  );
   final emptyWorkQueue = model.WorkQueue.from(
     crossword: emptyCrossword,
     candidateWords: BuiltSet<String>(),
@@ -78,11 +83,12 @@ Stream<model.WorkQueue> workQueue(Ref ref) async* {
   );
 
   yield* wordListAsync.when(
-    data: (wordList) => exploreCrosswordSolutions(
-      crossword: emptyCrossword,
-      wordList: wordList,
-      maxWorkerCount: backgroundWorkerCount,
-    ),
+    data:
+        (wordList) => exploreCrosswordSolutions(
+          crossword: emptyCrossword,
+          wordList: wordList,
+          maxWorkerCount: backgroundWorkerCount,
+        ),
     error: (error, stackTrace) async* {
       debugPrint('Error loading word list: $error');
       yield emptyWorkQueue;
@@ -112,8 +118,10 @@ class Puzzle extends _$Puzzle {
         (_puzzle.crossword.height != size.height ||
             _puzzle.crossword.width != size.width ||
             _puzzle.crossword != workQueue.crossword)) {
-      compute(_puzzleFromCrosswordTrampoline, (workQueue.crossword, wordList))
-          .then((puzzle) {
+      compute(_puzzleFromCrosswordTrampoline, (
+        workQueue.crossword,
+        wordList,
+      )).then((puzzle) {
         _puzzle = puzzle;
         ref.invalidateSelf();
       });
@@ -127,8 +135,12 @@ class Puzzle extends _$Puzzle {
     required String word,
     required model.Direction direction,
   }) async {
-    final candidate = await compute(
-        _puzzleSelectWordTrampoline, (_puzzle, location, word, direction));
+    final candidate = await compute(_puzzleSelectWordTrampoline, (
+      _puzzle,
+      location,
+      word,
+      direction,
+    ));
 
     if (candidate != null) {
       _puzzle = candidate;
@@ -155,14 +167,10 @@ class Puzzle extends _$Puzzle {
 // unsendable reference to the [Puzzle] provider.
 
 Future<model.CrosswordPuzzleGame> _puzzleFromCrosswordTrampoline(
-        (model.Crossword, BuiltSet<String>) args) async =>
+  (model.Crossword, BuiltSet<String>) args,
+) async =>
     model.CrosswordPuzzleGame.from(crossword: args.$1, candidateWords: args.$2);
 
 model.CrosswordPuzzleGame? _puzzleSelectWordTrampoline(
-        (
-          model.CrosswordPuzzleGame,
-          model.Location,
-          String,
-          model.Direction
-        ) args) =>
-    args.$1.selectWord(location: args.$2, word: args.$3, direction: args.$4);
+  (model.CrosswordPuzzleGame, model.Location, String, model.Direction) args,
+) => args.$1.selectWord(location: args.$2, word: args.$3, direction: args.$4);

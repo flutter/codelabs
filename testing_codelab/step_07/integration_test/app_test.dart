@@ -11,11 +11,7 @@ void main() {
     testWidgets('Favorites operations test', (tester) async {
       await tester.pumpWidget(const TestingApp());
 
-      final iconKeys = [
-        'icon_0',
-        'icon_1',
-        'icon_2',
-      ];
+      final iconKeys = ['icon_0', 'icon_1', 'icon_2'];
 
       for (var icon in iconKeys) {
         await tester.tap(find.byKey(ValueKey(icon)));

@@ -4,7 +4,7 @@ version: 1.0.0
 # repository: https://github.com/my_org/my_repo
 
 environment:
-  sdk: ^3.6.2
+  sdk: ^3.7.0-0
 
 dependencies:
   app_store_server_sdk: ^1.2.9

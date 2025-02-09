@@ -29,24 +29,35 @@ Stream<WorkQueue> exploreCrosswordSolutions({
     }
   }
 
-  debugPrint('Generated ${workQueue.crossword.width} x '
-      '${workQueue.crossword.height} crossword in '
-      '${DateTime.now().difference(start).formatted} '
-      'with $maxWorkerCount workers.');
+  debugPrint(
+    'Generated ${workQueue.crossword.width} x '
+    '${workQueue.crossword.height} crossword in '
+    '${DateTime.now().difference(start).formatted} '
+    'with $maxWorkerCount workers.',
+  );
 }
 
 Future<WorkQueue> _generate((WorkQueue, int) workMessage) async {
   var (workQueue, maxWorkerCount) = workMessage;
   final candidateGeneratorFutures = <Future<(Location, Direction, String?)>>[];
-  final locations = workQueue.locationsToTry.keys.toBuiltList().rebuild((b) => b
-    ..shuffle()
-    ..take(maxWorkerCount));
+  final locations = workQueue.locationsToTry.keys.toBuiltList().rebuild(
+    (b) =>
+        b
+          ..shuffle()
+          ..take(maxWorkerCount),
+  );
 
   for (final location in locations) {
     final direction = workQueue.locationsToTry[location]!;
 
-    candidateGeneratorFutures.add(compute(_generateCandidate,
-        (workQueue.crossword, workQueue.candidateWords, location, direction)));
+    candidateGeneratorFutures.add(
+      compute(_generateCandidate, (
+        workQueue.crossword,
+        workQueue.candidateWords,
+        location,
+        direction,
+      )),
+    );
   }
 
   try {
@@ -55,7 +66,10 @@ Future<WorkQueue> _generate((WorkQueue, int) workMessage) async {
     for (final (location, direction, word) in results) {
       if (word != null) {
         final candidate = crossword.addWord(
-            location: location, word: word, direction: direction);
+          location: location,
+          word: word,
+          direction: direction,
+        );
         if (candidate != null) {
           crossword = candidate;
         }
@@ -73,7 +87,8 @@ Future<WorkQueue> _generate((WorkQueue, int) workMessage) async {
 }
 
 (Location, Direction, String?) _generateCandidate(
-    (Crossword, BuiltSet<String>, Location, Direction) searchDetailMessage) {
+  (Crossword, BuiltSet<String>, Location, Direction) searchDetailMessage,
+) {
   final (crossword, candidateWords, location, direction) = searchDetailMessage;
 
   final target = crossword.characters[location];
@@ -83,9 +98,12 @@ Future<WorkQueue> _generate((WorkQueue, int) workMessage) async {
 
   // Filter down the candidate word list to those that contain the letter
   // at the current location
-  final words = candidateWords.toBuiltList().rebuild((b) => b
-    ..where((b) => b.characters.contains(target.character))
-    ..shuffle());
+  final words = candidateWords.toBuiltList().rebuild(
+    (b) =>
+        b
+          ..where((b) => b.characters.contains(target.character))
+          ..shuffle(),
+  );
   int tryCount = 0;
   final start = DateTime.now();
   for (final word in words) {

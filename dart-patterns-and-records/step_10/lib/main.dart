@@ -17,9 +17,7 @@ class DocumentApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(),
-      home: DocumentScreen(
-        document: Document(),
-      ),
+      home: DocumentScreen(document: Document()),
     );
   }
 }
@@ -27,10 +25,7 @@ class DocumentApp extends StatelessWidget {
 class DocumentScreen extends StatelessWidget {
   final Document document;
 
-  const DocumentScreen({
-    required this.document,
-    super.key,
-  });
+  const DocumentScreen({required this.document, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +33,7 @@ class DocumentScreen extends StatelessWidget {
     final blocks = document.getBlocks();
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
+      appBar: AppBar(title: Text(title)),
       body: Column(
         children: [
           Text('Last modified: $modified'),
@@ -61,10 +54,7 @@ class DocumentScreen extends StatelessWidget {
 class BlockWidget extends StatelessWidget {
   final Block block;
 
-  const BlockWidget({
-    required this.block,
-    super.key,
-  });
+  const BlockWidget({required this.block, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -72,15 +62,12 @@ class BlockWidget extends StatelessWidget {
     textStyle = switch (block.type) {
       'h1' => Theme.of(context).textTheme.displayMedium,
       'p' || 'checkbox' => Theme.of(context).textTheme.bodyMedium,
-      _ => Theme.of(context).textTheme.bodySmall
+      _ => Theme.of(context).textTheme.bodySmall,
     };
 
     return Container(
       margin: const EdgeInsets.all(8),
-      child: Text(
-        block.text,
-        style: textStyle,
-      ),
+      child: Text(block.text, style: textStyle),
     );
   }
 }

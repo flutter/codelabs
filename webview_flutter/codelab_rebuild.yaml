@@ -42,8 +42,8 @@ steps:
       - name: Add webview_flutter
         path: webview_in_flutter
         flutter: pub add webview_flutter
-      - name: Patch android/app/build.gradle
-        path: webview_in_flutter/android/app/build.gradle
+      - name: Patch android/app/build.gradle.kts
+        path: webview_in_flutter/android/app/build.gradle.kts
         patch-u: |
           --- b/webview_flutter/step_03/android/app/build.gradle
           +++ a/webview_flutter/step_03/android/app/build.gradle
@@ -56,30 +56,6 @@ steps:
                    targetSdk = flutter.targetSdkVersion
                    versionCode = flutter.versionCode
                    versionName = flutter.versionName
-      - name: Patch android/settings.gradle
-        path: webview_in_flutter/android/settings.gradle
-        patch-u: |
-          --- b/boring_to_beautiful/step_01/android/settings.gradle
-          +++ a/boring_to_beautiful/step_01/android/settings.gradle
-          @@ -18,7 +18,7 @@ pluginManagement {
-           
-           plugins {
-               id "dev.flutter.flutter-plugin-loader" version "1.0.0"
-          -    id "com.android.application" version "8.1.0" apply false
-          +    id "com.android.application" version "8.7.3" apply false
-               id "org.jetbrains.kotlin.android" version "1.8.22" apply false
-           }
-      - name: Patch android/gradle/wrapper/gradle-wrapper.properties
-        path: webview_in_flutter/android/gradle/wrapper/gradle-wrapper.properties
-        patch-u: |
-          --- b/boring_to_beautiful/step_01/android/gradle/wrapper/gradle-wrapper.properties
-          +++ a/boring_to_beautiful/step_01/android/gradle/wrapper/gradle-wrapper.properties
-          @@ -2,4 +2,4 @@ distributionBase=GRADLE_USER_HOME
-           distributionPath=wrapper/dists
-           zipStoreBase=GRADLE_USER_HOME
-           zipStorePath=wrapper/dists
-          -distributionUrl=https\://services.gradle.org/distributions/gradle-8.3-all.zip
-          +distributionUrl=https\://services.gradle.org/distributions/gradle-8.12-all.zip
       - name: Build iOS
         platforms: [ macos ]
         path: webview_in_flutter
@@ -102,47 +78,36 @@ steps:
           // Copyright 2022 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-          
+
           import 'package:flutter/material.dart';
           import 'package:webview_flutter/webview_flutter.dart';
-          
+
           void main() {
-            runApp(
-              MaterialApp(
-                theme: ThemeData(),
-                home: const WebViewApp(),
-              ),
-            );
+            runApp(MaterialApp(theme: ThemeData(), home: const WebViewApp()));
           }
-          
+
           class WebViewApp extends StatefulWidget {
             const WebViewApp({super.key});
-          
+
             @override
             State<WebViewApp> createState() => _WebViewAppState();
           }
-          
+
           class _WebViewAppState extends State<WebViewApp> {
             late final WebViewController controller;
-          
+
             @override
             void initState() {
               super.initState();
-              controller = WebViewController()
-                ..loadRequest(
-                  Uri.parse('https://flutter.dev'),
-                );
+              controller =
+                  WebViewController()..loadRequest(Uri.parse('https://flutter.dev'));
             }
-          
+
             @override
             Widget build(BuildContext context) {
               return Scaffold(
-                appBar: AppBar(
-                  title: const Text('Flutter WebView'),
-                ),
-                body: WebViewWidget(
-                  controller: controller,
-                ),
+                appBar: AppBar(title: const Text('Flutter WebView')),
+                body: WebViewWidget(controller: controller),
               );
             }
           }
@@ -168,55 +133,52 @@ steps:
 
           import 'package:flutter/material.dart';
           import 'package:webview_flutter/webview_flutter.dart';
-          
+
           class WebViewStack extends StatefulWidget {
             const WebViewStack({super.key});
-          
+
             @override
             State<WebViewStack> createState() => _WebViewStackState();
           }
-          
+
           class _WebViewStackState extends State<WebViewStack> {
             var loadingPercentage = 0;
             late final WebViewController controller;
-          
+
             @override
             void initState() {
               super.initState();
-              controller = WebViewController()
-                ..setNavigationDelegate(NavigationDelegate(
-                  onPageStarted: (url) {
-                    setState(() {
-                      loadingPercentage = 0;
-                    });
-                  },
-                  onProgress: (progress) {
-                    setState(() {
-                      loadingPercentage = progress;
-                    });
-                  },
-                  onPageFinished: (url) {
-                    setState(() {
-                      loadingPercentage = 100;
-                    });
-                  },
-                ))
-                ..loadRequest(
-                  Uri.parse('https://flutter.dev'),
-                );
+              controller =
+                  WebViewController()
+                    ..setNavigationDelegate(
+                      NavigationDelegate(
+                        onPageStarted: (url) {
+                          setState(() {
+                            loadingPercentage = 0;
+                          });
+                        },
+                        onProgress: (progress) {
+                          setState(() {
+                            loadingPercentage = progress;
+                          });
+                        },
+                        onPageFinished: (url) {
+                          setState(() {
+                            loadingPercentage = 100;
+                          });
+                        },
+                      ),
+                    )
+                    ..loadRequest(Uri.parse('https://flutter.dev'));
             }
-          
+
             @override
             Widget build(BuildContext context) {
               return Stack(
                 children: [
-                  WebViewWidget(
-                    controller: controller,
-                  ),
+                  WebViewWidget(controller: controller),
                   if (loadingPercentage < 100)
-                    LinearProgressIndicator(
-                      value: loadingPercentage / 100.0,
-                    ),
+                    LinearProgressIndicator(value: loadingPercentage / 100.0),
                 ],
               );
             }
@@ -235,8 +197,8 @@ steps:
           +import 'src/web_view_stack.dart';
            
            void main() {
-             runApp(
-          @@ -22,26 +23,13 @@ class WebViewApp extends StatefulWidget {
+             runApp(MaterialApp(theme: ThemeData(), home: const WebViewApp()));
+          @@ -17,20 +18,11 @@ class WebViewApp extends StatefulWidget {
            }
            
            class _WebViewAppState extends State<WebViewApp> {
@@ -245,21 +207,15 @@ steps:
           -  @override
           -  void initState() {
           -    super.initState();
-          -    controller = WebViewController()
-          -      ..loadRequest(
-          -        Uri.parse('https://flutter.dev'),
-          -      );
+          -    controller =
+          -        WebViewController()..loadRequest(Uri.parse('https://flutter.dev'));
           -  }
           -
              @override
              Widget build(BuildContext context) {
                return Scaffold(
-                 appBar: AppBar(
-                   title: const Text('Flutter WebView'),
-                 ),
-          -      body: WebViewWidget(
-          -        controller: controller,
-          -      ),
+                 appBar: AppBar(title: const Text('Flutter WebView')),
+          -      body: WebViewWidget(controller: controller),
           +      body: const WebViewStack(),
                );
              }
@@ -344,7 +300,7 @@ steps:
            import 'src/web_view_stack.dart';
            
            void main() {
-          @@ -23,13 +25,27 @@ class WebViewApp extends StatefulWidget {
+          @@ -18,11 +20,23 @@ class WebViewApp extends StatefulWidget {
            }
            
            class _WebViewAppState extends State<WebViewApp> {
@@ -353,22 +309,19 @@ steps:
           +  @override
           +  void initState() {
           +    super.initState();
-          +    controller = WebViewController()
-          +      ..loadRequest(
-          +        Uri.parse('https://flutter.dev'),
-          +      );
+          +    controller =
+          +        WebViewController()..loadRequest(Uri.parse('https://flutter.dev'));
           +  }
           +
              @override
              Widget build(BuildContext context) {
                return Scaffold(
-                 appBar: AppBar(
-                   title: const Text('Flutter WebView'),
-          +        actions: [
-          +          NavigationControls(controller: controller),
-          +        ],
-                 ),
+          -      appBar: AppBar(title: const Text('Flutter WebView')),
           -      body: const WebViewStack(),
+          +      appBar: AppBar(
+          +        title: const Text('Flutter WebView'),
+          +        actions: [NavigationControls(controller: controller)],
+          +      ),
           +      body: WebViewStack(controller: controller),
                );
              }
@@ -389,7 +342,7 @@ steps:
            
              @override
              State<WebViewStack> createState() => _WebViewStackState();
-          @@ -14,13 +16,12 @@ class WebViewStack extends StatefulWidget {
+          @@ -14,40 +16,36 @@ class WebViewStack extends StatefulWidget {
            
            class _WebViewStackState extends State<WebViewStack> {
              var loadingPercentage = 0;
@@ -398,35 +351,58 @@ steps:
              @override
              void initState() {
                super.initState();
-          -    controller = WebViewController()
-          -      ..setNavigationDelegate(NavigationDelegate(
+          -    controller =
+          -        WebViewController()
+          -          ..setNavigationDelegate(
+          -            NavigationDelegate(
+          -              onPageStarted: (url) {
+          -                setState(() {
+          -                  loadingPercentage = 0;
+          -                });
+          -              },
+          -              onProgress: (progress) {
+          -                setState(() {
+          -                  loadingPercentage = progress;
+          -                });
+          -              },
+          -              onPageFinished: (url) {
+          -                setState(() {
+          -                  loadingPercentage = 100;
+          -                });
+          -              },
+          -            ),
+          -          )
+          -          ..loadRequest(Uri.parse('https://flutter.dev'));
           +    widget.controller.setNavigationDelegate(
           +      NavigationDelegate(
-                   onPageStarted: (url) {
-                     setState(() {
-                       loadingPercentage = 0;
-          @@ -36,10 +37,8 @@ class _WebViewStackState extends State<WebViewStack> {
-                       loadingPercentage = 100;
-                     });
-                   },
-          -      ))
-          -      ..loadRequest(
-          -        Uri.parse('https://flutter.dev'),
-          -      );
+          +        onPageStarted: (url) {
+          +          setState(() {
+          +            loadingPercentage = 0;
+          +          });
+          +        },
+          +        onProgress: (progress) {
+          +          setState(() {
+          +            loadingPercentage = progress;
+          +          });
+          +        },
+          +        onPageFinished: (url) {
+          +          setState(() {
+          +            loadingPercentage = 100;
+          +          });
+          +        },
           +      ),
           +    );
              }
            
              @override
-          @@ -47,7 +46,7 @@ class _WebViewStackState extends State<WebViewStack> {
+             Widget build(BuildContext context) {
                return Stack(
                  children: [
-                   WebViewWidget(
-          -          controller: controller,
-          +          controller: widget.controller,
-                   ),
+          -        WebViewWidget(controller: controller),
+          +        WebViewWidget(controller: widget.controller),
                    if (loadingPercentage < 100)
-                     LinearProgressIndicator(
+                     LinearProgressIndicator(value: loadingPercentage / 100.0),
+                 ],
       - name: Copy step_06
         copydir:
           from: webview_in_flutter
@@ -440,7 +416,7 @@ steps:
         patch-u: |
           --- b/webview_flutter/step_07/lib/src/web_view_stack.dart
           +++ a/webview_flutter/step_07/lib/src/web_view_stack.dart
-          @@ -37,6 +37,20 @@ class _WebViewStackState extends State<WebViewStack> {
+          @@ -37,6 +37,16 @@ class _WebViewStackState extends State<WebViewStack> {
                        loadingPercentage = 100;
                      });
                    },
@@ -448,11 +424,7 @@ steps:
           +          final host = Uri.parse(navigation.url).host;
           +          if (host.contains('youtube.com')) {
           +            ScaffoldMessenger.of(context).showSnackBar(
-          +              SnackBar(
-          +                content: Text(
-          +                  'Blocking navigation to $host',
-          +                ),
-          +              ),
+          +              SnackBar(content: Text('Blocking navigation to $host')),
           +            );
           +            return NavigationDecision.prevent;
           +          }
@@ -475,19 +447,17 @@ steps:
           // Copyright 2022 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-          
+
           import 'package:flutter/material.dart';
           import 'package:webview_flutter/webview_flutter.dart';
-          
-          enum _MenuOptions {
-            navigationDelegate,
-          }
-          
+
+          enum _MenuOptions { navigationDelegate }
+
           class Menu extends StatelessWidget {
             const Menu({required this.controller, super.key});
-          
+
             final WebViewController controller;
-          
+
             @override
             Widget build(BuildContext context) {
               return PopupMenuButton<_MenuOptions>(
@@ -497,12 +467,13 @@ steps:
                       await controller.loadRequest(Uri.parse('https://youtube.com'));
                   }
                 },
-                itemBuilder: (context) => [
-                  const PopupMenuItem<_MenuOptions>(
-                    value: _MenuOptions.navigationDelegate,
-                    child: Text('Navigate to YouTube'),
-                  ),
-                ],
+                itemBuilder:
+                    (context) => [
+                      const PopupMenuItem<_MenuOptions>(
+                        value: _MenuOptions.navigationDelegate,
+                        child: Text('Navigate to YouTube'),
+                      ),
+                    ],
               );
             }
           }
@@ -519,14 +490,18 @@ steps:
            import 'src/navigation_controls.dart';
            import 'src/web_view_stack.dart';
            
-          @@ -43,6 +44,7 @@ class _WebViewAppState extends State<WebViewApp> {
+          @@ -34,7 +35,10 @@ class _WebViewAppState extends State<WebViewApp> {
+               return Scaffold(
+                 appBar: AppBar(
                    title: const Text('Flutter WebView'),
-                   actions: [
-                     NavigationControls(controller: controller),
+          -        actions: [NavigationControls(controller: controller)],
+          +        actions: [
+          +          NavigationControls(controller: controller),
           +          Menu(controller: controller),
-                   ],
+          +        ],
                  ),
                  body: WebViewStack(controller: controller),
+               );
       - name: Copy step_08
         copydir:
           from: webview_in_flutter
@@ -540,12 +515,12 @@ steps:
         patch-u: |
           --- b/webview_flutter/step_09/lib/src/menu.dart
           +++ a/webview_flutter/step_09/lib/src/menu.dart
-          @@ -7,20 +7,34 @@ import 'package:webview_flutter/webview_flutter.dart';
+          @@ -5,20 +5,34 @@
+           import 'package:flutter/material.dart';
+           import 'package:webview_flutter/webview_flutter.dart';
            
-           enum _MenuOptions {
-             navigationDelegate,
-          +  userAgent,
-           }
+          -enum _MenuOptions { navigationDelegate }
+          +enum _MenuOptions { navigationDelegate, userAgent }
            
           -class Menu extends StatelessWidget {
           +class Menu extends StatefulWidget {
@@ -565,27 +540,28 @@ steps:
                    switch (value) {
                      case _MenuOptions.navigationDelegate:
           -            await controller.loadRequest(Uri.parse('https://youtube.com'));
-          +            await widget.controller
-          +                .loadRequest(Uri.parse('https://youtube.com'));
+          +            await widget.controller.loadRequest(
+          +              Uri.parse('https://youtube.com'),
+          +            );
           +          case _MenuOptions.userAgent:
           +            final userAgent = await widget.controller
           +                .runJavaScriptReturningResult('navigator.userAgent');
           +            if (!context.mounted) return;
-          +            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          +              content: Text('$userAgent'),
-          +            ));
+          +            ScaffoldMessenger.of(
+          +              context,
+          +            ).showSnackBar(SnackBar(content: Text('$userAgent')));
                    }
                  },
-                 itemBuilder: (context) => [
-          @@ -28,6 +42,10 @@ class Menu extends StatelessWidget {
-                     value: _MenuOptions.navigationDelegate,
-                     child: Text('Navigate to YouTube'),
-                   ),
-          +        const PopupMenuItem<_MenuOptions>(
-          +          value: _MenuOptions.userAgent,
-          +          child: Text('Show user-agent'),
-          +        ),
-                 ],
+                 itemBuilder:
+          @@ -27,6 +41,10 @@ class Menu extends StatelessWidget {
+                         value: _MenuOptions.navigationDelegate,
+                         child: Text('Navigate to YouTube'),
+                       ),
+          +            const PopupMenuItem<_MenuOptions>(
+          +              value: _MenuOptions.userAgent,
+          +              child: Text('Show user-agent'),
+          +            ),
+                     ],
                );
              }
       - name: Patch lib/src/web_view_stack.dart
@@ -593,7 +569,7 @@ steps:
         patch-u: |
           --- b/webview_flutter/step_09/lib/src/web_view_stack.dart
           +++ a/webview_flutter/step_09/lib/src/web_view_stack.dart
-          @@ -20,39 +20,41 @@ class _WebViewStackState extends State<WebViewStack> {
+          @@ -20,35 +20,37 @@ class _WebViewStackState extends State<WebViewStack> {
              @override
              void initState() {
                super.initState();
@@ -618,9 +594,14 @@ steps:
           -          final host = Uri.parse(navigation.url).host;
           -          if (host.contains('youtube.com')) {
           -            ScaffoldMessenger.of(context).showSnackBar(
-          -              SnackBar(
-          -                content: Text(
-          -                  'Blocking navigation to $host',
+          -              SnackBar(content: Text('Blocking navigation to $host')),
+          -            );
+          -            return NavigationDecision.prevent;
+          -          }
+          -          return NavigationDecision.navigate;
+          -        },
+          -      ),
+          -    );
           +    widget.controller
           +      ..setNavigationDelegate(
           +        NavigationDelegate(
@@ -643,19 +624,7 @@ steps:
           +            final host = Uri.parse(navigation.url).host;
           +            if (host.contains('youtube.com')) {
           +              ScaffoldMessenger.of(context).showSnackBar(
-          +                SnackBar(
-          +                  content: Text(
-          +                    'Blocking navigation to $host',
-          +                  ),
-                           ),
-          -              ),
-          -            );
-          -            return NavigationDecision.prevent;
-          -          }
-          -          return NavigationDecision.navigate;
-          -        },
-          -      ),
-          -    );
+          +                SnackBar(content: Text('Blocking navigation to $host')),
           +              );
           +              return NavigationDecision.prevent;
           +            }
@@ -680,18 +649,19 @@ steps:
         patch-u: |
           --- b/webview_flutter/step_10/lib/src/menu.dart
           +++ a/webview_flutter/step_10/lib/src/menu.dart
-          @@ -8,6 +8,7 @@ import 'package:webview_flutter/webview_flutter.dart';
-           enum _MenuOptions {
-             navigationDelegate,
-             userAgent,
-          +  javascriptChannel,
-           }
+          @@ -5,7 +5,7 @@
+           import 'package:flutter/material.dart';
+           import 'package:webview_flutter/webview_flutter.dart';
+           
+          -enum _MenuOptions { navigationDelegate, userAgent }
+          +enum _MenuOptions { navigationDelegate, userAgent, javascriptChannel }
            
            class Menu extends StatefulWidget {
-          @@ -35,6 +36,19 @@ class _MenuState extends State<Menu> {
-                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                         content: Text('$userAgent'),
-                       ));
+             const Menu({required this.controller, super.key});
+          @@ -33,6 +33,19 @@ class _MenuState extends State<Menu> {
+                       ScaffoldMessenger.of(
+                         context,
+                       ).showSnackBar(SnackBar(content: Text('$userAgent')));
           +          case _MenuOptions.javascriptChannel:
           +            await widget.controller.runJavaScript('''
           +var req = new XMLHttpRequest();
@@ -707,16 +677,16 @@ steps:
           +req.send();''');
                    }
                  },
-                 itemBuilder: (context) => [
-          @@ -46,6 +60,10 @@ class _MenuState extends State<Menu> {
-                     value: _MenuOptions.userAgent,
-                     child: Text('Show user-agent'),
-                   ),
-          +        const PopupMenuItem<_MenuOptions>(
-          +          value: _MenuOptions.javascriptChannel,
-          +          child: Text('Lookup IP Address'),
-          +        ),
-                 ],
+                 itemBuilder:
+          @@ -45,6 +58,10 @@ class _MenuState extends State<Menu> {
+                         value: _MenuOptions.userAgent,
+                         child: Text('Show user-agent'),
+                       ),
+          +            const PopupMenuItem<_MenuOptions>(
+          +              value: _MenuOptions.javascriptChannel,
+          +              child: Text('Lookup IP Address'),
+          +            ),
+                     ],
                );
              }
       - name: Patch lib/src/web_view_stack.dart
@@ -724,7 +694,7 @@ steps:
         patch-u: |
           --- b/webview_flutter/step_10/lib/src/web_view_stack.dart
           +++ a/webview_flutter/step_10/lib/src/web_view_stack.dart
-          @@ -54,7 +54,14 @@ class _WebViewStackState extends State<WebViewStack> {
+          @@ -50,7 +50,15 @@ class _WebViewStackState extends State<WebViewStack> {
                      },
                    ),
                  )
@@ -733,8 +703,9 @@ steps:
           +      ..addJavaScriptChannel(
           +        'SnackBar',
           +        onMessageReceived: (message) {
-          +          ScaffoldMessenger.of(context)
-          +              .showSnackBar(SnackBar(content: Text(message.message)));
+          +          ScaffoldMessenger.of(
+          +            context,
+          +          ).showSnackBar(SnackBar(content: Text(message.message)));
           +        },
           +      );
              }
@@ -753,19 +724,25 @@ steps:
         patch-u: |
           --- b/webview_flutter/step_11/lib/src/menu.dart
           +++ a/webview_flutter/step_11/lib/src/menu.dart
-          @@ -9,6 +9,11 @@ enum _MenuOptions {
-             navigationDelegate,
-             userAgent,
-             javascriptChannel,
+          @@ -5,7 +5,16 @@
+           import 'package:flutter/material.dart';
+           import 'package:webview_flutter/webview_flutter.dart';
+           
+          -enum _MenuOptions { navigationDelegate, userAgent, javascriptChannel }
+          +enum _MenuOptions {
+          +  navigationDelegate,
+          +  userAgent,
+          +  javascriptChannel,
           +  listCookies,
           +  clearCookies,
           +  addCookie,
           +  setCookie,
           +  removeCookie,
-           }
+          +}
            
            class Menu extends StatefulWidget {
-          @@ -21,6 +26,8 @@ class Menu extends StatefulWidget {
+             const Menu({required this.controller, super.key});
+          @@ -17,6 +26,8 @@ class Menu extends StatefulWidget {
            }
            
            class _MenuState extends State<Menu> {
@@ -774,7 +751,7 @@ steps:
              @override
              Widget build(BuildContext context) {
                return PopupMenuButton<_MenuOptions>(
-          @@ -49,6 +56,16 @@ req.onload = function() {
+          @@ -46,6 +57,16 @@ req.onload = function() {
              }
            }
            req.send();''');
@@ -790,38 +767,39 @@ steps:
           +            await _onRemoveCookie(widget.controller);
                    }
                  },
-                 itemBuilder: (context) => [
-          @@ -64,7 +81,87 @@ req.send();''');
-                     value: _MenuOptions.javascriptChannel,
-                     child: Text('Lookup IP Address'),
-                   ),
-          +        const PopupMenuItem<_MenuOptions>(
-          +          value: _MenuOptions.clearCookies,
-          +          child: Text('Clear cookies'),
-          +        ),
-          +        const PopupMenuItem<_MenuOptions>(
-          +          value: _MenuOptions.listCookies,
-          +          child: Text('List cookies'),
-          +        ),
-          +        const PopupMenuItem<_MenuOptions>(
-          +          value: _MenuOptions.addCookie,
-          +          child: Text('Add cookie'),
-          +        ),
-          +        const PopupMenuItem<_MenuOptions>(
-          +          value: _MenuOptions.setCookie,
-          +          child: Text('Set cookie'),
-          +        ),
-          +        const PopupMenuItem<_MenuOptions>(
-          +          value: _MenuOptions.removeCookie,
-          +          child: Text('Remove cookie'),
-          +        ),
-                 ],
+                 itemBuilder:
+          @@ -62,7 +83,81 @@ req.send();''');
+                         value: _MenuOptions.javascriptChannel,
+                         child: Text('Lookup IP Address'),
+                       ),
+          +            const PopupMenuItem<_MenuOptions>(
+          +              value: _MenuOptions.clearCookies,
+          +              child: Text('Clear cookies'),
+          +            ),
+          +            const PopupMenuItem<_MenuOptions>(
+          +              value: _MenuOptions.listCookies,
+          +              child: Text('List cookies'),
+          +            ),
+          +            const PopupMenuItem<_MenuOptions>(
+          +              value: _MenuOptions.addCookie,
+          +              child: Text('Add cookie'),
+          +            ),
+          +            const PopupMenuItem<_MenuOptions>(
+          +              value: _MenuOptions.setCookie,
+          +              child: Text('Set cookie'),
+          +            ),
+          +            const PopupMenuItem<_MenuOptions>(
+          +              value: _MenuOptions.removeCookie,
+          +              child: Text('Remove cookie'),
+          +            ),
+                     ],
                );
              }
           +
           +  Future<void> _onListCookies(WebViewController controller) async {
-          +    final String cookies = await controller
-          +        .runJavaScriptReturningResult('document.cookie') as String;
+          +    final String cookies =
+          +        await controller.runJavaScriptReturningResult('document.cookie')
+          +            as String;
           +    if (!mounted) return;
           +    ScaffoldMessenger.of(context).showSnackBar(
           +      SnackBar(
@@ -837,11 +815,9 @@ steps:
           +      message = 'There were no cookies to clear.';
           +    }
           +    if (!mounted) return;
-          +    ScaffoldMessenger.of(context).showSnackBar(
-          +      SnackBar(
-          +        content: Text(message),
-          +      ),
-          +    );
+          +    ScaffoldMessenger.of(
+          +      context,
+          +    ).showSnackBar(SnackBar(content: Text(message)));
           +  }
           +
           +  Future<void> _onAddCookie(WebViewController controller) async {
@@ -849,11 +825,9 @@ steps:
           +    date.setTime(date.getTime()+(30*24*60*60*1000));
           +    document.cookie = "FirstName=John; expires=" + date.toGMTString();''');
           +    if (!mounted) return;
-          +    ScaffoldMessenger.of(context).showSnackBar(
-          +      const SnackBar(
-          +        content: Text('Custom cookie added.'),
-          +      ),
-          +    );
+          +    ScaffoldMessenger.of(
+          +      context,
+          +    ).showSnackBar(const SnackBar(content: Text('Custom cookie added.')));
           +  }
           +
           +  Future<void> _onSetCookie(WebViewController controller) async {
@@ -861,22 +835,19 @@ steps:
           +      const WebViewCookie(name: 'foo', value: 'bar', domain: 'flutter.dev'),
           +    );
           +    if (!mounted) return;
-          +    ScaffoldMessenger.of(context).showSnackBar(
-          +      const SnackBar(
-          +        content: Text('Custom cookie is set.'),
-          +      ),
-          +    );
+          +    ScaffoldMessenger.of(
+          +      context,
+          +    ).showSnackBar(const SnackBar(content: Text('Custom cookie is set.')));
           +  }
           +
           +  Future<void> _onRemoveCookie(WebViewController controller) async {
           +    await controller.runJavaScript(
-          +        'document.cookie="FirstName=John; expires=Thu, 01 Jan 1970 00:00:00 UTC" ');
-          +    if (!mounted) return;
-          +    ScaffoldMessenger.of(context).showSnackBar(
-          +      const SnackBar(
-          +        content: Text('Custom cookie removed.'),
-          +      ),
+          +      'document.cookie="FirstName=John; expires=Thu, 01 Jan 1970 00:00:00 UTC" ',
           +    );
+          +    if (!mounted) return;
+          +    ScaffoldMessenger.of(
+          +      context,
+          +    ).showSnackBar(const SnackBar(content: Text('Custom cookie removed.')));
           +  }
            }
       - name: Copy step_11
@@ -951,7 +922,7 @@ steps:
            }
            
            class Menu extends StatefulWidget {
-          @@ -66,6 +90,15 @@ req.send();''');
+          @@ -67,6 +91,15 @@ req.send();''');
                        await _onSetCookie(widget.controller);
                      case _MenuOptions.removeCookie:
                        await _onRemoveCookie(widget.controller);
@@ -966,38 +937,42 @@ steps:
           +            await _onLoadHtmlStringExample(widget.controller, context);
                    }
                  },
-                 itemBuilder: (context) => [
-          @@ -101,6 +134,18 @@ req.send();''');
-                     value: _MenuOptions.removeCookie,
-                     child: Text('Remove cookie'),
-                   ),
-          +        const PopupMenuItem<_MenuOptions>(
-          +          value: _MenuOptions.loadFlutterAsset,
-          +          child: Text('Load Flutter Asset'),
-          +        ),
-          +        const PopupMenuItem<_MenuOptions>(
-          +          value: _MenuOptions.loadHtmlString,
-          +          child: Text('Load HTML string'),
-          +        ),
-          +        const PopupMenuItem<_MenuOptions>(
-          +          value: _MenuOptions.loadLocalFile,
-          +          child: Text('Load local file'),
-          +        ),
-                 ],
+                 itemBuilder:
+          @@ -103,6 +136,18 @@ req.send();''');
+                         value: _MenuOptions.removeCookie,
+                         child: Text('Remove cookie'),
+                       ),
+          +            const PopupMenuItem<_MenuOptions>(
+          +              value: _MenuOptions.loadFlutterAsset,
+          +              child: Text('Load Flutter Asset'),
+          +            ),
+          +            const PopupMenuItem<_MenuOptions>(
+          +              value: _MenuOptions.loadHtmlString,
+          +              child: Text('Load HTML string'),
+          +            ),
+          +            const PopupMenuItem<_MenuOptions>(
+          +              value: _MenuOptions.loadLocalFile,
+          +              child: Text('Load local file'),
+          +            ),
+                     ],
                );
              }
-          @@ -164,4 +209,31 @@ req.send();''');
-                 ),
-               );
+          @@ -160,4 +205,37 @@ req.send();''');
+                 context,
+               ).showSnackBar(const SnackBar(content: Text('Custom cookie removed.')));
              }
           +
           +  Future<void> _onLoadFlutterAssetExample(
-          +      WebViewController controller, BuildContext context) async {
+          +    WebViewController controller,
+          +    BuildContext context,
+          +  ) async {
           +    await controller.loadFlutterAsset('assets/www/index.html');
           +  }
           +
           +  Future<void> _onLoadLocalFileExample(
-          +      WebViewController controller, BuildContext context) async {
+          +    WebViewController controller,
+          +    BuildContext context,
+          +  ) async {
           +    final String pathToIndex = await _prepareLocalFile();
           +
           +    await controller.loadFile(pathToIndex);
@@ -1014,7 +989,9 @@ steps:
           +  }
           +
           +  Future<void> _onLoadHtmlStringExample(
-          +      WebViewController controller, BuildContext context) async {
+          +    WebViewController controller,
+          +    BuildContext context,
+          +  ) async {
           +    await controller.loadHtmlString(kExamplePage);
           +  }
            }

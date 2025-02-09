@@ -5,10 +5,7 @@
 import 'package:flutter/material.dart';
 
 class ScoreCard extends StatelessWidget {
-  const ScoreCard({
-    super.key,
-    required this.score,
-  });
+  const ScoreCard({super.key, required this.score});
 
   final ValueNotifier<int> score;
 

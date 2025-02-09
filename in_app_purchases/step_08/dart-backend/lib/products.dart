@@ -5,10 +5,7 @@ class ProductData {
   const ProductData(this.productId, this.type);
 }
 
-enum ProductType {
-  subscription,
-  nonSubscription,
-}
+enum ProductType { subscription, nonSubscription }
 
 const productDataMap = {
   'dash_consumable_2k': ProductData(

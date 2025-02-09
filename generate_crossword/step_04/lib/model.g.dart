@@ -6,21 +6,24 @@ part of 'model.dart';
 // BuiltValueGenerator
 // **************************************************************************
 
-Serializers _$serializers = (new Serializers().toBuilder()
-      ..add(Crossword.serializer)
-      ..add(CrosswordCharacter.serializer)
-      ..add(CrosswordWord.serializer)
-      ..add(Location.serializer)
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(CrosswordWord)]),
-          () => new ListBuilder<CrosswordWord>())
-      ..addBuilderFactory(
-          const FullType(BuiltMap, const [
-            const FullType(Location),
-            const FullType(CrosswordCharacter)
-          ]),
-          () => new MapBuilder<Location, CrosswordCharacter>()))
-    .build();
+Serializers _$serializers =
+    (new Serializers().toBuilder()
+          ..add(Crossword.serializer)
+          ..add(CrosswordCharacter.serializer)
+          ..add(CrosswordWord.serializer)
+          ..add(Location.serializer)
+          ..addBuilderFactory(
+            const FullType(BuiltList, const [const FullType(CrosswordWord)]),
+            () => new ListBuilder<CrosswordWord>(),
+          )
+          ..addBuilderFactory(
+            const FullType(BuiltMap, const [
+              const FullType(Location),
+              const FullType(CrosswordCharacter),
+            ]),
+            () => new MapBuilder<Location, CrosswordCharacter>(),
+          ))
+        .build();
 Serializer<Location> _$locationSerializer = new _$LocationSerializer();
 Serializer<CrosswordWord> _$crosswordWordSerializer =
     new _$CrosswordWordSerializer();
@@ -35,8 +38,11 @@ class _$LocationSerializer implements StructuredSerializer<Location> {
   final String wireName = 'Location';
 
   @override
-  Iterable<Object?> serialize(Serializers serializers, Location object,
-      {FullType specifiedType = FullType.unspecified}) {
+  Iterable<Object?> serialize(
+    Serializers serializers,
+    Location object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'x',
       serializers.serialize(object.x, specifiedType: const FullType(int)),
@@ -48,8 +54,11 @@ class _$LocationSerializer implements StructuredSerializer<Location> {
   }
 
   @override
-  Location deserialize(Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
+  Location deserialize(
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = new LocationBuilder();
 
     final iterator = serialized.iterator;
@@ -59,12 +68,20 @@ class _$LocationSerializer implements StructuredSerializer<Location> {
       final Object? value = iterator.current;
       switch (key) {
         case 'x':
-          result.x = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+          result.x =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(int),
+                  )!
+                  as int;
           break;
         case 'y':
-          result.y = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+          result.y =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(int),
+                  )!
+                  as int;
           break;
       }
     }
@@ -80,17 +97,24 @@ class _$CrosswordWordSerializer implements StructuredSerializer<CrosswordWord> {
   final String wireName = 'CrosswordWord';
 
   @override
-  Iterable<Object?> serialize(Serializers serializers, CrosswordWord object,
-      {FullType specifiedType = FullType.unspecified}) {
+  Iterable<Object?> serialize(
+    Serializers serializers,
+    CrosswordWord object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'word',
       serializers.serialize(object.word, specifiedType: const FullType(String)),
       'location',
-      serializers.serialize(object.location,
-          specifiedType: const FullType(Location)),
+      serializers.serialize(
+        object.location,
+        specifiedType: const FullType(Location),
+      ),
       'direction',
-      serializers.serialize(object.direction,
-          specifiedType: const FullType(Direction)),
+      serializers.serialize(
+        object.direction,
+        specifiedType: const FullType(Direction),
+      ),
     ];
 
     return result;
@@ -98,8 +122,10 @@ class _$CrosswordWordSerializer implements StructuredSerializer<CrosswordWord> {
 
   @override
   CrosswordWord deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = new CrosswordWordBuilder();
 
     final iterator = serialized.iterator;
@@ -109,16 +135,29 @@ class _$CrosswordWordSerializer implements StructuredSerializer<CrosswordWord> {
       final Object? value = iterator.current;
       switch (key) {
         case 'word':
-          result.word = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+          result.word =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )!
+                  as String;
           break;
         case 'location':
-          result.location.replace(serializers.deserialize(value,
-              specifiedType: const FullType(Location))! as Location);
+          result.location.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(Location),
+                )!
+                as Location,
+          );
           break;
         case 'direction':
-          result.direction = serializers.deserialize(value,
-              specifiedType: const FullType(Direction))! as Direction;
+          result.direction =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(Direction),
+                  )!
+                  as Direction;
           break;
       }
     }
@@ -136,35 +175,49 @@ class _$CrosswordCharacterSerializer
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, CrosswordCharacter object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    CrosswordCharacter object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'character',
-      serializers.serialize(object.character,
-          specifiedType: const FullType(String)),
+      serializers.serialize(
+        object.character,
+        specifiedType: const FullType(String),
+      ),
     ];
     Object? value;
     value = object.acrossWord;
     if (value != null) {
       result
         ..add('acrossWord')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(CrosswordWord)));
+        ..add(
+          serializers.serialize(
+            value,
+            specifiedType: const FullType(CrosswordWord),
+          ),
+        );
     }
     value = object.downWord;
     if (value != null) {
       result
         ..add('downWord')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(CrosswordWord)));
+        ..add(
+          serializers.serialize(
+            value,
+            specifiedType: const FullType(CrosswordWord),
+          ),
+        );
     }
     return result;
   }
 
   @override
   CrosswordCharacter deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = new CrosswordCharacterBuilder();
 
     final iterator = serialized.iterator;
@@ -174,16 +227,30 @@ class _$CrosswordCharacterSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'character':
-          result.character = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+          result.character =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )!
+                  as String;
           break;
         case 'acrossWord':
-          result.acrossWord.replace(serializers.deserialize(value,
-              specifiedType: const FullType(CrosswordWord))! as CrosswordWord);
+          result.acrossWord.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(CrosswordWord),
+                )!
+                as CrosswordWord,
+          );
           break;
         case 'downWord':
-          result.downWord.replace(serializers.deserialize(value,
-              specifiedType: const FullType(CrosswordWord))! as CrosswordWord);
+          result.downWord.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(CrosswordWord),
+                )!
+                as CrosswordWord,
+          );
           break;
       }
     }
@@ -199,31 +266,42 @@ class _$CrosswordSerializer implements StructuredSerializer<Crossword> {
   final String wireName = 'Crossword';
 
   @override
-  Iterable<Object?> serialize(Serializers serializers, Crossword object,
-      {FullType specifiedType = FullType.unspecified}) {
+  Iterable<Object?> serialize(
+    Serializers serializers,
+    Crossword object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'width',
       serializers.serialize(object.width, specifiedType: const FullType(int)),
       'height',
       serializers.serialize(object.height, specifiedType: const FullType(int)),
       'words',
-      serializers.serialize(object.words,
-          specifiedType:
-              const FullType(BuiltList, const [const FullType(CrosswordWord)])),
+      serializers.serialize(
+        object.words,
+        specifiedType: const FullType(BuiltList, const [
+          const FullType(CrosswordWord),
+        ]),
+      ),
       'characters',
-      serializers.serialize(object.characters,
-          specifiedType: const FullType(BuiltMap, const [
-            const FullType(Location),
-            const FullType(CrosswordCharacter)
-          ])),
+      serializers.serialize(
+        object.characters,
+        specifiedType: const FullType(BuiltMap, const [
+          const FullType(Location),
+          const FullType(CrosswordCharacter),
+        ]),
+      ),
     ];
 
     return result;
   }
 
   @override
-  Crossword deserialize(Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
+  Crossword deserialize(
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = new CrosswordBuilder();
 
     final iterator = serialized.iterator;
@@ -233,25 +311,42 @@ class _$CrosswordSerializer implements StructuredSerializer<Crossword> {
       final Object? value = iterator.current;
       switch (key) {
         case 'width':
-          result.width = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+          result.width =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(int),
+                  )!
+                  as int;
           break;
         case 'height':
-          result.height = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+          result.height =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(int),
+                  )!
+                  as int;
           break;
         case 'words':
-          result.words.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(
-                      BuiltList, const [const FullType(CrosswordWord)]))!
-              as BuiltList<Object?>);
+          result.words.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(BuiltList, const [
+                    const FullType(CrosswordWord),
+                  ]),
+                )!
+                as BuiltList<Object?>,
+          );
           break;
         case 'characters':
-          result.characters.replace(serializers.deserialize(value,
+          result.characters.replace(
+            serializers.deserialize(
+              value,
               specifiedType: const FullType(BuiltMap, const [
                 const FullType(Location),
-                const FullType(CrosswordCharacter)
-              ]))!);
+                const FullType(CrosswordCharacter),
+              ]),
+            )!,
+          );
           break;
       }
     }
@@ -343,7 +438,8 @@ class LocationBuilder implements Builder<Location, LocationBuilder> {
   Location build() => _build();
 
   _$Location _build() {
-    final _$result = _$v ??
+    final _$result =
+        _$v ??
         new _$Location._(
           x: BuiltValueNullFieldError.checkNotNull(x, r'Location', 'x'),
           y: BuiltValueNullFieldError.checkNotNull(y, r'Location', 'y'),
@@ -364,14 +460,22 @@ class _$CrosswordWord extends CrosswordWord {
   factory _$CrosswordWord([void Function(CrosswordWordBuilder)? updates]) =>
       (new CrosswordWordBuilder()..update(updates))._build();
 
-  _$CrosswordWord._(
-      {required this.word, required this.location, required this.direction})
-      : super._() {
+  _$CrosswordWord._({
+    required this.word,
+    required this.location,
+    required this.direction,
+  }) : super._() {
     BuiltValueNullFieldError.checkNotNull(word, r'CrosswordWord', 'word');
     BuiltValueNullFieldError.checkNotNull(
-        location, r'CrosswordWord', 'location');
+      location,
+      r'CrosswordWord',
+      'location',
+    );
     BuiltValueNullFieldError.checkNotNull(
-        direction, r'CrosswordWord', 'direction');
+      direction,
+      r'CrosswordWord',
+      'direction',
+    );
   }
 
   @override
@@ -456,13 +560,20 @@ class CrosswordWordBuilder
   _$CrosswordWord _build() {
     _$CrosswordWord _$result;
     try {
-      _$result = _$v ??
+      _$result =
+          _$v ??
           new _$CrosswordWord._(
             word: BuiltValueNullFieldError.checkNotNull(
-                word, r'CrosswordWord', 'word'),
+              word,
+              r'CrosswordWord',
+              'word',
+            ),
             location: location.build(),
             direction: BuiltValueNullFieldError.checkNotNull(
-                direction, r'CrosswordWord', 'direction'),
+              direction,
+              r'CrosswordWord',
+              'direction',
+            ),
           );
     } catch (_) {
       late String _$failedField;
@@ -471,7 +582,10 @@ class CrosswordWordBuilder
         location.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-            r'CrosswordWord', _$failedField, e.toString());
+          r'CrosswordWord',
+          _$failedField,
+          e.toString(),
+        );
       }
       rethrow;
     }
@@ -488,21 +602,26 @@ class _$CrosswordCharacter extends CrosswordCharacter {
   @override
   final CrosswordWord? downWord;
 
-  factory _$CrosswordCharacter(
-          [void Function(CrosswordCharacterBuilder)? updates]) =>
-      (new CrosswordCharacterBuilder()..update(updates))._build();
+  factory _$CrosswordCharacter([
+    void Function(CrosswordCharacterBuilder)? updates,
+  ]) => (new CrosswordCharacterBuilder()..update(updates))._build();
 
-  _$CrosswordCharacter._(
-      {required this.character, this.acrossWord, this.downWord})
-      : super._() {
+  _$CrosswordCharacter._({
+    required this.character,
+    this.acrossWord,
+    this.downWord,
+  }) : super._() {
     BuiltValueNullFieldError.checkNotNull(
-        character, r'CrosswordCharacter', 'character');
+      character,
+      r'CrosswordCharacter',
+      'character',
+    );
   }
 
   @override
   CrosswordCharacter rebuild(
-          void Function(CrosswordCharacterBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(CrosswordCharacterBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   CrosswordCharacterBuilder toBuilder() =>
@@ -586,10 +705,14 @@ class CrosswordCharacterBuilder
   _$CrosswordCharacter _build() {
     _$CrosswordCharacter _$result;
     try {
-      _$result = _$v ??
+      _$result =
+          _$v ??
           new _$CrosswordCharacter._(
             character: BuiltValueNullFieldError.checkNotNull(
-                character, r'CrosswordCharacter', 'character'),
+              character,
+              r'CrosswordCharacter',
+              'character',
+            ),
             acrossWord: _acrossWord?.build(),
             downWord: _downWord?.build(),
           );
@@ -602,7 +725,10 @@ class CrosswordCharacterBuilder
         _downWord?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-            r'CrosswordCharacter', _$failedField, e.toString());
+          r'CrosswordCharacter',
+          _$failedField,
+          e.toString(),
+        );
       }
       rethrow;
     }
@@ -624,17 +750,20 @@ class _$Crossword extends Crossword {
   factory _$Crossword([void Function(CrosswordBuilder)? updates]) =>
       (new CrosswordBuilder()..update(updates))._build();
 
-  _$Crossword._(
-      {required this.width,
-      required this.height,
-      required this.words,
-      required this.characters})
-      : super._() {
+  _$Crossword._({
+    required this.width,
+    required this.height,
+    required this.words,
+    required this.characters,
+  }) : super._() {
     BuiltValueNullFieldError.checkNotNull(width, r'Crossword', 'width');
     BuiltValueNullFieldError.checkNotNull(height, r'Crossword', 'height');
     BuiltValueNullFieldError.checkNotNull(words, r'Crossword', 'words');
     BuiltValueNullFieldError.checkNotNull(
-        characters, r'Crossword', 'characters');
+      characters,
+      r'Crossword',
+      'characters',
+    );
   }
 
   @override
@@ -730,12 +859,19 @@ class CrosswordBuilder implements Builder<Crossword, CrosswordBuilder> {
     Crossword._fillCharacters(this);
     _$Crossword _$result;
     try {
-      _$result = _$v ??
+      _$result =
+          _$v ??
           new _$Crossword._(
             width: BuiltValueNullFieldError.checkNotNull(
-                width, r'Crossword', 'width'),
+              width,
+              r'Crossword',
+              'width',
+            ),
             height: BuiltValueNullFieldError.checkNotNull(
-                height, r'Crossword', 'height'),
+              height,
+              r'Crossword',
+              'height',
+            ),
             words: words.build(),
             characters: characters.build(),
           );
@@ -748,7 +884,10 @@ class CrosswordBuilder implements Builder<Crossword, CrosswordBuilder> {
         characters.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-            r'Crossword', _$failedField, e.toString());
+          r'Crossword',
+          _$failedField,
+          e.toString(),
+        );
       }
       rethrow;
     }
