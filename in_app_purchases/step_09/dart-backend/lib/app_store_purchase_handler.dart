@@ -10,15 +10,10 @@ import 'purchase_handler.dart';
 class AppStorePurchaseHandler extends PurchaseHandler {
   final IapRepository iapRepository;
 
-  AppStorePurchaseHandler(
-    this.iapRepository,
-  );
+  AppStorePurchaseHandler(this.iapRepository);
 
   final _iTunesAPI = ITunesApi(
-    ITunesHttpClient(
-      ITunesEnvironment.sandbox(),
-      loggingEnabled: true,
-    ),
+    ITunesHttpClient(ITunesEnvironment.sandbox(), loggingEnabled: true),
   );
 
   @override
@@ -61,30 +56,37 @@ class AppStorePurchaseHandler extends PurchaseHandler {
         }
         switch (product.type) {
           case ProductType.nonSubscription:
-            await iapRepository.createOrUpdatePurchase(NonSubscriptionPurchase(
-              userId: userId,
-              productId: receipt.productId ?? '',
-              iapSource: IAPSource.appstore,
-              orderId: receipt.originalTransactionId ?? '',
-              purchaseDate: DateTime.fromMillisecondsSinceEpoch(
-                  int.parse(receipt.originalPurchaseDateMs ?? '0')),
-              type: product.type,
-              status: NonSubscriptionStatus.completed,
-            ));
+            await iapRepository.createOrUpdatePurchase(
+              NonSubscriptionPurchase(
+                userId: userId,
+                productId: receipt.productId ?? '',
+                iapSource: IAPSource.appstore,
+                orderId: receipt.originalTransactionId ?? '',
+                purchaseDate: DateTime.fromMillisecondsSinceEpoch(
+                  int.parse(receipt.originalPurchaseDateMs ?? '0'),
+                ),
+                type: product.type,
+                status: NonSubscriptionStatus.completed,
+              ),
+            );
             break;
           case ProductType.subscription:
-            await iapRepository.createOrUpdatePurchase(SubscriptionPurchase(
-              userId: userId,
-              productId: receipt.productId ?? '',
-              iapSource: IAPSource.appstore,
-              orderId: receipt.originalTransactionId ?? '',
-              purchaseDate: DateTime.fromMillisecondsSinceEpoch(
-                  int.parse(receipt.originalPurchaseDateMs ?? '0')),
-              type: product.type,
-              expiryDate: DateTime.fromMillisecondsSinceEpoch(
-                  int.parse(receipt.expiresDateMs ?? '0')),
-              status: SubscriptionStatus.active,
-            ));
+            await iapRepository.createOrUpdatePurchase(
+              SubscriptionPurchase(
+                userId: userId,
+                productId: receipt.productId ?? '',
+                iapSource: IAPSource.appstore,
+                orderId: receipt.originalTransactionId ?? '',
+                purchaseDate: DateTime.fromMillisecondsSinceEpoch(
+                  int.parse(receipt.originalPurchaseDateMs ?? '0'),
+                ),
+                type: product.type,
+                expiryDate: DateTime.fromMillisecondsSinceEpoch(
+                  int.parse(receipt.expiresDateMs ?? '0'),
+                ),
+                status: SubscriptionStatus.active,
+              ),
+            );
             break;
         }
       }

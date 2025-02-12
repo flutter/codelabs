@@ -49,6 +49,9 @@ steps:
               await tester.pumpWidget(const MainApp());
             });
           }
+      - name: Dart format
+        path: animated_responsive_layout
+        dart: format .
       - name: Build iOS simulator bundle
         platforms: [ macos ]
         path: animated_responsive_layout
@@ -145,15 +148,13 @@ steps:
           // Copyright 2022 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-          
+
           class Attachment {
-            const Attachment({
-              required this.url,
-            });
-          
+            const Attachment({required this.url});
+
             final String url;
           }
-          
+
           class Email {
             const Email({
               required this.sender,
@@ -163,7 +164,7 @@ steps:
               this.replies = 0,
               this.attachments = const [],
             });
-          
+
             final User sender;
             final List<User> recipients;
             final String subject;
@@ -171,25 +172,22 @@ steps:
             final List<Attachment> attachments;
             final double replies;
           }
-          
+
           class Name {
-            const Name({
-              required this.first,
-              required this.last,
-            });
-          
+            const Name({required this.first, required this.last});
+
             final String first;
             final String last;
             String get fullName => '$first $last';
           }
-          
+
           class User {
             const User({
               required this.name,
               required this.avatarUrl,
               required this.lastActive,
             });
-          
+
             final Name name;
             final String avatarUrl;
             final DateTime lastActive;
@@ -200,30 +198,35 @@ steps:
           // Copyright 2022 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-          
+
           import 'models.dart';
-          
+
           final User user_0 = User(
-              name: const Name(first: 'Me', last: ''),
-              avatarUrl: 'assets/avatar_1.png',
-              lastActive: DateTime.now());
+            name: const Name(first: 'Me', last: ''),
+            avatarUrl: 'assets/avatar_1.png',
+            lastActive: DateTime.now(),
+          );
           final User user_1 = User(
-              name: const Name(first: '老', last: '强'),
-              avatarUrl: 'assets/avatar_2.png',
-              lastActive: DateTime.now().subtract(const Duration(minutes: 10)));
+            name: const Name(first: '老', last: '强'),
+            avatarUrl: 'assets/avatar_2.png',
+            lastActive: DateTime.now().subtract(const Duration(minutes: 10)),
+          );
           final User user_2 = User(
-              name: const Name(first: 'So', last: 'Duri'),
-              avatarUrl: 'assets/avatar_3.png',
-              lastActive: DateTime.now().subtract(const Duration(minutes: 20)));
+            name: const Name(first: 'So', last: 'Duri'),
+            avatarUrl: 'assets/avatar_3.png',
+            lastActive: DateTime.now().subtract(const Duration(minutes: 20)),
+          );
           final User user_3 = User(
-              name: const Name(first: 'Lily', last: 'MacDonald'),
-              avatarUrl: 'assets/avatar_4.png',
-              lastActive: DateTime.now().subtract(const Duration(hours: 2)));
+            name: const Name(first: 'Lily', last: 'MacDonald'),
+            avatarUrl: 'assets/avatar_4.png',
+            lastActive: DateTime.now().subtract(const Duration(hours: 2)),
+          );
           final User user_4 = User(
-              name: const Name(first: 'Ziad', last: 'Aouad'),
-              avatarUrl: 'assets/avatar_5.png',
-              lastActive: DateTime.now().subtract(const Duration(hours: 6)));
-          
+            name: const Name(first: 'Ziad', last: 'Aouad'),
+            avatarUrl: 'assets/avatar_5.png',
+            lastActive: DateTime.now().subtract(const Duration(hours: 6)),
+          );
+
           final List<Email> emails = [
             Email(
               sender: user_1,
@@ -239,12 +242,13 @@ steps:
                   'I think it’s time for us to finally try that new noodle shop downtown that doesn’t use menus. Anyone else have other suggestions for dinner club this week? I’m so intrigued by this idea of a noodle restaurant where no one gets to order for themselves - could be fun, or terrible, or both :)\n\nSo',
             ),
             Email(
-                sender: user_3,
-                recipients: [],
-                subject: 'This food show is made for you',
-                content:
-                    'Ping– you’d love this new food show I started watching. It’s produced by a Thai drummer who started getting recognized for the amazing vegan food she always brought to shows.',
-                attachments: [const Attachment(url: 'assets/thumbnail_1.png')]),
+              sender: user_3,
+              recipients: [],
+              subject: 'This food show is made for you',
+              content:
+                  'Ping– you’d love this new food show I started watching. It’s produced by a Thai drummer who started getting recognized for the amazing vegan food she always brought to shows.',
+              attachments: [const Attachment(url: 'assets/thumbnail_1.png')],
+            ),
             Email(
               sender: user_4,
               recipients: [],
@@ -253,24 +257,18 @@ steps:
                   'What do you think about training to be volunteer EMTs? We could do it together for moral support. Think about it??',
             ),
           ];
-          
+
           final List<Email> replies = [
             Email(
               sender: user_2,
-              recipients: [
-                user_3,
-                user_2,
-              ],
+              recipients: [user_3, user_2],
               subject: 'Dinner Club',
               content:
                   'I think it’s time for us to finally try that new noodle shop downtown that doesn’t use menus. Anyone else have other suggestions for dinner club this week? I’m so intrigued by this idea of a noodle restaurant where no one gets to order for themselves - could be fun, or terrible, or both :)\n\nSo',
             ),
             Email(
               sender: user_0,
-              recipients: [
-                user_3,
-                user_2,
-              ],
+              recipients: [user_3, user_2],
               subject: 'Dinner Club',
               content:
                   'Yes! I forgot about that place! I’m definitely up for taking a risk this week and handing control over to this mysterious noodle chef. I wonder what happens if you have allergies though? Lucky none of us have any otherwise I’d be a bit concerned.\n\nThis is going to be great. See you all at the usual time?',
@@ -284,14 +282,14 @@ steps:
           // Copyright 2022 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-          
+
           import 'package:flutter/material.dart';
-          
+
           import '../models/data.dart' as data;
           import '../models/models.dart';
           import 'email_widget.dart';
           import 'search_bar.dart' as search_bar;
-          
+
           class EmailListView extends StatelessWidget {
             const EmailListView({
               super.key,
@@ -299,11 +297,11 @@ steps:
               this.onSelected,
               required this.currentUser,
             });
-          
+
             final int? selectedIndex;
             final ValueChanged<int>? onSelected;
             final User currentUser;
-          
+
             @override
             Widget build(BuildContext context) {
               return Padding(
@@ -313,23 +311,21 @@ steps:
                     const SizedBox(height: 8),
                     search_bar.SearchBar(currentUser: currentUser),
                     const SizedBox(height: 8),
-                    ...List.generate(
-                      data.emails.length,
-                      (index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 8.0),
-                          child: EmailWidget(
-                            email: data.emails[index],
-                            onSelected: onSelected != null
-                                ? () {
+                    ...List.generate(data.emails.length, (index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child: EmailWidget(
+                          email: data.emails[index],
+                          onSelected:
+                              onSelected != null
+                                  ? () {
                                     onSelected!(index);
                                   }
-                                : null,
-                            isSelected: selectedIndex == index,
-                          ),
-                        );
-                      },
-                    ),
+                                  : null,
+                          isSelected: selectedIndex == index,
+                        ),
+                      );
+                    }),
                   ],
                 ),
               );
@@ -346,11 +342,7 @@ steps:
           import '../models/models.dart';
           import 'star_button.dart';
 
-          enum EmailType {
-            preview,
-            threaded,
-            primaryThreaded,
-          }
+          enum EmailType { preview, threaded, primaryThreaded }
 
           class EmailWidget extends StatefulWidget {
             const EmailWidget({
@@ -382,10 +374,10 @@ steps:
             );
 
             Color get _surfaceColor => switch (widget) {
-                  EmailWidget(isPreview: false) => _colorScheme.surface,
-                  EmailWidget(isSelected: true) => _colorScheme.primaryContainer,
-                  _ => unselectedColor,
-                };
+              EmailWidget(isPreview: false) => _colorScheme.surface,
+              EmailWidget(isSelected: true) => _colorScheme.primaryContainer,
+              _ => unselectedColor,
+            };
 
             @override
             Widget build(BuildContext context) {
@@ -400,10 +392,7 @@ steps:
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       if (widget.showHeadline) ...[
-                        EmailHeadline(
-                          email: widget.email,
-                          isSelected: widget.isSelected,
-                        ),
+                        EmailHeadline(email: widget.email, isSelected: widget.isSelected),
                       ],
                       EmailContent(
                         email: widget.email,
@@ -457,12 +446,12 @@ steps:
             }
 
             TextStyle? get contentTextStyle => switch (widget) {
-                  EmailContent(isThreaded: true) => _textTheme.bodyLarge,
-                  EmailContent(isSelected: true) => _textTheme.bodyMedium
-                      ?.copyWith(color: _colorScheme.onPrimaryContainer),
-                  _ =>
-                    _textTheme.bodyMedium?.copyWith(color: _colorScheme.onSurfaceVariant),
-                };
+              EmailContent(isThreaded: true) => _textTheme.bodyLarge,
+              EmailContent(isSelected: true) => _textTheme.bodyMedium?.copyWith(
+                color: _colorScheme.onPrimaryContainer,
+              ),
+              _ => _textTheme.bodyMedium?.copyWith(color: _colorScheme.onSurfaceVariant),
+            };
 
             @override
             Widget build(BuildContext context) {
@@ -471,49 +460,59 @@ steps:
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    LayoutBuilder(builder: (context, constraints) {
-                      return Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          if (constraints.maxWidth - 200 > 0) ...[
-                            CircleAvatar(
-                              backgroundImage: AssetImage(widget.email.sender.avatarUrl),
+                    LayoutBuilder(
+                      builder: (context, constraints) {
+                        return Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            if (constraints.maxWidth - 200 > 0) ...[
+                              CircleAvatar(
+                                backgroundImage: AssetImage(
+                                  widget.email.sender.avatarUrl,
+                                ),
+                              ),
+                              const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 6.0),
+                              ),
+                            ],
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    widget.email.sender.name.fullName,
+                                    overflow: TextOverflow.fade,
+                                    maxLines: 1,
+                                    style:
+                                        widget.isSelected
+                                            ? _textTheme.labelMedium?.copyWith(
+                                              color: _colorScheme.onSecondaryContainer,
+                                            )
+                                            : _textTheme.labelMedium?.copyWith(
+                                              color: _colorScheme.onSurface,
+                                            ),
+                                  ),
+                                  Text(
+                                    lastActiveLabel,
+                                    overflow: TextOverflow.fade,
+                                    maxLines: 1,
+                                    style:
+                                        widget.isSelected
+                                            ? _textTheme.labelMedium?.copyWith(
+                                              color: _colorScheme.onSecondaryContainer,
+                                            )
+                                            : _textTheme.labelMedium?.copyWith(
+                                              color: _colorScheme.onSurfaceVariant,
+                                            ),
+                                  ),
+                                ],
+                              ),
                             ),
-                            const Padding(padding: EdgeInsets.symmetric(horizontal: 6.0)),
+                            if (constraints.maxWidth - 200 > 0) ...[const StarButton()],
                           ],
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  widget.email.sender.name.fullName,
-                                  overflow: TextOverflow.fade,
-                                  maxLines: 1,
-                                  style: widget.isSelected
-                                      ? _textTheme.labelMedium?.copyWith(
-                                          color: _colorScheme.onSecondaryContainer)
-                                      : _textTheme.labelMedium
-                                          ?.copyWith(color: _colorScheme.onSurface),
-                                ),
-                                Text(
-                                  lastActiveLabel,
-                                  overflow: TextOverflow.fade,
-                                  maxLines: 1,
-                                  style: widget.isSelected
-                                      ? _textTheme.labelMedium?.copyWith(
-                                          color: _colorScheme.onSecondaryContainer)
-                                      : _textTheme.labelMedium?.copyWith(
-                                          color: _colorScheme.onSurfaceVariant),
-                                ),
-                              ],
-                            ),
-                          ),
-                          if (constraints.maxWidth - 200 > 0) ...[
-                            const StarButton(),
-                          ]
-                        ],
-                      );
-                    }),
+                        );
+                      },
+                    ),
                     const SizedBox(width: 8),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -521,8 +520,9 @@ steps:
                         if (widget.isPreview) ...[
                           Text(
                             widget.email.subject,
-                            style: const TextStyle(fontSize: 18)
-                                .copyWith(color: _colorScheme.onSurface),
+                            style: const TextStyle(
+                              fontSize: 18,
+                            ).copyWith(color: _colorScheme.onSurface),
                           ),
                         ],
                         if (widget.isThreaded) ...[
@@ -530,7 +530,7 @@ steps:
                           Text(
                             "To ${widget.email.recipients.map((recipient) => recipient.name.first).join(", ")}",
                             style: _textTheme.bodyMedium,
-                          )
+                          ),
                         ],
                         contentSpacer,
                         Text(
@@ -544,19 +544,17 @@ steps:
                     const SizedBox(width: 12),
                     widget.email.attachments.isNotEmpty
                         ? Container(
-                            height: 96,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8.0),
-                              image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: AssetImage(widget.email.attachments.first.url),
-                              ),
+                          height: 96,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.0),
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: AssetImage(widget.email.attachments.first.url),
                             ),
-                          )
+                          ),
+                        )
                         : const SizedBox.shrink(),
-                    if (!widget.isPreview) ...[
-                      const EmailReplyOptions(),
-                    ],
+                    if (!widget.isPreview) ...[const EmailReplyOptions()],
                   ],
                 ),
               );
@@ -583,71 +581,76 @@ steps:
 
             @override
             Widget build(BuildContext context) {
-              return LayoutBuilder(builder: (context, constraints) {
-                return Container(
-                  height: 84,
-                  color: Color.alphaBlend(
-                    _colorScheme.primary.withAlpha(12),
-                    _colorScheme.surface,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(24, 12, 12, 12),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                widget.email.subject,
-                                maxLines: 1,
-                                overflow: TextOverflow.fade,
-                                style: const TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.w400),
-                              ),
-                              Text(
-                                '${widget.email.replies.toString()} Messages',
-                                maxLines: 1,
-                                overflow: TextOverflow.fade,
-                                style: _textTheme.labelMedium
-                                    ?.copyWith(fontWeight: FontWeight.w500),
-                              ),
-                            ],
-                          ),
-                        ),
-                        // Display a "condensed" version if the widget in the row are
-                        // expected to overflow.
-                        if (constraints.maxWidth - 200 > 0) ...[
-                          SizedBox(
-                            height: 40,
-                            width: 40,
-                            child: FloatingActionButton(
-                              onPressed: () {},
-                              elevation: 0,
-                              backgroundColor: _colorScheme.surface,
-                              child: const Icon(Icons.delete_outline),
-                            ),
-                          ),
-                          const Padding(padding: EdgeInsets.only(right: 8.0)),
-                          SizedBox(
-                            height: 40,
-                            width: 40,
-                            child: FloatingActionButton(
-                              onPressed: () {},
-                              elevation: 0,
-                              backgroundColor: _colorScheme.surface,
-                              child: const Icon(Icons.more_vert),
-                            ),
-                          ),
-                        ]
-                      ],
+              return LayoutBuilder(
+                builder: (context, constraints) {
+                  return Container(
+                    height: 84,
+                    color: Color.alphaBlend(
+                      _colorScheme.primary.withAlpha(12),
+                      _colorScheme.surface,
                     ),
-                  ),
-                );
-              });
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(24, 12, 12, 12),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  widget.email.subject,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.fade,
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                                Text(
+                                  '${widget.email.replies.toString()} Messages',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.fade,
+                                  style: _textTheme.labelMedium?.copyWith(
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          // Display a "condensed" version if the widget in the row are
+                          // expected to overflow.
+                          if (constraints.maxWidth - 200 > 0) ...[
+                            SizedBox(
+                              height: 40,
+                              width: 40,
+                              child: FloatingActionButton(
+                                onPressed: () {},
+                                elevation: 0,
+                                backgroundColor: _colorScheme.surface,
+                                child: const Icon(Icons.delete_outline),
+                              ),
+                            ),
+                            const Padding(padding: EdgeInsets.only(right: 8.0)),
+                            SizedBox(
+                              height: 40,
+                              width: 40,
+                              child: FloatingActionButton(
+                                onPressed: () {},
+                                elevation: 0,
+                                backgroundColor: _colorScheme.surface,
+                                child: const Icon(Icons.more_vert),
+                              ),
+                            ),
+                          ],
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              );
             }
           }
 
@@ -673,8 +676,9 @@ steps:
                       Expanded(
                         child: TextButton(
                           style: ButtonStyle(
-                            backgroundColor:
-                                WidgetStateProperty.all(_colorScheme.onInverseSurface),
+                            backgroundColor: WidgetStateProperty.all(
+                              _colorScheme.onInverseSurface,
+                            ),
                           ),
                           onPressed: () {},
                           child: Text(
@@ -687,8 +691,9 @@ steps:
                       Expanded(
                         child: TextButton(
                           style: ButtonStyle(
-                            backgroundColor:
-                                WidgetStateProperty.all(_colorScheme.onInverseSurface),
+                            backgroundColor: WidgetStateProperty.all(
+                              _colorScheme.onInverseSurface,
+                            ),
                           ),
                           onPressed: () {},
                           child: Text(
@@ -709,19 +714,16 @@ steps:
           // Copyright 2022 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-          
+
           import 'package:flutter/material.dart';
-          
+
           import '../models/models.dart';
-          
+
           class SearchBar extends StatelessWidget {
-            const SearchBar({
-              super.key,
-              required this.currentUser,
-            });
-          
+            const SearchBar({super.key, required this.currentUser});
+
             final User currentUser;
-          
+
             @override
             Widget build(BuildContext context) {
               return SizedBox(
@@ -748,9 +750,7 @@ steps:
                           ),
                         ),
                       ),
-                      CircleAvatar(
-                        backgroundImage: AssetImage(currentUser.avatarUrl),
-                      ),
+                      CircleAvatar(backgroundImage: AssetImage(currentUser.avatarUrl)),
                     ],
                   ),
                 ),
@@ -763,38 +763,34 @@ steps:
           // Copyright 2022 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-          
+
           import 'package:flutter/material.dart';
-          
+
           class StarButton extends StatefulWidget {
             const StarButton({super.key});
-          
+
             @override
             State<StarButton> createState() => _StarButtonState();
           }
-          
+
           class _StarButtonState extends State<StarButton> {
             bool state = false;
             late final ColorScheme _colorScheme = Theme.of(context).colorScheme;
-          
+
             Icon get icon {
               final IconData iconData = state ? Icons.star : Icons.star_outline;
-          
-              return Icon(
-                iconData,
-                color: Colors.grey,
-                size: 20,
-              );
+
+              return Icon(iconData, color: Colors.grey, size: 20);
             }
-          
+
             void _toggle() {
               setState(() {
                 state = !state;
               });
             }
-          
+
             double get turns => state ? 1 : 0;
-          
+
             @override
             Widget build(BuildContext context) {
               return AnimatedRotation(
@@ -806,10 +802,7 @@ steps:
                   shape: const CircleBorder(),
                   backgroundColor: _colorScheme.surface,
                   onPressed: () => _toggle(),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: icon,
-                  ),
+                  child: Padding(padding: const EdgeInsets.all(10.0), child: icon),
                 ),
               );
             }
@@ -820,20 +813,20 @@ steps:
           // Copyright 2022 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-          
+
           import 'package:flutter/material.dart';
-          
+
           import 'models/data.dart' as data;
           import 'models/models.dart';
           import 'widgets/email_list_view.dart';
-          
+
           void main() {
             runApp(const MainApp());
           }
-          
+
           class MainApp extends StatelessWidget {
             const MainApp({super.key});
-          
+
             @override
             Widget build(BuildContext context) {
               return MaterialApp(
@@ -842,32 +835,29 @@ steps:
               );
             }
           }
-          
+
           class Feed extends StatefulWidget {
-            const Feed({
-              super.key,
-              required this.currentUser,
-            });
-          
+            const Feed({super.key, required this.currentUser});
+
             final User currentUser;
-          
+
             @override
             State<Feed> createState() => _FeedState();
           }
-          
+
           class _FeedState extends State<Feed> {
             late final _colorScheme = Theme.of(context).colorScheme;
             late final _backgroundColor = Color.alphaBlend(
-                _colorScheme.primary.withAlpha(36), _colorScheme.surface);
-          
+              _colorScheme.primary.withAlpha(36),
+              _colorScheme.surface,
+            );
+
             @override
             Widget build(BuildContext context) {
               return Scaffold(
                 body: Container(
                   color: _backgroundColor,
-                  child: EmailListView(
-                    currentUser: widget.currentUser,
-                  ),
+                  child: EmailListView(currentUser: widget.currentUser),
                 ),
                 floatingActionButton: FloatingActionButton(
                   backgroundColor: _colorScheme.tertiaryContainer,
@@ -913,8 +903,8 @@ steps:
       - name: Patch lib/main.dart
         path: animated_responsive_layout/lib/main.dart
         patch-u: |
-          --- b/material-3-codelab/step_05/lib/main.dart
-          +++ a/material-3-codelab/step_05/lib/main.dart
+          --- b/animated-responsive-layout/step_05/lib/main.dart
+          +++ a/animated-responsive-layout/step_05/lib/main.dart
           @@ -4,6 +4,7 @@
            
            import 'package:flutter/material.dart';
@@ -923,9 +913,9 @@ steps:
            import 'models/data.dart' as data;
            import 'models/models.dart';
            import 'widgets/email_list_view.dart';
-          @@ -41,12 +42,20 @@ class _FeedState extends State<Feed> {
-             late final _backgroundColor = Color.alphaBlend(
-                 _colorScheme.primary.withAlpha(36), _colorScheme.surface);
+          @@ -40,12 +41,22 @@ class _FeedState extends State<Feed> {
+               _colorScheme.surface,
+             );
            
           +  int selectedIndex = 0;
           +
@@ -934,29 +924,30 @@ steps:
                return Scaffold(
                  body: Container(
                    color: _backgroundColor,
-                   child: EmailListView(
+          -        child: EmailListView(currentUser: widget.currentUser),
+          +        child: EmailListView(
           +          selectedIndex: selectedIndex,
           +          onSelected: (index) {
           +            setState(() {
           +              selectedIndex = index;
           +            });
           +          },
-                     currentUser: widget.currentUser,
-                   ),
+          +          currentUser: widget.currentUser,
+          +        ),
                  ),
-          @@ -56,6 +65,22 @@ class _FeedState extends State<Feed> {
+                 floatingActionButton: FloatingActionButton(
+                   backgroundColor: _colorScheme.tertiaryContainer,
+          @@ -53,6 +64,20 @@ class _FeedState extends State<Feed> {
                    onPressed: () {},
                    child: const Icon(Icons.add),
                  ),
           +      bottomNavigationBar: NavigationBar(
           +        elevation: 0,
           +        backgroundColor: Colors.white,
-          +        destinations: destinations.map<NavigationDestination>((d) {
-          +          return NavigationDestination(
-          +            icon: Icon(d.icon),
-          +            label: d.label,
-          +          );
-          +        }).toList(),
+          +        destinations:
+          +            destinations.map<NavigationDestination>((d) {
+          +              return NavigationDestination(icon: Icon(d.icon), label: d.label);
+          +            }).toList(),
           +        selectedIndex: selectedIndex,
           +        onDestinationSelected: (index) {
           +          setState(() {
@@ -984,32 +975,30 @@ steps:
           // Copyright 2022 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-          
+
           import 'package:flutter/material.dart';
-          
+
           import '../destinations.dart';
-          
+
           class DisappearingBottomNavigationBar extends StatelessWidget {
             const DisappearingBottomNavigationBar({
               super.key,
               required this.selectedIndex,
               this.onDestinationSelected,
             });
-          
+
             final int selectedIndex;
             final ValueChanged<int>? onDestinationSelected;
-          
+
             @override
             Widget build(BuildContext context) {
               return NavigationBar(
                 elevation: 0,
                 backgroundColor: Colors.white,
-                destinations: destinations.map<NavigationDestination>((d) {
-                  return NavigationDestination(
-                    icon: Icon(d.icon),
-                    label: d.label,
-                  );
-                }).toList(),
+                destinations:
+                    destinations.map<NavigationDestination>((d) {
+                      return NavigationDestination(icon: Icon(d.icon), label: d.label);
+                    }).toList(),
                 selectedIndex: selectedIndex,
                 onDestinationSelected: onDestinationSelected,
               );
@@ -1021,11 +1010,11 @@ steps:
           // Copyright 2022 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-          
+
           import 'package:flutter/material.dart';
-          
+
           import '../destinations.dart';
-          
+
           class DisappearingNavigationRail extends StatelessWidget {
             const DisappearingNavigationRail({
               super.key,
@@ -1033,11 +1022,11 @@ steps:
               required this.selectedIndex,
               this.onDestinationSelected,
             });
-          
+
             final Color backgroundColor;
             final int selectedIndex;
             final ValueChanged<int>? onDestinationSelected;
-          
+
             @override
             Widget build(BuildContext context) {
               final colorScheme = Theme.of(context).colorScheme;
@@ -1047,16 +1036,11 @@ steps:
                 onDestinationSelected: onDestinationSelected,
                 leading: Column(
                   children: [
-                    IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.menu),
-                    ),
+                    IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
                     const SizedBox(height: 8),
                     FloatingActionButton(
                       shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(15),
-                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(15)),
                       ),
                       backgroundColor: colorScheme.tertiaryContainer,
                       foregroundColor: colorScheme.onTertiaryContainer,
@@ -1066,20 +1050,21 @@ steps:
                   ],
                 ),
                 groupAlignment: -0.85,
-                destinations: destinations.map((d) {
-                  return NavigationRailDestination(
-                    icon: Icon(d.icon),
-                    label: Text(d.label),
-                  );
-                }).toList(),
+                destinations:
+                    destinations.map((d) {
+                      return NavigationRailDestination(
+                        icon: Icon(d.icon),
+                        label: Text(d.label),
+                      );
+                    }).toList(),
               );
             }
           }
       - name: Patch lib/main.dart
         path: animated_responsive_layout/lib/main.dart
         patch-u: |
-          --- b/material-3-codelab/step_06/lib/main.dart
-          +++ a/material-3-codelab/step_06/lib/main.dart
+          --- b/animated-responsive-layout/step_06/lib/main.dart
+          +++ a/animated-responsive-layout/step_06/lib/main.dart
           @@ -4,9 +4,10 @@
            
            import 'package:flutter/material.dart';
@@ -1092,8 +1077,8 @@ steps:
            import 'widgets/email_list_view.dart';
            
            void main() {
-          @@ -43,44 +44,65 @@ class _FeedState extends State<Feed> {
-                 _colorScheme.primary.withAlpha(36), _colorScheme.surface);
+          @@ -42,42 +43,67 @@ class _FeedState extends State<Feed> {
+             );
            
              int selectedIndex = 0;
           +  bool wideScreen = false;
@@ -1130,12 +1115,10 @@ steps:
           -      bottomNavigationBar: NavigationBar(
           -        elevation: 0,
           -        backgroundColor: Colors.white,
-          -        destinations: destinations.map<NavigationDestination>((d) {
-          -          return NavigationDestination(
-          -            icon: Icon(d.icon),
-          -            label: d.label,
-          -          );
-          -        }).toList(),
+          -        destinations:
+          -            destinations.map<NavigationDestination>((d) {
+          -              return NavigationDestination(icon: Icon(d.icon), label: d.label);
+          -            }).toList(),
           -        selectedIndex: selectedIndex,
           -        onDestinationSelected: (index) {
           -          setState(() {
@@ -1170,24 +1153,26 @@ steps:
           +          ),
           +        ],
                  ),
-          +      floatingActionButton: wideScreen
-          +          ? null
-          +          : FloatingActionButton(
-          +              backgroundColor: _colorScheme.tertiaryContainer,
-          +              foregroundColor: _colorScheme.onTertiaryContainer,
-          +              onPressed: () {},
-          +              child: const Icon(Icons.add),
-          +            ),
-          +      bottomNavigationBar: wideScreen
-          +          ? null
-          +          : DisappearingBottomNavigationBar(
-          +              selectedIndex: selectedIndex,
-          +              onDestinationSelected: (index) {
-          +                setState(() {
-          +                  selectedIndex = index;
-          +                });
-          +              },
-          +            ),
+          +      floatingActionButton:
+          +          wideScreen
+          +              ? null
+          +              : FloatingActionButton(
+          +                backgroundColor: _colorScheme.tertiaryContainer,
+          +                foregroundColor: _colorScheme.onTertiaryContainer,
+          +                onPressed: () {},
+          +                child: const Icon(Icons.add),
+          +              ),
+          +      bottomNavigationBar:
+          +          wideScreen
+          +              ? null
+          +              : DisappearingBottomNavigationBar(
+          +                selectedIndex: selectedIndex,
+          +                onDestinationSelected: (index) {
+          +                  setState(() {
+          +                    selectedIndex = index;
+          +                  });
+          +                },
+          +              ),
                );
              }
            }
@@ -1208,92 +1193,90 @@ steps:
           // Copyright 2022 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-          
+
           import 'package:flutter/animation.dart';
-          
+
           class BarAnimation extends ReverseAnimation {
             BarAnimation({required AnimationController parent})
-                : super(
-                    CurvedAnimation(
-                      parent: parent,
-                      curve: const Interval(0, 1 / 5),
-                      reverseCurve: const Interval(1 / 5, 4 / 5),
-                    ),
-                  );
+              : super(
+                  CurvedAnimation(
+                    parent: parent,
+                    curve: const Interval(0, 1 / 5),
+                    reverseCurve: const Interval(1 / 5, 4 / 5),
+                  ),
+                );
           }
-          
+
           class OffsetAnimation extends CurvedAnimation {
             OffsetAnimation({required super.parent})
-                : super(
-                    curve: const Interval(
-                      2 / 5,
-                      3 / 5,
-                      curve: Curves.easeInOutCubicEmphasized,
-                    ),
-                    reverseCurve: Interval(
-                      4 / 5,
-                      1,
-                      curve: Curves.easeInOutCubicEmphasized.flipped,
-                    ),
-                  );
+              : super(
+                  curve: const Interval(
+                    2 / 5,
+                    3 / 5,
+                    curve: Curves.easeInOutCubicEmphasized,
+                  ),
+                  reverseCurve: Interval(
+                    4 / 5,
+                    1,
+                    curve: Curves.easeInOutCubicEmphasized.flipped,
+                  ),
+                );
           }
-          
+
           class RailAnimation extends CurvedAnimation {
             RailAnimation({required super.parent})
-                : super(
-                    curve: const Interval(0 / 5, 4 / 5),
-                    reverseCurve: const Interval(3 / 5, 1),
-                  );
+              : super(
+                  curve: const Interval(0 / 5, 4 / 5),
+                  reverseCurve: const Interval(3 / 5, 1),
+                );
           }
-          
+
           class RailFabAnimation extends CurvedAnimation {
             RailFabAnimation({required super.parent})
-                : super(
-                    curve: const Interval(3 / 5, 1),
-                  );
+              : super(curve: const Interval(3 / 5, 1));
           }
-          
+
           class ScaleAnimation extends CurvedAnimation {
             ScaleAnimation({required super.parent})
-                : super(
-                    curve: const Interval(
-                      3 / 5,
-                      4 / 5,
-                      curve: Curves.easeInOutCubicEmphasized,
-                    ),
-                    reverseCurve: Interval(
-                      3 / 5,
-                      1,
-                      curve: Curves.easeInOutCubicEmphasized.flipped,
-                    ),
-                  );
+              : super(
+                  curve: const Interval(
+                    3 / 5,
+                    4 / 5,
+                    curve: Curves.easeInOutCubicEmphasized,
+                  ),
+                  reverseCurve: Interval(
+                    3 / 5,
+                    1,
+                    curve: Curves.easeInOutCubicEmphasized.flipped,
+                  ),
+                );
           }
-          
+
           class ShapeAnimation extends CurvedAnimation {
             ShapeAnimation({required super.parent})
-                : super(
-                    curve: const Interval(
-                      2 / 5,
-                      3 / 5,
-                      curve: Curves.easeInOutCubicEmphasized,
-                    ),
-                  );
+              : super(
+                  curve: const Interval(
+                    2 / 5,
+                    3 / 5,
+                    curve: Curves.easeInOutCubicEmphasized,
+                  ),
+                );
           }
-          
+
           class SizeAnimation extends CurvedAnimation {
             SizeAnimation({required super.parent})
-                : super(
-                    curve: const Interval(
-                      0 / 5,
-                      3 / 5,
-                      curve: Curves.easeInOutCubicEmphasized,
-                    ),
-                    reverseCurve: Interval(
-                      2 / 5,
-                      1,
-                      curve: Curves.easeInOutCubicEmphasized.flipped,
-                    ),
-                  );
+              : super(
+                  curve: const Interval(
+                    0 / 5,
+                    3 / 5,
+                    curve: Curves.easeInOutCubicEmphasized,
+                  ),
+                  reverseCurve: Interval(
+                    2 / 5,
+                    1,
+                    curve: Curves.easeInOutCubicEmphasized.flipped,
+                  ),
+                );
           }
       - name: mkdir lib/transitions
         mkdir: animated_responsive_layout/lib/transitions
@@ -1303,36 +1286,37 @@ steps:
           // Copyright 2022 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-          
+
           import 'package:flutter/material.dart';
           import '../animations.dart';
-          
+
           class BottomBarTransition extends StatefulWidget {
-            const BottomBarTransition(
-                {super.key,
-                required this.animation,
-                required this.backgroundColor,
-                required this.child});
-          
+            const BottomBarTransition({
+              super.key,
+              required this.animation,
+              required this.backgroundColor,
+              required this.child,
+            });
+
             final Animation<double> animation;
             final Color backgroundColor;
             final Widget child;
-          
+
             @override
             State<BottomBarTransition> createState() => _BottomBarTransition();
           }
-          
+
           class _BottomBarTransition extends State<BottomBarTransition> {
             late final Animation<Offset> offsetAnimation = Tween<Offset>(
               begin: const Offset(0, 1),
               end: Offset.zero,
             ).animate(OffsetAnimation(parent: widget.animation));
-          
+
             late final Animation<double> heightAnimation = Tween<double>(
               begin: 0,
               end: 1,
             ).animate(SizeAnimation(parent: widget.animation));
-          
+
             @override
             Widget build(BuildContext context) {
               return ClipRect(
@@ -1356,25 +1340,26 @@ steps:
           // Copyright 2022 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-          
+
           import 'package:flutter/material.dart';
           import '../animations.dart';
-          
+
           class NavRailTransition extends StatefulWidget {
-            const NavRailTransition(
-                {super.key,
-                required this.animation,
-                required this.backgroundColor,
-                required this.child});
-          
+            const NavRailTransition({
+              super.key,
+              required this.animation,
+              required this.backgroundColor,
+              required this.child,
+            });
+
             final Animation<double> animation;
             final Widget child;
             final Color backgroundColor;
-          
+
             @override
             State<NavRailTransition> createState() => _NavRailTransitionState();
           }
-          
+
           class _NavRailTransitionState extends State<NavRailTransition> {
             // The animations are only rebuilt by this method when the text
             // direction changes because this widget only depends on Directionality.
@@ -1387,7 +1372,7 @@ steps:
               begin: 0,
               end: 1,
             ).animate(SizeAnimation(parent: widget.animation));
-          
+
             @override
             Widget build(BuildContext context) {
               return ClipRect(
@@ -1416,12 +1401,12 @@ steps:
           // Copyright 2022 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-          
+
           import 'dart:ui';
-          
+
           import 'package:flutter/material.dart';
           import '../animations.dart';
-          
+
           class AnimatedFloatingActionButton extends StatefulWidget {
             const AnimatedFloatingActionButton({
               super.key,
@@ -1430,25 +1415,27 @@ steps:
               this.onPressed,
               this.child,
             });
-          
+
             final Animation<double> animation;
             final VoidCallback? onPressed;
             final Widget? child;
             final double? elevation;
-          
+
             @override
             State<AnimatedFloatingActionButton> createState() =>
                 _AnimatedFloatingActionButton();
           }
-          
+
           class _AnimatedFloatingActionButton
               extends State<AnimatedFloatingActionButton> {
             late final ColorScheme _colorScheme = Theme.of(context).colorScheme;
-            late final Animation<double> _scaleAnimation =
-                ScaleAnimation(parent: widget.animation);
-            late final Animation<double> _shapeAnimation =
-                ShapeAnimation(parent: widget.animation);
-          
+            late final Animation<double> _scaleAnimation = ScaleAnimation(
+              parent: widget.animation,
+            );
+            late final Animation<double> _shapeAnimation = ShapeAnimation(
+              parent: widget.animation,
+            );
+
             @override
             Widget build(BuildContext context) {
               return ScaleTransition(
@@ -1471,9 +1458,9 @@ steps:
       - name: Patch lib/widgets/disappearing_bottom_navigation_bar.dart
         path: animated_responsive_layout/lib/widgets/disappearing_bottom_navigation_bar.dart
         patch-u: |
-          --- b/material-3-codelab/step_07/lib/widgets/disappearing_bottom_navigation_bar.dart
-          +++ a/material-3-codelab/step_07/lib/widgets/disappearing_bottom_navigation_bar.dart
-          @@ -4,31 +4,39 @@
+          --- b/animated-responsive-layout/step_07/lib/widgets/disappearing_bottom_navigation_bar.dart
+          +++ a/animated-responsive-layout/step_07/lib/widgets/disappearing_bottom_navigation_bar.dart
+          @@ -4,29 +4,37 @@
            
            import 'package:flutter/material.dart';
            
@@ -1500,23 +1487,19 @@ steps:
           +    return BottomBarTransition(
           +      animation: barAnimation,
                  backgroundColor: Colors.white,
-          -      destinations: destinations.map<NavigationDestination>((d) {
-          -        return NavigationDestination(
-          -          icon: Icon(d.icon),
-          -          label: d.label,
-          -        );
-          -      }).toList(),
+          -      destinations:
+          -          destinations.map<NavigationDestination>((d) {
+          -            return NavigationDestination(icon: Icon(d.icon), label: d.label);
+          -          }).toList(),
           -      selectedIndex: selectedIndex,
           -      onDestinationSelected: onDestinationSelected,
           +      child: NavigationBar(
           +        elevation: 0,
           +        backgroundColor: Colors.white,
-          +        destinations: destinations.map<NavigationDestination>((d) {
-          +          return NavigationDestination(
-          +            icon: Icon(d.icon),
-          +            label: d.label,
-          +          );
-          +        }).toList(),
+          +        destinations:
+          +            destinations.map<NavigationDestination>((d) {
+          +              return NavigationDestination(icon: Icon(d.icon), label: d.label);
+          +            }).toList(),
           +        selectedIndex: selectedIndex,
           +        onDestinationSelected: onDestinationSelected,
           +      ),
@@ -1526,9 +1509,9 @@ steps:
       - name: Patch lib/widgets/disappearing_navigation_rail.dart
         path: animated_responsive_layout/lib/widgets/disappearing_navigation_rail.dart
         patch-u: |
-          --- b/material-3-codelab/step_07/lib/widgets/disappearing_navigation_rail.dart
-          +++ a/material-3-codelab/step_07/lib/widgets/disappearing_navigation_rail.dart
-          @@ -4,54 +4,59 @@
+          --- b/animated-responsive-layout/step_07/lib/widgets/disappearing_navigation_rail.dart
+          +++ a/animated-responsive-layout/step_07/lib/widgets/disappearing_navigation_rail.dart
+          @@ -4,50 +4,57 @@
            
            import 'package:flutter/material.dart';
            
@@ -1564,25 +1547,24 @@ steps:
           -      onDestinationSelected: onDestinationSelected,
           -      leading: Column(
           -        children: [
-          -          IconButton(
-          -            onPressed: () {},
-          -            icon: const Icon(Icons.menu),
-          -          ),
+          -          IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
           -          const SizedBox(height: 8),
           -          FloatingActionButton(
           -            shape: const RoundedRectangleBorder(
-          -              borderRadius: BorderRadius.all(
-          -                Radius.circular(15),
-          -              ),
+          -              borderRadius: BorderRadius.all(Radius.circular(15)),
           +      child: NavigationRail(
           +        selectedIndex: selectedIndex,
           +        backgroundColor: backgroundColor,
           +        onDestinationSelected: onDestinationSelected,
           +        leading: Column(
           +          children: [
-          +            IconButton(
+          +            IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
+          +            const SizedBox(height: 8),
+          +            AnimatedFloatingActionButton(
+          +              animation: railFabAnimation,
+          +              elevation: 0,
           +              onPressed: () {},
-          +              icon: const Icon(Icons.menu),
+          +              child: const Icon(Icons.add),
                        ),
           -            backgroundColor: colorScheme.tertiaryContainer,
           -            foregroundColor: colorScheme.onTertiaryContainer,
@@ -1590,38 +1572,33 @@ steps:
           -            child: const Icon(Icons.add),
           -          ),
           -        ],
-          +            const SizedBox(height: 8),
-          +            AnimatedFloatingActionButton(
-          +              animation: railFabAnimation,
-          +              elevation: 0,
-          +              onPressed: () {},
-          +              child: const Icon(Icons.add),
-          +            ),
           +          ],
           +        ),
           +        groupAlignment: -0.85,
-          +        destinations: destinations.map((d) {
-          +          return NavigationRailDestination(
-          +            icon: Icon(d.icon),
-          +            label: Text(d.label),
-          +          );
-          +        }).toList(),
+          +        destinations:
+          +            destinations.map((d) {
+          +              return NavigationRailDestination(
+          +                icon: Icon(d.icon),
+          +                label: Text(d.label),
+          +              );
+          +            }).toList(),
                  ),
           -      groupAlignment: -0.85,
-          -      destinations: destinations.map((d) {
-          -        return NavigationRailDestination(
-          -          icon: Icon(d.icon),
-          -          label: Text(d.label),
-          -        );
-          -      }).toList(),
+          -      destinations:
+          -          destinations.map((d) {
+          -            return NavigationRailDestination(
+          -              icon: Icon(d.icon),
+          -              label: Text(d.label),
+          -            );
+          -          }).toList(),
                );
              }
            }
       - name: Patch lib/main.dart
         path: animated_responsive_layout/lib/main.dart
         patch-u: |
-          --- b/material-3-codelab/step_07/lib/main.dart
-          +++ a/material-3-codelab/step_07/lib/main.dart
+          --- b/animated-responsive-layout/step_07/lib/main.dart
+          +++ a/animated-responsive-layout/step_07/lib/main.dart
           @@ -4,8 +4,10 @@
            
            import 'package:flutter/material.dart';
@@ -1633,7 +1610,7 @@ steps:
            import 'widgets/disappearing_bottom_navigation_bar.dart';
            import 'widgets/disappearing_navigation_rail.dart';
            import 'widgets/email_list_view.dart';
-          @@ -38,71 +40,102 @@ class Feed extends StatefulWidget {
+          @@ -35,75 +37,105 @@ class Feed extends StatefulWidget {
              State<Feed> createState() => _FeedState();
            }
            
@@ -1641,12 +1618,15 @@ steps:
           +class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
              late final _colorScheme = Theme.of(context).colorScheme;
              late final _backgroundColor = Color.alphaBlend(
-                 _colorScheme.primary.withAlpha(36), _colorScheme.surface);
+               _colorScheme.primary.withAlpha(36),
+               _colorScheme.surface,
+             );
           +  late final _controller = AnimationController(
-          +      duration: const Duration(milliseconds: 1000),
-          +      reverseDuration: const Duration(milliseconds: 1250),
-          +      value: 0,
-          +      vsync: this);
+          +    duration: const Duration(milliseconds: 1000),
+          +    reverseDuration: const Duration(milliseconds: 1250),
+          +    value: 0,
+          +    vsync: this,
+          +  );
           +  late final _railAnimation = RailAnimation(parent: _controller);
           +  late final _railFabAnimation = RailFabAnimation(parent: _controller);
           +  late final _barAnimation = BarAnimation(parent: _controller);
@@ -1704,6 +1684,31 @@ steps:
           -            child: Container(
           -              color: _backgroundColor,
           -              child: EmailListView(
+          -                selectedIndex: selectedIndex,
+          -                onSelected: (index) {
+          -                  setState(() {
+          -                    selectedIndex = index;
+          -                  });
+          -                },
+          -                currentUser: widget.currentUser,
+          -              ),
+          -            ),
+          -          ),
+          -        ],
+          -      ),
+          -      floatingActionButton:
+          -          wideScreen
+          -              ? null
+          -              : FloatingActionButton(
+          -                backgroundColor: _colorScheme.tertiaryContainer,
+          -                foregroundColor: _colorScheme.onTertiaryContainer,
+          -                onPressed: () {},
+          -                child: const Icon(Icons.add),
+          -              ),
+          -      bottomNavigationBar:
+          -          wideScreen
+          -              ? null
+          -              : DisappearingBottomNavigationBar(
           +    return AnimatedBuilder(
           +      animation: _controller,
           +      builder: (context, _) {
@@ -1714,16 +1719,13 @@ steps:
           +                railAnimation: _railAnimation,
           +                railFabAnimation: _railFabAnimation,
                            selectedIndex: selectedIndex,
-          -                onSelected: (index) {
           +                backgroundColor: _backgroundColor,
-          +                onDestinationSelected: (index) {
+                           onDestinationSelected: (index) {
                              setState(() {
                                selectedIndex = index;
                              });
                            },
-          -                currentUser: widget.currentUser,
                          ),
-          -            ),
           +              Expanded(
           +                child: Container(
           +                  color: _backgroundColor,
@@ -1753,27 +1755,7 @@ steps:
           +                selectedIndex = index;
           +              });
           +            },
-                     ),
-          -        ],
-          -      ),
-          -      floatingActionButton: wideScreen
-          -          ? null
-          -          : FloatingActionButton(
-          -              backgroundColor: _colorScheme.tertiaryContainer,
-          -              foregroundColor: _colorScheme.onTertiaryContainer,
-          -              onPressed: () {},
-          -              child: const Icon(Icons.add),
-          -            ),
-          -      bottomNavigationBar: wideScreen
-          -          ? null
-          -          : DisappearingBottomNavigationBar(
-          -              selectedIndex: selectedIndex,
-          -              onDestinationSelected: (index) {
-          -                setState(() {
-          -                  selectedIndex = index;
-          -                });
-          -              },
-          -            ),
+          +          ),
           +        );
           +      },
                );
@@ -1820,8 +1802,9 @@ steps:
 
           class _ListDetailTransitionState extends State<ListDetailTransition> {
             Animation<double> widthAnimation = const AlwaysStoppedAnimation(0);
-            late final Animation<double> sizeAnimation =
-                SizeAnimation(parent: widget.animation);
+            late final Animation<double> sizeAnimation = SizeAnimation(
+              parent: widget.animation,
+            );
             late final Animation<Offset> offsetAnimation = Tween<Offset>(
               begin: const Offset(1, 0),
               end: Offset.zero,
@@ -1851,8 +1834,10 @@ steps:
               }
 
               if (currentFlexFactor == 0) {
-                widthAnimation =
-                    Tween<double>(begin: 0, end: nextFlexFactor).animate(sizeAnimation);
+                widthAnimation = Tween<double>(
+                  begin: 0,
+                  end: nextFlexFactor,
+                ).animate(sizeAnimation);
               } else {
                 final TweenSequence<double> sequence = TweenSequence([
                   if (sizeAnimation.value > 0) ...[
@@ -1880,20 +1865,17 @@ steps:
               return widthAnimation.value.toInt() == 0
                   ? widget.one
                   : Row(
-                      children: [
-                        Flexible(
-                          flex: 1000,
-                          child: widget.one,
+                    children: [
+                      Flexible(flex: 1000, child: widget.one),
+                      Flexible(
+                        flex: widthAnimation.value.toInt(),
+                        child: FractionalTranslation(
+                          translation: offsetAnimation.value,
+                          child: widget.two,
                         ),
-                        Flexible(
-                          flex: widthAnimation.value.toInt(),
-                          child: FractionalTranslation(
-                            translation: offsetAnimation.value,
-                            child: widget.two,
-                          ),
-                        ),
-                      ],
-                    );
+                      ),
+                    ],
+                  );
             }
           }
       - name: Create lib/widgets/reply_list_view.dart
@@ -1937,8 +1919,8 @@ steps:
       - name: Update lib/main.dart
         path: animated_responsive_layout/lib/main.dart
         patch-u: |
-          --- b/material-3-codelab/step_08/lib/main.dart
-          +++ a/material-3-codelab/step_08/lib/main.dart
+          --- b/animated-responsive-layout/step_08/lib/main.dart
+          +++ a/animated-responsive-layout/step_08/lib/main.dart
           @@ -7,10 +7,12 @@ import 'package:flutter/material.dart';
            import 'animations.dart';
            import 'models/data.dart' as data;

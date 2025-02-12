@@ -25,10 +25,16 @@ Future<BuiltSet<String>> wordList(Ref ref) async {
 
   final re = RegExp(r'^[a-z]+$');
   final words = await rootBundle.loadString('assets/words.txt');
-  return const LineSplitter().convert(words).toBuiltSet().rebuild((b) => b
-    ..map((word) => word.toLowerCase().trim())
-    ..where((word) => word.length > 2)
-    ..where((word) => re.hasMatch(word)));
+  return const LineSplitter()
+      .convert(words)
+      .toBuiltSet()
+      .rebuild(
+        (b) =>
+            b
+              ..map((word) => word.toLowerCase().trim())
+              ..where((word) => word.length > 2)
+              ..where((word) => re.hasMatch(word)),
+      );
 }
 
 /// An enumeration for different sizes of [model.Crossword]s.
@@ -39,10 +45,7 @@ enum CrosswordSize {
   xlarge(width: 160, height: 88),
   xxlarge(width: 500, height: 500);
 
-  const CrosswordSize({
-    required this.width,
-    required this.height,
-  });
+  const CrosswordSize({required this.width, required this.height});
 
   final int width;
   final int height;
@@ -68,14 +71,17 @@ Stream<model.Crossword> crossword(Ref ref) async* {
   final size = ref.watch(sizeProvider);
   final wordListAsync = ref.watch(wordListProvider);
 
-  final emptyCrossword =
-      model.Crossword.crossword(width: size.width, height: size.height);
+  final emptyCrossword = model.Crossword.crossword(
+    width: size.width,
+    height: size.height,
+  );
 
   yield* wordListAsync.when(
-    data: (wordList) => exploreCrosswordSolutions(
-      crossword: emptyCrossword,
-      wordList: wordList,
-    ),
+    data:
+        (wordList) => exploreCrosswordSolutions(
+          crossword: emptyCrossword,
+          wordList: wordList,
+        ),
     error: (error, stackTrace) async* {
       debugPrint('Error loading word list: $error');
       yield emptyCrossword;

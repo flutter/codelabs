@@ -15,31 +15,24 @@ import 'dart:ffi' as ffi;
 class FfigenAppBindings {
   /// Holds the symbol lookup function.
   final ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
-      _lookup;
+  _lookup;
 
   /// The symbols are looked up in [dynamicLibrary].
   FfigenAppBindings(ffi.DynamicLibrary dynamicLibrary)
-      : _lookup = dynamicLibrary.lookup;
+    : _lookup = dynamicLibrary.lookup;
 
   /// The symbols are looked up with [lookup].
   FfigenAppBindings.fromLookup(
-      ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
-          lookup)
-      : _lookup = lookup;
+    ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName) lookup,
+  ) : _lookup = lookup;
 
   /// A very short-lived native function.
   ///
   /// For very short-lived functions, it is fine to call them on the main isolate.
   /// They will block the Dart execution while running the native function, so
   /// only do this for native functions which are guaranteed to be short-lived.
-  int sum(
-    int a,
-    int b,
-  ) {
-    return _sum(
-      a,
-      b,
-    );
+  int sum(int a, int b) {
+    return _sum(a, b);
   }
 
   late final _sumPtr =
@@ -51,19 +44,14 @@ class FfigenAppBindings {
   /// Do not call these kind of native functions in the main isolate. They will
   /// block Dart execution. This will cause dropped frames in Flutter applications.
   /// Instead, call these native functions on a separate isolate.
-  int sum_long_running(
-    int a,
-    int b,
-  ) {
-    return _sum_long_running(
-      a,
-      b,
-    );
+  int sum_long_running(int a, int b) {
+    return _sum_long_running(a, b);
   }
 
   late final _sum_long_runningPtr =
       _lookup<ffi.NativeFunction<ffi.Int Function(ffi.Int, ffi.Int)>>(
-          'sum_long_running');
+        'sum_long_running',
+      );
   late final _sum_long_running =
       _sum_long_runningPtr.asFunction<int Function(int, int)>();
 }

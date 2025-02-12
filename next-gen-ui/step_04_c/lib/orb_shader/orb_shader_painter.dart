@@ -30,11 +30,13 @@ class OrbShaderPainter extends CustomPainter {
 
     v64.Vector3 colorToVector3(Color c) => v64.Vector3(c.r, c.g, c.b);
 
-    v64.Vector3 lightLumP = colorToVector3(config.lightColor).normalized() *
+    v64.Vector3 lightLumP =
+        colorToVector3(config.lightColor).normalized() *
         max(0.0, config.lightBrightness);
     v64.Vector3 albedo = colorToVector3(config.materialColor);
 
-    v64.Vector3 ambientLight = colorToVector3(config.ambientLightColor) *
+    v64.Vector3 ambientLight =
+        colorToVector3(config.ambientLightColor) *
         max(0.0, config.ambientLightBrightness);
 
     shader.setFloat(0, size.width);

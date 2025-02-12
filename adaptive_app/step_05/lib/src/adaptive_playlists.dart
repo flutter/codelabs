@@ -41,7 +41,7 @@ class NarrowDisplayPlaylists extends StatelessWidget {
             Uri(
               path: '/playlist/${playlist.id}',
               queryParameters: <String, String>{
-                'title': playlist.snippet!.title!
+                'title': playlist.snippet!.title!,
               },
             ).toString(),
           );
@@ -72,14 +72,18 @@ class _WideDisplayPlaylistsState extends State<WideDisplayPlaylists> {
       body: SplitView(
         viewMode: SplitViewMode.Horizontal,
         children: [
-          Playlists(playlistSelected: (playlist) {
-            setState(() {
-              selectedPlaylist = playlist;
-            });
-          }),
+          Playlists(
+            playlistSelected: (playlist) {
+              setState(() {
+                selectedPlaylist = playlist;
+              });
+            },
+          ),
           switch ((selectedPlaylist?.id, selectedPlaylist?.snippet?.title)) {
-            (String id, String title) =>
-              PlaylistDetails(playlistId: id, playlistName: title),
+            (String id, String title) => PlaylistDetails(
+              playlistId: id,
+              playlistName: title,
+            ),
             _ => const Center(child: Text('Select a playlist')),
           },
         ],

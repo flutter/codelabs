@@ -5,9 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-enum _MenuOptions {
-  navigationDelegate,
-}
+enum _MenuOptions { navigationDelegate }
 
 class Menu extends StatelessWidget {
   const Menu({required this.controller, super.key});
@@ -23,12 +21,13 @@ class Menu extends StatelessWidget {
             await controller.loadRequest(Uri.parse('https://youtube.com'));
         }
       },
-      itemBuilder: (context) => [
-        const PopupMenuItem<_MenuOptions>(
-          value: _MenuOptions.navigationDelegate,
-          child: Text('Navigate to YouTube'),
-        ),
-      ],
+      itemBuilder:
+          (context) => [
+            const PopupMenuItem<_MenuOptions>(
+              value: _MenuOptions.navigationDelegate,
+              child: Text('Navigate to YouTube'),
+            ),
+          ],
     );
   }
 }

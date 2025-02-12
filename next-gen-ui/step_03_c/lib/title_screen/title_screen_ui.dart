@@ -31,10 +31,7 @@ class TitleScreenUi extends StatelessWidget {
         children: [
           /// Title Text
           const TopLeft(
-            child: UiScaler(
-              alignment: Alignment.topLeft,
-              child: _TitleText(),
-            ),
+            child: UiScaler(alignment: Alignment.topLeft, child: _TitleText()),
           ),
 
           /// Difficulty Btns
@@ -176,18 +173,14 @@ class _DifficultyBtn extends StatelessWidget {
 
                 /// cross-hairs (selected state)
                 if (selected) ...[
-                  CenterLeft(
-                    child: Image.asset(AssetPaths.titleSelectedLeft),
-                  ),
+                  CenterLeft(child: Image.asset(AssetPaths.titleSelectedLeft)),
                   CenterRight(
                     child: Image.asset(AssetPaths.titleSelectedRight),
                   ),
                 ],
 
                 /// Label
-                Center(
-                  child: Text(label.toUpperCase(), style: TextStyles.btn),
-                ),
+                Center(child: Text(label.toUpperCase(), style: TextStyles.btn)),
               ],
             ),
           ),
@@ -229,15 +222,20 @@ class _StartBtnState extends State<_StartBtn> {
               Positioned.fill(child: Image.asset(AssetPaths.titleStartBtn)),
               if (state.isHovered || state.isFocused) ...[
                 Positioned.fill(
-                    child: Image.asset(AssetPaths.titleStartBtnHover)),
+                  child: Image.asset(AssetPaths.titleStartBtnHover),
+                ),
               ],
               Center(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text('START MISSION',
-                        style: TextStyles.btn
-                            .copyWith(fontSize: 24, letterSpacing: 18)),
+                    Text(
+                      'START MISSION',
+                      style: TextStyles.btn.copyWith(
+                        fontSize: 24,
+                        letterSpacing: 18,
+                      ),
+                    ),
                   ],
                 ),
               ),

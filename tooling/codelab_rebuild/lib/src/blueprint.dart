@@ -14,11 +14,7 @@ part 'blueprint.g.dart';
 
 final _logger = Logger('blueprint');
 
-@JsonSerializable(
-  anyMap: true,
-  checked: true,
-  disallowUnrecognizedKeys: true,
-)
+@JsonSerializable(anyMap: true, checked: true, disallowUnrecognizedKeys: true)
 class Blueprint {
   @JsonKey(required: true)
   final String name;
@@ -62,10 +58,7 @@ class Blueprint {
   }
 
   factory Blueprint.fromString(String yaml) {
-    return checkedYamlDecode(
-      yaml,
-      (m) => Blueprint.fromJson(m!),
-    );
+    return checkedYamlDecode(yaml, (m) => Blueprint.fromJson(m!));
   }
 
   /// Rebuild a blueprint in a target directory.
@@ -77,11 +70,7 @@ class Blueprint {
   String toString() => 'Blueprint: ${toJson()}';
 }
 
-@JsonSerializable(
-  anyMap: true,
-  checked: true,
-  disallowUnrecognizedKeys: true,
-)
+@JsonSerializable(anyMap: true, checked: true, disallowUnrecognizedKeys: true)
 class BlueprintStep {
   @JsonKey(required: true)
   final String name;
@@ -273,21 +262,24 @@ class BlueprintStep {
     // We can't have patch and patch-u and patch-c
     if (patch != null && patchU != null && patchC != null) {
       _logger.warning(
-          'Invalid step, multiple of patch, patch-u and patch-c specified: $name');
+        'Invalid step, multiple of patch, patch-u and patch-c specified: $name',
+      );
       return false;
     }
 
     // If we have replace-contents, we need a file to apply it to.
     if (replaceContents != null && path == null) {
-      _logger
-          .warning('Invalid step, replace-contents with no target path: $name');
+      _logger.warning(
+        'Invalid step, replace-contents with no target path: $name',
+      );
       return false;
     }
 
     // If we have base64-contents, we need a file to apply it to.
     if (base64Contents != null && path == null) {
-      _logger
-          .warning('Invalid step, base64-contents with no target path: $name');
+      _logger.warning(
+        'Invalid step, base64-contents with no target path: $name',
+      );
       return false;
     }
 
@@ -312,7 +304,8 @@ class BlueprintStep {
     // If we have a stripLinesContaining, we need a path to strip
     if (stripLinesContaining != null && path == null) {
       _logger.warning(
-          'Invalid step, strip-lines-containing with no target path: $name');
+        'Invalid step, strip-lines-containing with no target path: $name',
+      );
       return false;
     }
 
@@ -322,7 +315,8 @@ class BlueprintStep {
         iphoneosDeploymentTarget == null &&
         macosxDeploymentTarget == null) {
       _logger.warning(
-          'Invalid step, xcode-add-file with no xcode-project-path, iphoneos-deployment-target or macosx-deployment-target: $name');
+        'Invalid step, xcode-add-file with no xcode-project-path, iphoneos-deployment-target or macosx-deployment-target: $name',
+      );
       return false;
     }
 
@@ -349,7 +343,8 @@ class BlueprintStep {
             xcodeAddFile != null ||
             xcodeProjectPath != null)) {
       _logger.warning(
-          'Invalid step, patch with command(s), replace-contents, or base64-contents: $name');
+        'Invalid step, patch with command(s), replace-contents, or base64-contents: $name',
+      );
       return false;
     }
 
@@ -364,11 +359,7 @@ class BlueprintStep {
   String toString() => 'BlueprintStep: ${toJson()}';
 }
 
-@JsonSerializable(
-  anyMap: true,
-  checked: true,
-  disallowUnrecognizedKeys: true,
-)
+@JsonSerializable(anyMap: true, checked: true, disallowUnrecognizedKeys: true)
 class FromTo {
   final String from;
   final String to;

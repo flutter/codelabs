@@ -16,17 +16,22 @@ Stream<Crossword> exploreCrosswordSolutions({
   required Crossword crossword,
   required BuiltSet<String> wordList,
 }) async* {
-  while (
-      crossword.characters.length < crossword.width * crossword.height * 0.8) {
+  while (crossword.characters.length <
+      crossword.width * crossword.height * 0.8) {
     final word = wordList.randomElement();
     final direction = _random.nextBool() ? Direction.across : Direction.down;
     final location = Location.at(
-        _random.nextInt(crossword.width), _random.nextInt(crossword.height));
+      _random.nextInt(crossword.width),
+      _random.nextInt(crossword.height),
+    );
     try {
       var candidate = await compute(((String, Direction, Location) wordToAdd) {
         final (word, direction, location) = wordToAdd;
         return crossword.addWord(
-            word: word, direction: direction, location: location);
+          word: word,
+          direction: direction,
+          location: location,
+        );
       }, (word, direction, location));
 
       if (candidate != null) {

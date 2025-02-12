@@ -31,10 +31,7 @@ class TitleScreenUi extends StatelessWidget {
         children: [
           /// Title Text
           const TopLeft(
-            child: UiScaler(
-              alignment: Alignment.topLeft,
-              child: _TitleText(),
-            ),
+            child: UiScaler(alignment: Alignment.topLeft, child: _TitleText()),
           ),
 
           /// Difficulty Btns
@@ -165,18 +162,14 @@ class _DifficultyBtn extends StatelessWidget {
 
                 /// cross-hairs (selected state)
                 if (selected) ...[
-                  CenterLeft(
-                    child: Image.asset(AssetPaths.titleSelectedLeft),
-                  ),
+                  CenterLeft(child: Image.asset(AssetPaths.titleSelectedLeft)),
                   CenterRight(
                     child: Image.asset(AssetPaths.titleSelectedRight),
                   ),
                 ],
 
                 /// Label
-                Center(
-                  child: Text(label.toUpperCase(), style: TextStyles.btn),
-                ),
+                Center(child: Text(label.toUpperCase(), style: TextStyles.btn)),
               ],
             ),
           ),

@@ -12,9 +12,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Firebase Meetup'),
-      ),
+      appBar: AppBar(title: const Text('Firebase Meetup')),
       body: ListView(
         children: <Widget>[
           Image.asset('assets/codelab.png'),

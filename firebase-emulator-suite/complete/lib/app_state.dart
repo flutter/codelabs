@@ -7,15 +7,17 @@ import 'entry.dart';
 
 class AppState {
   AppState() {
-    _entriesStreamController = StreamController.broadcast(onListen: () {
-      _entriesStreamController.add([
-        Entry(
-          date: '10/09/2022',
-          text: lorem,
-          title: '[Example] My Journal Entry',
-        )
-      ]);
-    });
+    _entriesStreamController = StreamController.broadcast(
+      onListen: () {
+        _entriesStreamController.add([
+          Entry(
+            date: '10/09/2022',
+            text: lorem,
+            title: '[Example] My Journal Entry',
+          ),
+        ]);
+      },
+    );
   }
 
   User? user;
@@ -23,8 +25,10 @@ class AppState {
   late final StreamController<List<Entry>> _entriesStreamController;
 
   Future<void> logIn(String email, String password) async {
-    final credential = await FirebaseAuth.instance
-        .signInWithEmailAndPassword(email: email, password: password);
+    final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
     if (credential.user != null) {
       user = credential.user!;
       _listenForEntries();
@@ -42,18 +46,18 @@ class AppState {
   }
 
   void _listenForEntries() {
-    FirebaseFirestore.instance
-        .collection('Entries')
-        .snapshots()
-        .listen((event) {
-      final entries = event.docs.map((doc) {
-        final data = doc.data();
-        return Entry(
-          date: data['date'] as String,
-          text: data['text'] as String,
-          title: data['title'] as String,
-        );
-      }).toList();
+    FirebaseFirestore.instance.collection('Entries').snapshots().listen((
+      event,
+    ) {
+      final entries =
+          event.docs.map((doc) {
+            final data = doc.data();
+            return Entry(
+              date: data['date'] as String,
+              text: data['text'] as String,
+              title: data['title'] as String,
+            );
+          }).toList();
 
       _entriesStreamController.add(entries);
     });

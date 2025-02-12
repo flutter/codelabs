@@ -162,9 +162,7 @@ class GooglePlayPurchaseHandler extends PurchaseHandler {
   /// Called every 10 seconds
   Future<void> _pullMessageFromPubSub() async {
     print('Polling Google Play messages');
-    final request = pubsub.PullRequest(
-      maxMessages: 1000,
-    );
+    final request = pubsub.PullRequest(maxMessages: 1000);
     final topicName =
         'projects/$googlePlayProjectName/subscriptions/$googlePlayPubsubBillingTopic-sub';
     final pullResponse = await pubsubApi.projects.subscriptions.pull(
@@ -230,9 +228,7 @@ class GooglePlayPurchaseHandler extends PurchaseHandler {
   /// ACK Messages from Pub/Sub
   Future<void> _ackMessage(String id) async {
     print('ACK Message');
-    final request = pubsub.AcknowledgeRequest(
-      ackIds: [id],
-    );
+    final request = pubsub.AcknowledgeRequest(ackIds: [id]);
     final subscriptionName =
         'projects/$googlePlayProjectName/subscriptions/$googlePlayPubsubBillingTopic-sub';
     await pubsubApi.projects.subscriptions.acknowledge(

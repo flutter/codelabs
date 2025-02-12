@@ -18,11 +18,7 @@ class _StarButtonState extends State<StarButton> {
   Icon get icon {
     final IconData iconData = state ? Icons.star : Icons.star_outline;
 
-    return Icon(
-      iconData,
-      color: Colors.grey,
-      size: 20,
-    );
+    return Icon(iconData, color: Colors.grey, size: 20);
   }
 
   void _toggle() {
@@ -44,10 +40,7 @@ class _StarButtonState extends State<StarButton> {
         shape: const CircleBorder(),
         backgroundColor: _colorScheme.surface,
         onPressed: () => _toggle(),
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: icon,
-        ),
+        child: Padding(padding: const EdgeInsets.all(10.0), child: icon),
       ),
     );
   }

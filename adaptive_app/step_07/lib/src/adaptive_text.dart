@@ -13,7 +13,7 @@ class AdaptiveText extends StatelessWidget {
   Widget build(BuildContext context) {
     return switch (Theme.of(context).platform) {
       TargetPlatform.android || TargetPlatform.iOS => Text(data, style: style),
-      _ => SelectableText(data, style: style)
+      _ => SelectableText(data, style: style),
     };
   }
 }

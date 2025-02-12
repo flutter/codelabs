@@ -13,12 +13,7 @@ class FlutterDevPlaylists extends ChangeNotifier {
     required String flutterDevAccountId,
     required String youTubeApiKey,
   }) : _flutterDevAccountId = flutterDevAccountId {
-    _api = YouTubeApi(
-      _ApiKeyClient(
-        client: http.Client(),
-        key: youTubeApiKey,
-      ),
-    );
+    _api = YouTubeApi(_ApiKeyClient(client: http.Client(), key: youTubeApiKey));
     _loadPlaylists();
   }
 
@@ -34,9 +29,11 @@ class FlutterDevPlaylists extends ChangeNotifier {
         pageToken: nextPageToken,
       );
       _playlists.addAll(response.items!);
-      _playlists.sort((a, b) => a.snippet!.title!
-          .toLowerCase()
-          .compareTo(b.snippet!.title!.toLowerCase()));
+      _playlists.sort(
+        (a, b) => a.snippet!.title!.toLowerCase().compareTo(
+          b.snippet!.title!.toLowerCase(),
+        ),
+      );
       notifyListeners();
       nextPageToken = response.nextPageToken;
     } while (nextPageToken != null);
@@ -84,10 +81,12 @@ class _ApiKeyClient extends http.BaseClient {
 
   @override
   Future<http.StreamedResponse> send(http.BaseRequest request) {
-    final url = request.url.replace(queryParameters: <String, List<String>>{
-      ...request.url.queryParametersAll,
-      'key': [key]
-    });
+    final url = request.url.replace(
+      queryParameters: <String, List<String>>{
+        ...request.url.queryParametersAll,
+        'key': [key],
+      },
+    );
 
     return client.send(http.Request(request.method, url));
   }

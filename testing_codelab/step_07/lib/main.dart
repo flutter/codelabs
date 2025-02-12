@@ -42,9 +42,7 @@ class TestingApp extends StatelessWidget {
       child: MaterialApp.router(
         title: 'Testing Sample',
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.deepPurple,
-          ),
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         ),
         routerConfig: _router,
       ),

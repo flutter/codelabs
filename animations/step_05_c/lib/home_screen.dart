@@ -11,24 +11,24 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              '✏️',
-              style: Theme.of(context).textTheme.displayLarge,
-            ),
+            Text('✏️', style: Theme.of(context).textTheme.displayLarge),
             Text(
               'Flutter Quiz',
               style: Theme.of(context).textTheme.displayLarge!.copyWith(
-                  fontWeight: FontWeight.w700,
-                  color: Theme.of(context).colorScheme.onPrimaryFixedVariant),
+                fontWeight: FontWeight.w700,
+                color: Theme.of(context).colorScheme.onPrimaryFixedVariant,
+              ),
             ),
             ElevatedButton(
               onPressed: () {
                 // Show the question screen to start the game
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) {
-                    return const QuestionScreen();
-                  }),
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return const QuestionScreen();
+                    },
+                  ),
                 );
               },
               child: Text('New Game'),

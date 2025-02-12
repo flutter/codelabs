@@ -22,14 +22,14 @@ class OrbShaderConfig {
     this.lightOffsetX = 0,
     this.lightOffsetY = 0.1,
     this.lightOffsetZ = -0.66,
-  })  : assert(zoom >= 0 && zoom <= 1),
-        assert(exposure >= 0),
-        assert(metalness >= 0 && metalness <= 1),
-        assert(lightRadius >= 0),
-        assert(lightBrightness >= 1),
-        assert(ior >= 0 && ior <= 2),
-        assert(lightAttenuation >= 0 && lightAttenuation <= 1),
-        assert(ambientLightBrightness >= 0);
+  }) : assert(zoom >= 0 && zoom <= 1),
+       assert(exposure >= 0),
+       assert(metalness >= 0 && metalness <= 1),
+       assert(lightRadius >= 0),
+       assert(lightBrightness >= 1),
+       assert(ior >= 0 && ior <= 2),
+       assert(lightAttenuation >= 0 && lightAttenuation <= 1),
+       assert(ambientLightBrightness >= 0);
 
   final double zoom;
 

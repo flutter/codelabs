@@ -33,9 +33,12 @@ Stream<Crossword> exploreCrosswordSolutions({
             word: workQueue.candidateWords.randomElement(),
           );
         }
-        var words = workQueue.candidateWords.toBuiltList().rebuild((b) => b
-          ..where((b) => b.characters.contains(target.character))
-          ..shuffle());
+        var words = workQueue.candidateWords.toBuiltList().rebuild(
+          (b) =>
+              b
+                ..where((b) => b.characters.contains(target.character))
+                ..shuffle(),
+        );
         int tryCount = 0;
         for (final word in words) {
           tryCount++;
@@ -69,6 +72,8 @@ Stream<Crossword> exploreCrosswordSolutions({
       debugPrint('Error running isolate: $e');
     }
   }
-  debugPrint('${crossword.width} x ${crossword.height} Crossword generated in '
-      '${DateTime.now().difference(start).formatted}');
+  debugPrint(
+    '${crossword.width} x ${crossword.height} Crossword generated in '
+    '${DateTime.now().difference(start).formatted}',
+  );
 }
