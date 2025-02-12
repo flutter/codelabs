@@ -106,8 +106,9 @@ class _RepositoriesListState extends State<RepositoriesList> {
           itemBuilder: (context, index) {
             var repository = repositories[index];
             return ListTile(
-              title:
-                  Text('${repository.owner?.login ?? ''}/${repository.name}'),
+              title: Text(
+                '${repository.owner?.login ?? ''}/${repository.name}',
+              ),
               subtitle: Text(repository.description),
               onTap: () => _launchUrl(this, repository.htmlUrl),
             );
@@ -154,9 +155,11 @@ class _AssignedIssuesListState extends State<AssignedIssuesList> {
             var assignedIssue = assignedIssues[index];
             return ListTile(
               title: Text(assignedIssue.title),
-              subtitle: Text('${_nameWithOwner(assignedIssue)} '
-                  'Issue #${assignedIssue.number} '
-                  'opened by ${assignedIssue.user?.login ?? ''}'),
+              subtitle: Text(
+                '${_nameWithOwner(assignedIssue)} '
+                'Issue #${assignedIssue.number} '
+                'opened by ${assignedIssue.user?.login ?? ''}',
+              ),
               onTap: () => _launchUrl(this, assignedIssue.htmlUrl),
             );
           },
@@ -184,9 +187,10 @@ class _PullRequestsListState extends State<PullRequestsList> {
   @override
   initState() {
     super.initState();
-    _pullRequests = widget.gitHub.pullRequests
-        .list(RepositorySlug('flutter', 'flutter'))
-        .toList();
+    _pullRequests =
+        widget.gitHub.pullRequests
+            .list(RepositorySlug('flutter', 'flutter'))
+            .toList();
   }
 
   late Future<List<PullRequest>> _pullRequests;
@@ -209,10 +213,12 @@ class _PullRequestsListState extends State<PullRequestsList> {
             var pullRequest = pullRequests[index];
             return ListTile(
               title: Text(pullRequest.title ?? ''),
-              subtitle: Text('flutter/flutter '
-                  'PR #${pullRequest.number} '
-                  'opened by ${pullRequest.user?.login ?? ''} '
-                  '(${pullRequest.state?.toLowerCase() ?? ''})'),
+              subtitle: Text(
+                'flutter/flutter '
+                'PR #${pullRequest.number} '
+                'opened by ${pullRequest.user?.login ?? ''} '
+                '(${pullRequest.state?.toLowerCase() ?? ''})',
+              ),
               onTap: () => _launchUrl(this, pullRequest.htmlUrl ?? ''),
             );
           },
@@ -230,18 +236,19 @@ Future<void> _launchUrl(State state, String url) async {
     if (state.mounted) {
       return showDialog(
         context: state.context,
-        builder: (context) => AlertDialog(
-          title: const Text('Navigation error'),
-          content: Text('Could not launch $url'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Close'),
+        builder:
+            (context) => AlertDialog(
+              title: const Text('Navigation error'),
+              content: Text('Could not launch $url'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Close'),
+                ),
+              ],
             ),
-          ],
-        ),
       );
     }
   }

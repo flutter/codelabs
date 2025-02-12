@@ -28,11 +28,10 @@ class ApplicationState extends ChangeNotifier {
 
   Future<void> init() async {
     await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform);
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
 
-    FirebaseUIAuth.configureProviders([
-      EmailAuthProvider(),
-    ]);
+    FirebaseUIAuth.configureProviders([EmailAuthProvider()]);
 
     FirebaseAuth.instance.userChanges().listen((user) {
       if (user != null) {
@@ -42,17 +41,17 @@ class ApplicationState extends ChangeNotifier {
             .orderBy('timestamp', descending: true)
             .snapshots()
             .listen((snapshot) {
-          _guestBookMessages = [];
-          for (final document in snapshot.docs) {
-            _guestBookMessages.add(
-              GuestBookMessage(
-                name: document.data()['name'] as String,
-                message: document.data()['text'] as String,
-              ),
-            );
-          }
-          notifyListeners();
-        });
+              _guestBookMessages = [];
+              for (final document in snapshot.docs) {
+                _guestBookMessages.add(
+                  GuestBookMessage(
+                    name: document.data()['name'] as String,
+                    message: document.data()['text'] as String,
+                  ),
+                );
+              }
+              notifyListeners();
+            });
       } else {
         _loggedIn = false;
         _guestBookMessages = [];
@@ -70,10 +69,10 @@ class ApplicationState extends ChangeNotifier {
     return FirebaseFirestore.instance
         .collection('guestbook')
         .add(<String, dynamic>{
-      'text': message,
-      'timestamp': DateTime.now().millisecondsSinceEpoch,
-      'name': FirebaseAuth.instance.currentUser!.displayName,
-      'userId': FirebaseAuth.instance.currentUser!.uid,
-    });
+          'text': message,
+          'timestamp': DateTime.now().millisecondsSinceEpoch,
+          'name': FirebaseAuth.instance.currentUser!.displayName,
+          'userId': FirebaseAuth.instance.currentUser!.uid,
+        });
   }
 }

@@ -8,10 +8,7 @@ import 'news_data.dart';
 class ArticleScreen extends StatefulWidget {
   final NewsArticle article;
 
-  const ArticleScreen({
-    super.key,
-    required this.article,
-  });
+  const ArticleScreen({super.key, required this.article});
 
   @override
   State<ArticleScreen> createState() => _ArticleScreenState();
@@ -26,20 +23,22 @@ class _ArticleScreenState extends State<ArticleScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.article.title),
-      ),
+      appBar: AppBar(title: Text(widget.article.title)),
       // New: add this FloatingActionButton
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
           if (_globalKey.currentContext != null) {
-            var path = await HomeWidget.renderFlutterWidget(
-              const LineChart(),
-              key: 'filename',
-              logicalSize: _globalKey.currentContext!.size!,
-              pixelRatio:
-                  MediaQuery.of(_globalKey.currentContext!).devicePixelRatio,
-            ) as String;
+            var path =
+                await HomeWidget.renderFlutterWidget(
+                      const LineChart(),
+                      key: 'filename',
+                      logicalSize: _globalKey.currentContext!.size!,
+                      pixelRatio:
+                          MediaQuery.of(
+                            _globalKey.currentContext!,
+                          ).devicePixelRatio,
+                    )
+                    as String;
             setState(() {
               imagePath = path;
             });
@@ -72,18 +71,13 @@ class _ArticleScreenState extends State<ArticleScreen> {
 }
 
 class LineChart extends StatelessWidget {
-  const LineChart({
-    super.key,
-  });
+  const LineChart({super.key});
 
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
       painter: LineChartPainter(),
-      child: const SizedBox(
-        height: 200,
-        width: 200,
-      ),
+      child: const SizedBox(height: 200, width: 200),
     );
   }
 }
@@ -91,20 +85,23 @@ class LineChart extends StatelessWidget {
 class LineChartPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final axisPaint = Paint()
-      ..color = Colors.black
-      ..strokeWidth = 2
-      ..style = PaintingStyle.stroke;
+    final axisPaint =
+        Paint()
+          ..color = Colors.black
+          ..strokeWidth = 2
+          ..style = PaintingStyle.stroke;
 
-    final dataPaint = Paint()
-      ..color = Colors.blue
-      ..strokeWidth = 2
-      ..style = PaintingStyle.stroke;
+    final dataPaint =
+        Paint()
+          ..color = Colors.blue
+          ..strokeWidth = 2
+          ..style = PaintingStyle.stroke;
 
-    final markingLinePaint = Paint()
-      ..color = Colors.red
-      ..strokeWidth = 2
-      ..style = PaintingStyle.stroke;
+    final markingLinePaint =
+        Paint()
+          ..color = Colors.red
+          ..strokeWidth = 2
+          ..style = PaintingStyle.stroke;
 
     final mockDataPoints = [
       const Offset(15, 155),
@@ -119,14 +116,16 @@ class LineChartPainter extends CustomPainter {
       const Offset(200, -10),
     ];
 
-    final axis = Path()
-      ..moveTo(0, 0)
-      ..lineTo(0, size.height)
-      ..lineTo(size.width, size.height);
+    final axis =
+        Path()
+          ..moveTo(0, 0)
+          ..lineTo(0, size.height)
+          ..lineTo(size.width, size.height);
 
-    final markingLine = Path()
-      ..moveTo(-10, 50)
-      ..lineTo(size.width + 10, 50);
+    final markingLine =
+        Path()
+          ..moveTo(-10, 50)
+          ..lineTo(size.width + 10, 50);
 
     final data = Path()..moveTo(1, 180);
 

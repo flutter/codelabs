@@ -39,10 +39,7 @@ class _MyAppState extends State<MyApp> {
         final marker = Marker(
           markerId: MarkerId(office.name),
           position: LatLng(office.lat, office.lng),
-          infoWindow: InfoWindow(
-            title: office.name,
-            snippet: office.address,
-          ),
+          infoWindow: InfoWindow(title: office.name, snippet: office.address),
         );
         _markers[office.name] = marker;
       }
@@ -52,9 +49,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-        colorSchemeSeed: Colors.green[700],
-      ),
+      theme: ThemeData(colorSchemeSeed: Colors.green[700]),
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Google Office Locations'),

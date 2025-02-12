@@ -39,28 +39,27 @@ void main() {
     expect(crossword.words.isNotEmpty, true);
     expect(crossword.words.length, 2);
     expect(
-        crossword.words
-            .rebuild(
-              (b) => b.where((b) => b.direction == Direction.across),
-            )
-            .length,
-        1);
+      crossword.words
+          .rebuild((b) => b.where((b) => b.direction == Direction.across))
+          .length,
+      1,
+    );
     expect(
-        crossword.words
-            .rebuild(
-              (b) => b.where((b) => b.direction == Direction.down),
-            )
-            .length,
-        1);
+      crossword.words
+          .rebuild((b) => b.where((b) => b.direction == Direction.down))
+          .length,
+      1,
+    );
     expect(crossword.characters.isNotEmpty, isTrue);
     expect(crossword.characters.length, 7);
     expect(
-        crossword.characters[topLeft],
-        CrosswordCharacter.character(
-          acrossWord: thisWord,
-          downWord: thatWord,
-          character: 't',
-        ));
+      crossword.characters[topLeft],
+      CrosswordCharacter.character(
+        acrossWord: thisWord,
+        downWord: thatWord,
+        character: 't',
+      ),
+    );
     expect(crossword.valid, isTrue);
   });
 
@@ -86,19 +85,17 @@ void main() {
 
     expect(crossword.words.isNotEmpty, true);
     expect(
-        crossword.words
-            .rebuild(
-              (b) => b.where((b) => b.direction == Direction.across),
-            )
-            .length,
-        2);
+      crossword.words
+          .rebuild((b) => b.where((b) => b.direction == Direction.across))
+          .length,
+      2,
+    );
     expect(
-        crossword.words
-            .rebuild(
-              (b) => b.where((b) => b.direction == Direction.down),
-            )
-            .isEmpty,
-        true);
+      crossword.words
+          .rebuild((b) => b.where((b) => b.direction == Direction.down))
+          .isEmpty,
+      true,
+    );
     expect(crossword.characters.isNotEmpty, isTrue);
     expect(crossword.characters.length, 8);
     expect(crossword.valid, isFalse);
@@ -108,11 +105,12 @@ void main() {
     Crossword crossword = Crossword.crossword(width: 50, height: 50);
     expect(crossword.valid, true);
 
-    crossword = crossword.addWord(
-      direction: Direction.across,
-      location: Location.at(0, 0),
-      word: 'this',
-    )!;
+    crossword =
+        crossword.addWord(
+          direction: Direction.across,
+          location: Location.at(0, 0),
+          word: 'this',
+        )!;
     expect(crossword.valid, true);
 
     final crossword2 = crossword.addWord(
@@ -174,17 +172,18 @@ void main() {
 
     final topLeft = Location.at(0, 0);
 
-    crossword = crossword
-        .addWord(
-          location: topLeft,
-          word: 'this',
-          direction: Direction.down,
-        )!
-        .addWord(
-          location: topLeft,
-          word: 'total',
-          direction: Direction.across,
-        )!;
+    crossword =
+        crossword
+            .addWord(
+              location: topLeft,
+              word: 'this',
+              direction: Direction.down,
+            )!
+            .addWord(
+              location: topLeft,
+              word: 'total',
+              direction: Direction.across,
+            )!;
 
     expect(crossword.valid, isTrue);
 
@@ -235,77 +234,85 @@ void main() {
   });
 
   test('Crossword is not valid with run-on across words', () {
-    Crossword crossword =
-        Crossword.crossword(width: 50, height: 50).rebuild((b) => b
-          ..words.addAll([
-            CrosswordWord.word(
-              direction: Direction.across,
-              location: Location.at(0, 0),
-              word: 'word',
-            ),
-            CrosswordWord.word(
-              direction: Direction.across,
-              location: Location.at(4, 0),
-              word: 'another',
-            ),
-          ]));
+    Crossword crossword = Crossword.crossword(width: 50, height: 50).rebuild(
+      (b) =>
+          b
+            ..words.addAll([
+              CrosswordWord.word(
+                direction: Direction.across,
+                location: Location.at(0, 0),
+                word: 'word',
+              ),
+              CrosswordWord.word(
+                direction: Direction.across,
+                location: Location.at(4, 0),
+                word: 'another',
+              ),
+            ]),
+    );
 
     expect(crossword.valid, false);
   });
 
   test('Crossword is not valid with run-on down words', () {
-    Crossword crossword =
-        Crossword.crossword(width: 50, height: 50).rebuild((b) => b
-          ..words.addAll([
-            CrosswordWord.word(
-              direction: Direction.down,
-              location: Location.at(0, 0),
-              word: 'word',
-            ),
-            CrosswordWord.word(
-              direction: Direction.down,
-              location: Location.at(0, 4),
-              word: 'another',
-            ),
-          ]));
+    Crossword crossword = Crossword.crossword(width: 50, height: 50).rebuild(
+      (b) =>
+          b
+            ..words.addAll([
+              CrosswordWord.word(
+                direction: Direction.down,
+                location: Location.at(0, 0),
+                word: 'word',
+              ),
+              CrosswordWord.word(
+                direction: Direction.down,
+                location: Location.at(0, 4),
+                word: 'another',
+              ),
+            ]),
+    );
 
     expect(crossword.valid, false);
   });
 
   test('Crossword is not valid with run-on across/down words', () {
-    Crossword crossword =
-        Crossword.crossword(width: 50, height: 50).rebuild((b) => b
-          ..words.addAll([
-            CrosswordWord.word(
-              direction: Direction.across,
-              location: Location.at(0, 0),
-              word: 'word',
-            ),
-            CrosswordWord.word(
-              direction: Direction.down,
-              location: Location.at(4, 0),
-              word: 'another',
-            ),
-          ]));
+    Crossword crossword = Crossword.crossword(width: 50, height: 50).rebuild(
+      (b) =>
+          b
+            ..words.addAll([
+              CrosswordWord.word(
+                direction: Direction.across,
+                location: Location.at(0, 0),
+                word: 'word',
+              ),
+              CrosswordWord.word(
+                direction: Direction.down,
+                location: Location.at(4, 0),
+                word: 'another',
+              ),
+            ]),
+    );
 
     expect(crossword.valid, false);
   });
 
   test('Crossword is not valid with run-on down/across words', () {
-    Crossword? crossword =
-        Crossword.crossword(width: 50, height: 50).rebuild((b) => b
-          ..words.addAll([
-            CrosswordWord.word(
-              direction: Direction.down,
-              location: Location.at(0, 0),
-              word: 'word',
-            ),
-            CrosswordWord.word(
-              direction: Direction.across,
-              location: Location.at(0, 4),
-              word: 'another',
-            ),
-          ]));
+    Crossword? crossword = Crossword.crossword(width: 50, height: 50).rebuild(
+      (b) =>
+          b
+            ..words.addAll([
+              CrosswordWord.word(
+                direction: Direction.down,
+                location: Location.at(0, 0),
+                word: 'word',
+              ),
+              CrosswordWord.word(
+                direction: Direction.across,
+                location: Location.at(0, 4),
+                word: 'another',
+              ),
+            ]),
+    );
 
     expect(crossword.valid, false);
   });
@@ -313,36 +320,40 @@ void main() {
   test('Adding duplicate across words returns null', () {
     Crossword? crossword = Crossword.crossword(width: 50, height: 50);
 
-    crossword = crossword.addWord(
-      direction: Direction.across,
-      location: Location.at(0, 0),
-      word: 'duplicated',
-    )!;
-
-    expect(
+    crossword =
         crossword.addWord(
           direction: Direction.across,
-          location: Location.at(4, 4),
+          location: Location.at(0, 0),
           word: 'duplicated',
-        ),
-        isNull);
+        )!;
+
+    expect(
+      crossword.addWord(
+        direction: Direction.across,
+        location: Location.at(4, 4),
+        word: 'duplicated',
+      ),
+      isNull,
+    );
   });
 
   test('Crossword is not valid with duplicate across words', () {
-    Crossword? crossword =
-        Crossword.crossword(width: 50, height: 50).rebuild((b) => b
-          ..words.addAll([
-            CrosswordWord.word(
-              direction: Direction.across,
-              location: Location.at(0, 0),
-              word: 'duplicated',
-            ),
-            CrosswordWord.word(
-              direction: Direction.across,
-              location: Location.at(4, 4),
-              word: 'duplicated',
-            ),
-          ]));
+    Crossword? crossword = Crossword.crossword(width: 50, height: 50).rebuild(
+      (b) =>
+          b
+            ..words.addAll([
+              CrosswordWord.word(
+                direction: Direction.across,
+                location: Location.at(0, 0),
+                word: 'duplicated',
+              ),
+              CrosswordWord.word(
+                direction: Direction.across,
+                location: Location.at(4, 4),
+                word: 'duplicated',
+              ),
+            ]),
+    );
 
     expect(crossword.valid, false);
   });
@@ -350,36 +361,40 @@ void main() {
   test('Adding duplicate down words returns null', () {
     Crossword? crossword = Crossword.crossword(width: 50, height: 50);
 
-    crossword = crossword.addWord(
-      direction: Direction.down,
-      location: Location.at(0, 0),
-      word: 'duplicated',
-    )!;
-
-    expect(
+    crossword =
         crossword.addWord(
           direction: Direction.down,
-          location: Location.at(4, 4),
+          location: Location.at(0, 0),
           word: 'duplicated',
-        ),
-        isNull);
+        )!;
+
+    expect(
+      crossword.addWord(
+        direction: Direction.down,
+        location: Location.at(4, 4),
+        word: 'duplicated',
+      ),
+      isNull,
+    );
   });
 
   test('Crossword is not valid with duplicate down words', () {
-    Crossword? crossword =
-        Crossword.crossword(width: 50, height: 50).rebuild((b) => b
-          ..words.addAll([
-            CrosswordWord.word(
-              direction: Direction.down,
-              location: Location.at(0, 0),
-              word: 'duplicated',
-            ),
-            CrosswordWord.word(
-              direction: Direction.down,
-              location: Location.at(4, 4),
-              word: 'duplicated',
-            ),
-          ]));
+    Crossword? crossword = Crossword.crossword(width: 50, height: 50).rebuild(
+      (b) =>
+          b
+            ..words.addAll([
+              CrosswordWord.word(
+                direction: Direction.down,
+                location: Location.at(0, 0),
+                word: 'duplicated',
+              ),
+              CrosswordWord.word(
+                direction: Direction.down,
+                location: Location.at(4, 4),
+                word: 'duplicated',
+              ),
+            ]),
+    );
 
     expect(crossword.valid, false);
   });
@@ -393,10 +408,12 @@ void main() {
     );
     expect(queue.locationsToTry.length, 1);
 
-    crossword = crossword.addWord(
-        direction: Direction.across,
-        location: Location.at(0, 0),
-        word: 'word')!;
+    crossword =
+        crossword.addWord(
+          direction: Direction.across,
+          location: Location.at(0, 0),
+          word: 'word',
+        )!;
     queue = WorkQueue.from(
       crossword: crossword,
       candidateWords: ['words', 'and', 'moar', 'wordz'],
@@ -404,21 +421,26 @@ void main() {
     );
     expect(queue.locationsToTry.length, 4);
     expect(
-        queue.locationsToTry.entries
-            .every((element) => element.value == Direction.down),
-        isTrue);
+      queue.locationsToTry.entries.every(
+        (element) => element.value == Direction.down,
+      ),
+      isTrue,
+    );
     final entries = queue.locationsToTry.entries;
     expect(entries.every((element) => element.key.y == 0), isTrue);
-    expect(entries.map((element) => element.key.x).toBuiltSet(),
-        equals(BuiltSet([0, 1, 2, 3])));
+    expect(
+      entries.map((element) => element.key.x).toBuiltSet(),
+      equals(BuiltSet([0, 1, 2, 3])),
+    );
   });
 
   test('WorkQueue from down word', () {
-    Crossword crossword = Crossword.crossword(width: 50, height: 50).addWord(
-      direction: Direction.down,
-      location: Location.at(0, 0),
-      word: 'word',
-    )!;
+    Crossword crossword =
+        Crossword.crossword(width: 50, height: 50).addWord(
+          direction: Direction.down,
+          location: Location.at(0, 0),
+          word: 'word',
+        )!;
 
     WorkQueue queue = WorkQueue.from(
       crossword: crossword,
@@ -427,27 +449,32 @@ void main() {
     );
     expect(queue.locationsToTry.length, 4);
     expect(
-        queue.locationsToTry.entries
-            .every((element) => element.value == Direction.across),
-        isTrue);
+      queue.locationsToTry.entries.every(
+        (element) => element.value == Direction.across,
+      ),
+      isTrue,
+    );
     final entries = queue.locationsToTry.entries;
     expect(entries.every((element) => element.key.x == 0), isTrue);
-    expect(entries.map((element) => element.key.y).toBuiltSet(),
-        equals(BuiltSet([0, 1, 2, 3])));
+    expect(
+      entries.map((element) => element.key.y).toBuiltSet(),
+      equals(BuiltSet([0, 1, 2, 3])),
+    );
   });
 
   test('WorkQueue from two words', () {
-    Crossword crossword = Crossword.crossword(width: 50, height: 50)
-        .addWord(
-          direction: Direction.across,
-          location: Location.at(0, 0),
-          word: 'word',
-        )!
-        .addWord(
-          direction: Direction.down,
-          location: Location.at(0, 0),
-          word: 'work',
-        )!;
+    Crossword crossword =
+        Crossword.crossword(width: 50, height: 50)
+            .addWord(
+              direction: Direction.across,
+              location: Location.at(0, 0),
+              word: 'word',
+            )!
+            .addWord(
+              direction: Direction.down,
+              location: Location.at(0, 0),
+              word: 'work',
+            )!;
 
     WorkQueue queue = WorkQueue.from(
       crossword: crossword,
@@ -455,27 +482,31 @@ void main() {
       startLocation: Location.at(0, 0),
     );
     expect(
-        queue.locationsToTry,
-        equals(BuiltMap<Location, Direction>({
+      queue.locationsToTry,
+      equals(
+        BuiltMap<Location, Direction>({
           Location.at(2, 0): Direction.down,
           Location.at(0, 2): Direction.across,
           Location.at(3, 0): Direction.down,
           Location.at(0, 3): Direction.across,
-        })));
+        }),
+      ),
+    );
   });
 
   test('WorkQueue removes used words from candidate list', () {
-    Crossword crossword = Crossword.crossword(width: 50, height: 50)
-        .addWord(
-          direction: Direction.across,
-          location: Location.at(0, 0),
-          word: 'word',
-        )!
-        .addWord(
-          direction: Direction.down,
-          location: Location.at(0, 0),
-          word: 'work',
-        )!;
+    Crossword crossword =
+        Crossword.crossword(width: 50, height: 50)
+            .addWord(
+              direction: Direction.across,
+              location: Location.at(0, 0),
+              word: 'word',
+            )!
+            .addWord(
+              direction: Direction.down,
+              location: Location.at(0, 0),
+              word: 'work',
+            )!;
 
     WorkQueue queue = WorkQueue.from(
       crossword: crossword,

@@ -15,16 +15,12 @@ class Playlists extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('FlutterDev Playlists'),
-      ),
+      appBar: AppBar(title: const Text('FlutterDev Playlists')),
       body: Consumer<FlutterDevPlaylists>(
         builder: (context, flutterDev, child) {
           final playlists = flutterDev.playlists;
           if (playlists.isEmpty) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return const Center(child: CircularProgressIndicator());
           }
 
           return _PlaylistsListView(items: playlists);
@@ -52,15 +48,13 @@ class _PlaylistsListView extends StatelessWidget {
               playlist.snippet!.thumbnails!.default_!.url!,
             ),
             title: Text(playlist.snippet!.title!),
-            subtitle: Text(
-              playlist.snippet!.description!,
-            ),
+            subtitle: Text(playlist.snippet!.description!),
             onTap: () {
               context.go(
                 Uri(
                   path: '/playlist/${playlist.id}',
                   queryParameters: <String, String>{
-                    'title': playlist.snippet!.title!
+                    'title': playlist.snippet!.title!,
                   },
                 ).toString(),
               );

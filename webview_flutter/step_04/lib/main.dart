@@ -6,12 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 void main() {
-  runApp(
-    MaterialApp(
-      theme: ThemeData(),
-      home: const WebViewApp(),
-    ),
-  );
+  runApp(MaterialApp(theme: ThemeData(), home: const WebViewApp()));
 }
 
 class WebViewApp extends StatefulWidget {
@@ -27,21 +22,15 @@ class _WebViewAppState extends State<WebViewApp> {
   @override
   void initState() {
     super.initState();
-    controller = WebViewController()
-      ..loadRequest(
-        Uri.parse('https://flutter.dev'),
-      );
+    controller =
+        WebViewController()..loadRequest(Uri.parse('https://flutter.dev'));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Flutter WebView'),
-      ),
-      body: WebViewWidget(
-        controller: controller,
-      ),
+      appBar: AppBar(title: const Text('Flutter WebView')),
+      body: WebViewWidget(controller: controller),
     );
   }
 }

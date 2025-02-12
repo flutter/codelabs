@@ -13,10 +13,10 @@ import 'ground.dart';
 
 class MyPhysicsGame extends Forge2DGame {
   MyPhysicsGame()
-      : super(
-          gravity: Vector2(0, 10),
-          camera: CameraComponent.withFixedResolution(width: 800, height: 600),
-        );
+    : super(
+        gravity: Vector2(0, 10),
+        camera: CameraComponent.withFixedResolution(width: 800, height: 600),
+      );
 
   late final XmlSpriteSheet aliens;
   late final XmlSpriteSheet elements;
@@ -52,9 +52,11 @@ class MyPhysicsGame extends Forge2DGame {
 
   Future<void> addGround() {
     return world.addAll([
-      for (var x = camera.visibleWorldRect.left;
-          x < camera.visibleWorldRect.right + groundSize;
-          x += groundSize)
+      for (
+        var x = camera.visibleWorldRect.left;
+        x < camera.visibleWorldRect.right + groundSize;
+        x += groundSize
+      )
         Ground(
           Vector2(x, (camera.visibleWorldRect.height - groundSize) / 2),
           tiles.getSprite('grass.png'),

@@ -17,12 +17,12 @@ import 'config.dart';
 class BrickBreaker extends FlameGame
     with HasCollisionDetection, KeyboardEvents {
   BrickBreaker()
-      : super(
-          camera: CameraComponent.withFixedResolution(
-            width: gameWidth,
-            height: gameHeight,
-          ),
-        );
+    : super(
+        camera: CameraComponent.withFixedResolution(
+          width: gameWidth,
+          height: gameHeight,
+        ),
+      );
 
   final rand = math.Random();
   double get width => size.x;
@@ -36,24 +36,35 @@ class BrickBreaker extends FlameGame
 
     world.add(PlayArea());
 
-    world.add(Ball(
+    world.add(
+      Ball(
         radius: ballRadius,
         position: size / 2,
-        velocity: Vector2((rand.nextDouble() - 0.5) * width, height * 0.2)
-            .normalized()
-          ..scale(height / 4)));
+        velocity:
+            Vector2(
+                (rand.nextDouble() - 0.5) * width,
+                height * 0.2,
+              ).normalized()
+              ..scale(height / 4),
+      ),
+    );
 
-    world.add(Bat(
+    world.add(
+      Bat(
         size: Vector2(batWidth, batHeight),
         cornerRadius: const Radius.circular(ballRadius / 2),
-        position: Vector2(width / 2, height * 0.95)));
+        position: Vector2(width / 2, height * 0.95),
+      ),
+    );
 
     debugMode = true;
   }
 
   @override
   KeyEventResult onKeyEvent(
-      KeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
+    KeyEvent event,
+    Set<LogicalKeyboardKey> keysPressed,
+  ) {
     super.onKeyEvent(event, keysPressed);
     switch (event.logicalKey) {
       case LogicalKeyboardKey.arrowLeft:

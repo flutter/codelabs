@@ -29,10 +29,12 @@ class AnimatedFloatingActionButton extends StatefulWidget {
 class _AnimatedFloatingActionButton
     extends State<AnimatedFloatingActionButton> {
   late final ColorScheme _colorScheme = Theme.of(context).colorScheme;
-  late final Animation<double> _scaleAnimation =
-      ScaleAnimation(parent: widget.animation);
-  late final Animation<double> _shapeAnimation =
-      ShapeAnimation(parent: widget.animation);
+  late final Animation<double> _scaleAnimation = ScaleAnimation(
+    parent: widget.animation,
+  );
+  late final Animation<double> _shapeAnimation = ShapeAnimation(
+    parent: widget.animation,
+  );
 
   @override
   Widget build(BuildContext context) {

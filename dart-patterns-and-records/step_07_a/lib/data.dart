@@ -13,8 +13,9 @@ class Document {
       final metadataJson = _json['metadata'];
       if (metadataJson is Map) {
         final title = metadataJson['title'] as String;
-        final localModified =
-            DateTime.parse(metadataJson['modified'] as String);
+        final localModified = DateTime.parse(
+          metadataJson['modified'] as String,
+        );
         return (title, modified: localModified);
       }
     }

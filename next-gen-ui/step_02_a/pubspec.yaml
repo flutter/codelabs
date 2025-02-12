@@ -4,14 +4,14 @@ publish_to: 'none'
 version: 0.1.0
 
 environment:
-  sdk: ^3.6.2
+  sdk: ^3.7.0-0
 
 dependencies:
   flutter:
     sdk: flutter
   extra_alignments: ^1.0.0+1
   flextras: ^1.0.0
-  flutter_animate: ^4.5.0
+  flutter_animate: ^4.5.2
   focusable_control_builder: ^1.0.2+1
   gap: ^3.0.1
   particle_field: ^1.0.0

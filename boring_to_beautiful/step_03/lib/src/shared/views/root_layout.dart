@@ -29,36 +29,37 @@ class RootLayout extends StatelessWidget {
     final bloc = BlocProvider.of<PlaybackBloc>(context);
     return BlocBuilder<PlaybackBloc, PlaybackState>(
       bloc: bloc,
-      builder: (context, state) => LayoutBuilder(builder: (context, dimens) {
-        void onSelected(int index) {
-          final destination = router.destinations[index];
-          go.GoRouter.of(context).go(destination.route);
-        }
+      builder:
+          (context, state) => LayoutBuilder(
+            builder: (context, dimens) {
+              void onSelected(int index) {
+                final destination = router.destinations[index];
+                go.GoRouter.of(context).go(destination.route);
+              }
 
-        final current = state.songWithProgress;
-        return AdaptiveNavigation(
-          key: _navigationRailKey,
-          destinations: router.destinations
-              .map((e) => NavigationDestination(
-                    icon: e.icon,
-                    label: e.label,
-                  ))
-              .toList(),
-          selectedIndex: currentIndex,
-          onDestinationSelected: onSelected,
-          child: Column(
-            children: [
-              Expanded(
-                child: _Switcher(
-                  key: _switcherKey,
-                  child: child,
+              final current = state.songWithProgress;
+              return AdaptiveNavigation(
+                key: _navigationRailKey,
+                destinations:
+                    router.destinations
+                        .map(
+                          (e) => NavigationDestination(
+                            icon: e.icon,
+                            label: e.label,
+                          ),
+                        )
+                        .toList(),
+                selectedIndex: currentIndex,
+                onDestinationSelected: onSelected,
+                child: Column(
+                  children: [
+                    Expanded(child: _Switcher(key: _switcherKey, child: child)),
+                    if (current != null) const BottomBar(),
+                  ],
                 ),
-              ),
-              if (current != null) const BottomBar(),
-            ],
+              );
+            },
           ),
-        );
-      }),
     );
   }
 }
@@ -66,21 +67,18 @@ class RootLayout extends StatelessWidget {
 class _Switcher extends StatelessWidget {
   final Widget child;
 
-  const _Switcher({
-    required this.child,
-    super.key,
-  });
+  const _Switcher({required this.child, super.key});
 
   @override
   Widget build(BuildContext context) {
     return UniversalPlatform.isDesktop
         ? child
         : AnimatedSwitcher(
-            key: key,
-            duration: const Duration(milliseconds: 200),
-            switchInCurve: Curves.easeInOut,
-            switchOutCurve: Curves.easeInOut,
-            child: child,
-          );
+          key: key,
+          duration: const Duration(milliseconds: 200),
+          switchInCurve: Curves.easeInOut,
+          switchOutCurve: Curves.easeInOut,
+          child: child,
+        );
   }
 }

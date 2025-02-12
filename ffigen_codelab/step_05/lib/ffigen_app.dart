@@ -29,8 +29,13 @@ final DuktapeBindings _bindings = DuktapeBindings(_dylib);
 
 class Duktape {
   Duktape() {
-    ctx =
-        _bindings.duk_create_heap(nullptr, nullptr, nullptr, nullptr, nullptr);
+    ctx = _bindings.duk_create_heap(
+      nullptr,
+      nullptr,
+      nullptr,
+      nullptr,
+      nullptr,
+    );
   }
 
   void evalString(String jsCode) {
@@ -40,15 +45,16 @@ class Duktape {
 
     var nativeUtf8 = jsCode.toNativeUtf8();
     _bindings.duk_eval_raw(
-        ctx,
-        nativeUtf8.cast<Char>(),
-        0,
-        0 /*args*/ |
-            DUK_COMPILE_EVAL |
-            DUK_COMPILE_SAFE |
-            DUK_COMPILE_NOSOURCE |
-            DUK_COMPILE_STRLEN |
-            DUK_COMPILE_NOFILENAME);
+      ctx,
+      nativeUtf8.cast<Char>(),
+      0,
+      0 /*args*/ |
+          DUK_COMPILE_EVAL |
+          DUK_COMPILE_SAFE |
+          DUK_COMPILE_NOSOURCE |
+          DUK_COMPILE_STRLEN |
+          DUK_COMPILE_NOFILENAME,
+    );
     ffi.malloc.free(nativeUtf8);
   }
 

@@ -18,41 +18,50 @@ class PlaylistsProvider {
   static List<MyArtistImage> images() {
     return [
       const MyArtistImage(
-          image: 'assets/images/playlists/favorite.jpg',
-          sourceLink: 'https://unsplash.com/photos/60GsdOMRFGc',
-          sourceName: 'Karsten Winegeart'),
+        image: 'assets/images/playlists/favorite.jpg',
+        sourceLink: 'https://unsplash.com/photos/60GsdOMRFGc',
+        sourceName: 'Karsten Winegeart',
+      ),
       const MyArtistImage(
-          image: 'assets/images/playlists/austin.jpg',
-          sourceLink: 'https://unsplash.com/photos/AlBgcDfDG_s',
-          sourceName: 'Carlos Alfonso'),
+        image: 'assets/images/playlists/austin.jpg',
+        sourceLink: 'https://unsplash.com/photos/AlBgcDfDG_s',
+        sourceName: 'Carlos Alfonso',
+      ),
       const MyArtistImage(
-          image: 'assets/images/playlists/reading.jpg',
-          sourceLink: 'https://unsplash.com/photos/wkgv7I2VTzM',
-          sourceName: 'Alexandra Fuller'),
+        image: 'assets/images/playlists/reading.jpg',
+        sourceLink: 'https://unsplash.com/photos/wkgv7I2VTzM',
+        sourceName: 'Alexandra Fuller',
+      ),
       const MyArtistImage(
-          image: 'assets/images/playlists/workout.jpg',
-          sourceLink: 'https://unsplash.com/photos/CnEEF5eJemQ',
-          sourceName: 'Karsten Winegeart'),
+        image: 'assets/images/playlists/workout.jpg',
+        sourceLink: 'https://unsplash.com/photos/CnEEF5eJemQ',
+        sourceName: 'Karsten Winegeart',
+      ),
       const MyArtistImage(
-          image: 'assets/images/playlists/calm.jpg',
-          sourceLink: 'https://unsplash.com/photos/NTyBbu66_SI',
-          sourceName: 'Jared Rice'),
+        image: 'assets/images/playlists/calm.jpg',
+        sourceLink: 'https://unsplash.com/photos/NTyBbu66_SI',
+        sourceName: 'Jared Rice',
+      ),
       const MyArtistImage(
-          image: 'assets/images/playlists/coffee.jpg',
-          sourceLink: 'https://unsplash.com/photos/XOhI_kW_TaM',
-          sourceName: 'Nathan Dumlao'),
+        image: 'assets/images/playlists/coffee.jpg',
+        sourceLink: 'https://unsplash.com/photos/XOhI_kW_TaM',
+        sourceName: 'Nathan Dumlao',
+      ),
       const MyArtistImage(
-          image: 'assets/images/playlists/piano.jpg',
-          sourceLink: 'https://unsplash.com/photos/BhfE1IgcsA8',
-          sourceName: 'Jordan Whitfield'),
+        image: 'assets/images/playlists/piano.jpg',
+        sourceLink: 'https://unsplash.com/photos/BhfE1IgcsA8',
+        sourceName: 'Jordan Whitfield',
+      ),
       const MyArtistImage(
-          image: 'assets/images/playlists/studying.jpg',
-          sourceLink: 'https://unsplash.com/photos/-moT-Deiw1M',
-          sourceName: 'Humble Lamb'),
+        image: 'assets/images/playlists/studying.jpg',
+        sourceLink: 'https://unsplash.com/photos/-moT-Deiw1M',
+        sourceName: 'Humble Lamb',
+      ),
       const MyArtistImage(
-          image: 'assets/images/playlists/jazz.jpg',
-          sourceLink: 'https://unsplash.com/photos/BY_KyTwTKq4',
-          sourceName: 'dimitri.photography'),
+        image: 'assets/images/playlists/jazz.jpg',
+        sourceLink: 'https://unsplash.com/photos/BY_KyTwTKq4',
+        sourceName: 'dimitri.photography',
+      ),
     ];
   }
 
@@ -85,8 +94,10 @@ class PlaylistsProvider {
     );
   }
 
-  static final List<Playlist> _randomPlaylists =
-      List.generate(10, (index) => randomLengthPlaylist());
+  static final List<Playlist> _randomPlaylists = List.generate(
+    10,
+    (index) => randomLengthPlaylist(),
+  );
 }
 
 String randomId() {

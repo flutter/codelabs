@@ -16,12 +16,14 @@ class Ball extends CircleComponent
     required super.position,
     required double radius,
   }) : super(
-            radius: radius,
-            anchor: Anchor.center,
-            paint: Paint()
-              ..color = const Color(0xff1e6091)
-              ..style = PaintingStyle.fill,
-            children: [CircleHitbox()]);
+         radius: radius,
+         anchor: Anchor.center,
+         paint:
+             Paint()
+               ..color = const Color(0xff1e6091)
+               ..style = PaintingStyle.fill,
+         children: [CircleHitbox()],
+       );
 
   final Vector2 velocity;
 
@@ -33,7 +35,9 @@ class Ball extends CircleComponent
 
   @override
   void onCollisionStart(
-      Set<Vector2> intersectionPoints, PositionComponent other) {
+    Set<Vector2> intersectionPoints,
+    PositionComponent other,
+  ) {
     super.onCollisionStart(intersectionPoints, other);
     if (other is PlayArea) {
       if (intersectionPoints.first.y <= 0) {

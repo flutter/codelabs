@@ -11,9 +11,7 @@ import '../common/ui_scaler.dart';
 import '../styles.dart';
 
 class TitleScreenUi extends StatelessWidget {
-  const TitleScreenUi({
-    super.key,
-  });
+  const TitleScreenUi({super.key});
   @override
   Widget build(BuildContext context) {
     return const Padding(
@@ -22,10 +20,7 @@ class TitleScreenUi extends StatelessWidget {
         children: [
           /// Title Text
           TopLeft(
-            child: UiScaler(
-              alignment: Alignment.topLeft,
-              child: _TitleText(),
-            ),
+            child: UiScaler(alignment: Alignment.topLeft, child: _TitleText()),
           ),
         ],
       ),
