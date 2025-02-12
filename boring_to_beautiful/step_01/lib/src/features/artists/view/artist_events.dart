@@ -70,53 +70,32 @@ class ArtistEvents extends StatelessWidget {
         );
       },
       columns: const <DataColumn>[
-        DataColumn(
-          label: Text(
-            'Date',
-          ),
-          numeric: true,
-        ),
-        DataColumn(
-          label: Text(
-            'Event',
-          ),
-        ),
-        DataColumn(
-          label: Text(
-            'Location',
-          ),
-        ),
-        DataColumn(
-          label: Text(
-            'More info',
-          ),
-        ),
+        DataColumn(label: Text('Date'), numeric: true),
+        DataColumn(label: Text('Event')),
+        DataColumn(label: Text('Location')),
+        DataColumn(label: Text('More info')),
       ],
-      rowBuilder: (item, index) => DataRow.byIndex(index: index, cells: [
-        DataCell(
-          Text(item.date),
-        ),
-        DataCell(
-          Row(children: [
-            Expanded(child: Text(item.title)),
-          ]),
-        ),
-        DataCell(
-          Text(item.location),
-        ),
-        DataCell(
-          Clickable(
-            child: Text(
-              item.link,
-              style: TextStyle(
-                color: linkColor.value(theme),
-                decoration: TextDecoration.underline,
+      rowBuilder:
+          (item, index) => DataRow.byIndex(
+            index: index,
+            cells: [
+              DataCell(Text(item.date)),
+              DataCell(Row(children: [Expanded(child: Text(item.title))])),
+              DataCell(Text(item.location)),
+              DataCell(
+                Clickable(
+                  child: Text(
+                    item.link,
+                    style: TextStyle(
+                      color: linkColor.value(theme),
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                  onTap: () => launchUrl(Uri.parse('https://docs.flutter.dev')),
+                ),
               ),
-            ),
-            onTap: () => launchUrl(Uri.parse('https://docs.flutter.dev')),
+            ],
           ),
-        ),
-      ]),
     );
   }
 }

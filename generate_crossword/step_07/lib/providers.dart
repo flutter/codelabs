@@ -26,10 +26,16 @@ Future<BuiltSet<String>> wordList(Ref ref) async {
 
   final re = RegExp(r'^[a-z]+$');
   final words = await rootBundle.loadString('assets/words.txt');
-  return const LineSplitter().convert(words).toBuiltSet().rebuild((b) => b
-    ..map((word) => word.toLowerCase().trim())
-    ..where((word) => word.length > 2)
-    ..where((word) => re.hasMatch(word)));
+  return const LineSplitter()
+      .convert(words)
+      .toBuiltSet()
+      .rebuild(
+        (b) =>
+            b
+              ..map((word) => word.toLowerCase().trim())
+              ..where((word) => word.length > 2)
+              ..where((word) => re.hasMatch(word)),
+      );
 }
 
 /// An enumeration for different sizes of [model.Crossword]s.
@@ -40,10 +46,7 @@ enum CrosswordSize {
   xlarge(width: 160, height: 88),
   xxlarge(width: 500, height: 500);
 
-  const CrosswordSize({
-    required this.width,
-    required this.height,
-  });
+  const CrosswordSize({required this.width, required this.height});
 
   final int width;
   final int height;
@@ -68,8 +71,10 @@ class Size extends _$Size {
 Stream<model.WorkQueue> workQueue(Ref ref) async* {
   final size = ref.watch(sizeProvider);
   final wordListAsync = ref.watch(wordListProvider);
-  final emptyCrossword =
-      model.Crossword.crossword(width: size.width, height: size.height);
+  final emptyCrossword = model.Crossword.crossword(
+    width: size.width,
+    height: size.height,
+  );
   final emptyWorkQueue = model.WorkQueue.from(
     crossword: emptyCrossword,
     candidateWords: BuiltSet<String>(),
@@ -80,10 +85,11 @@ Stream<model.WorkQueue> workQueue(Ref ref) async* {
   ref.read(endTimeProvider.notifier).clear();
 
   yield* wordListAsync.when(
-    data: (wordList) => exploreCrosswordSolutions(
-      crossword: emptyCrossword,
-      wordList: wordList,
-    ),
+    data:
+        (wordList) => exploreCrosswordSolutions(
+          crossword: emptyCrossword,
+          wordList: wordList,
+        ),
     error: (error, stackTrace) async* {
       debugPrint('Error loading word list: $error');
       yield emptyWorkQueue;
@@ -143,10 +149,11 @@ Duration expectedRemainingTime(Ref ref) {
       try {
         final soFar = DateTime.now().difference(startTime);
         final completedPercentage = min(
-            0.99,
-            (workQueue.crossword.characters.length /
-                (workQueue.crossword.width * workQueue.crossword.height) /
-                _estimatedTotalCoverage));
+          0.99,
+          (workQueue.crossword.characters.length /
+              (workQueue.crossword.width * workQueue.crossword.height) /
+              _estimatedTotalCoverage),
+        );
         final expectedTotal = soFar.inSeconds / completedPercentage;
         final expectedRemaining = expectedTotal - soFar.inSeconds;
         return Duration(seconds: expectedRemaining.toInt());
@@ -177,7 +184,9 @@ class ShowDisplayInfo extends _$ShowDisplayInfo {
 @riverpod
 class DisplayInfo extends _$DisplayInfo {
   @override
-  model.DisplayInfo build() => ref.watch(workQueueProvider).when(
+  model.DisplayInfo build() => ref
+      .watch(workQueueProvider)
+      .when(
         data: (workQueue) => model.DisplayInfo.from(workQueue: workQueue),
         error: (error, stackTrace) => model.DisplayInfo.empty,
         loading: () => model.DisplayInfo.empty,

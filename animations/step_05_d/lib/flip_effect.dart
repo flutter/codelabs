@@ -29,7 +29,9 @@ class _CardFlipEffectState extends State<CardFlipEffect>
     super.initState();
 
     _animationController = AnimationController(
-        vsync: this, duration: widget.duration * (widget.delayAmount + 1));
+      vsync: this,
+      duration: widget.duration * (widget.delayAmount + 1),
+    );
 
     _animationController.addListener(() {
       if (_animationController.value == 1) {
@@ -43,10 +45,7 @@ class _CardFlipEffectState extends State<CardFlipEffect>
           tween: ConstantTween<double>(0.0),
           weight: widget.delayAmount,
         ),
-      TweenSequenceItem(
-        tween: Tween(begin: 0.0, end: 1.0),
-        weight: 1.0,
-      ),
+      TweenSequenceItem(tween: Tween(begin: 0.0, end: 1.0), weight: 1.0),
     ]).animate(_animationController);
   }
 
@@ -71,13 +70,14 @@ class _CardFlipEffectState extends State<CardFlipEffect>
       builder: (context, child) {
         return Transform(
           alignment: Alignment.center,
-          transform: Matrix4.identity()
-            ..rotateX(_animationWithDelay.value * math.pi),
-          child: _animationController.isAnimating
-              ? _animationWithDelay.value < 0.5
-                  ? _previousChild
-                  : Transform.flip(flipY: true, child: child)
-              : child,
+          transform:
+              Matrix4.identity()..rotateX(_animationWithDelay.value * math.pi),
+          child:
+              _animationController.isAnimating
+                  ? _animationWithDelay.value < 0.5
+                      ? _previousChild
+                      : Transform.flip(flipY: true, child: child)
+                  : child,
         );
       },
       child: widget.child,

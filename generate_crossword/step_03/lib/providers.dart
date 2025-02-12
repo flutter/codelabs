@@ -21,8 +21,14 @@ Future<BuiltSet<String>> wordList(Ref ref) async {
 
   final re = RegExp(r'^[a-z]+$');
   final words = await rootBundle.loadString('assets/words.txt');
-  return const LineSplitter().convert(words).toBuiltSet().rebuild((b) => b
-    ..map((word) => word.toLowerCase().trim())
-    ..where((word) => word.length > 2)
-    ..where((word) => re.hasMatch(word)));
+  return const LineSplitter()
+      .convert(words)
+      .toBuiltSet()
+      .rebuild(
+        (b) =>
+            b
+              ..map((word) => word.toLowerCase().trim())
+              ..where((word) => word.length > 2)
+              ..where((word) => re.hasMatch(word)),
+      );
 }

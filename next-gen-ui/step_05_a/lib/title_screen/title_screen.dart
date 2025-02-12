@@ -147,7 +147,7 @@ class _AnimatedColors extends StatelessWidget {
   final Color orbColor;
 
   final Widget Function(BuildContext context, Color orbColor, Color emitColor)
-      builder;
+  builder;
 
   @override
   Widget build(BuildContext context) {

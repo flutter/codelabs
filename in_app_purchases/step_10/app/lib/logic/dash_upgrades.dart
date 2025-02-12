@@ -37,9 +37,7 @@ class DashUpgrades extends ChangeNotifier {
     _buy(tim);
   }
 
-  void _buy(
-    Upgrade upgrade,
-  ) {
+  void _buy(Upgrade upgrade) {
     if (counter.count < upgrade.cost) return;
 
     counter.addAutoIncrement(

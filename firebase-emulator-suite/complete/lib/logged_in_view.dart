@@ -47,7 +47,7 @@ class LoggedInView extends StatelessWidget {
                           EntryView(
                             key: Key('${Random().nextDouble()}'),
                             entry: entry,
-                          )
+                          ),
                       ],
                     );
                   } else {
@@ -56,7 +56,7 @@ class LoggedInView extends StatelessWidget {
                 },
               ),
             ),
-          )
+          ),
         ],
       ),
     );

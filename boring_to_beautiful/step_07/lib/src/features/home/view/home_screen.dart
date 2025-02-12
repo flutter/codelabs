@@ -49,33 +49,31 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               body: LayoutBuilder(
-                builder: (context, constraints) => TabBarView(
-                  children: [
-                    SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          const HomeHighlight(),
-                          HomeArtists(
-                            artists: artists,
-                            constraints: constraints,
+                builder:
+                    (context, constraints) => TabBarView(
+                      children: [
+                        SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              const HomeHighlight(),
+                              HomeArtists(
+                                artists: artists,
+                                constraints: constraints,
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                        HomeRecent(playlists: playlists, axis: Axis.vertical),
+                        PlaylistSongs(
+                          playlist: topSongs,
+                          constraints: constraints,
+                        ),
+                        PlaylistSongs(
+                          playlist: newReleases,
+                          constraints: constraints,
+                        ),
+                      ],
                     ),
-                    HomeRecent(
-                      playlists: playlists,
-                      axis: Axis.vertical,
-                    ),
-                    PlaylistSongs(
-                      playlist: topSongs,
-                      constraints: constraints,
-                    ),
-                    PlaylistSongs(
-                      playlist: newReleases,
-                      constraints: constraints,
-                    ),
-                  ],
-                ),
               ),
             ),
           );
@@ -109,10 +107,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       const HomeHighlight(),
                       LayoutBuilder(
-                        builder: (context, constraints) => HomeArtists(
-                          artists: artists,
-                          constraints: constraints,
-                        ),
+                        builder:
+                            (context, constraints) => HomeArtists(
+                              artists: artists,
+                              constraints: constraints,
+                            ),
                       ),
                     ],
                   ),
@@ -132,9 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           style: context.headlineSmall,
                         ),
                       ),
-                      HomeRecent(
-                        playlists: playlists,
-                      ),
+                      HomeRecent(playlists: playlists),
                     ],
                   ),
                 ),
@@ -152,19 +149,21 @@ class _HomeScreenState extends State<HomeScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 8, bottom: 8),
+                                padding: const EdgeInsets.only(
+                                  left: 8,
+                                  bottom: 8,
+                                ),
                                 child: Text(
                                   'Top Songs Today',
                                   style: context.titleLarge,
                                 ),
                               ),
                               LayoutBuilder(
-                                builder: (context, constraints) =>
-                                    PlaylistSongs(
-                                  playlist: topSongs,
-                                  constraints: constraints,
-                                ),
+                                builder:
+                                    (context, constraints) => PlaylistSongs(
+                                      playlist: topSongs,
+                                      constraints: constraints,
+                                    ),
                               ),
                             ],
                           ),
@@ -177,19 +176,21 @@ class _HomeScreenState extends State<HomeScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 8, bottom: 8),
+                                padding: const EdgeInsets.only(
+                                  left: 8,
+                                  bottom: 8,
+                                ),
                                 child: Text(
                                   'New Releases',
                                   style: context.titleLarge,
                                 ),
                               ),
                               LayoutBuilder(
-                                builder: (context, constraints) =>
-                                    PlaylistSongs(
-                                  playlist: newReleases,
-                                  constraints: constraints,
-                                ),
+                                builder:
+                                    (context, constraints) => PlaylistSongs(
+                                      playlist: newReleases,
+                                      constraints: constraints,
+                                    ),
                               ),
                             ],
                           ),

@@ -1,5 +1,1 @@
-enum FirebaseState {
-  loading,
-  available,
-  notAvailable,
-}
+enum FirebaseState { loading, available, notAvailable }

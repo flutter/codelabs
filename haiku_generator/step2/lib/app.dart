@@ -47,21 +47,18 @@ class HaikuPageState extends State<HaikuPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
+      appBar: AppBar(title: Text(widget.title)),
       body: Center(
         child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: <Widget>[
-                buildTopView(),
-                const SizedBox(
-                  height: 10.0,
-                ),
-                buildBottomView()
-              ],
-            )),
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: <Widget>[
+              buildTopView(),
+              const SizedBox(height: 10.0),
+              buildBottomView(),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -71,26 +68,23 @@ class HaikuPageState extends State<HaikuPage> {
       children: <Widget>[
         Text(
           subTitle,
-          style: const TextStyle(
-            fontSize: 18,
-            color: Colors.black,
-          ),
+          style: const TextStyle(fontSize: 18, color: Colors.black),
         ),
         SizedBox(
           width: 150.0,
           child: DropdownButton<Product>(
-            items: listProduct.map((Product value) {
-              return DropdownMenuItem<Product>(
-                value: value,
-                child: Text(value.productName),
-              );
-            }).toList(),
-            hint: Text(productName.toString(),
-                style: const TextStyle(color: Colors.deepPurpleAccent)),
-            underline: Container(
-              height: 1,
-              color: Colors.deepPurpleAccent,
+            items:
+                listProduct.map((Product value) {
+                  return DropdownMenuItem<Product>(
+                    value: value,
+                    child: Text(value.productName),
+                  );
+                }).toList(),
+            hint: Text(
+              productName.toString(),
+              style: const TextStyle(color: Colors.deepPurpleAccent),
             ),
+            underline: Container(height: 1, color: Colors.deepPurpleAccent),
             onChanged: (value) {
               setState(() {
                 productName = value!.productName;
@@ -123,38 +117,39 @@ class HaikuPageState extends State<HaikuPage> {
 
   Expanded buildBottomView() {
     return Expanded(
-      child: haikuText.isNotEmpty
-          ? Container(
-              decoration: BoxDecoration(
-                color: Colors.amberAccent.shade100,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SizedBox(
-                  width: double.maxFinite,
-                  child: Text(
-                    haikuText,
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w300,
+      child:
+          haikuText.isNotEmpty
+              ? Container(
+                decoration: BoxDecoration(
+                  color: Colors.amberAccent.shade100,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    width: double.maxFinite,
+                    child: Text(
+                      haikuText,
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w300,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            )
-          : ShimmerLoadingAnim(
-              isLoading: true,
-              child: Container(
-                height: double.maxFinite,
-                width: double.maxFinite,
-                decoration: BoxDecoration(
-                  color: const Color(0xFFE5E5E5),
-                  borderRadius: BorderRadius.circular(8),
+              )
+              : ShimmerLoadingAnim(
+                isLoading: true,
+                child: Container(
+                  height: double.maxFinite,
+                  width: double.maxFinite,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFE5E5E5),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
                 ),
               ),
-            ),
     );
   }
 }

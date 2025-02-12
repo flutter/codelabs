@@ -697,13 +697,13 @@ steps:
           // Copyright 2023 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-          
+
           import 'dart:ui';
-          
+
           class AssetPaths {
             /// Images
             static const String _images = 'assets/images';
-          
+
             static const String titleBgBase = '$_images/bg-base.jpg';
             static const String titleBgReceive = '$_images/bg-light-receive.png';
             static const String titleFgEmit = '$_images/fg-light-emit.png';
@@ -718,20 +718,20 @@ steps:
             static const String titleSelectedLeft = '$_images/select-left.png';
             static const String titleSelectedRight = '$_images/select-right.png';
             static const String pulseParticle = '$_images/particle3.png';
-          
+
             /// Shaders
             static const String _shaders = 'assets/shaders';
             static const String orbShader = '$_shaders/orb_shader.frag';
             static const String uiShader = '$_shaders/ui_glitch.frag';
           }
-          
+
           typedef FragmentPrograms = ({FragmentProgram orb, FragmentProgram ui});
-          
+
           Future<FragmentPrograms> loadFragmentPrograms() async => (
-                orb: (await _loadFragmentProgram(AssetPaths.orbShader)),
-                ui: (await _loadFragmentProgram(AssetPaths.uiShader)),
-              );
-          
+            orb: (await _loadFragmentProgram(AssetPaths.orbShader)),
+            ui: (await _loadFragmentProgram(AssetPaths.uiShader)),
+          );
+
           Future<FragmentProgram> _loadFragmentProgram(String path) async {
             return (await FragmentProgram.fromAsset(path));
           }
@@ -741,32 +741,35 @@ steps:
           // Copyright 2023 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-          
+
           import 'package:flutter/material.dart';
-          
+
           class TextStyles {
             static const _font1 = TextStyle(fontFamily: 'Exo', color: Colors.white);
-          
+
             static TextStyle get h1 => _font1.copyWith(
-                fontSize: 75, letterSpacing: 35, fontWeight: FontWeight.w700);
+              fontSize: 75,
+              letterSpacing: 35,
+              fontWeight: FontWeight.w700,
+            );
             static TextStyle get h2 => h1.copyWith(fontSize: 40, letterSpacing: 0);
             static TextStyle get h3 =>
                 h1.copyWith(fontSize: 24, letterSpacing: 20, fontWeight: FontWeight.w400);
             static TextStyle get body => _font1.copyWith(fontSize: 16);
             static TextStyle get btn => _font1.copyWith(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 10,
-                );
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              letterSpacing: 10,
+            );
           }
-          
+
           abstract class AppColors {
             static const orbColors = [
               Color(0xFF71FDBF),
               Color(0xFFCE33FF),
               Color(0xFFFF5033),
             ];
-          
+
             static const emitColors = [
               Color(0xFF96FF33),
               Color(0xFF00FFFF),
@@ -782,24 +785,21 @@ steps:
           // Copyright 2023 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-          
+
           import 'package:flutter/material.dart';
-          
+
           import 'ticking_builder.dart';
-          
-          typedef ReactiveWidgetBuilder = Widget Function(
-              BuildContext context, double time, Size bounds);
-          
+
+          typedef ReactiveWidgetBuilder =
+              Widget Function(BuildContext context, double time, Size bounds);
+
           class ReactiveWidget extends StatefulWidget {
-            const ReactiveWidget({
-              super.key,
-              required this.builder,
-            });
+            const ReactiveWidget({super.key, required this.builder});
             final ReactiveWidgetBuilder builder;
             @override
             State<ReactiveWidget> createState() => _ReactiveWidgetState();
           }
-          
+
           class _ReactiveWidgetState extends State<ReactiveWidget> {
             @override
             Widget build(BuildContext context) {
@@ -820,13 +820,13 @@ steps:
           // Copyright 2023 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-
+          
           import 'dart:ui' as ui;
-
+          
           import 'package:flutter/rendering.dart';
           import 'package:flutter/widgets.dart';
           import 'package:flutter_animate/flutter_animate.dart';
-
+          
           /**
            * This is an unfinished, pre-release effect for Flutter Animate:
            * https://pub.dev/packages/flutter_animate
@@ -838,9 +838,9 @@ steps:
            * SDK, this effect will be updated, tested, refined, and added to the
            * effects.dart file.
            */
-
+          
           // TODO: document.
-
+          
           /// An effect that lets you apply an animated fragment shader to a target.
           @immutable
           class ShaderEffect extends Effect<double> {
@@ -851,16 +851,13 @@ steps:
               this.shader,
               this.update,
               ShaderLayer? layer,
-            })  : layer = layer ?? ShaderLayer.replace,
-                  super(
-                    begin: 0,
-                    end: 1,
-                  );
-
+            }) : layer = layer ?? ShaderLayer.replace,
+                 super(begin: 0, end: 1);
+          
             final ui.FragmentShader? shader;
             final ShaderUpdateCallback? update;
             final ShaderLayer layer;
-
+          
             @override
             Widget build(
               BuildContext context,
@@ -881,14 +878,14 @@ steps:
                       }
                       Rect rect = Rect.fromLTWH(0, 0, size.width, size.height);
                       rect = insets?.inflateRect(rect) ?? rect;
-
+          
                       void drawImage() {
                         canvas.save();
                         canvas.scale(ratio, ratio);
                         canvas.drawImage(image, Offset.zero, Paint());
                         canvas.restore();
                       }
-
+          
                       if (layer == ShaderLayer.foreground) drawImage();
                       if (shader != null) canvas.drawRect(rect, Paint()..shader = shader);
                       if (layer == ShaderLayer.background) drawImage();
@@ -900,7 +897,7 @@ steps:
               );
             }
           }
-
+          
           extension ShaderEffectExtensions<T> on AnimateManager<T> {
             /// Adds a [shader] extension to [AnimateManager] ([Animate] and [AnimateList]).
             T shader({
@@ -910,38 +907,41 @@ steps:
               ui.FragmentShader? shader,
               ShaderUpdateCallback? update,
               ShaderLayer? layer,
-            }) =>
-                addEffect(ShaderEffect(
-                  delay: delay,
-                  duration: duration,
-                  curve: curve,
-                  shader: shader,
-                  update: update,
-                  layer: layer,
-                ));
+            }) => addEffect(
+              ShaderEffect(
+                delay: delay,
+                duration: duration,
+                curve: curve,
+                shader: shader,
+                update: update,
+                layer: layer,
+              ),
+            );
           }
-
+          
           enum ShaderLayer { foreground, background, replace }
-
+          
           /// Function signature for [ShaderEffect] update handlers.
-          typedef ShaderUpdateCallback = EdgeInsets? Function(
-              ui.FragmentShader shader, double value, Size size, ui.Image image);
-
+          typedef ShaderUpdateCallback =
+              EdgeInsets? Function(
+                ui.FragmentShader shader,
+                double value,
+                Size size,
+                ui.Image image,
+              );
+          
           /******************************************************************************/
           // TODO: add this as a dependency instead of copying it in once it is stable:
           // https://github.com/jonahwilliams/flutter_shaders
-
+          
           // Copyright 2013 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-
+          
           /// A callback for the [AnimatedSamplerBuilder] widget.
-          typedef AnimatedSamplerBuilder = void Function(
-            ui.Image image,
-            Size size,
-            ui.Canvas canvas,
-          );
-
+          typedef AnimatedSamplerBuilder =
+              void Function(ui.Image image, Size size, ui.Canvas canvas);
+          
           /// A widget that allows access to a snapshot of the child widgets for painting
           /// with a sampler applied to a [FragmentProgram].
           ///
@@ -986,38 +986,34 @@ steps:
               super.key,
               this.enabled = true,
             });
-
+          
             /// A callback used by this widget to provide the children captured in
             /// a texture.
             final AnimatedSamplerBuilder builder;
-
+          
             /// Whether the children should be captured in a texture or displayed as
             /// normal.
             final bool enabled;
-
+          
             /// The child widget.
             final Widget child;
-
+          
             @override
             Widget build(BuildContext context) {
-              return _ShaderSamplerBuilder(
-                builder,
-                enabled: enabled,
-                child: child,
-              );
+              return _ShaderSamplerBuilder(builder, enabled: enabled, child: child);
             }
           }
-
+          
           class _ShaderSamplerBuilder extends SingleChildRenderObjectWidget {
             const _ShaderSamplerBuilder(
               this.builder, {
               super.child,
               required this.enabled,
             });
-
+          
             final AnimatedSamplerBuilder builder;
             final bool enabled;
-
+          
             @override
             RenderObject createRenderObject(BuildContext context) {
               return _RenderShaderSamplerBuilderWidget(
@@ -1026,17 +1022,19 @@ steps:
                 enabled: enabled,
               );
             }
-
+          
             @override
             void updateRenderObject(
-                BuildContext context, covariant RenderObject renderObject) {
+              BuildContext context,
+              covariant RenderObject renderObject,
+            ) {
               (renderObject as _RenderShaderSamplerBuilderWidget)
                 ..devicePixelRatio = MediaQuery.of(context).devicePixelRatio
                 ..builder = builder
                 ..enabled = enabled;
             }
           }
-
+          
           // A render object that conditionally converts its child into a [ui.Image]
           // and then paints it in place of the child.
           class _RenderShaderSamplerBuilderWidget extends RenderProxyBox {
@@ -1045,13 +1043,14 @@ steps:
               required double devicePixelRatio,
               required AnimatedSamplerBuilder builder,
               required bool enabled,
-            })  : _devicePixelRatio = devicePixelRatio,
-                  _builder = builder,
-                  _enabled = enabled;
-
+            }) : _devicePixelRatio = devicePixelRatio,
+                 _builder = builder,
+                 _enabled = enabled;
+          
             @override
-            OffsetLayer updateCompositedLayer(
-                {required covariant _ShaderSamplerBuilderLayer? oldLayer}) {
+            OffsetLayer updateCompositedLayer({
+              required covariant _ShaderSamplerBuilderLayer? oldLayer,
+            }) {
               final _ShaderSamplerBuilderLayer layer =
                   oldLayer ?? _ShaderSamplerBuilderLayer(builder);
               layer
@@ -1060,7 +1059,7 @@ steps:
                 ..devicePixelRatio = devicePixelRatio;
               return layer;
             }
-
+          
             /// The device pixel ratio used to create the child image.
             double get devicePixelRatio => _devicePixelRatio;
             double _devicePixelRatio;
@@ -1071,7 +1070,7 @@ steps:
               _devicePixelRatio = value;
               markNeedsCompositedLayerUpdate();
             }
-
+          
             /// The painter used to paint the child snapshot or child widgets.
             AnimatedSamplerBuilder get builder => _builder;
             AnimatedSamplerBuilder _builder;
@@ -1082,7 +1081,7 @@ steps:
               _builder = value;
               markNeedsCompositedLayerUpdate();
             }
-
+          
             bool get enabled => _enabled;
             bool _enabled;
             set enabled(bool value) {
@@ -1093,13 +1092,13 @@ steps:
               markNeedsPaint();
               markNeedsCompositingBitsUpdate();
             }
-
+          
             @override
             bool get isRepaintBoundary => alwaysNeedsCompositing;
-
+          
             @override
             bool get alwaysNeedsCompositing => enabled;
-
+          
             @override
             void paint(PaintingContext context, Offset offset) {
               if (size.isEmpty || !_enabled) {
@@ -1109,12 +1108,12 @@ steps:
               return super.paint(context, offset);
             }
           }
-
+          
           /// A [Layer] that uses an [AnimatedSamplerBuilder] to create a [ui.Picture]
           /// every time it is added to a scene.
           class _ShaderSamplerBuilderLayer extends OffsetLayer {
             _ShaderSamplerBuilderLayer(this._callback);
-
+          
             Size get size => _size;
             Size _size = Size.zero;
             set size(Size value) {
@@ -1124,7 +1123,7 @@ steps:
               _size = value;
               markNeedsAddToScene();
             }
-
+          
             double get devicePixelRatio => _devicePixelRatio;
             double _devicePixelRatio = 1.0;
             set devicePixelRatio(double value) {
@@ -1134,7 +1133,7 @@ steps:
               _devicePixelRatio = value;
               markNeedsAddToScene();
             }
-
+          
             AnimatedSamplerBuilder get callback => _callback;
             AnimatedSamplerBuilder _callback;
             set callback(AnimatedSamplerBuilder value) {
@@ -1144,27 +1143,27 @@ steps:
               _callback = value;
               markNeedsAddToScene();
             }
-
+          
             ui.Image _buildChildScene(Rect bounds, double pixelRatio) {
               final ui.SceneBuilder builder = ui.SceneBuilder();
-              final Matrix4 transform =
-                  Matrix4.diagonal3Values(pixelRatio, pixelRatio, 1);
+              final Matrix4 transform = Matrix4.diagonal3Values(
+                pixelRatio,
+                pixelRatio,
+                1,
+              );
               builder.pushTransform(transform.storage);
               addChildrenToScene(builder);
               builder.pop();
               return builder.build().toImageSync(
-                    (pixelRatio * bounds.width).ceil(),
-                    (pixelRatio * bounds.height).ceil(),
-                  );
+                (pixelRatio * bounds.width).ceil(),
+                (pixelRatio * bounds.height).ceil(),
+              );
             }
-
+          
             @override
             void addToScene(ui.SceneBuilder builder) {
               if (size.isEmpty) return;
-              final ui.Image image = _buildChildScene(
-                offset & size,
-                devicePixelRatio,
-              );
+              final ui.Image image = _buildChildScene(offset & size, devicePixelRatio);
               final ui.PictureRecorder pictureRecorder = ui.PictureRecorder();
               final Canvas canvas = Canvas(pictureRecorder);
               try {
@@ -1254,11 +1253,11 @@ steps:
           // Copyright 2023 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-          
+
           import 'dart:math';
-          
+
           import 'package:flutter/material.dart';
-          
+
           class UiScaler extends StatelessWidget {
             const UiScaler({
               super.key,
@@ -1266,20 +1265,16 @@ steps:
               required this.alignment,
               this.referenceHeight = 1080,
             });
-          
+
             final int referenceHeight;
             final Widget child;
             final Alignment alignment;
-          
+
             @override
             Widget build(BuildContext context) {
               final screenSize = MediaQuery.of(context).size;
               final double scale = min(screenSize.height / referenceHeight, 1.0);
-              return Transform.scale(
-                scale: scale,
-                alignment: alignment,
-                child: child,
-              );
+              return Transform.scale(scale: scale, alignment: alignment, child: child);
             }
           }
       - name: mkdir lib/orb_shader
@@ -1312,14 +1307,14 @@ steps:
               this.lightOffsetX = 0,
               this.lightOffsetY = 0.1,
               this.lightOffsetZ = -0.66,
-            })  : assert(zoom >= 0 && zoom <= 1),
-                  assert(exposure >= 0),
-                  assert(metalness >= 0 && metalness <= 1),
-                  assert(lightRadius >= 0),
-                  assert(lightBrightness >= 1),
-                  assert(ior >= 0 && ior <= 2),
-                  assert(lightAttenuation >= 0 && lightAttenuation <= 1),
-                  assert(ambientLightBrightness >= 0);
+            }) : assert(zoom >= 0 && zoom <= 1),
+                 assert(exposure >= 0),
+                 assert(metalness >= 0 && metalness <= 1),
+                 assert(lightRadius >= 0),
+                 assert(lightBrightness >= 1),
+                 assert(ior >= 0 && ior <= 2),
+                 assert(lightAttenuation >= 0 && lightAttenuation <= 1),
+                 assert(ambientLightBrightness >= 0);
           
             final double zoom;
           
@@ -1454,11 +1449,13 @@ steps:
 
               v64.Vector3 colorToVector3(Color c) => v64.Vector3(c.r, c.g, c.b);
 
-              v64.Vector3 lightLumP = colorToVector3(config.lightColor).normalized() *
+              v64.Vector3 lightLumP =
+                  colorToVector3(config.lightColor).normalized() *
                   max(0.0, config.lightBrightness);
               v64.Vector3 albedo = colorToVector3(config.materialColor);
 
-              v64.Vector3 ambientLight = colorToVector3(config.ambientLightColor) *
+              v64.Vector3 ambientLight =
+                  colorToVector3(config.ambientLightColor) *
                   max(0.0, config.ambientLightBrightness);
 
               shader.setFloat(0, size.width);
@@ -1507,20 +1504,20 @@ steps:
           // Copyright 2023 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-          
+
           import 'dart:async';
           import 'dart:math';
           import 'dart:ui';
-          
+
           import 'package:flutter/material.dart';
           import 'package:flutter_animate/flutter_animate.dart';
           import 'package:provider/provider.dart';
-          
+
           import '../assets.dart';
           import '../common/reactive_widget.dart';
           import 'orb_shader_config.dart';
           import 'orb_shader_painter.dart';
-          
+
           class OrbShaderWidget extends StatefulWidget {
             const OrbShaderWidget({
               super.key,
@@ -1529,84 +1526,94 @@ steps:
               required this.mousePos,
               required this.minEnergy,
             });
-          
+
             final double minEnergy;
             final OrbShaderConfig config;
             final Offset mousePos;
             final void Function(double energy)? onUpdate;
-          
+
             @override
             State<OrbShaderWidget> createState() => OrbShaderWidgetState();
           }
-          
+
           class OrbShaderWidgetState extends State<OrbShaderWidget>
               with SingleTickerProviderStateMixin {
-            final _heartbeatSequence = TweenSequence(
-              [
-                TweenSequenceItem(tween: ConstantTween(0), weight: 40),
-                TweenSequenceItem(
-                    tween: Tween(begin: 0.0, end: 1.0)
-                        .chain(CurveTween(curve: Curves.easeInOutCubic)),
-                    weight: 8),
-                TweenSequenceItem(
-                    tween: Tween(begin: 1.0, end: 0.2)
-                        .chain(CurveTween(curve: Curves.easeInOutCubic)),
-                    weight: 12),
-                TweenSequenceItem(
-                    tween: Tween(begin: 0.2, end: 0.8)
-                        .chain(CurveTween(curve: Curves.easeInOutCubic)),
-                    weight: 6),
-                TweenSequenceItem(
-                    tween: Tween(begin: 0.8, end: 0.0)
-                        .chain(CurveTween(curve: Curves.easeInOutCubic)),
-                    weight: 10),
-              ],
-            );
-          
-            late final _heartbeatAnim =
-                AnimationController(vsync: this, duration: 3000.ms)..repeat();
-          
+            final _heartbeatSequence = TweenSequence([
+              TweenSequenceItem(tween: ConstantTween(0), weight: 40),
+              TweenSequenceItem(
+                tween: Tween(
+                  begin: 0.0,
+                  end: 1.0,
+                ).chain(CurveTween(curve: Curves.easeInOutCubic)),
+                weight: 8,
+              ),
+              TweenSequenceItem(
+                tween: Tween(
+                  begin: 1.0,
+                  end: 0.2,
+                ).chain(CurveTween(curve: Curves.easeInOutCubic)),
+                weight: 12,
+              ),
+              TweenSequenceItem(
+                tween: Tween(
+                  begin: 0.2,
+                  end: 0.8,
+                ).chain(CurveTween(curve: Curves.easeInOutCubic)),
+                weight: 6,
+              ),
+              TweenSequenceItem(
+                tween: Tween(
+                  begin: 0.8,
+                  end: 0.0,
+                ).chain(CurveTween(curve: Curves.easeInOutCubic)),
+                weight: 10,
+              ),
+            ]);
+
+            late final _heartbeatAnim = AnimationController(
+              vsync: this,
+              duration: 3000.ms,
+            )..repeat();
+
             @override
             Widget build(BuildContext context) => Consumer<FragmentPrograms?>(
-                  builder: (context, fragmentPrograms, _) {
-                    if (fragmentPrograms == null) return const SizedBox.expand();
-                    return ListenableBuilder(
-                      listenable: _heartbeatAnim,
-                      builder: (_, __) {
-                        final heartbeatEnergy =
-                            _heartbeatAnim.drive(_heartbeatSequence).value;
-                        return TweenAnimationBuilder(
-                          tween: Tween<double>(
-                              begin: widget.minEnergy, end: widget.minEnergy),
-                          duration: 300.ms,
-                          curve: Curves.easeOutCubic,
-                          builder: (context, minEnergy, child) {
-                            return ReactiveWidget(
-                              builder: (context, time, size) {
-                                double energyLevel = 0;
-                                if (size.shortestSide != 0) {
-                                  final d = (Offset(size.width, size.height) / 2 -
-                                          widget.mousePos)
+              builder: (context, fragmentPrograms, _) {
+                if (fragmentPrograms == null) return const SizedBox.expand();
+                return ListenableBuilder(
+                  listenable: _heartbeatAnim,
+                  builder: (_, __) {
+                    final heartbeatEnergy =
+                        _heartbeatAnim.drive(_heartbeatSequence).value;
+                    return TweenAnimationBuilder(
+                      tween: Tween<double>(
+                        begin: widget.minEnergy,
+                        end: widget.minEnergy,
+                      ),
+                      duration: 300.ms,
+                      curve: Curves.easeOutCubic,
+                      builder: (context, minEnergy, child) {
+                        return ReactiveWidget(
+                          builder: (context, time, size) {
+                            double energyLevel = 0;
+                            if (size.shortestSide != 0) {
+                              final d =
+                                  (Offset(size.width, size.height) / 2 - widget.mousePos)
                                       .distance;
-                                  final hitSize = size.shortestSide * .5;
-                                  energyLevel = 1 - min(1, (d / hitSize));
-                                  scheduleMicrotask(
-                                      () => widget.onUpdate?.call(energyLevel));
-                                }
-                                energyLevel +=
-                                    (1.3 - energyLevel) * heartbeatEnergy * 0.1;
-                                energyLevel = lerpDouble(minEnergy, 1, energyLevel)!;
-                                return CustomPaint(
-                                  size: size,
-                                  painter: OrbShaderPainter(
-                                    fragmentPrograms.orb.fragmentShader(),
-                                    config: widget.config,
-                                    time: time,
-                                    mousePos: widget.mousePos,
-                                    energy: energyLevel,
-                                  ),
-                                );
-                              },
+                              final hitSize = size.shortestSide * .5;
+                              energyLevel = 1 - min(1, (d / hitSize));
+                              scheduleMicrotask(() => widget.onUpdate?.call(energyLevel));
+                            }
+                            energyLevel += (1.3 - energyLevel) * heartbeatEnergy * 0.1;
+                            energyLevel = lerpDouble(minEnergy, 1, energyLevel)!;
+                            return CustomPaint(
+                              size: size,
+                              painter: OrbShaderPainter(
+                                fragmentPrograms.orb.fragmentShader(),
+                                config: widget.config,
+                                time: time,
+                                mousePos: widget.mousePos,
+                                energy: energyLevel,
+                              ),
                             );
                           },
                         );
@@ -1614,6 +1621,8 @@ steps:
                     );
                   },
                 );
+              },
+            );
           }
       - name: Replace lib/main.dart
         path: next_gen_ui/lib/main.dart
@@ -1944,9 +1953,7 @@ steps:
           import '../styles.dart';
 
           class TitleScreenUi extends StatelessWidget {
-            const TitleScreenUi({
-              super.key,
-            });
+            const TitleScreenUi({super.key});
             @override
             Widget build(BuildContext context) {
               return const Padding(
@@ -1955,10 +1962,7 @@ steps:
                   children: [
                     /// Title Text
                     TopLeft(
-                      child: UiScaler(
-                        alignment: Alignment.topLeft,
-                        child: _TitleText(),
-                      ),
+                      child: UiScaler(alignment: Alignment.topLeft, child: _TitleText()),
                     ),
                   ],
                 ),
@@ -2006,15 +2010,13 @@ steps:
            
            class TitleScreen extends StatelessWidget {
              const TitleScreen({super.key});
-          @@ -70,6 +71,11 @@ class TitleScreen extends StatelessWidget {
+          @@ -70,6 +71,9 @@ class TitleScreen extends StatelessWidget {
                          color: emitColor,
                          lightAmt: _finalEmitLightAmt,
                        ),
           +
           +            /// UI
-          +            const Positioned.fill(
-          +              child: TitleScreenUi(),
-          +            ),
+          +            const Positioned.fill(child: TitleScreenUi()),
                      ],
                    ),
                  ),
@@ -2048,14 +2050,17 @@ steps:
            import 'package:gap/gap.dart';
            
            import '../assets.dart';
-          @@ -13,20 +14,40 @@ import '../styles.dart';
+          @@ -11,17 +12,39 @@ import '../common/ui_scaler.dart';
+           import '../styles.dart';
+           
            class TitleScreenUi extends StatelessWidget {
-             const TitleScreenUi({
-               super.key,
+          -  const TitleScreenUi({super.key});
+          +  const TitleScreenUi({
+          +    super.key,
           +    required this.difficulty,
           +    required this.onDifficultyPressed,
           +    required this.onDifficultyFocused,
-             });
+          +  });
           +
           +  final int difficulty;
           +  final void Function(int difficulty) onDifficultyPressed;
@@ -2072,10 +2077,7 @@ steps:
                      /// Title Text
           -          TopLeft(
           +          const TopLeft(
-                       child: UiScaler(
-                         alignment: Alignment.topLeft,
-                         child: _TitleText(),
-                       ),
+                       child: UiScaler(alignment: Alignment.topLeft, child: _TitleText()),
                      ),
           +
           +          /// Difficulty Btns
@@ -2092,7 +2094,7 @@ steps:
                    ],
                  ),
                );
-          @@ -60,3 +81,107 @@ class _TitleText extends StatelessWidget {
+          @@ -55,3 +78,103 @@ class _TitleText extends StatelessWidget {
                );
              }
            }
@@ -2180,18 +2182,14 @@ steps:
           +
           +                /// cross-hairs (selected state)
           +                if (selected) ...[
-          +                  CenterLeft(
-          +                    child: Image.asset(AssetPaths.titleSelectedLeft),
-          +                  ),
+          +                  CenterLeft(child: Image.asset(AssetPaths.titleSelectedLeft)),
           +                  CenterRight(
           +                    child: Image.asset(AssetPaths.titleSelectedRight),
           +                  ),
           +                ],
           +
           +                /// Label
-          +                Center(
-          +                  child: Text(label.toUpperCase(), style: TextStyles.btn),
-          +                ),
+          +                Center(child: Text(label.toUpperCase(), style: TextStyles.btn)),
           +              ],
           +            ),
           +          ),
@@ -2282,7 +2280,7 @@ steps:
                          lightAmt: _finalEmitLightAmt,
                        ),
            
-          @@ -61,20 +82,24 @@ class TitleScreen extends StatelessWidget {
+          @@ -61,19 +82,25 @@ class TitleScreen extends StatelessWidget {
                        /// Fg-Receive
                        _LitImage(
                          imgSrc: AssetPaths.titleFgReceive,
@@ -2300,17 +2298,17 @@ steps:
                        ),
            
                        /// UI
-          -            const Positioned.fill(
-          -              child: TitleScreenUi(),
+          -            const Positioned.fill(child: TitleScreenUi()),
           +            Positioned.fill(
           +              child: TitleScreenUi(
           +                difficulty: _difficulty,
           +                onDifficultyFocused: _handleDifficultyFocused,
           +                onDifficultyPressed: _handleDifficultyPressed,
           +              ),
-                       ),
+          +            ),
                      ],
                    ),
+                 ),
       - name: Build Web app
         path: next_gen_ui
         flutter: build web
@@ -2333,7 +2331,7 @@ steps:
         patch-u: |
           --- b/next-gen-ui/step_03_c/lib/title_screen/title_screen_ui.dart
           +++ a/next-gen-ui/step_03_c/lib/title_screen/title_screen_ui.dart
-          @@ -48,6 +48,17 @@ class TitleScreenUi extends StatelessWidget {
+          @@ -45,6 +45,17 @@ class TitleScreenUi extends StatelessWidget {
                          ),
                        ),
                      ),
@@ -2351,7 +2349,7 @@ steps:
                    ],
                  ),
                );
-          @@ -185,3 +196,55 @@ class _DifficultyBtn extends StatelessWidget {
+          @@ -178,3 +189,60 @@ class _DifficultyBtn extends StatelessWidget {
                );
              }
            }
@@ -2388,15 +2386,20 @@ steps:
           +              Positioned.fill(child: Image.asset(AssetPaths.titleStartBtn)),
           +              if (state.isHovered || state.isFocused) ...[
           +                Positioned.fill(
-          +                    child: Image.asset(AssetPaths.titleStartBtnHover)),
+          +                  child: Image.asset(AssetPaths.titleStartBtnHover),
+          +                ),
           +              ],
           +              Center(
           +                child: Row(
           +                  mainAxisAlignment: MainAxisAlignment.end,
           +                  children: [
-          +                    Text('START MISSION',
-          +                        style: TextStyles.btn
-          +                            .copyWith(fontSize: 24, letterSpacing: 18)),
+          +                    Text(
+          +                      'START MISSION',
+          +                      style: TextStyles.btn.copyWith(
+          +                        fontSize: 24,
+          +                        letterSpacing: 18,
+          +                      ),
+          +                    ),
           +                  ],
           +                ),
           +              ),
@@ -2457,16 +2460,17 @@ steps:
            import 'package:focusable_control_builder/focusable_control_builder.dart';
            import 'package:gap/gap.dart';
            
-          @@ -86,8 +87,10 @@ class _TitleText extends StatelessWidget {
+          @@ -83,8 +84,11 @@ class _TitleText extends StatelessWidget {
                        Text('57', style: TextStyles.h2),
                        Image.asset(AssetPaths.titleSelectedRight, height: 65),
                      ],
           -        ),
           -        Text('INTO THE UNKNOWN', style: TextStyles.h3),
           +        ).animate().fadeIn(delay: .8.seconds, duration: .7.seconds),
-          +        Text('INTO THE UNKNOWN', style: TextStyles.h3)
-          +            .animate()
-          +            .fadeIn(delay: 1.seconds, duration: .7.seconds),
+          +        Text(
+          +          'INTO THE UNKNOWN',
+          +          style: TextStyles.h3,
+          +        ).animate().fadeIn(delay: 1.seconds, duration: .7.seconds),
                  ],
                );
              }
@@ -2492,32 +2496,48 @@ steps:
         patch-u: |
           --- b/next-gen-ui/step_04_b/lib/title_screen/title_screen_ui.dart
           +++ a/next-gen-ui/step_04_b/lib/title_screen/title_screen_ui.dart
-          @@ -117,19 +117,28 @@ class _DifficultyBtns extends StatelessWidget {
-                     selected: difficulty == 0,
-                     onPressed: () => onDifficultyPressed(0),
-                     onHover: (over) => onDifficultyFocused(over ? 0 : null),
+          @@ -111,23 +111,32 @@ class _DifficultyBtns extends StatelessWidget {
+                 mainAxisSize: MainAxisSize.min,
+                 children: [
+                   _DifficultyBtn(
+          -          label: 'Casual',
+          -          selected: difficulty == 0,
+          -          onPressed: () => onDifficultyPressed(0),
+          -          onHover: (over) => onDifficultyFocused(over ? 0 : null),
           -        ),
-          +        )
+          +              label: 'Casual',
+          +              selected: difficulty == 0,
+          +              onPressed: () => onDifficultyPressed(0),
+          +              onHover: (over) => onDifficultyFocused(over ? 0 : null),
+          +            )
           +            .animate()
           +            .fadeIn(delay: 1.3.seconds, duration: .35.seconds)
           +            .slide(begin: const Offset(0, .2)),
                    _DifficultyBtn(
-                     label: 'Normal',
-                     selected: difficulty == 1,
-                     onPressed: () => onDifficultyPressed(1),
-                     onHover: (over) => onDifficultyFocused(over ? 1 : null),
+          -          label: 'Normal',
+          -          selected: difficulty == 1,
+          -          onPressed: () => onDifficultyPressed(1),
+          -          onHover: (over) => onDifficultyFocused(over ? 1 : null),
           -        ),
-          +        )
+          +              label: 'Normal',
+          +              selected: difficulty == 1,
+          +              onPressed: () => onDifficultyPressed(1),
+          +              onHover: (over) => onDifficultyFocused(over ? 1 : null),
+          +            )
           +            .animate()
           +            .fadeIn(delay: 1.5.seconds, duration: .35.seconds)
           +            .slide(begin: const Offset(0, .2)),
                    _DifficultyBtn(
-                     label: 'Hardcore',
-                     selected: difficulty == 2,
-                     onPressed: () => onDifficultyPressed(2),
-                     onHover: (over) => onDifficultyFocused(over ? 2 : null),
+          -          label: 'Hardcore',
+          -          selected: difficulty == 2,
+          -          onPressed: () => onDifficultyPressed(2),
+          -          onHover: (over) => onDifficultyFocused(over ? 2 : null),
           -        ),
-          +        )
+          +              label: 'Hardcore',
+          +              selected: difficulty == 2,
+          +              onPressed: () => onDifficultyPressed(2),
+          +              onHover: (over) => onDifficultyFocused(over ? 2 : null),
+          +            )
           +            .animate()
           +            .fadeIn(delay: 1.7.seconds, duration: .35.seconds)
           +            .slide(begin: const Offset(0, .2)),
@@ -2546,16 +2566,67 @@ steps:
         patch-u: |
           --- b/next-gen-ui/step_04_c/lib/title_screen/title_screen_ui.dart
           +++ a/next-gen-ui/step_04_c/lib/title_screen/title_screen_ui.dart
-          @@ -254,8 +254,13 @@ class _StartBtnState extends State<_StartBtn> {
-                           ),
-                         ),
-                       ],
+          @@ -228,33 +228,40 @@ class _StartBtnState extends State<_StartBtn> {
+                   }
+                   _wasHovered = (state.isHovered || state.isFocused);
+                   return SizedBox(
+          -          width: 520,
+          -          height: 100,
+          -          child: Stack(
+          -            children: [
+          -              Positioned.fill(child: Image.asset(AssetPaths.titleStartBtn)),
+          -              if (state.isHovered || state.isFocused) ...[
+          -                Positioned.fill(
+          -                  child: Image.asset(AssetPaths.titleStartBtnHover),
+          -                ),
+          -              ],
+          -              Center(
+          -                child: Row(
+          -                  mainAxisAlignment: MainAxisAlignment.end,
+          -                  children: [
+          -                    Text(
+          -                      'START MISSION',
+          -                      style: TextStyles.btn.copyWith(
+          -                        fontSize: 24,
+          -                        letterSpacing: 18,
+          +              width: 520,
+          +              height: 100,
+          +              child: Stack(
+          +                    children: [
+          +                      Positioned.fill(
+          +                        child: Image.asset(AssetPaths.titleStartBtn),
+                                 ),
+          -                    ),
+          -                  ],
+          -                ),
+          -              ),
+          -            ],
           -          ),
           -        );
-          +          )
-          +              .animate(autoPlay: false, onInit: (c) => _btnAnim = c)
-          +              .shimmer(duration: .7.seconds, color: Colors.black),
-          +        )
+          +                      if (state.isHovered || state.isFocused) ...[
+          +                        Positioned.fill(
+          +                          child: Image.asset(AssetPaths.titleStartBtnHover),
+          +                        ),
+          +                      ],
+          +                      Center(
+          +                        child: Row(
+          +                          mainAxisAlignment: MainAxisAlignment.end,
+          +                          children: [
+          +                            Text(
+          +                              'START MISSION',
+          +                              style: TextStyles.btn.copyWith(
+          +                                fontSize: 24,
+          +                                letterSpacing: 18,
+          +                              ),
+          +                            ),
+          +                          ],
+          +                        ),
+          +                      ),
+          +                    ],
+          +                  )
+          +                  .animate(autoPlay: false, onInit: (c) => _btnAnim = c)
+          +                  .shimmer(duration: .7.seconds, color: Colors.black),
+          +            )
           +            .animate()
           +            .fadeIn(delay: 2.3.seconds)
           +            .slide(begin: const Offset(0, .2));
@@ -2584,7 +2655,7 @@ steps:
         patch-u: |
           --- b/next-gen-ui/step_04_d/lib/title_screen/title_screen_ui.dart
           +++ a/next-gen-ui/step_04_d/lib/title_screen/title_screen_ui.dart
-          @@ -171,10 +171,16 @@ class _DifficultyBtn extends StatelessWidget {
+          @@ -169,10 +169,17 @@ class _DifficultyBtn extends StatelessWidget {
                        child: Stack(
                          children: [
                            /// Bg with fill and outline
@@ -2593,9 +2664,10 @@ steps:
           -                    color: const Color(0xFF00D1FF).withAlpha(25),
           -                    border: Border.all(color: Colors.white, width: 5),
           +                AnimatedOpacity(
-          +                  opacity: (!selected && (state.isHovered || state.isFocused))
-          +                      ? 1
-          +                      : 0,
+          +                  opacity:
+          +                      (!selected && (state.isHovered || state.isFocused))
+          +                          ? 1
+          +                          : 0,
           +                  duration: .3.seconds,
           +                  child: Container(
           +                    decoration: BoxDecoration(
@@ -2781,7 +2853,7 @@ steps:
           +  final Color orbColor;
           +
           +  final Widget Function(BuildContext context, Color orbColor, Color emitColor)
-          +      builder;
+          +  builder;
           +
           +  @override
           +  Widget build(BuildContext context) {
@@ -2866,7 +2938,7 @@ steps:
            import '../common/ui_scaler.dart';
            import '../styles.dart';
            
-          @@ -71,7 +74,7 @@ class _TitleText extends StatelessWidget {
+          @@ -68,7 +71,7 @@ class _TitleText extends StatelessWidget {
            
              @override
              Widget build(BuildContext context) {
@@ -2875,8 +2947,8 @@ steps:
                  mainAxisSize: MainAxisSize.min,
                  crossAxisAlignment: CrossAxisAlignment.start,
                  children: [
-          @@ -93,6 +96,30 @@ class _TitleText extends StatelessWidget {
-                       .fadeIn(delay: 1.seconds, duration: .7.seconds),
+          @@ -91,6 +94,31 @@ class _TitleText extends StatelessWidget {
+                   ).animate().fadeIn(delay: 1.seconds, duration: .7.seconds),
                  ],
                );
           +    return Consumer<FragmentPrograms?>(
@@ -2884,21 +2956,22 @@ steps:
           +        if (fragmentPrograms == null) return content;
           +        return TickingBuilder(
           +          builder: (context, time) {
-          +            return AnimatedSampler(
-          +              (image, size, canvas) {
-          +                const double overdrawPx = 30;
-          +                final shader = fragmentPrograms.ui.fragmentShader();
-          +                shader
-          +                  ..setFloat(0, size.width)
-          +                  ..setFloat(1, size.height)
-          +                  ..setFloat(2, time)
-          +                  ..setImageSampler(0, image);
-          +                Rect rect = Rect.fromLTWH(-overdrawPx, -overdrawPx,
-          +                    size.width + overdrawPx, size.height + overdrawPx);
-          +                canvas.drawRect(rect, Paint()..shader = shader);
-          +              },
-          +              child: content,
-          +            );
+          +            return AnimatedSampler((image, size, canvas) {
+          +              const double overdrawPx = 30;
+          +              final shader = fragmentPrograms.ui.fragmentShader();
+          +              shader
+          +                ..setFloat(0, size.width)
+          +                ..setFloat(1, size.height)
+          +                ..setFloat(2, time)
+          +                ..setImageSampler(0, image);
+          +              Rect rect = Rect.fromLTWH(
+          +                -overdrawPx,
+          +                -overdrawPx,
+          +                size.width + overdrawPx,
+          +                size.height + overdrawPx,
+          +              );
+          +              canvas.drawRect(rect, Paint()..shader = shader);
+          +            }, child: content);
           +          },
           +        );
           +      },
@@ -2941,7 +3014,7 @@ steps:
            
              @override
              Widget build(BuildContext context) {
-          @@ -59,7 +61,7 @@ class TitleScreenUi extends StatelessWidget {
+          @@ -56,7 +58,7 @@ class TitleScreenUi extends StatelessWidget {
                          alignment: Alignment.bottomRight,
                          child: Padding(
                            padding: const EdgeInsets.only(bottom: 20, right: 40),
@@ -2996,7 +3069,7 @@ steps:
              Color get _emitColor =>
                  AppColors.emitColors[_difficultyOverride ?? _difficulty];
              Color get _orbColor =>
-          @@ -27,88 +48,189 @@ class _TitleScreenState extends State<TitleScreen> {
+          @@ -27,88 +48,190 @@ class _TitleScreenState extends State<TitleScreen> {
            
              /// Currently focused difficulty (if any)
              int? _difficultyOverride;
@@ -3023,10 +3096,10 @@ steps:
           +  Duration _getRndPulseDuration() => 100.ms + 200.ms * Random().nextDouble();
           +
           +  double _getMinEnergyForDifficulty(int difficulty) => switch (difficulty) {
-          +        1 => 0.3,
-          +        2 => 0.6,
-          +        _ => 0,
-          +      };
+          +    1 => 0.3,
+          +    2 => 0.6,
+          +    _ => 0,
+          +  };
           +
           +  @override
           +  void initState() {
@@ -3186,9 +3259,10 @@ steps:
           +                            materialColor: orbColor,
           +                            lightColor: orbColor,
           +                          ),
-          +                          onUpdate: (energy) => setState(() {
-          +                            _orbEnergy = energy;
-          +                          }),
+          +                          onUpdate:
+          +                              (energy) => setState(() {
+          +                                _orbEnergy = energy;
+          +                              }),
           +                        ),
           +                      ],
           +                    ),
@@ -3253,7 +3327,7 @@ steps:
                    ),
                  ),
                );
-          @@ -119,19 +241,26 @@ class _LitImage extends StatelessWidget {
+          @@ -119,19 +242,26 @@ class _LitImage extends StatelessWidget {
              const _LitImage({
                required this.color,
                required this.imgSrc,
@@ -3307,19 +3381,19 @@ steps:
           // Copyright 2023 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-          
+
           import 'dart:math';
-          
+
           import 'package:flutter/material.dart';
           import 'package:particle_field/particle_field.dart';
           import 'package:rnd/rnd.dart';
-          
+
           class ParticleOverlay extends StatelessWidget {
             const ParticleOverlay({super.key, required this.color, required this.energy});
-          
+
             final Color color;
             final double energy;
-          
+
             @override
             Widget build(BuildContext context) {
               return ParticleField(
@@ -3328,29 +3402,31 @@ steps:
                 ),
                 // blend the image's alpha with the specified color:
                 blendMode: BlendMode.dstIn,
-          
+
                 // this runs every tick:
                 onTick: (controller, _, size) {
                   List<Particle> particles = controller.particles;
-          
+
                   // add a new particle with random angle, distance & velocity:
                   double a = rnd(pi * 2);
                   double dist = rnd(1, 4) * 35 + 150 * energy;
                   double vel = rnd(1, 2) * (1 + energy * 1.8);
-                  particles.add(Particle(
-                    // how many ticks this particle will live:
-                    lifespan: rnd(1, 2) * 20 + energy * 15,
-                    // starting distance from center:
-                    x: cos(a) * dist,
-                    y: sin(a) * dist,
-                    // starting velocity:
-                    vx: cos(a) * vel,
-                    vy: sin(a) * vel,
-                    // other starting values:
-                    rotation: a,
-                    scale: rnd(1, 2) * 0.6 + energy * 0.5,
-                  ));
-          
+                  particles.add(
+                    Particle(
+                      // how many ticks this particle will live:
+                      lifespan: rnd(1, 2) * 20 + energy * 15,
+                      // starting distance from center:
+                      x: cos(a) * dist,
+                      y: sin(a) * dist,
+                      // starting velocity:
+                      vx: cos(a) * vel,
+                      vy: sin(a) * vel,
+                      // other starting values:
+                      rotation: a,
+                      scale: rnd(1, 2) * 0.6 + energy * 0.5,
+                    ),
+                  );
+
                   // update all of the particles:
                   for (int i = particles.length - 1; i >= 0; i--) {
                     Particle p = particles[i];
@@ -3384,7 +3460,7 @@ steps:
            import 'title_screen_ui.dart';
            
            class TitleScreen extends StatefulWidget {
-          @@ -199,6 +200,16 @@ class _TitleScreenState extends State<TitleScreen>
+          @@ -200,6 +201,16 @@ class _TitleScreenState extends State<TitleScreen>
                                lightAmt: _finalEmitLightAmt,
                              ),
            

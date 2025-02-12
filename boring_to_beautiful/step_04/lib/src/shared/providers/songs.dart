@@ -52,9 +52,10 @@ final _songs = <RankedSong>[
     ArtistsProvider.shared.getArtist('jonjames')!,
     '3:35'.toDuration(),
     const MyArtistImage(
-        image: 'assets/images/albums/artist4-album2.jpg',
-        sourceLink: 'https://unsplash.com/photos/RQgKM1h2agA',
-        sourceName: 'Alexandru Acea'),
+      image: 'assets/images/albums/artist4-album2.jpg',
+      sourceLink: 'https://unsplash.com/photos/RQgKM1h2agA',
+      sourceName: 'Alexandru Acea',
+    ),
   ),
   RankedSong(
     2,
@@ -62,9 +63,10 @@ final _songs = <RankedSong>[
     ArtistsProvider.shared.getArtist('jonjames')!,
     '3:52'.toDuration(),
     const MyArtistImage(
-        image: 'assets/images/albums/artist4-album1.jpg',
-        sourceLink: 'https://unsplash.com/photos/ZWDg7v2FPWE',
-        sourceName: 'Jr Korpa'),
+      image: 'assets/images/albums/artist4-album1.jpg',
+      sourceLink: 'https://unsplash.com/photos/ZWDg7v2FPWE',
+      sourceName: 'Jr Korpa',
+    ),
   ),
   RankedSong(
     3,
@@ -72,9 +74,10 @@ final _songs = <RankedSong>[
     ArtistsProvider.shared.getArtist('jonjames')!,
     '3:39'.toDuration(),
     const MyArtistImage(
-        image: 'assets/images/albums/artist4-album3.jpg',
-        sourceLink: 'https://unsplash.com/photos/rX12B5uX7QM',
-        sourceName: 'Stormseeker'),
+      image: 'assets/images/albums/artist4-album3.jpg',
+      sourceLink: 'https://unsplash.com/photos/rX12B5uX7QM',
+      sourceName: 'Stormseeker',
+    ),
   ),
   RankedSong(
     1,

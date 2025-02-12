@@ -10,8 +10,11 @@ import 'package:url_launcher/link.dart';
 import 'app_state.dart';
 
 class PlaylistDetails extends StatelessWidget {
-  const PlaylistDetails(
-      {required this.playlistId, required this.playlistName, super.key});
+  const PlaylistDetails({
+    required this.playlistId,
+    required this.playlistName,
+    super.key,
+  });
   final String playlistId;
   final String playlistName;
 
@@ -86,10 +89,7 @@ class _PlaylistDetailsListViewState extends State<_PlaylistDetailsListView> {
       child: DecoratedBox(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              Colors.transparent,
-              Theme.of(context).colorScheme.surface,
-            ],
+            colors: [Colors.transparent, Theme.of(context).colorScheme.surface],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             stops: const [0.5, 0.95],
@@ -100,7 +100,9 @@ class _PlaylistDetailsListViewState extends State<_PlaylistDetailsListView> {
   }
 
   Widget _buildTitleAndSubtitle(
-      BuildContext context, PlaylistItem playlistItem) {
+    BuildContext context,
+    PlaylistItem playlistItem,
+  ) {
     return Positioned(
       left: 20,
       right: 0,
@@ -112,16 +114,16 @@ class _PlaylistDetailsListViewState extends State<_PlaylistDetailsListView> {
           Text(
             playlistItem.snippet!.title!,
             style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                  fontSize: 18,
-                  // fontWeight: FontWeight.bold,
-                ),
+              fontSize: 18,
+              // fontWeight: FontWeight.bold,
+            ),
           ),
           if (playlistItem.snippet!.videoOwnerChannelTitle != null)
             Text(
               playlistItem.snippet!.videoOwnerChannelTitle!,
-              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    fontSize: 12,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium!.copyWith(fontSize: 12),
             ),
         ],
       ),
@@ -137,20 +139,20 @@ class _PlaylistDetailsListViewState extends State<_PlaylistDetailsListView> {
           height: 42,
           decoration: const BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.all(
-              Radius.circular(21),
-            ),
+            borderRadius: BorderRadius.all(Radius.circular(21)),
           ),
         ),
         Link(
           uri: Uri.parse(
-              'https://www.youtube.com/watch?v=${playlistItem.snippet!.resourceId!.videoId}'),
-          builder: (context, followLink) => IconButton(
-            onPressed: followLink,
-            color: Colors.red,
-            icon: const Icon(Icons.play_circle_fill),
-            iconSize: 45,
+            'https://www.youtube.com/watch?v=${playlistItem.snippet!.resourceId!.videoId}',
           ),
+          builder:
+              (context, followLink) => IconButton(
+                onPressed: followLink,
+                color: Colors.red,
+                icon: const Icon(Icons.play_circle_fill),
+                iconSize: 45,
+              ),
         ),
       ],
     );

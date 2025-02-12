@@ -73,9 +73,7 @@ class TitleScreen extends StatelessWidget {
             ),
 
             /// UI
-            const Positioned.fill(
-              child: TitleScreenUi(),
-            ),
+            const Positioned.fill(child: TitleScreenUi()),
           ],
         ),
       ),

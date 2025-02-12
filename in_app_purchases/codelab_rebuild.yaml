@@ -54,7 +54,7 @@ steps:
           include: ../../../analysis_options.yaml
       - name: Remove app/README.md
         rm: steps/app/README.md
-      - name: Patch app/ios/Runner/Info.plis
+      - name: Patch app/ios/Runner/Info.plist
         path: steps/app/ios/Runner/Info.plist
         patch-u: |
           --- b/in_app_purchases/step_00/app/ios/Runner/Info.plist
@@ -89,24 +89,11 @@ steps:
            
            # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
            ENV['COCOAPODS_DISABLE_STATS'] = 'true'
-      - name: Patch app/android/settings.gradle
-        path: steps/app/android/settings.gradle
+      - name: Patch app/android/app/build.gradle.kts
+        path: steps/app/android/app/build.gradle.kts
         patch-u: |
-          --- b/in_app_purchases/step_00/app/android/settings.gradle
-          +++ a/in_app_purchases/step_00/app/android/settings.gradle
-          @@ -18,7 +18,7 @@ pluginManagement {
-           
-           plugins {
-               id "dev.flutter.flutter-plugin-loader" version "1.0.0"
-          -    id "com.android.application" version "8.1.0" apply false
-          +    id "com.android.application" version "8.2.1" apply false
-               id "org.jetbrains.kotlin.android" version "1.8.22" apply false
-           }
-      - name: Patch app/android/app/build.gradle
-        path: steps/app/android/app/build.gradle
-        patch-u: |
-          --- b/in_app_purchases/step_00/app/android/app/build.gradle
-          +++ a/in_app_purchases/step_00/app/android/app/build.gradle
+          --- b/in_app_purchases/step_00/app/android/app/build.gradle.kts
+          +++ a/in_app_purchases/step_00/app/android/app/build.gradle.kts
           @@ -22,9 +22,8 @@ android {
                defaultConfig {
                    // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
@@ -15890,38 +15877,30 @@ steps:
               return MultiProvider(
                 providers: [
                   ChangeNotifierProvider<FirebaseNotifier>(
-                      create: (_) => FirebaseNotifier()),
+                    create: (_) => FirebaseNotifier(),
+                  ),
                   ChangeNotifierProvider<DashCounter>(create: (_) => DashCounter()),
                   ChangeNotifierProvider<DashUpgrades>(
-                    create: (context) => DashUpgrades(
-                      context.read<DashCounter>(),
-                      context.read<FirebaseNotifier>(),
-                    ),
+                    create:
+                        (context) => DashUpgrades(
+                          context.read<DashCounter>(),
+                          context.read<FirebaseNotifier>(),
+                        ),
                   ),
                   ChangeNotifierProvider<IAPRepo>(
                     create: (context) => IAPRepo(context.read<FirebaseNotifier>()),
                   ),
                   ChangeNotifierProvider<DashPurchases>(
-                    create: (context) => DashPurchases(
-                      context.read<DashCounter>(),
-                    ),
+                    create: (context) => DashPurchases(context.read<DashCounter>()),
                   ),
                 ],
                 child: Scaffold(
-                  appBar: AppBar(
-                    title: Text(widget.title),
-                  ),
+                  appBar: AppBar(title: Text(widget.title)),
                   body: _widgetOptions[_selectedIndex],
                   bottomNavigationBar: BottomNavigationBar(
                     items: const <BottomNavigationBarItem>[
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.home),
-                        label: 'Home',
-                      ),
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.shop),
-                        label: 'Purchase',
-                      ),
+                      BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+                      BottomNavigationBarItem(icon: Icon(Icons.shop), label: 'Purchase'),
                     ],
                     currentIndex: _selectedIndex,
                     selectedItemColor: Colors.amber[800],
@@ -16092,9 +16071,7 @@ steps:
               _buy(tim);
             }
 
-            void _buy(
-              Upgrade upgrade,
-            ) {
+            void _buy(Upgrade upgrade) {
               if (counter.count < upgrade.cost) return;
 
               counter.addAutoIncrement(
@@ -16226,11 +16203,7 @@ steps:
       - name: Add app/lib/model/firebase_state.dart
         path: steps/app/lib/model/firebase_state.dart
         replace-contents: |
-          enum FirebaseState {
-            loading,
-            available,
-            notAvailable,
-          }
+          enum FirebaseState { loading, available, notAvailable }
       - name: Add map/lib/model/past_purchase.dart
         path: steps/app/lib/model/past_purchase.dart
         replace-contents: |
@@ -16238,22 +16211,11 @@ steps:
 
           import '../constants.dart';
 
-          enum PurchaseType {
-            subscriptionPurchase,
-            nonSubscriptionPurchase,
-          }
+          enum PurchaseType { subscriptionPurchase, nonSubscriptionPurchase }
 
-          enum Store {
-            googlePlay,
-            appStore,
-          }
+          enum Store { googlePlay, appStore }
 
-          enum Status {
-            pending,
-            completed,
-            active,
-            expired,
-          }
+          enum Status { pending, completed, active, expired }
 
           @immutable
           class PastPurchase {
@@ -16269,25 +16231,25 @@ steps:
               return switch (productId) {
                 storeKeyConsumable => 'Consumable',
                 storeKeySubscription => 'Subscription',
-                _ => productId
+                _ => productId,
               };
             }
 
             PastPurchase.fromJson(Map<String, dynamic> json)
-                : type = _typeFromString(json['type'] as String),
-                  store = _storeFromString(json['iapSource'] as String),
-                  orderId = json['orderId'] as String,
-                  productId = json['productId'] as String,
-                  purchaseDate = DateTime.now(),
-                  expiryDate = null,
-                  status = _statusFromString(json['status'] as String);
+              : type = _typeFromString(json['type'] as String),
+                store = _storeFromString(json['iapSource'] as String),
+                orderId = json['orderId'] as String,
+                productId = json['productId'] as String,
+                purchaseDate = DateTime.now(),
+                expiryDate = null,
+                status = _statusFromString(json['status'] as String);
           }
 
           PurchaseType _typeFromString(String type) {
             return switch (type) {
               'nonSubscription' => PurchaseType.subscriptionPurchase,
               'subscription' => PurchaseType.nonSubscriptionPurchase,
-              _ => throw ArgumentError.value(type, '$type is not a supported type')
+              _ => throw ArgumentError.value(type, '$type is not a supported type'),
             };
           }
 
@@ -16295,7 +16257,7 @@ steps:
             return switch (store) {
               'googleplay' => Store.googlePlay,
               'appstore' => Store.appStore,
-              _ => throw ArgumentError.value(store, '$store is not a supported store')
+              _ => throw ArgumentError.value(store, '$store is not a supported store'),
             };
           }
 
@@ -16305,17 +16267,13 @@ steps:
               'completed' => Status.completed,
               'active' => Status.active,
               'expired' => Status.expired,
-              _ => throw ArgumentError.value(status, '$status is not a supported status')
+              _ => throw ArgumentError.value(status, '$status is not a supported status'),
             };
           }
       - name: Add app/lib/model/purchasable_product.dart
         path: steps/app/lib/model/purchasable_product.dart
         replace-contents: |
-          enum ProductStatus {
-            purchasable,
-            purchased,
-            pending,
-          }
+          enum ProductStatus { purchasable, purchased, pending }
 
           class PurchasableProduct {
             final String title;
@@ -16324,16 +16282,12 @@ steps:
             ProductStatus status;
 
             PurchasableProduct(this.title, this.description, this.price)
-                : status = ProductStatus.purchasable;
+              : status = ProductStatus.purchasable;
           }
       - name: Add app/lib/model/store_state.dart
         path: steps/app/lib/model/store_state.dart
         replace-contents: |
-          enum StoreState {
-            loading,
-            available,
-            notAvailable,
-          }
+          enum StoreState { loading, available, notAvailable }
       - name: Mkdir app/lib/pages
         mkdir: steps/app/lib/pages
       - name: Add app/lib/pages/home_page.dart
@@ -16354,10 +16308,7 @@ steps:
             Widget build(BuildContext context) {
               return const Column(
                 children: [
-                  Expanded(
-                    flex: 2,
-                    child: DashClickerWidget(),
-                  ),
+                  Expanded(flex: 2, child: DashClickerWidget()),
                   Expanded(child: UpgradeList()),
                 ],
               );
@@ -16377,10 +16328,12 @@ steps:
                     InkWell(
                       // Don't listen as we don't need a rebuild when the count changes
                       onTap: Provider.of<DashCounter>(context, listen: false).increment,
-                      child: Image.asset(context.read<DashPurchases>().beautifiedDash
-                          ? 'assets/dash.png'
-                          : 'assets/dash_old.png'),
-                    )
+                      child: Image.asset(
+                        context.read<DashPurchases>().beautifiedDash
+                            ? 'assets/dash.png'
+                            : 'assets/dash_old.png',
+                      ),
+                    ),
                   ],
                 ),
               );
@@ -16401,8 +16354,9 @@ steps:
                   style: DefaultTextStyle.of(context).style,
                   children: <TextSpan>[
                     TextSpan(
-                        text: counter.countString,
-                        style: const TextStyle(fontWeight: FontWeight.bold)),
+                      text: counter.countString,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
                     const TextSpan(text: ' times!'),
                   ],
                 ),
@@ -16416,13 +16370,15 @@ steps:
             @override
             Widget build(BuildContext context) {
               var upgrades = context.watch<DashUpgrades>();
-              return ListView(children: [
-                _UpgradeWidget(
-                  upgrade: upgrades.tim,
-                  title: 'Tim Sneath',
-                  onPressed: upgrades.addTim,
-                ),
-              ]);
+              return ListView(
+                children: [
+                  _UpgradeWidget(
+                    upgrade: upgrades.tim,
+                    title: 'Tim Sneath',
+                    onPressed: upgrades.addTim,
+                  ),
+                ],
+              );
             }
           }
 
@@ -16440,25 +16396,20 @@ steps:
             @override
             Widget build(BuildContext context) {
               return InkWell(
-                  onTap: onPressed,
-                  child: ListTile(
-                    leading: Center(
-                      widthFactor: 1,
-                      child: Text(
-                        upgrade.count.toString(),
-                      ),
-                    ),
-                    title: Text(
-                      title,
-                      style: !upgrade.purchasable
-                          ? const TextStyle(color: Colors.redAccent)
-                          : null,
-                    ),
-                    subtitle: Text('Produces ${upgrade.work} dashes per second'),
-                    trailing: Text(
-                      '${NumberFormat.compact().format(upgrade.cost)} dashes',
-                    ),
-                  ));
+                onTap: onPressed,
+                child: ListTile(
+                  leading: Center(widthFactor: 1, child: Text(upgrade.count.toString())),
+                  title: Text(
+                    title,
+                    style:
+                        !upgrade.purchasable
+                            ? const TextStyle(color: Colors.redAccent)
+                            : null,
+                  ),
+                  subtitle: Text('Produces ${upgrade.work} dashes per second'),
+                  trailing: Text('${NumberFormat.compact().format(upgrade.cost)} dashes'),
+                ),
+              );
             }
           }
       - name: Add app/lib/pages/login_page.dart
@@ -16477,17 +16428,16 @@ steps:
               var firebaseNotifier = context.watch<FirebaseNotifier>();
 
               if (firebaseNotifier.isLoggingIn) {
-                return const Center(
-                  child: Text('Logging in...'),
-                );
+                return const Center(child: Text('Logging in...'));
               }
               return Center(
-                  child: FilledButton(
-                onPressed: () {
-                  firebaseNotifier.login();
-                },
-                child: const Text('Login'),
-              ));
+                child: FilledButton(
+                  onPressed: () {
+                    firebaseNotifier.login();
+                  },
+                  child: const Text('Login'),
+                ),
+              );
             }
           }
       - name: Add app/lib/pages/purchase_page.dart
@@ -16517,17 +16467,20 @@ steps:
                 case StoreState.notAvailable:
                   storeWidget = _PurchasesNotAvailable();
               }
-              return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                storeWidget,
-                const Padding(
-                  padding: EdgeInsets.fromLTRB(32.0, 32.0, 32.0, 0.0),
-                  child: Text(
-                    'Past purchases',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  storeWidget,
+                  const Padding(
+                    padding: EdgeInsets.fromLTRB(32.0, 32.0, 32.0, 0.0),
+                    child: Text(
+                      'Past purchases',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ),
-                ),
-                const PastPurchasesWidget(),
-              ]);
+                  const PastPurchasesWidget(),
+                ],
+              );
             }
           }
 
@@ -16551,13 +16504,17 @@ steps:
               var purchases = context.watch<DashPurchases>();
               var products = purchases.products;
               return Column(
-                children: products
-                    .map((product) => _PurchaseWidget(
-                        product: product,
-                        onPressed: () {
-                          purchases.buy(product);
-                        }))
-                    .toList(),
+                children:
+                    products
+                        .map(
+                          (product) => _PurchaseWidget(
+                            product: product,
+                            onPressed: () {
+                              purchases.buy(product);
+                            },
+                          ),
+                        )
+                        .toList(),
               );
             }
           }
@@ -16566,10 +16523,7 @@ steps:
             final PurchasableProduct product;
             final VoidCallback onPressed;
 
-            const _PurchaseWidget({
-              required this.product,
-              required this.onPressed,
-            });
+            const _PurchaseWidget({required this.product, required this.onPressed});
 
             @override
             Widget build(BuildContext context) {
@@ -16578,21 +16532,20 @@ steps:
                 title += ' (purchased)';
               }
               return InkWell(
-                  onTap: onPressed,
-                  child: ListTile(
-                    title: Text(
-                      title,
-                    ),
-                    subtitle: Text(product.description),
-                    trailing: Text(_trailing()),
-                  ));
+                onTap: onPressed,
+                child: ListTile(
+                  title: Text(title),
+                  subtitle: Text(product.description),
+                  trailing: Text(_trailing()),
+                ),
+              );
             }
 
             String _trailing() {
               return switch (product.status) {
                 ProductStatus.purchasable => product.price,
                 ProductStatus.purchased => 'purchased',
-                ProductStatus.pending => 'buying...'
+                ProductStatus.pending => 'buying...',
               };
             }
           }
@@ -16606,10 +16559,11 @@ steps:
               return ListView.separated(
                 shrinkWrap: true,
                 itemCount: purchases.length,
-                itemBuilder: (context, index) => ListTile(
-                  title: Text(purchases[index].title),
-                  subtitle: Text(purchases[index].status.toString()),
-                ),
+                itemBuilder:
+                    (context, index) => ListTile(
+                      title: Text(purchases[index].title),
+                      subtitle: Text(purchases[index].status.toString()),
+                    ),
                 separatorBuilder: (context, index) => const Divider(),
               );
             }
@@ -16668,19 +16622,23 @@ steps:
                 hasUpgrade = false;
                 return;
               }
-              var purchaseStream = _firestore
-                  .collection('purchases')
-                  .where('userId', isEqualTo: user.uid)
-                  .snapshots();
+              var purchaseStream =
+                  _firestore
+                      .collection('purchases')
+                      .where('userId', isEqualTo: user.uid)
+                      .snapshots();
               _purchaseSubscription = purchaseStream.listen((snapshot) {
-                purchases = snapshot.docs.map((document) {
-                  var data = document.data();
-                  return PastPurchase.fromJson(data);
-                }).toList();
+                purchases =
+                    snapshot.docs.map((document) {
+                      var data = document.data();
+                      return PastPurchase.fromJson(data);
+                    }).toList();
 
-                hasActiveSubscription = purchases.any((element) =>
-                    element.productId == storeKeySubscription &&
-                    element.status != Status.expired);
+                hasActiveSubscription = purchases.any(
+                  (element) =>
+                      element.productId == storeKeySubscription &&
+                      element.status != Status.expired,
+                );
 
                 hasUpgrade = purchases.any(
                   (element) => element.productId == storeKeyUpgrade,
@@ -16917,10 +16875,7 @@ steps:
 
           import 'products.dart';
 
-          enum IAPSource {
-            googleplay,
-            appstore,
-          }
+          enum IAPSource { googleplay, appstore }
 
           abstract class Purchase {
             final IAPSource iapSource;
@@ -16945,8 +16900,9 @@ steps:
                 'orderId': Value(stringValue: orderId),
                 'productId': Value(stringValue: productId),
                 'userId': Value(stringValue: userId),
-                'purchaseDate':
-                    Value(timestampValue: purchaseDate.toUtc().toIso8601String()),
+                'purchaseDate': Value(
+                  timestampValue: purchaseDate.toUtc().toIso8601String(),
+                ),
                 'type': Value(stringValue: type.name),
               };
             }
@@ -16955,46 +16911,51 @@ steps:
 
             static Purchase fromDocument(Document e) {
               final type = ProductType.values.firstWhere(
-                  (element) => element.name == e.fields!['type']!.stringValue);
+                (element) => element.name == e.fields!['type']!.stringValue,
+              );
               switch (type) {
                 case ProductType.subscription:
                   return SubscriptionPurchase(
-                    iapSource: e.fields!['iapSource']!.stringValue == 'googleplay'
-                        ? IAPSource.googleplay
-                        : IAPSource.appstore,
+                    iapSource:
+                        e.fields!['iapSource']!.stringValue == 'googleplay'
+                            ? IAPSource.googleplay
+                            : IAPSource.appstore,
                     orderId: e.fields!['orderId']!.stringValue!,
                     productId: e.fields!['productId']!.stringValue!,
                     userId: e.fields!['userId']!.stringValue,
-                    purchaseDate:
-                        DateTime.parse(e.fields!['purchaseDate']!.timestampValue!),
+                    purchaseDate: DateTime.parse(
+                      e.fields!['purchaseDate']!.timestampValue!,
+                    ),
                     status: SubscriptionStatus.values.firstWhere(
-                        (element) => element.name == e.fields!['status']!.stringValue),
-                    expiryDate: DateTime.tryParse(
-                            e.fields!['expiryDate']?.timestampValue ?? '') ??
+                      (element) => element.name == e.fields!['status']!.stringValue,
+                    ),
+                    expiryDate:
+                        DateTime.tryParse(
+                          e.fields!['expiryDate']?.timestampValue ?? '',
+                        ) ??
                         DateTime.now(),
                   );
                 case ProductType.nonSubscription:
                   return NonSubscriptionPurchase(
-                    iapSource: e.fields!['iapSource']!.stringValue == 'googleplay'
-                        ? IAPSource.googleplay
-                        : IAPSource.appstore,
+                    iapSource:
+                        e.fields!['iapSource']!.stringValue == 'googleplay'
+                            ? IAPSource.googleplay
+                            : IAPSource.appstore,
                     orderId: e.fields!['orderId']!.stringValue!,
                     productId: e.fields!['productId']!.stringValue!,
                     userId: e.fields!['userId']!.stringValue,
-                    purchaseDate:
-                        DateTime.parse(e.fields!['purchaseDate']!.timestampValue!),
+                    purchaseDate: DateTime.parse(
+                      e.fields!['purchaseDate']!.timestampValue!,
+                    ),
                     status: NonSubscriptionStatus.values.firstWhere(
-                        (element) => element.name == e.fields!['status']!.stringValue),
+                      (element) => element.name == e.fields!['status']!.stringValue,
+                    ),
                   );
               }
             }
           }
 
-          enum NonSubscriptionStatus {
-            pending,
-            completed,
-            cancelled,
-          }
+          enum NonSubscriptionStatus { pending, completed, cancelled }
 
           enum SubscriptionStatus { pending, active, expired }
 
@@ -17014,17 +16975,13 @@ steps:
             @override
             Map<String, Value> toDocument() {
               final doc = super.toDocument();
-              doc.addAll({
-                'status': Value(stringValue: status.name),
-              });
+              doc.addAll({'status': Value(stringValue: status.name)});
               return doc;
             }
 
             @override
             Map<String, Value> updateDocument() {
-              return {
-                'status': Value(stringValue: status.name),
-              };
+              return {'status': Value(stringValue: status.name)};
             }
 
             @override
@@ -17068,9 +17025,7 @@ steps:
 
             @override
             Map<String, Value> updateDocument() {
-              return {
-                'status': Value(stringValue: status.name),
-              };
+              return {'status': Value(stringValue: status.name)};
             }
 
             @override
@@ -17102,9 +17057,10 @@ steps:
                   writes: [
                     Write(
                       update: Document(
-                          fields: purchaseData.toDocument(),
-                          name:
-                              'projects/$projectId/databases/(default)/documents/purchases/$purchaseId'),
+                        fields: purchaseData.toDocument(),
+                        name:
+                            'projects/$projectId/databases/(default)/documents/purchases/$purchaseId',
+                      ),
                     ),
                   ],
                 ),
@@ -17120,9 +17076,10 @@ steps:
                   writes: [
                     Write(
                       update: Document(
-                          fields: purchaseData.updateDocument(),
-                          name:
-                              'projects/$projectId/databases/(default)/documents/purchases/$purchaseId'),
+                        fields: purchaseData.updateDocument(),
+                        name:
+                            'projects/$projectId/databases/(default)/documents/purchases/$purchaseId',
+                      ),
                       updateMask: DocumentMask(fieldPaths: ['status']),
                     ),
                   ],
@@ -17153,10 +17110,7 @@ steps:
             const ProductData(this.productId, this.type);
           }
 
-          enum ProductType {
-            subscription,
-            nonSubscription,
-          }
+          enum ProductType { subscription, nonSubscription }
 
           const productDataMap = {
             'dash_consumable_2k': ProductData(
@@ -17227,9 +17181,9 @@ steps:
              runApp(const MyApp());
            }
           @@ -66,6 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
-                     create: (context) => DashPurchases(
-                       context.read<DashCounter>(),
-                     ),
+                   ),
+                   ChangeNotifierProvider<DashPurchases>(
+                     create: (context) => DashPurchases(context.read<DashCounter>()),
           +          lazy: false,
                    ),
                  ],
@@ -17304,7 +17258,7 @@ steps:
         patch-u: |
           --- b/in_app_purchases/step_07/app/test/widget_test.dart
           +++ a/in_app_purchases/step_07/app/test/widget_test.dart
-          @@ -1,9 +1,65 @@
+          @@ -1,9 +1,66 @@
            import 'package:dashclicker/main.dart';
            import 'package:flutter_test/flutter_test.dart';
           +import 'package:in_app_purchase/in_app_purchase.dart';
@@ -17320,8 +17274,10 @@ steps:
           +
           +class TestIAPConnection implements InAppPurchase {
           +  @override
-          +  Future<bool> buyConsumable(
-          +      {required PurchaseParam purchaseParam, bool autoConsume = true}) {
+          +  Future<bool> buyConsumable({
+          +    required PurchaseParam purchaseParam,
+          +    bool autoConsume = true,
+          +  }) {
           +    return Future.value(false);
           +  }
           +
@@ -17342,10 +17298,9 @@ steps:
           +
           +  @override
           +  Future<ProductDetailsResponse> queryProductDetails(Set<String> identifiers) {
-          +    return Future.value(ProductDetailsResponse(
-          +      productDetails: [],
-          +      notFoundIDs: [],
-          +    ));
+          +    return Future.value(
+          +      ProductDetailsResponse(productDetails: [], notFoundIDs: []),
+          +    );
           +  }
           +
           +  @override
@@ -17446,7 +17401,7 @@ steps:
              }
            
              @override
-          @@ -46,18 +57,42 @@ class DashPurchases extends ChangeNotifier {
+          @@ -46,18 +57,45 @@ class DashPurchases extends ChangeNotifier {
              }
            
              Future<void> buy(PurchasableProduct product) async {
@@ -17466,12 +17421,15 @@ steps:
           +        await iapConnection.buyNonConsumable(purchaseParam: purchaseParam);
           +      default:
           +        throw ArgumentError.value(
-          +            product.productDetails, '${product.id} is not a known product');
+          +          product.productDetails,
+          +          '${product.id} is not a known product',
+          +        );
           +    }
           +  }
           +
           +  Future<void> _onPurchaseUpdate(
-          +      List<PurchaseDetails> purchaseDetailsList) async {
+          +    List<PurchaseDetails> purchaseDetailsList,
+          +  ) async {
           +    for (var purchaseDetails in purchaseDetailsList) {
           +      await _handlePurchase(purchaseDetails);
           +    }
@@ -17503,14 +17461,10 @@ steps:
         patch-u: |
           --- b/in_app_purchases/step_08/app/lib/model/purchasable_product.dart
           +++ a/in_app_purchases/step_08/app/lib/model/purchasable_product.dart
-          @@ -1,3 +1,5 @@
+          @@ -1,11 +1,14 @@
           +import 'package:in_app_purchase/in_app_purchase.dart';
           +
-           enum ProductStatus {
-             purchasable,
-             purchased,
-          @@ -5,11 +7,12 @@ enum ProductStatus {
-           }
+           enum ProductStatus { purchasable, purchased, pending }
            
            class PurchasableProduct {
           -  final String title;
@@ -17524,7 +17478,7 @@ steps:
           +  ProductDetails productDetails;
            
           -  PurchasableProduct(this.title, this.description, this.price)
-          -      : status = ProductStatus.purchasable;
+          -    : status = ProductStatus.purchasable;
           +  PurchasableProduct(this.productDetails) : status = ProductStatus.purchasable;
            }
       - name: Copy to step_08
@@ -17541,14 +17495,19 @@ steps:
         patch-u: |
           --- b/in_app_purchases/step_09/app/lib/main.dart
           +++ a/in_app_purchases/step_09/app/lib/main.dart
-          @@ -79,6 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
+          @@ -79,7 +79,11 @@ class _MyHomePageState extends State<MyHomePage> {
+                     create: (context) => IAPRepo(context.read<FirebaseNotifier>()),
+                   ),
                    ChangeNotifierProvider<DashPurchases>(
-                     create: (context) => DashPurchases(
-                       context.read<DashCounter>(),
-          +            context.read<FirebaseNotifier>(),
-                     ),
+          -          create: (context) => DashPurchases(context.read<DashCounter>()),
+          +          create:
+          +              (context) => DashPurchases(
+          +                context.read<DashCounter>(),
+          +                context.read<FirebaseNotifier>(),
+          +              ),
                      lazy: false,
                    ),
+                 ],
       - name: Patch app/lib/logic/dash_purchases.dart
         path: steps/app/lib/logic/dash_purchases.dart
         patch-u: |
@@ -17585,7 +17544,7 @@ steps:
                final purchaseUpdated = iapConnection.purchaseStream;
                _subscription = purchaseUpdated.listen(
                  _onPurchaseUpdate,
-          @@ -80,13 +84,19 @@ class DashPurchases extends ChangeNotifier {
+          @@ -83,13 +87,19 @@ class DashPurchases extends ChangeNotifier {
            
              Future<void> _handlePurchase(PurchaseDetails purchaseDetails) async {
                if (purchaseDetails.status == PurchaseStatus.purchased) {
@@ -17612,7 +17571,7 @@ steps:
                  }
                }
            
-          @@ -95,6 +105,30 @@ class DashPurchases extends ChangeNotifier {
+          @@ -98,6 +108,30 @@ class DashPurchases extends ChangeNotifier {
                }
              }
            
@@ -17697,7 +17656,7 @@ steps:
         patch-u: |
           --- b/in_app_purchases/step_09/dart-backend/bin/server.dart
           +++ a/in_app_purchases/step_09/dart-backend/bin/server.dart
-          @@ -2,12 +2,119 @@
+          @@ -2,12 +2,111 @@
            // for details. All rights reserved. Use of this source code is governed by a
            // BSD-style license that can be found in the LICENSE file.
            
@@ -17722,36 +17681,33 @@ steps:
           +  // Configure Android Publisher API access
           +  final serviceAccountGooglePlay =
           +      File('assets/service-account-google-play.json').readAsStringSync();
-          +  final clientCredentialsGooglePlay =
-          +      auth.ServiceAccountCredentials.fromJson(serviceAccountGooglePlay);
-          +  final clientGooglePlay =
-          +      await auth.clientViaServiceAccount(clientCredentialsGooglePlay, [
-          +    ap.AndroidPublisherApi.androidpublisherScope,
-          +  ]);
+          +  final clientCredentialsGooglePlay = auth.ServiceAccountCredentials.fromJson(
+          +    serviceAccountGooglePlay,
+          +  );
+          +  final clientGooglePlay = await auth.clientViaServiceAccount(
+          +    clientCredentialsGooglePlay,
+          +    [ap.AndroidPublisherApi.androidpublisherScope],
+          +  );
           +  final androidPublisher = ap.AndroidPublisherApi(clientGooglePlay);
           +
           +  // Configure Firestore API access
           +  final serviceAccountFirebase =
           +      File('assets/service-account-firebase.json').readAsStringSync();
-          +  final clientCredentialsFirebase =
-          +      auth.ServiceAccountCredentials.fromJson(serviceAccountFirebase);
-          +  final clientFirebase =
-          +      await auth.clientViaServiceAccount(clientCredentialsFirebase, [
-          +    fs.FirestoreApi.cloudPlatformScope,
-          +  ]);
+          +  final clientCredentialsFirebase = auth.ServiceAccountCredentials.fromJson(
+          +    serviceAccountFirebase,
+          +  );
+          +  final clientFirebase = await auth.clientViaServiceAccount(
+          +    clientCredentialsFirebase,
+          +    [fs.FirestoreApi.cloudPlatformScope],
+          +  );
           +  final firestoreApi = fs.FirestoreApi(clientFirebase);
           +  final dynamic json = jsonDecode(serviceAccountFirebase);
           +  final projectId = json['project_id'] as String;
           +  final iapRepository = IapRepository(firestoreApi, projectId);
           +
           +  return {
-          +    'google_play': GooglePlayPurchaseHandler(
-          +      androidPublisher,
-          +      iapRepository,
-          +    ),
-          +    'app_store': AppStorePurchaseHandler(
-          +      iapRepository,
-          +    ),
+          +    'google_play': GooglePlayPurchaseHandler(androidPublisher, iapRepository),
+          +    'app_store': AppStorePurchaseHandler(iapRepository),
           +  };
           +}
           +
@@ -17794,19 +17750,14 @@ steps:
              await serveHandler(router.call);
            }
           +
-          +({
-          +  String userId,
-          +  String source,
-          +  ProductData productData,
-          +  String token,
-          +}) getPurchaseData(dynamic payload) {
-          +  if (payload
-          +      case {
-          +        'userId': String userId,
-          +        'source': String source,
-          +        'productId': String productId,
-          +        'verificationData': String token,
-          +      }) {
+          +({String userId, String source, ProductData productData, String token})
+          +getPurchaseData(dynamic payload) {
+          +  if (payload case {
+          +    'userId': String userId,
+          +    'source': String source,
+          +    'productId': String productId,
+          +    'verificationData': String token,
+          +  }) {
           +    return (
           +      userId: userId,
           +      source: source,
@@ -17832,15 +17783,10 @@ steps:
           class AppStorePurchaseHandler extends PurchaseHandler {
             final IapRepository iapRepository;
 
-            AppStorePurchaseHandler(
-              this.iapRepository,
-            );
+            AppStorePurchaseHandler(this.iapRepository);
 
             final _iTunesAPI = ITunesApi(
-              ITunesHttpClient(
-                ITunesEnvironment.sandbox(),
-                loggingEnabled: true,
-              ),
+              ITunesHttpClient(ITunesEnvironment.sandbox(), loggingEnabled: true),
             );
 
             @override
@@ -17883,30 +17829,37 @@ steps:
                   }
                   switch (product.type) {
                     case ProductType.nonSubscription:
-                      await iapRepository.createOrUpdatePurchase(NonSubscriptionPurchase(
-                        userId: userId,
-                        productId: receipt.productId ?? '',
-                        iapSource: IAPSource.appstore,
-                        orderId: receipt.originalTransactionId ?? '',
-                        purchaseDate: DateTime.fromMillisecondsSinceEpoch(
-                            int.parse(receipt.originalPurchaseDateMs ?? '0')),
-                        type: product.type,
-                        status: NonSubscriptionStatus.completed,
-                      ));
+                      await iapRepository.createOrUpdatePurchase(
+                        NonSubscriptionPurchase(
+                          userId: userId,
+                          productId: receipt.productId ?? '',
+                          iapSource: IAPSource.appstore,
+                          orderId: receipt.originalTransactionId ?? '',
+                          purchaseDate: DateTime.fromMillisecondsSinceEpoch(
+                            int.parse(receipt.originalPurchaseDateMs ?? '0'),
+                          ),
+                          type: product.type,
+                          status: NonSubscriptionStatus.completed,
+                        ),
+                      );
                       break;
                     case ProductType.subscription:
-                      await iapRepository.createOrUpdatePurchase(SubscriptionPurchase(
-                        userId: userId,
-                        productId: receipt.productId ?? '',
-                        iapSource: IAPSource.appstore,
-                        orderId: receipt.originalTransactionId ?? '',
-                        purchaseDate: DateTime.fromMillisecondsSinceEpoch(
-                            int.parse(receipt.originalPurchaseDateMs ?? '0')),
-                        type: product.type,
-                        expiryDate: DateTime.fromMillisecondsSinceEpoch(
-                            int.parse(receipt.expiresDateMs ?? '0')),
-                        status: SubscriptionStatus.active,
-                      ));
+                      await iapRepository.createOrUpdatePurchase(
+                        SubscriptionPurchase(
+                          userId: userId,
+                          productId: receipt.productId ?? '',
+                          iapSource: IAPSource.appstore,
+                          orderId: receipt.originalTransactionId ?? '',
+                          purchaseDate: DateTime.fromMillisecondsSinceEpoch(
+                            int.parse(receipt.originalPurchaseDateMs ?? '0'),
+                          ),
+                          type: product.type,
+                          expiryDate: DateTime.fromMillisecondsSinceEpoch(
+                            int.parse(receipt.expiresDateMs ?? '0'),
+                          ),
+                          status: SubscriptionStatus.active,
+                        ),
+                      );
                       break;
                   }
                 }
@@ -17933,10 +17886,7 @@ steps:
             final ap.AndroidPublisherApi androidPublisher;
             final IapRepository iapRepository;
 
-            GooglePlayPurchaseHandler(
-              this.androidPublisher,
-              this.iapRepository,
-            );
+            GooglePlayPurchaseHandler(this.androidPublisher, this.iapRepository);
 
             /// Handle non-subscription purchases (one time purchases).
             ///
@@ -18163,12 +18113,12 @@ steps:
         patch-u: |
           --- b/in_app_purchases/step_10/app/lib/main.dart
           +++ a/in_app_purchases/step_10/app/lib/main.dart
-          @@ -80,6 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
-                     create: (context) => DashPurchases(
-                       context.read<DashCounter>(),
-                       context.read<FirebaseNotifier>(),
-          +            context.read<IAPRepo>(),
-                     ),
+          @@ -83,6 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
+                         (context) => DashPurchases(
+                           context.read<DashCounter>(),
+                           context.read<FirebaseNotifier>(),
+          +                context.read<IAPRepo>(),
+                         ),
                      lazy: false,
                    ),
       - name: Patch app/lib/logic/dash_purchases.dart
@@ -18215,7 +18165,7 @@ steps:
                super.dispose();
              }
            
-          @@ -136,4 +139,54 @@ class DashPurchases extends ChangeNotifier {
+          @@ -139,4 +142,59 @@ class DashPurchases extends ChangeNotifier {
              void _updateStreamOnError(dynamic error) {
                //Handle error here
              }
@@ -18226,12 +18176,16 @@ steps:
           +    // Get a list of purchasable products for the subscription and upgrade.
           +    // This should be 1 per type.
           +    if (products.isNotEmpty) {
-          +      subscriptions = products
-          +          .where((element) => element.productDetails.id == storeKeySubscription)
-          +          .toList();
-          +      upgrades = products
-          +          .where((element) => element.productDetails.id == storeKeyUpgrade)
-          +          .toList();
+          +      subscriptions =
+          +          products
+          +              .where(
+          +                (element) => element.productDetails.id == storeKeySubscription,
+          +              )
+          +              .toList();
+          +      upgrades =
+          +          products
+          +              .where((element) => element.productDetails.id == storeKeyUpgrade)
+          +              .toList();
           +    }
           +
           +    // Set the subscription in the counter logic and show/hide purchased on the
@@ -18254,10 +18208,11 @@ steps:
           +      _beautifiedDashUpgrade = iapRepo.hasUpgrade;
           +      for (var element in upgrades) {
           +        _updateStatus(
-          +            element,
-          +            _beautifiedDashUpgrade
-          +                ? ProductStatus.purchased
-          +                : ProductStatus.purchasable);
+          +          element,
+          +          _beautifiedDashUpgrade
+          +              ? ProductStatus.purchased
+          +              : ProductStatus.purchasable,
+          +        );
           +      }
           +      notifyListeners();
           +    }
@@ -18293,12 +18248,19 @@ steps:
            import 'package:googleapis_auth/auth_io.dart' as auth;
            import 'package:shelf/shelf.dart';
            import 'package:shelf_router/shelf_router.dart';
-          @@ -28,9 +31,13 @@ Future<Map<String, PurchaseHandler>> _createPurchaseHandlers() async {
-             final clientGooglePlay =
-                 await auth.clientViaServiceAccount(clientCredentialsGooglePlay, [
-               ap.AndroidPublisherApi.androidpublisherScope,
-          +    pubsub.PubsubApi.cloudPlatformScope,
-             ]);
+          @@ -26,12 +29,16 @@ Future<Map<String, PurchaseHandler>> _createPurchaseHandlers() async {
+             final clientCredentialsGooglePlay = auth.ServiceAccountCredentials.fromJson(
+               serviceAccountGooglePlay,
+             );
+          -  final clientGooglePlay = await auth.clientViaServiceAccount(
+          -    clientCredentialsGooglePlay,
+          -    [ap.AndroidPublisherApi.androidpublisherScope],
+          -  );
+          +  final clientGooglePlay = await auth
+          +      .clientViaServiceAccount(clientCredentialsGooglePlay, [
+          +        ap.AndroidPublisherApi.androidpublisherScope,
+          +        pubsub.PubsubApi.cloudPlatformScope,
+          +      ]);
              final androidPublisher = ap.AndroidPublisherApi(clientGooglePlay);
            
           +  // Pub/Sub API to receive on purchase events from Google Play
@@ -18307,7 +18269,7 @@ steps:
              // Configure Firestore API access
              final serviceAccountFirebase =
                  File('assets/service-account-firebase.json').readAsStringSync();
-          @@ -45,13 +52,43 @@ Future<Map<String, PurchaseHandler>> _createPurchaseHandlers() async {
+          @@ -47,9 +54,41 @@ Future<Map<String, PurchaseHandler>> _createPurchaseHandlers() async {
              final projectId = json['project_id'] as String;
              final iapRepository = IapRepository(firestoreApi, projectId);
            
@@ -18340,15 +18302,14 @@ steps:
           +  );
           +
              return {
-               'google_play': GooglePlayPurchaseHandler(
-                 androidPublisher,
-                 iapRepository,
+          -    'google_play': GooglePlayPurchaseHandler(androidPublisher, iapRepository),
+          -    'app_store': AppStorePurchaseHandler(iapRepository),
+          +    'google_play': GooglePlayPurchaseHandler(
+          +      androidPublisher,
+          +      iapRepository,
           +      pubsubApi,
-               ),
-               'app_store': AppStorePurchaseHandler(
-                 iapRepository,
-          +      appStoreServerAPI,
-               ),
+          +    ),
+          +    'app_store': AppStorePurchaseHandler(iapRepository, appStoreServerAPI),
              };
            }
       - name: Patch dart-backend/lib/app_store_purchase_handler.dart
@@ -18356,7 +18317,7 @@ steps:
         patch-u: |
           --- b/in_app_purchases/step_10/dart-backend/lib/app_store_purchase_handler.dart
           +++ a/in_app_purchases/step_10/dart-backend/lib/app_store_purchase_handler.dart
-          @@ -7,12 +7,22 @@ import 'iap_repository.dart';
+          @@ -7,10 +7,19 @@ import 'iap_repository.dart';
            import 'products.dart';
            import 'purchase_handler.dart';
            
@@ -18367,11 +18328,8 @@ steps:
              final IapRepository iapRepository;
           +  final AppStoreServerAPI appStoreServerAPI;
            
-             AppStorePurchaseHandler(
-               this.iapRepository,
-          -  );
-          +    this.appStoreServerAPI,
-          +  ) {
+          -  AppStorePurchaseHandler(this.iapRepository);
+          +  AppStorePurchaseHandler(this.iapRepository, this.appStoreServerAPI) {
           +    // Poll Subscription status every 10 seconds.
           +    Timer.periodic(Duration(seconds: 10), (_) {
           +      _pullStatus();
@@ -18379,8 +18337,8 @@ steps:
           +  }
            
              final _iTunesAPI = ITunesApi(
-               ITunesHttpClient(
-          @@ -94,4 +104,45 @@ class AppStorePurchaseHandler extends PurchaseHandler {
+               ITunesHttpClient(ITunesEnvironment.sandbox(), loggingEnabled: true),
+          @@ -96,4 +105,53 @@ class AppStorePurchaseHandler extends PurchaseHandler {
                  return false;
                }
              }
@@ -18392,35 +18350,43 @@ steps:
           +    print('Polling App Store');
           +    final purchases = await iapRepository.getPurchases();
           +    // filter for App Store subscriptions
-          +    final appStoreSubscriptions = purchases.where((element) =>
-          +        element.type == ProductType.subscription &&
-          +        element.iapSource == IAPSource.appstore);
+          +    final appStoreSubscriptions = purchases.where(
+          +      (element) =>
+          +          element.type == ProductType.subscription &&
+          +          element.iapSource == IAPSource.appstore,
+          +    );
           +    for (final purchase in appStoreSubscriptions) {
-          +      final status =
-          +          await appStoreServerAPI.getAllSubscriptionStatuses(purchase.orderId);
+          +      final status = await appStoreServerAPI.getAllSubscriptionStatuses(
+          +        purchase.orderId,
+          +      );
           +      // Obtain all subscriptions for the order id.
           +      for (final subscription in status.data) {
           +        // Last transaction contains the subscription status.
           +        for (final transaction in subscription.lastTransactions) {
           +          final expirationDate = DateTime.fromMillisecondsSinceEpoch(
-          +              transaction.transactionInfo.expiresDate ?? 0);
+          +            transaction.transactionInfo.expiresDate ?? 0,
+          +          );
           +          // Check if subscription has expired.
           +          final isExpired = expirationDate.isBefore(DateTime.now());
           +          print('Expiration Date: $expirationDate - isExpired: $isExpired');
           +          // Update the subscription status with the new expiration date and status.
-          +          await iapRepository.updatePurchase(SubscriptionPurchase(
-          +            userId: null,
-          +            productId: transaction.transactionInfo.productId,
-          +            iapSource: IAPSource.appstore,
-          +            orderId: transaction.originalTransactionId,
-          +            purchaseDate: DateTime.fromMillisecondsSinceEpoch(
-          +                transaction.transactionInfo.originalPurchaseDate),
-          +            type: ProductType.subscription,
-          +            expiryDate: expirationDate,
-          +            status: isExpired
-          +                ? SubscriptionStatus.expired
-          +                : SubscriptionStatus.active,
-          +          ));
+          +          await iapRepository.updatePurchase(
+          +            SubscriptionPurchase(
+          +              userId: null,
+          +              productId: transaction.transactionInfo.productId,
+          +              iapSource: IAPSource.appstore,
+          +              orderId: transaction.originalTransactionId,
+          +              purchaseDate: DateTime.fromMillisecondsSinceEpoch(
+          +                transaction.transactionInfo.originalPurchaseDate,
+          +              ),
+          +              type: ProductType.subscription,
+          +              expiryDate: expirationDate,
+          +              status:
+          +                  isExpired
+          +                      ? SubscriptionStatus.expired
+          +                      : SubscriptionStatus.active,
+          +            ),
+          +          );
           +        }
           +      }
           +    }
@@ -18440,16 +18406,16 @@ steps:
            
            import 'constants.dart';
            import 'iap_repository.dart';
-          @@ -10,11 +12,18 @@ import 'purchase_handler.dart';
+          @@ -10,8 +12,18 @@ import 'purchase_handler.dart';
            class GooglePlayPurchaseHandler extends PurchaseHandler {
              final ap.AndroidPublisherApi androidPublisher;
              final IapRepository iapRepository;
           +  final pubsub.PubsubApi pubsubApi;
            
-             GooglePlayPurchaseHandler(
-               this.androidPublisher,
-               this.iapRepository,
-          -  );
+          -  GooglePlayPurchaseHandler(this.androidPublisher, this.iapRepository);
+          +  GooglePlayPurchaseHandler(
+          +    this.androidPublisher,
+          +    this.iapRepository,
           +    this.pubsubApi,
           +  ) {
           +    // Poll messages from Pub/Sub every 10 seconds
@@ -18460,7 +18426,7 @@ steps:
            
              /// Handle non-subscription purchases (one time purchases).
              ///
-          @@ -148,6 +157,89 @@ class GooglePlayPurchaseHandler extends PurchaseHandler {
+          @@ -145,6 +157,85 @@ class GooglePlayPurchaseHandler extends PurchaseHandler {
                }
                return false;
              }
@@ -18469,9 +18435,7 @@ steps:
           +  /// Called every 10 seconds
           +  Future<void> _pullMessageFromPubSub() async {
           +    print('Polling Google Play messages');
-          +    final request = pubsub.PullRequest(
-          +      maxMessages: 1000,
-          +    );
+          +    final request = pubsub.PullRequest(maxMessages: 1000);
           +    final topicName =
           +        'projects/$googlePlayProjectName/subscriptions/$googlePlayPubsubBillingTopic-sub';
           +    final pullResponse = await pubsubApi.projects.subscriptions.pull(
@@ -18537,9 +18501,7 @@ steps:
           +  /// ACK Messages from Pub/Sub
           +  Future<void> _ackMessage(String id) async {
           +    print('ACK Message');
-          +    final request = pubsub.AcknowledgeRequest(
-          +      ackIds: [id],
-          +    );
+          +    final request = pubsub.AcknowledgeRequest(ackIds: [id]);
           +    final subscriptionName =
           +        'projects/$googlePlayProjectName/subscriptions/$googlePlayPubsubBillingTopic-sub';
           +    await pubsubApi.projects.subscriptions.acknowledge(
@@ -18562,9 +18524,9 @@ steps:
       - name: Patch app/lib/logic/dash_purchases.dart
         path: steps/app/lib/logic/dash_purchases.dart
         patch-u: |
-          --- b/in_app_purchases/step_11/app/lib/logic/dash_purchases.dart
-          +++ a/in_app_purchases/step_11/app/lib/logic/dash_purchases.dart
-          @@ -184,8 +184,8 @@ class DashPurchases extends ChangeNotifier {
+          --- b/in_app_purchases/complete/app/lib/logic/dash_purchases.dart
+          +++ a/in_app_purchases/complete/app/lib/logic/dash_purchases.dart
+          @@ -192,8 +192,8 @@ class DashPurchases extends ChangeNotifier {
              }
            
              void _updateStatus(PurchasableProduct product, ProductStatus status) {

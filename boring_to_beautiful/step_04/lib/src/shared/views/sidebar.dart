@@ -26,10 +26,7 @@ class SideBar extends StatelessWidget {
             title: const Text('Home'),
             onTap: () => GoRouter.of(context).go('/'),
           ),
-          const ListTile(
-            leading: Icon(Icons.search),
-            title: Text('Search'),
-          ),
+          const ListTile(leading: Icon(Icons.search), title: Text('Search')),
           ListTile(
             leading: const Icon(Icons.person),
             title: const Text('Artists'),
@@ -64,10 +61,7 @@ class PlaylistNav extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.only(left: 16, top: 16),
-            child: Text(
-              'Playlists',
-              style: context.titleMedium,
-            ),
+            child: Text('Playlists', style: context.titleMedium),
           ),
           Expanded(
             child: ListView(
@@ -114,10 +108,9 @@ class _PlaylistNavItemState extends State<_PlaylistNavItem> {
   @override
   void initState() {
     super.initState();
-    _focusNode = FocusNode(debugLabel: widget.title)
-      ..addListener(() {
-        setState(() => _isSelected = _focusNode.hasPrimaryFocus);
-      });
+    _focusNode = FocusNode(debugLabel: widget.title)..addListener(() {
+      setState(() => _isSelected = _focusNode.hasPrimaryFocus);
+    });
   }
 
   @override

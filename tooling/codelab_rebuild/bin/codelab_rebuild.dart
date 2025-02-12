@@ -13,8 +13,9 @@ void main(List<String> arguments) {
   });
 
   if (arguments.length != 1) {
-    Logger('main')
-        .severe('Usage: codelab_rebuild path/to/codelab_rebuild.yaml');
+    Logger(
+      'main',
+    ).severe('Usage: codelab_rebuild path/to/codelab_rebuild.yaml');
     exit(1);
   }
 

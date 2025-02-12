@@ -18,9 +18,7 @@ class ArtistBio extends StatelessWidget {
       artist.bio,
       style: context.bodyLarge!.copyWith(
         fontSize: 16,
-        color: context.colors.onSurface.withAlpha(
-          222,
-        ),
+        color: context.colors.onSurface.withAlpha(222),
       ),
     );
   }

@@ -10,12 +10,7 @@ import 'src/navigation_controls.dart';
 import 'src/web_view_stack.dart';
 
 void main() {
-  runApp(
-    MaterialApp(
-      theme: ThemeData(),
-      home: const WebViewApp(),
-    ),
-  );
+  runApp(MaterialApp(theme: ThemeData(), home: const WebViewApp()));
 }
 
 class WebViewApp extends StatefulWidget {
@@ -31,10 +26,8 @@ class _WebViewAppState extends State<WebViewApp> {
   @override
   void initState() {
     super.initState();
-    controller = WebViewController()
-      ..loadRequest(
-        Uri.parse('https://flutter.dev'),
-      );
+    controller =
+        WebViewController()..loadRequest(Uri.parse('https://flutter.dev'));
   }
 
   @override

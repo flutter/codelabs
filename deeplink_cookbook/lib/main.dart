@@ -8,15 +8,14 @@ final router = GoRouter(
   routes: [
     GoRoute(
       path: '/',
-      builder: (_, __) => Scaffold(
-        appBar: AppBar(title: const Text('Home Screen')),
-      ),
+      builder:
+          (_, __) => Scaffold(appBar: AppBar(title: const Text('Home Screen'))),
       routes: [
         GoRoute(
           path: 'details',
-          builder: (_, __) => Scaffold(
-            appBar: AppBar(title: const Text('Details Screen')),
-          ),
+          builder:
+              (_, __) =>
+                  Scaffold(appBar: AppBar(title: const Text('Details Screen'))),
         ),
       ],
     ),
