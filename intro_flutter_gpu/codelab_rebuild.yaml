@@ -6,8 +6,6 @@ steps:
         rmdir: step_01
       - name: Create project
         flutter: create --empty intro_flutter_gpu --platforms android,ios,macos,windows,linux
-      - name: Make the macOS titlebar transparent, content full window, and hide the title bar.
-        full-screen-macos-main-menu-xib: intro_flutter_gpu/macos/Runner/Base.lproj/MainMenu.xib
       - name: Strip DEVELOPMENT_TEAM
         strip-lines-containing: DEVELOPMENT_TEAM =
         path: intro_flutter_gpu/ios/Runner.xcodeproj/project.pbxproj
@@ -52,13 +50,13 @@ steps:
         flutter: pub add flutter_gpu --sdk=flutter 
       - name: Add dependencies
         path: intro_flutter_gpu
-        flutter: pub add flutter_gpu_shaders native_assets_cli vector_math xml
+        flutter: pub add flutter_gpu_shaders native_assets_cli vector_math
       - name: Patch pubspec.yaml
         path: intro_flutter_gpu/pubspec.yaml
         patch-u : |
           --- b/intro_flutter_gpu/step_01/pubspec.yaml
           +++ a/intro_flutter_gpu/step_01/pubspec.yaml
-          @@ -23,3 +23,6 @@ dev_dependencies:
+          @@ -22,3 +22,6 @@ dev_dependencies:
            
            flutter:
              uses-material-design: true
@@ -194,31 +192,6 @@ steps:
 
             @override
             bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
-          }
-      - name: mkdir bin
-        mkdir: intro_flutter_gpu/bin
-      - name: Add bin/modify_macos_config.dart
-        path: intro_flutter_gpu/bin/modify_macos_config.dart
-        replace-contents: |
-          // Copyright 2024 The Flutter Authors. All rights reserved.
-          // Use of this source code is governed by a BSD-style license that can be
-          // found in the LICENSE file.
-          
-          import 'dart:io';
-          import 'package:xml/xml.dart';
-          import 'package:xml/xpath.dart';
-          
-          void main() {
-            final file = File('macos/Runner/Base.lproj/MainMenu.xib');
-            var document = XmlDocument.parse(file.readAsStringSync());
-            document.xpath('//document/objects/window').first
-              ..setAttribute('titlebarAppearsTransparent', 'YES')
-              ..setAttribute('titleVisibility', 'hidden');
-            document
-                .xpath('//document/objects/window/windowStyleMask')
-                .first
-                .setAttribute('fullSizeContentView', 'YES');
-            file.writeAsStringSync(document.toString());
           }
       - name: Add my_first_triangle.shaderbundle.json
         path: intro_flutter_gpu/my_first_triangle.shaderbundle.json
@@ -1162,7 +1135,7 @@ steps:
         patch-u: |
           --- b/intro_flutter_gpu/step_12/pubspec.yaml
           +++ a/intro_flutter_gpu/step_12/pubspec.yaml
-          @@ -24,4 +24,4 @@ flutter:
+          @@ -23,4 +23,4 @@ flutter:
              uses-material-design: true
            
              assets:
