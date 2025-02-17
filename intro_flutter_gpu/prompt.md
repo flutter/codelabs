@@ -882,7 +882,7 @@ Update `lib/main.dart` as follows
 +  ];
 +
 +  /// Flattened vertex data ready for insertion in graphics buffer.
-+  /// The vertex format is [r,g,b,u,v,w].
++  /// The vertex format is [x,y,z,u,v,w].
 +  static final Float32List cubeVertices = Float32List.fromList([
 +    for (final index in indices) ...vertices[index],
 +  ]);
