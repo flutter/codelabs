@@ -166,7 +166,7 @@ class TrianglePainter extends CustomPainter {
   ];
 
   // Define indices for triangles (counter-clockwise winding)
-  static const indices = [
+  static const List<int> indices = [
     // Front face
     0, 2, 1, 0, 3, 2,
     // Back face
