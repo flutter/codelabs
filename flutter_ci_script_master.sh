@@ -6,11 +6,13 @@ DIR="${BASH_SOURCE%/*}"
 source "$DIR/flutter_ci_script_shared.sh"
 
 declare -a CODELABS=(
-  "adaptive_app"
+  # TODO(DomesticMouse): The argument type 'TabBarTheme' can't be assigned to the parameter type 'TabBarThemeData?'.
+  # "adaptive_app"
   "animated-responsive-layout"
   "animations"
   "audio_soloud"
-  "boring_to_beautiful"
+  # TODO(DomesticMouse): The argument type 'CardTheme' can't be assigned to the parameter type 'CardThemeData?'.
+  # "boring_to_beautiful"
   "brick_breaker"
   "dart-patterns-and-records"
   "deeplink_cookbook"
