@@ -161,7 +161,7 @@ class TrianglePainter extends CustomPainter {
     [0.5, 0.5, 0.5, 1.0, 1.0, 1.0],
     [-0.5, 0.5, 0.5, 0.0, 1.0, 1.0],
 
-    // back face of cube
+    // Back face of cube
     [-0.5, -0.5, -0.5, 0.0, 0.0, 0.0],
     [0.5, -0.5, -0.5, 1.0, 0.0, 0.0],
     [0.5, 0.5, -0.5, 1.0, 1.0, 0.0],
@@ -169,7 +169,7 @@ class TrianglePainter extends CustomPainter {
   ];
 
   // Define indices for triangles (counter-clockwise winding)
-  static const indices = [
+  static const List<int> indices = [
     // Front face
     0, 2, 1, 0, 3, 2,
     // Back face
@@ -185,7 +185,7 @@ class TrianglePainter extends CustomPainter {
   ];
 
   /// Flattened vertex data ready for insertion in graphics buffer.
-  /// The vertex format is [x,y,z,u,v,w].
+  /// The vertex format is `[x, y, z, u, v, w]`.
   static final Float32List cubeVertices = Float32List.fromList([
     for (final index in indices) ...vertices[index],
   ]);
