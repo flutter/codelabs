@@ -22,19 +22,19 @@ steps:
           version: 0.1.0
           
           environment:
-            sdk: ^3.7.0-0
+            sdk: ^3.8.0-0
           
           dependencies:
-            flame: ^1.18.0
+            flame: ^1.25.0
             flutter:
               sdk: flutter
-            flutter_animate: ^4.5.0
+            flutter_animate: ^4.5.2
             google_fonts: ^6.2.1
           
           dev_dependencies:
             flutter_test:
               sdk: flutter
-            flutter_lints: ^4.0.0
+            flutter_lints: ^5.0.0
           
           flutter:
             uses-material-design: true
