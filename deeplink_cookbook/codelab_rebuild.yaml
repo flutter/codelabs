@@ -1,0 +1,64 @@
+name: deeplink_cookbook rebuild script
+steps:
+  - name: Remove runners
+    rmdirs: 
+      - android
+      - ios
+      - linux
+      - macos
+      - web
+      - windows
+  - name: Flutter recreate
+    flutter: create .
+  - name: Remove README.md
+    rm: README.md
+  - name: Patch android/app/src/main/AndroidManifest.xml
+    path: android/app/src/main/AndroidManifest.xml
+    patch-u: |
+      --- b/deeplink_cookbook/android/app/src/main/AndroidManifest.xml
+      +++ a/deeplink_cookbook/android/app/src/main/AndroidManifest.xml
+      @@ -24,6 +24,14 @@
+                       <action android:name="android.intent.action.MAIN"/>
+                       <category android:name="android.intent.category.LAUNCHER"/>
+                   </intent-filter>
+      +            <meta-data android:name="flutter_deeplinking_enabled" android:value="true" />
+      +            <intent-filter android:autoVerify="true">
+      +                <action android:name="android.intent.action.VIEW" />
+      +                <category android:name="android.intent.category.DEFAULT" />
+      +                <category android:name="android.intent.category.BROWSABLE" />
+      +                <data android:scheme="http" android:host="example.com" />
+      +                <data android:scheme="https" />
+      +            </intent-filter>
+               </activity>
+               <!-- Don't delete the meta-data below.
+                    This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
+  - name: Patch ios/Runner/info.plist
+    path: ios/Runner/Info.plist
+    patch-u: |
+      --- b/deeplink_cookbook/ios/Runner/Info.plist
+      +++ a/deeplink_cookbook/ios/Runner/Info.plist
+      @@ -16,6 +16,8 @@
+       	<string>deeplink_cookbook</string>
+       	<key>CFBundlePackageType</key>
+       	<string>APPL</string>
+      +	<key>FlutterDeepLinkingEnabled</key>
+      +	<true/>
+       	<key>CFBundleShortVersionString</key>
+       	<string>$(FLUTTER_BUILD_NAME)</string>
+       	<key>CFBundleSignature</key>
+  - name: Add Runner.entitlements
+    path: ios/Runner/Runner.entitlements
+    replace-contents: |
+      <?xml version="1.0" encoding="UTF-8"?>
+      <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+      <plist version="1.0">
+      <dict>
+      	<key>com.apple.developer.associated-domains</key>
+      	<array>
+      		<string>applinks:example.com</string>
+      	</array>
+      </dict>
+      </plist>
+
+  - name: Build ios
+    flutter: build ios --simulator
