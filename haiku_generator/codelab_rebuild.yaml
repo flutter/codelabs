@@ -3465,11 +3465,11 @@ steps:
         path: haiku_generator/lib/app.dart
         replace-contents: |
           import 'package:flutter/material.dart';
-          import 'package:haiku_generator/controller/poem_controller.dart';
-          import 'package:haiku_generator/controller/product_controller.dart';
-          import 'package:haiku_generator/widgets/shimmer_loading_anim.dart';
 
+          import 'controller/poem_controller.dart';
+          import 'controller/product_controller.dart';
           import 'domain/models/product.dart';
+          import 'widgets/shimmer_loading_anim.dart';
 
           class HaikuPage extends StatefulWidget {
             const HaikuPage({super.key, required this.title});
@@ -3540,7 +3540,7 @@ steps:
                     width: 150.0,
                     child: DropdownButton<Product>(
                       items:
-                          listProduct.map((Product value) {
+                          listProduct.map((value) {
                             return DropdownMenuItem<Product>(
                               value: value,
                               child: Text(value.productName),
@@ -3678,18 +3678,20 @@ steps:
       - name: Add lib/data/repositories/poem_repository_impl.dart
         path: haiku_generator/lib/data/repositories/poem_repository_impl.dart
         replace-contents: |
-          import '../../domain/repositories/abstract/poem_repository.dart';
           // ignore: unused_import
           import 'dart:convert';
+
           // ignore: unused_import
           import 'package:http/http.dart' as http;
+
+          import '../../domain/repositories/abstract/poem_repository.dart';
 
           class PoemRepositoryImpl implements PoemRepository {
             PoemRepositoryImpl();
 
             @override
             Future<String> getPoems(String productName) async {
-              return "";
+              return '';
             }
           }
       - name: Add lib/data/repositories/product_repository_impl.dart
@@ -3929,7 +3931,7 @@ steps:
 
               return ShaderMask(
                 blendMode: BlendMode.srcATop,
-                shaderCallback: (Rect bounds) {
+                shaderCallback: (bounds) {
                   return gradient.createShader(
                     Rect.fromLTWH(
                       -offsetWithinShimmer.dx,
@@ -3958,7 +3960,7 @@ steps:
           import 'package:haiku_generator/main.dart';
 
           void main() {
-            testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+            testWidgets('Counter increments smoke test', (tester) async {
               // Build our app and trigger a frame.
               await tester.pumpWidget(const MyApp());
 
@@ -4048,18 +4050,18 @@ steps:
           --- b/haiku_generator/step3/lib/data/repositories/poem_repository_impl.dart
           +++ a/haiku_generator/step3/lib/data/repositories/poem_repository_impl.dart
           @@ -1,7 +1,5 @@
-           import '../../domain/repositories/abstract/poem_repository.dart';
           -// ignore: unused_import
            import 'dart:convert';
+           
           -// ignore: unused_import
            import 'package:http/http.dart' as http;
            
-           class PoemRepositoryImpl implements PoemRepository {
-          @@ -9,6 +7,49 @@ class PoemRepositoryImpl implements PoemRepository {
+           import '../../domain/repositories/abstract/poem_repository.dart';
+          @@ -11,6 +9,49 @@ class PoemRepositoryImpl implements PoemRepository {
            
              @override
              Future<String> getPoems(String productName) async {
-          -    return "";
+          -    return '';
           +    // TODO: Replace YOUR_API_KEY with your API key.
           +    var apiKey = 'YOUR_API_KEY';
           +    const haikuCount = 5;
@@ -4069,23 +4071,23 @@ steps:
           +    );
           +    final headers = {'Content-Type': 'application/json'};
           +    final body = jsonEncode({
-          +      "prompt": {
-          +        "context": "You are an awesome haiku writer.",
-          +        "examples": [
+          +      'prompt': {
+          +        'context': 'You are an awesome haiku writer.',
+          +        'examples': [
           +          {
-          +            "input": {"content": "Write a haiku about Google Photos."},
-          +            "output": {
-          +              "content":
-          +                  "Google Photos, my friend\nA journey of a lifetime\nCaptured in pixels",
+          +            'input': {'content': 'Write a haiku about Google Photos.'},
+          +            'output': {
+          +              'content':
+          +                  'Google Photos, my friend\nA journey of a lifetime\nCaptured in pixels',
           +            },
           +          },
           +        ],
-          +        "messages": [
-          +          {"content": "Write a cool, long haiku of for $productName"},
+          +        'messages': [
+          +          {'content': 'Write a cool, long haiku of for $productName'},
           +        ],
           +      },
-          +      "candidate_count": haikuCount,
-          +      "temperature": 1,
+          +      'candidate_count': haikuCount,
+          +      'temperature': 1,
           +    });
           +
           +    try {
