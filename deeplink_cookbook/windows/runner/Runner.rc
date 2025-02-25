@@ -93,7 +93,7 @@ BEGIN
             VALUE "FileDescription", "deeplink_cookbook" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "deeplink_cookbook" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2024 com.example. All rights reserved." "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2025 com.example. All rights reserved." "\0"
             VALUE "OriginalFilename", "deeplink_cookbook.exe" "\0"
             VALUE "ProductName", "deeplink_cookbook" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
