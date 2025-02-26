@@ -1,6 +1,6 @@
 {
-    "name": "step1",
-    "short_name": "step1",
+    "name": "haiku_generator",
+    "short_name": "haiku_generator",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
