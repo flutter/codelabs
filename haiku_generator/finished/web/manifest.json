@@ -1,6 +1,6 @@
 {
-    "name": "finished",
-    "short_name": "finished",
+    "name": "haiku_generator",
+    "short_name": "haiku_generator",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

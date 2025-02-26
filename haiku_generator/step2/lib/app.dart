@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:haiku_generator/controller/poem_controller.dart';
-import 'package:haiku_generator/controller/product_controller.dart';
-import 'package:haiku_generator/widgets/shimmer_loading_anim.dart';
 
+import 'controller/poem_controller.dart';
+import 'controller/product_controller.dart';
 import 'domain/models/product.dart';
+import 'widgets/shimmer_loading_anim.dart';
 
 class HaikuPage extends StatefulWidget {
   const HaikuPage({super.key, required this.title});
@@ -74,7 +74,7 @@ class HaikuPageState extends State<HaikuPage> {
           width: 150.0,
           child: DropdownButton<Product>(
             items:
-                listProduct.map((Product value) {
+                listProduct.map((value) {
                   return DropdownMenuItem<Product>(
                     value: value,
                     child: Text(value.productName),
