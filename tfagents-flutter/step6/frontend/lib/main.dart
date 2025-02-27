@@ -101,7 +101,6 @@ class _PlaneStrikeState extends State<PlaneStrike>
             hiddenBoardCellOccupied;
         hiddenBoardState[planeCoreX + 1][planeCoreY - 2] =
             hiddenBoardCellOccupied;
-        break;
       case 1:
         planeCoreX = rng.nextInt(_boardSize - 3) + 1;
         planeCoreY = rng.nextInt(_boardSize - 2) + 1;
@@ -111,7 +110,6 @@ class _PlaneStrikeState extends State<PlaneStrike>
             hiddenBoardCellOccupied;
         hiddenBoardState[planeCoreX + 2][planeCoreY - 1] =
             hiddenBoardCellOccupied;
-        break;
       case 2:
         planeCoreX = rng.nextInt(_boardSize - 2) + 1;
         planeCoreY = rng.nextInt(_boardSize - 3) + 1;
@@ -121,7 +119,6 @@ class _PlaneStrikeState extends State<PlaneStrike>
             hiddenBoardCellOccupied;
         hiddenBoardState[planeCoreX + 1][planeCoreY + 2] =
             hiddenBoardCellOccupied;
-        break;
       default:
         planeCoreX = rng.nextInt(_boardSize - 3) + 2;
         planeCoreY = rng.nextInt(_boardSize - 2) + 1;
@@ -145,78 +142,88 @@ class _PlaneStrikeState extends State<PlaneStrike>
 
   Widget _buildGameBody() {
     return Scaffold(
-        appBar: AppBar(
-          // Here we take the value from the MyHomePage object that was created by
-          // the App.build method, and use it to set our appbar title.
-          title: const Text('Plane Strike game based on TF Agents and Flutter'),
+      appBar: AppBar(
+        // Here we take the value from the MyHomePage object that was created by
+        // the App.build method, and use it to set our appbar title.
+        title: const Text('Plane Strike game based on TF Agents and Flutter'),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              width: 265,
+              height: 265,
+              margin: const EdgeInsets.only(
+                left: 0,
+                top: 10,
+                right: 0,
+                bottom: 0,
+              ),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.black, width: 2.0),
+              ),
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: _boardSize,
+                ),
+                itemBuilder: _buildAgentBoardItems,
+                itemCount: _boardSize * _boardSize,
+                physics: const NeverScrollableScrollPhysics(),
+              ),
+            ),
+            Text(
+              "Agent's board (hits: $_playerHitCount)",
+              style: const TextStyle(
+                fontSize: 18,
+                color: Colors.blue,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const Divider(height: 20, thickness: 5, indent: 20, endIndent: 20),
+            Text(
+              'Your board (hits: $_agentHitCount)',
+              style: const TextStyle(
+                fontSize: 18,
+                color: Colors.purple,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Container(
+              width: 265,
+              height: 265,
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.black, width: 2.0),
+              ),
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: _boardSize,
+                ),
+                itemBuilder: _buildPlayerBoardItems,
+                itemCount: _boardSize * _boardSize,
+                physics: const NeverScrollableScrollPhysics(),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                left: 0,
+                top: 20,
+                right: 0,
+                bottom: 0,
+              ),
+              child: FilledButton(
+                onPressed: () {
+                  _resetGame();
+                  setState(() {});
+                },
+                child: const Text('Reset game'),
+              ),
+            ),
+          ],
         ),
-        body: SingleChildScrollView(
-          child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  width: 265,
-                  height: 265,
-                  margin: const EdgeInsets.only(
-                      left: 0, top: 10, right: 0, bottom: 0),
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black, width: 2.0)),
-                  child: GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: _boardSize,
-                      ),
-                      itemBuilder: _buildAgentBoardItems,
-                      itemCount: _boardSize * _boardSize,
-                      physics: const NeverScrollableScrollPhysics()),
-                ),
-                Text(
-                  "Agent's board (hits: $_playerHitCount)",
-                  style: const TextStyle(
-                      fontSize: 18,
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold),
-                ),
-                const Divider(
-                  height: 20,
-                  thickness: 5,
-                  indent: 20,
-                  endIndent: 20,
-                ),
-                Text(
-                  'Your board (hits: $_agentHitCount)',
-                  style: const TextStyle(
-                      fontSize: 18,
-                      color: Colors.purple,
-                      fontWeight: FontWeight.bold),
-                ),
-                Container(
-                  width: 265,
-                  height: 265,
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black, width: 2.0)),
-                  child: GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: _boardSize,
-                    ),
-                    itemBuilder: _buildPlayerBoardItems,
-                    itemCount: _boardSize * _boardSize,
-                    physics: const NeverScrollableScrollPhysics(),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: 0, top: 20, right: 0, bottom: 0),
-                  child: FilledButton(
-                    onPressed: () {
-                      _resetGame();
-                      setState(() {});
-                    },
-                    child: const Text('Reset game'),
-                  ),
-                )
-              ]),
-        ));
+      ),
+    );
   }
 
   Widget _buildAgentBoardItems(BuildContext context, int index) {
@@ -230,10 +237,9 @@ class _PlaneStrikeState extends State<PlaneStrike>
       child: GridTile(
         child: Container(
           decoration: BoxDecoration(
-              border: Border.all(color: Colors.black, width: 0.5)),
-          child: Center(
-            child: _buildGridItem(x, y, 'agent'),
+            border: Border.all(color: Colors.black, width: 0.5),
           ),
+          child: Center(child: _buildGridItem(x, y, 'agent')),
         ),
       ),
     );
@@ -245,11 +251,10 @@ class _PlaneStrikeState extends State<PlaneStrike>
     y = (index % _boardSize);
     return GridTile(
       child: Container(
-        decoration:
-            BoxDecoration(border: Border.all(color: Colors.black, width: 0.5)),
-        child: Center(
-          child: _buildGridItem(x, y, 'player'),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.black, width: 0.5),
         ),
+        child: Center(child: _buildGridItem(x, y, 'player')),
       ),
     );
   }
@@ -266,11 +271,9 @@ class _PlaneStrikeState extends State<PlaneStrike>
       // hit
       case 1:
         gridItemColor = Colors.red;
-        break;
       // miss
       case -1:
         gridItemColor = Colors.yellow;
-        break;
       default:
         if (hiddenBoardState[x][y] == hiddenBoardCellOccupied &&
             agentOrPlayer == 'player') {
@@ -280,9 +283,7 @@ class _PlaneStrikeState extends State<PlaneStrike>
         }
     }
 
-    return Container(
-      color: gridItemColor,
-    );
+    return Container(color: gridItemColor);
   }
 
   Future<void> _gridItemTapped(BuildContext context, int x, int y) async {
@@ -297,8 +298,9 @@ class _PlaneStrikeState extends State<PlaneStrike>
     }
 
     // Agent takes action
-    int agentAction =
-        await _policyGradientAgent.predict(_playerVisibleBoardState);
+    int agentAction = await _policyGradientAgent.predict(
+      _playerVisibleBoardState,
+    );
     _agentActionX = agentAction ~/ _boardSize;
     _agentActionY = agentAction % _boardSize;
     if (_playerHiddenBoardState[_agentActionX][_agentActionY] ==
@@ -329,13 +331,12 @@ class _PlaneStrikeState extends State<PlaneStrike>
     if (userPrompt != '') {
       Future.delayed(const Duration(seconds: 2), () => setState(_resetGame));
       if (!context.mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(
-          userPrompt,
-          textAlign: TextAlign.center,
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(userPrompt, textAlign: TextAlign.center),
+          duration: const Duration(seconds: 2),
         ),
-        duration: const Duration(seconds: 2),
-      ));
+      );
     }
   }
 }
