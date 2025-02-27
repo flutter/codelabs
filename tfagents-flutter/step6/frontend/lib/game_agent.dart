@@ -36,13 +36,14 @@ class TFAgentsAgent {
       Uri.parse('http://$server:8501/v1/models/policy_model:predict'),
       body: jsonEncode(<String, dynamic>{
         'signature_name': 'action',
-        'instances': [Inputs(flattenedBoardState)]
+        'instances': [Inputs(flattenedBoardState)],
       }),
     );
 
     if (response.statusCode == 200) {
       var output = List<int>.from(
-          jsonDecode(response.body)['predictions'] as List<dynamic>);
+        jsonDecode(response.body)['predictions'] as List<dynamic>,
+      );
       return output[0];
     } else {
       throw Exception('Error response');
