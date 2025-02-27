@@ -8,8 +8,12 @@ steps:
       - macos
       - web
       - windows
+  - name: Remove pubspec.yaml
+    rm: pubspec.yaml
   - name: Flutter recreate
     flutter: create .
+  - name: Add deps
+    flutter: pub add go_router
   - name: Strip DEVELOPMENT_TEAM
     strip-lines-containing: DEVELOPMENT_TEAM =
     path: ios/Runner.xcodeproj/project.pbxproj
