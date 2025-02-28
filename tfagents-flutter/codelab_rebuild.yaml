@@ -1,4 +1,4 @@
-name: Haiku Generator rebuild script
+name: tfagents-flutter rebuild script
 steps:
   - name: step0
     steps:
