@@ -4,6 +4,4 @@ analyzer:
   errors:
     unused_import: ignore
     unused_field: ignore
-
-linter:
-  rules:
+    unused_local_variable: ignore
