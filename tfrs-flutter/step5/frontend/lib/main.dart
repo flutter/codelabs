@@ -36,17 +36,14 @@ class _RecommenderDemoState extends State<RecommenderDemo> {
     }
     final response = await http.post(
       Uri.parse('http://$_server:5000/recommend'),
-      headers: <String, String>{
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode(<String, String>{
-        'user_id': _userIDController.text,
-      }),
+      headers: <String, String>{'Content-Type': 'application/json'},
+      body: jsonEncode(<String, String>{'user_id': _userIDController.text}),
     );
 
     if (response.statusCode == 200) {
       return List<String>.from(
-          jsonDecode(response.body)['movies'] as Iterable<dynamic>);
+        jsonDecode(response.body)['movies'] as Iterable<dynamic>,
+      );
     } else {
       throw Exception('Error response');
     }
@@ -60,64 +57,67 @@ class _RecommenderDemoState extends State<RecommenderDemo> {
       title: title,
       theme: ThemeData.light(),
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text(title),
-        ),
+        appBar: AppBar(title: const Text(title)),
         body: Center(
           child: Container(
             padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
             child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Expanded(
-                            child: TextField(
-                          controller: _userIDController,
-                          decoration: const InputDecoration(
-                              border: UnderlineInputBorder(),
-                              hintText: 'Enter a user ID here'),
-                        )),
-                        Container(
-                            margin: const EdgeInsets.only(left: 10.0),
-                            child: FilledButton(
-                                style: FilledButton.styleFrom(
-                                  textStyle: const TextStyle(fontSize: 15),
-                                ),
-                                onPressed: () {
-                                  setState(() {
-                                    _futureRecommendations = recommend();
-                                  });
-                                },
-                                child: const Text('Recommend'))),
-                      ]),
-                  FutureBuilder<List<String>>(
-                    future: _futureRecommendations,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        _movieList = snapshot.data!;
-                        return ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          shrinkWrap: true,
-                          itemCount: _movieList.length,
-                          itemBuilder: (context, index) {
-                            return ListTile(
-                              leading: _movieList.isEmpty
-                                  ? null
-                                  : const FlutterLogo(),
-                              title: Text(_movieList[index]),
-                            );
-                          },
-                        );
-                      } else if (snapshot.hasError) {
-                        return Text('${snapshot.error}');
-                      }
-                      // By default, show a loading spinner.
-                      return const CircularProgressIndicator();
-                    },
-                  ),
-                ]),
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: _userIDController,
+                        decoration: const InputDecoration(
+                          border: UnderlineInputBorder(),
+                          hintText: 'Enter a user ID here',
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(left: 10.0),
+                      child: FilledButton(
+                        style: FilledButton.styleFrom(
+                          textStyle: const TextStyle(fontSize: 15),
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _futureRecommendations = recommend();
+                          });
+                        },
+                        child: const Text('Recommend'),
+                      ),
+                    ),
+                  ],
+                ),
+                FutureBuilder<List<String>>(
+                  future: _futureRecommendations,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      _movieList = snapshot.data!;
+                      return ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        itemCount: _movieList.length,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            leading:
+                                _movieList.isEmpty ? null : const FlutterLogo(),
+                            title: Text(_movieList[index]),
+                          );
+                        },
+                      );
+                    } else if (snapshot.hasError) {
+                      return Text('${snapshot.error}');
+                    }
+                    // By default, show a loading spinner.
+                    return const CircularProgressIndicator();
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
