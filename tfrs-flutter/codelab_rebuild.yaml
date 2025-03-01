@@ -1,0 +1,323 @@
+name: tfrs-flutter rebuild script
+steps:
+  - name: step0
+    steps:
+      - name: Remove generated code
+        rmdir: step0/frontend
+      - name: Create project
+        flutter: create frontend --project-name=recommend_products
+      - name: Replace README
+        path: frontend/README.md
+        replace-contents: |
+          # Flutter frontend of a recommendation engine demo
+
+          This Flutter app is the frontend to consume the data feed from a backend recommender.
+      - name: Strip DEVELOPMENT_TEAM
+        strip-lines-containing: DEVELOPMENT_TEAM =
+        path: frontend/ios/Runner.xcodeproj/project.pbxproj
+      - name: Add deps
+        path: frontend
+        flutter: pub add http
+      - name: Configure analysis_options.yaml
+        path: frontend/analysis_options.yaml
+        replace-contents: |
+          include: ../../../analysis_options.yaml
+
+          analyzer:
+            errors:
+              unused_import: ignore
+              unused_field: ignore
+              unused_local_variable: ignore
+      - name: Replace lib/main.dart
+        path: frontend/lib/main.dart
+        replace-contents: |
+          import 'dart:io' show Platform;
+
+          import 'package:flutter/foundation.dart' show kIsWeb;
+          import 'package:flutter/material.dart';
+
+          void main() => runApp(const RecommenderDemo());
+
+          class RecommenderDemo extends StatefulWidget {
+            const RecommenderDemo({super.key});
+
+            @override
+            State<RecommenderDemo> createState() => _RecommenderDemoState();
+          }
+
+          class _RecommenderDemoState extends State<RecommenderDemo> {
+            late List<String> _movieList;
+            final TextEditingController _userIDController = TextEditingController();
+            late String _server;
+            late Future<List<String>> _futureRecommendations;
+
+            @override
+            void initState() {
+              super.initState();
+              _futureRecommendations = Future<List<String>>.value([]);
+            }
+
+            Future<List<String>> recommend() async {
+              if (!kIsWeb && Platform.isAndroid) {
+                // For Android emulator
+                _server = '10.0.2.2';
+              } else {
+                // For iOS emulator, desktop and web platforms
+                _server = '127.0.0.1';
+              }
+
+              //TODO: add code to send request to the recommendation engine backend
+
+              return [];
+            }
+
+            @override
+            Widget build(BuildContext context) {
+              const title = 'Flutter Movie Recommendation Demo';
+
+              return MaterialApp(
+                title: title,
+                theme: ThemeData.light(),
+                home: Scaffold(
+                  appBar: AppBar(title: const Text(title)),
+                  body: Center(
+                    child: Container(
+                      padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Expanded(
+                                child: TextField(
+                                  controller: _userIDController,
+                                  decoration: const InputDecoration(
+                                    border: UnderlineInputBorder(),
+                                    hintText: 'Enter a user ID here',
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.only(left: 10.0),
+                                child: FilledButton(
+                                  style: FilledButton.styleFrom(
+                                    textStyle: const TextStyle(fontSize: 15),
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      _futureRecommendations = recommend();
+                                    });
+                                  },
+                                  child: const Text('Recommend'),
+                                ),
+                              ),
+                            ],
+                          ),
+                          FutureBuilder<List<String>>(
+                            future: _futureRecommendations,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                _movieList = snapshot.data!;
+                                return ListView.builder(
+                                  scrollDirection: Axis.vertical,
+                                  shrinkWrap: true,
+                                  itemCount: _movieList.length,
+                                  itemBuilder: (context, index) {
+                                    return ListTile(
+                                      leading:
+                                          _movieList.isEmpty ? null : const FlutterLogo(),
+                                      title: Text(_movieList[index]),
+                                    );
+                                  },
+                                );
+                              } else if (snapshot.hasError) {
+                                return Text('${snapshot.error}');
+                              }
+                              // By default, show a loading spinner.
+                              return const CircularProgressIndicator();
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            }
+          }
+      - name: Replace test/widget_test.dart
+        path: frontend/test/widget_test.dart
+        replace-contents: |
+          // This is a basic Flutter widget test.
+          //
+          // To perform an interaction with a widget in your test, use the WidgetTester
+          // utility that Flutter provides. For example, you can send tap and scroll
+          // gestures. You can also use WidgetTester to find child widgets in the widget
+          // tree, read text, and verify that the values of widget properties are correct.
+
+          import 'package:flutter_test/flutter_test.dart';
+
+          import 'package:recommend_products/main.dart';
+
+          void main() {
+            testWidgets('Smoke test', (tester) async {
+              // Build our app and trigger a frame.
+              await tester.pumpWidget(const RecommenderDemo());
+
+              // Verify that the widgets are there
+              expect(find.text('Recommend'), findsOneWidget);
+            });
+          }
+      - name: Patch macos/Runner/DebugProfile.entitlements
+        path: frontend/macos/Runner/DebugProfile.entitlements
+        patch-u: |
+          --- b/frontend/finished/macos/Runner/DebugProfile.entitlements
+          +++ a/frontend/finished/macos/Runner/DebugProfile.entitlements
+          @@ -8,5 +8,7 @@
+           	<true/>
+           	<key>com.apple.security.network.server</key>
+           	<true/>
+          +	<key>com.apple.security.network.client</key>
+          +	<true/>
+           </dict>
+           </plist>
+      - name: Patch macos/Runner/Release.entitlements
+        path: frontend/macos/Runner/Release.entitlements
+        patch-u: |
+          --- b/frontend/finished/macos/Runner/Release.entitlements
+          +++ a/frontend/finished/macos/Runner/Release.entitlements
+          @@ -4,5 +4,7 @@
+           <dict>
+           	<key>com.apple.security.app-sandbox</key>
+           	<true/>
+          +	<key>com.apple.security.network.client</key>
+          +	<true/>
+           </dict>
+           </plist>
+      - name: Copy step0
+        copydir:
+          from: frontend
+          to: step0/frontend
+      - name: Flutter clean
+        path: step0/frontend
+        flutter: clean
+  - name: step1
+    steps:
+      - name: Remove generated code
+        rmdir: step1/frontend
+      - name: Copy step1
+        copydir:
+          from: frontend
+          to: step1/frontend
+      - name: Flutter clean
+        path: step1/frontend
+        flutter: clean
+  - name: step2
+    steps:
+      - name: Remove generated code
+        rmdir: step2/frontend
+      - name: Copy step2
+        copydir:
+          from: frontend
+          to: step2/frontend
+      - name: Flutter clean
+        path: step2/frontend
+        flutter: clean
+  - name: step3
+    steps:
+      - name: Remove generated code
+        rmdir: step3/frontend
+      - name: Copy step3
+        copydir:
+          from: frontend
+          to: step3/frontend
+      - name: Flutter clean
+        path: step3/frontend
+        flutter: clean
+  - name: step4
+    steps:
+      - name: Remove generated code
+        rmdir: step4/frontend
+      - name: Patch analysis_options.yaml
+        path: frontend/analysis_options.yaml
+        patch-u: |
+          --- b/tfagents-flutter/finished/frontend/analysis_options.yaml
+          +++ a/tfagents-flutter/finished/frontend/analysis_options.yaml
+          @@ -1,7 +1 @@
+           include: ../../../analysis_options.yaml
+          -
+          -analyzer:
+          -  errors:
+          -    unused_import: ignore
+          -    unused_field: ignore
+          -    unused_local_variable: ignore
+      - name: Patch lib/main.dart
+        path: frontend/lib/main.dart
+        patch-u: |
+          --- b/tfrs-flutter/step4/frontend/lib/main.dart
+          +++ a/tfrs-flutter/step4/frontend/lib/main.dart
+          @@ -1,7 +1,9 @@
+          +import 'dart:convert';
+           import 'dart:io' show Platform;
+           
+           import 'package:flutter/foundation.dart' show kIsWeb;
+           import 'package:flutter/material.dart';
+          +import 'package:http/http.dart' as http;
+           
+           void main() => runApp(const RecommenderDemo());
+           
+          @@ -32,10 +34,19 @@ class _RecommenderDemoState extends State<RecommenderDemo> {
+                 // For iOS emulator, desktop and web platforms
+                 _server = '127.0.0.1';
+               }
+          +    final response = await http.post(
+          +      Uri.parse('http://$_server:5000/recommend'),
+          +      headers: <String, String>{'Content-Type': 'application/json'},
+          +      body: jsonEncode(<String, String>{'user_id': _userIDController.text}),
+          +    );
+           
+          -    //TODO: add code to send request to the recommendation engine backend
+          -
+          -    return [];
+          +    if (response.statusCode == 200) {
+          +      return List<String>.from(
+          +        jsonDecode(response.body)['movies'] as Iterable<dynamic>,
+          +      );
+          +    } else {
+          +      throw Exception('Error response');
+          +    }
+             }
+           
+             @override
+      - name: Copy step4
+        copydir:
+          from: frontend
+          to: step4/frontend
+      - name: Flutter clean
+        path: step4/frontend
+        flutter: clean
+  - name: step5
+    steps:
+      - name: Remove generated code
+        rmdir: step5/frontend
+      - name: Copy step5
+        copydir:
+          from: frontend
+          to: step5/frontend
+      - name: Flutter clean
+        path: step5/frontend
+        flutter: clean
+  - name: finished
+    steps:
+      - name: Remove generated code
+        rmdir: finished/frontend
+      - name: Copy finished
+        copydir:
+          from: frontend
+          to: finished/frontend
+      - name: Flutter clean
+        path: finished/frontend
+        flutter: clean
+  - name: Cleanup
+    rmdir: frontend
