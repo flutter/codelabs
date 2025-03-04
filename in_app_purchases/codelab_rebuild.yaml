@@ -16731,7 +16731,7 @@ steps:
           const appStoreKeyId = 'App Store Keu ID';
           const appStoreSharedSecret = "App Store shared secret";
           const bundleId = 'your iOS bundle ID';
-          const googlePlayProjectName = "Google Cloud project name";
+          const googleCloudProjectId = "Google Cloud project ID";
           const googlePlayPubsubBillingTopic = "play_billing"; // change if necessary
           ```
 
@@ -16788,7 +16788,7 @@ steps:
           const appStoreKeyId = 'App Store Key ID';
           const appStoreSharedSecret = 'App Store shared secret';
           const bundleId = 'your iOS bundle ID';
-          const googlePlayProjectName = 'Google Cloud project name';
+          const googleCloudProjectId = 'Google Cloud project ID';
           const googlePlayPubsubBillingTopic = 'play_billing';
       - name: Add dart-backend/lib/helpers.dart
         path: steps/dart-backend/lib/helpers.dart
@@ -18437,7 +18437,7 @@ steps:
           +    print('Polling Google Play messages');
           +    final request = pubsub.PullRequest(maxMessages: 1000);
           +    final topicName =
-          +        'projects/$googlePlayProjectName/subscriptions/$googlePlayPubsubBillingTopic-sub';
+          +        'projects/$googleCloudProjectId/subscriptions/$googlePlayPubsubBillingTopic-sub';
           +    final pullResponse = await pubsubApi.projects.subscriptions.pull(
           +      request,
           +      topicName,
@@ -18503,7 +18503,7 @@ steps:
           +    print('ACK Message');
           +    final request = pubsub.AcknowledgeRequest(ackIds: [id]);
           +    final subscriptionName =
-          +        'projects/$googlePlayProjectName/subscriptions/$googlePlayPubsubBillingTopic-sub';
+          +        'projects/$googleCloudProjectId/subscriptions/$googlePlayPubsubBillingTopic-sub';
           +    await pubsubApi.projects.subscriptions.acknowledge(
           +      request,
           +      subscriptionName,
