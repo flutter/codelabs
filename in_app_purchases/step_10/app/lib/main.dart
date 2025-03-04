@@ -83,7 +83,6 @@ class _MyHomePageState extends State<MyHomePage> {
               (context) => DashPurchases(
                 context.read<DashCounter>(),
                 context.read<FirebaseNotifier>(),
-                context.read<IAPRepo>(),
               ),
           lazy: false,
         ),

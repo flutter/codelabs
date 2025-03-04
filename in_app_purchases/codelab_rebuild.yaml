@@ -16723,16 +16723,16 @@ steps:
         replace-contents: |
           ### Configuration Files
 
-          Create `lib/constants.dart` with:
+          Configure the required IDs and keys in `lib/constants.dart`:
 
           ```
-          const androidPackageId = "your Android package ID";
+          const androidPackageId = 'your Android package ID';
           const appStoreIssuerId = 'App Store Key issuer ID';
-          const appStoreKeyId = 'App Store Keu ID';
-          const appStoreSharedSecret = "App Store shared secret";
+          const appStoreKeyId = 'App Store Key ID';
+          const appStoreSharedSecret = 'App Store shared secret';
           const bundleId = 'your iOS bundle ID';
-          const googlePlayProjectName = "Google Cloud project name";
-          const googlePlayPubsubBillingTopic = "play_billing"; // change if necessary
+          const googleCloudProjectId = 'Google Cloud project ID';
+          const googlePlayPubsubBillingTopic = 'play_billing'; // change if necessary
           ```
 
           - Add `assets/service-account-firebase.json` with the server key for the Firebase Firestore project.
@@ -16788,7 +16788,7 @@ steps:
           const appStoreKeyId = 'App Store Key ID';
           const appStoreSharedSecret = 'App Store shared secret';
           const bundleId = 'your iOS bundle ID';
-          const googlePlayProjectName = 'Google Cloud project name';
+          const googleCloudProjectId = 'Google Cloud project ID';
           const googlePlayPubsubBillingTopic = 'play_billing';
       - name: Add dart-backend/lib/helpers.dart
         path: steps/dart-backend/lib/helpers.dart
@@ -17486,15 +17486,15 @@ steps:
           from: steps
           to: step_08
 
-  - name: step_09
+  - name: step_10
     steps:
-      - name: Remove step_09
-        rmdir: step_09
+      - name: Remove step_10
+        rmdir: step_10
       - name: Patch app/lib/main.dart
         path: steps/app/lib/main.dart
         patch-u: |
-          --- b/in_app_purchases/step_09/app/lib/main.dart
-          +++ a/in_app_purchases/step_09/app/lib/main.dart
+          --- b/in_app_purchases/step_10/app/lib/main.dart
+          +++ a/in_app_purchases/step_10/app/lib/main.dart
           @@ -79,7 +79,11 @@ class _MyHomePageState extends State<MyHomePage> {
                      create: (context) => IAPRepo(context.read<FirebaseNotifier>()),
                    ),
@@ -17511,8 +17511,8 @@ steps:
       - name: Patch app/lib/logic/dash_purchases.dart
         path: steps/app/lib/logic/dash_purchases.dart
         patch-u: |
-          --- b/in_app_purchases/step_09/app/lib/logic/dash_purchases.dart
-          +++ a/in_app_purchases/step_09/app/lib/logic/dash_purchases.dart
+          --- b/in_app_purchases/step_10/app/lib/logic/dash_purchases.dart
+          +++ a/in_app_purchases/step_10/app/lib/logic/dash_purchases.dart
           @@ -1,7 +1,9 @@
            import 'dart:async';
           +import 'dart:convert';
@@ -17605,8 +17605,8 @@ steps:
       - name: Patch app/lib/logic/firebase_notifier.dart
         path: steps/app/lib/logic/firebase_notifier.dart
         patch-u: |
-          --- b/in_app_purchases/step_09/app/lib/logic/firebase_notifier.dart
-          +++ a/in_app_purchases/step_09/app/lib/logic/firebase_notifier.dart
+          --- b/in_app_purchases/step_10/app/lib/logic/firebase_notifier.dart
+          +++ a/in_app_purchases/step_10/app/lib/logic/firebase_notifier.dart
           @@ -29,6 +29,8 @@ class FirebaseNotifier extends ChangeNotifier {
                return FirebaseFirestore.instance;
              }
@@ -17619,8 +17619,8 @@ steps:
       - name: Patch app/lib/pages/purchase_page.dart
         path: steps/app/lib/pages/purchase_page.dart
         patch-u: |
-          --- b/in_app_purchases/step_09/app/lib/pages/purchase_page.dart
-          +++ a/in_app_purchases/step_09/app/lib/pages/purchase_page.dart
+          --- b/in_app_purchases/step_10/app/lib/pages/purchase_page.dart
+          +++ a/in_app_purchases/step_10/app/lib/pages/purchase_page.dart
           @@ -2,15 +2,29 @@ import 'package:flutter/material.dart';
            import 'package:provider/provider.dart';
            
@@ -17654,8 +17654,8 @@ steps:
       - name: Patch dart-backend/bin/server.dart
         path: steps/dart-backend/bin/server.dart
         patch-u: |
-          --- b/in_app_purchases/step_09/dart-backend/bin/server.dart
-          +++ a/in_app_purchases/step_09/dart-backend/bin/server.dart
+          --- b/in_app_purchases/step_10/dart-backend/bin/server.dart
+          +++ a/in_app_purchases/step_10/dart-backend/bin/server.dart
           @@ -2,12 +2,111 @@
            // for details. All rights reserved. Use of this source code is governed by a
            // BSD-style license that can be found in the LICENSE file.
@@ -18099,20 +18099,20 @@ steps:
               required String token,
             });
           }
-      - name: Copy to step_09
+      - name: Copy to step_10
         copydir:
           from: steps
-          to: step_09
+          to: step_10
 
-  - name: step_10
+  - name: step_11
     steps:
-      - name: Remove step_10
-        rmdir: step_10
+      - name: Remove step_11
+        rmdir: step_11
       - name: Patch app/lib/main.dart
         path: steps/app/lib/main.dart
         patch-u: |
-          --- b/in_app_purchases/step_10/app/lib/main.dart
-          +++ a/in_app_purchases/step_10/app/lib/main.dart
+          --- b/in_app_purchases/step_11/app/lib/main.dart
+          +++ a/in_app_purchases/step_11/app/lib/main.dart
           @@ -83,6 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
                          (context) => DashPurchases(
                            context.read<DashCounter>(),
@@ -18124,8 +18124,8 @@ steps:
       - name: Patch app/lib/logic/dash_purchases.dart
         path: steps/app/lib/logic/dash_purchases.dart
         patch-u: |
-          --- b/in_app_purchases/step_10/app/lib/logic/dash_purchases.dart
-          +++ a/in_app_purchases/step_10/app/lib/logic/dash_purchases.dart
+          --- b/in_app_purchases/step_11/app/lib/logic/dash_purchases.dart
+          +++ a/in_app_purchases/step_11/app/lib/logic/dash_purchases.dart
           @@ -10,6 +10,7 @@ import '../constants.dart';
            import '../main.dart';
            import '../model/purchasable_product.dart';
@@ -18228,8 +18228,8 @@ steps:
       - name: Patch dart-backend/bin/server.dart
         path: steps/dart-backend/bin/server.dart
         patch-u: |
-          --- b/in_app_purchases/step_10/dart-backend/bin/server.dart
-          +++ a/in_app_purchases/step_10/dart-backend/bin/server.dart
+          --- b/in_app_purchases/step_11/dart-backend/bin/server.dart
+          +++ a/in_app_purchases/step_11/dart-backend/bin/server.dart
           @@ -5,7 +5,9 @@
            import 'dart:convert';
            import 'dart:io';
@@ -18315,8 +18315,8 @@ steps:
       - name: Patch dart-backend/lib/app_store_purchase_handler.dart
         path: steps/dart-backend/lib/app_store_purchase_handler.dart
         patch-u: |
-          --- b/in_app_purchases/step_10/dart-backend/lib/app_store_purchase_handler.dart
-          +++ a/in_app_purchases/step_10/dart-backend/lib/app_store_purchase_handler.dart
+          --- b/in_app_purchases/step_11/dart-backend/lib/app_store_purchase_handler.dart
+          +++ a/in_app_purchases/step_11/dart-backend/lib/app_store_purchase_handler.dart
           @@ -7,10 +7,19 @@ import 'iap_repository.dart';
            import 'products.dart';
            import 'purchase_handler.dart';
@@ -18395,8 +18395,8 @@ steps:
       - name: Patch dart-backend/lib/google_play_purchase_handler.dart
         path: steps/dart-backend/lib/google_play_purchase_handler.dart
         patch-u: |
-          --- b/in_app_purchases/step_10/dart-backend/lib/google_play_purchase_handler.dart
-          +++ a/in_app_purchases/step_10/dart-backend/lib/google_play_purchase_handler.dart
+          --- b/in_app_purchases/step_11/dart-backend/lib/google_play_purchase_handler.dart
+          +++ a/in_app_purchases/step_11/dart-backend/lib/google_play_purchase_handler.dart
           @@ -1,6 +1,8 @@
            import 'dart:async';
           +import 'dart:convert';
@@ -18437,7 +18437,7 @@ steps:
           +    print('Polling Google Play messages');
           +    final request = pubsub.PullRequest(maxMessages: 1000);
           +    final topicName =
-          +        'projects/$googlePlayProjectName/subscriptions/$googlePlayPubsubBillingTopic-sub';
+          +        'projects/$googleCloudProjectId/subscriptions/$googlePlayPubsubBillingTopic-sub';
           +    final pullResponse = await pubsubApi.projects.subscriptions.pull(
           +      request,
           +      topicName,
@@ -18503,7 +18503,7 @@ steps:
           +    print('ACK Message');
           +    final request = pubsub.AcknowledgeRequest(ackIds: [id]);
           +    final subscriptionName =
-          +        'projects/$googlePlayProjectName/subscriptions/$googlePlayPubsubBillingTopic-sub';
+          +        'projects/$googleCloudProjectId/subscriptions/$googlePlayPubsubBillingTopic-sub';
           +    await pubsubApi.projects.subscriptions.acknowledge(
           +      request,
           +      subscriptionName,
@@ -18512,10 +18512,10 @@ steps:
            }
            
            NonSubscriptionStatus _nonSubscriptionStatusFrom(int? state) {
-      - name: Copy to step_10
+      - name: Copy to step_11
         copydir:
           from: steps
-          to: step_10
+          to: step_11
 
   - name: complete
     steps:

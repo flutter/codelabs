@@ -164,7 +164,7 @@ class GooglePlayPurchaseHandler extends PurchaseHandler {
     print('Polling Google Play messages');
     final request = pubsub.PullRequest(maxMessages: 1000);
     final topicName =
-        'projects/$googlePlayProjectName/subscriptions/$googlePlayPubsubBillingTopic-sub';
+        'projects/$googleCloudProjectId/subscriptions/$googlePlayPubsubBillingTopic-sub';
     final pullResponse = await pubsubApi.projects.subscriptions.pull(
       request,
       topicName,
@@ -230,7 +230,7 @@ class GooglePlayPurchaseHandler extends PurchaseHandler {
     print('ACK Message');
     final request = pubsub.AcknowledgeRequest(ackIds: [id]);
     final subscriptionName =
-        'projects/$googlePlayProjectName/subscriptions/$googlePlayPubsubBillingTopic-sub';
+        'projects/$googleCloudProjectId/subscriptions/$googlePlayPubsubBillingTopic-sub';
     await pubsubApi.projects.subscriptions.acknowledge(
       request,
       subscriptionName,

@@ -10,6 +10,7 @@ import '../constants.dart';
 import '../main.dart';
 import '../model/purchasable_product.dart';
 import '../model/store_state.dart';
+import '../repo/iap_repo.dart';
 import 'dash_counter.dart';
 import 'firebase_notifier.dart';
 
@@ -19,19 +20,20 @@ class DashPurchases extends ChangeNotifier {
   StoreState storeState = StoreState.loading;
   late StreamSubscription<List<PurchaseDetails>> _subscription;
   List<PurchasableProduct> products = [];
+  IAPRepo iapRepo;
 
   bool get beautifiedDash => _beautifiedDashUpgrade;
   bool _beautifiedDashUpgrade = false;
-
   final iapConnection = IAPConnection.instance;
 
-  DashPurchases(this.counter, this.firebaseNotifier) {
+  DashPurchases(this.counter, this.firebaseNotifier, this.iapRepo) {
     final purchaseUpdated = iapConnection.purchaseStream;
     _subscription = purchaseUpdated.listen(
       _onPurchaseUpdate,
       onDone: _updateStreamOnDone,
       onError: _updateStreamOnError,
     );
+    iapRepo.addListener(purchasesUpdate);
     loadPurchases();
   }
 
@@ -57,6 +59,7 @@ class DashPurchases extends ChangeNotifier {
   @override
   void dispose() {
     _subscription.cancel();
+    iapRepo.removeListener(purchasesUpdate);
     super.dispose();
   }
 
@@ -138,5 +141,60 @@ class DashPurchases extends ChangeNotifier {
 
   void _updateStreamOnError(dynamic error) {
     //Handle error here
+  }
+
+  void purchasesUpdate() {
+    var subscriptions = <PurchasableProduct>[];
+    var upgrades = <PurchasableProduct>[];
+    // Get a list of purchasable products for the subscription and upgrade.
+    // This should be 1 per type.
+    if (products.isNotEmpty) {
+      subscriptions =
+          products
+              .where(
+                (element) => element.productDetails.id == storeKeySubscription,
+              )
+              .toList();
+      upgrades =
+          products
+              .where((element) => element.productDetails.id == storeKeyUpgrade)
+              .toList();
+    }
+
+    // Set the subscription in the counter logic and show/hide purchased on the
+    // purchases page.
+    if (iapRepo.hasActiveSubscription) {
+      counter.applyPaidMultiplier();
+      for (var element in subscriptions) {
+        _updateStatus(element, ProductStatus.purchased);
+      }
+    } else {
+      counter.removePaidMultiplier();
+      for (var element in subscriptions) {
+        _updateStatus(element, ProductStatus.purchasable);
+      }
+    }
+
+    // Set the Dash beautifier and show/hide purchased on
+    // the purchases page.
+    if (iapRepo.hasUpgrade != _beautifiedDashUpgrade) {
+      _beautifiedDashUpgrade = iapRepo.hasUpgrade;
+      for (var element in upgrades) {
+        _updateStatus(
+          element,
+          _beautifiedDashUpgrade
+              ? ProductStatus.purchased
+              : ProductStatus.purchasable,
+        );
+      }
+      notifyListeners();
+    }
+  }
+
+  void _updateStatus(PurchasableProduct product, ProductStatus status) {
+    if (product.status != ProductStatus.purchased) {
+      product.status = ProductStatus.purchased;
+      notifyListeners();
+    }
   }
 }
