@@ -27,7 +27,8 @@ declare -a CODELABS=(
   "haiku_generator"
   "homescreen_codelab"
   "in_app_purchases"
-  "intro_flutter_gpu"
+  # TODO(domesticmouse): The protocol version of native_assets_cli-0.9.0 is 1.5.0, which is no longer supported.
+  # "intro_flutter_gpu"
   "namer"
   "next-gen-ui"
   "testing_codelab"
