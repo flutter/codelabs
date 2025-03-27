@@ -127,5 +127,16 @@ steps:
       - name: Flutter clean
         path: step_01
         flutter: clean
+  - name: step_02
+    steps:
+      - name: Remove generated code
+        rmdir: step_02
+      - name: Copy step_02
+        copydir:
+          from: colorist
+          to: step_02
+      - name: Flutter clean
+        path: step_02
+        flutter: clean
   - name: Cleanup
     rmdir: colorist
