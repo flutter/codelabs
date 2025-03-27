@@ -1,0 +1,131 @@
+name: Colorist rebuild script
+steps:
+  - name: step_01
+    steps:
+      - name: Remove generated code
+        rmdir: step_01
+      - name: Create project
+        flutter: create -e colorist --platforms=android,ios,macos,web,windows
+      - name: Add dependencies
+        path: colorist
+        flutter: pub add colorist_ui flutter_riverpod logging riverpod_annotation dev:build_runner dev:custom_lint dev:riverpod_generator dev:riverpod_lint
+      - name: Strip DEVELOPMENT_TEAM
+        strip-lines-containing: DEVELOPMENT_TEAM =
+        path: colorist/ios/Runner.xcodeproj/project.pbxproj
+      - name: Configure analysis_options.yaml
+        path: colorist/analysis_options.yaml
+        replace-contents: |
+          include: ../../analysis_options.yaml
+
+          analyzer:
+            plugins:
+              - custom_lint
+      - name: Remove README
+        rm: colorist/README.md
+      - name: Add .vscode directory
+        mkdir: colorist/.vscode
+      - name: Add .vscode/launch.json
+        path: colorist/.vscode/launch.json
+        replace-contents: |
+          {
+              // Use IntelliSense to learn about possible attributes.
+              // Hover to view descriptions of existing attributes.
+              // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+              "version": "0.2.0",
+              "configurations": [
+                  {
+                      "name": "colorist",
+                      "request": "launch",
+                      "type": "dart"
+                  }
+              ]
+          }
+      - name: Replace lib/main.dart
+        path: colorist/lib/main.dart
+        replace-contents: |
+          // Copyright 2025 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+
+          import 'package:colorist_ui/models/message.dart';
+          import 'package:colorist_ui/providers/chat_state_notifier.dart';
+          import 'package:colorist_ui/providers/log_state_notifier.dart';
+          import 'package:colorist_ui/ui/screens/main_screen.dart';
+          import 'package:flutter/foundation.dart';
+          import 'package:flutter/material.dart';
+          import 'package:flutter_riverpod/flutter_riverpod.dart';
+          import 'package:logging/logging.dart';
+
+          void main() async {
+            Logger.root.level = Level.ALL;
+            Logger.root.onRecord.listen((record) {
+              if (kDebugMode) {
+                print(
+                  '${record.loggerName}: ${record.level.name}: '
+                  '${record.time}: ${record.message}',
+                );
+              }
+            });
+
+            runApp(ProviderScope(child: MainApp()));
+          }
+
+          class MainApp extends ConsumerWidget {
+            const MainApp({super.key});
+
+            @override
+            Widget build(BuildContext context, WidgetRef ref) {
+              return MaterialApp(
+                theme: ThemeData(
+                  colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+                ),
+                home: MainScreen(
+                  sendMessage: (message) {
+                    sendMessage(message, ref);
+                  },
+                ),
+              );
+            }
+
+            // A fake LLM that just echoes back what it receives.
+            void sendMessage(String message, WidgetRef ref) {
+              final chatStateNotifier = ref.read(chatStateNotifierProvider.notifier);
+              final logStateNotifier = ref.read(logStateNotifierProvider.notifier);
+
+              chatStateNotifier.addUserMessage(message);
+              logStateNotifier.logUserText(message);
+              chatStateNotifier.addLlmMessage(message, MessageState.complete);
+              logStateNotifier.logLlmText(message);
+            }
+          }
+      - name: Upgrade deps
+        path: colorist
+        flutter: pub upgrade --major-versions
+      - name: Build iOS simulator bundle
+        platforms: [macos]
+        path: colorist
+        flutter: build ios --simulator
+      - name: Build Android app
+        path: colorist
+        flutter: build apk
+      - name: Build macOS app
+        platforms: [macos]
+        path: colorist
+        flutter: build macos
+      - name: Build Linux app
+        platforms: [linux]
+        path: colorist
+        flutter: build linux
+      - name: Build Windows app
+        platforms: [windows]
+        path: colorist
+        flutter: build windows
+      - name: Copy step_01
+        copydir:
+          from: colorist
+          to: step_01
+      - name: Flutter clean
+        path: step_01
+        flutter: clean
+  - name: Cleanup
+    rmdir: colorist
