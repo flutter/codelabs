@@ -1,44 +1,11 @@
 name: Colorist rebuild script
 steps:
-  - name: step_00
-    steps:
-      - name: Remove generated code
-        rmdir: step_00
-      - name: Create project
-        flutter: create -e colorist --platforms=android,ios,macos,web,windows
-      - name: Replace pubspec.yaml with a correctly ordered one
-        path: colorist/pubspec.yaml
-        replace-contents: |
-          name: colorist
-          description: "A new Flutter project."
-          publish_to: "none"
-          version: 0.1.0
-
-          environment:
-            sdk: ^3.7.2
-
-          dependencies:
-            flutter:
-              sdk: flutter
-
-          dev_dependencies:
-            flutter_lints: ^5.0.0
-            flutter_test:
-              sdk: flutter
-
-          flutter:
-            uses-material-design: true
-      - name: Upgrade deps
-        path: colorist
-        flutter: pub upgrade --major-versions
-      - name: Copy step_00
-        copydir:
-          from: colorist
-          to: step_00
   - name: step_01
     steps:
       - name: Remove generated code
         rmdir: step_01
+      - name: Create project
+        flutter: create -e colorist --platforms=android,ios,macos,web,windows
       - name: Add dependencies
         path: colorist
         flutter: pub add colorist_ui flutter_riverpod logging riverpod_annotation dev:build_runner dev:custom_lint dev:riverpod_generator dev:riverpod_lint dev:json_serializable
