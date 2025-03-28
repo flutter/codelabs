@@ -474,7 +474,7 @@ steps:
 
           @riverpod
           Future<String> systemPrompt(Ref ref) =>
-              rootBundle.loadString('assets/prompts/system_prompt_with_tools.md');
+              rootBundle.loadString('assets/prompts/system_prompt.md');
       - name: Patch lib/providers/gemini.dart
         path: colorist/lib/providers/gemini.dart
         patch-u: |
@@ -509,6 +509,17 @@ steps:
           to: step_03
       - name: Flutter clean
         path: step_03
+        flutter: clean
+  - name: step_04
+    steps:
+      - name: Remove generated code
+        rmdir: step_04
+      - name: Copy step_04
+        copydir:
+          from: colorist
+          to: step_04
+      - name: Flutter clean
+        path: step_04
         flutter: clean
   - name: Cleanup
     rmdir: colorist
