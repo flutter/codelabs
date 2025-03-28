@@ -219,9 +219,8 @@ steps:
               chatStateNotifier.addUserMessage(message);
               logStateNotifier.logUserText(message);
               try {
-                final responseText =
-                    (await chatSession.sendMessage(Content.text(message))).text?.trim() ??
-                    'No text response received';
+                final response = await chatSession.sendMessage(Content.text(message));
+                final responseText = response.text?.trim() ?? 'No text response received';
                 logStateNotifier.logLlmText(responseText);
                 chatStateNotifier.addLlmMessage(responseText, MessageState.complete);
               } catch (e, st) {
@@ -650,7 +649,96 @@ steps:
     steps:
       - name: Remove generated code
         rmdir: step_05
-
+      - name: Patch lib/services/gemini_chat_service.dart
+        path: colorist/lib/services/gemini_chat_service.dart
+        patch-u: |
+          --- b/colorist/step_05/lib/services/gemini_chat_service.dart
+          +++ a/colorist/step_05/lib/services/gemini_chat_service.dart
+          @@ -12,6 +12,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
+           import 'package:riverpod_annotation/riverpod_annotation.dart';
+           
+           import '../providers/gemini.dart';
+          +import 'gemini_tools.dart';
+           
+           part 'gemini_chat_service.g.dart';
+           
+          @@ -31,6 +32,13 @@ class GeminiChatService {
+                 final responseText = response.text?.trim() ?? 'No text response received';
+                 logStateNotifier.logLlmText(responseText);
+                 chatStateNotifier.addLlmMessage(responseText, MessageState.complete);
+          +
+          +      if (response.functionCalls.isNotEmpty) {
+          +        final geminiTools = ref.read(geminiToolsProvider);
+          +        for (final functionCall in response.functionCalls) {
+          +          geminiTools.handleFunctionCall(functionCall.name, functionCall.args);
+          +        }
+          +      }
+               } catch (e, st) {
+                 logStateNotifier.logError(e, st: st);
+               }
+      - name: Patch lib/services/gemini_tools.dart
+        path: colorist/lib/services/gemini_tools.dart
+        patch-u: |
+          --- b/colorist/step_05/lib/services/gemini_tools.dart
+          +++ a/colorist/step_05/lib/services/gemini_tools.dart
+          @@ -2,6 +2,8 @@
+           // Use of this source code is governed by a BSD-style license that can be
+           // found in the LICENSE file.
+           
+          +import 'package:colorist_ui/providers/color_state_notifier.dart';
+          +import 'package:colorist_ui/providers/log_state_notifier.dart';
+           import 'package:firebase_vertexai/firebase_vertexai.dart';
+           import 'package:flutter_riverpod/flutter_riverpod.dart';
+           import 'package:riverpod_annotation/riverpod_annotation.dart';
+          @@ -26,6 +28,45 @@ class GeminiTools {
+             List<Tool> get tools => [
+               Tool.functionDeclarations([setColorFuncDecl]),
+             ];
+          +
+          +  Map<String, Object?> handleFunctionCall(
+          +    String functionName,
+          +    Map<String, Object?> arguments,
+          +  ) {
+          +    final logStateNotifier = ref.read(logStateNotifierProvider.notifier);
+          +    logStateNotifier.logFunctionCall(functionName, arguments);
+          +    return switch (functionName) {
+          +      'set_color' => handleSetColor(arguments),
+          +      _ => handleUnknownFunction(functionName),
+          +    };
+          +  }
+          +
+          +  Map<String, Object?> handleSetColor(Map<String, Object?> arguments) {
+          +    final colorStateNotifier = ref.read(colorStateNotifierProvider.notifier);
+          +    final red = (arguments['red'] as num).toDouble();
+          +    final green = (arguments['green'] as num).toDouble();
+          +    final blue = (arguments['blue'] as num).toDouble();
+          +    final functionResults = {
+          +      'success': true,
+          +      'current_color':
+          +          colorStateNotifier
+          +              .updateColor(red: red, green: green, blue: blue)
+          +              .toLLMContextMap(),
+          +    };
+          +
+          +    final logStateNotifier = ref.read(logStateNotifierProvider.notifier);
+          +    logStateNotifier.logFunctionResults(functionResults);
+          +    return functionResults;
+          +  }
+          +
+          +  Map<String, Object?> handleUnknownFunction(String functionName) {
+          +    final logStateNotifier = ref.read(logStateNotifierProvider.notifier);
+          +    logStateNotifier.logWarning('Unsupported function call $functionName');
+          +    return {
+          +      'success': false,
+          +      'reason': 'Unsupported function call $functionName',
+          +    };
+          +  }
+           }
+           
+           @riverpod
+      - name: Run build_runner
+        path: colorist
+        dart: run build_runner build --delete-conflicting-outputs
       - name: Copy step_05
         copydir:
           from: colorist
@@ -663,6 +751,9 @@ steps:
       - name: Remove generated code
         rmdir: step_06
 
+      - name: Run build_runner
+        path: colorist
+        dart: run build_runner build --delete-conflicting-outputs
       - name: Copy step_06
         copydir:
           from: colorist
@@ -675,6 +766,9 @@ steps:
       - name: Remove generated code
         rmdir: step_07
 
+      - name: Run build_runner
+        path: colorist
+        dart: run build_runner build --delete-conflicting-outputs
       - name: Upgrade deps
         path: colorist
         flutter: pub upgrade --major-versions

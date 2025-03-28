@@ -12,6 +12,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../providers/gemini.dart';
+import 'gemini_tools.dart';
 
 part 'gemini_chat_service.g.dart';
 
@@ -27,11 +28,17 @@ class GeminiChatService {
     chatStateNotifier.addUserMessage(message);
     logStateNotifier.logUserText(message);
     try {
-      final responseText =
-          (await chatSession.sendMessage(Content.text(message))).text?.trim() ??
-          'No text response received';
+      final response = await chatSession.sendMessage(Content.text(message));
+      final responseText = response.text?.trim() ?? 'No text response received';
       logStateNotifier.logLlmText(responseText);
       chatStateNotifier.addLlmMessage(responseText, MessageState.complete);
+
+      if (response.functionCalls.isNotEmpty) {
+        final geminiTools = ref.read(geminiToolsProvider);
+        for (final functionCall in response.functionCalls) {
+          geminiTools.handleFunctionCall(functionCall.name, functionCall.args);
+        }
+      }
     } catch (e, st) {
       logStateNotifier.logError(e, st: st);
     }
