@@ -3,7 +3,9 @@
 // found in the LICENSE file.
 
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:colorist_ui/models/color_data.dart';
 import 'package:colorist_ui/models/conversation_state.dart';
 import 'package:colorist_ui/providers/chat_state_notifier.dart';
 import 'package:colorist_ui/providers/log_state_notifier.dart';
@@ -23,6 +25,10 @@ final conversationStateProvider = StateProvider(
 class GeminiChatService {
   GeminiChatService(this.ref);
   final Ref ref;
+
+  Future<void> notifyColorSelection(ColorData color) => sendMessage(
+    'User selected color from history: ${json.encode(color.toLLMContextMap())}',
+  );
 
   Future<void> sendMessage(String message) async {
     final chatSession = await ref.read(chatSessionProvider.future);

@@ -881,7 +881,67 @@ steps:
     steps:
       - name: Remove generated code
         rmdir: step_07
-
+      - name: Patch lib/services/gemini_chat_service.dart
+        path: colorist/lib/services/gemini_chat_service.dart
+        patch-u: |
+          --- b/colorist/step_07/lib/services/gemini_chat_service.dart
+          +++ a/colorist/step_07/lib/services/gemini_chat_service.dart
+          @@ -3,7 +3,9 @@
+           // found in the LICENSE file.
+           
+           import 'dart:async';
+          +import 'dart:convert';
+           
+          +import 'package:colorist_ui/models/color_data.dart';
+           import 'package:colorist_ui/models/conversation_state.dart';
+           import 'package:colorist_ui/providers/chat_state_notifier.dart';
+           import 'package:colorist_ui/providers/log_state_notifier.dart';
+          @@ -24,6 +26,10 @@ class GeminiChatService {
+             GeminiChatService(this.ref);
+             final Ref ref;
+           
+          +  Future<void> notifyColorSelection(ColorData color) => sendMessage(
+          +    'User selected color from history: ${json.encode(color.toLLMContextMap())}',
+          +  );
+          +
+             Future<void> sendMessage(String message) async {
+               final chatSession = await ref.read(chatSessionProvider.future);
+               final conversationState = ref.read(conversationStateProvider);
+      - name: Patch lib/main.dart
+        path: colorist/lib/main.dart
+        patch-u: |
+          --- b/colorist/step_07/lib/main.dart
+          +++ a/colorist/step_07/lib/main.dart
+          @@ -43,6 +43,9 @@ class MainApp extends ConsumerWidget {
+                   data:
+                       (data) => MainScreen(
+                         conversationState: conversationState,
+          +              notifyColorSelection: (color) {
+          +                ref.read(geminiChatServiceProvider).notifyColorSelection(color);
+          +              },
+                         sendMessage: (text) {
+                           ref.read(geminiChatServiceProvider).sendMessage(text);
+                         },
+      - name: Patch assets/prompts/system_prompt.md
+        path: colorist/assets/prompts/system_prompt.md
+        patch-u: |
+          --- b/colorist/step_07/assets/prompts/system_prompt.md
+          +++ a/colorist/step_07/assets/prompts/system_prompt.md
+          @@ -29,6 +29,14 @@ After the tool call: "I've set a warm orange with strong red, moderate green, an
+           
+           If a color description is ambiguous or unclear, please ask the user clarifying questions, one at a time.
+           
+          +## When Users Select Historical Colors
+          +
+          +Sometimes, the user will manually select a color from the history panel. When this happens, you'll receive a notification about this selection that includes details about the color. Acknowledge this selection with a brief response that recognizes what they've done and comments on the selected color.
+          +
+          +Example notification:
+          +User: "User selected color from history: {red: 0.2, green: 0.5, blue: 0.8, hexCode: #3380CC}"
+          +You: "I see you've selected an ocean blue from your history. This tranquil blue with a moderate intensity has a calming, professional quality to it. Would you like to explore similar shades or create a contrasting color?"
+          +
+           ## Important Guidelines
+           
+           - Always keep RGB values between 0.0 and 1.0
       - name: Run build_runner
         path: colorist
         dart: run build_runner build --delete-conflicting-outputs
