@@ -1,14 +1,47 @@
 name: Colorist rebuild script
 steps:
+  - name: step_00
+    steps:
+      - name: Remove generated code
+        rmdir: step_00
+      - name: Create project
+        flutter: create -e colorist --platforms=android,ios,macos,web,windows
+      - name: Replace pubspec.yaml with a correctly ordered one
+        path: colorist/pubspec.yaml
+        replace-contents: |
+          name: colorist
+          description: "A new Flutter project."
+          publish_to: "none"
+          version: 0.1.0
+
+          environment:
+            sdk: ^3.7.2
+
+          dependencies:
+            flutter:
+              sdk: flutter
+
+          dev_dependencies:
+            flutter_lints: ^5.0.0
+            flutter_test:
+              sdk: flutter
+
+          flutter:
+            uses-material-design: true
+      - name: Upgrade deps
+        path: colorist
+        flutter: pub upgrade --major-versions
+      - name: Copy step_00
+        copydir:
+          from: colorist
+          to: step_00
   - name: step_01
     steps:
       - name: Remove generated code
         rmdir: step_01
-      - name: Create project
-        flutter: create -e colorist --platforms=android,ios,macos,web,windows
       - name: Add dependencies
         path: colorist
-        flutter: pub add colorist_ui flutter_riverpod logging riverpod_annotation dev:build_runner dev:custom_lint dev:riverpod_generator dev:riverpod_lint
+        flutter: pub add colorist_ui flutter_riverpod logging riverpod_annotation dev:build_runner dev:custom_lint dev:riverpod_generator dev:riverpod_lint dev:json_serializable
       - name: Strip DEVELOPMENT_TEAM
         strip-lines-containing: DEVELOPMENT_TEAM =
         path: colorist/ios/Runner.xcodeproj/project.pbxproj
@@ -20,6 +53,13 @@ steps:
           analyzer:
             plugins:
               - custom_lint
+
+          linter:
+            rules:
+              sort_pub_dependencies: true
+      - name: dart fix
+        path: colorist
+        dart: fix --apply
       - name: Remove README
         rm: colorist/README.md
       - name: Add .vscode directory
@@ -131,6 +171,76 @@ steps:
     steps:
       - name: Remove generated code
         rmdir: step_02
+      - name: Add Firebase Vertex AI dependencies
+        path: colorist
+        flutter: pub add firebase_core firebase_vertexai
+      - name: Patch android/app/build.gradle.kts
+        path: colorist/android/app/build.gradle.kts
+        patch-u: |
+          --- b/firebase-get-to-know-flutter/step_02/android/app/build.gradle
+          +++ a/firebase-get-to-know-flutter/step_02/android/app/build.gradle
+          @@ -24,7 +24,7 @@ android {
+                   applicationId = "com.example.colorist"
+                   // You can update the following values to match your application needs.
+                   // For more information, see: https://flutter.dev/to/review-gradle-config.
+          -        minSdk = flutter.minSdkVersion
+          +        minSdk = 23
+                   targetSdk = flutter.targetSdkVersion
+                   versionCode = flutter.versionCode
+                   versionName = flutter.versionName
+      - name: Patch macos/Podfile
+        path: colorist/macos/Podfile
+        patch-u: |
+          --- b/colorist/step_02/macos/Podfile
+          +++ a/colorist/step_02/macos/Podfile
+          @@ -1,4 +1,5 @@
+          -platform :osx, '10.14'
+          +# Firebase requires at least macOS 10.15
+          +platform :osx, '10.15'
+
+           # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
+           ENV['COCOAPODS_DISABLE_STATS'] = 'true'
+      - name: Patch macos/Runner.xcodeproj/project.pbxproj
+        xcode-project-path: colorist/macos/Runner.xcodeproj
+        macosx-deployment-target: "10.15"
+      - name: Patch ios/Podfile
+        path: colorist/ios/Podfile
+        patch-u: |
+          --- a/firebase-get-to-know-flutter/step_02/ios/Podfile
+          +++ b/firebase-get-to-know-flutter/step_02/ios/Podfile
+          @@ -1,5 +1,5 @@
+          -# Uncomment this line to define a global platform for your project
+          -# platform :ios, '12.0'
+          +# Firebase requires at least iOS 13.0
+          +platform :ios, '13.0'
+
+           # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
+           ENV['COCOAPODS_DISABLE_STATS'] = 'true'
+      - name: Patch ios/Runner.xcodeproj/project.pbxproj
+        xcode-project-path: colorist/ios/Runner.xcodeproj
+        iphoneos-deployment-target: "13.0"
+      - name: Upgrade deps
+        path: colorist
+        flutter: pub upgrade --major-versions
+      - name: Build iOS simulator bundle
+        platforms: [macos]
+        path: colorist
+        flutter: build ios --simulator
+      - name: Build Android app
+        path: colorist
+        flutter: build apk
+      - name: Build macOS app
+        platforms: [macos]
+        path: colorist
+        flutter: build macos
+      - name: Build Linux app
+        platforms: [linux]
+        path: colorist
+        flutter: build linux
+      - name: Build Windows app
+        platforms: [windows]
+        path: colorist
+        flutter: build windows
       - name: Copy step_02
         copydir:
           from: colorist

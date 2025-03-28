@@ -1,6 +1,6 @@
 name: colorist
 description: "A new Flutter project."
-publish_to: 'none'
+publish_to: "none"
 version: 0.1.0
 
 environment:
@@ -15,11 +15,12 @@ dependencies:
   riverpod_annotation: ^2.6.1
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
-  flutter_lints: ^5.0.0
   build_runner: ^2.4.15
   custom_lint: ^0.7.5
+  flutter_lints: ^5.0.0
+  flutter_test:
+    sdk: flutter
+  json_serializable: ^6.9.4
   riverpod_generator: ^2.6.5
   riverpod_lint: ^2.6.5
 
