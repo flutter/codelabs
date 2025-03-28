@@ -328,8 +328,17 @@ steps:
       - name: Patch android/app/build.gradle.kts
         path: colorist/android/app/build.gradle.kts
         patch-u: |
-          --- b/firebase-get-to-know-flutter/step_02/android/app/build.gradle
-          +++ a/firebase-get-to-know-flutter/step_02/android/app/build.gradle
+          --- b/colorist/step_02/android/app/build.gradle.kts
+          +++ a/colorist/step_02/android/app/build.gradle.kts
+          @@ -8,7 +8,7 @@ plugins {
+           android {
+               namespace = "com.example.colorist"
+               compileSdk = flutter.compileSdkVersion
+          -    ndkVersion = flutter.ndkVersion
+          +    ndkVersion = "27.0.12077973"
+           
+               compileOptions {
+                   sourceCompatibility = JavaVersion.VERSION_11
           @@ -24,7 +24,7 @@ android {
                    applicationId = "com.example.colorist"
                    // You can update the following values to match your application needs.
@@ -357,8 +366,8 @@ steps:
       - name: Patch ios/Podfile
         path: colorist/ios/Podfile
         patch-u: |
-          --- a/firebase-get-to-know-flutter/step_02/ios/Podfile
-          +++ b/firebase-get-to-know-flutter/step_02/ios/Podfile
+          --- a/colorist/step_02/ios/Podfile
+          +++ b/colorist/step_02/ios/Podfile
           @@ -1,5 +1,5 @@
           -# Uncomment this line to define a global platform for your project
           -# platform :ios, '12.0'
@@ -520,6 +529,57 @@ steps:
           to: step_04
       - name: Flutter clean
         path: step_04
+        flutter: clean
+  - name: step_05
+    steps:
+      - name: Remove generated code
+        rmdir: step_05
+      - name: Copy step_05
+        copydir:
+          from: colorist
+          to: step_05
+      - name: Flutter clean
+        path: step_05
+        flutter: clean
+  - name: step_06
+    steps:
+      - name: Remove generated code
+        rmdir: step_06
+      - name: Copy step_06
+        copydir:
+          from: colorist
+          to: step_06
+      - name: Flutter clean
+        path: step_06
+        flutter: clean
+  - name: step_07
+    steps:
+      - name: Remove generated code
+        rmdir: step_07
+      - name: Upgrade deps
+        path: colorist
+        flutter: pub upgrade --major-versions
+      - name: Build iOS simulator bundle
+        platforms: [macos]
+        path: colorist
+        flutter: build ios --simulator
+      - name: Build Android app
+        path: colorist
+        flutter: build apk
+      - name: Build macOS app
+        platforms: [macos]
+        path: colorist
+        flutter: build macos
+      - name: Build Windows app
+        platforms: [windows]
+        path: colorist
+        flutter: build windows
+      - name: Copy step_07
+        copydir:
+          from: colorist
+          to: step_07
+      - name: Flutter clean
+        path: step_07
         flutter: clean
   - name: Cleanup
     rmdir: colorist
