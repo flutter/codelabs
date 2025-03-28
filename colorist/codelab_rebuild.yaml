@@ -459,6 +459,50 @@ steps:
           +  assets:
           +    - assets/
           +    - assets/prompts/
+      - name: Add lib/providers/system_prompt.dart
+        path: colorist/lib/providers/system_prompt.dart
+        replace-contents: |
+          // Copyright 2025 The Flutter Authors. All rights reserved.
+          // Use of this source code is governed by a BSD-style license that can be
+          // found in the LICENSE file.
+
+          import 'package:flutter/services.dart';
+          import 'package:flutter_riverpod/flutter_riverpod.dart';
+          import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+          part 'system_prompt.g.dart';
+
+          @riverpod
+          Future<String> systemPrompt(Ref ref) =>
+              rootBundle.loadString('assets/prompts/system_prompt_with_tools.md');
+      - name: Patch lib/providers/gemini.dart
+        path: colorist/lib/providers/gemini.dart
+        patch-u: |
+          --- a/colorist/step_03/lib/providers/gemini.dart
+          +++ b/colorist/step_03/lib/providers/gemini.dart
+          @@ -10,6 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
+           import 'package:riverpod_annotation/riverpod_annotation.dart';
+           
+           import '../firebase_options.dart';
+          +import 'system_prompt.dart';
+           
+           part 'gemini.g.dart';
+           
+          @@ -20,9 +21,11 @@ Future<FirebaseApp> firebaseApp(Ref ref) =>
+           @riverpod
+           Future<GenerativeModel> geminiModel(Ref ref) async {
+             await ref.watch(firebaseAppProvider.future);
+          +  final systemPrompt = await ref.watch(systemPromptProvider.future);
+           
+             final model = FirebaseVertexAI.instance.generativeModel(
+               model: 'gemini-2.0-flash',
+          +    systemInstruction: Content.system(systemPrompt),
+             );
+             return model;
+           }
+      - name: Run build_runner
+        path: colorist
+        dart: run build_runner build --delete-conflicting-outputs
       - name: Copy step_03
         copydir:
           from: colorist

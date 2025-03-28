@@ -22,7 +22,7 @@ final firebaseAppProvider = AutoDisposeFutureProvider<FirebaseApp>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef FirebaseAppRef = AutoDisposeFutureProviderRef<FirebaseApp>;
-String _$geminiModelHash() => r'72e94baec9e321378d2b67e75a77b0731600ab2f';
+String _$geminiModelHash() => r'dd343a2eafa39a05f896562bf2abd7f512f405c2';
 
 /// See also [geminiModel].
 @ProviderFor(geminiModel)
