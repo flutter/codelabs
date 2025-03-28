@@ -4,7 +4,6 @@
 
 import 'dart:async';
 
-import 'package:colorist_ui/models/message.dart';
 import 'package:colorist_ui/providers/chat_state_notifier.dart';
 import 'package:colorist_ui/providers/log_state_notifier.dart';
 import 'package:firebase_vertexai/firebase_vertexai.dart';
@@ -27,11 +26,12 @@ class GeminiChatService {
 
     chatStateNotifier.addUserMessage(message);
     logStateNotifier.logUserText(message);
+    final llmMessage = chatStateNotifier.createLlmMessage();
     try {
       final response = await chatSession.sendMessage(Content.text(message));
       final responseText = response.text?.trim() ?? 'No text response received';
       logStateNotifier.logLlmText(responseText);
-      chatStateNotifier.addLlmMessage(responseText, MessageState.complete);
+      chatStateNotifier.appendToMessage(llmMessage.id, responseText);
 
       if (response.functionCalls.isNotEmpty) {
         final geminiTools = ref.read(geminiToolsProvider);
@@ -41,6 +41,12 @@ class GeminiChatService {
       }
     } catch (e, st) {
       logStateNotifier.logError(e, st: st);
+      chatStateNotifier.appendToMessage(
+        llmMessage.id,
+        "\nI'm sorry, I encountered an error processing your request. Please try again.",
+      );
+    } finally {
+      chatStateNotifier.finalizeMessage(llmMessage.id);
     }
   }
 }
