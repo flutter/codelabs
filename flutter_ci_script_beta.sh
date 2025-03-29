@@ -14,6 +14,7 @@ declare -a CODELABS=(
   # TODO(DomesticMouse): The argument type 'CardTheme' can't be assigned to the parameter type 'CardThemeData?'.
   # "boring_to_beautiful"
   "brick_breaker"
+  "colorist"
   "dart-patterns-and-records"
   "deeplink_cookbook"
   "ffigen_codelab"
