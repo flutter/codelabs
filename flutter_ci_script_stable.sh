@@ -12,6 +12,7 @@ declare -a CODELABS=(
   "audio_soloud"
   "boring_to_beautiful"
   "brick_breaker"
+  "colorist"
   "dart-patterns-and-records"
   "deeplink_cookbook"
   "ffigen_codelab"
