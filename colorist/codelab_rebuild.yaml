@@ -224,9 +224,12 @@ steps:
               final llmMessage = chatStateNotifier.createLlmMessage();
               try {
                 final response = await chatSession.sendMessage(Content.text(message));
-                final responseText = response.text?.trim() ?? 'No text response received';
-                logStateNotifier.logLlmText(responseText);
-                chatStateNotifier.appendToMessage(llmMessage.id, responseText);
+
+                final responseText = response.text;
+                if (responseText != null) {
+                  logStateNotifier.logLlmText(responseText);
+                  chatStateNotifier.appendToMessage(llmMessage.id, responseText);
+                }
               } catch (e, st) {
                 logStateNotifier.logError(e, st: st);
                 chatStateNotifier.appendToMessage(
@@ -666,21 +669,38 @@ steps:
           +++ a/colorist/step_05/lib/services/gemini_chat_service.dart
           @@ -11,6 +11,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
            import 'package:riverpod_annotation/riverpod_annotation.dart';
-
+           
            import '../providers/gemini.dart';
           +import 'gemini_tools.dart';
-
+           
            part 'gemini_chat_service.g.dart';
-
-          @@ -31,6 +32,13 @@ class GeminiChatService {
-                 final responseText = response.text?.trim() ?? 'No text response received';
-                 logStateNotifier.logLlmText(responseText);
-                 chatStateNotifier.appendToMessage(llmMessage.id, responseText);
+           
+          @@ -34,6 +35,30 @@ class GeminiChatService {
+                   logStateNotifier.logLlmText(responseText);
+                   chatStateNotifier.appendToMessage(llmMessage.id, responseText);
+                 }
           +
           +      if (response.functionCalls.isNotEmpty) {
           +        final geminiTools = ref.read(geminiToolsProvider);
+          +        final results = <(String, Map<String, Object?>)>[];
           +        for (final functionCall in response.functionCalls) {
-          +          geminiTools.handleFunctionCall(functionCall.name, functionCall.args);
+          +          results.add((
+          +            functionCall.name,
+          +            geminiTools.handleFunctionCall(
+          +              functionCall.name,
+          +              functionCall.args,
+          +            ),
+          +          ));
+          +          final response = await chatSession.sendMessage(
+          +            Content.functionResponses(
+          +              results.map((result) => FunctionResponse(result.$1, result.$2)),
+          +            ),
+          +          );
+          +          final responseText = response.text;
+          +          if (responseText != null) {
+          +            logStateNotifier.logLlmText(responseText);
+          +            chatStateNotifier.appendToMessage(llmMessage.id, responseText);
+          +          }
           +        }
           +      }
                } catch (e, st) {
@@ -766,17 +786,17 @@ steps:
           --- b/colorist/step_06/lib/services/gemini_chat_service.dart
           +++ a/colorist/step_06/lib/services/gemini_chat_service.dart
           @@ -4,6 +4,7 @@
-
+           
            import 'dart:async';
-
+           
           +import 'package:colorist_ui/models/conversation_state.dart';
            import 'package:colorist_ui/providers/chat_state_notifier.dart';
            import 'package:colorist_ui/providers/log_state_notifier.dart';
            import 'package:firebase_vertexai/firebase_vertexai.dart';
-          @@ -15,29 +16,41 @@ import 'gemini_tools.dart';
-
+          @@ -15,49 +16,41 @@ import 'gemini_tools.dart';
+           
            part 'gemini_chat_service.g.dart';
-
+           
           +final conversationStateProvider = StateProvider(
           +  (ref) => ConversationState.idle,
           +);
@@ -784,13 +804,13 @@ steps:
            class GeminiChatService {
              GeminiChatService(this.ref);
              final Ref ref;
-
+           
              Future<void> sendMessage(String message) async {
                final chatSession = await ref.read(chatSessionProvider.future);
           +    final conversationState = ref.read(conversationStateProvider);
                final chatStateNotifier = ref.read(chatStateNotifierProvider.notifier);
                final logStateNotifier = ref.read(logStateNotifierProvider.notifier);
-
+           
           +    if (conversationState == ConversationState.busy) {
           +      logStateNotifier.logWarning(
           +        "Can't send a message while a conversation is in progress",
@@ -808,24 +828,44 @@ steps:
                final llmMessage = chatStateNotifier.createLlmMessage();
                try {
           -      final response = await chatSession.sendMessage(Content.text(message));
-          -      final responseText = response.text?.trim() ?? 'No text response received';
-          -      logStateNotifier.logLlmText(responseText);
-          -      chatStateNotifier.appendToMessage(llmMessage.id, responseText);
+          -
+          -      final responseText = response.text;
+          -      if (responseText != null) {
+          -        logStateNotifier.logLlmText(responseText);
+          -        chatStateNotifier.appendToMessage(llmMessage.id, responseText);
+          -      }
           -
           -      if (response.functionCalls.isNotEmpty) {
           -        final geminiTools = ref.read(geminiToolsProvider);
+          -        final results = <(String, Map<String, Object?>)>[];
           -        for (final functionCall in response.functionCalls) {
-          -          geminiTools.handleFunctionCall(functionCall.name, functionCall.args);
+          -          results.add((
+          -            functionCall.name,
+          -            geminiTools.handleFunctionCall(
+          -              functionCall.name,
+          -              functionCall.args,
+          -            ),
+          -          ));
+          -          final response = await chatSession.sendMessage(
+          -            Content.functionResponses(
+          -              results.map((result) => FunctionResponse(result.$1, result.$2)),
+          -            ),
+          -          );
+          -          final responseText = response.text;
+          -          if (responseText != null) {
+          -            logStateNotifier.logLlmText(responseText);
+          -            chatStateNotifier.appendToMessage(llmMessage.id, responseText);
+          -          }
           -        }
           +      final responseStream = chatSession.sendMessageStream(
           +        Content.text(message),
           +      );
           +      await for (final block in responseStream) {
-          +        _processBlock(block, llmMessage.id);
+          +        await _processBlock(block, llmMessage.id);
                  }
                } catch (e, st) {
                  logStateNotifier.logError(e, st: st);
-          @@ -47,6 +60,24 @@ class GeminiChatService {
+          @@ -67,6 +60,45 @@ class GeminiChatService {
                  );
                } finally {
                  chatStateNotifier.finalizeMessage(llmMessage.id);
@@ -833,19 +873,40 @@ steps:
           +    }
           +  }
           +
-          +  void _processBlock(GenerateContentResponse block, String llmMessageId) {
-          +    var blockText = block.text;
+          +  Future<void> _processBlock(
+          +    GenerateContentResponse block,
+          +    String llmMessageId,
+          +  ) async {
+          +    final chatSession = await ref.read(chatSessionProvider.future);
+          +    final chatStateNotifier = ref.read(chatStateNotifierProvider.notifier);
+          +    final logStateNotifier = ref.read(logStateNotifierProvider.notifier);
+          +    final blockText = block.text;
+          +
           +    if (blockText != null) {
-          +      final chatStateNotifier = ref.read(chatStateNotifierProvider.notifier);
-          +      final logStateNotifier = ref.read(logStateNotifierProvider.notifier);
           +      logStateNotifier.logLlmText(blockText);
           +      chatStateNotifier.appendToMessage(llmMessageId, blockText);
           +    }
           +
           +    if (block.functionCalls.isNotEmpty) {
           +      final geminiTools = ref.read(geminiToolsProvider);
+          +      final results = <(String, Map<String, Object?>)>[];
           +      for (final functionCall in block.functionCalls) {
-          +        geminiTools.handleFunctionCall(functionCall.name, functionCall.args);
+          +        results.add((
+          +          functionCall.name,
+          +          geminiTools.handleFunctionCall(functionCall.name, functionCall.args),
+          +        ));
+          +      }
+          +      final responseStream = chatSession.sendMessageStream(
+          +        Content.functionResponses(
+          +          results.map((result) => FunctionResponse(result.$1, result.$2)),
+          +        ),
+          +      );
+          +      await for (final response in responseStream) {
+          +        final responseText = response.text;
+          +        if (responseText != null) {
+          +          logStateNotifier.logLlmText(responseText);
+          +          chatStateNotifier.appendToMessage(llmMessageId, responseText);
+          +        }
           +      }
                }
              }
