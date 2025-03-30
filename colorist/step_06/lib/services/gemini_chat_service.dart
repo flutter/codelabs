@@ -50,7 +50,7 @@ class GeminiChatService {
         Content.text(message),
       );
       await for (final block in responseStream) {
-        _processBlock(block, llmMessage.id);
+        await _processBlock(block, llmMessage.id);
       }
     } catch (e, st) {
       logStateNotifier.logError(e, st: st);
@@ -64,19 +64,40 @@ class GeminiChatService {
     }
   }
 
-  void _processBlock(GenerateContentResponse block, String llmMessageId) {
-    var blockText = block.text;
+  Future<void> _processBlock(
+    GenerateContentResponse block,
+    String llmMessageId,
+  ) async {
+    final chatSession = await ref.read(chatSessionProvider.future);
+    final chatStateNotifier = ref.read(chatStateNotifierProvider.notifier);
+    final logStateNotifier = ref.read(logStateNotifierProvider.notifier);
+    final blockText = block.text;
+
     if (blockText != null) {
-      final chatStateNotifier = ref.read(chatStateNotifierProvider.notifier);
-      final logStateNotifier = ref.read(logStateNotifierProvider.notifier);
       logStateNotifier.logLlmText(blockText);
       chatStateNotifier.appendToMessage(llmMessageId, blockText);
     }
 
     if (block.functionCalls.isNotEmpty) {
       final geminiTools = ref.read(geminiToolsProvider);
+      final results = <(String, Map<String, Object?>)>[];
       for (final functionCall in block.functionCalls) {
-        geminiTools.handleFunctionCall(functionCall.name, functionCall.args);
+        results.add((
+          functionCall.name,
+          geminiTools.handleFunctionCall(functionCall.name, functionCall.args),
+        ));
+      }
+      final responseStream = chatSession.sendMessageStream(
+        Content.functionResponses(
+          results.map((result) => FunctionResponse(result.$1, result.$2)),
+        ),
+      );
+      await for (final response in responseStream) {
+        final responseText = response.text;
+        if (responseText != null) {
+          logStateNotifier.logLlmText(responseText);
+          chatStateNotifier.appendToMessage(llmMessageId, responseText);
+        }
       }
     }
   }
