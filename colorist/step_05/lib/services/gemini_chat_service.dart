@@ -29,9 +29,12 @@ class GeminiChatService {
     final llmMessage = chatStateNotifier.createLlmMessage();
     try {
       final response = await chatSession.sendMessage(Content.text(message));
-      final responseText = response.text?.trim() ?? 'No text response received';
-      logStateNotifier.logLlmText(responseText);
-      chatStateNotifier.appendToMessage(llmMessage.id, responseText);
+
+      final responseText = response.text;
+      if (responseText != null) {
+        logStateNotifier.logLlmText(responseText);
+        chatStateNotifier.appendToMessage(llmMessage.id, responseText);
+      }
 
       if (response.functionCalls.isNotEmpty) {
         final geminiTools = ref.read(geminiToolsProvider);
