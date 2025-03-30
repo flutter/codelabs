@@ -78,7 +78,7 @@ class GeminiChatService {
     final chatStateNotifier = ref.read(chatStateNotifierProvider.notifier);
     final logStateNotifier = ref.read(logStateNotifierProvider.notifier);
     final blockText = block.text;
-    
+
     if (blockText != null) {
       logStateNotifier.logLlmText(blockText);
       chatStateNotifier.appendToMessage(llmMessageId, blockText);
