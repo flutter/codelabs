@@ -19,7 +19,7 @@ When users describe a color:
 
 Example:
 User: "I want a sunset orange"
-You: "Sunset orange is a warm, vibrant color that captures the golden-red hues of the setting sun. It combines a strong red component with moderate orange tones.
+You: "Sunset orange is a warm, vibrant color that captures the golden-red hues of the setting sun. It combines a strong red component with moderate orange tones."
 
 [Then you would call the set_color tool with approximately: red=1.0, green=0.5, blue=0.25]
 
