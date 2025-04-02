@@ -6,7 +6,7 @@ part of 'system_prompt.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$systemPromptHash() => r'4068d8b52f2a51db7400670fb6e17f83fe55c253';
+String _$systemPromptHash() => r'c32e8238e9c4919fbbd5324b9d1ff0c35697183c';
 
 /// See also [systemPrompt].
 @ProviderFor(systemPrompt)
