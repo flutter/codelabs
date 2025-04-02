@@ -420,11 +420,11 @@ steps:
     steps:
       - name: Remove generated code
         rmdir: step_03
-      - name: Mkdir assets/prompts/
+      - name: Mkdir assets
         path: colorist
-        mkdir: assets/prompts/
-      - name: Add assets/prompts/system_prompt.md
-        path: colorist/assets/prompts/system_prompt.md
+        mkdir: assets
+      - name: Add assets/system_prompt.md
+        path: colorist/assets/system_prompt.md
         replace-contents: |
           # Colorist System Prompt
 
@@ -434,7 +434,7 @@ steps:
 
           You are knowledgeable about colors, color theory, and how to translate natural language descriptions into specific RGB values. When users describe a color, you should:
 
-          1. Analyze their description to understand the color they're trying to convey
+          1. Analyze their description to understand the color they are trying to convey
           2. Determine the appropriate RGB values (values should be between 0.0 and 1.0)
           3. Respond with a conversational explanation and explicitly state the RGB values
 
@@ -472,14 +472,13 @@ steps:
         patch-u: |
           --- b/colorist/step_03/pubspec.yaml
           +++ a/colorist/step_03/pubspec.yaml
-          @@ -28,3 +28,7 @@ dev_dependencies:
-          
+          @@ -28,3 +28,6 @@ dev_dependencies:
+
            flutter:
              uses-material-design: true
           +
           +  assets:
           +    - assets/
-          +    - assets/prompts/
       - name: Add lib/providers/system_prompt.dart
         path: colorist/lib/providers/system_prompt.dart
         replace-contents: |
@@ -495,7 +494,7 @@ steps:
 
           @riverpod
           Future<String> systemPrompt(Ref ref) =>
-              rootBundle.loadString('assets/prompts/system_prompt.md');
+              rootBundle.loadString('assets/system_prompt.md');
       - name: Patch lib/providers/gemini.dart
         path: colorist/lib/providers/gemini.dart
         patch-u: |
@@ -596,11 +595,11 @@ steps:
              );
              return model;
            }
-      - name: Patch assets/prompts/system_prompt.md
-        path: colorist/assets/prompts/system_prompt.md
+      - name: Patch assets/system_prompt.md
+        path: colorist/assets/system_prompt.md
         patch-u: |
-          --- a/colorist/step_04/assets/prompts/system_prompt.md
-          +++ b/colorist/step_04/assets/prompts/system_prompt.md
+          --- a/colorist/step_04/assets/system_prompt.md
+          +++ b/colorist/step_04/assets/system_prompt.md
           @@ -1,14 +1,12 @@
            # Colorist System Prompt
 
@@ -612,7 +611,7 @@ steps:
           -You are knowledgeable about colors, color theory, and how to translate natural language descriptions into specific RGB values. When users describe a color, you should:
           +You are knowledgeable about colors, color theory, and how to translate natural language descriptions into specific RGB values. You have access to the following tool:
 
-          -1. Analyze their description to understand the color they're trying to convey
+          -1. Analyze their description to understand the color they are trying to convey
           -2. Determine the appropriate RGB values (values should be between 0.0 and 1.0)
           -3. Respond with a conversational explanation and explicitly state the RGB values
           +**set_color** - Sets the RGB values for the color display based on a description
@@ -669,12 +668,12 @@ steps:
           +++ a/colorist/step_05/lib/services/gemini_chat_service.dart
           @@ -11,6 +11,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
            import 'package:riverpod_annotation/riverpod_annotation.dart';
-           
+
            import '../providers/gemini.dart';
           +import 'gemini_tools.dart';
-           
+
            part 'gemini_chat_service.g.dart';
-           
+
           @@ -34,6 +35,30 @@ class GeminiChatService {
                    logStateNotifier.logLlmText(responseText);
                    chatStateNotifier.appendToMessage(llmMessage.id, responseText);
@@ -786,17 +785,17 @@ steps:
           --- b/colorist/step_06/lib/services/gemini_chat_service.dart
           +++ a/colorist/step_06/lib/services/gemini_chat_service.dart
           @@ -4,6 +4,7 @@
-           
+
            import 'dart:async';
-           
+
           +import 'package:colorist_ui/models/conversation_state.dart';
            import 'package:colorist_ui/providers/chat_state_notifier.dart';
            import 'package:colorist_ui/providers/log_state_notifier.dart';
            import 'package:firebase_vertexai/firebase_vertexai.dart';
           @@ -15,49 +16,41 @@ import 'gemini_tools.dart';
-           
+
            part 'gemini_chat_service.g.dart';
-           
+
           +final conversationStateProvider = StateProvider(
           +  (ref) => ConversationState.idle,
           +);
@@ -804,13 +803,13 @@ steps:
            class GeminiChatService {
              GeminiChatService(this.ref);
              final Ref ref;
-           
+
              Future<void> sendMessage(String message) async {
                final chatSession = await ref.read(chatSessionProvider.future);
           +    final conversationState = ref.read(conversationStateProvider);
                final chatStateNotifier = ref.read(chatStateNotifierProvider.notifier);
                final logStateNotifier = ref.read(logStateNotifierProvider.notifier);
-           
+
           +    if (conversationState == ConversationState.busy) {
           +      logStateNotifier.logWarning(
           +        "Can't send a message while a conversation is in progress",
@@ -987,11 +986,11 @@ steps:
                          sendMessage: (text) {
                            ref.read(geminiChatServiceProvider).sendMessage(text);
                          },
-      - name: Patch assets/prompts/system_prompt.md
-        path: colorist/assets/prompts/system_prompt.md
+      - name: Patch assets/system_prompt.md
+        path: colorist/assets/system_prompt.md
         patch-u: |
-          --- b/colorist/step_07/assets/prompts/system_prompt.md
-          +++ a/colorist/step_07/assets/prompts/system_prompt.md
+          --- b/colorist/step_07/assets/system_prompt.md
+          +++ a/colorist/step_07/assets/system_prompt.md
           @@ -29,6 +29,14 @@ After the tool call: "I've set a warm orange with strong red, moderate green, an
 
            If a color description is ambiguous or unclear, please ask the user clarifying questions, one at a time.

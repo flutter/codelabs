@@ -10,4 +10,4 @@ part 'system_prompt.g.dart';
 
 @riverpod
 Future<String> systemPrompt(Ref ref) =>
-    rootBundle.loadString('assets/prompts/system_prompt.md');
+    rootBundle.loadString('assets/system_prompt.md');
