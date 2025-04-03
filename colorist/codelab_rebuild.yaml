@@ -183,33 +183,33 @@ steps:
           // Copyright 2025 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-          
+
           import 'dart:async';
-          
+
           import 'package:colorist_ui/colorist_ui.dart';
           import 'package:firebase_vertexai/firebase_vertexai.dart';
           import 'package:flutter_riverpod/flutter_riverpod.dart';
           import 'package:riverpod_annotation/riverpod_annotation.dart';
-          
+
           import '../providers/gemini.dart';
-          
+
           part 'gemini_chat_service.g.dart';
-          
+
           class GeminiChatService {
             GeminiChatService(this.ref);
             final Ref ref;
-          
+
             Future<void> sendMessage(String message) async {
               final chatSession = await ref.read(chatSessionProvider.future);
               final chatStateNotifier = ref.read(chatStateNotifierProvider.notifier);
               final logStateNotifier = ref.read(logStateNotifierProvider.notifier);
-          
+
               chatStateNotifier.addUserMessage(message);
               logStateNotifier.logUserText(message);
               final llmMessage = chatStateNotifier.createLlmMessage();
               try {
                 final response = await chatSession.sendMessage(Content.text(message));
-          
+
                 final responseText = response.text;
                 if (responseText != null) {
                   logStateNotifier.logLlmText(responseText);
@@ -226,7 +226,7 @@ steps:
               }
             }
           }
-          
+
           @riverpod
           GeminiChatService geminiChatService(Ref ref) => GeminiChatService(ref);
       - name: Run build_runner
@@ -240,7 +240,7 @@ steps:
           @@ -6,6 +6,9 @@ import 'package:colorist_ui/colorist_ui.dart';
            import 'package:flutter/material.dart';
            import 'package:flutter_riverpod/flutter_riverpod.dart';
-           
+
           +import 'providers/gemini.dart';
           +import 'services/gemini_chat_service.dart';
           +
@@ -248,7 +248,7 @@ steps:
              runApp(ProviderScope(child: MainApp()));
            }
           @@ -15,26 +18,22 @@ class MainApp extends ConsumerWidget {
-           
+
              @override
              Widget build(BuildContext context, WidgetRef ref) {
           +    final model = ref.watch(geminiModelProvider);
@@ -448,7 +448,7 @@ steps:
           --- b/colorist/step_03/pubspec.yaml
           +++ a/colorist/step_03/pubspec.yaml
           @@ -27,3 +27,6 @@ dev_dependencies:
-           
+
            flutter:
              uses-material-design: true
           +
@@ -590,7 +590,7 @@ steps:
           -1. Analyze their description to understand the color they are trying to convey
           -2. Determine the appropriate RGB values (values should be between 0.0 and 1.0)
           -3. Respond with a conversational explanation and explicitly state the RGB values
-          +**set_color** - Sets the RGB values for the color display based on a description
+          +`set_color` - Sets the RGB values for the color display based on a description
 
            ## How to Respond to User Inputs
 
@@ -646,12 +646,12 @@ steps:
           +++ a/colorist/step_05/lib/services/gemini_chat_service.dart
           @@ -10,6 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
            import 'package:riverpod_annotation/riverpod_annotation.dart';
-           
+
            import '../providers/gemini.dart';
           +import 'gemini_tools.dart';
-           
+
            part 'gemini_chat_service.g.dart';
-           
+
           @@ -33,6 +34,30 @@ class GeminiChatService {
                    logStateNotifier.logLlmText(responseText);
                    chatStateNotifier.appendToMessage(llmMessage.id, responseText);
@@ -691,7 +691,7 @@ steps:
           @@ -2,6 +2,7 @@
            // Use of this source code is governed by a BSD-style license that can be
            // found in the LICENSE file.
-           
+
           +import 'package:colorist_ui/colorist_ui.dart';
            import 'package:firebase_vertexai/firebase_vertexai.dart';
            import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -740,7 +740,7 @@ steps:
           +    };
           +  }
            }
-           
+
            @riverpod
       - name: Run build_runner
         path: colorist
@@ -763,9 +763,9 @@ steps:
           --- b/colorist/step_06/lib/services/gemini_chat_service.dart
           +++ a/colorist/step_06/lib/services/gemini_chat_service.dart
           @@ -14,49 +14,41 @@ import 'gemini_tools.dart';
-           
+
            part 'gemini_chat_service.g.dart';
-           
+
           +final conversationStateProvider = StateProvider(
           +  (ref) => ConversationState.idle,
           +);
@@ -773,13 +773,13 @@ steps:
            class GeminiChatService {
              GeminiChatService(this.ref);
              final Ref ref;
-           
+
              Future<void> sendMessage(String message) async {
                final chatSession = await ref.read(chatSessionProvider.future);
           +    final conversationState = ref.read(conversationStateProvider);
                final chatStateNotifier = ref.read(chatStateNotifierProvider.notifier);
                final logStateNotifier = ref.read(logStateNotifierProvider.notifier);
-           
+
           +    if (conversationState == ConversationState.busy) {
           +      logStateNotifier.logWarning(
           +        "Can't send a message while a conversation is in progress",
@@ -890,7 +890,7 @@ steps:
              Widget build(BuildContext context, WidgetRef ref) {
                final model = ref.watch(geminiModelProvider);
           +    final conversationState = ref.watch(conversationStateProvider);
-           
+
                return MaterialApp(
                  theme: ThemeData(
           @@ -27,6 +28,7 @@ class MainApp extends ConsumerWidget {
@@ -922,16 +922,16 @@ steps:
           +++ a/colorist/step_07/lib/services/gemini_chat_service.dart
           @@ -3,6 +3,7 @@
            // found in the LICENSE file.
-           
+
            import 'dart:async';
           +import 'dart:convert';
-           
+
            import 'package:colorist_ui/colorist_ui.dart';
            import 'package:firebase_vertexai/firebase_vertexai.dart';
           @@ -22,6 +23,10 @@ class GeminiChatService {
              GeminiChatService(this.ref);
              final Ref ref;
-           
+
           +  Future<void> notifyColorSelection(ColorData color) => sendMessage(
           +    'User selected color from history: ${json.encode(color.toLLMContextMap())}',
           +  );
