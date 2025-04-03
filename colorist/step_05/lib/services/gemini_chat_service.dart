@@ -37,25 +37,22 @@ class GeminiChatService {
 
       if (response.functionCalls.isNotEmpty) {
         final geminiTools = ref.read(geminiToolsProvider);
-        final results = <(String, Map<String, Object?>)>[];
-        for (final functionCall in response.functionCalls) {
-          results.add((
-            functionCall.name,
-            geminiTools.handleFunctionCall(
-              functionCall.name,
-              functionCall.args,
-            ),
-          ));
-          final response = await chatSession.sendMessage(
-            Content.functionResponses(
-              results.map((result) => FunctionResponse(result.$1, result.$2)),
-            ),
-          );
-          final responseText = response.text;
-          if (responseText != null) {
-            logStateNotifier.logLlmText(responseText);
-            chatStateNotifier.appendToMessage(llmMessage.id, responseText);
-          }
+        final functionResultResponse = await chatSession.sendMessage(
+          Content.functionResponses([
+            for (final functionCall in response.functionCalls)
+              FunctionResponse(
+                functionCall.name,
+                geminiTools.handleFunctionCall(
+                  functionCall.name,
+                  functionCall.args,
+                ),
+              ),
+          ]),
+        );
+        final responseText = functionResultResponse.text;
+        if (responseText != null) {
+          logStateNotifier.logLlmText(responseText);
+          chatStateNotifier.appendToMessage(llmMessage.id, responseText);
         }
       }
     } catch (e, st) {
