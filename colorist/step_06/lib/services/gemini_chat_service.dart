@@ -78,17 +78,17 @@ class GeminiChatService {
 
     if (block.functionCalls.isNotEmpty) {
       final geminiTools = ref.read(geminiToolsProvider);
-      final results = <(String, Map<String, Object?>)>[];
-      for (final functionCall in block.functionCalls) {
-        results.add((
-          functionCall.name,
-          geminiTools.handleFunctionCall(functionCall.name, functionCall.args),
-        ));
-      }
       final responseStream = chatSession.sendMessageStream(
-        Content.functionResponses(
-          results.map((result) => FunctionResponse(result.$1, result.$2)),
-        ),
+        Content.functionResponses([
+          for (final functionCall in block.functionCalls)
+            FunctionResponse(
+              functionCall.name,
+              geminiTools.handleFunctionCall(
+                functionCall.name,
+                functionCall.args,
+              ),
+            ),
+        ]),
       );
       await for (final response in responseStream) {
         final responseText = response.text;
