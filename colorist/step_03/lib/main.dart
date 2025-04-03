@@ -2,28 +2,14 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'package:colorist_ui/ui/screens/error_screen.dart';
-import 'package:colorist_ui/ui/screens/loading_screen.dart';
-import 'package:colorist_ui/ui/screens/main_screen.dart';
-import 'package:flutter/foundation.dart';
+import 'package:colorist_ui/colorist_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:logging/logging.dart';
 
 import 'providers/gemini.dart';
 import 'services/gemini_chat_service.dart';
 
 void main() async {
-  Logger.root.level = Level.ALL;
-  Logger.root.onRecord.listen((record) {
-    if (kDebugMode) {
-      print(
-        '${record.loggerName}: ${record.level.name}: '
-        '${record.time}: ${record.message}',
-      );
-    }
-  });
-
   runApp(ProviderScope(child: MainApp()));
 }
 

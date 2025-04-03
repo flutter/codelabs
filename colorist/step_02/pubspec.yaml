@@ -9,9 +9,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  colorist_ui: ^0.0.6
+  colorist_ui: ^0.1.0
   flutter_riverpod: ^2.6.1
-  logging: ^1.3.0
   riverpod_annotation: ^2.6.1
   firebase_core: ^3.13.0
   firebase_vertexai: ^1.5.0

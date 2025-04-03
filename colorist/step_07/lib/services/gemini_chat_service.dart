@@ -5,8 +5,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:colorist_ui/models/models.dart';
-import 'package:colorist_ui/providers/providers.dart';
+import 'package:colorist_ui/colorist_ui.dart';
 import 'package:firebase_vertexai/firebase_vertexai.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -76,6 +75,7 @@ class GeminiChatService {
     final chatStateNotifier = ref.read(chatStateNotifierProvider.notifier);
     final logStateNotifier = ref.read(logStateNotifierProvider.notifier);
     final blockText = block.text;
+
     if (blockText != null) {
       logStateNotifier.logLlmText(blockText);
       chatStateNotifier.appendToMessage(llmMessageId, blockText);

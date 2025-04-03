@@ -8,7 +8,7 @@ steps:
         flutter: create -e colorist --platforms=android,ios,macos,web,windows
       - name: Add dependencies
         path: colorist
-        flutter: pub add colorist_ui flutter_riverpod logging riverpod_annotation dev:build_runner dev:riverpod_generator dev:riverpod_lint dev:json_serializable dev:custom_lint
+        flutter: pub add colorist_ui flutter_riverpod riverpod_annotation dev:build_runner dev:riverpod_generator dev:riverpod_lint dev:json_serializable dev:custom_lint
       - name: Strip DEVELOPMENT_TEAM
         strip-lines-containing: DEVELOPMENT_TEAM =
         path: colorist/ios/Runner.xcodeproj/project.pbxproj
@@ -50,26 +50,11 @@ steps:
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
 
-          import 'package:colorist_ui/models/message.dart';
-          import 'package:colorist_ui/providers/chat_state_notifier.dart';
-          import 'package:colorist_ui/providers/log_state_notifier.dart';
-          import 'package:colorist_ui/ui/screens/main_screen.dart';
-          import 'package:flutter/foundation.dart';
+          import 'package:colorist_ui/colorist_ui.dart';
           import 'package:flutter/material.dart';
           import 'package:flutter_riverpod/flutter_riverpod.dart';
-          import 'package:logging/logging.dart';
 
           void main() async {
-            Logger.root.level = Level.ALL;
-            Logger.root.onRecord.listen((record) {
-              if (kDebugMode) {
-                print(
-                  '${record.loggerName}: ${record.level.name}: '
-                  '${record.time}: ${record.message}',
-                );
-              }
-            });
-
             runApp(ProviderScope(child: MainApp()));
           }
 
@@ -126,6 +111,7 @@ steps:
       - name: Flutter clean
         path: step_01
         flutter: clean
+
   - name: step_02
     steps:
       - name: Remove generated code
@@ -197,34 +183,33 @@ steps:
           // Copyright 2025 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-
+          
           import 'dart:async';
-
-          import 'package:colorist_ui/providers/chat_state_notifier.dart';
-          import 'package:colorist_ui/providers/log_state_notifier.dart';
+          
+          import 'package:colorist_ui/colorist_ui.dart';
           import 'package:firebase_vertexai/firebase_vertexai.dart';
           import 'package:flutter_riverpod/flutter_riverpod.dart';
           import 'package:riverpod_annotation/riverpod_annotation.dart';
-
+          
           import '../providers/gemini.dart';
-
+          
           part 'gemini_chat_service.g.dart';
-
+          
           class GeminiChatService {
             GeminiChatService(this.ref);
             final Ref ref;
-
+          
             Future<void> sendMessage(String message) async {
               final chatSession = await ref.read(chatSessionProvider.future);
               final chatStateNotifier = ref.read(chatStateNotifierProvider.notifier);
               final logStateNotifier = ref.read(logStateNotifierProvider.notifier);
-
+          
               chatStateNotifier.addUserMessage(message);
               logStateNotifier.logUserText(message);
               final llmMessage = chatStateNotifier.createLlmMessage();
               try {
                 final response = await chatSession.sendMessage(Content.text(message));
-
+          
                 final responseText = response.text;
                 if (responseText != null) {
                   logStateNotifier.logLlmText(responseText);
@@ -241,7 +226,7 @@ steps:
               }
             }
           }
-
+          
           @riverpod
           GeminiChatService geminiChatService(Ref ref) => GeminiChatService(ref);
       - name: Run build_runner
@@ -252,29 +237,18 @@ steps:
         patch-u: |
           --- b/colorist/step_02/lib/main.dart
           +++ a/colorist/step_02/lib/main.dart
-          @@ -2,15 +2,17 @@
-           // Use of this source code is governed by a BSD-style license that can be
-           // found in the LICENSE file.
-
-          -import 'package:colorist_ui/models/message.dart';
-          -import 'package:colorist_ui/providers/chat_state_notifier.dart';
-          -import 'package:colorist_ui/providers/log_state_notifier.dart';
-          +import 'package:colorist_ui/ui/screens/error_screen.dart';
-          +import 'package:colorist_ui/ui/screens/loading_screen.dart';
-           import 'package:colorist_ui/ui/screens/main_screen.dart';
-           import 'package:flutter/foundation.dart';
+          @@ -6,6 +6,9 @@ import 'package:colorist_ui/colorist_ui.dart';
            import 'package:flutter/material.dart';
            import 'package:flutter_riverpod/flutter_riverpod.dart';
-           import 'package:logging/logging.dart';
-
+           
           +import 'providers/gemini.dart';
           +import 'services/gemini_chat_service.dart';
           +
            void main() async {
-             Logger.root.level = Level.ALL;
-             Logger.root.onRecord.listen((record) {
-          @@ -30,26 +32,22 @@ class MainApp extends ConsumerWidget {
-
+             runApp(ProviderScope(child: MainApp()));
+           }
+          @@ -15,26 +18,22 @@ class MainApp extends ConsumerWidget {
+           
              @override
              Widget build(BuildContext context, WidgetRef ref) {
           +    final model = ref.watch(geminiModelProvider);
@@ -416,6 +390,7 @@ steps:
       - name: Flutter clean
         path: step_02
         flutter: clean
+
   - name: step_03
     steps:
       - name: Remove generated code
@@ -472,8 +447,8 @@ steps:
         patch-u: |
           --- b/colorist/step_03/pubspec.yaml
           +++ a/colorist/step_03/pubspec.yaml
-          @@ -28,3 +28,6 @@ dev_dependencies:
-
+          @@ -27,3 +27,6 @@ dev_dependencies:
+           
            flutter:
              uses-material-design: true
           +
@@ -530,6 +505,7 @@ steps:
       - name: Flutter clean
         path: step_03
         flutter: clean
+
   - name: step_04
     steps:
       - name: Remove generated code
@@ -602,47 +578,47 @@ steps:
           +++ a/colorist/step_04/assets/system_prompt.md
           @@ -1,14 +1,12 @@
            # Colorist System Prompt
-          
+
           -You are a color expert assistant integrated into a desktop app called Colorist. Your job is to interpret natural language color descriptions and provide the appropriate RGB values that best represent that description.
           +You are a color expert assistant integrated into a desktop app called Colorist. Your job is to interpret natural language color descriptions and set the appropriate color values using a specialized tool.
-          
+
            ## Your Capabilities
-          
+
           -You are knowledgeable about colors, color theory, and how to translate natural language descriptions into specific RGB values. When users describe a color, you should:
           +You are knowledgeable about colors, color theory, and how to translate natural language descriptions into specific RGB values. You have access to the following tool:
-          
+
           -1. Analyze their description to understand the color they are trying to convey
           -2. Determine the appropriate RGB values (values should be between 0.0 and 1.0)
           -3. Respond with a conversational explanation and explicitly state the RGB values
           +**set_color** - Sets the RGB values for the color display based on a description
-          
+
            ## How to Respond to User Inputs
-          
+
           @@ -16,16 +14,16 @@ When users describe a color:
-          
+
            1. First, acknowledge their color description with a brief, friendly response
            2. Interpret what RGB values would best represent that color description
           -3. Always include the RGB values clearly in your response, formatted as: `RGB: (red=X.X, green=X.X, blue=X.X)`
           -4. Provide a brief explanation of your interpretation
           +3. Use the `set_color` tool to set those values (all values should be between 0.0 and 1.0)
           +4. After setting the color, provide a brief explanation of your interpretation
-          
+
            Example:
            User: "I want a sunset orange"
           -You: "Sunset orange is a warm, vibrant color that captures the golden-red hues of the setting sun. It combines a strong red component with moderate orange tones.
           +You: "Sunset orange is a warm, vibrant color that captures the golden-red hues of the setting sun. It combines a strong red component with moderate orange tones."
-          
+
           -RGB: (red=1.0, green=0.5, blue=0.25)
           +[Then you would call the set_color tool with approximately: red=1.0, green=0.5, blue=0.25]
-          
+
           -I've selected values with high red, moderate green, and low blue to capture that beautiful sunset glow. This creates a warm orange with a slightly reddish tint, reminiscent of the sun low on the horizon."
           +After the tool call: "I've set a warm orange with strong red, moderate green, and minimal blue components that is reminiscent of the sun low on the horizon."
-          
+
            ## When Descriptions are Unclear
-          
+
           @@ -34,7 +32,6 @@ If a color description is ambiguous or unclear, please ask the user clarifying q
            ## Important Guidelines
-          
+
            - Always keep RGB values between 0.0 and 1.0
           -- Always format RGB values as: `RGB: (red=X.X, green=X.X, blue=X.X)` for easy parsing
            - Provide thoughtful, knowledgeable responses about colors
@@ -658,6 +634,7 @@ steps:
       - name: Flutter clean
         path: step_04
         flutter: clean
+
   - name: step_05
     steps:
       - name: Remove generated code
@@ -667,15 +644,15 @@ steps:
         patch-u: |
           --- b/colorist/step_05/lib/services/gemini_chat_service.dart
           +++ a/colorist/step_05/lib/services/gemini_chat_service.dart
-          @@ -11,6 +11,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
+          @@ -10,6 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
            import 'package:riverpod_annotation/riverpod_annotation.dart';
-
+           
            import '../providers/gemini.dart';
           +import 'gemini_tools.dart';
-
+           
            part 'gemini_chat_service.g.dart';
-
-          @@ -34,6 +35,30 @@ class GeminiChatService {
+           
+          @@ -33,6 +34,30 @@ class GeminiChatService {
                    logStateNotifier.logLlmText(responseText);
                    chatStateNotifier.appendToMessage(llmMessage.id, responseText);
                  }
@@ -711,16 +688,15 @@ steps:
         patch-u: |
           --- b/colorist/step_05/lib/services/gemini_tools.dart
           +++ a/colorist/step_05/lib/services/gemini_tools.dart
-          @@ -2,6 +2,8 @@
+          @@ -2,6 +2,7 @@
            // Use of this source code is governed by a BSD-style license that can be
            // found in the LICENSE file.
-
-          +import 'package:colorist_ui/providers/color_state_notifier.dart';
-          +import 'package:colorist_ui/providers/log_state_notifier.dart';
+           
+          +import 'package:colorist_ui/colorist_ui.dart';
            import 'package:firebase_vertexai/firebase_vertexai.dart';
            import 'package:flutter_riverpod/flutter_riverpod.dart';
            import 'package:riverpod_annotation/riverpod_annotation.dart';
-          @@ -26,6 +28,45 @@ class GeminiTools {
+          @@ -26,6 +27,45 @@ class GeminiTools {
              List<Tool> get tools => [
                Tool.functionDeclarations([setColorFuncDecl]),
              ];
@@ -764,7 +740,7 @@ steps:
           +    };
           +  }
            }
-
+           
            @riverpod
       - name: Run build_runner
         path: colorist
@@ -776,6 +752,7 @@ steps:
       - name: Flutter clean
         path: step_05
         flutter: clean
+
   - name: step_06
     steps:
       - name: Remove generated code
@@ -785,18 +762,10 @@ steps:
         patch-u: |
           --- b/colorist/step_06/lib/services/gemini_chat_service.dart
           +++ a/colorist/step_06/lib/services/gemini_chat_service.dart
-          @@ -4,6 +4,7 @@
-
-           import 'dart:async';
-
-          +import 'package:colorist_ui/models/conversation_state.dart';
-           import 'package:colorist_ui/providers/chat_state_notifier.dart';
-           import 'package:colorist_ui/providers/log_state_notifier.dart';
-           import 'package:firebase_vertexai/firebase_vertexai.dart';
-          @@ -15,49 +16,41 @@ import 'gemini_tools.dart';
-
+          @@ -14,49 +14,41 @@ import 'gemini_tools.dart';
+           
            part 'gemini_chat_service.g.dart';
-
+           
           +final conversationStateProvider = StateProvider(
           +  (ref) => ConversationState.idle,
           +);
@@ -804,13 +773,13 @@ steps:
            class GeminiChatService {
              GeminiChatService(this.ref);
              final Ref ref;
-
+           
              Future<void> sendMessage(String message) async {
                final chatSession = await ref.read(chatSessionProvider.future);
           +    final conversationState = ref.read(conversationStateProvider);
                final chatStateNotifier = ref.read(chatStateNotifierProvider.notifier);
                final logStateNotifier = ref.read(logStateNotifierProvider.notifier);
-
+           
           +    if (conversationState == ConversationState.busy) {
           +      logStateNotifier.logWarning(
           +        "Can't send a message while a conversation is in progress",
@@ -865,7 +834,7 @@ steps:
                  }
                } catch (e, st) {
                  logStateNotifier.logError(e, st: st);
-          @@ -67,6 +60,45 @@ class GeminiChatService {
+          @@ -66,6 +58,45 @@ class GeminiChatService {
                  );
                } finally {
                  chatStateNotifier.finalizeMessage(llmMessage.id);
@@ -916,15 +885,15 @@ steps:
         patch-u: |
           --- b/colorist/step_06/lib/main.dart
           +++ a/colorist/step_06/lib/main.dart
-          @@ -33,6 +33,7 @@ class MainApp extends ConsumerWidget {
+          @@ -19,6 +19,7 @@ class MainApp extends ConsumerWidget {
              @override
              Widget build(BuildContext context, WidgetRef ref) {
                final model = ref.watch(geminiModelProvider);
           +    final conversationState = ref.watch(conversationStateProvider);
-
+           
                return MaterialApp(
                  theme: ThemeData(
-          @@ -41,6 +42,7 @@ class MainApp extends ConsumerWidget {
+          @@ -27,6 +28,7 @@ class MainApp extends ConsumerWidget {
                  home: model.when(
                    data:
                        (data) => MainScreen(
@@ -951,20 +920,18 @@ steps:
         patch-u: |
           --- b/colorist/step_07/lib/services/gemini_chat_service.dart
           +++ a/colorist/step_07/lib/services/gemini_chat_service.dart
-          @@ -3,7 +3,9 @@
+          @@ -3,6 +3,7 @@
            // found in the LICENSE file.
-
+           
            import 'dart:async';
           +import 'dart:convert';
-
-          +import 'package:colorist_ui/models/color_data.dart';
-           import 'package:colorist_ui/models/conversation_state.dart';
-           import 'package:colorist_ui/providers/chat_state_notifier.dart';
-           import 'package:colorist_ui/providers/log_state_notifier.dart';
-          @@ -24,6 +26,10 @@ class GeminiChatService {
+           
+           import 'package:colorist_ui/colorist_ui.dart';
+           import 'package:firebase_vertexai/firebase_vertexai.dart';
+          @@ -22,6 +23,10 @@ class GeminiChatService {
              GeminiChatService(this.ref);
              final Ref ref;
-
+           
           +  Future<void> notifyColorSelection(ColorData color) => sendMessage(
           +    'User selected color from history: ${json.encode(color.toLLMContextMap())}',
           +  );
@@ -977,7 +944,7 @@ steps:
         patch-u: |
           --- b/colorist/step_07/lib/main.dart
           +++ a/colorist/step_07/lib/main.dart
-          @@ -43,6 +43,9 @@ class MainApp extends ConsumerWidget {
+          @@ -29,6 +29,9 @@ class MainApp extends ConsumerWidget {
                    data:
                        (data) => MainScreen(
                          conversationState: conversationState,
