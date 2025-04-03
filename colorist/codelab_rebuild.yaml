@@ -651,33 +651,30 @@ steps:
           +import 'gemini_tools.dart';
 
            part 'gemini_chat_service.g.dart';
-
-          @@ -33,6 +34,30 @@ class GeminiChatService {
+           
+          @@ -33,6 +34,27 @@ class GeminiChatService {
                    logStateNotifier.logLlmText(responseText);
                    chatStateNotifier.appendToMessage(llmMessage.id, responseText);
                  }
           +
           +      if (response.functionCalls.isNotEmpty) {
           +        final geminiTools = ref.read(geminiToolsProvider);
-          +        final results = <(String, Map<String, Object?>)>[];
-          +        for (final functionCall in response.functionCalls) {
-          +          results.add((
-          +            functionCall.name,
-          +            geminiTools.handleFunctionCall(
-          +              functionCall.name,
-          +              functionCall.args,
-          +            ),
-          +          ));
-          +          final response = await chatSession.sendMessage(
-          +            Content.functionResponses(
-          +              results.map((result) => FunctionResponse(result.$1, result.$2)),
-          +            ),
-          +          );
-          +          final responseText = response.text;
-          +          if (responseText != null) {
-          +            logStateNotifier.logLlmText(responseText);
-          +            chatStateNotifier.appendToMessage(llmMessage.id, responseText);
-          +          }
+          +        final functionResultResponse = await chatSession.sendMessage(
+          +          Content.functionResponses([
+          +            for (final functionCall in response.functionCalls)
+          +              FunctionResponse(
+          +                functionCall.name,
+          +                geminiTools.handleFunctionCall(
+          +                  functionCall.name,
+          +                  functionCall.args,
+          +                ),
+          +              ),
+          +          ]),
+          +        );
+          +        final responseText = functionResultResponse.text;
+          +        if (responseText != null) {
+          +          logStateNotifier.logLlmText(responseText);
+          +          chatStateNotifier.appendToMessage(llmMessage.id, responseText);
           +        }
           +      }
                } catch (e, st) {
@@ -762,8 +759,8 @@ steps:
         patch-u: |
           --- b/colorist/step_06/lib/services/gemini_chat_service.dart
           +++ a/colorist/step_06/lib/services/gemini_chat_service.dart
-          @@ -14,49 +14,41 @@ import 'gemini_tools.dart';
-
+          @@ -14,46 +14,41 @@ import 'gemini_tools.dart';
+           
            part 'gemini_chat_service.g.dart';
 
           +final conversationStateProvider = StateProvider(
@@ -806,25 +803,22 @@ steps:
           -
           -      if (response.functionCalls.isNotEmpty) {
           -        final geminiTools = ref.read(geminiToolsProvider);
-          -        final results = <(String, Map<String, Object?>)>[];
-          -        for (final functionCall in response.functionCalls) {
-          -          results.add((
-          -            functionCall.name,
-          -            geminiTools.handleFunctionCall(
-          -              functionCall.name,
-          -              functionCall.args,
-          -            ),
-          -          ));
-          -          final response = await chatSession.sendMessage(
-          -            Content.functionResponses(
-          -              results.map((result) => FunctionResponse(result.$1, result.$2)),
-          -            ),
-          -          );
-          -          final responseText = response.text;
-          -          if (responseText != null) {
-          -            logStateNotifier.logLlmText(responseText);
-          -            chatStateNotifier.appendToMessage(llmMessage.id, responseText);
-          -          }
+          -        final functionResultResponse = await chatSession.sendMessage(
+          -          Content.functionResponses([
+          -            for (final functionCall in response.functionCalls)
+          -              FunctionResponse(
+          -                functionCall.name,
+          -                geminiTools.handleFunctionCall(
+          -                  functionCall.name,
+          -                  functionCall.args,
+          -                ),
+          -              ),
+          -          ]),
+          -        );
+          -        final responseText = functionResultResponse.text;
+          -        if (responseText != null) {
+          -          logStateNotifier.logLlmText(responseText);
+          -          chatStateNotifier.appendToMessage(llmMessage.id, responseText);
           -        }
           +      final responseStream = chatSession.sendMessageStream(
           +        Content.text(message),
@@ -834,7 +828,7 @@ steps:
                  }
                } catch (e, st) {
                  logStateNotifier.logError(e, st: st);
-          @@ -66,6 +58,45 @@ class GeminiChatService {
+          @@ -63,6 +58,45 @@ class GeminiChatService {
                  );
                } finally {
                  chatStateNotifier.finalizeMessage(llmMessage.id);
@@ -858,17 +852,17 @@ steps:
           +
           +    if (block.functionCalls.isNotEmpty) {
           +      final geminiTools = ref.read(geminiToolsProvider);
-          +      final results = <(String, Map<String, Object?>)>[];
-          +      for (final functionCall in block.functionCalls) {
-          +        results.add((
-          +          functionCall.name,
-          +          geminiTools.handleFunctionCall(functionCall.name, functionCall.args),
-          +        ));
-          +      }
           +      final responseStream = chatSession.sendMessageStream(
-          +        Content.functionResponses(
-          +          results.map((result) => FunctionResponse(result.$1, result.$2)),
-          +        ),
+          +        Content.functionResponses([
+          +          for (final functionCall in block.functionCalls)
+          +            FunctionResponse(
+          +              functionCall.name,
+          +              geminiTools.handleFunctionCall(
+          +                functionCall.name,
+          +                functionCall.args,
+          +              ),
+          +            ),
+          +        ]),
           +      );
           +      await for (final response in responseStream) {
           +        final responseText = response.text;
