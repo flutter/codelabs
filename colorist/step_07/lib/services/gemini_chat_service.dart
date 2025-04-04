@@ -59,7 +59,8 @@ class GeminiChatService {
       logStateNotifier.logError(e, st: st);
       chatStateNotifier.appendToMessage(
         llmMessage.id,
-        "\nI'm sorry, I encountered an error processing your request. Please try again.",
+        "\nI'm sorry, I encountered an error processing your request. "
+        "Please try again.",
       );
     } finally {
       chatStateNotifier.finalizeMessage(llmMessage.id);

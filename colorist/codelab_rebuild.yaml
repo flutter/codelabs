@@ -20,6 +20,10 @@ steps:
           analyzer:
             plugins:
               - custom_lint
+
+          linter:
+            rules:
+              prefer_single_quotes: false
       - name: dart fix
         path: colorist
         dart: fix --apply
@@ -219,7 +223,8 @@ steps:
                 logStateNotifier.logError(e, st: st);
                 chatStateNotifier.appendToMessage(
                   llmMessage.id,
-                  "\nI'm sorry, I encountered an error processing your request. Please try again.",
+                  "\nI'm sorry, I encountered an error processing your request. "
+                  "Please try again.",
                 );
               } finally {
                 chatStateNotifier.finalizeMessage(llmMessage.id);
@@ -651,7 +656,7 @@ steps:
           +import 'gemini_tools.dart';
 
            part 'gemini_chat_service.g.dart';
-           
+
           @@ -33,6 +34,27 @@ class GeminiChatService {
                    logStateNotifier.logLlmText(responseText);
                    chatStateNotifier.appendToMessage(llmMessage.id, responseText);
@@ -760,7 +765,7 @@ steps:
           --- b/colorist/step_06/lib/services/gemini_chat_service.dart
           +++ a/colorist/step_06/lib/services/gemini_chat_service.dart
           @@ -14,46 +14,41 @@ import 'gemini_tools.dart';
-           
+
            part 'gemini_chat_service.g.dart';
 
           +final conversationStateProvider = StateProvider(
