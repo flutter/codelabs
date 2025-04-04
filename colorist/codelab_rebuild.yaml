@@ -765,9 +765,9 @@ steps:
           --- b/colorist/step_06/lib/services/gemini_chat_service.dart
           +++ a/colorist/step_06/lib/services/gemini_chat_service.dart
           @@ -14,46 +14,41 @@ import 'gemini_tools.dart';
-
+           
            part 'gemini_chat_service.g.dart';
-
+           
           +final conversationStateProvider = StateProvider(
           +  (ref) => ConversationState.idle,
           +);
@@ -775,13 +775,13 @@ steps:
            class GeminiChatService {
              GeminiChatService(this.ref);
              final Ref ref;
-
+           
              Future<void> sendMessage(String message) async {
                final chatSession = await ref.read(chatSessionProvider.future);
           +    final conversationState = ref.read(conversationStateProvider);
                final chatStateNotifier = ref.read(chatStateNotifierProvider.notifier);
                final logStateNotifier = ref.read(logStateNotifierProvider.notifier);
-
+           
           +    if (conversationState == ConversationState.busy) {
           +      logStateNotifier.logWarning(
           +        "Can't send a message while a conversation is in progress",
@@ -833,7 +833,7 @@ steps:
                  }
                } catch (e, st) {
                  logStateNotifier.logError(e, st: st);
-          @@ -63,6 +58,45 @@ class GeminiChatService {
+          @@ -64,6 +59,45 @@ class GeminiChatService {
                  );
                } finally {
                  chatStateNotifier.finalizeMessage(llmMessage.id);
