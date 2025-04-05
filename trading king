@@ -1,0 +1,54 @@
+import 'package:flutter/material.dart';
+
+class HomeScreen extends StatelessWidget {
+  final String username = "hareshtrader";
+  final double balance = 100000;
+  final Map<String, Map<String, dynamic>> portfolio = {
+    "RELIANCE": {"quantity": 5, "avgPrice": 2400},
+    "TCS": {"quantity": 3, "avgPrice": 3400},
+    "INFY": {"quantity": 10, "avgPrice": 1300},
+  };
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Trading Game"),
+        centerTitle: true,
+        backgroundColor: Colors.deepPurple,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("Welcome, $username 👋", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+            SizedBox(height: 10),
+            Text("Balance: ₹${balance.toStringAsFixed(2)}", style: TextStyle(fontSize: 18)),
+            SizedBox(height: 20),
+            Text("📊 Your Portfolio", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            SizedBox(height: 10),
+            Expanded(
+              child: ListView.builder(
+                itemCount: portfolio.length,
+                itemBuilder: (context, index) {
+                  String stock = portfolio.keys.elementAt(index);
+                  var data = portfolio[stock]!;
+                  return Card(
+                    elevation: 3,
+                    margin: EdgeInsets.symmetric(vertical: 6),
+                    child: ListTile(
+                      title: Text(stock),
+                      subtitle: Text("Quantity: ${data['quantity']} | Avg. Price: ₹${data['avgPrice']}"),
+                      leading: Icon(Icons.trending_up, color: Colors.green),
+                    ),
+                  );
+                },
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
