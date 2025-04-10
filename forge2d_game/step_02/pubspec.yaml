@@ -4,15 +4,15 @@ publish_to: 'none'
 version: 0.1.0
 
 environment:
-  sdk: ^3.7.0-0
+  sdk: ^3.8.0-0
 
 dependencies:
   flutter:
     sdk: flutter
   characters: ^1.4.0
-  flame: ^1.24.0
-  flame_forge2d: ^0.18.2+5
-  flame_kenney_xml: ^0.1.1+5
+  flame: ^1.25.0
+  flame_forge2d: ^0.18.2+6
+  flame_kenney_xml: ^0.1.1+6
   xml: ^6.5.0
 
 dev_dependencies:
