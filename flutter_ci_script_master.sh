@@ -17,7 +17,8 @@ declare -a CODELABS=(
   "colorist"
   "dart-patterns-and-records"
   "deeplink_cookbook"
-  "ffigen_codelab"
+  # TODO(DomesticMouse): So, because _macros from sdk doesn't exist (could not find package _macros in the Dart SDK) and ffigen_app depends on ffigen ^16.1.0, version solving failed.
+  # "ffigen_codelab"
   "firebase-auth-flutterfire-ui"
   "firebase-emulator-suite"
   "firebase-get-to-know-flutter"
