@@ -3,7 +3,7 @@ import SwiftUI
 
 struct Provider: TimelineProvider {
     func placeholder(in context: Context) -> NewsArticleEntry {
-      NewsArticleEntry(date: Date(), title: "Placholder Title", description: "Placholder description", filename: "No screenshot available",  displaySize: context.displaySize)
+      NewsArticleEntry(date: Date(), title: "Placeholder Title", description: "Placeholder description", filename: "No screenshot available",  displaySize: context.displaySize)
     }
 
     func getSnapshot(in context: Context, completion: @escaping (NewsArticleEntry) -> ()) {
@@ -92,5 +92,4 @@ struct NewsWidgets: Widget {
         .description("This is an example widget.")
     }
 }
-
 
