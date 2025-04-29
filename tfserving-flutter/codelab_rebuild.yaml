@@ -17,12 +17,645 @@ steps:
 
           analyzer:
             exclude: [lib/proto/generated/**]
+            errors:
+              unused_import: ignore
+              unused_field: ignore
 
           linter:
             rules:
       - name: Add dependencies
         path: codelab2/tfserving_flutter
         flutter: pub add http protobuf grpc fixnum
+      - name: Patch pubspec.yaml
+        path: codelab2/tfserving_flutter/pubspec.yaml
+        patch-u: |
+          --- b/tfserving-flutter/codelab2/starter/pubspec.yaml
+          +++ a/tfserving-flutter/codelab2/starter/pubspec.yaml
+          @@ -61,10 +61,8 @@ flutter:
+             # the material Icons class.
+             uses-material-design: true
+           
+          -  # To add assets to your application, add an assets section, like this:
+          -  # assets:
+          -  #   - images/a_dot_burr.jpeg
+          -  #   - images/a_dot_ham.jpeg
+          +  assets:
+          +    - assets/vocab.txt  
+           
+             # An image asset can refer to one or more resolution-specific "variants", see
+             # https://flutter.dev/to/resolution-aware-images
+      - name: Mkdir assets
+        path: codelab2/tfserving_flutter
+        mkdir: assets
+      - name: Add assets/vocab.txt
+        path: codelab2/tfserving_flutter/assets/vocab.txt
+        base64-contents: |
+          PFBBRD4gMAo8U1RBUlQ+IDEKPFVOS05PV04+IDIKd2Vic2l0ZXMgMwo1MCA0CjMwIDUKY29tIDYKaSA3
+          Cm5ldCA4CmluZm8gOQpuYW1lIDEwCmFzaWEgMTEKaW50ZXJuYXRpb25hbCAxMgpiaXogMTMKem9uZSAx
+          NAp0ZWwgMTUKbW9iaSAxNgpodHRwcyAxNwpodHRwIDE4CmJsb2dzcG90IDE5CjgwIDIwCnd3dyAyMQpv
+          cmcgMjIKY2FuIDIzCm5vdCAyNAp3aWxsIDI1Cmxpa2UgMjYKYmxvZyAyNwptYmV0ODh2biAyOAprbm93
+          IDI5CnNpdGUgMzAKeG4gMzEKZ2V0IDMyCmNvdW50cmllcyAzMwoxMDAgMzQKb25lIDM1CnJlYWxseSAz
+          Ngpnb29kIDM3Cmp1c3QgMzgKd2Vic2l0ZSAzOQpncmVhdCA0MApkb250IDQxCnBvc3QgNDIKeW91IDQz
+          CmFsbCA0NAp3cml0aW5nIDQ1CnBocHVybGh0dHAgNDYKcnUgNDcKd2ViIDQ4CnRpbWUgNDkKc2l0ZXMg
+          NTAKaW0gNTEKMjAwIDUyCnRoaW5rIDUzCnBlb3BsZSA1NAp1cyA1NQppbmZvcm1hdGlvbiA1NgoxNTAg
+          NTcKbWFrZSA1OApuZXcgNTkKd29ybGQgNjAKbmljZSA2MQpubyA2Mgp3YXkgNjMKaXZlIDY0CmJhY2sg
+          NjUKZmlyc3QgNjYKbm93IDY3CndhbnQgNjgKdGhhbmsgNjkKZ28gNzAKYmVzdCA3MQp0aGlzIDcyCnRv
+          cGljIDczCmdhbWVzIDc0CnRoYW5rcyA3NQptYW55IDc2Cm1pZ2h0IDc3CndvcmsgNzgKYWxzbyA3OQpt
+          dWNoIDgwCnNheSA4MQpsb3QgODIKbG9vayA4Mwplc3NheSA4NAphcnRpY2xlIDg1Cm9mZiA4Ngpnb2lu
+          ZyA4Nwp0aGUgODgKbGl0dGxlIDg5CnJpZ2h0IDkwCnNvbWV0aGluZyA5MQpydXNzaWFuIDkyCm5lZWQg
+          OTMKd3JpdGUgOTQKc3VyZSA5NQp0aGluZ3MgOTYKbG9va2luZyA5NwoyNTAgOTgKcmVhZCA5OQp0aGlu
+          ZyAxMDAKaW4gMTAxCm9ubGluZSAxMDIKbGV0IDEwMwpzZWUgMTA0CmRhdGFiYXNlcyAxMDUKeWVzIDEw
+          NgpwbGVhc2UgMTA3CnJlZGlyZWN0IDEwOAp0IDEwOQphY3R1YWxseSAxMTAKZXZlcnkgMTExCmZpbmQg
+          MTEyCnBvc3RzIDExMwpwYWdlIDExNApkb21haW4gMTE1CnNwYWNlIDExNgpjaGVjayAxMTcKdGFnIDEx
+          OApjb21lIDExOQprZWVwIDEyMAphcm91bmQgMTIxCnBsYWNlIDEyMgpzY2hvb2wgMTIzCmRlZmluaXRl
+          bHkgMTI0CmFsdGVybmF0aWYxODhiZXQgMTI1CnF1YWxpdHkgMTI2CnN0dWZmIDEyNwozMDAgMTI4CmFt
+          ZXJpY2EgMTI5CmtlbyAxMzAKbmhhIDEzMQpjYWkgMTMyCmhlbGxvIDEzMwpkYXkgMTM0CmNvbnRlbnQg
+          MTM1Cm1heSAxMzYKaGVscCAxMzcKY2EgMTM4Cm1hZGUgMTM5Cmhvd2V2ZXIgMTQwCm5kIDE0MQppdCAx
+          NDIKdG9wIDE0MwppbmRleCAxNDQKaWRlYXMgMTQ1CnJlcHVibGljIDE0NgpmciAxNDcKeW91ciAxNDgK
+          ZmVlbCAxNDkKdGFrZSAxNTAKb3BlbiAxNTEKdWEgMTUyCmxvdmUgMTUzCmNvbnRhY3QgMTU0Cm1vbmV5
+          IDE1NQpoYXJkIDE1NgpraW5nZG9tIDE1NwpzaW5jZSAxNTgKdHdvIDE1OQpiZWxpZXZlIDE2MApuZXZl
+          ciAxNjEKc2ltcGx5IDE2Mgp0ZWxsIDE2Mwpzb29uIDE2NApzaXIgMTY1Cm5hbWVzIDE2NgpmYW1pbHkg
+          MTY3CmJpdHJpeCAxNjgKZSAxNjkKZXVyb3BlIDE3MAptZWRpYSAxNzEKcHV0IDE3Mgp1c2UgMTczCmlz
+          IDE3NAphcHByZWNpYXRlIDE3NQphd2Vzb21lIDE3NgptYWlsaW5ncyAxNzcKcnVzc2lhIDE3OAphbnlv
+          bmUgMTc5Cm15IDE4MAp1c2VkIDE4MQpsZSAxODIKY2lhbGlzIDE4MwpnZXR0aW5nIDE4NApsaW5rIDE4
+          NQplYXJ0aCAxODYKdHlwZSAxODcKdGhvdWdodCAxODgKZXhjZWxsZW50IDE4OQpvZmZlciAxOTAKZWxz
+          ZSAxOTEKcyAxOTIKZGlmZmVyZW50IDE5Mwphc2sgMTk0CnllYXJzIDE5NQo0OCAxOTYKZ29kIDE5Nwpj
+          YW50IDE5OApzb21lb25lIDE5OQpleHBlcmllbmNlIDIwMApidXNpbmVzcyAyMDEKYmxvZ2dpbmcgMjAy
+          Cmh0bWwgMjAzCmhpIDIwNAp0cnVseSAyMDUKZ2FtZSAyMDYKcHJvYmxlbSAyMDcKdGlwcyAyMDgKMjAg
+          MjA5CmFmcmljYSAyMTAKbnAgMjExCnVuaXRlZCAyMTIKaWQgMjEzCmZvcndhcmQgMjE0CmdvdCAyMTUK
+          Y24gMjE2CmFuZCAyMTcKaGlnaCAyMTgKbG9naW4gMjE5CjE4OGJldCAyMjAKYWNjb3VudCAyMjEKc3R5
+          bGUgMjIyCnBlcmZlY3QgMjIzCnNvdXRoIDIyNAptZWFuIDIyNQphY2FkZW15IDIyNgpzdHVkZW50cyAy
+          MjcKdXBvbiAyMjgKYW55dGhpbmcgMjI5CmVtYWlsIDIzMAp3b3JkcHJlc3MgMjMxCjQ1MCAyMzIKYXIg
+          MjMzCmZvdW5kIDIzNApjaGVja2luZyAyMzUKbG9uZyAyMzYKcHJvYmFibHkgMjM3Cmxhc3QgMjM4Cndl
+          IDIzOQpldmVuIDI0MApzYW5jb3NvIDI0MQp0eSAyNDIKY3VvYyAyNDMKZ2l2ZSAyNDQKYXJ0aWNsZXMg
+          MjQ1Cmdyb3VwIDI0NgpyZWFzb24gMjQ3Cmd1eXMgMjQ4CmtpbmQgMjQ5CmEgMjUwCmdvb2dsZSAyNTEK
+          cGwgMjUyCmRvbWFpbnMgMjUzCnRlIDI1NApjZW50cmFsIDI1NQphbHdheXMgMjU2Cm1heWJlIDI1Nwpp
+          c250IDI1OAppbnRlcm5ldCAyNTkKb3JkZXIgMjYwCmlsbCAyNjEKY2FzZSAyNjIKbmV4dCAyNjMKb2Yg
+          MjY0CnJzcyAyNjUKY291cnNlIDI2NgpzdGlsbCAyNjcKbGVhcm4gMjY4CmVuZCAyNjkKbm9ydGggMjcw
+          CmhvcGUgMjcxCmhleSAyNzIKbWluZCAyNzMKc2hhcmUgMjc0CnN1YmplY3QgMjc1CnBhcGVycyAyNzYK
+          ZiAyNzcKdHJhaW5pbmcgMjc4CnF1aXRlIDI3OQpmcmVlIDI4MApjYW1lIDI4MQpub3RoaW5nIDI4Mgp2
+          aWRlbyAyODMKaG9tZSAyODQKZGlkbnQgMjg1Cm1ha2luZyAyODYKdXNlZnVsIDI4Nwp0cmF2ZWwgMjg4
+          Cm9oIDI4OQpwcmljZSAyOTAKc2hhcmluZyAyOTEKa2VvMzY1IDI5Mgp0aGFvIDI5MwpzZXJ2aWNlcyAy
+          OTQKc2VydmljZSAyOTUKZW5qb3kgMjk2CnVybGh0dHAgMjk3Cmd1ZXNzIDI5OApjYXJlIDI5OQpxdWlj
+          ayAzMDAKZG9uZSAzMDEKYWdvIDMwMgp0cnkgMzAzCm11c3QgMzA0CndvcmtzIDMwNQpnaWZ0IDMwNgpp
+          ZGVhIDMwNwo0NCAzMDgKMTQgMzA5CmV1IDMxMAoxNSAzMTEKZmVkZXJhdGlvbiAzMTIKbmV0aGVybGFu
+          ZHMgMzEzCmFyZ2VudGluYSAzMTQKYnIgMzE1CmJyYXppbCAzMTYKY3kgMzE3CmN5cHJ1cyAzMTgKZ292
+          IDMxOQp1c2EgMzIwCm1vc2NvdyAzMjEKcnVuIDMyMgphZnJpY2FuIDMyMwppZiAzMjQKaW50ZXJlc3Rp
+          bmcgMzI1CmFsbW9zdCAzMjYKYWJsZSAzMjcKY2VydGFpbmx5IDMyOApqcyAzMjkKbmV0c29sdHJhZGVt
+          YXJrIDMzMAppdHMgMzMxCnNwZWFraW5nIDMzMgpmYXIgMzMzCmF3YXkgMzM0CmVucm9sbG1lbnQgMzM1
+          CmV2ZXJ5dGhpbmcgMzM2CnN0YXJ0IDMzNwptIDMzOApzaG93IDMzOQpnZW51aW5lbHkgMzQwCndhbnRl
+          ZCAzNDEKc2VlbSAzNDIKY29tbXVuaXR5IDM0MwpkZSAzNDQKbGlzdCAzNDUKaGl0IDM0Ngppc3N1ZXMg
+          MzQ3CmZ1biAzNDgKYWRkZWQgMzQ5CndvbmRlcmZ1bCAzNTAKaWUgMzUxCnAgMzUyCmV4dHJlbWVseSAz
+          NTMKd29uZGVyaW5nIDM1NApjcmVhdGUgMzU1CndpdGhvdXQgMzU2CnBsYXRmb3JtIDM1Nwp1a3JhaW5l
+          IDM1OAp1cGRhdGVzIDM1OQppbnRlcmVzdGVkIDM2MAppc3N1ZSAzNjEKdHJhZmZpYyAzNjIKcmVzdCAz
+          NjMKeW8gMzY0Cm5lYXIgMzY1CmVzc2F5cyAzNjYKY291bnRyeSAzNjcKb25lcyAzNjgKdmlhIDM2OQpy
+          ZWFkaW5nIDM3MAphcHAgMzcxCnBocCAzNzIKcHJldHR5IDM3MwphdXN0cmFsaWEgMzc0CmltcG9ydGFu
+          dCAzNzUKd2FpdCAzNzYKdGhvdWdoIDM3NwpzaGFyZWQgMzc4CnBhcmFncmFwaCAzNzkKa29yZWEgMzgw
+          CnVrIDM4MQpsaWZlIDM4MgpjaGluYSAzODMKcGVyc29uIDM4NAp1IDM4NQpubCAzODYKZm9ybXMgMzg3
+          CmNhbmFkYSAzODgKbG92ZWQgMzg5Cm4gMzkwCmFjcm9zcyAzOTEKY29tbW9uIDM5Mgp3cml0dGVuIDM5
+          Mwp5ZWFyIDM5NAp0aGVyZSAzOTUKZmF0aGVyIDM5Ngp0aCAzOTcKZWR1IDM5OAplbmVyZ3kgMzk5CnRy
+          eWluZyA0MDAKYW55IDQwMQpwdWJsaWMgNDAyCnAxYWkgNDAzCnRlc3QgNDA0CmJ1aWxkIDQwNQoxMTYw
+          IDQwNgpjb29sIDQwNwpzcGFpbiA0MDgKZ2VvcmdpYSA0MDkKbHQgNDEwCmx2IDQxMQpzZSA0MTIKc3dl
+          ZGVuIDQxMwoxIDQxNAp0YWxrIDQxNQptaXNzIDQxNgpzYWlkIDQxNwpob3BpbmcgNDE4CmZhY3QgNDE5
+          CnJlc3VsdCA0MjAKbWFrZXMgNDIxCmdsYWQgNDIyCndvbnQgNDIzCmJldHRlciA0MjQKZmVlZCA0MjUK
+          aGVhciA0MjYKZXZlciA0MjcKdGVhbSA0MjgKZmFudGFzdGljIDQyOQp0b2RheSA0MzAKdGV4dCA0MzEK
+          Y2hlZXJzIDQzMgp1bmRlcnN0YW5kIDQzMwpzZW50IDQzNApxdWVzdGlvbiA0MzUKYm9vayA0MzYKY29t
+          aW5nIDQzNwpraWRzIDQzOApoZWFyZCA0MzkKd2hvbGUgNDQwCnZlcnkgNDQxCnBhcnQgNDQyCmluZGl2
+          aWR1YWwgNDQzCnNwZWNpYWwgNDQ0Cm5ld3NsZXR0ZXJzIDQ0NQpsaXZlIDQ0NgpidXQgNDQ3CnN0dW1i
+          bGVkIDQ0OApzaWRlIDQ0OQphbG9uZyA0NTAKdXNpbmcgNDUxCmVhc3kgNDUyCjUwMCA0NTMKYXcgNDU0
+          CmF6IDQ1NQpjYXNpbm8gNDU2CmN6IDQ1NwpmaSA0NTgKaW5kaWEgNDU5CnB0IDQ2MAphZHZpY2UgNDYx
+          CmFkZCA0NjIKcGxheWVkIDQ2MwpnYXJkZW5pbmcgNDY0CnNvaWtlb3BsdXMgNDY1CnNvaSA0NjYKd291
+          bGQgNDY3Cm1hcmtldCA0NjgKaW5jbHVkaW5nIDQ2OQpwZXJzb25hbCA0NzAKOTE4a2lzcyA0NzEKZXhh
+          Y3RseSA0NzIKbmVlZHMgNDczCmxhcnJ5IDQ3NApyZWFsaXplZCA0NzUKeWVhaCA0NzYKY3JlYXRpdmUg
+          NDc3Cm91ciA0NzgKdmlhZ3JhIDQ3OQpuaWdodCA0ODAKaW1wcmVzc2VkIDQ4MQpzdHVwaWQgNDgyCmNs
+          ZWFyIDQ4Mwpjb25zaWRlciA0ODQKc29ycnkgNDg1CnNlbmRpbmcgNDg2CmJpZyA0ODcKZWZmZWN0aXZl
+          IDQ4OApub25lIDQ4OQpsaWtlbHkgNDkwCnRocmVlIDQ5MQpob3VycyA0OTIKb2theSA0OTMKcmVkIDQ5
+          NApzZWVtcyA0OTUKeWV0IDQ5NgpicmluZyA0OTcKYm9va21hcmsgNDk4CndlYnBhZ2UgNDk5CmFpc2hh
+          IDUwMApzb2NpYWwgNTAxCmdyYXZpdHkgNTAyCmtuZXcgNTAzCmdhcmRlbiA1MDQKZmF2b3JpdGUgNTA1
+          CmNoYW5nZSA1MDYKd2VsY29tZSA1MDcKd2lzaCA1MDgKdGF0IDUwOQp3ZWJsb2cgNTEwCmRvZXNudCA1
+          MTEKdG9nZXRoZXIgNTEyCmhvY2tleSA1MTMKc29vIDUxNApleHRyYSA1MTUKcG9zdGluZyA1MTYKZW5n
+          aW5lIDUxNwp0aW1lcyA1MTgKbWFya2V0aW5nIDUxOQpjbGljayA1MjAKaHVuZHJlZCA1MjEKYW5vdGhl
+          ciA1MjIKZWR1Y2F0aW9uIDUyMwpvcmdhbml6YXRpb25zIDUyNAp6b25lcyA1MjUKNjA3MjYxNTAgNTI2
+          CjExMDAgNTI3CjI4IDUyOAo1Njc1MjU0NyA1MjkKMTAwMCA1MzAKMTQ2NjIwMDQgNTMxCjE1OTQzOTAg
+          NTMyCjM1IDUzMwo3NDQxNjM3IDUzNAo1ODI2ODg0IDUzNQptaW51cyA1MzYKYXV0b21hdGljYWxseSA1
+          MzcKaG9zdGluZyA1MzgKc2VsZWN0aW9ucyA1MzkKZXhjbHVkZWQgNTQwCmNtcyA1NDEKam9vbWxhIDU0
+          MgpuZXR3b3JrIDU0MwphZSA1NDQKdWFlIDU0NQphcm1lbmlhIDU0NgphbXN0ZXJkYW0gNTQ3CmF1c3Ry
+          aWEgNTQ4CmF1IDU0OQphemVyYmFpamFuIDU1MApiYSA1NTEKYmVsZ2l1bSA1NTIKYmVybGluIDU1Mwpi
+          ZyA1NTQKYnVsZ2FyaWEgNTU1CmJlbGFydXMgNTU2CmlzbGFuZHMgNTU3CmNoIDU1OApzd2l0emVybGFu
+          ZCA1NTkKY2kgNTYwCmNvdGUgNTYxCmRpdm9pcmUgNTYyCmN6ZWNoIDU2MwpnZXJtYW55IDU2NApkayA1
+          NjUKZGVubWFyayA1NjYKZWUgNTY3CmVzdG9uaWEgNTY4CmVzIDU2OQpmaW5sYW5kIDU3MApmcmFuY2Ug
+          NTcxCmdlIDU3MgpnciA1NzMKZ3JlZWNlIDU3NApociA1NzUKY3JvYXRpYSA1NzYKaHUgNTc3Cmh1bmdh
+          cnkgNTc4CmlyZWxhbmQgNTc5CmlsIDU4MAppc3JhZWwgNTgxCmlyIDU4MgppcmFuIDU4MwppdGFseSA1
+          ODQKa2cgNTg1Cmt5cmd5enN0YW4gNTg2CmtpbSA1ODcKa3IgNTg4Cmt6IDU4OQprYXpha2hzdGFuIDU5
+          MApsb25kb24gNTkxCmxpdGh1YW5pYSA1OTIKbHUgNTkzCmx1eGVtYm91cmcgNTk0CmxhdHZpYSA1OTUK
+          bWQgNTk2Cm1vbGRvdmEgNTk3Cm1vbnRlbmVncm8gNTk4Cm1pYW1pIDU5OQpteCA2MDAKbWV4aWNvIDYw
+          MQpub3J3YXkgNjAyCnBlIDYwMwpwZXJ1IDYwNApwb2xhbmQgNjA1CnBvcnR1Z2FsIDYwNgpybyA2MDcK
+          cm9tYW5pYSA2MDgKc2EgNjA5CnNhdWRpIDYxMAphcmFiaWEgNjExCnNlYXQgNjEyCnNpIDYxMwpzbG92
+          ZW5pYSA2MTQKc2sgNjE1CnNsb3Zha2lhIDYxNgpzbiA2MTcKc2VuZWdhbCA2MTgKc3VwcGx5IDYxOQp0
+          aiA2MjAKdGFqaWtpc3RhbiA2MjEKdG0gNjIyCnR1cmttZW5pc3RhbiA2MjMKdG9vbHMgNjI0CnRyIDYy
+          NQp0dXJrZXkgNjI2CnV6IDYyNwp1emJla2lzdGFuIDYyOAp2ZWdhcyA2MjkKdm4gNjMwCnZpZXRuYW0g
+          NjMxCm5ld2VzdCA2MzIKMjAwOSA2MzMKZWxsZXIgNjM0CnBvdHR5IDYzNQpvIDYzNgpob3cgNjM3CmJs
+          b2dzIDYzOApnaXJsIDYzOQpiYWQgNjQwCmZpZ3VyZWQgNjQxCmJlbmVmaXQgNjQyCm1haWwgNjQzCnBv
+          aW50IDY0NApkaXNjb3ZlciA2NDUKc3lzdGVtIDY0NgpyZWNlbnRseSA2NDcKYm9va21hcmtlZCA2NDgK
+          Ym8gNjQ5CmJyb3dzaW5nIDY1MApmcmllbmRzIDY1MQpzdXBlcmIgNjUyCndyaXRlcnMgNjUzCnByb2R1
+          Y2UgNjU0CmJyaXRpc2ggNjU1Cm9idGFpbiA2NTYKYWNhZGVtaWMgNjU3CmJlbm5ldHQgNjU4CmNsYXNz
+          IDY1OQpwYWlkIDY2MApmb3J1bSA2NjEKc3Vic2NyaWJlIDY2MgpzaHV0dGxlIDY2MwpjaGVhcCA2NjQK
+          cmVnYXJkaW5nIDY2NQptZWFucyA2NjYKc3BpbiA2NjcKc3R1ZGVudCA2NjgKZGF0YSA2NjkKZ2xhbmNl
+          IDY3MApzaGlwIDY3MQphY3R1YWwgNjcyCnR3aXR0ZXIgNjczCmZvbGtzIDY3NAp3YXRjaCA2NzUKYXJn
+          dWUgNjc2CmJlYXQgNjc3CmJyb3RoZXIgNjc4CnRvdGFsbHkgNjc5CmNvIDY4MApzdGFyIDY4MQpncHUg
+          NjgyCmFueXdheSA2ODMKY2xvdWQgNjg0CmRlYWwgNjg1CmNsdWIgNjg2CmNvbXBhbmllcyA2ODcKcHJv
+          dmlkZSA2ODgKbHVjayA2ODkKd29ya2luZyA2OTAKYW55Ym9keSA2OTEKam9iIDY5MgpzdG9yeSA2OTMK
+          ZWZmb3J0IDY5NApjb3VsZG50IDY5NQp0aG91c2FuZCA2OTYKZGlzdGFuY2UgNjk3Cmt5dW5nIDY5OApr
+          bm93cyA2OTkKd2lraSA3MDAKc3VwcG9ydCA3MDEKdmlzaXRlZCA3MDIKd2hhdHMgNzAzCmluZGlhbiA3
+          MDQKZW50ZXJwcmlzZXMgNzA1CjYwNTc0NSA3MDYKd2l4IDcwNwozNTAgNzA4CmFsIDcwOQpkaXJlY3Qg
+          NzEwCmRvd25sb2FkIDcxMQpleHBlcnQgNzEyCmd1aWRlIDcxMwpyZSA3MTQKc2hvcCA3MTUKdGVjaG5v
+          bG9neSA3MTYKcGhwZXZlbnQxZXZlbnQyZXZlbnQzZ290b2h0dHAgNzE3CnJpY2ggNzE4CnBhcnRpY3Vs
+          YXIgNzE5CnRhc3RlIDcyMAphbWVyaWNhbiA3MjEKa2luZGEgNzIyCmdyZWF0bHkgNzIzCnBvc3NpYmxl
+          IDcyNAplbGVjdHJvbmljIDcyNQpkaWdpdGFsIDcyNgpwYXJ0cyA3MjcKc2NyODg4IDcyOAp0YWxraW5n
+          IDcyOQptb21teSA3MzAKZ2cgNzMxCmZpbGVzIDczMgpwb3B1bGFyIDczMwphbnlob3cgNzM0CmJsYWNr
+          IDczNQpmcm9udCA3MzYKcGxheSA3MzcKZ2QgNzM4CmtpZCA3MzkKYWxsb3dzIDc0MAp1cmwgNzQxCnBv
+          c3Nlc3MgNzQyCmFsb25lIDc0MwpkbyA3NDQKcmVhbGl6ZSA3NDUKZGVhbHMgNzQ2CnRyYWRpbmcgNzQ3
+          CnNlYXJjaCA3NDgKcmVhc29ucyA3NDkKbWFuIDc1MAplbm91Z2ggNzUxCmRpcmVjdGlvbiA3NTIKdmlu
+          IDc1Mwp2aXNpdCA3NTQKdHJ1dGggNzU1CmFkdmFuY2VkIDc1NgpncmVlbiA3NTcKZGVzaWduIDc1OApr
+          dWRvcyA3NTkKdGhhdCA3NjAKYW1hemluZyA3NjEKaGUgNzYyCmFscmVhZHkgNzYzCnBpZWNlIDc2NApo
+          aWdoZXIgNzY1CnJlY29tbWVuZCA3NjYKc2ltcGxlIDc2NwpmdXR1cmUgNzY4CnRoZW1lIDc2OQpmb3Jl
+          aWduIDc3MApsYW5kc2NhcGluZyA3NzEKdHJlZXMgNzcyCnBsYW50cyA3NzMKYml0IDc3NAp2aXRhbCA3
+          NzUKZCA3NzYKY2FmZSA3NzcKYmFzZWQgNzc4CnRlbnNvcmZsb3cgNzc5CmFkZGluZyA3ODAKanVkZ2Ug
+          NzgxCnN1YnNjcmliaW5nIDc4Mgp3aXNoZWQgNzgzCmhvc3QgNzg0CmZyZXF1ZW50bHkgNzg1CnN2IDc4
+          NgpmYXZvciA3ODcKcmVzcG9uZCA3ODgKaGsgNzg5CmNvbnRpbnVlIDc5MAphcHByZWNpYXRlZCA3OTEK
+          YXZhaWxhYmxlIDc5MgpoYXBweSA3OTMKN3NiYjFiYm5kaGV1cmMxYSA3OTQKMTUyNjc5NyA3OTUKcmVn
+          aXN0ZXJlZCA3OTYKMjQgNzk3CmN5Y2xlIDc5OAptb250aCA3OTkKMTA2MiA4MDAKdGlsZGEgODAxCmF0
+          dG9ybmV5IDgwMgo0MTI1IDgwMwpib3NuaWEgODA0CmhlcnplZ292aW5hIDgwNQpiYXJnYWlucyA4MDYK
+          Nzc1MSA4MDcKY2MgODA4CmNlbnRlciA4MDkKMTY2IDgxMApjbCA4MTEKY2hpbGUgODEyCmNvbG9tYmlh
+          IDgxMwpjb2xvZ25lIDgxNApjb21wYW55IDgxNQpjb29raW5nIDgxNgpjcmVkaXQgODE3CmRhdGUgODE4
+          CmRlZ3JlZSA4MTkKMzA0NiA4MjAKZG9nIDgyMQoyMjQ3IDgyMgplYyA4MjMKNDg4MyA4MjQKZmFpbCA4
+          MjUKZml0IDgyNgppbnZlc3RtZW50cyA4MjcKamV0enQgODI4CmphcGFuIDgyOQo2NjQgODMwCjUzNjUg
+          ODMxCm1nIDgzMgo3ODA3IDgzMwpwYXJ0eSA4MzQKcG9rZXIgODM1CnB5IDgzNgpyZWNpcGVzIDgzNwpy
+          ZXBvcnQgODM4CnN1IDgzOQpzY2llbmNlIDg0MApzb2Z0d2FyZSA4NDEKc3QgODQyCnVrcmFpbmEgODQz
+          CnVuaXZlcnNpdHkgODQ0CnV5IDg0NQp1cnVndWF5IDg0Ngp2ZSA4NDcKdmVuZXp1ZWxhIDg0OAp3aWVu
+          IDg0OQp3aW4gODUwCjIwMDQgODUxCnRlbmQgODUyCnN0b3AgODUzCmZyaWVuZCA4NTQKY29sbGVnZSA4
+          NTUKZW5nbGlzaCA4NTYKcmVkaXJlY3R1cmxodHRwIDg1Nwphc3B4cmV0dXJudXJsaHR0cCA4NTgKbGVh
+          dmUgODU5CjggODYwCjk5NiA4NjEKNzI1IDg2Mgo3NSA4NjMKdmliZXIgODY0CndhdHNhcHAgODY1CnN0
+          ZXBzIDg2Ngpza2lsbHMgODY3Cm1hbmFnZWQgODY4CnRoZXNlIDg2OQpicm9jY29saSA4NzAKZW5jb3Vy
+          YWdlIDg3MQpjaGlsZCA4NzIKb3UgODczCnV0IDg3NApzdGF0aW9uIDg3NQp1c3VhbGx5IDg3NgpzZW5k
+          IDg3NwpyZWNvbW1lbmRhdGlvbnMgODc4CnByb2R1Y3RzIDg3OQpjb21wdXRlciA4ODAKc3lzdGVtcyA4
+          ODEKbHkgODgyCmRhZGR5IDg4Mwp3aGF0IDg4NApsZWUgODg1CmhhbmRzIDg4NgplYXJsaWVyIDg4Nwpl
+          eHBlcnRpc2UgODg4Cm9mdGVuIDg4OQpsYXRlciA4OTAKYWJpbGl0aWVzIDg5MQp3b3JzaGlwIDg5Mgpy
+          ZW50IDg5MwpkYXlzIDg5NApzaW1wbGVzdCA4OTUKcHVyY2hhc2UgODk2CmVudGlyZSA4OTcKd2FyIDg5
+          OApwaWNrZWQgODk5CmluZm9ybWF0aXZlIDkwMAp3cml0ZXIgOTAxCnNob3BwaW5nIDkwMgpkaXNjb3Vu
+          dCA5MDMKaG9sZCA5MDQKbG90cyA5MDUKaW1wbHkgOTA2CmNvbW1lbnQgOTA3CmhlbHBmdWwgOTA4CmNh
+          dXNlIDkwOQp0dXJuaW5nIDkxMApzcGVlZCA5MTEKbm9ib2R5IDkxMgpncmF0ZWZ1bCA5MTMKdmlzaXRp
+          bmcgOTE0CndyaXRldXAgOTE1CmFtdXNlbWVudCA5MTYKYWdyZWVhYmxlIDkxNwpob21ld29yayA5MTgK
+          cnVubmluZyA5MTkKY3VyaW91cyA5MjAKbWF0dGVyIDkyMQpsb29rcyA5MjIKc3BlbnQgOTIzCmplIDky
+          NApsYSA5MjUKaGF2ZW50IDkyNgpmb3VyIDkyNwpsaWdodCA5MjgKbGVhc3QgOTI5Cmxlc3MgOTMwCnNs
+          b3cgOTMxCmNlcnRhaW4gOTMyCnNlZW4gOTMzCmhlbHBzIDkzNApzdXJlbHkgOTM1CmNoYW5nZXMgOTM2
+          CmNvdmVyIDkzNwplYXNpbHkgOTM4CmhvcnRpY3VsdHVyZSA5MzkKZ2l2ZXMgOTQwCnN1cHBsaWVzIDk0
+          MQpzZWFzb24gOTQyCmNhciA5NDMKZ2VuZXJhbCA5NDQKc3RhcnMgOTQ1CmR1ZSA5NDYKYnkgOTQ3CmJl
+          dCA5NDgKcmVnYXJkcyA5NDkKY2FzaCA5NTAKcmVndWxhcmx5IDk1MQphZG1pbiA5NTIKbXIgOTUzCmNs
+          YXNzZXMgOTU0CnRpbnl1cmwgOTU1CndvbmRlciA5NTYKcmVsYXRlZCA5NTcKYm9keSA5NTgKc3RhbmRh
+          cmQgOTU5CnRvbGQgOTYwCnNlYW11cyA5NjEKdW5pcXVlIDk2Mgpjb21wbGFpbmluZyA5NjMKcHJvYmxl
+          bXMgOTY0CmJvYXJkIDk2NQpsb3N0IDk2NgpsYXlvdXQgOTY3CmltcHJvdmUgOTY4CmdlbmVyYXRlIDk2
+          OQpjaHJpc3RtYXMgOTcwCnNpbWlsYXIgOTcxCmZpZnR5IDk3MgpyYWRpbyA5NzMKc3RhcnRlZCA5NzQK
+          dGh1cyA5NzUKbnVtZXJvdXMgOTc2CmJpbmdvIDk3Nwpjb21tZXJjaWFsIDk3OAppbnNpZGUgOTc5CnRl
+          biA5ODAKbWVzc2FnZXMgOTgxCmFkZHJlc3MgOTgyCnRpdGxlIDk4MwpsZXR0ZXIgOTg0CnJmIDk4NQox
+          MDAwMCA5ODYKMzAxMjA0NSA5ODcKYXV0aG9yaXRpZXMgOTg4CmRydXBhbCA5ODkKcG93ZXIgOTkwCm9y
+          Z2FuaXphdGlvbiA5OTEKYWQgOTkyCmFkdWx0IDk5MwphcGFydG1lbnRzIDk5NApiYW5kIDk5NQpjaHVy
+          Y2ggOTk2CmNvYWNoIDk5NwplcXVpcG1lbnQgOTk4CmV0IDk5OQpleHBvc2VkIDEwMDAKZmVlZGJhY2sg
+          MTAwMQpmbG93ZXJzIDEwMDIKZ2kgMTAwMwpnbG9iYWwgMTAwNApoZWFsdGggMTAwNQpobSAxMDA2Cmhv
+          dXNlIDEwMDcKam9icyAxMDA4CmpwIDEwMDkKbGF3IDEwMTAKbG9hbnMgMTAxMQptYW5hZ2VtZW50IDEw
+          MTIKbW92aWUgMTAxMwpvbmwgMTAxNApwcmVzcyAxMDE1CnByb3BlcnRpZXMgMTAxNgpxdWViZWMgMTAx
+          NwpyZXBhaXIgMTAxOApyZXZpZXcgMTAxOQpyZXZpZXdzIDEwMjAKc29sYXIgMTAyMQpzb2x1dGlvbnMg
+          MTAyMgp0diAxMDIzCnZhY2F0aW9ucyAxMDI0CnN0YXRlcyAxMDI1CndzIDEwMjYKYmVnaW4gMTAyNwph
+          bW91bnQgMTAyOApmb3JtYWwgMTAyOQp0d2VldCAxMDMwCmZvciAxMDMxCmhlYXJ0IDEwMzIKcmVzZWFy
+          Y2ggMTAzMwp0YWdzIDEwMzQKc3RhcnRpbmcgMTAzNQphdHRlbnRpb24gMTAzNgpkZXRhaWxzIDEwMzcK
+          ZnVsbCAxMDM4CnJlYWwgMTAzOQpib3ggMTA0MAphbW94aWNpbGxpbiAxMDQxCnBsYXRlIDEwNDIKaW5z
+          dGFsbCAxMDQzCnN1Y2Nlc3MgMTA0NAplZmZlY3QgMTA0NQpiYXNlIDEwNDYKeW9yIDEwNDcKdHRvIDEw
+          NDgKeXUgMTA0OQpmbGlnaHQgMTA1MApwbGFuZXRzIDEwNTEKc3VycHJpc2VkIDEwNTIKZ2lybHMgMTA1
+          MwpyZW1lbWJlciAxMDU0CnBhc3QgMTA1NQpzaGlydHMgMTA1NgpzY3JlZW4gMTA1NwphbW9uZyAxMDU4
+          CnBocGRrYXNpbm8gMTA1OQptZWV0IDEwNjAKcGFya3MgMTA2MQptZSAxMDYyCmFpciAxMDYzCmhhcHBl
+          bmVkIDEwNjQKYWNjb3JkaW5nIDEwNjUKY2hpbGRyZW4gMTA2Ngpzd29ybiAxMDY3CmFzcHh1cmxodHRw
+          IDEwNjgKYnJlYWsgMTA2OQplZmZvcnRzIDEwNzAKdmlldyAxMDcxCmFzIDEwNzIKZ3JhZGVzIDEwNzMK
+          YXV0aG9yaXR5IDEwNzQKb3RoZXJzIDEwNzUKc3VwcG9zZWQgMTA3NgpsaW5raW5nIDEwNzcKdG93ZXJz
+          IDEwNzgKc2V2ZXJhbCAxMDc5CmZyZXNoIDEwODAKaW5kaXZpZHVhbHMgMTA4MQpqb3VybmV5IDEwODIK
+          d2hpY2ggMTA4Mwprc2xvdCAxMDg0CmhpZ2hseSAxMDg1CmJlZ2lubmluZyAxMDg2CnNvbWV3aGF0IDEw
+          ODcKb2J2aW91c2x5IDEwODgKeW91dmUgMTA4OQppbnRlcmNlcHQgMTA5MApsZWFybmVkIDEwOTEKZ3Jv
+          dXBzIDEwOTIKMTggMTA5MwpwaHBka3Nsb3QgMTA5NAozd2luOCAxMDk1CnByaW9yIDEwOTYKbWFnbmlm
+          aWNlbnQgMTA5NwpkaXNjb3ZlcmVkIDEwOTgKd29ydGggMTA5OQp3YWl0aW5nIDExMDAKcGF5IDExMDEK
+          YnJvd3NlciAxMTAyCmhhbmQgMTEwMwpzdGF0ZSAxMTA0CnRoZXJlcyAxMTA1CjdiYSAxMTA2CmF0bW9z
+          cGhlcmUgMTEwNwpoaWdoZXN0IDExMDgKd29yZCAxMTA5CmFmdGVyIDExMTAKbWFya2VkIDExMTEKYXNz
+          b2NpYXRlZCAxMTEyCnZlcnNpb24gMTExMwpjdWRhIDExMTQKYXQgMTExNQplbnN1cmUgMTExNgphbnN3
+          ZXIgMTExNwpyZWNvcmRzIDExMTgKYWJvYXJkIDExMTkKc3VuIDExMjAKd2FudGluZyAxMTIxCnRvcGlj
+          cyAxMTIyCmV4cGVyaWVuY2VkIDExMjMKaW50ZXJlc3QgMTEyNAprbm93bGVkZ2UgMTEyNQp3aXRoIDEx
+          MjYKY291cGxlIDExMjcKY29udGVudHMgMTEyOApzYXZlZCAxMTI5CnBpY2sgMTEzMApyZXNwZWN0IDEx
+          MzEKcHVibGlzaCAxMTMyCnZpZGVvcyAxMTMzCm1vZGVsIDExMzQKbG9naW51cmxodHRwIDExMzUKYWRt
+          aXJpbmcgMTEzNgpkZXRhaWxlZCAxMTM3CnJlaGFzaGVkIDExMzgKZmVlZHMgMTEzOQp2aXNpdG9ycyAx
+          MTQwCmRlcGFydCAxMTQxCnN1Z2dlc3RpbmcgMTE0Mgp3cm9uZyAxMTQzCmNhZGV0cyAxMTQ0CnByb3Zp
+          ZGVzIDExNDUKYXJlbnQgMTE0NgplbmpveWVkIDExNDcKdG8gMTE0OAppbnZlc3RpZ2F0ZSAxMTQ5Cm9w
+          cG9ydHVuaXR5IDExNTAKZGVzaWduZWQgMTE1MQpmaWd1cmUgMTE1MgozIDExNTMKcHJldmlvdXMgMTE1
+          NApsb2FkaW5nIDExNTUKc2NvcmUgMTE1Ngpwb2ludHMgMTE1Nwp2aWV3cyAxMTU4CnJlZ3VsYXIgMTE1
+          OQp4YXltYWNhIDExNjAKY2xpY2tzbWFuYWdlciAxMTYxCnByZXNzdXJlIDExNjIKY29kZSAxMTYzCmRp
+          YWdub3Npc251bWVyaWMgMTE2NApzcGVuZCAxMTY1CmxlYXJuaW5nIDExNjYKZ29vZG5lc3MgMTE2Nwpz
+          b2x1dGlvbiAxMTY4CnBvcHV0Y2hpayAxMTY5CndvdyAxMTcwCm92ZXJhbGwgMTE3MQpleHBlY3QgMTE3
+          MgpteXNwYWNlIDExNzMKbGl2aW5nIDExNzQKd2F2ZXMgMTE3NQpkZWFyIDExNzYKdHVybiAxMTc3Cndo
+          ZW4gMTE3OApwZXJjZW50IDExNzkKODAwIDExODAKZXVyb3BlYW4gMTE4MQp1bmlvbiAxMTgyCndob2lz
+          IDExODMKc2VwYXJhdGVseSAxMTg0CnJlcXVlc3QgMTE4NQpnZW5lcmF0ZWQgMTE4NgpyZWFjaCAxMTg3
+          CmZvcm0gMTE4OAptYWlsaW5nIDExODkKbWlsbGlvbiAxMTkwCndvcmxkcyAxMTkxCjE2ODIxODU2IDEx
+          OTIKYnVzaW5lc3NlcyAxMTkzCjE0OTkyMDMgMTE5NAphbWlybyAxMTk1CmNvbmNyZXRlNSAxMTk2CmNv
+          bnRlbmlkbyAxMTk3CmN1YmVjYXJ0IDExOTgKZGF0YWxpZmUgMTE5OQpkaXNjdXogMTIwMApkb3RuZXRu
+          dWtlIDEyMDEKODAyMTIxIDEyMDIKaG9zdGNtcyAxMjAzCmluc3RhbnRjbXMgMTIwNAppbnZpc2lvbiAx
+          MjA1CjE5MDY5OTQgMTIwNgpsaWZlcmF5IDEyMDcKNTEzNyAxMjA4Cm1hZ2VudG8gMTIwOQoyNjk0ODgg
+          MTIxMAptb2R4IDEyMTEKbW92YWJsZSAxMjEyCm5ldGNhdCAxMjEzCm5vcGNvbW1lcmNlIDEyMTQKb3Bl
+          bmNhcnQgMTIxNQozMjEwNTcgMTIxNgpvc2NvbW1lcmNlIDEyMTcKcGhwYmIgMTIxOApwcmVzdGFzaG9w
+          IDEyMTkKOTI5NDkgMTIyMApzaG9waWZ5IDEyMjEKc2ltcGxhIDEyMjIKc2l0ZWZpbml0eSAxMjIzCnR5
+          cG8zIDEyMjQKdW1pIDEyMjUKdmJ1bGxldGluIDEyMjYKd29vY29tbWVyY2UgMTIyNwoyMDk3MzY3IDEy
+          MjgKMjEwIDEyMjkKMTk1MCAxMjMwCjIzNjE4ODQgMTIzMQo2MjE2OTI5IDEyMzIKMTU2ODkyMjIgMTIz
+          MwoxMDkyMjQyOCAxMjM0CmFib2dhZG8gMTIzNQphYyAxMjM2CmFjY291bnRhbnQgMTIzNwphY3RvciAx
+          MjM4CmFlcm8gMTIzOQphZiAxMjQwCmFnIDEyNDEKYWdlbmN5IDEyNDIKYWkgMTI0MwphaXJmb3JjZSAx
+          MjQ0CjYwNzggMTI0NQphbHNhY2UgMTI0NgoxOTgyIDEyNDcKMTY4NCAxMjQ4CjI4MTQxIDEyNDkKYW8g
+          MTI1MAozNzU4IDEyNTEKNTUxODA0IDEyNTIKNjQwMDggMTI1MwphcmNoaSAxMjU0CjIwODQgMTI1NQph
+          cm15IDEyNTYKYXJ0IDEyNTcKMjI4NDE4IDEyNTgKYXNzb2NpYXRlcyAxMjU5CjMzNDAgMTI2MAoxMzU2
+          NzIyIDEyNjEKMTgxOTA3IDEyNjIKNDYxMjc5IDEyNjMKYXVjdGlvbiAxMjY0CmF1ZGlvIDEyNjUKMjMw
+          NTIgMTI2NgphdXRvIDEyNjcKNDAwIDEyNjgKMjM1IDEyNjkKMTExMDQgMTI3MAoyMDM2IDEyNzEKMjI5
+          MSAxMjcyCjcwMTIgMTI3MwpiYW5rIDEyNzQKYmFyIDEyNzUKYmFyY2Vsb25hIDEyNzYKNzkxOSAxMjc3
+          CjI5OTcgMTI3OApiYXllcm4gMTI3OQozMjU2NSAxMjgwCmJiIDEyODEKMjI3NyAxMjgyCjEzNDk2NTgg
+          MTI4MwoxODQ4MTAgMTI4NApiZWVyIDEyODUKNTgwODggMTI4NgoxNzYzNyAxMjg3CmJmIDEyODgKMjM4
+          IDEyODkKNTA2ODUgMTI5MApiaCAxMjkxCjQ1MyAxMjkyCmJpIDEyOTMKMjMyOCAxMjk0CmJ1cnVuZGkg
+          MTI5NQpiaWJsZSAxMjk2CmJpZCAxMjk3CjQ3NDUwOSAxMjk4CmJpa2UgMTI5OQpiaW8gMTMwMAoxNTUz
+          MSAxMzAxCmJqIDEzMDIKMTQ3IDEzMDMKNjU4MiAxMzA0CmJsYWNrZnJpZGF5IDEzMDUKMTIxMDYgMTMw
+          NgpibHVlIDEzMDcKMTY4NTIgMTMwOApibSAxMzA5CjgwODkgMTMxMApiZXJtdWRhIDEzMTEKYm9hdHMg
+          MTMxMgoyNjYgMTMxMwpib3N0b24gMTMxNAoyMTc2MiAxMzE1CmJvdXRpcXVlIDEzMTYKODgzNCAxMzE3
+          CjkzMzc1MCAxMzE4CmJyYWRlc2NvIDEzMTkKYnJvYWR3YXkgMTMyMAoyNjEgMTMyMQpicm9rZXIgMTMy
+          MgpicnVzc2VscyAxMzIzCjcxODEgMTMyNApicyAxMzI1CjMzMCAxMzI2CmJ0IDEzMjcKMjg0IDEzMjgK
+          Mzg1NyAxMzI5CmJ1aWxkZXJzIDEzMzAKMzkwNiAxMzMxCjM1MTY4IDEzMzIKYnV6eiAxMzMzCmJ3IDEz
+          MzQKOTI2NzkgMTMzNQoxNTc0IDEzMzYKYnogMTMzNwpiemggMTMzOAo1NDAzIDEzMzkKMjU4NzQ2MyAx
+          MzQwCjI4ODM5NSAxMzQxCmNhYiAxMzQyCjMyMjMgMTM0MwpjYW0gMTM0NApjYW1lcmEgMTM0NQo1MjM2
+          IDEzNDYKY2FtcCAxMzQ3CjYzMTUgMTM0OApjYXBldG93biAxMzQ5CjQ3NTAgMTM1MApjYXBpdGFsIDEz
+          NTEKMzQyIDEzNTIKY2FyZHMgMTM1Mwo1OTkyIDEzNTQKY2FyZWVyIDEzNTUKMTIxNyAxMzU2CmNhcmVl
+          cnMgMTM1NwpjYXJzIDEzNTgKMzA5IDEzNTkKY2FzYSAxMzYwCjEzMTkzIDEzNjEKY2F0IDEzNjIKMTA4
+          NTY5IDEzNjMKY2F0ZXJpbmcgMTM2NAozNDgyIDEzNjUKMTkyMDU4OSAxMzY2CmNvY29zIDEzNjcKa2Vl
+          bGluZyAxMzY4CmNkIDEzNjkKY2VvIDEzNzAKMjQ1OCAxMzcxCmNmIDEzNzIKY2cgMTM3MwoyMDUyOTIg
+          MTM3NApjaGF0IDEzNzUKMzI2NyAxMzc2CjE1MjU1IDEzNzcKNTY2MyAxMzc4CjExMiAxMzc5CmNpdHkg
+          MTM4MAo0NjE3MSAxMzgxCmNsYWltcyAxMzgyCjIzNzQgMTM4MwpjbGVhbmluZyAxMzg0CjIzODUgMTM4
+          NQoxODEwMTUgMTM4NgpjbGluaWMgMTM4NwpjbG90aGluZyAxMzg4CjEzNjM5IDEzODkKY20gMTM5MApj
+          YW1lcm9vbiAxMzkxCjEzNzI0MTYgMTM5Mgpjb2RlcyAxMzkzCjEyMDQ0IDEzOTQKY29mZmVlIDEzOTUK
+          NjU3NzE2IDEzOTYKOTQyODk4IDEzOTcKMTExNTMgMTM5OApuaSAxMzk5CjIzNzQ3IDE0MDAKMzg4Mjgg
+          MTQwMQpzcGIgMTQwMgptc2sgMTQwMwpjb25kb3MgMTQwNAoyMTkyIDE0MDUKY29uc3RydWN0aW9uIDE0
+          MDYKY29uc3VsdGluZyAxNDA3CmNvbnRyYWN0b3JzIDE0MDgKMzk4MiAxNDA5CjE0NzYgMTQxMApjb29w
+          IDE0MTEKY29yc2ljYSAxNDEyCjEwNDIgMTQxMwo3MTQ0IDE0MTQKY3IgMTQxNQo3OTM0IDE0MTYKNDAy
+          MCAxNDE3CmNyZWRpdGNhcmQgMTQxOAo4MjUgMTQxOQpjcmVkaXR1bmlvbiAxNDIwCjUxMSAxNDIxCmNy
+          aWNrZXQgMTQyMgozMzQxMyAxNDIzCmNydWlzZXMgMTQyNAoyMjM0IDE0MjUKY3UgMTQyNgoxMzcgMTQy
+          NwpjdiAxNDI4CmN4IDE0MjkKMTU3NTMgMTQzMAoxMTA5MiAxNDMxCjcxMCAxNDMyCmN5bXJ1IDE0MzMK
+          MTkzNDAwIDE0MzQKZGFuY2UgMTQzNQpkYXRpbmcgMTQzNgoyODkyIDE0MzcKMTUwNzg1MTIgMTQzOAoz
+          ODk0MTU2IDE0MzkKMjE3OCAxNDQwCmRlbGl2ZXJ5IDE0NDEKZGVtb2NyYXQgMTQ0MgoxMDcyIDE0NDMK
+          ZGVudGFsIDE0NDQKZGVudGlzdCAxNDQ1CmRlc2kgMTQ0NgoyNjQ3IDE0NDcKZGlhbW9uZHMgMTQ0OAoy
+          NzMwIDE0NDkKZGlldCAxNDUwCjE4MjkxIDE0NTEKZGlyZWN0b3J5IDE0NTIKMzg5OCAxNDUzCmRqIDE0
+          NTQKMTQ4MTY0IDE0NTUKZG0gMTQ1NgoyMzMxOCAxNDU3CjUyNTUgMTQ1OApkb21pbmljYW4gMTQ1OQox
+          MDAzMCAxNDYwCjYyNTMgMTQ2MQpkdXJiYW4gMTQ2MgpkeiAxNDYzCjk4MiAxNDY0CjExNzMxIDE0NjUK
+          ZWN1YWRvciAxNDY2CjQ0NDUgMTQ2NwoxMTk3MDEgMTQ2OAoxMDQ5MCAxNDY5CmVnIDE0NzAKMTY5OSAx
+          NDcxCmVuZ2luZWVyIDE0NzIKZW5naW5lZXJpbmcgMTQ3Mwo2NTMzIDE0NzQKZXN0YXRlIDE0NzUKNjMz
+          Mzg0IDE0NzYKZXVzIDE0NzcKZXZlbnRzIDE0NzgKZXhjaGFuZ2UgMTQ3OQpleHByZXNzIDE0ODAKZmFp
+          dGggMTQ4MQpmYW5zIDE0ODIKZmFybSAxNDgzCmZhc2hpb24gMTQ4NAo2OTYzMSAxNDg1CmZpbG0gMTQ4
+          NgpmaW5hbmNlIDE0ODcKZmluYW5jaWFsIDE0ODgKZmlzaCAxNDg5CmZpc2hpbmcgMTQ5MApmaXRuZXNz
+          IDE0OTEKZmxpZ2h0cyAxNDkyCmZsb3Jpc3QgMTQ5MwpmbSAxNDk0CmZvIDE0OTUKZm9vdGJhbGwgMTQ5
+          Ngpmb3JleCAxNDk3CmZvcnNhbGUgMTQ5OAo3MTE4IDE0OTkKZm91bmRhdGlvbiAxNTAwCjYzOTU0NiAx
+          NTAxCmZybCAxNTAyCmZ1bmQgMTUwMwpmdXJuaXR1cmUgMTUwNApmdXRib2wgMTUwNQpmeWkgMTUwNgpn
+          YSAxNTA3CmdhYm9uIDE1MDgKZ2FsIDE1MDkKZ2FsbGVyeSAxNTEwCjE2NzYgMTUxMQpnZW50IDE1MTIK
+          Z2YgMTUxMwoxMDUgMTUxNApnaCAxNTE1CmdpZnRzIDE1MTYKZ2wgMTUxNwpnbGFzcyAxNTE4CmdtIDE1
+          MTkKMjg3IDE1MjAKZ21iaCAxNTIxCmdvbGQgMTUyMgpnb2xmIDE1MjMKZ29wIDE1MjQKMTkzNyAxNTI1
+          CmdwIDE1MjYKZ3EgMTUyNwo1Nzk4NCAxNTI4CmdyYXBoaWNzIDE1MjkKZ3JhdGlzIDE1MzAKNDExMyAx
+          NTMxCmdyaXBlIDE1MzIKZ3MgMTUzMwpndCAxNTM0CjE1MzUxIDE1MzUKZ3VpdGFycyAxNTM2Cmd1cnUg
+          MTUzNwpneSAxNTM4CmhhbWJ1cmcgMTUzOQpoYXVzIDE1NDAKaGVhbHRoY2FyZSAxNTQxCmhpcGhvcCAx
+          NTQyCjUxOCAxNTQzCmhpdiAxNTQ0CjI3OSAxNTQ1CjExNjA5MyAxNTQ2CmhuIDE1NDcKNDczMiAxNTQ4
+          CjE0MDIgMTU0OQpob2xkaW5ncyAxNTUwCmhvbGlkYXkgMTU1MQpob21lcyAxNTUyCmhvcnNlIDE1NTMK
+          MzMyMiAxNTU0CjE2NTkyIDE1NTUKaHQgMTU1Ngo2MTg1MzIgMTU1Nwo1Mzk0MCAxNTU4CjE5NTk4NyAx
+          NTU5CjQ5ODYxIDE1NjAKMzg1MzcgMTU2MQppbW1vIDE1NjIKaW1tb2JpbGllbiAxNTYzCjExNDM0ODIg
+          MTU2NAoyNjYxNzkgMTU2NQppbmR1c3RyaWVzIDE1NjYKaW5rIDE1NjcKaW5zdGl0dXRlIDE1NjgKaW5z
+          dXJlIDE1NjkKaW50IDE1NzAKaW8gMTU3MQpvY2VhbiAxNTcyCmlxIDE1NzMKNDI3NzM1IDE1NzQKMTU0
+          ODcgMTU3NQppcmlzaCAxNTc2CjMxMjYgMTU3NwppY2VsYW5kIDE1NzgKaXN0IDE1NzkKaXN0YW5idWwg
+          MTU4MAo5NTQwNDAgMTU4MQpqZXdlbHJ5IDE1ODIKam8gMTU4Mwo1NTUgMTU4NApqb2J1cmcgMTU4NQpq
+          dWVnb3MgMTU4NgprYXVmZW4gMTU4NwpraSAxNTg4CmtpdGNoZW4gMTU4OQpraXdpIDE1OTAKa24gMTU5
+          MQprb2VsbiAxNTkyCmtyZCAxNTkzCmtyZWQgMTU5NAprdyAxNTk1Cmt5IDE1OTYKa3lvdG8gMTU5Nwo1
+          ODc2IDE1OTgKbGFvcyAxNTk5CmxhbmQgMTYwMApsYXQgMTYwMQo0MTcxIDE2MDIKMTIwMDIgMTYwMwps
+          YXd5ZXIgMTYwNApsYyAxNjA1CmxlYXNlIDE2MDYKbGVjbGVyYyAxNjA3CmxlZ2FsIDE2MDgKbGdidCAx
+          NjA5CmxpIDE2MTAKbGlnaHRpbmcgMTYxMQpsaW1pdGVkIDE2MTIKbGltbyAxNjEzCmxrIDE2MTQKbG9h
+          biAxNjE1CmxvbCAxNjE2CjI3NzEwIDE2MTcKbHRkIDE2MTgKbHV4dXJ5IDE2MTkKODg4NyAxNjIwCm1h
+          IDE2MjEKbW9yb2NjbyAxNjIyCm1haXNvbiAxNjIzCm1hcmtldHMgMTYyNAptYmEgMTYyNQptYyAxNjI2
+          Cm1vbmFjbyAxNjI3CjEyOTMgMTYyOAo3NjE1OTYgMTYyOQo4Njg5NyAxNjMwCm1lbGJvdXJuZSAxNjMx
+          CjEwMDQxIDE2MzIKbWVtb3JpYWwgMTYzMwptZW4gMTYzNAptZW51IDE2MzUKcmVzdGF1cmFudHMgMTYz
+          NgptYWRhZ2FzY2FyIDE2MzcKbWsgMTYzOAoxMjcwNCAxNjM5Cm1sIDE2NDAKbW1hIDE2NDEKbW4gMTY0
+          MgptbyAxNjQzCm1vZGEgMTY0NAptb2UgMTY0NQptb20gMTY0Ngptb3J0Z2FnZSAxNjQ3Cm1zIDE2NDgK
+          bXQgMTY0OQptYWx0YSAxNjUwCm11IDE2NTEKbXVzZXVtIDE2NTIKbXYgMTY1MwptdyAxNjU0Cjg1Nzkg
+          MTY1NQptYWxhd2kgMTY1NgptYWxheXNpYSAxNjU3Cm16IDE2NTgKbmEgMTY1OQpuYWdveWEgMTY2MApu
+          YXZ5IDE2NjEKbmMgMTY2MgpuZXdzIDE2NjMKbmcgMTY2NApuZ28gMTY2NQpuaW5qYSAxNjY2CjEwMTk2
+          OTcgMTY2Nwo3NDMxOCAxNjY4Cm5yYSAxNjY5Cm5ydyAxNjcwCm51IDE2NzEKbml1ZSAxNjcyCm55YyAx
+          NjczCm56IDE2NzQKemVhbGFuZCAxNjc1Cm9tIDE2NzYKb25nIDE2NzcKb29vIDE2NzgKNzA4MiAxNjc5
+          CjQxMzYyIDE2ODAKb3JnYW5pYyAxNjgxCm9zYWthIDE2ODIKb3ZoIDE2ODMKNTAwNTYgMTY4NApwYSAx
+          Njg1CnBhcmlzIDE2ODYKcGFydG5lcnMgMTY4Nwo1OTE1NyAxNjg4CnBldCAxNjg5CnBmIDE2OTAKcGcg
+          MTY5MQpwYXB1YSAxNjkyCnBoIDE2OTMKMTc5NDAgMTY5NApwaGlsaXBwaW5lcyAxNjk1CnBob3RvIDE2
+          OTYKcGhvdG9ncmFwaHkgMTY5NwpwaG90b3MgMTY5OApwaHlzaW8gMTY5OQpwaWNzIDE3MDAKcGljdHVy
+          ZXMgMTcwMQpwaW5rIDE3MDIKcGl6emEgMTcwMwpwayAxNzA0CjQ0NDY0IDE3MDUKcGFraXN0YW4gMTcw
+          NgozMjc1ODcgMTcwNwpwbHVtYmluZyAxNzA4CnBsdXMgMTcwOQpwbSAxNzEwCnBvcm4gMTcxMQpwciAx
+          NzEyCnByb2R1Y3Rpb25zIDE3MTMKcHJvbW8gMTcxNApwcm9wZXJ0eSAxNzE1CnBzIDE3MTYKMTc2OTEg
+          MTcxNwpwdWIgMTcxOApwdyAxNzE5CnBhcmFndWF5IDE3MjAKcWEgMTcyMQpyYWNpbmcgMTcyMgpyZWFs
+          dG9yIDE3MjMKcmVhbHR5IDE3MjQKcmVoYWIgMTcyNQpyZWlzZSAxNzI2CnJlaXNlbiAxNzI3CnJlaXQg
+          MTcyOApyZW4gMTcyOQpyZW50YWxzIDE3MzAKcmVwdWJsaWNhbiAxNzMxCnJlc3RhdXJhbnQgMTczMgpy
+          aW8gMTczMwpyaXAgMTczNAo0MjA0NiAxNzM1CnJvY2tzIDE3MzYKcnMgMTczNwpzZXJiaWEgMTczOAo1
+          MTQ2NjggMTczOQo2NDk5IDE3NDAKcnVociAxNzQxCnJ3IDE3NDIKNTA2NCAxNzQzCnNhYXJsYW5kIDE3
+          NDQKc2FsZSAxNzQ1CnNhbG9uIDE3NDYKc2FybCAxNzQ3CnNjIDE3NDgKc2V5Y2hlbGxlcyAxNzQ5CnNj
+          aHVsZSAxNzUwCnNjb3QgMTc1MQpzZCAxNzUyCjI5MzMxNiAxNzUzCnNlY3VyaXR5IDE3NTQKc2V4IDE3
+          NTUKc2V4eSAxNzU2CnNnIDE3NTcKc2luZ2Fwb3JlIDE3NTgKc2ggMTc1OQpzaGlrc2hhIDE3NjAKc2hv
+          ZXMgMTc2MQozOTc0OSAxNzYyCjEyODc5IDE3NjMKc2luZ2xlcyAxNzY0CjMxNTcyIDE3NjUKc2tpIDE3
+          NjYKc2wgMTc2NwpzbSAxNzY4CjM0NCAxNzY5CnNvY2NlciAxNzcwCnNveSAxNzcxCnNyIDE3NzIKc3Js
+          IDE3NzMKc3RvcmFnZSAxNzc0CnN0b3JlIDE3NzUKc3RyZWFtIDE3NzYKc3R1ZGlvIDE3NzcKc3R1ZHkg
+          MTc3OApzdWNrcyAxNzc5CnN1cmYgMTc4MApzdXJnZXJ5IDE3ODEKMTc3OCAxNzgyCnNhbHZhZG9yIDE3
+          ODMKc3dpc3MgMTc4NApzeCAxNzg1CnN5IDE3ODYKMjY2MyAxNzg3CnN5ZG5leSAxNzg4CjEwMDczIDE3
+          ODkKc3ogMTc5MAp0YWlwZWkgMTc5MQo1NjY0IDE3OTIKdGF0dG9vIDE3OTMKdGF4IDE3OTQKdGF4aSAx
+          Nzk1CnRjIDE3OTYKMTYzODQgMTc5Nwp0dXJrcyAxNzk4CmNhaWNvcyAxNzk5CnRlY2ggMTgwMAp0ZW5u
+          aXMgMTgwMQp0ZiAxODAyCnRnIDE4MDMKdGhhaWxhbmQgMTgwNAp0aGVhdGVyIDE4MDUKdGlja2V0cyAx
+          ODA2CnRpZW5kYSAxODA3CnRpcmVzIDE4MDgKdGlyb2wgMTgwOQozNCAxODEwCnRrIDE4MTEKdG9rZWxh
+          dSAxODEyCnRsIDE4MTMKdG4gMTgxNAoxNjk4NyAxODE1CnRvbmdhIDE4MTYKdG9reW8gMTgxNwp0b3Vy
+          cyAxODE4CnRvd24gMTgxOQp0b3lzIDE4MjAKMTM4ODE4IDE4MjEKdHJhZGUgMTgyMgp0dCAxODIzCnR1
+          YmUgMTgyNAo1NTk1MDIgMTgyNQp0dXZhbHUgMTgyNgp0dyAxODI3CnRhaXdhbiAxODI4CnR6IDE4MjkK
+          NTUzMjE2IDE4MzAKdWcgMTgzMQozMzA0NjA2IDE4MzIKdW5vIDE4MzMKMzEzOTU2MyAxODM0CjU3ODky
+          NyAxODM1CjM2NSAxODM2CnZjIDE4MzcKMTQwMTUgMTgzOApsYXMgMTgzOQpudiAxODQwCnZlbnR1cmVz
+          IDE4NDEKdmVyc2ljaGVydW5nIDE4NDIKdmV0IDE4NDMKdmcgMTg0NAo4Mzg5IDE4NDUKdmlhamVzIDE4
+          NDYKdmlsbGFzIDE4NDcKdmlwIDE4NDgKdmlzaW9uIDE4NDkKdmxhYW5kZXJlbiAxODUwCjQzNjAwNSAx
+          ODUxCjE2MTg1NSAxODUyCnZvZGthIDE4NTMKdm90ZSAxODU0CjIzMTYgMTg1NQp2b3RvIDE4NTYKdm95
+          YWdlIDE4NTcKdnUgMTg1OAp3YWxlcyAxODU5CndhbmcgMTg2MAp3ZWJjYW0gMTg2MQp3ZWRkaW5nIDE4
+          NjIKd2YgMTg2Mwp3aWtpcyAxODY0CndpbmUgMTg2NQpzYW1vYSAxODY2Cnd0ZiAxODY3CnhpbiAxODY4
+          CjNkczQ0M2cgMTg2OQo1NXF4NWQgMTg3MAo2cXE5ODZiM3hsIDE4NzEKY3pyNjk0YiAxODcyCmN6cnUy
+          ZCAxODczCmZpcTIyOGM1aHMgMTg3NAoxMjE0NSAxODc1CmlvMGE3aSAxODc2Cmo2dzE5M2cgMTg3Nwoz
+          MTc2NCAxODc4CmtwdXQzaSAxODc5Cm1nYmFhbTdhOGggMTg4MAoyMDM4IDE4ODEKbWdiZXJwNGE1ZDRh
+          ciAxODgyCjI1MzQgMTg4MwptazFidTQ0YyAxODg0CjYwMDEgMTg4NQpyaHF2OTZnIDE4ODYKNzcyMyAx
+          ODg3CnNlczU1NGcgMTg4OAp0Y2t3ZSAxODg5CjYxOTcgMTg5MAp2dXE4NjFiIDE4OTEKMTk3MDYgMTg5
+          Mgp4eHggMTg5MwoxMTk4NzkgMTg5NAp4eXogMTg5NQp5YWNodHMgMTg5Ngp5b2dhIDE4OTcKeW9rb2hh
+          bWEgMTg5OAo4MTQwIDE4OTkKeXQgMTkwMAp6YSAxOTAxCnptIDE5MDIKOTBhZSAxOTAzCjE2OSAxOTA0
+          CjgwYWR4aGtzIDE5MDUKMTk1ODIgMTkwNgozNDAzIDE5MDcKcDFhY2YgMTkwOAoxMTA3ODkgMTkwOQo4
+          Njk3NTkgMTkxMApqMWFtaCAxOTExCjEwNTYzIDE5MTIKMjQ0IDE5MTMKdGhvdWdodHMgMTkxNAp0dXZh
+          IDE5MTUKaHVudGluZyAxOTE2CmF3YXJlIDE5MTcKYXNzaXN0IDE5MTgKYWdlIDE5MTkKZnJlZWRvbSAx
+          OTIwCmxvc2luZyAxOTIxCmNsaWVudHMgMTkyMgp2cyAxOTIzCmNvbWZvcnRhYmxlIDE5MjQKaW5jbHVk
+          ZSAxOTI1CmhlbHBlZCAxOTI2CnN0cnVjdHVyZSAxOTI3CmFyZSAxOTI4CnZhcmlvdXMgMTkyOQplbiAx
+          OTMwCmNob29zZSAxOTMxCnRha2luZyAxOTMyCmZvb2QgMTkzMwpwbGFucyAxOTM0CnVuaWJhbmsgMTkz
+          NQpsZWF2aW5nIDE5MzYKYmxldyAxOTM3Cmxhbmd1YWdlcyAxOTM4CmhhY2tlcnMgMTkzOQpmYWN0cyAx
+          OTQwCmluY2x1ZGVkIDE5NDEKYnV5IDE5NDIKY29zdCAxOTQzCmNhbGxlZCAxOTQ0CndpZGdldHMgMTk0
+          NQpwbHVnIDE5NDYKZ3V5IDE5NDcKc3VwcG9zZSAxOTQ4CmZpbmRpbmcgMTk0OQp3aGF0ZXZlciAxOTUw
+          CnNvb25lciAxOTUxCnJlcXVpcmUgMTk1Mgp3YXlzIDE5NTMKamFuemFjIDE5NTQKY29kaW5nIDE5NTUK
+          NTkzNyAxOTU2CjY4MDQgMTk1Nwo4MTMyIDE5NTgKNTc2MCAxOTU5CjU0MTIgMTk2MAoxMTQ2IDE5NjEK
+          NjEyMCAxOTYyCjEyMDEgMTk2MwozNDIyIDE5NjQKNDM5MSAxOTY1CmxhcnMgMTk2NgpibHVlcyAxOTY3
+          CjIwMTAgMTk2OApyaXZlcm1lbiAxOTY5Cmludm9sdmVkIDE5NzAKcmF3IDE5NzEKMzYwIDE5NzIKY2hv
+          cCAxOTczCmhhcHBlbiAxOTc0CnNlZW1lZCAxOTc1CndvcnJpZXMgMTk3NgpuYWlsIDE5NzcKc2lnbmFs
+          IDE5NzgKYXNzaWdubWVudHMgMTk3OQpmZWF0dXJlIDE5ODAKcmFuayAxOTgxCnNpZ25pZmljYW50IDE5
+          ODIKY2FsbCAxOTgzCnRodCAxOTg0Cnl1ciAxOTg1CnRlc3RhbWVudCAxOTg2CnRoaGUgMTk4NwpsYXdu
+          IDE5ODgKZmFtaWxpYXIgMTk4OQpzdXJmYWNlIDE5OTAKdHJhaW4gMTk5MQpodWIgMTk5MgptaW5lIDE5
+          OTMKZmxvd2Vyc3dlYiAxOTk0CnJrIDE5OTUKcGhwZ290b2h0dHAgMTk5NgpleGNoYW5naW5nIDE5OTcK
+          bGlua3MgMTk5OApsYXVuY2ggMTk5OQpidXlpbmcgMjAwMApzdGF0ZWQgMjAwMQpib3lzIDIwMDIK
+      - name: Replace README
+        path: codelab2/tfserving_flutter/README.md
+        replace-contents: |
+          # Flutter sample to demonstrate sending requests to TF Serving
+
+          This Flutter sample project demos how to call TF Serving from a Flutter app, via
+          gRPC and REST. You can input some text and it will send the text to TF Serving
+          to classify the text as spam or not.
+
+          ## Usage
+
+          1. Download the spam detection SavedModel from this [codelab](https://colab.sandbox.google.com/github/tensorflow/codelabs/blob/main/TFServing/TextClassificationFlutter/codelab1/SpamCommentsModelMaker.ipynb).
+          2. Start TF Serving with: `docker run -t --rm -p 8500:8500 -p 8501:8501 -v
+             "PATH/TO/SAVEDMODEL:/models/spam-detection" -e MODEL_NAME=spam-detection
+             tensorflow/serving`.
+          3. Go into 'lib/proto' folder and run 'generate_grpc_stub_dart.sh' to generate the gRPC
+             client stub.
+          4. Start Android emulator and run the app.
+          5. If you are not using an Android emulator, make sure to replace '10.0.2.2'
+             with your TF Serving host's IP address.
+      - name: Replace lib/main.dart
+        path: codelab2/tfserving_flutter/lib/main.dart
+        replace-contents: |
+          import 'dart:async';
+          import 'dart:convert';
+          import 'dart:io' show Platform;
+
+          import 'package:fixnum/fixnum.dart';
+          import 'package:flutter/material.dart';
+          import 'package:flutter/services.dart' show rootBundle;
+          import 'package:grpc/grpc.dart';
+          import 'package:http/http.dart' as http;
+
+          import 'proto/generated/tensorflow/core/framework/tensor.pb.dart';
+          import 'proto/generated/tensorflow/core/framework/tensor_shape.pb.dart';
+          import 'proto/generated/tensorflow/core/framework/types.pbenum.dart';
+          import 'proto/generated/tensorflow_serving/apis/model.pb.dart';
+          import 'proto/generated/tensorflow_serving/apis/predict.pb.dart';
+          import 'proto/generated/tensorflow_serving/apis/prediction_service.pbgrpc.dart';
+
+          enum ConnectionModeType { grpc, rest }
+
+          const grpcPort = 8500;
+          const restPort = 8501;
+          const modelName = 'spam-detection';
+          const signatureName = 'serving_default';
+
+          const classificationThreshold = 0.8;
+          const vocabFile = 'assets/vocab.txt';
+          const maxSentenceLength = 20;
+
+          const String initialPrompt =
+              'Type some text and tap the button. The spam detection model will determine if the text is spam or not.';
+
+          void main() => runApp(const TFServingDemo());
+
+          class TFServingDemo extends StatefulWidget {
+            const TFServingDemo({super.key});
+
+            @override
+            State<TFServingDemo> createState() => _TFServingDemoState();
+          }
+
+          class _TFServingDemoState extends State<TFServingDemo> {
+            late Future<String> _futurePrediction;
+            final Map<String, int> _vocabMap = {};
+            final TextEditingController _inputSentenceController =
+                TextEditingController();
+            late List<int> _tokenIndices;
+            bool? usegRPC = true;
+            late String _server;
+
+            ConnectionModeType? _connectionMode = ConnectionModeType.grpc;
+            late PredictionServiceClient _stub;
+
+            @override
+            void initState() {
+              super.initState();
+              _futurePrediction = Future<String>.value(initialPrompt);
+            }
+
+            @override
+            Widget build(BuildContext context) {
+              return MaterialApp(
+                title: 'TF Serving Flutter Demo',
+                theme: ThemeData(
+                  colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+                ),
+                home: Scaffold(
+                  appBar: AppBar(
+                    title: const Text('TF Serving Flutter Demo'),
+                  ),
+                  body: Center(
+                    child: Container(
+                      padding: const EdgeInsets.fromLTRB(20, 30, 20, 20),
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            TextField(
+                              controller: _inputSentenceController,
+                              decoration: const InputDecoration(
+                                  border: UnderlineInputBorder(),
+                                  hintText: 'Enter a sentence here'),
+                            ),
+                            Column(
+                              children: <Widget>[
+                                ListTile(
+                                  title: const Text('gRPC'),
+                                  leading: Radio<ConnectionModeType>(
+                                    value: ConnectionModeType.grpc,
+                                    groupValue: _connectionMode,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _connectionMode = value;
+                                      });
+                                    },
+                                  ),
+                                ),
+                                ListTile(
+                                  title: const Text('REST'),
+                                  leading: Radio<ConnectionModeType>(
+                                    value: ConnectionModeType.rest,
+                                    groupValue: _connectionMode,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _connectionMode = value;
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  FilledButton(
+                                      style: FilledButton.styleFrom(
+                                        textStyle: const TextStyle(fontSize: 18),
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          _futurePrediction = predict();
+                                        });
+                                      },
+                                      child: const Text('Classify')),
+                                  FilledButton(
+                                      style: FilledButton.styleFrom(
+                                        textStyle: const TextStyle(fontSize: 18),
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          _futurePrediction =
+                                              Future<String>.value(initialPrompt);
+                                          _inputSentenceController.clear();
+                                        });
+                                      },
+                                      child: const Text('Reset'))
+                                ]),
+                            FutureBuilder<String>(
+                              future: _futurePrediction,
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return Text(snapshot.data!);
+                                } else if (snapshot.hasError) {
+                                  return Text('${snapshot.error}');
+                                }
+                                // By default, show a loading spinner.
+                                return const CircularProgressIndicator();
+                              },
+                            ),
+                          ]),
+                    ),
+                  ),
+                ),
+              );
+            }
+
+            Future<String> predict() async {
+              if (Platform.isAndroid) {
+                // For Android
+                _server = '10.0.2.2';
+              } else {
+                // For iOS emulator, desktop and web platforms
+                _server = '127.0.0.1';
+              }
+              // TODO: build _vocabMap if empty
+
+              // TODO: tokenize the input sentence.
+
+              if (_connectionMode == ConnectionModeType.rest) {
+                // TODO: create and send the REST request
+
+                // TODO: process the REST response
+              } else {
+                // TODO: create the gRPC request
+
+                // TODO: send the gRPC request
+
+                // TODO: process the gRPC response
+              }
+              return '';
+            }
+          }
+      - name: Replace test/widget_test.dart
+        path: codelab2/tfserving_flutter/test/widget_test.dart
+        replace-contents: |
+          import 'package:flutter_test/flutter_test.dart';
+          import 'package:tfserving_flutter/main.dart';
+
+          void main() {
+            testWidgets(' smoke test', (tester) async {
+              // Build our app and trigger a frame.
+              await tester.pumpWidget(const TFServingDemo());
+
+              // Verify that our counter starts at 0.
+              expect(find.text('Classify'), findsOneWidget);
+              expect(find.text('Reset'), findsOneWidget);
+            });
+          }
+      - name: Patch macos/Runner/DebugProfile.entitlements
+        path: codelab2/tfserving_flutter/macos/Runner/DebugProfile.entitlements
+        patch-u: |
+          --- b/tfserving-flutter/codelab2/starter/macos/Runner/DebugProfile.entitlements
+          +++ a/tfserving-flutter/codelab2/starter/macos/Runner/DebugProfile.entitlements
+          @@ -8,5 +8,7 @@
+           	<true/>
+           	<key>com.apple.security.network.server</key>
+           	<true/>
+          +	<key>com.apple.security.network.client</key>
+          +	<true/>
+           </dict>
+           </plist>
+      - name: Patch macos/Runner/Release.entitlements
+        path: codelab2/tfserving_flutter/macos/Runner/Release.entitlements
+        patch-u: |
+          --- b/tfserving-flutter/codelab2/starter/macos/Runner/Release.entitlements
+          +++ a/tfserving-flutter/codelab2/starter/macos/Runner/Release.entitlements
+          @@ -4,5 +4,7 @@
+           <dict>
+           	<key>com.apple.security.app-sandbox</key>
+           	<true/>
+          +	<key>com.apple.security.network.client</key>
+          +	<true/>
+           </dict>
+           </plist>
+
+
       - name: Copy codelab2/starter
         copydir:
           from: codelab2/tfserving_flutter
@@ -34,10 +667,138 @@ steps:
     steps:
       - name: Remove generated code
         rmdir: codelab2/finished
+      - name: Patch analysis_options.yaml
+        path: codelab2/tfserving_flutter/analysis_options.yaml
+        patch-u: |
+          --- b/tfserving-flutter/codelab2/finished/analysis_options.yaml
+          +++ a/tfserving-flutter/codelab2/finished/analysis_options.yaml
+          @@ -2,9 +2,6 @@ include: ../../../analysis_options.yaml
+          
+           analyzer:
+             exclude: [lib/proto/generated/**]
+          -  errors:
+          -    unused_import: ignore
+          -    unused_field: ignore
+          
+           linter:
+             rules:
       - name: Copy codelab2/finished
         copydir:
           from: codelab2/tfserving_flutter
           to: codelab2/finished
+      - name: Patch lib/main.dart
+        path: codelab2/finished/lib/main.dart
+        patch-u: |
+          --- b/tfserving-flutter/codelab2/finished/lib/main.dart
+          +++ a/tfserving-flutter/codelab2/finished/lib/main.dart
+          @@ -160,21 +160,99 @@ class _TFServingDemoState extends State<TFServingDemo> {
+                 // For iOS emulator, desktop and web platforms
+                 _server = '127.0.0.1';
+               }
+          -    // TODO: build _vocabMap if empty
+           
+          -    // TODO: tokenize the input sentence.
+          +    if (_vocabMap.isEmpty) {
+          +      final vocabFileString = await rootBundle.loadString(vocabFile);
+          +      final lines = vocabFileString.split('\n');
+          +      for (final l in lines) {
+          +        if (l != '') {
+          +          var wordAndIndex = l.split(' ');
+          +          (_vocabMap)[wordAndIndex[0]] = int.parse(wordAndIndex[1]);
+          +        }
+          +      }
+          +    }
+          +
+          +    // Tokenize the input sentence.
+          +    final inputWords = _inputSentenceController.text
+          +        .toLowerCase()
+          +        .replaceAll(RegExp('[^a-z ]'), '')
+          +        .split(' ');
+          +    // Initialize with padding token
+          +    _tokenIndices = List.filled(maxSentenceLength, 0);
+          +    var i = 0;
+          +    for (final w in inputWords) {
+          +      if ((_vocabMap).containsKey(w)) {
+          +        _tokenIndices[i] = (_vocabMap)[w]!;
+          +        i++;
+          +      }
+          +
+          +      // Truncate the string if longer than maxSentenceLength.
+          +      if (i >= maxSentenceLength - 1) {
+          +        break;
+          +      }
+          +    }
+           
+               if (_connectionMode == ConnectionModeType.rest) {
+          -      // TODO: create and send the REST request
+          +      final response = await http.post(
+          +        Uri.parse('http://$_server:$restPort/v1/models/$modelName:predict'),
+          +        body: jsonEncode(<String, List<List<int>>>{
+          +          'instances': [_tokenIndices],
+          +        }),
+          +      );
+           
+          -      // TODO: process the REST response
+          +      if (response.statusCode == 200) {
+          +        Map<String, dynamic> result =
+          +            jsonDecode(response.body) as Map<String, dynamic>;
+          +        if ((result['predictions']![0][1] as double) >=
+          +            classificationThreshold) {
+          +          return 'This sentence is spam. Spam score is ${result['predictions']![0][1]}';
+          +        }
+          +        return 'This sentence is not spam. Spam score is ${result['predictions']![0][1]}';
+          +      } else {
+          +        throw Exception('Error response');
+          +      }
+               } else {
+          -      // TODO: create the gRPC request
+          +      final channel = ClientChannel(_server,
+          +          port: grpcPort,
+          +          options:
+          +              const ChannelOptions(credentials: ChannelCredentials.insecure()));
+          +      _stub = PredictionServiceClient(channel,
+          +          options: CallOptions(timeout: const Duration(seconds: 10)));
+          +
+          +      ModelSpec modelSpec = ModelSpec(
+          +        name: 'spam-detection',
+          +        signatureName: 'serving_default',
+          +      );
+          +
+          +      TensorShapeProto_Dim batchDim = TensorShapeProto_Dim(size: Int64(1));
+          +      TensorShapeProto_Dim inputDim =
+          +          TensorShapeProto_Dim(size: Int64(maxSentenceLength));
+          +      TensorShapeProto inputTensorShape =
+          +          TensorShapeProto(dim: [batchDim, inputDim]);
+          +      TensorProto inputTensor = TensorProto(
+          +          dtype: DataType.DT_INT32,
+          +          tensorShape: inputTensorShape,
+          +          intVal: _tokenIndices);
+          +
+          +      // If you train your own model, make sure to update the input and output
+          +      // tensor names.
+          +      const inputTensorName = 'input_3';
+          +      const outputTensorName = 'dense_5';
+          +      PredictRequest request = PredictRequest(
+          +          modelSpec: modelSpec, inputs: {inputTensorName: inputTensor});
+           
+          -      // TODO: send the gRPC request
+          +      PredictResponse response = await _stub.predict(request);
+           
+          -      // TODO: process the gRPC response
+          +      if (response.outputs.containsKey(outputTensorName)) {
+          +        if (response.outputs[outputTensorName]!.floatVal[1] >
+          +            classificationThreshold) {
+          +          return 'This sentence is spam. Spam score is ${response.outputs[outputTensorName]!.floatVal[1]}';
+          +        } else {
+          +          return 'This sentence is not spam. Spam score is ${response.outputs[outputTensorName]!.floatVal[1]}';
+          +        }
+          +      } else {
+          +        throw Exception('Error response');
+          +      }
+               }
+          -    return '';
+             }
+           }
       - name: Flutter clean
         path: codelab2/finished
         flutter: clean
