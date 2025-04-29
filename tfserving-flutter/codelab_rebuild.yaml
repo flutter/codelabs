@@ -6,7 +6,7 @@ steps:
         rmdir: codelab2/starter
       - name: Create project
         path: codelab2
-        flutter: create tfserving_flutter
+        flutter: create tfserving_flutter --platforms=android,ios,windows,linux,macos
       - name: Strip DEVELOPMENT_TEAM
         strip-lines-containing: DEVELOPMENT_TEAM =
         path: codelab2/tfserving_flutter/ios/Runner.xcodeproj/project.pbxproj
