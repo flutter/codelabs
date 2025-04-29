@@ -34,14 +34,14 @@ steps:
           @@ -61,10 +61,8 @@ flutter:
              # the material Icons class.
              uses-material-design: true
-           
+
           -  # To add assets to your application, add an assets section, like this:
           -  # assets:
           -  #   - images/a_dot_burr.jpeg
           -  #   - images/a_dot_ham.jpeg
           +  assets:
-          +    - assets/vocab.txt  
-           
+          +    - assets/vocab.txt
+
              # An image asset can refer to one or more resolution-specific "variants", see
              # https://flutter.dev/to/resolution-aware-images
       - name: Mkdir assets
@@ -654,8 +654,50 @@ steps:
           +	<true/>
            </dict>
            </plist>
+      - name: Mkdir lib/proto
+        path: codelab2/tfserving_flutter
+        mkdir: lib/proto
+      - name: Add generate_grpc_stub_dart.sh
+        path: codelab2/tfserving_flutter/lib/proto/generate_grpc_stub_dart.sh
+        replace-contents: |
+          #!/bin/bash
+          # This script generates the client stub for TF Serving
 
+          touch generated
+          rm -rf generated
+          mkdir generated
 
+          protoc -I./ ./tensorflow_serving/apis/input.proto --dart_out=grpc:./generated
+          protoc -I./ ./tensorflow_serving/apis/regression.proto --dart_out=grpc:./generated
+          protoc -I./ ./tensorflow_serving/apis/predict.proto --dart_out=grpc:./generated
+          protoc -I./ ./tensorflow_serving/apis/prediction_service.proto --dart_out=grpc:./generated
+          protoc -I./ ./tensorflow_serving/apis/get_model_metadata.proto --dart_out=grpc:./generated
+          protoc -I./ ./tensorflow_serving/apis/inference.proto --dart_out=grpc:./generated
+          protoc -I./ ./tensorflow_serving/apis/model.proto --dart_out=grpc:./generated
+          protoc -I./ ./tensorflow_serving/apis/classification.proto --dart_out=grpc:./generated
+
+          protoc -I./ ./tensorflow/core/framework/graph.proto --dart_out=grpc:./generated
+          protoc -I./ ./tensorflow/core/framework/tensor_shape.proto --dart_out=grpc:./generated
+          protoc -I./ ./tensorflow/core/framework/function.proto --dart_out=grpc:./generated
+          protoc -I./ ./tensorflow/core/framework/variable.proto --dart_out=grpc:./generated
+          protoc -I./ ./tensorflow/core/framework/types.proto --dart_out=grpc:./generated
+          protoc -I./ ./tensorflow/core/framework/full_type.proto --dart_out=grpc:./generated
+          protoc -I./ ./tensorflow/core/framework/versions.proto --dart_out=grpc:./generated
+          protoc -I./ ./tensorflow/core/framework/attr_value.proto --dart_out=grpc:./generated
+          protoc -I./ ./tensorflow/core/framework/op_def.proto --dart_out=grpc:./generated
+          protoc -I./ ./tensorflow/core/framework/node_def.proto --dart_out=grpc:./generated
+          protoc -I./ ./tensorflow/core/framework/tensor.proto --dart_out=grpc:./generated
+          protoc -I./ ./tensorflow/core/framework/resource_handle.proto --dart_out=grpc:./generated
+          protoc -I./ ./tensorflow/core/example/feature.proto --dart_out=grpc:./generated
+          protoc -I./ ./tensorflow/core/example/example.proto --dart_out=grpc:./generated
+          protoc -I./ ./tensorflow/core/protobuf/struct.proto --dart_out=grpc:./generated
+          protoc -I./ ./tensorflow/core/protobuf/meta_graph.proto --dart_out=grpc:./generated
+          protoc -I./ ./tensorflow/core/protobuf/saver.proto --dart_out=grpc:./generated
+          protoc -I./ ./tensorflow/core/protobuf/trackable_object_graph.proto --dart_out=grpc:./generated
+          protoc -I./ ./tensorflow/core/protobuf/saved_object_graph.proto --dart_out=grpc:./generated
+
+          protoc -I./ ./google/protobuf/any.proto --dart_out=grpc:./generated
+          protoc -I./ ./google/protobuf/wrappers.proto --dart_out=grpc:./generated
       - name: Copy codelab2/starter
         copydir:
           from: codelab2/tfserving_flutter
@@ -673,13 +715,13 @@ steps:
           --- b/tfserving-flutter/codelab2/finished/analysis_options.yaml
           +++ a/tfserving-flutter/codelab2/finished/analysis_options.yaml
           @@ -2,9 +2,6 @@ include: ../../../analysis_options.yaml
-          
+
            analyzer:
              exclude: [lib/proto/generated/**]
           -  errors:
           -    unused_import: ignore
           -    unused_field: ignore
-          
+
            linter:
              rules:
       - name: Copy codelab2/finished
@@ -696,7 +738,7 @@ steps:
                  _server = '127.0.0.1';
                }
           -    // TODO: build _vocabMap if empty
-           
+
           -    // TODO: tokenize the input sentence.
           +    if (_vocabMap.isEmpty) {
           +      final vocabFileString = await rootBundle.loadString(vocabFile);
@@ -728,7 +770,7 @@ steps:
           +        break;
           +      }
           +    }
-           
+
                if (_connectionMode == ConnectionModeType.rest) {
           -      // TODO: create and send the REST request
           +      final response = await http.post(
@@ -737,7 +779,7 @@ steps:
           +          'instances': [_tokenIndices],
           +        }),
           +      );
-           
+
           -      // TODO: process the REST response
           +      if (response.statusCode == 200) {
           +        Map<String, dynamic> result =
@@ -780,10 +822,10 @@ steps:
           +      const outputTensorName = 'dense_5';
           +      PredictRequest request = PredictRequest(
           +          modelSpec: modelSpec, inputs: {inputTensorName: inputTensor});
-           
+
           -      // TODO: send the gRPC request
           +      PredictResponse response = await _stub.predict(request);
-           
+
           -      // TODO: process the gRPC response
           +      if (response.outputs.containsKey(outputTensorName)) {
           +        if (response.outputs[outputTensorName]!.floatVal[1] >
