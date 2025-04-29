@@ -1,0 +1,45 @@
+name: tfserving-flutter rebuild script
+steps:
+  - name: codelab2/starter
+    steps:
+      - name: Remove generated code
+        rmdir: codelab2/starter
+      - name: Create project
+        path: codelab2
+        flutter: create tfserving_flutter
+      - name: Strip DEVELOPMENT_TEAM
+        strip-lines-containing: DEVELOPMENT_TEAM =
+        path: codelab2/tfserving_flutter/ios/Runner.xcodeproj/project.pbxproj
+      - name: Configure analysis_options.yaml
+        path: codelab2/tfserving_flutter/analysis_options.yaml
+        replace-contents: |
+          include: ../../../analysis_options.yaml
+
+          analyzer:
+            exclude: [lib/proto/generated/**]
+
+          linter:
+            rules:
+      - name: Add dependencies
+        path: codelab2/tfserving_flutter
+        flutter: pub add http protobuf grpc fixnum
+      - name: Copy codelab2/starter
+        copydir:
+          from: codelab2/tfserving_flutter
+          to: codelab2/starter
+      - name: Flutter clean
+        path: codelab2/starter
+        flutter: clean
+  - name: codelab2/finished
+    steps:
+      - name: Remove generated code
+        rmdir: codelab2/finished
+      - name: Copy codelab2/finished
+        copydir:
+          from: codelab2/tfserving_flutter
+          to: codelab2/finished
+      - name: Flutter clean
+        path: codelab2/finished
+        flutter: clean
+  - name: Cleanup
+    rmdir: codelab2/tfserving_flutter
