@@ -3,7 +3,7 @@ import SwiftUI
 
 struct Provider: TimelineProvider {
     func placeholder(in context: Context) -> NewsArticleEntry {
-      NewsArticleEntry(date: Date(), title: "Placholder Title", description: "Placholder description")
+      NewsArticleEntry(date: Date(), title: "Placeholder Title", description: "Placeholder description")
     }
 
     func getSnapshot(in context: Context, completion: @escaping (NewsArticleEntry) -> ()) {
