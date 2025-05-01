@@ -4,7 +4,7 @@
 <dict>
 	<key>com.apple.security.application-groups</key>
 	<array>
-		<string>group.leighawidget</string>
+		<string>YOUR_APP_GROUP</string>
 	</array>
 </dict>
 </plist>

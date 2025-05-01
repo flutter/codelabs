@@ -5,6 +5,7 @@
 # */**/ios
 # */**/.gitignore
 */**/.metadata
+*/**/android/app/.cxx
 
 .dart_tool/
 
