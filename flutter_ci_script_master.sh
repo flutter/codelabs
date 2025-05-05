@@ -8,7 +8,8 @@ source "$DIR/flutter_ci_script_shared.sh"
 declare -a CODELABS=(
   # TODO(DomesticMouse): Dart format
   # "adaptive_app"
-  "animated-responsive-layout"
+  # TODO(DomesticMouse): Dart format
+  # "animated-responsive-layout"
   "animations"
   "audio_soloud"
   "boring_to_beautiful"
