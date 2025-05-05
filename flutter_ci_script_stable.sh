@@ -26,7 +26,7 @@ declare -a CODELABS=(
   "haiku_generator"
   "homescreen_codelab"
   "in_app_purchases"
-  # TODO(domesticmouse): Add after stable is above Dart 3.7.0-0
+  # TODO(domesticmouse): Add once this is green on stable
   # "intro_flutter_gpu"
   "namer"
   "next-gen-ui"
