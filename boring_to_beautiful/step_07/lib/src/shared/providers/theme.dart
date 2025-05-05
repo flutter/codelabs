@@ -87,8 +87,8 @@ class ThemeProvider extends InheritedWidget {
   ShapeBorder get shapeMedium =>
       RoundedRectangleBorder(borderRadius: BorderRadius.circular(8));
 
-  CardTheme cardTheme() {
-    return CardTheme(
+  CardThemeData cardTheme() {
+    return CardThemeData(
       elevation: 0,
       shape: shapeMedium,
       clipBehavior: Clip.antiAlias,
@@ -110,8 +110,8 @@ class ThemeProvider extends InheritedWidget {
     );
   }
 
-  TabBarTheme tabBarTheme(ColorScheme colors) {
-    return TabBarTheme(
+  TabBarThemeData tabBarTheme(ColorScheme colors) {
+    return TabBarThemeData(
       labelColor: colors.secondary,
       unselectedLabelColor: colors.onSurfaceVariant,
       indicator: BoxDecoration(
