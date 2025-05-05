@@ -14,14 +14,16 @@ part 'playback_bloc.freezed.dart';
 class PlaybackBloc extends Bloc<PlaybackEvent, PlaybackState> {
   PlaybackBloc() : super(PlaybackState.initial()) {
     on<PlaybackEvent>(
-      (event, emit) => event.map(
-        changeSong: (event) => _changeSong(event, emit),
-        moveToInSong: (event) => _moveToInSong(event, emit),
-        setVolume: (event) => _setVolume(event, emit),
-        songProgress: (event) => _songProgress(event, emit),
-        toggleMute: (event) => _toggleMute(event, emit),
-        togglePlayPause: (event) => _togglePlayPause(event, emit),
-      ),
+      (event, emit) => switch (event) {
+        ChangeSong changeSong => _changeSong(changeSong, emit),
+        MoveToInSong moveToInSong => _moveToInSong(moveToInSong, emit),
+        SetVolume setVolume => _setVolume(setVolume, emit),
+        SongProgress songProgress => _songProgress(songProgress, emit),
+        ToggleMute toggleMute => _toggleMute(toggleMute, emit),
+        TogglePlayPause toggle => _togglePlayPause(toggle, emit),
+        PlaybackEvent event =>
+          throw UnimplementedError('Unhandled event: $event'),
+      },
     );
   }
 
