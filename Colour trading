@@ -1,0 +1,70 @@
+color_trading_game/
+├── android/
+├── ios/
+├── lib/
+│   ├── main.dart        <-- yahan main logic aayega
+│   ├── screens/         <-- different screens (login, home, admin)
+│   ├── services/        <-- wallet, bet logic
+│   ├── widgets/        import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
+import 'screens/login_screen.dart';
+import 'screens/home_screen.dart';
+import 'screens/admin_panel.dart';
+import 'services/auth_service.dart';
+import 'firebase_options.dart'; // This will be auto-generated later
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AuthService()),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Color Trading Game',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: const AuthWrapper(),
+      ),
+    );
+  }
+}
+
+class AuthWrapper extends StatelessWidget {
+  const AuthWrapper({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final auth = Provider.of<AuthService>(context);
+    return StreamBuilder(
+      stream: auth.authStateChanges,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Scaffold(
+              body: Center(child: CircularProgressIndicator()));
+        }
+        if (snapshot.hasData) {
+          return const HomeScreen(); // User is logged in
+        } else {
+          return const LoginScreen(); // User is not logged in
+        }
+      },
+    );
+  }
+}
+<-- UI widgets
+├── pubspec.yaml         <-- dependencies yahan likhte hain
+flutter create color_trading_game
