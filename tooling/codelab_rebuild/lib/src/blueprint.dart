@@ -396,5 +396,5 @@ class Protoc {
   Map<String, dynamic> toJson() => _$ProtocToJson(this);
 
   @override
-  String toString() => 'CopyDirs: ${toJson()}';
+  String toString() => 'Protoc: ${toJson()}';
 }

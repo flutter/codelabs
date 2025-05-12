@@ -3889,47 +3889,158 @@ steps:
             // Unique auto-generated name of the object.
             string object_name = 2;
           }
-      - name: Add generate_grpc_stub_dart.sh
-        path: codelab2/tfserving_flutter/lib/proto/generate_grpc_stub_dart.sh
-        replace-contents: |
-          #!/bin/bash
-          # This script generates the client stub for TF Serving
 
-          touch generated
-          rm -rf generated
-          mkdir generated
+      - name: Mkdir lib/proto/generated
+        path: codelab2/tfserving_flutter
+        mkdir: lib/proto/generated
+      - name: Generate from ./tensorflow_serving/apis/input.proto
+        path: codelab2/tfserving_flutter/lib/proto
+        protoc:
+          proto: ./tensorflow_serving/apis/input.proto
+          output: grpc:./generated
+      - name: Generate from ./tensorflow_serving/apis/regression.proto
+        path: codelab2/tfserving_flutter/lib/proto
+        protoc:
+          proto: ./tensorflow_serving/apis/regression.proto
+          output: grpc:./generated
+      - name: Generate from ./tensorflow_serving/apis/predict.proto
+        path: codelab2/tfserving_flutter/lib/proto
+        protoc:
+          proto: ./tensorflow_serving/apis/predict.proto
+          output: grpc:./generated
+      - name: Generate from ./tensorflow_serving/apis/prediction_service.proto
+        path: codelab2/tfserving_flutter/lib/proto
+        protoc:
+          proto: ./tensorflow_serving/apis/prediction_service.proto
+          output: grpc:./generated
+      - name: Generate from ./tensorflow_serving/apis/get_model_metadata.proto
+        path: codelab2/tfserving_flutter/lib/proto
+        protoc:
+          proto: ./tensorflow_serving/apis/get_model_metadata.proto
+          output: grpc:./generated
+      - name: Generate from ./tensorflow_serving/apis/inference.proto
+        path: codelab2/tfserving_flutter/lib/proto
+        protoc:
+          proto: ./tensorflow_serving/apis/inference.proto
+          output: grpc:./generated
+      - name: Generate from ./tensorflow_serving/apis/model.proto
+        path: codelab2/tfserving_flutter/lib/proto
+        protoc:
+          proto: ./tensorflow_serving/apis/model.proto
+          output: grpc:./generated
+      - name: Generate from ./tensorflow_serving/apis/classification.proto
+        path: codelab2/tfserving_flutter/lib/proto
+        protoc:
+          proto: ./tensorflow_serving/apis/classification.proto
+          output: grpc:./generated
 
-          protoc -I./ ./tensorflow_serving/apis/input.proto --dart_out=grpc:./generated
-          protoc -I./ ./tensorflow_serving/apis/regression.proto --dart_out=grpc:./generated
-          protoc -I./ ./tensorflow_serving/apis/predict.proto --dart_out=grpc:./generated
-          protoc -I./ ./tensorflow_serving/apis/prediction_service.proto --dart_out=grpc:./generated
-          protoc -I./ ./tensorflow_serving/apis/get_model_metadata.proto --dart_out=grpc:./generated
-          protoc -I./ ./tensorflow_serving/apis/inference.proto --dart_out=grpc:./generated
-          protoc -I./ ./tensorflow_serving/apis/model.proto --dart_out=grpc:./generated
-          protoc -I./ ./tensorflow_serving/apis/classification.proto --dart_out=grpc:./generated
+      - name: Generate from ./tensorflow/core/framework/graph.proto
+        path: codelab2/tfserving_flutter/lib/proto
+        protoc:
+          proto: ./tensorflow/core/framework/graph.proto
+          output: grpc:./generated
+      - name: Generate from ./tensorflow/core/framework/tensor_shape.proto
+        path: codelab2/tfserving_flutter/lib/proto
+        protoc:
+          proto: ./tensorflow/core/framework/tensor_shape.proto
+          output: grpc:./generated
+      - name: Generate from ./tensorflow/core/framework/function.proto
+        path: codelab2/tfserving_flutter/lib/proto
+        protoc:
+          proto: ./tensorflow/core/framework/function.proto
+          output: grpc:./generated
+      - name: Generate from ./tensorflow/core/framework/variable.proto
+        path: codelab2/tfserving_flutter/lib/proto
+        protoc:
+          proto: ./tensorflow/core/framework/variable.proto
+          output: grpc:./generated
+      - name: Generate from ./tensorflow/core/framework/types.proto
+        path: codelab2/tfserving_flutter/lib/proto
+        protoc:
+          proto: ./tensorflow/core/framework/types.proto
+          output: grpc:./generated
+      - name: Generate from ./tensorflow/core/framework/full_type.proto
+        path: codelab2/tfserving_flutter/lib/proto
+        protoc:
+          proto: ./tensorflow/core/framework/full_type.proto
+          output: grpc:./generated
+      - name: Generate from ./tensorflow/core/framework/versions.proto
+        path: codelab2/tfserving_flutter/lib/proto
+        protoc:
+          proto: ./tensorflow/core/framework/versions.proto
+          output: grpc:./generated
+      - name: Generate from ./tensorflow/core/framework/attr_value.proto
+        path: codelab2/tfserving_flutter/lib/proto
+        protoc:
+          proto: ./tensorflow/core/framework/attr_value.proto
+          output: grpc:./generated
+      - name: Generate from ./tensorflow/core/framework/op_def.proto
+        path: codelab2/tfserving_flutter/lib/proto
+        protoc:
+          proto: ./tensorflow/core/framework/op_def.proto
+          output: grpc:./generated
+      - name: Generate from ./tensorflow/core/framework/node_def.proto
+        path: codelab2/tfserving_flutter/lib/proto
+        protoc:
+          proto: ./tensorflow/core/framework/node_def.proto
+          output: grpc:./generated
+      - name: Generate from ./tensorflow/core/framework/tensor.proto
+        path: codelab2/tfserving_flutter/lib/proto
+        protoc:
+          proto: ./tensorflow/core/framework/tensor.proto
+          output: grpc:./generated
+      - name: Generate from ./tensorflow/core/framework/resource_handle.proto
+        path: codelab2/tfserving_flutter/lib/proto
+        protoc:
+          proto: ./tensorflow/core/framework/resource_handle.proto
+          output: grpc:./generated
+      - name: Generate from ./tensorflow/core/example/feature.proto
+        path: codelab2/tfserving_flutter/lib/proto
+        protoc:
+          proto: ./tensorflow/core/example/feature.proto
+          output: grpc:./generated
+      - name: Generate from ./tensorflow/core/example/example.proto
+        path: codelab2/tfserving_flutter/lib/proto
+        protoc:
+          proto: ./tensorflow/core/example/example.proto
+          output: grpc:./generated
+      - name: Generate from ./tensorflow/core/protobuf/struct.proto
+        path: codelab2/tfserving_flutter/lib/proto
+        protoc:
+          proto: ./tensorflow/core/protobuf/struct.proto
+          output: grpc:./generated
+      - name: Generate from ./tensorflow/core/protobuf/meta_graph.proto
+        path: codelab2/tfserving_flutter/lib/proto
+        protoc:
+          proto: ./tensorflow/core/protobuf/meta_graph.proto
+          output: grpc:./generated
+      - name: Generate from ./tensorflow/core/protobuf/saver.proto
+        path: codelab2/tfserving_flutter/lib/proto
+        protoc:
+          proto: ./tensorflow/core/protobuf/saver.proto
+          output: grpc:./generated
+      - name: Generate from ./tensorflow/core/protobuf/trackable_object_graph.proto
+        path: codelab2/tfserving_flutter/lib/proto
+        protoc:
+          proto: ./tensorflow/core/protobuf/trackable_object_graph.proto
+          output: grpc:./generated
+      - name: Generate from ./tensorflow/core/protobuf/saved_object_graph.proto
+        path: codelab2/tfserving_flutter/lib/proto
+        protoc:
+          proto: ./tensorflow/core/protobuf/saved_object_graph.proto
+          output: grpc:./generated
 
-          protoc -I./ ./tensorflow/core/framework/graph.proto --dart_out=grpc:./generated
-          protoc -I./ ./tensorflow/core/framework/tensor_shape.proto --dart_out=grpc:./generated
-          protoc -I./ ./tensorflow/core/framework/function.proto --dart_out=grpc:./generated
-          protoc -I./ ./tensorflow/core/framework/variable.proto --dart_out=grpc:./generated
-          protoc -I./ ./tensorflow/core/framework/types.proto --dart_out=grpc:./generated
-          protoc -I./ ./tensorflow/core/framework/full_type.proto --dart_out=grpc:./generated
-          protoc -I./ ./tensorflow/core/framework/versions.proto --dart_out=grpc:./generated
-          protoc -I./ ./tensorflow/core/framework/attr_value.proto --dart_out=grpc:./generated
-          protoc -I./ ./tensorflow/core/framework/op_def.proto --dart_out=grpc:./generated
-          protoc -I./ ./tensorflow/core/framework/node_def.proto --dart_out=grpc:./generated
-          protoc -I./ ./tensorflow/core/framework/tensor.proto --dart_out=grpc:./generated
-          protoc -I./ ./tensorflow/core/framework/resource_handle.proto --dart_out=grpc:./generated
-          protoc -I./ ./tensorflow/core/example/feature.proto --dart_out=grpc:./generated
-          protoc -I./ ./tensorflow/core/example/example.proto --dart_out=grpc:./generated
-          protoc -I./ ./tensorflow/core/protobuf/struct.proto --dart_out=grpc:./generated
-          protoc -I./ ./tensorflow/core/protobuf/meta_graph.proto --dart_out=grpc:./generated
-          protoc -I./ ./tensorflow/core/protobuf/saver.proto --dart_out=grpc:./generated
-          protoc -I./ ./tensorflow/core/protobuf/trackable_object_graph.proto --dart_out=grpc:./generated
-          protoc -I./ ./tensorflow/core/protobuf/saved_object_graph.proto --dart_out=grpc:./generated
+      - name: Generate from ./google/protobuf/any.proto
+        path: codelab2/tfserving_flutter/lib/proto
+        protoc:
+          proto: ./google/protobuf/any.proto
+          output: grpc:./generated
+      - name: Generate from ./google/protobuf/wrappers.proto
+        path: codelab2/tfserving_flutter/lib/proto
+        protoc:
+          proto: ./google/protobuf/wrappers.proto
+          output: grpc:./generated
 
-          protoc -I./ ./google/protobuf/any.proto --dart_out=grpc:./generated
-          protoc -I./ ./google/protobuf/wrappers.proto --dart_out=grpc:./generated
       - name: Copy codelab2/starter
         copydir:
           from: codelab2/tfserving_flutter
