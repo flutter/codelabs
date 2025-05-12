@@ -1,20 +1,25 @@
-///
+//
 //  Generated code. Do not modify.
 //  source: tensorflow/core/protobuf/struct.proto
 //
-// @dart = 2.12
-// ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
+// @dart = 3.3
+
+// ignore_for_file: annotate_overrides, camel_case_types, comment_references
+// ignore_for_file: constant_identifier_names, library_prefixes
+// ignore_for_file: non_constant_identifier_names, prefer_final_fields
+// ignore_for_file: unnecessary_import, unnecessary_this, unused_import
 
 import 'dart:core' as $core;
 
 import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import '../framework/tensor_shape.pb.dart' as $0;
 import '../framework/tensor.pb.dart' as $1;
-
+import '../framework/tensor_shape.pb.dart' as $0;
 import '../framework/types.pbenum.dart' as $2;
 import 'struct.pbenum.dart';
+
+export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
 
 export 'struct.pbenum.dart';
 
@@ -36,7 +41,100 @@ enum StructuredValue_Kind {
   notSet
 }
 
+///  `StructuredValue` represents a dynamically typed value representing various
+///  data structures that are inspired by Python data structures typically used in
+///  TensorFlow functions as inputs and outputs.
+///
+///  For example when saving a Layer there may be a `training` argument. If the
+///  user passes a boolean True/False, that switches between two concrete
+///  TensorFlow functions. In order to switch between them in the same way after
+///  loading the SavedModel, we need to represent "True" and "False".
+///
+///  A more advanced example might be a function which takes a list of
+///  dictionaries mapping from strings to Tensors. In order to map from
+///  user-specified arguments `[{"a": tf.constant(1.)}, {"q": tf.constant(3.)}]`
+///  after load to the right saved TensorFlow function, we need to represent the
+///  nested structure and the strings, recording that we have a trace for anything
+///  matching `[{"a": tf.TensorSpec(None, tf.float32)}, {"q": tf.TensorSpec([],
+///  tf.float64)}]` as an example.
+///
+///  Likewise functions may return nested structures of Tensors, for example
+///  returning a dictionary mapping from strings to Tensors. In order for the
+///  loaded function to return the same structure we need to serialize it.
+///
+///  This is an ergonomic aid for working with loaded SavedModels, not a promise
+///  to serialize all possible function signatures. For example we do not expect
+///  to pickle generic Python objects, and ideally we'd stay language-agnostic.
 class StructuredValue extends $pb.GeneratedMessage {
+  factory StructuredValue({
+    NoneValue? noneValue,
+    $core.double? float64Value,
+    $fixnum.Int64? int64Value,
+    $core.String? stringValue,
+    $core.bool? boolValue,
+    $0.TensorShapeProto? tensorShapeValue,
+    $2.DataType? tensorDtypeValue,
+    TensorSpecProto? tensorSpecValue,
+    TypeSpecProto? typeSpecValue,
+    BoundedTensorSpecProto? boundedTensorSpecValue,
+    ListValue? listValue,
+    TupleValue? tupleValue,
+    DictValue? dictValue,
+    NamedTupleValue? namedTupleValue,
+  }) {
+    final $result = create();
+    if (noneValue != null) {
+      $result.noneValue = noneValue;
+    }
+    if (float64Value != null) {
+      $result.float64Value = float64Value;
+    }
+    if (int64Value != null) {
+      $result.int64Value = int64Value;
+    }
+    if (stringValue != null) {
+      $result.stringValue = stringValue;
+    }
+    if (boolValue != null) {
+      $result.boolValue = boolValue;
+    }
+    if (tensorShapeValue != null) {
+      $result.tensorShapeValue = tensorShapeValue;
+    }
+    if (tensorDtypeValue != null) {
+      $result.tensorDtypeValue = tensorDtypeValue;
+    }
+    if (tensorSpecValue != null) {
+      $result.tensorSpecValue = tensorSpecValue;
+    }
+    if (typeSpecValue != null) {
+      $result.typeSpecValue = typeSpecValue;
+    }
+    if (boundedTensorSpecValue != null) {
+      $result.boundedTensorSpecValue = boundedTensorSpecValue;
+    }
+    if (listValue != null) {
+      $result.listValue = listValue;
+    }
+    if (tupleValue != null) {
+      $result.tupleValue = tupleValue;
+    }
+    if (dictValue != null) {
+      $result.dictValue = dictValue;
+    }
+    if (namedTupleValue != null) {
+      $result.namedTupleValue = namedTupleValue;
+    }
+    return $result;
+  }
+  StructuredValue._() : super();
+  factory StructuredValue.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory StructuredValue.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
   static const $core.Map<$core.int, StructuredValue_Kind>
       _StructuredValue_KindByTag = {
     1: StructuredValue_Kind.noneValue,
@@ -56,171 +154,43 @@ class StructuredValue extends $pb.GeneratedMessage {
     0: StructuredValue_Kind.notSet
   };
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      const $core.bool.fromEnvironment('protobuf.omit_message_names')
-          ? ''
-          : 'StructuredValue',
-      package: const $pb.PackageName(
-          const $core.bool.fromEnvironment('protobuf.omit_message_names')
-              ? ''
-              : 'tensorflow'),
+      _omitMessageNames ? '' : 'StructuredValue',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow'),
       createEmptyInstance: create)
     ..oo(0, [1, 11, 12, 13, 14, 31, 32, 33, 34, 35, 51, 52, 53, 54])
-    ..aOM<NoneValue>(
-        1,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names')
-            ? ''
-            : 'noneValue',
+    ..aOM<NoneValue>(1, _omitFieldNames ? '' : 'noneValue',
         subBuilder: NoneValue.create)
     ..a<$core.double>(
-        11,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names')
-            ? ''
-            : 'float64Value',
-        $pb.PbFieldType.OD)
+        11, _omitFieldNames ? '' : 'float64Value', $pb.PbFieldType.OD)
     ..a<$fixnum.Int64>(
-        12,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names')
-            ? ''
-            : 'int64Value',
-        $pb.PbFieldType.OS6,
+        12, _omitFieldNames ? '' : 'int64Value', $pb.PbFieldType.OS6,
         defaultOrMaker: $fixnum.Int64.ZERO)
-    ..aOS(
-        13,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names')
-            ? ''
-            : 'stringValue')
-    ..aOB(
-        14,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names')
-            ? ''
-            : 'boolValue')
-    ..aOM<$0.TensorShapeProto>(
-        31,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names')
-            ? ''
-            : 'tensorShapeValue',
+    ..aOS(13, _omitFieldNames ? '' : 'stringValue')
+    ..aOB(14, _omitFieldNames ? '' : 'boolValue')
+    ..aOM<$0.TensorShapeProto>(31, _omitFieldNames ? '' : 'tensorShapeValue',
         subBuilder: $0.TensorShapeProto.create)
     ..e<$2.DataType>(
-        32,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names')
-            ? ''
-            : 'tensorDtypeValue',
-        $pb.PbFieldType.OE,
+        32, _omitFieldNames ? '' : 'tensorDtypeValue', $pb.PbFieldType.OE,
         defaultOrMaker: $2.DataType.DT_INVALID,
         valueOf: $2.DataType.valueOf,
         enumValues: $2.DataType.values)
-    ..aOM<TensorSpecProto>(
-        33,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names')
-            ? ''
-            : 'tensorSpecValue',
+    ..aOM<TensorSpecProto>(33, _omitFieldNames ? '' : 'tensorSpecValue',
         subBuilder: TensorSpecProto.create)
-    ..aOM<TypeSpecProto>(
-        34,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names')
-            ? ''
-            : 'typeSpecValue',
+    ..aOM<TypeSpecProto>(34, _omitFieldNames ? '' : 'typeSpecValue',
         subBuilder: TypeSpecProto.create)
     ..aOM<BoundedTensorSpecProto>(
-        35,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names')
-            ? ''
-            : 'boundedTensorSpecValue',
+        35, _omitFieldNames ? '' : 'boundedTensorSpecValue',
         subBuilder: BoundedTensorSpecProto.create)
-    ..aOM<ListValue>(
-        51,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names')
-            ? ''
-            : 'listValue',
+    ..aOM<ListValue>(51, _omitFieldNames ? '' : 'listValue',
         subBuilder: ListValue.create)
-    ..aOM<TupleValue>(
-        52,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names')
-            ? ''
-            : 'tupleValue',
+    ..aOM<TupleValue>(52, _omitFieldNames ? '' : 'tupleValue',
         subBuilder: TupleValue.create)
-    ..aOM<DictValue>(
-        53,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names')
-            ? ''
-            : 'dictValue',
+    ..aOM<DictValue>(53, _omitFieldNames ? '' : 'dictValue',
         subBuilder: DictValue.create)
-    ..aOM<NamedTupleValue>(
-        54,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names')
-            ? ''
-            : 'namedTupleValue',
+    ..aOM<NamedTupleValue>(54, _omitFieldNames ? '' : 'namedTupleValue',
         subBuilder: NamedTupleValue.create)
     ..hasRequiredFields = false;
 
-  StructuredValue._() : super();
-  factory StructuredValue({
-    NoneValue? noneValue,
-    $core.double? float64Value,
-    $fixnum.Int64? int64Value,
-    $core.String? stringValue,
-    $core.bool? boolValue,
-    $0.TensorShapeProto? tensorShapeValue,
-    $2.DataType? tensorDtypeValue,
-    TensorSpecProto? tensorSpecValue,
-    TypeSpecProto? typeSpecValue,
-    BoundedTensorSpecProto? boundedTensorSpecValue,
-    ListValue? listValue,
-    TupleValue? tupleValue,
-    DictValue? dictValue,
-    NamedTupleValue? namedTupleValue,
-  }) {
-    final _result = create();
-    if (noneValue != null) {
-      _result.noneValue = noneValue;
-    }
-    if (float64Value != null) {
-      _result.float64Value = float64Value;
-    }
-    if (int64Value != null) {
-      _result.int64Value = int64Value;
-    }
-    if (stringValue != null) {
-      _result.stringValue = stringValue;
-    }
-    if (boolValue != null) {
-      _result.boolValue = boolValue;
-    }
-    if (tensorShapeValue != null) {
-      _result.tensorShapeValue = tensorShapeValue;
-    }
-    if (tensorDtypeValue != null) {
-      _result.tensorDtypeValue = tensorDtypeValue;
-    }
-    if (tensorSpecValue != null) {
-      _result.tensorSpecValue = tensorSpecValue;
-    }
-    if (typeSpecValue != null) {
-      _result.typeSpecValue = typeSpecValue;
-    }
-    if (boundedTensorSpecValue != null) {
-      _result.boundedTensorSpecValue = boundedTensorSpecValue;
-    }
-    if (listValue != null) {
-      _result.listValue = listValue;
-    }
-    if (tupleValue != null) {
-      _result.tupleValue = tupleValue;
-    }
-    if (dictValue != null) {
-      _result.dictValue = dictValue;
-    }
-    if (namedTupleValue != null) {
-      _result.namedTupleValue = namedTupleValue;
-    }
-    return _result;
-  }
-  factory StructuredValue.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory StructuredValue.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
@@ -230,8 +200,10 @@ class StructuredValue extends $pb.GeneratedMessage {
       'Will be removed in next major version')
   StructuredValue copyWith(void Function(StructuredValue) updates) =>
       super.copyWith((message) => updates(message as StructuredValue))
-          as StructuredValue; // ignore: deprecated_member_use
+          as StructuredValue;
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static StructuredValue create() => StructuredValue._();
   StructuredValue createEmptyInstance() => create();
@@ -244,22 +216,24 @@ class StructuredValue extends $pb.GeneratedMessage {
 
   StructuredValue_Kind whichKind() =>
       _StructuredValue_KindByTag[$_whichOneof(0)]!;
-  void clearKind() => clearField($_whichOneof(0));
+  void clearKind() => $_clearField($_whichOneof(0));
 
+  /// Represents None.
   @$pb.TagNumber(1)
   NoneValue get noneValue => $_getN(0);
   @$pb.TagNumber(1)
   set noneValue(NoneValue v) {
-    setField(1, v);
+    $_setField(1, v);
   }
 
   @$pb.TagNumber(1)
   $core.bool hasNoneValue() => $_has(0);
   @$pb.TagNumber(1)
-  void clearNoneValue() => clearField(1);
+  void clearNoneValue() => $_clearField(1);
   @$pb.TagNumber(1)
   NoneValue ensureNoneValue() => $_ensure(0);
 
+  /// Represents a double-precision floating-point value (a Python `float`).
   @$pb.TagNumber(11)
   $core.double get float64Value => $_getN(1);
   @$pb.TagNumber(11)
@@ -270,8 +244,10 @@ class StructuredValue extends $pb.GeneratedMessage {
   @$pb.TagNumber(11)
   $core.bool hasFloat64Value() => $_has(1);
   @$pb.TagNumber(11)
-  void clearFloat64Value() => clearField(11);
+  void clearFloat64Value() => $_clearField(11);
 
+  /// Represents a signed integer value, limited to 64 bits.
+  /// Larger values from Python's arbitrary-precision integers are unsupported.
   @$pb.TagNumber(12)
   $fixnum.Int64 get int64Value => $_getI64(2);
   @$pb.TagNumber(12)
@@ -282,8 +258,14 @@ class StructuredValue extends $pb.GeneratedMessage {
   @$pb.TagNumber(12)
   $core.bool hasInt64Value() => $_has(2);
   @$pb.TagNumber(12)
-  void clearInt64Value() => clearField(12);
+  void clearInt64Value() => $_clearField(12);
 
+  /// Represents a string of Unicode characters stored in a Python `str`.
+  /// In Python 3, this is exactly what type `str` is.
+  /// In Python 2, this is the UTF-8 encoding of the characters.
+  /// For strings with ASCII characters only (as often used in TensorFlow code)
+  /// there is effectively no difference between the language versions.
+  /// The obsolescent `unicode` type of Python 2 is not supported here.
   @$pb.TagNumber(13)
   $core.String get stringValue => $_getSZ(3);
   @$pb.TagNumber(13)
@@ -294,8 +276,9 @@ class StructuredValue extends $pb.GeneratedMessage {
   @$pb.TagNumber(13)
   $core.bool hasStringValue() => $_has(3);
   @$pb.TagNumber(13)
-  void clearStringValue() => clearField(13);
+  void clearStringValue() => $_clearField(13);
 
+  /// Represents a boolean value.
   @$pb.TagNumber(14)
   $core.bool get boolValue => $_getBF(4);
   @$pb.TagNumber(14)
@@ -306,153 +289,159 @@ class StructuredValue extends $pb.GeneratedMessage {
   @$pb.TagNumber(14)
   $core.bool hasBoolValue() => $_has(4);
   @$pb.TagNumber(14)
-  void clearBoolValue() => clearField(14);
+  void clearBoolValue() => $_clearField(14);
 
+  /// Represents a TensorShape.
   @$pb.TagNumber(31)
   $0.TensorShapeProto get tensorShapeValue => $_getN(5);
   @$pb.TagNumber(31)
   set tensorShapeValue($0.TensorShapeProto v) {
-    setField(31, v);
+    $_setField(31, v);
   }
 
   @$pb.TagNumber(31)
   $core.bool hasTensorShapeValue() => $_has(5);
   @$pb.TagNumber(31)
-  void clearTensorShapeValue() => clearField(31);
+  void clearTensorShapeValue() => $_clearField(31);
   @$pb.TagNumber(31)
   $0.TensorShapeProto ensureTensorShapeValue() => $_ensure(5);
 
+  /// Represents an enum value for dtype.
   @$pb.TagNumber(32)
   $2.DataType get tensorDtypeValue => $_getN(6);
   @$pb.TagNumber(32)
   set tensorDtypeValue($2.DataType v) {
-    setField(32, v);
+    $_setField(32, v);
   }
 
   @$pb.TagNumber(32)
   $core.bool hasTensorDtypeValue() => $_has(6);
   @$pb.TagNumber(32)
-  void clearTensorDtypeValue() => clearField(32);
+  void clearTensorDtypeValue() => $_clearField(32);
 
+  /// Represents a value for tf.TensorSpec.
   @$pb.TagNumber(33)
   TensorSpecProto get tensorSpecValue => $_getN(7);
   @$pb.TagNumber(33)
   set tensorSpecValue(TensorSpecProto v) {
-    setField(33, v);
+    $_setField(33, v);
   }
 
   @$pb.TagNumber(33)
   $core.bool hasTensorSpecValue() => $_has(7);
   @$pb.TagNumber(33)
-  void clearTensorSpecValue() => clearField(33);
+  void clearTensorSpecValue() => $_clearField(33);
   @$pb.TagNumber(33)
   TensorSpecProto ensureTensorSpecValue() => $_ensure(7);
 
+  /// Represents a value for tf.TypeSpec.
   @$pb.TagNumber(34)
   TypeSpecProto get typeSpecValue => $_getN(8);
   @$pb.TagNumber(34)
   set typeSpecValue(TypeSpecProto v) {
-    setField(34, v);
+    $_setField(34, v);
   }
 
   @$pb.TagNumber(34)
   $core.bool hasTypeSpecValue() => $_has(8);
   @$pb.TagNumber(34)
-  void clearTypeSpecValue() => clearField(34);
+  void clearTypeSpecValue() => $_clearField(34);
   @$pb.TagNumber(34)
   TypeSpecProto ensureTypeSpecValue() => $_ensure(8);
 
+  /// Represents a value for tf.BoundedTensorSpec.
   @$pb.TagNumber(35)
   BoundedTensorSpecProto get boundedTensorSpecValue => $_getN(9);
   @$pb.TagNumber(35)
   set boundedTensorSpecValue(BoundedTensorSpecProto v) {
-    setField(35, v);
+    $_setField(35, v);
   }
 
   @$pb.TagNumber(35)
   $core.bool hasBoundedTensorSpecValue() => $_has(9);
   @$pb.TagNumber(35)
-  void clearBoundedTensorSpecValue() => clearField(35);
+  void clearBoundedTensorSpecValue() => $_clearField(35);
   @$pb.TagNumber(35)
   BoundedTensorSpecProto ensureBoundedTensorSpecValue() => $_ensure(9);
 
+  /// Represents a list of `Value`.
   @$pb.TagNumber(51)
   ListValue get listValue => $_getN(10);
   @$pb.TagNumber(51)
   set listValue(ListValue v) {
-    setField(51, v);
+    $_setField(51, v);
   }
 
   @$pb.TagNumber(51)
   $core.bool hasListValue() => $_has(10);
   @$pb.TagNumber(51)
-  void clearListValue() => clearField(51);
+  void clearListValue() => $_clearField(51);
   @$pb.TagNumber(51)
   ListValue ensureListValue() => $_ensure(10);
 
+  /// Represents a tuple of `Value`.
   @$pb.TagNumber(52)
   TupleValue get tupleValue => $_getN(11);
   @$pb.TagNumber(52)
   set tupleValue(TupleValue v) {
-    setField(52, v);
+    $_setField(52, v);
   }
 
   @$pb.TagNumber(52)
   $core.bool hasTupleValue() => $_has(11);
   @$pb.TagNumber(52)
-  void clearTupleValue() => clearField(52);
+  void clearTupleValue() => $_clearField(52);
   @$pb.TagNumber(52)
   TupleValue ensureTupleValue() => $_ensure(11);
 
+  /// Represents a dict `Value`.
   @$pb.TagNumber(53)
   DictValue get dictValue => $_getN(12);
   @$pb.TagNumber(53)
   set dictValue(DictValue v) {
-    setField(53, v);
+    $_setField(53, v);
   }
 
   @$pb.TagNumber(53)
   $core.bool hasDictValue() => $_has(12);
   @$pb.TagNumber(53)
-  void clearDictValue() => clearField(53);
+  void clearDictValue() => $_clearField(53);
   @$pb.TagNumber(53)
   DictValue ensureDictValue() => $_ensure(12);
 
+  /// Represents Python's namedtuple.
   @$pb.TagNumber(54)
   NamedTupleValue get namedTupleValue => $_getN(13);
   @$pb.TagNumber(54)
   set namedTupleValue(NamedTupleValue v) {
-    setField(54, v);
+    $_setField(54, v);
   }
 
   @$pb.TagNumber(54)
   $core.bool hasNamedTupleValue() => $_has(13);
   @$pb.TagNumber(54)
-  void clearNamedTupleValue() => clearField(54);
+  void clearNamedTupleValue() => $_clearField(54);
   @$pb.TagNumber(54)
   NamedTupleValue ensureNamedTupleValue() => $_ensure(13);
 }
 
+/// Represents None.
 class NoneValue extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      const $core.bool.fromEnvironment('protobuf.omit_message_names')
-          ? ''
-          : 'NoneValue',
-      package: const $pb.PackageName(
-          const $core.bool.fromEnvironment('protobuf.omit_message_names')
-              ? ''
-              : 'tensorflow'),
-      createEmptyInstance: create)
-    ..hasRequiredFields = false;
-
-  NoneValue._() : super();
   factory NoneValue() => create();
+  NoneValue._() : super();
   factory NoneValue.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(i, r);
   factory NoneValue.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'NoneValue',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow'),
+      createEmptyInstance: create)
+    ..hasRequiredFields = false;
+
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
@@ -461,9 +450,10 @@ class NoneValue extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   NoneValue copyWith(void Function(NoneValue) updates) =>
-      super.copyWith((message) => updates(message as NoneValue))
-          as NoneValue; // ignore: deprecated_member_use
+      super.copyWith((message) => updates(message as NoneValue)) as NoneValue;
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static NoneValue create() => NoneValue._();
   NoneValue createEmptyInstance() => create();
@@ -474,41 +464,34 @@ class NoneValue extends $pb.GeneratedMessage {
   static NoneValue? _defaultInstance;
 }
 
+/// Represents a Python list.
 class ListValue extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      const $core.bool.fromEnvironment('protobuf.omit_message_names')
-          ? ''
-          : 'ListValue',
-      package: const $pb.PackageName(
-          const $core.bool.fromEnvironment('protobuf.omit_message_names')
-              ? ''
-              : 'tensorflow'),
-      createEmptyInstance: create)
-    ..pc<StructuredValue>(
-        1,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names')
-            ? ''
-            : 'values',
-        $pb.PbFieldType.PM,
-        subBuilder: StructuredValue.create)
-    ..hasRequiredFields = false;
-
-  ListValue._() : super();
   factory ListValue({
     $core.Iterable<StructuredValue>? values,
   }) {
-    final _result = create();
+    final $result = create();
     if (values != null) {
-      _result.values.addAll(values);
+      $result.values.addAll(values);
     }
-    return _result;
+    return $result;
   }
+  ListValue._() : super();
   factory ListValue.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(i, r);
   factory ListValue.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'ListValue',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow'),
+      createEmptyInstance: create)
+    ..pc<StructuredValue>(
+        1, _omitFieldNames ? '' : 'values', $pb.PbFieldType.PM,
+        subBuilder: StructuredValue.create)
+    ..hasRequiredFields = false;
+
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
@@ -517,9 +500,10 @@ class ListValue extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   ListValue copyWith(void Function(ListValue) updates) =>
-      super.copyWith((message) => updates(message as ListValue))
-          as ListValue; // ignore: deprecated_member_use
+      super.copyWith((message) => updates(message as ListValue)) as ListValue;
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static ListValue create() => ListValue._();
   ListValue createEmptyInstance() => create();
@@ -530,44 +514,37 @@ class ListValue extends $pb.GeneratedMessage {
   static ListValue? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.List<StructuredValue> get values => $_getList(0);
+  $pb.PbList<StructuredValue> get values => $_getList(0);
 }
 
+/// Represents a Python tuple.
 class TupleValue extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      const $core.bool.fromEnvironment('protobuf.omit_message_names')
-          ? ''
-          : 'TupleValue',
-      package: const $pb.PackageName(
-          const $core.bool.fromEnvironment('protobuf.omit_message_names')
-              ? ''
-              : 'tensorflow'),
-      createEmptyInstance: create)
-    ..pc<StructuredValue>(
-        1,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names')
-            ? ''
-            : 'values',
-        $pb.PbFieldType.PM,
-        subBuilder: StructuredValue.create)
-    ..hasRequiredFields = false;
-
-  TupleValue._() : super();
   factory TupleValue({
     $core.Iterable<StructuredValue>? values,
   }) {
-    final _result = create();
+    final $result = create();
     if (values != null) {
-      _result.values.addAll(values);
+      $result.values.addAll(values);
     }
-    return _result;
+    return $result;
   }
+  TupleValue._() : super();
   factory TupleValue.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(i, r);
   factory TupleValue.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'TupleValue',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow'),
+      createEmptyInstance: create)
+    ..pc<StructuredValue>(
+        1, _omitFieldNames ? '' : 'values', $pb.PbFieldType.PM,
+        subBuilder: StructuredValue.create)
+    ..hasRequiredFields = false;
+
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
@@ -576,9 +553,10 @@ class TupleValue extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   TupleValue copyWith(void Function(TupleValue) updates) =>
-      super.copyWith((message) => updates(message as TupleValue))
-          as TupleValue; // ignore: deprecated_member_use
+      super.copyWith((message) => updates(message as TupleValue)) as TupleValue;
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static TupleValue create() => TupleValue._();
   TupleValue createEmptyInstance() => create();
@@ -589,47 +567,42 @@ class TupleValue extends $pb.GeneratedMessage {
   static TupleValue? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.List<StructuredValue> get values => $_getList(0);
+  $pb.PbList<StructuredValue> get values => $_getList(0);
 }
 
+/// Represents a Python dict keyed by `str`.
+/// The comment on Unicode from Value.string_value applies analogously.
 class DictValue extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      const $core.bool.fromEnvironment('protobuf.omit_message_names')
-          ? ''
-          : 'DictValue',
-      package: const $pb.PackageName(
-          const $core.bool.fromEnvironment('protobuf.omit_message_names')
-              ? ''
-              : 'tensorflow'),
-      createEmptyInstance: create)
-    ..m<$core.String, StructuredValue>(
-        1,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names')
-            ? ''
-            : 'fields',
-        entryClassName: 'DictValue.FieldsEntry',
-        keyFieldType: $pb.PbFieldType.OS,
-        valueFieldType: $pb.PbFieldType.OM,
-        valueCreator: StructuredValue.create,
-        packageName: const $pb.PackageName('tensorflow'))
-    ..hasRequiredFields = false;
-
-  DictValue._() : super();
   factory DictValue({
-    $core.Map<$core.String, StructuredValue>? fields,
+    $pb.PbMap<$core.String, StructuredValue>? fields,
   }) {
-    final _result = create();
+    final $result = create();
     if (fields != null) {
-      _result.fields.addAll(fields);
+      $result.fields.addAll(fields);
     }
-    return _result;
+    return $result;
   }
+  DictValue._() : super();
   factory DictValue.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(i, r);
   factory DictValue.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'DictValue',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow'),
+      createEmptyInstance: create)
+    ..m<$core.String, StructuredValue>(1, _omitFieldNames ? '' : 'fields',
+        entryClassName: 'DictValue.FieldsEntry',
+        keyFieldType: $pb.PbFieldType.OS,
+        valueFieldType: $pb.PbFieldType.OM,
+        valueCreator: StructuredValue.create,
+        valueDefaultOrMaker: StructuredValue.getDefault,
+        packageName: const $pb.PackageName('tensorflow'))
+    ..hasRequiredFields = false;
+
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
@@ -638,9 +611,10 @@ class DictValue extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   DictValue copyWith(void Function(DictValue) updates) =>
-      super.copyWith((message) => updates(message as DictValue))
-          as DictValue; // ignore: deprecated_member_use
+      super.copyWith((message) => updates(message as DictValue)) as DictValue;
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static DictValue create() => DictValue._();
   DictValue createEmptyInstance() => create();
@@ -651,52 +625,41 @@ class DictValue extends $pb.GeneratedMessage {
   static DictValue? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.Map<$core.String, StructuredValue> get fields => $_getMap(0);
+  $pb.PbMap<$core.String, StructuredValue> get fields => $_getMap(0);
 }
 
+/// Represents a (key, value) pair.
 class PairValue extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      const $core.bool.fromEnvironment('protobuf.omit_message_names')
-          ? ''
-          : 'PairValue',
-      package: const $pb.PackageName(
-          const $core.bool.fromEnvironment('protobuf.omit_message_names')
-              ? ''
-              : 'tensorflow'),
-      createEmptyInstance: create)
-    ..aOS(
-        1,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names')
-            ? ''
-            : 'key')
-    ..aOM<StructuredValue>(
-        2,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names')
-            ? ''
-            : 'value',
-        subBuilder: StructuredValue.create)
-    ..hasRequiredFields = false;
-
-  PairValue._() : super();
   factory PairValue({
     $core.String? key,
     StructuredValue? value,
   }) {
-    final _result = create();
+    final $result = create();
     if (key != null) {
-      _result.key = key;
+      $result.key = key;
     }
     if (value != null) {
-      _result.value = value;
+      $result.value = value;
     }
-    return _result;
+    return $result;
   }
+  PairValue._() : super();
   factory PairValue.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(i, r);
   factory PairValue.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'PairValue',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow'),
+      createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'key')
+    ..aOM<StructuredValue>(2, _omitFieldNames ? '' : 'value',
+        subBuilder: StructuredValue.create)
+    ..hasRequiredFields = false;
+
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
@@ -705,9 +668,10 @@ class PairValue extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   PairValue copyWith(void Function(PairValue) updates) =>
-      super.copyWith((message) => updates(message as PairValue))
-          as PairValue; // ignore: deprecated_member_use
+      super.copyWith((message) => updates(message as PairValue)) as PairValue;
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static PairValue create() => PairValue._();
   PairValue createEmptyInstance() => create();
@@ -727,67 +691,55 @@ class PairValue extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasKey() => $_has(0);
   @$pb.TagNumber(1)
-  void clearKey() => clearField(1);
+  void clearKey() => $_clearField(1);
 
   @$pb.TagNumber(2)
   StructuredValue get value => $_getN(1);
   @$pb.TagNumber(2)
   set value(StructuredValue v) {
-    setField(2, v);
+    $_setField(2, v);
   }
 
   @$pb.TagNumber(2)
   $core.bool hasValue() => $_has(1);
   @$pb.TagNumber(2)
-  void clearValue() => clearField(2);
+  void clearValue() => $_clearField(2);
   @$pb.TagNumber(2)
   StructuredValue ensureValue() => $_ensure(1);
 }
 
+/// Represents Python's namedtuple.
 class NamedTupleValue extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      const $core.bool.fromEnvironment('protobuf.omit_message_names')
-          ? ''
-          : 'NamedTupleValue',
-      package: const $pb.PackageName(
-          const $core.bool.fromEnvironment('protobuf.omit_message_names')
-              ? ''
-              : 'tensorflow'),
-      createEmptyInstance: create)
-    ..aOS(
-        1,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names')
-            ? ''
-            : 'name')
-    ..pc<PairValue>(
-        2,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names')
-            ? ''
-            : 'values',
-        $pb.PbFieldType.PM,
-        subBuilder: PairValue.create)
-    ..hasRequiredFields = false;
-
-  NamedTupleValue._() : super();
   factory NamedTupleValue({
     $core.String? name,
     $core.Iterable<PairValue>? values,
   }) {
-    final _result = create();
+    final $result = create();
     if (name != null) {
-      _result.name = name;
+      $result.name = name;
     }
     if (values != null) {
-      _result.values.addAll(values);
+      $result.values.addAll(values);
     }
-    return _result;
+    return $result;
   }
+  NamedTupleValue._() : super();
   factory NamedTupleValue.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(i, r);
   factory NamedTupleValue.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'NamedTupleValue',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow'),
+      createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'name')
+    ..pc<PairValue>(2, _omitFieldNames ? '' : 'values', $pb.PbFieldType.PM,
+        subBuilder: PairValue.create)
+    ..hasRequiredFields = false;
+
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
@@ -797,8 +749,10 @@ class NamedTupleValue extends $pb.GeneratedMessage {
       'Will be removed in next major version')
   NamedTupleValue copyWith(void Function(NamedTupleValue) updates) =>
       super.copyWith((message) => updates(message as NamedTupleValue))
-          as NamedTupleValue; // ignore: deprecated_member_use
+          as NamedTupleValue;
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static NamedTupleValue create() => NamedTupleValue._();
   NamedTupleValue createEmptyInstance() => create();
@@ -819,68 +773,52 @@ class NamedTupleValue extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasName() => $_has(0);
   @$pb.TagNumber(1)
-  void clearName() => clearField(1);
+  void clearName() => $_clearField(1);
 
   @$pb.TagNumber(2)
-  $core.List<PairValue> get values => $_getList(1);
+  $pb.PbList<PairValue> get values => $_getList(1);
 }
 
+/// A protobuf to represent tf.TensorSpec.
 class TensorSpecProto extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      const $core.bool.fromEnvironment('protobuf.omit_message_names')
-          ? ''
-          : 'TensorSpecProto',
-      package: const $pb.PackageName(
-          const $core.bool.fromEnvironment('protobuf.omit_message_names')
-              ? ''
-              : 'tensorflow'),
-      createEmptyInstance: create)
-    ..aOS(
-        1,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names')
-            ? ''
-            : 'name')
-    ..aOM<$0.TensorShapeProto>(
-        2,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names')
-            ? ''
-            : 'shape',
-        subBuilder: $0.TensorShapeProto.create)
-    ..e<$2.DataType>(
-        3,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names')
-            ? ''
-            : 'dtype',
-        $pb.PbFieldType.OE,
-        defaultOrMaker: $2.DataType.DT_INVALID,
-        valueOf: $2.DataType.valueOf,
-        enumValues: $2.DataType.values)
-    ..hasRequiredFields = false;
-
-  TensorSpecProto._() : super();
   factory TensorSpecProto({
     $core.String? name,
     $0.TensorShapeProto? shape,
     $2.DataType? dtype,
   }) {
-    final _result = create();
+    final $result = create();
     if (name != null) {
-      _result.name = name;
+      $result.name = name;
     }
     if (shape != null) {
-      _result.shape = shape;
+      $result.shape = shape;
     }
     if (dtype != null) {
-      _result.dtype = dtype;
+      $result.dtype = dtype;
     }
-    return _result;
+    return $result;
   }
+  TensorSpecProto._() : super();
   factory TensorSpecProto.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(i, r);
   factory TensorSpecProto.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'TensorSpecProto',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow'),
+      createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'name')
+    ..aOM<$0.TensorShapeProto>(2, _omitFieldNames ? '' : 'shape',
+        subBuilder: $0.TensorShapeProto.create)
+    ..e<$2.DataType>(3, _omitFieldNames ? '' : 'dtype', $pb.PbFieldType.OE,
+        defaultOrMaker: $2.DataType.DT_INVALID,
+        valueOf: $2.DataType.valueOf,
+        enumValues: $2.DataType.values)
+    ..hasRequiredFields = false;
+
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
@@ -890,8 +828,10 @@ class TensorSpecProto extends $pb.GeneratedMessage {
       'Will be removed in next major version')
   TensorSpecProto copyWith(void Function(TensorSpecProto) updates) =>
       super.copyWith((message) => updates(message as TensorSpecProto))
-          as TensorSpecProto; // ignore: deprecated_member_use
+          as TensorSpecProto;
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static TensorSpecProto create() => TensorSpecProto._();
   TensorSpecProto createEmptyInstance() => create();
@@ -912,19 +852,19 @@ class TensorSpecProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasName() => $_has(0);
   @$pb.TagNumber(1)
-  void clearName() => clearField(1);
+  void clearName() => $_clearField(1);
 
   @$pb.TagNumber(2)
   $0.TensorShapeProto get shape => $_getN(1);
   @$pb.TagNumber(2)
   set shape($0.TensorShapeProto v) {
-    setField(2, v);
+    $_setField(2, v);
   }
 
   @$pb.TagNumber(2)
   $core.bool hasShape() => $_has(1);
   @$pb.TagNumber(2)
-  void clearShape() => clearField(2);
+  void clearShape() => $_clearField(2);
   @$pb.TagNumber(2)
   $0.TensorShapeProto ensureShape() => $_ensure(1);
 
@@ -932,60 +872,17 @@ class TensorSpecProto extends $pb.GeneratedMessage {
   $2.DataType get dtype => $_getN(2);
   @$pb.TagNumber(3)
   set dtype($2.DataType v) {
-    setField(3, v);
+    $_setField(3, v);
   }
 
   @$pb.TagNumber(3)
   $core.bool hasDtype() => $_has(2);
   @$pb.TagNumber(3)
-  void clearDtype() => clearField(3);
+  void clearDtype() => $_clearField(3);
 }
 
+/// A protobuf to represent tf.BoundedTensorSpec.
 class BoundedTensorSpecProto extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      const $core.bool.fromEnvironment('protobuf.omit_message_names')
-          ? ''
-          : 'BoundedTensorSpecProto',
-      package: const $pb.PackageName(
-          const $core.bool.fromEnvironment('protobuf.omit_message_names')
-              ? ''
-              : 'tensorflow'),
-      createEmptyInstance: create)
-    ..aOS(
-        1,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names')
-            ? ''
-            : 'name')
-    ..aOM<$0.TensorShapeProto>(
-        2,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names')
-            ? ''
-            : 'shape',
-        subBuilder: $0.TensorShapeProto.create)
-    ..e<$2.DataType>(
-        3,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names')
-            ? ''
-            : 'dtype',
-        $pb.PbFieldType.OE,
-        defaultOrMaker: $2.DataType.DT_INVALID,
-        valueOf: $2.DataType.valueOf,
-        enumValues: $2.DataType.values)
-    ..aOM<$1.TensorProto>(
-        4,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names')
-            ? ''
-            : 'minimum',
-        subBuilder: $1.TensorProto.create)
-    ..aOM<$1.TensorProto>(
-        5,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names')
-            ? ''
-            : 'maximum',
-        subBuilder: $1.TensorProto.create)
-    ..hasRequiredFields = false;
-
-  BoundedTensorSpecProto._() : super();
   factory BoundedTensorSpecProto({
     $core.String? name,
     $0.TensorShapeProto? shape,
@@ -993,30 +890,49 @@ class BoundedTensorSpecProto extends $pb.GeneratedMessage {
     $1.TensorProto? minimum,
     $1.TensorProto? maximum,
   }) {
-    final _result = create();
+    final $result = create();
     if (name != null) {
-      _result.name = name;
+      $result.name = name;
     }
     if (shape != null) {
-      _result.shape = shape;
+      $result.shape = shape;
     }
     if (dtype != null) {
-      _result.dtype = dtype;
+      $result.dtype = dtype;
     }
     if (minimum != null) {
-      _result.minimum = minimum;
+      $result.minimum = minimum;
     }
     if (maximum != null) {
-      _result.maximum = maximum;
+      $result.maximum = maximum;
     }
-    return _result;
+    return $result;
   }
+  BoundedTensorSpecProto._() : super();
   factory BoundedTensorSpecProto.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(i, r);
   factory BoundedTensorSpecProto.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'BoundedTensorSpecProto',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow'),
+      createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'name')
+    ..aOM<$0.TensorShapeProto>(2, _omitFieldNames ? '' : 'shape',
+        subBuilder: $0.TensorShapeProto.create)
+    ..e<$2.DataType>(3, _omitFieldNames ? '' : 'dtype', $pb.PbFieldType.OE,
+        defaultOrMaker: $2.DataType.DT_INVALID,
+        valueOf: $2.DataType.valueOf,
+        enumValues: $2.DataType.values)
+    ..aOM<$1.TensorProto>(4, _omitFieldNames ? '' : 'minimum',
+        subBuilder: $1.TensorProto.create)
+    ..aOM<$1.TensorProto>(5, _omitFieldNames ? '' : 'maximum',
+        subBuilder: $1.TensorProto.create)
+    ..hasRequiredFields = false;
+
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
@@ -1028,8 +944,10 @@ class BoundedTensorSpecProto extends $pb.GeneratedMessage {
   BoundedTensorSpecProto copyWith(
           void Function(BoundedTensorSpecProto) updates) =>
       super.copyWith((message) => updates(message as BoundedTensorSpecProto))
-          as BoundedTensorSpecProto; // ignore: deprecated_member_use
+          as BoundedTensorSpecProto;
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static BoundedTensorSpecProto create() => BoundedTensorSpecProto._();
   BoundedTensorSpecProto createEmptyInstance() => create();
@@ -1050,19 +968,19 @@ class BoundedTensorSpecProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasName() => $_has(0);
   @$pb.TagNumber(1)
-  void clearName() => clearField(1);
+  void clearName() => $_clearField(1);
 
   @$pb.TagNumber(2)
   $0.TensorShapeProto get shape => $_getN(1);
   @$pb.TagNumber(2)
   set shape($0.TensorShapeProto v) {
-    setField(2, v);
+    $_setField(2, v);
   }
 
   @$pb.TagNumber(2)
   $core.bool hasShape() => $_has(1);
   @$pb.TagNumber(2)
-  void clearShape() => clearField(2);
+  void clearShape() => $_clearField(2);
   @$pb.TagNumber(2)
   $0.TensorShapeProto ensureShape() => $_ensure(1);
 
@@ -1070,25 +988,25 @@ class BoundedTensorSpecProto extends $pb.GeneratedMessage {
   $2.DataType get dtype => $_getN(2);
   @$pb.TagNumber(3)
   set dtype($2.DataType v) {
-    setField(3, v);
+    $_setField(3, v);
   }
 
   @$pb.TagNumber(3)
   $core.bool hasDtype() => $_has(2);
   @$pb.TagNumber(3)
-  void clearDtype() => clearField(3);
+  void clearDtype() => $_clearField(3);
 
   @$pb.TagNumber(4)
   $1.TensorProto get minimum => $_getN(3);
   @$pb.TagNumber(4)
   set minimum($1.TensorProto v) {
-    setField(4, v);
+    $_setField(4, v);
   }
 
   @$pb.TagNumber(4)
   $core.bool hasMinimum() => $_has(3);
   @$pb.TagNumber(4)
-  void clearMinimum() => clearField(4);
+  void clearMinimum() => $_clearField(4);
   @$pb.TagNumber(4)
   $1.TensorProto ensureMinimum() => $_ensure(3);
 
@@ -1096,83 +1014,64 @@ class BoundedTensorSpecProto extends $pb.GeneratedMessage {
   $1.TensorProto get maximum => $_getN(4);
   @$pb.TagNumber(5)
   set maximum($1.TensorProto v) {
-    setField(5, v);
+    $_setField(5, v);
   }
 
   @$pb.TagNumber(5)
   $core.bool hasMaximum() => $_has(4);
   @$pb.TagNumber(5)
-  void clearMaximum() => clearField(5);
+  void clearMaximum() => $_clearField(5);
   @$pb.TagNumber(5)
   $1.TensorProto ensureMaximum() => $_ensure(4);
 }
 
+/// Represents a tf.TypeSpec
 class TypeSpecProto extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      const $core.bool.fromEnvironment('protobuf.omit_message_names')
-          ? ''
-          : 'TypeSpecProto',
-      package: const $pb.PackageName(
-          const $core.bool.fromEnvironment('protobuf.omit_message_names')
-              ? ''
-              : 'tensorflow'),
-      createEmptyInstance: create)
-    ..e<TypeSpecProto_TypeSpecClass>(
-        1,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names')
-            ? ''
-            : 'typeSpecClass',
-        $pb.PbFieldType.OE,
-        defaultOrMaker: TypeSpecProto_TypeSpecClass.UNKNOWN,
-        valueOf: TypeSpecProto_TypeSpecClass.valueOf,
-        enumValues: TypeSpecProto_TypeSpecClass.values)
-    ..aOM<StructuredValue>(
-        2,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names')
-            ? ''
-            : 'typeState',
-        subBuilder: StructuredValue.create)
-    ..aOS(
-        3,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names')
-            ? ''
-            : 'typeSpecClassName')
-    ..a<$core.int>(
-        4,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names')
-            ? ''
-            : 'numFlatComponents',
-        $pb.PbFieldType.O3)
-    ..hasRequiredFields = false;
-
-  TypeSpecProto._() : super();
   factory TypeSpecProto({
     TypeSpecProto_TypeSpecClass? typeSpecClass,
     StructuredValue? typeState,
     $core.String? typeSpecClassName,
     $core.int? numFlatComponents,
   }) {
-    final _result = create();
+    final $result = create();
     if (typeSpecClass != null) {
-      _result.typeSpecClass = typeSpecClass;
+      $result.typeSpecClass = typeSpecClass;
     }
     if (typeState != null) {
-      _result.typeState = typeState;
+      $result.typeState = typeState;
     }
     if (typeSpecClassName != null) {
-      _result.typeSpecClassName = typeSpecClassName;
+      $result.typeSpecClassName = typeSpecClassName;
     }
     if (numFlatComponents != null) {
-      _result.numFlatComponents = numFlatComponents;
+      $result.numFlatComponents = numFlatComponents;
     }
-    return _result;
+    return $result;
   }
+  TypeSpecProto._() : super();
   factory TypeSpecProto.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(i, r);
   factory TypeSpecProto.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'TypeSpecProto',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow'),
+      createEmptyInstance: create)
+    ..e<TypeSpecProto_TypeSpecClass>(
+        1, _omitFieldNames ? '' : 'typeSpecClass', $pb.PbFieldType.OE,
+        defaultOrMaker: TypeSpecProto_TypeSpecClass.UNKNOWN,
+        valueOf: TypeSpecProto_TypeSpecClass.valueOf,
+        enumValues: TypeSpecProto_TypeSpecClass.values)
+    ..aOM<StructuredValue>(2, _omitFieldNames ? '' : 'typeState',
+        subBuilder: StructuredValue.create)
+    ..aOS(3, _omitFieldNames ? '' : 'typeSpecClassName')
+    ..a<$core.int>(
+        4, _omitFieldNames ? '' : 'numFlatComponents', $pb.PbFieldType.O3)
+    ..hasRequiredFields = false;
+
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
@@ -1182,8 +1081,10 @@ class TypeSpecProto extends $pb.GeneratedMessage {
       'Will be removed in next major version')
   TypeSpecProto copyWith(void Function(TypeSpecProto) updates) =>
       super.copyWith((message) => updates(message as TypeSpecProto))
-          as TypeSpecProto; // ignore: deprecated_member_use
+          as TypeSpecProto;
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static TypeSpecProto create() => TypeSpecProto._();
   TypeSpecProto createEmptyInstance() => create();
@@ -1198,28 +1099,37 @@ class TypeSpecProto extends $pb.GeneratedMessage {
   TypeSpecProto_TypeSpecClass get typeSpecClass => $_getN(0);
   @$pb.TagNumber(1)
   set typeSpecClass(TypeSpecProto_TypeSpecClass v) {
-    setField(1, v);
+    $_setField(1, v);
   }
 
   @$pb.TagNumber(1)
   $core.bool hasTypeSpecClass() => $_has(0);
   @$pb.TagNumber(1)
-  void clearTypeSpecClass() => clearField(1);
+  void clearTypeSpecClass() => $_clearField(1);
 
+  /// The value returned by TypeSpec._serialize().
   @$pb.TagNumber(2)
   StructuredValue get typeState => $_getN(1);
   @$pb.TagNumber(2)
   set typeState(StructuredValue v) {
-    setField(2, v);
+    $_setField(2, v);
   }
 
   @$pb.TagNumber(2)
   $core.bool hasTypeState() => $_has(1);
   @$pb.TagNumber(2)
-  void clearTypeState() => clearField(2);
+  void clearTypeState() => $_clearField(2);
   @$pb.TagNumber(2)
   StructuredValue ensureTypeState() => $_ensure(1);
 
+  /// The name of the TypeSpec class.
+  ///  * If type_spec_class == REGISTERED_TYPE_SPEC, the TypeSpec class is
+  ///    the one registered under this name. For types registered outside
+  ///    core TensorFlow by an add-on library, that library must be loaded
+  ///    before this value can be deserialized by nested_structure_coder.
+  ///  * If type_spec_class specifies a particular TypeSpec class, this field is
+  ///    redundant with the type_spec_class enum, and is only used for error
+  ///    reporting in older binaries that do not know the tupe_spec_class enum.
   @$pb.TagNumber(3)
   $core.String get typeSpecClassName => $_getSZ(2);
   @$pb.TagNumber(3)
@@ -1230,8 +1140,9 @@ class TypeSpecProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.bool hasTypeSpecClassName() => $_has(2);
   @$pb.TagNumber(3)
-  void clearTypeSpecClassName() => clearField(3);
+  void clearTypeSpecClassName() => $_clearField(3);
 
+  /// The number of flat tensor components required by this TypeSpec.
   @$pb.TagNumber(4)
   $core.int get numFlatComponents => $_getIZ(3);
   @$pb.TagNumber(4)
@@ -1242,5 +1153,9 @@ class TypeSpecProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(4)
   $core.bool hasNumFlatComponents() => $_has(3);
   @$pb.TagNumber(4)
-  void clearNumFlatComponents() => clearField(4);
+  void clearNumFlatComponents() => $_clearField(4);
 }
+
+const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
+const _omitMessageNames =
+    $core.bool.fromEnvironment('protobuf.omit_message_names');

@@ -1,57 +1,52 @@
-///
+//
 //  Generated code. Do not modify.
 //  source: tensorflow/core/framework/tensor_shape.proto
 //
-// @dart = 2.12
-// ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
+// @dart = 3.3
+
+// ignore_for_file: annotate_overrides, camel_case_types, comment_references
+// ignore_for_file: constant_identifier_names, library_prefixes
+// ignore_for_file: non_constant_identifier_names, prefer_final_fields
+// ignore_for_file: unnecessary_import, unnecessary_this, unused_import
 
 import 'dart:core' as $core;
 
 import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
 
-class TensorShapeProto_Dim extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      const $core.bool.fromEnvironment('protobuf.omit_message_names')
-          ? ''
-          : 'TensorShapeProto.Dim',
-      package: const $pb.PackageName(
-          const $core.bool.fromEnvironment('protobuf.omit_message_names')
-              ? ''
-              : 'tensorflow'),
-      createEmptyInstance: create)
-    ..aInt64(
-        1,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names')
-            ? ''
-            : 'size')
-    ..aOS(
-        2,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names')
-            ? ''
-            : 'name')
-    ..hasRequiredFields = false;
+export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
 
-  TensorShapeProto_Dim._() : super();
+/// One dimension of the tensor.
+class TensorShapeProto_Dim extends $pb.GeneratedMessage {
   factory TensorShapeProto_Dim({
     $fixnum.Int64? size,
     $core.String? name,
   }) {
-    final _result = create();
+    final $result = create();
     if (size != null) {
-      _result.size = size;
+      $result.size = size;
     }
     if (name != null) {
-      _result.name = name;
+      $result.name = name;
     }
-    return _result;
+    return $result;
   }
+  TensorShapeProto_Dim._() : super();
   factory TensorShapeProto_Dim.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(i, r);
   factory TensorShapeProto_Dim.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'TensorShapeProto.Dim',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow'),
+      createEmptyInstance: create)
+    ..aInt64(1, _omitFieldNames ? '' : 'size')
+    ..aOS(2, _omitFieldNames ? '' : 'name')
+    ..hasRequiredFields = false;
+
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
@@ -62,8 +57,10 @@ class TensorShapeProto_Dim extends $pb.GeneratedMessage {
       'Will be removed in next major version')
   TensorShapeProto_Dim copyWith(void Function(TensorShapeProto_Dim) updates) =>
       super.copyWith((message) => updates(message as TensorShapeProto_Dim))
-          as TensorShapeProto_Dim; // ignore: deprecated_member_use
+          as TensorShapeProto_Dim;
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static TensorShapeProto_Dim create() => TensorShapeProto_Dim._();
   TensorShapeProto_Dim createEmptyInstance() => create();
@@ -74,6 +71,11 @@ class TensorShapeProto_Dim extends $pb.GeneratedMessage {
       $pb.GeneratedMessage.$_defaultFor<TensorShapeProto_Dim>(create);
   static TensorShapeProto_Dim? _defaultInstance;
 
+  /// Size of the tensor in that dimension.
+  /// This value must be >= -1, but values of -1 are reserved for "unknown"
+  /// shapes (values of -1 mean "unknown" dimension).  Certain wrappers
+  /// that work with TensorShapeProto may fail at runtime when deserializing
+  /// a TensorShapeProto containing a dim value of -1.
   @$pb.TagNumber(1)
   $fixnum.Int64 get size => $_getI64(0);
   @$pb.TagNumber(1)
@@ -84,8 +86,9 @@ class TensorShapeProto_Dim extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasSize() => $_has(0);
   @$pb.TagNumber(1)
-  void clearSize() => clearField(1);
+  void clearSize() => $_clearField(1);
 
+  /// Optional name of the tensor dimension.
   @$pb.TagNumber(2)
   $core.String get name => $_getSZ(1);
   @$pb.TagNumber(2)
@@ -96,53 +99,42 @@ class TensorShapeProto_Dim extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool hasName() => $_has(1);
   @$pb.TagNumber(2)
-  void clearName() => clearField(2);
+  void clearName() => $_clearField(2);
 }
 
+/// Dimensions of a tensor.
 class TensorShapeProto extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      const $core.bool.fromEnvironment('protobuf.omit_message_names')
-          ? ''
-          : 'TensorShapeProto',
-      package: const $pb.PackageName(
-          const $core.bool.fromEnvironment('protobuf.omit_message_names')
-              ? ''
-              : 'tensorflow'),
-      createEmptyInstance: create)
-    ..pc<TensorShapeProto_Dim>(
-        2,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names')
-            ? ''
-            : 'dim',
-        $pb.PbFieldType.PM,
-        subBuilder: TensorShapeProto_Dim.create)
-    ..aOB(
-        3,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names')
-            ? ''
-            : 'unknownRank')
-    ..hasRequiredFields = false;
-
-  TensorShapeProto._() : super();
   factory TensorShapeProto({
     $core.Iterable<TensorShapeProto_Dim>? dim,
     $core.bool? unknownRank,
   }) {
-    final _result = create();
+    final $result = create();
     if (dim != null) {
-      _result.dim.addAll(dim);
+      $result.dim.addAll(dim);
     }
     if (unknownRank != null) {
-      _result.unknownRank = unknownRank;
+      $result.unknownRank = unknownRank;
     }
-    return _result;
+    return $result;
   }
+  TensorShapeProto._() : super();
   factory TensorShapeProto.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(i, r);
   factory TensorShapeProto.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'TensorShapeProto',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow'),
+      createEmptyInstance: create)
+    ..pc<TensorShapeProto_Dim>(
+        2, _omitFieldNames ? '' : 'dim', $pb.PbFieldType.PM,
+        subBuilder: TensorShapeProto_Dim.create)
+    ..aOB(3, _omitFieldNames ? '' : 'unknownRank')
+    ..hasRequiredFields = false;
+
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
@@ -152,8 +144,10 @@ class TensorShapeProto extends $pb.GeneratedMessage {
       'Will be removed in next major version')
   TensorShapeProto copyWith(void Function(TensorShapeProto) updates) =>
       super.copyWith((message) => updates(message as TensorShapeProto))
-          as TensorShapeProto; // ignore: deprecated_member_use
+          as TensorShapeProto;
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static TensorShapeProto create() => TensorShapeProto._();
   TensorShapeProto createEmptyInstance() => create();
@@ -164,9 +158,25 @@ class TensorShapeProto extends $pb.GeneratedMessage {
       $pb.GeneratedMessage.$_defaultFor<TensorShapeProto>(create);
   static TensorShapeProto? _defaultInstance;
 
+  ///  Dimensions of the tensor, such as {"input", 30}, {"output", 40}
+  ///  for a 30 x 40 2D tensor.  If an entry has size -1, this
+  ///  corresponds to a dimension of unknown size. The names are
+  ///  optional.
+  ///
+  ///  The order of entries in "dim" matters: It indicates the layout of the
+  ///  values in the tensor in-memory representation.
+  ///
+  ///  The first entry in "dim" is the outermost dimension used to layout the
+  ///  values, the last entry is the innermost dimension.  This matches the
+  ///  in-memory layout of RowMajor Eigen tensors.
+  ///
+  ///  If "dim.size()" > 0, "unknown_rank" must be false.
   @$pb.TagNumber(2)
-  $core.List<TensorShapeProto_Dim> get dim => $_getList(0);
+  $pb.PbList<TensorShapeProto_Dim> get dim => $_getList(0);
 
+  ///  If true, the number of dimensions in the shape is unknown.
+  ///
+  ///  If true, "dim.size()" must be 0.
   @$pb.TagNumber(3)
   $core.bool get unknownRank => $_getBF(1);
   @$pb.TagNumber(3)
@@ -177,5 +187,9 @@ class TensorShapeProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.bool hasUnknownRank() => $_has(1);
   @$pb.TagNumber(3)
-  void clearUnknownRank() => clearField(3);
+  void clearUnknownRank() => $_clearField(3);
 }
+
+const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
+const _omitMessageNames =
+    $core.bool.fromEnvironment('protobuf.omit_message_names');

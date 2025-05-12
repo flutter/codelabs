@@ -1,9 +1,13 @@
-///
+//
 //  Generated code. Do not modify.
 //  source: tensorflow/core/framework/resource_handle.proto
 //
-// @dart = 2.12
-// ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
+// @dart = 3.3
+
+// ignore_for_file: annotate_overrides, camel_case_types, comment_references
+// ignore_for_file: constant_identifier_names, library_prefixes
+// ignore_for_file: non_constant_identifier_names, prefer_final_fields
+// ignore_for_file: unnecessary_import, unnecessary_this, unused_import
 
 import 'dart:core' as $core;
 
@@ -11,56 +15,45 @@ import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
 
 import 'tensor_shape.pb.dart' as $0;
-
 import 'types.pbenum.dart' as $1;
 
-class ResourceHandleProto_DtypeAndShape extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      const $core.bool.fromEnvironment('protobuf.omit_message_names')
-          ? ''
-          : 'ResourceHandleProto.DtypeAndShape',
-      package: const $pb.PackageName(
-          const $core.bool.fromEnvironment('protobuf.omit_message_names')
-              ? ''
-              : 'tensorflow'),
-      createEmptyInstance: create)
-    ..e<$1.DataType>(
-        1,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names')
-            ? ''
-            : 'dtype',
-        $pb.PbFieldType.OE,
-        defaultOrMaker: $1.DataType.DT_INVALID,
-        valueOf: $1.DataType.valueOf,
-        enumValues: $1.DataType.values)
-    ..aOM<$0.TensorShapeProto>(
-        2,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names')
-            ? ''
-            : 'shape',
-        subBuilder: $0.TensorShapeProto.create)
-    ..hasRequiredFields = false;
+export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
 
-  ResourceHandleProto_DtypeAndShape._() : super();
+/// Protocol buffer representing a pair of (data type, tensor shape).
+class ResourceHandleProto_DtypeAndShape extends $pb.GeneratedMessage {
   factory ResourceHandleProto_DtypeAndShape({
     $1.DataType? dtype,
     $0.TensorShapeProto? shape,
   }) {
-    final _result = create();
+    final $result = create();
     if (dtype != null) {
-      _result.dtype = dtype;
+      $result.dtype = dtype;
     }
     if (shape != null) {
-      _result.shape = shape;
+      $result.shape = shape;
     }
-    return _result;
+    return $result;
   }
+  ResourceHandleProto_DtypeAndShape._() : super();
   factory ResourceHandleProto_DtypeAndShape.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(i, r);
   factory ResourceHandleProto_DtypeAndShape.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'ResourceHandleProto.DtypeAndShape',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow'),
+      createEmptyInstance: create)
+    ..e<$1.DataType>(1, _omitFieldNames ? '' : 'dtype', $pb.PbFieldType.OE,
+        defaultOrMaker: $1.DataType.DT_INVALID,
+        valueOf: $1.DataType.valueOf,
+        enumValues: $1.DataType.values)
+    ..aOM<$0.TensorShapeProto>(2, _omitFieldNames ? '' : 'shape',
+        subBuilder: $0.TensorShapeProto.create)
+    ..hasRequiredFields = false;
+
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
@@ -73,8 +66,10 @@ class ResourceHandleProto_DtypeAndShape extends $pb.GeneratedMessage {
           void Function(ResourceHandleProto_DtypeAndShape) updates) =>
       super.copyWith((message) =>
               updates(message as ResourceHandleProto_DtypeAndShape))
-          as ResourceHandleProto_DtypeAndShape; // ignore: deprecated_member_use
+          as ResourceHandleProto_DtypeAndShape;
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static ResourceHandleProto_DtypeAndShape create() =>
       ResourceHandleProto_DtypeAndShape._();
@@ -91,76 +86,33 @@ class ResourceHandleProto_DtypeAndShape extends $pb.GeneratedMessage {
   $1.DataType get dtype => $_getN(0);
   @$pb.TagNumber(1)
   set dtype($1.DataType v) {
-    setField(1, v);
+    $_setField(1, v);
   }
 
   @$pb.TagNumber(1)
   $core.bool hasDtype() => $_has(0);
   @$pb.TagNumber(1)
-  void clearDtype() => clearField(1);
+  void clearDtype() => $_clearField(1);
 
   @$pb.TagNumber(2)
   $0.TensorShapeProto get shape => $_getN(1);
   @$pb.TagNumber(2)
   set shape($0.TensorShapeProto v) {
-    setField(2, v);
+    $_setField(2, v);
   }
 
   @$pb.TagNumber(2)
   $core.bool hasShape() => $_has(1);
   @$pb.TagNumber(2)
-  void clearShape() => clearField(2);
+  void clearShape() => $_clearField(2);
   @$pb.TagNumber(2)
   $0.TensorShapeProto ensureShape() => $_ensure(1);
 }
 
+/// Protocol buffer representing a handle to a tensorflow resource. Handles are
+/// not valid across executions, but can be serialized back and forth from within
+/// a single run.
 class ResourceHandleProto extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      const $core.bool.fromEnvironment('protobuf.omit_message_names')
-          ? ''
-          : 'ResourceHandleProto',
-      package: const $pb.PackageName(
-          const $core.bool.fromEnvironment('protobuf.omit_message_names')
-              ? ''
-              : 'tensorflow'),
-      createEmptyInstance: create)
-    ..aOS(
-        1,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names')
-            ? ''
-            : 'device')
-    ..aOS(
-        2,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names')
-            ? ''
-            : 'container')
-    ..aOS(
-        3,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names')
-            ? ''
-            : 'name')
-    ..a<$fixnum.Int64>(
-        4,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names')
-            ? ''
-            : 'hashCode',
-        $pb.PbFieldType.OU6,
-        defaultOrMaker: $fixnum.Int64.ZERO)
-    ..aOS(
-        5,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names')
-            ? ''
-            : 'maybeTypeName')
-    ..pc<ResourceHandleProto_DtypeAndShape>(
-        6,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names')
-            ? ''
-            : 'dtypesAndShapes',
-        $pb.PbFieldType.PM,
-        subBuilder: ResourceHandleProto_DtypeAndShape.create)
-    ..hasRequiredFields = false;
-
-  ResourceHandleProto._() : super();
   factory ResourceHandleProto({
     $core.String? device,
     $core.String? container,
@@ -169,33 +121,51 @@ class ResourceHandleProto extends $pb.GeneratedMessage {
     $core.String? maybeTypeName,
     $core.Iterable<ResourceHandleProto_DtypeAndShape>? dtypesAndShapes,
   }) {
-    final _result = create();
+    final $result = create();
     if (device != null) {
-      _result.device = device;
+      $result.device = device;
     }
     if (container != null) {
-      _result.container = container;
+      $result.container = container;
     }
     if (name != null) {
-      _result.name = name;
+      $result.name = name;
     }
     if (hashCode_4 != null) {
-      _result.hashCode_4 = hashCode_4;
+      $result.hashCode_4 = hashCode_4;
     }
     if (maybeTypeName != null) {
-      _result.maybeTypeName = maybeTypeName;
+      $result.maybeTypeName = maybeTypeName;
     }
     if (dtypesAndShapes != null) {
-      _result.dtypesAndShapes.addAll(dtypesAndShapes);
+      $result.dtypesAndShapes.addAll(dtypesAndShapes);
     }
-    return _result;
+    return $result;
   }
+  ResourceHandleProto._() : super();
   factory ResourceHandleProto.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(i, r);
   factory ResourceHandleProto.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'ResourceHandleProto',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow'),
+      createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'device')
+    ..aOS(2, _omitFieldNames ? '' : 'container')
+    ..aOS(3, _omitFieldNames ? '' : 'name')
+    ..a<$fixnum.Int64>(
+        4, _omitFieldNames ? '' : 'hashCode', $pb.PbFieldType.OU6,
+        defaultOrMaker: $fixnum.Int64.ZERO)
+    ..aOS(5, _omitFieldNames ? '' : 'maybeTypeName')
+    ..pc<ResourceHandleProto_DtypeAndShape>(
+        6, _omitFieldNames ? '' : 'dtypesAndShapes', $pb.PbFieldType.PM,
+        subBuilder: ResourceHandleProto_DtypeAndShape.create)
+    ..hasRequiredFields = false;
+
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
@@ -205,8 +175,10 @@ class ResourceHandleProto extends $pb.GeneratedMessage {
       'Will be removed in next major version')
   ResourceHandleProto copyWith(void Function(ResourceHandleProto) updates) =>
       super.copyWith((message) => updates(message as ResourceHandleProto))
-          as ResourceHandleProto; // ignore: deprecated_member_use
+          as ResourceHandleProto;
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static ResourceHandleProto create() => ResourceHandleProto._();
   ResourceHandleProto createEmptyInstance() => create();
@@ -217,6 +189,7 @@ class ResourceHandleProto extends $pb.GeneratedMessage {
       $pb.GeneratedMessage.$_defaultFor<ResourceHandleProto>(create);
   static ResourceHandleProto? _defaultInstance;
 
+  /// Unique name for the device containing the resource.
   @$pb.TagNumber(1)
   $core.String get device => $_getSZ(0);
   @$pb.TagNumber(1)
@@ -227,8 +200,9 @@ class ResourceHandleProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasDevice() => $_has(0);
   @$pb.TagNumber(1)
-  void clearDevice() => clearField(1);
+  void clearDevice() => $_clearField(1);
 
+  /// Container in which this resource is placed.
   @$pb.TagNumber(2)
   $core.String get container => $_getSZ(1);
   @$pb.TagNumber(2)
@@ -239,8 +213,9 @@ class ResourceHandleProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool hasContainer() => $_has(1);
   @$pb.TagNumber(2)
-  void clearContainer() => clearField(2);
+  void clearContainer() => $_clearField(2);
 
+  /// Unique name of this resource.
   @$pb.TagNumber(3)
   $core.String get name => $_getSZ(2);
   @$pb.TagNumber(3)
@@ -251,8 +226,10 @@ class ResourceHandleProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.bool hasName() => $_has(2);
   @$pb.TagNumber(3)
-  void clearName() => clearField(3);
+  void clearName() => $_clearField(3);
 
+  /// Hash code for the type of the resource. Is only valid in the same device
+  /// and in the same execution.
   @$pb.TagNumber(4)
   $fixnum.Int64 get hashCode_4 => $_getI64(3);
   @$pb.TagNumber(4)
@@ -263,8 +240,10 @@ class ResourceHandleProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(4)
   $core.bool hasHashCode_4() => $_has(3);
   @$pb.TagNumber(4)
-  void clearHashCode_4() => clearField(4);
+  void clearHashCode_4() => $_clearField(4);
 
+  /// For debug-only, the name of the type pointed to by this handle, if
+  /// available.
   @$pb.TagNumber(5)
   $core.String get maybeTypeName => $_getSZ(4);
   @$pb.TagNumber(5)
@@ -275,9 +254,14 @@ class ResourceHandleProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(5)
   $core.bool hasMaybeTypeName() => $_has(4);
   @$pb.TagNumber(5)
-  void clearMaybeTypeName() => clearField(5);
+  void clearMaybeTypeName() => $_clearField(5);
 
+  /// Data types and shapes for the underlying resource.
   @$pb.TagNumber(6)
-  $core.List<ResourceHandleProto_DtypeAndShape> get dtypesAndShapes =>
+  $pb.PbList<ResourceHandleProto_DtypeAndShape> get dtypesAndShapes =>
       $_getList(5);
 }
+
+const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
+const _omitMessageNames =
+    $core.bool.fromEnvironment('protobuf.omit_message_names');
