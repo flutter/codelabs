@@ -654,9 +654,3241 @@ steps:
           +	<true/>
            </dict>
            </plist>
-      - name: Mkdir lib/proto
+      - name: Mkdir lib/proto/google/protobuf
         path: codelab2/tfserving_flutter
-        mkdir: lib/proto
+        mkdir: lib/proto/google/protobuf
+      - name: Add lib/proto/google/protobuf/any.proto
+        path: codelab2/tfserving_flutter/lib/proto/google/protobuf/any.proto
+        replace-contents: |
+          // Protocol Buffers - Google's data interchange format
+          // Copyright 2008 Google Inc.  All rights reserved.
+          // https://developers.google.com/protocol-buffers/
+          //
+          // Redistribution and use in source and binary forms, with or without
+          // modification, are permitted provided that the following conditions are
+          // met:
+          //
+          //     * Redistributions of source code must retain the above copyright
+          // notice, this list of conditions and the following disclaimer.
+          //     * Redistributions in binary form must reproduce the above
+          // copyright notice, this list of conditions and the following disclaimer
+          // in the documentation and/or other materials provided with the
+          // distribution.
+          //     * Neither the name of Google Inc. nor the names of its
+          // contributors may be used to endorse or promote products derived from
+          // this software without specific prior written permission.
+          //
+          // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+          // "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+          // LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+          // A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+          // OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+          // SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+          // LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+          // DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+          // THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+          // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+          // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+          syntax = "proto3";
+
+          package google.protobuf;
+
+          option csharp_namespace = "Google.Protobuf.WellKnownTypes";
+          option go_package = "google.golang.org/protobuf/types/known/anypb";
+          option java_package = "com.google.protobuf";
+          option java_outer_classname = "AnyProto";
+          option java_multiple_files = true;
+          option objc_class_prefix = "GPB";
+
+          // `Any` contains an arbitrary serialized protocol buffer message along with a
+          // URL that describes the type of the serialized message.
+          //
+          // Protobuf library provides support to pack/unpack Any values in the form
+          // of utility functions or additional generated methods of the Any type.
+          //
+          // Example 1: Pack and unpack a message in C++.
+          //
+          //     Foo foo = ...;
+          //     Any any;
+          //     any.PackFrom(foo);
+          //     ...
+          //     if (any.UnpackTo(&foo)) {
+          //       ...
+          //     }
+          //
+          // Example 2: Pack and unpack a message in Java.
+          //
+          //     Foo foo = ...;
+          //     Any any = Any.pack(foo);
+          //     ...
+          //     if (any.is(Foo.class)) {
+          //       foo = any.unpack(Foo.class);
+          //     }
+          //
+          // Example 3: Pack and unpack a message in Python.
+          //
+          //     foo = Foo(...)
+          //     any = Any()
+          //     any.Pack(foo)
+          //     ...
+          //     if any.Is(Foo.DESCRIPTOR):
+          //       any.Unpack(foo)
+          //       ...
+          //
+          // Example 4: Pack and unpack a message in Go
+          //
+          //      foo := &pb.Foo{...}
+          //      any, err := anypb.New(foo)
+          //      if err != nil {
+          //        ...
+          //      }
+          //      ...
+          //      foo := &pb.Foo{}
+          //      if err := any.UnmarshalTo(foo); err != nil {
+          //        ...
+          //      }
+          //
+          // The pack methods provided by protobuf library will by default use
+          // 'type.googleapis.com/full.type.name' as the type URL and the unpack
+          // methods only use the fully qualified type name after the last '/'
+          // in the type URL, for example "foo.bar.com/x/y.z" will yield type
+          // name "y.z".
+          //
+          //
+          // JSON
+          //
+          // The JSON representation of an `Any` value uses the regular
+          // representation of the deserialized, embedded message, with an
+          // additional field `@type` which contains the type URL. Example:
+          //
+          //     package google.profile;
+          //     message Person {
+          //       string first_name = 1;
+          //       string last_name = 2;
+          //     }
+          //
+          //     {
+          //       "@type": "type.googleapis.com/google.profile.Person",
+          //       "firstName": <string>,
+          //       "lastName": <string>
+          //     }
+          //
+          // If the embedded message type is well-known and has a custom JSON
+          // representation, that representation will be embedded adding a field
+          // `value` which holds the custom JSON in addition to the `@type`
+          // field. Example (for message [google.protobuf.Duration][]):
+          //
+          //     {
+          //       "@type": "type.googleapis.com/google.protobuf.Duration",
+          //       "value": "1.212s"
+          //     }
+          //
+          message Any {
+            // A URL/resource name that uniquely identifies the type of the serialized
+            // protocol buffer message. This string must contain at least
+            // one "/" character. The last segment of the URL's path must represent
+            // the fully qualified name of the type (as in
+            // `path/google.protobuf.Duration`). The name should be in a canonical form
+            // (e.g., leading "." is not accepted).
+            //
+            // In practice, teams usually precompile into the binary all types that they
+            // expect it to use in the context of Any. However, for URLs which use the
+            // scheme `http`, `https`, or no scheme, one can optionally set up a type
+            // server that maps type URLs to message definitions as follows:
+            //
+            // * If no scheme is provided, `https` is assumed.
+            // * An HTTP GET on the URL must yield a [google.protobuf.Type][]
+            //   value in binary format, or produce an error.
+            // * Applications are allowed to cache lookup results based on the
+            //   URL, or have them precompiled into a binary to avoid any
+            //   lookup. Therefore, binary compatibility needs to be preserved
+            //   on changes to types. (Use versioned type names to manage
+            //   breaking changes.)
+            //
+            // Note: this functionality is not currently available in the official
+            // protobuf release, and it is not used for type URLs beginning with
+            // type.googleapis.com.
+            //
+            // Schemes other than `http`, `https` (or the empty scheme) might be
+            // used with implementation specific semantics.
+            //
+            string type_url = 1;
+
+            // Must be a valid serialized protocol buffer of the above specified type.
+            bytes value = 2;
+          }
+      - name: Add lib/proto/google/protobuf/wrappers.proto
+        path: codelab2/tfserving_flutter/lib/proto/google/protobuf/wrappers.proto
+        replace-contents: |
+          // Protocol Buffers - Google's data interchange format
+          // Copyright 2008 Google Inc.  All rights reserved.
+          // https://developers.google.com/protocol-buffers/
+          //
+          // Redistribution and use in source and binary forms, with or without
+          // modification, are permitted provided that the following conditions are
+          // met:
+          //
+          //     * Redistributions of source code must retain the above copyright
+          // notice, this list of conditions and the following disclaimer.
+          //     * Redistributions in binary form must reproduce the above
+          // copyright notice, this list of conditions and the following disclaimer
+          // in the documentation and/or other materials provided with the
+          // distribution.
+          //     * Neither the name of Google Inc. nor the names of its
+          // contributors may be used to endorse or promote products derived from
+          // this software without specific prior written permission.
+          //
+          // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+          // "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+          // LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+          // A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+          // OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+          // SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+          // LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+          // DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+          // THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+          // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+          // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+          // Wrappers for primitive (non-message) types. These types are useful
+          // for embedding primitives in the `google.protobuf.Any` type and for places
+          // where we need to distinguish between the absence of a primitive
+          // typed field and its default value.
+          //
+          // These wrappers have no meaningful use within repeated fields as they lack
+          // the ability to detect presence on individual elements.
+          // These wrappers have no meaningful use within a map or a oneof since
+          // individual entries of a map or fields of a oneof can already detect presence.
+
+          syntax = "proto3";
+
+          package google.protobuf;
+
+          option csharp_namespace = "Google.Protobuf.WellKnownTypes";
+          option cc_enable_arenas = true;
+          option go_package = "google.golang.org/protobuf/types/known/wrapperspb";
+          option java_package = "com.google.protobuf";
+          option java_outer_classname = "WrappersProto";
+          option java_multiple_files = true;
+          option objc_class_prefix = "GPB";
+
+          // Wrapper message for `double`.
+          //
+          // The JSON representation for `DoubleValue` is JSON number.
+          message DoubleValue {
+            // The double value.
+            double value = 1;
+          }
+
+          // Wrapper message for `float`.
+          //
+          // The JSON representation for `FloatValue` is JSON number.
+          message FloatValue {
+            // The float value.
+            float value = 1;
+          }
+
+          // Wrapper message for `int64`.
+          //
+          // The JSON representation for `Int64Value` is JSON string.
+          message Int64Value {
+            // The int64 value.
+            int64 value = 1;
+          }
+
+          // Wrapper message for `uint64`.
+          //
+          // The JSON representation for `UInt64Value` is JSON string.
+          message UInt64Value {
+            // The uint64 value.
+            uint64 value = 1;
+          }
+
+          // Wrapper message for `int32`.
+          //
+          // The JSON representation for `Int32Value` is JSON number.
+          message Int32Value {
+            // The int32 value.
+            int32 value = 1;
+          }
+
+          // Wrapper message for `uint32`.
+          //
+          // The JSON representation for `UInt32Value` is JSON number.
+          message UInt32Value {
+            // The uint32 value.
+            uint32 value = 1;
+          }
+
+          // Wrapper message for `bool`.
+          //
+          // The JSON representation for `BoolValue` is JSON `true` and `false`.
+          message BoolValue {
+            // The bool value.
+            bool value = 1;
+          }
+
+          // Wrapper message for `string`.
+          //
+          // The JSON representation for `StringValue` is JSON string.
+          message StringValue {
+            // The string value.
+            string value = 1;
+          }
+
+          // Wrapper message for `bytes`.
+          //
+          // The JSON representation for `BytesValue` is JSON string.
+          message BytesValue {
+            // The bytes value.
+            bytes value = 1;
+          }
+      - name: Mkdir lib/proto/tensorflow_serving/apis
+        path: codelab2/tfserving_flutter
+        mkdir: lib/proto/tensorflow_serving/apis
+      - name: Add lib/proto/tensorflow_serving/apis/classification.proto
+        path: codelab2/tfserving_flutter/lib/proto/tensorflow_serving/apis/classification.proto
+        replace-contents: |
+          syntax = "proto3";
+
+          option cc_enable_arenas = true;
+
+          import "tensorflow_serving/apis/input.proto";
+          import "tensorflow_serving/apis/model.proto";
+
+          package tensorflow.serving;
+
+          // A single class.
+          message Class {
+            // Label or name of the class.
+            string label = 1;
+            // Score for this class (e.g., the probability the item belongs to this
+            // class). As per the proto3 default-value semantics, if the score is missing,
+            // it should be treated as 0.
+            float score = 2;
+          }
+
+          // List of classes for a single item (tensorflow.Example).
+          message Classifications {
+            repeated Class classes = 1;
+          }
+
+          // Contains one result per input example, in the same order as the input in
+          // ClassificationRequest.
+          message ClassificationResult {
+            repeated Classifications classifications = 1;
+          }
+
+          // RPC Interfaces
+
+          message ClassificationRequest {
+            // Model Specification. If version is not specified, will use the latest
+            // (numerical) version.
+            ModelSpec model_spec = 1;
+
+            // Input data.
+            tensorflow.serving.Input input = 2;
+          }
+
+          message ClassificationResponse {
+            // Effective Model Specification used for classification.
+            ModelSpec model_spec = 2;
+
+            // Result of the classification.
+            ClassificationResult result = 1;
+          }
+      - name: Add lib/proto/tensorflow_serving/apis/get_model_metadata.proto
+        path: codelab2/tfserving_flutter/lib/proto/tensorflow_serving/apis/get_model_metadata.proto
+        replace-contents: |
+          syntax = "proto3";
+
+          package tensorflow.serving;
+          option cc_enable_arenas = true;
+
+          import "google/protobuf/any.proto";
+          import "tensorflow/core/protobuf/meta_graph.proto";
+          import "tensorflow_serving/apis/model.proto";
+
+          // Message returned for "signature_def" field.
+          message SignatureDefMap {
+            map<string, SignatureDef> signature_def = 1;
+          };
+
+          message GetModelMetadataRequest {
+            // Model Specification indicating which model we are querying for metadata.
+            // If version is not specified, will use the latest (numerical) version.
+            ModelSpec model_spec = 1;
+            // Metadata fields to get. Currently supported: "signature_def".
+            repeated string metadata_field = 2;
+          }
+
+          message GetModelMetadataResponse {
+            // Model Specification indicating which model this metadata belongs to.
+            ModelSpec model_spec = 1;
+            // Map of metadata field name to metadata field. The options for metadata
+            // field name are listed in GetModelMetadataRequest. Currently supported:
+            // "signature_def".
+            map<string, google.protobuf.Any> metadata = 2;
+          }
+      - name: Add lib/proto/tensorflow_serving/apis/inference.proto
+        path: codelab2/tfserving_flutter/lib/proto/tensorflow_serving/apis/inference.proto
+        replace-contents: |
+          // This file contains messages for various machine learning inferences
+          // such as regression and classification.
+          //
+          // In many applications more than one type of inference is desired for a single
+          // input.  For example, given meteorologic data an application may want to
+          // perform a classification to determine if we should expect rain, snow or sun
+          // and also perform a regression to predict the temperature.
+          // Sharing the single input data between two inference tasks can be accomplished
+          // using MultiInferenceRequest and MultiInferenceResponse.
+
+          syntax = "proto3";
+
+          option cc_enable_arenas = true;
+
+          import "tensorflow_serving/apis/classification.proto";
+          import "tensorflow_serving/apis/input.proto";
+          import "tensorflow_serving/apis/model.proto";
+          import "tensorflow_serving/apis/regression.proto";
+
+          package tensorflow.serving;
+
+          // Inference request such as classification, regression, etc...
+          message InferenceTask {
+            // Model Specification. If version is not specified, will use the latest
+            // (numerical) version.
+            // All ModelSpecs in a MultiInferenceRequest must access the same model name.
+            ModelSpec model_spec = 1;
+
+            // Signature's method_name. Should be one of the method names defined in
+            // third_party/tensorflow/python/saved_model/signature_constants.py.
+            // e.g. "tensorflow/serving/classify".
+            string method_name = 2;
+          }
+
+          // Inference result, matches the type of request or is an error.
+          message InferenceResult {
+            ModelSpec model_spec = 1;
+
+            oneof result {
+              ClassificationResult classification_result = 2;
+              RegressionResult regression_result = 3;
+            }
+          }
+
+          // Inference request containing one or more requests.
+          message MultiInferenceRequest {
+            // Inference tasks.
+            repeated InferenceTask tasks = 1;
+
+            // Input data.
+            Input input = 2;
+          }
+
+          // Inference request containing one or more responses.
+          message MultiInferenceResponse {
+            // List of results; one for each InferenceTask in the request, returned in the
+            // same order as the request.
+            repeated InferenceResult results = 1;
+          }
+      - name: Add lib/proto/tensorflow_serving/apis/input.proto
+        path: codelab2/tfserving_flutter/lib/proto/tensorflow_serving/apis/input.proto
+        replace-contents: |
+          // Input used in serving APIs.  Based on the tensorflow.Example family of
+          // feature representations.
+
+          syntax = "proto3";
+
+          option cc_enable_arenas = true;
+
+          import "tensorflow/core/example/example.proto";
+
+          package tensorflow.serving;
+
+          // Specifies one or more fully independent input Examples.
+          // See examples at:
+          //     https://github.com/tensorflow/tensorflow/blob/master/tensorflow/core/example/example.proto
+          message ExampleList {
+            repeated tensorflow.Example examples = 1;
+          }
+
+          // Specifies one or more independent input Examples, with a common context
+          // Example.
+          //
+          // The common use case for context is to cleanly and optimally specify some
+          // features that are common across multiple examples.
+          //
+          // See example below with a search query as the context and multiple restaurants
+          // to perform some inference on.
+          //
+          // context: {
+          //   features: {
+          //     feature: {
+          //       key  : "query"
+          //       value: {
+          //         bytes_list: {
+          //           value: [ "pizza" ]
+          //         }
+          //       }
+          //     }
+          //   }
+          // }
+          // examples: {
+          //   features: {
+          //     feature: {
+          //       key  : "cuisine"
+          //       value: {
+          //         bytes_list: {
+          //           value: [ "Pizzeria" ]
+          //         }
+          //       }
+          //     }
+          //   }
+          // }
+          // examples: {
+          //   features: {
+          //     feature: {
+          //       key  : "cuisine"
+          //       value: {
+          //         bytes_list: {
+          //           value: [ "Taqueria" ]
+          //         }
+          //       }
+          //     }
+          //   }
+          // }
+          //
+          // Implementations of ExampleListWithContext merge the context Example into each
+          // of the Examples. Note that feature keys must not be duplicated between the
+          // Examples and context Example, or the behavior is undefined.
+          //
+          // See also:
+          //     tensorflow/core/example/example.proto
+          //     https://developers.google.com/protocol-buffers/docs/proto3#maps
+          message ExampleListWithContext {
+            repeated tensorflow.Example examples = 1;
+            tensorflow.Example context = 2;
+          }
+
+          message Input {
+            oneof kind {
+              ExampleList example_list = 1 [lazy = true];
+              ExampleListWithContext example_list_with_context = 2 [lazy = true];
+            }
+          }
+      - name: Add lib/proto/tensorflow_serving/apis/model.proto
+        path: codelab2/tfserving_flutter/lib/proto/tensorflow_serving/apis/model.proto
+        replace-contents: |
+          syntax = "proto3";
+
+          package tensorflow.serving;
+          option cc_enable_arenas = true;
+
+          import "google/protobuf/wrappers.proto";
+
+          // Metadata for an inference request such as the model name and version.
+          message ModelSpec {
+            // Required servable name.
+            string name = 1;
+
+            // Optional choice of which version of the model to use.
+            //
+            // Recommended to be left unset in the common case. Should be specified only
+            // when there is a strong version consistency requirement.
+            //
+            // When left unspecified, the system will serve the best available version.
+            // This is typically the latest version, though during version transitions,
+            // notably when serving on a fleet of instances, may be either the previous or
+            // new version.
+            oneof version_choice {
+              // Use this specific version number.
+              google.protobuf.Int64Value version = 2;
+
+              // Use the version associated with the given label.
+              string version_label = 4;
+            }
+
+            // A named signature to evaluate. If unspecified, the default signature will
+            // be used.
+            string signature_name = 3;
+          }
+      - name: Add lib/proto/tensorflow_serving/apis/predict.proto
+        path: codelab2/tfserving_flutter/lib/proto/tensorflow_serving/apis/predict.proto
+        replace-contents: |
+          syntax = "proto3";
+
+          package tensorflow.serving;
+          option cc_enable_arenas = true;
+
+          import "tensorflow/core/framework/tensor.proto";
+          import "tensorflow_serving/apis/model.proto";
+
+          // PredictRequest specifies which TensorFlow model to run, as well as
+          // how inputs are mapped to tensors and how outputs are filtered before
+          // returning to user.
+          message PredictRequest {
+            // Model Specification. If version is not specified, will use the latest
+            // (numerical) version.
+            ModelSpec model_spec = 1;
+
+            // Input tensors.
+            // Names of input tensor are alias names. The mapping from aliases to real
+            // input tensor names is stored in the SavedModel export as a prediction
+            // SignatureDef under the 'inputs' field.
+            map<string, TensorProto> inputs = 2;
+
+            // Output filter.
+            // Names specified are alias names. The mapping from aliases to real output
+            // tensor names is stored in the SavedModel export as a prediction
+            // SignatureDef under the 'outputs' field.
+            // Only tensors specified here will be run/fetched and returned, with the
+            // exception that when none is specified, all tensors specified in the
+            // named signature will be run/fetched and returned.
+            repeated string output_filter = 3;
+          }
+
+          // Response for PredictRequest on successful run.
+          message PredictResponse {
+            // Effective Model Specification used to process PredictRequest.
+            ModelSpec model_spec = 2;
+
+            // Output tensors.
+            map<string, TensorProto> outputs = 1;
+          }
+      - name: Add lib/proto/tensorflow_serving/apis/prediction_service.proto
+        path: codelab2/tfserving_flutter/lib/proto/tensorflow_serving/apis/prediction_service.proto
+        replace-contents: |
+          syntax = "proto3";
+
+          package tensorflow.serving;
+          option cc_enable_arenas = true;
+
+          import "tensorflow_serving/apis/classification.proto";
+          import "tensorflow_serving/apis/get_model_metadata.proto";
+          import "tensorflow_serving/apis/inference.proto";
+          import "tensorflow_serving/apis/predict.proto";
+          import "tensorflow_serving/apis/regression.proto";
+
+          // open source marker; do not remove
+          // PredictionService provides access to machine-learned models loaded by
+          // model_servers.
+          service PredictionService {
+            // Classify.
+            rpc Classify(ClassificationRequest) returns (ClassificationResponse);
+
+            // Regress.
+            rpc Regress(RegressionRequest) returns (RegressionResponse);
+
+            // Predict -- provides access to loaded TensorFlow model.
+            rpc Predict(PredictRequest) returns (PredictResponse);
+
+            // MultiInference API for multi-headed models.
+            rpc MultiInference(MultiInferenceRequest) returns (MultiInferenceResponse);
+
+            // GetModelMetadata - provides access to metadata for loaded models.
+            rpc GetModelMetadata(GetModelMetadataRequest)
+                returns (GetModelMetadataResponse);
+          }
+      - name: Add lib/proto/tensorflow_serving/apis/regression.proto
+        path: codelab2/tfserving_flutter/lib/proto/tensorflow_serving/apis/regression.proto
+        replace-contents: |
+          syntax = "proto3";
+
+          option cc_enable_arenas = true;
+
+          import "tensorflow_serving/apis/input.proto";
+          import "tensorflow_serving/apis/model.proto";
+
+          package tensorflow.serving;
+
+          // Regression result for a single item (tensorflow.Example).
+          message Regression {
+            float value = 1;
+          }
+
+          // Contains one result per input example, in the same order as the input in
+          // RegressionRequest.
+          message RegressionResult {
+            repeated Regression regressions = 1;
+          }
+
+          // RPC interfaces.
+
+          message RegressionRequest {
+            // Model Specification. If version is not specified, will use the latest
+            // (numerical) version.
+            ModelSpec model_spec = 1;
+
+            // Input data.
+            tensorflow.serving.Input input = 2;
+          }
+
+          message RegressionResponse {
+            // Effective Model Specification used for regression.
+            ModelSpec model_spec = 2;
+
+            RegressionResult result = 1;
+          }
+      - name: Mkdir lib/proto/tensorflow/core/example
+        path: codelab2/tfserving_flutter
+        mkdir: lib/proto/tensorflow/core/example
+      - name: Add lib/proto/tensorflow/core/example/example.proto
+        path: codelab2/tfserving_flutter/lib/proto/tensorflow/core/example/example.proto
+        replace-contents: |
+          // Protocol messages for describing input data Examples for machine learning
+          // model training or inference.
+          syntax = "proto3";
+
+          package tensorflow;
+
+          import "tensorflow/core/example/feature.proto";
+
+          option cc_enable_arenas = true;
+          option java_outer_classname = "ExampleProtos";
+          option java_multiple_files = true;
+          option java_package = "org.tensorflow.example";
+          option go_package = "github.com/tensorflow/tensorflow/tensorflow/go/core/example/example_protos_go_proto";
+
+          // An Example is a mostly-normalized data format for storing data for
+          // training and inference.  It contains a key-value store (features); where
+          // each key (string) maps to a Feature message (which is oneof packed BytesList,
+          // FloatList, or Int64List).  This flexible and compact format allows the
+          // storage of large amounts of typed data, but requires that the data shape
+          // and use be determined by the configuration files and parsers that are used to
+          // read and write this format.  That is, the Example is mostly *not* a
+          // self-describing format.  In TensorFlow, Examples are read in row-major
+          // format, so any configuration that describes data with rank-2 or above
+          // should keep this in mind. If you flatten a matrix into a FloatList it should
+          // be stored as [ row 0 ... row 1 ... row M-1 ]
+          //
+          // An Example for a movie recommendation application:
+          //   features {
+          //     feature {
+          //       key: "age"
+          //       value { float_list {
+          //         value: 29.0
+          //       }}
+          //     }
+          //     feature {
+          //       key: "movie"
+          //       value { bytes_list {
+          //         value: "The Shawshank Redemption"
+          //         value: "Fight Club"
+          //       }}
+          //     }
+          //     feature {
+          //       key: "movie_ratings"
+          //       value { float_list {
+          //         value: 9.0
+          //         value: 9.7
+          //       }}
+          //     }
+          //     feature {
+          //       key: "suggestion"
+          //       value { bytes_list {
+          //         value: "Inception"
+          //       }}
+          //     }
+          //     # Note that this feature exists to be used as a label in training.
+          //     # E.g., if training a logistic regression model to predict purchase
+          //     # probability in our learning tool we would set the label feature to
+          //     # "suggestion_purchased".
+          //     feature {
+          //       key: "suggestion_purchased"
+          //       value { float_list {
+          //         value: 1.0
+          //       }}
+          //     }
+          //     # Similar to "suggestion_purchased" above this feature exists to be used
+          //     # as a label in training.
+          //     # E.g., if training a linear regression model to predict purchase
+          //     # price in our learning tool we would set the label feature to
+          //     # "purchase_price".
+          //     feature {
+          //       key: "purchase_price"
+          //       value { float_list {
+          //         value: 9.99
+          //       }}
+          //     }
+          //  }
+          //
+          // A conformant Example data set obeys the following conventions:
+          //   - If a Feature K exists in one example with data type T, it must be of
+          //       type T in all other examples when present. It may be omitted.
+          //   - The number of instances of Feature K list data may vary across examples,
+          //       depending on the requirements of the model.
+          //   - If a Feature K doesn't exist in an example, a K-specific default will be
+          //       used, if configured.
+          //   - If a Feature K exists in an example but contains no items, the intent
+          //       is considered to be an empty tensor and no default will be used.
+
+          message Example {
+            Features features = 1;
+          }
+
+          // A SequenceExample is an Example representing one or more sequences, and
+          // some context.  The context contains features which apply to the entire
+          // example. The feature_lists contain a key, value map where each key is
+          // associated with a repeated set of Features (a FeatureList).
+          // A FeatureList thus represents the values of a feature identified by its key
+          // over time / frames.
+          //
+          // Below is a SequenceExample for a movie recommendation application recording a
+          // sequence of ratings by a user. The time-independent features ("locale",
+          // "age", "favorites") describing the user are part of the context. The sequence
+          // of movies the user rated are part of the feature_lists. For each movie in the
+          // sequence we have information on its name and actors and the user's rating.
+          // This information is recorded in three separate feature_list(s).
+          // In the example below there are only two movies. All three feature_list(s),
+          // namely "movie_ratings", "movie_names", and "actors" have a feature value for
+          // both movies. Note, that "actors" is itself a bytes_list with multiple
+          // strings per movie.
+          //
+          // context: {
+          //   feature: {
+          //     key  : "locale"
+          //     value: {
+          //       bytes_list: {
+          //         value: [ "pt_BR" ]
+          //       }
+          //     }
+          //   }
+          //   feature: {
+          //     key  : "age"
+          //     value: {
+          //       float_list: {
+          //         value: [ 19.0 ]
+          //       }
+          //     }
+          //   }
+          //   feature: {
+          //     key  : "favorites"
+          //     value: {
+          //       bytes_list: {
+          //         value: [ "Majesty Rose", "Savannah Outen", "One Direction" ]
+          //       }
+          //     }
+          //   }
+          // }
+          // feature_lists: {
+          //   feature_list: {
+          //     key  : "movie_ratings"
+          //     value: {
+          //       feature: {
+          //         float_list: {
+          //           value: [ 4.5 ]
+          //         }
+          //       }
+          //       feature: {
+          //         float_list: {
+          //           value: [ 5.0 ]
+          //         }
+          //       }
+          //     }
+          //   }
+          //   feature_list: {
+          //     key  : "movie_names"
+          //     value: {
+          //       feature: {
+          //         bytes_list: {
+          //           value: [ "The Shawshank Redemption" ]
+          //         }
+          //       }
+          //       feature: {
+          //         bytes_list: {
+          //           value: [ "Fight Club" ]
+          //         }
+          //       }
+          //     }
+          //   }
+          //   feature_list: {
+          //     key  : "actors"
+          //     value: {
+          //       feature: {
+          //         bytes_list: {
+          //           value: [ "Tim Robbins", "Morgan Freeman" ]
+          //         }
+          //       }
+          //       feature: {
+          //         bytes_list: {
+          //           value: [ "Brad Pitt", "Edward Norton", "Helena Bonham Carter" ]
+          //         }
+          //       }
+          //     }
+          //   }
+          // }
+          //
+          // A conformant SequenceExample data set obeys the following conventions:
+          //
+          // Context:
+          //   - All conformant context features K must obey the same conventions as
+          //     a conformant Example's features (see above).
+          // Feature lists:
+          //   - A FeatureList L may be missing in an example; it is up to the
+          //     parser configuration to determine if this is allowed or considered
+          //     an empty list (zero length).
+          //   - If a FeatureList L exists, it may be empty (zero length).
+          //   - If a FeatureList L is non-empty, all features within the FeatureList
+          //     must have the same data type T. Even across SequenceExamples, the type T
+          //     of the FeatureList identified by the same key must be the same. An entry
+          //     without any values may serve as an empty feature.
+          //   - If a FeatureList L is non-empty, it is up to the parser configuration
+          //     to determine if all features within the FeatureList must
+          //     have the same size.  The same holds for this FeatureList across multiple
+          //     examples.
+          //   - For sequence modeling, e.g.:
+          //        http://colah.github.io/posts/2015-08-Understanding-LSTMs/
+          //        https://github.com/tensorflow/nmt
+          //     the feature lists represent a sequence of frames.
+          //     In this scenario, all FeatureLists in a SequenceExample have the same
+          //     number of Feature messages, so that the ith element in each FeatureList
+          //     is part of the ith frame (or time step).
+          // Examples of conformant and non-conformant examples' FeatureLists:
+          //
+          // Conformant FeatureLists:
+          //    feature_lists: { feature_list: {
+          //      key: "movie_ratings"
+          //      value: { feature: { float_list: { value: [ 4.5 ] } }
+          //               feature: { float_list: { value: [ 5.0 ] } } }
+          //    } }
+          //
+          // Non-conformant FeatureLists (mismatched types):
+          //    feature_lists: { feature_list: {
+          //      key: "movie_ratings"
+          //      value: { feature: { float_list: { value: [ 4.5 ] } }
+          //               feature: { int64_list: { value: [ 5 ] } } }
+          //    } }
+          //
+          // Conditionally conformant FeatureLists, the parser configuration determines
+          // if the feature sizes must match:
+          //    feature_lists: { feature_list: {
+          //      key: "movie_ratings"
+          //      value: { feature: { float_list: { value: [ 4.5 ] } }
+          //               feature: { float_list: { value: [ 5.0, 6.0 ] } } }
+          //    } }
+          //
+          // Conformant pair of SequenceExample
+          //    feature_lists: { feature_list: {
+          //      key: "movie_ratings"
+          //      value: { feature: { float_list: { value: [ 4.5 ] } }
+          //               feature: { float_list: { value: [ 5.0 ] } } }
+          //    } }
+          // and:
+          //    feature_lists: { feature_list: {
+          //      key: "movie_ratings"
+          //      value: { feature: { float_list: { value: [ 4.5 ] } }
+          //               feature: { float_list: { value: [ 5.0 ] } }
+          //               feature: { float_list: { value: [ 2.0 ] } } }
+          //    } }
+          //
+          // Conformant pair of SequenceExample
+          //    feature_lists: { feature_list: {
+          //      key: "movie_ratings"
+          //      value: { feature: { float_list: { value: [ 4.5 ] } }
+          //               feature: { float_list: { value: [ 5.0 ] } } }
+          //    } }
+          // and:
+          //    feature_lists: { feature_list: {
+          //      key: "movie_ratings"
+          //      value: { }
+          //    } }
+          //
+          // Conditionally conformant pair of SequenceExample, the parser configuration
+          // determines if the second feature_lists is consistent (zero-length) or
+          // invalid (missing "movie_ratings"):
+          //    feature_lists: { feature_list: {
+          //      key: "movie_ratings"
+          //      value: { feature: { float_list: { value: [ 4.5 ] } }
+          //               feature: { float_list: { value: [ 5.0 ] } } }
+          //    } }
+          // and:
+          //    feature_lists: { }
+          //
+          // Non-conformant pair of SequenceExample (mismatched types)
+          //    feature_lists: { feature_list: {
+          //      key: "movie_ratings"
+          //      value: { feature: { float_list: { value: [ 4.5 ] } }
+          //               feature: { float_list: { value: [ 5.0 ] } } }
+          //    } }
+          // and:
+          //    feature_lists: { feature_list: {
+          //      key: "movie_ratings"
+          //      value: { feature: { int64_list: { value: [ 4 ] } }
+          //               feature: { int64_list: { value: [ 5 ] } }
+          //               feature: { int64_list: { value: [ 2 ] } } }
+          //    } }
+          //
+          // Conditionally conformant pair of SequenceExample; the parser configuration
+          // determines if the feature sizes must match:
+          //    feature_lists: { feature_list: {
+          //      key: "movie_ratings"
+          //      value: { feature: { float_list: { value: [ 4.5 ] } }
+          //               feature: { float_list: { value: [ 5.0 ] } } }
+          //    } }
+          // and:
+          //    feature_lists: { feature_list: {
+          //      key: "movie_ratings"
+          //      value: { feature: { float_list: { value: [ 4.0 ] } }
+          //               feature: { float_list: { value: [ 5.0, 3.0 ] } }
+          //    } }
+
+          message SequenceExample {
+            Features context = 1;
+            FeatureLists feature_lists = 2;
+          }
+      - name: Add lib/proto/tensorflow/core/example/feature.proto
+        path: codelab2/tfserving_flutter/lib/proto/tensorflow/core/example/feature.proto
+        replace-contents: |
+          // Protocol messages for describing features for machine learning model
+          // training or inference.
+          //
+          // There are three base Feature types:
+          //   - bytes
+          //   - float
+          //   - int64
+          //
+          // A Feature contains Lists which may hold zero or more values.  These
+          // lists are the base values BytesList, FloatList, Int64List.
+          //
+          // Features are organized into categories by name.  The Features message
+          // contains the mapping from name to Feature.
+          //
+          // Example Features for a movie recommendation application:
+          //   feature {
+          //     key: "age"
+          //     value { float_list {
+          //       value: 29.0
+          //     }}
+          //   }
+          //   feature {
+          //     key: "movie"
+          //     value { bytes_list {
+          //       value: "The Shawshank Redemption"
+          //       value: "Fight Club"
+          //     }}
+          //   }
+          //   feature {
+          //     key: "movie_ratings"
+          //     value { float_list {
+          //       value: 9.0
+          //       value: 9.7
+          //     }}
+          //   }
+          //   feature {
+          //     key: "suggestion"
+          //     value { bytes_list {
+          //       value: "Inception"
+          //     }}
+          //   }
+          //   feature {
+          //     key: "suggestion_purchased"
+          //     value { int64_list {
+          //       value: 1
+          //     }}
+          //   }
+          //   feature {
+          //     key: "purchase_price"
+          //     value { float_list {
+          //       value: 9.99
+          //     }}
+          //   }
+          //
+
+          syntax = "proto3";
+
+          package tensorflow;
+
+          option cc_enable_arenas = true;
+          option java_outer_classname = "FeatureProtos";
+          option java_multiple_files = true;
+          option java_package = "org.tensorflow.example";
+          option go_package = "github.com/tensorflow/tensorflow/tensorflow/go/core/example/example_protos_go_proto";
+
+          // LINT.IfChange
+          // Containers to hold repeated fundamental values.
+          message BytesList {
+            repeated bytes value = 1;
+          }
+          message FloatList {
+            repeated float value = 1 [packed = true];
+          }
+          message Int64List {
+            repeated int64 value = 1 [packed = true];
+          }
+
+          // Containers for non-sequential data.
+          message Feature {
+            // Each feature can be exactly one kind.
+            oneof kind {
+              BytesList bytes_list = 1;
+              FloatList float_list = 2;
+              Int64List int64_list = 3;
+            }
+          }
+
+          message Features {
+            // Map from feature name to feature.
+            map<string, Feature> feature = 1;
+          }
+
+          // Containers for sequential data.
+          //
+          // A FeatureList contains lists of Features.  These may hold zero or more
+          // Feature values.
+          //
+          // FeatureLists are organized into categories by name.  The FeatureLists message
+          // contains the mapping from name to FeatureList.
+          //
+          message FeatureList {
+            repeated Feature feature = 1;
+          }
+
+          message FeatureLists {
+            // Map from feature name to feature list.
+            map<string, FeatureList> feature_list = 1;
+          }
+          // LINT.ThenChange(
+          //     https://www.tensorflow.org/code/tensorflow/python/training/training.py)
+      - name: Mkdir lib/proto/tensorflow/core/framework
+        path: codelab2/tfserving_flutter
+        mkdir: lib/proto/tensorflow/core/framework
+      - name: Add lib/proto/tensorflow/core/framework/attr_value.proto
+        path: codelab2/tfserving_flutter/lib/proto/tensorflow/core/framework/attr_value.proto
+        replace-contents: |
+          syntax = "proto3";
+
+          package tensorflow;
+
+          import "tensorflow/core/framework/tensor.proto";
+          import "tensorflow/core/framework/tensor_shape.proto";
+          import "tensorflow/core/framework/types.proto";
+
+          option cc_enable_arenas = true;
+          option java_outer_classname = "AttrValueProtos";
+          option java_multiple_files = true;
+          option java_package = "org.tensorflow.framework";
+          option go_package = "github.com/tensorflow/tensorflow/tensorflow/go/core/framework/attr_value_go_proto";
+
+          // Protocol buffer representing the value for an attr used to configure an Op.
+          // Comment indicates the corresponding attr type.  Only the field matching the
+          // attr type may be filled.
+          message AttrValue {
+            // LINT.IfChange
+            message ListValue {
+              repeated bytes s = 2;                        // "list(string)"
+              repeated int64 i = 3 [packed = true];        // "list(int)"
+              repeated float f = 4 [packed = true];        // "list(float)"
+              repeated bool b = 5 [packed = true];         // "list(bool)"
+              repeated DataType type = 6 [packed = true];  // "list(type)"
+              repeated TensorShapeProto shape = 7;         // "list(shape)"
+              repeated TensorProto tensor = 8;             // "list(tensor)"
+              repeated NameAttrList func = 9;              // "list(attr)"
+            }
+            // LINT.ThenChange(https://www.tensorflow.org/code/tensorflow/c/c_api.cc)
+
+            oneof value {
+              bytes s = 2;                 // "string"
+              int64 i = 3;                 // "int"
+              float f = 4;                 // "float"
+              bool b = 5;                  // "bool"
+              DataType type = 6;           // "type"
+              TensorShapeProto shape = 7;  // "shape"
+              TensorProto tensor = 8;      // "tensor"
+              ListValue list = 1;          // any "list(...)"
+
+              // "func" represents a function. func.name is a function's name or
+              // a primitive op's name. func.attr.first is the name of an attr
+              // defined for that function. func.attr.second is the value for
+              // that attr in the instantiation.
+              NameAttrList func = 10;
+
+              // This is a placeholder only used in nodes defined inside a
+              // function.  It indicates the attr value will be supplied when
+              // the function is instantiated.  For example, let us suppose a
+              // node "N" in function "FN". "N" has an attr "A" with value
+              // placeholder = "foo". When FN is instantiated with attr "foo"
+              // set to "bar", the instantiated node N's attr A will have been
+              // given the value "bar".
+              string placeholder = 9;
+            }
+          }
+
+          // A list of attr names and their values. The whole list is attached
+          // with a string name.  E.g., MatMul[T=float].
+          message NameAttrList {
+            string name = 1;
+            map<string, AttrValue> attr = 2;
+          }
+      - name: Add lib/proto/tensorflow/core/framework/full_type.proto
+        path: codelab2/tfserving_flutter/lib/proto/tensorflow/core/framework/full_type.proto
+        replace-contents: |
+          syntax = "proto3";
+
+          package tensorflow;
+
+          option cc_enable_arenas = true;
+          option java_outer_classname = "FullTypeProtos";
+          option java_multiple_files = true;
+          option java_package = "org.tensorflow.framework";
+          option go_package = "github.com/tensorflow/tensorflow/tensorflow/go/core/framework/full_type_go_proto";
+
+          // Experimental. Represents the complete type information of a TensorFlow value.
+          enum FullTypeId {
+            // The default represents an uninitialized values.
+            TFT_UNSET = 0;
+
+            // Type symbols. Used to construct more complex type expressions like
+            // algebraic data types.
+
+            // Type variables may serve as placeholder for any other type ID in type
+            // templates.
+            //
+            // Examples:
+            //   TFT_DATASET[TFT_VAR["T"]] is a Dataset returning a type indicated by "T".
+            //   TFT_TENSOR[TFT_VAR["T"]] is a Tensor of n element type indicated by "T".
+            //   TFT_TENSOR[TFT_VAR["T"]], TFT_TENSOR[TFT_VAR["T"]] are two tensors of
+            //     identical element types.
+            //   TFT_TENSOR[TFT_VAR["P"]], TFT_TENSOR[TFT_VAR["Q"]] are two tensors of
+            //     independent element types.
+            //
+            TFT_VAR = 1;
+
+            // Wildcard type. Describes a parameter of unknown type. In TensorFlow, that
+            // can mean either a "Top" type (accepts any type), or a dynamically typed
+            // object whose type is unknown in context.
+            // Important: "unknown" does not necessarily mean undeterminable!
+            TFT_ANY = 2;
+
+            // The algebraic product type. This is an algebraic type that may be used just
+            // for logical grouping. Not to confused with TFT_TUPLE which describes a
+            // concrete object of several elements.
+            //
+            // Example:
+            //   TFT_DATASET[TFT_PRODUCT[TFT_TENSOR[TFT_INT32], TFT_TENSOR[TFT_FLOAT64]]]
+            //     is a Dataset producing two tensors, an integer one and a float one.
+            //
+            TFT_PRODUCT = 3;
+
+            // Represents a named field, with the name stored in the attribute.
+            //
+            // Parametrization:
+            //   TFT_NAMED[<type>]{<name>}
+            //   * <type> is the type of the field
+            //   * <name> is the field name, as string (thpugh can theoretically be an int
+            //     as well)
+            //
+            // Example:
+            //   TFT_RECORD[
+            //     TFT_NAMED[TFT_TENSOR[TFT_INT32]]{'foo'},
+            //     TFT_NAMED[TFT_TENSOR[TFT_FLOAT32]]{'bar'},
+            //   ]
+            //     is a structure with two fields, an int tensor "foo" and a float tensor
+            //     "bar".
+            TFT_NAMED = 4;
+
+            // Template definition. Expands the variables by repeating a template as
+            // arguments of container.
+            //
+            // Parametrization:
+            //   TFT_FOR_EACH[<container_type>, <template>, <expansions>]
+            //   * <container_type> is the type of the container that the template will be
+            //     expanded into
+            //   * <template> is any type definition that potentially contains type
+            //     variables
+            //   * <expansions> is a TFT_VAR and may include more types in the future
+            //
+            // Example:
+            //   TFT_FOR_EACH[
+            //         TFT_PRODUCT,
+            //         TFT_TENSOR[TFT_VAR["t"]],
+            //         TFT_VAR["t"]
+            //     ]
+            //     will substitute a T = TFT_INT32 to TFT_PRODUCT[TFT_TENSOR[TFT_INT32]]
+            //     and a T = (TFT_INT32, TFT_INT64) to
+            //     TFT_PRODUCT[TFT_TENSOR[TFT_INT32], TFT_TENSOR[TFT_INT64]].
+            TFT_FOR_EACH = 20;
+
+            // Callable types describe functions and ops.
+            //
+            // Parametrization:
+            //   TFT_CALLABLE[<arg type>, <return type>]
+            //   * <arg type> is the type of the arguments; TFT_PRODUCT represents
+            //   multiple
+            //     arguments.
+            //   * <return type> is the return type; TFT_PRODUCT represents multiple
+            //     return values (that means that callables returning multiple things
+            //     don't necessarily return a single tuple).
+            //
+            // Example:
+            //   TFT_CALLABLE[
+            //     TFT_ANY,
+            //     TFT_PRODUCT[TFT_TENSOR[TFT_INT32], TFT_TENSOR[TFT_FLOAT64]],
+            //   ]
+            //     is a callable with unspecified (for now) input arguments, and
+            //     two return values of type tensor.
+            //
+            TFT_CALLABLE = 100;
+
+            // Concrete type IDs, representing "proper" data types that can describe
+            // runtime TensorFlow objects.
+
+            // The usual Tensor. This is a parametric type.
+            //
+            // Parametrization:
+            //   TFT_TENSOR[<element type>, <shape type>]
+            //   * <element type> is currently limited to one of the element types
+            //     defined below.
+            //   * <shape type> is not yet defined, and may only be TFT_UNKNOWN for now.
+            //
+            // A TFT_SHAPE type will be defined in the future.
+            //
+            // Example:
+            //   TFT_TENSOR[TFT_INT32, TFT_UNKNOWN]
+            //     is a Tensor of int32 element type and unknown shape.
+            //
+            // TODO(mdan): Define TFT_SHAPE and add more examples.
+            TFT_TENSOR = 1000;
+
+            // Array (or tensorflow::TensorList in the variant type registry).
+            // Note: this is not to be confused with the deprecated `TensorArray*` ops
+            // which are not supported by FullType.
+            // This type represents a random-access list whose elements can be
+            // described by a single type. Although immutable, Array is expected to
+            // support efficient mutation semantics (i.e. element update) in the
+            // user-facing API.
+            // The element type may be generic or even TFT_ANY for a heterogenous list.
+            //
+            // Parametrization:
+            //   TFT_ARRAY[<element type>]
+            //   * <element type> may be any concrete type.
+            //
+            // Examples:
+            //   TFT_ARRAY[TFT_TENSOR[TFT_INT32]] is a TensorArray holding int32 Tensors
+            //     of any shape.
+            //   TFT_ARRAY[TFT_TENSOR[TFT_UNKNOWN]] is a TensorArray holding Tensors of
+            //     mixed element types.
+            //   TFT_ARRAY[TFT_UNKNOWN] is a TensorArray holding any element type.
+            //   TFT_ARRAY[] is equivalent to TFT_ARRAY[TFT_UNKNOWN].
+            //   TFT_ARRAY[TFT_ARRAY[]] is an array or arrays (of unknown types).
+            TFT_ARRAY = 1001;
+
+            // Optional (or tensorflow::OptionalVariant in the variant type registry).
+            // This type represents a value that may either hold an element of a single
+            // specified type, or nothing at all.
+            //
+            // Parametrization:
+            //   TFT_OPTIONAL[<element type>]
+            //   * <element type> may be any concrete type.
+            //
+            // Examples:
+            //   TFT_OPTIONAL[TFT_TENSOR[TFT_INT32]] is an Optional holding an int32
+            //     Tensor of any shape.
+            TFT_OPTIONAL = 1002;
+
+            // Literal types describe compile-time constant values.
+            // Literal types may also participate in dependent types.
+            //
+            // Parametrization:
+            //   TFT_LITERAL[<value type>]{<value>}
+            //   * <value type> may be any concrete type compatible that can hold <value>
+            //   * <value> is the type's attribute, and holds the actual literal value
+            //
+            // Examples:
+            //   TFT_LITERAL[TFT_INT32]{1} is the compile-time constant 1.
+            TFT_LITERAL = 1003;
+
+            // Type attributes. These always appear in the parametrization of a type,
+            // never alone. For example, there is no such thing as a "bool" TensorFlow
+            // object (for now).
+
+            // The bool element type.
+            // TODO(mdan): Quantized types, legacy representations (e.g. ref)
+            TFT_BOOL = 200;
+            // Integer element types.
+            TFT_UINT8 = 201;
+            TFT_UINT16 = 202;
+            TFT_UINT32 = 203;
+            TFT_UINT64 = 204;
+            TFT_INT8 = 205;
+            TFT_INT16 = 206;
+            TFT_INT32 = 207;
+            TFT_INT64 = 208;
+            // Floating-point element types.
+            TFT_HALF = 209;
+            TFT_FLOAT = 210;
+            TFT_DOUBLE = 211;
+            TFT_BFLOAT16 = 215;
+            // Complex element types.
+            // TODO(mdan): Represent as TFT_COMPLEX[TFT_DOUBLE] instead?
+            TFT_COMPLEX64 = 212;
+            TFT_COMPLEX128 = 213;
+            // The string element type.
+            TFT_STRING = 214;
+
+            // Other types that we don't know yet whether they will become part of the
+            // core type system or be consisdered third-party (and consequently moved to
+            // user-defined type mechanisms). Presently, they are effectively in the core
+            // type system, because key compilation passes like Placer account for their
+            // existence.
+
+            // Datasets created by tf.data ops and APIs. Datasets have generator/iterable
+            // semantics, that is, one can construct an iterator from them. Like
+            // Array, they are considered to return elements that can be described
+            // by a single type. Unlike Array, they do not support random access or
+            // mutation, and can potentially produce an infinite number of elements.
+            // A datasets can produce logical structures (e.g. multiple elements). This
+            // is expressed using TFT_PRODUCT.
+            //
+            //
+            // Parametrization: TFT_ARRAY[<element type>].
+            //   * <element type> may be a concrete type or a type symbol. It represents
+            //     the data type of the elements produced by the dataset.
+            //
+            // Examples:
+            //   TFT_DATSET[TFT_TENSOR[TFT_INT32]] is a Dataset producing single int32
+            //     Tensors of unknown shape.
+            //   TFT_DATSET[TFT_PRODUCT[TFT_TENSOR[TFT_INT32], TFT_TENSOR[TFT_FLOAT32]] is
+            //     a Dataset producing pairs of Tensors, one integer and one float.
+            // Note: The high ID number is to prepare for the eventuality that Datasets
+            // will be supported by user types in the future.
+            TFT_DATASET = 10102;
+
+            // A ragged tensor created by tf.ragged ops and APIs.
+            //
+            // Parametrization: TFT_RAGGED[<element_type>].
+            TFT_RAGGED = 10103;
+
+            // A mutex lock tensor, produced by tf.raw_ops.MutexLock.
+            // Unlike strict execution models, where ownership of a lock is denoted by
+            // "running after the lock has been acquired", in non-strict mode, lock
+            // ownership is in the true sense: "the op argument representing the lock is
+            // available".
+            // Mutex locks are the dynamic counterpart of control dependencies.
+            // TODO(mdan): Properly document this thing.
+            //
+            // Parametrization: TFT_MUTEX_LOCK[].
+            TFT_MUTEX_LOCK = 10202;
+
+            // The equivalent of a Tensor with DT_VARIANT dtype, kept here to simplify
+            // translation. This type should not normally appear after type inference.
+            // Note that LEGACY_VARIANT != ANY: TENSOR[INT32] is a subtype of ANY, but is
+            // not a subtype of LEGACY_VARIANT.
+            TFT_LEGACY_VARIANT = 10203;
+          }
+
+          // Highly experimental and very likely to change.
+          // This encoding uses tags instead of dedicated messages for regularity. In
+          // particular the encoding imposes no restrictions on what the parameters of any
+          // type should be, which in particular needs to be true for type symbols.
+          message FullTypeDef {
+            // The principal type represented by this object. This may be a concrete type
+            // (Tensor, Dataset) a type variable (used for dependent types) a type
+            // symbol (Any, Union). See FullTypeId for details.
+            FullTypeId type_id = 1;
+
+            repeated FullTypeDef args = 2;
+
+            // Literal values of this type object, if the the type admits one.
+            // For example, a type variable admits a string attribute - its name.
+            // Shape-related types may admit int attributes - their static shape values.
+            // Fields for more data types to be added as needed.
+            oneof attr {
+              string s = 3;
+              int64 i = 4;
+              // TODO(mdan): list/tensor, map? Need to reconcile with TFT_RECORD, etc.
+            }
+          }
+      - name: Add lib/proto/tensorflow/core/framework/function.proto
+        path: codelab2/tfserving_flutter/lib/proto/tensorflow/core/framework/function.proto
+        replace-contents: |
+          syntax = "proto3";
+
+          package tensorflow;
+
+          import "tensorflow/core/framework/attr_value.proto";
+          import "tensorflow/core/framework/node_def.proto";
+          import "tensorflow/core/framework/op_def.proto";
+
+          option cc_enable_arenas = true;
+          option java_outer_classname = "FunctionProtos";
+          option java_multiple_files = true;
+          option java_package = "org.tensorflow.framework";
+          option go_package = "github.com/tensorflow/tensorflow/tensorflow/go/core/framework/function_go_proto";
+
+          // A library is a set of named functions.
+          message FunctionDefLibrary {
+            repeated FunctionDef function = 1;
+            repeated GradientDef gradient = 2;
+            repeated RegisteredGradient registered_gradients = 3;
+          }
+
+          // A function can be instantiated when the runtime can bind every attr
+          // with a value. When a GraphDef has a call to a function, it must
+          // have binding for every attr defined in the signature.
+          //
+          // TODO(zhifengc):
+          //   * device spec, etc.
+          message FunctionDef {
+            // The definition of the function's name, arguments, return values,
+            // attrs etc.
+            OpDef signature = 1;
+
+            // Attributes specific to this function definition.
+            map<string, AttrValue> attr = 5;
+
+            // Attributes for function arguments. These attributes are the same set of
+            // valid attributes as to _Arg nodes.
+            message ArgAttrs {
+              map<string, AttrValue> attr = 1;
+            }
+            map<uint32, ArgAttrs> arg_attr = 7;
+
+            // Unique IDs for each resource argument, used to track aliasing resources. If
+            // Argument A and Argument B alias each other, then
+            // resource_arg_unique_ids[A.index] == resource_arg_unique_ids[B.index].
+            //
+            // If this field is empty, none of the arguments could alias; otherwise, every
+            // resource argument should have an entry in this field.
+            //
+            // When instantiated, the unique IDs will be attached to the _Arg nodes'
+            // "_resource_arg_unique_id" attribute.
+            map<uint32, uint32> resource_arg_unique_id = 8;
+
+            // NOTE: field id 2 deleted on Jan 11, 2017, GraphDef version 21.
+            reserved 2;
+
+            // In both of the following fields, there is the need to specify an
+            // output that is used as either the input to another node (in
+            // `node_def`) or as a return value of the function (in `ret`).
+            // Unlike the NodeDefs in GraphDef, we need to be able to specify a
+            // list in some cases (instead of just single outputs).  Also, we
+            // need to be able to deal with lists of unknown length (so the
+            // output index may not be known at function definition time).  So
+            // we use the following format instead:
+            // * "fun_in" where "fun_in" is the name of a function input arg in
+            //   the `signature` field above.  This represents that input, whether
+            //   it is a single tensor or a list.
+            // * "fun_in:0" gives the first element of a function input arg (a
+            //   non-list input is considered a list of length 1 for these
+            //   purposes).
+            // * "node:out" where "node" is the name of a node in `node_def` and
+            //   "out" is the name one of its op's output arguments (the name
+            //   comes from the OpDef of the node's op). This represents that
+            //   node's output, whether it is a single tensor or a list.
+            //   Note: We enforce that an op's output arguments are never
+            //   renamed in the backwards-compatibility test.
+            // * "node:out:0" gives the first element of a node output arg (a
+            //   non-list output is considered a list of length 1 for these
+            //   purposes).
+            //
+            // NOT CURRENTLY SUPPORTED (but may be in the future):
+            // * "node:out:-1" gives last element in a node output list
+            // * "node:out:1:" gives a list with all but the first element in a
+            //   node output list
+            // * "node:out::-1" gives a list with all but the last element in a
+            //   node output list
+
+            // The body of the function.  Unlike the NodeDefs in a GraphDef, attrs
+            // may have values of type `placeholder` and the `input` field uses
+            // the "output" format above.
+
+            // By convention, "op" in node_def is resolved by consulting with a
+            // user-defined library first. If not resolved, "func" is assumed to
+            // be a builtin op.
+            repeated NodeDef node_def = 3;
+
+            // A mapping from the output arg names from `signature` to the
+            // outputs from `node_def` that should be returned by the function.
+            map<string, string> ret = 4;
+
+            // A mapping from control output names from `signature` to node names in
+            // `node_def` which should be control outputs of this function.
+            map<string, string> control_ret = 6;
+          }
+
+          // GradientDef defines the gradient function of a function defined in
+          // a function library.
+          //
+          // A gradient function g (specified by gradient_func) for a function f
+          // (specified by function_name) must follow the following:
+          //
+          // The function 'f' must be a numerical function which takes N inputs
+          // and produces M outputs. Its gradient function 'g', which is a
+          // function taking N + M inputs and produces N outputs.
+          //
+          // I.e. if we have
+          //    (y1, y2, ..., y_M) = f(x1, x2, ..., x_N),
+          // then, g is
+          //    (dL/dx1, dL/dx2, ..., dL/dx_N) = g(x1, x2, ..., x_N,
+          //                                      dL/dy1, dL/dy2, ..., dL/dy_M),
+          // where L is a scalar-value function of (x1, x2, ..., xN) (e.g., the
+          // loss function). dL/dx_i is the partial derivative of L with respect
+          // to x_i.
+          message GradientDef {
+            string function_name = 1;  // The function name.
+            string gradient_func = 2;  // The gradient function's name.
+          }
+
+          // RegisteredGradient stores a gradient function that is registered in the
+          // gradients library and used in the ops of a function in the function library.
+          // Unlike GradientDef, these gradients are identified by op type, and not
+          // directly linked to any function.
+          message RegisteredGradient {
+            string gradient_func = 1;       // The gradient function's name.
+            string registered_op_type = 2;  // The gradient function's registered op type.
+          }
+      - name: Add lib/proto/tensorflow/core/framework/graph.proto
+        path: codelab2/tfserving_flutter/lib/proto/tensorflow/core/framework/graph.proto
+        replace-contents: |
+          syntax = "proto3";
+
+          package tensorflow;
+
+          import "tensorflow/core/framework/function.proto";
+          import "tensorflow/core/framework/node_def.proto";
+          import "tensorflow/core/framework/versions.proto";
+
+          option cc_enable_arenas = true;
+          option java_outer_classname = "GraphProtos";
+          option java_multiple_files = true;
+          option java_package = "org.tensorflow.framework";
+          option go_package = "github.com/tensorflow/tensorflow/tensorflow/go/core/framework/graph_go_proto";
+
+          // Represents the graph of operations
+          message GraphDef {
+            repeated NodeDef node = 1;
+
+            // Compatibility versions of the graph.  See core/public/version.h for version
+            // history.  The GraphDef version is distinct from the TensorFlow version, and
+            // each release of TensorFlow will support a range of GraphDef versions.
+            VersionDef versions = 4;
+
+            // Deprecated single version field; use versions above instead.  Since all
+            // GraphDef changes before "versions" was introduced were forward
+            // compatible, this field is entirely ignored.
+            int32 version = 3 [deprecated = true];
+
+            // "library" provides user-defined functions.
+            //
+            // Naming:
+            //   * library.function.name are in a flat namespace.
+            //     NOTE: We may need to change it to be hierarchical to support
+            //     different orgs. E.g.,
+            //     { "/google/nn", { ... }},
+            //     { "/google/vision", { ... }}
+            //     { "/org_foo/module_bar", { ... }}
+            //     map<string, FunctionDefLib> named_lib;
+            //   * If node[i].op is the name of one function in "library",
+            //     node[i] is deemed as a function call. Otherwise, node[i].op
+            //     must be a primitive operation supported by the runtime.
+            //
+            //
+            // Function call semantics:
+            //
+            //   * The callee may start execution as soon as some of its inputs
+            //     are ready. The caller may want to use Tuple() mechanism to
+            //     ensure all inputs are ready in the same time.
+            //
+            //   * The consumer of return values may start executing as soon as
+            //     the return values the consumer depends on are ready.  The
+            //     consumer may want to use Tuple() mechanism to ensure the
+            //     consumer does not start until all return values of the callee
+            //     function are ready.
+            FunctionDefLibrary library = 2;
+          }
+      - name: Add lib/proto/tensorflow/core/framework/node_def.proto
+        path: codelab2/tfserving_flutter/lib/proto/tensorflow/core/framework/node_def.proto
+        replace-contents: |
+          syntax = "proto3";
+
+          package tensorflow;
+
+          import "tensorflow/core/framework/attr_value.proto";
+          import "tensorflow/core/framework/full_type.proto";
+
+          option cc_enable_arenas = true;
+          option java_outer_classname = "NodeProto";
+          option java_multiple_files = true;
+          option java_package = "org.tensorflow.framework";
+          option go_package = "github.com/tensorflow/tensorflow/tensorflow/go/core/framework/node_def_go_proto";
+
+          message NodeDef {
+            // The name given to this operator. Used for naming inputs,
+            // logging, visualization, etc.  Unique within a single GraphDef.
+            // Must match the regexp "[A-Za-z0-9.][A-Za-z0-9_>./]*".
+            string name = 1;
+
+            // The operation name.  There may be custom parameters in attrs.
+            // Op names starting with an underscore are reserved for internal use.
+            string op = 2;
+
+            // Each input is "node:src_output" with "node" being a string name and
+            // "src_output" indicating which output tensor to use from "node". If
+            // "src_output" is 0 the ":0" suffix can be omitted.  Regular inputs
+            // may optionally be followed by control inputs that have the format
+            // "^node".
+            repeated string input = 3;
+
+            // A (possibly partial) specification for the device on which this
+            // node should be placed.
+            // The expected syntax for this string is as follows:
+            //
+            // DEVICE_SPEC ::= PARTIAL_SPEC
+            //
+            // PARTIAL_SPEC ::= ("/" CONSTRAINT) *
+            // CONSTRAINT ::= ("job:" JOB_NAME)
+            //              | ("replica:" [1-9][0-9]*)
+            //              | ("task:" [1-9][0-9]*)
+            //              | ("device:" [A-Za-z]* ":" ([1-9][0-9]* | "*") )
+            //
+            // Valid values for this string include:
+            // * "/job:worker/replica:0/task:1/device:GPU:3"  (full specification)
+            // * "/job:worker/device:GPU:3"                   (partial specification)
+            // * ""                                    (no specification)
+            //
+            // If the constraints do not resolve to a single device (or if this
+            // field is empty or not present), the runtime will attempt to
+            // choose a device automatically.
+            string device = 4;
+
+            // Operation-specific graph-construction-time configuration.
+            // Note that this should include all attrs defined in the
+            // corresponding OpDef, including those with a value matching
+            // the default -- this allows the default to change and makes
+            // NodeDefs easier to interpret on their own.  However, if
+            // an attr with a default is not specified in this list, the
+            // default will be used.
+            // The "names" (keys) must match the regexp "[a-z][a-z0-9_]+" (and
+            // one of the names from the corresponding OpDef's attr field).
+            // The values must have a type matching the corresponding OpDef
+            // attr's type field.
+            // TODO(josh11b): Add some examples here showing best practices.
+            map<string, AttrValue> attr = 5;
+
+            message ExperimentalDebugInfo {
+              // Opaque string inserted into error messages created by the runtime.
+              //
+              // This is intended to store the list of names of the nodes from the
+              // original graph that this node was derived. For example if this node, say
+              // C, was result of a fusion of 2 nodes A and B, then 'original_node' would
+              // be {A, B}. This information can be used to map errors originating at the
+              // current node to some top level source code.
+              repeated string original_node_names = 1;
+
+              // This is intended to store the list of names of the functions from the
+              // original graph that this node was derived. For example if this node, say
+              // C, was result of a fusion of node A in function FA and node B in function
+              // FB, then `original_funcs` would be {FA, FB}. If the node is in the top
+              // level graph, the `original_func` is empty. This information, with the
+              // `original_node_names` can be used to map errors originating at the
+              // current ndoe to some top level source code.
+              repeated string original_func_names = 2;
+            }
+
+            // This stores debug information associated with the node.
+            ExperimentalDebugInfo experimental_debug_info = 6;
+
+            // The complete type of this node. Experimental and subject to change.
+            // Currently, the field only contains the return types of the node. That will
+            // extend in the future to contain the entire signature of the node, as a
+            // function type.
+            FullTypeDef experimental_type = 7;
+          }
+      - name: Add lib/proto/tensorflow/core/framework/op_def.proto
+        path: codelab2/tfserving_flutter/lib/proto/tensorflow/core/framework/op_def.proto
+        replace-contents: |
+          syntax = "proto3";
+
+          package tensorflow;
+
+          import "tensorflow/core/framework/attr_value.proto";
+          import "tensorflow/core/framework/full_type.proto";
+          import "tensorflow/core/framework/resource_handle.proto";
+          import "tensorflow/core/framework/types.proto";
+
+          option cc_enable_arenas = true;
+          option java_outer_classname = "OpDefProtos";
+          option java_multiple_files = true;
+          option java_package = "org.tensorflow.framework";
+          option go_package = "github.com/tensorflow/tensorflow/tensorflow/go/core/framework/op_def_go_proto";
+
+          // Defines an operation. A NodeDef in a GraphDef specifies an Op by
+          // using the "op" field which should match the name of a OpDef.
+          // LINT.IfChange
+          message OpDef {
+            // Op names starting with an underscore are reserved for internal use.
+            // Names should be CamelCase and match the regexp "[A-Z][a-zA-Z0-9>_]*".
+            string name = 1;
+
+            // For describing inputs and outputs.
+            message ArgDef {
+              // Name for the input/output.  Should match the regexp "[a-z][a-z0-9_]*".
+              string name = 1;
+
+              // Human readable description.
+              string description = 2;
+
+              // Describes the type of one or more tensors that are accepted/produced
+              // by this input/output arg.  The only legal combinations are:
+              // * For a single tensor: either the "type" field is set or the
+              //   "type_attr" field is set to the name of an attr with type "type".
+              // * For a sequence of tensors with the same type: the "number_attr"
+              //   field will be set to the name of an attr with type "int", and
+              //   either the "type" or "type_attr" field will be set as for
+              //   single tensors.
+              // * For a sequence of tensors, the "type_list_attr" field will be set
+              //   to the name of an attr with type "list(type)".
+              DataType type = 3;
+              string type_attr = 4;    // if specified, attr must have type "type"
+              string number_attr = 5;  // if specified, attr must have type "int"
+              // If specified, attr must have type "list(type)", and none of
+              // type, type_attr, and number_attr may be specified.
+              string type_list_attr = 6;
+
+              // The handle data for resource inputs.
+              repeated ResourceHandleProto.DtypeAndShape handle_data = 7;
+
+              // For inputs: if true, the inputs are required to be refs.
+              //   By default, inputs can be either refs or non-refs.
+              // For outputs: if true, outputs are refs, otherwise they are not.
+              bool is_ref = 16;
+
+              // Experimental. Full type declaration for this argument.
+              // The full type specification combines type, type_attr, type_list_attr,
+              // etc. into a unified representation.
+              // This declaration may contain non-concrete types (for example,
+              // Tensor<TypeVar<'T'>> is a valid type declaration.
+              //
+              // Note: this is a transient field. The long-term aim is to represent the
+              // entire OpDef as a single type: a callable. In that context, this field is
+              // just the type of a single argument.
+              FullTypeDef experimental_full_type = 17;
+            }
+
+            // Description of the input(s).
+            repeated ArgDef input_arg = 2;
+
+            // Description of the output(s).
+            repeated ArgDef output_arg = 3;
+
+            // Named control outputs for this operation. Useful only for composite
+            // operations (i.e. functions) which want to name different control outputs.
+            repeated string control_output = 20;
+
+            // Description of the graph-construction-time configuration of this
+            // Op.  That is to say, this describes the attr fields that will
+            // be specified in the NodeDef.
+            message AttrDef {
+              // A descriptive name for the argument.  May be used, e.g. by the
+              // Python client, as a keyword argument name, and so should match
+              // the regexp "[a-z][a-z0-9_]+".
+              string name = 1;
+
+              // One of the type names from attr_value.proto ("string", "list(string)",
+              // "int", etc.).
+              string type = 2;
+
+              // A reasonable default for this attribute if the user does not supply
+              // a value.  If not specified, the user must supply a value.
+              AttrValue default_value = 3;
+
+              // Human-readable description.
+              string description = 4;
+
+              // TODO(josh11b): bool is_optional?
+
+              // --- Constraints ---
+              // These constraints are only in effect if specified.  Default is no
+              // constraints.
+
+              // For type == "int", this is a minimum value.  For "list(___)"
+              // types, this is the minimum length.
+              bool has_minimum = 5;
+              int64 minimum = 6;
+
+              // The set of allowed values.  Has type that is the "list" version
+              // of the "type" field above (uses the "list" field of AttrValue).
+              // If type == "type" or "list(type)" above, then the "type" field
+              // of "allowed_values.list" has the set of allowed DataTypes.
+              // If type == "string" or "list(string)", then the "s" field of
+              // "allowed_values.list" has the set of allowed strings.
+              AttrValue allowed_values = 7;
+            }
+            repeated AttrDef attr = 4;
+
+            // Optional deprecation based on GraphDef versions.
+            OpDeprecation deprecation = 8;
+
+            // One-line human-readable description of what the Op does.
+            string summary = 5;
+
+            // Additional, longer human-readable description of what the Op does.
+            string description = 6;
+
+            // -------------------------------------------------------------------------
+            // Which optimizations this operation can participate in.
+
+            // True if the operation is commutative ("op(a,b) == op(b,a)" for all inputs)
+            bool is_commutative = 18;
+
+            // If is_aggregate is true, then this operation accepts N >= 2
+            // inputs and produces 1 output all of the same type.  Should be
+            // associative and commutative, and produce output with the same
+            // shape as the input.  The optimizer may replace an aggregate op
+            // taking input from multiple devices with a tree of aggregate ops
+            // that aggregate locally within each device (and possibly within
+            // groups of nearby devices) before communicating.
+            // TODO(josh11b): Implement that optimization.
+            bool is_aggregate = 16;  // for things like add
+
+            // Other optimizations go here, like
+            //   can_alias_input, rewrite_when_output_unused, partitioning_strategy, etc.
+
+            // -------------------------------------------------------------------------
+            // Optimization constraints.
+
+            // Ops are marked as stateful if their behavior depends on some state beyond
+            // their input tensors (e.g. variable reading op) or if they have
+            // a side-effect (e.g. printing or asserting ops). Equivalently, stateless ops
+            // must always produce the same output for the same input and have
+            // no side-effects.
+            //
+            // By default Ops may be moved between devices.  Stateful ops should
+            // either not be moved, or should only be moved if that state can also
+            // be moved (e.g. via some sort of save / restore).
+            // Stateful ops are guaranteed to never be optimized away by Common
+            // Subexpression Elimination (CSE).
+            bool is_stateful = 17;  // for things like variables, queue
+
+            // -------------------------------------------------------------------------
+            // Non-standard options.
+
+            // By default, all inputs to an Op must be initialized Tensors.  Ops
+            // that may initialize tensors for the first time should set this
+            // field to true, to allow the Op to take an uninitialized Tensor as
+            // input.
+            bool allows_uninitialized_input = 19;  // for Assign, etc.
+
+            // Indicates whether the op implementation uses distributed communication.
+            // If True, the op is allowed to return errors for network disconnection and
+            // trigger TF network failure handling logics.
+            bool is_distributed_communication = 21;
+          }
+          // LINT.ThenChange(
+          //     https://www.tensorflow.org/code/tensorflow/core/framework/op_def_util.cc)
+
+          // Information about version-dependent deprecation of an op
+          message OpDeprecation {
+            // First GraphDef version at which the op is disallowed.
+            int32 version = 1;
+
+            // Explanation of why it was deprecated and what to use instead.
+            string explanation = 2;
+          }
+
+          // A collection of OpDefs
+          message OpList {
+            repeated OpDef op = 1;
+          }
+      - name: Add lib/proto/tensorflow/core/framework/resource_handle.proto
+        path: codelab2/tfserving_flutter/lib/proto/tensorflow/core/framework/resource_handle.proto
+        replace-contents: |
+          syntax = "proto3";
+
+          package tensorflow;
+
+          import "tensorflow/core/framework/tensor_shape.proto";
+          import "tensorflow/core/framework/types.proto";
+
+          option cc_enable_arenas = true;
+          option java_outer_classname = "ResourceHandle";
+          option java_multiple_files = true;
+          option java_package = "org.tensorflow.framework";
+          option go_package = "github.com/tensorflow/tensorflow/tensorflow/go/core/framework/resource_handle_go_proto";
+
+          // Protocol buffer representing a handle to a tensorflow resource. Handles are
+          // not valid across executions, but can be serialized back and forth from within
+          // a single run.
+          message ResourceHandleProto {
+            // Unique name for the device containing the resource.
+            string device = 1;
+
+            // Container in which this resource is placed.
+            string container = 2;
+
+            // Unique name of this resource.
+            string name = 3;
+
+            // Hash code for the type of the resource. Is only valid in the same device
+            // and in the same execution.
+            uint64 hash_code = 4;
+
+            // For debug-only, the name of the type pointed to by this handle, if
+            // available.
+            string maybe_type_name = 5;
+
+            // Protocol buffer representing a pair of (data type, tensor shape).
+            message DtypeAndShape {
+              DataType dtype = 1;
+              TensorShapeProto shape = 2;
+            }
+
+            // Data types and shapes for the underlying resource.
+            repeated DtypeAndShape dtypes_and_shapes = 6;
+
+            reserved 7;
+          }
+      - name: Add lib/proto/tensorflow/core/framework/tensor_shape.proto
+        path: codelab2/tfserving_flutter/lib/proto/tensorflow/core/framework/tensor_shape.proto
+        replace-contents: |
+          // Protocol buffer representing the shape of tensors.
+
+          syntax = "proto3";
+          option cc_enable_arenas = true;
+          option java_outer_classname = "TensorShapeProtos";
+          option java_multiple_files = true;
+          option java_package = "org.tensorflow.framework";
+          option go_package = "github.com/tensorflow/tensorflow/tensorflow/go/core/framework/tensor_shape_go_proto";
+
+          package tensorflow;
+
+          // Dimensions of a tensor.
+          message TensorShapeProto {
+            // One dimension of the tensor.
+            message Dim {
+              // Size of the tensor in that dimension.
+              // This value must be >= -1, but values of -1 are reserved for "unknown"
+              // shapes (values of -1 mean "unknown" dimension).  Certain wrappers
+              // that work with TensorShapeProto may fail at runtime when deserializing
+              // a TensorShapeProto containing a dim value of -1.
+              int64 size = 1;
+
+              // Optional name of the tensor dimension.
+              string name = 2;
+            };
+
+            // Dimensions of the tensor, such as {"input", 30}, {"output", 40}
+            // for a 30 x 40 2D tensor.  If an entry has size -1, this
+            // corresponds to a dimension of unknown size. The names are
+            // optional.
+            //
+            // The order of entries in "dim" matters: It indicates the layout of the
+            // values in the tensor in-memory representation.
+            //
+            // The first entry in "dim" is the outermost dimension used to layout the
+            // values, the last entry is the innermost dimension.  This matches the
+            // in-memory layout of RowMajor Eigen tensors.
+            //
+            // If "dim.size()" > 0, "unknown_rank" must be false.
+            repeated Dim dim = 2;
+
+            // If true, the number of dimensions in the shape is unknown.
+            //
+            // If true, "dim.size()" must be 0.
+            bool unknown_rank = 3;
+          };
+      - name: Add lib/proto/tensorflow/core/framework/tensor.proto
+        path: codelab2/tfserving_flutter/lib/proto/tensorflow/core/framework/tensor.proto
+        replace-contents: |
+          syntax = "proto3";
+
+          package tensorflow;
+
+          import "tensorflow/core/framework/resource_handle.proto";
+          import "tensorflow/core/framework/tensor_shape.proto";
+          import "tensorflow/core/framework/types.proto";
+
+          option cc_enable_arenas = true;
+          option java_outer_classname = "TensorProtos";
+          option java_multiple_files = true;
+          option java_package = "org.tensorflow.framework";
+          option go_package = "github.com/tensorflow/tensorflow/tensorflow/go/core/framework/tensor_go_proto";
+
+          // Protocol buffer representing a tensor.
+          message TensorProto {
+            DataType dtype = 1;
+
+            // Shape of the tensor.  TODO(touts): sort out the 0-rank issues.
+            TensorShapeProto tensor_shape = 2;
+
+            // Only one of the representations below is set, one of "tensor_contents" and
+            // the "xxx_val" attributes.  We are not using oneof because as oneofs cannot
+            // contain repeated fields it would require another extra set of messages.
+
+            // Version number.
+            //
+            // In version 0, if the "repeated xxx" representations contain only one
+            // element, that element is repeated to fill the shape.  This makes it easy
+            // to represent a constant Tensor with a single value.
+            int32 version_number = 3;
+
+            // Serialized raw tensor content from either Tensor::AsProtoTensorContent or
+            // memcpy in tensorflow::grpc::EncodeTensorToByteBuffer. This representation
+            // can be used for all tensor types. The purpose of this representation is to
+            // reduce serialization overhead during RPC call by avoiding serialization of
+            // many repeated small items.
+            bytes tensor_content = 4;
+
+            // Type specific representations that make it easy to create tensor protos in
+            // all languages.  Only the representation corresponding to "dtype" can
+            // be set.  The values hold the flattened representation of the tensor in
+            // row major order.
+
+            // DT_HALF, DT_BFLOAT16. Note that since protobuf has no int16 type, we'll
+            // have some pointless zero padding for each value here.
+            repeated int32 half_val = 13 [packed = true];
+
+            // DT_FLOAT.
+            repeated float float_val = 5 [packed = true];
+
+            // DT_DOUBLE.
+            repeated double double_val = 6 [packed = true];
+
+            // DT_INT32, DT_INT16, DT_UINT16, DT_INT8, DT_UINT8.
+            repeated int32 int_val = 7 [packed = true];
+
+            // DT_STRING
+            repeated bytes string_val = 8;
+
+            // DT_COMPLEX64. scomplex_val(2*i) and scomplex_val(2*i+1) are real
+            // and imaginary parts of i-th single precision complex.
+            repeated float scomplex_val = 9 [packed = true];
+
+            // DT_INT64
+            repeated int64 int64_val = 10 [packed = true];
+
+            // DT_BOOL
+            repeated bool bool_val = 11 [packed = true];
+
+            // DT_COMPLEX128. dcomplex_val(2*i) and dcomplex_val(2*i+1) are real
+            // and imaginary parts of i-th double precision complex.
+            repeated double dcomplex_val = 12 [packed = true];
+
+            // DT_RESOURCE
+            repeated ResourceHandleProto resource_handle_val = 14;
+
+            // DT_VARIANT
+            repeated VariantTensorDataProto variant_val = 15;
+
+            // DT_UINT32
+            repeated uint32 uint32_val = 16 [packed = true];
+
+            // DT_UINT64
+            repeated uint64 uint64_val = 17 [packed = true];
+          }
+
+          // Protocol buffer representing the serialization format of DT_VARIANT tensors.
+          message VariantTensorDataProto {
+            // Name of the type of objects being serialized.
+            string type_name = 1;
+            // Portions of the object that are not Tensors.
+            bytes metadata = 2;
+            // Tensors contained within objects being serialized.
+            repeated TensorProto tensors = 3;
+          }
+      - name: Add lib/proto/tensorflow/core/framework/types.proto
+        path: codelab2/tfserving_flutter/lib/proto/tensorflow/core/framework/types.proto
+        replace-contents: |
+          syntax = "proto3";
+
+          package tensorflow;
+
+          option cc_enable_arenas = true;
+          option java_outer_classname = "TypesProtos";
+          option java_multiple_files = true;
+          option java_package = "org.tensorflow.framework";
+          option go_package = "github.com/tensorflow/tensorflow/tensorflow/go/core/framework/types_go_proto";
+
+          // (== suppress_warning documentation-presence ==)
+          // LINT.IfChange
+          enum DataType {
+            // Not a legal value for DataType.  Used to indicate a DataType field
+            // has not been set.
+            DT_INVALID = 0;
+
+            // Data types that all computation devices are expected to be
+            // capable to support.
+            DT_FLOAT = 1;
+            DT_DOUBLE = 2;
+            DT_INT32 = 3;
+            DT_UINT8 = 4;
+            DT_INT16 = 5;
+            DT_INT8 = 6;
+            DT_STRING = 7;
+            DT_COMPLEX64 = 8;  // Single-precision complex
+            DT_INT64 = 9;
+            DT_BOOL = 10;
+            DT_QINT8 = 11;     // Quantized int8
+            DT_QUINT8 = 12;    // Quantized uint8
+            DT_QINT32 = 13;    // Quantized int32
+            DT_BFLOAT16 = 14;  // Float32 truncated to 16 bits.  Only for cast ops.
+            DT_QINT16 = 15;    // Quantized int16
+            DT_QUINT16 = 16;   // Quantized uint16
+            DT_UINT16 = 17;
+            DT_COMPLEX128 = 18;  // Double-precision complex
+            DT_HALF = 19;
+            DT_RESOURCE = 20;
+            DT_VARIANT = 21;  // Arbitrary C++ data types
+            DT_UINT32 = 22;
+            DT_UINT64 = 23;
+
+            // Do not use!  These are only for parameters.  Every enum above
+            // should have a corresponding value below (verified by types_test).
+            DT_FLOAT_REF = 101;
+            DT_DOUBLE_REF = 102;
+            DT_INT32_REF = 103;
+            DT_UINT8_REF = 104;
+            DT_INT16_REF = 105;
+            DT_INT8_REF = 106;
+            DT_STRING_REF = 107;
+            DT_COMPLEX64_REF = 108;
+            DT_INT64_REF = 109;
+            DT_BOOL_REF = 110;
+            DT_QINT8_REF = 111;
+            DT_QUINT8_REF = 112;
+            DT_QINT32_REF = 113;
+            DT_BFLOAT16_REF = 114;
+            DT_QINT16_REF = 115;
+            DT_QUINT16_REF = 116;
+            DT_UINT16_REF = 117;
+            DT_COMPLEX128_REF = 118;
+            DT_HALF_REF = 119;
+            DT_RESOURCE_REF = 120;
+            DT_VARIANT_REF = 121;
+            DT_UINT32_REF = 122;
+            DT_UINT64_REF = 123;
+          }
+          // LINT.ThenChange(
+          //    https://www.tensorflow.org/code/tensorflow/c/tf_datatype.h,
+          //    https://www.tensorflow.org/code/tensorflow/go/tensor.go,
+          //    https://www.tensorflow.org/code/tensorflow/core/framework/tensor.cc,
+          //    https://www.tensorflow.org/code/tensorflow/core/framework/types.h,
+          //    https://www.tensorflow.org/code/tensorflow/core/framework/types.cc,
+          //    https://www.tensorflow.org/code/tensorflow/python/framework/dtypes.py,
+          //    https://www.tensorflow.org/code/tensorflow/python/framework/function.py)
+      - name: Add lib/proto/tensorflow/core/framework/variable.proto
+        path: codelab2/tfserving_flutter/lib/proto/tensorflow/core/framework/variable.proto
+        replace-contents: |
+          syntax = "proto3";
+
+          package tensorflow;
+
+          option cc_enable_arenas = true;
+          option java_outer_classname = "VariableProtos";
+          option java_multiple_files = true;
+          option java_package = "org.tensorflow.framework";
+          option go_package = "github.com/tensorflow/tensorflow/tensorflow/go/core/framework/variable_go_proto";
+
+          // Indicates when a distributed variable will be synced.
+          enum VariableSynchronization {
+            // `AUTO`: Indicates that the synchronization will be determined by the
+            // current `DistributionStrategy` (eg. With `MirroredStrategy` this would be
+            // `ON_WRITE`).
+            VARIABLE_SYNCHRONIZATION_AUTO = 0;
+            // `NONE`: Indicates that there will only be one copy of the variable, so
+            // there is no need to sync.
+            VARIABLE_SYNCHRONIZATION_NONE = 1;
+            // `ON_WRITE`: Indicates that the variable will be updated across devices
+            // every time it is written.
+            VARIABLE_SYNCHRONIZATION_ON_WRITE = 2;
+            // `ON_READ`: Indicates that the variable will be aggregated across devices
+            // when it is read (eg. when checkpointing or when evaluating an op that uses
+            // the variable).
+            VARIABLE_SYNCHRONIZATION_ON_READ = 3;
+          }
+
+          // Indicates how a distributed variable will be aggregated.
+          enum VariableAggregation {
+            // `NONE`: This is the default, giving an error if you use a
+            // variable-update operation with multiple replicas.
+            VARIABLE_AGGREGATION_NONE = 0;
+            // `SUM`: Add the updates across replicas.
+            VARIABLE_AGGREGATION_SUM = 1;
+            // `MEAN`: Take the arithmetic mean ("average") of the updates across
+            // replicas.
+            VARIABLE_AGGREGATION_MEAN = 2;
+            // `ONLY_FIRST_REPLICA`: This is for when every replica is performing the same
+            // update, but we only want to perform the update once. Used, e.g., for the
+            // global step counter.
+            VARIABLE_AGGREGATION_ONLY_FIRST_REPLICA = 3;
+          }
+
+          // Protocol buffer representing a Variable.
+          message VariableDef {
+            // Name of the variable tensor.
+            string variable_name = 1;
+
+            // Name of the tensor holding the variable's initial value.
+            string initial_value_name = 6;
+
+            // Name of the initializer op.
+            string initializer_name = 2;
+
+            // Name of the snapshot tensor.
+            string snapshot_name = 3;
+
+            // Support for saving variables as slices of a larger variable.
+            SaveSliceInfoDef save_slice_info_def = 4;
+
+            // Whether to represent this as a ResourceVariable.
+            bool is_resource = 5;
+
+            // Whether this variable should be trained.
+            bool trainable = 7;
+
+            // Indicates when a distributed variable will be synced.
+            VariableSynchronization synchronization = 8;
+
+            // Indicates how a distributed variable will be aggregated.
+            VariableAggregation aggregation = 9;
+          }
+
+          message SaveSliceInfoDef {
+            // Name of the full variable of which this is a slice.
+            string full_name = 1;
+            // Shape of the full variable.
+            repeated int64 full_shape = 2;
+            // Offset of this variable into the full variable.
+            repeated int64 var_offset = 3;
+            // Shape of this variable.
+            repeated int64 var_shape = 4;
+          }
+      - name: Add lib/proto/tensorflow/core/framework/versions.proto
+        path: codelab2/tfserving_flutter/lib/proto/tensorflow/core/framework/versions.proto
+        replace-contents: |
+          syntax = "proto3";
+
+          package tensorflow;
+
+          option cc_enable_arenas = true;
+          option java_outer_classname = "VersionsProtos";
+          option java_multiple_files = true;
+          option java_package = "org.tensorflow.framework";
+          option go_package = "github.com/tensorflow/tensorflow/tensorflow/go/core/framework/versions_go_proto";
+
+          // Version information for a piece of serialized data
+          //
+          // There are different types of versions for each type of data
+          // (GraphDef, etc.), but they all have the same common shape
+          // described here.
+          //
+          // Each consumer has "consumer" and "min_producer" versions (specified
+          // elsewhere).  A consumer is allowed to consume this data if
+          //
+          //   producer >= min_producer
+          //   consumer >= min_consumer
+          //   consumer not in bad_consumers
+          //
+          message VersionDef {
+            // The version of the code that produced this data.
+            int32 producer = 1;
+
+            // Any consumer below this version is not allowed to consume this data.
+            int32 min_consumer = 2;
+
+            // Specific consumer versions which are disallowed (e.g. due to bugs).
+            repeated int32 bad_consumers = 3;
+          }
+      - name: Mkdir lib/proto/tensorflow/core/protobuf
+        path: codelab2/tfserving_flutter
+        mkdir: lib/proto/tensorflow/core/protobuf
+      - name: Add lib/proto/tensorflow/core/protobuf/meta_graph.proto
+        path: codelab2/tfserving_flutter/lib/proto/tensorflow/core/protobuf/meta_graph.proto
+        replace-contents: |
+          syntax = "proto3";
+
+          package tensorflow;
+
+          import "google/protobuf/any.proto";
+          import "tensorflow/core/framework/graph.proto";
+          import "tensorflow/core/framework/op_def.proto";
+          import "tensorflow/core/framework/tensor_shape.proto";
+          import "tensorflow/core/framework/types.proto";
+          import "tensorflow/core/protobuf/saved_object_graph.proto";
+          import "tensorflow/core/protobuf/saver.proto";
+          import "tensorflow/core/protobuf/struct.proto";
+
+          option cc_enable_arenas = true;
+          option java_outer_classname = "MetaGraphProtos";
+          option java_multiple_files = true;
+          option java_package = "org.tensorflow.framework";
+          option go_package = "github.com/tensorflow/tensorflow/tensorflow/go/core/protobuf/for_core_protos_go_proto";
+
+          // NOTE: This protocol buffer is evolving, and will go through revisions in the
+          // coming months.
+          //
+          // Protocol buffer containing the following which are necessary to restart
+          // training, run inference. It can be used to serialize/de-serialize memory
+          // objects necessary for running computation in a graph when crossing the
+          // process boundary. It can be used for long term storage of graphs,
+          // cross-language execution of graphs, etc.
+          //   MetaInfoDef
+          //   GraphDef
+          //   SaverDef
+          //   CollectionDef
+          //   TensorInfo
+          //   SignatureDef
+          message MetaGraphDef {
+            // Meta information regarding the graph to be exported.  To be used by users
+            // of this protocol buffer to encode information regarding their meta graph.
+            message MetaInfoDef {
+              // User specified Version string. Can be the name of the model and revision,
+              // steps this model has been trained to, etc.
+              string meta_graph_version = 1;
+
+              // A copy of the OpDefs used by the producer of this graph_def.
+              // Descriptions and Ops not used in graph_def are stripped out.
+              OpList stripped_op_list = 2;
+
+              // A serialized protobuf. Can be the time this meta graph is created, or
+              // modified, or name of the model.
+              google.protobuf.Any any_info = 3;
+
+              // User supplied tag(s) on the meta_graph and included graph_def.
+              //
+              // MetaGraphDefs should be tagged with their capabilities or use-cases.
+              // Examples: "train", "serve", "gpu", "tpu", etc.
+              // These tags enable loaders to access the MetaGraph(s) appropriate for a
+              // specific use-case or runtime environment.
+              repeated string tags = 4;
+
+              // The __version__ string of the tensorflow build used to write this graph.
+              // This will be populated by the framework, which will overwrite any user
+              // supplied value.
+              string tensorflow_version = 5;
+
+              // The __git_version__ string of the tensorflow build used to write this
+              // graph. This will be populated by the framework, which will overwrite any
+              // user supplied value.
+              string tensorflow_git_version = 6;
+
+              // A flag to denote whether default-valued attrs have been stripped from
+              // the nodes in this graph_def.
+              bool stripped_default_attrs = 7;
+
+              // FunctionDef name to aliases mapping.
+              map<string, string> function_aliases = 8;
+            }
+            MetaInfoDef meta_info_def = 1;
+
+            // GraphDef.
+            GraphDef graph_def = 2;
+
+            // SaverDef.
+            SaverDef saver_def = 3;
+
+            // collection_def: Map from collection name to collections.
+            // See CollectionDef section for details.
+            map<string, CollectionDef> collection_def = 4;
+
+            // signature_def: Map from user supplied key for a signature to a single
+            // SignatureDef.
+            map<string, SignatureDef> signature_def = 5;
+
+            // Asset file def to be used with the defined graph.
+            repeated AssetFileDef asset_file_def = 6;
+
+            // Extra information about the structure of functions and stateful objects.
+            SavedObjectGraph object_graph_def = 7;
+          }
+
+          // CollectionDef should cover most collections.
+          // To add a user-defined collection, do one of the following:
+          // 1. For simple data types, such as string, int, float:
+          //      tf.add_to_collection("your_collection_name", your_simple_value)
+          //    strings will be stored as bytes_list.
+          //
+          // 2. For Protobuf types, there are three ways to add them:
+          //    1) tf.add_to_collection("your_collection_name",
+          //         your_proto.SerializeToString())
+          //
+          //       collection_def {
+          //         key: "user_defined_bytes_collection"
+          //         value {
+          //           bytes_list {
+          //             value: "queue_name: \"test_queue\"\n"
+          //           }
+          //         }
+          //       }
+          //
+          //  or
+          //
+          //    2) tf.add_to_collection("your_collection_name", str(your_proto))
+          //
+          //       collection_def {
+          //         key: "user_defined_string_collection"
+          //         value {
+          //          bytes_list {
+          //             value: "\n\ntest_queue"
+          //           }
+          //         }
+          //       }
+          //
+          //  or
+          //
+          //    3) any_buf = any_pb2.Any()
+          //       tf.add_to_collection("your_collection_name",
+          //         any_buf.Pack(your_proto))
+          //
+          //       collection_def {
+          //         key: "user_defined_any_collection"
+          //         value {
+          //           any_list {
+          //             value {
+          //               type_url: "type.googleapis.com/tensorflow.QueueRunnerDef"
+          //               value: "\n\ntest_queue"
+          //             }
+          //           }
+          //         }
+          //       }
+          //
+          // 3. For Python objects, implement to_proto() and from_proto(), and register
+          //    them in the following manner:
+          //    ops.register_proto_function("your_collection_name",
+          //                                proto_type,
+          //                                to_proto=YourPythonObject.to_proto,
+          //                                from_proto=YourPythonObject.from_proto)
+          //    These functions will be invoked to serialize and de-serialize the
+          //    collection. For example,
+          //    ops.register_proto_function(ops.GraphKeys.GLOBAL_VARIABLES,
+          //                                proto_type=variable_pb2.VariableDef,
+          //                                to_proto=Variable.to_proto,
+          //                                from_proto=Variable.from_proto)
+          message CollectionDef {
+            // NodeList is used for collecting nodes in graph. For example
+            // collection_def {
+            //   key: "summaries"
+            //   value {
+            //     node_list {
+            //       value: "input_producer/ScalarSummary:0"
+            //       value: "shuffle_batch/ScalarSummary:0"
+            //       value: "ImageSummary:0"
+            //     }
+            //   }
+            message NodeList {
+              repeated string value = 1;
+            }
+
+            // BytesList is used for collecting strings and serialized protobufs. For
+            // example:
+            // collection_def {
+            //   key: "trainable_variables"
+            //   value {
+            //     bytes_list {
+            //       value: "\n\017conv1/weights:0\022\024conv1/weights/Assign
+            //              \032\024conv1/weights/read:0"
+            //       value: "\n\016conv1/biases:0\022\023conv1/biases/Assign\032
+            //              \023conv1/biases/read:0"
+            //     }
+            //   }
+            // }
+            message BytesList {
+              repeated bytes value = 1;
+            }
+
+            // Int64List is used for collecting int, int64 and long values.
+            message Int64List {
+              repeated int64 value = 1 [packed = true];
+            }
+
+            // FloatList is used for collecting float values.
+            message FloatList {
+              repeated float value = 1 [packed = true];
+            }
+
+            // AnyList is used for collecting Any protos.
+            message AnyList {
+              repeated google.protobuf.Any value = 1;
+            }
+
+            oneof kind {
+              NodeList node_list = 1;
+              BytesList bytes_list = 2;
+              Int64List int64_list = 3;
+              FloatList float_list = 4;
+              AnyList any_list = 5;
+            }
+          }
+
+          // Information about a Tensor necessary for feeding or retrieval.
+          message TensorInfo {
+            // For sparse tensors, The COO encoding stores a triple of values, indices,
+            // and shape.
+            message CooSparse {
+              // The shape of the values Tensor is [?].  Its dtype must be the dtype of
+              // the SparseTensor as a whole, given in the enclosing TensorInfo.
+              string values_tensor_name = 1;
+
+              // The indices Tensor must have dtype int64 and shape [?, ?].
+              string indices_tensor_name = 2;
+
+              // The dynamic logical shape represented by the SparseTensor is recorded in
+              // the Tensor referenced here.  It must have dtype int64 and shape [?].
+              string dense_shape_tensor_name = 3;
+            }
+
+            // Generic encoding for composite tensors.
+            message CompositeTensor {
+              // The serialized TypeSpec for the composite tensor.
+              TypeSpecProto type_spec = 1;
+
+              // A TensorInfo for each flattened component tensor.
+              repeated TensorInfo components = 2;
+            }
+
+            oneof encoding {
+              // For dense `Tensor`s, the name of the tensor in the graph.
+              string name = 1;
+              // There are many possible encodings of sparse matrices
+              // (https://en.wikipedia.org/wiki/Sparse_matrix).  Currently, TensorFlow
+              // uses only the COO encoding.  This is supported and documented in the
+              // SparseTensor Python class.
+              CooSparse coo_sparse = 4;
+              // Generic encoding for CompositeTensors.
+              CompositeTensor composite_tensor = 5;
+            }
+            DataType dtype = 2;
+            // The static shape should be recorded here, to the extent that it can
+            // be known in advance.  In the case of a SparseTensor, this field describes
+            // the logical shape of the represented tensor (aka dense_shape).
+            TensorShapeProto tensor_shape = 3;
+          }
+
+          // SignatureDef defines the signature of a computation supported by a TensorFlow
+          // graph.
+          //
+          // For example, a model with two loss computations, sharing a single input,
+          // might have the following signature_def map, in a MetaGraphDef message.
+          //
+          // Note that across the two SignatureDefs "loss_A" and "loss_B", the input key,
+          // output key, and method_name are identical, and will be used by system(s) that
+          // implement or rely upon this particular loss method. The output tensor names
+          // differ, demonstrating how different outputs can exist for the same method.
+          //
+          // signature_def {
+          //   key: "loss_A"
+          //   value {
+          //     inputs {
+          //       key: "input"
+          //       value {
+          //         name: "input:0"
+          //         dtype: DT_STRING
+          //         tensor_shape: ...
+          //       }
+          //     }
+          //     outputs {
+          //       key: "loss_output"
+          //       value {
+          //         name: "loss_output_A:0"
+          //         dtype: DT_FLOAT
+          //         tensor_shape: ...
+          //       }
+          //     }
+          //     method_name: "some/package/compute_loss"
+          //   }
+          //   ...
+          // }
+          // signature_def {
+          //   key: "loss_B"
+          //   value {
+          //     inputs {
+          //       key: "input"
+          //       value {
+          //         name: "input:0"
+          //         dtype: DT_STRING
+          //         tensor_shape: ...
+          //       }
+          //     }
+          //     outputs {
+          //       key: "loss_output"
+          //       value {
+          //         name: "loss_output_B:0"
+          //         dtype: DT_FLOAT
+          //         tensor_shape: ...
+          //       }
+          //     }
+          //     method_name: "some/package/compute_loss"
+          //   }
+          //   ...
+          // }
+          message SignatureDef {
+            // Named input parameters.
+            map<string, TensorInfo> inputs = 1;
+            // Named output parameters.
+            map<string, TensorInfo> outputs = 2;
+            // Extensible method_name information enabling third-party users to mark a
+            // SignatureDef as supporting a particular method. This enables producers and
+            // consumers of SignatureDefs, e.g. a model definition library and a serving
+            // library to have a clear hand-off regarding the semantics of a computation.
+            //
+            // Note that multiple SignatureDefs in a single MetaGraphDef may have the same
+            // method_name. This is commonly used to support multi-headed computation,
+            // where a single graph computation may return multiple results.
+            string method_name = 3;
+          }
+
+          // An asset file def for a single file or a set of sharded files with the same
+          // name.
+          message AssetFileDef {
+            // The tensor to bind the asset filename to.
+            TensorInfo tensor_info = 1;
+            // The filename within an assets directory. Note: does not include the path
+            // prefix, i.e. directories. For an asset at /tmp/path/vocab.txt, the filename
+            // would be "vocab.txt".
+            string filename = 2;
+          }
+      - name: Add lib/proto/tensorflow/core/protobuf/saved_object_graph.proto
+        path: codelab2/tfserving_flutter/lib/proto/tensorflow/core/protobuf/saved_object_graph.proto
+        replace-contents: |
+          syntax = "proto3";
+
+          package tensorflow;
+
+          import "google/protobuf/any.proto";
+          import "tensorflow/core/framework/tensor_shape.proto";
+          import "tensorflow/core/framework/types.proto";
+          import "tensorflow/core/framework/variable.proto";
+          import "tensorflow/core/framework/versions.proto";
+          import "tensorflow/core/protobuf/struct.proto";
+          import "tensorflow/core/protobuf/trackable_object_graph.proto";
+
+          option cc_enable_arenas = true;
+          option go_package = "github.com/tensorflow/tensorflow/tensorflow/go/core/protobuf/for_core_protos_go_proto";
+
+          // A SavedObjectGraph is part of object-based SavedModels in TF 2.0. It
+          // describes the directed graph of Python objects (or equivalent in other
+          // languages) that make up a model, with nodes[0] at the root.
+
+          // SavedObjectGraph shares some structure with TrackableObjectGraph, but
+          // SavedObjectGraph belongs to the MetaGraph and contains pointers to functions
+          // and type information, while TrackableObjectGraph lives in the checkpoint
+          // and contains pointers only to variable values.
+
+          message SavedObjectGraph {
+            // Flattened list of objects in the object graph.
+            //
+            // The position of the object in this list indicates its id.
+            // Nodes[0] is considered the root node.
+            repeated SavedObject nodes = 1;
+
+            // Information about captures and output structures in concrete functions.
+            // Referenced from SavedBareConcreteFunction and SavedFunction.
+            map<string, SavedConcreteFunction> concrete_functions = 2;
+          }
+
+          message SavedObject {
+            // Objects which this object depends on: named edges in the dependency
+            // graph.
+            //
+            // Note: currently only valid if kind == "user_object" or "resource".
+            repeated TrackableObjectGraph.TrackableObject.ObjectReference children = 1;
+
+            // Ordered list of dependencies that must be loaded before this object.
+            // SavedModel loads with the bottom-up approach, by first creating all objects
+            // (in the order defined by the dependencies), then connecting the edges.
+            repeated TrackableObjectGraph.TrackableObject.ObjectReference dependencies =
+                15;
+
+            // Removed when forking SavedObject from TrackableObjectGraph.
+            reserved "attributes";
+            reserved 2;
+
+            // Slot variables owned by this object. This describes the three-way
+            // (optimizer, variable, slot variable) relationship; none of the three
+            // depend on the others directly.
+            //
+            // Note: currently only valid if kind == "user_object".
+            repeated TrackableObjectGraph.TrackableObject.SlotVariableReference
+                slot_variables = 3;
+
+            oneof kind {
+              SavedUserObject user_object = 4;
+              SavedAsset asset = 5;
+              SavedFunction function = 6;
+              SavedVariable variable = 7;
+              SavedBareConcreteFunction bare_concrete_function = 8;
+              SavedConstant constant = 9;
+              SavedResource resource = 10;
+              CapturedTensor captured_tensor = 12;
+            }
+
+            // Stores the functions used to save and restore this object. At most one of
+            // `saveable_objects` or `registered_saver` is defined for each SavedObject.
+            // See the comment below for the difference between SaveableObject and
+            // registered savers.
+            map<string, SaveableObject> saveable_objects = 11;
+
+            // The fields below are filled when the user serializes a registered Trackable
+            // class or an object with a registered saver function.
+            //
+            // Registered classes may save additional metadata and supersede the
+            // default loading process where nodes are recreated from the proto.
+            // If the registered class cannot be found, then the object will load as one
+            // one of the default trackable objects: Autotrackable (a class similar to
+            // tf.Module), tf.function, or tf.Variable.
+            //
+            // Unlike SaveableObjects, which store the functions for saving and restoring
+            // from tensors, registered savers allow Trackables to write checkpoint shards
+            // directly (e.g. for performance or coordination reasons).
+            // *All registered savers must be available when loading the SavedModel.*
+
+            // The name of the registered class of the form "{package}.{class_name}".
+            // This field is used to search for the registered class at loading time.
+            string registered_name = 13;
+            // The user-generated proto storing metadata for this object, to be passed to
+            // the registered classes's _deserialize_from_proto method when this object is
+            // loaded from the SavedModel.
+            google.protobuf.Any serialized_user_proto = 14;
+
+            // String name of the registered saver. At most one of `saveable_objects` or
+            // `registered_saver` is defined for each SavedObject.
+            string registered_saver = 16;
+          }
+
+          // A SavedUserObject is an object (in the object-oriented language of the
+          // TensorFlow program) of some user- or framework-defined class other than
+          // those handled specifically by the other kinds of SavedObjects.
+          //
+          // This object cannot be evaluated as a tensor, and therefore cannot be bound
+          // to an input of a function.
+          message SavedUserObject {
+            // Corresponds to a registration of the type to use in the loading program.
+            string identifier = 1;
+            // Version information from the producer of this SavedUserObject.
+            VersionDef version = 2;
+            // Metadata for deserializing this object.
+            //
+            // Deprecated! At the time of deprecation, Keras was the only user of this
+            // field, and its saving and loading code will be updated shortly.
+            // Please save your application-specific metadata to a separate file.
+            string metadata = 3 [deprecated = true];
+          }
+
+          // A SavedAsset points to an asset in the MetaGraph.
+          //
+          // When bound to a function this object evaluates to a tensor with the absolute
+          // filename. Users should not depend on a particular part of the filename to
+          // remain stable (e.g. basename could be changed).
+          message SavedAsset {
+            // Index into `MetaGraphDef.asset_file_def[]` that describes the Asset.
+            //
+            // Only the field `AssetFileDef.filename` is used. Other fields, such as
+            // `AssetFileDef.tensor_info`, MUST be ignored.
+            int32 asset_file_def_index = 1;
+          }
+
+          // A function with multiple signatures, possibly with non-Tensor arguments.
+          message SavedFunction {
+            repeated string concrete_functions = 1;
+            FunctionSpec function_spec = 2;
+          }
+
+          message CapturedTensor {
+            // Name of captured tensor
+            string name = 1;
+
+            // Name of concrete function which contains the computed graph tensor.
+            string concrete_function = 2;
+          }
+
+          // Stores low-level information about a concrete function. Referenced in either
+          // a SavedFunction or a SavedBareConcreteFunction.
+          message SavedConcreteFunction {
+            repeated int32 bound_inputs = 2;
+
+            // Input in canonicalized form that was received to create this concrete
+            // function.
+            StructuredValue canonicalized_input_signature = 3;
+            // Output that was the return value of this function after replacing all
+            // Tensors with TensorSpecs. This can be an arbitrary nested function and will
+            // be used to reconstruct the full structure from pure tensors.
+            StructuredValue output_signature = 4;
+          }
+
+          message SavedBareConcreteFunction {
+            // Identifies a SavedConcreteFunction.
+            string concrete_function_name = 1;
+
+            // A sequence of unique strings, one per Tensor argument.
+            repeated string argument_keywords = 2;
+            // The prefix of `argument_keywords` which may be identified by position.
+            int64 allowed_positional_arguments = 3;
+            // The spec of the function that this ConcreteFunction is traced from. This
+            // allows the ConcreteFunction to be called with nest structure inputs. This
+            // field may not be populated. If this field is absent, the concrete function
+            // can only be called with flat inputs.
+            // TODO(b/169361281): support calling saved ConcreteFunction with structured
+            // inputs in C++ SavedModel API.
+            FunctionSpec function_spec = 4;
+          }
+
+          message SavedConstant {
+            // An Operation name for a ConstantOp in this SavedObjectGraph's MetaGraph.
+            string operation = 1;
+          }
+
+          // Represents a Variable that is initialized by loading the contents from the
+          // checkpoint.
+          message SavedVariable {
+            DataType dtype = 1;
+            TensorShapeProto shape = 2;
+            bool trainable = 3;
+            VariableSynchronization synchronization = 4;
+            VariableAggregation aggregation = 5;
+            string name = 6;
+            string device = 7;
+            // List of component variables for a distributed variable.
+            //
+            // When this field is non-empty, the SavedVariable will be assumed
+            // to be a distributed variable defined by the components listed here.
+            //
+            // This is only supported by experimental loaders at the moment.
+            repeated SavedVariable experimental_distributed_variable_components = 8;
+          }
+
+          // Represents `FunctionSpec` used in `Function`. This represents a
+          // function that has been wrapped as a TensorFlow `Function`.
+          message FunctionSpec {
+            // Full arg spec from inspect.getfullargspec().
+            StructuredValue fullargspec = 1;
+            // Whether this represents a class method.
+            bool is_method = 2;
+            // The input signature, if specified.
+            StructuredValue input_signature = 5;
+
+            // Whether the function should be compiled by XLA.
+            //
+            // The public interface to `tf.function` uses an optional boolean to
+            // represent three distinct states for this field.  Unfortunately, proto3
+            // removes the ability to explicitly check for the presence or absence of a
+            // field, so we instead map to an enum.
+            //
+            // See `tf.function` for details.
+            enum JitCompile {
+              DEFAULT = 0;
+              ON = 1;
+              OFF = 2;
+            }
+            JitCompile jit_compile = 6;
+
+            reserved 3, 4;
+          }
+
+          // A SavedResource represents a TF object that holds state during its lifetime.
+          // An object of this type can have a reference to a:
+          // create_resource() and an initialize() function.
+          message SavedResource {
+            // A device specification indicating a required placement for the resource
+            // creation function, e.g. "CPU". An empty string allows the user to select a
+            // device.
+            string device = 1;
+          }
+
+          message SaveableObject {
+            // Node ids of concrete functions for saving and loading from a checkpoint.
+            // These functions save and restore directly from tensors.
+            int32 save_function = 2;
+            int32 restore_function = 3;
+          }
+      - name: Add lib/proto/tensorflow/core/protobuf/saver.proto
+        path: codelab2/tfserving_flutter/lib/proto/tensorflow/core/protobuf/saver.proto
+        replace-contents: |
+          syntax = "proto3";
+
+          package tensorflow;
+
+          option cc_enable_arenas = true;
+          option java_outer_classname = "SaverProtos";
+          option java_multiple_files = true;
+          option java_package = "org.tensorflow.util";
+          option go_package = "github.com/tensorflow/tensorflow/tensorflow/go/core/protobuf/for_core_protos_go_proto";
+
+          // Protocol buffer representing the configuration of a Saver.
+          message SaverDef {
+            // The name of the tensor in which to specify the filename when saving or
+            // restoring a model checkpoint.
+            string filename_tensor_name = 1;
+
+            // The operation to run when saving a model checkpoint.
+            string save_tensor_name = 2;
+
+            // The operation to run when restoring a model checkpoint.
+            string restore_op_name = 3;
+
+            // Maximum number of checkpoints to keep.  If 0, no checkpoints are deleted.
+            int32 max_to_keep = 4;
+
+            // Shard the save files, one per device that has Variable nodes.
+            bool sharded = 5;
+
+            // How often to keep an additional checkpoint. If not specified, only the last
+            // "max_to_keep" checkpoints are kept; if specified, in addition to keeping
+            // the last "max_to_keep" checkpoints, an additional checkpoint will be kept
+            // for every n hours of training.
+            float keep_checkpoint_every_n_hours = 6;
+
+            // A version number that identifies a different on-disk checkpoint format.
+            // Usually, each subclass of BaseSaverBuilder works with a particular
+            // version/format.  However, it is possible that the same builder may be
+            // upgraded to support a newer checkpoint format in the future.
+            enum CheckpointFormatVersion {
+              // Internal legacy format.
+              LEGACY = 0;
+              // Deprecated format: tf.Saver() which works with tensorflow::table::Table.
+              V1 = 1;
+              // Current format: more efficient.
+              V2 = 2;
+            }
+            CheckpointFormatVersion version = 7;
+          }
+      - name: Add lib/proto/tensorflow/core/protobuf/struct.proto
+        path: codelab2/tfserving_flutter/lib/proto/tensorflow/core/protobuf/struct.proto
+        replace-contents: |
+          syntax = "proto3";
+
+          package tensorflow;
+
+          import "tensorflow/core/framework/tensor.proto";
+          import "tensorflow/core/framework/tensor_shape.proto";
+          import "tensorflow/core/framework/types.proto";
+
+          option go_package = "github.com/tensorflow/tensorflow/tensorflow/go/core/protobuf/for_core_protos_go_proto";
+
+          // `StructuredValue` represents a dynamically typed value representing various
+          // data structures that are inspired by Python data structures typically used in
+          // TensorFlow functions as inputs and outputs.
+          //
+          // For example when saving a Layer there may be a `training` argument. If the
+          // user passes a boolean True/False, that switches between two concrete
+          // TensorFlow functions. In order to switch between them in the same way after
+          // loading the SavedModel, we need to represent "True" and "False".
+          //
+          // A more advanced example might be a function which takes a list of
+          // dictionaries mapping from strings to Tensors. In order to map from
+          // user-specified arguments `[{"a": tf.constant(1.)}, {"q": tf.constant(3.)}]`
+          // after load to the right saved TensorFlow function, we need to represent the
+          // nested structure and the strings, recording that we have a trace for anything
+          // matching `[{"a": tf.TensorSpec(None, tf.float32)}, {"q": tf.TensorSpec([],
+          // tf.float64)}]` as an example.
+          //
+          // Likewise functions may return nested structures of Tensors, for example
+          // returning a dictionary mapping from strings to Tensors. In order for the
+          // loaded function to return the same structure we need to serialize it.
+          //
+          // This is an ergonomic aid for working with loaded SavedModels, not a promise
+          // to serialize all possible function signatures. For example we do not expect
+          // to pickle generic Python objects, and ideally we'd stay language-agnostic.
+          message StructuredValue {
+            // The kind of value.
+            oneof kind {
+              // Represents None.
+              NoneValue none_value = 1;
+
+              // Represents a double-precision floating-point value (a Python `float`).
+              double float64_value = 11;
+              // Represents a signed integer value, limited to 64 bits.
+              // Larger values from Python's arbitrary-precision integers are unsupported.
+              sint64 int64_value = 12;
+              // Represents a string of Unicode characters stored in a Python `str`.
+              // In Python 3, this is exactly what type `str` is.
+              // In Python 2, this is the UTF-8 encoding of the characters.
+              // For strings with ASCII characters only (as often used in TensorFlow code)
+              // there is effectively no difference between the language versions.
+              // The obsolescent `unicode` type of Python 2 is not supported here.
+              string string_value = 13;
+              // Represents a boolean value.
+              bool bool_value = 14;
+
+              // Represents a TensorShape.
+              tensorflow.TensorShapeProto tensor_shape_value = 31;
+              // Represents an enum value for dtype.
+              tensorflow.DataType tensor_dtype_value = 32;
+              // Represents a value for tf.TensorSpec.
+              TensorSpecProto tensor_spec_value = 33;
+              // Represents a value for tf.TypeSpec.
+              TypeSpecProto type_spec_value = 34;
+              // Represents a value for tf.BoundedTensorSpec.
+              BoundedTensorSpecProto bounded_tensor_spec_value = 35;
+
+              // Represents a list of `Value`.
+              ListValue list_value = 51;
+              // Represents a tuple of `Value`.
+              TupleValue tuple_value = 52;
+              // Represents a dict `Value`.
+              DictValue dict_value = 53;
+              // Represents Python's namedtuple.
+              NamedTupleValue named_tuple_value = 54;
+            }
+          }
+
+          // Represents None.
+          message NoneValue {}
+
+          // Represents a Python list.
+          message ListValue {
+            repeated StructuredValue values = 1;
+          }
+
+          // Represents a Python tuple.
+          message TupleValue {
+            repeated StructuredValue values = 1;
+          }
+
+          // Represents a Python dict keyed by `str`.
+          // The comment on Unicode from Value.string_value applies analogously.
+          message DictValue {
+            map<string, StructuredValue> fields = 1;
+          }
+
+          // Represents a (key, value) pair.
+          message PairValue {
+            string key = 1;
+            StructuredValue value = 2;
+          }
+
+          // Represents Python's namedtuple.
+          message NamedTupleValue {
+            string name = 1;
+            repeated PairValue values = 2;
+          }
+
+          // A protobuf to represent tf.TensorSpec.
+          message TensorSpecProto {
+            string name = 1;
+            tensorflow.TensorShapeProto shape = 2;
+            tensorflow.DataType dtype = 3;
+          }
+
+          // A protobuf to represent tf.BoundedTensorSpec.
+          message BoundedTensorSpecProto {
+            string name = 1;
+            tensorflow.TensorShapeProto shape = 2;
+            tensorflow.DataType dtype = 3;
+            tensorflow.TensorProto minimum = 4;
+            tensorflow.TensorProto maximum = 5;
+          }
+
+          // Represents a tf.TypeSpec
+          message TypeSpecProto {
+            enum TypeSpecClass {
+              UNKNOWN = 0;
+              SPARSE_TENSOR_SPEC = 1;   // tf.SparseTensorSpec
+              INDEXED_SLICES_SPEC = 2;  // tf.IndexedSlicesSpec
+              RAGGED_TENSOR_SPEC = 3;   // tf.RaggedTensorSpec
+              TENSOR_ARRAY_SPEC = 4;    // tf.TensorArraySpec
+              DATA_DATASET_SPEC = 5;    // tf.data.DatasetSpec
+              DATA_ITERATOR_SPEC = 6;   // IteratorSpec from data/ops/iterator_ops.py
+              OPTIONAL_SPEC = 7;        // tf.OptionalSpec
+              PER_REPLICA_SPEC = 8;     // PerReplicaSpec from distribute/values.py
+              VARIABLE_SPEC = 9;        // tf.VariableSpec
+              ROW_PARTITION_SPEC = 10;  // RowPartitionSpec from ragged/row_partition.py
+              reserved 11;
+              REGISTERED_TYPE_SPEC = 12;  // The type registered as type_spec_class_name.
+              EXTENSION_TYPE_SPEC = 13;   // Subclasses of tf.ExtensionType
+            }
+            TypeSpecClass type_spec_class = 1;
+
+            // The value returned by TypeSpec._serialize().
+            StructuredValue type_state = 2;
+
+            // The name of the TypeSpec class.
+            //  * If type_spec_class == REGISTERED_TYPE_SPEC, the TypeSpec class is
+            //    the one registered under this name. For types registered outside
+            //    core TensorFlow by an add-on library, that library must be loaded
+            //    before this value can be deserialized by nested_structure_coder.
+            //  * If type_spec_class specifies a particular TypeSpec class, this field is
+            //    redundant with the type_spec_class enum, and is only used for error
+            //    reporting in older binaries that do not know the tupe_spec_class enum.
+            string type_spec_class_name = 3;
+
+            // The number of flat tensor components required by this TypeSpec.
+            int32 num_flat_components = 4;
+          }
+      - name: Add lib/proto/tensorflow/core/protobuf/trackable_object_graph.proto
+        path: codelab2/tfserving_flutter/lib/proto/tensorflow/core/protobuf/trackable_object_graph.proto
+        replace-contents: |
+          syntax = "proto3";
+
+          package tensorflow;
+
+          import "google/protobuf/wrappers.proto";
+
+          option cc_enable_arenas = true;
+          option go_package = "github.com/tensorflow/tensorflow/tensorflow/go/core/protobuf/for_core_protos_go_proto";
+
+          // A TensorBundle addition which saves extra information about the objects which
+          // own variables, allowing for more robust checkpoint loading into modified
+          // programs.
+
+          message TrackableObjectGraph {
+            message TrackableObject {
+              message ObjectReference {
+                // An index into `TrackableObjectGraph.nodes`, indicating the object
+                // being referenced.
+                int32 node_id = 1;
+                // A user-provided name for the edge.
+                string local_name = 2;
+              }
+
+              message SerializedTensor {
+                // A name for the Tensor. Simple variables have only one
+                // `SerializedTensor` named "VARIABLE_VALUE" by convention. This value may
+                // be restored on object creation as an optimization.
+                string name = 1;
+                // The full name of the variable/tensor, if applicable. Used to allow
+                // name-based loading of checkpoints which were saved using an
+                // object-based API. Should match the checkpoint key which would have been
+                // assigned by tf.train.Saver.
+                string full_name = 2;
+                // The generated name of the Tensor in the checkpoint.
+                string checkpoint_key = 3;
+                // Whether checkpoints should be considered as matching even without this
+                // value restored. Used for non-critical values which don't affect the
+                // TensorFlow graph, such as layer configurations.
+                bool optional_restore = 4;
+              }
+
+              message SlotVariableReference {
+                // An index into `TrackableObjectGraph.nodes`, indicating the
+                // variable object this slot was created for.
+                int32 original_variable_node_id = 1;
+                // The name of the slot (e.g. "m"/"v").
+                string slot_name = 2;
+                // An index into `TrackableObjectGraph.nodes`, indicating the
+                // `Object` with the value of the slot variable.
+                int32 slot_variable_node_id = 3;
+              }
+
+              // Objects which this object depends on.
+              repeated ObjectReference children = 1;
+              // Serialized data specific to this object.
+              repeated SerializedTensor attributes = 2;
+              // Slot variables owned by this object.
+              repeated SlotVariableReference slot_variables = 3;
+
+              // The registered saver used to save this object. If this saver is not
+              // present when loading the checkpoint, then loading will fail.
+              RegisteredSaver registered_saver = 4;
+
+              // Whether this object has checkpoint values or descendants with checkpoint
+              // values. This is computed at save time to avoid traversing the entire
+              // object graph proto when restoring (which also has to traverse the live
+              // object graph).
+              google.protobuf.BoolValue has_checkpoint_values = 5;
+            }
+
+            repeated TrackableObject nodes = 1;
+          }
+
+          message RegisteredSaver {
+            // The name of the registered saver/restore function.
+            string name = 1;
+
+            // Unique auto-generated name of the object.
+            string object_name = 2;
+          }
       - name: Add generate_grpc_stub_dart.sh
         path: codelab2/tfserving_flutter/lib/proto/generate_grpc_stub_dart.sh
         replace-contents: |
