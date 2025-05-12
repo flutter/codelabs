@@ -34,12 +34,12 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
-  googleapis: ^13.2.0
-  http: ^1.3.0
-  provider: ^6.1.2
+  googleapis: ^14.0.0
+  http: ^1.4.0
+  provider: ^6.1.5
   url_launcher: ^6.3.1
-  flex_color_scheme: ^8.1.1
-  go_router: ^14.8.0
+  flex_color_scheme: ^8.2.0
+  go_router: ^15.1.2
   split_view: ^3.2.1
 
 dev_dependencies:
