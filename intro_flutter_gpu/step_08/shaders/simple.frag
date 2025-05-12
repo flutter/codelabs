@@ -15,7 +15,7 @@ float mandelbrot(vec2 uv) {
 
   for (float iter = 0.0; iter < MAX_ITER; iter++) {
     z = vec2(z.x * z.x - z.y * z.y, 2.0 * z.x * z.y) + c;
-    
+
     if (length(z) > 4.0) {
       return iter / MAX_ITER;
     }
