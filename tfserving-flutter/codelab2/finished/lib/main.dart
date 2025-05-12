@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:grpc/grpc.dart';
 import 'package:http/http.dart' as http;
-import 'package:protobuf/protobuf.dart';
 
 import 'proto/generated/tensorflow/core/framework/tensor.pb.dart';
 import 'proto/generated/tensorflow/core/framework/tensor_shape.pb.dart';
