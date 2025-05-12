@@ -70,6 +70,7 @@ BlueprintStep _$BlueprintStepFromJson(Map json) => $checkedCreate(
         'iphoneos-deployment-target',
         'macosx-deployment-target',
         'full-screen-macos-main-menu-xib',
+        'protoc',
       ],
       requiredKeys: const ['name'],
     );
@@ -151,6 +152,10 @@ BlueprintStep _$BlueprintStepFromJson(Map json) => $checkedCreate(
         'macosx-deployment-target',
         (v) => v as String?,
       ),
+      protoc: $checkedConvert(
+        'protoc',
+        (v) => v == null ? null : Protoc.fromJson(v as Map),
+      ),
     );
     return val;
   },
@@ -204,6 +209,7 @@ Map<String, dynamic> _$BlueprintStepToJson(BlueprintStep instance) =>
       'iphoneos-deployment-target': instance.iphoneosDeploymentTarget,
       'macosx-deployment-target': instance.macosxDeploymentTarget,
       'full-screen-macos-main-menu-xib': instance.macOsMainMenuXib,
+      'protoc': instance.protoc,
     };
 
 FromTo _$FromToFromJson(Map json) =>
@@ -219,4 +225,19 @@ FromTo _$FromToFromJson(Map json) =>
 Map<String, dynamic> _$FromToToJson(FromTo instance) => <String, dynamic>{
   'from': instance.from,
   'to': instance.to,
+};
+
+Protoc _$ProtocFromJson(Map json) =>
+    $checkedCreate('Protoc', json, ($checkedConvert) {
+      $checkKeys(json, allowedKeys: const ['proto', 'output']);
+      final val = Protoc(
+        proto: $checkedConvert('proto', (v) => v as String),
+        output: $checkedConvert('output', (v) => v as String),
+      );
+      return val;
+    });
+
+Map<String, dynamic> _$ProtocToJson(Protoc instance) => <String, dynamic>{
+  'proto': instance.proto,
+  'output': instance.output,
 };

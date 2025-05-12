@@ -403,6 +403,31 @@ project.save
     return;
   }
 
+  final protoc = step.protoc;
+  if (protoc != null) {
+    bool seenError = false;
+    final fullPath = p.canonicalize(p.join(cwd.path, path));
+    final process = await Process.start('protoc', [
+      '-I./',
+      protoc.proto,
+      '--dart_out=${protoc.output}',
+    ], workingDirectory: fullPath);
+    process.stderr.transform(utf8.decoder).listen((str) {
+      seenError = true;
+      _logger.warning(str.trimRight());
+    });
+    process.stdout.transform(utf8.decoder).listen((str) {
+      _logger.info(str.trimRight());
+    });
+    final exitCode = await process.exitCode;
+    if (exitCode != 0 || seenError) {
+      _logger.severe('patch $fullPath failed.');
+      exit(-1);
+    }
+
+    return;
+  }
+
   // Shouldn't get this far.
   _logger.severe('Invalid step: ${step.name}');
   exit(-1);

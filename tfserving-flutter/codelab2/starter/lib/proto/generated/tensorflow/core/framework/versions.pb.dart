@@ -1,68 +1,67 @@
-///
+//
 //  Generated code. Do not modify.
 //  source: tensorflow/core/framework/versions.proto
 //
-// @dart = 2.12
-// ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
+// @dart = 3.3
+
+// ignore_for_file: annotate_overrides, camel_case_types, comment_references
+// ignore_for_file: constant_identifier_names, library_prefixes
+// ignore_for_file: non_constant_identifier_names, prefer_final_fields
+// ignore_for_file: unnecessary_import, unnecessary_this, unused_import
 
 import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-class VersionDef extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      const $core.bool.fromEnvironment('protobuf.omit_message_names')
-          ? ''
-          : 'VersionDef',
-      package: const $pb.PackageName(
-          const $core.bool.fromEnvironment('protobuf.omit_message_names')
-              ? ''
-              : 'tensorflow'),
-      createEmptyInstance: create)
-    ..a<$core.int>(
-        1,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names')
-            ? ''
-            : 'producer',
-        $pb.PbFieldType.O3)
-    ..a<$core.int>(
-        2,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names')
-            ? ''
-            : 'minConsumer',
-        $pb.PbFieldType.O3)
-    ..p<$core.int>(
-        3,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names')
-            ? ''
-            : 'badConsumers',
-        $pb.PbFieldType.P3)
-    ..hasRequiredFields = false;
+export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
 
-  VersionDef._() : super();
+///  Version information for a piece of serialized data
+///
+///  There are different types of versions for each type of data
+///  (GraphDef, etc.), but they all have the same common shape
+///  described here.
+///
+///  Each consumer has "consumer" and "min_producer" versions (specified
+///  elsewhere).  A consumer is allowed to consume this data if
+///
+///    producer >= min_producer
+///    consumer >= min_consumer
+///    consumer not in bad_consumers
+class VersionDef extends $pb.GeneratedMessage {
   factory VersionDef({
     $core.int? producer,
     $core.int? minConsumer,
     $core.Iterable<$core.int>? badConsumers,
   }) {
-    final _result = create();
+    final $result = create();
     if (producer != null) {
-      _result.producer = producer;
+      $result.producer = producer;
     }
     if (minConsumer != null) {
-      _result.minConsumer = minConsumer;
+      $result.minConsumer = minConsumer;
     }
     if (badConsumers != null) {
-      _result.badConsumers.addAll(badConsumers);
+      $result.badConsumers.addAll(badConsumers);
     }
-    return _result;
+    return $result;
   }
+  VersionDef._() : super();
   factory VersionDef.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(i, r);
   factory VersionDef.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'VersionDef',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow'),
+      createEmptyInstance: create)
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'producer', $pb.PbFieldType.O3)
+    ..a<$core.int>(2, _omitFieldNames ? '' : 'minConsumer', $pb.PbFieldType.O3)
+    ..p<$core.int>(3, _omitFieldNames ? '' : 'badConsumers', $pb.PbFieldType.K3)
+    ..hasRequiredFields = false;
+
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
@@ -71,9 +70,10 @@ class VersionDef extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   VersionDef copyWith(void Function(VersionDef) updates) =>
-      super.copyWith((message) => updates(message as VersionDef))
-          as VersionDef; // ignore: deprecated_member_use
+      super.copyWith((message) => updates(message as VersionDef)) as VersionDef;
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static VersionDef create() => VersionDef._();
   VersionDef createEmptyInstance() => create();
@@ -83,6 +83,7 @@ class VersionDef extends $pb.GeneratedMessage {
       $pb.GeneratedMessage.$_defaultFor<VersionDef>(create);
   static VersionDef? _defaultInstance;
 
+  /// The version of the code that produced this data.
   @$pb.TagNumber(1)
   $core.int get producer => $_getIZ(0);
   @$pb.TagNumber(1)
@@ -93,8 +94,9 @@ class VersionDef extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasProducer() => $_has(0);
   @$pb.TagNumber(1)
-  void clearProducer() => clearField(1);
+  void clearProducer() => $_clearField(1);
 
+  /// Any consumer below this version is not allowed to consume this data.
   @$pb.TagNumber(2)
   $core.int get minConsumer => $_getIZ(1);
   @$pb.TagNumber(2)
@@ -105,8 +107,13 @@ class VersionDef extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool hasMinConsumer() => $_has(1);
   @$pb.TagNumber(2)
-  void clearMinConsumer() => clearField(2);
+  void clearMinConsumer() => $_clearField(2);
 
+  /// Specific consumer versions which are disallowed (e.g. due to bugs).
   @$pb.TagNumber(3)
-  $core.List<$core.int> get badConsumers => $_getList(2);
+  $pb.PbList<$core.int> get badConsumers => $_getList(2);
 }
+
+const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
+const _omitMessageNames =
+    $core.bool.fromEnvironment('protobuf.omit_message_names');
