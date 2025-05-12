@@ -64,88 +64,92 @@ class _TFServingDemoState extends State<TFServingDemo> {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text('TF Serving Flutter Demo'),
-        ),
+        appBar: AppBar(title: const Text('TF Serving Flutter Demo')),
         body: Center(
           child: Container(
             padding: const EdgeInsets.fromLTRB(20, 30, 20, 20),
             child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  TextField(
-                    controller: _inputSentenceController,
-                    decoration: const InputDecoration(
-                        border: UnderlineInputBorder(),
-                        hintText: 'Enter a sentence here'),
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                TextField(
+                  controller: _inputSentenceController,
+                  decoration: const InputDecoration(
+                    border: UnderlineInputBorder(),
+                    hintText: 'Enter a sentence here',
                   ),
-                  Column(
-                    children: <Widget>[
-                      ListTile(
-                        title: const Text('gRPC'),
-                        leading: Radio<ConnectionModeType>(
-                          value: ConnectionModeType.grpc,
-                          groupValue: _connectionMode,
-                          onChanged: (value) {
-                            setState(() {
-                              _connectionMode = value;
-                            });
-                          },
-                        ),
+                ),
+                Column(
+                  children: <Widget>[
+                    ListTile(
+                      title: const Text('gRPC'),
+                      leading: Radio<ConnectionModeType>(
+                        value: ConnectionModeType.grpc,
+                        groupValue: _connectionMode,
+                        onChanged: (value) {
+                          setState(() {
+                            _connectionMode = value;
+                          });
+                        },
                       ),
-                      ListTile(
-                        title: const Text('REST'),
-                        leading: Radio<ConnectionModeType>(
-                          value: ConnectionModeType.rest,
-                          groupValue: _connectionMode,
-                          onChanged: (value) {
-                            setState(() {
-                              _connectionMode = value;
-                            });
-                          },
-                        ),
+                    ),
+                    ListTile(
+                      title: const Text('REST'),
+                      leading: Radio<ConnectionModeType>(
+                        value: ConnectionModeType.rest,
+                        groupValue: _connectionMode,
+                        onChanged: (value) {
+                          setState(() {
+                            _connectionMode = value;
+                          });
+                        },
                       ),
-                    ],
-                  ),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        FilledButton(
-                            style: FilledButton.styleFrom(
-                              textStyle: const TextStyle(fontSize: 18),
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                _futurePrediction = predict();
-                              });
-                            },
-                            child: const Text('Classify')),
-                        FilledButton(
-                            style: FilledButton.styleFrom(
-                              textStyle: const TextStyle(fontSize: 18),
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                _futurePrediction =
-                                    Future<String>.value(initialPrompt);
-                                _inputSentenceController.clear();
-                              });
-                            },
-                            child: const Text('Reset'))
-                      ]),
-                  FutureBuilder<String>(
-                    future: _futurePrediction,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return Text(snapshot.data!);
-                      } else if (snapshot.hasError) {
-                        return Text('${snapshot.error}');
-                      }
-                      // By default, show a loading spinner.
-                      return const CircularProgressIndicator();
-                    },
-                  ),
-                ]),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    FilledButton(
+                      style: FilledButton.styleFrom(
+                        textStyle: const TextStyle(fontSize: 18),
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _futurePrediction = predict();
+                        });
+                      },
+                      child: const Text('Classify'),
+                    ),
+                    FilledButton(
+                      style: FilledButton.styleFrom(
+                        textStyle: const TextStyle(fontSize: 18),
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _futurePrediction = Future<String>.value(
+                            initialPrompt,
+                          );
+                          _inputSentenceController.clear();
+                        });
+                      },
+                      child: const Text('Reset'),
+                    ),
+                  ],
+                ),
+                FutureBuilder<String>(
+                  future: _futurePrediction,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return Text(snapshot.data!);
+                    } else if (snapshot.hasError) {
+                      return Text('${snapshot.error}');
+                    }
+                    // By default, show a loading spinner.
+                    return const CircularProgressIndicator();
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

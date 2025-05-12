@@ -1,93 +1,55 @@
-///
+//
 //  Generated code. Do not modify.
 //  source: tensorflow/core/protobuf/struct.proto
 //
-// @dart = 2.12
-// ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
+// @dart = 3.3
 
-// ignore_for_file: UNDEFINED_SHOWN_NAME
+// ignore_for_file: annotate_overrides, camel_case_types, comment_references
+// ignore_for_file: constant_identifier_names, library_prefixes
+// ignore_for_file: non_constant_identifier_names, prefer_final_fields
+// ignore_for_file: unnecessary_import, unnecessary_this, unused_import
+
 import 'dart:core' as $core;
+
 import 'package:protobuf/protobuf.dart' as $pb;
 
 class TypeSpecProto_TypeSpecClass extends $pb.ProtobufEnum {
   static const TypeSpecProto_TypeSpecClass UNKNOWN =
-      TypeSpecProto_TypeSpecClass._(
-          0,
-          const $core.bool.fromEnvironment('protobuf.omit_enum_names')
-              ? ''
-              : 'UNKNOWN');
+      TypeSpecProto_TypeSpecClass._(0, _omitEnumNames ? '' : 'UNKNOWN');
   static const TypeSpecProto_TypeSpecClass SPARSE_TENSOR_SPEC =
       TypeSpecProto_TypeSpecClass._(
-          1,
-          const $core.bool.fromEnvironment('protobuf.omit_enum_names')
-              ? ''
-              : 'SPARSE_TENSOR_SPEC');
+          1, _omitEnumNames ? '' : 'SPARSE_TENSOR_SPEC');
   static const TypeSpecProto_TypeSpecClass INDEXED_SLICES_SPEC =
       TypeSpecProto_TypeSpecClass._(
-          2,
-          const $core.bool.fromEnvironment('protobuf.omit_enum_names')
-              ? ''
-              : 'INDEXED_SLICES_SPEC');
+          2, _omitEnumNames ? '' : 'INDEXED_SLICES_SPEC');
   static const TypeSpecProto_TypeSpecClass RAGGED_TENSOR_SPEC =
       TypeSpecProto_TypeSpecClass._(
-          3,
-          const $core.bool.fromEnvironment('protobuf.omit_enum_names')
-              ? ''
-              : 'RAGGED_TENSOR_SPEC');
+          3, _omitEnumNames ? '' : 'RAGGED_TENSOR_SPEC');
   static const TypeSpecProto_TypeSpecClass TENSOR_ARRAY_SPEC =
       TypeSpecProto_TypeSpecClass._(
-          4,
-          const $core.bool.fromEnvironment('protobuf.omit_enum_names')
-              ? ''
-              : 'TENSOR_ARRAY_SPEC');
+          4, _omitEnumNames ? '' : 'TENSOR_ARRAY_SPEC');
   static const TypeSpecProto_TypeSpecClass DATA_DATASET_SPEC =
       TypeSpecProto_TypeSpecClass._(
-          5,
-          const $core.bool.fromEnvironment('protobuf.omit_enum_names')
-              ? ''
-              : 'DATA_DATASET_SPEC');
+          5, _omitEnumNames ? '' : 'DATA_DATASET_SPEC');
   static const TypeSpecProto_TypeSpecClass DATA_ITERATOR_SPEC =
       TypeSpecProto_TypeSpecClass._(
-          6,
-          const $core.bool.fromEnvironment('protobuf.omit_enum_names')
-              ? ''
-              : 'DATA_ITERATOR_SPEC');
+          6, _omitEnumNames ? '' : 'DATA_ITERATOR_SPEC');
   static const TypeSpecProto_TypeSpecClass OPTIONAL_SPEC =
-      TypeSpecProto_TypeSpecClass._(
-          7,
-          const $core.bool.fromEnvironment('protobuf.omit_enum_names')
-              ? ''
-              : 'OPTIONAL_SPEC');
+      TypeSpecProto_TypeSpecClass._(7, _omitEnumNames ? '' : 'OPTIONAL_SPEC');
   static const TypeSpecProto_TypeSpecClass PER_REPLICA_SPEC =
       TypeSpecProto_TypeSpecClass._(
-          8,
-          const $core.bool.fromEnvironment('protobuf.omit_enum_names')
-              ? ''
-              : 'PER_REPLICA_SPEC');
+          8, _omitEnumNames ? '' : 'PER_REPLICA_SPEC');
   static const TypeSpecProto_TypeSpecClass VARIABLE_SPEC =
-      TypeSpecProto_TypeSpecClass._(
-          9,
-          const $core.bool.fromEnvironment('protobuf.omit_enum_names')
-              ? ''
-              : 'VARIABLE_SPEC');
+      TypeSpecProto_TypeSpecClass._(9, _omitEnumNames ? '' : 'VARIABLE_SPEC');
   static const TypeSpecProto_TypeSpecClass ROW_PARTITION_SPEC =
       TypeSpecProto_TypeSpecClass._(
-          10,
-          const $core.bool.fromEnvironment('protobuf.omit_enum_names')
-              ? ''
-              : 'ROW_PARTITION_SPEC');
+          10, _omitEnumNames ? '' : 'ROW_PARTITION_SPEC');
   static const TypeSpecProto_TypeSpecClass REGISTERED_TYPE_SPEC =
       TypeSpecProto_TypeSpecClass._(
-          12,
-          const $core.bool.fromEnvironment('protobuf.omit_enum_names')
-              ? ''
-              : 'REGISTERED_TYPE_SPEC');
+          12, _omitEnumNames ? '' : 'REGISTERED_TYPE_SPEC');
   static const TypeSpecProto_TypeSpecClass EXTENSION_TYPE_SPEC =
       TypeSpecProto_TypeSpecClass._(
-          13,
-          const $core.bool.fromEnvironment('protobuf.omit_enum_names')
-              ? ''
-              : 'EXTENSION_TYPE_SPEC');
+          13, _omitEnumNames ? '' : 'EXTENSION_TYPE_SPEC');
 
   static const $core.List<TypeSpecProto_TypeSpecClass> values =
       <TypeSpecProto_TypeSpecClass>[
@@ -111,6 +73,7 @@ class TypeSpecProto_TypeSpecClass extends $pb.ProtobufEnum {
   static TypeSpecProto_TypeSpecClass? valueOf($core.int value) =>
       _byValue[value];
 
-  const TypeSpecProto_TypeSpecClass._($core.int v, $core.String n)
-      : super(v, n);
+  const TypeSpecProto_TypeSpecClass._(super.v, super.n);
 }
+
+const _omitEnumNames = $core.bool.fromEnvironment('protobuf.omit_enum_names');

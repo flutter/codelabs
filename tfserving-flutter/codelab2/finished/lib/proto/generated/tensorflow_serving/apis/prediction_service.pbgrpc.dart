@@ -1,22 +1,29 @@
-///
+//
 //  Generated code. Do not modify.
 //  source: tensorflow_serving/apis/prediction_service.proto
 //
-// @dart = 2.12
-// ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
+// @dart = 3.3
+
+// ignore_for_file: annotate_overrides, camel_case_types, comment_references
+// ignore_for_file: constant_identifier_names, library_prefixes
+// ignore_for_file: non_constant_identifier_names, prefer_final_fields
+// ignore_for_file: unnecessary_import, unnecessary_this, unused_import
 
 import 'dart:async' as $async;
-
 import 'dart:core' as $core;
 
 import 'package:grpc/service_api.dart' as $grpc;
+import 'package:protobuf/protobuf.dart' as $pb;
+
 import 'classification.pb.dart' as $0;
-import 'regression.pb.dart' as $1;
-import 'predict.pb.dart' as $2;
-import 'inference.pb.dart' as $3;
 import 'get_model_metadata.pb.dart' as $4;
+import 'inference.pb.dart' as $3;
+import 'predict.pb.dart' as $2;
+import 'regression.pb.dart' as $1;
+
 export 'prediction_service.pb.dart';
 
+@$pb.GrpcServiceName('tensorflow.serving.PredictionService')
 class PredictionServiceClient extends $grpc.Client {
   static final _$classify =
       $grpc.ClientMethod<$0.ClassificationRequest, $0.ClassificationResponse>(
@@ -84,6 +91,7 @@ class PredictionServiceClient extends $grpc.Client {
   }
 }
 
+@$pb.GrpcServiceName('tensorflow.serving.PredictionService')
 abstract class PredictionServiceBase extends $grpc.Service {
   $core.String get $name => 'tensorflow.serving.PredictionService';
 
@@ -131,31 +139,31 @@ abstract class PredictionServiceBase extends $grpc.Service {
         ($4.GetModelMetadataResponse value) => value.writeToBuffer()));
   }
 
-  $async.Future<$0.ClassificationResponse> classify_Pre($grpc.ServiceCall call,
-      $async.Future<$0.ClassificationRequest> request) async {
-    return classify(call, await request);
+  $async.Future<$0.ClassificationResponse> classify_Pre($grpc.ServiceCall $call,
+      $async.Future<$0.ClassificationRequest> $request) async {
+    return classify($call, await $request);
   }
 
-  $async.Future<$1.RegressionResponse> regress_Pre($grpc.ServiceCall call,
-      $async.Future<$1.RegressionRequest> request) async {
-    return regress(call, await request);
+  $async.Future<$1.RegressionResponse> regress_Pre($grpc.ServiceCall $call,
+      $async.Future<$1.RegressionRequest> $request) async {
+    return regress($call, await $request);
   }
 
-  $async.Future<$2.PredictResponse> predict_Pre(
-      $grpc.ServiceCall call, $async.Future<$2.PredictRequest> request) async {
-    return predict(call, await request);
+  $async.Future<$2.PredictResponse> predict_Pre($grpc.ServiceCall $call,
+      $async.Future<$2.PredictRequest> $request) async {
+    return predict($call, await $request);
   }
 
   $async.Future<$3.MultiInferenceResponse> multiInference_Pre(
-      $grpc.ServiceCall call,
-      $async.Future<$3.MultiInferenceRequest> request) async {
-    return multiInference(call, await request);
+      $grpc.ServiceCall $call,
+      $async.Future<$3.MultiInferenceRequest> $request) async {
+    return multiInference($call, await $request);
   }
 
   $async.Future<$4.GetModelMetadataResponse> getModelMetadata_Pre(
-      $grpc.ServiceCall call,
-      $async.Future<$4.GetModelMetadataRequest> request) async {
-    return getModelMetadata(call, await request);
+      $grpc.ServiceCall $call,
+      $async.Future<$4.GetModelMetadataRequest> $request) async {
+    return getModelMetadata($call, await $request);
   }
 
   $async.Future<$0.ClassificationResponse> classify(
