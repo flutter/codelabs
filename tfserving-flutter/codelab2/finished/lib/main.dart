@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:grpc/grpc.dart';
 import 'package:http/http.dart' as http;
+import 'package:protobuf/protobuf.dart';
 
 import 'proto/generated/tensorflow/core/framework/tensor.pb.dart';
 import 'proto/generated/tensorflow/core/framework/tensor_shape.pb.dart';
@@ -64,88 +65,92 @@ class _TFServingDemoState extends State<TFServingDemo> {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text('TF Serving Flutter Demo'),
-        ),
+        appBar: AppBar(title: const Text('TF Serving Flutter Demo')),
         body: Center(
           child: Container(
             padding: const EdgeInsets.fromLTRB(20, 30, 20, 20),
             child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  TextField(
-                    controller: _inputSentenceController,
-                    decoration: const InputDecoration(
-                        border: UnderlineInputBorder(),
-                        hintText: 'Enter a sentence here'),
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                TextField(
+                  controller: _inputSentenceController,
+                  decoration: const InputDecoration(
+                    border: UnderlineInputBorder(),
+                    hintText: 'Enter a sentence here',
                   ),
-                  Column(
-                    children: <Widget>[
-                      ListTile(
-                        title: const Text('gRPC'),
-                        leading: Radio<ConnectionModeType>(
-                          value: ConnectionModeType.grpc,
-                          groupValue: _connectionMode,
-                          onChanged: (value) {
-                            setState(() {
-                              _connectionMode = value;
-                            });
-                          },
-                        ),
+                ),
+                Column(
+                  children: <Widget>[
+                    ListTile(
+                      title: const Text('gRPC'),
+                      leading: Radio<ConnectionModeType>(
+                        value: ConnectionModeType.grpc,
+                        groupValue: _connectionMode,
+                        onChanged: (value) {
+                          setState(() {
+                            _connectionMode = value;
+                          });
+                        },
                       ),
-                      ListTile(
-                        title: const Text('REST'),
-                        leading: Radio<ConnectionModeType>(
-                          value: ConnectionModeType.rest,
-                          groupValue: _connectionMode,
-                          onChanged: (value) {
-                            setState(() {
-                              _connectionMode = value;
-                            });
-                          },
-                        ),
+                    ),
+                    ListTile(
+                      title: const Text('REST'),
+                      leading: Radio<ConnectionModeType>(
+                        value: ConnectionModeType.rest,
+                        groupValue: _connectionMode,
+                        onChanged: (value) {
+                          setState(() {
+                            _connectionMode = value;
+                          });
+                        },
                       ),
-                    ],
-                  ),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        FilledButton(
-                            style: FilledButton.styleFrom(
-                              textStyle: const TextStyle(fontSize: 18),
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                _futurePrediction = predict();
-                              });
-                            },
-                            child: const Text('Classify')),
-                        FilledButton(
-                            style: FilledButton.styleFrom(
-                              textStyle: const TextStyle(fontSize: 18),
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                _futurePrediction =
-                                    Future<String>.value(initialPrompt);
-                                _inputSentenceController.clear();
-                              });
-                            },
-                            child: const Text('Reset'))
-                      ]),
-                  FutureBuilder<String>(
-                    future: _futurePrediction,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return Text(snapshot.data!);
-                      } else if (snapshot.hasError) {
-                        return Text('${snapshot.error}');
-                      }
-                      // By default, show a loading spinner.
-                      return const CircularProgressIndicator();
-                    },
-                  ),
-                ]),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    FilledButton(
+                      style: FilledButton.styleFrom(
+                        textStyle: const TextStyle(fontSize: 18),
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _futurePrediction = predict();
+                        });
+                      },
+                      child: const Text('Classify'),
+                    ),
+                    FilledButton(
+                      style: FilledButton.styleFrom(
+                        textStyle: const TextStyle(fontSize: 18),
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _futurePrediction = Future<String>.value(
+                            initialPrompt,
+                          );
+                          _inputSentenceController.clear();
+                        });
+                      },
+                      child: const Text('Reset'),
+                    ),
+                  ],
+                ),
+                FutureBuilder<String>(
+                  future: _futurePrediction,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return Text(snapshot.data!);
+                    } else if (snapshot.hasError) {
+                      return Text('${snapshot.error}');
+                    }
+                    // By default, show a loading spinner.
+                    return const CircularProgressIndicator();
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -212,12 +217,17 @@ class _TFServingDemoState extends State<TFServingDemo> {
         throw Exception('Error response');
       }
     } else {
-      final channel = ClientChannel(_server,
-          port: grpcPort,
-          options:
-              const ChannelOptions(credentials: ChannelCredentials.insecure()));
-      _stub = PredictionServiceClient(channel,
-          options: CallOptions(timeout: const Duration(seconds: 10)));
+      final channel = ClientChannel(
+        _server,
+        port: grpcPort,
+        options: const ChannelOptions(
+          credentials: ChannelCredentials.insecure(),
+        ),
+      );
+      _stub = PredictionServiceClient(
+        channel,
+        options: CallOptions(timeout: const Duration(seconds: 10)),
+      );
 
       ModelSpec modelSpec = ModelSpec(
         name: 'spam-detection',
@@ -225,21 +235,24 @@ class _TFServingDemoState extends State<TFServingDemo> {
       );
 
       TensorShapeProto_Dim batchDim = TensorShapeProto_Dim(size: Int64(1));
-      TensorShapeProto_Dim inputDim =
-          TensorShapeProto_Dim(size: Int64(maxSentenceLength));
-      TensorShapeProto inputTensorShape =
-          TensorShapeProto(dim: [batchDim, inputDim]);
+      TensorShapeProto_Dim inputDim = TensorShapeProto_Dim(
+        size: Int64(maxSentenceLength),
+      );
+      TensorShapeProto inputTensorShape = TensorShapeProto(
+        dim: [batchDim, inputDim],
+      );
       TensorProto inputTensor = TensorProto(
-          dtype: DataType.DT_INT32,
-          tensorShape: inputTensorShape,
-          intVal: _tokenIndices);
+        dtype: DataType.DT_INT32,
+        tensorShape: inputTensorShape,
+        intVal: _tokenIndices,
+      );
 
       // If you train your own model, make sure to update the input and output
       // tensor names.
       const inputTensorName = 'input_3';
       const outputTensorName = 'dense_5';
-      PredictRequest request = PredictRequest(
-          modelSpec: modelSpec, inputs: {inputTensorName: inputTensor});
+      PredictRequest request = PredictRequest(modelSpec: modelSpec)
+        ..inputs.addAll({inputTensorName: inputTensor});
 
       PredictResponse response = await _stub.predict(request);
 
