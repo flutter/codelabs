@@ -4080,15 +4080,7 @@ steps:
         patch-u: |
           --- b/tfserving-flutter/codelab2/finished/lib/main.dart
           +++ a/tfserving-flutter/codelab2/finished/lib/main.dart
-          @@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
-           import 'package:flutter/services.dart' show rootBundle;
-           import 'package:grpc/grpc.dart';
-           import 'package:http/http.dart' as http;
-          +import 'package:protobuf/protobuf.dart';
-           
-           import 'proto/generated/tensorflow/core/framework/tensor.pb.dart';
-           import 'proto/generated/tensorflow/core/framework/tensor_shape.pb.dart';
-          @@ -164,21 +165,107 @@ class _TFServingDemoState extends State<TFServingDemo> {
+          @@ -164,21 +164,107 @@ class _TFServingDemoState extends State<TFServingDemo> {
                  // For iOS emulator, desktop and web platforms
                  _server = '127.0.0.1';
                }
