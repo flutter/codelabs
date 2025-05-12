@@ -138,6 +138,9 @@ class BlueprintStep {
   @JsonKey(name: 'full-screen-macos-main-menu-xib')
   final String? macOsMainMenuXib;
 
+  // Protobuf code generation
+  final Protoc? protoc;
+
   BlueprintStep({
     required this.name,
     this.steps = const [],
@@ -171,6 +174,7 @@ class BlueprintStep {
     this.macOsMainMenuXib,
     this.iphoneosDeploymentTarget,
     this.macosxDeploymentTarget,
+    this.protoc,
   }) {
     if (name.isEmpty) {
       throw ArgumentError.value(name, 'name', 'Cannot be empty.');
@@ -212,7 +216,8 @@ class BlueprintStep {
         stripLinesContaining == null &&
         xcodeAddFile == null &&
         xcodeProjectPath == null &&
-        macOsMainMenuXib == null) {
+        macOsMainMenuXib == null &&
+        protoc == null) {
       _logger.warning('Invalid step with no action: $name');
       return false;
     }
@@ -244,7 +249,8 @@ class BlueprintStep {
           stripLinesContaining != null ||
           xcodeAddFile != null ||
           xcodeProjectPath != null ||
-          macOsMainMenuXib != null) {
+          macOsMainMenuXib != null ||
+          protoc != null) {
         _logger.warning('Invalid step sub-steps and other commands: $name');
         return false;
       }
@@ -320,6 +326,12 @@ class BlueprintStep {
       return false;
     }
 
+    // If we have a protoc, we need a path
+    if (protoc != null && path == null) {
+      _logger.warning('Invalid step, protoc without path for step: $name');
+      return false;
+    }
+
     // If we have a patch, we don't want a replace-contents, base64-contents or command(s)
     if ((patch != null || patchU != null || patchC != null) &&
         (replaceContents != null ||
@@ -368,6 +380,20 @@ class FromTo {
   factory FromTo.fromJson(Map json) => _$FromToFromJson(json);
 
   Map<String, dynamic> toJson() => _$FromToToJson(this);
+
+  @override
+  String toString() => 'CopyDirs: ${toJson()}';
+}
+
+@JsonSerializable(anyMap: true, checked: true, disallowUnrecognizedKeys: true)
+class Protoc {
+  final String proto;
+  final String output;
+  Protoc({required this.proto, required this.output});
+
+  factory Protoc.fromJson(Map json) => _$ProtocFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ProtocToJson(this);
 
   @override
   String toString() => 'CopyDirs: ${toJson()}';

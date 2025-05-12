@@ -3,12 +3,12 @@ description: Rebuild codelabs from a yaml file.
 version: 1.0.1
 
 environment:
-  sdk: ^3.7.0-0
+  sdk: ^3.7.2
 
-dependencies: 
+dependencies:
   checked_yaml: ^2.0.1
   io: ^1.0.3
-  json_annotation: ^4.8.0
+  json_annotation: ^4.9.0
   logging: ^1.0.2
   path: ^1.8.0
   xml: ^6.5.0
