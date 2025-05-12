@@ -53,14 +53,41 @@ const VariableDef$json = {
   '1': 'VariableDef',
   '2': [
     {'1': 'variable_name', '3': 1, '4': 1, '5': 9, '10': 'variableName'},
-    {'1': 'initial_value_name', '3': 6, '4': 1, '5': 9, '10': 'initialValueName'},
+    {
+      '1': 'initial_value_name',
+      '3': 6,
+      '4': 1,
+      '5': 9,
+      '10': 'initialValueName'
+    },
     {'1': 'initializer_name', '3': 2, '4': 1, '5': 9, '10': 'initializerName'},
     {'1': 'snapshot_name', '3': 3, '4': 1, '5': 9, '10': 'snapshotName'},
-    {'1': 'save_slice_info_def', '3': 4, '4': 1, '5': 11, '6': '.tensorflow.SaveSliceInfoDef', '10': 'saveSliceInfoDef'},
+    {
+      '1': 'save_slice_info_def',
+      '3': 4,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.SaveSliceInfoDef',
+      '10': 'saveSliceInfoDef'
+    },
     {'1': 'is_resource', '3': 5, '4': 1, '5': 8, '10': 'isResource'},
     {'1': 'trainable', '3': 7, '4': 1, '5': 8, '10': 'trainable'},
-    {'1': 'synchronization', '3': 8, '4': 1, '5': 14, '6': '.tensorflow.VariableSynchronization', '10': 'synchronization'},
-    {'1': 'aggregation', '3': 9, '4': 1, '5': 14, '6': '.tensorflow.VariableAggregation', '10': 'aggregation'},
+    {
+      '1': 'synchronization',
+      '3': 8,
+      '4': 1,
+      '5': 14,
+      '6': '.tensorflow.VariableSynchronization',
+      '10': 'synchronization'
+    },
+    {
+      '1': 'aggregation',
+      '3': 9,
+      '4': 1,
+      '5': 14,
+      '6': '.tensorflow.VariableAggregation',
+      '10': 'aggregation'
+    },
   ],
 };
 
@@ -92,4 +119,3 @@ final $typed_data.Uint8List saveSliceInfoDefDescriptor = $convert.base64Decode(
     'ChBTYXZlU2xpY2VJbmZvRGVmEhsKCWZ1bGxfbmFtZRgBIAEoCVIIZnVsbE5hbWUSHQoKZnVsbF'
     '9zaGFwZRgCIAMoA1IJZnVsbFNoYXBlEh0KCnZhcl9vZmZzZXQYAyADKANSCXZhck9mZnNldBIb'
     'Cgl2YXJfc2hhcGUYBCADKANSCHZhclNoYXBl');
-

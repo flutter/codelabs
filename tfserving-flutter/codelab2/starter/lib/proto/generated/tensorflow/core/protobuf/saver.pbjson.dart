@@ -17,13 +17,32 @@ import 'dart:typed_data' as $typed_data;
 const SaverDef$json = {
   '1': 'SaverDef',
   '2': [
-    {'1': 'filename_tensor_name', '3': 1, '4': 1, '5': 9, '10': 'filenameTensorName'},
+    {
+      '1': 'filename_tensor_name',
+      '3': 1,
+      '4': 1,
+      '5': 9,
+      '10': 'filenameTensorName'
+    },
     {'1': 'save_tensor_name', '3': 2, '4': 1, '5': 9, '10': 'saveTensorName'},
     {'1': 'restore_op_name', '3': 3, '4': 1, '5': 9, '10': 'restoreOpName'},
     {'1': 'max_to_keep', '3': 4, '4': 1, '5': 5, '10': 'maxToKeep'},
     {'1': 'sharded', '3': 5, '4': 1, '5': 8, '10': 'sharded'},
-    {'1': 'keep_checkpoint_every_n_hours', '3': 6, '4': 1, '5': 2, '10': 'keepCheckpointEveryNHours'},
-    {'1': 'version', '3': 7, '4': 1, '5': 14, '6': '.tensorflow.SaverDef.CheckpointFormatVersion', '10': 'version'},
+    {
+      '1': 'keep_checkpoint_every_n_hours',
+      '3': 6,
+      '4': 1,
+      '5': 2,
+      '10': 'keepCheckpointEveryNHours'
+    },
+    {
+      '1': 'version',
+      '3': 7,
+      '4': 1,
+      '5': 14,
+      '6': '.tensorflow.SaverDef.CheckpointFormatVersion',
+      '10': 'version'
+    },
   ],
   '4': [SaverDef_CheckpointFormatVersion$json],
 };
@@ -48,4 +67,3 @@ final $typed_data.Uint8List saverDefDescriptor = $convert.base64Decode(
     'gHIAEoDjIsLnRlbnNvcmZsb3cuU2F2ZXJEZWYuQ2hlY2twb2ludEZvcm1hdFZlcnNpb25SB3Zl'
     'cnNpb24iNQoXQ2hlY2twb2ludEZvcm1hdFZlcnNpb24SCgoGTEVHQUNZEAASBgoCVjEQARIGCg'
     'JWMhAC');
-

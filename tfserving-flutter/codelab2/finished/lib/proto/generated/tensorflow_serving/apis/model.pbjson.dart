@@ -18,8 +18,23 @@ const ModelSpec$json = {
   '1': 'ModelSpec',
   '2': [
     {'1': 'name', '3': 1, '4': 1, '5': 9, '10': 'name'},
-    {'1': 'version', '3': 2, '4': 1, '5': 11, '6': '.google.protobuf.Int64Value', '9': 0, '10': 'version'},
-    {'1': 'version_label', '3': 4, '4': 1, '5': 9, '9': 0, '10': 'versionLabel'},
+    {
+      '1': 'version',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.google.protobuf.Int64Value',
+      '9': 0,
+      '10': 'version'
+    },
+    {
+      '1': 'version_label',
+      '3': 4,
+      '4': 1,
+      '5': 9,
+      '9': 0,
+      '10': 'versionLabel'
+    },
     {'1': 'signature_name', '3': 3, '4': 1, '5': 9, '10': 'signatureName'},
   ],
   '8': [
@@ -33,4 +48,3 @@ final $typed_data.Uint8List modelSpecDescriptor = $convert.base64Decode(
     'xlLnByb3RvYnVmLkludDY0VmFsdWVIAFIHdmVyc2lvbhIlCg12ZXJzaW9uX2xhYmVsGAQgASgJ'
     'SABSDHZlcnNpb25MYWJlbBIlCg5zaWduYXR1cmVfbmFtZRgDIAEoCVINc2lnbmF0dXJlTmFtZU'
     'IQCg52ZXJzaW9uX2Nob2ljZQ==');
-

@@ -17,8 +17,22 @@ import 'dart:typed_data' as $typed_data;
 const GraphDef$json = {
   '1': 'GraphDef',
   '2': [
-    {'1': 'node', '3': 1, '4': 3, '5': 11, '6': '.tensorflow.NodeDef', '10': 'node'},
-    {'1': 'versions', '3': 4, '4': 1, '5': 11, '6': '.tensorflow.VersionDef', '10': 'versions'},
+    {
+      '1': 'node',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.NodeDef',
+      '10': 'node'
+    },
+    {
+      '1': 'versions',
+      '3': 4,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.VersionDef',
+      '10': 'versions'
+    },
     {
       '1': 'version',
       '3': 3,
@@ -27,7 +41,14 @@ const GraphDef$json = {
       '8': {'3': true},
       '10': 'version',
     },
-    {'1': 'library', '3': 2, '4': 1, '5': 11, '6': '.tensorflow.FunctionDefLibrary', '10': 'library'},
+    {
+      '1': 'library',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.FunctionDefLibrary',
+      '10': 'library'
+    },
   ],
 };
 
@@ -37,4 +58,3 @@ final $typed_data.Uint8List graphDefDescriptor = $convert.base64Decode(
     'ZlcnNpb25zGAQgASgLMhYudGVuc29yZmxvdy5WZXJzaW9uRGVmUgh2ZXJzaW9ucxIcCgd2ZXJz'
     'aW9uGAMgASgFQgIYAVIHdmVyc2lvbhI4CgdsaWJyYXJ5GAIgASgLMh4udGVuc29yZmxvdy5GdW'
     '5jdGlvbkRlZkxpYnJhcnlSB2xpYnJhcnk=');
-

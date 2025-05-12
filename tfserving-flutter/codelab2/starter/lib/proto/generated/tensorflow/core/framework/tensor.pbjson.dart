@@ -17,8 +17,22 @@ import 'dart:typed_data' as $typed_data;
 const TensorProto$json = {
   '1': 'TensorProto',
   '2': [
-    {'1': 'dtype', '3': 1, '4': 1, '5': 14, '6': '.tensorflow.DataType', '10': 'dtype'},
-    {'1': 'tensor_shape', '3': 2, '4': 1, '5': 11, '6': '.tensorflow.TensorShapeProto', '10': 'tensorShape'},
+    {
+      '1': 'dtype',
+      '3': 1,
+      '4': 1,
+      '5': 14,
+      '6': '.tensorflow.DataType',
+      '10': 'dtype'
+    },
+    {
+      '1': 'tensor_shape',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.TensorShapeProto',
+      '10': 'tensorShape'
+    },
     {'1': 'version_number', '3': 3, '4': 1, '5': 5, '10': 'versionNumber'},
     {'1': 'tensor_content', '3': 4, '4': 1, '5': 12, '10': 'tensorContent'},
     {
@@ -86,8 +100,22 @@ const TensorProto$json = {
       '8': {'2': true},
       '10': 'dcomplexVal',
     },
-    {'1': 'resource_handle_val', '3': 14, '4': 3, '5': 11, '6': '.tensorflow.ResourceHandleProto', '10': 'resourceHandleVal'},
-    {'1': 'variant_val', '3': 15, '4': 3, '5': 11, '6': '.tensorflow.VariantTensorDataProto', '10': 'variantVal'},
+    {
+      '1': 'resource_handle_val',
+      '3': 14,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.ResourceHandleProto',
+      '10': 'resourceHandleVal'
+    },
+    {
+      '1': 'variant_val',
+      '3': 15,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.VariantTensorDataProto',
+      '10': 'variantVal'
+    },
     {
       '1': 'uint32_val',
       '3': 16,
@@ -130,7 +158,14 @@ const VariantTensorDataProto$json = {
   '2': [
     {'1': 'type_name', '3': 1, '4': 1, '5': 9, '10': 'typeName'},
     {'1': 'metadata', '3': 2, '4': 1, '5': 12, '10': 'metadata'},
-    {'1': 'tensors', '3': 3, '4': 3, '5': 11, '6': '.tensorflow.TensorProto', '10': 'tensors'},
+    {
+      '1': 'tensors',
+      '3': 3,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.TensorProto',
+      '10': 'tensors'
+    },
   ],
 };
 
@@ -139,4 +174,3 @@ final $typed_data.Uint8List variantTensorDataProtoDescriptor = $convert.base64De
     'ChZWYXJpYW50VGVuc29yRGF0YVByb3RvEhsKCXR5cGVfbmFtZRgBIAEoCVIIdHlwZU5hbWUSGg'
     'oIbWV0YWRhdGEYAiABKAxSCG1ldGFkYXRhEjEKB3RlbnNvcnMYAyADKAsyFy50ZW5zb3JmbG93'
     'LlRlbnNvclByb3RvUgd0ZW5zb3Jz');
-

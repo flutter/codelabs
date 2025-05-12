@@ -68,8 +68,22 @@ final $typed_data.Uint8List fullTypeIdDescriptor = $convert.base64Decode(
 const FullTypeDef$json = {
   '1': 'FullTypeDef',
   '2': [
-    {'1': 'type_id', '3': 1, '4': 1, '5': 14, '6': '.tensorflow.FullTypeId', '10': 'typeId'},
-    {'1': 'args', '3': 2, '4': 3, '5': 11, '6': '.tensorflow.FullTypeDef', '10': 'args'},
+    {
+      '1': 'type_id',
+      '3': 1,
+      '4': 1,
+      '5': 14,
+      '6': '.tensorflow.FullTypeId',
+      '10': 'typeId'
+    },
+    {
+      '1': 'args',
+      '3': 2,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.FullTypeDef',
+      '10': 'args'
+    },
     {'1': 's', '3': 3, '4': 1, '5': 9, '9': 0, '10': 's'},
     {'1': 'i', '3': 4, '4': 1, '5': 3, '9': 0, '10': 'i'},
   ],
@@ -83,4 +97,3 @@ final $typed_data.Uint8List fullTypeDefDescriptor = $convert.base64Decode(
     'CgtGdWxsVHlwZURlZhIvCgd0eXBlX2lkGAEgASgOMhYudGVuc29yZmxvdy5GdWxsVHlwZUlkUg'
     'Z0eXBlSWQSKwoEYXJncxgCIAMoCzIXLnRlbnNvcmZsb3cuRnVsbFR5cGVEZWZSBGFyZ3MSDgoB'
     'cxgDIAEoCUgAUgFzEg4KAWkYBCABKANIAFIBaUIGCgRhdHRy');
-

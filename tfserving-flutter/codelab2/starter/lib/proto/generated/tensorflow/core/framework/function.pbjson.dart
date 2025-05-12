@@ -17,9 +17,30 @@ import 'dart:typed_data' as $typed_data;
 const FunctionDefLibrary$json = {
   '1': 'FunctionDefLibrary',
   '2': [
-    {'1': 'function', '3': 1, '4': 3, '5': 11, '6': '.tensorflow.FunctionDef', '10': 'function'},
-    {'1': 'gradient', '3': 2, '4': 3, '5': 11, '6': '.tensorflow.GradientDef', '10': 'gradient'},
-    {'1': 'registered_gradients', '3': 3, '4': 3, '5': 11, '6': '.tensorflow.RegisteredGradient', '10': 'registeredGradients'},
+    {
+      '1': 'function',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.FunctionDef',
+      '10': 'function'
+    },
+    {
+      '1': 'gradient',
+      '3': 2,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.GradientDef',
+      '10': 'gradient'
+    },
+    {
+      '1': 'registered_gradients',
+      '3': 3,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.RegisteredGradient',
+      '10': 'registeredGradients'
+    },
   ],
 };
 
@@ -34,15 +55,71 @@ final $typed_data.Uint8List functionDefLibraryDescriptor = $convert.base64Decode
 const FunctionDef$json = {
   '1': 'FunctionDef',
   '2': [
-    {'1': 'signature', '3': 1, '4': 1, '5': 11, '6': '.tensorflow.OpDef', '10': 'signature'},
-    {'1': 'attr', '3': 5, '4': 3, '5': 11, '6': '.tensorflow.FunctionDef.AttrEntry', '10': 'attr'},
-    {'1': 'arg_attr', '3': 7, '4': 3, '5': 11, '6': '.tensorflow.FunctionDef.ArgAttrEntry', '10': 'argAttr'},
-    {'1': 'resource_arg_unique_id', '3': 8, '4': 3, '5': 11, '6': '.tensorflow.FunctionDef.ResourceArgUniqueIdEntry', '10': 'resourceArgUniqueId'},
-    {'1': 'node_def', '3': 3, '4': 3, '5': 11, '6': '.tensorflow.NodeDef', '10': 'nodeDef'},
-    {'1': 'ret', '3': 4, '4': 3, '5': 11, '6': '.tensorflow.FunctionDef.RetEntry', '10': 'ret'},
-    {'1': 'control_ret', '3': 6, '4': 3, '5': 11, '6': '.tensorflow.FunctionDef.ControlRetEntry', '10': 'controlRet'},
+    {
+      '1': 'signature',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.OpDef',
+      '10': 'signature'
+    },
+    {
+      '1': 'attr',
+      '3': 5,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.FunctionDef.AttrEntry',
+      '10': 'attr'
+    },
+    {
+      '1': 'arg_attr',
+      '3': 7,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.FunctionDef.ArgAttrEntry',
+      '10': 'argAttr'
+    },
+    {
+      '1': 'resource_arg_unique_id',
+      '3': 8,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.FunctionDef.ResourceArgUniqueIdEntry',
+      '10': 'resourceArgUniqueId'
+    },
+    {
+      '1': 'node_def',
+      '3': 3,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.NodeDef',
+      '10': 'nodeDef'
+    },
+    {
+      '1': 'ret',
+      '3': 4,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.FunctionDef.RetEntry',
+      '10': 'ret'
+    },
+    {
+      '1': 'control_ret',
+      '3': 6,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.FunctionDef.ControlRetEntry',
+      '10': 'controlRet'
+    },
   ],
-  '3': [FunctionDef_AttrEntry$json, FunctionDef_ArgAttrs$json, FunctionDef_ArgAttrEntry$json, FunctionDef_ResourceArgUniqueIdEntry$json, FunctionDef_RetEntry$json, FunctionDef_ControlRetEntry$json],
+  '3': [
+    FunctionDef_AttrEntry$json,
+    FunctionDef_ArgAttrs$json,
+    FunctionDef_ArgAttrEntry$json,
+    FunctionDef_ResourceArgUniqueIdEntry$json,
+    FunctionDef_RetEntry$json,
+    FunctionDef_ControlRetEntry$json
+  ],
   '9': [
     {'1': 2, '2': 3},
   ],
@@ -53,7 +130,14 @@ const FunctionDef_AttrEntry$json = {
   '1': 'AttrEntry',
   '2': [
     {'1': 'key', '3': 1, '4': 1, '5': 9, '10': 'key'},
-    {'1': 'value', '3': 2, '4': 1, '5': 11, '6': '.tensorflow.AttrValue', '10': 'value'},
+    {
+      '1': 'value',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.AttrValue',
+      '10': 'value'
+    },
   ],
   '7': {'7': true},
 };
@@ -62,7 +146,14 @@ const FunctionDef_AttrEntry$json = {
 const FunctionDef_ArgAttrs$json = {
   '1': 'ArgAttrs',
   '2': [
-    {'1': 'attr', '3': 1, '4': 3, '5': 11, '6': '.tensorflow.FunctionDef.ArgAttrs.AttrEntry', '10': 'attr'},
+    {
+      '1': 'attr',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.FunctionDef.ArgAttrs.AttrEntry',
+      '10': 'attr'
+    },
   ],
   '3': [FunctionDef_ArgAttrs_AttrEntry$json],
 };
@@ -72,7 +163,14 @@ const FunctionDef_ArgAttrs_AttrEntry$json = {
   '1': 'AttrEntry',
   '2': [
     {'1': 'key', '3': 1, '4': 1, '5': 9, '10': 'key'},
-    {'1': 'value', '3': 2, '4': 1, '5': 11, '6': '.tensorflow.AttrValue', '10': 'value'},
+    {
+      '1': 'value',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.AttrValue',
+      '10': 'value'
+    },
   ],
   '7': {'7': true},
 };
@@ -82,7 +180,14 @@ const FunctionDef_ArgAttrEntry$json = {
   '1': 'ArgAttrEntry',
   '2': [
     {'1': 'key', '3': 1, '4': 1, '5': 13, '10': 'key'},
-    {'1': 'value', '3': 2, '4': 1, '5': 11, '6': '.tensorflow.FunctionDef.ArgAttrs', '10': 'value'},
+    {
+      '1': 'value',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.FunctionDef.ArgAttrs',
+      '10': 'value'
+    },
   ],
   '7': {'7': true},
 };
@@ -157,7 +262,13 @@ const RegisteredGradient$json = {
   '1': 'RegisteredGradient',
   '2': [
     {'1': 'gradient_func', '3': 1, '4': 1, '5': 9, '10': 'gradientFunc'},
-    {'1': 'registered_op_type', '3': 2, '4': 1, '5': 9, '10': 'registeredOpType'},
+    {
+      '1': 'registered_op_type',
+      '3': 2,
+      '4': 1,
+      '5': 9,
+      '10': 'registeredOpType'
+    },
   ],
 };
 
@@ -165,4 +276,3 @@ const RegisteredGradient$json = {
 final $typed_data.Uint8List registeredGradientDescriptor = $convert.base64Decode(
     'ChJSZWdpc3RlcmVkR3JhZGllbnQSIwoNZ3JhZGllbnRfZnVuYxgBIAEoCVIMZ3JhZGllbnRGdW'
     '5jEiwKEnJlZ2lzdGVyZWRfb3BfdHlwZRgCIAEoCVIQcmVnaXN0ZXJlZE9wVHlwZQ==');
-

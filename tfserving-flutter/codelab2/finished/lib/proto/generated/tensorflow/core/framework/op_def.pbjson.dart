@@ -18,18 +18,58 @@ const OpDef$json = {
   '1': 'OpDef',
   '2': [
     {'1': 'name', '3': 1, '4': 1, '5': 9, '10': 'name'},
-    {'1': 'input_arg', '3': 2, '4': 3, '5': 11, '6': '.tensorflow.OpDef.ArgDef', '10': 'inputArg'},
-    {'1': 'output_arg', '3': 3, '4': 3, '5': 11, '6': '.tensorflow.OpDef.ArgDef', '10': 'outputArg'},
+    {
+      '1': 'input_arg',
+      '3': 2,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.OpDef.ArgDef',
+      '10': 'inputArg'
+    },
+    {
+      '1': 'output_arg',
+      '3': 3,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.OpDef.ArgDef',
+      '10': 'outputArg'
+    },
     {'1': 'control_output', '3': 20, '4': 3, '5': 9, '10': 'controlOutput'},
-    {'1': 'attr', '3': 4, '4': 3, '5': 11, '6': '.tensorflow.OpDef.AttrDef', '10': 'attr'},
-    {'1': 'deprecation', '3': 8, '4': 1, '5': 11, '6': '.tensorflow.OpDeprecation', '10': 'deprecation'},
+    {
+      '1': 'attr',
+      '3': 4,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.OpDef.AttrDef',
+      '10': 'attr'
+    },
+    {
+      '1': 'deprecation',
+      '3': 8,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.OpDeprecation',
+      '10': 'deprecation'
+    },
     {'1': 'summary', '3': 5, '4': 1, '5': 9, '10': 'summary'},
     {'1': 'description', '3': 6, '4': 1, '5': 9, '10': 'description'},
     {'1': 'is_commutative', '3': 18, '4': 1, '5': 8, '10': 'isCommutative'},
     {'1': 'is_aggregate', '3': 16, '4': 1, '5': 8, '10': 'isAggregate'},
     {'1': 'is_stateful', '3': 17, '4': 1, '5': 8, '10': 'isStateful'},
-    {'1': 'allows_uninitialized_input', '3': 19, '4': 1, '5': 8, '10': 'allowsUninitializedInput'},
-    {'1': 'is_distributed_communication', '3': 21, '4': 1, '5': 8, '10': 'isDistributedCommunication'},
+    {
+      '1': 'allows_uninitialized_input',
+      '3': 19,
+      '4': 1,
+      '5': 8,
+      '10': 'allowsUninitializedInput'
+    },
+    {
+      '1': 'is_distributed_communication',
+      '3': 21,
+      '4': 1,
+      '5': 8,
+      '10': 'isDistributedCommunication'
+    },
   ],
   '3': [OpDef_ArgDef$json, OpDef_AttrDef$json],
 };
@@ -40,13 +80,34 @@ const OpDef_ArgDef$json = {
   '2': [
     {'1': 'name', '3': 1, '4': 1, '5': 9, '10': 'name'},
     {'1': 'description', '3': 2, '4': 1, '5': 9, '10': 'description'},
-    {'1': 'type', '3': 3, '4': 1, '5': 14, '6': '.tensorflow.DataType', '10': 'type'},
+    {
+      '1': 'type',
+      '3': 3,
+      '4': 1,
+      '5': 14,
+      '6': '.tensorflow.DataType',
+      '10': 'type'
+    },
     {'1': 'type_attr', '3': 4, '4': 1, '5': 9, '10': 'typeAttr'},
     {'1': 'number_attr', '3': 5, '4': 1, '5': 9, '10': 'numberAttr'},
     {'1': 'type_list_attr', '3': 6, '4': 1, '5': 9, '10': 'typeListAttr'},
-    {'1': 'handle_data', '3': 7, '4': 3, '5': 11, '6': '.tensorflow.ResourceHandleProto.DtypeAndShape', '10': 'handleData'},
+    {
+      '1': 'handle_data',
+      '3': 7,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.ResourceHandleProto.DtypeAndShape',
+      '10': 'handleData'
+    },
     {'1': 'is_ref', '3': 16, '4': 1, '5': 8, '10': 'isRef'},
-    {'1': 'experimental_full_type', '3': 17, '4': 1, '5': 11, '6': '.tensorflow.FullTypeDef', '10': 'experimentalFullType'},
+    {
+      '1': 'experimental_full_type',
+      '3': 17,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.FullTypeDef',
+      '10': 'experimentalFullType'
+    },
   ],
 };
 
@@ -56,11 +117,25 @@ const OpDef_AttrDef$json = {
   '2': [
     {'1': 'name', '3': 1, '4': 1, '5': 9, '10': 'name'},
     {'1': 'type', '3': 2, '4': 1, '5': 9, '10': 'type'},
-    {'1': 'default_value', '3': 3, '4': 1, '5': 11, '6': '.tensorflow.AttrValue', '10': 'defaultValue'},
+    {
+      '1': 'default_value',
+      '3': 3,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.AttrValue',
+      '10': 'defaultValue'
+    },
     {'1': 'description', '3': 4, '4': 1, '5': 9, '10': 'description'},
     {'1': 'has_minimum', '3': 5, '4': 1, '5': 8, '10': 'hasMinimum'},
     {'1': 'minimum', '3': 6, '4': 1, '5': 3, '10': 'minimum'},
-    {'1': 'allowed_values', '3': 7, '4': 1, '5': 11, '6': '.tensorflow.AttrValue', '10': 'allowedValues'},
+    {
+      '1': 'allowed_values',
+      '3': 7,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.AttrValue',
+      '10': 'allowedValues'
+    },
   ],
 };
 
@@ -115,4 +190,3 @@ const OpList$json = {
 /// Descriptor for `OpList`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List opListDescriptor = $convert.base64Decode(
     'CgZPcExpc3QSIQoCb3AYASADKAsyES50ZW5zb3JmbG93Lk9wRGVmUgJvcA==');
-

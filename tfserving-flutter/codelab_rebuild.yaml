@@ -4045,6 +4045,10 @@ steps:
           proto: ./google/protobuf/wrappers.proto
           output: grpc:./generated
 
+      - name: Dart format
+        path: codelab2/tfserving_flutter/lib/proto
+        dart: format .
+
       - name: Copy codelab2/starter
         copydir:
           from: codelab2/tfserving_flutter
@@ -4085,7 +4089,7 @@ steps:
                  _server = '127.0.0.1';
                }
           -    // TODO: build _vocabMap if empty
-           
+
           -    // TODO: tokenize the input sentence.
           +    if (_vocabMap.isEmpty) {
           +      final vocabFileString = await rootBundle.loadString(vocabFile);
@@ -4117,7 +4121,7 @@ steps:
           +        break;
           +      }
           +    }
-           
+
                if (_connectionMode == ConnectionModeType.rest) {
           -      // TODO: create and send the REST request
           +      final response = await http.post(
@@ -4126,7 +4130,7 @@ steps:
           +          'instances': [_tokenIndices],
           +        }),
           +      );
-           
+
           -      // TODO: process the REST response
           +      if (response.statusCode == 200) {
           +        Map<String, dynamic> result =
@@ -4177,10 +4181,10 @@ steps:
           +      const outputTensorName = 'dense_5';
           +      PredictRequest request = PredictRequest(modelSpec: modelSpec)
           +        ..inputs.addAll({inputTensorName: inputTensor});
-           
+
           -      // TODO: send the gRPC request
           +      PredictResponse response = await _stub.predict(request);
-           
+
           -      // TODO: process the gRPC response
           +      if (response.outputs.containsKey(outputTensorName)) {
           +        if (response.outputs[outputTensorName]!.floatVal[1] >

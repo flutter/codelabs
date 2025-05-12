@@ -17,8 +17,22 @@ import 'dart:typed_data' as $typed_data;
 const PredictRequest$json = {
   '1': 'PredictRequest',
   '2': [
-    {'1': 'model_spec', '3': 1, '4': 1, '5': 11, '6': '.tensorflow.serving.ModelSpec', '10': 'modelSpec'},
-    {'1': 'inputs', '3': 2, '4': 3, '5': 11, '6': '.tensorflow.serving.PredictRequest.InputsEntry', '10': 'inputs'},
+    {
+      '1': 'model_spec',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.serving.ModelSpec',
+      '10': 'modelSpec'
+    },
+    {
+      '1': 'inputs',
+      '3': 2,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.serving.PredictRequest.InputsEntry',
+      '10': 'inputs'
+    },
     {'1': 'output_filter', '3': 3, '4': 3, '5': 9, '10': 'outputFilter'},
   ],
   '3': [PredictRequest_InputsEntry$json],
@@ -29,7 +43,14 @@ const PredictRequest_InputsEntry$json = {
   '1': 'InputsEntry',
   '2': [
     {'1': 'key', '3': 1, '4': 1, '5': 9, '10': 'key'},
-    {'1': 'value', '3': 2, '4': 1, '5': 11, '6': '.tensorflow.TensorProto', '10': 'value'},
+    {
+      '1': 'value',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.TensorProto',
+      '10': 'value'
+    },
   ],
   '7': {'7': true},
 };
@@ -46,8 +67,22 @@ final $typed_data.Uint8List predictRequestDescriptor = $convert.base64Decode(
 const PredictResponse$json = {
   '1': 'PredictResponse',
   '2': [
-    {'1': 'model_spec', '3': 2, '4': 1, '5': 11, '6': '.tensorflow.serving.ModelSpec', '10': 'modelSpec'},
-    {'1': 'outputs', '3': 1, '4': 3, '5': 11, '6': '.tensorflow.serving.PredictResponse.OutputsEntry', '10': 'outputs'},
+    {
+      '1': 'model_spec',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.serving.ModelSpec',
+      '10': 'modelSpec'
+    },
+    {
+      '1': 'outputs',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.serving.PredictResponse.OutputsEntry',
+      '10': 'outputs'
+    },
   ],
   '3': [PredictResponse_OutputsEntry$json],
 };
@@ -57,7 +92,14 @@ const PredictResponse_OutputsEntry$json = {
   '1': 'OutputsEntry',
   '2': [
     {'1': 'key', '3': 1, '4': 1, '5': 9, '10': 'key'},
-    {'1': 'value', '3': 2, '4': 1, '5': 11, '6': '.tensorflow.TensorProto', '10': 'value'},
+    {
+      '1': 'value',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.TensorProto',
+      '10': 'value'
+    },
   ],
   '7': {'7': true},
 };
@@ -69,4 +111,3 @@ final $typed_data.Uint8List predictResponseDescriptor = $convert.base64Decode(
     'ZXJ2aW5nLlByZWRpY3RSZXNwb25zZS5PdXRwdXRzRW50cnlSB291dHB1dHMaUwoMT3V0cHV0c0'
     'VudHJ5EhAKA2tleRgBIAEoCVIDa2V5Ei0KBXZhbHVlGAIgASgLMhcudGVuc29yZmxvdy5UZW5z'
     'b3JQcm90b1IFdmFsdWU6AjgB');
-

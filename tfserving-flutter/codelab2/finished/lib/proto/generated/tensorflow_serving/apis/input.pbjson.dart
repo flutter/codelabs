@@ -17,7 +17,14 @@ import 'dart:typed_data' as $typed_data;
 const ExampleList$json = {
   '1': 'ExampleList',
   '2': [
-    {'1': 'examples', '3': 1, '4': 3, '5': 11, '6': '.tensorflow.Example', '10': 'examples'},
+    {
+      '1': 'examples',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.Example',
+      '10': 'examples'
+    },
   ],
 };
 
@@ -30,8 +37,22 @@ final $typed_data.Uint8List exampleListDescriptor = $convert.base64Decode(
 const ExampleListWithContext$json = {
   '1': 'ExampleListWithContext',
   '2': [
-    {'1': 'examples', '3': 1, '4': 3, '5': 11, '6': '.tensorflow.Example', '10': 'examples'},
-    {'1': 'context', '3': 2, '4': 1, '5': 11, '6': '.tensorflow.Example', '10': 'context'},
+    {
+      '1': 'examples',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.Example',
+      '10': 'examples'
+    },
+    {
+      '1': 'context',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.Example',
+      '10': 'context'
+    },
   ],
 };
 
@@ -77,4 +98,3 @@ final $typed_data.Uint8List inputDescriptor = $convert.base64Decode(
     'BsZUxpc3RCAigBSABSC2V4YW1wbGVMaXN0EmsKGWV4YW1wbGVfbGlzdF93aXRoX2NvbnRleHQY'
     'AiABKAsyKi50ZW5zb3JmbG93LnNlcnZpbmcuRXhhbXBsZUxpc3RXaXRoQ29udGV4dEICKAFIAF'
     'IWZXhhbXBsZUxpc3RXaXRoQ29udGV4dEIGCgRraW5k');
-

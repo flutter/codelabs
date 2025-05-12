@@ -17,7 +17,14 @@ import 'dart:typed_data' as $typed_data;
 const SignatureDefMap$json = {
   '1': 'SignatureDefMap',
   '2': [
-    {'1': 'signature_def', '3': 1, '4': 3, '5': 11, '6': '.tensorflow.serving.SignatureDefMap.SignatureDefEntry', '10': 'signatureDef'},
+    {
+      '1': 'signature_def',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.serving.SignatureDefMap.SignatureDefEntry',
+      '10': 'signatureDef'
+    },
   ],
   '3': [SignatureDefMap_SignatureDefEntry$json],
 };
@@ -27,7 +34,14 @@ const SignatureDefMap_SignatureDefEntry$json = {
   '1': 'SignatureDefEntry',
   '2': [
     {'1': 'key', '3': 1, '4': 1, '5': 9, '10': 'key'},
-    {'1': 'value', '3': 2, '4': 1, '5': 11, '6': '.tensorflow.SignatureDef', '10': 'value'},
+    {
+      '1': 'value',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.SignatureDef',
+      '10': 'value'
+    },
   ],
   '7': {'7': true},
 };
@@ -43,7 +57,14 @@ final $typed_data.Uint8List signatureDefMapDescriptor = $convert.base64Decode(
 const GetModelMetadataRequest$json = {
   '1': 'GetModelMetadataRequest',
   '2': [
-    {'1': 'model_spec', '3': 1, '4': 1, '5': 11, '6': '.tensorflow.serving.ModelSpec', '10': 'modelSpec'},
+    {
+      '1': 'model_spec',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.serving.ModelSpec',
+      '10': 'modelSpec'
+    },
     {'1': 'metadata_field', '3': 2, '4': 3, '5': 9, '10': 'metadataField'},
   ],
 };
@@ -58,8 +79,22 @@ final $typed_data.Uint8List getModelMetadataRequestDescriptor = $convert.base64D
 const GetModelMetadataResponse$json = {
   '1': 'GetModelMetadataResponse',
   '2': [
-    {'1': 'model_spec', '3': 1, '4': 1, '5': 11, '6': '.tensorflow.serving.ModelSpec', '10': 'modelSpec'},
-    {'1': 'metadata', '3': 2, '4': 3, '5': 11, '6': '.tensorflow.serving.GetModelMetadataResponse.MetadataEntry', '10': 'metadata'},
+    {
+      '1': 'model_spec',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.serving.ModelSpec',
+      '10': 'modelSpec'
+    },
+    {
+      '1': 'metadata',
+      '3': 2,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.serving.GetModelMetadataResponse.MetadataEntry',
+      '10': 'metadata'
+    },
   ],
   '3': [GetModelMetadataResponse_MetadataEntry$json],
 };
@@ -69,7 +104,14 @@ const GetModelMetadataResponse_MetadataEntry$json = {
   '1': 'MetadataEntry',
   '2': [
     {'1': 'key', '3': 1, '4': 1, '5': 9, '10': 'key'},
-    {'1': 'value', '3': 2, '4': 1, '5': 11, '6': '.google.protobuf.Any', '10': 'value'},
+    {
+      '1': 'value',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.google.protobuf.Any',
+      '10': 'value'
+    },
   ],
   '7': {'7': true},
 };
@@ -81,4 +123,3 @@ final $typed_data.Uint8List getModelMetadataResponseDescriptor = $convert.base64
     'bnNvcmZsb3cuc2VydmluZy5HZXRNb2RlbE1ldGFkYXRhUmVzcG9uc2UuTWV0YWRhdGFFbnRyeV'
     'IIbWV0YWRhdGEaUQoNTWV0YWRhdGFFbnRyeRIQCgNrZXkYASABKAlSA2tleRIqCgV2YWx1ZRgC'
     'IAEoCzIULmdvb2dsZS5wcm90b2J1Zi5BbnlSBXZhbHVlOgI4AQ==');
-

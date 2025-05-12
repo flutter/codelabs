@@ -17,7 +17,14 @@ import 'dart:typed_data' as $typed_data;
 const Example$json = {
   '1': 'Example',
   '2': [
-    {'1': 'features', '3': 1, '4': 1, '5': 11, '6': '.tensorflow.Features', '10': 'features'},
+    {
+      '1': 'features',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.Features',
+      '10': 'features'
+    },
   ],
 };
 
@@ -30,8 +37,22 @@ final $typed_data.Uint8List exampleDescriptor = $convert.base64Decode(
 const SequenceExample$json = {
   '1': 'SequenceExample',
   '2': [
-    {'1': 'context', '3': 1, '4': 1, '5': 11, '6': '.tensorflow.Features', '10': 'context'},
-    {'1': 'feature_lists', '3': 2, '4': 1, '5': 11, '6': '.tensorflow.FeatureLists', '10': 'featureLists'},
+    {
+      '1': 'context',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.Features',
+      '10': 'context'
+    },
+    {
+      '1': 'feature_lists',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.FeatureLists',
+      '10': 'featureLists'
+    },
   ],
 };
 
@@ -40,4 +61,3 @@ final $typed_data.Uint8List sequenceExampleDescriptor = $convert.base64Decode(
     'Cg9TZXF1ZW5jZUV4YW1wbGUSLgoHY29udGV4dBgBIAEoCzIULnRlbnNvcmZsb3cuRmVhdHVyZX'
     'NSB2NvbnRleHQSPQoNZmVhdHVyZV9saXN0cxgCIAEoCzIYLnRlbnNvcmZsb3cuRmVhdHVyZUxp'
     'c3RzUgxmZWF0dXJlTGlzdHM=');
-

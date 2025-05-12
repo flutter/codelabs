@@ -55,30 +55,40 @@ class SaverDef extends $pb.GeneratedMessage {
     return $result;
   }
   SaverDef._() : super();
-  factory SaverDef.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory SaverDef.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory SaverDef.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory SaverDef.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'SaverDef', package: const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'SaverDef',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow'),
+      createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'filenameTensorName')
     ..aOS(2, _omitFieldNames ? '' : 'saveTensorName')
     ..aOS(3, _omitFieldNames ? '' : 'restoreOpName')
     ..a<$core.int>(4, _omitFieldNames ? '' : 'maxToKeep', $pb.PbFieldType.O3)
     ..aOB(5, _omitFieldNames ? '' : 'sharded')
-    ..a<$core.double>(6, _omitFieldNames ? '' : 'keepCheckpointEveryNHours', $pb.PbFieldType.OF)
-    ..e<SaverDef_CheckpointFormatVersion>(7, _omitFieldNames ? '' : 'version', $pb.PbFieldType.OE, defaultOrMaker: SaverDef_CheckpointFormatVersion.LEGACY, valueOf: SaverDef_CheckpointFormatVersion.valueOf, enumValues: SaverDef_CheckpointFormatVersion.values)
-    ..hasRequiredFields = false
-  ;
+    ..a<$core.double>(6, _omitFieldNames ? '' : 'keepCheckpointEveryNHours',
+        $pb.PbFieldType.OF)
+    ..e<SaverDef_CheckpointFormatVersion>(
+        7, _omitFieldNames ? '' : 'version', $pb.PbFieldType.OE,
+        defaultOrMaker: SaverDef_CheckpointFormatVersion.LEGACY,
+        valueOf: SaverDef_CheckpointFormatVersion.valueOf,
+        enumValues: SaverDef_CheckpointFormatVersion.values)
+    ..hasRequiredFields = false;
 
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
   SaverDef clone() => SaverDef()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  SaverDef copyWith(void Function(SaverDef) updates) => super.copyWith((message) => updates(message as SaverDef)) as SaverDef;
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  SaverDef copyWith(void Function(SaverDef) updates) =>
+      super.copyWith((message) => updates(message as SaverDef)) as SaverDef;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -87,7 +97,8 @@ class SaverDef extends $pb.GeneratedMessage {
   SaverDef createEmptyInstance() => create();
   static $pb.PbList<SaverDef> createRepeated() => $pb.PbList<SaverDef>();
   @$core.pragma('dart2js:noInline')
-  static SaverDef getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<SaverDef>(create);
+  static SaverDef getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<SaverDef>(create);
   static SaverDef? _defaultInstance;
 
   /// The name of the tensor in which to specify the filename when saving or
@@ -95,7 +106,10 @@ class SaverDef extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.String get filenameTensorName => $_getSZ(0);
   @$pb.TagNumber(1)
-  set filenameTensorName($core.String v) { $_setString(0, v); }
+  set filenameTensorName($core.String v) {
+    $_setString(0, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasFilenameTensorName() => $_has(0);
   @$pb.TagNumber(1)
@@ -105,7 +119,10 @@ class SaverDef extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.String get saveTensorName => $_getSZ(1);
   @$pb.TagNumber(2)
-  set saveTensorName($core.String v) { $_setString(1, v); }
+  set saveTensorName($core.String v) {
+    $_setString(1, v);
+  }
+
   @$pb.TagNumber(2)
   $core.bool hasSaveTensorName() => $_has(1);
   @$pb.TagNumber(2)
@@ -115,7 +132,10 @@ class SaverDef extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.String get restoreOpName => $_getSZ(2);
   @$pb.TagNumber(3)
-  set restoreOpName($core.String v) { $_setString(2, v); }
+  set restoreOpName($core.String v) {
+    $_setString(2, v);
+  }
+
   @$pb.TagNumber(3)
   $core.bool hasRestoreOpName() => $_has(2);
   @$pb.TagNumber(3)
@@ -125,7 +145,10 @@ class SaverDef extends $pb.GeneratedMessage {
   @$pb.TagNumber(4)
   $core.int get maxToKeep => $_getIZ(3);
   @$pb.TagNumber(4)
-  set maxToKeep($core.int v) { $_setSignedInt32(3, v); }
+  set maxToKeep($core.int v) {
+    $_setSignedInt32(3, v);
+  }
+
   @$pb.TagNumber(4)
   $core.bool hasMaxToKeep() => $_has(3);
   @$pb.TagNumber(4)
@@ -135,7 +158,10 @@ class SaverDef extends $pb.GeneratedMessage {
   @$pb.TagNumber(5)
   $core.bool get sharded => $_getBF(4);
   @$pb.TagNumber(5)
-  set sharded($core.bool v) { $_setBool(4, v); }
+  set sharded($core.bool v) {
+    $_setBool(4, v);
+  }
+
   @$pb.TagNumber(5)
   $core.bool hasSharded() => $_has(4);
   @$pb.TagNumber(5)
@@ -148,7 +174,10 @@ class SaverDef extends $pb.GeneratedMessage {
   @$pb.TagNumber(6)
   $core.double get keepCheckpointEveryNHours => $_getN(5);
   @$pb.TagNumber(6)
-  set keepCheckpointEveryNHours($core.double v) { $_setFloat(5, v); }
+  set keepCheckpointEveryNHours($core.double v) {
+    $_setFloat(5, v);
+  }
+
   @$pb.TagNumber(6)
   $core.bool hasKeepCheckpointEveryNHours() => $_has(5);
   @$pb.TagNumber(6)
@@ -157,13 +186,16 @@ class SaverDef extends $pb.GeneratedMessage {
   @$pb.TagNumber(7)
   SaverDef_CheckpointFormatVersion get version => $_getN(6);
   @$pb.TagNumber(7)
-  set version(SaverDef_CheckpointFormatVersion v) { $_setField(7, v); }
+  set version(SaverDef_CheckpointFormatVersion v) {
+    $_setField(7, v);
+  }
+
   @$pb.TagNumber(7)
   $core.bool hasVersion() => $_has(6);
   @$pb.TagNumber(7)
   void clearVersion() => $_clearField(7);
 }
 
-
 const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
-const _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');
+const _omitMessageNames =
+    $core.bool.fromEnvironment('protobuf.omit_message_names');

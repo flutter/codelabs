@@ -17,7 +17,14 @@ import 'dart:typed_data' as $typed_data;
 const TrackableObjectGraph$json = {
   '1': 'TrackableObjectGraph',
   '2': [
-    {'1': 'nodes', '3': 1, '4': 3, '5': 11, '6': '.tensorflow.TrackableObjectGraph.TrackableObject', '10': 'nodes'},
+    {
+      '1': 'nodes',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.TrackableObjectGraph.TrackableObject',
+      '10': 'nodes'
+    },
   ],
   '3': [TrackableObjectGraph_TrackableObject$json],
 };
@@ -26,13 +33,53 @@ const TrackableObjectGraph$json = {
 const TrackableObjectGraph_TrackableObject$json = {
   '1': 'TrackableObject',
   '2': [
-    {'1': 'children', '3': 1, '4': 3, '5': 11, '6': '.tensorflow.TrackableObjectGraph.TrackableObject.ObjectReference', '10': 'children'},
-    {'1': 'attributes', '3': 2, '4': 3, '5': 11, '6': '.tensorflow.TrackableObjectGraph.TrackableObject.SerializedTensor', '10': 'attributes'},
-    {'1': 'slot_variables', '3': 3, '4': 3, '5': 11, '6': '.tensorflow.TrackableObjectGraph.TrackableObject.SlotVariableReference', '10': 'slotVariables'},
-    {'1': 'registered_saver', '3': 4, '4': 1, '5': 11, '6': '.tensorflow.RegisteredSaver', '10': 'registeredSaver'},
-    {'1': 'has_checkpoint_values', '3': 5, '4': 1, '5': 11, '6': '.google.protobuf.BoolValue', '10': 'hasCheckpointValues'},
+    {
+      '1': 'children',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.TrackableObjectGraph.TrackableObject.ObjectReference',
+      '10': 'children'
+    },
+    {
+      '1': 'attributes',
+      '3': 2,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.TrackableObjectGraph.TrackableObject.SerializedTensor',
+      '10': 'attributes'
+    },
+    {
+      '1': 'slot_variables',
+      '3': 3,
+      '4': 3,
+      '5': 11,
+      '6':
+          '.tensorflow.TrackableObjectGraph.TrackableObject.SlotVariableReference',
+      '10': 'slotVariables'
+    },
+    {
+      '1': 'registered_saver',
+      '3': 4,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.RegisteredSaver',
+      '10': 'registeredSaver'
+    },
+    {
+      '1': 'has_checkpoint_values',
+      '3': 5,
+      '4': 1,
+      '5': 11,
+      '6': '.google.protobuf.BoolValue',
+      '10': 'hasCheckpointValues'
+    },
   ],
-  '3': [TrackableObjectGraph_TrackableObject_ObjectReference$json, TrackableObjectGraph_TrackableObject_SerializedTensor$json, TrackableObjectGraph_TrackableObject_SlotVariableReference$json],
+  '3': [
+    TrackableObjectGraph_TrackableObject_ObjectReference$json,
+    TrackableObjectGraph_TrackableObject_SerializedTensor$json,
+    TrackableObjectGraph_TrackableObject_SlotVariableReference$json
+  ],
 };
 
 @$core.Deprecated('Use trackableObjectGraphDescriptor instead')
@@ -59,9 +106,21 @@ const TrackableObjectGraph_TrackableObject_SerializedTensor$json = {
 const TrackableObjectGraph_TrackableObject_SlotVariableReference$json = {
   '1': 'SlotVariableReference',
   '2': [
-    {'1': 'original_variable_node_id', '3': 1, '4': 1, '5': 5, '10': 'originalVariableNodeId'},
+    {
+      '1': 'original_variable_node_id',
+      '3': 1,
+      '4': 1,
+      '5': 5,
+      '10': 'originalVariableNodeId'
+    },
     {'1': 'slot_name', '3': 2, '4': 1, '5': 9, '10': 'slotName'},
-    {'1': 'slot_variable_node_id', '3': 3, '4': 1, '5': 5, '10': 'slotVariableNodeId'},
+    {
+      '1': 'slot_variable_node_id',
+      '3': 3,
+      '4': 1,
+      '5': 5,
+      '10': 'slotVariableNodeId'
+    },
   ],
 };
 
@@ -99,4 +158,3 @@ const RegisteredSaver$json = {
 final $typed_data.Uint8List registeredSaverDescriptor = $convert.base64Decode(
     'Cg9SZWdpc3RlcmVkU2F2ZXISEgoEbmFtZRgBIAEoCVIEbmFtZRIfCgtvYmplY3RfbmFtZRgCIA'
     'EoCVIKb2JqZWN0TmFtZQ==');
-

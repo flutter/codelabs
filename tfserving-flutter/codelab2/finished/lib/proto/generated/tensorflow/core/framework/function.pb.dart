@@ -39,35 +39,47 @@ class FunctionDefLibrary extends $pb.GeneratedMessage {
     return $result;
   }
   FunctionDefLibrary._() : super();
-  factory FunctionDefLibrary.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory FunctionDefLibrary.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory FunctionDefLibrary.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory FunctionDefLibrary.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'FunctionDefLibrary', package: const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow'), createEmptyInstance: create)
-    ..pc<FunctionDef>(1, _omitFieldNames ? '' : 'function', $pb.PbFieldType.PM, subBuilder: FunctionDef.create)
-    ..pc<GradientDef>(2, _omitFieldNames ? '' : 'gradient', $pb.PbFieldType.PM, subBuilder: GradientDef.create)
-    ..pc<RegisteredGradient>(3, _omitFieldNames ? '' : 'registeredGradients', $pb.PbFieldType.PM, subBuilder: RegisteredGradient.create)
-    ..hasRequiredFields = false
-  ;
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'FunctionDefLibrary',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow'),
+      createEmptyInstance: create)
+    ..pc<FunctionDef>(1, _omitFieldNames ? '' : 'function', $pb.PbFieldType.PM,
+        subBuilder: FunctionDef.create)
+    ..pc<GradientDef>(2, _omitFieldNames ? '' : 'gradient', $pb.PbFieldType.PM,
+        subBuilder: GradientDef.create)
+    ..pc<RegisteredGradient>(
+        3, _omitFieldNames ? '' : 'registeredGradients', $pb.PbFieldType.PM,
+        subBuilder: RegisteredGradient.create)
+    ..hasRequiredFields = false;
 
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
   FunctionDefLibrary clone() => FunctionDefLibrary()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  FunctionDefLibrary copyWith(void Function(FunctionDefLibrary) updates) => super.copyWith((message) => updates(message as FunctionDefLibrary)) as FunctionDefLibrary;
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  FunctionDefLibrary copyWith(void Function(FunctionDefLibrary) updates) =>
+      super.copyWith((message) => updates(message as FunctionDefLibrary))
+          as FunctionDefLibrary;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static FunctionDefLibrary create() => FunctionDefLibrary._();
   FunctionDefLibrary createEmptyInstance() => create();
-  static $pb.PbList<FunctionDefLibrary> createRepeated() => $pb.PbList<FunctionDefLibrary>();
+  static $pb.PbList<FunctionDefLibrary> createRepeated() =>
+      $pb.PbList<FunctionDefLibrary>();
   @$core.pragma('dart2js:noInline')
-  static FunctionDefLibrary getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<FunctionDefLibrary>(create);
+  static FunctionDefLibrary getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<FunctionDefLibrary>(create);
   static FunctionDefLibrary? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -93,33 +105,48 @@ class FunctionDef_ArgAttrs extends $pb.GeneratedMessage {
     return $result;
   }
   FunctionDef_ArgAttrs._() : super();
-  factory FunctionDef_ArgAttrs.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory FunctionDef_ArgAttrs.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory FunctionDef_ArgAttrs.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory FunctionDef_ArgAttrs.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'FunctionDef.ArgAttrs', package: const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow'), createEmptyInstance: create)
-    ..m<$core.String, $2.AttrValue>(1, _omitFieldNames ? '' : 'attr', entryClassName: 'FunctionDef.ArgAttrs.AttrEntry', keyFieldType: $pb.PbFieldType.OS, valueFieldType: $pb.PbFieldType.OM, valueCreator: $2.AttrValue.create, valueDefaultOrMaker: $2.AttrValue.getDefault, packageName: const $pb.PackageName('tensorflow'))
-    ..hasRequiredFields = false
-  ;
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'FunctionDef.ArgAttrs',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow'),
+      createEmptyInstance: create)
+    ..m<$core.String, $2.AttrValue>(1, _omitFieldNames ? '' : 'attr',
+        entryClassName: 'FunctionDef.ArgAttrs.AttrEntry',
+        keyFieldType: $pb.PbFieldType.OS,
+        valueFieldType: $pb.PbFieldType.OM,
+        valueCreator: $2.AttrValue.create,
+        valueDefaultOrMaker: $2.AttrValue.getDefault,
+        packageName: const $pb.PackageName('tensorflow'))
+    ..hasRequiredFields = false;
 
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  FunctionDef_ArgAttrs clone() => FunctionDef_ArgAttrs()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  FunctionDef_ArgAttrs copyWith(void Function(FunctionDef_ArgAttrs) updates) => super.copyWith((message) => updates(message as FunctionDef_ArgAttrs)) as FunctionDef_ArgAttrs;
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  FunctionDef_ArgAttrs clone() =>
+      FunctionDef_ArgAttrs()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  FunctionDef_ArgAttrs copyWith(void Function(FunctionDef_ArgAttrs) updates) =>
+      super.copyWith((message) => updates(message as FunctionDef_ArgAttrs))
+          as FunctionDef_ArgAttrs;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static FunctionDef_ArgAttrs create() => FunctionDef_ArgAttrs._();
   FunctionDef_ArgAttrs createEmptyInstance() => create();
-  static $pb.PbList<FunctionDef_ArgAttrs> createRepeated() => $pb.PbList<FunctionDef_ArgAttrs>();
+  static $pb.PbList<FunctionDef_ArgAttrs> createRepeated() =>
+      $pb.PbList<FunctionDef_ArgAttrs>();
   @$core.pragma('dart2js:noInline')
-  static FunctionDef_ArgAttrs getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<FunctionDef_ArgAttrs>(create);
+  static FunctionDef_ArgAttrs getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<FunctionDef_ArgAttrs>(create);
   static FunctionDef_ArgAttrs? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -167,30 +194,62 @@ class FunctionDef extends $pb.GeneratedMessage {
     return $result;
   }
   FunctionDef._() : super();
-  factory FunctionDef.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory FunctionDef.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory FunctionDef.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory FunctionDef.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'FunctionDef', package: const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow'), createEmptyInstance: create)
-    ..aOM<$0.OpDef>(1, _omitFieldNames ? '' : 'signature', subBuilder: $0.OpDef.create)
-    ..pc<$1.NodeDef>(3, _omitFieldNames ? '' : 'nodeDef', $pb.PbFieldType.PM, subBuilder: $1.NodeDef.create)
-    ..m<$core.String, $core.String>(4, _omitFieldNames ? '' : 'ret', entryClassName: 'FunctionDef.RetEntry', keyFieldType: $pb.PbFieldType.OS, valueFieldType: $pb.PbFieldType.OS, packageName: const $pb.PackageName('tensorflow'))
-    ..m<$core.String, $2.AttrValue>(5, _omitFieldNames ? '' : 'attr', entryClassName: 'FunctionDef.AttrEntry', keyFieldType: $pb.PbFieldType.OS, valueFieldType: $pb.PbFieldType.OM, valueCreator: $2.AttrValue.create, valueDefaultOrMaker: $2.AttrValue.getDefault, packageName: const $pb.PackageName('tensorflow'))
-    ..m<$core.String, $core.String>(6, _omitFieldNames ? '' : 'controlRet', entryClassName: 'FunctionDef.ControlRetEntry', keyFieldType: $pb.PbFieldType.OS, valueFieldType: $pb.PbFieldType.OS, packageName: const $pb.PackageName('tensorflow'))
-    ..m<$core.int, FunctionDef_ArgAttrs>(7, _omitFieldNames ? '' : 'argAttr', entryClassName: 'FunctionDef.ArgAttrEntry', keyFieldType: $pb.PbFieldType.OU3, valueFieldType: $pb.PbFieldType.OM, valueCreator: FunctionDef_ArgAttrs.create, valueDefaultOrMaker: FunctionDef_ArgAttrs.getDefault, packageName: const $pb.PackageName('tensorflow'))
-    ..m<$core.int, $core.int>(8, _omitFieldNames ? '' : 'resourceArgUniqueId', entryClassName: 'FunctionDef.ResourceArgUniqueIdEntry', keyFieldType: $pb.PbFieldType.OU3, valueFieldType: $pb.PbFieldType.OU3, packageName: const $pb.PackageName('tensorflow'))
-    ..hasRequiredFields = false
-  ;
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'FunctionDef',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow'),
+      createEmptyInstance: create)
+    ..aOM<$0.OpDef>(1, _omitFieldNames ? '' : 'signature',
+        subBuilder: $0.OpDef.create)
+    ..pc<$1.NodeDef>(3, _omitFieldNames ? '' : 'nodeDef', $pb.PbFieldType.PM,
+        subBuilder: $1.NodeDef.create)
+    ..m<$core.String, $core.String>(4, _omitFieldNames ? '' : 'ret',
+        entryClassName: 'FunctionDef.RetEntry',
+        keyFieldType: $pb.PbFieldType.OS,
+        valueFieldType: $pb.PbFieldType.OS,
+        packageName: const $pb.PackageName('tensorflow'))
+    ..m<$core.String, $2.AttrValue>(5, _omitFieldNames ? '' : 'attr',
+        entryClassName: 'FunctionDef.AttrEntry',
+        keyFieldType: $pb.PbFieldType.OS,
+        valueFieldType: $pb.PbFieldType.OM,
+        valueCreator: $2.AttrValue.create,
+        valueDefaultOrMaker: $2.AttrValue.getDefault,
+        packageName: const $pb.PackageName('tensorflow'))
+    ..m<$core.String, $core.String>(6, _omitFieldNames ? '' : 'controlRet',
+        entryClassName: 'FunctionDef.ControlRetEntry',
+        keyFieldType: $pb.PbFieldType.OS,
+        valueFieldType: $pb.PbFieldType.OS,
+        packageName: const $pb.PackageName('tensorflow'))
+    ..m<$core.int, FunctionDef_ArgAttrs>(7, _omitFieldNames ? '' : 'argAttr',
+        entryClassName: 'FunctionDef.ArgAttrEntry',
+        keyFieldType: $pb.PbFieldType.OU3,
+        valueFieldType: $pb.PbFieldType.OM,
+        valueCreator: FunctionDef_ArgAttrs.create,
+        valueDefaultOrMaker: FunctionDef_ArgAttrs.getDefault,
+        packageName: const $pb.PackageName('tensorflow'))
+    ..m<$core.int, $core.int>(8, _omitFieldNames ? '' : 'resourceArgUniqueId',
+        entryClassName: 'FunctionDef.ResourceArgUniqueIdEntry',
+        keyFieldType: $pb.PbFieldType.OU3,
+        valueFieldType: $pb.PbFieldType.OU3,
+        packageName: const $pb.PackageName('tensorflow'))
+    ..hasRequiredFields = false;
 
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
   FunctionDef clone() => FunctionDef()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  FunctionDef copyWith(void Function(FunctionDef) updates) => super.copyWith((message) => updates(message as FunctionDef)) as FunctionDef;
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  FunctionDef copyWith(void Function(FunctionDef) updates) =>
+      super.copyWith((message) => updates(message as FunctionDef))
+          as FunctionDef;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -199,7 +258,8 @@ class FunctionDef extends $pb.GeneratedMessage {
   FunctionDef createEmptyInstance() => create();
   static $pb.PbList<FunctionDef> createRepeated() => $pb.PbList<FunctionDef>();
   @$core.pragma('dart2js:noInline')
-  static FunctionDef getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<FunctionDef>(create);
+  static FunctionDef getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<FunctionDef>(create);
   static FunctionDef? _defaultInstance;
 
   /// The definition of the function's name, arguments, return values,
@@ -207,7 +267,10 @@ class FunctionDef extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $0.OpDef get signature => $_getN(0);
   @$pb.TagNumber(1)
-  set signature($0.OpDef v) { $_setField(1, v); }
+  set signature($0.OpDef v) {
+    $_setField(1, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasSignature() => $_has(0);
   @$pb.TagNumber(1)
@@ -284,25 +347,31 @@ class GradientDef extends $pb.GeneratedMessage {
     return $result;
   }
   GradientDef._() : super();
-  factory GradientDef.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory GradientDef.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory GradientDef.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory GradientDef.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GradientDef', package: const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'GradientDef',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow'),
+      createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'functionName')
     ..aOS(2, _omitFieldNames ? '' : 'gradientFunc')
-    ..hasRequiredFields = false
-  ;
+    ..hasRequiredFields = false;
 
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
   GradientDef clone() => GradientDef()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  GradientDef copyWith(void Function(GradientDef) updates) => super.copyWith((message) => updates(message as GradientDef)) as GradientDef;
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  GradientDef copyWith(void Function(GradientDef) updates) =>
+      super.copyWith((message) => updates(message as GradientDef))
+          as GradientDef;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -311,13 +380,17 @@ class GradientDef extends $pb.GeneratedMessage {
   GradientDef createEmptyInstance() => create();
   static $pb.PbList<GradientDef> createRepeated() => $pb.PbList<GradientDef>();
   @$core.pragma('dart2js:noInline')
-  static GradientDef getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GradientDef>(create);
+  static GradientDef getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<GradientDef>(create);
   static GradientDef? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get functionName => $_getSZ(0);
   @$pb.TagNumber(1)
-  set functionName($core.String v) { $_setString(0, v); }
+  set functionName($core.String v) {
+    $_setString(0, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasFunctionName() => $_has(0);
   @$pb.TagNumber(1)
@@ -326,7 +399,10 @@ class GradientDef extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.String get gradientFunc => $_getSZ(1);
   @$pb.TagNumber(2)
-  set gradientFunc($core.String v) { $_setString(1, v); }
+  set gradientFunc($core.String v) {
+    $_setString(1, v);
+  }
+
   @$pb.TagNumber(2)
   $core.bool hasGradientFunc() => $_has(1);
   @$pb.TagNumber(2)
@@ -352,40 +428,51 @@ class RegisteredGradient extends $pb.GeneratedMessage {
     return $result;
   }
   RegisteredGradient._() : super();
-  factory RegisteredGradient.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory RegisteredGradient.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory RegisteredGradient.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory RegisteredGradient.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'RegisteredGradient', package: const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'RegisteredGradient',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow'),
+      createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'gradientFunc')
     ..aOS(2, _omitFieldNames ? '' : 'registeredOpType')
-    ..hasRequiredFields = false
-  ;
+    ..hasRequiredFields = false;
 
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
   RegisteredGradient clone() => RegisteredGradient()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  RegisteredGradient copyWith(void Function(RegisteredGradient) updates) => super.copyWith((message) => updates(message as RegisteredGradient)) as RegisteredGradient;
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  RegisteredGradient copyWith(void Function(RegisteredGradient) updates) =>
+      super.copyWith((message) => updates(message as RegisteredGradient))
+          as RegisteredGradient;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static RegisteredGradient create() => RegisteredGradient._();
   RegisteredGradient createEmptyInstance() => create();
-  static $pb.PbList<RegisteredGradient> createRepeated() => $pb.PbList<RegisteredGradient>();
+  static $pb.PbList<RegisteredGradient> createRepeated() =>
+      $pb.PbList<RegisteredGradient>();
   @$core.pragma('dart2js:noInline')
-  static RegisteredGradient getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<RegisteredGradient>(create);
+  static RegisteredGradient getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<RegisteredGradient>(create);
   static RegisteredGradient? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get gradientFunc => $_getSZ(0);
   @$pb.TagNumber(1)
-  set gradientFunc($core.String v) { $_setString(0, v); }
+  set gradientFunc($core.String v) {
+    $_setString(0, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasGradientFunc() => $_has(0);
   @$pb.TagNumber(1)
@@ -394,13 +481,16 @@ class RegisteredGradient extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.String get registeredOpType => $_getSZ(1);
   @$pb.TagNumber(2)
-  set registeredOpType($core.String v) { $_setString(1, v); }
+  set registeredOpType($core.String v) {
+    $_setString(1, v);
+  }
+
   @$pb.TagNumber(2)
   $core.bool hasRegisteredOpType() => $_has(1);
   @$pb.TagNumber(2)
   void clearRegisteredOpType() => $_clearField(2);
 }
 
-
 const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
-const _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');
+const _omitMessageNames =
+    $core.bool.fromEnvironment('protobuf.omit_message_names');

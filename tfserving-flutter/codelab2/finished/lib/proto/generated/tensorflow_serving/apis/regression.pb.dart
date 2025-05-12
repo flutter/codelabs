@@ -30,24 +30,30 @@ class Regression extends $pb.GeneratedMessage {
     return $result;
   }
   Regression._() : super();
-  factory Regression.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory Regression.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory Regression.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory Regression.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'Regression', package: const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow.serving'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'Regression',
+      package:
+          const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow.serving'),
+      createEmptyInstance: create)
     ..a<$core.double>(1, _omitFieldNames ? '' : 'value', $pb.PbFieldType.OF)
-    ..hasRequiredFields = false
-  ;
+    ..hasRequiredFields = false;
 
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
   Regression clone() => Regression()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  Regression copyWith(void Function(Regression) updates) => super.copyWith((message) => updates(message as Regression)) as Regression;
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  Regression copyWith(void Function(Regression) updates) =>
+      super.copyWith((message) => updates(message as Regression)) as Regression;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -56,13 +62,17 @@ class Regression extends $pb.GeneratedMessage {
   Regression createEmptyInstance() => create();
   static $pb.PbList<Regression> createRepeated() => $pb.PbList<Regression>();
   @$core.pragma('dart2js:noInline')
-  static Regression getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Regression>(create);
+  static Regression getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<Regression>(create);
   static Regression? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.double get value => $_getN(0);
   @$pb.TagNumber(1)
-  set value($core.double v) { $_setFloat(0, v); }
+  set value($core.double v) {
+    $_setFloat(0, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasValue() => $_has(0);
   @$pb.TagNumber(1)
@@ -82,33 +92,44 @@ class RegressionResult extends $pb.GeneratedMessage {
     return $result;
   }
   RegressionResult._() : super();
-  factory RegressionResult.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory RegressionResult.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory RegressionResult.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory RegressionResult.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'RegressionResult', package: const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow.serving'), createEmptyInstance: create)
-    ..pc<Regression>(1, _omitFieldNames ? '' : 'regressions', $pb.PbFieldType.PM, subBuilder: Regression.create)
-    ..hasRequiredFields = false
-  ;
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'RegressionResult',
+      package:
+          const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow.serving'),
+      createEmptyInstance: create)
+    ..pc<Regression>(
+        1, _omitFieldNames ? '' : 'regressions', $pb.PbFieldType.PM,
+        subBuilder: Regression.create)
+    ..hasRequiredFields = false;
 
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
   RegressionResult clone() => RegressionResult()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  RegressionResult copyWith(void Function(RegressionResult) updates) => super.copyWith((message) => updates(message as RegressionResult)) as RegressionResult;
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  RegressionResult copyWith(void Function(RegressionResult) updates) =>
+      super.copyWith((message) => updates(message as RegressionResult))
+          as RegressionResult;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static RegressionResult create() => RegressionResult._();
   RegressionResult createEmptyInstance() => create();
-  static $pb.PbList<RegressionResult> createRepeated() => $pb.PbList<RegressionResult>();
+  static $pb.PbList<RegressionResult> createRepeated() =>
+      $pb.PbList<RegressionResult>();
   @$core.pragma('dart2js:noInline')
-  static RegressionResult getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<RegressionResult>(create);
+  static RegressionResult getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<RegressionResult>(create);
   static RegressionResult? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -130,34 +151,45 @@ class RegressionRequest extends $pb.GeneratedMessage {
     return $result;
   }
   RegressionRequest._() : super();
-  factory RegressionRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory RegressionRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory RegressionRequest.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory RegressionRequest.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'RegressionRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow.serving'), createEmptyInstance: create)
-    ..aOM<$0.ModelSpec>(1, _omitFieldNames ? '' : 'modelSpec', subBuilder: $0.ModelSpec.create)
-    ..aOM<$1.Input>(2, _omitFieldNames ? '' : 'input', subBuilder: $1.Input.create)
-    ..hasRequiredFields = false
-  ;
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'RegressionRequest',
+      package:
+          const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow.serving'),
+      createEmptyInstance: create)
+    ..aOM<$0.ModelSpec>(1, _omitFieldNames ? '' : 'modelSpec',
+        subBuilder: $0.ModelSpec.create)
+    ..aOM<$1.Input>(2, _omitFieldNames ? '' : 'input',
+        subBuilder: $1.Input.create)
+    ..hasRequiredFields = false;
 
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
   RegressionRequest clone() => RegressionRequest()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  RegressionRequest copyWith(void Function(RegressionRequest) updates) => super.copyWith((message) => updates(message as RegressionRequest)) as RegressionRequest;
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  RegressionRequest copyWith(void Function(RegressionRequest) updates) =>
+      super.copyWith((message) => updates(message as RegressionRequest))
+          as RegressionRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static RegressionRequest create() => RegressionRequest._();
   RegressionRequest createEmptyInstance() => create();
-  static $pb.PbList<RegressionRequest> createRepeated() => $pb.PbList<RegressionRequest>();
+  static $pb.PbList<RegressionRequest> createRepeated() =>
+      $pb.PbList<RegressionRequest>();
   @$core.pragma('dart2js:noInline')
-  static RegressionRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<RegressionRequest>(create);
+  static RegressionRequest getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<RegressionRequest>(create);
   static RegressionRequest? _defaultInstance;
 
   /// Model Specification. If version is not specified, will use the latest
@@ -165,7 +197,10 @@ class RegressionRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $0.ModelSpec get modelSpec => $_getN(0);
   @$pb.TagNumber(1)
-  set modelSpec($0.ModelSpec v) { $_setField(1, v); }
+  set modelSpec($0.ModelSpec v) {
+    $_setField(1, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasModelSpec() => $_has(0);
   @$pb.TagNumber(1)
@@ -177,7 +212,10 @@ class RegressionRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $1.Input get input => $_getN(1);
   @$pb.TagNumber(2)
-  set input($1.Input v) { $_setField(2, v); }
+  set input($1.Input v) {
+    $_setField(2, v);
+  }
+
   @$pb.TagNumber(2)
   $core.bool hasInput() => $_has(1);
   @$pb.TagNumber(2)
@@ -201,40 +239,54 @@ class RegressionResponse extends $pb.GeneratedMessage {
     return $result;
   }
   RegressionResponse._() : super();
-  factory RegressionResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory RegressionResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory RegressionResponse.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory RegressionResponse.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'RegressionResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow.serving'), createEmptyInstance: create)
-    ..aOM<RegressionResult>(1, _omitFieldNames ? '' : 'result', subBuilder: RegressionResult.create)
-    ..aOM<$0.ModelSpec>(2, _omitFieldNames ? '' : 'modelSpec', subBuilder: $0.ModelSpec.create)
-    ..hasRequiredFields = false
-  ;
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'RegressionResponse',
+      package:
+          const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow.serving'),
+      createEmptyInstance: create)
+    ..aOM<RegressionResult>(1, _omitFieldNames ? '' : 'result',
+        subBuilder: RegressionResult.create)
+    ..aOM<$0.ModelSpec>(2, _omitFieldNames ? '' : 'modelSpec',
+        subBuilder: $0.ModelSpec.create)
+    ..hasRequiredFields = false;
 
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
   RegressionResponse clone() => RegressionResponse()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  RegressionResponse copyWith(void Function(RegressionResponse) updates) => super.copyWith((message) => updates(message as RegressionResponse)) as RegressionResponse;
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  RegressionResponse copyWith(void Function(RegressionResponse) updates) =>
+      super.copyWith((message) => updates(message as RegressionResponse))
+          as RegressionResponse;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static RegressionResponse create() => RegressionResponse._();
   RegressionResponse createEmptyInstance() => create();
-  static $pb.PbList<RegressionResponse> createRepeated() => $pb.PbList<RegressionResponse>();
+  static $pb.PbList<RegressionResponse> createRepeated() =>
+      $pb.PbList<RegressionResponse>();
   @$core.pragma('dart2js:noInline')
-  static RegressionResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<RegressionResponse>(create);
+  static RegressionResponse getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<RegressionResponse>(create);
   static RegressionResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
   RegressionResult get result => $_getN(0);
   @$pb.TagNumber(1)
-  set result(RegressionResult v) { $_setField(1, v); }
+  set result(RegressionResult v) {
+    $_setField(1, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasResult() => $_has(0);
   @$pb.TagNumber(1)
@@ -246,7 +298,10 @@ class RegressionResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $0.ModelSpec get modelSpec => $_getN(1);
   @$pb.TagNumber(2)
-  set modelSpec($0.ModelSpec v) { $_setField(2, v); }
+  set modelSpec($0.ModelSpec v) {
+    $_setField(2, v);
+  }
+
   @$pb.TagNumber(2)
   $core.bool hasModelSpec() => $_has(1);
   @$pb.TagNumber(2)
@@ -255,6 +310,6 @@ class RegressionResponse extends $pb.GeneratedMessage {
   $0.ModelSpec ensureModelSpec() => $_ensure(1);
 }
 
-
 const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
-const _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');
+const _omitMessageNames =
+    $core.bool.fromEnvironment('protobuf.omit_message_names');

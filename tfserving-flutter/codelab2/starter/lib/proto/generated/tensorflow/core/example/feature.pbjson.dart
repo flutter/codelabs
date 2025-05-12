@@ -22,8 +22,8 @@ const BytesList$json = {
 };
 
 /// Descriptor for `BytesList`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List bytesListDescriptor = $convert.base64Decode(
-    'CglCeXRlc0xpc3QSFAoFdmFsdWUYASADKAxSBXZhbHVl');
+final $typed_data.Uint8List bytesListDescriptor =
+    $convert.base64Decode('CglCeXRlc0xpc3QSFAoFdmFsdWUYASADKAxSBXZhbHVl');
 
 @$core.Deprecated('Use floatListDescriptor instead')
 const FloatList$json = {
@@ -41,8 +41,8 @@ const FloatList$json = {
 };
 
 /// Descriptor for `FloatList`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List floatListDescriptor = $convert.base64Decode(
-    'CglGbG9hdExpc3QSGAoFdmFsdWUYASADKAJCAhABUgV2YWx1ZQ==');
+final $typed_data.Uint8List floatListDescriptor = $convert
+    .base64Decode('CglGbG9hdExpc3QSGAoFdmFsdWUYASADKAJCAhABUgV2YWx1ZQ==');
 
 @$core.Deprecated('Use int64ListDescriptor instead')
 const Int64List$json = {
@@ -60,16 +60,40 @@ const Int64List$json = {
 };
 
 /// Descriptor for `Int64List`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List int64ListDescriptor = $convert.base64Decode(
-    'CglJbnQ2NExpc3QSGAoFdmFsdWUYASADKANCAhABUgV2YWx1ZQ==');
+final $typed_data.Uint8List int64ListDescriptor = $convert
+    .base64Decode('CglJbnQ2NExpc3QSGAoFdmFsdWUYASADKANCAhABUgV2YWx1ZQ==');
 
 @$core.Deprecated('Use featureDescriptor instead')
 const Feature$json = {
   '1': 'Feature',
   '2': [
-    {'1': 'bytes_list', '3': 1, '4': 1, '5': 11, '6': '.tensorflow.BytesList', '9': 0, '10': 'bytesList'},
-    {'1': 'float_list', '3': 2, '4': 1, '5': 11, '6': '.tensorflow.FloatList', '9': 0, '10': 'floatList'},
-    {'1': 'int64_list', '3': 3, '4': 1, '5': 11, '6': '.tensorflow.Int64List', '9': 0, '10': 'int64List'},
+    {
+      '1': 'bytes_list',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.BytesList',
+      '9': 0,
+      '10': 'bytesList'
+    },
+    {
+      '1': 'float_list',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.FloatList',
+      '9': 0,
+      '10': 'floatList'
+    },
+    {
+      '1': 'int64_list',
+      '3': 3,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.Int64List',
+      '9': 0,
+      '10': 'int64List'
+    },
   ],
   '8': [
     {'1': 'kind'},
@@ -87,7 +111,14 @@ final $typed_data.Uint8List featureDescriptor = $convert.base64Decode(
 const Features$json = {
   '1': 'Features',
   '2': [
-    {'1': 'feature', '3': 1, '4': 3, '5': 11, '6': '.tensorflow.Features.FeatureEntry', '10': 'feature'},
+    {
+      '1': 'feature',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.Features.FeatureEntry',
+      '10': 'feature'
+    },
   ],
   '3': [Features_FeatureEntry$json],
 };
@@ -97,7 +128,14 @@ const Features_FeatureEntry$json = {
   '1': 'FeatureEntry',
   '2': [
     {'1': 'key', '3': 1, '4': 1, '5': 9, '10': 'key'},
-    {'1': 'value', '3': 2, '4': 1, '5': 11, '6': '.tensorflow.Feature', '10': 'value'},
+    {
+      '1': 'value',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.Feature',
+      '10': 'value'
+    },
   ],
   '7': {'7': true},
 };
@@ -112,7 +150,14 @@ final $typed_data.Uint8List featuresDescriptor = $convert.base64Decode(
 const FeatureList$json = {
   '1': 'FeatureList',
   '2': [
-    {'1': 'feature', '3': 1, '4': 3, '5': 11, '6': '.tensorflow.Feature', '10': 'feature'},
+    {
+      '1': 'feature',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.Feature',
+      '10': 'feature'
+    },
   ],
 };
 
@@ -125,7 +170,14 @@ final $typed_data.Uint8List featureListDescriptor = $convert.base64Decode(
 const FeatureLists$json = {
   '1': 'FeatureLists',
   '2': [
-    {'1': 'feature_list', '3': 1, '4': 3, '5': 11, '6': '.tensorflow.FeatureLists.FeatureListEntry', '10': 'featureList'},
+    {
+      '1': 'feature_list',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.FeatureLists.FeatureListEntry',
+      '10': 'featureList'
+    },
   ],
   '3': [FeatureLists_FeatureListEntry$json],
 };
@@ -135,7 +187,14 @@ const FeatureLists_FeatureListEntry$json = {
   '1': 'FeatureListEntry',
   '2': [
     {'1': 'key', '3': 1, '4': 1, '5': 9, '10': 'key'},
-    {'1': 'value', '3': 2, '4': 1, '5': 11, '6': '.tensorflow.FeatureList', '10': 'value'},
+    {
+      '1': 'value',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.FeatureList',
+      '10': 'value'
+    },
   ],
   '7': {'7': true},
 };
@@ -146,4 +205,3 @@ final $typed_data.Uint8List featureListsDescriptor = $convert.base64Decode(
     'JlTGlzdHMuRmVhdHVyZUxpc3RFbnRyeVILZmVhdHVyZUxpc3QaVwoQRmVhdHVyZUxpc3RFbnRy'
     'eRIQCgNrZXkYASABKAlSA2tleRItCgV2YWx1ZRgCIAEoCzIXLnRlbnNvcmZsb3cuRmVhdHVyZU'
     'xpc3RSBXZhbHVlOgI4AQ==');
-

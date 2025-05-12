@@ -65,48 +65,65 @@ class OpDef_ArgDef extends $pb.GeneratedMessage {
     return $result;
   }
   OpDef_ArgDef._() : super();
-  factory OpDef_ArgDef.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory OpDef_ArgDef.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory OpDef_ArgDef.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory OpDef_ArgDef.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'OpDef.ArgDef', package: const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'OpDef.ArgDef',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow'),
+      createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'name')
     ..aOS(2, _omitFieldNames ? '' : 'description')
-    ..e<$3.DataType>(3, _omitFieldNames ? '' : 'type', $pb.PbFieldType.OE, defaultOrMaker: $3.DataType.DT_INVALID, valueOf: $3.DataType.valueOf, enumValues: $3.DataType.values)
+    ..e<$3.DataType>(3, _omitFieldNames ? '' : 'type', $pb.PbFieldType.OE,
+        defaultOrMaker: $3.DataType.DT_INVALID,
+        valueOf: $3.DataType.valueOf,
+        enumValues: $3.DataType.values)
     ..aOS(4, _omitFieldNames ? '' : 'typeAttr')
     ..aOS(5, _omitFieldNames ? '' : 'numberAttr')
     ..aOS(6, _omitFieldNames ? '' : 'typeListAttr')
-    ..pc<$0.ResourceHandleProto_DtypeAndShape>(7, _omitFieldNames ? '' : 'handleData', $pb.PbFieldType.PM, subBuilder: $0.ResourceHandleProto_DtypeAndShape.create)
+    ..pc<$0.ResourceHandleProto_DtypeAndShape>(
+        7, _omitFieldNames ? '' : 'handleData', $pb.PbFieldType.PM,
+        subBuilder: $0.ResourceHandleProto_DtypeAndShape.create)
     ..aOB(16, _omitFieldNames ? '' : 'isRef')
-    ..aOM<$1.FullTypeDef>(17, _omitFieldNames ? '' : 'experimentalFullType', subBuilder: $1.FullTypeDef.create)
-    ..hasRequiredFields = false
-  ;
+    ..aOM<$1.FullTypeDef>(17, _omitFieldNames ? '' : 'experimentalFullType',
+        subBuilder: $1.FullTypeDef.create)
+    ..hasRequiredFields = false;
 
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
   OpDef_ArgDef clone() => OpDef_ArgDef()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  OpDef_ArgDef copyWith(void Function(OpDef_ArgDef) updates) => super.copyWith((message) => updates(message as OpDef_ArgDef)) as OpDef_ArgDef;
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  OpDef_ArgDef copyWith(void Function(OpDef_ArgDef) updates) =>
+      super.copyWith((message) => updates(message as OpDef_ArgDef))
+          as OpDef_ArgDef;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static OpDef_ArgDef create() => OpDef_ArgDef._();
   OpDef_ArgDef createEmptyInstance() => create();
-  static $pb.PbList<OpDef_ArgDef> createRepeated() => $pb.PbList<OpDef_ArgDef>();
+  static $pb.PbList<OpDef_ArgDef> createRepeated() =>
+      $pb.PbList<OpDef_ArgDef>();
   @$core.pragma('dart2js:noInline')
-  static OpDef_ArgDef getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<OpDef_ArgDef>(create);
+  static OpDef_ArgDef getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<OpDef_ArgDef>(create);
   static OpDef_ArgDef? _defaultInstance;
 
   /// Name for the input/output.  Should match the regexp "[a-z][a-z0-9_]*".
   @$pb.TagNumber(1)
   $core.String get name => $_getSZ(0);
   @$pb.TagNumber(1)
-  set name($core.String v) { $_setString(0, v); }
+  set name($core.String v) {
+    $_setString(0, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasName() => $_has(0);
   @$pb.TagNumber(1)
@@ -116,7 +133,10 @@ class OpDef_ArgDef extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.String get description => $_getSZ(1);
   @$pb.TagNumber(2)
-  set description($core.String v) { $_setString(1, v); }
+  set description($core.String v) {
+    $_setString(1, v);
+  }
+
   @$pb.TagNumber(2)
   $core.bool hasDescription() => $_has(1);
   @$pb.TagNumber(2)
@@ -135,7 +155,10 @@ class OpDef_ArgDef extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $3.DataType get type => $_getN(2);
   @$pb.TagNumber(3)
-  set type($3.DataType v) { $_setField(3, v); }
+  set type($3.DataType v) {
+    $_setField(3, v);
+  }
+
   @$pb.TagNumber(3)
   $core.bool hasType() => $_has(2);
   @$pb.TagNumber(3)
@@ -144,7 +167,10 @@ class OpDef_ArgDef extends $pb.GeneratedMessage {
   @$pb.TagNumber(4)
   $core.String get typeAttr => $_getSZ(3);
   @$pb.TagNumber(4)
-  set typeAttr($core.String v) { $_setString(3, v); }
+  set typeAttr($core.String v) {
+    $_setString(3, v);
+  }
+
   @$pb.TagNumber(4)
   $core.bool hasTypeAttr() => $_has(3);
   @$pb.TagNumber(4)
@@ -153,7 +179,10 @@ class OpDef_ArgDef extends $pb.GeneratedMessage {
   @$pb.TagNumber(5)
   $core.String get numberAttr => $_getSZ(4);
   @$pb.TagNumber(5)
-  set numberAttr($core.String v) { $_setString(4, v); }
+  set numberAttr($core.String v) {
+    $_setString(4, v);
+  }
+
   @$pb.TagNumber(5)
   $core.bool hasNumberAttr() => $_has(4);
   @$pb.TagNumber(5)
@@ -164,7 +193,10 @@ class OpDef_ArgDef extends $pb.GeneratedMessage {
   @$pb.TagNumber(6)
   $core.String get typeListAttr => $_getSZ(5);
   @$pb.TagNumber(6)
-  set typeListAttr($core.String v) { $_setString(5, v); }
+  set typeListAttr($core.String v) {
+    $_setString(5, v);
+  }
+
   @$pb.TagNumber(6)
   $core.bool hasTypeListAttr() => $_has(5);
   @$pb.TagNumber(6)
@@ -172,7 +204,8 @@ class OpDef_ArgDef extends $pb.GeneratedMessage {
 
   /// The handle data for resource inputs.
   @$pb.TagNumber(7)
-  $pb.PbList<$0.ResourceHandleProto_DtypeAndShape> get handleData => $_getList(6);
+  $pb.PbList<$0.ResourceHandleProto_DtypeAndShape> get handleData =>
+      $_getList(6);
 
   /// For inputs: if true, the inputs are required to be refs.
   ///   By default, inputs can be either refs or non-refs.
@@ -180,7 +213,10 @@ class OpDef_ArgDef extends $pb.GeneratedMessage {
   @$pb.TagNumber(16)
   $core.bool get isRef => $_getBF(7);
   @$pb.TagNumber(16)
-  set isRef($core.bool v) { $_setBool(7, v); }
+  set isRef($core.bool v) {
+    $_setBool(7, v);
+  }
+
   @$pb.TagNumber(16)
   $core.bool hasIsRef() => $_has(7);
   @$pb.TagNumber(16)
@@ -198,7 +234,10 @@ class OpDef_ArgDef extends $pb.GeneratedMessage {
   @$pb.TagNumber(17)
   $1.FullTypeDef get experimentalFullType => $_getN(8);
   @$pb.TagNumber(17)
-  set experimentalFullType($1.FullTypeDef v) { $_setField(17, v); }
+  set experimentalFullType($1.FullTypeDef v) {
+    $_setField(17, v);
+  }
+
   @$pb.TagNumber(17)
   $core.bool hasExperimentalFullType() => $_has(8);
   @$pb.TagNumber(17)
@@ -245,39 +284,49 @@ class OpDef_AttrDef extends $pb.GeneratedMessage {
     return $result;
   }
   OpDef_AttrDef._() : super();
-  factory OpDef_AttrDef.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory OpDef_AttrDef.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory OpDef_AttrDef.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory OpDef_AttrDef.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'OpDef.AttrDef', package: const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'OpDef.AttrDef',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow'),
+      createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'name')
     ..aOS(2, _omitFieldNames ? '' : 'type')
-    ..aOM<$2.AttrValue>(3, _omitFieldNames ? '' : 'defaultValue', subBuilder: $2.AttrValue.create)
+    ..aOM<$2.AttrValue>(3, _omitFieldNames ? '' : 'defaultValue',
+        subBuilder: $2.AttrValue.create)
     ..aOS(4, _omitFieldNames ? '' : 'description')
     ..aOB(5, _omitFieldNames ? '' : 'hasMinimum')
     ..aInt64(6, _omitFieldNames ? '' : 'minimum')
-    ..aOM<$2.AttrValue>(7, _omitFieldNames ? '' : 'allowedValues', subBuilder: $2.AttrValue.create)
-    ..hasRequiredFields = false
-  ;
+    ..aOM<$2.AttrValue>(7, _omitFieldNames ? '' : 'allowedValues',
+        subBuilder: $2.AttrValue.create)
+    ..hasRequiredFields = false;
 
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
   OpDef_AttrDef clone() => OpDef_AttrDef()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  OpDef_AttrDef copyWith(void Function(OpDef_AttrDef) updates) => super.copyWith((message) => updates(message as OpDef_AttrDef)) as OpDef_AttrDef;
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  OpDef_AttrDef copyWith(void Function(OpDef_AttrDef) updates) =>
+      super.copyWith((message) => updates(message as OpDef_AttrDef))
+          as OpDef_AttrDef;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static OpDef_AttrDef create() => OpDef_AttrDef._();
   OpDef_AttrDef createEmptyInstance() => create();
-  static $pb.PbList<OpDef_AttrDef> createRepeated() => $pb.PbList<OpDef_AttrDef>();
+  static $pb.PbList<OpDef_AttrDef> createRepeated() =>
+      $pb.PbList<OpDef_AttrDef>();
   @$core.pragma('dart2js:noInline')
-  static OpDef_AttrDef getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<OpDef_AttrDef>(create);
+  static OpDef_AttrDef getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<OpDef_AttrDef>(create);
   static OpDef_AttrDef? _defaultInstance;
 
   /// A descriptive name for the argument.  May be used, e.g. by the
@@ -286,7 +335,10 @@ class OpDef_AttrDef extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.String get name => $_getSZ(0);
   @$pb.TagNumber(1)
-  set name($core.String v) { $_setString(0, v); }
+  set name($core.String v) {
+    $_setString(0, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasName() => $_has(0);
   @$pb.TagNumber(1)
@@ -297,7 +349,10 @@ class OpDef_AttrDef extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.String get type => $_getSZ(1);
   @$pb.TagNumber(2)
-  set type($core.String v) { $_setString(1, v); }
+  set type($core.String v) {
+    $_setString(1, v);
+  }
+
   @$pb.TagNumber(2)
   $core.bool hasType() => $_has(1);
   @$pb.TagNumber(2)
@@ -308,7 +363,10 @@ class OpDef_AttrDef extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $2.AttrValue get defaultValue => $_getN(2);
   @$pb.TagNumber(3)
-  set defaultValue($2.AttrValue v) { $_setField(3, v); }
+  set defaultValue($2.AttrValue v) {
+    $_setField(3, v);
+  }
+
   @$pb.TagNumber(3)
   $core.bool hasDefaultValue() => $_has(2);
   @$pb.TagNumber(3)
@@ -320,7 +378,10 @@ class OpDef_AttrDef extends $pb.GeneratedMessage {
   @$pb.TagNumber(4)
   $core.String get description => $_getSZ(3);
   @$pb.TagNumber(4)
-  set description($core.String v) { $_setString(3, v); }
+  set description($core.String v) {
+    $_setString(3, v);
+  }
+
   @$pb.TagNumber(4)
   $core.bool hasDescription() => $_has(3);
   @$pb.TagNumber(4)
@@ -331,7 +392,10 @@ class OpDef_AttrDef extends $pb.GeneratedMessage {
   @$pb.TagNumber(5)
   $core.bool get hasMinimum => $_getBF(4);
   @$pb.TagNumber(5)
-  set hasMinimum($core.bool v) { $_setBool(4, v); }
+  set hasMinimum($core.bool v) {
+    $_setBool(4, v);
+  }
+
   @$pb.TagNumber(5)
   $core.bool hasHasMinimum() => $_has(4);
   @$pb.TagNumber(5)
@@ -340,7 +404,10 @@ class OpDef_AttrDef extends $pb.GeneratedMessage {
   @$pb.TagNumber(6)
   $fixnum.Int64 get minimum_6 => $_getI64(5);
   @$pb.TagNumber(6)
-  set minimum_6($fixnum.Int64 v) { $_setInt64(5, v); }
+  set minimum_6($fixnum.Int64 v) {
+    $_setInt64(5, v);
+  }
+
   @$pb.TagNumber(6)
   $core.bool hasMinimum_6() => $_has(5);
   @$pb.TagNumber(6)
@@ -355,7 +422,10 @@ class OpDef_AttrDef extends $pb.GeneratedMessage {
   @$pb.TagNumber(7)
   $2.AttrValue get allowedValues => $_getN(6);
   @$pb.TagNumber(7)
-  set allowedValues($2.AttrValue v) { $_setField(7, v); }
+  set allowedValues($2.AttrValue v) {
+    $_setField(7, v);
+  }
+
   @$pb.TagNumber(7)
   $core.bool hasAllowedValues() => $_has(6);
   @$pb.TagNumber(7)
@@ -426,36 +496,46 @@ class OpDef extends $pb.GeneratedMessage {
     return $result;
   }
   OpDef._() : super();
-  factory OpDef.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory OpDef.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory OpDef.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory OpDef.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'OpDef', package: const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'OpDef',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow'),
+      createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'name')
-    ..pc<OpDef_ArgDef>(2, _omitFieldNames ? '' : 'inputArg', $pb.PbFieldType.PM, subBuilder: OpDef_ArgDef.create)
-    ..pc<OpDef_ArgDef>(3, _omitFieldNames ? '' : 'outputArg', $pb.PbFieldType.PM, subBuilder: OpDef_ArgDef.create)
-    ..pc<OpDef_AttrDef>(4, _omitFieldNames ? '' : 'attr', $pb.PbFieldType.PM, subBuilder: OpDef_AttrDef.create)
+    ..pc<OpDef_ArgDef>(2, _omitFieldNames ? '' : 'inputArg', $pb.PbFieldType.PM,
+        subBuilder: OpDef_ArgDef.create)
+    ..pc<OpDef_ArgDef>(
+        3, _omitFieldNames ? '' : 'outputArg', $pb.PbFieldType.PM,
+        subBuilder: OpDef_ArgDef.create)
+    ..pc<OpDef_AttrDef>(4, _omitFieldNames ? '' : 'attr', $pb.PbFieldType.PM,
+        subBuilder: OpDef_AttrDef.create)
     ..aOS(5, _omitFieldNames ? '' : 'summary')
     ..aOS(6, _omitFieldNames ? '' : 'description')
-    ..aOM<OpDeprecation>(8, _omitFieldNames ? '' : 'deprecation', subBuilder: OpDeprecation.create)
+    ..aOM<OpDeprecation>(8, _omitFieldNames ? '' : 'deprecation',
+        subBuilder: OpDeprecation.create)
     ..aOB(16, _omitFieldNames ? '' : 'isAggregate')
     ..aOB(17, _omitFieldNames ? '' : 'isStateful')
     ..aOB(18, _omitFieldNames ? '' : 'isCommutative')
     ..aOB(19, _omitFieldNames ? '' : 'allowsUninitializedInput')
     ..pPS(20, _omitFieldNames ? '' : 'controlOutput')
     ..aOB(21, _omitFieldNames ? '' : 'isDistributedCommunication')
-    ..hasRequiredFields = false
-  ;
+    ..hasRequiredFields = false;
 
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
   OpDef clone() => OpDef()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  OpDef copyWith(void Function(OpDef) updates) => super.copyWith((message) => updates(message as OpDef)) as OpDef;
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  OpDef copyWith(void Function(OpDef) updates) =>
+      super.copyWith((message) => updates(message as OpDef)) as OpDef;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -464,7 +544,8 @@ class OpDef extends $pb.GeneratedMessage {
   OpDef createEmptyInstance() => create();
   static $pb.PbList<OpDef> createRepeated() => $pb.PbList<OpDef>();
   @$core.pragma('dart2js:noInline')
-  static OpDef getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<OpDef>(create);
+  static OpDef getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<OpDef>(create);
   static OpDef? _defaultInstance;
 
   /// Op names starting with an underscore are reserved for internal use.
@@ -472,7 +553,10 @@ class OpDef extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.String get name => $_getSZ(0);
   @$pb.TagNumber(1)
-  set name($core.String v) { $_setString(0, v); }
+  set name($core.String v) {
+    $_setString(0, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasName() => $_has(0);
   @$pb.TagNumber(1)
@@ -493,7 +577,10 @@ class OpDef extends $pb.GeneratedMessage {
   @$pb.TagNumber(5)
   $core.String get summary => $_getSZ(4);
   @$pb.TagNumber(5)
-  set summary($core.String v) { $_setString(4, v); }
+  set summary($core.String v) {
+    $_setString(4, v);
+  }
+
   @$pb.TagNumber(5)
   $core.bool hasSummary() => $_has(4);
   @$pb.TagNumber(5)
@@ -503,7 +590,10 @@ class OpDef extends $pb.GeneratedMessage {
   @$pb.TagNumber(6)
   $core.String get description => $_getSZ(5);
   @$pb.TagNumber(6)
-  set description($core.String v) { $_setString(5, v); }
+  set description($core.String v) {
+    $_setString(5, v);
+  }
+
   @$pb.TagNumber(6)
   $core.bool hasDescription() => $_has(5);
   @$pb.TagNumber(6)
@@ -513,7 +603,10 @@ class OpDef extends $pb.GeneratedMessage {
   @$pb.TagNumber(8)
   OpDeprecation get deprecation => $_getN(6);
   @$pb.TagNumber(8)
-  set deprecation(OpDeprecation v) { $_setField(8, v); }
+  set deprecation(OpDeprecation v) {
+    $_setField(8, v);
+  }
+
   @$pb.TagNumber(8)
   $core.bool hasDeprecation() => $_has(6);
   @$pb.TagNumber(8)
@@ -532,7 +625,10 @@ class OpDef extends $pb.GeneratedMessage {
   @$pb.TagNumber(16)
   $core.bool get isAggregate => $_getBF(7);
   @$pb.TagNumber(16)
-  set isAggregate($core.bool v) { $_setBool(7, v); }
+  set isAggregate($core.bool v) {
+    $_setBool(7, v);
+  }
+
   @$pb.TagNumber(16)
   $core.bool hasIsAggregate() => $_has(7);
   @$pb.TagNumber(16)
@@ -552,7 +648,10 @@ class OpDef extends $pb.GeneratedMessage {
   @$pb.TagNumber(17)
   $core.bool get isStateful => $_getBF(8);
   @$pb.TagNumber(17)
-  set isStateful($core.bool v) { $_setBool(8, v); }
+  set isStateful($core.bool v) {
+    $_setBool(8, v);
+  }
+
   @$pb.TagNumber(17)
   $core.bool hasIsStateful() => $_has(8);
   @$pb.TagNumber(17)
@@ -562,7 +661,10 @@ class OpDef extends $pb.GeneratedMessage {
   @$pb.TagNumber(18)
   $core.bool get isCommutative => $_getBF(9);
   @$pb.TagNumber(18)
-  set isCommutative($core.bool v) { $_setBool(9, v); }
+  set isCommutative($core.bool v) {
+    $_setBool(9, v);
+  }
+
   @$pb.TagNumber(18)
   $core.bool hasIsCommutative() => $_has(9);
   @$pb.TagNumber(18)
@@ -575,7 +677,10 @@ class OpDef extends $pb.GeneratedMessage {
   @$pb.TagNumber(19)
   $core.bool get allowsUninitializedInput => $_getBF(10);
   @$pb.TagNumber(19)
-  set allowsUninitializedInput($core.bool v) { $_setBool(10, v); }
+  set allowsUninitializedInput($core.bool v) {
+    $_setBool(10, v);
+  }
+
   @$pb.TagNumber(19)
   $core.bool hasAllowsUninitializedInput() => $_has(10);
   @$pb.TagNumber(19)
@@ -592,7 +697,10 @@ class OpDef extends $pb.GeneratedMessage {
   @$pb.TagNumber(21)
   $core.bool get isDistributedCommunication => $_getBF(12);
   @$pb.TagNumber(21)
-  set isDistributedCommunication($core.bool v) { $_setBool(12, v); }
+  set isDistributedCommunication($core.bool v) {
+    $_setBool(12, v);
+  }
+
   @$pb.TagNumber(21)
   $core.bool hasIsDistributedCommunication() => $_has(12);
   @$pb.TagNumber(21)
@@ -615,41 +723,52 @@ class OpDeprecation extends $pb.GeneratedMessage {
     return $result;
   }
   OpDeprecation._() : super();
-  factory OpDeprecation.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory OpDeprecation.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory OpDeprecation.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory OpDeprecation.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'OpDeprecation', package: const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'OpDeprecation',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow'),
+      createEmptyInstance: create)
     ..a<$core.int>(1, _omitFieldNames ? '' : 'version', $pb.PbFieldType.O3)
     ..aOS(2, _omitFieldNames ? '' : 'explanation')
-    ..hasRequiredFields = false
-  ;
+    ..hasRequiredFields = false;
 
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
   OpDeprecation clone() => OpDeprecation()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  OpDeprecation copyWith(void Function(OpDeprecation) updates) => super.copyWith((message) => updates(message as OpDeprecation)) as OpDeprecation;
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  OpDeprecation copyWith(void Function(OpDeprecation) updates) =>
+      super.copyWith((message) => updates(message as OpDeprecation))
+          as OpDeprecation;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static OpDeprecation create() => OpDeprecation._();
   OpDeprecation createEmptyInstance() => create();
-  static $pb.PbList<OpDeprecation> createRepeated() => $pb.PbList<OpDeprecation>();
+  static $pb.PbList<OpDeprecation> createRepeated() =>
+      $pb.PbList<OpDeprecation>();
   @$core.pragma('dart2js:noInline')
-  static OpDeprecation getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<OpDeprecation>(create);
+  static OpDeprecation getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<OpDeprecation>(create);
   static OpDeprecation? _defaultInstance;
 
   /// First GraphDef version at which the op is disallowed.
   @$pb.TagNumber(1)
   $core.int get version => $_getIZ(0);
   @$pb.TagNumber(1)
-  set version($core.int v) { $_setSignedInt32(0, v); }
+  set version($core.int v) {
+    $_setSignedInt32(0, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasVersion() => $_has(0);
   @$pb.TagNumber(1)
@@ -659,7 +778,10 @@ class OpDeprecation extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.String get explanation => $_getSZ(1);
   @$pb.TagNumber(2)
-  set explanation($core.String v) { $_setString(1, v); }
+  set explanation($core.String v) {
+    $_setString(1, v);
+  }
+
   @$pb.TagNumber(2)
   $core.bool hasExplanation() => $_has(1);
   @$pb.TagNumber(2)
@@ -678,24 +800,30 @@ class OpList extends $pb.GeneratedMessage {
     return $result;
   }
   OpList._() : super();
-  factory OpList.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory OpList.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory OpList.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory OpList.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'OpList', package: const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow'), createEmptyInstance: create)
-    ..pc<OpDef>(1, _omitFieldNames ? '' : 'op', $pb.PbFieldType.PM, subBuilder: OpDef.create)
-    ..hasRequiredFields = false
-  ;
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'OpList',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow'),
+      createEmptyInstance: create)
+    ..pc<OpDef>(1, _omitFieldNames ? '' : 'op', $pb.PbFieldType.PM,
+        subBuilder: OpDef.create)
+    ..hasRequiredFields = false;
 
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
   OpList clone() => OpList()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  OpList copyWith(void Function(OpList) updates) => super.copyWith((message) => updates(message as OpList)) as OpList;
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  OpList copyWith(void Function(OpList) updates) =>
+      super.copyWith((message) => updates(message as OpList)) as OpList;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -704,13 +832,14 @@ class OpList extends $pb.GeneratedMessage {
   OpList createEmptyInstance() => create();
   static $pb.PbList<OpList> createRepeated() => $pb.PbList<OpList>();
   @$core.pragma('dart2js:noInline')
-  static OpList getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<OpList>(create);
+  static OpList getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<OpList>(create);
   static OpList? _defaultInstance;
 
   @$pb.TagNumber(1)
   $pb.PbList<OpDef> get op => $_getList(0);
 }
 
-
 const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
-const _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');
+const _omitMessageNames =
+    $core.bool.fromEnvironment('protobuf.omit_message_names');

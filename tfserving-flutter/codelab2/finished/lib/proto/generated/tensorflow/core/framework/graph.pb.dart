@@ -24,8 +24,7 @@ class GraphDef extends $pb.GeneratedMessage {
   factory GraphDef({
     $core.Iterable<$0.NodeDef>? node,
     $1.FunctionDefLibrary? library,
-  @$core.Deprecated('This field is deprecated.')
-    $core.int? version,
+    @$core.Deprecated('This field is deprecated.') $core.int? version,
     $2.VersionDef? versions,
   }) {
     final $result = create();
@@ -45,27 +44,35 @@ class GraphDef extends $pb.GeneratedMessage {
     return $result;
   }
   GraphDef._() : super();
-  factory GraphDef.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory GraphDef.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory GraphDef.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory GraphDef.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GraphDef', package: const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow'), createEmptyInstance: create)
-    ..pc<$0.NodeDef>(1, _omitFieldNames ? '' : 'node', $pb.PbFieldType.PM, subBuilder: $0.NodeDef.create)
-    ..aOM<$1.FunctionDefLibrary>(2, _omitFieldNames ? '' : 'library', subBuilder: $1.FunctionDefLibrary.create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'GraphDef',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow'),
+      createEmptyInstance: create)
+    ..pc<$0.NodeDef>(1, _omitFieldNames ? '' : 'node', $pb.PbFieldType.PM,
+        subBuilder: $0.NodeDef.create)
+    ..aOM<$1.FunctionDefLibrary>(2, _omitFieldNames ? '' : 'library',
+        subBuilder: $1.FunctionDefLibrary.create)
     ..a<$core.int>(3, _omitFieldNames ? '' : 'version', $pb.PbFieldType.O3)
-    ..aOM<$2.VersionDef>(4, _omitFieldNames ? '' : 'versions', subBuilder: $2.VersionDef.create)
-    ..hasRequiredFields = false
-  ;
+    ..aOM<$2.VersionDef>(4, _omitFieldNames ? '' : 'versions',
+        subBuilder: $2.VersionDef.create)
+    ..hasRequiredFields = false;
 
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
   GraphDef clone() => GraphDef()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  GraphDef copyWith(void Function(GraphDef) updates) => super.copyWith((message) => updates(message as GraphDef)) as GraphDef;
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  GraphDef copyWith(void Function(GraphDef) updates) =>
+      super.copyWith((message) => updates(message as GraphDef)) as GraphDef;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -74,7 +81,8 @@ class GraphDef extends $pb.GeneratedMessage {
   GraphDef createEmptyInstance() => create();
   static $pb.PbList<GraphDef> createRepeated() => $pb.PbList<GraphDef>();
   @$core.pragma('dart2js:noInline')
-  static GraphDef getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GraphDef>(create);
+  static GraphDef getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GraphDef>(create);
   static GraphDef? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -109,7 +117,10 @@ class GraphDef extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $1.FunctionDefLibrary get library => $_getN(1);
   @$pb.TagNumber(2)
-  set library($1.FunctionDefLibrary v) { $_setField(2, v); }
+  set library($1.FunctionDefLibrary v) {
+    $_setField(2, v);
+  }
+
   @$pb.TagNumber(2)
   $core.bool hasLibrary() => $_has(1);
   @$pb.TagNumber(2)
@@ -125,7 +136,10 @@ class GraphDef extends $pb.GeneratedMessage {
   $core.int get version => $_getIZ(2);
   @$core.Deprecated('This field is deprecated.')
   @$pb.TagNumber(3)
-  set version($core.int v) { $_setSignedInt32(2, v); }
+  set version($core.int v) {
+    $_setSignedInt32(2, v);
+  }
+
   @$core.Deprecated('This field is deprecated.')
   @$pb.TagNumber(3)
   $core.bool hasVersion() => $_has(2);
@@ -139,7 +153,10 @@ class GraphDef extends $pb.GeneratedMessage {
   @$pb.TagNumber(4)
   $2.VersionDef get versions => $_getN(3);
   @$pb.TagNumber(4)
-  set versions($2.VersionDef v) { $_setField(4, v); }
+  set versions($2.VersionDef v) {
+    $_setField(4, v);
+  }
+
   @$pb.TagNumber(4)
   $core.bool hasVersions() => $_has(3);
   @$pb.TagNumber(4)
@@ -148,6 +165,6 @@ class GraphDef extends $pb.GeneratedMessage {
   $2.VersionDef ensureVersions() => $_ensure(3);
 }
 
-
 const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
-const _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');
+const _omitMessageNames =
+    $core.bool.fromEnvironment('protobuf.omit_message_names');

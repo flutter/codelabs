@@ -46,26 +46,31 @@ class VersionDef extends $pb.GeneratedMessage {
     return $result;
   }
   VersionDef._() : super();
-  factory VersionDef.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory VersionDef.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory VersionDef.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory VersionDef.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'VersionDef', package: const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'VersionDef',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow'),
+      createEmptyInstance: create)
     ..a<$core.int>(1, _omitFieldNames ? '' : 'producer', $pb.PbFieldType.O3)
     ..a<$core.int>(2, _omitFieldNames ? '' : 'minConsumer', $pb.PbFieldType.O3)
     ..p<$core.int>(3, _omitFieldNames ? '' : 'badConsumers', $pb.PbFieldType.K3)
-    ..hasRequiredFields = false
-  ;
+    ..hasRequiredFields = false;
 
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
   VersionDef clone() => VersionDef()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  VersionDef copyWith(void Function(VersionDef) updates) => super.copyWith((message) => updates(message as VersionDef)) as VersionDef;
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  VersionDef copyWith(void Function(VersionDef) updates) =>
+      super.copyWith((message) => updates(message as VersionDef)) as VersionDef;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -74,14 +79,18 @@ class VersionDef extends $pb.GeneratedMessage {
   VersionDef createEmptyInstance() => create();
   static $pb.PbList<VersionDef> createRepeated() => $pb.PbList<VersionDef>();
   @$core.pragma('dart2js:noInline')
-  static VersionDef getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<VersionDef>(create);
+  static VersionDef getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<VersionDef>(create);
   static VersionDef? _defaultInstance;
 
   /// The version of the code that produced this data.
   @$pb.TagNumber(1)
   $core.int get producer => $_getIZ(0);
   @$pb.TagNumber(1)
-  set producer($core.int v) { $_setSignedInt32(0, v); }
+  set producer($core.int v) {
+    $_setSignedInt32(0, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasProducer() => $_has(0);
   @$pb.TagNumber(1)
@@ -91,7 +100,10 @@ class VersionDef extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.int get minConsumer => $_getIZ(1);
   @$pb.TagNumber(2)
-  set minConsumer($core.int v) { $_setSignedInt32(1, v); }
+  set minConsumer($core.int v) {
+    $_setSignedInt32(1, v);
+  }
+
   @$pb.TagNumber(2)
   $core.bool hasMinConsumer() => $_has(1);
   @$pb.TagNumber(2)
@@ -102,6 +114,6 @@ class VersionDef extends $pb.GeneratedMessage {
   $pb.PbList<$core.int> get badConsumers => $_getList(2);
 }
 
-
 const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
-const _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');
+const _omitMessageNames =
+    $core.bool.fromEnvironment('protobuf.omit_message_names');

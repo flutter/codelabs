@@ -30,7 +30,14 @@ final $typed_data.Uint8List classDescriptor = $convert.base64Decode(
 const Classifications$json = {
   '1': 'Classifications',
   '2': [
-    {'1': 'classes', '3': 1, '4': 3, '5': 11, '6': '.tensorflow.serving.Class', '10': 'classes'},
+    {
+      '1': 'classes',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.serving.Class',
+      '10': 'classes'
+    },
   ],
 };
 
@@ -43,7 +50,14 @@ final $typed_data.Uint8List classificationsDescriptor = $convert.base64Decode(
 const ClassificationResult$json = {
   '1': 'ClassificationResult',
   '2': [
-    {'1': 'classifications', '3': 1, '4': 3, '5': 11, '6': '.tensorflow.serving.Classifications', '10': 'classifications'},
+    {
+      '1': 'classifications',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.serving.Classifications',
+      '10': 'classifications'
+    },
   ],
 };
 
@@ -56,8 +70,22 @@ final $typed_data.Uint8List classificationResultDescriptor = $convert.base64Deco
 const ClassificationRequest$json = {
   '1': 'ClassificationRequest',
   '2': [
-    {'1': 'model_spec', '3': 1, '4': 1, '5': 11, '6': '.tensorflow.serving.ModelSpec', '10': 'modelSpec'},
-    {'1': 'input', '3': 2, '4': 1, '5': 11, '6': '.tensorflow.serving.Input', '10': 'input'},
+    {
+      '1': 'model_spec',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.serving.ModelSpec',
+      '10': 'modelSpec'
+    },
+    {
+      '1': 'input',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.serving.Input',
+      '10': 'input'
+    },
   ],
 };
 
@@ -71,8 +99,22 @@ final $typed_data.Uint8List classificationRequestDescriptor = $convert.base64Dec
 const ClassificationResponse$json = {
   '1': 'ClassificationResponse',
   '2': [
-    {'1': 'model_spec', '3': 2, '4': 1, '5': 11, '6': '.tensorflow.serving.ModelSpec', '10': 'modelSpec'},
-    {'1': 'result', '3': 1, '4': 1, '5': 11, '6': '.tensorflow.serving.ClassificationResult', '10': 'result'},
+    {
+      '1': 'model_spec',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.serving.ModelSpec',
+      '10': 'modelSpec'
+    },
+    {
+      '1': 'result',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.serving.ClassificationResult',
+      '10': 'result'
+    },
   ],
 };
 
@@ -81,4 +123,3 @@ final $typed_data.Uint8List classificationResponseDescriptor = $convert.base64De
     'ChZDbGFzc2lmaWNhdGlvblJlc3BvbnNlEjwKCm1vZGVsX3NwZWMYAiABKAsyHS50ZW5zb3JmbG'
     '93LnNlcnZpbmcuTW9kZWxTcGVjUgltb2RlbFNwZWMSQAoGcmVzdWx0GAEgASgLMigudGVuc29y'
     'Zmxvdy5zZXJ2aW5nLkNsYXNzaWZpY2F0aW9uUmVzdWx0UgZyZXN1bHQ=');
-

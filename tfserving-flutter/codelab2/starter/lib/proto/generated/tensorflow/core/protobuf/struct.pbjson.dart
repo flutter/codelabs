@@ -17,20 +17,107 @@ import 'dart:typed_data' as $typed_data;
 const StructuredValue$json = {
   '1': 'StructuredValue',
   '2': [
-    {'1': 'none_value', '3': 1, '4': 1, '5': 11, '6': '.tensorflow.NoneValue', '9': 0, '10': 'noneValue'},
-    {'1': 'float64_value', '3': 11, '4': 1, '5': 1, '9': 0, '10': 'float64Value'},
+    {
+      '1': 'none_value',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.NoneValue',
+      '9': 0,
+      '10': 'noneValue'
+    },
+    {
+      '1': 'float64_value',
+      '3': 11,
+      '4': 1,
+      '5': 1,
+      '9': 0,
+      '10': 'float64Value'
+    },
     {'1': 'int64_value', '3': 12, '4': 1, '5': 18, '9': 0, '10': 'int64Value'},
     {'1': 'string_value', '3': 13, '4': 1, '5': 9, '9': 0, '10': 'stringValue'},
     {'1': 'bool_value', '3': 14, '4': 1, '5': 8, '9': 0, '10': 'boolValue'},
-    {'1': 'tensor_shape_value', '3': 31, '4': 1, '5': 11, '6': '.tensorflow.TensorShapeProto', '9': 0, '10': 'tensorShapeValue'},
-    {'1': 'tensor_dtype_value', '3': 32, '4': 1, '5': 14, '6': '.tensorflow.DataType', '9': 0, '10': 'tensorDtypeValue'},
-    {'1': 'tensor_spec_value', '3': 33, '4': 1, '5': 11, '6': '.tensorflow.TensorSpecProto', '9': 0, '10': 'tensorSpecValue'},
-    {'1': 'type_spec_value', '3': 34, '4': 1, '5': 11, '6': '.tensorflow.TypeSpecProto', '9': 0, '10': 'typeSpecValue'},
-    {'1': 'bounded_tensor_spec_value', '3': 35, '4': 1, '5': 11, '6': '.tensorflow.BoundedTensorSpecProto', '9': 0, '10': 'boundedTensorSpecValue'},
-    {'1': 'list_value', '3': 51, '4': 1, '5': 11, '6': '.tensorflow.ListValue', '9': 0, '10': 'listValue'},
-    {'1': 'tuple_value', '3': 52, '4': 1, '5': 11, '6': '.tensorflow.TupleValue', '9': 0, '10': 'tupleValue'},
-    {'1': 'dict_value', '3': 53, '4': 1, '5': 11, '6': '.tensorflow.DictValue', '9': 0, '10': 'dictValue'},
-    {'1': 'named_tuple_value', '3': 54, '4': 1, '5': 11, '6': '.tensorflow.NamedTupleValue', '9': 0, '10': 'namedTupleValue'},
+    {
+      '1': 'tensor_shape_value',
+      '3': 31,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.TensorShapeProto',
+      '9': 0,
+      '10': 'tensorShapeValue'
+    },
+    {
+      '1': 'tensor_dtype_value',
+      '3': 32,
+      '4': 1,
+      '5': 14,
+      '6': '.tensorflow.DataType',
+      '9': 0,
+      '10': 'tensorDtypeValue'
+    },
+    {
+      '1': 'tensor_spec_value',
+      '3': 33,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.TensorSpecProto',
+      '9': 0,
+      '10': 'tensorSpecValue'
+    },
+    {
+      '1': 'type_spec_value',
+      '3': 34,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.TypeSpecProto',
+      '9': 0,
+      '10': 'typeSpecValue'
+    },
+    {
+      '1': 'bounded_tensor_spec_value',
+      '3': 35,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.BoundedTensorSpecProto',
+      '9': 0,
+      '10': 'boundedTensorSpecValue'
+    },
+    {
+      '1': 'list_value',
+      '3': 51,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.ListValue',
+      '9': 0,
+      '10': 'listValue'
+    },
+    {
+      '1': 'tuple_value',
+      '3': 52,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.TupleValue',
+      '9': 0,
+      '10': 'tupleValue'
+    },
+    {
+      '1': 'dict_value',
+      '3': 53,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.DictValue',
+      '9': 0,
+      '10': 'dictValue'
+    },
+    {
+      '1': 'named_tuple_value',
+      '3': 54,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.NamedTupleValue',
+      '9': 0,
+      '10': 'namedTupleValue'
+    },
   ],
   '8': [
     {'1': 'kind'},
@@ -62,14 +149,21 @@ const NoneValue$json = {
 };
 
 /// Descriptor for `NoneValue`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List noneValueDescriptor = $convert.base64Decode(
-    'CglOb25lVmFsdWU=');
+final $typed_data.Uint8List noneValueDescriptor =
+    $convert.base64Decode('CglOb25lVmFsdWU=');
 
 @$core.Deprecated('Use listValueDescriptor instead')
 const ListValue$json = {
   '1': 'ListValue',
   '2': [
-    {'1': 'values', '3': 1, '4': 3, '5': 11, '6': '.tensorflow.StructuredValue', '10': 'values'},
+    {
+      '1': 'values',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.StructuredValue',
+      '10': 'values'
+    },
   ],
 };
 
@@ -82,7 +176,14 @@ final $typed_data.Uint8List listValueDescriptor = $convert.base64Decode(
 const TupleValue$json = {
   '1': 'TupleValue',
   '2': [
-    {'1': 'values', '3': 1, '4': 3, '5': 11, '6': '.tensorflow.StructuredValue', '10': 'values'},
+    {
+      '1': 'values',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.StructuredValue',
+      '10': 'values'
+    },
   ],
 };
 
@@ -95,7 +196,14 @@ final $typed_data.Uint8List tupleValueDescriptor = $convert.base64Decode(
 const DictValue$json = {
   '1': 'DictValue',
   '2': [
-    {'1': 'fields', '3': 1, '4': 3, '5': 11, '6': '.tensorflow.DictValue.FieldsEntry', '10': 'fields'},
+    {
+      '1': 'fields',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.DictValue.FieldsEntry',
+      '10': 'fields'
+    },
   ],
   '3': [DictValue_FieldsEntry$json],
 };
@@ -105,7 +213,14 @@ const DictValue_FieldsEntry$json = {
   '1': 'FieldsEntry',
   '2': [
     {'1': 'key', '3': 1, '4': 1, '5': 9, '10': 'key'},
-    {'1': 'value', '3': 2, '4': 1, '5': 11, '6': '.tensorflow.StructuredValue', '10': 'value'},
+    {
+      '1': 'value',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.StructuredValue',
+      '10': 'value'
+    },
   ],
   '7': {'7': true},
 };
@@ -121,7 +236,14 @@ const PairValue$json = {
   '1': 'PairValue',
   '2': [
     {'1': 'key', '3': 1, '4': 1, '5': 9, '10': 'key'},
-    {'1': 'value', '3': 2, '4': 1, '5': 11, '6': '.tensorflow.StructuredValue', '10': 'value'},
+    {
+      '1': 'value',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.StructuredValue',
+      '10': 'value'
+    },
   ],
 };
 
@@ -135,7 +257,14 @@ const NamedTupleValue$json = {
   '1': 'NamedTupleValue',
   '2': [
     {'1': 'name', '3': 1, '4': 1, '5': 9, '10': 'name'},
-    {'1': 'values', '3': 2, '4': 3, '5': 11, '6': '.tensorflow.PairValue', '10': 'values'},
+    {
+      '1': 'values',
+      '3': 2,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.PairValue',
+      '10': 'values'
+    },
   ],
 };
 
@@ -149,8 +278,22 @@ const TensorSpecProto$json = {
   '1': 'TensorSpecProto',
   '2': [
     {'1': 'name', '3': 1, '4': 1, '5': 9, '10': 'name'},
-    {'1': 'shape', '3': 2, '4': 1, '5': 11, '6': '.tensorflow.TensorShapeProto', '10': 'shape'},
-    {'1': 'dtype', '3': 3, '4': 1, '5': 14, '6': '.tensorflow.DataType', '10': 'dtype'},
+    {
+      '1': 'shape',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.TensorShapeProto',
+      '10': 'shape'
+    },
+    {
+      '1': 'dtype',
+      '3': 3,
+      '4': 1,
+      '5': 14,
+      '6': '.tensorflow.DataType',
+      '10': 'dtype'
+    },
   ],
 };
 
@@ -165,10 +308,38 @@ const BoundedTensorSpecProto$json = {
   '1': 'BoundedTensorSpecProto',
   '2': [
     {'1': 'name', '3': 1, '4': 1, '5': 9, '10': 'name'},
-    {'1': 'shape', '3': 2, '4': 1, '5': 11, '6': '.tensorflow.TensorShapeProto', '10': 'shape'},
-    {'1': 'dtype', '3': 3, '4': 1, '5': 14, '6': '.tensorflow.DataType', '10': 'dtype'},
-    {'1': 'minimum', '3': 4, '4': 1, '5': 11, '6': '.tensorflow.TensorProto', '10': 'minimum'},
-    {'1': 'maximum', '3': 5, '4': 1, '5': 11, '6': '.tensorflow.TensorProto', '10': 'maximum'},
+    {
+      '1': 'shape',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.TensorShapeProto',
+      '10': 'shape'
+    },
+    {
+      '1': 'dtype',
+      '3': 3,
+      '4': 1,
+      '5': 14,
+      '6': '.tensorflow.DataType',
+      '10': 'dtype'
+    },
+    {
+      '1': 'minimum',
+      '3': 4,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.TensorProto',
+      '10': 'minimum'
+    },
+    {
+      '1': 'maximum',
+      '3': 5,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.TensorProto',
+      '10': 'maximum'
+    },
   ],
 };
 
@@ -184,10 +355,36 @@ final $typed_data.Uint8List boundedTensorSpecProtoDescriptor = $convert.base64De
 const TypeSpecProto$json = {
   '1': 'TypeSpecProto',
   '2': [
-    {'1': 'type_spec_class', '3': 1, '4': 1, '5': 14, '6': '.tensorflow.TypeSpecProto.TypeSpecClass', '10': 'typeSpecClass'},
-    {'1': 'type_state', '3': 2, '4': 1, '5': 11, '6': '.tensorflow.StructuredValue', '10': 'typeState'},
-    {'1': 'type_spec_class_name', '3': 3, '4': 1, '5': 9, '10': 'typeSpecClassName'},
-    {'1': 'num_flat_components', '3': 4, '4': 1, '5': 5, '10': 'numFlatComponents'},
+    {
+      '1': 'type_spec_class',
+      '3': 1,
+      '4': 1,
+      '5': 14,
+      '6': '.tensorflow.TypeSpecProto.TypeSpecClass',
+      '10': 'typeSpecClass'
+    },
+    {
+      '1': 'type_state',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.StructuredValue',
+      '10': 'typeState'
+    },
+    {
+      '1': 'type_spec_class_name',
+      '3': 3,
+      '4': 1,
+      '5': 9,
+      '10': 'typeSpecClassName'
+    },
+    {
+      '1': 'num_flat_components',
+      '3': 4,
+      '4': 1,
+      '5': 5,
+      '10': 'numFlatComponents'
+    },
   ],
   '4': [TypeSpecProto_TypeSpecClass$json],
 };
@@ -228,4 +425,3 @@ final $typed_data.Uint8List typeSpecProtoDescriptor = $convert.base64Decode(
     'EAcSFAoQUEVSX1JFUExJQ0FfU1BFQxAIEhEKDVZBUklBQkxFX1NQRUMQCRIWChJST1dfUEFSVE'
     'lUSU9OX1NQRUMQChIYChRSRUdJU1RFUkVEX1RZUEVfU1BFQxAMEhcKE0VYVEVOU0lPTl9UWVBF'
     'X1NQRUMQDSIECAsQCw==');
-

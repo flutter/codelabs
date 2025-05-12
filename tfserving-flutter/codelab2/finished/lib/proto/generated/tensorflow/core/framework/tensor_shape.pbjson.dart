@@ -17,7 +17,14 @@ import 'dart:typed_data' as $typed_data;
 const TensorShapeProto$json = {
   '1': 'TensorShapeProto',
   '2': [
-    {'1': 'dim', '3': 2, '4': 3, '5': 11, '6': '.tensorflow.TensorShapeProto.Dim', '10': 'dim'},
+    {
+      '1': 'dim',
+      '3': 2,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.TensorShapeProto.Dim',
+      '10': 'dim'
+    },
     {'1': 'unknown_rank', '3': 3, '4': 1, '5': 8, '10': 'unknownRank'},
   ],
   '3': [TensorShapeProto_Dim$json],
@@ -37,4 +44,3 @@ final $typed_data.Uint8List tensorShapeProtoDescriptor = $convert.base64Decode(
     'ChBUZW5zb3JTaGFwZVByb3RvEjIKA2RpbRgCIAMoCzIgLnRlbnNvcmZsb3cuVGVuc29yU2hhcG'
     'VQcm90by5EaW1SA2RpbRIhCgx1bmtub3duX3JhbmsYAyABKAhSC3Vua25vd25SYW5rGi0KA0Rp'
     'bRISCgRzaXplGAEgASgDUgRzaXplEhIKBG5hbWUYAiABKAlSBG5hbWU=');
-

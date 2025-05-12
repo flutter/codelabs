@@ -22,14 +22,21 @@ const Regression$json = {
 };
 
 /// Descriptor for `Regression`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List regressionDescriptor = $convert.base64Decode(
-    'CgpSZWdyZXNzaW9uEhQKBXZhbHVlGAEgASgCUgV2YWx1ZQ==');
+final $typed_data.Uint8List regressionDescriptor =
+    $convert.base64Decode('CgpSZWdyZXNzaW9uEhQKBXZhbHVlGAEgASgCUgV2YWx1ZQ==');
 
 @$core.Deprecated('Use regressionResultDescriptor instead')
 const RegressionResult$json = {
   '1': 'RegressionResult',
   '2': [
-    {'1': 'regressions', '3': 1, '4': 3, '5': 11, '6': '.tensorflow.serving.Regression', '10': 'regressions'},
+    {
+      '1': 'regressions',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.serving.Regression',
+      '10': 'regressions'
+    },
   ],
 };
 
@@ -42,8 +49,22 @@ final $typed_data.Uint8List regressionResultDescriptor = $convert.base64Decode(
 const RegressionRequest$json = {
   '1': 'RegressionRequest',
   '2': [
-    {'1': 'model_spec', '3': 1, '4': 1, '5': 11, '6': '.tensorflow.serving.ModelSpec', '10': 'modelSpec'},
-    {'1': 'input', '3': 2, '4': 1, '5': 11, '6': '.tensorflow.serving.Input', '10': 'input'},
+    {
+      '1': 'model_spec',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.serving.ModelSpec',
+      '10': 'modelSpec'
+    },
+    {
+      '1': 'input',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.serving.Input',
+      '10': 'input'
+    },
   ],
 };
 
@@ -57,8 +78,22 @@ final $typed_data.Uint8List regressionRequestDescriptor = $convert.base64Decode(
 const RegressionResponse$json = {
   '1': 'RegressionResponse',
   '2': [
-    {'1': 'model_spec', '3': 2, '4': 1, '5': 11, '6': '.tensorflow.serving.ModelSpec', '10': 'modelSpec'},
-    {'1': 'result', '3': 1, '4': 1, '5': 11, '6': '.tensorflow.serving.RegressionResult', '10': 'result'},
+    {
+      '1': 'model_spec',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.serving.ModelSpec',
+      '10': 'modelSpec'
+    },
+    {
+      '1': 'result',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.serving.RegressionResult',
+      '10': 'result'
+    },
   ],
 };
 
@@ -67,4 +102,3 @@ final $typed_data.Uint8List regressionResponseDescriptor = $convert.base64Decode
     'ChJSZWdyZXNzaW9uUmVzcG9uc2USPAoKbW9kZWxfc3BlYxgCIAEoCzIdLnRlbnNvcmZsb3cuc2'
     'VydmluZy5Nb2RlbFNwZWNSCW1vZGVsU3BlYxI8CgZyZXN1bHQYASABKAsyJC50ZW5zb3JmbG93'
     'LnNlcnZpbmcuUmVncmVzc2lvblJlc3VsdFIGcmVzdWx0');
-

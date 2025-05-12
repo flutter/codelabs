@@ -64,32 +64,47 @@ class VariableDef extends $pb.GeneratedMessage {
     return $result;
   }
   VariableDef._() : super();
-  factory VariableDef.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory VariableDef.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory VariableDef.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory VariableDef.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'VariableDef', package: const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'VariableDef',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow'),
+      createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'variableName')
     ..aOS(2, _omitFieldNames ? '' : 'initializerName')
     ..aOS(3, _omitFieldNames ? '' : 'snapshotName')
-    ..aOM<SaveSliceInfoDef>(4, _omitFieldNames ? '' : 'saveSliceInfoDef', subBuilder: SaveSliceInfoDef.create)
+    ..aOM<SaveSliceInfoDef>(4, _omitFieldNames ? '' : 'saveSliceInfoDef',
+        subBuilder: SaveSliceInfoDef.create)
     ..aOB(5, _omitFieldNames ? '' : 'isResource')
     ..aOS(6, _omitFieldNames ? '' : 'initialValueName')
     ..aOB(7, _omitFieldNames ? '' : 'trainable')
-    ..e<VariableSynchronization>(8, _omitFieldNames ? '' : 'synchronization', $pb.PbFieldType.OE, defaultOrMaker: VariableSynchronization.VARIABLE_SYNCHRONIZATION_AUTO, valueOf: VariableSynchronization.valueOf, enumValues: VariableSynchronization.values)
-    ..e<VariableAggregation>(9, _omitFieldNames ? '' : 'aggregation', $pb.PbFieldType.OE, defaultOrMaker: VariableAggregation.VARIABLE_AGGREGATION_NONE, valueOf: VariableAggregation.valueOf, enumValues: VariableAggregation.values)
-    ..hasRequiredFields = false
-  ;
+    ..e<VariableSynchronization>(
+        8, _omitFieldNames ? '' : 'synchronization', $pb.PbFieldType.OE,
+        defaultOrMaker: VariableSynchronization.VARIABLE_SYNCHRONIZATION_AUTO,
+        valueOf: VariableSynchronization.valueOf,
+        enumValues: VariableSynchronization.values)
+    ..e<VariableAggregation>(
+        9, _omitFieldNames ? '' : 'aggregation', $pb.PbFieldType.OE,
+        defaultOrMaker: VariableAggregation.VARIABLE_AGGREGATION_NONE,
+        valueOf: VariableAggregation.valueOf,
+        enumValues: VariableAggregation.values)
+    ..hasRequiredFields = false;
 
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
   VariableDef clone() => VariableDef()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  VariableDef copyWith(void Function(VariableDef) updates) => super.copyWith((message) => updates(message as VariableDef)) as VariableDef;
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  VariableDef copyWith(void Function(VariableDef) updates) =>
+      super.copyWith((message) => updates(message as VariableDef))
+          as VariableDef;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -98,14 +113,18 @@ class VariableDef extends $pb.GeneratedMessage {
   VariableDef createEmptyInstance() => create();
   static $pb.PbList<VariableDef> createRepeated() => $pb.PbList<VariableDef>();
   @$core.pragma('dart2js:noInline')
-  static VariableDef getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<VariableDef>(create);
+  static VariableDef getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<VariableDef>(create);
   static VariableDef? _defaultInstance;
 
   /// Name of the variable tensor.
   @$pb.TagNumber(1)
   $core.String get variableName => $_getSZ(0);
   @$pb.TagNumber(1)
-  set variableName($core.String v) { $_setString(0, v); }
+  set variableName($core.String v) {
+    $_setString(0, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasVariableName() => $_has(0);
   @$pb.TagNumber(1)
@@ -115,7 +134,10 @@ class VariableDef extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.String get initializerName => $_getSZ(1);
   @$pb.TagNumber(2)
-  set initializerName($core.String v) { $_setString(1, v); }
+  set initializerName($core.String v) {
+    $_setString(1, v);
+  }
+
   @$pb.TagNumber(2)
   $core.bool hasInitializerName() => $_has(1);
   @$pb.TagNumber(2)
@@ -125,7 +147,10 @@ class VariableDef extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.String get snapshotName => $_getSZ(2);
   @$pb.TagNumber(3)
-  set snapshotName($core.String v) { $_setString(2, v); }
+  set snapshotName($core.String v) {
+    $_setString(2, v);
+  }
+
   @$pb.TagNumber(3)
   $core.bool hasSnapshotName() => $_has(2);
   @$pb.TagNumber(3)
@@ -135,7 +160,10 @@ class VariableDef extends $pb.GeneratedMessage {
   @$pb.TagNumber(4)
   SaveSliceInfoDef get saveSliceInfoDef => $_getN(3);
   @$pb.TagNumber(4)
-  set saveSliceInfoDef(SaveSliceInfoDef v) { $_setField(4, v); }
+  set saveSliceInfoDef(SaveSliceInfoDef v) {
+    $_setField(4, v);
+  }
+
   @$pb.TagNumber(4)
   $core.bool hasSaveSliceInfoDef() => $_has(3);
   @$pb.TagNumber(4)
@@ -147,7 +175,10 @@ class VariableDef extends $pb.GeneratedMessage {
   @$pb.TagNumber(5)
   $core.bool get isResource => $_getBF(4);
   @$pb.TagNumber(5)
-  set isResource($core.bool v) { $_setBool(4, v); }
+  set isResource($core.bool v) {
+    $_setBool(4, v);
+  }
+
   @$pb.TagNumber(5)
   $core.bool hasIsResource() => $_has(4);
   @$pb.TagNumber(5)
@@ -157,7 +188,10 @@ class VariableDef extends $pb.GeneratedMessage {
   @$pb.TagNumber(6)
   $core.String get initialValueName => $_getSZ(5);
   @$pb.TagNumber(6)
-  set initialValueName($core.String v) { $_setString(5, v); }
+  set initialValueName($core.String v) {
+    $_setString(5, v);
+  }
+
   @$pb.TagNumber(6)
   $core.bool hasInitialValueName() => $_has(5);
   @$pb.TagNumber(6)
@@ -167,7 +201,10 @@ class VariableDef extends $pb.GeneratedMessage {
   @$pb.TagNumber(7)
   $core.bool get trainable => $_getBF(6);
   @$pb.TagNumber(7)
-  set trainable($core.bool v) { $_setBool(6, v); }
+  set trainable($core.bool v) {
+    $_setBool(6, v);
+  }
+
   @$pb.TagNumber(7)
   $core.bool hasTrainable() => $_has(6);
   @$pb.TagNumber(7)
@@ -177,7 +214,10 @@ class VariableDef extends $pb.GeneratedMessage {
   @$pb.TagNumber(8)
   VariableSynchronization get synchronization => $_getN(7);
   @$pb.TagNumber(8)
-  set synchronization(VariableSynchronization v) { $_setField(8, v); }
+  set synchronization(VariableSynchronization v) {
+    $_setField(8, v);
+  }
+
   @$pb.TagNumber(8)
   $core.bool hasSynchronization() => $_has(7);
   @$pb.TagNumber(8)
@@ -187,7 +227,10 @@ class VariableDef extends $pb.GeneratedMessage {
   @$pb.TagNumber(9)
   VariableAggregation get aggregation => $_getN(8);
   @$pb.TagNumber(9)
-  set aggregation(VariableAggregation v) { $_setField(9, v); }
+  set aggregation(VariableAggregation v) {
+    $_setField(9, v);
+  }
+
   @$pb.TagNumber(9)
   $core.bool hasAggregation() => $_has(8);
   @$pb.TagNumber(9)
@@ -217,43 +260,56 @@ class SaveSliceInfoDef extends $pb.GeneratedMessage {
     return $result;
   }
   SaveSliceInfoDef._() : super();
-  factory SaveSliceInfoDef.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory SaveSliceInfoDef.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory SaveSliceInfoDef.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory SaveSliceInfoDef.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'SaveSliceInfoDef', package: const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'SaveSliceInfoDef',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'tensorflow'),
+      createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'fullName')
-    ..p<$fixnum.Int64>(2, _omitFieldNames ? '' : 'fullShape', $pb.PbFieldType.K6)
-    ..p<$fixnum.Int64>(3, _omitFieldNames ? '' : 'varOffset', $pb.PbFieldType.K6)
+    ..p<$fixnum.Int64>(
+        2, _omitFieldNames ? '' : 'fullShape', $pb.PbFieldType.K6)
+    ..p<$fixnum.Int64>(
+        3, _omitFieldNames ? '' : 'varOffset', $pb.PbFieldType.K6)
     ..p<$fixnum.Int64>(4, _omitFieldNames ? '' : 'varShape', $pb.PbFieldType.K6)
-    ..hasRequiredFields = false
-  ;
+    ..hasRequiredFields = false;
 
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
   SaveSliceInfoDef clone() => SaveSliceInfoDef()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  SaveSliceInfoDef copyWith(void Function(SaveSliceInfoDef) updates) => super.copyWith((message) => updates(message as SaveSliceInfoDef)) as SaveSliceInfoDef;
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  SaveSliceInfoDef copyWith(void Function(SaveSliceInfoDef) updates) =>
+      super.copyWith((message) => updates(message as SaveSliceInfoDef))
+          as SaveSliceInfoDef;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static SaveSliceInfoDef create() => SaveSliceInfoDef._();
   SaveSliceInfoDef createEmptyInstance() => create();
-  static $pb.PbList<SaveSliceInfoDef> createRepeated() => $pb.PbList<SaveSliceInfoDef>();
+  static $pb.PbList<SaveSliceInfoDef> createRepeated() =>
+      $pb.PbList<SaveSliceInfoDef>();
   @$core.pragma('dart2js:noInline')
-  static SaveSliceInfoDef getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<SaveSliceInfoDef>(create);
+  static SaveSliceInfoDef getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<SaveSliceInfoDef>(create);
   static SaveSliceInfoDef? _defaultInstance;
 
   /// Name of the full variable of which this is a slice.
   @$pb.TagNumber(1)
   $core.String get fullName => $_getSZ(0);
   @$pb.TagNumber(1)
-  set fullName($core.String v) { $_setString(0, v); }
+  set fullName($core.String v) {
+    $_setString(0, v);
+  }
+
   @$pb.TagNumber(1)
   $core.bool hasFullName() => $_has(0);
   @$pb.TagNumber(1)
@@ -272,6 +328,6 @@ class SaveSliceInfoDef extends $pb.GeneratedMessage {
   $pb.PbList<$fixnum.Int64> get varShape => $_getList(3);
 }
 
-
 const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
-const _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');
+const _omitMessageNames =
+    $core.bool.fromEnvironment('protobuf.omit_message_names');

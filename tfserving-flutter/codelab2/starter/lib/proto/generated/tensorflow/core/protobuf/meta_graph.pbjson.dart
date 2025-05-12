@@ -17,29 +17,127 @@ import 'dart:typed_data' as $typed_data;
 const MetaGraphDef$json = {
   '1': 'MetaGraphDef',
   '2': [
-    {'1': 'meta_info_def', '3': 1, '4': 1, '5': 11, '6': '.tensorflow.MetaGraphDef.MetaInfoDef', '10': 'metaInfoDef'},
-    {'1': 'graph_def', '3': 2, '4': 1, '5': 11, '6': '.tensorflow.GraphDef', '10': 'graphDef'},
-    {'1': 'saver_def', '3': 3, '4': 1, '5': 11, '6': '.tensorflow.SaverDef', '10': 'saverDef'},
-    {'1': 'collection_def', '3': 4, '4': 3, '5': 11, '6': '.tensorflow.MetaGraphDef.CollectionDefEntry', '10': 'collectionDef'},
-    {'1': 'signature_def', '3': 5, '4': 3, '5': 11, '6': '.tensorflow.MetaGraphDef.SignatureDefEntry', '10': 'signatureDef'},
-    {'1': 'asset_file_def', '3': 6, '4': 3, '5': 11, '6': '.tensorflow.AssetFileDef', '10': 'assetFileDef'},
-    {'1': 'object_graph_def', '3': 7, '4': 1, '5': 11, '6': '.tensorflow.SavedObjectGraph', '10': 'objectGraphDef'},
+    {
+      '1': 'meta_info_def',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.MetaGraphDef.MetaInfoDef',
+      '10': 'metaInfoDef'
+    },
+    {
+      '1': 'graph_def',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.GraphDef',
+      '10': 'graphDef'
+    },
+    {
+      '1': 'saver_def',
+      '3': 3,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.SaverDef',
+      '10': 'saverDef'
+    },
+    {
+      '1': 'collection_def',
+      '3': 4,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.MetaGraphDef.CollectionDefEntry',
+      '10': 'collectionDef'
+    },
+    {
+      '1': 'signature_def',
+      '3': 5,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.MetaGraphDef.SignatureDefEntry',
+      '10': 'signatureDef'
+    },
+    {
+      '1': 'asset_file_def',
+      '3': 6,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.AssetFileDef',
+      '10': 'assetFileDef'
+    },
+    {
+      '1': 'object_graph_def',
+      '3': 7,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.SavedObjectGraph',
+      '10': 'objectGraphDef'
+    },
   ],
-  '3': [MetaGraphDef_MetaInfoDef$json, MetaGraphDef_CollectionDefEntry$json, MetaGraphDef_SignatureDefEntry$json],
+  '3': [
+    MetaGraphDef_MetaInfoDef$json,
+    MetaGraphDef_CollectionDefEntry$json,
+    MetaGraphDef_SignatureDefEntry$json
+  ],
 };
 
 @$core.Deprecated('Use metaGraphDefDescriptor instead')
 const MetaGraphDef_MetaInfoDef$json = {
   '1': 'MetaInfoDef',
   '2': [
-    {'1': 'meta_graph_version', '3': 1, '4': 1, '5': 9, '10': 'metaGraphVersion'},
-    {'1': 'stripped_op_list', '3': 2, '4': 1, '5': 11, '6': '.tensorflow.OpList', '10': 'strippedOpList'},
-    {'1': 'any_info', '3': 3, '4': 1, '5': 11, '6': '.google.protobuf.Any', '10': 'anyInfo'},
+    {
+      '1': 'meta_graph_version',
+      '3': 1,
+      '4': 1,
+      '5': 9,
+      '10': 'metaGraphVersion'
+    },
+    {
+      '1': 'stripped_op_list',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.OpList',
+      '10': 'strippedOpList'
+    },
+    {
+      '1': 'any_info',
+      '3': 3,
+      '4': 1,
+      '5': 11,
+      '6': '.google.protobuf.Any',
+      '10': 'anyInfo'
+    },
     {'1': 'tags', '3': 4, '4': 3, '5': 9, '10': 'tags'},
-    {'1': 'tensorflow_version', '3': 5, '4': 1, '5': 9, '10': 'tensorflowVersion'},
-    {'1': 'tensorflow_git_version', '3': 6, '4': 1, '5': 9, '10': 'tensorflowGitVersion'},
-    {'1': 'stripped_default_attrs', '3': 7, '4': 1, '5': 8, '10': 'strippedDefaultAttrs'},
-    {'1': 'function_aliases', '3': 8, '4': 3, '5': 11, '6': '.tensorflow.MetaGraphDef.MetaInfoDef.FunctionAliasesEntry', '10': 'functionAliases'},
+    {
+      '1': 'tensorflow_version',
+      '3': 5,
+      '4': 1,
+      '5': 9,
+      '10': 'tensorflowVersion'
+    },
+    {
+      '1': 'tensorflow_git_version',
+      '3': 6,
+      '4': 1,
+      '5': 9,
+      '10': 'tensorflowGitVersion'
+    },
+    {
+      '1': 'stripped_default_attrs',
+      '3': 7,
+      '4': 1,
+      '5': 8,
+      '10': 'strippedDefaultAttrs'
+    },
+    {
+      '1': 'function_aliases',
+      '3': 8,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.MetaGraphDef.MetaInfoDef.FunctionAliasesEntry',
+      '10': 'functionAliases'
+    },
   ],
   '3': [MetaGraphDef_MetaInfoDef_FunctionAliasesEntry$json],
 };
@@ -59,7 +157,14 @@ const MetaGraphDef_CollectionDefEntry$json = {
   '1': 'CollectionDefEntry',
   '2': [
     {'1': 'key', '3': 1, '4': 1, '5': 9, '10': 'key'},
-    {'1': 'value', '3': 2, '4': 1, '5': 11, '6': '.tensorflow.CollectionDef', '10': 'value'},
+    {
+      '1': 'value',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.CollectionDef',
+      '10': 'value'
+    },
   ],
   '7': {'7': true},
 };
@@ -69,7 +174,14 @@ const MetaGraphDef_SignatureDefEntry$json = {
   '1': 'SignatureDefEntry',
   '2': [
     {'1': 'key', '3': 1, '4': 1, '5': 9, '10': 'key'},
-    {'1': 'value', '3': 2, '4': 1, '5': 11, '6': '.tensorflow.SignatureDef', '10': 'value'},
+    {
+      '1': 'value',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.SignatureDef',
+      '10': 'value'
+    },
   ],
   '7': {'7': true},
 };
@@ -103,13 +215,59 @@ final $typed_data.Uint8List metaGraphDefDescriptor = $convert.base64Decode(
 const CollectionDef$json = {
   '1': 'CollectionDef',
   '2': [
-    {'1': 'node_list', '3': 1, '4': 1, '5': 11, '6': '.tensorflow.CollectionDef.NodeList', '9': 0, '10': 'nodeList'},
-    {'1': 'bytes_list', '3': 2, '4': 1, '5': 11, '6': '.tensorflow.CollectionDef.BytesList', '9': 0, '10': 'bytesList'},
-    {'1': 'int64_list', '3': 3, '4': 1, '5': 11, '6': '.tensorflow.CollectionDef.Int64List', '9': 0, '10': 'int64List'},
-    {'1': 'float_list', '3': 4, '4': 1, '5': 11, '6': '.tensorflow.CollectionDef.FloatList', '9': 0, '10': 'floatList'},
-    {'1': 'any_list', '3': 5, '4': 1, '5': 11, '6': '.tensorflow.CollectionDef.AnyList', '9': 0, '10': 'anyList'},
+    {
+      '1': 'node_list',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.CollectionDef.NodeList',
+      '9': 0,
+      '10': 'nodeList'
+    },
+    {
+      '1': 'bytes_list',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.CollectionDef.BytesList',
+      '9': 0,
+      '10': 'bytesList'
+    },
+    {
+      '1': 'int64_list',
+      '3': 3,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.CollectionDef.Int64List',
+      '9': 0,
+      '10': 'int64List'
+    },
+    {
+      '1': 'float_list',
+      '3': 4,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.CollectionDef.FloatList',
+      '9': 0,
+      '10': 'floatList'
+    },
+    {
+      '1': 'any_list',
+      '3': 5,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.CollectionDef.AnyList',
+      '9': 0,
+      '10': 'anyList'
+    },
   ],
-  '3': [CollectionDef_NodeList$json, CollectionDef_BytesList$json, CollectionDef_Int64List$json, CollectionDef_FloatList$json, CollectionDef_AnyList$json],
+  '3': [
+    CollectionDef_NodeList$json,
+    CollectionDef_BytesList$json,
+    CollectionDef_Int64List$json,
+    CollectionDef_FloatList$json,
+    CollectionDef_AnyList$json
+  ],
   '8': [
     {'1': 'kind'},
   ],
@@ -165,7 +323,14 @@ const CollectionDef_FloatList$json = {
 const CollectionDef_AnyList$json = {
   '1': 'AnyList',
   '2': [
-    {'1': 'value', '3': 1, '4': 3, '5': 11, '6': '.google.protobuf.Any', '10': 'value'},
+    {
+      '1': 'value',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.google.protobuf.Any',
+      '10': 'value'
+    },
   ],
 };
 
@@ -188,10 +353,40 @@ const TensorInfo$json = {
   '1': 'TensorInfo',
   '2': [
     {'1': 'name', '3': 1, '4': 1, '5': 9, '9': 0, '10': 'name'},
-    {'1': 'coo_sparse', '3': 4, '4': 1, '5': 11, '6': '.tensorflow.TensorInfo.CooSparse', '9': 0, '10': 'cooSparse'},
-    {'1': 'composite_tensor', '3': 5, '4': 1, '5': 11, '6': '.tensorflow.TensorInfo.CompositeTensor', '9': 0, '10': 'compositeTensor'},
-    {'1': 'dtype', '3': 2, '4': 1, '5': 14, '6': '.tensorflow.DataType', '10': 'dtype'},
-    {'1': 'tensor_shape', '3': 3, '4': 1, '5': 11, '6': '.tensorflow.TensorShapeProto', '10': 'tensorShape'},
+    {
+      '1': 'coo_sparse',
+      '3': 4,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.TensorInfo.CooSparse',
+      '9': 0,
+      '10': 'cooSparse'
+    },
+    {
+      '1': 'composite_tensor',
+      '3': 5,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.TensorInfo.CompositeTensor',
+      '9': 0,
+      '10': 'compositeTensor'
+    },
+    {
+      '1': 'dtype',
+      '3': 2,
+      '4': 1,
+      '5': 14,
+      '6': '.tensorflow.DataType',
+      '10': 'dtype'
+    },
+    {
+      '1': 'tensor_shape',
+      '3': 3,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.TensorShapeProto',
+      '10': 'tensorShape'
+    },
   ],
   '3': [TensorInfo_CooSparse$json, TensorInfo_CompositeTensor$json],
   '8': [
@@ -203,9 +398,27 @@ const TensorInfo$json = {
 const TensorInfo_CooSparse$json = {
   '1': 'CooSparse',
   '2': [
-    {'1': 'values_tensor_name', '3': 1, '4': 1, '5': 9, '10': 'valuesTensorName'},
-    {'1': 'indices_tensor_name', '3': 2, '4': 1, '5': 9, '10': 'indicesTensorName'},
-    {'1': 'dense_shape_tensor_name', '3': 3, '4': 1, '5': 9, '10': 'denseShapeTensorName'},
+    {
+      '1': 'values_tensor_name',
+      '3': 1,
+      '4': 1,
+      '5': 9,
+      '10': 'valuesTensorName'
+    },
+    {
+      '1': 'indices_tensor_name',
+      '3': 2,
+      '4': 1,
+      '5': 9,
+      '10': 'indicesTensorName'
+    },
+    {
+      '1': 'dense_shape_tensor_name',
+      '3': 3,
+      '4': 1,
+      '5': 9,
+      '10': 'denseShapeTensorName'
+    },
   ],
 };
 
@@ -213,8 +426,22 @@ const TensorInfo_CooSparse$json = {
 const TensorInfo_CompositeTensor$json = {
   '1': 'CompositeTensor',
   '2': [
-    {'1': 'type_spec', '3': 1, '4': 1, '5': 11, '6': '.tensorflow.TypeSpecProto', '10': 'typeSpec'},
-    {'1': 'components', '3': 2, '4': 3, '5': 11, '6': '.tensorflow.TensorInfo', '10': 'components'},
+    {
+      '1': 'type_spec',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.TypeSpecProto',
+      '10': 'typeSpec'
+    },
+    {
+      '1': 'components',
+      '3': 2,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.TensorInfo',
+      '10': 'components'
+    },
   ],
 };
 
@@ -236,8 +463,22 @@ final $typed_data.Uint8List tensorInfoDescriptor = $convert.base64Decode(
 const SignatureDef$json = {
   '1': 'SignatureDef',
   '2': [
-    {'1': 'inputs', '3': 1, '4': 3, '5': 11, '6': '.tensorflow.SignatureDef.InputsEntry', '10': 'inputs'},
-    {'1': 'outputs', '3': 2, '4': 3, '5': 11, '6': '.tensorflow.SignatureDef.OutputsEntry', '10': 'outputs'},
+    {
+      '1': 'inputs',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.SignatureDef.InputsEntry',
+      '10': 'inputs'
+    },
+    {
+      '1': 'outputs',
+      '3': 2,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.SignatureDef.OutputsEntry',
+      '10': 'outputs'
+    },
     {'1': 'method_name', '3': 3, '4': 1, '5': 9, '10': 'methodName'},
   ],
   '3': [SignatureDef_InputsEntry$json, SignatureDef_OutputsEntry$json],
@@ -248,7 +489,14 @@ const SignatureDef_InputsEntry$json = {
   '1': 'InputsEntry',
   '2': [
     {'1': 'key', '3': 1, '4': 1, '5': 9, '10': 'key'},
-    {'1': 'value', '3': 2, '4': 1, '5': 11, '6': '.tensorflow.TensorInfo', '10': 'value'},
+    {
+      '1': 'value',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.TensorInfo',
+      '10': 'value'
+    },
   ],
   '7': {'7': true},
 };
@@ -258,7 +506,14 @@ const SignatureDef_OutputsEntry$json = {
   '1': 'OutputsEntry',
   '2': [
     {'1': 'key', '3': 1, '4': 1, '5': 9, '10': 'key'},
-    {'1': 'value', '3': 2, '4': 1, '5': 11, '6': '.tensorflow.TensorInfo', '10': 'value'},
+    {
+      '1': 'value',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.TensorInfo',
+      '10': 'value'
+    },
   ],
   '7': {'7': true},
 };
@@ -277,7 +532,14 @@ final $typed_data.Uint8List signatureDefDescriptor = $convert.base64Decode(
 const AssetFileDef$json = {
   '1': 'AssetFileDef',
   '2': [
-    {'1': 'tensor_info', '3': 1, '4': 1, '5': 11, '6': '.tensorflow.TensorInfo', '10': 'tensorInfo'},
+    {
+      '1': 'tensor_info',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.TensorInfo',
+      '10': 'tensorInfo'
+    },
     {'1': 'filename', '3': 2, '4': 1, '5': 9, '10': 'filename'},
   ],
 };
@@ -286,4 +548,3 @@ const AssetFileDef$json = {
 final $typed_data.Uint8List assetFileDefDescriptor = $convert.base64Decode(
     'CgxBc3NldEZpbGVEZWYSNwoLdGVuc29yX2luZm8YASABKAsyFi50ZW5zb3JmbG93LlRlbnNvck'
     'luZm9SCnRlbnNvckluZm8SGgoIZmlsZW5hbWUYAiABKAlSCGZpbGVuYW1l');
-

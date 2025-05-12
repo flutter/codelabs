@@ -17,7 +17,14 @@ import 'dart:typed_data' as $typed_data;
 const InferenceTask$json = {
   '1': 'InferenceTask',
   '2': [
-    {'1': 'model_spec', '3': 1, '4': 1, '5': 11, '6': '.tensorflow.serving.ModelSpec', '10': 'modelSpec'},
+    {
+      '1': 'model_spec',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.serving.ModelSpec',
+      '10': 'modelSpec'
+    },
     {'1': 'method_name', '3': 2, '4': 1, '5': 9, '10': 'methodName'},
   ],
 };
@@ -31,9 +38,32 @@ final $typed_data.Uint8List inferenceTaskDescriptor = $convert.base64Decode(
 const InferenceResult$json = {
   '1': 'InferenceResult',
   '2': [
-    {'1': 'model_spec', '3': 1, '4': 1, '5': 11, '6': '.tensorflow.serving.ModelSpec', '10': 'modelSpec'},
-    {'1': 'classification_result', '3': 2, '4': 1, '5': 11, '6': '.tensorflow.serving.ClassificationResult', '9': 0, '10': 'classificationResult'},
-    {'1': 'regression_result', '3': 3, '4': 1, '5': 11, '6': '.tensorflow.serving.RegressionResult', '9': 0, '10': 'regressionResult'},
+    {
+      '1': 'model_spec',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.serving.ModelSpec',
+      '10': 'modelSpec'
+    },
+    {
+      '1': 'classification_result',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.serving.ClassificationResult',
+      '9': 0,
+      '10': 'classificationResult'
+    },
+    {
+      '1': 'regression_result',
+      '3': 3,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.serving.RegressionResult',
+      '9': 0,
+      '10': 'regressionResult'
+    },
   ],
   '8': [
     {'1': 'result'},
@@ -52,8 +82,22 @@ final $typed_data.Uint8List inferenceResultDescriptor = $convert.base64Decode(
 const MultiInferenceRequest$json = {
   '1': 'MultiInferenceRequest',
   '2': [
-    {'1': 'tasks', '3': 1, '4': 3, '5': 11, '6': '.tensorflow.serving.InferenceTask', '10': 'tasks'},
-    {'1': 'input', '3': 2, '4': 1, '5': 11, '6': '.tensorflow.serving.Input', '10': 'input'},
+    {
+      '1': 'tasks',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.serving.InferenceTask',
+      '10': 'tasks'
+    },
+    {
+      '1': 'input',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.serving.Input',
+      '10': 'input'
+    },
   ],
 };
 
@@ -67,12 +111,19 @@ final $typed_data.Uint8List multiInferenceRequestDescriptor = $convert.base64Dec
 const MultiInferenceResponse$json = {
   '1': 'MultiInferenceResponse',
   '2': [
-    {'1': 'results', '3': 1, '4': 3, '5': 11, '6': '.tensorflow.serving.InferenceResult', '10': 'results'},
+    {
+      '1': 'results',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.serving.InferenceResult',
+      '10': 'results'
+    },
   ],
 };
 
 /// Descriptor for `MultiInferenceResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List multiInferenceResponseDescriptor = $convert.base64Decode(
-    'ChZNdWx0aUluZmVyZW5jZVJlc3BvbnNlEj0KB3Jlc3VsdHMYASADKAsyIy50ZW5zb3JmbG93Ln'
-    'NlcnZpbmcuSW5mZXJlbmNlUmVzdWx0UgdyZXN1bHRz');
-
+final $typed_data.Uint8List multiInferenceResponseDescriptor =
+    $convert.base64Decode(
+        'ChZNdWx0aUluZmVyZW5jZVJlc3BvbnNlEj0KB3Jlc3VsdHMYASADKAsyIy50ZW5zb3JmbG93Ln'
+        'NlcnZpbmcuSW5mZXJlbmNlUmVzdWx0UgdyZXN1bHRz');

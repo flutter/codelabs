@@ -28,4 +28,3 @@ final $typed_data.Uint8List versionDefDescriptor = $convert.base64Decode(
     'CgpWZXJzaW9uRGVmEhoKCHByb2R1Y2VyGAEgASgFUghwcm9kdWNlchIhCgxtaW5fY29uc3VtZX'
     'IYAiABKAVSC21pbkNvbnN1bWVyEiMKDWJhZF9jb25zdW1lcnMYAyADKAVSDGJhZENvbnN1bWVy'
     'cw==');
-

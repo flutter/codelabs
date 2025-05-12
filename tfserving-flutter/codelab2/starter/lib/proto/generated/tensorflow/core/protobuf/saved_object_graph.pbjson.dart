@@ -17,8 +17,22 @@ import 'dart:typed_data' as $typed_data;
 const SavedObjectGraph$json = {
   '1': 'SavedObjectGraph',
   '2': [
-    {'1': 'nodes', '3': 1, '4': 3, '5': 11, '6': '.tensorflow.SavedObject', '10': 'nodes'},
-    {'1': 'concrete_functions', '3': 2, '4': 3, '5': 11, '6': '.tensorflow.SavedObjectGraph.ConcreteFunctionsEntry', '10': 'concreteFunctions'},
+    {
+      '1': 'nodes',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.SavedObject',
+      '10': 'nodes'
+    },
+    {
+      '1': 'concrete_functions',
+      '3': 2,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.SavedObjectGraph.ConcreteFunctionsEntry',
+      '10': 'concreteFunctions'
+    },
   ],
   '3': [SavedObjectGraph_ConcreteFunctionsEntry$json],
 };
@@ -28,7 +42,14 @@ const SavedObjectGraph_ConcreteFunctionsEntry$json = {
   '1': 'ConcreteFunctionsEntry',
   '2': [
     {'1': 'key', '3': 1, '4': 1, '5': 9, '10': 'key'},
-    {'1': 'value', '3': 2, '4': 1, '5': 11, '6': '.tensorflow.SavedConcreteFunction', '10': 'value'},
+    {
+      '1': 'value',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.SavedConcreteFunction',
+      '10': 'value'
+    },
   ],
   '7': {'7': true},
 };
@@ -45,20 +66,120 @@ final $typed_data.Uint8List savedObjectGraphDescriptor = $convert.base64Decode(
 const SavedObject$json = {
   '1': 'SavedObject',
   '2': [
-    {'1': 'children', '3': 1, '4': 3, '5': 11, '6': '.tensorflow.TrackableObjectGraph.TrackableObject.ObjectReference', '10': 'children'},
-    {'1': 'dependencies', '3': 15, '4': 3, '5': 11, '6': '.tensorflow.TrackableObjectGraph.TrackableObject.ObjectReference', '10': 'dependencies'},
-    {'1': 'slot_variables', '3': 3, '4': 3, '5': 11, '6': '.tensorflow.TrackableObjectGraph.TrackableObject.SlotVariableReference', '10': 'slotVariables'},
-    {'1': 'user_object', '3': 4, '4': 1, '5': 11, '6': '.tensorflow.SavedUserObject', '9': 0, '10': 'userObject'},
-    {'1': 'asset', '3': 5, '4': 1, '5': 11, '6': '.tensorflow.SavedAsset', '9': 0, '10': 'asset'},
-    {'1': 'function', '3': 6, '4': 1, '5': 11, '6': '.tensorflow.SavedFunction', '9': 0, '10': 'function'},
-    {'1': 'variable', '3': 7, '4': 1, '5': 11, '6': '.tensorflow.SavedVariable', '9': 0, '10': 'variable'},
-    {'1': 'bare_concrete_function', '3': 8, '4': 1, '5': 11, '6': '.tensorflow.SavedBareConcreteFunction', '9': 0, '10': 'bareConcreteFunction'},
-    {'1': 'constant', '3': 9, '4': 1, '5': 11, '6': '.tensorflow.SavedConstant', '9': 0, '10': 'constant'},
-    {'1': 'resource', '3': 10, '4': 1, '5': 11, '6': '.tensorflow.SavedResource', '9': 0, '10': 'resource'},
-    {'1': 'captured_tensor', '3': 12, '4': 1, '5': 11, '6': '.tensorflow.CapturedTensor', '9': 0, '10': 'capturedTensor'},
-    {'1': 'saveable_objects', '3': 11, '4': 3, '5': 11, '6': '.tensorflow.SavedObject.SaveableObjectsEntry', '10': 'saveableObjects'},
+    {
+      '1': 'children',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.TrackableObjectGraph.TrackableObject.ObjectReference',
+      '10': 'children'
+    },
+    {
+      '1': 'dependencies',
+      '3': 15,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.TrackableObjectGraph.TrackableObject.ObjectReference',
+      '10': 'dependencies'
+    },
+    {
+      '1': 'slot_variables',
+      '3': 3,
+      '4': 3,
+      '5': 11,
+      '6':
+          '.tensorflow.TrackableObjectGraph.TrackableObject.SlotVariableReference',
+      '10': 'slotVariables'
+    },
+    {
+      '1': 'user_object',
+      '3': 4,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.SavedUserObject',
+      '9': 0,
+      '10': 'userObject'
+    },
+    {
+      '1': 'asset',
+      '3': 5,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.SavedAsset',
+      '9': 0,
+      '10': 'asset'
+    },
+    {
+      '1': 'function',
+      '3': 6,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.SavedFunction',
+      '9': 0,
+      '10': 'function'
+    },
+    {
+      '1': 'variable',
+      '3': 7,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.SavedVariable',
+      '9': 0,
+      '10': 'variable'
+    },
+    {
+      '1': 'bare_concrete_function',
+      '3': 8,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.SavedBareConcreteFunction',
+      '9': 0,
+      '10': 'bareConcreteFunction'
+    },
+    {
+      '1': 'constant',
+      '3': 9,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.SavedConstant',
+      '9': 0,
+      '10': 'constant'
+    },
+    {
+      '1': 'resource',
+      '3': 10,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.SavedResource',
+      '9': 0,
+      '10': 'resource'
+    },
+    {
+      '1': 'captured_tensor',
+      '3': 12,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.CapturedTensor',
+      '9': 0,
+      '10': 'capturedTensor'
+    },
+    {
+      '1': 'saveable_objects',
+      '3': 11,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.SavedObject.SaveableObjectsEntry',
+      '10': 'saveableObjects'
+    },
     {'1': 'registered_name', '3': 13, '4': 1, '5': 9, '10': 'registeredName'},
-    {'1': 'serialized_user_proto', '3': 14, '4': 1, '5': 11, '6': '.google.protobuf.Any', '10': 'serializedUserProto'},
+    {
+      '1': 'serialized_user_proto',
+      '3': 14,
+      '4': 1,
+      '5': 11,
+      '6': '.google.protobuf.Any',
+      '10': 'serializedUserProto'
+    },
     {'1': 'registered_saver', '3': 16, '4': 1, '5': 9, '10': 'registeredSaver'},
   ],
   '3': [SavedObject_SaveableObjectsEntry$json],
@@ -76,7 +197,14 @@ const SavedObject_SaveableObjectsEntry$json = {
   '1': 'SaveableObjectsEntry',
   '2': [
     {'1': 'key', '3': 1, '4': 1, '5': 9, '10': 'key'},
-    {'1': 'value', '3': 2, '4': 1, '5': 11, '6': '.tensorflow.SaveableObject', '10': 'value'},
+    {
+      '1': 'value',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.SaveableObject',
+      '10': 'value'
+    },
   ],
   '7': {'7': true},
 };
@@ -111,7 +239,14 @@ const SavedUserObject$json = {
   '1': 'SavedUserObject',
   '2': [
     {'1': 'identifier', '3': 1, '4': 1, '5': 9, '10': 'identifier'},
-    {'1': 'version', '3': 2, '4': 1, '5': 11, '6': '.tensorflow.VersionDef', '10': 'version'},
+    {
+      '1': 'version',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.VersionDef',
+      '10': 'version'
+    },
     {
       '1': 'metadata',
       '3': 3,
@@ -133,7 +268,13 @@ final $typed_data.Uint8List savedUserObjectDescriptor = $convert.base64Decode(
 const SavedAsset$json = {
   '1': 'SavedAsset',
   '2': [
-    {'1': 'asset_file_def_index', '3': 1, '4': 1, '5': 5, '10': 'assetFileDefIndex'},
+    {
+      '1': 'asset_file_def_index',
+      '3': 1,
+      '4': 1,
+      '5': 5,
+      '10': 'assetFileDefIndex'
+    },
   ],
 };
 
@@ -146,8 +287,21 @@ final $typed_data.Uint8List savedAssetDescriptor = $convert.base64Decode(
 const SavedFunction$json = {
   '1': 'SavedFunction',
   '2': [
-    {'1': 'concrete_functions', '3': 1, '4': 3, '5': 9, '10': 'concreteFunctions'},
-    {'1': 'function_spec', '3': 2, '4': 1, '5': 11, '6': '.tensorflow.FunctionSpec', '10': 'functionSpec'},
+    {
+      '1': 'concrete_functions',
+      '3': 1,
+      '4': 3,
+      '5': 9,
+      '10': 'concreteFunctions'
+    },
+    {
+      '1': 'function_spec',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.FunctionSpec',
+      '10': 'functionSpec'
+    },
   ],
 };
 
@@ -162,7 +316,13 @@ const CapturedTensor$json = {
   '1': 'CapturedTensor',
   '2': [
     {'1': 'name', '3': 1, '4': 1, '5': 9, '10': 'name'},
-    {'1': 'concrete_function', '3': 2, '4': 1, '5': 9, '10': 'concreteFunction'},
+    {
+      '1': 'concrete_function',
+      '3': 2,
+      '4': 1,
+      '5': 9,
+      '10': 'concreteFunction'
+    },
   ],
 };
 
@@ -176,8 +336,22 @@ const SavedConcreteFunction$json = {
   '1': 'SavedConcreteFunction',
   '2': [
     {'1': 'bound_inputs', '3': 2, '4': 3, '5': 5, '10': 'boundInputs'},
-    {'1': 'canonicalized_input_signature', '3': 3, '4': 1, '5': 11, '6': '.tensorflow.StructuredValue', '10': 'canonicalizedInputSignature'},
-    {'1': 'output_signature', '3': 4, '4': 1, '5': 11, '6': '.tensorflow.StructuredValue', '10': 'outputSignature'},
+    {
+      '1': 'canonicalized_input_signature',
+      '3': 3,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.StructuredValue',
+      '10': 'canonicalizedInputSignature'
+    },
+    {
+      '1': 'output_signature',
+      '3': 4,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.StructuredValue',
+      '10': 'outputSignature'
+    },
   ],
 };
 
@@ -193,10 +367,35 @@ final $typed_data.Uint8List savedConcreteFunctionDescriptor = $convert.base64Dec
 const SavedBareConcreteFunction$json = {
   '1': 'SavedBareConcreteFunction',
   '2': [
-    {'1': 'concrete_function_name', '3': 1, '4': 1, '5': 9, '10': 'concreteFunctionName'},
-    {'1': 'argument_keywords', '3': 2, '4': 3, '5': 9, '10': 'argumentKeywords'},
-    {'1': 'allowed_positional_arguments', '3': 3, '4': 1, '5': 3, '10': 'allowedPositionalArguments'},
-    {'1': 'function_spec', '3': 4, '4': 1, '5': 11, '6': '.tensorflow.FunctionSpec', '10': 'functionSpec'},
+    {
+      '1': 'concrete_function_name',
+      '3': 1,
+      '4': 1,
+      '5': 9,
+      '10': 'concreteFunctionName'
+    },
+    {
+      '1': 'argument_keywords',
+      '3': 2,
+      '4': 3,
+      '5': 9,
+      '10': 'argumentKeywords'
+    },
+    {
+      '1': 'allowed_positional_arguments',
+      '3': 3,
+      '4': 1,
+      '5': 3,
+      '10': 'allowedPositionalArguments'
+    },
+    {
+      '1': 'function_spec',
+      '3': 4,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.FunctionSpec',
+      '10': 'functionSpec'
+    },
   ],
 };
 
@@ -224,14 +423,49 @@ final $typed_data.Uint8List savedConstantDescriptor = $convert.base64Decode(
 const SavedVariable$json = {
   '1': 'SavedVariable',
   '2': [
-    {'1': 'dtype', '3': 1, '4': 1, '5': 14, '6': '.tensorflow.DataType', '10': 'dtype'},
-    {'1': 'shape', '3': 2, '4': 1, '5': 11, '6': '.tensorflow.TensorShapeProto', '10': 'shape'},
+    {
+      '1': 'dtype',
+      '3': 1,
+      '4': 1,
+      '5': 14,
+      '6': '.tensorflow.DataType',
+      '10': 'dtype'
+    },
+    {
+      '1': 'shape',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.TensorShapeProto',
+      '10': 'shape'
+    },
     {'1': 'trainable', '3': 3, '4': 1, '5': 8, '10': 'trainable'},
-    {'1': 'synchronization', '3': 4, '4': 1, '5': 14, '6': '.tensorflow.VariableSynchronization', '10': 'synchronization'},
-    {'1': 'aggregation', '3': 5, '4': 1, '5': 14, '6': '.tensorflow.VariableAggregation', '10': 'aggregation'},
+    {
+      '1': 'synchronization',
+      '3': 4,
+      '4': 1,
+      '5': 14,
+      '6': '.tensorflow.VariableSynchronization',
+      '10': 'synchronization'
+    },
+    {
+      '1': 'aggregation',
+      '3': 5,
+      '4': 1,
+      '5': 14,
+      '6': '.tensorflow.VariableAggregation',
+      '10': 'aggregation'
+    },
     {'1': 'name', '3': 6, '4': 1, '5': 9, '10': 'name'},
     {'1': 'device', '3': 7, '4': 1, '5': 9, '10': 'device'},
-    {'1': 'experimental_distributed_variable_components', '3': 8, '4': 3, '5': 11, '6': '.tensorflow.SavedVariable', '10': 'experimentalDistributedVariableComponents'},
+    {
+      '1': 'experimental_distributed_variable_components',
+      '3': 8,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.SavedVariable',
+      '10': 'experimentalDistributedVariableComponents'
+    },
   ],
 };
 
@@ -251,10 +485,31 @@ final $typed_data.Uint8List savedVariableDescriptor = $convert.base64Decode(
 const FunctionSpec$json = {
   '1': 'FunctionSpec',
   '2': [
-    {'1': 'fullargspec', '3': 1, '4': 1, '5': 11, '6': '.tensorflow.StructuredValue', '10': 'fullargspec'},
+    {
+      '1': 'fullargspec',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.StructuredValue',
+      '10': 'fullargspec'
+    },
     {'1': 'is_method', '3': 2, '4': 1, '5': 8, '10': 'isMethod'},
-    {'1': 'input_signature', '3': 5, '4': 1, '5': 11, '6': '.tensorflow.StructuredValue', '10': 'inputSignature'},
-    {'1': 'jit_compile', '3': 6, '4': 1, '5': 14, '6': '.tensorflow.FunctionSpec.JitCompile', '10': 'jitCompile'},
+    {
+      '1': 'input_signature',
+      '3': 5,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.StructuredValue',
+      '10': 'inputSignature'
+    },
+    {
+      '1': 'jit_compile',
+      '3': 6,
+      '4': 1,
+      '5': 14,
+      '6': '.tensorflow.FunctionSpec.JitCompile',
+      '10': 'jitCompile'
+    },
   ],
   '4': [FunctionSpec_JitCompile$json],
   '9': [
@@ -291,8 +546,8 @@ const SavedResource$json = {
 };
 
 /// Descriptor for `SavedResource`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List savedResourceDescriptor = $convert.base64Decode(
-    'Cg1TYXZlZFJlc291cmNlEhYKBmRldmljZRgBIAEoCVIGZGV2aWNl');
+final $typed_data.Uint8List savedResourceDescriptor = $convert
+    .base64Decode('Cg1TYXZlZFJlc291cmNlEhYKBmRldmljZRgBIAEoCVIGZGV2aWNl');
 
 @$core.Deprecated('Use saveableObjectDescriptor instead')
 const SaveableObject$json = {
@@ -307,4 +562,3 @@ const SaveableObject$json = {
 final $typed_data.Uint8List saveableObjectDescriptor = $convert.base64Decode(
     'Cg5TYXZlYWJsZU9iamVjdBIjCg1zYXZlX2Z1bmN0aW9uGAIgASgFUgxzYXZlRnVuY3Rpb24SKQ'
     'oQcmVzdG9yZV9mdW5jdGlvbhgDIAEoBVIPcmVzdG9yZUZ1bmN0aW9u');
-

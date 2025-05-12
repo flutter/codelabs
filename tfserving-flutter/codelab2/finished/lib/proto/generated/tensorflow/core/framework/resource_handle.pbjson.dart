@@ -22,7 +22,14 @@ const ResourceHandleProto$json = {
     {'1': 'name', '3': 3, '4': 1, '5': 9, '10': 'name'},
     {'1': 'hash_code', '3': 4, '4': 1, '5': 4, '10': 'hashCode'},
     {'1': 'maybe_type_name', '3': 5, '4': 1, '5': 9, '10': 'maybeTypeName'},
-    {'1': 'dtypes_and_shapes', '3': 6, '4': 3, '5': 11, '6': '.tensorflow.ResourceHandleProto.DtypeAndShape', '10': 'dtypesAndShapes'},
+    {
+      '1': 'dtypes_and_shapes',
+      '3': 6,
+      '4': 3,
+      '5': 11,
+      '6': '.tensorflow.ResourceHandleProto.DtypeAndShape',
+      '10': 'dtypesAndShapes'
+    },
   ],
   '3': [ResourceHandleProto_DtypeAndShape$json],
   '9': [
@@ -34,8 +41,22 @@ const ResourceHandleProto$json = {
 const ResourceHandleProto_DtypeAndShape$json = {
   '1': 'DtypeAndShape',
   '2': [
-    {'1': 'dtype', '3': 1, '4': 1, '5': 14, '6': '.tensorflow.DataType', '10': 'dtype'},
-    {'1': 'shape', '3': 2, '4': 1, '5': 11, '6': '.tensorflow.TensorShapeProto', '10': 'shape'},
+    {
+      '1': 'dtype',
+      '3': 1,
+      '4': 1,
+      '5': 14,
+      '6': '.tensorflow.DataType',
+      '10': 'dtype'
+    },
+    {
+      '1': 'shape',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.tensorflow.TensorShapeProto',
+      '10': 'shape'
+    },
   ],
 };
 
@@ -48,4 +69,3 @@ final $typed_data.Uint8List resourceHandleProtoDescriptor = $convert.base64Decod
     'dG8uRHR5cGVBbmRTaGFwZVIPZHR5cGVzQW5kU2hhcGVzGm8KDUR0eXBlQW5kU2hhcGUSKgoFZH'
     'R5cGUYASABKA4yFC50ZW5zb3JmbG93LkRhdGFUeXBlUgVkdHlwZRIyCgVzaGFwZRgCIAEoCzIc'
     'LnRlbnNvcmZsb3cuVGVuc29yU2hhcGVQcm90b1IFc2hhcGVKBAgHEAg=');
-
