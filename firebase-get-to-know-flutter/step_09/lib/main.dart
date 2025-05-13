@@ -83,27 +83,26 @@ final _router = GoRouter(
           path: 'profile',
           builder: (context, state) {
             return Consumer<ApplicationState>(
-              builder:
-                  (context, appState, _) => ProfileScreen(
-                    key: ValueKey(appState.emailVerified),
-                    providers: const [],
-                    actions: [
-                      SignedOutAction(((context) {
-                        context.pushReplacement('/');
-                      })),
-                    ],
-                    children: [
-                      Visibility(
-                        visible: !appState.emailVerified,
-                        child: OutlinedButton(
-                          child: const Text('Recheck Verification State'),
-                          onPressed: () {
-                            appState.refreshLoggedInUser();
-                          },
-                        ),
-                      ),
-                    ],
+              builder: (context, appState, _) => ProfileScreen(
+                key: ValueKey(appState.emailVerified),
+                providers: const [],
+                actions: [
+                  SignedOutAction(((context) {
+                    context.pushReplacement('/');
+                  })),
+                ],
+                children: [
+                  Visibility(
+                    visible: !appState.emailVerified,
+                    child: OutlinedButton(
+                      child: const Text('Recheck Verification State'),
+                      onPressed: () {
+                        appState.refreshLoggedInUser();
+                      },
+                    ),
                   ),
+                ],
+              ),
             );
           },
         ),

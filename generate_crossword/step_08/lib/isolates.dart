@@ -41,10 +41,9 @@ Future<WorkQueue> _generate((WorkQueue, int) workMessage) async {
   var (workQueue, maxWorkerCount) = workMessage;
   final candidateGeneratorFutures = <Future<(Location, Direction, String?)>>[];
   final locations = workQueue.locationsToTry.keys.toBuiltList().rebuild(
-    (b) =>
-        b
-          ..shuffle()
-          ..take(maxWorkerCount),
+    (b) => b
+      ..shuffle()
+      ..take(maxWorkerCount),
   );
 
   for (final location in locations) {
@@ -99,10 +98,9 @@ Future<WorkQueue> _generate((WorkQueue, int) workMessage) async {
   // Filter down the candidate word list to those that contain the letter
   // at the current location
   final words = candidateWords.toBuiltList().rebuild(
-    (b) =>
-        b
-          ..where((b) => b.characters.contains(target.character))
-          ..shuffle(),
+    (b) => b
+      ..where((b) => b.characters.contains(target.character))
+      ..shuffle(),
   );
   int tryCount = 0;
   final start = DateTime.now();

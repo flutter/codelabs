@@ -106,12 +106,11 @@ void main() {
     Crossword crossword = Crossword.crossword(width: 50, height: 50);
     expect(crossword.valid, true);
 
-    crossword =
-        crossword.addWord(
-          direction: Direction.across,
-          location: Location.at(0, 0),
-          word: 'this',
-        )!;
+    crossword = crossword.addWord(
+      direction: Direction.across,
+      location: Location.at(0, 0),
+      word: 'this',
+    )!;
     expect(crossword.valid, true);
 
     final crossword2 = crossword.addWord(
@@ -173,18 +172,13 @@ void main() {
 
     final topLeft = Location.at(0, 0);
 
-    crossword =
-        crossword
-            .addWord(
-              location: topLeft,
-              word: 'this',
-              direction: Direction.down,
-            )!
-            .addWord(
-              location: topLeft,
-              word: 'total',
-              direction: Direction.across,
-            )!;
+    crossword = crossword
+        .addWord(location: topLeft, word: 'this', direction: Direction.down)!
+        .addWord(
+          location: topLeft,
+          word: 'total',
+          direction: Direction.across,
+        )!;
 
     expect(crossword.valid, isTrue);
 
@@ -236,20 +230,19 @@ void main() {
 
   test('Crossword is not valid with run-on across words', () {
     Crossword crossword = Crossword.crossword(width: 50, height: 50).rebuild(
-      (b) =>
-          b
-            ..words.addAll([
-              CrosswordWord.word(
-                direction: Direction.across,
-                location: Location.at(0, 0),
-                word: 'word',
-              ),
-              CrosswordWord.word(
-                direction: Direction.across,
-                location: Location.at(4, 0),
-                word: 'another',
-              ),
-            ]),
+      (b) => b
+        ..words.addAll([
+          CrosswordWord.word(
+            direction: Direction.across,
+            location: Location.at(0, 0),
+            word: 'word',
+          ),
+          CrosswordWord.word(
+            direction: Direction.across,
+            location: Location.at(4, 0),
+            word: 'another',
+          ),
+        ]),
     );
 
     expect(crossword.valid, false);
@@ -257,20 +250,19 @@ void main() {
 
   test('Crossword is not valid with run-on down words', () {
     Crossword crossword = Crossword.crossword(width: 50, height: 50).rebuild(
-      (b) =>
-          b
-            ..words.addAll([
-              CrosswordWord.word(
-                direction: Direction.down,
-                location: Location.at(0, 0),
-                word: 'word',
-              ),
-              CrosswordWord.word(
-                direction: Direction.down,
-                location: Location.at(0, 4),
-                word: 'another',
-              ),
-            ]),
+      (b) => b
+        ..words.addAll([
+          CrosswordWord.word(
+            direction: Direction.down,
+            location: Location.at(0, 0),
+            word: 'word',
+          ),
+          CrosswordWord.word(
+            direction: Direction.down,
+            location: Location.at(0, 4),
+            word: 'another',
+          ),
+        ]),
     );
 
     expect(crossword.valid, false);
@@ -278,20 +270,19 @@ void main() {
 
   test('Crossword is not valid with run-on across/down words', () {
     Crossword crossword = Crossword.crossword(width: 50, height: 50).rebuild(
-      (b) =>
-          b
-            ..words.addAll([
-              CrosswordWord.word(
-                direction: Direction.across,
-                location: Location.at(0, 0),
-                word: 'word',
-              ),
-              CrosswordWord.word(
-                direction: Direction.down,
-                location: Location.at(4, 0),
-                word: 'another',
-              ),
-            ]),
+      (b) => b
+        ..words.addAll([
+          CrosswordWord.word(
+            direction: Direction.across,
+            location: Location.at(0, 0),
+            word: 'word',
+          ),
+          CrosswordWord.word(
+            direction: Direction.down,
+            location: Location.at(4, 0),
+            word: 'another',
+          ),
+        ]),
     );
 
     expect(crossword.valid, false);
@@ -299,20 +290,19 @@ void main() {
 
   test('Crossword is not valid with run-on down/across words', () {
     Crossword? crossword = Crossword.crossword(width: 50, height: 50).rebuild(
-      (b) =>
-          b
-            ..words.addAll([
-              CrosswordWord.word(
-                direction: Direction.down,
-                location: Location.at(0, 0),
-                word: 'word',
-              ),
-              CrosswordWord.word(
-                direction: Direction.across,
-                location: Location.at(0, 4),
-                word: 'another',
-              ),
-            ]),
+      (b) => b
+        ..words.addAll([
+          CrosswordWord.word(
+            direction: Direction.down,
+            location: Location.at(0, 0),
+            word: 'word',
+          ),
+          CrosswordWord.word(
+            direction: Direction.across,
+            location: Location.at(0, 4),
+            word: 'another',
+          ),
+        ]),
     );
 
     expect(crossword.valid, false);
@@ -321,12 +311,11 @@ void main() {
   test('Adding duplicate across words returns null', () {
     Crossword? crossword = Crossword.crossword(width: 50, height: 50);
 
-    crossword =
-        crossword.addWord(
-          direction: Direction.across,
-          location: Location.at(0, 0),
-          word: 'duplicated',
-        )!;
+    crossword = crossword.addWord(
+      direction: Direction.across,
+      location: Location.at(0, 0),
+      word: 'duplicated',
+    )!;
 
     expect(
       crossword.addWord(
@@ -340,20 +329,19 @@ void main() {
 
   test('Crossword is not valid with duplicate across words', () {
     Crossword? crossword = Crossword.crossword(width: 50, height: 50).rebuild(
-      (b) =>
-          b
-            ..words.addAll([
-              CrosswordWord.word(
-                direction: Direction.across,
-                location: Location.at(0, 0),
-                word: 'duplicated',
-              ),
-              CrosswordWord.word(
-                direction: Direction.across,
-                location: Location.at(4, 4),
-                word: 'duplicated',
-              ),
-            ]),
+      (b) => b
+        ..words.addAll([
+          CrosswordWord.word(
+            direction: Direction.across,
+            location: Location.at(0, 0),
+            word: 'duplicated',
+          ),
+          CrosswordWord.word(
+            direction: Direction.across,
+            location: Location.at(4, 4),
+            word: 'duplicated',
+          ),
+        ]),
     );
 
     expect(crossword.valid, false);
@@ -362,12 +350,11 @@ void main() {
   test('Adding duplicate down words returns null', () {
     Crossword? crossword = Crossword.crossword(width: 50, height: 50);
 
-    crossword =
-        crossword.addWord(
-          direction: Direction.down,
-          location: Location.at(0, 0),
-          word: 'duplicated',
-        )!;
+    crossword = crossword.addWord(
+      direction: Direction.down,
+      location: Location.at(0, 0),
+      word: 'duplicated',
+    )!;
 
     expect(
       crossword.addWord(
@@ -381,20 +368,19 @@ void main() {
 
   test('Crossword is not valid with duplicate down words', () {
     Crossword? crossword = Crossword.crossword(width: 50, height: 50).rebuild(
-      (b) =>
-          b
-            ..words.addAll([
-              CrosswordWord.word(
-                direction: Direction.down,
-                location: Location.at(0, 0),
-                word: 'duplicated',
-              ),
-              CrosswordWord.word(
-                direction: Direction.down,
-                location: Location.at(4, 4),
-                word: 'duplicated',
-              ),
-            ]),
+      (b) => b
+        ..words.addAll([
+          CrosswordWord.word(
+            direction: Direction.down,
+            location: Location.at(0, 0),
+            word: 'duplicated',
+          ),
+          CrosswordWord.word(
+            direction: Direction.down,
+            location: Location.at(4, 4),
+            word: 'duplicated',
+          ),
+        ]),
     );
 
     expect(crossword.valid, false);
@@ -409,12 +395,11 @@ void main() {
     );
     expect(queue.locationsToTry.length, 1);
 
-    crossword =
-        crossword.addWord(
-          direction: Direction.across,
-          location: Location.at(0, 0),
-          word: 'word',
-        )!;
+    crossword = crossword.addWord(
+      direction: Direction.across,
+      location: Location.at(0, 0),
+      word: 'word',
+    )!;
     queue = WorkQueue.from(
       crossword: crossword,
       candidateWords: ['words', 'and', 'moar', 'wordz'],
@@ -436,12 +421,11 @@ void main() {
   });
 
   test('WorkQueue from down word', () {
-    Crossword crossword =
-        Crossword.crossword(width: 50, height: 50).addWord(
-          direction: Direction.down,
-          location: Location.at(0, 0),
-          word: 'word',
-        )!;
+    Crossword crossword = Crossword.crossword(width: 50, height: 50).addWord(
+      direction: Direction.down,
+      location: Location.at(0, 0),
+      word: 'word',
+    )!;
 
     WorkQueue queue = WorkQueue.from(
       crossword: crossword,
@@ -464,18 +448,17 @@ void main() {
   });
 
   test('WorkQueue from two words', () {
-    Crossword crossword =
-        Crossword.crossword(width: 50, height: 50)
-            .addWord(
-              direction: Direction.across,
-              location: Location.at(0, 0),
-              word: 'word',
-            )!
-            .addWord(
-              direction: Direction.down,
-              location: Location.at(0, 0),
-              word: 'work',
-            )!;
+    Crossword crossword = Crossword.crossword(width: 50, height: 50)
+        .addWord(
+          direction: Direction.across,
+          location: Location.at(0, 0),
+          word: 'word',
+        )!
+        .addWord(
+          direction: Direction.down,
+          location: Location.at(0, 0),
+          word: 'work',
+        )!;
 
     WorkQueue queue = WorkQueue.from(
       crossword: crossword,
@@ -496,18 +479,17 @@ void main() {
   });
 
   test('WorkQueue removes used words from candidate list', () {
-    Crossword crossword =
-        Crossword.crossword(width: 50, height: 50)
-            .addWord(
-              direction: Direction.across,
-              location: Location.at(0, 0),
-              word: 'word',
-            )!
-            .addWord(
-              direction: Direction.down,
-              location: Location.at(0, 0),
-              word: 'work',
-            )!;
+    Crossword crossword = Crossword.crossword(width: 50, height: 50)
+        .addWord(
+          direction: Direction.across,
+          location: Location.at(0, 0),
+          word: 'word',
+        )!
+        .addWord(
+          direction: Direction.down,
+          location: Location.at(0, 0),
+          word: 'work',
+        )!;
 
     WorkQueue queue = WorkQueue.from(
       crossword: crossword,
@@ -541,11 +523,10 @@ void main() {
         .split('\n')
         .toBuiltSet()
         .rebuild(
-          (b) =>
-              b
-                ..map((str) => str.toLowerCase().trim())
-                ..removeWhere((str) => str.length < 3)
-                ..removeWhere((str) => re.stringMatch(str) == null),
+          (b) => b
+            ..map((str) => str.toLowerCase().trim())
+            ..removeWhere((str) => str.length < 3)
+            ..removeWhere((str) => re.stringMatch(str) == null),
         );
 
     final puzzle = CrosswordPuzzleGame.from(
@@ -624,20 +605,19 @@ void main() {
 
       final topLeft = Location.at(0, 0);
 
-      crossword =
-          crossword
-              .addWord(
-                location: topLeft,
-                word: 'this',
-                direction: Direction.down,
-                requireOverlap: false,
-              )!
-              .addWord(
-                location: topLeft,
-                word: 'total',
-                direction: Direction.across,
-                requireOverlap: false,
-              )!;
+      crossword = crossword
+          .addWord(
+            location: topLeft,
+            word: 'this',
+            direction: Direction.down,
+            requireOverlap: false,
+          )!
+          .addWord(
+            location: topLeft,
+            word: 'total',
+            direction: Direction.across,
+            requireOverlap: false,
+          )!;
 
       expect(crossword.valid, isTrue);
 
@@ -729,11 +709,10 @@ void main() {
         .split('\n')
         .toBuiltSet()
         .rebuild(
-          (b) =>
-              b
-                ..map((str) => str.toLowerCase().trim())
-                ..removeWhere((str) => str.length < 3)
-                ..removeWhere((str) => re.stringMatch(str) == null),
+          (b) => b
+            ..map((str) => str.toLowerCase().trim())
+            ..removeWhere((str) => str.length < 3)
+            ..removeWhere((str) => re.stringMatch(str) == null),
         );
 
     CrosswordPuzzleGame? puzzle = CrosswordPuzzleGame.from(
@@ -810,11 +789,10 @@ void main() {
         .split('\n')
         .toBuiltSet()
         .rebuild(
-          (b) =>
-              b
-                ..map((str) => str.toLowerCase().trim())
-                ..removeWhere((str) => str.length < 3)
-                ..removeWhere((str) => re.stringMatch(str) == null),
+          (b) => b
+            ..map((str) => str.toLowerCase().trim())
+            ..removeWhere((str) => str.length < 3)
+            ..removeWhere((str) => re.stringMatch(str) == null),
         );
 
     CrosswordPuzzleGame? puzzle = CrosswordPuzzleGame.from(

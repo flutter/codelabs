@@ -47,10 +47,9 @@ class GeminiTools {
     final blue = (arguments['blue'] as num).toDouble();
     final functionResults = {
       'success': true,
-      'current_color':
-          colorStateNotifier
-              .updateColor(red: red, green: green, blue: blue)
-              .toLLMContextMap(),
+      'current_color': colorStateNotifier
+          .updateColor(red: red, green: green, blue: blue)
+          .toLLMContextMap(),
     };
 
     final logStateNotifier = ref.read(logStateNotifierProvider.notifier);

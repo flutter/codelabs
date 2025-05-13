@@ -21,8 +21,9 @@ import 'package:shelf_router/shelf_router.dart';
 /// and their dependencies
 Future<Map<String, PurchaseHandler>> _createPurchaseHandlers() async {
   // Configure Android Publisher API access
-  final serviceAccountGooglePlay =
-      File('assets/service-account-google-play.json').readAsStringSync();
+  final serviceAccountGooglePlay = File(
+    'assets/service-account-google-play.json',
+  ).readAsStringSync();
   final clientCredentialsGooglePlay = auth.ServiceAccountCredentials.fromJson(
     serviceAccountGooglePlay,
   );
@@ -33,8 +34,9 @@ Future<Map<String, PurchaseHandler>> _createPurchaseHandlers() async {
   final androidPublisher = ap.AndroidPublisherApi(clientGooglePlay);
 
   // Configure Firestore API access
-  final serviceAccountFirebase =
-      File('assets/service-account-firebase.json').readAsStringSync();
+  final serviceAccountFirebase = File(
+    'assets/service-account-firebase.json',
+  ).readAsStringSync();
   final clientCredentialsFirebase = auth.ServiceAccountCredentials.fromJson(
     serviceAccountFirebase,
   );

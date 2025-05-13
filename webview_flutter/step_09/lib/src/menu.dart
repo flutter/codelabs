@@ -35,17 +35,16 @@ class _MenuState extends State<Menu> {
             ).showSnackBar(SnackBar(content: Text('$userAgent')));
         }
       },
-      itemBuilder:
-          (context) => [
-            const PopupMenuItem<_MenuOptions>(
-              value: _MenuOptions.navigationDelegate,
-              child: Text('Navigate to YouTube'),
-            ),
-            const PopupMenuItem<_MenuOptions>(
-              value: _MenuOptions.userAgent,
-              child: Text('Show user-agent'),
-            ),
-          ],
+      itemBuilder: (context) => [
+        const PopupMenuItem<_MenuOptions>(
+          value: _MenuOptions.navigationDelegate,
+          child: Text('Navigate to YouTube'),
+        ),
+        const PopupMenuItem<_MenuOptions>(
+          value: _MenuOptions.userAgent,
+          child: Text('Show user-agent'),
+        ),
+      ],
     );
   }
 }

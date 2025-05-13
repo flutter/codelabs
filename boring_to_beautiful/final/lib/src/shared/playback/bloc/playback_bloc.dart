@@ -21,8 +21,9 @@ class PlaybackBloc extends Bloc<PlaybackEvent, PlaybackState> {
         SongProgress songProgress => _songProgress(songProgress, emit),
         ToggleMute toggleMute => _toggleMute(toggleMute, emit),
         TogglePlayPause toggle => _togglePlayPause(toggle, emit),
-        PlaybackEvent event =>
-          throw UnimplementedError('Unhandled event: $event'),
+        PlaybackEvent event => throw UnimplementedError(
+          'Unhandled event: $event',
+        ),
       },
     );
   }
@@ -53,10 +54,8 @@ class PlaybackBloc extends Bloc<PlaybackEvent, PlaybackState> {
 
   void _pausePlayback() => _currentlyPlayingSubscription!.cancel();
 
-  void _resumePlayback() =>
-      _currentlyPlayingSubscription = _startPlayingStream().listen(
-        _handlePlaybackProgress,
-      );
+  void _resumePlayback() => _currentlyPlayingSubscription =
+      _startPlayingStream().listen(_handlePlaybackProgress);
 
   void _changeSong(ChangeSong event, Emitter<PlaybackState> emit) {
     emit(

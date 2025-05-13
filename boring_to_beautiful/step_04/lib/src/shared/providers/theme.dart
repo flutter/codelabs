@@ -74,10 +74,9 @@ class ThemeProvider extends InheritedWidget {
   }
 
   ColorScheme colors(Brightness brightness, Color? targetColor) {
-    final dynamicPrimary =
-        brightness == Brightness.light
-            ? lightDynamic?.primary
-            : darkDynamic?.primary;
+    final dynamicPrimary = brightness == Brightness.light
+        ? lightDynamic?.primary
+        : darkDynamic?.primary;
     return ColorScheme.fromSeed(
       seedColor: dynamicPrimary ?? source(targetColor),
       brightness: brightness,

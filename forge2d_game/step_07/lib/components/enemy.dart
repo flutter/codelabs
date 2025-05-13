@@ -38,10 +38,9 @@ class Enemy extends BodyComponentWithUserData with ContactCallbacks {
   Enemy(Vector2 position, Sprite sprite)
     : super(
         renderBody: false,
-        bodyDef:
-            BodyDef()
-              ..position = position
-              ..type = BodyType.dynamic,
+        bodyDef: BodyDef()
+          ..position = position
+          ..type = BodyType.dynamic,
         fixtureDefs: [
           FixtureDef(
             PolygonShape()..setAsBoxXY(enemySize / 2, enemySize / 2),

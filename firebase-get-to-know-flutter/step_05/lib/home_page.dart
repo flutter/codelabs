@@ -25,13 +25,12 @@ class HomePage extends StatelessWidget {
           const IconAndDetail(Icons.calendar_today, 'October 30'),
           const IconAndDetail(Icons.location_city, 'San Francisco'),
           Consumer<ApplicationState>(
-            builder:
-                (context, appState, _) => AuthFunc(
-                  loggedIn: appState.loggedIn,
-                  signOut: () {
-                    FirebaseAuth.instance.signOut();
-                  },
-                ),
+            builder: (context, appState, _) => AuthFunc(
+              loggedIn: appState.loggedIn,
+              signOut: () {
+                FirebaseAuth.instance.signOut();
+              },
+            ),
           ),
           const Divider(
             height: 8,
