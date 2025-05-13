@@ -18,7 +18,7 @@ dependencies:
   rnd: ^0.2.0
   vector_math: ^2.1.4
   cupertino_icons: ^1.0.8
-  provider: ^6.1.2
+  provider: ^6.1.5
   window_size:
     git:
       url: https://github.com/google/flutter-desktop-embedding.git
