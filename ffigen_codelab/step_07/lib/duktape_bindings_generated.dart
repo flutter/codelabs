@@ -43,28 +43,28 @@ class DuktapeBindings {
     );
   }
 
-  late final _duk_create_heapPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<duk_context> Function(
-        duk_alloc_function,
-        duk_realloc_function,
-        duk_free_function,
-        ffi.Pointer<ffi.Void>,
-        duk_fatal_function,
-      )
-    >
-  >('duk_create_heap');
-  late final _duk_create_heap =
-      _duk_create_heapPtr
-          .asFunction<
-            ffi.Pointer<duk_context> Function(
-              duk_alloc_function,
-              duk_realloc_function,
-              duk_free_function,
-              ffi.Pointer<ffi.Void>,
-              duk_fatal_function,
-            )
-          >();
+  late final _duk_create_heapPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<duk_context> Function(
+            duk_alloc_function,
+            duk_realloc_function,
+            duk_free_function,
+            ffi.Pointer<ffi.Void>,
+            duk_fatal_function,
+          )
+        >
+      >('duk_create_heap');
+  late final _duk_create_heap = _duk_create_heapPtr
+      .asFunction<
+        ffi.Pointer<duk_context> Function(
+          duk_alloc_function,
+          duk_realloc_function,
+          duk_free_function,
+          ffi.Pointer<ffi.Void>,
+          duk_fatal_function,
+        )
+      >();
 
   void duk_destroy_heap(ffi.Pointer<duk_context> ctx) {
     return _duk_destroy_heap(ctx);
@@ -74,9 +74,8 @@ class DuktapeBindings {
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>)>>(
         'duk_destroy_heap',
       );
-  late final _duk_destroy_heap =
-      _duk_destroy_heapPtr
-          .asFunction<void Function(ffi.Pointer<duk_context>)>();
+  late final _duk_destroy_heap = _duk_destroy_heapPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>)>();
 
   void duk_suspend(
     ffi.Pointer<duk_context> ctx,
@@ -85,19 +84,19 @@ class DuktapeBindings {
     return _duk_suspend(ctx, state);
   }
 
-  late final _duk_suspendPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Void Function(ffi.Pointer<duk_context>, ffi.Pointer<duk_thread_state>)
-    >
-  >('duk_suspend');
-  late final _duk_suspend =
-      _duk_suspendPtr
-          .asFunction<
-            void Function(
-              ffi.Pointer<duk_context>,
-              ffi.Pointer<duk_thread_state>,
-            )
-          >();
+  late final _duk_suspendPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Pointer<duk_context>,
+            ffi.Pointer<duk_thread_state>,
+          )
+        >
+      >('duk_suspend');
+  late final _duk_suspend = _duk_suspendPtr
+      .asFunction<
+        void Function(ffi.Pointer<duk_context>, ffi.Pointer<duk_thread_state>)
+      >();
 
   void duk_resume(
     ffi.Pointer<duk_context> ctx,
@@ -106,19 +105,19 @@ class DuktapeBindings {
     return _duk_resume(ctx, state);
   }
 
-  late final _duk_resumePtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Void Function(ffi.Pointer<duk_context>, ffi.Pointer<duk_thread_state>)
-    >
-  >('duk_resume');
-  late final _duk_resume =
-      _duk_resumePtr
-          .asFunction<
-            void Function(
-              ffi.Pointer<duk_context>,
-              ffi.Pointer<duk_thread_state>,
-            )
-          >();
+  late final _duk_resumePtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Pointer<duk_context>,
+            ffi.Pointer<duk_thread_state>,
+          )
+        >
+      >('duk_resume');
+  late final _duk_resume = _duk_resumePtr
+      .asFunction<
+        void Function(ffi.Pointer<duk_context>, ffi.Pointer<duk_thread_state>)
+      >();
 
   /// Memory management
   ///
@@ -127,31 +126,31 @@ class DuktapeBindings {
     return _duk_alloc_raw(ctx, size);
   }
 
-  late final _duk_alloc_rawPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<ffi.Void> Function(ffi.Pointer<duk_context>, duk_size_t)
-    >
-  >('duk_alloc_raw');
-  late final _duk_alloc_raw =
-      _duk_alloc_rawPtr
-          .asFunction<
-            ffi.Pointer<ffi.Void> Function(ffi.Pointer<duk_context>, int)
-          >();
+  late final _duk_alloc_rawPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<ffi.Void> Function(ffi.Pointer<duk_context>, duk_size_t)
+        >
+      >('duk_alloc_raw');
+  late final _duk_alloc_raw = _duk_alloc_rawPtr
+      .asFunction<
+        ffi.Pointer<ffi.Void> Function(ffi.Pointer<duk_context>, int)
+      >();
 
   void duk_free_raw(ffi.Pointer<duk_context> ctx, ffi.Pointer<ffi.Void> ptr) {
     return _duk_free_raw(ctx, ptr);
   }
 
-  late final _duk_free_rawPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Void Function(ffi.Pointer<duk_context>, ffi.Pointer<ffi.Void>)
-    >
-  >('duk_free_raw');
-  late final _duk_free_raw =
-      _duk_free_rawPtr
-          .asFunction<
-            void Function(ffi.Pointer<duk_context>, ffi.Pointer<ffi.Void>)
-          >();
+  late final _duk_free_rawPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, ffi.Pointer<ffi.Void>)
+        >
+      >('duk_free_raw');
+  late final _duk_free_raw = _duk_free_rawPtr
+      .asFunction<
+        void Function(ffi.Pointer<duk_context>, ffi.Pointer<ffi.Void>)
+      >();
 
   ffi.Pointer<ffi.Void> duk_realloc_raw(
     ffi.Pointer<duk_context> ctx,
@@ -161,54 +160,54 @@ class DuktapeBindings {
     return _duk_realloc_raw(ctx, ptr, size);
   }
 
-  late final _duk_realloc_rawPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<ffi.Void> Function(
-        ffi.Pointer<duk_context>,
-        ffi.Pointer<ffi.Void>,
-        duk_size_t,
-      )
-    >
-  >('duk_realloc_raw');
-  late final _duk_realloc_raw =
-      _duk_realloc_rawPtr
-          .asFunction<
-            ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<duk_context>,
-              ffi.Pointer<ffi.Void>,
-              int,
-            )
-          >();
+  late final _duk_realloc_rawPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<ffi.Void> Function(
+            ffi.Pointer<duk_context>,
+            ffi.Pointer<ffi.Void>,
+            duk_size_t,
+          )
+        >
+      >('duk_realloc_raw');
+  late final _duk_realloc_raw = _duk_realloc_rawPtr
+      .asFunction<
+        ffi.Pointer<ffi.Void> Function(
+          ffi.Pointer<duk_context>,
+          ffi.Pointer<ffi.Void>,
+          int,
+        )
+      >();
 
   ffi.Pointer<ffi.Void> duk_alloc(ffi.Pointer<duk_context> ctx, int size) {
     return _duk_alloc(ctx, size);
   }
 
-  late final _duk_allocPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<ffi.Void> Function(ffi.Pointer<duk_context>, duk_size_t)
-    >
-  >('duk_alloc');
-  late final _duk_alloc =
-      _duk_allocPtr
-          .asFunction<
-            ffi.Pointer<ffi.Void> Function(ffi.Pointer<duk_context>, int)
-          >();
+  late final _duk_allocPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<ffi.Void> Function(ffi.Pointer<duk_context>, duk_size_t)
+        >
+      >('duk_alloc');
+  late final _duk_alloc = _duk_allocPtr
+      .asFunction<
+        ffi.Pointer<ffi.Void> Function(ffi.Pointer<duk_context>, int)
+      >();
 
   void duk_free(ffi.Pointer<duk_context> ctx, ffi.Pointer<ffi.Void> ptr) {
     return _duk_free(ctx, ptr);
   }
 
-  late final _duk_freePtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Void Function(ffi.Pointer<duk_context>, ffi.Pointer<ffi.Void>)
-    >
-  >('duk_free');
-  late final _duk_free =
-      _duk_freePtr
-          .asFunction<
-            void Function(ffi.Pointer<duk_context>, ffi.Pointer<ffi.Void>)
-          >();
+  late final _duk_freePtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, ffi.Pointer<ffi.Void>)
+        >
+      >('duk_free');
+  late final _duk_free = _duk_freePtr
+      .asFunction<
+        void Function(ffi.Pointer<duk_context>, ffi.Pointer<ffi.Void>)
+      >();
 
   ffi.Pointer<ffi.Void> duk_realloc(
     ffi.Pointer<duk_context> ctx,
@@ -218,24 +217,24 @@ class DuktapeBindings {
     return _duk_realloc(ctx, ptr, size);
   }
 
-  late final _duk_reallocPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<ffi.Void> Function(
-        ffi.Pointer<duk_context>,
-        ffi.Pointer<ffi.Void>,
-        duk_size_t,
-      )
-    >
-  >('duk_realloc');
-  late final _duk_realloc =
-      _duk_reallocPtr
-          .asFunction<
-            ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<duk_context>,
-              ffi.Pointer<ffi.Void>,
-              int,
-            )
-          >();
+  late final _duk_reallocPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<ffi.Void> Function(
+            ffi.Pointer<duk_context>,
+            ffi.Pointer<ffi.Void>,
+            duk_size_t,
+          )
+        >
+      >('duk_realloc');
+  late final _duk_realloc = _duk_reallocPtr
+      .asFunction<
+        ffi.Pointer<ffi.Void> Function(
+          ffi.Pointer<duk_context>,
+          ffi.Pointer<ffi.Void>,
+          int,
+        )
+      >();
 
   void duk_get_memory_functions(
     ffi.Pointer<duk_context> ctx,
@@ -244,33 +243,37 @@ class DuktapeBindings {
     return _duk_get_memory_functions(ctx, out_funcs);
   }
 
-  late final _duk_get_memory_functionsPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Void Function(
-        ffi.Pointer<duk_context>,
-        ffi.Pointer<duk_memory_functions>,
-      )
-    >
-  >('duk_get_memory_functions');
-  late final _duk_get_memory_functions =
-      _duk_get_memory_functionsPtr
-          .asFunction<
-            void Function(
-              ffi.Pointer<duk_context>,
-              ffi.Pointer<duk_memory_functions>,
-            )
-          >();
+  late final _duk_get_memory_functionsPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Pointer<duk_context>,
+            ffi.Pointer<duk_memory_functions>,
+          )
+        >
+      >('duk_get_memory_functions');
+  late final _duk_get_memory_functions = _duk_get_memory_functionsPtr
+      .asFunction<
+        void Function(
+          ffi.Pointer<duk_context>,
+          ffi.Pointer<duk_memory_functions>,
+        )
+      >();
 
   void duk_gc(ffi.Pointer<duk_context> ctx, int flags) {
     return _duk_gc(ctx, flags);
   }
 
-  late final _duk_gcPtr = _lookup<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>, duk_uint_t)>
-  >('duk_gc');
-  late final _duk_gc =
-      _duk_gcPtr.asFunction<void Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_gcPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_uint_t)
+        >
+      >('duk_gc');
+  late final _duk_gc = _duk_gcPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
 
+  /// Error handling
   void duk_throw_raw(ffi.Pointer<duk_context> ctx) {
     return _duk_throw_raw(ctx);
   }
@@ -279,8 +282,8 @@ class DuktapeBindings {
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>)>>(
         'duk_throw_raw',
       );
-  late final _duk_throw_raw =
-      _duk_throw_rawPtr.asFunction<void Function(ffi.Pointer<duk_context>)>();
+  late final _duk_throw_raw = _duk_throw_rawPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>)>();
 
   void duk_fatal_raw(
     ffi.Pointer<duk_context> ctx,
@@ -289,16 +292,16 @@ class DuktapeBindings {
     return _duk_fatal_raw(ctx, err_msg);
   }
 
-  late final _duk_fatal_rawPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Void Function(ffi.Pointer<duk_context>, ffi.Pointer<ffi.Char>)
-    >
-  >('duk_fatal_raw');
-  late final _duk_fatal_raw =
-      _duk_fatal_rawPtr
-          .asFunction<
-            void Function(ffi.Pointer<duk_context>, ffi.Pointer<ffi.Char>)
-          >();
+  late final _duk_fatal_rawPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, ffi.Pointer<ffi.Char>)
+        >
+      >('duk_fatal_raw');
+  late final _duk_fatal_raw = _duk_fatal_rawPtr
+      .asFunction<
+        void Function(ffi.Pointer<duk_context>, ffi.Pointer<ffi.Char>)
+      >();
 
   void duk_error_raw(
     ffi.Pointer<duk_context> ctx,
@@ -310,28 +313,28 @@ class DuktapeBindings {
     return _duk_error_raw(ctx, err_code, filename, line, fmt);
   }
 
-  late final _duk_error_rawPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Void Function(
-        ffi.Pointer<duk_context>,
-        duk_errcode_t,
-        ffi.Pointer<ffi.Char>,
-        duk_int_t,
-        ffi.Pointer<ffi.Char>,
-      )
-    >
-  >('duk_error_raw');
-  late final _duk_error_raw =
-      _duk_error_rawPtr
-          .asFunction<
-            void Function(
-              ffi.Pointer<duk_context>,
-              int,
-              ffi.Pointer<ffi.Char>,
-              int,
-              ffi.Pointer<ffi.Char>,
-            )
-          >();
+  late final _duk_error_rawPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Pointer<duk_context>,
+            duk_errcode_t,
+            ffi.Pointer<ffi.Char>,
+            duk_int_t,
+            ffi.Pointer<ffi.Char>,
+          )
+        >
+      >('duk_error_raw');
+  late final _duk_error_raw = _duk_error_rawPtr
+      .asFunction<
+        void Function(
+          ffi.Pointer<duk_context>,
+          int,
+          ffi.Pointer<ffi.Char>,
+          int,
+          ffi.Pointer<ffi.Char>,
+        )
+      >();
 
   void duk_error_va_raw(
     ffi.Pointer<duk_context> ctx,
@@ -344,98 +347,106 @@ class DuktapeBindings {
     return _duk_error_va_raw(ctx, err_code, filename, line, fmt, ap);
   }
 
-  late final _duk_error_va_rawPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Void Function(
-        ffi.Pointer<duk_context>,
-        duk_errcode_t,
-        ffi.Pointer<ffi.Char>,
-        duk_int_t,
-        ffi.Pointer<ffi.Char>,
-        va_list,
-      )
-    >
-  >('duk_error_va_raw');
-  late final _duk_error_va_raw =
-      _duk_error_va_rawPtr
-          .asFunction<
-            void Function(
-              ffi.Pointer<duk_context>,
-              int,
-              ffi.Pointer<ffi.Char>,
-              int,
-              ffi.Pointer<ffi.Char>,
-              va_list,
-            )
-          >();
+  late final _duk_error_va_rawPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Pointer<duk_context>,
+            duk_errcode_t,
+            ffi.Pointer<ffi.Char>,
+            duk_int_t,
+            ffi.Pointer<ffi.Char>,
+            va_list,
+          )
+        >
+      >('duk_error_va_raw');
+  late final _duk_error_va_raw = _duk_error_va_rawPtr
+      .asFunction<
+        void Function(
+          ffi.Pointer<duk_context>,
+          int,
+          ffi.Pointer<ffi.Char>,
+          int,
+          ffi.Pointer<ffi.Char>,
+          va_list,
+        )
+      >();
 
   /// Other state related functions
   int duk_is_strict_call(ffi.Pointer<duk_context> ctx) {
     return _duk_is_strict_call(ctx);
   }
 
-  late final _duk_is_strict_callPtr = _lookup<
-    ffi.NativeFunction<duk_bool_t Function(ffi.Pointer<duk_context>)>
-  >('duk_is_strict_call');
-  late final _duk_is_strict_call =
-      _duk_is_strict_callPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>)>();
+  late final _duk_is_strict_callPtr =
+      _lookup<
+        ffi.NativeFunction<duk_bool_t Function(ffi.Pointer<duk_context>)>
+      >('duk_is_strict_call');
+  late final _duk_is_strict_call = _duk_is_strict_callPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>)>();
 
   int duk_is_constructor_call(ffi.Pointer<duk_context> ctx) {
     return _duk_is_constructor_call(ctx);
   }
 
-  late final _duk_is_constructor_callPtr = _lookup<
-    ffi.NativeFunction<duk_bool_t Function(ffi.Pointer<duk_context>)>
-  >('duk_is_constructor_call');
-  late final _duk_is_constructor_call =
-      _duk_is_constructor_callPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>)>();
+  late final _duk_is_constructor_callPtr =
+      _lookup<
+        ffi.NativeFunction<duk_bool_t Function(ffi.Pointer<duk_context>)>
+      >('duk_is_constructor_call');
+  late final _duk_is_constructor_call = _duk_is_constructor_callPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>)>();
 
   /// Stack management
   int duk_normalize_index(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_normalize_index(ctx, idx);
   }
 
-  late final _duk_normalize_indexPtr = _lookup<
-    ffi.NativeFunction<duk_idx_t Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_normalize_index');
-  late final _duk_normalize_index =
-      _duk_normalize_indexPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_normalize_indexPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_idx_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_normalize_index');
+  late final _duk_normalize_index = _duk_normalize_indexPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_require_normalize_index(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_require_normalize_index(ctx, idx);
   }
 
-  late final _duk_require_normalize_indexPtr = _lookup<
-    ffi.NativeFunction<duk_idx_t Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_require_normalize_index');
-  late final _duk_require_normalize_index =
-      _duk_require_normalize_indexPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_require_normalize_indexPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_idx_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_require_normalize_index');
+  late final _duk_require_normalize_index = _duk_require_normalize_indexPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_is_valid_index(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_is_valid_index(ctx, idx);
   }
 
-  late final _duk_is_valid_indexPtr = _lookup<
-    ffi.NativeFunction<duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_is_valid_index');
-  late final _duk_is_valid_index =
-      _duk_is_valid_indexPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_is_valid_indexPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_is_valid_index');
+  late final _duk_is_valid_index = _duk_is_valid_indexPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   void duk_require_valid_index(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_require_valid_index(ctx, idx);
   }
 
-  late final _duk_require_valid_indexPtr = _lookup<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_require_valid_index');
-  late final _duk_require_valid_index =
-      _duk_require_valid_indexPtr
-          .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_require_valid_indexPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_require_valid_index');
+  late final _duk_require_valid_index = _duk_require_valid_indexPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_get_top(ffi.Pointer<duk_context> ctx) {
     return _duk_get_top(ctx);
@@ -445,19 +456,21 @@ class DuktapeBindings {
       _lookup<ffi.NativeFunction<duk_idx_t Function(ffi.Pointer<duk_context>)>>(
         'duk_get_top',
       );
-  late final _duk_get_top =
-      _duk_get_topPtr.asFunction<int Function(ffi.Pointer<duk_context>)>();
+  late final _duk_get_top = _duk_get_topPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>)>();
 
   void duk_set_top(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_set_top(ctx, idx);
   }
 
-  late final _duk_set_topPtr = _lookup<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_set_top');
-  late final _duk_set_top =
-      _duk_set_topPtr
-          .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_set_topPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_set_top');
+  late final _duk_set_top = _duk_set_topPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_get_top_index(ffi.Pointer<duk_context> ctx) {
     return _duk_get_top_index(ctx);
@@ -467,9 +480,8 @@ class DuktapeBindings {
       _lookup<ffi.NativeFunction<duk_idx_t Function(ffi.Pointer<duk_context>)>>(
         'duk_get_top_index',
       );
-  late final _duk_get_top_index =
-      _duk_get_top_indexPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>)>();
+  late final _duk_get_top_index = _duk_get_top_indexPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>)>();
 
   int duk_require_top_index(ffi.Pointer<duk_context> ctx) {
     return _duk_require_top_index(ctx);
@@ -479,9 +491,8 @@ class DuktapeBindings {
       _lookup<ffi.NativeFunction<duk_idx_t Function(ffi.Pointer<duk_context>)>>(
         'duk_require_top_index',
       );
-  late final _duk_require_top_index =
-      _duk_require_top_indexPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>)>();
+  late final _duk_require_top_index = _duk_require_top_indexPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>)>();
 
   /// Although extra/top could be an unsigned type here, using a signed type
   /// makes the API more robust to calling code calculation errors or corner
@@ -493,80 +504,93 @@ class DuktapeBindings {
     return _duk_check_stack(ctx, extra);
   }
 
-  late final _duk_check_stackPtr = _lookup<
-    ffi.NativeFunction<duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_check_stack');
-  late final _duk_check_stack =
-      _duk_check_stackPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_check_stackPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_check_stack');
+  late final _duk_check_stack = _duk_check_stackPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   void duk_require_stack(ffi.Pointer<duk_context> ctx, int extra) {
     return _duk_require_stack(ctx, extra);
   }
 
-  late final _duk_require_stackPtr = _lookup<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_require_stack');
-  late final _duk_require_stack =
-      _duk_require_stackPtr
-          .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_require_stackPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_require_stack');
+  late final _duk_require_stack = _duk_require_stackPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_check_stack_top(ffi.Pointer<duk_context> ctx, int top) {
     return _duk_check_stack_top(ctx, top);
   }
 
-  late final _duk_check_stack_topPtr = _lookup<
-    ffi.NativeFunction<duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_check_stack_top');
-  late final _duk_check_stack_top =
-      _duk_check_stack_topPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_check_stack_topPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_check_stack_top');
+  late final _duk_check_stack_top = _duk_check_stack_topPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   void duk_require_stack_top(ffi.Pointer<duk_context> ctx, int top) {
     return _duk_require_stack_top(ctx, top);
   }
 
-  late final _duk_require_stack_topPtr = _lookup<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_require_stack_top');
-  late final _duk_require_stack_top =
-      _duk_require_stack_topPtr
-          .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_require_stack_topPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_require_stack_top');
+  late final _duk_require_stack_top = _duk_require_stack_topPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
 
   /// Stack manipulation (other than push/pop)
   void duk_swap(ffi.Pointer<duk_context> ctx, int idx1, int idx2) {
     return _duk_swap(ctx, idx1, idx2);
   }
 
-  late final _duk_swapPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t, duk_idx_t)
-    >
-  >('duk_swap');
-  late final _duk_swap =
-      _duk_swapPtr
-          .asFunction<void Function(ffi.Pointer<duk_context>, int, int)>();
+  late final _duk_swapPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t, duk_idx_t)
+        >
+      >('duk_swap');
+  late final _duk_swap = _duk_swapPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int, int)>();
 
   void duk_swap_top(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_swap_top(ctx, idx);
   }
 
-  late final _duk_swap_topPtr = _lookup<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_swap_top');
-  late final _duk_swap_top =
-      _duk_swap_topPtr
-          .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_swap_topPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_swap_top');
+  late final _duk_swap_top = _duk_swap_topPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
 
   void duk_dup(ffi.Pointer<duk_context> ctx, int from_idx) {
     return _duk_dup(ctx, from_idx);
   }
 
-  late final _duk_dupPtr = _lookup<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_dup');
-  late final _duk_dup =
-      _duk_dupPtr.asFunction<void Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_dupPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_dup');
+  late final _duk_dup = _duk_dupPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
 
   void duk_dup_top(ffi.Pointer<duk_context> ctx) {
     return _duk_dup_top(ctx);
@@ -576,62 +600,73 @@ class DuktapeBindings {
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>)>>(
         'duk_dup_top',
       );
-  late final _duk_dup_top =
-      _duk_dup_topPtr.asFunction<void Function(ffi.Pointer<duk_context>)>();
+  late final _duk_dup_top = _duk_dup_topPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>)>();
 
   void duk_insert(ffi.Pointer<duk_context> ctx, int to_idx) {
     return _duk_insert(ctx, to_idx);
   }
 
-  late final _duk_insertPtr = _lookup<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_insert');
-  late final _duk_insert =
-      _duk_insertPtr.asFunction<void Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_insertPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_insert');
+  late final _duk_insert = _duk_insertPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
 
   void duk_pull(ffi.Pointer<duk_context> ctx, int from_idx) {
     return _duk_pull(ctx, from_idx);
   }
 
-  late final _duk_pullPtr = _lookup<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_pull');
-  late final _duk_pull =
-      _duk_pullPtr.asFunction<void Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_pullPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_pull');
+  late final _duk_pull = _duk_pullPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
 
   void duk_replace(ffi.Pointer<duk_context> ctx, int to_idx) {
     return _duk_replace(ctx, to_idx);
   }
 
-  late final _duk_replacePtr = _lookup<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_replace');
-  late final _duk_replace =
-      _duk_replacePtr
-          .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_replacePtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_replace');
+  late final _duk_replace = _duk_replacePtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
 
   void duk_copy(ffi.Pointer<duk_context> ctx, int from_idx, int to_idx) {
     return _duk_copy(ctx, from_idx, to_idx);
   }
 
-  late final _duk_copyPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t, duk_idx_t)
-    >
-  >('duk_copy');
-  late final _duk_copy =
-      _duk_copyPtr
-          .asFunction<void Function(ffi.Pointer<duk_context>, int, int)>();
+  late final _duk_copyPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t, duk_idx_t)
+        >
+      >('duk_copy');
+  late final _duk_copy = _duk_copyPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int, int)>();
 
   void duk_remove(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_remove(ctx, idx);
   }
 
-  late final _duk_removePtr = _lookup<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_remove');
-  late final _duk_remove =
-      _duk_removePtr.asFunction<void Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_removePtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_remove');
+  late final _duk_remove = _duk_removePtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
 
   void duk_xcopymove_raw(
     ffi.Pointer<duk_context> to_ctx,
@@ -642,26 +677,26 @@ class DuktapeBindings {
     return _duk_xcopymove_raw(to_ctx, from_ctx, count, is_copy);
   }
 
-  late final _duk_xcopymove_rawPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Void Function(
-        ffi.Pointer<duk_context>,
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        duk_bool_t,
-      )
-    >
-  >('duk_xcopymove_raw');
-  late final _duk_xcopymove_raw =
-      _duk_xcopymove_rawPtr
-          .asFunction<
-            void Function(
-              ffi.Pointer<duk_context>,
-              ffi.Pointer<duk_context>,
-              int,
-              int,
-            )
-          >();
+  late final _duk_xcopymove_rawPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Pointer<duk_context>,
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            duk_bool_t,
+          )
+        >
+      >('duk_xcopymove_raw');
+  late final _duk_xcopymove_raw = _duk_xcopymove_rawPtr
+      .asFunction<
+        void Function(
+          ffi.Pointer<duk_context>,
+          ffi.Pointer<duk_context>,
+          int,
+          int,
+        )
+      >();
 
   /// Push operations
   ///
@@ -677,9 +712,8 @@ class DuktapeBindings {
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>)>>(
         'duk_push_undefined',
       );
-  late final _duk_push_undefined =
-      _duk_push_undefinedPtr
-          .asFunction<void Function(ffi.Pointer<duk_context>)>();
+  late final _duk_push_undefined = _duk_push_undefinedPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>)>();
 
   void duk_push_null(ffi.Pointer<duk_context> ctx) {
     return _duk_push_null(ctx);
@@ -689,19 +723,21 @@ class DuktapeBindings {
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>)>>(
         'duk_push_null',
       );
-  late final _duk_push_null =
-      _duk_push_nullPtr.asFunction<void Function(ffi.Pointer<duk_context>)>();
+  late final _duk_push_null = _duk_push_nullPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>)>();
 
   void duk_push_boolean(ffi.Pointer<duk_context> ctx, int val) {
     return _duk_push_boolean(ctx, val);
   }
 
-  late final _duk_push_booleanPtr = _lookup<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>, duk_bool_t)>
-  >('duk_push_boolean');
-  late final _duk_push_boolean =
-      _duk_push_booleanPtr
-          .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_push_booleanPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_bool_t)
+        >
+      >('duk_push_boolean');
+  late final _duk_push_boolean = _duk_push_booleanPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
 
   void duk_push_true(ffi.Pointer<duk_context> ctx) {
     return _duk_push_true(ctx);
@@ -711,8 +747,8 @@ class DuktapeBindings {
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>)>>(
         'duk_push_true',
       );
-  late final _duk_push_true =
-      _duk_push_truePtr.asFunction<void Function(ffi.Pointer<duk_context>)>();
+  late final _duk_push_true = _duk_push_truePtr
+      .asFunction<void Function(ffi.Pointer<duk_context>)>();
 
   void duk_push_false(ffi.Pointer<duk_context> ctx) {
     return _duk_push_false(ctx);
@@ -722,21 +758,21 @@ class DuktapeBindings {
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>)>>(
         'duk_push_false',
       );
-  late final _duk_push_false =
-      _duk_push_falsePtr.asFunction<void Function(ffi.Pointer<duk_context>)>();
+  late final _duk_push_false = _duk_push_falsePtr
+      .asFunction<void Function(ffi.Pointer<duk_context>)>();
 
   void duk_push_number(ffi.Pointer<duk_context> ctx, double val) {
     return _duk_push_number(ctx, val);
   }
 
-  late final _duk_push_numberPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Void Function(ffi.Pointer<duk_context>, duk_double_t)
-    >
-  >('duk_push_number');
-  late final _duk_push_number =
-      _duk_push_numberPtr
-          .asFunction<void Function(ffi.Pointer<duk_context>, double)>();
+  late final _duk_push_numberPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_double_t)
+        >
+      >('duk_push_number');
+  late final _duk_push_number = _duk_push_numberPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, double)>();
 
   void duk_push_nan(ffi.Pointer<duk_context> ctx) {
     return _duk_push_nan(ctx);
@@ -746,30 +782,34 @@ class DuktapeBindings {
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>)>>(
         'duk_push_nan',
       );
-  late final _duk_push_nan =
-      _duk_push_nanPtr.asFunction<void Function(ffi.Pointer<duk_context>)>();
+  late final _duk_push_nan = _duk_push_nanPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>)>();
 
   void duk_push_int(ffi.Pointer<duk_context> ctx, int val) {
     return _duk_push_int(ctx, val);
   }
 
-  late final _duk_push_intPtr = _lookup<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>, duk_int_t)>
-  >('duk_push_int');
-  late final _duk_push_int =
-      _duk_push_intPtr
-          .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_push_intPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_int_t)
+        >
+      >('duk_push_int');
+  late final _duk_push_int = _duk_push_intPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
 
   void duk_push_uint(ffi.Pointer<duk_context> ctx, int val) {
     return _duk_push_uint(ctx, val);
   }
 
-  late final _duk_push_uintPtr = _lookup<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>, duk_uint_t)>
-  >('duk_push_uint');
-  late final _duk_push_uint =
-      _duk_push_uintPtr
-          .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_push_uintPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_uint_t)
+        >
+      >('duk_push_uint');
+  late final _duk_push_uint = _duk_push_uintPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
 
   ffi.Pointer<ffi.Char> duk_push_string(
     ffi.Pointer<duk_context> ctx,
@@ -778,22 +818,22 @@ class DuktapeBindings {
     return _duk_push_string(ctx, str);
   }
 
-  late final _duk_push_stringPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<ffi.Char> Function(
-        ffi.Pointer<duk_context>,
-        ffi.Pointer<ffi.Char>,
-      )
-    >
-  >('duk_push_string');
-  late final _duk_push_string =
-      _duk_push_stringPtr
-          .asFunction<
-            ffi.Pointer<ffi.Char> Function(
-              ffi.Pointer<duk_context>,
-              ffi.Pointer<ffi.Char>,
-            )
-          >();
+  late final _duk_push_stringPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<ffi.Char> Function(
+            ffi.Pointer<duk_context>,
+            ffi.Pointer<ffi.Char>,
+          )
+        >
+      >('duk_push_string');
+  late final _duk_push_string = _duk_push_stringPtr
+      .asFunction<
+        ffi.Pointer<ffi.Char> Function(
+          ffi.Pointer<duk_context>,
+          ffi.Pointer<ffi.Char>,
+        )
+      >();
 
   ffi.Pointer<ffi.Char> duk_push_lstring(
     ffi.Pointer<duk_context> ctx,
@@ -803,39 +843,39 @@ class DuktapeBindings {
     return _duk_push_lstring(ctx, str, len);
   }
 
-  late final _duk_push_lstringPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<ffi.Char> Function(
-        ffi.Pointer<duk_context>,
-        ffi.Pointer<ffi.Char>,
-        duk_size_t,
-      )
-    >
-  >('duk_push_lstring');
-  late final _duk_push_lstring =
-      _duk_push_lstringPtr
-          .asFunction<
-            ffi.Pointer<ffi.Char> Function(
-              ffi.Pointer<duk_context>,
-              ffi.Pointer<ffi.Char>,
-              int,
-            )
-          >();
+  late final _duk_push_lstringPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<ffi.Char> Function(
+            ffi.Pointer<duk_context>,
+            ffi.Pointer<ffi.Char>,
+            duk_size_t,
+          )
+        >
+      >('duk_push_lstring');
+  late final _duk_push_lstring = _duk_push_lstringPtr
+      .asFunction<
+        ffi.Pointer<ffi.Char> Function(
+          ffi.Pointer<duk_context>,
+          ffi.Pointer<ffi.Char>,
+          int,
+        )
+      >();
 
   void duk_push_pointer(ffi.Pointer<duk_context> ctx, ffi.Pointer<ffi.Void> p) {
     return _duk_push_pointer(ctx, p);
   }
 
-  late final _duk_push_pointerPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Void Function(ffi.Pointer<duk_context>, ffi.Pointer<ffi.Void>)
-    >
-  >('duk_push_pointer');
-  late final _duk_push_pointer =
-      _duk_push_pointerPtr
-          .asFunction<
-            void Function(ffi.Pointer<duk_context>, ffi.Pointer<ffi.Void>)
-          >();
+  late final _duk_push_pointerPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, ffi.Pointer<ffi.Void>)
+        >
+      >('duk_push_pointer');
+  late final _duk_push_pointer = _duk_push_pointerPtr
+      .asFunction<
+        void Function(ffi.Pointer<duk_context>, ffi.Pointer<ffi.Void>)
+      >();
 
   ffi.Pointer<ffi.Char> duk_push_sprintf(
     ffi.Pointer<duk_context> ctx,
@@ -844,22 +884,22 @@ class DuktapeBindings {
     return _duk_push_sprintf(ctx, fmt);
   }
 
-  late final _duk_push_sprintfPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<ffi.Char> Function(
-        ffi.Pointer<duk_context>,
-        ffi.Pointer<ffi.Char>,
-      )
-    >
-  >('duk_push_sprintf');
-  late final _duk_push_sprintf =
-      _duk_push_sprintfPtr
-          .asFunction<
-            ffi.Pointer<ffi.Char> Function(
-              ffi.Pointer<duk_context>,
-              ffi.Pointer<ffi.Char>,
-            )
-          >();
+  late final _duk_push_sprintfPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<ffi.Char> Function(
+            ffi.Pointer<duk_context>,
+            ffi.Pointer<ffi.Char>,
+          )
+        >
+      >('duk_push_sprintf');
+  late final _duk_push_sprintf = _duk_push_sprintfPtr
+      .asFunction<
+        ffi.Pointer<ffi.Char> Function(
+          ffi.Pointer<duk_context>,
+          ffi.Pointer<ffi.Char>,
+        )
+      >();
 
   ffi.Pointer<ffi.Char> duk_push_vsprintf(
     ffi.Pointer<duk_context> ctx,
@@ -869,24 +909,24 @@ class DuktapeBindings {
     return _duk_push_vsprintf(ctx, fmt, ap);
   }
 
-  late final _duk_push_vsprintfPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<ffi.Char> Function(
-        ffi.Pointer<duk_context>,
-        ffi.Pointer<ffi.Char>,
-        va_list,
-      )
-    >
-  >('duk_push_vsprintf');
-  late final _duk_push_vsprintf =
-      _duk_push_vsprintfPtr
-          .asFunction<
-            ffi.Pointer<ffi.Char> Function(
-              ffi.Pointer<duk_context>,
-              ffi.Pointer<ffi.Char>,
-              va_list,
-            )
-          >();
+  late final _duk_push_vsprintfPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<ffi.Char> Function(
+            ffi.Pointer<duk_context>,
+            ffi.Pointer<ffi.Char>,
+            va_list,
+          )
+        >
+      >('duk_push_vsprintf');
+  late final _duk_push_vsprintf = _duk_push_vsprintfPtr
+      .asFunction<
+        ffi.Pointer<ffi.Char> Function(
+          ffi.Pointer<duk_context>,
+          ffi.Pointer<ffi.Char>,
+          va_list,
+        )
+      >();
 
   ffi.Pointer<ffi.Char> duk_push_literal_raw(
     ffi.Pointer<duk_context> ctx,
@@ -896,24 +936,24 @@ class DuktapeBindings {
     return _duk_push_literal_raw(ctx, str, len);
   }
 
-  late final _duk_push_literal_rawPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<ffi.Char> Function(
-        ffi.Pointer<duk_context>,
-        ffi.Pointer<ffi.Char>,
-        duk_size_t,
-      )
-    >
-  >('duk_push_literal_raw');
-  late final _duk_push_literal_raw =
-      _duk_push_literal_rawPtr
-          .asFunction<
-            ffi.Pointer<ffi.Char> Function(
-              ffi.Pointer<duk_context>,
-              ffi.Pointer<ffi.Char>,
-              int,
-            )
-          >();
+  late final _duk_push_literal_rawPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<ffi.Char> Function(
+            ffi.Pointer<duk_context>,
+            ffi.Pointer<ffi.Char>,
+            duk_size_t,
+          )
+        >
+      >('duk_push_literal_raw');
+  late final _duk_push_literal_raw = _duk_push_literal_rawPtr
+      .asFunction<
+        ffi.Pointer<ffi.Char> Function(
+          ffi.Pointer<duk_context>,
+          ffi.Pointer<ffi.Char>,
+          int,
+        )
+      >();
 
   void duk_push_this(ffi.Pointer<duk_context> ctx) {
     return _duk_push_this(ctx);
@@ -923,8 +963,8 @@ class DuktapeBindings {
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>)>>(
         'duk_push_this',
       );
-  late final _duk_push_this =
-      _duk_push_thisPtr.asFunction<void Function(ffi.Pointer<duk_context>)>();
+  late final _duk_push_this = _duk_push_thisPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>)>();
 
   void duk_push_new_target(ffi.Pointer<duk_context> ctx) {
     return _duk_push_new_target(ctx);
@@ -934,9 +974,8 @@ class DuktapeBindings {
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>)>>(
         'duk_push_new_target',
       );
-  late final _duk_push_new_target =
-      _duk_push_new_targetPtr
-          .asFunction<void Function(ffi.Pointer<duk_context>)>();
+  late final _duk_push_new_target = _duk_push_new_targetPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>)>();
 
   void duk_push_current_function(ffi.Pointer<duk_context> ctx) {
     return _duk_push_current_function(ctx);
@@ -946,9 +985,8 @@ class DuktapeBindings {
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>)>>(
         'duk_push_current_function',
       );
-  late final _duk_push_current_function =
-      _duk_push_current_functionPtr
-          .asFunction<void Function(ffi.Pointer<duk_context>)>();
+  late final _duk_push_current_function = _duk_push_current_functionPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>)>();
 
   void duk_push_current_thread(ffi.Pointer<duk_context> ctx) {
     return _duk_push_current_thread(ctx);
@@ -958,9 +996,8 @@ class DuktapeBindings {
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>)>>(
         'duk_push_current_thread',
       );
-  late final _duk_push_current_thread =
-      _duk_push_current_threadPtr
-          .asFunction<void Function(ffi.Pointer<duk_context>)>();
+  late final _duk_push_current_thread = _duk_push_current_threadPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>)>();
 
   void duk_push_global_object(ffi.Pointer<duk_context> ctx) {
     return _duk_push_global_object(ctx);
@@ -970,9 +1007,8 @@ class DuktapeBindings {
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>)>>(
         'duk_push_global_object',
       );
-  late final _duk_push_global_object =
-      _duk_push_global_objectPtr
-          .asFunction<void Function(ffi.Pointer<duk_context>)>();
+  late final _duk_push_global_object = _duk_push_global_objectPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>)>();
 
   void duk_push_heap_stash(ffi.Pointer<duk_context> ctx) {
     return _duk_push_heap_stash(ctx);
@@ -982,9 +1018,8 @@ class DuktapeBindings {
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>)>>(
         'duk_push_heap_stash',
       );
-  late final _duk_push_heap_stash =
-      _duk_push_heap_stashPtr
-          .asFunction<void Function(ffi.Pointer<duk_context>)>();
+  late final _duk_push_heap_stash = _duk_push_heap_stashPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>)>();
 
   void duk_push_global_stash(ffi.Pointer<duk_context> ctx) {
     return _duk_push_global_stash(ctx);
@@ -994,9 +1029,8 @@ class DuktapeBindings {
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>)>>(
         'duk_push_global_stash',
       );
-  late final _duk_push_global_stash =
-      _duk_push_global_stashPtr
-          .asFunction<void Function(ffi.Pointer<duk_context>)>();
+  late final _duk_push_global_stash = _duk_push_global_stashPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>)>();
 
   void duk_push_thread_stash(
     ffi.Pointer<duk_context> ctx,
@@ -1005,16 +1039,16 @@ class DuktapeBindings {
     return _duk_push_thread_stash(ctx, target_ctx);
   }
 
-  late final _duk_push_thread_stashPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Void Function(ffi.Pointer<duk_context>, ffi.Pointer<duk_context>)
-    >
-  >('duk_push_thread_stash');
-  late final _duk_push_thread_stash =
-      _duk_push_thread_stashPtr
-          .asFunction<
-            void Function(ffi.Pointer<duk_context>, ffi.Pointer<duk_context>)
-          >();
+  late final _duk_push_thread_stashPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, ffi.Pointer<duk_context>)
+        >
+      >('duk_push_thread_stash');
+  late final _duk_push_thread_stash = _duk_push_thread_stashPtr
+      .asFunction<
+        void Function(ffi.Pointer<duk_context>, ffi.Pointer<duk_context>)
+      >();
 
   int duk_push_object(ffi.Pointer<duk_context> ctx) {
     return _duk_push_object(ctx);
@@ -1024,8 +1058,8 @@ class DuktapeBindings {
       _lookup<ffi.NativeFunction<duk_idx_t Function(ffi.Pointer<duk_context>)>>(
         'duk_push_object',
       );
-  late final _duk_push_object =
-      _duk_push_objectPtr.asFunction<int Function(ffi.Pointer<duk_context>)>();
+  late final _duk_push_object = _duk_push_objectPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>)>();
 
   int duk_push_bare_object(ffi.Pointer<duk_context> ctx) {
     return _duk_push_bare_object(ctx);
@@ -1035,9 +1069,8 @@ class DuktapeBindings {
       _lookup<ffi.NativeFunction<duk_idx_t Function(ffi.Pointer<duk_context>)>>(
         'duk_push_bare_object',
       );
-  late final _duk_push_bare_object =
-      _duk_push_bare_objectPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>)>();
+  late final _duk_push_bare_object = _duk_push_bare_objectPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>)>();
 
   int duk_push_array(ffi.Pointer<duk_context> ctx) {
     return _duk_push_array(ctx);
@@ -1047,8 +1080,8 @@ class DuktapeBindings {
       _lookup<ffi.NativeFunction<duk_idx_t Function(ffi.Pointer<duk_context>)>>(
         'duk_push_array',
       );
-  late final _duk_push_array =
-      _duk_push_arrayPtr.asFunction<int Function(ffi.Pointer<duk_context>)>();
+  late final _duk_push_array = _duk_push_arrayPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>)>();
 
   int duk_push_bare_array(ffi.Pointer<duk_context> ctx) {
     return _duk_push_bare_array(ctx);
@@ -1058,9 +1091,8 @@ class DuktapeBindings {
       _lookup<ffi.NativeFunction<duk_idx_t Function(ffi.Pointer<duk_context>)>>(
         'duk_push_bare_array',
       );
-  late final _duk_push_bare_array =
-      _duk_push_bare_arrayPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>)>();
+  late final _duk_push_bare_array = _duk_push_bare_arrayPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>)>();
 
   int duk_push_c_function(
     ffi.Pointer<duk_context> ctx,
@@ -1070,16 +1102,20 @@ class DuktapeBindings {
     return _duk_push_c_function(ctx, func, nargs);
   }
 
-  late final _duk_push_c_functionPtr = _lookup<
-    ffi.NativeFunction<
-      duk_idx_t Function(ffi.Pointer<duk_context>, duk_c_function, duk_idx_t)
-    >
-  >('duk_push_c_function');
-  late final _duk_push_c_function =
-      _duk_push_c_functionPtr
-          .asFunction<
-            int Function(ffi.Pointer<duk_context>, duk_c_function, int)
-          >();
+  late final _duk_push_c_functionPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_idx_t Function(
+            ffi.Pointer<duk_context>,
+            duk_c_function,
+            duk_idx_t,
+          )
+        >
+      >('duk_push_c_function');
+  late final _duk_push_c_function = _duk_push_c_functionPtr
+      .asFunction<
+        int Function(ffi.Pointer<duk_context>, duk_c_function, int)
+      >();
 
   int duk_push_c_lightfunc(
     ffi.Pointer<duk_context> ctx,
@@ -1091,50 +1127,48 @@ class DuktapeBindings {
     return _duk_push_c_lightfunc(ctx, func, nargs, length, magic);
   }
 
-  late final _duk_push_c_lightfuncPtr = _lookup<
-    ffi.NativeFunction<
-      duk_idx_t Function(
-        ffi.Pointer<duk_context>,
-        duk_c_function,
-        duk_idx_t,
-        duk_idx_t,
-        duk_int_t,
-      )
-    >
-  >('duk_push_c_lightfunc');
-  late final _duk_push_c_lightfunc =
-      _duk_push_c_lightfuncPtr
-          .asFunction<
-            int Function(
-              ffi.Pointer<duk_context>,
-              duk_c_function,
-              int,
-              int,
-              int,
-            )
-          >();
+  late final _duk_push_c_lightfuncPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_idx_t Function(
+            ffi.Pointer<duk_context>,
+            duk_c_function,
+            duk_idx_t,
+            duk_idx_t,
+            duk_int_t,
+          )
+        >
+      >('duk_push_c_lightfunc');
+  late final _duk_push_c_lightfunc = _duk_push_c_lightfuncPtr
+      .asFunction<
+        int Function(ffi.Pointer<duk_context>, duk_c_function, int, int, int)
+      >();
 
   int duk_push_thread_raw(ffi.Pointer<duk_context> ctx, int flags) {
     return _duk_push_thread_raw(ctx, flags);
   }
 
-  late final _duk_push_thread_rawPtr = _lookup<
-    ffi.NativeFunction<duk_idx_t Function(ffi.Pointer<duk_context>, duk_uint_t)>
-  >('duk_push_thread_raw');
-  late final _duk_push_thread_raw =
-      _duk_push_thread_rawPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_push_thread_rawPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_idx_t Function(ffi.Pointer<duk_context>, duk_uint_t)
+        >
+      >('duk_push_thread_raw');
+  late final _duk_push_thread_raw = _duk_push_thread_rawPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_push_proxy(ffi.Pointer<duk_context> ctx, int proxy_flags) {
     return _duk_push_proxy(ctx, proxy_flags);
   }
 
-  late final _duk_push_proxyPtr = _lookup<
-    ffi.NativeFunction<duk_idx_t Function(ffi.Pointer<duk_context>, duk_uint_t)>
-  >('duk_push_proxy');
-  late final _duk_push_proxy =
-      _duk_push_proxyPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_push_proxyPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_idx_t Function(ffi.Pointer<duk_context>, duk_uint_t)
+        >
+      >('duk_push_proxy');
+  late final _duk_push_proxy = _duk_push_proxyPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_push_error_object_raw(
     ffi.Pointer<duk_context> ctx,
@@ -1146,28 +1180,28 @@ class DuktapeBindings {
     return _duk_push_error_object_raw(ctx, err_code, filename, line, fmt);
   }
 
-  late final _duk_push_error_object_rawPtr = _lookup<
-    ffi.NativeFunction<
-      duk_idx_t Function(
-        ffi.Pointer<duk_context>,
-        duk_errcode_t,
-        ffi.Pointer<ffi.Char>,
-        duk_int_t,
-        ffi.Pointer<ffi.Char>,
-      )
-    >
-  >('duk_push_error_object_raw');
-  late final _duk_push_error_object_raw =
-      _duk_push_error_object_rawPtr
-          .asFunction<
-            int Function(
-              ffi.Pointer<duk_context>,
-              int,
-              ffi.Pointer<ffi.Char>,
-              int,
-              ffi.Pointer<ffi.Char>,
-            )
-          >();
+  late final _duk_push_error_object_rawPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_idx_t Function(
+            ffi.Pointer<duk_context>,
+            duk_errcode_t,
+            ffi.Pointer<ffi.Char>,
+            duk_int_t,
+            ffi.Pointer<ffi.Char>,
+          )
+        >
+      >('duk_push_error_object_raw');
+  late final _duk_push_error_object_raw = _duk_push_error_object_rawPtr
+      .asFunction<
+        int Function(
+          ffi.Pointer<duk_context>,
+          int,
+          ffi.Pointer<ffi.Char>,
+          int,
+          ffi.Pointer<ffi.Char>,
+        )
+      >();
 
   int duk_push_error_object_va_raw(
     ffi.Pointer<duk_context> ctx,
@@ -1187,30 +1221,30 @@ class DuktapeBindings {
     );
   }
 
-  late final _duk_push_error_object_va_rawPtr = _lookup<
-    ffi.NativeFunction<
-      duk_idx_t Function(
-        ffi.Pointer<duk_context>,
-        duk_errcode_t,
-        ffi.Pointer<ffi.Char>,
-        duk_int_t,
-        ffi.Pointer<ffi.Char>,
-        va_list,
-      )
-    >
-  >('duk_push_error_object_va_raw');
-  late final _duk_push_error_object_va_raw =
-      _duk_push_error_object_va_rawPtr
-          .asFunction<
-            int Function(
-              ffi.Pointer<duk_context>,
-              int,
-              ffi.Pointer<ffi.Char>,
-              int,
-              ffi.Pointer<ffi.Char>,
-              va_list,
-            )
-          >();
+  late final _duk_push_error_object_va_rawPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_idx_t Function(
+            ffi.Pointer<duk_context>,
+            duk_errcode_t,
+            ffi.Pointer<ffi.Char>,
+            duk_int_t,
+            ffi.Pointer<ffi.Char>,
+            va_list,
+          )
+        >
+      >('duk_push_error_object_va_raw');
+  late final _duk_push_error_object_va_raw = _duk_push_error_object_va_rawPtr
+      .asFunction<
+        int Function(
+          ffi.Pointer<duk_context>,
+          int,
+          ffi.Pointer<ffi.Char>,
+          int,
+          ffi.Pointer<ffi.Char>,
+          va_list,
+        )
+      >();
 
   ffi.Pointer<ffi.Void> duk_push_buffer_raw(
     ffi.Pointer<duk_context> ctx,
@@ -1220,20 +1254,20 @@ class DuktapeBindings {
     return _duk_push_buffer_raw(ctx, size, flags);
   }
 
-  late final _duk_push_buffer_rawPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<ffi.Void> Function(
-        ffi.Pointer<duk_context>,
-        duk_size_t,
-        duk_small_uint_t,
-      )
-    >
-  >('duk_push_buffer_raw');
-  late final _duk_push_buffer_raw =
-      _duk_push_buffer_rawPtr
-          .asFunction<
-            ffi.Pointer<ffi.Void> Function(ffi.Pointer<duk_context>, int, int)
-          >();
+  late final _duk_push_buffer_rawPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<ffi.Void> Function(
+            ffi.Pointer<duk_context>,
+            duk_size_t,
+            duk_small_uint_t,
+          )
+        >
+      >('duk_push_buffer_raw');
+  late final _duk_push_buffer_raw = _duk_push_buffer_rawPtr
+      .asFunction<
+        ffi.Pointer<ffi.Void> Function(ffi.Pointer<duk_context>, int, int)
+      >();
 
   void duk_push_buffer_object(
     ffi.Pointer<duk_context> ctx,
@@ -1251,22 +1285,22 @@ class DuktapeBindings {
     );
   }
 
-  late final _duk_push_buffer_objectPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Void Function(
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        duk_size_t,
-        duk_size_t,
-        duk_uint_t,
-      )
-    >
-  >('duk_push_buffer_object');
-  late final _duk_push_buffer_object =
-      _duk_push_buffer_objectPtr
-          .asFunction<
-            void Function(ffi.Pointer<duk_context>, int, int, int, int)
-          >();
+  late final _duk_push_buffer_objectPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            duk_size_t,
+            duk_size_t,
+            duk_uint_t,
+          )
+        >
+      >('duk_push_buffer_object');
+  late final _duk_push_buffer_object = _duk_push_buffer_objectPtr
+      .asFunction<
+        void Function(ffi.Pointer<duk_context>, int, int, int, int)
+      >();
 
   int duk_push_heapptr(
     ffi.Pointer<duk_context> ctx,
@@ -1275,16 +1309,16 @@ class DuktapeBindings {
     return _duk_push_heapptr(ctx, ptr);
   }
 
-  late final _duk_push_heapptrPtr = _lookup<
-    ffi.NativeFunction<
-      duk_idx_t Function(ffi.Pointer<duk_context>, ffi.Pointer<ffi.Void>)
-    >
-  >('duk_push_heapptr');
-  late final _duk_push_heapptr =
-      _duk_push_heapptrPtr
-          .asFunction<
-            int Function(ffi.Pointer<duk_context>, ffi.Pointer<ffi.Void>)
-          >();
+  late final _duk_push_heapptrPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_idx_t Function(ffi.Pointer<duk_context>, ffi.Pointer<ffi.Void>)
+        >
+      >('duk_push_heapptr');
+  late final _duk_push_heapptr = _duk_push_heapptrPtr
+      .asFunction<
+        int Function(ffi.Pointer<duk_context>, ffi.Pointer<ffi.Void>)
+      >();
 
   /// Pop operations
   void duk_pop(ffi.Pointer<duk_context> ctx) {
@@ -1295,18 +1329,21 @@ class DuktapeBindings {
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>)>>(
         'duk_pop',
       );
-  late final _duk_pop =
-      _duk_popPtr.asFunction<void Function(ffi.Pointer<duk_context>)>();
+  late final _duk_pop = _duk_popPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>)>();
 
   void duk_pop_n(ffi.Pointer<duk_context> ctx, int count) {
     return _duk_pop_n(ctx, count);
   }
 
-  late final _duk_pop_nPtr = _lookup<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_pop_n');
-  late final _duk_pop_n =
-      _duk_pop_nPtr.asFunction<void Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_pop_nPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_pop_n');
+  late final _duk_pop_n = _duk_pop_nPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
 
   void duk_pop_2(ffi.Pointer<duk_context> ctx) {
     return _duk_pop_2(ctx);
@@ -1316,8 +1353,8 @@ class DuktapeBindings {
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>)>>(
         'duk_pop_2',
       );
-  late final _duk_pop_2 =
-      _duk_pop_2Ptr.asFunction<void Function(ffi.Pointer<duk_context>)>();
+  late final _duk_pop_2 = _duk_pop_2Ptr
+      .asFunction<void Function(ffi.Pointer<duk_context>)>();
 
   void duk_pop_3(ffi.Pointer<duk_context> ctx) {
     return _duk_pop_3(ctx);
@@ -1327,8 +1364,8 @@ class DuktapeBindings {
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>)>>(
         'duk_pop_3',
       );
-  late final _duk_pop_3 =
-      _duk_pop_3Ptr.asFunction<void Function(ffi.Pointer<duk_context>)>();
+  late final _duk_pop_3 = _duk_pop_3Ptr
+      .asFunction<void Function(ffi.Pointer<duk_context>)>();
 
   /// Type checks
   ///
@@ -1338,302 +1375,352 @@ class DuktapeBindings {
     return _duk_get_type(ctx, idx);
   }
 
-  late final _duk_get_typePtr = _lookup<
-    ffi.NativeFunction<duk_int_t Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_get_type');
-  late final _duk_get_type =
-      _duk_get_typePtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_get_typePtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_int_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_get_type');
+  late final _duk_get_type = _duk_get_typePtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_check_type(ffi.Pointer<duk_context> ctx, int idx, int type) {
     return _duk_check_type(ctx, idx, type);
   }
 
-  late final _duk_check_typePtr = _lookup<
-    ffi.NativeFunction<
-      duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t, duk_int_t)
-    >
-  >('duk_check_type');
-  late final _duk_check_type =
-      _duk_check_typePtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int, int)>();
+  late final _duk_check_typePtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t, duk_int_t)
+        >
+      >('duk_check_type');
+  late final _duk_check_type = _duk_check_typePtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int, int)>();
 
   int duk_get_type_mask(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_get_type_mask(ctx, idx);
   }
 
-  late final _duk_get_type_maskPtr = _lookup<
-    ffi.NativeFunction<duk_uint_t Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_get_type_mask');
-  late final _duk_get_type_mask =
-      _duk_get_type_maskPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_get_type_maskPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_uint_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_get_type_mask');
+  late final _duk_get_type_mask = _duk_get_type_maskPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_check_type_mask(ffi.Pointer<duk_context> ctx, int idx, int mask) {
     return _duk_check_type_mask(ctx, idx, mask);
   }
 
-  late final _duk_check_type_maskPtr = _lookup<
-    ffi.NativeFunction<
-      duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t, duk_uint_t)
-    >
-  >('duk_check_type_mask');
-  late final _duk_check_type_mask =
-      _duk_check_type_maskPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int, int)>();
+  late final _duk_check_type_maskPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t, duk_uint_t)
+        >
+      >('duk_check_type_mask');
+  late final _duk_check_type_mask = _duk_check_type_maskPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int, int)>();
 
   int duk_is_undefined(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_is_undefined(ctx, idx);
   }
 
-  late final _duk_is_undefinedPtr = _lookup<
-    ffi.NativeFunction<duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_is_undefined');
-  late final _duk_is_undefined =
-      _duk_is_undefinedPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_is_undefinedPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_is_undefined');
+  late final _duk_is_undefined = _duk_is_undefinedPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_is_null(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_is_null(ctx, idx);
   }
 
-  late final _duk_is_nullPtr = _lookup<
-    ffi.NativeFunction<duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_is_null');
-  late final _duk_is_null =
-      _duk_is_nullPtr.asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_is_nullPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_is_null');
+  late final _duk_is_null = _duk_is_nullPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_is_boolean(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_is_boolean(ctx, idx);
   }
 
-  late final _duk_is_booleanPtr = _lookup<
-    ffi.NativeFunction<duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_is_boolean');
-  late final _duk_is_boolean =
-      _duk_is_booleanPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_is_booleanPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_is_boolean');
+  late final _duk_is_boolean = _duk_is_booleanPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_is_number(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_is_number(ctx, idx);
   }
 
-  late final _duk_is_numberPtr = _lookup<
-    ffi.NativeFunction<duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_is_number');
-  late final _duk_is_number =
-      _duk_is_numberPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_is_numberPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_is_number');
+  late final _duk_is_number = _duk_is_numberPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_is_nan(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_is_nan(ctx, idx);
   }
 
-  late final _duk_is_nanPtr = _lookup<
-    ffi.NativeFunction<duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_is_nan');
-  late final _duk_is_nan =
-      _duk_is_nanPtr.asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_is_nanPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_is_nan');
+  late final _duk_is_nan = _duk_is_nanPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_is_string(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_is_string(ctx, idx);
   }
 
-  late final _duk_is_stringPtr = _lookup<
-    ffi.NativeFunction<duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_is_string');
-  late final _duk_is_string =
-      _duk_is_stringPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_is_stringPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_is_string');
+  late final _duk_is_string = _duk_is_stringPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_is_object(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_is_object(ctx, idx);
   }
 
-  late final _duk_is_objectPtr = _lookup<
-    ffi.NativeFunction<duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_is_object');
-  late final _duk_is_object =
-      _duk_is_objectPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_is_objectPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_is_object');
+  late final _duk_is_object = _duk_is_objectPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_is_buffer(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_is_buffer(ctx, idx);
   }
 
-  late final _duk_is_bufferPtr = _lookup<
-    ffi.NativeFunction<duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_is_buffer');
-  late final _duk_is_buffer =
-      _duk_is_bufferPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_is_bufferPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_is_buffer');
+  late final _duk_is_buffer = _duk_is_bufferPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_is_buffer_data(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_is_buffer_data(ctx, idx);
   }
 
-  late final _duk_is_buffer_dataPtr = _lookup<
-    ffi.NativeFunction<duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_is_buffer_data');
-  late final _duk_is_buffer_data =
-      _duk_is_buffer_dataPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_is_buffer_dataPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_is_buffer_data');
+  late final _duk_is_buffer_data = _duk_is_buffer_dataPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_is_pointer(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_is_pointer(ctx, idx);
   }
 
-  late final _duk_is_pointerPtr = _lookup<
-    ffi.NativeFunction<duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_is_pointer');
-  late final _duk_is_pointer =
-      _duk_is_pointerPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_is_pointerPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_is_pointer');
+  late final _duk_is_pointer = _duk_is_pointerPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_is_lightfunc(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_is_lightfunc(ctx, idx);
   }
 
-  late final _duk_is_lightfuncPtr = _lookup<
-    ffi.NativeFunction<duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_is_lightfunc');
-  late final _duk_is_lightfunc =
-      _duk_is_lightfuncPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_is_lightfuncPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_is_lightfunc');
+  late final _duk_is_lightfunc = _duk_is_lightfuncPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_is_symbol(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_is_symbol(ctx, idx);
   }
 
-  late final _duk_is_symbolPtr = _lookup<
-    ffi.NativeFunction<duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_is_symbol');
-  late final _duk_is_symbol =
-      _duk_is_symbolPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_is_symbolPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_is_symbol');
+  late final _duk_is_symbol = _duk_is_symbolPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_is_array(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_is_array(ctx, idx);
   }
 
-  late final _duk_is_arrayPtr = _lookup<
-    ffi.NativeFunction<duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_is_array');
-  late final _duk_is_array =
-      _duk_is_arrayPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_is_arrayPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_is_array');
+  late final _duk_is_array = _duk_is_arrayPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_is_function(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_is_function(ctx, idx);
   }
 
-  late final _duk_is_functionPtr = _lookup<
-    ffi.NativeFunction<duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_is_function');
-  late final _duk_is_function =
-      _duk_is_functionPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_is_functionPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_is_function');
+  late final _duk_is_function = _duk_is_functionPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_is_c_function(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_is_c_function(ctx, idx);
   }
 
-  late final _duk_is_c_functionPtr = _lookup<
-    ffi.NativeFunction<duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_is_c_function');
-  late final _duk_is_c_function =
-      _duk_is_c_functionPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_is_c_functionPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_is_c_function');
+  late final _duk_is_c_function = _duk_is_c_functionPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_is_ecmascript_function(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_is_ecmascript_function(ctx, idx);
   }
 
-  late final _duk_is_ecmascript_functionPtr = _lookup<
-    ffi.NativeFunction<duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_is_ecmascript_function');
-  late final _duk_is_ecmascript_function =
-      _duk_is_ecmascript_functionPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_is_ecmascript_functionPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_is_ecmascript_function');
+  late final _duk_is_ecmascript_function = _duk_is_ecmascript_functionPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_is_bound_function(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_is_bound_function(ctx, idx);
   }
 
-  late final _duk_is_bound_functionPtr = _lookup<
-    ffi.NativeFunction<duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_is_bound_function');
-  late final _duk_is_bound_function =
-      _duk_is_bound_functionPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_is_bound_functionPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_is_bound_function');
+  late final _duk_is_bound_function = _duk_is_bound_functionPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_is_thread(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_is_thread(ctx, idx);
   }
 
-  late final _duk_is_threadPtr = _lookup<
-    ffi.NativeFunction<duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_is_thread');
-  late final _duk_is_thread =
-      _duk_is_threadPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_is_threadPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_is_thread');
+  late final _duk_is_thread = _duk_is_threadPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_is_constructable(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_is_constructable(ctx, idx);
   }
 
-  late final _duk_is_constructablePtr = _lookup<
-    ffi.NativeFunction<duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_is_constructable');
-  late final _duk_is_constructable =
-      _duk_is_constructablePtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_is_constructablePtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_is_constructable');
+  late final _duk_is_constructable = _duk_is_constructablePtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_is_dynamic_buffer(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_is_dynamic_buffer(ctx, idx);
   }
 
-  late final _duk_is_dynamic_bufferPtr = _lookup<
-    ffi.NativeFunction<duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_is_dynamic_buffer');
-  late final _duk_is_dynamic_buffer =
-      _duk_is_dynamic_bufferPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_is_dynamic_bufferPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_is_dynamic_buffer');
+  late final _duk_is_dynamic_buffer = _duk_is_dynamic_bufferPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_is_fixed_buffer(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_is_fixed_buffer(ctx, idx);
   }
 
-  late final _duk_is_fixed_bufferPtr = _lookup<
-    ffi.NativeFunction<duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_is_fixed_buffer');
-  late final _duk_is_fixed_buffer =
-      _duk_is_fixed_bufferPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_is_fixed_bufferPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_is_fixed_buffer');
+  late final _duk_is_fixed_buffer = _duk_is_fixed_bufferPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_is_external_buffer(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_is_external_buffer(ctx, idx);
   }
 
-  late final _duk_is_external_bufferPtr = _lookup<
-    ffi.NativeFunction<duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_is_external_buffer');
-  late final _duk_is_external_buffer =
-      _duk_is_external_bufferPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_is_external_bufferPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_is_external_buffer');
+  late final _duk_is_external_buffer = _duk_is_external_bufferPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_get_error_code(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_get_error_code(ctx, idx);
   }
 
-  late final _duk_get_error_codePtr = _lookup<
-    ffi.NativeFunction<
-      duk_errcode_t Function(ffi.Pointer<duk_context>, duk_idx_t)
-    >
-  >('duk_get_error_code');
-  late final _duk_get_error_code =
-      _duk_get_error_codePtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_get_error_codePtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_errcode_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_get_error_code');
+  late final _duk_get_error_code = _duk_get_error_codePtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   /// Get operations: no coercion, returns default value for invalid
   /// indices and invalid value types.
@@ -1644,61 +1731,68 @@ class DuktapeBindings {
     return _duk_get_boolean(ctx, idx);
   }
 
-  late final _duk_get_booleanPtr = _lookup<
-    ffi.NativeFunction<duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_get_boolean');
-  late final _duk_get_boolean =
-      _duk_get_booleanPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_get_booleanPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_get_boolean');
+  late final _duk_get_boolean = _duk_get_booleanPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   double duk_get_number(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_get_number(ctx, idx);
   }
 
-  late final _duk_get_numberPtr = _lookup<
-    ffi.NativeFunction<
-      duk_double_t Function(ffi.Pointer<duk_context>, duk_idx_t)
-    >
-  >('duk_get_number');
-  late final _duk_get_number =
-      _duk_get_numberPtr
-          .asFunction<double Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_get_numberPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_double_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_get_number');
+  late final _duk_get_number = _duk_get_numberPtr
+      .asFunction<double Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_get_int(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_get_int(ctx, idx);
   }
 
-  late final _duk_get_intPtr = _lookup<
-    ffi.NativeFunction<duk_int_t Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_get_int');
-  late final _duk_get_int =
-      _duk_get_intPtr.asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_get_intPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_int_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_get_int');
+  late final _duk_get_int = _duk_get_intPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_get_uint(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_get_uint(ctx, idx);
   }
 
-  late final _duk_get_uintPtr = _lookup<
-    ffi.NativeFunction<duk_uint_t Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_get_uint');
-  late final _duk_get_uint =
-      _duk_get_uintPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_get_uintPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_uint_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_get_uint');
+  late final _duk_get_uint = _duk_get_uintPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   ffi.Pointer<ffi.Char> duk_get_string(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_get_string(ctx, idx);
   }
 
-  late final _duk_get_stringPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<ffi.Char> Function(ffi.Pointer<duk_context>, duk_idx_t)
-    >
-  >('duk_get_string');
-  late final _duk_get_string =
-      _duk_get_stringPtr
-          .asFunction<
-            ffi.Pointer<ffi.Char> Function(ffi.Pointer<duk_context>, int)
-          >();
+  late final _duk_get_stringPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<ffi.Char> Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_get_string');
+  late final _duk_get_string = _duk_get_stringPtr
+      .asFunction<
+        ffi.Pointer<ffi.Char> Function(ffi.Pointer<duk_context>, int)
+      >();
 
   ffi.Pointer<ffi.Char> duk_get_lstring(
     ffi.Pointer<duk_context> ctx,
@@ -1708,24 +1802,24 @@ class DuktapeBindings {
     return _duk_get_lstring(ctx, idx, out_len);
   }
 
-  late final _duk_get_lstringPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<ffi.Char> Function(
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        ffi.Pointer<duk_size_t>,
-      )
-    >
-  >('duk_get_lstring');
-  late final _duk_get_lstring =
-      _duk_get_lstringPtr
-          .asFunction<
-            ffi.Pointer<ffi.Char> Function(
-              ffi.Pointer<duk_context>,
-              int,
-              ffi.Pointer<duk_size_t>,
-            )
-          >();
+  late final _duk_get_lstringPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<ffi.Char> Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            ffi.Pointer<duk_size_t>,
+          )
+        >
+      >('duk_get_lstring');
+  late final _duk_get_lstring = _duk_get_lstringPtr
+      .asFunction<
+        ffi.Pointer<ffi.Char> Function(
+          ffi.Pointer<duk_context>,
+          int,
+          ffi.Pointer<duk_size_t>,
+        )
+      >();
 
   ffi.Pointer<ffi.Void> duk_get_buffer(
     ffi.Pointer<duk_context> ctx,
@@ -1735,24 +1829,24 @@ class DuktapeBindings {
     return _duk_get_buffer(ctx, idx, out_size);
   }
 
-  late final _duk_get_bufferPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<ffi.Void> Function(
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        ffi.Pointer<duk_size_t>,
-      )
-    >
-  >('duk_get_buffer');
-  late final _duk_get_buffer =
-      _duk_get_bufferPtr
-          .asFunction<
-            ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<duk_context>,
-              int,
-              ffi.Pointer<duk_size_t>,
-            )
-          >();
+  late final _duk_get_bufferPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<ffi.Void> Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            ffi.Pointer<duk_size_t>,
+          )
+        >
+      >('duk_get_buffer');
+  late final _duk_get_buffer = _duk_get_bufferPtr
+      .asFunction<
+        ffi.Pointer<ffi.Void> Function(
+          ffi.Pointer<duk_context>,
+          int,
+          ffi.Pointer<duk_size_t>,
+        )
+      >();
 
   ffi.Pointer<ffi.Void> duk_get_buffer_data(
     ffi.Pointer<duk_context> ctx,
@@ -1762,52 +1856,52 @@ class DuktapeBindings {
     return _duk_get_buffer_data(ctx, idx, out_size);
   }
 
-  late final _duk_get_buffer_dataPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<ffi.Void> Function(
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        ffi.Pointer<duk_size_t>,
-      )
-    >
-  >('duk_get_buffer_data');
-  late final _duk_get_buffer_data =
-      _duk_get_buffer_dataPtr
-          .asFunction<
-            ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<duk_context>,
-              int,
-              ffi.Pointer<duk_size_t>,
-            )
-          >();
+  late final _duk_get_buffer_dataPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<ffi.Void> Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            ffi.Pointer<duk_size_t>,
+          )
+        >
+      >('duk_get_buffer_data');
+  late final _duk_get_buffer_data = _duk_get_buffer_dataPtr
+      .asFunction<
+        ffi.Pointer<ffi.Void> Function(
+          ffi.Pointer<duk_context>,
+          int,
+          ffi.Pointer<duk_size_t>,
+        )
+      >();
 
   ffi.Pointer<ffi.Void> duk_get_pointer(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_get_pointer(ctx, idx);
   }
 
-  late final _duk_get_pointerPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<ffi.Void> Function(ffi.Pointer<duk_context>, duk_idx_t)
-    >
-  >('duk_get_pointer');
-  late final _duk_get_pointer =
-      _duk_get_pointerPtr
-          .asFunction<
-            ffi.Pointer<ffi.Void> Function(ffi.Pointer<duk_context>, int)
-          >();
+  late final _duk_get_pointerPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<ffi.Void> Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_get_pointer');
+  late final _duk_get_pointer = _duk_get_pointerPtr
+      .asFunction<
+        ffi.Pointer<ffi.Void> Function(ffi.Pointer<duk_context>, int)
+      >();
 
   duk_c_function duk_get_c_function(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_get_c_function(ctx, idx);
   }
 
-  late final _duk_get_c_functionPtr = _lookup<
-    ffi.NativeFunction<
-      duk_c_function Function(ffi.Pointer<duk_context>, duk_idx_t)
-    >
-  >('duk_get_c_function');
-  late final _duk_get_c_function =
-      _duk_get_c_functionPtr
-          .asFunction<duk_c_function Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_get_c_functionPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_c_function Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_get_c_function');
+  late final _duk_get_c_function = _duk_get_c_functionPtr
+      .asFunction<duk_c_function Function(ffi.Pointer<duk_context>, int)>();
 
   ffi.Pointer<duk_context> duk_get_context(
     ffi.Pointer<duk_context> ctx,
@@ -1816,31 +1910,31 @@ class DuktapeBindings {
     return _duk_get_context(ctx, idx);
   }
 
-  late final _duk_get_contextPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<duk_context> Function(ffi.Pointer<duk_context>, duk_idx_t)
-    >
-  >('duk_get_context');
-  late final _duk_get_context =
-      _duk_get_contextPtr
-          .asFunction<
-            ffi.Pointer<duk_context> Function(ffi.Pointer<duk_context>, int)
-          >();
+  late final _duk_get_contextPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<duk_context> Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_get_context');
+  late final _duk_get_context = _duk_get_contextPtr
+      .asFunction<
+        ffi.Pointer<duk_context> Function(ffi.Pointer<duk_context>, int)
+      >();
 
   ffi.Pointer<ffi.Void> duk_get_heapptr(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_get_heapptr(ctx, idx);
   }
 
-  late final _duk_get_heapptrPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<ffi.Void> Function(ffi.Pointer<duk_context>, duk_idx_t)
-    >
-  >('duk_get_heapptr');
-  late final _duk_get_heapptr =
-      _duk_get_heapptrPtr
-          .asFunction<
-            ffi.Pointer<ffi.Void> Function(ffi.Pointer<duk_context>, int)
-          >();
+  late final _duk_get_heapptrPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<ffi.Void> Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_get_heapptr');
+  late final _duk_get_heapptr = _duk_get_heapptrPtr
+      .asFunction<
+        ffi.Pointer<ffi.Void> Function(ffi.Pointer<duk_context>, int)
+      >();
 
   /// Get-with-explicit default operations: like get operations but with an
   /// explicit default value.
@@ -1852,14 +1946,14 @@ class DuktapeBindings {
     return _duk_get_boolean_default(ctx, idx, def_value);
   }
 
-  late final _duk_get_boolean_defaultPtr = _lookup<
-    ffi.NativeFunction<
-      duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t, duk_bool_t)
-    >
-  >('duk_get_boolean_default');
-  late final _duk_get_boolean_default =
-      _duk_get_boolean_defaultPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int, int)>();
+  late final _duk_get_boolean_defaultPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t, duk_bool_t)
+        >
+      >('duk_get_boolean_default');
+  late final _duk_get_boolean_default = _duk_get_boolean_defaultPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int, int)>();
 
   double duk_get_number_default(
     ffi.Pointer<duk_context> ctx,
@@ -1869,14 +1963,18 @@ class DuktapeBindings {
     return _duk_get_number_default(ctx, idx, def_value);
   }
 
-  late final _duk_get_number_defaultPtr = _lookup<
-    ffi.NativeFunction<
-      duk_double_t Function(ffi.Pointer<duk_context>, duk_idx_t, duk_double_t)
-    >
-  >('duk_get_number_default');
-  late final _duk_get_number_default =
-      _duk_get_number_defaultPtr
-          .asFunction<double Function(ffi.Pointer<duk_context>, int, double)>();
+  late final _duk_get_number_defaultPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_double_t Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            duk_double_t,
+          )
+        >
+      >('duk_get_number_default');
+  late final _duk_get_number_default = _duk_get_number_defaultPtr
+      .asFunction<double Function(ffi.Pointer<duk_context>, int, double)>();
 
   int duk_get_int_default(
     ffi.Pointer<duk_context> ctx,
@@ -1886,14 +1984,14 @@ class DuktapeBindings {
     return _duk_get_int_default(ctx, idx, def_value);
   }
 
-  late final _duk_get_int_defaultPtr = _lookup<
-    ffi.NativeFunction<
-      duk_int_t Function(ffi.Pointer<duk_context>, duk_idx_t, duk_int_t)
-    >
-  >('duk_get_int_default');
-  late final _duk_get_int_default =
-      _duk_get_int_defaultPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int, int)>();
+  late final _duk_get_int_defaultPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_int_t Function(ffi.Pointer<duk_context>, duk_idx_t, duk_int_t)
+        >
+      >('duk_get_int_default');
+  late final _duk_get_int_default = _duk_get_int_defaultPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int, int)>();
 
   int duk_get_uint_default(
     ffi.Pointer<duk_context> ctx,
@@ -1903,14 +2001,14 @@ class DuktapeBindings {
     return _duk_get_uint_default(ctx, idx, def_value);
   }
 
-  late final _duk_get_uint_defaultPtr = _lookup<
-    ffi.NativeFunction<
-      duk_uint_t Function(ffi.Pointer<duk_context>, duk_idx_t, duk_uint_t)
-    >
-  >('duk_get_uint_default');
-  late final _duk_get_uint_default =
-      _duk_get_uint_defaultPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int, int)>();
+  late final _duk_get_uint_defaultPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_uint_t Function(ffi.Pointer<duk_context>, duk_idx_t, duk_uint_t)
+        >
+      >('duk_get_uint_default');
+  late final _duk_get_uint_default = _duk_get_uint_defaultPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int, int)>();
 
   ffi.Pointer<ffi.Char> duk_get_string_default(
     ffi.Pointer<duk_context> ctx,
@@ -1920,24 +2018,24 @@ class DuktapeBindings {
     return _duk_get_string_default(ctx, idx, def_value);
   }
 
-  late final _duk_get_string_defaultPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<ffi.Char> Function(
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        ffi.Pointer<ffi.Char>,
-      )
-    >
-  >('duk_get_string_default');
-  late final _duk_get_string_default =
-      _duk_get_string_defaultPtr
-          .asFunction<
-            ffi.Pointer<ffi.Char> Function(
-              ffi.Pointer<duk_context>,
-              int,
-              ffi.Pointer<ffi.Char>,
-            )
-          >();
+  late final _duk_get_string_defaultPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<ffi.Char> Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            ffi.Pointer<ffi.Char>,
+          )
+        >
+      >('duk_get_string_default');
+  late final _duk_get_string_default = _duk_get_string_defaultPtr
+      .asFunction<
+        ffi.Pointer<ffi.Char> Function(
+          ffi.Pointer<duk_context>,
+          int,
+          ffi.Pointer<ffi.Char>,
+        )
+      >();
 
   ffi.Pointer<ffi.Char> duk_get_lstring_default(
     ffi.Pointer<duk_context> ctx,
@@ -1949,28 +2047,28 @@ class DuktapeBindings {
     return _duk_get_lstring_default(ctx, idx, out_len, def_ptr, def_len);
   }
 
-  late final _duk_get_lstring_defaultPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<ffi.Char> Function(
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        ffi.Pointer<duk_size_t>,
-        ffi.Pointer<ffi.Char>,
-        duk_size_t,
-      )
-    >
-  >('duk_get_lstring_default');
-  late final _duk_get_lstring_default =
-      _duk_get_lstring_defaultPtr
-          .asFunction<
-            ffi.Pointer<ffi.Char> Function(
-              ffi.Pointer<duk_context>,
-              int,
-              ffi.Pointer<duk_size_t>,
-              ffi.Pointer<ffi.Char>,
-              int,
-            )
-          >();
+  late final _duk_get_lstring_defaultPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<ffi.Char> Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            ffi.Pointer<duk_size_t>,
+            ffi.Pointer<ffi.Char>,
+            duk_size_t,
+          )
+        >
+      >('duk_get_lstring_default');
+  late final _duk_get_lstring_default = _duk_get_lstring_defaultPtr
+      .asFunction<
+        ffi.Pointer<ffi.Char> Function(
+          ffi.Pointer<duk_context>,
+          int,
+          ffi.Pointer<duk_size_t>,
+          ffi.Pointer<ffi.Char>,
+          int,
+        )
+      >();
 
   ffi.Pointer<ffi.Void> duk_get_buffer_default(
     ffi.Pointer<duk_context> ctx,
@@ -1982,28 +2080,28 @@ class DuktapeBindings {
     return _duk_get_buffer_default(ctx, idx, out_size, def_ptr, def_len);
   }
 
-  late final _duk_get_buffer_defaultPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<ffi.Void> Function(
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        ffi.Pointer<duk_size_t>,
-        ffi.Pointer<ffi.Void>,
-        duk_size_t,
-      )
-    >
-  >('duk_get_buffer_default');
-  late final _duk_get_buffer_default =
-      _duk_get_buffer_defaultPtr
-          .asFunction<
-            ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<duk_context>,
-              int,
-              ffi.Pointer<duk_size_t>,
-              ffi.Pointer<ffi.Void>,
-              int,
-            )
-          >();
+  late final _duk_get_buffer_defaultPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<ffi.Void> Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            ffi.Pointer<duk_size_t>,
+            ffi.Pointer<ffi.Void>,
+            duk_size_t,
+          )
+        >
+      >('duk_get_buffer_default');
+  late final _duk_get_buffer_default = _duk_get_buffer_defaultPtr
+      .asFunction<
+        ffi.Pointer<ffi.Void> Function(
+          ffi.Pointer<duk_context>,
+          int,
+          ffi.Pointer<duk_size_t>,
+          ffi.Pointer<ffi.Void>,
+          int,
+        )
+      >();
 
   ffi.Pointer<ffi.Void> duk_get_buffer_data_default(
     ffi.Pointer<duk_context> ctx,
@@ -2015,28 +2113,28 @@ class DuktapeBindings {
     return _duk_get_buffer_data_default(ctx, idx, out_size, def_ptr, def_len);
   }
 
-  late final _duk_get_buffer_data_defaultPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<ffi.Void> Function(
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        ffi.Pointer<duk_size_t>,
-        ffi.Pointer<ffi.Void>,
-        duk_size_t,
-      )
-    >
-  >('duk_get_buffer_data_default');
-  late final _duk_get_buffer_data_default =
-      _duk_get_buffer_data_defaultPtr
-          .asFunction<
-            ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<duk_context>,
-              int,
-              ffi.Pointer<duk_size_t>,
-              ffi.Pointer<ffi.Void>,
-              int,
-            )
-          >();
+  late final _duk_get_buffer_data_defaultPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<ffi.Void> Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            ffi.Pointer<duk_size_t>,
+            ffi.Pointer<ffi.Void>,
+            duk_size_t,
+          )
+        >
+      >('duk_get_buffer_data_default');
+  late final _duk_get_buffer_data_default = _duk_get_buffer_data_defaultPtr
+      .asFunction<
+        ffi.Pointer<ffi.Void> Function(
+          ffi.Pointer<duk_context>,
+          int,
+          ffi.Pointer<duk_size_t>,
+          ffi.Pointer<ffi.Void>,
+          int,
+        )
+      >();
 
   ffi.Pointer<ffi.Void> duk_get_pointer_default(
     ffi.Pointer<duk_context> ctx,
@@ -2046,24 +2144,24 @@ class DuktapeBindings {
     return _duk_get_pointer_default(ctx, idx, def_value);
   }
 
-  late final _duk_get_pointer_defaultPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<ffi.Void> Function(
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        ffi.Pointer<ffi.Void>,
-      )
-    >
-  >('duk_get_pointer_default');
-  late final _duk_get_pointer_default =
-      _duk_get_pointer_defaultPtr
-          .asFunction<
-            ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<duk_context>,
-              int,
-              ffi.Pointer<ffi.Void>,
-            )
-          >();
+  late final _duk_get_pointer_defaultPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<ffi.Void> Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            ffi.Pointer<ffi.Void>,
+          )
+        >
+      >('duk_get_pointer_default');
+  late final _duk_get_pointer_default = _duk_get_pointer_defaultPtr
+      .asFunction<
+        ffi.Pointer<ffi.Void> Function(
+          ffi.Pointer<duk_context>,
+          int,
+          ffi.Pointer<ffi.Void>,
+        )
+      >();
 
   duk_c_function duk_get_c_function_default(
     ffi.Pointer<duk_context> ctx,
@@ -2073,24 +2171,20 @@ class DuktapeBindings {
     return _duk_get_c_function_default(ctx, idx, def_value);
   }
 
-  late final _duk_get_c_function_defaultPtr = _lookup<
-    ffi.NativeFunction<
-      duk_c_function Function(
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        duk_c_function,
-      )
-    >
-  >('duk_get_c_function_default');
-  late final _duk_get_c_function_default =
-      _duk_get_c_function_defaultPtr
-          .asFunction<
-            duk_c_function Function(
-              ffi.Pointer<duk_context>,
-              int,
-              duk_c_function,
-            )
-          >();
+  late final _duk_get_c_function_defaultPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_c_function Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            duk_c_function,
+          )
+        >
+      >('duk_get_c_function_default');
+  late final _duk_get_c_function_default = _duk_get_c_function_defaultPtr
+      .asFunction<
+        duk_c_function Function(ffi.Pointer<duk_context>, int, duk_c_function)
+      >();
 
   ffi.Pointer<duk_context> duk_get_context_default(
     ffi.Pointer<duk_context> ctx,
@@ -2100,24 +2194,24 @@ class DuktapeBindings {
     return _duk_get_context_default(ctx, idx, def_value);
   }
 
-  late final _duk_get_context_defaultPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<duk_context> Function(
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        ffi.Pointer<duk_context>,
-      )
-    >
-  >('duk_get_context_default');
-  late final _duk_get_context_default =
-      _duk_get_context_defaultPtr
-          .asFunction<
-            ffi.Pointer<duk_context> Function(
-              ffi.Pointer<duk_context>,
-              int,
-              ffi.Pointer<duk_context>,
-            )
-          >();
+  late final _duk_get_context_defaultPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<duk_context> Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            ffi.Pointer<duk_context>,
+          )
+        >
+      >('duk_get_context_default');
+  late final _duk_get_context_default = _duk_get_context_defaultPtr
+      .asFunction<
+        ffi.Pointer<duk_context> Function(
+          ffi.Pointer<duk_context>,
+          int,
+          ffi.Pointer<duk_context>,
+        )
+      >();
 
   ffi.Pointer<ffi.Void> duk_get_heapptr_default(
     ffi.Pointer<duk_context> ctx,
@@ -2127,24 +2221,24 @@ class DuktapeBindings {
     return _duk_get_heapptr_default(ctx, idx, def_value);
   }
 
-  late final _duk_get_heapptr_defaultPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<ffi.Void> Function(
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        ffi.Pointer<ffi.Void>,
-      )
-    >
-  >('duk_get_heapptr_default');
-  late final _duk_get_heapptr_default =
-      _duk_get_heapptr_defaultPtr
-          .asFunction<
-            ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<duk_context>,
-              int,
-              ffi.Pointer<ffi.Void>,
-            )
-          >();
+  late final _duk_get_heapptr_defaultPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<ffi.Void> Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            ffi.Pointer<ffi.Void>,
+          )
+        >
+      >('duk_get_heapptr_default');
+  late final _duk_get_heapptr_default = _duk_get_heapptr_defaultPtr
+      .asFunction<
+        ffi.Pointer<ffi.Void> Function(
+          ffi.Pointer<duk_context>,
+          int,
+          ffi.Pointer<ffi.Void>,
+        )
+      >();
 
   /// Opt operations: like require operations but with an explicit default value
   /// when value is undefined or index is invalid, null and non-matching types
@@ -2153,14 +2247,14 @@ class DuktapeBindings {
     return _duk_opt_boolean(ctx, idx, def_value);
   }
 
-  late final _duk_opt_booleanPtr = _lookup<
-    ffi.NativeFunction<
-      duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t, duk_bool_t)
-    >
-  >('duk_opt_boolean');
-  late final _duk_opt_boolean =
-      _duk_opt_booleanPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int, int)>();
+  late final _duk_opt_booleanPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t, duk_bool_t)
+        >
+      >('duk_opt_boolean');
+  late final _duk_opt_boolean = _duk_opt_booleanPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int, int)>();
 
   double duk_opt_number(
     ffi.Pointer<duk_context> ctx,
@@ -2170,40 +2264,44 @@ class DuktapeBindings {
     return _duk_opt_number(ctx, idx, def_value);
   }
 
-  late final _duk_opt_numberPtr = _lookup<
-    ffi.NativeFunction<
-      duk_double_t Function(ffi.Pointer<duk_context>, duk_idx_t, duk_double_t)
-    >
-  >('duk_opt_number');
-  late final _duk_opt_number =
-      _duk_opt_numberPtr
-          .asFunction<double Function(ffi.Pointer<duk_context>, int, double)>();
+  late final _duk_opt_numberPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_double_t Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            duk_double_t,
+          )
+        >
+      >('duk_opt_number');
+  late final _duk_opt_number = _duk_opt_numberPtr
+      .asFunction<double Function(ffi.Pointer<duk_context>, int, double)>();
 
   int duk_opt_int(ffi.Pointer<duk_context> ctx, int idx, int def_value) {
     return _duk_opt_int(ctx, idx, def_value);
   }
 
-  late final _duk_opt_intPtr = _lookup<
-    ffi.NativeFunction<
-      duk_int_t Function(ffi.Pointer<duk_context>, duk_idx_t, duk_int_t)
-    >
-  >('duk_opt_int');
-  late final _duk_opt_int =
-      _duk_opt_intPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int, int)>();
+  late final _duk_opt_intPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_int_t Function(ffi.Pointer<duk_context>, duk_idx_t, duk_int_t)
+        >
+      >('duk_opt_int');
+  late final _duk_opt_int = _duk_opt_intPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int, int)>();
 
   int duk_opt_uint(ffi.Pointer<duk_context> ctx, int idx, int def_value) {
     return _duk_opt_uint(ctx, idx, def_value);
   }
 
-  late final _duk_opt_uintPtr = _lookup<
-    ffi.NativeFunction<
-      duk_uint_t Function(ffi.Pointer<duk_context>, duk_idx_t, duk_uint_t)
-    >
-  >('duk_opt_uint');
-  late final _duk_opt_uint =
-      _duk_opt_uintPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int, int)>();
+  late final _duk_opt_uintPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_uint_t Function(ffi.Pointer<duk_context>, duk_idx_t, duk_uint_t)
+        >
+      >('duk_opt_uint');
+  late final _duk_opt_uint = _duk_opt_uintPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int, int)>();
 
   ffi.Pointer<ffi.Char> duk_opt_string(
     ffi.Pointer<duk_context> ctx,
@@ -2213,24 +2311,24 @@ class DuktapeBindings {
     return _duk_opt_string(ctx, idx, def_ptr);
   }
 
-  late final _duk_opt_stringPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<ffi.Char> Function(
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        ffi.Pointer<ffi.Char>,
-      )
-    >
-  >('duk_opt_string');
-  late final _duk_opt_string =
-      _duk_opt_stringPtr
-          .asFunction<
-            ffi.Pointer<ffi.Char> Function(
-              ffi.Pointer<duk_context>,
-              int,
-              ffi.Pointer<ffi.Char>,
-            )
-          >();
+  late final _duk_opt_stringPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<ffi.Char> Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            ffi.Pointer<ffi.Char>,
+          )
+        >
+      >('duk_opt_string');
+  late final _duk_opt_string = _duk_opt_stringPtr
+      .asFunction<
+        ffi.Pointer<ffi.Char> Function(
+          ffi.Pointer<duk_context>,
+          int,
+          ffi.Pointer<ffi.Char>,
+        )
+      >();
 
   ffi.Pointer<ffi.Char> duk_opt_lstring(
     ffi.Pointer<duk_context> ctx,
@@ -2242,28 +2340,28 @@ class DuktapeBindings {
     return _duk_opt_lstring(ctx, idx, out_len, def_ptr, def_len);
   }
 
-  late final _duk_opt_lstringPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<ffi.Char> Function(
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        ffi.Pointer<duk_size_t>,
-        ffi.Pointer<ffi.Char>,
-        duk_size_t,
-      )
-    >
-  >('duk_opt_lstring');
-  late final _duk_opt_lstring =
-      _duk_opt_lstringPtr
-          .asFunction<
-            ffi.Pointer<ffi.Char> Function(
-              ffi.Pointer<duk_context>,
-              int,
-              ffi.Pointer<duk_size_t>,
-              ffi.Pointer<ffi.Char>,
-              int,
-            )
-          >();
+  late final _duk_opt_lstringPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<ffi.Char> Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            ffi.Pointer<duk_size_t>,
+            ffi.Pointer<ffi.Char>,
+            duk_size_t,
+          )
+        >
+      >('duk_opt_lstring');
+  late final _duk_opt_lstring = _duk_opt_lstringPtr
+      .asFunction<
+        ffi.Pointer<ffi.Char> Function(
+          ffi.Pointer<duk_context>,
+          int,
+          ffi.Pointer<duk_size_t>,
+          ffi.Pointer<ffi.Char>,
+          int,
+        )
+      >();
 
   ffi.Pointer<ffi.Void> duk_opt_buffer(
     ffi.Pointer<duk_context> ctx,
@@ -2275,28 +2373,28 @@ class DuktapeBindings {
     return _duk_opt_buffer(ctx, idx, out_size, def_ptr, def_size);
   }
 
-  late final _duk_opt_bufferPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<ffi.Void> Function(
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        ffi.Pointer<duk_size_t>,
-        ffi.Pointer<ffi.Void>,
-        duk_size_t,
-      )
-    >
-  >('duk_opt_buffer');
-  late final _duk_opt_buffer =
-      _duk_opt_bufferPtr
-          .asFunction<
-            ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<duk_context>,
-              int,
-              ffi.Pointer<duk_size_t>,
-              ffi.Pointer<ffi.Void>,
-              int,
-            )
-          >();
+  late final _duk_opt_bufferPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<ffi.Void> Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            ffi.Pointer<duk_size_t>,
+            ffi.Pointer<ffi.Void>,
+            duk_size_t,
+          )
+        >
+      >('duk_opt_buffer');
+  late final _duk_opt_buffer = _duk_opt_bufferPtr
+      .asFunction<
+        ffi.Pointer<ffi.Void> Function(
+          ffi.Pointer<duk_context>,
+          int,
+          ffi.Pointer<duk_size_t>,
+          ffi.Pointer<ffi.Void>,
+          int,
+        )
+      >();
 
   ffi.Pointer<ffi.Void> duk_opt_buffer_data(
     ffi.Pointer<duk_context> ctx,
@@ -2308,28 +2406,28 @@ class DuktapeBindings {
     return _duk_opt_buffer_data(ctx, idx, out_size, def_ptr, def_size);
   }
 
-  late final _duk_opt_buffer_dataPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<ffi.Void> Function(
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        ffi.Pointer<duk_size_t>,
-        ffi.Pointer<ffi.Void>,
-        duk_size_t,
-      )
-    >
-  >('duk_opt_buffer_data');
-  late final _duk_opt_buffer_data =
-      _duk_opt_buffer_dataPtr
-          .asFunction<
-            ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<duk_context>,
-              int,
-              ffi.Pointer<duk_size_t>,
-              ffi.Pointer<ffi.Void>,
-              int,
-            )
-          >();
+  late final _duk_opt_buffer_dataPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<ffi.Void> Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            ffi.Pointer<duk_size_t>,
+            ffi.Pointer<ffi.Void>,
+            duk_size_t,
+          )
+        >
+      >('duk_opt_buffer_data');
+  late final _duk_opt_buffer_data = _duk_opt_buffer_dataPtr
+      .asFunction<
+        ffi.Pointer<ffi.Void> Function(
+          ffi.Pointer<duk_context>,
+          int,
+          ffi.Pointer<duk_size_t>,
+          ffi.Pointer<ffi.Void>,
+          int,
+        )
+      >();
 
   ffi.Pointer<ffi.Void> duk_opt_pointer(
     ffi.Pointer<duk_context> ctx,
@@ -2339,24 +2437,24 @@ class DuktapeBindings {
     return _duk_opt_pointer(ctx, idx, def_value);
   }
 
-  late final _duk_opt_pointerPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<ffi.Void> Function(
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        ffi.Pointer<ffi.Void>,
-      )
-    >
-  >('duk_opt_pointer');
-  late final _duk_opt_pointer =
-      _duk_opt_pointerPtr
-          .asFunction<
-            ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<duk_context>,
-              int,
-              ffi.Pointer<ffi.Void>,
-            )
-          >();
+  late final _duk_opt_pointerPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<ffi.Void> Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            ffi.Pointer<ffi.Void>,
+          )
+        >
+      >('duk_opt_pointer');
+  late final _duk_opt_pointer = _duk_opt_pointerPtr
+      .asFunction<
+        ffi.Pointer<ffi.Void> Function(
+          ffi.Pointer<duk_context>,
+          int,
+          ffi.Pointer<ffi.Void>,
+        )
+      >();
 
   duk_c_function duk_opt_c_function(
     ffi.Pointer<duk_context> ctx,
@@ -2366,24 +2464,20 @@ class DuktapeBindings {
     return _duk_opt_c_function(ctx, idx, def_value);
   }
 
-  late final _duk_opt_c_functionPtr = _lookup<
-    ffi.NativeFunction<
-      duk_c_function Function(
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        duk_c_function,
-      )
-    >
-  >('duk_opt_c_function');
-  late final _duk_opt_c_function =
-      _duk_opt_c_functionPtr
-          .asFunction<
-            duk_c_function Function(
-              ffi.Pointer<duk_context>,
-              int,
-              duk_c_function,
-            )
-          >();
+  late final _duk_opt_c_functionPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_c_function Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            duk_c_function,
+          )
+        >
+      >('duk_opt_c_function');
+  late final _duk_opt_c_function = _duk_opt_c_functionPtr
+      .asFunction<
+        duk_c_function Function(ffi.Pointer<duk_context>, int, duk_c_function)
+      >();
 
   ffi.Pointer<duk_context> duk_opt_context(
     ffi.Pointer<duk_context> ctx,
@@ -2393,24 +2487,24 @@ class DuktapeBindings {
     return _duk_opt_context(ctx, idx, def_value);
   }
 
-  late final _duk_opt_contextPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<duk_context> Function(
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        ffi.Pointer<duk_context>,
-      )
-    >
-  >('duk_opt_context');
-  late final _duk_opt_context =
-      _duk_opt_contextPtr
-          .asFunction<
-            ffi.Pointer<duk_context> Function(
-              ffi.Pointer<duk_context>,
-              int,
-              ffi.Pointer<duk_context>,
-            )
-          >();
+  late final _duk_opt_contextPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<duk_context> Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            ffi.Pointer<duk_context>,
+          )
+        >
+      >('duk_opt_context');
+  late final _duk_opt_context = _duk_opt_contextPtr
+      .asFunction<
+        ffi.Pointer<duk_context> Function(
+          ffi.Pointer<duk_context>,
+          int,
+          ffi.Pointer<duk_context>,
+        )
+      >();
 
   ffi.Pointer<ffi.Void> duk_opt_heapptr(
     ffi.Pointer<duk_context> ctx,
@@ -2420,92 +2514,102 @@ class DuktapeBindings {
     return _duk_opt_heapptr(ctx, idx, def_value);
   }
 
-  late final _duk_opt_heapptrPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<ffi.Void> Function(
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        ffi.Pointer<ffi.Void>,
-      )
-    >
-  >('duk_opt_heapptr');
-  late final _duk_opt_heapptr =
-      _duk_opt_heapptrPtr
-          .asFunction<
-            ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<duk_context>,
-              int,
-              ffi.Pointer<ffi.Void>,
-            )
-          >();
+  late final _duk_opt_heapptrPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<ffi.Void> Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            ffi.Pointer<ffi.Void>,
+          )
+        >
+      >('duk_opt_heapptr');
+  late final _duk_opt_heapptr = _duk_opt_heapptrPtr
+      .asFunction<
+        ffi.Pointer<ffi.Void> Function(
+          ffi.Pointer<duk_context>,
+          int,
+          ffi.Pointer<ffi.Void>,
+        )
+      >();
 
   void duk_require_undefined(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_require_undefined(ctx, idx);
   }
 
-  late final _duk_require_undefinedPtr = _lookup<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_require_undefined');
-  late final _duk_require_undefined =
-      _duk_require_undefinedPtr
-          .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_require_undefinedPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_require_undefined');
+  late final _duk_require_undefined = _duk_require_undefinedPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
 
   void duk_require_null(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_require_null(ctx, idx);
   }
 
-  late final _duk_require_nullPtr = _lookup<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_require_null');
-  late final _duk_require_null =
-      _duk_require_nullPtr
-          .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_require_nullPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_require_null');
+  late final _duk_require_null = _duk_require_nullPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_require_boolean(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_require_boolean(ctx, idx);
   }
 
-  late final _duk_require_booleanPtr = _lookup<
-    ffi.NativeFunction<duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_require_boolean');
-  late final _duk_require_boolean =
-      _duk_require_booleanPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_require_booleanPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_require_boolean');
+  late final _duk_require_boolean = _duk_require_booleanPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   double duk_require_number(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_require_number(ctx, idx);
   }
 
-  late final _duk_require_numberPtr = _lookup<
-    ffi.NativeFunction<
-      duk_double_t Function(ffi.Pointer<duk_context>, duk_idx_t)
-    >
-  >('duk_require_number');
-  late final _duk_require_number =
-      _duk_require_numberPtr
-          .asFunction<double Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_require_numberPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_double_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_require_number');
+  late final _duk_require_number = _duk_require_numberPtr
+      .asFunction<double Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_require_int(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_require_int(ctx, idx);
   }
 
-  late final _duk_require_intPtr = _lookup<
-    ffi.NativeFunction<duk_int_t Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_require_int');
-  late final _duk_require_int =
-      _duk_require_intPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_require_intPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_int_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_require_int');
+  late final _duk_require_int = _duk_require_intPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_require_uint(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_require_uint(ctx, idx);
   }
 
-  late final _duk_require_uintPtr = _lookup<
-    ffi.NativeFunction<duk_uint_t Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_require_uint');
-  late final _duk_require_uint =
-      _duk_require_uintPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_require_uintPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_uint_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_require_uint');
+  late final _duk_require_uint = _duk_require_uintPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   ffi.Pointer<ffi.Char> duk_require_string(
     ffi.Pointer<duk_context> ctx,
@@ -2514,16 +2618,16 @@ class DuktapeBindings {
     return _duk_require_string(ctx, idx);
   }
 
-  late final _duk_require_stringPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<ffi.Char> Function(ffi.Pointer<duk_context>, duk_idx_t)
-    >
-  >('duk_require_string');
-  late final _duk_require_string =
-      _duk_require_stringPtr
-          .asFunction<
-            ffi.Pointer<ffi.Char> Function(ffi.Pointer<duk_context>, int)
-          >();
+  late final _duk_require_stringPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<ffi.Char> Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_require_string');
+  late final _duk_require_string = _duk_require_stringPtr
+      .asFunction<
+        ffi.Pointer<ffi.Char> Function(ffi.Pointer<duk_context>, int)
+      >();
 
   ffi.Pointer<ffi.Char> duk_require_lstring(
     ffi.Pointer<duk_context> ctx,
@@ -2533,35 +2637,37 @@ class DuktapeBindings {
     return _duk_require_lstring(ctx, idx, out_len);
   }
 
-  late final _duk_require_lstringPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<ffi.Char> Function(
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        ffi.Pointer<duk_size_t>,
-      )
-    >
-  >('duk_require_lstring');
-  late final _duk_require_lstring =
-      _duk_require_lstringPtr
-          .asFunction<
-            ffi.Pointer<ffi.Char> Function(
-              ffi.Pointer<duk_context>,
-              int,
-              ffi.Pointer<duk_size_t>,
-            )
-          >();
+  late final _duk_require_lstringPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<ffi.Char> Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            ffi.Pointer<duk_size_t>,
+          )
+        >
+      >('duk_require_lstring');
+  late final _duk_require_lstring = _duk_require_lstringPtr
+      .asFunction<
+        ffi.Pointer<ffi.Char> Function(
+          ffi.Pointer<duk_context>,
+          int,
+          ffi.Pointer<duk_size_t>,
+        )
+      >();
 
   void duk_require_object(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_require_object(ctx, idx);
   }
 
-  late final _duk_require_objectPtr = _lookup<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_require_object');
-  late final _duk_require_object =
-      _duk_require_objectPtr
-          .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_require_objectPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_require_object');
+  late final _duk_require_object = _duk_require_objectPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
 
   ffi.Pointer<ffi.Void> duk_require_buffer(
     ffi.Pointer<duk_context> ctx,
@@ -2571,24 +2677,24 @@ class DuktapeBindings {
     return _duk_require_buffer(ctx, idx, out_size);
   }
 
-  late final _duk_require_bufferPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<ffi.Void> Function(
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        ffi.Pointer<duk_size_t>,
-      )
-    >
-  >('duk_require_buffer');
-  late final _duk_require_buffer =
-      _duk_require_bufferPtr
-          .asFunction<
-            ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<duk_context>,
-              int,
-              ffi.Pointer<duk_size_t>,
-            )
-          >();
+  late final _duk_require_bufferPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<ffi.Void> Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            ffi.Pointer<duk_size_t>,
+          )
+        >
+      >('duk_require_buffer');
+  late final _duk_require_buffer = _duk_require_bufferPtr
+      .asFunction<
+        ffi.Pointer<ffi.Void> Function(
+          ffi.Pointer<duk_context>,
+          int,
+          ffi.Pointer<duk_size_t>,
+        )
+      >();
 
   ffi.Pointer<ffi.Void> duk_require_buffer_data(
     ffi.Pointer<duk_context> ctx,
@@ -2598,24 +2704,24 @@ class DuktapeBindings {
     return _duk_require_buffer_data(ctx, idx, out_size);
   }
 
-  late final _duk_require_buffer_dataPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<ffi.Void> Function(
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        ffi.Pointer<duk_size_t>,
-      )
-    >
-  >('duk_require_buffer_data');
-  late final _duk_require_buffer_data =
-      _duk_require_buffer_dataPtr
-          .asFunction<
-            ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<duk_context>,
-              int,
-              ffi.Pointer<duk_size_t>,
-            )
-          >();
+  late final _duk_require_buffer_dataPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<ffi.Void> Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            ffi.Pointer<duk_size_t>,
+          )
+        >
+      >('duk_require_buffer_data');
+  late final _duk_require_buffer_data = _duk_require_buffer_dataPtr
+      .asFunction<
+        ffi.Pointer<ffi.Void> Function(
+          ffi.Pointer<duk_context>,
+          int,
+          ffi.Pointer<duk_size_t>,
+        )
+      >();
 
   ffi.Pointer<ffi.Void> duk_require_pointer(
     ffi.Pointer<duk_context> ctx,
@@ -2624,29 +2730,29 @@ class DuktapeBindings {
     return _duk_require_pointer(ctx, idx);
   }
 
-  late final _duk_require_pointerPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<ffi.Void> Function(ffi.Pointer<duk_context>, duk_idx_t)
-    >
-  >('duk_require_pointer');
-  late final _duk_require_pointer =
-      _duk_require_pointerPtr
-          .asFunction<
-            ffi.Pointer<ffi.Void> Function(ffi.Pointer<duk_context>, int)
-          >();
+  late final _duk_require_pointerPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<ffi.Void> Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_require_pointer');
+  late final _duk_require_pointer = _duk_require_pointerPtr
+      .asFunction<
+        ffi.Pointer<ffi.Void> Function(ffi.Pointer<duk_context>, int)
+      >();
 
   duk_c_function duk_require_c_function(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_require_c_function(ctx, idx);
   }
 
-  late final _duk_require_c_functionPtr = _lookup<
-    ffi.NativeFunction<
-      duk_c_function Function(ffi.Pointer<duk_context>, duk_idx_t)
-    >
-  >('duk_require_c_function');
-  late final _duk_require_c_function =
-      _duk_require_c_functionPtr
-          .asFunction<duk_c_function Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_require_c_functionPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_c_function Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_require_c_function');
+  late final _duk_require_c_function = _duk_require_c_functionPtr
+      .asFunction<duk_c_function Function(ffi.Pointer<duk_context>, int)>();
 
   ffi.Pointer<duk_context> duk_require_context(
     ffi.Pointer<duk_context> ctx,
@@ -2655,27 +2761,29 @@ class DuktapeBindings {
     return _duk_require_context(ctx, idx);
   }
 
-  late final _duk_require_contextPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<duk_context> Function(ffi.Pointer<duk_context>, duk_idx_t)
-    >
-  >('duk_require_context');
-  late final _duk_require_context =
-      _duk_require_contextPtr
-          .asFunction<
-            ffi.Pointer<duk_context> Function(ffi.Pointer<duk_context>, int)
-          >();
+  late final _duk_require_contextPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<duk_context> Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_require_context');
+  late final _duk_require_context = _duk_require_contextPtr
+      .asFunction<
+        ffi.Pointer<duk_context> Function(ffi.Pointer<duk_context>, int)
+      >();
 
   void duk_require_function(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_require_function(ctx, idx);
   }
 
-  late final _duk_require_functionPtr = _lookup<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_require_function');
-  late final _duk_require_function =
-      _duk_require_functionPtr
-          .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_require_functionPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_require_function');
+  late final _duk_require_function = _duk_require_functionPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
 
   void duk_require_constructor_call(ffi.Pointer<duk_context> ctx) {
     return _duk_require_constructor_call(ctx);
@@ -2685,20 +2793,21 @@ class DuktapeBindings {
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>)>>(
         'duk_require_constructor_call',
       );
-  late final _duk_require_constructor_call =
-      _duk_require_constructor_callPtr
-          .asFunction<void Function(ffi.Pointer<duk_context>)>();
+  late final _duk_require_constructor_call = _duk_require_constructor_callPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>)>();
 
   void duk_require_constructable(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_require_constructable(ctx, idx);
   }
 
-  late final _duk_require_constructablePtr = _lookup<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_require_constructable');
-  late final _duk_require_constructable =
-      _duk_require_constructablePtr
-          .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_require_constructablePtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_require_constructable');
+  late final _duk_require_constructable = _duk_require_constructablePtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
 
   ffi.Pointer<ffi.Void> duk_require_heapptr(
     ffi.Pointer<duk_context> ctx,
@@ -2707,16 +2816,16 @@ class DuktapeBindings {
     return _duk_require_heapptr(ctx, idx);
   }
 
-  late final _duk_require_heapptrPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<ffi.Void> Function(ffi.Pointer<duk_context>, duk_idx_t)
-    >
-  >('duk_require_heapptr');
-  late final _duk_require_heapptr =
-      _duk_require_heapptrPtr
-          .asFunction<
-            ffi.Pointer<ffi.Void> Function(ffi.Pointer<duk_context>, int)
-          >();
+  late final _duk_require_heapptrPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<ffi.Void> Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_require_heapptr');
+  late final _duk_require_heapptr = _duk_require_heapptrPtr
+      .asFunction<
+        ffi.Pointer<ffi.Void> Function(ffi.Pointer<duk_context>, int)
+      >();
 
   /// Coercion operations: in-place coercion, return coerced value where
   /// applicable.  If index is invalid, throw error.  Some coercions may
@@ -2726,121 +2835,133 @@ class DuktapeBindings {
     return _duk_to_undefined(ctx, idx);
   }
 
-  late final _duk_to_undefinedPtr = _lookup<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_to_undefined');
-  late final _duk_to_undefined =
-      _duk_to_undefinedPtr
-          .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_to_undefinedPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_to_undefined');
+  late final _duk_to_undefined = _duk_to_undefinedPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
 
   void duk_to_null(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_to_null(ctx, idx);
   }
 
-  late final _duk_to_nullPtr = _lookup<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_to_null');
-  late final _duk_to_null =
-      _duk_to_nullPtr
-          .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_to_nullPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_to_null');
+  late final _duk_to_null = _duk_to_nullPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_to_boolean(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_to_boolean(ctx, idx);
   }
 
-  late final _duk_to_booleanPtr = _lookup<
-    ffi.NativeFunction<duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_to_boolean');
-  late final _duk_to_boolean =
-      _duk_to_booleanPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_to_booleanPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_to_boolean');
+  late final _duk_to_boolean = _duk_to_booleanPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   double duk_to_number(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_to_number(ctx, idx);
   }
 
-  late final _duk_to_numberPtr = _lookup<
-    ffi.NativeFunction<
-      duk_double_t Function(ffi.Pointer<duk_context>, duk_idx_t)
-    >
-  >('duk_to_number');
-  late final _duk_to_number =
-      _duk_to_numberPtr
-          .asFunction<double Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_to_numberPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_double_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_to_number');
+  late final _duk_to_number = _duk_to_numberPtr
+      .asFunction<double Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_to_int(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_to_int(ctx, idx);
   }
 
-  late final _duk_to_intPtr = _lookup<
-    ffi.NativeFunction<duk_int_t Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_to_int');
-  late final _duk_to_int =
-      _duk_to_intPtr.asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_to_intPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_int_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_to_int');
+  late final _duk_to_int = _duk_to_intPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_to_uint(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_to_uint(ctx, idx);
   }
 
-  late final _duk_to_uintPtr = _lookup<
-    ffi.NativeFunction<duk_uint_t Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_to_uint');
-  late final _duk_to_uint =
-      _duk_to_uintPtr.asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_to_uintPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_uint_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_to_uint');
+  late final _duk_to_uint = _duk_to_uintPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_to_int32(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_to_int32(ctx, idx);
   }
 
-  late final _duk_to_int32Ptr = _lookup<
-    ffi.NativeFunction<
-      duk_int32_t Function(ffi.Pointer<duk_context>, duk_idx_t)
-    >
-  >('duk_to_int32');
-  late final _duk_to_int32 =
-      _duk_to_int32Ptr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_to_int32Ptr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_int32_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_to_int32');
+  late final _duk_to_int32 = _duk_to_int32Ptr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_to_uint32(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_to_uint32(ctx, idx);
   }
 
-  late final _duk_to_uint32Ptr = _lookup<
-    ffi.NativeFunction<
-      duk_uint32_t Function(ffi.Pointer<duk_context>, duk_idx_t)
-    >
-  >('duk_to_uint32');
-  late final _duk_to_uint32 =
-      _duk_to_uint32Ptr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_to_uint32Ptr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_uint32_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_to_uint32');
+  late final _duk_to_uint32 = _duk_to_uint32Ptr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_to_uint16(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_to_uint16(ctx, idx);
   }
 
-  late final _duk_to_uint16Ptr = _lookup<
-    ffi.NativeFunction<
-      duk_uint16_t Function(ffi.Pointer<duk_context>, duk_idx_t)
-    >
-  >('duk_to_uint16');
-  late final _duk_to_uint16 =
-      _duk_to_uint16Ptr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_to_uint16Ptr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_uint16_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_to_uint16');
+  late final _duk_to_uint16 = _duk_to_uint16Ptr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   ffi.Pointer<ffi.Char> duk_to_string(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_to_string(ctx, idx);
   }
 
-  late final _duk_to_stringPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<ffi.Char> Function(ffi.Pointer<duk_context>, duk_idx_t)
-    >
-  >('duk_to_string');
-  late final _duk_to_string =
-      _duk_to_stringPtr
-          .asFunction<
-            ffi.Pointer<ffi.Char> Function(ffi.Pointer<duk_context>, int)
-          >();
+  late final _duk_to_stringPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<ffi.Char> Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_to_string');
+  late final _duk_to_string = _duk_to_stringPtr
+      .asFunction<
+        ffi.Pointer<ffi.Char> Function(ffi.Pointer<duk_context>, int)
+      >();
 
   ffi.Pointer<ffi.Char> duk_to_lstring(
     ffi.Pointer<duk_context> ctx,
@@ -2850,24 +2971,24 @@ class DuktapeBindings {
     return _duk_to_lstring(ctx, idx, out_len);
   }
 
-  late final _duk_to_lstringPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<ffi.Char> Function(
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        ffi.Pointer<duk_size_t>,
-      )
-    >
-  >('duk_to_lstring');
-  late final _duk_to_lstring =
-      _duk_to_lstringPtr
-          .asFunction<
-            ffi.Pointer<ffi.Char> Function(
-              ffi.Pointer<duk_context>,
-              int,
-              ffi.Pointer<duk_size_t>,
-            )
-          >();
+  late final _duk_to_lstringPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<ffi.Char> Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            ffi.Pointer<duk_size_t>,
+          )
+        >
+      >('duk_to_lstring');
+  late final _duk_to_lstring = _duk_to_lstringPtr
+      .asFunction<
+        ffi.Pointer<ffi.Char> Function(
+          ffi.Pointer<duk_context>,
+          int,
+          ffi.Pointer<duk_size_t>,
+        )
+      >();
 
   ffi.Pointer<ffi.Void> duk_to_buffer_raw(
     ffi.Pointer<duk_context> ctx,
@@ -2878,65 +2999,67 @@ class DuktapeBindings {
     return _duk_to_buffer_raw(ctx, idx, out_size, flags);
   }
 
-  late final _duk_to_buffer_rawPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<ffi.Void> Function(
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        ffi.Pointer<duk_size_t>,
-        duk_uint_t,
-      )
-    >
-  >('duk_to_buffer_raw');
-  late final _duk_to_buffer_raw =
-      _duk_to_buffer_rawPtr
-          .asFunction<
-            ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<duk_context>,
-              int,
-              ffi.Pointer<duk_size_t>,
-              int,
-            )
-          >();
+  late final _duk_to_buffer_rawPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<ffi.Void> Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            ffi.Pointer<duk_size_t>,
+            duk_uint_t,
+          )
+        >
+      >('duk_to_buffer_raw');
+  late final _duk_to_buffer_raw = _duk_to_buffer_rawPtr
+      .asFunction<
+        ffi.Pointer<ffi.Void> Function(
+          ffi.Pointer<duk_context>,
+          int,
+          ffi.Pointer<duk_size_t>,
+          int,
+        )
+      >();
 
   ffi.Pointer<ffi.Void> duk_to_pointer(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_to_pointer(ctx, idx);
   }
 
-  late final _duk_to_pointerPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<ffi.Void> Function(ffi.Pointer<duk_context>, duk_idx_t)
-    >
-  >('duk_to_pointer');
-  late final _duk_to_pointer =
-      _duk_to_pointerPtr
-          .asFunction<
-            ffi.Pointer<ffi.Void> Function(ffi.Pointer<duk_context>, int)
-          >();
+  late final _duk_to_pointerPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<ffi.Void> Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_to_pointer');
+  late final _duk_to_pointer = _duk_to_pointerPtr
+      .asFunction<
+        ffi.Pointer<ffi.Void> Function(ffi.Pointer<duk_context>, int)
+      >();
 
   void duk_to_object(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_to_object(ctx, idx);
   }
 
-  late final _duk_to_objectPtr = _lookup<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_to_object');
-  late final _duk_to_object =
-      _duk_to_objectPtr
-          .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_to_objectPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_to_object');
+  late final _duk_to_object = _duk_to_objectPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
 
   void duk_to_primitive(ffi.Pointer<duk_context> ctx, int idx, int hint) {
     return _duk_to_primitive(ctx, idx, hint);
   }
 
-  late final _duk_to_primitivePtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t, duk_int_t)
-    >
-  >('duk_to_primitive');
-  late final _duk_to_primitive =
-      _duk_to_primitivePtr
-          .asFunction<void Function(ffi.Pointer<duk_context>, int, int)>();
+  late final _duk_to_primitivePtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t, duk_int_t)
+        >
+      >('duk_to_primitive');
+  late final _duk_to_primitive = _duk_to_primitivePtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int, int)>();
 
   /// safe variants of a few coercion operations
   ffi.Pointer<ffi.Char> duk_safe_to_lstring(
@@ -2947,24 +3070,24 @@ class DuktapeBindings {
     return _duk_safe_to_lstring(ctx, idx, out_len);
   }
 
-  late final _duk_safe_to_lstringPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<ffi.Char> Function(
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        ffi.Pointer<duk_size_t>,
-      )
-    >
-  >('duk_safe_to_lstring');
-  late final _duk_safe_to_lstring =
-      _duk_safe_to_lstringPtr
-          .asFunction<
-            ffi.Pointer<ffi.Char> Function(
-              ffi.Pointer<duk_context>,
-              int,
-              ffi.Pointer<duk_size_t>,
-            )
-          >();
+  late final _duk_safe_to_lstringPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<ffi.Char> Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            ffi.Pointer<duk_size_t>,
+          )
+        >
+      >('duk_safe_to_lstring');
+  late final _duk_safe_to_lstring = _duk_safe_to_lstringPtr
+      .asFunction<
+        ffi.Pointer<ffi.Char> Function(
+          ffi.Pointer<duk_context>,
+          int,
+          ffi.Pointer<duk_size_t>,
+        )
+      >();
 
   ffi.Pointer<ffi.Char> duk_to_stacktrace(
     ffi.Pointer<duk_context> ctx,
@@ -2973,16 +3096,16 @@ class DuktapeBindings {
     return _duk_to_stacktrace(ctx, idx);
   }
 
-  late final _duk_to_stacktracePtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<ffi.Char> Function(ffi.Pointer<duk_context>, duk_idx_t)
-    >
-  >('duk_to_stacktrace');
-  late final _duk_to_stacktrace =
-      _duk_to_stacktracePtr
-          .asFunction<
-            ffi.Pointer<ffi.Char> Function(ffi.Pointer<duk_context>, int)
-          >();
+  late final _duk_to_stacktracePtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<ffi.Char> Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_to_stacktrace');
+  late final _duk_to_stacktrace = _duk_to_stacktracePtr
+      .asFunction<
+        ffi.Pointer<ffi.Char> Function(ffi.Pointer<duk_context>, int)
+      >();
 
   ffi.Pointer<ffi.Char> duk_safe_to_stacktrace(
     ffi.Pointer<duk_context> ctx,
@@ -2991,41 +3114,43 @@ class DuktapeBindings {
     return _duk_safe_to_stacktrace(ctx, idx);
   }
 
-  late final _duk_safe_to_stacktracePtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<ffi.Char> Function(ffi.Pointer<duk_context>, duk_idx_t)
-    >
-  >('duk_safe_to_stacktrace');
-  late final _duk_safe_to_stacktrace =
-      _duk_safe_to_stacktracePtr
-          .asFunction<
-            ffi.Pointer<ffi.Char> Function(ffi.Pointer<duk_context>, int)
-          >();
+  late final _duk_safe_to_stacktracePtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<ffi.Char> Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_safe_to_stacktrace');
+  late final _duk_safe_to_stacktrace = _duk_safe_to_stacktracePtr
+      .asFunction<
+        ffi.Pointer<ffi.Char> Function(ffi.Pointer<duk_context>, int)
+      >();
 
   /// Value length
   int duk_get_length(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_get_length(ctx, idx);
   }
 
-  late final _duk_get_lengthPtr = _lookup<
-    ffi.NativeFunction<duk_size_t Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_get_length');
-  late final _duk_get_length =
-      _duk_get_lengthPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_get_lengthPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_size_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_get_length');
+  late final _duk_get_length = _duk_get_lengthPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   void duk_set_length(ffi.Pointer<duk_context> ctx, int idx, int len) {
     return _duk_set_length(ctx, idx, len);
   }
 
-  late final _duk_set_lengthPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t, duk_size_t)
-    >
-  >('duk_set_length');
-  late final _duk_set_length =
-      _duk_set_lengthPtr
-          .asFunction<void Function(ffi.Pointer<duk_context>, int, int)>();
+  late final _duk_set_lengthPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t, duk_size_t)
+        >
+      >('duk_set_length');
+  late final _duk_set_length = _duk_set_lengthPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int, int)>();
 
   /// Misc conversion
   ffi.Pointer<ffi.Char> duk_base64_encode(
@@ -3035,79 +3160,85 @@ class DuktapeBindings {
     return _duk_base64_encode(ctx, idx);
   }
 
-  late final _duk_base64_encodePtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<ffi.Char> Function(ffi.Pointer<duk_context>, duk_idx_t)
-    >
-  >('duk_base64_encode');
-  late final _duk_base64_encode =
-      _duk_base64_encodePtr
-          .asFunction<
-            ffi.Pointer<ffi.Char> Function(ffi.Pointer<duk_context>, int)
-          >();
+  late final _duk_base64_encodePtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<ffi.Char> Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_base64_encode');
+  late final _duk_base64_encode = _duk_base64_encodePtr
+      .asFunction<
+        ffi.Pointer<ffi.Char> Function(ffi.Pointer<duk_context>, int)
+      >();
 
   void duk_base64_decode(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_base64_decode(ctx, idx);
   }
 
-  late final _duk_base64_decodePtr = _lookup<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_base64_decode');
-  late final _duk_base64_decode =
-      _duk_base64_decodePtr
-          .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_base64_decodePtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_base64_decode');
+  late final _duk_base64_decode = _duk_base64_decodePtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
 
   ffi.Pointer<ffi.Char> duk_hex_encode(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_hex_encode(ctx, idx);
   }
 
-  late final _duk_hex_encodePtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<ffi.Char> Function(ffi.Pointer<duk_context>, duk_idx_t)
-    >
-  >('duk_hex_encode');
-  late final _duk_hex_encode =
-      _duk_hex_encodePtr
-          .asFunction<
-            ffi.Pointer<ffi.Char> Function(ffi.Pointer<duk_context>, int)
-          >();
+  late final _duk_hex_encodePtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<ffi.Char> Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_hex_encode');
+  late final _duk_hex_encode = _duk_hex_encodePtr
+      .asFunction<
+        ffi.Pointer<ffi.Char> Function(ffi.Pointer<duk_context>, int)
+      >();
 
   void duk_hex_decode(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_hex_decode(ctx, idx);
   }
 
-  late final _duk_hex_decodePtr = _lookup<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_hex_decode');
-  late final _duk_hex_decode =
-      _duk_hex_decodePtr
-          .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_hex_decodePtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_hex_decode');
+  late final _duk_hex_decode = _duk_hex_decodePtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
 
   ffi.Pointer<ffi.Char> duk_json_encode(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_json_encode(ctx, idx);
   }
 
-  late final _duk_json_encodePtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<ffi.Char> Function(ffi.Pointer<duk_context>, duk_idx_t)
-    >
-  >('duk_json_encode');
-  late final _duk_json_encode =
-      _duk_json_encodePtr
-          .asFunction<
-            ffi.Pointer<ffi.Char> Function(ffi.Pointer<duk_context>, int)
-          >();
+  late final _duk_json_encodePtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<ffi.Char> Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_json_encode');
+  late final _duk_json_encode = _duk_json_encodePtr
+      .asFunction<
+        ffi.Pointer<ffi.Char> Function(ffi.Pointer<duk_context>, int)
+      >();
 
   void duk_json_decode(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_json_decode(ctx, idx);
   }
 
-  late final _duk_json_decodePtr = _lookup<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_json_decode');
-  late final _duk_json_decode =
-      _duk_json_decodePtr
-          .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_json_decodePtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_json_decode');
+  late final _duk_json_decode = _duk_json_decodePtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
 
   void duk_cbor_encode(
     ffi.Pointer<duk_context> ctx,
@@ -3117,14 +3248,14 @@ class DuktapeBindings {
     return _duk_cbor_encode(ctx, idx, encode_flags);
   }
 
-  late final _duk_cbor_encodePtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t, duk_uint_t)
-    >
-  >('duk_cbor_encode');
-  late final _duk_cbor_encode =
-      _duk_cbor_encodePtr
-          .asFunction<void Function(ffi.Pointer<duk_context>, int, int)>();
+  late final _duk_cbor_encodePtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t, duk_uint_t)
+        >
+      >('duk_cbor_encode');
+  late final _duk_cbor_encode = _duk_cbor_encodePtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int, int)>();
 
   void duk_cbor_decode(
     ffi.Pointer<duk_context> ctx,
@@ -3134,14 +3265,14 @@ class DuktapeBindings {
     return _duk_cbor_decode(ctx, idx, decode_flags);
   }
 
-  late final _duk_cbor_decodePtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t, duk_uint_t)
-    >
-  >('duk_cbor_decode');
-  late final _duk_cbor_decode =
-      _duk_cbor_decodePtr
-          .asFunction<void Function(ffi.Pointer<duk_context>, int, int)>();
+  late final _duk_cbor_decodePtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t, duk_uint_t)
+        >
+      >('duk_cbor_decode');
+  late final _duk_cbor_decode = _duk_cbor_decodePtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int, int)>();
 
   ffi.Pointer<ffi.Char> duk_buffer_to_string(
     ffi.Pointer<duk_context> ctx,
@@ -3150,16 +3281,16 @@ class DuktapeBindings {
     return _duk_buffer_to_string(ctx, idx);
   }
 
-  late final _duk_buffer_to_stringPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<ffi.Char> Function(ffi.Pointer<duk_context>, duk_idx_t)
-    >
-  >('duk_buffer_to_string');
-  late final _duk_buffer_to_string =
-      _duk_buffer_to_stringPtr
-          .asFunction<
-            ffi.Pointer<ffi.Char> Function(ffi.Pointer<duk_context>, int)
-          >();
+  late final _duk_buffer_to_stringPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<ffi.Char> Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_buffer_to_string');
+  late final _duk_buffer_to_string = _duk_buffer_to_stringPtr
+      .asFunction<
+        ffi.Pointer<ffi.Char> Function(ffi.Pointer<duk_context>, int)
+      >();
 
   /// Buffer
   ffi.Pointer<ffi.Void> duk_resize_buffer(
@@ -3170,20 +3301,20 @@ class DuktapeBindings {
     return _duk_resize_buffer(ctx, idx, new_size);
   }
 
-  late final _duk_resize_bufferPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<ffi.Void> Function(
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        duk_size_t,
-      )
-    >
-  >('duk_resize_buffer');
-  late final _duk_resize_buffer =
-      _duk_resize_bufferPtr
-          .asFunction<
-            ffi.Pointer<ffi.Void> Function(ffi.Pointer<duk_context>, int, int)
-          >();
+  late final _duk_resize_bufferPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<ffi.Void> Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            duk_size_t,
+          )
+        >
+      >('duk_resize_buffer');
+  late final _duk_resize_buffer = _duk_resize_bufferPtr
+      .asFunction<
+        ffi.Pointer<ffi.Void> Function(ffi.Pointer<duk_context>, int, int)
+      >();
 
   ffi.Pointer<ffi.Void> duk_steal_buffer(
     ffi.Pointer<duk_context> ctx,
@@ -3193,24 +3324,24 @@ class DuktapeBindings {
     return _duk_steal_buffer(ctx, idx, out_size);
   }
 
-  late final _duk_steal_bufferPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Pointer<ffi.Void> Function(
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        ffi.Pointer<duk_size_t>,
-      )
-    >
-  >('duk_steal_buffer');
-  late final _duk_steal_buffer =
-      _duk_steal_bufferPtr
-          .asFunction<
-            ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<duk_context>,
-              int,
-              ffi.Pointer<duk_size_t>,
-            )
-          >();
+  late final _duk_steal_bufferPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<ffi.Void> Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            ffi.Pointer<duk_size_t>,
+          )
+        >
+      >('duk_steal_buffer');
+  late final _duk_steal_buffer = _duk_steal_bufferPtr
+      .asFunction<
+        ffi.Pointer<ffi.Void> Function(
+          ffi.Pointer<duk_context>,
+          int,
+          ffi.Pointer<duk_size_t>,
+        )
+      >();
 
   void duk_config_buffer(
     ffi.Pointer<duk_context> ctx,
@@ -3221,26 +3352,21 @@ class DuktapeBindings {
     return _duk_config_buffer(ctx, idx, ptr, len);
   }
 
-  late final _duk_config_bufferPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Void Function(
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        ffi.Pointer<ffi.Void>,
-        duk_size_t,
-      )
-    >
-  >('duk_config_buffer');
-  late final _duk_config_buffer =
-      _duk_config_bufferPtr
-          .asFunction<
-            void Function(
-              ffi.Pointer<duk_context>,
-              int,
-              ffi.Pointer<ffi.Void>,
-              int,
-            )
-          >();
+  late final _duk_config_bufferPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            ffi.Pointer<ffi.Void>,
+            duk_size_t,
+          )
+        >
+      >('duk_config_buffer');
+  late final _duk_config_buffer = _duk_config_bufferPtr
+      .asFunction<
+        void Function(ffi.Pointer<duk_context>, int, ffi.Pointer<ffi.Void>, int)
+      >();
 
   /// Property access
   ///
@@ -3253,12 +3379,14 @@ class DuktapeBindings {
     return _duk_get_prop(ctx, obj_idx);
   }
 
-  late final _duk_get_propPtr = _lookup<
-    ffi.NativeFunction<duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_get_prop');
-  late final _duk_get_prop =
-      _duk_get_propPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_get_propPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_get_prop');
+  late final _duk_get_prop = _duk_get_propPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_get_prop_string(
     ffi.Pointer<duk_context> ctx,
@@ -3268,20 +3396,20 @@ class DuktapeBindings {
     return _duk_get_prop_string(ctx, obj_idx, key);
   }
 
-  late final _duk_get_prop_stringPtr = _lookup<
-    ffi.NativeFunction<
-      duk_bool_t Function(
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        ffi.Pointer<ffi.Char>,
-      )
-    >
-  >('duk_get_prop_string');
-  late final _duk_get_prop_string =
-      _duk_get_prop_stringPtr
-          .asFunction<
-            int Function(ffi.Pointer<duk_context>, int, ffi.Pointer<ffi.Char>)
-          >();
+  late final _duk_get_prop_stringPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            ffi.Pointer<ffi.Char>,
+          )
+        >
+      >('duk_get_prop_string');
+  late final _duk_get_prop_string = _duk_get_prop_stringPtr
+      .asFunction<
+        int Function(ffi.Pointer<duk_context>, int, ffi.Pointer<ffi.Char>)
+      >();
 
   int duk_get_prop_lstring(
     ffi.Pointer<duk_context> ctx,
@@ -3292,26 +3420,21 @@ class DuktapeBindings {
     return _duk_get_prop_lstring(ctx, obj_idx, key, key_len);
   }
 
-  late final _duk_get_prop_lstringPtr = _lookup<
-    ffi.NativeFunction<
-      duk_bool_t Function(
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        ffi.Pointer<ffi.Char>,
-        duk_size_t,
-      )
-    >
-  >('duk_get_prop_lstring');
-  late final _duk_get_prop_lstring =
-      _duk_get_prop_lstringPtr
-          .asFunction<
-            int Function(
-              ffi.Pointer<duk_context>,
-              int,
-              ffi.Pointer<ffi.Char>,
-              int,
-            )
-          >();
+  late final _duk_get_prop_lstringPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            ffi.Pointer<ffi.Char>,
+            duk_size_t,
+          )
+        >
+      >('duk_get_prop_lstring');
+  late final _duk_get_prop_lstring = _duk_get_prop_lstringPtr
+      .asFunction<
+        int Function(ffi.Pointer<duk_context>, int, ffi.Pointer<ffi.Char>, int)
+      >();
 
   int duk_get_prop_literal_raw(
     ffi.Pointer<duk_context> ctx,
@@ -3322,26 +3445,21 @@ class DuktapeBindings {
     return _duk_get_prop_literal_raw(ctx, obj_idx, key, key_len);
   }
 
-  late final _duk_get_prop_literal_rawPtr = _lookup<
-    ffi.NativeFunction<
-      duk_bool_t Function(
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        ffi.Pointer<ffi.Char>,
-        duk_size_t,
-      )
-    >
-  >('duk_get_prop_literal_raw');
-  late final _duk_get_prop_literal_raw =
-      _duk_get_prop_literal_rawPtr
-          .asFunction<
-            int Function(
-              ffi.Pointer<duk_context>,
-              int,
-              ffi.Pointer<ffi.Char>,
-              int,
-            )
-          >();
+  late final _duk_get_prop_literal_rawPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            ffi.Pointer<ffi.Char>,
+            duk_size_t,
+          )
+        >
+      >('duk_get_prop_literal_raw');
+  late final _duk_get_prop_literal_raw = _duk_get_prop_literal_rawPtr
+      .asFunction<
+        int Function(ffi.Pointer<duk_context>, int, ffi.Pointer<ffi.Char>, int)
+      >();
 
   int duk_get_prop_index(
     ffi.Pointer<duk_context> ctx,
@@ -3351,14 +3469,18 @@ class DuktapeBindings {
     return _duk_get_prop_index(ctx, obj_idx, arr_idx);
   }
 
-  late final _duk_get_prop_indexPtr = _lookup<
-    ffi.NativeFunction<
-      duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t, duk_uarridx_t)
-    >
-  >('duk_get_prop_index');
-  late final _duk_get_prop_index =
-      _duk_get_prop_indexPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int, int)>();
+  late final _duk_get_prop_indexPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            duk_uarridx_t,
+          )
+        >
+      >('duk_get_prop_index');
+  late final _duk_get_prop_index = _duk_get_prop_indexPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int, int)>();
 
   int duk_get_prop_heapptr(
     ffi.Pointer<duk_context> ctx,
@@ -3368,31 +3490,33 @@ class DuktapeBindings {
     return _duk_get_prop_heapptr(ctx, obj_idx, ptr);
   }
 
-  late final _duk_get_prop_heapptrPtr = _lookup<
-    ffi.NativeFunction<
-      duk_bool_t Function(
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        ffi.Pointer<ffi.Void>,
-      )
-    >
-  >('duk_get_prop_heapptr');
-  late final _duk_get_prop_heapptr =
-      _duk_get_prop_heapptrPtr
-          .asFunction<
-            int Function(ffi.Pointer<duk_context>, int, ffi.Pointer<ffi.Void>)
-          >();
+  late final _duk_get_prop_heapptrPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            ffi.Pointer<ffi.Void>,
+          )
+        >
+      >('duk_get_prop_heapptr');
+  late final _duk_get_prop_heapptr = _duk_get_prop_heapptrPtr
+      .asFunction<
+        int Function(ffi.Pointer<duk_context>, int, ffi.Pointer<ffi.Void>)
+      >();
 
   int duk_put_prop(ffi.Pointer<duk_context> ctx, int obj_idx) {
     return _duk_put_prop(ctx, obj_idx);
   }
 
-  late final _duk_put_propPtr = _lookup<
-    ffi.NativeFunction<duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_put_prop');
-  late final _duk_put_prop =
-      _duk_put_propPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_put_propPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_put_prop');
+  late final _duk_put_prop = _duk_put_propPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_put_prop_string(
     ffi.Pointer<duk_context> ctx,
@@ -3402,20 +3526,20 @@ class DuktapeBindings {
     return _duk_put_prop_string(ctx, obj_idx, key);
   }
 
-  late final _duk_put_prop_stringPtr = _lookup<
-    ffi.NativeFunction<
-      duk_bool_t Function(
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        ffi.Pointer<ffi.Char>,
-      )
-    >
-  >('duk_put_prop_string');
-  late final _duk_put_prop_string =
-      _duk_put_prop_stringPtr
-          .asFunction<
-            int Function(ffi.Pointer<duk_context>, int, ffi.Pointer<ffi.Char>)
-          >();
+  late final _duk_put_prop_stringPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            ffi.Pointer<ffi.Char>,
+          )
+        >
+      >('duk_put_prop_string');
+  late final _duk_put_prop_string = _duk_put_prop_stringPtr
+      .asFunction<
+        int Function(ffi.Pointer<duk_context>, int, ffi.Pointer<ffi.Char>)
+      >();
 
   int duk_put_prop_lstring(
     ffi.Pointer<duk_context> ctx,
@@ -3426,26 +3550,21 @@ class DuktapeBindings {
     return _duk_put_prop_lstring(ctx, obj_idx, key, key_len);
   }
 
-  late final _duk_put_prop_lstringPtr = _lookup<
-    ffi.NativeFunction<
-      duk_bool_t Function(
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        ffi.Pointer<ffi.Char>,
-        duk_size_t,
-      )
-    >
-  >('duk_put_prop_lstring');
-  late final _duk_put_prop_lstring =
-      _duk_put_prop_lstringPtr
-          .asFunction<
-            int Function(
-              ffi.Pointer<duk_context>,
-              int,
-              ffi.Pointer<ffi.Char>,
-              int,
-            )
-          >();
+  late final _duk_put_prop_lstringPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            ffi.Pointer<ffi.Char>,
+            duk_size_t,
+          )
+        >
+      >('duk_put_prop_lstring');
+  late final _duk_put_prop_lstring = _duk_put_prop_lstringPtr
+      .asFunction<
+        int Function(ffi.Pointer<duk_context>, int, ffi.Pointer<ffi.Char>, int)
+      >();
 
   int duk_put_prop_literal_raw(
     ffi.Pointer<duk_context> ctx,
@@ -3456,26 +3575,21 @@ class DuktapeBindings {
     return _duk_put_prop_literal_raw(ctx, obj_idx, key, key_len);
   }
 
-  late final _duk_put_prop_literal_rawPtr = _lookup<
-    ffi.NativeFunction<
-      duk_bool_t Function(
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        ffi.Pointer<ffi.Char>,
-        duk_size_t,
-      )
-    >
-  >('duk_put_prop_literal_raw');
-  late final _duk_put_prop_literal_raw =
-      _duk_put_prop_literal_rawPtr
-          .asFunction<
-            int Function(
-              ffi.Pointer<duk_context>,
-              int,
-              ffi.Pointer<ffi.Char>,
-              int,
-            )
-          >();
+  late final _duk_put_prop_literal_rawPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            ffi.Pointer<ffi.Char>,
+            duk_size_t,
+          )
+        >
+      >('duk_put_prop_literal_raw');
+  late final _duk_put_prop_literal_raw = _duk_put_prop_literal_rawPtr
+      .asFunction<
+        int Function(ffi.Pointer<duk_context>, int, ffi.Pointer<ffi.Char>, int)
+      >();
 
   int duk_put_prop_index(
     ffi.Pointer<duk_context> ctx,
@@ -3485,14 +3599,18 @@ class DuktapeBindings {
     return _duk_put_prop_index(ctx, obj_idx, arr_idx);
   }
 
-  late final _duk_put_prop_indexPtr = _lookup<
-    ffi.NativeFunction<
-      duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t, duk_uarridx_t)
-    >
-  >('duk_put_prop_index');
-  late final _duk_put_prop_index =
-      _duk_put_prop_indexPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int, int)>();
+  late final _duk_put_prop_indexPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            duk_uarridx_t,
+          )
+        >
+      >('duk_put_prop_index');
+  late final _duk_put_prop_index = _duk_put_prop_indexPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int, int)>();
 
   int duk_put_prop_heapptr(
     ffi.Pointer<duk_context> ctx,
@@ -3502,31 +3620,33 @@ class DuktapeBindings {
     return _duk_put_prop_heapptr(ctx, obj_idx, ptr);
   }
 
-  late final _duk_put_prop_heapptrPtr = _lookup<
-    ffi.NativeFunction<
-      duk_bool_t Function(
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        ffi.Pointer<ffi.Void>,
-      )
-    >
-  >('duk_put_prop_heapptr');
-  late final _duk_put_prop_heapptr =
-      _duk_put_prop_heapptrPtr
-          .asFunction<
-            int Function(ffi.Pointer<duk_context>, int, ffi.Pointer<ffi.Void>)
-          >();
+  late final _duk_put_prop_heapptrPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            ffi.Pointer<ffi.Void>,
+          )
+        >
+      >('duk_put_prop_heapptr');
+  late final _duk_put_prop_heapptr = _duk_put_prop_heapptrPtr
+      .asFunction<
+        int Function(ffi.Pointer<duk_context>, int, ffi.Pointer<ffi.Void>)
+      >();
 
   int duk_del_prop(ffi.Pointer<duk_context> ctx, int obj_idx) {
     return _duk_del_prop(ctx, obj_idx);
   }
 
-  late final _duk_del_propPtr = _lookup<
-    ffi.NativeFunction<duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_del_prop');
-  late final _duk_del_prop =
-      _duk_del_propPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_del_propPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_del_prop');
+  late final _duk_del_prop = _duk_del_propPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_del_prop_string(
     ffi.Pointer<duk_context> ctx,
@@ -3536,20 +3656,20 @@ class DuktapeBindings {
     return _duk_del_prop_string(ctx, obj_idx, key);
   }
 
-  late final _duk_del_prop_stringPtr = _lookup<
-    ffi.NativeFunction<
-      duk_bool_t Function(
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        ffi.Pointer<ffi.Char>,
-      )
-    >
-  >('duk_del_prop_string');
-  late final _duk_del_prop_string =
-      _duk_del_prop_stringPtr
-          .asFunction<
-            int Function(ffi.Pointer<duk_context>, int, ffi.Pointer<ffi.Char>)
-          >();
+  late final _duk_del_prop_stringPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            ffi.Pointer<ffi.Char>,
+          )
+        >
+      >('duk_del_prop_string');
+  late final _duk_del_prop_string = _duk_del_prop_stringPtr
+      .asFunction<
+        int Function(ffi.Pointer<duk_context>, int, ffi.Pointer<ffi.Char>)
+      >();
 
   int duk_del_prop_lstring(
     ffi.Pointer<duk_context> ctx,
@@ -3560,26 +3680,21 @@ class DuktapeBindings {
     return _duk_del_prop_lstring(ctx, obj_idx, key, key_len);
   }
 
-  late final _duk_del_prop_lstringPtr = _lookup<
-    ffi.NativeFunction<
-      duk_bool_t Function(
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        ffi.Pointer<ffi.Char>,
-        duk_size_t,
-      )
-    >
-  >('duk_del_prop_lstring');
-  late final _duk_del_prop_lstring =
-      _duk_del_prop_lstringPtr
-          .asFunction<
-            int Function(
-              ffi.Pointer<duk_context>,
-              int,
-              ffi.Pointer<ffi.Char>,
-              int,
-            )
-          >();
+  late final _duk_del_prop_lstringPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            ffi.Pointer<ffi.Char>,
+            duk_size_t,
+          )
+        >
+      >('duk_del_prop_lstring');
+  late final _duk_del_prop_lstring = _duk_del_prop_lstringPtr
+      .asFunction<
+        int Function(ffi.Pointer<duk_context>, int, ffi.Pointer<ffi.Char>, int)
+      >();
 
   int duk_del_prop_literal_raw(
     ffi.Pointer<duk_context> ctx,
@@ -3590,26 +3705,21 @@ class DuktapeBindings {
     return _duk_del_prop_literal_raw(ctx, obj_idx, key, key_len);
   }
 
-  late final _duk_del_prop_literal_rawPtr = _lookup<
-    ffi.NativeFunction<
-      duk_bool_t Function(
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        ffi.Pointer<ffi.Char>,
-        duk_size_t,
-      )
-    >
-  >('duk_del_prop_literal_raw');
-  late final _duk_del_prop_literal_raw =
-      _duk_del_prop_literal_rawPtr
-          .asFunction<
-            int Function(
-              ffi.Pointer<duk_context>,
-              int,
-              ffi.Pointer<ffi.Char>,
-              int,
-            )
-          >();
+  late final _duk_del_prop_literal_rawPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            ffi.Pointer<ffi.Char>,
+            duk_size_t,
+          )
+        >
+      >('duk_del_prop_literal_raw');
+  late final _duk_del_prop_literal_raw = _duk_del_prop_literal_rawPtr
+      .asFunction<
+        int Function(ffi.Pointer<duk_context>, int, ffi.Pointer<ffi.Char>, int)
+      >();
 
   int duk_del_prop_index(
     ffi.Pointer<duk_context> ctx,
@@ -3619,14 +3729,18 @@ class DuktapeBindings {
     return _duk_del_prop_index(ctx, obj_idx, arr_idx);
   }
 
-  late final _duk_del_prop_indexPtr = _lookup<
-    ffi.NativeFunction<
-      duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t, duk_uarridx_t)
-    >
-  >('duk_del_prop_index');
-  late final _duk_del_prop_index =
-      _duk_del_prop_indexPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int, int)>();
+  late final _duk_del_prop_indexPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            duk_uarridx_t,
+          )
+        >
+      >('duk_del_prop_index');
+  late final _duk_del_prop_index = _duk_del_prop_indexPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int, int)>();
 
   int duk_del_prop_heapptr(
     ffi.Pointer<duk_context> ctx,
@@ -3636,31 +3750,33 @@ class DuktapeBindings {
     return _duk_del_prop_heapptr(ctx, obj_idx, ptr);
   }
 
-  late final _duk_del_prop_heapptrPtr = _lookup<
-    ffi.NativeFunction<
-      duk_bool_t Function(
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        ffi.Pointer<ffi.Void>,
-      )
-    >
-  >('duk_del_prop_heapptr');
-  late final _duk_del_prop_heapptr =
-      _duk_del_prop_heapptrPtr
-          .asFunction<
-            int Function(ffi.Pointer<duk_context>, int, ffi.Pointer<ffi.Void>)
-          >();
+  late final _duk_del_prop_heapptrPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            ffi.Pointer<ffi.Void>,
+          )
+        >
+      >('duk_del_prop_heapptr');
+  late final _duk_del_prop_heapptr = _duk_del_prop_heapptrPtr
+      .asFunction<
+        int Function(ffi.Pointer<duk_context>, int, ffi.Pointer<ffi.Void>)
+      >();
 
   int duk_has_prop(ffi.Pointer<duk_context> ctx, int obj_idx) {
     return _duk_has_prop(ctx, obj_idx);
   }
 
-  late final _duk_has_propPtr = _lookup<
-    ffi.NativeFunction<duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_has_prop');
-  late final _duk_has_prop =
-      _duk_has_propPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_has_propPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_has_prop');
+  late final _duk_has_prop = _duk_has_propPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_has_prop_string(
     ffi.Pointer<duk_context> ctx,
@@ -3670,20 +3786,20 @@ class DuktapeBindings {
     return _duk_has_prop_string(ctx, obj_idx, key);
   }
 
-  late final _duk_has_prop_stringPtr = _lookup<
-    ffi.NativeFunction<
-      duk_bool_t Function(
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        ffi.Pointer<ffi.Char>,
-      )
-    >
-  >('duk_has_prop_string');
-  late final _duk_has_prop_string =
-      _duk_has_prop_stringPtr
-          .asFunction<
-            int Function(ffi.Pointer<duk_context>, int, ffi.Pointer<ffi.Char>)
-          >();
+  late final _duk_has_prop_stringPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            ffi.Pointer<ffi.Char>,
+          )
+        >
+      >('duk_has_prop_string');
+  late final _duk_has_prop_string = _duk_has_prop_stringPtr
+      .asFunction<
+        int Function(ffi.Pointer<duk_context>, int, ffi.Pointer<ffi.Char>)
+      >();
 
   int duk_has_prop_lstring(
     ffi.Pointer<duk_context> ctx,
@@ -3694,26 +3810,21 @@ class DuktapeBindings {
     return _duk_has_prop_lstring(ctx, obj_idx, key, key_len);
   }
 
-  late final _duk_has_prop_lstringPtr = _lookup<
-    ffi.NativeFunction<
-      duk_bool_t Function(
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        ffi.Pointer<ffi.Char>,
-        duk_size_t,
-      )
-    >
-  >('duk_has_prop_lstring');
-  late final _duk_has_prop_lstring =
-      _duk_has_prop_lstringPtr
-          .asFunction<
-            int Function(
-              ffi.Pointer<duk_context>,
-              int,
-              ffi.Pointer<ffi.Char>,
-              int,
-            )
-          >();
+  late final _duk_has_prop_lstringPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            ffi.Pointer<ffi.Char>,
+            duk_size_t,
+          )
+        >
+      >('duk_has_prop_lstring');
+  late final _duk_has_prop_lstring = _duk_has_prop_lstringPtr
+      .asFunction<
+        int Function(ffi.Pointer<duk_context>, int, ffi.Pointer<ffi.Char>, int)
+      >();
 
   int duk_has_prop_literal_raw(
     ffi.Pointer<duk_context> ctx,
@@ -3724,26 +3835,21 @@ class DuktapeBindings {
     return _duk_has_prop_literal_raw(ctx, obj_idx, key, key_len);
   }
 
-  late final _duk_has_prop_literal_rawPtr = _lookup<
-    ffi.NativeFunction<
-      duk_bool_t Function(
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        ffi.Pointer<ffi.Char>,
-        duk_size_t,
-      )
-    >
-  >('duk_has_prop_literal_raw');
-  late final _duk_has_prop_literal_raw =
-      _duk_has_prop_literal_rawPtr
-          .asFunction<
-            int Function(
-              ffi.Pointer<duk_context>,
-              int,
-              ffi.Pointer<ffi.Char>,
-              int,
-            )
-          >();
+  late final _duk_has_prop_literal_rawPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            ffi.Pointer<ffi.Char>,
+            duk_size_t,
+          )
+        >
+      >('duk_has_prop_literal_raw');
+  late final _duk_has_prop_literal_raw = _duk_has_prop_literal_rawPtr
+      .asFunction<
+        int Function(ffi.Pointer<duk_context>, int, ffi.Pointer<ffi.Char>, int)
+      >();
 
   int duk_has_prop_index(
     ffi.Pointer<duk_context> ctx,
@@ -3753,14 +3859,18 @@ class DuktapeBindings {
     return _duk_has_prop_index(ctx, obj_idx, arr_idx);
   }
 
-  late final _duk_has_prop_indexPtr = _lookup<
-    ffi.NativeFunction<
-      duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t, duk_uarridx_t)
-    >
-  >('duk_has_prop_index');
-  late final _duk_has_prop_index =
-      _duk_has_prop_indexPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int, int)>();
+  late final _duk_has_prop_indexPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            duk_uarridx_t,
+          )
+        >
+      >('duk_has_prop_index');
+  late final _duk_has_prop_index = _duk_has_prop_indexPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int, int)>();
 
   int duk_has_prop_heapptr(
     ffi.Pointer<duk_context> ctx,
@@ -3770,46 +3880,46 @@ class DuktapeBindings {
     return _duk_has_prop_heapptr(ctx, obj_idx, ptr);
   }
 
-  late final _duk_has_prop_heapptrPtr = _lookup<
-    ffi.NativeFunction<
-      duk_bool_t Function(
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        ffi.Pointer<ffi.Void>,
-      )
-    >
-  >('duk_has_prop_heapptr');
-  late final _duk_has_prop_heapptr =
-      _duk_has_prop_heapptrPtr
-          .asFunction<
-            int Function(ffi.Pointer<duk_context>, int, ffi.Pointer<ffi.Void>)
-          >();
+  late final _duk_has_prop_heapptrPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            ffi.Pointer<ffi.Void>,
+          )
+        >
+      >('duk_has_prop_heapptr');
+  late final _duk_has_prop_heapptr = _duk_has_prop_heapptrPtr
+      .asFunction<
+        int Function(ffi.Pointer<duk_context>, int, ffi.Pointer<ffi.Void>)
+      >();
 
   void duk_get_prop_desc(ffi.Pointer<duk_context> ctx, int obj_idx, int flags) {
     return _duk_get_prop_desc(ctx, obj_idx, flags);
   }
 
-  late final _duk_get_prop_descPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t, duk_uint_t)
-    >
-  >('duk_get_prop_desc');
-  late final _duk_get_prop_desc =
-      _duk_get_prop_descPtr
-          .asFunction<void Function(ffi.Pointer<duk_context>, int, int)>();
+  late final _duk_get_prop_descPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t, duk_uint_t)
+        >
+      >('duk_get_prop_desc');
+  late final _duk_get_prop_desc = _duk_get_prop_descPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int, int)>();
 
   void duk_def_prop(ffi.Pointer<duk_context> ctx, int obj_idx, int flags) {
     return _duk_def_prop(ctx, obj_idx, flags);
   }
 
-  late final _duk_def_propPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t, duk_uint_t)
-    >
-  >('duk_def_prop');
-  late final _duk_def_prop =
-      _duk_def_propPtr
-          .asFunction<void Function(ffi.Pointer<duk_context>, int, int)>();
+  late final _duk_def_propPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t, duk_uint_t)
+        >
+      >('duk_def_prop');
+  late final _duk_def_prop = _duk_def_propPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int, int)>();
 
   int duk_get_global_string(
     ffi.Pointer<duk_context> ctx,
@@ -3818,16 +3928,16 @@ class DuktapeBindings {
     return _duk_get_global_string(ctx, key);
   }
 
-  late final _duk_get_global_stringPtr = _lookup<
-    ffi.NativeFunction<
-      duk_bool_t Function(ffi.Pointer<duk_context>, ffi.Pointer<ffi.Char>)
-    >
-  >('duk_get_global_string');
-  late final _duk_get_global_string =
-      _duk_get_global_stringPtr
-          .asFunction<
-            int Function(ffi.Pointer<duk_context>, ffi.Pointer<ffi.Char>)
-          >();
+  late final _duk_get_global_stringPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(ffi.Pointer<duk_context>, ffi.Pointer<ffi.Char>)
+        >
+      >('duk_get_global_string');
+  late final _duk_get_global_string = _duk_get_global_stringPtr
+      .asFunction<
+        int Function(ffi.Pointer<duk_context>, ffi.Pointer<ffi.Char>)
+      >();
 
   int duk_get_global_lstring(
     ffi.Pointer<duk_context> ctx,
@@ -3837,20 +3947,20 @@ class DuktapeBindings {
     return _duk_get_global_lstring(ctx, key, key_len);
   }
 
-  late final _duk_get_global_lstringPtr = _lookup<
-    ffi.NativeFunction<
-      duk_bool_t Function(
-        ffi.Pointer<duk_context>,
-        ffi.Pointer<ffi.Char>,
-        duk_size_t,
-      )
-    >
-  >('duk_get_global_lstring');
-  late final _duk_get_global_lstring =
-      _duk_get_global_lstringPtr
-          .asFunction<
-            int Function(ffi.Pointer<duk_context>, ffi.Pointer<ffi.Char>, int)
-          >();
+  late final _duk_get_global_lstringPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(
+            ffi.Pointer<duk_context>,
+            ffi.Pointer<ffi.Char>,
+            duk_size_t,
+          )
+        >
+      >('duk_get_global_lstring');
+  late final _duk_get_global_lstring = _duk_get_global_lstringPtr
+      .asFunction<
+        int Function(ffi.Pointer<duk_context>, ffi.Pointer<ffi.Char>, int)
+      >();
 
   int duk_get_global_literal_raw(
     ffi.Pointer<duk_context> ctx,
@@ -3860,20 +3970,20 @@ class DuktapeBindings {
     return _duk_get_global_literal_raw(ctx, key, key_len);
   }
 
-  late final _duk_get_global_literal_rawPtr = _lookup<
-    ffi.NativeFunction<
-      duk_bool_t Function(
-        ffi.Pointer<duk_context>,
-        ffi.Pointer<ffi.Char>,
-        duk_size_t,
-      )
-    >
-  >('duk_get_global_literal_raw');
-  late final _duk_get_global_literal_raw =
-      _duk_get_global_literal_rawPtr
-          .asFunction<
-            int Function(ffi.Pointer<duk_context>, ffi.Pointer<ffi.Char>, int)
-          >();
+  late final _duk_get_global_literal_rawPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(
+            ffi.Pointer<duk_context>,
+            ffi.Pointer<ffi.Char>,
+            duk_size_t,
+          )
+        >
+      >('duk_get_global_literal_raw');
+  late final _duk_get_global_literal_raw = _duk_get_global_literal_rawPtr
+      .asFunction<
+        int Function(ffi.Pointer<duk_context>, ffi.Pointer<ffi.Char>, int)
+      >();
 
   int duk_get_global_heapptr(
     ffi.Pointer<duk_context> ctx,
@@ -3882,16 +3992,16 @@ class DuktapeBindings {
     return _duk_get_global_heapptr(ctx, ptr);
   }
 
-  late final _duk_get_global_heapptrPtr = _lookup<
-    ffi.NativeFunction<
-      duk_bool_t Function(ffi.Pointer<duk_context>, ffi.Pointer<ffi.Void>)
-    >
-  >('duk_get_global_heapptr');
-  late final _duk_get_global_heapptr =
-      _duk_get_global_heapptrPtr
-          .asFunction<
-            int Function(ffi.Pointer<duk_context>, ffi.Pointer<ffi.Void>)
-          >();
+  late final _duk_get_global_heapptrPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(ffi.Pointer<duk_context>, ffi.Pointer<ffi.Void>)
+        >
+      >('duk_get_global_heapptr');
+  late final _duk_get_global_heapptr = _duk_get_global_heapptrPtr
+      .asFunction<
+        int Function(ffi.Pointer<duk_context>, ffi.Pointer<ffi.Void>)
+      >();
 
   int duk_put_global_string(
     ffi.Pointer<duk_context> ctx,
@@ -3900,16 +4010,16 @@ class DuktapeBindings {
     return _duk_put_global_string(ctx, key);
   }
 
-  late final _duk_put_global_stringPtr = _lookup<
-    ffi.NativeFunction<
-      duk_bool_t Function(ffi.Pointer<duk_context>, ffi.Pointer<ffi.Char>)
-    >
-  >('duk_put_global_string');
-  late final _duk_put_global_string =
-      _duk_put_global_stringPtr
-          .asFunction<
-            int Function(ffi.Pointer<duk_context>, ffi.Pointer<ffi.Char>)
-          >();
+  late final _duk_put_global_stringPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(ffi.Pointer<duk_context>, ffi.Pointer<ffi.Char>)
+        >
+      >('duk_put_global_string');
+  late final _duk_put_global_string = _duk_put_global_stringPtr
+      .asFunction<
+        int Function(ffi.Pointer<duk_context>, ffi.Pointer<ffi.Char>)
+      >();
 
   int duk_put_global_lstring(
     ffi.Pointer<duk_context> ctx,
@@ -3919,20 +4029,20 @@ class DuktapeBindings {
     return _duk_put_global_lstring(ctx, key, key_len);
   }
 
-  late final _duk_put_global_lstringPtr = _lookup<
-    ffi.NativeFunction<
-      duk_bool_t Function(
-        ffi.Pointer<duk_context>,
-        ffi.Pointer<ffi.Char>,
-        duk_size_t,
-      )
-    >
-  >('duk_put_global_lstring');
-  late final _duk_put_global_lstring =
-      _duk_put_global_lstringPtr
-          .asFunction<
-            int Function(ffi.Pointer<duk_context>, ffi.Pointer<ffi.Char>, int)
-          >();
+  late final _duk_put_global_lstringPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(
+            ffi.Pointer<duk_context>,
+            ffi.Pointer<ffi.Char>,
+            duk_size_t,
+          )
+        >
+      >('duk_put_global_lstring');
+  late final _duk_put_global_lstring = _duk_put_global_lstringPtr
+      .asFunction<
+        int Function(ffi.Pointer<duk_context>, ffi.Pointer<ffi.Char>, int)
+      >();
 
   int duk_put_global_literal_raw(
     ffi.Pointer<duk_context> ctx,
@@ -3942,20 +4052,20 @@ class DuktapeBindings {
     return _duk_put_global_literal_raw(ctx, key, key_len);
   }
 
-  late final _duk_put_global_literal_rawPtr = _lookup<
-    ffi.NativeFunction<
-      duk_bool_t Function(
-        ffi.Pointer<duk_context>,
-        ffi.Pointer<ffi.Char>,
-        duk_size_t,
-      )
-    >
-  >('duk_put_global_literal_raw');
-  late final _duk_put_global_literal_raw =
-      _duk_put_global_literal_rawPtr
-          .asFunction<
-            int Function(ffi.Pointer<duk_context>, ffi.Pointer<ffi.Char>, int)
-          >();
+  late final _duk_put_global_literal_rawPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(
+            ffi.Pointer<duk_context>,
+            ffi.Pointer<ffi.Char>,
+            duk_size_t,
+          )
+        >
+      >('duk_put_global_literal_raw');
+  late final _duk_put_global_literal_raw = _duk_put_global_literal_rawPtr
+      .asFunction<
+        int Function(ffi.Pointer<duk_context>, ffi.Pointer<ffi.Char>, int)
+      >();
 
   int duk_put_global_heapptr(
     ffi.Pointer<duk_context> ctx,
@@ -3964,85 +4074,97 @@ class DuktapeBindings {
     return _duk_put_global_heapptr(ctx, ptr);
   }
 
-  late final _duk_put_global_heapptrPtr = _lookup<
-    ffi.NativeFunction<
-      duk_bool_t Function(ffi.Pointer<duk_context>, ffi.Pointer<ffi.Void>)
-    >
-  >('duk_put_global_heapptr');
-  late final _duk_put_global_heapptr =
-      _duk_put_global_heapptrPtr
-          .asFunction<
-            int Function(ffi.Pointer<duk_context>, ffi.Pointer<ffi.Void>)
-          >();
+  late final _duk_put_global_heapptrPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(ffi.Pointer<duk_context>, ffi.Pointer<ffi.Void>)
+        >
+      >('duk_put_global_heapptr');
+  late final _duk_put_global_heapptr = _duk_put_global_heapptrPtr
+      .asFunction<
+        int Function(ffi.Pointer<duk_context>, ffi.Pointer<ffi.Void>)
+      >();
 
   /// Inspection
   void duk_inspect_value(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_inspect_value(ctx, idx);
   }
 
-  late final _duk_inspect_valuePtr = _lookup<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_inspect_value');
-  late final _duk_inspect_value =
-      _duk_inspect_valuePtr
-          .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_inspect_valuePtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_inspect_value');
+  late final _duk_inspect_value = _duk_inspect_valuePtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
 
   void duk_inspect_callstack_entry(ffi.Pointer<duk_context> ctx, int level) {
     return _duk_inspect_callstack_entry(ctx, level);
   }
 
-  late final _duk_inspect_callstack_entryPtr = _lookup<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>, duk_int_t)>
-  >('duk_inspect_callstack_entry');
-  late final _duk_inspect_callstack_entry =
-      _duk_inspect_callstack_entryPtr
-          .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_inspect_callstack_entryPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_int_t)
+        >
+      >('duk_inspect_callstack_entry');
+  late final _duk_inspect_callstack_entry = _duk_inspect_callstack_entryPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
 
   /// Object prototype
   void duk_get_prototype(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_get_prototype(ctx, idx);
   }
 
-  late final _duk_get_prototypePtr = _lookup<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_get_prototype');
-  late final _duk_get_prototype =
-      _duk_get_prototypePtr
-          .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_get_prototypePtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_get_prototype');
+  late final _duk_get_prototype = _duk_get_prototypePtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
 
   void duk_set_prototype(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_set_prototype(ctx, idx);
   }
 
-  late final _duk_set_prototypePtr = _lookup<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_set_prototype');
-  late final _duk_set_prototype =
-      _duk_set_prototypePtr
-          .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_set_prototypePtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_set_prototype');
+  late final _duk_set_prototype = _duk_set_prototypePtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
 
   /// Object finalizer
   void duk_get_finalizer(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_get_finalizer(ctx, idx);
   }
 
-  late final _duk_get_finalizerPtr = _lookup<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_get_finalizer');
-  late final _duk_get_finalizer =
-      _duk_get_finalizerPtr
-          .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_get_finalizerPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_get_finalizer');
+  late final _duk_get_finalizer = _duk_get_finalizerPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
 
   void duk_set_finalizer(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_set_finalizer(ctx, idx);
   }
 
-  late final _duk_set_finalizerPtr = _lookup<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_set_finalizer');
-  late final _duk_set_finalizer =
-      _duk_set_finalizerPtr
-          .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_set_finalizerPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_set_finalizer');
+  late final _duk_set_finalizer = _duk_set_finalizerPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
 
   /// Global object
   void duk_set_global_object(ffi.Pointer<duk_context> ctx) {
@@ -4053,34 +4175,35 @@ class DuktapeBindings {
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>)>>(
         'duk_set_global_object',
       );
-  late final _duk_set_global_object =
-      _duk_set_global_objectPtr
-          .asFunction<void Function(ffi.Pointer<duk_context>)>();
+  late final _duk_set_global_object = _duk_set_global_objectPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>)>();
 
   /// Duktape/C function magic value
   int duk_get_magic(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_get_magic(ctx, idx);
   }
 
-  late final _duk_get_magicPtr = _lookup<
-    ffi.NativeFunction<duk_int_t Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_get_magic');
-  late final _duk_get_magic =
-      _duk_get_magicPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_get_magicPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_int_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_get_magic');
+  late final _duk_get_magic = _duk_get_magicPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   void duk_set_magic(ffi.Pointer<duk_context> ctx, int idx, int magic) {
     return _duk_set_magic(ctx, idx, magic);
   }
 
-  late final _duk_set_magicPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t, duk_int_t)
-    >
-  >('duk_set_magic');
-  late final _duk_set_magic =
-      _duk_set_magicPtr
-          .asFunction<void Function(ffi.Pointer<duk_context>, int, int)>();
+  late final _duk_set_magicPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t, duk_int_t)
+        >
+      >('duk_set_magic');
+  late final _duk_set_magic = _duk_set_magicPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int, int)>();
 
   int duk_get_current_magic(ffi.Pointer<duk_context> ctx) {
     return _duk_get_current_magic(ctx);
@@ -4090,9 +4213,8 @@ class DuktapeBindings {
       _lookup<ffi.NativeFunction<duk_int_t Function(ffi.Pointer<duk_context>)>>(
         'duk_get_current_magic',
       );
-  late final _duk_get_current_magic =
-      _duk_get_current_magicPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>)>();
+  late final _duk_get_current_magic = _duk_get_current_magicPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>)>();
 
   /// Module helpers: put multiple function or constant properties
   void duk_put_function_list(
@@ -4103,24 +4225,24 @@ class DuktapeBindings {
     return _duk_put_function_list(ctx, obj_idx, funcs);
   }
 
-  late final _duk_put_function_listPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Void Function(
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        ffi.Pointer<duk_function_list_entry>,
-      )
-    >
-  >('duk_put_function_list');
-  late final _duk_put_function_list =
-      _duk_put_function_listPtr
-          .asFunction<
-            void Function(
-              ffi.Pointer<duk_context>,
-              int,
-              ffi.Pointer<duk_function_list_entry>,
-            )
-          >();
+  late final _duk_put_function_listPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            ffi.Pointer<duk_function_list_entry>,
+          )
+        >
+      >('duk_put_function_list');
+  late final _duk_put_function_list = _duk_put_function_listPtr
+      .asFunction<
+        void Function(
+          ffi.Pointer<duk_context>,
+          int,
+          ffi.Pointer<duk_function_list_entry>,
+        )
+      >();
 
   void duk_put_number_list(
     ffi.Pointer<duk_context> ctx,
@@ -4130,103 +4252,117 @@ class DuktapeBindings {
     return _duk_put_number_list(ctx, obj_idx, numbers);
   }
 
-  late final _duk_put_number_listPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Void Function(
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        ffi.Pointer<duk_number_list_entry>,
-      )
-    >
-  >('duk_put_number_list');
-  late final _duk_put_number_list =
-      _duk_put_number_listPtr
-          .asFunction<
-            void Function(
-              ffi.Pointer<duk_context>,
-              int,
-              ffi.Pointer<duk_number_list_entry>,
-            )
-          >();
+  late final _duk_put_number_listPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            ffi.Pointer<duk_number_list_entry>,
+          )
+        >
+      >('duk_put_number_list');
+  late final _duk_put_number_list = _duk_put_number_listPtr
+      .asFunction<
+        void Function(
+          ffi.Pointer<duk_context>,
+          int,
+          ffi.Pointer<duk_number_list_entry>,
+        )
+      >();
 
   /// Object operations
   void duk_compact(ffi.Pointer<duk_context> ctx, int obj_idx) {
     return _duk_compact(ctx, obj_idx);
   }
 
-  late final _duk_compactPtr = _lookup<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_compact');
-  late final _duk_compact =
-      _duk_compactPtr
-          .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_compactPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_compact');
+  late final _duk_compact = _duk_compactPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
 
   void duk_enum(ffi.Pointer<duk_context> ctx, int obj_idx, int enum_flags) {
     return _duk_enum(ctx, obj_idx, enum_flags);
   }
 
-  late final _duk_enumPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t, duk_uint_t)
-    >
-  >('duk_enum');
-  late final _duk_enum =
-      _duk_enumPtr
-          .asFunction<void Function(ffi.Pointer<duk_context>, int, int)>();
+  late final _duk_enumPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t, duk_uint_t)
+        >
+      >('duk_enum');
+  late final _duk_enum = _duk_enumPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int, int)>();
 
   int duk_next(ffi.Pointer<duk_context> ctx, int enum_idx, int get_value) {
     return _duk_next(ctx, enum_idx, get_value);
   }
 
-  late final _duk_nextPtr = _lookup<
-    ffi.NativeFunction<
-      duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t, duk_bool_t)
-    >
-  >('duk_next');
-  late final _duk_next =
-      _duk_nextPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int, int)>();
+  late final _duk_nextPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t, duk_bool_t)
+        >
+      >('duk_next');
+  late final _duk_next = _duk_nextPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int, int)>();
 
   void duk_seal(ffi.Pointer<duk_context> ctx, int obj_idx) {
     return _duk_seal(ctx, obj_idx);
   }
 
-  late final _duk_sealPtr = _lookup<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_seal');
-  late final _duk_seal =
-      _duk_sealPtr.asFunction<void Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_sealPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_seal');
+  late final _duk_seal = _duk_sealPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
 
   void duk_freeze(ffi.Pointer<duk_context> ctx, int obj_idx) {
     return _duk_freeze(ctx, obj_idx);
   }
 
-  late final _duk_freezePtr = _lookup<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_freeze');
-  late final _duk_freeze =
-      _duk_freezePtr.asFunction<void Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_freezePtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_freeze');
+  late final _duk_freeze = _duk_freezePtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
 
   /// String manipulation
   void duk_concat(ffi.Pointer<duk_context> ctx, int count) {
     return _duk_concat(ctx, count);
   }
 
-  late final _duk_concatPtr = _lookup<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_concat');
-  late final _duk_concat =
-      _duk_concatPtr.asFunction<void Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_concatPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_concat');
+  late final _duk_concat = _duk_concatPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
 
   void duk_join(ffi.Pointer<duk_context> ctx, int count) {
     return _duk_join(ctx, count);
   }
 
-  late final _duk_joinPtr = _lookup<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_join');
-  late final _duk_join =
-      _duk_joinPtr.asFunction<void Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_joinPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_join');
+  late final _duk_join = _duk_joinPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
 
   void duk_decode_string(
     ffi.Pointer<duk_context> ctx,
@@ -4237,26 +4373,26 @@ class DuktapeBindings {
     return _duk_decode_string(ctx, idx, callback, udata);
   }
 
-  late final _duk_decode_stringPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Void Function(
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        duk_decode_char_function,
-        ffi.Pointer<ffi.Void>,
-      )
-    >
-  >('duk_decode_string');
-  late final _duk_decode_string =
-      _duk_decode_stringPtr
-          .asFunction<
-            void Function(
-              ffi.Pointer<duk_context>,
-              int,
-              duk_decode_char_function,
-              ffi.Pointer<ffi.Void>,
-            )
-          >();
+  late final _duk_decode_stringPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            duk_decode_char_function,
+            ffi.Pointer<ffi.Void>,
+          )
+        >
+      >('duk_decode_string');
+  late final _duk_decode_string = _duk_decode_stringPtr
+      .asFunction<
+        void Function(
+          ffi.Pointer<duk_context>,
+          int,
+          duk_decode_char_function,
+          ffi.Pointer<ffi.Void>,
+        )
+      >();
 
   void duk_map_string(
     ffi.Pointer<duk_context> ctx,
@@ -4267,26 +4403,26 @@ class DuktapeBindings {
     return _duk_map_string(ctx, idx, callback, udata);
   }
 
-  late final _duk_map_stringPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Void Function(
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        duk_map_char_function,
-        ffi.Pointer<ffi.Void>,
-      )
-    >
-  >('duk_map_string');
-  late final _duk_map_string =
-      _duk_map_stringPtr
-          .asFunction<
-            void Function(
-              ffi.Pointer<duk_context>,
-              int,
-              duk_map_char_function,
-              ffi.Pointer<ffi.Void>,
-            )
-          >();
+  late final _duk_map_stringPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            duk_map_char_function,
+            ffi.Pointer<ffi.Void>,
+          )
+        >
+      >('duk_map_string');
+  late final _duk_map_string = _duk_map_stringPtr
+      .asFunction<
+        void Function(
+          ffi.Pointer<duk_context>,
+          int,
+          duk_map_char_function,
+          ffi.Pointer<ffi.Void>,
+        )
+      >();
 
   void duk_substring(
     ffi.Pointer<duk_context> ctx,
@@ -4297,195 +4433,219 @@ class DuktapeBindings {
     return _duk_substring(ctx, idx, start_char_offset, end_char_offset);
   }
 
-  late final _duk_substringPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Void Function(
-        ffi.Pointer<duk_context>,
-        duk_idx_t,
-        duk_size_t,
-        duk_size_t,
-      )
-    >
-  >('duk_substring');
-  late final _duk_substring =
-      _duk_substringPtr
-          .asFunction<void Function(ffi.Pointer<duk_context>, int, int, int)>();
+  late final _duk_substringPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            duk_size_t,
+            duk_size_t,
+          )
+        >
+      >('duk_substring');
+  late final _duk_substring = _duk_substringPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int, int, int)>();
 
   void duk_trim(ffi.Pointer<duk_context> ctx, int idx) {
     return _duk_trim(ctx, idx);
   }
 
-  late final _duk_trimPtr = _lookup<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_trim');
-  late final _duk_trim =
-      _duk_trimPtr.asFunction<void Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_trimPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_trim');
+  late final _duk_trim = _duk_trimPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_char_code_at(ffi.Pointer<duk_context> ctx, int idx, int char_offset) {
     return _duk_char_code_at(ctx, idx, char_offset);
   }
 
-  late final _duk_char_code_atPtr = _lookup<
-    ffi.NativeFunction<
-      duk_codepoint_t Function(ffi.Pointer<duk_context>, duk_idx_t, duk_size_t)
-    >
-  >('duk_char_code_at');
-  late final _duk_char_code_at =
-      _duk_char_code_atPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int, int)>();
+  late final _duk_char_code_atPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_codepoint_t Function(
+            ffi.Pointer<duk_context>,
+            duk_idx_t,
+            duk_size_t,
+          )
+        >
+      >('duk_char_code_at');
+  late final _duk_char_code_at = _duk_char_code_atPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int, int)>();
 
   /// ECMAScript operators
   int duk_equals(ffi.Pointer<duk_context> ctx, int idx1, int idx2) {
     return _duk_equals(ctx, idx1, idx2);
   }
 
-  late final _duk_equalsPtr = _lookup<
-    ffi.NativeFunction<
-      duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t, duk_idx_t)
-    >
-  >('duk_equals');
-  late final _duk_equals =
-      _duk_equalsPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int, int)>();
+  late final _duk_equalsPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t, duk_idx_t)
+        >
+      >('duk_equals');
+  late final _duk_equals = _duk_equalsPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int, int)>();
 
   int duk_strict_equals(ffi.Pointer<duk_context> ctx, int idx1, int idx2) {
     return _duk_strict_equals(ctx, idx1, idx2);
   }
 
-  late final _duk_strict_equalsPtr = _lookup<
-    ffi.NativeFunction<
-      duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t, duk_idx_t)
-    >
-  >('duk_strict_equals');
-  late final _duk_strict_equals =
-      _duk_strict_equalsPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int, int)>();
+  late final _duk_strict_equalsPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t, duk_idx_t)
+        >
+      >('duk_strict_equals');
+  late final _duk_strict_equals = _duk_strict_equalsPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int, int)>();
 
   int duk_samevalue(ffi.Pointer<duk_context> ctx, int idx1, int idx2) {
     return _duk_samevalue(ctx, idx1, idx2);
   }
 
-  late final _duk_samevaluePtr = _lookup<
-    ffi.NativeFunction<
-      duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t, duk_idx_t)
-    >
-  >('duk_samevalue');
-  late final _duk_samevalue =
-      _duk_samevaluePtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int, int)>();
+  late final _duk_samevaluePtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t, duk_idx_t)
+        >
+      >('duk_samevalue');
+  late final _duk_samevalue = _duk_samevaluePtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int, int)>();
 
   int duk_instanceof(ffi.Pointer<duk_context> ctx, int idx1, int idx2) {
     return _duk_instanceof(ctx, idx1, idx2);
   }
 
-  late final _duk_instanceofPtr = _lookup<
-    ffi.NativeFunction<
-      duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t, duk_idx_t)
-    >
-  >('duk_instanceof');
-  late final _duk_instanceof =
-      _duk_instanceofPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int, int)>();
+  late final _duk_instanceofPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t, duk_idx_t)
+        >
+      >('duk_instanceof');
+  late final _duk_instanceof = _duk_instanceofPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int, int)>();
 
   /// Random
   double duk_random(ffi.Pointer<duk_context> ctx) {
     return _duk_random(ctx);
   }
 
-  late final _duk_randomPtr = _lookup<
-    ffi.NativeFunction<duk_double_t Function(ffi.Pointer<duk_context>)>
-  >('duk_random');
-  late final _duk_random =
-      _duk_randomPtr.asFunction<double Function(ffi.Pointer<duk_context>)>();
+  late final _duk_randomPtr =
+      _lookup<
+        ffi.NativeFunction<duk_double_t Function(ffi.Pointer<duk_context>)>
+      >('duk_random');
+  late final _duk_random = _duk_randomPtr
+      .asFunction<double Function(ffi.Pointer<duk_context>)>();
 
   /// Function (method) calls
   void duk_call(ffi.Pointer<duk_context> ctx, int nargs) {
     return _duk_call(ctx, nargs);
   }
 
-  late final _duk_callPtr = _lookup<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_call');
-  late final _duk_call =
-      _duk_callPtr.asFunction<void Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_callPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_call');
+  late final _duk_call = _duk_callPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
 
   void duk_call_method(ffi.Pointer<duk_context> ctx, int nargs) {
     return _duk_call_method(ctx, nargs);
   }
 
-  late final _duk_call_methodPtr = _lookup<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_call_method');
-  late final _duk_call_method =
-      _duk_call_methodPtr
-          .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_call_methodPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_call_method');
+  late final _duk_call_method = _duk_call_methodPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
 
   void duk_call_prop(ffi.Pointer<duk_context> ctx, int obj_idx, int nargs) {
     return _duk_call_prop(ctx, obj_idx, nargs);
   }
 
-  late final _duk_call_propPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t, duk_idx_t)
-    >
-  >('duk_call_prop');
-  late final _duk_call_prop =
-      _duk_call_propPtr
-          .asFunction<void Function(ffi.Pointer<duk_context>, int, int)>();
+  late final _duk_call_propPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t, duk_idx_t)
+        >
+      >('duk_call_prop');
+  late final _duk_call_prop = _duk_call_propPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int, int)>();
 
   int duk_pcall(ffi.Pointer<duk_context> ctx, int nargs) {
     return _duk_pcall(ctx, nargs);
   }
 
-  late final _duk_pcallPtr = _lookup<
-    ffi.NativeFunction<duk_int_t Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_pcall');
-  late final _duk_pcall =
-      _duk_pcallPtr.asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_pcallPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_int_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_pcall');
+  late final _duk_pcall = _duk_pcallPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_pcall_method(ffi.Pointer<duk_context> ctx, int nargs) {
     return _duk_pcall_method(ctx, nargs);
   }
 
-  late final _duk_pcall_methodPtr = _lookup<
-    ffi.NativeFunction<duk_int_t Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_pcall_method');
-  late final _duk_pcall_method =
-      _duk_pcall_methodPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_pcall_methodPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_int_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_pcall_method');
+  late final _duk_pcall_method = _duk_pcall_methodPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_pcall_prop(ffi.Pointer<duk_context> ctx, int obj_idx, int nargs) {
     return _duk_pcall_prop(ctx, obj_idx, nargs);
   }
 
-  late final _duk_pcall_propPtr = _lookup<
-    ffi.NativeFunction<
-      duk_int_t Function(ffi.Pointer<duk_context>, duk_idx_t, duk_idx_t)
-    >
-  >('duk_pcall_prop');
-  late final _duk_pcall_prop =
-      _duk_pcall_propPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int, int)>();
+  late final _duk_pcall_propPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_int_t Function(ffi.Pointer<duk_context>, duk_idx_t, duk_idx_t)
+        >
+      >('duk_pcall_prop');
+  late final _duk_pcall_prop = _duk_pcall_propPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int, int)>();
 
   void duk_new(ffi.Pointer<duk_context> ctx, int nargs) {
     return _duk_new(ctx, nargs);
   }
 
-  late final _duk_newPtr = _lookup<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_new');
-  late final _duk_new =
-      _duk_newPtr.asFunction<void Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_newPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_new');
+  late final _duk_new = _duk_newPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_pnew(ffi.Pointer<duk_context> ctx, int nargs) {
     return _duk_pnew(ctx, nargs);
   }
 
-  late final _duk_pnewPtr = _lookup<
-    ffi.NativeFunction<duk_int_t Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_pnew');
-  late final _duk_pnew =
-      _duk_pnewPtr.asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_pnewPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_int_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_pnew');
+  late final _duk_pnew = _duk_pnewPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   int duk_safe_call(
     ffi.Pointer<duk_context> ctx,
@@ -4497,28 +4657,28 @@ class DuktapeBindings {
     return _duk_safe_call(ctx, func, udata, nargs, nrets);
   }
 
-  late final _duk_safe_callPtr = _lookup<
-    ffi.NativeFunction<
-      duk_int_t Function(
-        ffi.Pointer<duk_context>,
-        duk_safe_call_function,
-        ffi.Pointer<ffi.Void>,
-        duk_idx_t,
-        duk_idx_t,
-      )
-    >
-  >('duk_safe_call');
-  late final _duk_safe_call =
-      _duk_safe_callPtr
-          .asFunction<
-            int Function(
-              ffi.Pointer<duk_context>,
-              duk_safe_call_function,
-              ffi.Pointer<ffi.Void>,
-              int,
-              int,
-            )
-          >();
+  late final _duk_safe_callPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_int_t Function(
+            ffi.Pointer<duk_context>,
+            duk_safe_call_function,
+            ffi.Pointer<ffi.Void>,
+            duk_idx_t,
+            duk_idx_t,
+          )
+        >
+      >('duk_safe_call');
+  late final _duk_safe_call = _duk_safe_callPtr
+      .asFunction<
+        int Function(
+          ffi.Pointer<duk_context>,
+          duk_safe_call_function,
+          ffi.Pointer<ffi.Void>,
+          int,
+          int,
+        )
+      >();
 
   /// Compilation and evaluation
   int duk_eval_raw(
@@ -4530,26 +4690,21 @@ class DuktapeBindings {
     return _duk_eval_raw(ctx, src_buffer, src_length, flags);
   }
 
-  late final _duk_eval_rawPtr = _lookup<
-    ffi.NativeFunction<
-      duk_int_t Function(
-        ffi.Pointer<duk_context>,
-        ffi.Pointer<ffi.Char>,
-        duk_size_t,
-        duk_uint_t,
-      )
-    >
-  >('duk_eval_raw');
-  late final _duk_eval_raw =
-      _duk_eval_rawPtr
-          .asFunction<
-            int Function(
-              ffi.Pointer<duk_context>,
-              ffi.Pointer<ffi.Char>,
-              int,
-              int,
-            )
-          >();
+  late final _duk_eval_rawPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_int_t Function(
+            ffi.Pointer<duk_context>,
+            ffi.Pointer<ffi.Char>,
+            duk_size_t,
+            duk_uint_t,
+          )
+        >
+      >('duk_eval_raw');
+  late final _duk_eval_raw = _duk_eval_rawPtr
+      .asFunction<
+        int Function(ffi.Pointer<duk_context>, ffi.Pointer<ffi.Char>, int, int)
+      >();
 
   int duk_compile_raw(
     ffi.Pointer<duk_context> ctx,
@@ -4560,26 +4715,21 @@ class DuktapeBindings {
     return _duk_compile_raw(ctx, src_buffer, src_length, flags);
   }
 
-  late final _duk_compile_rawPtr = _lookup<
-    ffi.NativeFunction<
-      duk_int_t Function(
-        ffi.Pointer<duk_context>,
-        ffi.Pointer<ffi.Char>,
-        duk_size_t,
-        duk_uint_t,
-      )
-    >
-  >('duk_compile_raw');
-  late final _duk_compile_raw =
-      _duk_compile_rawPtr
-          .asFunction<
-            int Function(
-              ffi.Pointer<duk_context>,
-              ffi.Pointer<ffi.Char>,
-              int,
-              int,
-            )
-          >();
+  late final _duk_compile_rawPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_int_t Function(
+            ffi.Pointer<duk_context>,
+            ffi.Pointer<ffi.Char>,
+            duk_size_t,
+            duk_uint_t,
+          )
+        >
+      >('duk_compile_raw');
+  late final _duk_compile_raw = _duk_compile_rawPtr
+      .asFunction<
+        int Function(ffi.Pointer<duk_context>, ffi.Pointer<ffi.Char>, int, int)
+      >();
 
   /// Bytecode load/dump
   void duk_dump_function(ffi.Pointer<duk_context> ctx) {
@@ -4590,9 +4740,8 @@ class DuktapeBindings {
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>)>>(
         'duk_dump_function',
       );
-  late final _duk_dump_function =
-      _duk_dump_functionPtr
-          .asFunction<void Function(ffi.Pointer<duk_context>)>();
+  late final _duk_dump_function = _duk_dump_functionPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>)>();
 
   void duk_load_function(ffi.Pointer<duk_context> ctx) {
     return _duk_load_function(ctx);
@@ -4602,9 +4751,8 @@ class DuktapeBindings {
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>)>>(
         'duk_load_function',
       );
-  late final _duk_load_function =
-      _duk_load_functionPtr
-          .asFunction<void Function(ffi.Pointer<duk_context>)>();
+  late final _duk_load_function = _duk_load_functionPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>)>();
 
   /// Debugging
   void duk_push_context_dump(ffi.Pointer<duk_context> ctx) {
@@ -4615,9 +4763,8 @@ class DuktapeBindings {
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>)>>(
         'duk_push_context_dump',
       );
-  late final _duk_push_context_dump =
-      _duk_push_context_dumpPtr
-          .asFunction<void Function(ffi.Pointer<duk_context>)>();
+  late final _duk_push_context_dump = _duk_push_context_dumpPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>)>();
 
   /// Debugger (debug protocol)
   void duk_debugger_attach(
@@ -4644,36 +4791,36 @@ class DuktapeBindings {
     );
   }
 
-  late final _duk_debugger_attachPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Void Function(
-        ffi.Pointer<duk_context>,
-        duk_debug_read_function,
-        duk_debug_write_function,
-        duk_debug_peek_function,
-        duk_debug_read_flush_function,
-        duk_debug_write_flush_function,
-        duk_debug_request_function,
-        duk_debug_detached_function,
-        ffi.Pointer<ffi.Void>,
-      )
-    >
-  >('duk_debugger_attach');
-  late final _duk_debugger_attach =
-      _duk_debugger_attachPtr
-          .asFunction<
-            void Function(
-              ffi.Pointer<duk_context>,
-              duk_debug_read_function,
-              duk_debug_write_function,
-              duk_debug_peek_function,
-              duk_debug_read_flush_function,
-              duk_debug_write_flush_function,
-              duk_debug_request_function,
-              duk_debug_detached_function,
-              ffi.Pointer<ffi.Void>,
-            )
-          >();
+  late final _duk_debugger_attachPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Pointer<duk_context>,
+            duk_debug_read_function,
+            duk_debug_write_function,
+            duk_debug_peek_function,
+            duk_debug_read_flush_function,
+            duk_debug_write_flush_function,
+            duk_debug_request_function,
+            duk_debug_detached_function,
+            ffi.Pointer<ffi.Void>,
+          )
+        >
+      >('duk_debugger_attach');
+  late final _duk_debugger_attach = _duk_debugger_attachPtr
+      .asFunction<
+        void Function(
+          ffi.Pointer<duk_context>,
+          duk_debug_read_function,
+          duk_debug_write_function,
+          duk_debug_peek_function,
+          duk_debug_read_flush_function,
+          duk_debug_write_flush_function,
+          duk_debug_request_function,
+          duk_debug_detached_function,
+          ffi.Pointer<ffi.Void>,
+        )
+      >();
 
   void duk_debugger_detach(ffi.Pointer<duk_context> ctx) {
     return _duk_debugger_detach(ctx);
@@ -4683,9 +4830,8 @@ class DuktapeBindings {
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>)>>(
         'duk_debugger_detach',
       );
-  late final _duk_debugger_detach =
-      _duk_debugger_detachPtr
-          .asFunction<void Function(ffi.Pointer<duk_context>)>();
+  late final _duk_debugger_detach = _duk_debugger_detachPtr
+      .asFunction<void Function(ffi.Pointer<duk_context>)>();
 
   void duk_debugger_cooperate(ffi.Pointer<duk_context> ctx) {
     return _duk_debugger_cooperate(ctx);
@@ -4695,20 +4841,21 @@ class DuktapeBindings {
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>)>>(
         'duk_debugger_cooperate',
       );
-  late final _duk_debugger_cooperate =
-      _duk_debugger_cooperatePtr
-          .asFunction<void Function(ffi.Pointer<duk_context>)>();
+  late final _duk_debugger_cooperate = _duk_debugger_cooperatePtr
+      .asFunction<void Function(ffi.Pointer<duk_context>)>();
 
   int duk_debugger_notify(ffi.Pointer<duk_context> ctx, int nvalues) {
     return _duk_debugger_notify(ctx, nvalues);
   }
 
-  late final _duk_debugger_notifyPtr = _lookup<
-    ffi.NativeFunction<duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)>
-  >('duk_debugger_notify');
-  late final _duk_debugger_notify =
-      _duk_debugger_notifyPtr
-          .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
+  late final _duk_debugger_notifyPtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_bool_t Function(ffi.Pointer<duk_context>, duk_idx_t)
+        >
+      >('duk_debugger_notify');
+  late final _duk_debugger_notify = _duk_debugger_notifyPtr
+      .asFunction<int Function(ffi.Pointer<duk_context>, int)>();
 
   void duk_debugger_pause(ffi.Pointer<duk_context> ctx) {
     return _duk_debugger_pause(ctx);
@@ -4718,20 +4865,20 @@ class DuktapeBindings {
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<duk_context>)>>(
         'duk_debugger_pause',
       );
-  late final _duk_debugger_pause =
-      _duk_debugger_pausePtr
-          .asFunction<void Function(ffi.Pointer<duk_context>)>();
+  late final _duk_debugger_pause = _duk_debugger_pausePtr
+      .asFunction<void Function(ffi.Pointer<duk_context>)>();
 
   /// Time handling
   double duk_get_now(ffi.Pointer<duk_context> ctx) {
     return _duk_get_now(ctx);
   }
 
-  late final _duk_get_nowPtr = _lookup<
-    ffi.NativeFunction<duk_double_t Function(ffi.Pointer<duk_context>)>
-  >('duk_get_now');
-  late final _duk_get_now =
-      _duk_get_nowPtr.asFunction<double Function(ffi.Pointer<duk_context>)>();
+  late final _duk_get_nowPtr =
+      _lookup<
+        ffi.NativeFunction<duk_double_t Function(ffi.Pointer<duk_context>)>
+      >('duk_get_now');
+  late final _duk_get_now = _duk_get_nowPtr
+      .asFunction<double Function(ffi.Pointer<duk_context>)>();
 
   void duk_time_to_components(
     ffi.Pointer<duk_context> ctx,
@@ -4741,24 +4888,24 @@ class DuktapeBindings {
     return _duk_time_to_components(ctx, timeval, comp);
   }
 
-  late final _duk_time_to_componentsPtr = _lookup<
-    ffi.NativeFunction<
-      ffi.Void Function(
-        ffi.Pointer<duk_context>,
-        duk_double_t,
-        ffi.Pointer<duk_time_components>,
-      )
-    >
-  >('duk_time_to_components');
-  late final _duk_time_to_components =
-      _duk_time_to_componentsPtr
-          .asFunction<
-            void Function(
-              ffi.Pointer<duk_context>,
-              double,
-              ffi.Pointer<duk_time_components>,
-            )
-          >();
+  late final _duk_time_to_componentsPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Pointer<duk_context>,
+            duk_double_t,
+            ffi.Pointer<duk_time_components>,
+          )
+        >
+      >('duk_time_to_components');
+  late final _duk_time_to_components = _duk_time_to_componentsPtr
+      .asFunction<
+        void Function(
+          ffi.Pointer<duk_context>,
+          double,
+          ffi.Pointer<duk_time_components>,
+        )
+      >();
 
   double duk_components_to_time(
     ffi.Pointer<duk_context> ctx,
@@ -4767,22 +4914,22 @@ class DuktapeBindings {
     return _duk_components_to_time(ctx, comp);
   }
 
-  late final _duk_components_to_timePtr = _lookup<
-    ffi.NativeFunction<
-      duk_double_t Function(
-        ffi.Pointer<duk_context>,
-        ffi.Pointer<duk_time_components>,
-      )
-    >
-  >('duk_components_to_time');
-  late final _duk_components_to_time =
-      _duk_components_to_timePtr
-          .asFunction<
-            double Function(
-              ffi.Pointer<duk_context>,
-              ffi.Pointer<duk_time_components>,
-            )
-          >();
+  late final _duk_components_to_timePtr =
+      _lookup<
+        ffi.NativeFunction<
+          duk_double_t Function(
+            ffi.Pointer<duk_context>,
+            ffi.Pointer<duk_time_components>,
+          )
+        >
+      >('duk_components_to_time');
+  late final _duk_components_to_time = _duk_components_to_timePtr
+      .asFunction<
+        double Function(
+          ffi.Pointer<duk_context>,
+          ffi.Pointer<duk_time_components>,
+        )
+      >();
 }
 
 /// Public API specific typedefs
