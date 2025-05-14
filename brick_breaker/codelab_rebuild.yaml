@@ -230,7 +230,7 @@ steps:
              double get width => size.x;
              double get height => size.y;
            
-          @@ -29,5 +31,20 @@ class BrickBreaker extends FlameGame {
+          @@ -29,5 +31,18 @@ class BrickBreaker extends FlameGame {
                camera.viewfinder.anchor = Anchor.topLeft;
            
                world.add(PlayArea());
@@ -239,12 +239,10 @@ steps:
           +      Ball(
           +        radius: ballRadius,
           +        position: size / 2,
-          +        velocity:
-          +            Vector2(
-          +                (rand.nextDouble() - 0.5) * width,
-          +                height * 0.2,
-          +              ).normalized()
-          +              ..scale(height / 4),
+          +        velocity: Vector2(
+          +          (rand.nextDouble() - 0.5) * width,
+          +          height * 0.2,
+          +        ).normalized()..scale(height / 4),
           +      ),
           +    );
           +
@@ -290,10 +288,9 @@ steps:
             }) : super(
                    radius: radius,
                    anchor: Anchor.center,
-                   paint:
-                       Paint()
-                         ..color = const Color(0xff1e6091)
-                         ..style = PaintingStyle.fill,
+                   paint: Paint()
+                     ..color = const Color(0xff1e6091)
+                     ..style = PaintingStyle.fill,
                  );
           
             final Vector2 velocity;
@@ -351,15 +348,15 @@ steps:
              Ball({
                required this.velocity,
                required super.position,
-          @@ -17,6 +22,7 @@ class Ball extends CircleComponent {
-                        Paint()
-                          ..color = const Color(0xff1e6091)
-                          ..style = PaintingStyle.fill,
+          @@ -16,6 +21,7 @@ class Ball extends CircleComponent {
+                    paint: Paint()
+                      ..color = const Color(0xff1e6091)
+                      ..style = PaintingStyle.fill,
           +         children: [CircleHitbox()],
                   );
            
              final Vector2 velocity;
-          @@ -26,4 +32,25 @@ class Ball extends CircleComponent {
+          @@ -25,4 +31,25 @@ class Ball extends CircleComponent {
                super.update(dt);
                position += velocity * dt;
              }
@@ -444,7 +441,7 @@ steps:
              BrickBreaker()
                : super(
                    camera: CameraComponent.withFixedResolution(
-          @@ -45,6 +49,29 @@ class BrickBreaker extends FlameGame with HasCollisionDetection {
+          @@ -43,6 +47,29 @@ class BrickBreaker extends FlameGame with HasCollisionDetection {
                  ),
                );
            
@@ -503,7 +500,7 @@ steps:
            import 'play_area.dart';
            
            class Ball extends CircleComponent
-          @@ -47,8 +49,13 @@ class Ball extends CircleComponent
+          @@ -46,8 +48,13 @@ class Ball extends CircleComponent
                  } else if (intersectionPoints.first.x >= game.width) {
                    velocity.x = -velocity.x;
                  } else if (intersectionPoints.first.y >= game.height) {
@@ -554,10 +551,9 @@ steps:
 
             final Radius cornerRadius;
 
-            final _paint =
-                Paint()
-                  ..color = const Color(0xff1e6091)
-                  ..style = PaintingStyle.fill;
+            final _paint = Paint()
+              ..color = const Color(0xff1e6091)
+              ..style = PaintingStyle.fill;
 
             @override
             void render(Canvas canvas) {
@@ -606,8 +602,8 @@ steps:
           +        difficultyModifier: difficultyModifier,
                    radius: ballRadius,
                    position: size / 2,
-                   velocity:
-          @@ -57,6 +58,18 @@ class BrickBreaker extends FlameGame
+                   velocity: Vector2(
+          @@ -55,6 +56,18 @@ class BrickBreaker extends FlameGame
                  ),
                );
            
@@ -681,7 +677,7 @@ steps:
              }) : super(
                     radius: radius,
                     anchor: Anchor.center,
-          @@ -28,6 +30,7 @@ class Ball extends CircleComponent
+          @@ -27,6 +29,7 @@ class Ball extends CircleComponent
                   );
            
              final Vector2 velocity;
@@ -689,7 +685,7 @@ steps:
            
              @override
              void update(double dt) {
-          @@ -56,8 +59,17 @@ class Ball extends CircleComponent
+          @@ -55,8 +58,17 @@ class Ball extends CircleComponent
                  velocity.x =
                      velocity.x +
                      (position.x - other.position.x) / other.size.x * game.width * 0.3;
@@ -726,29 +722,28 @@ steps:
           // Copyright 2023 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-          
+
           import 'package:flame/collisions.dart';
           import 'package:flame/components.dart';
           import 'package:flutter/material.dart';
-          
+
           import '../brick_breaker.dart';
           import '../config.dart';
           import 'ball.dart';
           import 'bat.dart';
-          
+
           class Brick extends RectangleComponent
               with CollisionCallbacks, HasGameReference<BrickBreaker> {
             Brick({required super.position, required Color color})
               : super(
                   size: Vector2(brickWidth, brickHeight),
                   anchor: Anchor.center,
-                  paint:
-                      Paint()
-                        ..color = color
-                        ..style = PaintingStyle.fill,
+                  paint: Paint()
+                    ..color = color
+                    ..style = PaintingStyle.fill,
                   children: [RectangleHitbox()],
                 );
-          
+
             @override
             void onCollisionStart(
               Set<Vector2> intersectionPoints,
@@ -756,7 +751,7 @@ steps:
             ) {
               super.onCollisionStart(intersectionPoints, other);
               removeFromParent();
-          
+
               if (game.world.children.query<Brick>().length == 1) {
                 game.world.removeAll(game.world.children.query<Ball>());
                 game.world.removeAll(game.world.children.query<Bat>());
@@ -853,7 +848,7 @@ steps:
                world.add(
                  Ball(
                    difficultyModifier: difficultyModifier,
-          @@ -58,7 +88,7 @@ class BrickBreaker extends FlameGame
+          @@ -56,7 +86,7 @@ class BrickBreaker extends FlameGame
                  ),
                );
            
@@ -862,7 +857,7 @@ steps:
                  for (var i = 0; i < brickColors.length; i++)
                    for (var j = 1; j <= 5; j++)
                      Brick(
-          @@ -69,8 +99,12 @@ class BrickBreaker extends FlameGame
+          @@ -67,8 +97,12 @@ class BrickBreaker extends FlameGame
                        color: brickColors[i],
                      ),
                ]);
@@ -876,7 +871,7 @@ steps:
              }
            
              @override
-          @@ -84,7 +118,13 @@ class BrickBreaker extends FlameGame
+          @@ -82,7 +116,13 @@ class BrickBreaker extends FlameGame
                    world.children.query<Bat>().first.moveBy(-batStep);
                  case LogicalKeyboardKey.arrowRight:
                    world.children.query<Bat>().first.moveBy(batStep);
@@ -895,7 +890,7 @@ steps:
         patch-u: |
           --- b/brick_breaker/step_09/lib/src/components/ball.dart
           +++ a/brick_breaker/step_09/lib/src/components/ball.dart
-          @@ -52,7 +52,14 @@ class Ball extends CircleComponent
+          @@ -51,7 +51,14 @@ class Ball extends CircleComponent
                  } else if (intersectionPoints.first.x >= game.width) {
                    velocity.x = -velocity.x;
                  } else if (intersectionPoints.first.y >= game.height) {
@@ -916,7 +911,7 @@ steps:
         patch-u: |
           --- b/brick_breaker/step_09/lib/src/components/brick.dart
           +++ a/brick_breaker/step_09/lib/src/components/brick.dart
-          @@ -33,6 +33,7 @@ class Brick extends RectangleComponent
+          @@ -32,6 +32,7 @@ class Brick extends RectangleComponent
                removeFromParent();
            
                if (game.world.children.query<Brick>().length == 1) {
@@ -973,30 +968,24 @@ steps:
                               child: GameWidget.controlled(
                                 gameFactory: BrickBreaker.new,
                                 overlayBuilderMap: {
-                                  PlayState.welcome.name:
-                                      (context, game) => Center(
-                                        child: Text(
-                                          'TAP TO PLAY',
-                                          style:
-                                              Theme.of(context).textTheme.headlineLarge,
-                                        ),
-                                      ),
-                                  PlayState.gameOver.name:
-                                      (context, game) => Center(
-                                        child: Text(
-                                          'G A M E   O V E R',
-                                          style:
-                                              Theme.of(context).textTheme.headlineLarge,
-                                        ),
-                                      ),
-                                  PlayState.won.name:
-                                      (context, game) => Center(
-                                        child: Text(
-                                          'Y O U   W O N ! ! !',
-                                          style:
-                                              Theme.of(context).textTheme.headlineLarge,
-                                        ),
-                                      ),
+                                  PlayState.welcome.name: (context, game) => Center(
+                                    child: Text(
+                                      'TAP TO PLAY',
+                                      style: Theme.of(context).textTheme.headlineLarge,
+                                    ),
+                                  ),
+                                  PlayState.gameOver.name: (context, game) => Center(
+                                    child: Text(
+                                      'G A M E   O V E R',
+                                      style: Theme.of(context).textTheme.headlineLarge,
+                                    ),
+                                  ),
+                                  PlayState.won.name: (context, game) => Center(
+                                    child: Text(
+                                      'Y O U   W O N ! ! !',
+                                      style: Theme.of(context).textTheme.headlineLarge,
+                                    ),
+                                  ),
                                 },
                               ),
                             ),
@@ -1083,7 +1072,7 @@ steps:
         patch-u: |
           --- b/brick_breaker/step_10/lib/src/components/brick.dart
           +++ a/brick_breaker/step_10/lib/src/components/brick.dart
-          @@ -31,6 +31,7 @@ class Brick extends RectangleComponent
+          @@ -30,6 +30,7 @@ class Brick extends RectangleComponent
              ) {
                super.onCollisionStart(intersectionPoints, other);
                removeFromParent();
@@ -1123,7 +1112,7 @@ steps:
              @override
              Widget build(BuildContext context) {
                return MaterialApp(
-          @@ -35,40 +50,38 @@ class GameApp extends StatelessWidget {
+          @@ -35,34 +50,38 @@ class GameApp extends StatelessWidget {
                        child: Padding(
                          padding: const EdgeInsets.all(16),
                          child: Center(
@@ -1134,31 +1123,22 @@ steps:
           -                    child: GameWidget.controlled(
           -                      gameFactory: BrickBreaker.new,
           -                      overlayBuilderMap: {
-          -                        PlayState.welcome.name:
-          -                            (context, game) => Center(
-          -                              child: Text(
-          -                                'TAP TO PLAY',
-          -                                style:
-          -                                    Theme.of(context).textTheme.headlineLarge,
-          -                              ),
-          -                            ),
-          -                        PlayState.gameOver.name:
-          -                            (context, game) => Center(
-          -                              child: Text(
-          -                                'G A M E   O V E R',
-          -                                style:
-          -                                    Theme.of(context).textTheme.headlineLarge,
-          -                              ),
-          -                            ),
-          -                        PlayState.won.name:
-          -                            (context, game) => Center(
-          -                              child: Text(
-          -                                'Y O U   W O N ! ! !',
-          -                                style:
-          -                                    Theme.of(context).textTheme.headlineLarge,
-          -                              ),
-          -                            ),
-          -                      },
+          -                        PlayState.welcome.name: (context, game) => Center(
+          -                          child: Text(
+          -                            'TAP TO PLAY',
+          -                            style: Theme.of(context).textTheme.headlineLarge,
+          -                          ),
+          -                        ),
+          -                        PlayState.gameOver.name: (context, game) => Center(
+          -                          child: Text(
+          -                            'G A M E   O V E R',
+          -                            style: Theme.of(context).textTheme.headlineLarge,
+          -                          ),
+          -                        ),
+          -                        PlayState.won.name: (context, game) => Center(
+          -                          child: Text(
+          -                            'Y O U   W O N ! ! !',
+          -                            style: Theme.of(context).textTheme.headlineLarge,
           +                child: Column(
           +                  children: [
           +                    ScoreCard(score: game.score),
@@ -1170,24 +1150,25 @@ steps:
           +                          child: GameWidget(
           +                            game: game,
           +                            overlayBuilderMap: {
-          +                              PlayState.welcome.name:
-          +                                  (context, game) => const OverlayScreen(
+          +                              PlayState.welcome.name: (context, game) =>
+          +                                  const OverlayScreen(
           +                                    title: 'TAP TO PLAY',
           +                                    subtitle: 'Use arrow keys or swipe',
           +                                  ),
-          +                              PlayState.gameOver.name:
-          +                                  (context, game) => const OverlayScreen(
+          +                              PlayState.gameOver.name: (context, game) =>
+          +                                  const OverlayScreen(
           +                                    title: 'G A M E   O V E R',
           +                                    subtitle: 'Tap to Play Again',
           +                                  ),
-          +                              PlayState.won.name:
-          +                                  (context, game) => const OverlayScreen(
+          +                              PlayState.won.name: (context, game) =>
+          +                                  const OverlayScreen(
           +                                    title: 'Y O U   W O N ! ! !',
           +                                    subtitle: 'Tap to Play Again',
           +                                  ),
           +                            },
-          +                          ),
-          +                        ),
+                                     ),
+                                   ),
+          -                      },
           +                      ),
                                ),
           -                  ),
