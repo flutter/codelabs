@@ -250,10 +250,10 @@ steps:
                         TextButton(
                           onPressed:
                               viewModel.hasNextQuestion && viewModel.didAnswerQuestion
-                                  ? () {
-                                    viewModel.getNextQuestion();
-                                  }
-                                  : null,
+                              ? () {
+                                  viewModel.getNextQuestion();
+                                }
+                              : null,
                           child: const Text('Next'),
                         ),
                       ],
@@ -268,10 +268,9 @@ steps:
                               viewModel.checkAnswer(index);
                             },
                             answers: viewModel.currentQuestion?.possibleAnswers ?? [],
-                            correctAnswer:
-                                viewModel.didAnswerQuestion
-                                    ? viewModel.currentQuestion?.correctAnswer
-                                    : null,
+                            correctAnswer: viewModel.didAnswerQuestion
+                                ? viewModel.currentQuestion?.correctAnswer
+                                : null,
                           ),
                           StatusBar(viewModel: viewModel),
                         ],
@@ -438,8 +437,9 @@ steps:
                       Icon(
                         Icons.star,
                         size: 50,
-                        color:
-                            score < i + 1 ? Colors.grey.shade400 : Colors.yellow.shade700,
+                        color: score < i + 1
+                            ? Colors.grey.shade400
+                            : Colors.yellow.shade700,
                       ),
                   ],
                 ),
@@ -466,7 +466,7 @@ steps:
            import 'view_model.dart';
            
            class QuestionScreen extends StatefulWidget {
-          @@ -160,13 +161,9 @@ class StatusBar extends StatelessWidget {
+          @@ -159,13 +160,9 @@ class StatusBar extends StatelessWidget {
                    child: Row(
                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                      children: [
@@ -497,15 +497,16 @@ steps:
         patch-u: |
           --- b/animations/step_02_c/lib/scoreboard.dart
           +++ a/animations/step_02_c/lib/scoreboard.dart
-          @@ -18,14 +18,31 @@ class Scoreboard extends StatelessWidget {
+          @@ -18,15 +18,31 @@ class Scoreboard extends StatelessWidget {
                    mainAxisAlignment: MainAxisAlignment.center,
                    children: [
                      for (var i = 0; i < totalQuestions; i++)
           -            Icon(
           -              Icons.star,
           -              size: 50,
-          -              color:
-          -                  score < i + 1 ? Colors.grey.shade400 : Colors.yellow.shade700,
+          -              color: score < i + 1
+          -                  ? Colors.grey.shade400
+          -                  : Colors.yellow.shade700,
           -            ),
           +            AnimatedStar(isActive: score > i),
                    ],
@@ -616,7 +617,7 @@ steps:
         patch-u: |
           --- b/animations/step_03_a/lib/question_screen.dart
           +++ a/animations/step_03_a/lib/question_screen.dart
-          @@ -86,13 +86,17 @@ class QuestionCard extends StatelessWidget {
+          @@ -85,13 +85,17 @@ class QuestionCard extends StatelessWidget {
            
              @override
              Widget build(BuildContext context) {
@@ -655,7 +656,7 @@ steps:
         patch-u: |
           --- b/animations/step_03_b/lib/question_screen.dart
           +++ a/animations/step_03_b/lib/question_screen.dart
-          @@ -87,6 +87,16 @@ class QuestionCard extends StatelessWidget {
+          @@ -86,6 +86,16 @@ class QuestionCard extends StatelessWidget {
              @override
              Widget build(BuildContext context) {
                return AnimatedSwitcher(
@@ -686,7 +687,7 @@ steps:
         patch-u: |
           --- b/animations/step_03_c/lib/question_screen.dart
           +++ a/animations/step_03_c/lib/question_screen.dart
-          @@ -95,7 +95,11 @@ class QuestionCard extends StatelessWidget {
+          @@ -94,7 +94,11 @@ class QuestionCard extends StatelessWidget {
                      begin: Offset(-0.1, 0.0),
                      end: Offset.zero,
                    ).animate(curveAnimation);
@@ -713,7 +714,7 @@ steps:
         patch-u: |
           --- b/animations/step_03_d/lib/question_screen.dart
           +++ a/animations/step_03_d/lib/question_screen.dart
-          @@ -87,6 +87,15 @@ class QuestionCard extends StatelessWidget {
+          @@ -86,6 +86,15 @@ class QuestionCard extends StatelessWidget {
              @override
              Widget build(BuildContext context) {
                return AnimatedSwitcher(
@@ -801,14 +802,13 @@ steps:
                 builder: (context, child) {
                   return Transform(
                     alignment: Alignment.center,
-                    transform:
-                        Matrix4.identity()..rotateX(_animationController.value * math.pi),
-                    child:
-                        _animationController.isAnimating
-                            ? _animationController.value < 0.5
-                                ? _previousChild
-                                : Transform.flip(flipY: true, child: child)
-                            : child,
+                    transform: Matrix4.identity()
+                      ..rotateX(_animationController.value * math.pi),
+                    child: _animationController.isAnimating
+                        ? _animationController.value < 0.5
+                              ? _previousChild
+                              : Transform.flip(flipY: true, child: child)
+                        : child,
                   );
                 },
                 child: widget.child,
@@ -826,7 +826,7 @@ steps:
            import 'scoreboard.dart';
            import 'view_model.dart';
            
-          @@ -149,21 +150,24 @@ class AnswerCards extends StatelessWidget {
+          @@ -148,21 +149,24 @@ class AnswerCards extends StatelessWidget {
                    if (correctAnswer == index) {
                      color = Theme.of(context).colorScheme.tertiaryContainer;
                    }
@@ -899,7 +899,7 @@ steps:
         patch-u: |
           --- b/animations/step_04_b/lib/question_screen.dart
           +++ a/animations/step_04_b/lib/question_screen.dart
-          @@ -151,6 +151,7 @@ class AnswerCards extends StatelessWidget {
+          @@ -150,6 +150,7 @@ class AnswerCards extends StatelessWidget {
                      color = Theme.of(context).colorScheme.tertiaryContainer;
                    }
                    return CardFlipEffect(
@@ -968,7 +968,7 @@ steps:
         patch-u: |
           --- b/animations/step_04_d/lib/flip_effect.dart
           +++ a/animations/step_04_d/lib/flip_effect.dart
-          @@ -66,15 +66,15 @@ class _CardFlipEffectState extends State<CardFlipEffect>
+          @@ -66,14 +66,14 @@ class _CardFlipEffectState extends State<CardFlipEffect>
              @override
              Widget build(BuildContext context) {
                return AnimatedBuilder(
@@ -977,16 +977,15 @@ steps:
                  builder: (context, child) {
                    return Transform(
                      alignment: Alignment.center,
-                     transform:
-          -              Matrix4.identity()..rotateX(_animationController.value * math.pi),
-          +              Matrix4.identity()..rotateX(_animationWithDelay.value * math.pi),
-                     child:
-                         _animationController.isAnimating
-          -                  ? _animationController.value < 0.5
-          +                  ? _animationWithDelay.value < 0.5
-                                 ? _previousChild
-                                 : Transform.flip(flipY: true, child: child)
-                             : child,
+                     transform: Matrix4.identity()
+          -            ..rotateX(_animationController.value * math.pi),
+          +            ..rotateX(_animationWithDelay.value * math.pi),
+                     child: _animationController.isAnimating
+          -              ? _animationController.value < 0.5
+          +              ? _animationWithDelay.value < 0.5
+                               ? _previousChild
+                               : Transform.flip(flipY: true, child: child)
+                         : child,
       - name: Copy step_04_d
         copydir:
           from: quiz
@@ -1001,7 +1000,7 @@ steps:
         patch-u: |
           --- b/animations/step_05_a/lib/home_screen.dart
           +++ a/animations/step_05_a/lib/home_screen.dart
-          @@ -24,9 +24,17 @@ class HomeScreen extends StatelessWidget {
+          @@ -24,10 +24,17 @@ class HomeScreen extends StatelessWidget {
                            // Show the question screen to start the game
                            Navigator.push(
                              context,
@@ -1011,17 +1010,17 @@ steps:
           +                  PageRouteBuilder(
           +                    pageBuilder: (context, animation, secondaryAnimation) {
           +                      return const QuestionScreen();
-          +                    },
-          +                    transitionsBuilder: (
-          +                      context,
-          +                      animation,
-          +                      secondaryAnimation,
-          +                      child,
-          +                    ) {
-          +                      return FadeTransition(opacity: animation, child: child);
                                },
+          +                    transitionsBuilder:
+          +                        (context, animation, secondaryAnimation, child) {
+          +                          return FadeTransition(
+          +                            opacity: animation,
+          +                            child: child,
+          +                          );
+          +                        },
                              ),
                            );
+                         },
       - name: Copy step_05_a
         copydir:
           from: quiz
@@ -1041,19 +1040,18 @@ steps:
            import 'package:flutter/material.dart';
            import 'question_screen.dart';
            
-          @@ -34,7 +35,11 @@ class HomeScreen extends StatelessWidget {
-                                 secondaryAnimation,
-                                 child,
-                               ) {
-          -                      return FadeTransition(opacity: animation, child: child);
-          +                      return FadeThroughTransition(
-          +                        animation: animation,
-          +                        secondaryAnimation: secondaryAnimation,
-          +                        child: child,
-          +                      );
+          @@ -30,8 +31,9 @@ class HomeScreen extends StatelessWidget {
                                },
-                             ),
-                           );
+                               transitionsBuilder:
+                                   (context, animation, secondaryAnimation, child) {
+          -                          return FadeTransition(
+          -                            opacity: animation,
+          +                          return FadeThroughTransition(
+          +                            animation: animation,
+          +                            secondaryAnimation: secondaryAnimation,
+                                       child: child,
+                                     );
+                                   },
       - name: Patch lib/main.dart
         path: quiz/lib/main.dart
         patch-u: |
@@ -1099,7 +1097,7 @@ steps:
            import 'package:flutter/material.dart';
            import 'question_screen.dart';
            
-          @@ -25,22 +24,10 @@ class HomeScreen extends StatelessWidget {
+          @@ -25,18 +24,10 @@ class HomeScreen extends StatelessWidget {
                            // Show the question screen to start the game
                            Navigator.push(
                              context,
@@ -1109,18 +1107,14 @@ steps:
           +                    builder: (context) {
                                  return const QuestionScreen();
                                },
-          -                    transitionsBuilder: (
-          -                      context,
-          -                      animation,
-          -                      secondaryAnimation,
-          -                      child,
-          -                    ) {
-          -                      return FadeThroughTransition(
-          -                        animation: animation,
-          -                        secondaryAnimation: secondaryAnimation,
-          -                        child: child,
-          -                      );
-          -                    },
+          -                    transitionsBuilder:
+          -                        (context, animation, secondaryAnimation, child) {
+          -                          return FadeThroughTransition(
+          -                            animation: animation,
+          -                            secondaryAnimation: secondaryAnimation,
+          -                            child: child,
+          -                          );
+          -                        },
                              ),
                            );
                          },
@@ -1134,7 +1128,7 @@ steps:
            import 'package:flutter/material.dart';
            import 'flip_effect.dart';
            import 'scoreboard.dart';
-          @@ -87,28 +88,15 @@ class QuestionCard extends StatelessWidget {
+          @@ -86,28 +87,15 @@ class QuestionCard extends StatelessWidget {
            
              @override
              Widget build(BuildContext context) {
@@ -1206,7 +1200,7 @@ steps:
                            Spacer(),
                            AnswerCards(
                              onTapped: (index) {
-          @@ -59,24 +64,47 @@ class _QuestionScreenState extends State<QuestionScreen> {
+          @@ -58,24 +63,47 @@ class _QuestionScreenState extends State<QuestionScreen> {
                );
              }
            
@@ -1266,7 +1260,7 @@ steps:
                );
              }
            }
-          @@ -84,14 +112,22 @@ class _QuestionScreenState extends State<QuestionScreen> {
+          @@ -83,14 +111,22 @@ class _QuestionScreenState extends State<QuestionScreen> {
            class QuestionCard extends StatelessWidget {
              final String? question;
            
@@ -1293,7 +1287,7 @@ steps:
                  transitionBuilder: (child, animation, secondaryAnimation) {
                    return FadeThroughTransition(
                      animation: animation,
-          @@ -99,17 +135,30 @@ class QuestionCard extends StatelessWidget {
+          @@ -98,17 +134,30 @@ class QuestionCard extends StatelessWidget {
                      child: child,
                    );
                  },
