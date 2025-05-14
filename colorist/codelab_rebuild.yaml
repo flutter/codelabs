@@ -237,6 +237,9 @@ steps:
       - name: Run build_runner
         path: colorist
         dart: run build_runner build --delete-conflicting-outputs
+      - name: dart format lib
+        path: colorist
+        dart: format lib
       - name: Patch lib/main.dart
         path: colorist/lib/main.dart
         patch-u: |
@@ -252,7 +255,7 @@ steps:
            void main() async {
              runApp(ProviderScope(child: MainApp()));
            }
-          @@ -15,26 +18,22 @@ class MainApp extends ConsumerWidget {
+          @@ -15,26 +18,21 @@ class MainApp extends ConsumerWidget {
 
              @override
              Widget build(BuildContext context, WidgetRef ref) {
@@ -267,12 +270,11 @@ steps:
           -          sendMessage(message, ref);
           -        },
           +      home: model.when(
-          +        data:
-          +            (data) => MainScreen(
-          +              sendMessage: (text) {
-          +                ref.read(geminiChatServiceProvider).sendMessage(text);
-          +              },
-          +            ),
+          +        data: (data) => MainScreen(
+          +          sendMessage: (text) {
+          +            ref.read(geminiChatServiceProvider).sendMessage(text);
+          +          },
+          +        ),
           +        loading: () => LoadingScreen(message: 'Initializing Gemini Model'),
           +        error: (err, st) => ErrorScreen(error: err),
                  ),
@@ -503,6 +505,9 @@ steps:
       - name: Run build_runner
         path: colorist
         dart: run build_runner build --delete-conflicting-outputs
+      - name: dart format lib
+        path: colorist
+        dart: format lib
       - name: Copy step_03
         copydir:
           from: colorist
@@ -632,6 +637,9 @@ steps:
       - name: Run build_runner
         path: colorist
         dart: run build_runner build --delete-conflicting-outputs
+      - name: dart format lib
+        path: colorist
+        dart: format lib
       - name: Copy step_04
         copydir:
           from: colorist
@@ -698,7 +706,7 @@ steps:
            import 'package:firebase_vertexai/firebase_vertexai.dart';
            import 'package:flutter_riverpod/flutter_riverpod.dart';
            import 'package:riverpod_annotation/riverpod_annotation.dart';
-          @@ -26,6 +27,45 @@ class GeminiTools {
+          @@ -26,6 +27,44 @@ class GeminiTools {
              List<Tool> get tools => [
                Tool.functionDeclarations([setColorFuncDecl]),
              ];
@@ -722,10 +730,9 @@ steps:
           +    final blue = (arguments['blue'] as num).toDouble();
           +    final functionResults = {
           +      'success': true,
-          +      'current_color':
-          +          colorStateNotifier
-          +              .updateColor(red: red, green: green, blue: blue)
-          +              .toLLMContextMap(),
+          +      'current_color': colorStateNotifier
+          +          .updateColor(red: red, green: green, blue: blue)
+          +          .toLLMContextMap(),
           +    };
           +
           +    final logStateNotifier = ref.read(logStateNotifierProvider.notifier);
@@ -747,6 +754,9 @@ steps:
       - name: Run build_runner
         path: colorist
         dart: run build_runner build --delete-conflicting-outputs
+      - name: dart format lib
+        path: colorist
+        dart: format lib
       - name: Copy step_05
         copydir:
           from: colorist
@@ -892,17 +902,20 @@ steps:
 
                return MaterialApp(
                  theme: ThemeData(
-          @@ -27,6 +28,7 @@ class MainApp extends ConsumerWidget {
+          @@ -26,6 +27,7 @@ class MainApp extends ConsumerWidget {
+                 ),
                  home: model.when(
-                   data:
-                       (data) => MainScreen(
-          +              conversationState: conversationState,
-                         sendMessage: (text) {
-                           ref.read(geminiChatServiceProvider).sendMessage(text);
-                         },
+                   data: (data) => MainScreen(
+          +          conversationState: conversationState,
+                     sendMessage: (text) {
+                       ref.read(geminiChatServiceProvider).sendMessage(text);
+                     },
       - name: Run build_runner
         path: colorist
         dart: run build_runner build --delete-conflicting-outputs
+      - name: dart format lib
+        path: colorist
+        dart: format lib
       - name: Copy step_06
         copydir:
           from: colorist
@@ -943,16 +956,16 @@ steps:
         patch-u: |
           --- b/colorist/step_07/lib/main.dart
           +++ a/colorist/step_07/lib/main.dart
-          @@ -29,6 +29,9 @@ class MainApp extends ConsumerWidget {
-                   data:
-                       (data) => MainScreen(
-                         conversationState: conversationState,
-          +              notifyColorSelection: (color) {
-          +                ref.read(geminiChatServiceProvider).notifyColorSelection(color);
-          +              },
-                         sendMessage: (text) {
-                           ref.read(geminiChatServiceProvider).sendMessage(text);
-                         },
+          @@ -28,6 +28,9 @@ class MainApp extends ConsumerWidget {
+                 home: model.when(
+                   data: (data) => MainScreen(
+                     conversationState: conversationState,
+          +          notifyColorSelection: (color) {
+          +            ref.read(geminiChatServiceProvider).notifyColorSelection(color);
+          +          },
+                     sendMessage: (text) {
+                       ref.read(geminiChatServiceProvider).sendMessage(text);
+                     },
       - name: Patch assets/system_prompt.md
         path: colorist/assets/system_prompt.md
         patch-u: |
@@ -976,6 +989,9 @@ steps:
       - name: Run build_runner
         path: colorist
         dart: run build_runner build --delete-conflicting-outputs
+      - name: dart format lib
+        path: colorist
+        dart: format lib
       - name: Upgrade deps
         path: colorist
         flutter: pub upgrade --major-versions
