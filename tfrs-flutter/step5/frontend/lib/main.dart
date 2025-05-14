@@ -103,9 +103,8 @@ class _RecommenderDemoState extends State<RecommenderDemo> {
                         itemCount: _movieList.length,
                         itemBuilder: (context, index) {
                           return ListTile(
-                            leading: _movieList.isEmpty
-                                ? null
-                                : const FlutterLogo(),
+                            leading:
+                                _movieList.isEmpty ? null : const FlutterLogo(),
                             title: Text(_movieList[index]),
                           );
                         },
