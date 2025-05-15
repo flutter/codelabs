@@ -221,7 +221,7 @@ steps:
            import 'package:flutter_test/flutter_test.dart';
            
            import 'package:namer_app/main.dart';
-          @@ -7,4 +8,44 @@ void main() {
+          @@ -7,4 +8,43 @@ void main() {
                await tester.pumpWidget(const MyApp());
                expect(find.text('A random AWESOME idea:'), findsOneWidget);
              });
@@ -230,14 +230,13 @@ steps:
           +    await tester.pumpWidget(const MyApp());
           +
           +    String findWordPair() {
-          +      final wordPairTextWidget =
-          +          tester
-          +              // Get all Text widgets...
-          +              .widgetList<Text>(find.byType(Text))
-          +              // ... skip one ('A random AWESOME idea:') ...
-          +              .skip(1)
-          +              // ... and take the first after it.
-          +              .first;
+          +      final wordPairTextWidget = tester
+          +          // Get all Text widgets...
+          +          .widgetList<Text>(find.byType(Text))
+          +          // ... skip one ('A random AWESOME idea:') ...
+          +          .skip(1)
+          +          // ... and take the first after it.
+          +          .first;
           +      return wordPairTextWidget.data!;
           +    }
           +
@@ -336,18 +335,17 @@ steps:
         patch-u: |
           --- b/namer/step_05_b_extract/test/widget_test.dart
           +++ a/namer/step_05_b_extract/test/widget_test.dart
-          @@ -13,14 +13,9 @@ void main() {
+          @@ -13,13 +13,9 @@ void main() {
                await tester.pumpWidget(const MyApp());
            
                String findWordPair() {
-          -      final wordPairTextWidget =
-          -          tester
-          -              // Get all Text widgets...
-          -              .widgetList<Text>(find.byType(Text))
-          -              // ... skip one ('A random AWESOME idea:') ...
-          -              .skip(1)
-          -              // ... and take the first after it.
-          -              .first;
+          -      final wordPairTextWidget = tester
+          -          // Get all Text widgets...
+          -          .widgetList<Text>(find.byType(Text))
+          -          // ... skip one ('A random AWESOME idea:') ...
+          -          .skip(1)
+          -          // ... and take the first after it.
+          -          .first;
           +      final wordPairTextWidget = tester.widget<Text>(
           +        find.descendant(of: find.byType(BigCard), matching: find.byType(Text)),
           +      );
