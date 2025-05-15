@@ -1067,17 +1067,16 @@ steps:
              }
 
              @override
-          @@ -102,8 +102,15 @@ class TrianglePainter extends CustomPainter {
+          @@ -102,8 +102,14 @@ class TrianglePainter extends CustomPainter {
                  ByteData.sublistView(vertices),
                );
 
           -    final model = vm.Matrix4.rotationY(angle);
           -    final view = vm.Matrix4.translation(vm.Vector3(0.0, 0.0, -2.0));
           +    // Create model matrix with multiple rotations
-          +    final model =
-          +        vm.Matrix4.identity()
-          +          ..rotateY(angle)
-          +          ..rotateX(angle / 2);
+          +    final model = vm.Matrix4.identity()
+          +      ..rotateY(angle)
+          +      ..rotateX(angle / 2);
           +
           +    // Move camera back a bit more for better view
           +    final view = vm.Matrix4.translation(vm.Vector3(0.0, 0.0, -2.5));
@@ -1085,7 +1084,7 @@ steps:
                final projection = vm.makePerspectiveMatrix(
                  vm.radians(45),
                  size.aspectRatio,
-          @@ -121,7 +128,6 @@ class TrianglePainter extends CustomPainter {
+          @@ -121,7 +127,6 @@ class TrianglePainter extends CustomPainter {
 
                renderPass.bindPipeline(pipeline);
 
