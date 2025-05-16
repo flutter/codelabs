@@ -25,10 +25,9 @@ Future<BuiltSet<String>> wordList(Ref ref) async {
       .convert(words)
       .toBuiltSet()
       .rebuild(
-        (b) =>
-            b
-              ..map((word) => word.toLowerCase().trim())
-              ..where((word) => word.length > 2)
-              ..where((word) => re.hasMatch(word)),
+        (b) => b
+          ..map((word) => word.toLowerCase().trim())
+          ..where((word) => word.length > 2)
+          ..where((word) => re.hasMatch(word)),
       );
 }

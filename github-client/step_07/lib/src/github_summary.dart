@@ -187,10 +187,9 @@ class _PullRequestsListState extends State<PullRequestsList> {
   @override
   initState() {
     super.initState();
-    _pullRequests =
-        widget.gitHub.pullRequests
-            .list(RepositorySlug('flutter', 'flutter'))
-            .toList();
+    _pullRequests = widget.gitHub.pullRequests
+        .list(RepositorySlug('flutter', 'flutter'))
+        .toList();
   }
 
   late Future<List<PullRequest>> _pullRequests;
@@ -236,19 +235,18 @@ Future<void> _launchUrl(State state, String url) async {
     if (state.mounted) {
       return showDialog(
         context: state.context,
-        builder:
-            (context) => AlertDialog(
-              title: const Text('Navigation error'),
-              content: Text('Could not launch $url'),
-              actions: <Widget>[
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text('Close'),
-                ),
-              ],
+        builder: (context) => AlertDialog(
+          title: const Text('Navigation error'),
+          content: Text('Could not launch $url'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Close'),
             ),
+          ],
+        ),
       );
     }
   }

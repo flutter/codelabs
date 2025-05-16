@@ -22,19 +22,18 @@ class HomeArtists extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(15),
-      child:
-          constraints.isMobile
-              ? Column(
-                children: [
-                  for (final artist in artists) buildTile(context, artist),
-                ],
-              )
-              : Row(
-                children: [
-                  for (final artist in artists)
-                    Flexible(flex: 1, child: buildTile(context, artist)),
-                ],
-              ),
+      child: constraints.isMobile
+          ? Column(
+              children: [
+                for (final artist in artists) buildTile(context, artist),
+              ],
+            )
+          : Row(
+              children: [
+                for (final artist in artists)
+                  Flexible(flex: 1, child: buildTile(context, artist)),
+              ],
+            ),
     );
   }
 

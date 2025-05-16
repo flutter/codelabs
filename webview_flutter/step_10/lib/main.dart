@@ -26,8 +26,8 @@ class _WebViewAppState extends State<WebViewApp> {
   @override
   void initState() {
     super.initState();
-    controller =
-        WebViewController()..loadRequest(Uri.parse('https://flutter.dev'));
+    controller = WebViewController()
+      ..loadRequest(Uri.parse('https://flutter.dev'));
   }
 
   @override

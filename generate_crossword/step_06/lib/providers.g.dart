@@ -15,8 +15,9 @@ String _$wordListHash() => r'07003444d7241448561b638500001e31610b4717';
 final wordListProvider = AutoDisposeFutureProvider<BuiltSet<String>>.internal(
   wordList,
   name: r'wordListProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$wordListHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$wordListHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
@@ -31,8 +32,9 @@ String _$crosswordHash() => r'8e2df416519f01ee1d6c1b64659f687d37cc07f2';
 final crosswordProvider = AutoDisposeStreamProvider<model.Crossword>.internal(
   crossword,
   name: r'crosswordProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$crosswordHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$crosswordHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
@@ -49,8 +51,9 @@ String _$sizeHash() => r'e551985965bf4119e8d90c0e8aa4f4d68a555b73';
 final sizeProvider = NotifierProvider<Size, CrosswordSize>.internal(
   Size.new,
   name: r'sizeProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$sizeHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$sizeHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

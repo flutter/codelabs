@@ -21,13 +21,12 @@ class Menu extends StatelessWidget {
             await controller.loadRequest(Uri.parse('https://youtube.com'));
         }
       },
-      itemBuilder:
-          (context) => [
-            const PopupMenuItem<_MenuOptions>(
-              value: _MenuOptions.navigationDelegate,
-              child: Text('Navigate to YouTube'),
-            ),
-          ],
+      itemBuilder: (context) => [
+        const PopupMenuItem<_MenuOptions>(
+          value: _MenuOptions.navigationDelegate,
+          child: Text('Navigate to YouTube'),
+        ),
+      ],
     );
   }
 }

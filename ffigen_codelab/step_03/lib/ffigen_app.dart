@@ -88,38 +88,36 @@ Future<SendPort> _helperIsolateSendPort = () async {
   // We receive two types of messages:
   // 1. A port to send messages on.
   // 2. Responses to requests we sent.
-  final ReceivePort receivePort =
-      ReceivePort()..listen((dynamic data) {
-        if (data is SendPort) {
-          // The helper isolate sent us the port on which we can sent it requests.
-          completer.complete(data);
-          return;
-        }
-        if (data is _SumResponse) {
-          // The helper isolate sent us a response to a request we sent.
-          final Completer<int> completer = _sumRequests[data.id]!;
-          _sumRequests.remove(data.id);
-          completer.complete(data.result);
+  final ReceivePort receivePort = ReceivePort()
+    ..listen((dynamic data) {
+      if (data is SendPort) {
+        // The helper isolate sent us the port on which we can sent it requests.
+        completer.complete(data);
+        return;
+      }
+      if (data is _SumResponse) {
+        // The helper isolate sent us a response to a request we sent.
+        final Completer<int> completer = _sumRequests[data.id]!;
+        _sumRequests.remove(data.id);
+        completer.complete(data.result);
+        return;
+      }
+      throw UnsupportedError('Unsupported message type: ${data.runtimeType}');
+    });
+
+  // Start the helper isolate.
+  await Isolate.spawn((SendPort sendPort) async {
+    final ReceivePort helperReceivePort = ReceivePort()
+      ..listen((dynamic data) {
+        // On the helper isolate listen to requests and respond to them.
+        if (data is _SumRequest) {
+          final int result = _bindings.sum_long_running(data.a, data.b);
+          final _SumResponse response = _SumResponse(data.id, result);
+          sendPort.send(response);
           return;
         }
         throw UnsupportedError('Unsupported message type: ${data.runtimeType}');
       });
-
-  // Start the helper isolate.
-  await Isolate.spawn((SendPort sendPort) async {
-    final ReceivePort helperReceivePort =
-        ReceivePort()..listen((dynamic data) {
-          // On the helper isolate listen to requests and respond to them.
-          if (data is _SumRequest) {
-            final int result = _bindings.sum_long_running(data.a, data.b);
-            final _SumResponse response = _SumResponse(data.id, result);
-            sendPort.send(response);
-            return;
-          }
-          throw UnsupportedError(
-            'Unsupported message type: ${data.runtimeType}',
-          );
-        });
 
     // Send the port to the main isolate on which we can receive requests.
     sendPort.send(helperReceivePort.sendPort);

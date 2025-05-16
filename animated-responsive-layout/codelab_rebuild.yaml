@@ -316,12 +316,11 @@ steps:
                         padding: const EdgeInsets.only(bottom: 8.0),
                         child: EmailWidget(
                           email: data.emails[index],
-                          onSelected:
-                              onSelected != null
-                                  ? () {
-                                    onSelected!(index);
-                                  }
-                                  : null,
+                          onSelected: onSelected != null
+                              ? () {
+                                  onSelected!(index);
+                                }
+                              : null,
                           isSelected: selectedIndex == index,
                         ),
                       );
@@ -434,8 +433,9 @@ steps:
             String get lastActiveLabel {
               final DateTime now = DateTime.now();
               if (widget.email.sender.lastActive.isAfter(now)) throw ArgumentError();
-              final Duration elapsedTime =
-                  widget.email.sender.lastActive.difference(now).abs();
+              final Duration elapsedTime = widget.email.sender.lastActive
+                  .difference(now)
+                  .abs();
               return switch (elapsedTime) {
                 Duration(inSeconds: < 60) => '${elapsedTime.inSeconds}s',
                 Duration(inMinutes: < 60) => '${elapsedTime.inMinutes}m',
@@ -483,27 +483,25 @@ steps:
                                     widget.email.sender.name.fullName,
                                     overflow: TextOverflow.fade,
                                     maxLines: 1,
-                                    style:
-                                        widget.isSelected
-                                            ? _textTheme.labelMedium?.copyWith(
-                                              color: _colorScheme.onSecondaryContainer,
-                                            )
-                                            : _textTheme.labelMedium?.copyWith(
-                                              color: _colorScheme.onSurface,
-                                            ),
+                                    style: widget.isSelected
+                                        ? _textTheme.labelMedium?.copyWith(
+                                            color: _colorScheme.onSecondaryContainer,
+                                          )
+                                        : _textTheme.labelMedium?.copyWith(
+                                            color: _colorScheme.onSurface,
+                                          ),
                                   ),
                                   Text(
                                     lastActiveLabel,
                                     overflow: TextOverflow.fade,
                                     maxLines: 1,
-                                    style:
-                                        widget.isSelected
-                                            ? _textTheme.labelMedium?.copyWith(
-                                              color: _colorScheme.onSecondaryContainer,
-                                            )
-                                            : _textTheme.labelMedium?.copyWith(
-                                              color: _colorScheme.onSurfaceVariant,
-                                            ),
+                                    style: widget.isSelected
+                                        ? _textTheme.labelMedium?.copyWith(
+                                            color: _colorScheme.onSecondaryContainer,
+                                          )
+                                        : _textTheme.labelMedium?.copyWith(
+                                            color: _colorScheme.onSurfaceVariant,
+                                          ),
                                   ),
                                 ],
                               ),
@@ -544,15 +542,15 @@ steps:
                     const SizedBox(width: 12),
                     widget.email.attachments.isNotEmpty
                         ? Container(
-                          height: 96,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.0),
-                            image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: AssetImage(widget.email.attachments.first.url),
+                            height: 96,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.0),
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: AssetImage(widget.email.attachments.first.url),
+                              ),
                             ),
-                          ),
-                        )
+                          )
                         : const SizedBox.shrink(),
                     if (!widget.isPreview) ...[const EmailReplyOptions()],
                   ],
@@ -937,17 +935,16 @@ steps:
                  ),
                  floatingActionButton: FloatingActionButton(
                    backgroundColor: _colorScheme.tertiaryContainer,
-          @@ -53,6 +64,20 @@ class _FeedState extends State<Feed> {
+          @@ -53,6 +64,19 @@ class _FeedState extends State<Feed> {
                    onPressed: () {},
                    child: const Icon(Icons.add),
                  ),
           +      bottomNavigationBar: NavigationBar(
           +        elevation: 0,
           +        backgroundColor: Colors.white,
-          +        destinations:
-          +            destinations.map<NavigationDestination>((d) {
-          +              return NavigationDestination(icon: Icon(d.icon), label: d.label);
-          +            }).toList(),
+          +        destinations: destinations.map<NavigationDestination>((d) {
+          +          return NavigationDestination(icon: Icon(d.icon), label: d.label);
+          +        }).toList(),
           +        selectedIndex: selectedIndex,
           +        onDestinationSelected: (index) {
           +          setState(() {
@@ -995,10 +992,9 @@ steps:
               return NavigationBar(
                 elevation: 0,
                 backgroundColor: Colors.white,
-                destinations:
-                    destinations.map<NavigationDestination>((d) {
-                      return NavigationDestination(icon: Icon(d.icon), label: d.label);
-                    }).toList(),
+                destinations: destinations.map<NavigationDestination>((d) {
+                  return NavigationDestination(icon: Icon(d.icon), label: d.label);
+                }).toList(),
                 selectedIndex: selectedIndex,
                 onDestinationSelected: onDestinationSelected,
               );
@@ -1050,13 +1046,12 @@ steps:
                   ],
                 ),
                 groupAlignment: -0.85,
-                destinations:
-                    destinations.map((d) {
-                      return NavigationRailDestination(
-                        icon: Icon(d.icon),
-                        label: Text(d.label),
-                      );
-                    }).toList(),
+                destinations: destinations.map((d) {
+                  return NavigationRailDestination(
+                    icon: Icon(d.icon),
+                    label: Text(d.label),
+                  );
+                }).toList(),
               );
             }
           }
@@ -1077,7 +1072,7 @@ steps:
            import 'widgets/email_list_view.dart';
            
            void main() {
-          @@ -42,42 +43,67 @@ class _FeedState extends State<Feed> {
+          @@ -42,41 +43,65 @@ class _FeedState extends State<Feed> {
              );
            
              int selectedIndex = 0;
@@ -1115,10 +1110,9 @@ steps:
           -      bottomNavigationBar: NavigationBar(
           -        elevation: 0,
           -        backgroundColor: Colors.white,
-          -        destinations:
-          -            destinations.map<NavigationDestination>((d) {
-          -              return NavigationDestination(icon: Icon(d.icon), label: d.label);
-          -            }).toList(),
+          -        destinations: destinations.map<NavigationDestination>((d) {
+          -          return NavigationDestination(icon: Icon(d.icon), label: d.label);
+          -        }).toList(),
           -        selectedIndex: selectedIndex,
           -        onDestinationSelected: (index) {
           -          setState(() {
@@ -1153,26 +1147,24 @@ steps:
           +          ),
           +        ],
                  ),
-          +      floatingActionButton:
-          +          wideScreen
-          +              ? null
-          +              : FloatingActionButton(
-          +                backgroundColor: _colorScheme.tertiaryContainer,
-          +                foregroundColor: _colorScheme.onTertiaryContainer,
-          +                onPressed: () {},
-          +                child: const Icon(Icons.add),
-          +              ),
-          +      bottomNavigationBar:
-          +          wideScreen
-          +              ? null
-          +              : DisappearingBottomNavigationBar(
-          +                selectedIndex: selectedIndex,
-          +                onDestinationSelected: (index) {
-          +                  setState(() {
-          +                    selectedIndex = index;
-          +                  });
-          +                },
-          +              ),
+          +      floatingActionButton: wideScreen
+          +          ? null
+          +          : FloatingActionButton(
+          +              backgroundColor: _colorScheme.tertiaryContainer,
+          +              foregroundColor: _colorScheme.onTertiaryContainer,
+          +              onPressed: () {},
+          +              child: const Icon(Icons.add),
+          +            ),
+          +      bottomNavigationBar: wideScreen
+          +          ? null
+          +          : DisappearingBottomNavigationBar(
+          +              selectedIndex: selectedIndex,
+          +              onDestinationSelected: (index) {
+          +                setState(() {
+          +                  selectedIndex = index;
+          +                });
+          +              },
+          +            ),
                );
              }
            }
@@ -1460,7 +1452,7 @@ steps:
         patch-u: |
           --- b/animated-responsive-layout/step_07/lib/widgets/disappearing_bottom_navigation_bar.dart
           +++ a/animated-responsive-layout/step_07/lib/widgets/disappearing_bottom_navigation_bar.dart
-          @@ -4,29 +4,37 @@
+          @@ -4,28 +4,36 @@
            
            import 'package:flutter/material.dart';
            
@@ -1487,19 +1479,17 @@ steps:
           +    return BottomBarTransition(
           +      animation: barAnimation,
                  backgroundColor: Colors.white,
-          -      destinations:
-          -          destinations.map<NavigationDestination>((d) {
-          -            return NavigationDestination(icon: Icon(d.icon), label: d.label);
-          -          }).toList(),
+          -      destinations: destinations.map<NavigationDestination>((d) {
+          -        return NavigationDestination(icon: Icon(d.icon), label: d.label);
+          -      }).toList(),
           -      selectedIndex: selectedIndex,
           -      onDestinationSelected: onDestinationSelected,
           +      child: NavigationBar(
           +        elevation: 0,
           +        backgroundColor: Colors.white,
-          +        destinations:
-          +            destinations.map<NavigationDestination>((d) {
-          +              return NavigationDestination(icon: Icon(d.icon), label: d.label);
-          +            }).toList(),
+          +        destinations: destinations.map<NavigationDestination>((d) {
+          +          return NavigationDestination(icon: Icon(d.icon), label: d.label);
+          +        }).toList(),
           +        selectedIndex: selectedIndex,
           +        onDestinationSelected: onDestinationSelected,
           +      ),
@@ -1511,7 +1501,7 @@ steps:
         patch-u: |
           --- b/animated-responsive-layout/step_07/lib/widgets/disappearing_navigation_rail.dart
           +++ a/animated-responsive-layout/step_07/lib/widgets/disappearing_navigation_rail.dart
-          @@ -4,50 +4,57 @@
+          @@ -4,49 +4,56 @@
            
            import 'package:flutter/material.dart';
            
@@ -1575,22 +1565,20 @@ steps:
           +          ],
           +        ),
           +        groupAlignment: -0.85,
-          +        destinations:
-          +            destinations.map((d) {
-          +              return NavigationRailDestination(
-          +                icon: Icon(d.icon),
-          +                label: Text(d.label),
-          +              );
-          +            }).toList(),
+          +        destinations: destinations.map((d) {
+          +          return NavigationRailDestination(
+          +            icon: Icon(d.icon),
+          +            label: Text(d.label),
+          +          );
+          +        }).toList(),
                  ),
           -      groupAlignment: -0.85,
-          -      destinations:
-          -          destinations.map((d) {
-          -            return NavigationRailDestination(
-          -              icon: Icon(d.icon),
-          -              label: Text(d.label),
-          -            );
-          -          }).toList(),
+          -      destinations: destinations.map((d) {
+          -        return NavigationRailDestination(
+          -          icon: Icon(d.icon),
+          -          label: Text(d.label),
+          -        );
+          -      }).toList(),
                );
              }
            }
@@ -1610,7 +1598,7 @@ steps:
            import 'widgets/disappearing_bottom_navigation_bar.dart';
            import 'widgets/disappearing_navigation_rail.dart';
            import 'widgets/email_list_view.dart';
-          @@ -35,75 +37,105 @@ class Feed extends StatefulWidget {
+          @@ -35,73 +37,105 @@ class Feed extends StatefulWidget {
              State<Feed> createState() => _FeedState();
            }
            
@@ -1684,31 +1672,6 @@ steps:
           -            child: Container(
           -              color: _backgroundColor,
           -              child: EmailListView(
-          -                selectedIndex: selectedIndex,
-          -                onSelected: (index) {
-          -                  setState(() {
-          -                    selectedIndex = index;
-          -                  });
-          -                },
-          -                currentUser: widget.currentUser,
-          -              ),
-          -            ),
-          -          ),
-          -        ],
-          -      ),
-          -      floatingActionButton:
-          -          wideScreen
-          -              ? null
-          -              : FloatingActionButton(
-          -                backgroundColor: _colorScheme.tertiaryContainer,
-          -                foregroundColor: _colorScheme.onTertiaryContainer,
-          -                onPressed: () {},
-          -                child: const Icon(Icons.add),
-          -              ),
-          -      bottomNavigationBar:
-          -          wideScreen
-          -              ? null
-          -              : DisappearingBottomNavigationBar(
           +    return AnimatedBuilder(
           +      animation: _controller,
           +      builder: (context, _) {
@@ -1719,13 +1682,16 @@ steps:
           +                railAnimation: _railAnimation,
           +                railFabAnimation: _railFabAnimation,
                            selectedIndex: selectedIndex,
+          -                onSelected: (index) {
           +                backgroundColor: _backgroundColor,
-                           onDestinationSelected: (index) {
+          +                onDestinationSelected: (index) {
                              setState(() {
                                selectedIndex = index;
                              });
                            },
+          -                currentUser: widget.currentUser,
                          ),
+          -            ),
           +              Expanded(
           +                child: Container(
           +                  color: _backgroundColor,
@@ -1755,7 +1721,27 @@ steps:
           +                selectedIndex = index;
           +              });
           +            },
-          +          ),
+                     ),
+          -        ],
+          -      ),
+          -      floatingActionButton: wideScreen
+          -          ? null
+          -          : FloatingActionButton(
+          -              backgroundColor: _colorScheme.tertiaryContainer,
+          -              foregroundColor: _colorScheme.onTertiaryContainer,
+          -              onPressed: () {},
+          -              child: const Icon(Icons.add),
+          -            ),
+          -      bottomNavigationBar: wideScreen
+          -          ? null
+          -          : DisappearingBottomNavigationBar(
+          -              selectedIndex: selectedIndex,
+          -              onDestinationSelected: (index) {
+          -                setState(() {
+          -                  selectedIndex = index;
+          -                });
+          -              },
+          -            ),
           +        );
           +      },
                );
@@ -1865,17 +1851,17 @@ steps:
               return widthAnimation.value.toInt() == 0
                   ? widget.one
                   : Row(
-                    children: [
-                      Flexible(flex: 1000, child: widget.one),
-                      Flexible(
-                        flex: widthAnimation.value.toInt(),
-                        child: FractionalTranslation(
-                          translation: offsetAnimation.value,
-                          child: widget.two,
+                      children: [
+                        Flexible(flex: 1000, child: widget.one),
+                        Flexible(
+                          flex: widthAnimation.value.toInt(),
+                          child: FractionalTranslation(
+                            translation: offsetAnimation.value,
+                            child: widget.two,
+                          ),
                         ),
-                      ),
-                    ],
-                  );
+                      ],
+                    );
             }
           }
       - name: Create lib/widgets/reply_list_view.dart

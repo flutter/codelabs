@@ -103,11 +103,10 @@ abstract class CrosswordWord
     required Direction direction,
   }) {
     return CrosswordWord(
-      (b) =>
-          b
-            ..word = word
-            ..direction = direction
-            ..location.replace(location),
+      (b) => b
+        ..word = word
+        ..direction = direction
+        ..location.replace(location),
     );
   }
 
@@ -292,15 +291,14 @@ abstract class Crossword implements Built<Crossword, CrosswordBuilder> {
     }
 
     final candidate = rebuild(
-      (b) =>
-          b
-            ..words.add(
-              CrosswordWord.word(
-                word: word,
-                direction: direction,
-                location: location,
-              ),
-            ),
+      (b) => b
+        ..words.add(
+          CrosswordWord.word(
+            word: word,
+            direction: direction,
+            location: location,
+          ),
+        ),
     );
 
     if (candidate.valid) {
@@ -322,21 +320,19 @@ abstract class Crossword implements Built<Crossword, CrosswordBuilder> {
             b.characters.updateValue(
               word.location.rightOffset(idx),
               (b) => b.rebuild((bInner) => bInner.acrossWord.replace(word)),
-              ifAbsent:
-                  () => CrosswordCharacter.character(
-                    acrossWord: word,
-                    character: character,
-                  ),
+              ifAbsent: () => CrosswordCharacter.character(
+                acrossWord: word,
+                character: character,
+              ),
             );
           case Direction.down:
             b.characters.updateValue(
               word.location.downOffset(idx),
               (b) => b.rebuild((bInner) => bInner.downWord.replace(word)),
-              ifAbsent:
-                  () => CrosswordCharacter.character(
-                    downWord: word,
-                    character: character,
-                  ),
+              ifAbsent: () => CrosswordCharacter.character(
+                downWord: word,
+                character: character,
+              ),
             );
         }
       }
@@ -471,8 +467,9 @@ abstract class WorkQueue implements Built<WorkQueue, WorkQueueBuilder> {
           .forEach((location, character) {
             b.locationsToTry.addAll({
               location: switch ((character.acrossWord, character.downWord)) {
-                (null, null) =>
-                  throw StateError('Character is not part of a word'),
+                (null, null) => throw StateError(
+                  'Character is not part of a word',
+                ),
                 (null, _) => Direction.across,
                 (_, null) => Direction.down,
                 (_, _) => throw StateError('Character is part of two words'),
@@ -483,29 +480,27 @@ abstract class WorkQueue implements Built<WorkQueue, WorkQueueBuilder> {
   });
 
   WorkQueue remove(Location location) => rebuild(
-    (b) =>
-        b
-          ..locationsToTry.remove(location)
-          ..badLocations.add(location),
+    (b) => b
+      ..locationsToTry.remove(location)
+      ..badLocations.add(location),
   );
 
   /// Update the work queue from a crossword derived from the current crossword
   /// that this work queue is built from.
-  WorkQueue updateFrom(final Crossword crossword) => WorkQueue.from(
-    crossword: crossword,
-    candidateWords: candidateWords,
-    startLocation:
-        locationsToTry.isNotEmpty
+  WorkQueue updateFrom(final Crossword crossword) =>
+      WorkQueue.from(
+        crossword: crossword,
+        candidateWords: candidateWords,
+        startLocation: locationsToTry.isNotEmpty
             ? locationsToTry.keys.first
             : Location.at(0, 0),
-  ).rebuild(
-    (b) =>
-        b
+      ).rebuild(
+        (b) => b
           ..badLocations.addAll(badLocations)
           ..locationsToTry.removeWhere(
             (location, _) => badLocations.contains(location),
           ),
-  );
+      );
 
   /// Factory constructor for [WorkQueue]
   factory WorkQueue([void Function(WorkQueueBuilder)? updates]) = _$WorkQueue;
@@ -536,32 +531,27 @@ abstract class DisplayInfo implements Built<DisplayInfo, DisplayInfoBuilder> {
   factory DisplayInfo.from({required WorkQueue workQueue}) {
     final gridFilled =
         (workQueue.crossword.characters.length /
-            (workQueue.crossword.width * workQueue.crossword.height));
+        (workQueue.crossword.width * workQueue.crossword.height));
     final fmt = NumberFormat.decimalPattern();
 
     return DisplayInfo(
-      (b) =>
-          b
-            ..wordsInGridCount = fmt.format(workQueue.crossword.words.length)
-            ..candidateWordsCount = fmt.format(workQueue.candidateWords.length)
-            ..locationsToExploreCount = fmt.format(
-              workQueue.locationsToTry.length,
-            )
-            ..knownBadLocationsCount = fmt.format(workQueue.badLocations.length)
-            ..gridFilledPercentage =
-                '${(gridFilled * 100).toStringAsFixed(2)}%',
+      (b) => b
+        ..wordsInGridCount = fmt.format(workQueue.crossword.words.length)
+        ..candidateWordsCount = fmt.format(workQueue.candidateWords.length)
+        ..locationsToExploreCount = fmt.format(workQueue.locationsToTry.length)
+        ..knownBadLocationsCount = fmt.format(workQueue.badLocations.length)
+        ..gridFilledPercentage = '${(gridFilled * 100).toStringAsFixed(2)}%',
     );
   }
 
   /// An empty [DisplayInfo] instance.
   static DisplayInfo get empty => DisplayInfo(
-    (b) =>
-        b
-          ..wordsInGridCount = '0'
-          ..candidateWordsCount = '0'
-          ..locationsToExploreCount = '0'
-          ..knownBadLocationsCount = '0'
-          ..gridFilledPercentage = '0%',
+    (b) => b
+      ..wordsInGridCount = '0'
+      ..candidateWordsCount = '0'
+      ..locationsToExploreCount = '0'
+      ..knownBadLocationsCount = '0'
+      ..gridFilledPercentage = '0%',
   );
 
   factory DisplayInfo([void Function(DisplayInfoBuilder)? updates]) =
@@ -605,13 +595,12 @@ abstract class CrosswordPuzzleGame
         .where((b) => b.direction == direction && b.location == location)
         .isNotEmpty) {
       puzzle = puzzle.rebuild(
-        (b) =>
-            b
-              ..selectedWords.removeWhere(
-                (selectedWord) =>
-                    selectedWord.location == location &&
-                    selectedWord.direction == direction,
-              ),
+        (b) => b
+          ..selectedWords.removeWhere(
+            (selectedWord) =>
+                selectedWord.location == location &&
+                selectedWord.direction == direction,
+          ),
       );
     }
 
@@ -645,13 +634,12 @@ abstract class CrosswordPuzzleGame
         .where((b) => b.direction == direction && b.location == location)
         .isNotEmpty) {
       puzzle = puzzle.rebuild(
-        (b) =>
-            b
-              ..selectedWords.removeWhere(
-                (selectedWord) =>
-                    selectedWord.location == location &&
-                    selectedWord.direction == direction,
-              ),
+        (b) => b
+          ..selectedWords.removeWhere(
+            (selectedWord) =>
+                selectedWord.location == location &&
+                selectedWord.direction == direction,
+          ),
       );
     }
 
@@ -672,15 +660,14 @@ abstract class CrosswordPuzzleGame
       if (puzzle.crossword.words.contains(crosswordWord) ||
           puzzle.alternateWords[location]?[direction]?.contains(word) == true) {
         return puzzle.rebuild(
-          (b) =>
-              b
-                ..selectedWords.add(
-                  CrosswordWord.word(
-                    word: word,
-                    location: location,
-                    direction: direction,
-                  ),
-                ),
+          (b) => b
+            ..selectedWords.add(
+              CrosswordWord.word(
+                word: word,
+                location: location,
+                direction: direction,
+              ),
+            ),
         );
       }
     }
@@ -719,12 +706,11 @@ abstract class CrosswordPuzzleGame
     // Build the alternate words for each word in the crossword
     for (final crosswordWord in crossword.words) {
       final alternateWords = candidateWords.toBuiltList().rebuild(
-        (b) =>
-            b
-              ..where((b) => b.length == crosswordWord.word.length)
-              ..shuffle()
-              ..take(4)
-              ..sort(),
+        (b) => b
+          ..where((b) => b.length == crosswordWord.word.length)
+          ..shuffle()
+          ..take(4)
+          ..sort(),
       );
 
       candidateWords = candidateWords.rebuild(

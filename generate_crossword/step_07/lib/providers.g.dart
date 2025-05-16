@@ -15,8 +15,9 @@ String _$wordListHash() => r'07003444d7241448561b638500001e31610b4717';
 final wordListProvider = AutoDisposeFutureProvider<BuiltSet<String>>.internal(
   wordList,
   name: r'wordListProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$wordListHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$wordListHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
@@ -31,8 +32,9 @@ String _$workQueueHash() => r'3e484a5afe91003b1523ffb42caa6b24967376a6';
 final workQueueProvider = AutoDisposeStreamProvider<model.WorkQueue>.internal(
   workQueue,
   name: r'workQueueProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$workQueueHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$workQueueHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
@@ -48,10 +50,9 @@ String _$expectedRemainingTimeHash() =>
 final expectedRemainingTimeProvider = AutoDisposeProvider<Duration>.internal(
   expectedRemainingTime,
   name: r'expectedRemainingTimeProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$expectedRemainingTimeHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$expectedRemainingTimeHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
@@ -68,8 +69,9 @@ String _$sizeHash() => r'e551985965bf4119e8d90c0e8aa4f4d68a555b73';
 final sizeProvider = NotifierProvider<Size, CrosswordSize>.internal(
   Size.new,
   name: r'sizeProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$sizeHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$sizeHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
@@ -82,8 +84,9 @@ String _$startTimeHash() => r'5b637a624a48eed021215571ff83a4a2405691c3';
 final startTimeProvider = NotifierProvider<StartTime, DateTime?>.internal(
   StartTime.new,
   name: r'startTimeProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$startTimeHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$startTimeHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
@@ -96,8 +99,9 @@ String _$endTimeHash() => r'7acd30f633755ae938883bcb0ba25a40387194df';
 final endTimeProvider = NotifierProvider<EndTime, DateTime?>.internal(
   EndTime.new,
   name: r'endTimeProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$endTimeHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$endTimeHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
@@ -113,10 +117,9 @@ final showDisplayInfoProvider =
     NotifierProvider<ShowDisplayInfo, bool>.internal(
       ShowDisplayInfo.new,
       name: r'showDisplayInfoProvider',
-      debugGetCreateSourceHash:
-          const bool.fromEnvironment('dart.vm.product')
-              ? null
-              : _$showDisplayInfoHash,
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$showDisplayInfoHash,
       dependencies: null,
       allTransitiveDependencies: null,
     );
@@ -132,10 +135,9 @@ final displayInfoProvider =
     AutoDisposeNotifierProvider<DisplayInfo, model.DisplayInfo>.internal(
       DisplayInfo.new,
       name: r'displayInfoProvider',
-      debugGetCreateSourceHash:
-          const bool.fromEnvironment('dart.vm.product')
-              ? null
-              : _$displayInfoHash,
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$displayInfoHash,
       dependencies: null,
       allTransitiveDependencies: null,
     );

@@ -19,28 +19,27 @@ class _WebViewStackState extends State<WebViewStack> {
   @override
   void initState() {
     super.initState();
-    controller =
-        WebViewController()
-          ..setNavigationDelegate(
-            NavigationDelegate(
-              onPageStarted: (url) {
-                setState(() {
-                  loadingPercentage = 0;
-                });
-              },
-              onProgress: (progress) {
-                setState(() {
-                  loadingPercentage = progress;
-                });
-              },
-              onPageFinished: (url) {
-                setState(() {
-                  loadingPercentage = 100;
-                });
-              },
-            ),
-          )
-          ..loadRequest(Uri.parse('https://flutter.dev'));
+    controller = WebViewController()
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onPageStarted: (url) {
+            setState(() {
+              loadingPercentage = 0;
+            });
+          },
+          onProgress: (progress) {
+            setState(() {
+              loadingPercentage = progress;
+            });
+          },
+          onPageFinished: (url) {
+            setState(() {
+              loadingPercentage = 100;
+            });
+          },
+        ),
+      )
+      ..loadRequest(Uri.parse('https://flutter.dev'));
   }
 
   @override

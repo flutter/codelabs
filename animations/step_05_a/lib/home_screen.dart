@@ -28,14 +28,13 @@ class HomeScreen extends StatelessWidget {
                     pageBuilder: (context, animation, secondaryAnimation) {
                       return const QuestionScreen();
                     },
-                    transitionsBuilder: (
-                      context,
-                      animation,
-                      secondaryAnimation,
-                      child,
-                    ) {
-                      return FadeTransition(opacity: animation, child: child);
-                    },
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                          return FadeTransition(
+                            opacity: animation,
+                            child: child,
+                          );
+                        },
                   ),
                 );
               },

@@ -133,8 +133,8 @@ class _GoogleApisAuthLoginState extends State<_GoogleApisAuthLogin> {
         body: Center(
           child: Link(
             uri: authUrl,
-            builder:
-                (context, followLink) => widget.button(onPressed: followLink),
+            builder: (context, followLink) =>
+                widget.button(onPressed: followLink),
           ),
         ),
       );

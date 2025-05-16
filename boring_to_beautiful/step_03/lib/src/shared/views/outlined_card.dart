@@ -18,10 +18,9 @@ class _OutlinedCardState extends State<OutlinedCard> {
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
-      cursor:
-          widget.clickable
-              ? SystemMouseCursors.click
-              : SystemMouseCursors.basic,
+      cursor: widget.clickable
+          ? SystemMouseCursors.click
+          : SystemMouseCursors.basic,
       child: Container(
         // Add box decoration here
         child: widget.child,

@@ -35,12 +35,11 @@ class EmailListView extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 8.0),
               child: EmailWidget(
                 email: data.emails[index],
-                onSelected:
-                    onSelected != null
-                        ? () {
-                          onSelected!(index);
-                        }
-                        : null,
+                onSelected: onSelected != null
+                    ? () {
+                        onSelected!(index);
+                      }
+                    : null,
                 isSelected: selectedIndex == index,
               ),
             );

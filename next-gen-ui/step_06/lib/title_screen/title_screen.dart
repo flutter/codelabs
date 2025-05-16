@@ -168,10 +168,9 @@ class _TitleScreenState extends State<TitleScreen>
                             materialColor: orbColor,
                             lightColor: orbColor,
                           ),
-                          onUpdate:
-                              (energy) => setState(() {
-                                _orbEnergy = energy;
-                              }),
+                          onUpdate: (energy) => setState(() {
+                            _orbEnergy = energy;
+                          }),
                         ),
                       ],
                     ),

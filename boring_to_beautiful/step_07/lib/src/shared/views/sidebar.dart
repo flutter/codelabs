@@ -108,9 +108,10 @@ class _PlaylistNavItemState extends State<_PlaylistNavItem> {
   @override
   void initState() {
     super.initState();
-    _focusNode = FocusNode(debugLabel: widget.title)..addListener(() {
-      setState(() => _isSelected = _focusNode.hasPrimaryFocus);
-    });
+    _focusNode = FocusNode(debugLabel: widget.title)
+      ..addListener(() {
+        setState(() => _isSelected = _focusNode.hasPrimaryFocus);
+      });
   }
 
   @override

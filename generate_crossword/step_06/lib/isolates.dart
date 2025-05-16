@@ -34,10 +34,9 @@ Stream<Crossword> exploreCrosswordSolutions({
           );
         }
         var words = workQueue.candidateWords.toBuiltList().rebuild(
-          (b) =>
-              b
-                ..where((b) => b.characters.contains(target.character))
-                ..shuffle(),
+          (b) => b
+            ..where((b) => b.characters.contains(target.character))
+            ..shuffle(),
         );
         int tryCount = 0;
         for (final word in words) {

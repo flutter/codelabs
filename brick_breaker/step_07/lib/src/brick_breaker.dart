@@ -40,12 +40,10 @@ class BrickBreaker extends FlameGame
       Ball(
         radius: ballRadius,
         position: size / 2,
-        velocity:
-            Vector2(
-                (rand.nextDouble() - 0.5) * width,
-                height * 0.2,
-              ).normalized()
-              ..scale(height / 4),
+        velocity: Vector2(
+          (rand.nextDouble() - 0.5) * width,
+          height * 0.2,
+        ).normalized()..scale(height / 4),
       ),
     );
 

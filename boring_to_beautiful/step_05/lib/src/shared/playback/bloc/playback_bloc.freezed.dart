@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,1449 +10,661 @@ part of 'playback_bloc.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
-
 /// @nodoc
 mixin _$PlaybackEvent {
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() togglePlayPause,
-    required TResult Function(Song song) changeSong,
-    required TResult Function(double value) setVolume,
-    required TResult Function() toggleMute,
-    required TResult Function(double percent) moveToInSong,
-    required TResult Function(Duration duration) songProgress,
-  }) => throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? togglePlayPause,
-    TResult? Function(Song song)? changeSong,
-    TResult? Function(double value)? setVolume,
-    TResult? Function()? toggleMute,
-    TResult? Function(double percent)? moveToInSong,
-    TResult? Function(Duration duration)? songProgress,
-  }) => throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? togglePlayPause,
-    TResult Function(Song song)? changeSong,
-    TResult Function(double value)? setVolume,
-    TResult Function()? toggleMute,
-    TResult Function(double percent)? moveToInSong,
-    TResult Function(Duration duration)? songProgress,
-    required TResult orElse(),
-  }) => throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(TogglePlayPause value) togglePlayPause,
-    required TResult Function(ChangeSong value) changeSong,
-    required TResult Function(SetVolume value) setVolume,
-    required TResult Function(ToggleMute value) toggleMute,
-    required TResult Function(MoveToInSong value) moveToInSong,
-    required TResult Function(SongProgress value) songProgress,
-  }) => throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(TogglePlayPause value)? togglePlayPause,
-    TResult? Function(ChangeSong value)? changeSong,
-    TResult? Function(SetVolume value)? setVolume,
-    TResult? Function(ToggleMute value)? toggleMute,
-    TResult? Function(MoveToInSong value)? moveToInSong,
-    TResult? Function(SongProgress value)? songProgress,
-  }) => throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(TogglePlayPause value)? togglePlayPause,
-    TResult Function(ChangeSong value)? changeSong,
-    TResult Function(SetVolume value)? setVolume,
-    TResult Function(ToggleMute value)? toggleMute,
-    TResult Function(MoveToInSong value)? moveToInSong,
-    TResult Function(SongProgress value)? songProgress,
-    required TResult orElse(),
-  }) => throw _privateConstructorUsedError;
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PlaybackEvent);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'PlaybackEvent()';
+}
+
+
 }
 
 /// @nodoc
-abstract class $PlaybackEventCopyWith<$Res> {
-  factory $PlaybackEventCopyWith(
-    PlaybackEvent value,
-    $Res Function(PlaybackEvent) then,
-  ) = _$PlaybackEventCopyWithImpl<$Res, PlaybackEvent>;
+class $PlaybackEventCopyWith<$Res>  {
+$PlaybackEventCopyWith(PlaybackEvent _, $Res Function(PlaybackEvent) __);
 }
 
-/// @nodoc
-class _$PlaybackEventCopyWithImpl<$Res, $Val extends PlaybackEvent>
-    implements $PlaybackEventCopyWith<$Res> {
-  _$PlaybackEventCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of PlaybackEvent
-  /// with the given fields replaced by the non-null parameter values.
-}
-
-/// @nodoc
-abstract class _$$TogglePlayPauseImplCopyWith<$Res> {
-  factory _$$TogglePlayPauseImplCopyWith(
-    _$TogglePlayPauseImpl value,
-    $Res Function(_$TogglePlayPauseImpl) then,
-  ) = __$$TogglePlayPauseImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$TogglePlayPauseImplCopyWithImpl<$Res>
-    extends _$PlaybackEventCopyWithImpl<$Res, _$TogglePlayPauseImpl>
-    implements _$$TogglePlayPauseImplCopyWith<$Res> {
-  __$$TogglePlayPauseImplCopyWithImpl(
-    _$TogglePlayPauseImpl _value,
-    $Res Function(_$TogglePlayPauseImpl) _then,
-  ) : super(_value, _then);
-
-  /// Create a copy of PlaybackEvent
-  /// with the given fields replaced by the non-null parameter values.
-}
 
 /// @nodoc
 
-class _$TogglePlayPauseImpl implements TogglePlayPause {
-  const _$TogglePlayPauseImpl();
 
-  @override
-  String toString() {
-    return 'PlaybackEvent.togglePlayPause()';
-  }
+class TogglePlayPause implements PlaybackEvent {
+  const TogglePlayPause();
+  
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$TogglePlayPauseImpl);
-  }
 
-  @override
-  int get hashCode => runtimeType.hashCode;
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() togglePlayPause,
-    required TResult Function(Song song) changeSong,
-    required TResult Function(double value) setVolume,
-    required TResult Function() toggleMute,
-    required TResult Function(double percent) moveToInSong,
-    required TResult Function(Duration duration) songProgress,
-  }) {
-    return togglePlayPause();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? togglePlayPause,
-    TResult? Function(Song song)? changeSong,
-    TResult? Function(double value)? setVolume,
-    TResult? Function()? toggleMute,
-    TResult? Function(double percent)? moveToInSong,
-    TResult? Function(Duration duration)? songProgress,
-  }) {
-    return togglePlayPause?.call();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? togglePlayPause,
-    TResult Function(Song song)? changeSong,
-    TResult Function(double value)? setVolume,
-    TResult Function()? toggleMute,
-    TResult Function(double percent)? moveToInSong,
-    TResult Function(Duration duration)? songProgress,
-    required TResult orElse(),
-  }) {
-    if (togglePlayPause != null) {
-      return togglePlayPause();
-    }
-    return orElse();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(TogglePlayPause value) togglePlayPause,
-    required TResult Function(ChangeSong value) changeSong,
-    required TResult Function(SetVolume value) setVolume,
-    required TResult Function(ToggleMute value) toggleMute,
-    required TResult Function(MoveToInSong value) moveToInSong,
-    required TResult Function(SongProgress value) songProgress,
-  }) {
-    return togglePlayPause(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(TogglePlayPause value)? togglePlayPause,
-    TResult? Function(ChangeSong value)? changeSong,
-    TResult? Function(SetVolume value)? setVolume,
-    TResult? Function(ToggleMute value)? toggleMute,
-    TResult? Function(MoveToInSong value)? moveToInSong,
-    TResult? Function(SongProgress value)? songProgress,
-  }) {
-    return togglePlayPause?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(TogglePlayPause value)? togglePlayPause,
-    TResult Function(ChangeSong value)? changeSong,
-    TResult Function(SetVolume value)? setVolume,
-    TResult Function(ToggleMute value)? toggleMute,
-    TResult Function(MoveToInSong value)? moveToInSong,
-    TResult Function(SongProgress value)? songProgress,
-    required TResult orElse(),
-  }) {
-    if (togglePlayPause != null) {
-      return togglePlayPause(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TogglePlayPause);
 }
 
-abstract class TogglePlayPause implements PlaybackEvent {
-  const factory TogglePlayPause() = _$TogglePlayPauseImpl;
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'PlaybackEvent.togglePlayPause()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class ChangeSong implements PlaybackEvent {
+  const ChangeSong(this.song);
+  
+
+ final  Song song;
+
+/// Create a copy of PlaybackEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ChangeSongCopyWith<ChangeSong> get copyWith => _$ChangeSongCopyWithImpl<ChangeSong>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChangeSong&&(identical(other.song, song) || other.song == song));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,song);
+
+@override
+String toString() {
+  return 'PlaybackEvent.changeSong(song: $song)';
+}
+
+
 }
 
 /// @nodoc
-abstract class _$$ChangeSongImplCopyWith<$Res> {
-  factory _$$ChangeSongImplCopyWith(
-    _$ChangeSongImpl value,
-    $Res Function(_$ChangeSongImpl) then,
-  ) = __$$ChangeSongImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({Song song});
+abstract mixin class $ChangeSongCopyWith<$Res> implements $PlaybackEventCopyWith<$Res> {
+  factory $ChangeSongCopyWith(ChangeSong value, $Res Function(ChangeSong) _then) = _$ChangeSongCopyWithImpl;
+@useResult
+$Res call({
+ Song song
+});
+
+
+
+
+}
+/// @nodoc
+class _$ChangeSongCopyWithImpl<$Res>
+    implements $ChangeSongCopyWith<$Res> {
+  _$ChangeSongCopyWithImpl(this._self, this._then);
+
+  final ChangeSong _self;
+  final $Res Function(ChangeSong) _then;
+
+/// Create a copy of PlaybackEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? song = null,}) {
+  return _then(ChangeSong(
+null == song ? _self.song : song // ignore: cast_nullable_to_non_nullable
+as Song,
+  ));
 }
 
-/// @nodoc
-class __$$ChangeSongImplCopyWithImpl<$Res>
-    extends _$PlaybackEventCopyWithImpl<$Res, _$ChangeSongImpl>
-    implements _$$ChangeSongImplCopyWith<$Res> {
-  __$$ChangeSongImplCopyWithImpl(
-    _$ChangeSongImpl _value,
-    $Res Function(_$ChangeSongImpl) _then,
-  ) : super(_value, _then);
 
-  /// Create a copy of PlaybackEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({Object? song = null}) {
-    return _then(
-      _$ChangeSongImpl(
-        null == song
-            ? _value.song
-            : song // ignore: cast_nullable_to_non_nullable
-                as Song,
-      ),
-    );
-  }
 }
 
 /// @nodoc
 
-class _$ChangeSongImpl implements ChangeSong {
-  const _$ChangeSongImpl(this.song);
 
-  @override
-  final Song song;
+class SetVolume implements PlaybackEvent {
+  const SetVolume(this.value);
+  
 
-  @override
-  String toString() {
-    return 'PlaybackEvent.changeSong(song: $song)';
-  }
+ final  double value;
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ChangeSongImpl &&
-            (identical(other.song, song) || other.song == song));
-  }
+/// Create a copy of PlaybackEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$SetVolumeCopyWith<SetVolume> get copyWith => _$SetVolumeCopyWithImpl<SetVolume>(this, _$identity);
 
-  @override
-  int get hashCode => Object.hash(runtimeType, song);
 
-  /// Create a copy of PlaybackEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ChangeSongImplCopyWith<_$ChangeSongImpl> get copyWith =>
-      __$$ChangeSongImplCopyWithImpl<_$ChangeSongImpl>(this, _$identity);
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() togglePlayPause,
-    required TResult Function(Song song) changeSong,
-    required TResult Function(double value) setVolume,
-    required TResult Function() toggleMute,
-    required TResult Function(double percent) moveToInSong,
-    required TResult Function(Duration duration) songProgress,
-  }) {
-    return changeSong(song);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? togglePlayPause,
-    TResult? Function(Song song)? changeSong,
-    TResult? Function(double value)? setVolume,
-    TResult? Function()? toggleMute,
-    TResult? Function(double percent)? moveToInSong,
-    TResult? Function(Duration duration)? songProgress,
-  }) {
-    return changeSong?.call(song);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? togglePlayPause,
-    TResult Function(Song song)? changeSong,
-    TResult Function(double value)? setVolume,
-    TResult Function()? toggleMute,
-    TResult Function(double percent)? moveToInSong,
-    TResult Function(Duration duration)? songProgress,
-    required TResult orElse(),
-  }) {
-    if (changeSong != null) {
-      return changeSong(song);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(TogglePlayPause value) togglePlayPause,
-    required TResult Function(ChangeSong value) changeSong,
-    required TResult Function(SetVolume value) setVolume,
-    required TResult Function(ToggleMute value) toggleMute,
-    required TResult Function(MoveToInSong value) moveToInSong,
-    required TResult Function(SongProgress value) songProgress,
-  }) {
-    return changeSong(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(TogglePlayPause value)? togglePlayPause,
-    TResult? Function(ChangeSong value)? changeSong,
-    TResult? Function(SetVolume value)? setVolume,
-    TResult? Function(ToggleMute value)? toggleMute,
-    TResult? Function(MoveToInSong value)? moveToInSong,
-    TResult? Function(SongProgress value)? songProgress,
-  }) {
-    return changeSong?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(TogglePlayPause value)? togglePlayPause,
-    TResult Function(ChangeSong value)? changeSong,
-    TResult Function(SetVolume value)? setVolume,
-    TResult Function(ToggleMute value)? toggleMute,
-    TResult Function(MoveToInSong value)? moveToInSong,
-    TResult Function(SongProgress value)? songProgress,
-    required TResult orElse(),
-  }) {
-    if (changeSong != null) {
-      return changeSong(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SetVolume&&(identical(other.value, value) || other.value == value));
 }
 
-abstract class ChangeSong implements PlaybackEvent {
-  const factory ChangeSong(final Song song) = _$ChangeSongImpl;
 
-  Song get song;
+@override
+int get hashCode => Object.hash(runtimeType,value);
 
-  /// Create a copy of PlaybackEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ChangeSongImplCopyWith<_$ChangeSongImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+@override
+String toString() {
+  return 'PlaybackEvent.setVolume(value: $value)';
+}
+
+
 }
 
 /// @nodoc
-abstract class _$$SetVolumeImplCopyWith<$Res> {
-  factory _$$SetVolumeImplCopyWith(
-    _$SetVolumeImpl value,
-    $Res Function(_$SetVolumeImpl) then,
-  ) = __$$SetVolumeImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({double value});
+abstract mixin class $SetVolumeCopyWith<$Res> implements $PlaybackEventCopyWith<$Res> {
+  factory $SetVolumeCopyWith(SetVolume value, $Res Function(SetVolume) _then) = _$SetVolumeCopyWithImpl;
+@useResult
+$Res call({
+ double value
+});
+
+
+
+
+}
+/// @nodoc
+class _$SetVolumeCopyWithImpl<$Res>
+    implements $SetVolumeCopyWith<$Res> {
+  _$SetVolumeCopyWithImpl(this._self, this._then);
+
+  final SetVolume _self;
+  final $Res Function(SetVolume) _then;
+
+/// Create a copy of PlaybackEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? value = null,}) {
+  return _then(SetVolume(
+null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
+as double,
+  ));
 }
 
-/// @nodoc
-class __$$SetVolumeImplCopyWithImpl<$Res>
-    extends _$PlaybackEventCopyWithImpl<$Res, _$SetVolumeImpl>
-    implements _$$SetVolumeImplCopyWith<$Res> {
-  __$$SetVolumeImplCopyWithImpl(
-    _$SetVolumeImpl _value,
-    $Res Function(_$SetVolumeImpl) _then,
-  ) : super(_value, _then);
 
-  /// Create a copy of PlaybackEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({Object? value = null}) {
-    return _then(
-      _$SetVolumeImpl(
-        null == value
-            ? _value.value
-            : value // ignore: cast_nullable_to_non_nullable
-                as double,
-      ),
-    );
-  }
 }
 
 /// @nodoc
 
-class _$SetVolumeImpl implements SetVolume {
-  const _$SetVolumeImpl(this.value);
 
-  @override
-  final double value;
+class ToggleMute implements PlaybackEvent {
+  const ToggleMute();
+  
 
-  @override
-  String toString() {
-    return 'PlaybackEvent.setVolume(value: $value)';
-  }
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$SetVolumeImpl &&
-            (identical(other.value, value) || other.value == value));
-  }
 
-  @override
-  int get hashCode => Object.hash(runtimeType, value);
 
-  /// Create a copy of PlaybackEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$SetVolumeImplCopyWith<_$SetVolumeImpl> get copyWith =>
-      __$$SetVolumeImplCopyWithImpl<_$SetVolumeImpl>(this, _$identity);
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() togglePlayPause,
-    required TResult Function(Song song) changeSong,
-    required TResult Function(double value) setVolume,
-    required TResult Function() toggleMute,
-    required TResult Function(double percent) moveToInSong,
-    required TResult Function(Duration duration) songProgress,
-  }) {
-    return setVolume(value);
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? togglePlayPause,
-    TResult? Function(Song song)? changeSong,
-    TResult? Function(double value)? setVolume,
-    TResult? Function()? toggleMute,
-    TResult? Function(double percent)? moveToInSong,
-    TResult? Function(Duration duration)? songProgress,
-  }) {
-    return setVolume?.call(value);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? togglePlayPause,
-    TResult Function(Song song)? changeSong,
-    TResult Function(double value)? setVolume,
-    TResult Function()? toggleMute,
-    TResult Function(double percent)? moveToInSong,
-    TResult Function(Duration duration)? songProgress,
-    required TResult orElse(),
-  }) {
-    if (setVolume != null) {
-      return setVolume(value);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(TogglePlayPause value) togglePlayPause,
-    required TResult Function(ChangeSong value) changeSong,
-    required TResult Function(SetVolume value) setVolume,
-    required TResult Function(ToggleMute value) toggleMute,
-    required TResult Function(MoveToInSong value) moveToInSong,
-    required TResult Function(SongProgress value) songProgress,
-  }) {
-    return setVolume(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(TogglePlayPause value)? togglePlayPause,
-    TResult? Function(ChangeSong value)? changeSong,
-    TResult? Function(SetVolume value)? setVolume,
-    TResult? Function(ToggleMute value)? toggleMute,
-    TResult? Function(MoveToInSong value)? moveToInSong,
-    TResult? Function(SongProgress value)? songProgress,
-  }) {
-    return setVolume?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(TogglePlayPause value)? togglePlayPause,
-    TResult Function(ChangeSong value)? changeSong,
-    TResult Function(SetVolume value)? setVolume,
-    TResult Function(ToggleMute value)? toggleMute,
-    TResult Function(MoveToInSong value)? moveToInSong,
-    TResult Function(SongProgress value)? songProgress,
-    required TResult orElse(),
-  }) {
-    if (setVolume != null) {
-      return setVolume(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ToggleMute);
 }
 
-abstract class SetVolume implements PlaybackEvent {
-  const factory SetVolume(final double value) = _$SetVolumeImpl;
 
-  double get value;
+@override
+int get hashCode => runtimeType.hashCode;
 
-  /// Create a copy of PlaybackEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$SetVolumeImplCopyWith<_$SetVolumeImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+@override
+String toString() {
+  return 'PlaybackEvent.toggleMute()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class MoveToInSong implements PlaybackEvent {
+  const MoveToInSong(this.percent);
+  
+
+ final  double percent;
+
+/// Create a copy of PlaybackEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$MoveToInSongCopyWith<MoveToInSong> get copyWith => _$MoveToInSongCopyWithImpl<MoveToInSong>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MoveToInSong&&(identical(other.percent, percent) || other.percent == percent));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,percent);
+
+@override
+String toString() {
+  return 'PlaybackEvent.moveToInSong(percent: $percent)';
+}
+
+
 }
 
 /// @nodoc
-abstract class _$$ToggleMuteImplCopyWith<$Res> {
-  factory _$$ToggleMuteImplCopyWith(
-    _$ToggleMuteImpl value,
-    $Res Function(_$ToggleMuteImpl) then,
-  ) = __$$ToggleMuteImplCopyWithImpl<$Res>;
+abstract mixin class $MoveToInSongCopyWith<$Res> implements $PlaybackEventCopyWith<$Res> {
+  factory $MoveToInSongCopyWith(MoveToInSong value, $Res Function(MoveToInSong) _then) = _$MoveToInSongCopyWithImpl;
+@useResult
+$Res call({
+ double percent
+});
+
+
+
+
+}
+/// @nodoc
+class _$MoveToInSongCopyWithImpl<$Res>
+    implements $MoveToInSongCopyWith<$Res> {
+  _$MoveToInSongCopyWithImpl(this._self, this._then);
+
+  final MoveToInSong _self;
+  final $Res Function(MoveToInSong) _then;
+
+/// Create a copy of PlaybackEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? percent = null,}) {
+  return _then(MoveToInSong(
+null == percent ? _self.percent : percent // ignore: cast_nullable_to_non_nullable
+as double,
+  ));
 }
 
-/// @nodoc
-class __$$ToggleMuteImplCopyWithImpl<$Res>
-    extends _$PlaybackEventCopyWithImpl<$Res, _$ToggleMuteImpl>
-    implements _$$ToggleMuteImplCopyWith<$Res> {
-  __$$ToggleMuteImplCopyWithImpl(
-    _$ToggleMuteImpl _value,
-    $Res Function(_$ToggleMuteImpl) _then,
-  ) : super(_value, _then);
 
-  /// Create a copy of PlaybackEvent
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
 
-class _$ToggleMuteImpl implements ToggleMute {
-  const _$ToggleMuteImpl();
 
-  @override
-  String toString() {
-    return 'PlaybackEvent.toggleMute()';
-  }
+class SongProgress implements PlaybackEvent {
+  const SongProgress(this.duration);
+  
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$ToggleMuteImpl);
-  }
+ final  Duration duration;
 
-  @override
-  int get hashCode => runtimeType.hashCode;
+/// Create a copy of PlaybackEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$SongProgressCopyWith<SongProgress> get copyWith => _$SongProgressCopyWithImpl<SongProgress>(this, _$identity);
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() togglePlayPause,
-    required TResult Function(Song song) changeSong,
-    required TResult Function(double value) setVolume,
-    required TResult Function() toggleMute,
-    required TResult Function(double percent) moveToInSong,
-    required TResult Function(Duration duration) songProgress,
-  }) {
-    return toggleMute();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? togglePlayPause,
-    TResult? Function(Song song)? changeSong,
-    TResult? Function(double value)? setVolume,
-    TResult? Function()? toggleMute,
-    TResult? Function(double percent)? moveToInSong,
-    TResult? Function(Duration duration)? songProgress,
-  }) {
-    return toggleMute?.call();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? togglePlayPause,
-    TResult Function(Song song)? changeSong,
-    TResult Function(double value)? setVolume,
-    TResult Function()? toggleMute,
-    TResult Function(double percent)? moveToInSong,
-    TResult Function(Duration duration)? songProgress,
-    required TResult orElse(),
-  }) {
-    if (toggleMute != null) {
-      return toggleMute();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(TogglePlayPause value) togglePlayPause,
-    required TResult Function(ChangeSong value) changeSong,
-    required TResult Function(SetVolume value) setVolume,
-    required TResult Function(ToggleMute value) toggleMute,
-    required TResult Function(MoveToInSong value) moveToInSong,
-    required TResult Function(SongProgress value) songProgress,
-  }) {
-    return toggleMute(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(TogglePlayPause value)? togglePlayPause,
-    TResult? Function(ChangeSong value)? changeSong,
-    TResult? Function(SetVolume value)? setVolume,
-    TResult? Function(ToggleMute value)? toggleMute,
-    TResult? Function(MoveToInSong value)? moveToInSong,
-    TResult? Function(SongProgress value)? songProgress,
-  }) {
-    return toggleMute?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(TogglePlayPause value)? togglePlayPause,
-    TResult Function(ChangeSong value)? changeSong,
-    TResult Function(SetVolume value)? setVolume,
-    TResult Function(ToggleMute value)? toggleMute,
-    TResult Function(MoveToInSong value)? moveToInSong,
-    TResult Function(SongProgress value)? songProgress,
-    required TResult orElse(),
-  }) {
-    if (toggleMute != null) {
-      return toggleMute(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SongProgress&&(identical(other.duration, duration) || other.duration == duration));
 }
 
-abstract class ToggleMute implements PlaybackEvent {
-  const factory ToggleMute() = _$ToggleMuteImpl;
+
+@override
+int get hashCode => Object.hash(runtimeType,duration);
+
+@override
+String toString() {
+  return 'PlaybackEvent.songProgress(duration: $duration)';
+}
+
+
 }
 
 /// @nodoc
-abstract class _$$MoveToInSongImplCopyWith<$Res> {
-  factory _$$MoveToInSongImplCopyWith(
-    _$MoveToInSongImpl value,
-    $Res Function(_$MoveToInSongImpl) then,
-  ) = __$$MoveToInSongImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({double percent});
-}
+abstract mixin class $SongProgressCopyWith<$Res> implements $PlaybackEventCopyWith<$Res> {
+  factory $SongProgressCopyWith(SongProgress value, $Res Function(SongProgress) _then) = _$SongProgressCopyWithImpl;
+@useResult
+$Res call({
+ Duration duration
+});
 
+
+
+
+}
 /// @nodoc
-class __$$MoveToInSongImplCopyWithImpl<$Res>
-    extends _$PlaybackEventCopyWithImpl<$Res, _$MoveToInSongImpl>
-    implements _$$MoveToInSongImplCopyWith<$Res> {
-  __$$MoveToInSongImplCopyWithImpl(
-    _$MoveToInSongImpl _value,
-    $Res Function(_$MoveToInSongImpl) _then,
-  ) : super(_value, _then);
+class _$SongProgressCopyWithImpl<$Res>
+    implements $SongProgressCopyWith<$Res> {
+  _$SongProgressCopyWithImpl(this._self, this._then);
 
-  /// Create a copy of PlaybackEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({Object? percent = null}) {
-    return _then(
-      _$MoveToInSongImpl(
-        null == percent
-            ? _value.percent
-            : percent // ignore: cast_nullable_to_non_nullable
-                as double,
-      ),
-    );
-  }
+  final SongProgress _self;
+  final $Res Function(SongProgress) _then;
+
+/// Create a copy of PlaybackEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? duration = null,}) {
+  return _then(SongProgress(
+null == duration ? _self.duration : duration // ignore: cast_nullable_to_non_nullable
+as Duration,
+  ));
 }
 
-/// @nodoc
 
-class _$MoveToInSongImpl implements MoveToInSong {
-  const _$MoveToInSongImpl(this.percent);
-
-  @override
-  final double percent;
-
-  @override
-  String toString() {
-    return 'PlaybackEvent.moveToInSong(percent: $percent)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$MoveToInSongImpl &&
-            (identical(other.percent, percent) || other.percent == percent));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, percent);
-
-  /// Create a copy of PlaybackEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$MoveToInSongImplCopyWith<_$MoveToInSongImpl> get copyWith =>
-      __$$MoveToInSongImplCopyWithImpl<_$MoveToInSongImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() togglePlayPause,
-    required TResult Function(Song song) changeSong,
-    required TResult Function(double value) setVolume,
-    required TResult Function() toggleMute,
-    required TResult Function(double percent) moveToInSong,
-    required TResult Function(Duration duration) songProgress,
-  }) {
-    return moveToInSong(percent);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? togglePlayPause,
-    TResult? Function(Song song)? changeSong,
-    TResult? Function(double value)? setVolume,
-    TResult? Function()? toggleMute,
-    TResult? Function(double percent)? moveToInSong,
-    TResult? Function(Duration duration)? songProgress,
-  }) {
-    return moveToInSong?.call(percent);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? togglePlayPause,
-    TResult Function(Song song)? changeSong,
-    TResult Function(double value)? setVolume,
-    TResult Function()? toggleMute,
-    TResult Function(double percent)? moveToInSong,
-    TResult Function(Duration duration)? songProgress,
-    required TResult orElse(),
-  }) {
-    if (moveToInSong != null) {
-      return moveToInSong(percent);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(TogglePlayPause value) togglePlayPause,
-    required TResult Function(ChangeSong value) changeSong,
-    required TResult Function(SetVolume value) setVolume,
-    required TResult Function(ToggleMute value) toggleMute,
-    required TResult Function(MoveToInSong value) moveToInSong,
-    required TResult Function(SongProgress value) songProgress,
-  }) {
-    return moveToInSong(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(TogglePlayPause value)? togglePlayPause,
-    TResult? Function(ChangeSong value)? changeSong,
-    TResult? Function(SetVolume value)? setVolume,
-    TResult? Function(ToggleMute value)? toggleMute,
-    TResult? Function(MoveToInSong value)? moveToInSong,
-    TResult? Function(SongProgress value)? songProgress,
-  }) {
-    return moveToInSong?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(TogglePlayPause value)? togglePlayPause,
-    TResult Function(ChangeSong value)? changeSong,
-    TResult Function(SetVolume value)? setVolume,
-    TResult Function(ToggleMute value)? toggleMute,
-    TResult Function(MoveToInSong value)? moveToInSong,
-    TResult Function(SongProgress value)? songProgress,
-    required TResult orElse(),
-  }) {
-    if (moveToInSong != null) {
-      return moveToInSong(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class MoveToInSong implements PlaybackEvent {
-  const factory MoveToInSong(final double percent) = _$MoveToInSongImpl;
-
-  double get percent;
-
-  /// Create a copy of PlaybackEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$MoveToInSongImplCopyWith<_$MoveToInSongImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$SongProgressImplCopyWith<$Res> {
-  factory _$$SongProgressImplCopyWith(
-    _$SongProgressImpl value,
-    $Res Function(_$SongProgressImpl) then,
-  ) = __$$SongProgressImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({Duration duration});
-}
-
-/// @nodoc
-class __$$SongProgressImplCopyWithImpl<$Res>
-    extends _$PlaybackEventCopyWithImpl<$Res, _$SongProgressImpl>
-    implements _$$SongProgressImplCopyWith<$Res> {
-  __$$SongProgressImplCopyWithImpl(
-    _$SongProgressImpl _value,
-    $Res Function(_$SongProgressImpl) _then,
-  ) : super(_value, _then);
-
-  /// Create a copy of PlaybackEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({Object? duration = null}) {
-    return _then(
-      _$SongProgressImpl(
-        null == duration
-            ? _value.duration
-            : duration // ignore: cast_nullable_to_non_nullable
-                as Duration,
-      ),
-    );
-  }
-}
-
-/// @nodoc
-
-class _$SongProgressImpl implements SongProgress {
-  const _$SongProgressImpl(this.duration);
-
-  @override
-  final Duration duration;
-
-  @override
-  String toString() {
-    return 'PlaybackEvent.songProgress(duration: $duration)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$SongProgressImpl &&
-            (identical(other.duration, duration) ||
-                other.duration == duration));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, duration);
-
-  /// Create a copy of PlaybackEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$SongProgressImplCopyWith<_$SongProgressImpl> get copyWith =>
-      __$$SongProgressImplCopyWithImpl<_$SongProgressImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() togglePlayPause,
-    required TResult Function(Song song) changeSong,
-    required TResult Function(double value) setVolume,
-    required TResult Function() toggleMute,
-    required TResult Function(double percent) moveToInSong,
-    required TResult Function(Duration duration) songProgress,
-  }) {
-    return songProgress(duration);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? togglePlayPause,
-    TResult? Function(Song song)? changeSong,
-    TResult? Function(double value)? setVolume,
-    TResult? Function()? toggleMute,
-    TResult? Function(double percent)? moveToInSong,
-    TResult? Function(Duration duration)? songProgress,
-  }) {
-    return songProgress?.call(duration);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? togglePlayPause,
-    TResult Function(Song song)? changeSong,
-    TResult Function(double value)? setVolume,
-    TResult Function()? toggleMute,
-    TResult Function(double percent)? moveToInSong,
-    TResult Function(Duration duration)? songProgress,
-    required TResult orElse(),
-  }) {
-    if (songProgress != null) {
-      return songProgress(duration);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(TogglePlayPause value) togglePlayPause,
-    required TResult Function(ChangeSong value) changeSong,
-    required TResult Function(SetVolume value) setVolume,
-    required TResult Function(ToggleMute value) toggleMute,
-    required TResult Function(MoveToInSong value) moveToInSong,
-    required TResult Function(SongProgress value) songProgress,
-  }) {
-    return songProgress(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(TogglePlayPause value)? togglePlayPause,
-    TResult? Function(ChangeSong value)? changeSong,
-    TResult? Function(SetVolume value)? setVolume,
-    TResult? Function(ToggleMute value)? toggleMute,
-    TResult? Function(MoveToInSong value)? moveToInSong,
-    TResult? Function(SongProgress value)? songProgress,
-  }) {
-    return songProgress?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(TogglePlayPause value)? togglePlayPause,
-    TResult Function(ChangeSong value)? changeSong,
-    TResult Function(SetVolume value)? setVolume,
-    TResult Function(ToggleMute value)? toggleMute,
-    TResult Function(MoveToInSong value)? moveToInSong,
-    TResult Function(SongProgress value)? songProgress,
-    required TResult orElse(),
-  }) {
-    if (songProgress != null) {
-      return songProgress(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class SongProgress implements PlaybackEvent {
-  const factory SongProgress(final Duration duration) = _$SongProgressImpl;
-
-  Duration get duration;
-
-  /// Create a copy of PlaybackEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$SongProgressImplCopyWith<_$SongProgressImpl> get copyWith =>
-      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 mixin _$PlaybackState {
-  /// Legal values are between 0 and 1.
-  double get volume => throw _privateConstructorUsedError;
 
-  /// Used to restore the volume after un-muting.
-  double? get previousVolume => throw _privateConstructorUsedError;
-  bool get isMuted => throw _privateConstructorUsedError;
-  bool get isPlaying => throw _privateConstructorUsedError;
-  SongWithProgress? get songWithProgress => throw _privateConstructorUsedError;
+/// Legal values are between 0 and 1.
+ double get volume;/// Used to restore the volume after un-muting.
+ double? get previousVolume; bool get isMuted; bool get isPlaying; SongWithProgress? get songWithProgress;
+/// Create a copy of PlaybackState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$PlaybackStateCopyWith<PlaybackState> get copyWith => _$PlaybackStateCopyWithImpl<PlaybackState>(this as PlaybackState, _$identity);
 
-  /// Create a copy of PlaybackState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $PlaybackStateCopyWith<PlaybackState> get copyWith =>
-      throw _privateConstructorUsedError;
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PlaybackState&&(identical(other.volume, volume) || other.volume == volume)&&(identical(other.previousVolume, previousVolume) || other.previousVolume == previousVolume)&&(identical(other.isMuted, isMuted) || other.isMuted == isMuted)&&(identical(other.isPlaying, isPlaying) || other.isPlaying == isPlaying)&&(identical(other.songWithProgress, songWithProgress) || other.songWithProgress == songWithProgress));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,volume,previousVolume,isMuted,isPlaying,songWithProgress);
+
+@override
+String toString() {
+  return 'PlaybackState(volume: $volume, previousVolume: $previousVolume, isMuted: $isMuted, isPlaying: $isPlaying, songWithProgress: $songWithProgress)';
+}
+
+
 }
 
 /// @nodoc
-abstract class $PlaybackStateCopyWith<$Res> {
-  factory $PlaybackStateCopyWith(
-    PlaybackState value,
-    $Res Function(PlaybackState) then,
-  ) = _$PlaybackStateCopyWithImpl<$Res, PlaybackState>;
-  @useResult
-  $Res call({
-    double volume,
-    double? previousVolume,
-    bool isMuted,
-    bool isPlaying,
-    SongWithProgress? songWithProgress,
-  });
+abstract mixin class $PlaybackStateCopyWith<$Res>  {
+  factory $PlaybackStateCopyWith(PlaybackState value, $Res Function(PlaybackState) _then) = _$PlaybackStateCopyWithImpl;
+@useResult
+$Res call({
+ double volume, double? previousVolume, bool isMuted, bool isPlaying, SongWithProgress? songWithProgress
+});
 
-  $SongWithProgressCopyWith<$Res>? get songWithProgress;
+
+$SongWithProgressCopyWith<$Res>? get songWithProgress;
+
 }
-
 /// @nodoc
-class _$PlaybackStateCopyWithImpl<$Res, $Val extends PlaybackState>
+class _$PlaybackStateCopyWithImpl<$Res>
     implements $PlaybackStateCopyWith<$Res> {
-  _$PlaybackStateCopyWithImpl(this._value, this._then);
+  _$PlaybackStateCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final PlaybackState _self;
+  final $Res Function(PlaybackState) _then;
 
-  /// Create a copy of PlaybackState
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? volume = null,
-    Object? previousVolume = freezed,
-    Object? isMuted = null,
-    Object? isPlaying = null,
-    Object? songWithProgress = freezed,
-  }) {
-    return _then(
-      _value.copyWith(
-            volume:
-                null == volume
-                    ? _value.volume
-                    : volume // ignore: cast_nullable_to_non_nullable
-                        as double,
-            previousVolume:
-                freezed == previousVolume
-                    ? _value.previousVolume
-                    : previousVolume // ignore: cast_nullable_to_non_nullable
-                        as double?,
-            isMuted:
-                null == isMuted
-                    ? _value.isMuted
-                    : isMuted // ignore: cast_nullable_to_non_nullable
-                        as bool,
-            isPlaying:
-                null == isPlaying
-                    ? _value.isPlaying
-                    : isPlaying // ignore: cast_nullable_to_non_nullable
-                        as bool,
-            songWithProgress:
-                freezed == songWithProgress
-                    ? _value.songWithProgress
-                    : songWithProgress // ignore: cast_nullable_to_non_nullable
-                        as SongWithProgress?,
-          )
-          as $Val,
-    );
-  }
-
-  /// Create a copy of PlaybackState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $SongWithProgressCopyWith<$Res>? get songWithProgress {
-    if (_value.songWithProgress == null) {
-      return null;
-    }
-
-    return $SongWithProgressCopyWith<$Res>(_value.songWithProgress!, (value) {
-      return _then(_value.copyWith(songWithProgress: value) as $Val);
-    });
-  }
+/// Create a copy of PlaybackState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? volume = null,Object? previousVolume = freezed,Object? isMuted = null,Object? isPlaying = null,Object? songWithProgress = freezed,}) {
+  return _then(_self.copyWith(
+volume: null == volume ? _self.volume : volume // ignore: cast_nullable_to_non_nullable
+as double,previousVolume: freezed == previousVolume ? _self.previousVolume : previousVolume // ignore: cast_nullable_to_non_nullable
+as double?,isMuted: null == isMuted ? _self.isMuted : isMuted // ignore: cast_nullable_to_non_nullable
+as bool,isPlaying: null == isPlaying ? _self.isPlaying : isPlaying // ignore: cast_nullable_to_non_nullable
+as bool,songWithProgress: freezed == songWithProgress ? _self.songWithProgress : songWithProgress // ignore: cast_nullable_to_non_nullable
+as SongWithProgress?,
+  ));
 }
+/// Create a copy of PlaybackState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$SongWithProgressCopyWith<$Res>? get songWithProgress {
+    if (_self.songWithProgress == null) {
+    return null;
+  }
 
-/// @nodoc
-abstract class _$$PlaybackStateImplCopyWith<$Res>
-    implements $PlaybackStateCopyWith<$Res> {
-  factory _$$PlaybackStateImplCopyWith(
-    _$PlaybackStateImpl value,
-    $Res Function(_$PlaybackStateImpl) then,
-  ) = __$$PlaybackStateImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({
-    double volume,
-    double? previousVolume,
-    bool isMuted,
-    bool isPlaying,
-    SongWithProgress? songWithProgress,
+  return $SongWithProgressCopyWith<$Res>(_self.songWithProgress!, (value) {
+    return _then(_self.copyWith(songWithProgress: value));
   });
+}
+}
 
-  @override
-  $SongWithProgressCopyWith<$Res>? get songWithProgress;
+
+/// @nodoc
+
+
+class _PlaybackState implements PlaybackState {
+  const _PlaybackState({this.volume = 0.5, this.previousVolume, this.isMuted = false, this.isPlaying = false, this.songWithProgress});
+  
+
+/// Legal values are between 0 and 1.
+@override@JsonKey() final  double volume;
+/// Used to restore the volume after un-muting.
+@override final  double? previousVolume;
+@override@JsonKey() final  bool isMuted;
+@override@JsonKey() final  bool isPlaying;
+@override final  SongWithProgress? songWithProgress;
+
+/// Create a copy of PlaybackState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$PlaybackStateCopyWith<_PlaybackState> get copyWith => __$PlaybackStateCopyWithImpl<_PlaybackState>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PlaybackState&&(identical(other.volume, volume) || other.volume == volume)&&(identical(other.previousVolume, previousVolume) || other.previousVolume == previousVolume)&&(identical(other.isMuted, isMuted) || other.isMuted == isMuted)&&(identical(other.isPlaying, isPlaying) || other.isPlaying == isPlaying)&&(identical(other.songWithProgress, songWithProgress) || other.songWithProgress == songWithProgress));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,volume,previousVolume,isMuted,isPlaying,songWithProgress);
+
+@override
+String toString() {
+  return 'PlaybackState(volume: $volume, previousVolume: $previousVolume, isMuted: $isMuted, isPlaying: $isPlaying, songWithProgress: $songWithProgress)';
+}
+
+
 }
 
 /// @nodoc
-class __$$PlaybackStateImplCopyWithImpl<$Res>
-    extends _$PlaybackStateCopyWithImpl<$Res, _$PlaybackStateImpl>
-    implements _$$PlaybackStateImplCopyWith<$Res> {
-  __$$PlaybackStateImplCopyWithImpl(
-    _$PlaybackStateImpl _value,
-    $Res Function(_$PlaybackStateImpl) _then,
-  ) : super(_value, _then);
+abstract mixin class _$PlaybackStateCopyWith<$Res> implements $PlaybackStateCopyWith<$Res> {
+  factory _$PlaybackStateCopyWith(_PlaybackState value, $Res Function(_PlaybackState) _then) = __$PlaybackStateCopyWithImpl;
+@override @useResult
+$Res call({
+ double volume, double? previousVolume, bool isMuted, bool isPlaying, SongWithProgress? songWithProgress
+});
 
-  /// Create a copy of PlaybackState
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? volume = null,
-    Object? previousVolume = freezed,
-    Object? isMuted = null,
-    Object? isPlaying = null,
-    Object? songWithProgress = freezed,
-  }) {
-    return _then(
-      _$PlaybackStateImpl(
-        volume:
-            null == volume
-                ? _value.volume
-                : volume // ignore: cast_nullable_to_non_nullable
-                    as double,
-        previousVolume:
-            freezed == previousVolume
-                ? _value.previousVolume
-                : previousVolume // ignore: cast_nullable_to_non_nullable
-                    as double?,
-        isMuted:
-            null == isMuted
-                ? _value.isMuted
-                : isMuted // ignore: cast_nullable_to_non_nullable
-                    as bool,
-        isPlaying:
-            null == isPlaying
-                ? _value.isPlaying
-                : isPlaying // ignore: cast_nullable_to_non_nullable
-                    as bool,
-        songWithProgress:
-            freezed == songWithProgress
-                ? _value.songWithProgress
-                : songWithProgress // ignore: cast_nullable_to_non_nullable
-                    as SongWithProgress?,
-      ),
-    );
+
+@override $SongWithProgressCopyWith<$Res>? get songWithProgress;
+
+}
+/// @nodoc
+class __$PlaybackStateCopyWithImpl<$Res>
+    implements _$PlaybackStateCopyWith<$Res> {
+  __$PlaybackStateCopyWithImpl(this._self, this._then);
+
+  final _PlaybackState _self;
+  final $Res Function(_PlaybackState) _then;
+
+/// Create a copy of PlaybackState
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? volume = null,Object? previousVolume = freezed,Object? isMuted = null,Object? isPlaying = null,Object? songWithProgress = freezed,}) {
+  return _then(_PlaybackState(
+volume: null == volume ? _self.volume : volume // ignore: cast_nullable_to_non_nullable
+as double,previousVolume: freezed == previousVolume ? _self.previousVolume : previousVolume // ignore: cast_nullable_to_non_nullable
+as double?,isMuted: null == isMuted ? _self.isMuted : isMuted // ignore: cast_nullable_to_non_nullable
+as bool,isPlaying: null == isPlaying ? _self.isPlaying : isPlaying // ignore: cast_nullable_to_non_nullable
+as bool,songWithProgress: freezed == songWithProgress ? _self.songWithProgress : songWithProgress // ignore: cast_nullable_to_non_nullable
+as SongWithProgress?,
+  ));
+}
+
+/// Create a copy of PlaybackState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$SongWithProgressCopyWith<$Res>? get songWithProgress {
+    if (_self.songWithProgress == null) {
+    return null;
   }
-}
 
-/// @nodoc
-
-class _$PlaybackStateImpl implements _PlaybackState {
-  const _$PlaybackStateImpl({
-    this.volume = 0.5,
-    this.previousVolume,
-    this.isMuted = false,
-    this.isPlaying = false,
-    this.songWithProgress,
+  return $SongWithProgressCopyWith<$Res>(_self.songWithProgress!, (value) {
+    return _then(_self.copyWith(songWithProgress: value));
   });
-
-  /// Legal values are between 0 and 1.
-  @override
-  @JsonKey()
-  final double volume;
-
-  /// Used to restore the volume after un-muting.
-  @override
-  final double? previousVolume;
-  @override
-  @JsonKey()
-  final bool isMuted;
-  @override
-  @JsonKey()
-  final bool isPlaying;
-  @override
-  final SongWithProgress? songWithProgress;
-
-  @override
-  String toString() {
-    return 'PlaybackState(volume: $volume, previousVolume: $previousVolume, isMuted: $isMuted, isPlaying: $isPlaying, songWithProgress: $songWithProgress)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$PlaybackStateImpl &&
-            (identical(other.volume, volume) || other.volume == volume) &&
-            (identical(other.previousVolume, previousVolume) ||
-                other.previousVolume == previousVolume) &&
-            (identical(other.isMuted, isMuted) || other.isMuted == isMuted) &&
-            (identical(other.isPlaying, isPlaying) ||
-                other.isPlaying == isPlaying) &&
-            (identical(other.songWithProgress, songWithProgress) ||
-                other.songWithProgress == songWithProgress));
-  }
-
-  @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    volume,
-    previousVolume,
-    isMuted,
-    isPlaying,
-    songWithProgress,
-  );
-
-  /// Create a copy of PlaybackState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$PlaybackStateImplCopyWith<_$PlaybackStateImpl> get copyWith =>
-      __$$PlaybackStateImplCopyWithImpl<_$PlaybackStateImpl>(this, _$identity);
 }
-
-abstract class _PlaybackState implements PlaybackState {
-  const factory _PlaybackState({
-    final double volume,
-    final double? previousVolume,
-    final bool isMuted,
-    final bool isPlaying,
-    final SongWithProgress? songWithProgress,
-  }) = _$PlaybackStateImpl;
-
-  /// Legal values are between 0 and 1.
-  @override
-  double get volume;
-
-  /// Used to restore the volume after un-muting.
-  @override
-  double? get previousVolume;
-  @override
-  bool get isMuted;
-  @override
-  bool get isPlaying;
-  @override
-  SongWithProgress? get songWithProgress;
-
-  /// Create a copy of PlaybackState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$PlaybackStateImplCopyWith<_$PlaybackStateImpl> get copyWith =>
-      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 mixin _$SongWithProgress {
-  Duration get progress => throw _privateConstructorUsedError;
-  Song get song => throw _privateConstructorUsedError;
 
-  /// Create a copy of SongWithProgress
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $SongWithProgressCopyWith<SongWithProgress> get copyWith =>
-      throw _privateConstructorUsedError;
+ Duration get progress; Song get song;
+/// Create a copy of SongWithProgress
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$SongWithProgressCopyWith<SongWithProgress> get copyWith => _$SongWithProgressCopyWithImpl<SongWithProgress>(this as SongWithProgress, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SongWithProgress&&(identical(other.progress, progress) || other.progress == progress)&&(identical(other.song, song) || other.song == song));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,progress,song);
+
+@override
+String toString() {
+  return 'SongWithProgress(progress: $progress, song: $song)';
+}
+
+
 }
 
 /// @nodoc
-abstract class $SongWithProgressCopyWith<$Res> {
-  factory $SongWithProgressCopyWith(
-    SongWithProgress value,
-    $Res Function(SongWithProgress) then,
-  ) = _$SongWithProgressCopyWithImpl<$Res, SongWithProgress>;
-  @useResult
-  $Res call({Duration progress, Song song});
-}
+abstract mixin class $SongWithProgressCopyWith<$Res>  {
+  factory $SongWithProgressCopyWith(SongWithProgress value, $Res Function(SongWithProgress) _then) = _$SongWithProgressCopyWithImpl;
+@useResult
+$Res call({
+ Duration progress, Song song
+});
 
+
+
+
+}
 /// @nodoc
-class _$SongWithProgressCopyWithImpl<$Res, $Val extends SongWithProgress>
+class _$SongWithProgressCopyWithImpl<$Res>
     implements $SongWithProgressCopyWith<$Res> {
-  _$SongWithProgressCopyWithImpl(this._value, this._then);
+  _$SongWithProgressCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final SongWithProgress _self;
+  final $Res Function(SongWithProgress) _then;
 
-  /// Create a copy of SongWithProgress
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({Object? progress = null, Object? song = null}) {
-    return _then(
-      _value.copyWith(
-            progress:
-                null == progress
-                    ? _value.progress
-                    : progress // ignore: cast_nullable_to_non_nullable
-                        as Duration,
-            song:
-                null == song
-                    ? _value.song
-                    : song // ignore: cast_nullable_to_non_nullable
-                        as Song,
-          )
-          as $Val,
-    );
-  }
+/// Create a copy of SongWithProgress
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? progress = null,Object? song = null,}) {
+  return _then(_self.copyWith(
+progress: null == progress ? _self.progress : progress // ignore: cast_nullable_to_non_nullable
+as Duration,song: null == song ? _self.song : song // ignore: cast_nullable_to_non_nullable
+as Song,
+  ));
 }
 
-/// @nodoc
-abstract class _$$SongWithProgressImplCopyWith<$Res>
-    implements $SongWithProgressCopyWith<$Res> {
-  factory _$$SongWithProgressImplCopyWith(
-    _$SongWithProgressImpl value,
-    $Res Function(_$SongWithProgressImpl) then,
-  ) = __$$SongWithProgressImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({Duration progress, Song song});
 }
 
-/// @nodoc
-class __$$SongWithProgressImplCopyWithImpl<$Res>
-    extends _$SongWithProgressCopyWithImpl<$Res, _$SongWithProgressImpl>
-    implements _$$SongWithProgressImplCopyWith<$Res> {
-  __$$SongWithProgressImplCopyWithImpl(
-    _$SongWithProgressImpl _value,
-    $Res Function(_$SongWithProgressImpl) _then,
-  ) : super(_value, _then);
-
-  /// Create a copy of SongWithProgress
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({Object? progress = null, Object? song = null}) {
-    return _then(
-      _$SongWithProgressImpl(
-        progress:
-            null == progress
-                ? _value.progress
-                : progress // ignore: cast_nullable_to_non_nullable
-                    as Duration,
-        song:
-            null == song
-                ? _value.song
-                : song // ignore: cast_nullable_to_non_nullable
-                    as Song,
-      ),
-    );
-  }
-}
 
 /// @nodoc
 
-class _$SongWithProgressImpl implements _SongWithProgress {
-  const _$SongWithProgressImpl({required this.progress, required this.song});
 
-  @override
-  final Duration progress;
-  @override
-  final Song song;
+class _SongWithProgress implements SongWithProgress {
+  const _SongWithProgress({required this.progress, required this.song});
+  
 
-  @override
-  String toString() {
-    return 'SongWithProgress(progress: $progress, song: $song)';
-  }
+@override final  Duration progress;
+@override final  Song song;
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$SongWithProgressImpl &&
-            (identical(other.progress, progress) ||
-                other.progress == progress) &&
-            (identical(other.song, song) || other.song == song));
-  }
+/// Create a copy of SongWithProgress
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$SongWithProgressCopyWith<_SongWithProgress> get copyWith => __$SongWithProgressCopyWithImpl<_SongWithProgress>(this, _$identity);
 
-  @override
-  int get hashCode => Object.hash(runtimeType, progress, song);
 
-  /// Create a copy of SongWithProgress
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$SongWithProgressImplCopyWith<_$SongWithProgressImpl> get copyWith =>
-      __$$SongWithProgressImplCopyWithImpl<_$SongWithProgressImpl>(
-        this,
-        _$identity,
-      );
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SongWithProgress&&(identical(other.progress, progress) || other.progress == progress)&&(identical(other.song, song) || other.song == song));
 }
 
-abstract class _SongWithProgress implements SongWithProgress {
-  const factory _SongWithProgress({
-    required final Duration progress,
-    required final Song song,
-  }) = _$SongWithProgressImpl;
 
-  @override
-  Duration get progress;
-  @override
-  Song get song;
+@override
+int get hashCode => Object.hash(runtimeType,progress,song);
 
-  /// Create a copy of SongWithProgress
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$SongWithProgressImplCopyWith<_$SongWithProgressImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+@override
+String toString() {
+  return 'SongWithProgress(progress: $progress, song: $song)';
 }
+
+
+}
+
+/// @nodoc
+abstract mixin class _$SongWithProgressCopyWith<$Res> implements $SongWithProgressCopyWith<$Res> {
+  factory _$SongWithProgressCopyWith(_SongWithProgress value, $Res Function(_SongWithProgress) _then) = __$SongWithProgressCopyWithImpl;
+@override @useResult
+$Res call({
+ Duration progress, Song song
+});
+
+
+
+
+}
+/// @nodoc
+class __$SongWithProgressCopyWithImpl<$Res>
+    implements _$SongWithProgressCopyWith<$Res> {
+  __$SongWithProgressCopyWithImpl(this._self, this._then);
+
+  final _SongWithProgress _self;
+  final $Res Function(_SongWithProgress) _then;
+
+/// Create a copy of SongWithProgress
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? progress = null,Object? song = null,}) {
+  return _then(_SongWithProgress(
+progress: null == progress ? _self.progress : progress // ignore: cast_nullable_to_non_nullable
+as Duration,song: null == song ? _self.song : song // ignore: cast_nullable_to_non_nullable
+as Song,
+  ));
+}
+
+
+}
+
+// dart format on

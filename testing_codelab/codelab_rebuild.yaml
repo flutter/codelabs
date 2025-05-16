@@ -184,13 +184,11 @@ steps:
               return Scaffold(
                 appBar: AppBar(title: const Text('Favorites')),
                 body: Consumer<Favorites>(
-                  builder:
-                      (context, value, child) => ListView.builder(
-                        itemCount: value.items.length,
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        itemBuilder:
-                            (context, index) => FavoriteItemTile(value.items[index]),
-                      ),
+                  builder: (context, value, child) => ListView.builder(
+                    itemCount: value.items.length,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    itemBuilder: (context, index) => FavoriteItemTile(value.items[index]),
+                  ),
                 ),
               );
             }
@@ -288,10 +286,9 @@ steps:
                   title: Text('Item $itemNo', key: Key('text_$itemNo')),
                   trailing: IconButton(
                     key: Key('icon_$itemNo'),
-                    icon:
-                        favoritesList.items.contains(itemNo)
-                            ? const Icon(Icons.favorite)
-                            : const Icon(Icons.favorite_border),
+                    icon: favoritesList.items.contains(itemNo)
+                        ? const Icon(Icons.favorite)
+                        : const Icon(Icons.favorite_border),
                     onPressed: () {
                       !favoritesList.items.contains(itemNo)
                           ? favoritesList.add(itemNo)

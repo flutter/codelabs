@@ -6,19 +6,16 @@ DIR="${BASH_SOURCE%/*}"
 source "$DIR/flutter_ci_script_shared.sh"
 
 declare -a CODELABS=(
-  # TODO(DomesticMouse): The argument type 'TabBarTheme' can't be assigned to the parameter type 'TabBarThemeData?'.
-  # "adaptive_app"
+  "adaptive_app"
   "animated-responsive-layout"
   "animations"
   "audio_soloud"
-  # TODO(DomesticMouse): The argument type 'CardTheme' can't be assigned to the parameter type 'CardThemeData?'.
-  # "boring_to_beautiful"
+  "boring_to_beautiful"
   "brick_breaker"
   "colorist"
   "dart-patterns-and-records"
   "deeplink_cookbook"
-  # TODO(DomesticMouse): So, because _macros from sdk doesn't exist (could not find package _macros in the Dart SDK) and ffigen_app depends on ffigen ^16.1.0, version solving failed.
-  # "ffigen_codelab"
+  "ffigen_codelab"
   "firebase-auth-flutterfire-ui"
   "firebase-emulator-suite"
   "firebase-get-to-know-flutter"
@@ -29,7 +26,7 @@ declare -a CODELABS=(
   "haiku_generator"
   "homescreen_codelab"
   "in_app_purchases"
-  # TODO(domesticmouse): The protocol version of native_assets_cli-0.9.0 is 1.5.0, which is no longer supported.
+  # TODO(DomesticMouse): Figure out how to run `flutter test`
   # "intro_flutter_gpu"
   "namer"
   "next-gen-ui"

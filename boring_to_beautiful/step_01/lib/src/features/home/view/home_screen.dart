@@ -61,11 +61,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       const HomeHighlight(),
                       LayoutBuilder(
-                        builder:
-                            (context, constraints) => HomeArtists(
-                              artists: artists,
-                              constraints: constraints,
-                            ),
+                        builder: (context, constraints) => HomeArtists(
+                          artists: artists,
+                          constraints: constraints,
+                        ),
                       ),
                     ],
                   ),
@@ -109,8 +108,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                               LayoutBuilder(
-                                builder:
-                                    (context, constraints) => PlaylistSongs(
+                                builder: (context, constraints) =>
+                                    PlaylistSongs(
                                       playlist: topSongs,
                                       constraints: constraints,
                                     ),
@@ -135,8 +134,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                               LayoutBuilder(
-                                builder:
-                                    (context, constraints) => PlaylistSongs(
+                                builder: (context, constraints) =>
+                                    PlaylistSongs(
                                       playlist: newReleases,
                                       constraints: constraints,
                                     ),

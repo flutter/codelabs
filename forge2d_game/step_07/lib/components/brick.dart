@@ -262,10 +262,9 @@ class Brick extends BodyComponentWithUserData {
        _sprites = sprites,
        super(
          renderBody: false,
-         bodyDef:
-             BodyDef()
-               ..position = position
-               ..type = BodyType.dynamic,
+         bodyDef: BodyDef()
+           ..position = position
+           ..type = BodyType.dynamic,
          fixtureDefs: [
            FixtureDef(
                PolygonShape()..setAsBoxXY(

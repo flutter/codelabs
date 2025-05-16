@@ -33,10 +33,9 @@ class _ArticleScreenState extends State<ArticleScreen> {
                       const LineChart(),
                       key: 'filename',
                       logicalSize: _globalKey.currentContext!.size!,
-                      pixelRatio:
-                          MediaQuery.of(
-                            _globalKey.currentContext!,
-                          ).devicePixelRatio,
+                      pixelRatio: MediaQuery.of(
+                        _globalKey.currentContext!,
+                      ).devicePixelRatio,
                     )
                     as String;
             setState(() {
@@ -85,23 +84,20 @@ class LineChart extends StatelessWidget {
 class LineChartPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final axisPaint =
-        Paint()
-          ..color = Colors.black
-          ..strokeWidth = 2
-          ..style = PaintingStyle.stroke;
+    final axisPaint = Paint()
+      ..color = Colors.black
+      ..strokeWidth = 2
+      ..style = PaintingStyle.stroke;
 
-    final dataPaint =
-        Paint()
-          ..color = Colors.blue
-          ..strokeWidth = 2
-          ..style = PaintingStyle.stroke;
+    final dataPaint = Paint()
+      ..color = Colors.blue
+      ..strokeWidth = 2
+      ..style = PaintingStyle.stroke;
 
-    final markingLinePaint =
-        Paint()
-          ..color = Colors.red
-          ..strokeWidth = 2
-          ..style = PaintingStyle.stroke;
+    final markingLinePaint = Paint()
+      ..color = Colors.red
+      ..strokeWidth = 2
+      ..style = PaintingStyle.stroke;
 
     final mockDataPoints = [
       const Offset(15, 155),
@@ -116,16 +112,14 @@ class LineChartPainter extends CustomPainter {
       const Offset(200, -10),
     ];
 
-    final axis =
-        Path()
-          ..moveTo(0, 0)
-          ..lineTo(0, size.height)
-          ..lineTo(size.width, size.height);
+    final axis = Path()
+      ..moveTo(0, 0)
+      ..lineTo(0, size.height)
+      ..lineTo(size.width, size.height);
 
-    final markingLine =
-        Path()
-          ..moveTo(-10, 50)
-          ..lineTo(size.width + 10, 50);
+    final markingLine = Path()
+      ..moveTo(-10, 50)
+      ..lineTo(size.width + 10, 50);
 
     final data = Path()..moveTo(1, 180);
 

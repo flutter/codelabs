@@ -49,15 +49,14 @@ class AppState {
     FirebaseFirestore.instance.collection('Entries').snapshots().listen((
       event,
     ) {
-      final entries =
-          event.docs.map((doc) {
-            final data = doc.data();
-            return Entry(
-              date: data['date'] as String,
-              text: data['text'] as String,
-              title: data['title'] as String,
-            );
-          }).toList();
+      final entries = event.docs.map((doc) {
+        final data = doc.data();
+        return Entry(
+          date: data['date'] as String,
+          text: data['text'] as String,
+          title: data['title'] as String,
+        );
+      }).toList();
 
       _entriesStreamController.add(entries);
     });

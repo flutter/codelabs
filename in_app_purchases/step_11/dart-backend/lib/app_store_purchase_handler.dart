@@ -144,10 +144,9 @@ class AppStorePurchaseHandler extends PurchaseHandler {
               ),
               type: ProductType.subscription,
               expiryDate: expirationDate,
-              status:
-                  isExpired
-                      ? SubscriptionStatus.expired
-                      : SubscriptionStatus.active,
+              status: isExpired
+                  ? SubscriptionStatus.expired
+                  : SubscriptionStatus.active,
             ),
           );
         }

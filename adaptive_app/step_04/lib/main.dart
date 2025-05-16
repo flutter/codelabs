@@ -48,11 +48,10 @@ void main() {
 
   runApp(
     ChangeNotifierProvider<FlutterDevPlaylists>(
-      create:
-          (context) => FlutterDevPlaylists(
-            flutterDevAccountId: flutterDevAccountId,
-            youTubeApiKey: youTubeApiKey,
-          ),
+      create: (context) => FlutterDevPlaylists(
+        flutterDevAccountId: flutterDevAccountId,
+        youTubeApiKey: youTubeApiKey,
+      ),
       child: const PlaylistsApp(),
     ),
   );

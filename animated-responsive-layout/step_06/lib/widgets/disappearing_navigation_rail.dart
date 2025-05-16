@@ -41,13 +41,12 @@ class DisappearingNavigationRail extends StatelessWidget {
         ],
       ),
       groupAlignment: -0.85,
-      destinations:
-          destinations.map((d) {
-            return NavigationRailDestination(
-              icon: Icon(d.icon),
-              label: Text(d.label),
-            );
-          }).toList(),
+      destinations: destinations.map((d) {
+        return NavigationRailDestination(
+          icon: Icon(d.icon),
+          label: Text(d.label),
+        );
+      }).toList(),
     );
   }
 }

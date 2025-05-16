@@ -841,23 +841,20 @@ steps:
           class LineChartPainter extends CustomPainter {
             @override
             void paint(Canvas canvas, Size size) {
-              final axisPaint =
-                  Paint()
-                    ..color = Colors.black
-                    ..strokeWidth = 2
-                    ..style = PaintingStyle.stroke;
+              final axisPaint = Paint()
+                ..color = Colors.black
+                ..strokeWidth = 2
+                ..style = PaintingStyle.stroke;
 
-              final dataPaint =
-                  Paint()
-                    ..color = Colors.blue
-                    ..strokeWidth = 2
-                    ..style = PaintingStyle.stroke;
+              final dataPaint = Paint()
+                ..color = Colors.blue
+                ..strokeWidth = 2
+                ..style = PaintingStyle.stroke;
 
-              final markingLinePaint =
-                  Paint()
-                    ..color = Colors.red
-                    ..strokeWidth = 2
-                    ..style = PaintingStyle.stroke;
+              final markingLinePaint = Paint()
+                ..color = Colors.red
+                ..strokeWidth = 2
+                ..style = PaintingStyle.stroke;
 
               final mockDataPoints = [
                 const Offset(15, 155),
@@ -872,16 +869,14 @@ steps:
                 const Offset(200, -10),
               ];
 
-              final axis =
-                  Path()
-                    ..moveTo(0, 0)
-                    ..lineTo(0, size.height)
-                    ..lineTo(size.width, size.height);
+              final axis = Path()
+                ..moveTo(0, 0)
+                ..lineTo(0, size.height)
+                ..lineTo(size.width, size.height);
 
-              final markingLine =
-                  Path()
-                    ..moveTo(-10, 50)
-                    ..lineTo(size.width + 10, 50);
+              final markingLine = Path()
+                ..moveTo(-10, 50)
+                ..lineTo(size.width + 10, 50);
 
               final data = Path()..moveTo(1, 180);
 
@@ -970,10 +965,9 @@ steps:
               return MaterialApp(
                 theme: ThemeData(
                   appBarTheme: AppBarTheme(
-                    backgroundColor:
-                        ColorScheme.fromSeed(
-                          seedColor: Colors.deepPurple,
-                        ).primaryContainer,
+                    backgroundColor: ColorScheme.fromSeed(
+                      seedColor: Colors.deepPurple,
+                    ).primaryContainer,
                   ),
                   textTheme: const TextTheme(
                     titleMedium: TextStyle(fontFamily: 'Chewy', fontSize: 20),
@@ -1999,7 +1993,7 @@ steps:
            
            import 'home_screen.dart';
            import 'news_data.dart';
-          @@ -13,23 +15,34 @@ class ArticleScreen extends StatefulWidget {
+          @@ -13,23 +15,33 @@ class ArticleScreen extends StatefulWidget {
            }
            
            class _ArticleScreenState extends State<ArticleScreen> {
@@ -2034,10 +2028,9 @@ steps:
           +                      const LineChart(),
           +                      key: 'filename',
           +                      logicalSize: _globalKey.currentContext!.size!,
-          +                      pixelRatio:
-          +                          MediaQuery.of(
-          +                            _globalKey.currentContext!,
-          +                          ).devicePixelRatio,
+          +                      pixelRatio: MediaQuery.of(
+          +                        _globalKey.currentContext!,
+          +                      ).devicePixelRatio,
           +                    )
           +                    as String;
           +            setState(() {
@@ -2047,7 +2040,7 @@ steps:
                      updateHeadline(widget.article);
                    },
                    label: const Text('Update Homescreen'),
-          @@ -44,7 +57,11 @@ class _ArticleScreenState extends State<ArticleScreen> {
+          @@ -44,7 +56,11 @@ class _ArticleScreenState extends State<ArticleScreen> {
                      const SizedBox(height: 20.0),
                      Text(widget.article.articleText!),
                      const SizedBox(height: 20.0),

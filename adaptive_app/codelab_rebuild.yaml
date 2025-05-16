@@ -317,11 +317,10 @@ steps:
 
             runApp(
               ChangeNotifierProvider<FlutterDevPlaylists>(
-                create:
-                    (context) => FlutterDevPlaylists(
-                      flutterDevAccountId: flutterDevAccountId,
-                      youTubeApiKey: youTubeApiKey,
-                    ),
+                create: (context) => FlutterDevPlaylists(
+                  flutterDevAccountId: flutterDevAccountId,
+                  youTubeApiKey: youTubeApiKey,
+                ),
                 child: const PlaylistsApp(),
               ),
             );
@@ -574,13 +573,12 @@ steps:
                     uri: Uri.parse(
                       'https://www.youtube.com/watch?v=${playlistItem.snippet!.resourceId!.videoId}',
                     ),
-                    builder:
-                        (context, followLink) => IconButton(
-                          onPressed: followLink,
-                          color: Colors.red,
-                          icon: const Icon(Icons.play_circle_fill),
-                          iconSize: 45,
-                        ),
+                    builder: (context, followLink) => IconButton(
+                      onPressed: followLink,
+                      color: Colors.red,
+                      icon: const Icon(Icons.play_circle_fill),
+                      iconSize: 45,
+                    ),
                   ),
                 ],
               );
@@ -1211,10 +1209,9 @@ steps:
           class AdaptiveImage extends StatelessWidget {
             AdaptiveImage.network(String url, {super.key}) {
               if (kIsWeb) {
-                _url =
-                    Uri.parse(
-                      url,
-                    ).replace(host: 'localhost', port: 8080, scheme: 'http').toString();
+                _url = Uri.parse(
+                  url,
+                ).replace(host: 'localhost', port: 8080, scheme: 'http').toString();
               } else {
                 _url = url;
               }
@@ -1430,8 +1427,8 @@ steps:
                   body: Center(
                     child: Link(
                       uri: authUrl,
-                      builder:
-                          (context, followLink) => widget.button(onPressed: followLink),
+                      builder: (context, followLink) =>
+                          widget.button(onPressed: followLink),
                     ),
                   ),
                 );
@@ -1526,7 +1523,7 @@ steps:
                    GoRoute(
                      path: 'playlist/:id',
                      builder: (context, state) {
-          @@ -44,18 +64,9 @@ final _router = GoRouter(
+          @@ -44,17 +64,9 @@ final _router = GoRouter(
            );
            
            void main() {
@@ -1537,17 +1534,16 @@ steps:
           -
              runApp(
           -    ChangeNotifierProvider<FlutterDevPlaylists>(
-          -      create:
-          -          (context) => FlutterDevPlaylists(
-          -            flutterDevAccountId: flutterDevAccountId,
-          -            youTubeApiKey: youTubeApiKey,
-          -          ),
+          -      create: (context) => FlutterDevPlaylists(
+          -        flutterDevAccountId: flutterDevAccountId,
+          -        youTubeApiKey: youTubeApiKey,
+          -      ),
           +    ChangeNotifierProvider<AuthedUserPlaylists>(
           +      create: (context) => AuthedUserPlaylists(),
                  child: const PlaylistsApp(),
                ),
              );
-          @@ -67,7 +78,7 @@ class PlaylistsApp extends StatelessWidget {
+          @@ -66,7 +78,7 @@ class PlaylistsApp extends StatelessWidget {
              @override
              Widget build(BuildContext context) {
                return MaterialApp.router(

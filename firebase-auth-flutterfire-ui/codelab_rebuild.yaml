@@ -4913,7 +4913,7 @@ steps:
         patch-u: |
           --- b/firebase-auth-flutterfire-ui/complete/lib/auth_gate.dart
           +++ a/firebase-auth-flutterfire-ui/complete/lib/auth_gate.dart
-          @@ -1,12 +1,57 @@
+          @@ -1,12 +1,56 @@
           +import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
           +import 'package:firebase_ui_auth/firebase_ui_auth.dart';
           +import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart';
@@ -4949,10 +4949,9 @@ steps:
           +            subtitleBuilder: (context, action) {
           +              return Padding(
           +                padding: const EdgeInsets.symmetric(vertical: 8.0),
-          +                child:
-          +                    action == AuthAction.signIn
-          +                        ? const Text('Welcome to FlutterFire, please sign in!')
-          +                        : const Text('Welcome to Flutterfire, please sign up!'),
+          +                child: action == AuthAction.signIn
+          +                    ? const Text('Welcome to FlutterFire, please sign in!')
+          +                    : const Text('Welcome to Flutterfire, please sign up!'),
           +              );
           +            },
           +            footerBuilder: (context, action) {
@@ -4982,7 +4981,7 @@ steps:
            import 'package:flutter/material.dart';
            
            class HomeScreen extends StatelessWidget {
-          @@ -6,12 +7,46 @@ class HomeScreen extends StatelessWidget {
+          @@ -6,12 +7,45 @@ class HomeScreen extends StatelessWidget {
              @override
              Widget build(BuildContext context) {
                return Scaffold(
@@ -4995,25 +4994,24 @@ steps:
           +              Navigator.push(
           +                context,
           +                MaterialPageRoute<ProfileScreen>(
-          +                  builder:
-          +                      (context) => ProfileScreen(
-          +                        appBar: AppBar(title: const Text('User Profile')),
-          +                        actions: [
-          +                          SignedOutAction((context) {
-          +                            Navigator.of(context).pop();
-          +                          }),
-          +                        ],
-          +                        children: [
-          +                          const Divider(),
-          +                          Padding(
-          +                            padding: const EdgeInsets.all(2),
-          +                            child: AspectRatio(
-          +                              aspectRatio: 1,
-          +                              child: Image.asset('flutterfire_300x.png'),
-          +                            ),
-          +                          ),
-          +                        ],
+          +                  builder: (context) => ProfileScreen(
+          +                    appBar: AppBar(title: const Text('User Profile')),
+          +                    actions: [
+          +                      SignedOutAction((context) {
+          +                        Navigator.of(context).pop();
+          +                      }),
+          +                    ],
+          +                    children: [
+          +                      const Divider(),
+          +                      Padding(
+          +                        padding: const EdgeInsets.all(2),
+          +                        child: AspectRatio(
+          +                          aspectRatio: 1,
+          +                          child: Image.asset('flutterfire_300x.png'),
+          +                        ),
           +                      ),
+          +                    ],
+          +                  ),
           +                ),
           +              );
           +            },

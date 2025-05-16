@@ -52,6 +52,6 @@ class FfigenAppBindings {
       _lookup<ffi.NativeFunction<ffi.Int Function(ffi.Int, ffi.Int)>>(
         'sum_long_running',
       );
-  late final _sum_long_running =
-      _sum_long_runningPtr.asFunction<int Function(int, int)>();
+  late final _sum_long_running = _sum_long_runningPtr
+      .asFunction<int Function(int, int)>();
 }

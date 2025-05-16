@@ -23,10 +23,9 @@ class PlaylistScreen extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         final colors = Theme.of(context).colorScheme;
-        final double headerHeight =
-            constraints.isMobile
-                ? max(constraints.biggest.height * 0.5, 450)
-                : max(constraints.biggest.height * 0.25, 250);
+        final double headerHeight = constraints.isMobile
+            ? max(constraints.biggest.height * 0.5, 450)
+            : max(constraints.biggest.height * 0.25, 250);
         if (constraints.isMobile) {
           return Scaffold(
             appBar: AppBar(
@@ -61,12 +60,12 @@ class PlaylistScreen extends StatelessWidget {
                 pinned: false,
                 flexibleSpace: FlexibleSpaceBar(
                   background: AdaptiveImageCard(
-                    axis:
-                        constraints.isMobile ? Axis.vertical : Axis.horizontal,
-                    constraints:
-                        constraints
-                            .copyWith(maxHeight: headerHeight)
-                            .normalize(),
+                    axis: constraints.isMobile
+                        ? Axis.vertical
+                        : Axis.horizontal,
+                    constraints: constraints
+                        .copyWith(maxHeight: headerHeight)
+                        .normalize(),
                     image: playlist.cover.image,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,

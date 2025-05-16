@@ -27,13 +27,12 @@ class CrosswordGeneratorApp extends StatelessWidget {
             builder: (context, ref, _) {
               final wordListAsync = ref.watch(wordListProvider);
               return wordListAsync.when(
-                data:
-                    (wordList) => ListView.builder(
-                      itemCount: wordList.length,
-                      itemBuilder: (context, index) {
-                        return ListTile(title: Text(wordList.elementAt(index)));
-                      },
-                    ),
+                data: (wordList) => ListView.builder(
+                  itemCount: wordList.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(title: Text(wordList.elementAt(index)));
+                  },
+                ),
                 error: (error, stackTrace) => Center(child: Text('$error')),
                 loading: () => Center(child: CircularProgressIndicator()),
               );

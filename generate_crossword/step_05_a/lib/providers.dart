@@ -30,11 +30,10 @@ Future<BuiltSet<String>> wordList(Ref ref) async {
       .convert(words)
       .toBuiltSet()
       .rebuild(
-        (b) =>
-            b
-              ..map((word) => word.toLowerCase().trim())
-              ..where((word) => word.length > 2)
-              ..where((word) => re.hasMatch(word)),
+        (b) => b
+          ..map((word) => word.toLowerCase().trim())
+          ..where((word) => word.length > 2)
+          ..where((word) => re.hasMatch(word)),
       );
 }
 
@@ -83,8 +82,9 @@ Stream<model.Crossword> crossword(Ref ref) async* {
     data: (wordList) async* {
       while (crossword.characters.length < size.width * size.height * 0.8) {
         final word = wordList.randomElement();
-        final direction =
-            _random.nextBool() ? model.Direction.across : model.Direction.down;
+        final direction = _random.nextBool()
+            ? model.Direction.across
+            : model.Direction.down;
         final location = model.Location.at(
           _random.nextInt(size.width),
           _random.nextInt(size.height),

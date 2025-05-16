@@ -26,13 +26,12 @@ class HomePage extends StatelessWidget {
           const IconAndDetail(Icons.calendar_today, 'October 30'),
           const IconAndDetail(Icons.location_city, 'San Francisco'),
           Consumer<ApplicationState>(
-            builder:
-                (context, appState, _) => AuthFunc(
-                  loggedIn: appState.loggedIn,
-                  signOut: () {
-                    FirebaseAuth.instance.signOut();
-                  },
-                ),
+            builder: (context, appState, _) => AuthFunc(
+              loggedIn: appState.loggedIn,
+              signOut: () {
+                FirebaseAuth.instance.signOut();
+              },
+            ),
           ),
           const Divider(
             height: 8,
@@ -46,20 +45,18 @@ class HomePage extends StatelessWidget {
             'Join us for a day full of Firebase Workshops and Pizza!',
           ),
           Consumer<ApplicationState>(
-            builder:
-                (context, appState, _) => Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (appState.loggedIn) ...[
-                      const Header('Discussion'),
-                      GuestBook(
-                        addMessage:
-                            (message) =>
-                                appState.addMessageToGuestBook(message),
-                      ),
-                    ],
-                  ],
-                ),
+            builder: (context, appState, _) => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (appState.loggedIn) ...[
+                  const Header('Discussion'),
+                  GuestBook(
+                    addMessage: (message) =>
+                        appState.addMessageToGuestBook(message),
+                  ),
+                ],
+              ],
+            ),
           ),
         ],
       ),

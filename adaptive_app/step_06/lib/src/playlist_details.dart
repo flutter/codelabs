@@ -150,13 +150,12 @@ class _PlaylistDetailsListViewState extends State<_PlaylistDetailsListView> {
           uri: Uri.parse(
             'https://www.youtube.com/watch?v=${playlistItem.snippet!.resourceId!.videoId}',
           ),
-          builder:
-              (context, followLink) => IconButton(
-                onPressed: followLink,
-                color: Colors.red,
-                icon: const Icon(Icons.play_circle_fill),
-                iconSize: 45,
-              ),
+          builder: (context, followLink) => IconButton(
+            onPressed: followLink,
+            color: Colors.red,
+            icon: const Icon(Icons.play_circle_fill),
+            iconSize: 45,
+          ),
         ),
       ],
     );

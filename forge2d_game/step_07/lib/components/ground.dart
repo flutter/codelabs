@@ -13,10 +13,9 @@ class Ground extends BodyComponentWithUserData {
   Ground(Vector2 position, Sprite sprite)
     : super(
         renderBody: false,
-        bodyDef:
-            BodyDef()
-              ..position = position
-              ..type = BodyType.static,
+        bodyDef: BodyDef()
+          ..position = position
+          ..type = BodyType.static,
         fixtureDefs: [
           FixtureDef(
             PolygonShape()..setAsBoxXY(groundSize / 2, groundSize / 2),

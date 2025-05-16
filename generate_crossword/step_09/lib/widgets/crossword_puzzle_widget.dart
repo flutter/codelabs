@@ -52,15 +52,14 @@ class CrosswordPuzzleWidget extends ConsumerWidget {
             var acrossWords = BuiltList<String>();
             if (acrossWord != null) {
               acrossWords = acrossWords.rebuild(
-                (b) =>
-                    b
-                      ..add(acrossWord.word)
-                      ..addAll(
-                        alternateWords[acrossWord.location]?[acrossWord
-                                .direction] ??
-                            [],
-                      )
-                      ..sort(),
+                (b) => b
+                  ..add(acrossWord.word)
+                  ..addAll(
+                    alternateWords[acrossWord.location]?[acrossWord
+                            .direction] ??
+                        [],
+                  )
+                  ..sort(),
               );
             }
 
@@ -68,24 +67,21 @@ class CrosswordPuzzleWidget extends ConsumerWidget {
             var downWords = BuiltList<String>();
             if (downWord != null) {
               downWords = downWords.rebuild(
-                (b) =>
-                    b
-                      ..add(downWord.word)
-                      ..addAll(
-                        alternateWords[downWord.location]?[downWord
-                                .direction] ??
-                            [],
-                      )
-                      ..sort(),
+                (b) => b
+                  ..add(downWord.word)
+                  ..addAll(
+                    alternateWords[downWord.location]?[downWord.direction] ??
+                        [],
+                  )
+                  ..sort(),
               );
             }
 
             return MenuAnchor(
               builder: (context, controller, _) {
                 return GestureDetector(
-                  onTapDown:
-                      (details) =>
-                          controller.open(position: details.localPosition),
+                  onTapDown: (details) =>
+                      controller.open(position: details.localPosition),
                   child: AnimatedContainer(
                     duration: Durations.extralong1,
                     curve: Curves.easeInOut,
@@ -177,27 +173,27 @@ class _WordSelectMenuItem extends ConsumerWidget {
     return MenuItemButton(
       onPressed:
           ref.watch(
-                puzzleProvider.select(
-                  (puzzle) => puzzle.canSelectWord(
-                    location: location,
-                    word: word,
-                    direction: direction,
-                  ),
-                ),
-              )
-              ? () => notifier.selectWord(
+            puzzleProvider.select(
+              (puzzle) => puzzle.canSelectWord(
                 location: location,
                 word: word,
                 direction: direction,
-              )
-              : null,
+              ),
+            ),
+          )
+          ? () => notifier.selectWord(
+              location: location,
+              word: word,
+              direction: direction,
+            )
+          : null,
       leadingIcon:
           switch (direction) {
-                Direction.across => selectedCharacter?.acrossWord?.word == word,
-                Direction.down => selectedCharacter?.downWord?.word == word,
-              }
-              ? Icon(Icons.radio_button_checked_outlined)
-              : Icon(Icons.radio_button_unchecked_outlined),
+            Direction.across => selectedCharacter?.acrossWord?.word == word,
+            Direction.down => selectedCharacter?.downWord?.word == word,
+          }
+          ? Icon(Icons.radio_button_checked_outlined)
+          : Icon(Icons.radio_button_unchecked_outlined),
       child: Text(word),
     );
   }

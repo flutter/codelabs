@@ -42,30 +42,24 @@ class GameApp extends StatelessWidget {
                     child: GameWidget.controlled(
                       gameFactory: BrickBreaker.new,
                       overlayBuilderMap: {
-                        PlayState.welcome.name:
-                            (context, game) => Center(
-                              child: Text(
-                                'TAP TO PLAY',
-                                style:
-                                    Theme.of(context).textTheme.headlineLarge,
-                              ),
-                            ),
-                        PlayState.gameOver.name:
-                            (context, game) => Center(
-                              child: Text(
-                                'G A M E   O V E R',
-                                style:
-                                    Theme.of(context).textTheme.headlineLarge,
-                              ),
-                            ),
-                        PlayState.won.name:
-                            (context, game) => Center(
-                              child: Text(
-                                'Y O U   W O N ! ! !',
-                                style:
-                                    Theme.of(context).textTheme.headlineLarge,
-                              ),
-                            ),
+                        PlayState.welcome.name: (context, game) => Center(
+                          child: Text(
+                            'TAP TO PLAY',
+                            style: Theme.of(context).textTheme.headlineLarge,
+                          ),
+                        ),
+                        PlayState.gameOver.name: (context, game) => Center(
+                          child: Text(
+                            'G A M E   O V E R',
+                            style: Theme.of(context).textTheme.headlineLarge,
+                          ),
+                        ),
+                        PlayState.won.name: (context, game) => Center(
+                          child: Text(
+                            'Y O U   W O N ! ! !',
+                            style: Theme.of(context).textTheme.headlineLarge,
+                          ),
+                        ),
                       },
                     ),
                   ),

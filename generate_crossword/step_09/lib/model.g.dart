@@ -1679,9 +1679,8 @@ class CrosswordPuzzleGameBuilder
 
   MapBuilder<Location, BuiltMap<Direction, BuiltList<String>>>? _alternateWords;
   MapBuilder<Location, BuiltMap<Direction, BuiltList<String>>>
-  get alternateWords =>
-      _$this._alternateWords ??=
-          new MapBuilder<Location, BuiltMap<Direction, BuiltList<String>>>();
+  get alternateWords => _$this._alternateWords ??=
+      new MapBuilder<Location, BuiltMap<Direction, BuiltList<String>>>();
   set alternateWords(
     MapBuilder<Location, BuiltMap<Direction, BuiltList<String>>>?
     alternateWords,

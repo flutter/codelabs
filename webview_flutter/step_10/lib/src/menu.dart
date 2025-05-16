@@ -48,21 +48,20 @@ req.onload = function() {
 req.send();''');
         }
       },
-      itemBuilder:
-          (context) => [
-            const PopupMenuItem<_MenuOptions>(
-              value: _MenuOptions.navigationDelegate,
-              child: Text('Navigate to YouTube'),
-            ),
-            const PopupMenuItem<_MenuOptions>(
-              value: _MenuOptions.userAgent,
-              child: Text('Show user-agent'),
-            ),
-            const PopupMenuItem<_MenuOptions>(
-              value: _MenuOptions.javascriptChannel,
-              child: Text('Lookup IP Address'),
-            ),
-          ],
+      itemBuilder: (context) => [
+        const PopupMenuItem<_MenuOptions>(
+          value: _MenuOptions.navigationDelegate,
+          child: Text('Navigate to YouTube'),
+        ),
+        const PopupMenuItem<_MenuOptions>(
+          value: _MenuOptions.userAgent,
+          child: Text('Show user-agent'),
+        ),
+        const PopupMenuItem<_MenuOptions>(
+          value: _MenuOptions.javascriptChannel,
+          child: Text('Lookup IP Address'),
+        ),
+      ],
     );
   }
 }

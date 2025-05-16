@@ -60,35 +60,31 @@ class _CrosswordGeneratorMenu extends ConsumerWidget {
       for (final entry in CrosswordSize.values)
         MenuItemButton(
           onPressed: () => ref.read(sizeProvider.notifier).setSize(entry),
-          leadingIcon:
-              entry == ref.watch(sizeProvider)
-                  ? Icon(Icons.radio_button_checked_outlined)
-                  : Icon(Icons.radio_button_unchecked_outlined),
+          leadingIcon: entry == ref.watch(sizeProvider)
+              ? Icon(Icons.radio_button_checked_outlined)
+              : Icon(Icons.radio_button_unchecked_outlined),
           child: Text(entry.label),
         ),
       MenuItemButton(
-        leadingIcon:
-            ref.watch(showDisplayInfoProvider)
-                ? Icon(Icons.check_box_outlined)
-                : Icon(Icons.check_box_outline_blank_outlined),
+        leadingIcon: ref.watch(showDisplayInfoProvider)
+            ? Icon(Icons.check_box_outlined)
+            : Icon(Icons.check_box_outline_blank_outlined),
         onPressed: () => ref.read(showDisplayInfoProvider.notifier).toggle(),
         child: Text('Display Info'),
       ),
       for (final count in BackgroundWorkers.values)
         MenuItemButton(
-          leadingIcon:
-              count == ref.watch(workerCountProvider)
-                  ? Icon(Icons.radio_button_checked_outlined)
-                  : Icon(Icons.radio_button_unchecked_outlined),
-          onPressed:
-              () => ref.read(workerCountProvider.notifier).setCount(count),
+          leadingIcon: count == ref.watch(workerCountProvider)
+              ? Icon(Icons.radio_button_checked_outlined)
+              : Icon(Icons.radio_button_unchecked_outlined),
+          onPressed: () =>
+              ref.read(workerCountProvider.notifier).setCount(count),
           child: Text(count.label),
         ),
     ],
-    builder:
-        (context, controller, child) => IconButton(
-          onPressed: () => controller.open(),
-          icon: Icon(Icons.settings),
-        ),
+    builder: (context, controller, child) => IconButton(
+      onPressed: () => controller.open(),
+      icon: Icon(Icons.settings),
+    ),
   );
 }

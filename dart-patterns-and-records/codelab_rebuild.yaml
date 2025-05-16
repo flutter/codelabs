@@ -664,7 +664,7 @@ steps:
         patch-u: |
           --- b/dart-patterns-and-records/step_12/lib/main.dart
           +++ a/dart-patterns-and-records/step_12/lib/main.dart
-          @@ -75,16 +75,18 @@ class BlockWidget extends StatelessWidget {
+          @@ -75,16 +75,21 @@ class BlockWidget extends StatelessWidget {
            
              @override
              Widget build(BuildContext context) {
@@ -685,7 +685,10 @@ steps:
           +        ),
           +        ParagraphBlock(:final text) => Text(text),
           +        CheckboxBlock(:final text, :final isChecked) => Row(
-          +          children: [Checkbox(value: isChecked, onChanged: (_) {}), Text(text)],
+          +          children: [
+          +            Checkbox(value: isChecked, onChanged: (_) {}),
+          +            Text(text),
+          +          ],
           +        ),
           +      },
                );

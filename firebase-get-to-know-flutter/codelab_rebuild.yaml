@@ -2031,18 +2031,17 @@ steps:
            import 'src/widgets.dart';
            
            class HomePage extends StatelessWidget {
-          @@ -19,6 +24,15 @@ class HomePage extends StatelessWidget {
+          @@ -19,6 +24,14 @@ class HomePage extends StatelessWidget {
                      const SizedBox(height: 8),
                      const IconAndDetail(Icons.calendar_today, 'October 30'),
                      const IconAndDetail(Icons.location_city, 'San Francisco'),
           +          Consumer<ApplicationState>(
-          +            builder:
-          +                (context, appState, _) => AuthFunc(
-          +                  loggedIn: appState.loggedIn,
-          +                  signOut: () {
-          +                    FirebaseAuth.instance.signOut();
-          +                  },
-          +                ),
+          +            builder: (context, appState, _) => AuthFunc(
+          +              loggedIn: appState.loggedIn,
+          +              signOut: () {
+          +                FirebaseAuth.instance.signOut();
+          +              },
+          +            ),
           +          ),
                      const Divider(
                        height: 8,
@@ -2179,25 +2178,23 @@ steps:
            import 'src/authentication.dart';
            import 'src/widgets.dart';
            
-          @@ -44,6 +45,22 @@ class HomePage extends StatelessWidget {
+          @@ -43,6 +44,20 @@ class HomePage extends StatelessWidget {
                      const Paragraph(
                        'Join us for a day full of Firebase Workshops and Pizza!',
                      ),
           +          Consumer<ApplicationState>(
-          +            builder:
-          +                (context, appState, _) => Column(
-          +                  crossAxisAlignment: CrossAxisAlignment.start,
-          +                  children: [
-          +                    if (appState.loggedIn) ...[
-          +                      const Header('Discussion'),
-          +                      GuestBook(
-          +                        addMessage:
-          +                            (message) =>
-          +                                appState.addMessageToGuestBook(message),
-          +                      ),
-          +                    ],
-          +                  ],
-          +                ),
+          +            builder: (context, appState, _) => Column(
+          +              crossAxisAlignment: CrossAxisAlignment.start,
+          +              children: [
+          +                if (appState.loggedIn) ...[
+          +                  const Header('Discussion'),
+          +                  GuestBook(
+          +                    addMessage: (message) =>
+          +                        appState.addMessageToGuestBook(message),
+          +                  ),
+          +                ],
+          +              ],
+          +            ),
           +          ),
                    ],
                  ),
@@ -2401,14 +2398,14 @@ steps:
         patch-u: |
           --- b/firebase-get-to-know-flutter/step_07/lib/home_page.dart
           +++ a/firebase-get-to-know-flutter/step_07/lib/home_page.dart
-          @@ -56,6 +56,7 @@ class HomePage extends StatelessWidget {
-                                   addMessage:
-                                       (message) =>
-                                           appState.addMessageToGuestBook(message),
-          +                        messages: appState.guestBookMessages,
-                                 ),
-                               ],
-                             ],
+          @@ -53,6 +53,7 @@ class HomePage extends StatelessWidget {
+                             GuestBook(
+                               addMessage: (message) =>
+                                   appState.addMessageToGuestBook(message),
+          +                    messages: appState.guestBookMessages,
+                             ),
+                           ],
+                         ],
       - name: Copy step_07
         copydir:
           from: gtk_flutter
@@ -2611,28 +2608,27 @@ steps:
            
            class HomePage extends StatelessWidget {
              const HomePage({super.key});
-          @@ -23,7 +24,11 @@ class HomePage extends StatelessWidget {
+          @@ -23,7 +24,10 @@ class HomePage extends StatelessWidget {
                    children: <Widget>[
                      Image.asset('assets/codelab.png'),
                      const SizedBox(height: 8),
           -          const IconAndDetail(Icons.calendar_today, 'October 30'),
           +          Consumer<ApplicationState>(
-          +            builder:
-          +                (context, appState, _) =>
-          +                    IconAndDetail(Icons.calendar_today, appState.eventDate),
+          +            builder: (context, appState, _) =>
+          +                IconAndDetail(Icons.calendar_today, appState.eventDate),
           +          ),
                      const IconAndDetail(Icons.location_city, 'San Francisco'),
                      Consumer<ApplicationState>(
-                       builder:
-          @@ -32,6 +37,7 @@ class HomePage extends StatelessWidget {
-                             signOut: () {
-                               FirebaseAuth.instance.signOut();
-                             },
-          +                  enableFreeSwag: appState.enableFreeSwag,
-                           ),
+                       builder: (context, appState, _) => AuthFunc(
+          @@ -31,6 +35,7 @@ class HomePage extends StatelessWidget {
+                         signOut: () {
+                           FirebaseAuth.instance.signOut();
+                         },
+          +              enableFreeSwag: appState.enableFreeSwag,
+                       ),
                      ),
                      const Divider(
-          @@ -42,15 +48,25 @@ class HomePage extends StatelessWidget {
+          @@ -41,14 +46,23 @@ class HomePage extends StatelessWidget {
                        color: Colors.grey,
                      ),
                      const Header("What we'll be doing"),
@@ -2642,30 +2638,28 @@ steps:
           +            builder: (context, appState, _) => Paragraph(appState.callToAction),
                      ),
                      Consumer<ApplicationState>(
-                       builder:
-                           (context, appState, _) => Column(
-                             crossAxisAlignment: CrossAxisAlignment.start,
-                             children: [
-          +                    switch (appState.attendees) {
-          +                      1 => const Paragraph('1 person going'),
-          +                      >= 2 => Paragraph('${appState.attendees} people going'),
-          +                      _ => const Paragraph('No one going'),
-          +                    },
-                               if (appState.loggedIn) ...[
-          +                      YesNoSelection(
-          +                        state: appState.attending,
-          +                        onSelection:
-          +                            (attending) => appState.attending = attending,
-          +                      ),
-                                 const Header('Discussion'),
-                                 GuestBook(
-                                   addMessage:
+                       builder: (context, appState, _) => Column(
+                         crossAxisAlignment: CrossAxisAlignment.start,
+                         children: [
+          +                switch (appState.attendees) {
+          +                  1 => const Paragraph('1 person going'),
+          +                  >= 2 => Paragraph('${appState.attendees} people going'),
+          +                  _ => const Paragraph('No one going'),
+          +                },
+                           if (appState.loggedIn) ...[
+          +                  YesNoSelection(
+          +                    state: appState.attending,
+          +                    onSelection: (attending) => appState.attending = attending,
+          +                  ),
+                             const Header('Discussion'),
+                             GuestBook(
+                               addMessage: (message) =>
       - name: Patch lib/main.dart
         path: gtk_flutter/lib/main.dart
         patch-u: |
           --- b/firebase-get-to-know-flutter/step_09/lib/main.dart
           +++ a/firebase-get-to-know-flutter/step_09/lib/main.dart
-          @@ -82,13 +82,28 @@ final _router = GoRouter(
+          @@ -82,13 +82,27 @@ final _router = GoRouter(
                    GoRoute(
                      path: 'profile',
                      builder: (context, state) {
@@ -2677,27 +2671,26 @@ steps:
           -                }),
           -              ],
           +            return Consumer<ApplicationState>(
-          +              builder:
-          +                  (context, appState, _) => ProfileScreen(
-          +                    key: ValueKey(appState.emailVerified),
-          +                    providers: const [],
-          +                    actions: [
-          +                      SignedOutAction(((context) {
-          +                        context.pushReplacement('/');
-          +                      })),
-          +                    ],
-          +                    children: [
-          +                      Visibility(
-          +                        visible: !appState.emailVerified,
-          +                        child: OutlinedButton(
-          +                          child: const Text('Recheck Verification State'),
-          +                          onPressed: () {
-          +                            appState.refreshLoggedInUser();
-          +                          },
-          +                        ),
-          +                      ),
-          +                    ],
+          +              builder: (context, appState, _) => ProfileScreen(
+          +                key: ValueKey(appState.emailVerified),
+          +                providers: const [],
+          +                actions: [
+          +                  SignedOutAction(((context) {
+          +                    context.pushReplacement('/');
+          +                  })),
+          +                ],
+          +                children: [
+          +                  Visibility(
+          +                    visible: !appState.emailVerified,
+          +                    child: OutlinedButton(
+          +                      child: const Text('Recheck Verification State'),
+          +                      onPressed: () {
+          +                        appState.refreshLoggedInUser();
+          +                      },
+          +                    ),
           +                  ),
+          +                ],
+          +              ),
                        );
                      },
                    ),

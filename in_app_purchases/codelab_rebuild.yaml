@@ -15881,11 +15881,10 @@ steps:
                   ),
                   ChangeNotifierProvider<DashCounter>(create: (_) => DashCounter()),
                   ChangeNotifierProvider<DashUpgrades>(
-                    create:
-                        (context) => DashUpgrades(
-                          context.read<DashCounter>(),
-                          context.read<FirebaseNotifier>(),
-                        ),
+                    create: (context) => DashUpgrades(
+                      context.read<DashCounter>(),
+                      context.read<FirebaseNotifier>(),
+                    ),
                   ),
                   ChangeNotifierProvider<IAPRepo>(
                     create: (context) => IAPRepo(context.read<FirebaseNotifier>()),
@@ -16401,10 +16400,9 @@ steps:
                   leading: Center(widthFactor: 1, child: Text(upgrade.count.toString())),
                   title: Text(
                     title,
-                    style:
-                        !upgrade.purchasable
-                            ? const TextStyle(color: Colors.redAccent)
-                            : null,
+                    style: !upgrade.purchasable
+                        ? const TextStyle(color: Colors.redAccent)
+                        : null,
                   ),
                   subtitle: Text('Produces ${upgrade.work} dashes per second'),
                   trailing: Text('${NumberFormat.compact().format(upgrade.cost)} dashes'),
@@ -16504,17 +16502,16 @@ steps:
               var purchases = context.watch<DashPurchases>();
               var products = purchases.products;
               return Column(
-                children:
-                    products
-                        .map(
-                          (product) => _PurchaseWidget(
-                            product: product,
-                            onPressed: () {
-                              purchases.buy(product);
-                            },
-                          ),
-                        )
-                        .toList(),
+                children: products
+                    .map(
+                      (product) => _PurchaseWidget(
+                        product: product,
+                        onPressed: () {
+                          purchases.buy(product);
+                        },
+                      ),
+                    )
+                    .toList(),
               );
             }
           }
@@ -16559,11 +16556,10 @@ steps:
               return ListView.separated(
                 shrinkWrap: true,
                 itemCount: purchases.length,
-                itemBuilder:
-                    (context, index) => ListTile(
-                      title: Text(purchases[index].title),
-                      subtitle: Text(purchases[index].status.toString()),
-                    ),
+                itemBuilder: (context, index) => ListTile(
+                  title: Text(purchases[index].title),
+                  subtitle: Text(purchases[index].status.toString()),
+                ),
                 separatorBuilder: (context, index) => const Divider(),
               );
             }
@@ -16622,17 +16618,15 @@ steps:
                 hasUpgrade = false;
                 return;
               }
-              var purchaseStream =
-                  _firestore
-                      .collection('purchases')
-                      .where('userId', isEqualTo: user.uid)
-                      .snapshots();
+              var purchaseStream = _firestore
+                  .collection('purchases')
+                  .where('userId', isEqualTo: user.uid)
+                  .snapshots();
               _purchaseSubscription = purchaseStream.listen((snapshot) {
-                purchases =
-                    snapshot.docs.map((document) {
-                      var data = document.data();
-                      return PastPurchase.fromJson(data);
-                    }).toList();
+                purchases = snapshot.docs.map((document) {
+                  var data = document.data();
+                  return PastPurchase.fromJson(data);
+                }).toList();
 
                 hasActiveSubscription = purchases.any(
                   (element) =>
@@ -16916,10 +16910,9 @@ steps:
               switch (type) {
                 case ProductType.subscription:
                   return SubscriptionPurchase(
-                    iapSource:
-                        e.fields!['iapSource']!.stringValue == 'googleplay'
-                            ? IAPSource.googleplay
-                            : IAPSource.appstore,
+                    iapSource: e.fields!['iapSource']!.stringValue == 'googleplay'
+                        ? IAPSource.googleplay
+                        : IAPSource.appstore,
                     orderId: e.fields!['orderId']!.stringValue!,
                     productId: e.fields!['productId']!.stringValue!,
                     userId: e.fields!['userId']!.stringValue,
@@ -16937,10 +16930,9 @@ steps:
                   );
                 case ProductType.nonSubscription:
                   return NonSubscriptionPurchase(
-                    iapSource:
-                        e.fields!['iapSource']!.stringValue == 'googleplay'
-                            ? IAPSource.googleplay
-                            : IAPSource.appstore,
+                    iapSource: e.fields!['iapSource']!.stringValue == 'googleplay'
+                        ? IAPSource.googleplay
+                        : IAPSource.appstore,
                     orderId: e.fields!['orderId']!.stringValue!,
                     productId: e.fields!['productId']!.stringValue!,
                     userId: e.fields!['userId']!.stringValue,
@@ -17180,7 +17172,7 @@ steps:
            void main() {
              runApp(const MyApp());
            }
-          @@ -66,6 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
+          @@ -65,6 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
                    ),
                    ChangeNotifierProvider<DashPurchases>(
                      create: (context) => DashPurchases(context.read<DashCounter>()),
@@ -17374,7 +17366,7 @@ steps:
            
              final iapConnection = IAPConnection.instance;
            
-          @@ -37,6 +28,26 @@ class DashPurchases extends ChangeNotifier {
+          @@ -37,6 +28,27 @@ class DashPurchases extends ChangeNotifier {
                  onDone: _updateStreamOnDone,
                  onError: _updateStreamOnError,
                );
@@ -17394,14 +17386,15 @@ steps:
           +      storeKeyUpgrade,
           +    };
           +    final response = await iapConnection.queryProductDetails(ids);
-          +    products =
-          +        response.productDetails.map((e) => PurchasableProduct(e)).toList();
+          +    products = response.productDetails
+          +        .map((e) => PurchasableProduct(e))
+          +        .toList();
           +    storeState = StoreState.available;
           +    notifyListeners();
              }
            
              @override
-          @@ -46,18 +57,45 @@ class DashPurchases extends ChangeNotifier {
+          @@ -46,18 +58,45 @@ class DashPurchases extends ChangeNotifier {
              }
            
              Future<void> buy(PurchasableProduct product) async {
@@ -17495,16 +17488,15 @@ steps:
         patch-u: |
           --- b/in_app_purchases/step_10/app/lib/main.dart
           +++ a/in_app_purchases/step_10/app/lib/main.dart
-          @@ -79,7 +79,11 @@ class _MyHomePageState extends State<MyHomePage> {
+          @@ -78,7 +78,10 @@ class _MyHomePageState extends State<MyHomePage> {
                      create: (context) => IAPRepo(context.read<FirebaseNotifier>()),
                    ),
                    ChangeNotifierProvider<DashPurchases>(
           -          create: (context) => DashPurchases(context.read<DashCounter>()),
-          +          create:
-          +              (context) => DashPurchases(
-          +                context.read<DashCounter>(),
-          +                context.read<FirebaseNotifier>(),
-          +              ),
+          +          create: (context) => DashPurchases(
+          +            context.read<DashCounter>(),
+          +            context.read<FirebaseNotifier>(),
+          +          ),
                      lazy: false,
                    ),
                  ],
@@ -17544,7 +17536,7 @@ steps:
                final purchaseUpdated = iapConnection.purchaseStream;
                _subscription = purchaseUpdated.listen(
                  _onPurchaseUpdate,
-          @@ -83,13 +87,19 @@ class DashPurchases extends ChangeNotifier {
+          @@ -84,13 +88,19 @@ class DashPurchases extends ChangeNotifier {
            
              Future<void> _handlePurchase(PurchaseDetails purchaseDetails) async {
                if (purchaseDetails.status == PurchaseStatus.purchased) {
@@ -17571,7 +17563,7 @@ steps:
                  }
                }
            
-          @@ -98,6 +108,30 @@ class DashPurchases extends ChangeNotifier {
+          @@ -99,6 +109,30 @@ class DashPurchases extends ChangeNotifier {
                }
              }
            
@@ -17656,7 +17648,7 @@ steps:
         patch-u: |
           --- b/in_app_purchases/step_10/dart-backend/bin/server.dart
           +++ a/in_app_purchases/step_10/dart-backend/bin/server.dart
-          @@ -2,12 +2,111 @@
+          @@ -2,12 +2,113 @@
            // for details. All rights reserved. Use of this source code is governed by a
            // BSD-style license that can be found in the LICENSE file.
            
@@ -17679,8 +17671,9 @@ steps:
           +/// and their dependencies
           +Future<Map<String, PurchaseHandler>> _createPurchaseHandlers() async {
           +  // Configure Android Publisher API access
-          +  final serviceAccountGooglePlay =
-          +      File('assets/service-account-google-play.json').readAsStringSync();
+          +  final serviceAccountGooglePlay = File(
+          +    'assets/service-account-google-play.json',
+          +  ).readAsStringSync();
           +  final clientCredentialsGooglePlay = auth.ServiceAccountCredentials.fromJson(
           +    serviceAccountGooglePlay,
           +  );
@@ -17691,8 +17684,9 @@ steps:
           +  final androidPublisher = ap.AndroidPublisherApi(clientGooglePlay);
           +
           +  // Configure Firestore API access
-          +  final serviceAccountFirebase =
-          +      File('assets/service-account-firebase.json').readAsStringSync();
+          +  final serviceAccountFirebase = File(
+          +    'assets/service-account-firebase.json',
+          +  ).readAsStringSync();
           +  final clientCredentialsFirebase = auth.ServiceAccountCredentials.fromJson(
           +    serviceAccountFirebase,
           +  );
@@ -18113,12 +18107,12 @@ steps:
         patch-u: |
           --- b/in_app_purchases/step_11/app/lib/main.dart
           +++ a/in_app_purchases/step_11/app/lib/main.dart
-          @@ -83,6 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
-                         (context) => DashPurchases(
-                           context.read<DashCounter>(),
-                           context.read<FirebaseNotifier>(),
-          +                context.read<IAPRepo>(),
-                         ),
+          @@ -81,6 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
+                     create: (context) => DashPurchases(
+                       context.read<DashCounter>(),
+                       context.read<FirebaseNotifier>(),
+          +            context.read<IAPRepo>(),
+                     ),
                      lazy: false,
                    ),
       - name: Patch app/lib/logic/dash_purchases.dart
@@ -18157,7 +18151,7 @@ steps:
                loadPurchases();
              }
            
-          @@ -57,6 +59,7 @@ class DashPurchases extends ChangeNotifier {
+          @@ -58,6 +60,7 @@ class DashPurchases extends ChangeNotifier {
              @override
              void dispose() {
                _subscription.cancel();
@@ -18165,7 +18159,7 @@ steps:
                super.dispose();
              }
            
-          @@ -139,4 +142,59 @@ class DashPurchases extends ChangeNotifier {
+          @@ -140,4 +143,55 @@ class DashPurchases extends ChangeNotifier {
              void _updateStreamOnError(dynamic error) {
                //Handle error here
              }
@@ -18176,16 +18170,12 @@ steps:
           +    // Get a list of purchasable products for the subscription and upgrade.
           +    // This should be 1 per type.
           +    if (products.isNotEmpty) {
-          +      subscriptions =
-          +          products
-          +              .where(
-          +                (element) => element.productDetails.id == storeKeySubscription,
-          +              )
-          +              .toList();
-          +      upgrades =
-          +          products
-          +              .where((element) => element.productDetails.id == storeKeyUpgrade)
-          +              .toList();
+          +      subscriptions = products
+          +          .where((element) => element.productDetails.id == storeKeySubscription)
+          +          .toList();
+          +      upgrades = products
+          +          .where((element) => element.productDetails.id == storeKeyUpgrade)
+          +          .toList();
           +    }
           +
           +    // Set the subscription in the counter logic and show/hide purchased on the
@@ -18248,7 +18238,7 @@ steps:
            import 'package:googleapis_auth/auth_io.dart' as auth;
            import 'package:shelf/shelf.dart';
            import 'package:shelf_router/shelf_router.dart';
-          @@ -26,12 +29,16 @@ Future<Map<String, PurchaseHandler>> _createPurchaseHandlers() async {
+          @@ -27,12 +30,16 @@ Future<Map<String, PurchaseHandler>> _createPurchaseHandlers() async {
              final clientCredentialsGooglePlay = auth.ServiceAccountCredentials.fromJson(
                serviceAccountGooglePlay,
              );
@@ -18267,14 +18257,15 @@ steps:
           +  final pubsubApi = pubsub.PubsubApi(clientGooglePlay);
           +
              // Configure Firestore API access
-             final serviceAccountFirebase =
-                 File('assets/service-account-firebase.json').readAsStringSync();
-          @@ -47,9 +54,41 @@ Future<Map<String, PurchaseHandler>> _createPurchaseHandlers() async {
+             final serviceAccountFirebase = File(
+               'assets/service-account-firebase.json',
+          @@ -49,9 +56,42 @@ Future<Map<String, PurchaseHandler>> _createPurchaseHandlers() async {
              final projectId = json['project_id'] as String;
              final iapRepository = IapRepository(firestoreApi, projectId);
            
-          +  final subscriptionKeyAppStore =
-          +      File('assets/SubscriptionKey.p8').readAsStringSync();
+          +  final subscriptionKeyAppStore = File(
+          +    'assets/SubscriptionKey.p8',
+          +  ).readAsStringSync();
           +
           +  // Configure Apple Store API access
           +  var appStoreEnvironment = AppStoreEnvironment.sandbox(
@@ -18338,7 +18329,7 @@ steps:
            
              final _iTunesAPI = ITunesApi(
                ITunesHttpClient(ITunesEnvironment.sandbox(), loggingEnabled: true),
-          @@ -96,4 +105,53 @@ class AppStorePurchaseHandler extends PurchaseHandler {
+          @@ -96,4 +105,52 @@ class AppStorePurchaseHandler extends PurchaseHandler {
                  return false;
                }
              }
@@ -18381,10 +18372,9 @@ steps:
           +              ),
           +              type: ProductType.subscription,
           +              expiryDate: expirationDate,
-          +              status:
-          +                  isExpired
-          +                      ? SubscriptionStatus.expired
-          +                      : SubscriptionStatus.active,
+          +              status: isExpired
+          +                  ? SubscriptionStatus.expired
+          +                  : SubscriptionStatus.active,
           +            ),
           +          );
           +        }
@@ -18526,7 +18516,7 @@ steps:
         patch-u: |
           --- b/in_app_purchases/complete/app/lib/logic/dash_purchases.dart
           +++ a/in_app_purchases/complete/app/lib/logic/dash_purchases.dart
-          @@ -192,8 +192,8 @@ class DashPurchases extends ChangeNotifier {
+          @@ -189,8 +189,8 @@ class DashPurchases extends ChangeNotifier {
              }
            
              void _updateStatus(PurchasableProduct product, ProductStatus status) {

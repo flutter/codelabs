@@ -13,8 +13,9 @@ String _$firebaseAppHash() => r'eaf72348ad852e52538678ec3a1b50b5c9af17ef';
 final firebaseAppProvider = AutoDisposeFutureProvider<FirebaseApp>.internal(
   firebaseApp,
   name: r'firebaseAppProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$firebaseAppHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$firebaseAppHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
@@ -29,8 +30,9 @@ String _$geminiModelHash() => r'72e94baec9e321378d2b67e75a77b0731600ab2f';
 final geminiModelProvider = AutoDisposeFutureProvider<GenerativeModel>.internal(
   geminiModel,
   name: r'geminiModelProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$geminiModelHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$geminiModelHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
@@ -45,8 +47,9 @@ String _$chatSessionHash() => r'fdd5e4ed9d06db9712c9300eeb8a1b54a115b10a';
 final chatSessionProvider = FutureProvider<ChatSession>.internal(
   chatSession,
   name: r'chatSessionProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$chatSessionHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$chatSessionHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

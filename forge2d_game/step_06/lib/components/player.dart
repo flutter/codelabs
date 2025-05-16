@@ -30,12 +30,11 @@ class Player extends BodyComponent with DragCallbacks {
     : _sprite = sprite,
       super(
         renderBody: false,
-        bodyDef:
-            BodyDef()
-              ..position = position
-              ..type = BodyType.static
-              ..angularDamping = 0.1
-              ..linearDamping = 0.1,
+        bodyDef: BodyDef()
+          ..position = position
+          ..type = BodyType.static
+          ..angularDamping = 0.1
+          ..linearDamping = 0.1,
         fixtureDefs: [
           FixtureDef(CircleShape()..radius = playerSize / 2)
             ..restitution = 0.4

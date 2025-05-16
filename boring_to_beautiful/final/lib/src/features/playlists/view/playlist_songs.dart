@@ -38,43 +38,41 @@ class PlaylistSongs extends StatelessWidget {
           ),
         ),
       ],
-      rowBuilder:
-          (context, index) => DataRow.byIndex(
-            index: index,
-            cells: [
-              DataCell(
-                HoverableSongPlayButton(
-                  hoverMode: HoverMode.overlay,
-                  song: playlist.songs[index],
-                  child: Center(
-                    child: Text(
-                      (index + 1).toString(),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
+      rowBuilder: (context, index) => DataRow.byIndex(
+        index: index,
+        cells: [
+          DataCell(
+            HoverableSongPlayButton(
+              hoverMode: HoverMode.overlay,
+              song: playlist.songs[index],
+              child: Center(
+                child: Text(
+                  (index + 1).toString(),
+                  textAlign: TextAlign.center,
                 ),
               ),
-              DataCell(
-                Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(2),
-                      child: ClippedImage(playlist.songs[index].image.image),
-                    ),
-                    const SizedBox(width: 10),
-                    Expanded(child: Text(playlist.songs[index].title)),
-                  ],
-                ),
-              ),
-              DataCell(Text(playlist.songs[index].length.toHumanizedString())),
-            ],
+            ),
           ),
+          DataCell(
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(2),
+                  child: ClippedImage(playlist.songs[index].image.image),
+                ),
+                const SizedBox(width: 10),
+                Expanded(child: Text(playlist.songs[index].title)),
+              ],
+            ),
+          ),
+          DataCell(Text(playlist.songs[index].length.toHumanizedString())),
+        ],
+      ),
       itemBuilder: (song, index) {
         return ListTile(
-          onTap:
-              () => BlocProvider.of<PlaybackBloc>(
-                context,
-              ).add(PlaybackEvent.changeSong(song)),
+          onTap: () => BlocProvider.of<PlaybackBloc>(
+            context,
+          ).add(PlaybackEvent.changeSong(song)),
           leading: ClippedImage(song.image.image),
           title: Text(song.title),
           subtitle: Text(song.length.toHumanizedString()),
