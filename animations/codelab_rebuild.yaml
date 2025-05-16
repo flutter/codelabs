@@ -11,30 +11,20 @@ steps:
         path: quiz/ios/Runner.xcodeproj/project.pbxproj
       - name: Remove README
         rm: quiz/README.md
-      - name: Replace pubspec.yaml
+      - name: Add deps
+        path: quiz
+        flutter: pub add animations
+      - name: Patch pubspec.yaml
         path: quiz/pubspec.yaml
-        replace-contents: |
-          name: quiz
-          description: A quiz app for demonstrating animation effects in Flutter
-          publish_to: "none"
-          version: 1.0.0
-
-          environment:
-            sdk: ^3.8.0-0
-
-          dependencies:
-            animations: ^2.0.0
-            flutter:
-              sdk: flutter
-
-          dev_dependencies:
-            flutter_test:
-              sdk: flutter
-            flutter_lints: ^4.0.0
-
-
-          flutter:
-            uses-material-design: true
+        patch-u: |
+          --- b/animations/step_01/pubspec.yaml
+          +++ a/animations/step_01/pubspec.yaml
+          @@ -1,5 +1,5 @@
+           name: quiz
+          -description: "A new Flutter project."
+          +description: "A quiz app for demonstrating animation effects in Flutter."
+           publish_to: 'none'
+           version: 0.1.0
       - name: Replace analysis_options.yaml
         path: quiz/analysis_options.yaml
         replace-contents: |
@@ -99,16 +89,16 @@ steps:
         path: quiz/lib/main.dart
         replace-contents: |
           import 'package:flutter/material.dart';
-          
+
           import 'home_screen.dart';
-          
+
           void main() {
             runApp(MainApp());
           }
-          
+
           class MainApp extends StatelessWidget {
             const MainApp({super.key});
-          
+
             @override
             Widget build(BuildContext context) {
               return MaterialApp(
@@ -180,7 +170,7 @@ steps:
         replace-contents: |
           import 'package:flutter/cupertino.dart';
           import 'model.dart';
-          
+
           class QuizViewModel extends ChangeNotifier {
             final QuestionBank _questionBank = QuestionBank();
             final VoidCallback onGameOver;
@@ -190,34 +180,34 @@ steps:
             int score = 0;
             bool didAnswerQuestion = false;
             bool get hasNextQuestion => answeredQuestionCount < totalQuestions;
-          
+
             QuizViewModel({required this.onGameOver}) {
               totalQuestions = _questionBank.remainingQuestions;
               getNextQuestion();
             }
-          
+
             void getNextQuestion() {
               if (_questionBank.hasNextQuestion) {
                 currentQuestion = _questionBank.getRandomQuestion();
                 answeredQuestionCount++;
               }
-          
+
               didAnswerQuestion = false;
-          
+
               notifyListeners();
             }
-          
+
             void checkAnswer(int selectedIndex) {
               if (!didAnswerQuestion && currentQuestion?.correctAnswer == selectedIndex) {
                 score++;
               }
-          
+
               didAnswerQuestion = true;
-          
+
               if (!_questionBank.hasNextQuestion) {
                 onGameOver();
               }
-          
+
               notifyListeners();
             }
           }
@@ -464,7 +454,7 @@ steps:
            import 'package:flutter/material.dart';
           +import 'scoreboard.dart';
            import 'view_model.dart';
-           
+
            class QuestionScreen extends StatefulWidget {
           @@ -159,13 +160,9 @@ class StatusBar extends StatelessWidget {
                    child: Row(
@@ -589,9 +579,9 @@ steps:
              final Color _deactivatedColor = Colors.grey.shade400;
              final Color _activatedColor = Colors.yellow.shade700;
           +  final Curve _curve = Curves.elasticOut;
-           
+
              AnimatedStar({super.key, required this.isActive});
-           
+
           @@ -37,8 +38,10 @@ class AnimatedStar extends StatelessWidget {
              Widget build(BuildContext context) {
                return AnimatedScale(
@@ -618,7 +608,7 @@ steps:
           --- b/animations/step_03_a/lib/question_screen.dart
           +++ a/animations/step_03_a/lib/question_screen.dart
           @@ -85,13 +85,17 @@ class QuestionCard extends StatelessWidget {
-           
+
              @override
              Widget build(BuildContext context) {
           -    return Card(
@@ -703,7 +693,7 @@ steps:
       - name: Copy step_03_c
         copydir:
           from: quiz
-          to: step_03_c     
+          to: step_03_c
 
   - name: step_03_d
     steps:
@@ -825,7 +815,7 @@ steps:
           +import 'flip_effect.dart';
            import 'scoreboard.dart';
            import 'view_model.dart';
-           
+
           @@ -148,21 +149,24 @@ class AnswerCards extends StatelessWidget {
                    if (correctAnswer == index) {
                      color = Theme.of(context).colorScheme.tertiaryContainer;
@@ -885,14 +875,14 @@ steps:
              final Widget child;
              final Duration duration;
           +  final double delayAmount;
-           
+
              const CardFlipEffect({
                super.key,
                required this.child,
                required this.duration,
           +    required this.delayAmount,
              });
-           
+
              @override
       - name: Patch lib/question_screen.dart
         path: quiz/lib/question_screen.dart
@@ -926,17 +916,17 @@ steps:
              late final AnimationController _animationController;
              Widget? _previousChild;
           +  late final Animation<double> _animationWithDelay;
-           
+
              @override
              void initState() {
           @@ -29,7 +30,7 @@ class _CardFlipEffectState extends State<CardFlipEffect>
-           
+
                _animationController = AnimationController(
                  vsync: this,
           -      duration: widget.duration,
           +      duration: widget.duration * (widget.delayAmount + 1),
                );
-           
+
                _animationController.addListener(() {
           @@ -37,6 +38,15 @@ class _CardFlipEffectState extends State<CardFlipEffect>
                    _animationController.reset();
@@ -952,7 +942,7 @@ steps:
           +      TweenSequenceItem(tween: Tween(begin: 0.0, end: 1.0), weight: 1.0),
           +    ]).animate(_animationController);
              }
-           
+
              @override
       - name: Copy step_04_c
         copydir:
@@ -1039,7 +1029,7 @@ steps:
           +import 'package:animations/animations.dart';
            import 'package:flutter/material.dart';
            import 'question_screen.dart';
-           
+
           @@ -30,8 +31,9 @@ class HomeScreen extends StatelessWidget {
                                },
                                transitionsBuilder:
@@ -1060,7 +1050,7 @@ steps:
           @@ -1,3 +1,4 @@
           +import 'package:animations/animations.dart';
            import 'package:flutter/material.dart';
-           
+
            import 'home_screen.dart';
           @@ -15,6 +16,15 @@ class MainApp extends StatelessWidget {
                  debugShowCheckedModeBanner: false,
@@ -1096,7 +1086,7 @@ steps:
           -import 'package:animations/animations.dart';
            import 'package:flutter/material.dart';
            import 'question_screen.dart';
-           
+
           @@ -25,18 +24,10 @@ class HomeScreen extends StatelessWidget {
                            // Show the question screen to start the game
                            Navigator.push(
@@ -1129,7 +1119,7 @@ steps:
            import 'flip_effect.dart';
            import 'scoreboard.dart';
           @@ -86,28 +87,15 @@ class QuestionCard extends StatelessWidget {
-           
+
              @override
              Widget build(BuildContext context) {
           -    return AnimatedSwitcher(
@@ -1184,7 +1174,7 @@ steps:
                onGameOver: _handleGameOver,
              );
           +  VoidCallback? _showGameOverScreen;
-           
+
              @override
              Widget build(BuildContext context) {
           @@ -38,7 +39,11 @@ class _QuestionScreenState extends State<QuestionScreen> {
@@ -1203,7 +1193,7 @@ steps:
           @@ -58,24 +63,47 @@ class _QuestionScreenState extends State<QuestionScreen> {
                );
              }
-           
+
           +  void _handleChangeOpenContainer(VoidCallback openContainer) {
           +    _showGameOverScreen = openContainer;
           +  }
@@ -1263,7 +1253,7 @@ steps:
           @@ -83,14 +111,22 @@ class _QuestionScreenState extends State<QuestionScreen> {
            class QuestionCard extends StatelessWidget {
              final String? question;
-           
+
           -  const QuestionCard({required this.question, super.key});
           +  const QuestionCard({
           +    required this.onChangeOpenContainer,
@@ -1276,7 +1266,7 @@ steps:
           +  final QuizViewModel viewModel;
           +
           +  static const _backgroundColor = Color(0xfff2f3fa);
-           
+
              @override
              Widget build(BuildContext context) {
                return PageTransitionSwitcher(
@@ -1335,23 +1325,23 @@ steps:
         path: quiz
         dart: analyze --fatal-infos
       - name: Build Android app
-        platforms: [ macos ]
+        platforms: [macos]
         path: quiz
         flutter: build apk
       - name: Build iOS app
-        platforms: [ macos ]
+        platforms: [macos]
         path: quiz
         flutter: build ios --simulator
       - name: Build macOS app
-        platforms: [ macos ]
+        platforms: [macos]
         path: quiz
         flutter: build macos
       - name: Build Linux app
-        platforms: [ linux ]
+        platforms: [linux]
         path: quiz
         flutter: build linux
       - name: Build Windows app
-        platforms: [ windows ]
+        platforms: [windows]
         path: quiz
         flutter: build windows
       - name: Build Web app
