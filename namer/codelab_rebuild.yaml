@@ -1,42 +1,17 @@
-name: Your first Flutter app (updated for 2023)
+name: Your first Flutter app
 steps:
   - name: step_03
     steps:
       - name: Remove generated code
         rmdir: step_03
       - name: Create project
-        flutter: create namer_app
+        flutter: create --empty namer_app
       - name: Strip DEVELOPMENT_TEAM
         strip-lines-containing: DEVELOPMENT_TEAM =
         path: namer_app/ios/Runner.xcodeproj/project.pbxproj
-      - name: Replace pubspec.yaml
-        path: namer_app/pubspec.yaml
-        replace-contents: |
-          name: namer_app
-          description: A new Flutter project.
-
-          publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-
-          version: 0.0.1+1
-
-          environment:
-            sdk: ^3.8.0-0
-
-          dependencies:
-            flutter:
-              sdk: flutter
-
-            english_words: ^4.0.0
-            provider: ^6.1.2
-
-          dev_dependencies:
-            flutter_test:
-              sdk: flutter
-
-            flutter_lints: ^5.0.0
-
-          flutter:
-            uses-material-design: true
+      - name: Add deps
+        path: namer_app
+        flutter: pub add english_words provider
       - name: Update dependencies
         path: namer_app
         flutter: pub upgrade --major-versions
@@ -101,7 +76,10 @@ steps:
           }
       - name: Remove README
         rm: namer_app/README.md
-      - name: Replace test/widget_test.dart
+      - name: Mkdir test
+        path: namer_app
+        mkdir: test
+      - name: Add test/widget_test.dart
         path: namer_app/test/widget_test.dart
         replace-contents: |
           import 'package:flutter_test/flutter_test.dart';
@@ -115,19 +93,19 @@ steps:
             });
           }
       - name: Build iOS simulator bundle
-        platforms: [ macos ]
+        platforms: [macos]
         path: namer_app
         flutter: build ios --simulator
       - name: Build macOS app
-        platforms: [ macos ]
+        platforms: [macos]
         path: namer_app
         flutter: build macos
       - name: Build Linux app
-        platforms: [ linux ]
+        platforms: [linux]
         path: namer_app
         flutter: build linux
       - name: Build Windows app
-        platforms: [ windows ]
+        platforms: [windows]
         path: namer_app
         flutter: build windows
       - name: Copy step_03
@@ -147,7 +125,7 @@ steps:
           --- b/namer/step_04_a_widget/lib/main.dart
           +++ a/namer/step_04_a_widget/lib/main.dart
           @@ -35,7 +35,16 @@ class MyHomePage extends StatelessWidget {
-           
+
                return Scaffold(
                  body: Column(
           -        children: [Text('A random idea:'), Text(appState.current.asLowerCase)],
@@ -179,7 +157,7 @@ steps:
            }
       - name: Copy step_04_a_widget
         copydir:
-          from: namer_app 
+          from: namer_app
           to: step_04_a_widget
   - name: step_04_b_behavior
     steps:
@@ -191,7 +169,7 @@ steps:
           --- b/namer/step_04_b_behavior/lib/main.dart
           +++ a/namer/step_04_b_behavior/lib/main.dart
           @@ -26,6 +26,11 @@ class MyApp extends StatelessWidget {
-           
+
            class MyAppState extends ChangeNotifier {
              var current = WordPair.random();
           +
@@ -200,7 +178,7 @@ steps:
           +    notifyListeners();
           +  }
            }
-           
+
            class MyHomePage extends StatelessWidget {
           @@ -40,7 +45,7 @@ class MyHomePage extends StatelessWidget {
                      Text(appState.current.asLowerCase),
@@ -219,7 +197,7 @@ steps:
           @@ -1,3 +1,4 @@
           +import 'package:flutter/material.dart';
            import 'package:flutter_test/flutter_test.dart';
-           
+
            import 'package:namer_app/main.dart';
           @@ -7,4 +8,43 @@ void main() {
                await tester.pumpWidget(const MyApp());
@@ -267,7 +245,7 @@ steps:
            }
       - name: Copy step_04_b_behavior
         copydir:
-          from: namer_app 
+          from: namer_app
           to: step_04_b_behavior
   - name: step_05_a_pair
     steps:
@@ -283,7 +261,7 @@ steps:
              Widget build(BuildContext context) {
                var appState = context.watch<MyAppState>();
           +    var pair = appState.current;
-           
+
                return Scaffold(
                  body: Column(
                    children: [
@@ -295,7 +273,7 @@ steps:
                          appState.getNext();
       - name: Copy step_05_a_pair
         copydir:
-          from: namer_app 
+          from: namer_app
           to: step_05_a_pair
   - name: step_05_b_extract
     steps:
@@ -337,7 +315,7 @@ steps:
           +++ a/namer/step_05_b_extract/test/widget_test.dart
           @@ -13,13 +13,9 @@ void main() {
                await tester.pumpWidget(const MyApp());
-           
+
                String findWordPair() {
           -      final wordPairTextWidget = tester
           -          // Get all Text widgets...
@@ -353,7 +331,7 @@ steps:
                }
       - name: Copy step_05_b_extract
         copydir:
-          from: namer_app 
+          from: namer_app
           to: step_05_b_extract
   - name: step_05_c_card_padding
     steps:
@@ -365,7 +343,7 @@ steps:
           --- b/namer/step_05_c_card_padding/lib/main.dart
           +++ a/namer/step_05_c_card_padding/lib/main.dart
           @@ -63,6 +63,11 @@ class BigCard extends StatelessWidget {
-           
+
              @override
              Widget build(BuildContext context) {
           -    return Text(pair.asLowerCase);
@@ -379,7 +357,7 @@ steps:
            }
       - name: Copy step_05_c_card_padding
         copydir:
-          from: namer_app 
+          from: namer_app
           to: step_05_c_card_padding
   - name: step_05_d_theme
     steps:
@@ -391,7 +369,7 @@ steps:
           --- b/namer/step_05_d_theme/lib/main.dart
           +++ a/namer/step_05_d_theme/lib/main.dart
           @@ -63,7 +63,10 @@ class BigCard extends StatelessWidget {
-           
+
              @override
              Widget build(BuildContext context) {
           +    final theme = Theme.of(context);
@@ -403,7 +381,7 @@ steps:
                    child: Text(pair.asLowerCase),
       - name: Copy step_05_d_theme
         copydir:
-          from: namer_app 
+          from: namer_app
           to: step_05_d_theme
   - name: step_05_e_text_style
     steps:
@@ -421,7 +399,7 @@ steps:
           +    final style = theme.textTheme.displayMedium!.copyWith(
           +      color: theme.colorScheme.onPrimary,
           +    );
-           
+
                return Card(
                  color: theme.colorScheme.primary,
                  child: Padding(
@@ -433,7 +411,7 @@ steps:
              }
       - name: Copy step_05_e_text_style
         copydir:
-          from: namer_app 
+          from: namer_app
           to: step_05_e_text_style
   - name: step_05_f_accessibility
     steps:
@@ -459,7 +437,7 @@ steps:
              }
       - name: Copy step_05_f_accessibility
         copydir:
-          from: namer_app 
+          from: namer_app
           to: step_05_f_accessibility
   - name: step_05_g_center_vertical
     steps:
@@ -471,7 +449,7 @@ steps:
           --- b/namer/step_05_g_center_vertical/lib/main.dart
           +++ a/namer/step_05_g_center_vertical/lib/main.dart
           @@ -41,6 +41,7 @@ class MyHomePage extends StatelessWidget {
-           
+
                return Scaffold(
                  body: Column(
           +        mainAxisAlignment: MainAxisAlignment.center,
@@ -480,7 +458,7 @@ steps:
                      BigCard(pair: pair),
       - name: Copy step_05_g_center_vertical
         copydir:
-          from: namer_app 
+          from: namer_app
           to: step_05_g_center_vertical
   - name: step_05_h_center_horizontal
     steps:
@@ -493,7 +471,7 @@ steps:
           +++ a/namer/step_05_h_center_horizontal/lib/main.dart
           @@ -40,18 +40,20 @@ class MyHomePage extends StatelessWidget {
                var pair = appState.current;
-           
+
                return Scaffold(
           -      body: Column(
           -        mainAxisAlignment: MainAxisAlignment.center,
@@ -526,7 +504,7 @@ steps:
              }
       - name: Copy step_05_h_center_horizontal
         copydir:
-          from: namer_app 
+          from: namer_app
           to: step_05_h_center_horizontal
   - name: step_05_i_optional_changes
     steps:
@@ -559,11 +537,11 @@ steps:
           -    expect(find.text('A random AWESOME idea:'), findsOneWidget);
           +    expect(find.text('Next'), findsOneWidget);
              });
-           
+
              testWidgets('Tapping button changes word pair', (WidgetTester tester) async {
       - name: Copy step_05_i_optional_changes
         copydir:
-          from: namer_app 
+          from: namer_app
           to: step_05_i_optional_changes
   - name: step_06_a_business_logic
     steps:
@@ -590,11 +568,11 @@ steps:
           +    notifyListeners();
           +  }
            }
-           
+
            class MyHomePage extends StatelessWidget {
       - name: Copy step_06_a_business_logic
         copydir:
-          from: namer_app 
+          from: namer_app
           to: step_06_a_business_logic
   - name: step_06_b_add_row
     steps:
@@ -629,7 +607,7 @@ steps:
                    ),
       - name: Copy step_06_b_add_row
         copydir:
-          from: namer_app 
+          from: namer_app
           to: step_06_b_add_row
   - name: step_06_c_add_like_button
     steps:
@@ -643,7 +621,7 @@ steps:
           @@ -50,6 +50,13 @@ class MyHomePage extends StatelessWidget {
                var appState = context.watch<MyAppState>();
                var pair = appState.current;
-           
+
           +    IconData icon;
           +    if (appState.favorites.contains(pair)) {
           +      icon = Icons.favorite;
@@ -703,7 +681,7 @@ steps:
            }
       - name: Copy step_06_c_add_like_button
         copydir:
-          from: namer_app 
+          from: namer_app
           to: step_06_c_add_like_button
   - name: step_07_a_split_my_home_page
     steps:
@@ -757,11 +735,11 @@ steps:
           +  Widget build(BuildContext context) {
                var appState = context.watch<MyAppState>();
                var pair = appState.current;
-           
+
           @@ -57,34 +94,32 @@
                  icon = Icons.favorite_border;
                }
-           
+
           -    return Scaffold(
           -      body: Center(
           -        child: Column(
@@ -821,7 +799,7 @@ steps:
              }
       - name: Copy step_07_a_split_my_home_page
         copydir:
-          from: namer_app 
+          from: namer_app
           to: step_07_a_split_my_home_page
   - name: step_07_b_convert_to_stateful
     steps:
@@ -835,7 +813,7 @@ steps:
           @@ -44,7 +44,12 @@ class MyAppState extends ChangeNotifier {
              }
            }
-           
+
           -class MyHomePage extends StatelessWidget {
           +class MyHomePage extends StatefulWidget {
           +  @override
@@ -848,7 +826,7 @@ steps:
                return Scaffold(
       - name: Copy step_07_b_convert_to_stateful
         copydir:
-          from: namer_app 
+          from: namer_app
           to: step_07_b_convert_to_stateful
   - name: step_07_c_add_selectedindex
     steps:
@@ -884,7 +862,7 @@ steps:
                      ),
       - name: Copy step_07_c_add_selectedindex
         copydir:
-          from: namer_app 
+          from: namer_app
           to: step_07_c_add_selectedindex
   - name: step_07_d_use_selectedindex
     steps:
@@ -896,7 +874,7 @@ steps:
           --- b/namer/step_07_d_use_selectedindex/lib/main.dart
           +++ a/namer/step_07_d_use_selectedindex/lib/main.dart
           @@ -54,6 +54,16 @@ class _MyHomePageState extends State<MyHomePage> {
-           
+
              @override
              Widget build(BuildContext context) {
           +    Widget page;
@@ -923,7 +901,7 @@ steps:
                    ],
       - name: Copy step_07_d_use_selectedindex
         copydir:
-          from: namer_app 
+          from: namer_app
           to: step_07_d_use_selectedindex
   - name: step_07_e_add_layout_builder
     steps:
@@ -937,7 +915,7 @@ steps:
           @@ -64,38 +64,42 @@ class _MyHomePageState extends State<MyHomePage> {
                    throw UnimplementedError('no widget for $selectedIndex');
                }
-           
+
           -    return Scaffold(
           -      body: Row(
           -        children: [
@@ -1008,7 +986,7 @@ steps:
            }
       - name: Copy step_07_e_add_layout_builder
         copydir:
-          from: namer_app 
+          from: namer_app
           to: step_07_e_add_layout_builder
   - name: step_08
     steps:
@@ -1149,19 +1127,19 @@ steps:
             });
           }
       - name: Build iOS simulator bundle
-        platforms: [ macos ]
+        platforms: [macos]
         path: namer_app
         flutter: build ios --simulator
       - name: Build macOS app
-        platforms: [ macos ]
+        platforms: [macos]
         path: namer_app
         flutter: build macos
       - name: Build Linux app
-        platforms: [ linux ]
+        platforms: [linux]
         path: namer_app
         flutter: build linux
       - name: Build Windows app
-        platforms: [ windows ]
+        platforms: [windows]
         path: namer_app
         flutter: build windows
       - name: Add cupertino_icons for web build
@@ -1172,7 +1150,7 @@ steps:
         flutter: build web
       - name: Copy step_08
         copydir:
-          from: namer_app 
+          from: namer_app
           to: step_08
       - name: Flutter clean
         path: step_08
