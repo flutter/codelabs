@@ -13,31 +13,20 @@ steps:
         path: brick_breaker/analysis_options.yaml
         replace-contents: |
           include: ../../analysis_options.yaml
-      - name: Configure dependencies
+      - name: Add deps
+        path: brick_breaker
+        flutter: pub add flame flutter_animate google_fonts
+      - name: Update description
         path: brick_breaker/pubspec.yaml
-        replace-contents: |
-          name: brick_breaker
-          description: "Re-implementing Woz's Breakout"
-          publish_to: 'none'
-          version: 0.1.0
-          
-          environment:
-            sdk: ^3.8.0-0
-          
-          dependencies:
-            flame: ^1.25.0
-            flutter:
-              sdk: flutter
-            flutter_animate: ^4.5.2
-            google_fonts: ^6.2.1
-          
-          dev_dependencies:
-            flutter_test:
-              sdk: flutter
-            flutter_lints: ^5.0.0
-          
-          flutter:
-            uses-material-design: true
+        patch-u: |
+          --- b/brick_breaker/step_03/pubspec.yaml
+          +++ a/brick_breaker/step_03/pubspec.yaml
+          @@ -1,5 +1,5 @@
+           name: brick_breaker
+          -description: "A new Flutter project."
+          +description: "Re-implementing Woz's Breakout"
+           publish_to: 'none'
+           version: 0.1.0
       - name: flutter pub upgrade
         path: brick_breaker
         flutter: pub upgrade --major-versions
@@ -76,19 +65,19 @@ steps:
             runApp(GameWidget(game: game));
           }
       - name: Build iOS simulator bundle
-        platforms: [ macos ]
+        platforms: [macos]
         path: brick_breaker
         flutter: build ios --simulator
       - name: Build macOS app
-        platforms: [ macos ]
+        platforms: [macos]
         path: brick_breaker
         flutter: build macos
       - name: Build Linux app
-        platforms: [ linux ]
+        platforms: [linux]
         path: brick_breaker
         flutter: build linux
       - name: Build Windows app
-        platforms: [ windows ]
+        platforms: [windows]
         path: brick_breaker
         flutter: build windows
       - name: Copy step_03
@@ -110,7 +99,7 @@ steps:
           @@ -5,7 +5,9 @@
            import 'package:flame/game.dart';
            import 'package:flutter/material.dart';
-           
+
           +import 'src/brick_breaker.dart';
           +
            void main() {
@@ -216,23 +205,23 @@ steps:
           +++ a/brick_breaker/step_05/lib/src/brick_breaker.dart
           @@ -3,6 +3,7 @@
            // found in the LICENSE file.
-           
+
            import 'dart:async';
           +import 'dart:math' as math;
-           
+
            import 'package:flame/components.dart';
            import 'package:flame/game.dart';
           @@ -19,6 +20,7 @@ class BrickBreaker extends FlameGame {
                    ),
                  );
-           
+
           +  final rand = math.Random();
              double get width => size.x;
              double get height => size.y;
-           
+
           @@ -29,5 +31,18 @@ class BrickBreaker extends FlameGame {
                camera.viewfinder.anchor = Anchor.topLeft;
-           
+
                world.add(PlayArea());
           +
           +    world.add(
@@ -255,7 +244,7 @@ steps:
           --- b/brick_breaker/step_05/lib/src/config.dart
           +++ a/brick_breaker/step_05/lib/src/config.dart
           @@ -4,3 +4,4 @@
-           
+
            const gameWidth = 820.0;
            const gameHeight = 1600.0;
           +const ballRadius = gameWidth * 0.02;
@@ -267,7 +256,7 @@ steps:
           @@ -2,4 +2,5 @@
            // Use of this source code is governed by a BSD-style license that can be
            // found in the LICENSE file.
-           
+
           +export 'ball.dart';
            export 'play_area.dart';
       - name: Add lib/src/components/ball.dart
@@ -276,10 +265,10 @@ steps:
           // Copyright 2023 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-          
+
           import 'package:flame/components.dart';
           import 'package:flutter/material.dart';
-          
+
           class Ball extends CircleComponent {
             Ball({
               required this.velocity,
@@ -292,9 +281,9 @@ steps:
                      ..color = const Color(0xff1e6091)
                      ..style = PaintingStyle.fill,
                  );
-          
+
             final Vector2 velocity;
-          
+
             @override
             void update(double dt) {
               super.update(dt);
@@ -320,7 +309,7 @@ steps:
           @@ -11,7 +11,7 @@ import 'package:flame/game.dart';
            import 'components/components.dart';
            import 'config.dart';
-           
+
           -class BrickBreaker extends FlameGame {
           +class BrickBreaker extends FlameGame with HasCollisionDetection {
              BrickBreaker()
@@ -334,11 +323,11 @@ steps:
           @@ -2,10 +2,15 @@
            // Use of this source code is governed by a BSD-style license that can be
            // found in the LICENSE file.
-           
+
           +import 'package:flame/collisions.dart';
            import 'package:flame/components.dart';
            import 'package:flutter/material.dart';
-           
+
           -class Ball extends CircleComponent {
           +import '../brick_breaker.dart';
           +import 'play_area.dart';
@@ -354,7 +343,7 @@ steps:
                       ..style = PaintingStyle.fill,
           +         children: [CircleHitbox()],
                   );
-           
+
              final Vector2 velocity;
           @@ -25,4 +31,25 @@ class Ball extends CircleComponent {
                super.update(dt);
@@ -388,15 +377,15 @@ steps:
           --- b/brick_breaker/step_06/lib/src/components/play_area.dart
           +++ a/brick_breaker/step_06/lib/src/components/play_area.dart
           @@ -4,13 +4,18 @@
-           
+
            import 'dart:async';
-           
+
           +import 'package:flame/collisions.dart';
            import 'package:flame/components.dart';
            import 'package:flutter/material.dart';
-           
+
            import '../brick_breaker.dart';
-           
+
            class PlayArea extends RectangleComponent with HasGameReference<BrickBreaker> {
           -  PlayArea() : super(paint: Paint()..color = const Color(0xfff2e8cf));
           +  PlayArea()
@@ -404,7 +393,7 @@ steps:
           +        paint: Paint()..color = const Color(0xfff2e8cf),
           +        children: [RectangleHitbox()],
           +      );
-           
+
              @override
              FutureOr<void> onLoad() async {
       - name: Copy step_06
@@ -425,16 +414,16 @@ steps:
           +++ a/brick_breaker/step_07/lib/src/brick_breaker.dart
           @@ -6,12 +6,16 @@ import 'dart:async';
            import 'dart:math' as math;
-           
+
            import 'package:flame/components.dart';
           +import 'package:flame/events.dart';
            import 'package:flame/game.dart';
           +import 'package:flutter/material.dart';
           +import 'package:flutter/services.dart';
-           
+
            import 'components/components.dart';
            import 'config.dart';
-           
+
           -class BrickBreaker extends FlameGame with HasCollisionDetection {
           +class BrickBreaker extends FlameGame
           +    with HasCollisionDetection, KeyboardEvents {
@@ -444,7 +433,7 @@ steps:
           @@ -43,6 +47,29 @@ class BrickBreaker extends FlameGame with HasCollisionDetection {
                  ),
                );
-           
+
           +    world.add(
           +      Bat(
           +        size: Vector2(batWidth, batHeight),
@@ -489,16 +478,16 @@ steps:
           --- b/brick_breaker/step_07/lib/src/components/ball.dart
           +++ a/brick_breaker/step_07/lib/src/components/ball.dart
           @@ -4,9 +4,11 @@
-           
+
            import 'package:flame/collisions.dart';
            import 'package:flame/components.dart';
           +import 'package:flame/effects.dart';
            import 'package:flutter/material.dart';
-           
+
            import '../brick_breaker.dart';
           +import 'bat.dart';
            import 'play_area.dart';
-           
+
            class Ball extends CircleComponent
           @@ -46,8 +48,13 @@ class Ball extends CircleComponent
                  } else if (intersectionPoints.first.x >= game.width) {
@@ -522,7 +511,7 @@ steps:
           +++ a/brick_breaker/step_07/lib/src/components/components.dart
           @@ -3,4 +3,5 @@
            // found in the LICENSE file.
-           
+
            export 'ball.dart';
           +export 'bat.dart';
            export 'play_area.dart';
@@ -596,7 +585,7 @@ steps:
           --- b/brick_breaker/step_08/lib/src/brick_breaker.dart
           +++ a/brick_breaker/step_08/lib/src/brick_breaker.dart
           @@ -38,6 +38,7 @@ class BrickBreaker extends FlameGame
-           
+
                world.add(
                  Ball(
           +        difficultyModifier: difficultyModifier,
@@ -606,7 +595,7 @@ steps:
           @@ -55,6 +56,18 @@ class BrickBreaker extends FlameGame
                  ),
                );
-           
+
           +    await world.addAll([
           +      for (var i = 0; i < brickColors.length; i++)
           +        for (var j = 1; j <= 5; j++)
@@ -629,7 +618,7 @@ steps:
           @@ -2,9 +2,29 @@
            // Use of this source code is governed by a BSD-style license that can be
            // found in the LICENSE file.
-           
+
           +import 'package:flutter/material.dart';
           +
           +const brickColors = [
@@ -662,12 +651,12 @@ steps:
           --- b/brick_breaker/step_08/lib/src/components/ball.dart
           +++ a/brick_breaker/step_08/lib/src/components/ball.dart
           @@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
-           
+
            import '../brick_breaker.dart';
            import 'bat.dart';
           +import 'brick.dart';
            import 'play_area.dart';
-           
+
            class Ball extends CircleComponent
           @@ -17,6 +18,7 @@ class Ball extends CircleComponent
                required this.velocity,
@@ -679,10 +668,10 @@ steps:
                     anchor: Anchor.center,
           @@ -27,6 +29,7 @@ class Ball extends CircleComponent
                   );
-           
+
              final Vector2 velocity;
           +  final double difficultyModifier;
-           
+
              @override
              void update(double dt) {
           @@ -55,8 +58,17 @@ class Ball extends CircleComponent
@@ -711,7 +700,7 @@ steps:
           --- b/brick_breaker/step_08/lib/src/components/components.dart
           +++ a/brick_breaker/step_08/lib/src/components/components.dart
           @@ -4,4 +4,5 @@
-           
+
            export 'ball.dart';
            export 'bat.dart';
           +export 'brick.dart';
@@ -777,13 +766,13 @@ steps:
           @@ -2,12 +2,10 @@
            // Use of this source code is governed by a BSD-style license that can be
            // found in the LICENSE file.
-           
+
           -import 'package:flame/game.dart';
            import 'package:flutter/material.dart';
-           
+
           -import 'src/brick_breaker.dart';
           +import 'src/widgets/game_app.dart';
-           
+
            void main() {
           -  final game = BrickBreaker();
           -  runApp(GameWidget(game: game));
@@ -797,7 +786,7 @@ steps:
           @@ -14,8 +14,10 @@ import 'package:flutter/services.dart';
            import 'components/components.dart';
            import 'config.dart';
-           
+
           +enum PlayState { welcome, playing, gameOver, won }
           +
            class BrickBreaker extends FlameGame
@@ -809,7 +798,7 @@ steps:
           @@ -28,6 +30,22 @@ class BrickBreaker extends FlameGame
              double get width => size.x;
              double get height => size.y;
-           
+
           +  late PlayState _playState;
           +  PlayState get playState => _playState;
           +  set playState(PlayState playState) {
@@ -830,9 +819,9 @@ steps:
              FutureOr<void> onLoad() async {
                super.onLoad();
           @@ -36,6 +54,18 @@ class BrickBreaker extends FlameGame
-           
+
                world.add(PlayArea());
-           
+
           +    playState = PlayState.welcome;
           +  }
           +
@@ -851,7 +840,7 @@ steps:
           @@ -56,7 +86,7 @@ class BrickBreaker extends FlameGame
                  ),
                );
-           
+
           -    await world.addAll([
           +    world.addAll([
                  for (var i = 0; i < brickColors.length; i++)
@@ -862,14 +851,14 @@ steps:
                      ),
                ]);
           +  }
-           
+
           -    debugMode = true;
           +  @override
           +  void onTap() {
           +    super.onTap();
           +    startGame();
              }
-           
+
              @override
           @@ -82,7 +116,13 @@ class BrickBreaker extends FlameGame
                    world.children.query<Bat>().first.moveBy(-batStep);
@@ -913,7 +902,7 @@ steps:
           +++ a/brick_breaker/step_09/lib/src/components/brick.dart
           @@ -32,6 +32,7 @@ class Brick extends RectangleComponent
                removeFromParent();
-           
+
                if (game.world.children.query<Brick>().length == 1) {
           +      game.playState = PlayState.won;
                  game.world.removeAll(game.world.children.query<Ball>());
@@ -1054,17 +1043,17 @@ steps:
           @@ -26,6 +26,7 @@ class BrickBreaker extends FlameGame
                    ),
                  );
-           
+
           +  final ValueNotifier<int> score = ValueNotifier(0);
              final rand = math.Random();
              double get width => size.x;
              double get height => size.y;
           @@ -65,6 +66,7 @@ class BrickBreaker extends FlameGame
                world.removeAll(world.children.query<Brick>());
-           
+
                playState = PlayState.playing;
           +    score.value = 0;
-           
+
                world.add(
                  Ball(
       - name: Patch lib/src/components/brick.dart
@@ -1077,7 +1066,7 @@ steps:
                super.onCollisionStart(intersectionPoints, other);
                removeFromParent();
           +    game.score.value++;
-           
+
                if (game.world.children.query<Brick>().length == 1) {
                  game.playState = PlayState.won;
       - name: Patch lib/src/widgets/game_app.dart
@@ -1086,16 +1075,16 @@ steps:
           --- b/brick_breaker/step_10/lib/src/widgets/game_app.dart
           +++ a/brick_breaker/step_10/lib/src/widgets/game_app.dart
           @@ -8,10 +8,25 @@ import 'package:google_fonts/google_fonts.dart';
-           
+
            import '../brick_breaker.dart';
            import '../config.dart';
           +import 'overlay_screen.dart';
           +import 'score_card.dart';
-           
+
           -class GameApp extends StatelessWidget {
           +class GameApp extends StatefulWidget {
              const GameApp({super.key});
-           
+
           +  @override
           +  State<GameApp> createState() => _GameAppState();
           +}
@@ -1245,19 +1234,19 @@ steps:
             }
           }
       - name: Build iOS simulator bundle
-        platforms: [ macos ]
+        platforms: [macos]
         path: brick_breaker
         flutter: build ios --simulator
       - name: Build macOS app
-        platforms: [ macos ]
+        platforms: [macos]
         path: brick_breaker
         flutter: build macos
       - name: Build Linux app
-        platforms: [ linux ]
+        platforms: [linux]
         path: brick_breaker
         flutter: build linux
       - name: Build Windows app
-        platforms: [ windows ]
+        platforms: [windows]
         path: brick_breaker
         flutter: build windows
       - name: Copy step_10
