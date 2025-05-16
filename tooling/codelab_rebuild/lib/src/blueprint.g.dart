@@ -10,7 +10,7 @@ Blueprint _$BlueprintFromJson(Map json) =>
     $checkedCreate('Blueprint', json, ($checkedConvert) {
       $checkKeys(
         json,
-        allowedKeys: const ['name', 'steps'],
+        allowedKeys: const ['name', 'generate-markdown', 'steps'],
         requiredKeys: const ['name', 'steps'],
       );
       final val = Blueprint(
@@ -22,12 +22,17 @@ Blueprint _$BlueprintFromJson(Map json) =>
                   .map((e) => BlueprintStep.fromJson(e as Map))
                   .toList(),
         ),
+        generateMarkdown: $checkedConvert(
+          'generate-markdown',
+          (v) => v as bool? ?? false,
+        ),
       );
       return val;
-    });
+    }, fieldKeyMap: const {'generateMarkdown': 'generate-markdown'});
 
 Map<String, dynamic> _$BlueprintToJson(Blueprint instance) => <String, dynamic>{
   'name': instance.name,
+  'generate-markdown': instance.generateMarkdown,
   'steps': instance.steps,
 };
 
@@ -40,6 +45,8 @@ BlueprintStep _$BlueprintStepFromJson(Map json) => $checkedCreate(
       allowedKeys: const [
         'name',
         'steps',
+        'markdown-content',
+        'markdown-ignore',
         'path',
         'base64-contents',
         'patch',
@@ -156,6 +163,11 @@ BlueprintStep _$BlueprintStepFromJson(Map json) => $checkedCreate(
         'protoc',
         (v) => v == null ? null : Protoc.fromJson(v as Map),
       ),
+      markdownContent: $checkedConvert('markdown-content', (v) => v as String?),
+      markdownIgnore: $checkedConvert(
+        'markdown-ignore',
+        (v) => v as bool? ?? false,
+      ),
     );
     return val;
   },
@@ -172,6 +184,8 @@ BlueprintStep _$BlueprintStepFromJson(Map json) => $checkedCreate(
     'macOsMainMenuXib': 'full-screen-macos-main-menu-xib',
     'iphoneosDeploymentTarget': 'iphoneos-deployment-target',
     'macosxDeploymentTarget': 'macosx-deployment-target',
+    'markdownContent': 'markdown-content',
+    'markdownIgnore': 'markdown-ignore',
   },
 );
 
@@ -179,6 +193,8 @@ Map<String, dynamic> _$BlueprintStepToJson(BlueprintStep instance) =>
     <String, dynamic>{
       'name': instance.name,
       'steps': instance.steps,
+      'markdown-content': instance.markdownContent,
+      'markdown-ignore': instance.markdownIgnore,
       'path': instance.path,
       'base64-contents': instance.base64Contents,
       'patch': instance.patch,

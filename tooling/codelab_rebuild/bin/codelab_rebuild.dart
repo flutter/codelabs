@@ -21,5 +21,7 @@ void main(List<String> arguments) {
 
   final source = arguments.single;
   final blueprint = Blueprint.load(File(source));
-  blueprint.rebuild(File(source).parent);
+  var basedir = File(source).parent;
+  blueprint.rebuild(basedir);
+  blueprint.regenerateCodelabRebuildMd(basedir);
 }

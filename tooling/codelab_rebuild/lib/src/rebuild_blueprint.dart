@@ -37,6 +37,11 @@ Future<void> _buildBlueprintStep(Directory cwd, BlueprintStep step) async {
     exit(0);
   }
 
+  final markdownContent = step.markdownContent;
+  if (markdownContent != null) {
+    return;
+  }
+
   final platforms = step.platforms;
   if (platforms != null) {
     if (!platforms.contains(Platform.operatingSystem)) {

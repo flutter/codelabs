@@ -9,6 +9,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:logging/logging.dart';
 
 import 'rebuild_blueprint.dart';
+import 'regenerate_codelab_rebuild_md.dart';
 
 part 'blueprint.g.dart';
 
@@ -16,12 +17,21 @@ final _logger = Logger('blueprint');
 
 @JsonSerializable(anyMap: true, checked: true, disallowUnrecognizedKeys: true)
 class Blueprint {
+  /// The name of the codelab.
   @JsonKey(required: true)
   final String name;
+
+  @JsonKey(name: 'generate-markdown')
+  final bool generateMarkdown;
+
   @JsonKey(required: true)
   final List<BlueprintStep> steps;
 
-  Blueprint({required this.name, required this.steps}) {
+  Blueprint({
+    required this.name,
+    required this.steps,
+    this.generateMarkdown = false,
+  }) {
     if (name.isEmpty) {
       throw ArgumentError.value(name, 'name', 'Cannot be empty.');
     }
@@ -64,6 +74,10 @@ class Blueprint {
   /// Rebuild a blueprint in a target directory.
   Future<void> rebuild(Directory cwd) => rebuildFromBlueprint(cwd, this);
 
+  /// Regenerate the `codelab_rebuild.md` from the blueprint.
+  Future<void> regenerateCodelabRebuildMd(Directory cwd) =>
+      regenerateCodelabRebuildMdFromBlueprint(cwd, this);
+
   Map<String, dynamic> toJson() => _$BlueprintToJson(this);
 
   @override
@@ -75,6 +89,11 @@ class BlueprintStep {
   @JsonKey(required: true)
   final String name;
   final List<BlueprintStep> steps;
+
+  @JsonKey(name: 'markdown-content')
+  final String? markdownContent;
+  @JsonKey(name: 'markdown-ignore')
+  final bool markdownIgnore;
 
   final String? path;
 
@@ -175,6 +194,8 @@ class BlueprintStep {
     this.iphoneosDeploymentTarget,
     this.macosxDeploymentTarget,
     this.protoc,
+    this.markdownContent,
+    this.markdownIgnore = false,
   }) {
     if (name.isEmpty) {
       throw ArgumentError.value(name, 'name', 'Cannot be empty.');
@@ -189,6 +210,9 @@ class BlueprintStep {
 
     // Stop is for debugging only.
     if (stop != null && stop == true) return true;
+
+    // Markdown content is stand alone valid
+    if (markdownContent != null) return true;
 
     // If there aren't sub-steps, then there should be something else to do.
     if (steps.isEmpty &&
