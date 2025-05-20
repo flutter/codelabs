@@ -25,7 +25,7 @@ Future<GenerativeModel> geminiModel(Ref ref) async {
   final systemPrompt = await ref.watch(systemPromptProvider.future);
   final geminiTools = ref.watch(geminiToolsProvider);
 
-  final model = FirebaseAI.googleAI().generativeModel(
+  final model = FirebaseAI.vertexAI().generativeModel(
     model: 'gemini-2.0-flash',
     systemInstruction: Content.system(systemPrompt),
     tools: geminiTools.tools,
