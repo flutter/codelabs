@@ -86,45 +86,51 @@ class _DuktapeReplState extends ConsumerState<DuktapeRepl> {
                 child: ListView.builder(
                   padding: const EdgeInsets.all(8.0),
                   reverse: true,
-                  itemBuilder:
-                      (context, idx) => messages[idx].when(
-                        evaluate:
-                            (str) => Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 2),
-                              child: Text(
-                                '> $str',
-                                style: GoogleFonts.firaCode(
-                                  textStyle:
-                                      Theme.of(context).textTheme.titleMedium,
-                                ),
-                              ),
-                            ),
-                        response:
-                            (str) => Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 2),
-                              child: Text(
-                                '= $str',
-                                style: GoogleFonts.firaCode(
-                                  textStyle:
-                                      Theme.of(context).textTheme.titleMedium,
-                                  color: Colors.blue[800],
-                                ),
-                              ),
-                            ),
-                        error:
-                            (str) => Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 2),
-                              child: Text(
-                                str,
-                                style: GoogleFonts.firaCode(
-                                  textStyle:
-                                      Theme.of(context).textTheme.titleSmall,
-                                  color: Colors.red[800],
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
+                  itemBuilder: (context, idx) {
+                    return switch (messages[idx]) {
+                      DuktapeMessageCode code => Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 2),
+                        child: Text(
+                          '> ${code.code}',
+                          style: GoogleFonts.firaCode(
+                            textStyle: Theme.of(context).textTheme.titleMedium,
+                          ),
+                        ),
                       ),
+                      DuktapeMessageResponse response => Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 2),
+                        child: Text(
+                          '= ${response.result}',
+                          style: GoogleFonts.firaCode(
+                            textStyle: Theme.of(context).textTheme.titleMedium,
+                            color: Colors.blue[800],
+                          ),
+                        ),
+                      ),
+                      DuktapeMessageError error => Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 2),
+                        child: Text(
+                          error.log,
+                          style: GoogleFonts.firaCode(
+                            textStyle: Theme.of(context).textTheme.titleSmall,
+                            color: Colors.red[800],
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      DuktapeMessage message => Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 2),
+                        child: Text(
+                          'Unhandled message $message',
+                          style: GoogleFonts.firaCode(
+                            textStyle: Theme.of(context).textTheme.titleSmall,
+                            color: Colors.red[800],
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    };
+                  },
                   itemCount: messages.length,
                 ),
               ),
@@ -169,10 +175,9 @@ class _DuktapeReplState extends ConsumerState<DuktapeRepl> {
               margin: const EdgeInsets.symmetric(horizontal: 4.0),
               child: IconButton(
                 icon: const Icon(Icons.send),
-                onPressed:
-                    _isComposing
-                        ? () => _handleSubmitted(_controller.text)
-                        : null,
+                onPressed: _isComposing
+                    ? () => _handleSubmitted(_controller.text)
+                    : null,
               ),
             ),
           ],

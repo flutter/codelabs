@@ -74,10 +74,9 @@ class ThemeProvider extends InheritedWidget {
   }
 
   ColorScheme colors(Brightness brightness, Color? targetColor) {
-    final dynamicPrimary =
-        brightness == Brightness.light
-            ? lightDynamic?.primary
-            : darkDynamic?.primary;
+    final dynamicPrimary = brightness == Brightness.light
+        ? lightDynamic?.primary
+        : darkDynamic?.primary;
     return ColorScheme.fromSeed(
       seedColor: dynamicPrimary ?? source(targetColor),
       brightness: brightness,
@@ -87,8 +86,8 @@ class ThemeProvider extends InheritedWidget {
   ShapeBorder get shapeMedium =>
       RoundedRectangleBorder(borderRadius: BorderRadius.circular(8));
 
-  CardTheme cardTheme() {
-    return CardTheme(
+  CardThemeData cardTheme() {
+    return CardThemeData(
       elevation: 0,
       shape: shapeMedium,
       clipBehavior: Clip.antiAlias,
@@ -110,8 +109,8 @@ class ThemeProvider extends InheritedWidget {
     );
   }
 
-  TabBarTheme tabBarTheme(ColorScheme colors) {
-    return TabBarTheme(
+  TabBarThemeData tabBarTheme(ColorScheme colors) {
+    return TabBarThemeData(
       labelColor: colors.secondary,
       unselectedLabelColor: colors.onSurfaceVariant,
       indicator: BoxDecoration(

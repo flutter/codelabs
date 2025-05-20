@@ -69,41 +69,40 @@ req.send();''');
             await _onRemoveCookie(widget.controller);
         }
       },
-      itemBuilder:
-          (context) => [
-            const PopupMenuItem<_MenuOptions>(
-              value: _MenuOptions.navigationDelegate,
-              child: Text('Navigate to YouTube'),
-            ),
-            const PopupMenuItem<_MenuOptions>(
-              value: _MenuOptions.userAgent,
-              child: Text('Show user-agent'),
-            ),
-            const PopupMenuItem<_MenuOptions>(
-              value: _MenuOptions.javascriptChannel,
-              child: Text('Lookup IP Address'),
-            ),
-            const PopupMenuItem<_MenuOptions>(
-              value: _MenuOptions.clearCookies,
-              child: Text('Clear cookies'),
-            ),
-            const PopupMenuItem<_MenuOptions>(
-              value: _MenuOptions.listCookies,
-              child: Text('List cookies'),
-            ),
-            const PopupMenuItem<_MenuOptions>(
-              value: _MenuOptions.addCookie,
-              child: Text('Add cookie'),
-            ),
-            const PopupMenuItem<_MenuOptions>(
-              value: _MenuOptions.setCookie,
-              child: Text('Set cookie'),
-            ),
-            const PopupMenuItem<_MenuOptions>(
-              value: _MenuOptions.removeCookie,
-              child: Text('Remove cookie'),
-            ),
-          ],
+      itemBuilder: (context) => [
+        const PopupMenuItem<_MenuOptions>(
+          value: _MenuOptions.navigationDelegate,
+          child: Text('Navigate to YouTube'),
+        ),
+        const PopupMenuItem<_MenuOptions>(
+          value: _MenuOptions.userAgent,
+          child: Text('Show user-agent'),
+        ),
+        const PopupMenuItem<_MenuOptions>(
+          value: _MenuOptions.javascriptChannel,
+          child: Text('Lookup IP Address'),
+        ),
+        const PopupMenuItem<_MenuOptions>(
+          value: _MenuOptions.clearCookies,
+          child: Text('Clear cookies'),
+        ),
+        const PopupMenuItem<_MenuOptions>(
+          value: _MenuOptions.listCookies,
+          child: Text('List cookies'),
+        ),
+        const PopupMenuItem<_MenuOptions>(
+          value: _MenuOptions.addCookie,
+          child: Text('Add cookie'),
+        ),
+        const PopupMenuItem<_MenuOptions>(
+          value: _MenuOptions.setCookie,
+          child: Text('Set cookie'),
+        ),
+        const PopupMenuItem<_MenuOptions>(
+          value: _MenuOptions.removeCookie,
+          child: Text('Remove cookie'),
+        ),
+      ],
     );
   }
 

@@ -13,8 +13,9 @@ String _$systemPromptHash() => r'4068d8b52f2a51db7400670fb6e17f83fe55c253';
 final systemPromptProvider = AutoDisposeFutureProvider<String>.internal(
   systemPrompt,
   name: r'systemPromptProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$systemPromptHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$systemPromptHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

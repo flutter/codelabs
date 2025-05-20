@@ -47,17 +47,17 @@ steps:
           }
       - name: Add flutter_gpu dependency
         path: intro_flutter_gpu
-        flutter: pub add flutter_gpu --sdk=flutter 
+        flutter: pub add flutter_gpu --sdk=flutter
       - name: Add dependencies
         path: intro_flutter_gpu
         flutter: pub add flutter_gpu_shaders native_assets_cli vector_math
       - name: Patch pubspec.yaml
         path: intro_flutter_gpu/pubspec.yaml
-        patch-u : |
+        patch-u: |
           --- b/intro_flutter_gpu/step_01/pubspec.yaml
           +++ a/intro_flutter_gpu/step_01/pubspec.yaml
           @@ -22,3 +22,6 @@ dev_dependencies:
-           
+
            flutter:
              uses-material-design: true
           +
@@ -67,7 +67,7 @@ steps:
         mkdir: intro_flutter_gpu/build/shaderbundles
       - name: Add build/shaderbundles/.gitkeep
         path: intro_flutter_gpu/build/shaderbundles/.gitkeep
-        replace-contents: ''
+        replace-contents: ""
       - name: Add lib/shaders.dart
         path: intro_flutter_gpu/lib/shaders.dart
         replace-contents: |
@@ -221,7 +221,7 @@ steps:
           void main(List<String> args) async {
             await build(args, (config, output) async {
               await buildShaderBundleJson(
-                buildConfig: config,
+                buildInput: config,
                 buildOutput: output,
                 manifestFileName: 'my_first_triangle.shaderbundle.json',
               );
@@ -305,7 +305,7 @@ steps:
           --- b/intro_flutter_gpu/step_02/lib/main.dart
           +++ a/intro_flutter_gpu/step_02/lib/main.dart
           @@ -33,23 +33,19 @@ class TrianglePainter extends CustomPainter {
-           
+
              @override
              void paint(Canvas canvas, Size size) {
           -    // Create a texture to render to
@@ -314,16 +314,16 @@ steps:
                  size.width.ceil(),
                  size.height.ceil(),
                );
-           
+
           -    // Create a render target for the texture
                final renderTarget = gpu.RenderTarget.singleColor(
                  gpu.ColorAttachment(texture: texture),
                );
-           
+
           -    // Create a command buffer and render pass
                final commandBuffer = gpu.gpuContext.createCommandBuffer();
                final renderPass = commandBuffer.createRenderPass(renderTarget);
-           
+
           -    // Load our shaders
                final vert = shaderLibrary['SimpleVertex'];
                if (vert == null) {
@@ -331,10 +331,10 @@ steps:
           @@ -60,19 +56,20 @@ class TrianglePainter extends CustomPainter {
                  throw Exception('Failed to load SimpleFragment fragment shader');
                }
-           
+
           -    // Create the rendering pipeline
                final pipeline = gpu.gpuContext.createRenderPipeline(vert, frag);
-           
+
           -    // Define our triangle vertices
           -    const floatsPerVertex = 2;
           -    final vertices = Float32List.fromList([-0.5, -0.5, 0.5, -0.5, 0.0, 0.5]);
@@ -345,23 +345,23 @@ steps:
           +      0.5, -0.5, 0.0, 1.0, 0.0,
           +      0.0, 0.5, 0.0, 0.0, 1.0,
           +    ]);
-           
+
           -    // Create a GPU buffer for our vertices
                final verticesDeviceBuffer = gpu.gpuContext.createDeviceBufferWithCopy(
                  ByteData.sublistView(vertices),
                );
-           
+
           -    // Bind the pipeline and vertex buffer
                renderPass.bindPipeline(pipeline);
-           
+
                final verticesView = gpu.BufferView(
           @@ -85,10 +82,8 @@ class TrianglePainter extends CustomPainter {
                  vertices.length ~/ floatsPerVertex,
                );
-           
+
           -    // Draw the triangle
                renderPass.draw();
-           
+
           -    // Submit commands to GPU and render to screen
                commandBuffer.submit();
                final image = texture.asImage();
@@ -372,12 +372,12 @@ steps:
           --- b/intro_flutter_gpu/step_02/shaders/simple.frag
           +++ a/intro_flutter_gpu/step_02/shaders/simple.frag
           @@ -4,8 +4,9 @@
-           
+
            #version 460 core
-           
+
           +in vec3 vertex_color;
            out vec4 frag_color;
-           
+
            void main() {
           -  frag_color = vec4(0, 1, 0, 1);
           +  frag_color = vec4(vertex_color, 1);
@@ -389,12 +389,12 @@ steps:
           +++ a/intro_flutter_gpu/step_02/shaders/simple.vert
           @@ -5,7 +5,11 @@
            #version 460 core
-           
+
            in vec2 position;
           +in vec3 color;
           +
           +out vec3 vertex_color;
-           
+
            void main() {
              gl_Position = vec4(position, 0.0, 1.0);
           -}
@@ -415,9 +415,9 @@ steps:
           --- b/intro_flutter_gpu/step_03/lib/main.dart
           +++ a/intro_flutter_gpu/step_03/lib/main.dart
           @@ -58,12 +58,18 @@ class TrianglePainter extends CustomPainter {
-           
+
                final pipeline = gpu.gpuContext.createRenderPipeline(vert, frag);
-           
+
           -    const floatsPerVertex = 5; // Now 2 for position + 3 for color
           +    const floatsPerVertex = 5;
                final vertices = Float32List.fromList([
@@ -433,7 +433,7 @@ steps:
           +      0.5, 0.5, 1.0, 1.0, 0.0,
           +      -0.5, 0.5, 0.0, 0.0, 1.0,
                ]);
-           
+
                final verticesDeviceBuffer = gpu.gpuContext.createDeviceBufferWithCopy(
       - name: Copy step_03
         copydir:
@@ -451,7 +451,7 @@ steps:
           +++ a/intro_flutter_gpu/step_04/lib/main.dart
           @@ -63,13 +63,13 @@ class TrianglePainter extends CustomPainter {
                  // Format: x, y, r, g, b
-           
+
                  // Triangle #1
           -      -0.5, -0.5, 1.0, 0.0, 0.0,
           -      0.5, -0.5, 0.0, 1.0, 0.0,
@@ -467,7 +467,7 @@ steps:
           +      0.5, 0.5, 0.0, 1.0, 0.0,
           +      -0.5, 0.5, 1.0, 0.0, 0.0,
                ]);
-           
+
                final verticesDeviceBuffer = gpu.gpuContext.createDeviceBufferWithCopy(
       - name: Copy step_04
         copydir:
@@ -484,15 +484,15 @@ steps:
           --- b/intro_flutter_gpu/step_05/lib/main.dart
           +++ a/intro_flutter_gpu/step_05/lib/main.dart
           @@ -58,18 +58,18 @@ class TrianglePainter extends CustomPainter {
-           
+
                final pipeline = gpu.gpuContext.createRenderPipeline(vert, frag);
-           
+
           -    const floatsPerVertex = 5;
           +    const floatsPerVertex = 4; // Now 2 for position + 2 for UV
                final vertices = Float32List.fromList([
           -      // Format: x, y, r, g, b
           +      // Format: x, y, u, v
-           
+
                  // Triangle #1
           -      -0.5, -0.5, 0.0, 0.0, 1.0,
           -      0.5, -0.5, 1.0, 1.0, 0.0,
@@ -508,7 +508,7 @@ steps:
           +      0.5, 0.5, 1.0, 1.0,
           +      -0.5, 0.5, 0.0, 1.0,
                ]);
-           
+
                final verticesDeviceBuffer = gpu.gpuContext.createDeviceBufferWithCopy(
       - name: Patch shaders/simple.frag
         path: intro_flutter_gpu/shaders/simple.frag
@@ -516,13 +516,13 @@ steps:
           --- b/intro_flutter_gpu/step_05/shaders/simple.frag
           +++ a/intro_flutter_gpu/step_05/shaders/simple.frag
           @@ -4,9 +4,16 @@
-           
+
            #version 460 core
-           
+
           -in vec3 vertex_color;
           +in vec2 vertex_uv;
            out vec4 frag_color;
-           
+
           +const vec4 red = vec4(1, 0, 0, 1);
           +const vec4 green = vec4(0, 1, 0, 1);
           +const vec4 blue = vec4(0, 0, 1, 1);
@@ -541,14 +541,14 @@ steps:
           +++ a/intro_flutter_gpu/step_05/shaders/simple.vert
           @@ -5,11 +5,11 @@
            #version 460 core
-           
+
            in vec2 position;
           -in vec3 color;
           +in vec2 uv;
-           
+
           -out vec3 vertex_color;
           +out vec2 vertex_uv;
-           
+
            void main() {
              gl_Position = vec4(position, 0.0, 1.0);
           -  vertex_color = color;
@@ -570,14 +570,14 @@ steps:
           --- b/intro_flutter_gpu/step_06/lib/main.dart
           +++ a/intro_flutter_gpu/step_06/lib/main.dart
           @@ -58,18 +58,18 @@ class TrianglePainter extends CustomPainter {
-           
+
                final pipeline = gpu.gpuContext.createRenderPipeline(vert, frag);
-           
+
           -    const floatsPerVertex = 4; // Now 2 for position + 2 for UV
           +    const floatsPerVertex = 4; // 2 for position + 2 for UV
                final vertices = Float32List.fromList([
                  // Format: x, y, u, v
-           
+
                  // Triangle #1
           -      -0.5, -0.5, 0.0, 0.0,
           -      0.5, -0.5, 1.0, 0.0,
@@ -593,7 +593,7 @@ steps:
           +      0.8, 0.8, 1.0, 1.0,
           +      -0.8, 0.8, -1.0, 1.0,
                ]);
-           
+
                final verticesDeviceBuffer = gpu.gpuContext.createDeviceBufferWithCopy(
       - name: Patch shaders/simple.frag
         path: intro_flutter_gpu/shaders/simple.frag
@@ -603,7 +603,7 @@ steps:
           @@ -7,13 +7,26 @@
            in vec2 vertex_uv;
            out vec4 frag_color;
-           
+
           -const vec4 red = vec4(1, 0, 0, 1);
           -const vec4 green = vec4(0, 1, 0, 1);
           -const vec4 blue = vec4(0, 0, 1, 1);
@@ -616,7 +616,7 @@ steps:
           +
           +  for (float iter = 0.0; iter < MAX_ITER; iter++) {
           +    z = vec2(z.x * z.x - z.y * z.y, 2.0 * z.x * z.y) + c;
-          +    
+          +
           +    if (length(z) > 4.0) {
           +      return iter / MAX_ITER;
           +    }
@@ -624,7 +624,7 @@ steps:
           +
           +  return 0.0;
           +}
-           
+
            void main() {
           -  frag_color =
           -      mix(mix(blue, yellow, vertex_uv.x),
@@ -651,24 +651,24 @@ steps:
           @@ -2,10 +2,12 @@
            // Use of this source code is governed by a BSD-style license that can be
            // found in the LICENSE file.
-           
+
           +import 'dart:math' as math;
            import 'dart:typed_data';
-           
+
            import 'package:flutter/material.dart';
            import 'package:flutter_gpu/gpu.dart' as gpu;
           +import 'package:vector_math/vector_math.dart' as vm;
-           
+
            import 'shaders.dart';
-           
+
           @@ -13,23 +15,58 @@ void main() {
              runApp(const MainApp());
            }
-           
+
           -class MainApp extends StatelessWidget {
           +class MainApp extends StatefulWidget {
              const MainApp({super.key});
-           
+
           +  @override
           +  State<MainApp> createState() => _MainAppState();
           +}
@@ -715,18 +715,18 @@ steps:
                );
              }
            }
-           
+
            class TrianglePainter extends CustomPainter {
           -  const TrianglePainter();
           +  const TrianglePainter({required this.angle});
           +  final double angle;
-           
+
              @override
              void paint(Canvas canvas, Size size) {
           @@ -58,15 +95,12 @@ class TrianglePainter extends CustomPainter {
-           
+
                final pipeline = gpu.gpuContext.createRenderPipeline(vert, frag);
-           
+
           -    const floatsPerVertex = 4; // 2 for position + 2 for UV
           +    const floatsPerVertex = 4;
                final vertices = Float32List.fromList([
@@ -743,7 +743,7 @@ steps:
           @@ -76,6 +110,18 @@ class TrianglePainter extends CustomPainter {
                  ByteData.sublistView(vertices),
                );
-           
+
           +    // Create model matrix for rotation
           +    final model = vm.Matrix4.rotationY(angle);
           +
@@ -757,12 +757,12 @@ steps:
           +    );
           +
                renderPass.bindPipeline(pipeline);
-           
+
                final verticesView = gpu.BufferView(
           @@ -88,6 +134,14 @@ class TrianglePainter extends CustomPainter {
                  vertices.length ~/ floatsPerVertex,
                );
-           
+
           +    final vertUniformsView = gpu.BufferView(
           +      vertUniformsDeviceBuffer,
           +      offsetInBytes: 0,
@@ -772,7 +772,7 @@ steps:
           +    renderPass.bindUniform(vert.getUniformSlot('VertInfo'), vertUniformsView);
           +
                renderPass.draw();
-           
+
                commandBuffer.submit();
       - name: Patch shaders/simple.vert
         path: intro_flutter_gpu/shaders/simple.vert
@@ -780,9 +780,9 @@ steps:
           --- b/intro_flutter_gpu/step_07/shaders/simple.vert
           +++ a/intro_flutter_gpu/step_07/shaders/simple.vert
           @@ -9,7 +9,11 @@ in vec2 uv;
-           
+
            out vec2 vertex_uv;
-           
+
           +uniform VertInfo {
           +  mat4 model;
           +};
@@ -822,7 +822,7 @@ steps:
           @@ -110,11 +110,18 @@ class TrianglePainter extends CustomPainter {
                  ByteData.sublistView(vertices),
                );
-           
+
           -    // Create model matrix for rotation
           +    // Create transformation matrices
                final model = vm.Matrix4.rotationY(angle);
@@ -833,12 +833,12 @@ steps:
           +      0.1,
           +      100.0,
           +    );
-           
+
           -    // Create uniform buffer with transformation matrix
           -    final vertUniforms = [model];
           +    // Pack matrices into uniform buffer
           +    final vertUniforms = [model, view, projection];
-           
+
                final vertUniformsDeviceBuffer = gpu.gpuContext.createDeviceBufferWithCopy(
                  ByteData.sublistView(
       - name: Patch shaders/simple.vert
@@ -847,13 +847,13 @@ steps:
           --- b/intro_flutter_gpu/step_08/shaders/simple.vert
           +++ a/intro_flutter_gpu/step_08/shaders/simple.vert
           @@ -11,9 +11,11 @@ out vec2 vertex_uv;
-           
+
            uniform VertInfo {
              mat4 model;
           +  mat4 view;
           +  mat4 projection;
            };
-           
+
            void main() {
           -  gl_Position = model * vec4(position, 0.0, 1.0);
           +  gl_Position = projection * view * model * vec4(position, 0.0, 1.0);
@@ -874,9 +874,9 @@ steps:
           --- b/intro_flutter_gpu/step_09/lib/main.dart
           +++ a/intro_flutter_gpu/step_09/lib/main.dart
           @@ -95,22 +95,13 @@ class TrianglePainter extends CustomPainter {
-           
+
                final pipeline = gpu.gpuContext.createRenderPipeline(vert, frag);
-           
+
           -    const floatsPerVertex = 4;
           -    final vertices = Float32List.fromList([
           -      // Format: x, y, u, v
@@ -889,11 +889,11 @@ steps:
           -    ]);
           +    const floatsPerVertex = 6;
           +    final vertices = cubeVertices;
-           
+
                final verticesDeviceBuffer = gpu.gpuContext.createDeviceBufferWithCopy(
                  ByteData.sublistView(vertices),
                );
-           
+
           -    // Create transformation matrices
                final model = vm.Matrix4.rotationY(angle);
                final view = vm.Matrix4.translation(vm.Vector3(0.0, 0.0, -2.0));
@@ -901,13 +901,13 @@ steps:
           @@ -120,7 +111,6 @@ class TrianglePainter extends CustomPainter {
                  100.0,
                );
-           
+
           -    // Pack matrices into uniform buffer
                final vertUniforms = [model, view, projection];
-           
+
                final vertUniformsDeviceBuffer = gpu.gpuContext.createDeviceBufferWithCopy(
           @@ -158,4 +148,42 @@ class TrianglePainter extends CustomPainter {
-           
+
              @override
              bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
           +
@@ -955,13 +955,13 @@ steps:
           --- b/intro_flutter_gpu/step_09/shaders/simple.frag
           +++ a/intro_flutter_gpu/step_09/shaders/simple.frag
           @@ -4,29 +4,9 @@
-           
+
            #version 460 core
-           
+
           -in vec2 vertex_uv;
           +in vec3 vertex_color;
            out vec4 frag_color;
-           
+
           -// Adapted from https://www.youtube.com/shorts/h5PuIm6fRr8
           -float mandelbrot(vec2 uv) {
           -  const float MAX_ITER = 128.0;
@@ -970,7 +970,7 @@ steps:
           -
           -  for (float iter = 0.0; iter < MAX_ITER; iter++) {
           -    z = vec2(z.x * z.x - z.y * z.y, 2.0 * z.x * z.y) + c;
-          -    
+          -
           -    if (length(z) > 4.0) {
           -      return iter / MAX_ITER;
           -    }
@@ -984,8 +984,8 @@ steps:
           -  vec3 col = vec3(m);
           -  col = pow(col, vec3(0.4545, 0.3, 0.1));
           -  frag_color = vec4(col, 1.0);
-          +void main() { 
-          +  frag_color = vec4(vertex_color, 1.0); 
+          +void main() {
+          +  frag_color = vec4(vertex_color, 1.0);
            }
       - name: Patch shaders/simple.vert
         path: intro_flutter_gpu/shaders/simple.vert
@@ -993,22 +993,22 @@ steps:
           --- b/intro_flutter_gpu/step_09/shaders/simple.vert
           +++ a/intro_flutter_gpu/step_09/shaders/simple.vert
           @@ -4,10 +4,10 @@
-           
+
            #version 460 core
-           
+
           -in vec2 position;
           -in vec2 uv;
           +in vec3 position;
           +in vec3 color;
-           
+
           -out vec2 vertex_uv;
           +out vec3 vertex_color;
-           
+
            uniform VertInfo {
              mat4 model;
           @@ -16,6 +16,6 @@ uniform VertInfo {
            };
-           
+
            void main() {
           -  gl_Position = projection * view * model * vec4(position, 0.0, 1.0);
           -  vertex_uv = uv;
@@ -1030,9 +1030,9 @@ steps:
           --- b/intro_flutter_gpu/step_10/lib/main.dart
           +++ a/intro_flutter_gpu/step_10/lib/main.dart
           @@ -121,6 +121,9 @@ class TrianglePainter extends CustomPainter {
-           
+
                renderPass.bindPipeline(pipeline);
-           
+
           +    // Add back-face culling
           +    renderPass.setCullMode(gpu.CullMode.backFace);
           +
@@ -1061,23 +1061,22 @@ steps:
           +      duration: const Duration(seconds: 30),
                  vsync: this,
                )..repeat();
-           
+
           -    _animation = Tween<double>(begin: 0, end: 2 * math.pi).animate(_controller);
           +    _animation = Tween<double>(begin: 0, end: 4 * math.pi).animate(_controller);
              }
-           
+
              @override
-          @@ -102,8 +102,15 @@ class TrianglePainter extends CustomPainter {
+          @@ -102,8 +102,14 @@ class TrianglePainter extends CustomPainter {
                  ByteData.sublistView(vertices),
                );
-           
+
           -    final model = vm.Matrix4.rotationY(angle);
           -    final view = vm.Matrix4.translation(vm.Vector3(0.0, 0.0, -2.0));
           +    // Create model matrix with multiple rotations
-          +    final model =
-          +        vm.Matrix4.identity()
-          +          ..rotateY(angle)
-          +          ..rotateX(angle / 2);
+          +    final model = vm.Matrix4.identity()
+          +      ..rotateY(angle)
+          +      ..rotateX(angle / 2);
           +
           +    // Move camera back a bit more for better view
           +    final view = vm.Matrix4.translation(vm.Vector3(0.0, 0.0, -2.5));
@@ -1085,13 +1084,13 @@ steps:
                final projection = vm.makePerspectiveMatrix(
                  vm.radians(45),
                  size.aspectRatio,
-          @@ -121,7 +128,6 @@ class TrianglePainter extends CustomPainter {
-           
+          @@ -121,7 +127,6 @@ class TrianglePainter extends CustomPainter {
+
                renderPass.bindPipeline(pipeline);
-           
+
           -    // Add back-face culling
                renderPass.setCullMode(gpu.CullMode.backFace);
-           
+
                final verticesView = gpu.BufferView(
       - name: Patch shaders/simple.frag
         path: intro_flutter_gpu/shaders/simple.frag
@@ -1099,13 +1098,13 @@ steps:
           --- b/intro_flutter_gpu/step_11/shaders/simple.frag
           +++ a/intro_flutter_gpu/step_11/shaders/simple.frag
           @@ -4,9 +4,32 @@
-           
+
            #version 460 core
-           
+
           -in vec3 vertex_color;
           +in vec3 vertex_uvw;
            out vec4 frag_color;
-           
+
           +const vec4 red = vec4(1, 0, 0, 1);
           +const vec4 green = vec4(0, 1, 0, 1);
           +const vec4 blue = vec4(0, 0, 1, 1);
@@ -1115,8 +1114,8 @@ steps:
           +const vec4 purple = vec4(0.5, 0, 0.5, 1);
           +const vec4 cyan = vec4(0, 1, 1, 1);
           +
-           void main() { 
-          -  frag_color = vec4(vertex_color, 1.0); 
+           void main() {
+          -  frag_color = vec4(vertex_color, 1.0);
           +  // Extract u, v, w coordinates for clarity
           +  float u = vertex_uvw.x;
           +  float v = vertex_uvw.y;
@@ -1140,18 +1139,18 @@ steps:
           +++ a/intro_flutter_gpu/step_11/shaders/simple.vert
           @@ -5,9 +5,9 @@
            #version 460 core
-           
+
            in vec3 position;
           -in vec3 color;
           +in vec3 uvw;
-           
+
           -out vec3 vertex_color;
           +out vec3 vertex_uvw;
-           
+
            uniform VertInfo {
              mat4 model;
           @@ -17,5 +17,5 @@ uniform VertInfo {
-           
+
            void main() {
              gl_Position = projection * view * model * vec4(position, 1.0);
           -  vertex_color = color;
@@ -1187,7 +1186,7 @@ steps:
           +++ a/intro_flutter_gpu/step_12/pubspec.yaml
           @@ -23,4 +23,4 @@ flutter:
              uses-material-design: true
-           
+
              assets:
           -    - build/shaderbundles/
           +    - build/models/
@@ -1195,15 +1194,15 @@ steps:
         mkdir: intro_flutter_gpu/build/models
       - name: Touch build/models/.gitkeep
         path: intro_flutter_gpu/build/models/.gitkeep
-        replace-contents: ''
+        replace-contents: ""
       - name: mkdir assets
         mkdir: intro_flutter_gpu/assets
       - name: Add README.md
         path: intro_flutter_gpu/assets/README.md
         replace-contents: |
-          # Kenney.nl Hexagon Kit glTF assets 
+          # Kenney.nl Hexagon Kit glTF assets
 
-          These assets are [licensed][] under Creative Commons CC0, from [Kenney.nl][]'s [Hexagon Kit][]. 
+          These assets are [licensed][] under Creative Commons CC0, from [Kenney.nl][]'s [Hexagon Kit][].
           These [glTF][] assets are from version 2.0 of the Hexagon Kit, downloaded from Kenney.nl on 2nd of October, 2024.
 
           [glTF]: https://en.wikipedia.org/wiki/GlTF
@@ -1213,31 +1212,31 @@ steps:
       - name: Add License.txt
         path: intro_flutter_gpu/assets/License.txt
         replace-contents: |
-          	
-          	
+
+
           	Hexagon Kit (2.0)
-          
+
           	Created/distributed by Kenney (www.kenney.nl)
           	Creation date: 23-01-2024 11:58
-          	
+
           			------------------------------
-          
+
           	License: (Creative Commons Zero, CC0)
           	http://creativecommons.org/publicdomain/zero/1.0/
-          
+
           	You can use this content for personal, educational, and commercial purposes.
-          
+
           	Support by crediting 'Kenney' or 'www.kenney.nl' (this is not a requirement)
-          
+
           			------------------------------
-          
+
           	• Website : www.kenney.nl
           	• Donate  : www.kenney.nl/donate
-          
+
           	• Patreon : patreon.com/kenney
-          	
+
           	Follow on social media for updates:
-          
+
           	• Twitter:   twitter.com/KenneyNL
           	• Instagram: instagram.com/kenney_nl
           	• Mastodon:  mastodon.gamedev.place/@kenney
@@ -2068,22 +2067,22 @@ steps:
           gJH7ACClh06A/wPT+onHU0SMvgAAAABJRU5ErkJggg==
       - name: Patch hooks/build.dart
         path: intro_flutter_gpu/hook/build.dart
-        patch-u: | 
+        patch-u: |
           --- b/intro_flutter_gpu/step_12/hook/build.dart
           +++ a/intro_flutter_gpu/step_12/hook/build.dart
           @@ -2,15 +2,14 @@
            // Use of this source code is governed by a BSD-style license that can be
            // found in the LICENSE file.
-           
+
           -import 'package:flutter_gpu_shaders/build.dart';
           +import 'package:flutter_scene_importer/build_hooks.dart';
            import 'package:native_assets_cli/native_assets_cli.dart';
-           
+
            void main(List<String> args) async {
              await build(args, (config, output) async {
           -    await buildShaderBundleJson(
           +    buildModels(
-                 buildConfig: config,
+                 buildInput: config,
           -      buildOutput: output,
           -      manifestFileName: 'my_first_triangle.shaderbundle.json',
           +      inputFilePaths: ['assets/building-port.glb'],
@@ -2206,10 +2205,10 @@ steps:
           @@ -2,6 +2,7 @@
            // Use of this source code is governed by a BSD-style license that can be
            // found in the LICENSE file.
-           
+
           +import 'package:flutter_scene/scene.dart';
            import 'package:flutter_test/flutter_test.dart';
-           
+
            import 'package:intro_flutter_gpu/main.dart';
           @@ -9,6 +10,8 @@ import 'package:intro_flutter_gpu/main.dart';
            void main() {

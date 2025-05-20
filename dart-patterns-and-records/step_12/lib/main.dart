@@ -84,7 +84,10 @@ class BlockWidget extends StatelessWidget {
         ),
         ParagraphBlock(:final text) => Text(text),
         CheckboxBlock(:final text, :final isChecked) => Row(
-          children: [Checkbox(value: isChecked, onChanged: (_) {}), Text(text)],
+          children: [
+            Checkbox(value: isChecked, onChanged: (_) {}),
+            Text(text),
+          ],
         ),
       },
     );

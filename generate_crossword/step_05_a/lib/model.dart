@@ -102,11 +102,10 @@ abstract class CrosswordWord
     required Direction direction,
   }) {
     return CrosswordWord(
-      (b) =>
-          b
-            ..word = word
-            ..direction = direction
-            ..location.replace(location),
+      (b) => b
+        ..word = word
+        ..direction = direction
+        ..location.replace(location),
     );
   }
 
@@ -287,15 +286,14 @@ abstract class Crossword implements Built<Crossword, CrosswordBuilder> {
     }
 
     final candidate = rebuild(
-      (b) =>
-          b
-            ..words.add(
-              CrosswordWord.word(
-                word: word,
-                direction: direction,
-                location: location,
-              ),
-            ),
+      (b) => b
+        ..words.add(
+          CrosswordWord.word(
+            word: word,
+            direction: direction,
+            location: location,
+          ),
+        ),
     );
 
     if (candidate.valid) {
@@ -317,21 +315,19 @@ abstract class Crossword implements Built<Crossword, CrosswordBuilder> {
             b.characters.updateValue(
               word.location.rightOffset(idx),
               (b) => b.rebuild((bInner) => bInner.acrossWord.replace(word)),
-              ifAbsent:
-                  () => CrosswordCharacter.character(
-                    acrossWord: word,
-                    character: character,
-                  ),
+              ifAbsent: () => CrosswordCharacter.character(
+                acrossWord: word,
+                character: character,
+              ),
             );
           case Direction.down:
             b.characters.updateValue(
               word.location.downOffset(idx),
               (b) => b.rebuild((bInner) => bInner.downWord.replace(word)),
-              ifAbsent:
-                  () => CrosswordCharacter.character(
-                    downWord: word,
-                    character: character,
-                  ),
+              ifAbsent: () => CrosswordCharacter.character(
+                downWord: word,
+                character: character,
+              ),
             );
         }
       }

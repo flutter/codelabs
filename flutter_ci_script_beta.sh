@@ -6,13 +6,11 @@ DIR="${BASH_SOURCE%/*}"
 source "$DIR/flutter_ci_script_shared.sh"
 
 declare -a CODELABS=(
-  # TODO(DomesticMouse): The argument type 'TabBarTheme' can't be assigned to the parameter type 'TabBarThemeData?'.
-  # "adaptive_app"
+  "adaptive_app"
   "animated-responsive-layout"
   "animations"
   "audio_soloud"
-  # TODO(DomesticMouse): The argument type 'CardTheme' can't be assigned to the parameter type 'CardThemeData?'.
-  # "boring_to_beautiful"
+  "boring_to_beautiful"
   "brick_breaker"
   "colorist"
   "dart-patterns-and-records"
@@ -28,7 +26,7 @@ declare -a CODELABS=(
   "haiku_generator"
   "homescreen_codelab"
   "in_app_purchases"
-  # TODO(domesticmouse): Add after beta is above Dart 3.8.0-0
+  # TODO(domesticmouse): Add once this is green on beta
   # "intro_flutter_gpu"
   "namer"
   "next-gen-ui"

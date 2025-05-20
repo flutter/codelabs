@@ -5,7 +5,7 @@
 part of 'playback_bloc.dart';
 
 @Freezed()
-class PlaybackState with _$PlaybackState {
+abstract class PlaybackState with _$PlaybackState {
   const factory PlaybackState({
     /// Legal values are between 0 and 1.
     @Default(0.5) double volume,
@@ -23,7 +23,7 @@ class PlaybackState with _$PlaybackState {
 /// Helper which enforces our rule that our `song` and `progress` must either
 /// both be `null`, or both have a real value.
 @Freezed()
-class SongWithProgress with _$SongWithProgress {
+abstract class SongWithProgress with _$SongWithProgress {
   const factory SongWithProgress({
     required Duration progress,
     required Song song,

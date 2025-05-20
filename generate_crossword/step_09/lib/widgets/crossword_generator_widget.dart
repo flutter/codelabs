@@ -44,9 +44,8 @@ class CrosswordGeneratorWidget extends ConsumerWidget {
           final explorationCell = ref.watch(
             workQueueProvider.select(
               (workQueueAsync) => workQueueAsync.when(
-                data:
-                    (workQueue) =>
-                        workQueue.locationsToTry.keys.contains(location),
+                data: (workQueue) =>
+                    workQueue.locationsToTry.keys.contains(location),
                 error: (error, stackTrace) => false,
                 loading: () => false,
               ),
@@ -57,20 +56,18 @@ class CrosswordGeneratorWidget extends ConsumerWidget {
             return AnimatedContainer(
               duration: Durations.extralong1,
               curve: Curves.easeInOut,
-              color:
-                  explorationCell
-                      ? Theme.of(context).colorScheme.primary
-                      : Theme.of(context).colorScheme.onPrimary,
+              color: explorationCell
+                  ? Theme.of(context).colorScheme.primary
+                  : Theme.of(context).colorScheme.onPrimary,
               child: Center(
                 child: AnimatedDefaultTextStyle(
                   duration: Durations.extralong1,
                   curve: Curves.easeInOut,
                   style: TextStyle(
                     fontSize: 24,
-                    color:
-                        explorationCell
-                            ? Theme.of(context).colorScheme.onPrimary
-                            : Theme.of(context).colorScheme.primary,
+                    color: explorationCell
+                        ? Theme.of(context).colorScheme.onPrimary
+                        : Theme.of(context).colorScheme.primary,
                   ),
                   child: Text('•'), // https://www.compart.com/en/unicode/U+2022
                 ),

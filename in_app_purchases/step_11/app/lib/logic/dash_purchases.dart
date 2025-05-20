@@ -50,8 +50,9 @@ class DashPurchases extends ChangeNotifier {
       storeKeyUpgrade,
     };
     final response = await iapConnection.queryProductDetails(ids);
-    products =
-        response.productDetails.map((e) => PurchasableProduct(e)).toList();
+    products = response.productDetails
+        .map((e) => PurchasableProduct(e))
+        .toList();
     storeState = StoreState.available;
     notifyListeners();
   }
@@ -149,16 +150,12 @@ class DashPurchases extends ChangeNotifier {
     // Get a list of purchasable products for the subscription and upgrade.
     // This should be 1 per type.
     if (products.isNotEmpty) {
-      subscriptions =
-          products
-              .where(
-                (element) => element.productDetails.id == storeKeySubscription,
-              )
-              .toList();
-      upgrades =
-          products
-              .where((element) => element.productDetails.id == storeKeyUpgrade)
-              .toList();
+      subscriptions = products
+          .where((element) => element.productDetails.id == storeKeySubscription)
+          .toList();
+      upgrades = products
+          .where((element) => element.productDetails.id == storeKeyUpgrade)
+          .toList();
     }
 
     // Set the subscription in the counter logic and show/hide purchased on the

@@ -16,7 +16,7 @@ const vec4 pink = vec4(1, 0.75, 0.8, 1);
 const vec4 purple = vec4(0.5, 0, 0.5, 1);
 const vec4 cyan = vec4(0, 1, 1, 1);
 
-void main() { 
+void main() {
   // Extract u, v, w coordinates for clarity
   float u = vertex_uvw.x;
   float v = vertex_uvw.y;

@@ -58,14 +58,13 @@ class _CardFlipEffectState extends State<CardFlipEffect>
       builder: (context, child) {
         return Transform(
           alignment: Alignment.center,
-          transform:
-              Matrix4.identity()..rotateX(_animationController.value * math.pi),
-          child:
-              _animationController.isAnimating
-                  ? _animationController.value < 0.5
-                      ? _previousChild
-                      : Transform.flip(flipY: true, child: child)
-                  : child,
+          transform: Matrix4.identity()
+            ..rotateX(_animationController.value * math.pi),
+          child: _animationController.isAnimating
+              ? _animationController.value < 0.5
+                    ? _previousChild
+                    : Transform.flip(flipY: true, child: child)
+              : child,
         );
       },
       child: widget.child,

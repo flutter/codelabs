@@ -11,6 +11,8 @@ class CenterRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(children: [Expanded(child: Center(child: child))]);
+    return Row(
+      children: [Expanded(child: Center(child: child))],
+    );
   }
 }

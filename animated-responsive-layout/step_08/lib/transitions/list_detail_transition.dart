@@ -88,16 +88,16 @@ class _ListDetailTransitionState extends State<ListDetailTransition> {
     return widthAnimation.value.toInt() == 0
         ? widget.one
         : Row(
-          children: [
-            Flexible(flex: 1000, child: widget.one),
-            Flexible(
-              flex: widthAnimation.value.toInt(),
-              child: FractionalTranslation(
-                translation: offsetAnimation.value,
-                child: widget.two,
+            children: [
+              Flexible(flex: 1000, child: widget.one),
+              Flexible(
+                flex: widthAnimation.value.toInt(),
+                child: FractionalTranslation(
+                  translation: offsetAnimation.value,
+                  child: widget.two,
+                ),
               ),
-            ),
-          ],
-        );
+            ],
+          );
   }
 }

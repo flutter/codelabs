@@ -8,7 +8,7 @@ import 'package:native_assets_cli/native_assets_cli.dart';
 void main(List<String> args) async {
   await build(args, (config, output) async {
     buildModels(
-      buildConfig: config,
+      buildInput: config,
       inputFilePaths: ['assets/building-port.glb'],
     );
   });

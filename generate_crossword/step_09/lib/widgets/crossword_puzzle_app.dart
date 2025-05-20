@@ -74,17 +74,15 @@ class _CrosswordPuzzleAppMenu extends ConsumerWidget {
       for (final entry in CrosswordSize.values)
         MenuItemButton(
           onPressed: () => ref.read(sizeProvider.notifier).setSize(entry),
-          leadingIcon:
-              entry == ref.watch(sizeProvider)
-                  ? Icon(Icons.radio_button_checked_outlined)
-                  : Icon(Icons.radio_button_unchecked_outlined),
+          leadingIcon: entry == ref.watch(sizeProvider)
+              ? Icon(Icons.radio_button_checked_outlined)
+              : Icon(Icons.radio_button_unchecked_outlined),
           child: Text(entry.label),
         ),
     ],
-    builder:
-        (context, controller, child) => IconButton(
-          onPressed: () => controller.open(),
-          icon: Icon(Icons.settings),
-        ),
+    builder: (context, controller, child) => IconButton(
+      onPressed: () => controller.open(),
+      icon: Icon(Icons.settings),
+    ),
   );
 }

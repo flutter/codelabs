@@ -13,8 +13,9 @@ String _$firebaseAppHash() => r'eaf72348ad852e52538678ec3a1b50b5c9af17ef';
 final firebaseAppProvider = AutoDisposeFutureProvider<FirebaseApp>.internal(
   firebaseApp,
   name: r'firebaseAppProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$firebaseAppHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$firebaseAppHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
@@ -22,15 +23,16 @@ final firebaseAppProvider = AutoDisposeFutureProvider<FirebaseApp>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef FirebaseAppRef = AutoDisposeFutureProviderRef<FirebaseApp>;
-String _$geminiModelHash() => r'b52aaf5a8a6228ee40259f15d183c34b078de8ec';
+String _$geminiModelHash() => r'27c21afd7ed5d8f4dea3d8dbaa7aa4d8128db93f';
 
 /// See also [geminiModel].
 @ProviderFor(geminiModel)
 final geminiModelProvider = AutoDisposeFutureProvider<GenerativeModel>.internal(
   geminiModel,
   name: r'geminiModelProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$geminiModelHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$geminiModelHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
@@ -45,8 +47,9 @@ String _$chatSessionHash() => r'fdd5e4ed9d06db9712c9300eeb8a1b54a115b10a';
 final chatSessionProvider = FutureProvider<ChatSession>.internal(
   chatSession,
   name: r'chatSessionProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$chatSessionHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$chatSessionHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
