@@ -4,8 +4,8 @@
 
 import 'dart:async';
 
+import 'package:firebase_ai/firebase_ai.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_vertexai/firebase_vertexai.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -21,7 +21,7 @@ Future<FirebaseApp> firebaseApp(Ref ref) =>
 Future<GenerativeModel> geminiModel(Ref ref) async {
   await ref.watch(firebaseAppProvider.future);
 
-  final model = FirebaseVertexAI.instance.generativeModel(
+  final model = FirebaseAI.googleAI().generativeModel(
     model: 'gemini-2.0-flash',
   );
   return model;
