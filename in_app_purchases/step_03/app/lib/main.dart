@@ -55,11 +55,10 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         ChangeNotifierProvider<DashCounter>(create: (_) => DashCounter()),
         ChangeNotifierProvider<DashUpgrades>(
-          create:
-              (context) => DashUpgrades(
-                context.read<DashCounter>(),
-                context.read<FirebaseNotifier>(),
-              ),
+          create: (context) => DashUpgrades(
+            context.read<DashCounter>(),
+            context.read<FirebaseNotifier>(),
+          ),
         ),
         ChangeNotifierProvider<IAPRepo>(
           create: (context) => IAPRepo(context.read<FirebaseNotifier>()),

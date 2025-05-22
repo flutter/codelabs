@@ -30,11 +30,10 @@ Future<BuiltSet<String>> wordList(Ref ref) async {
       .convert(words)
       .toBuiltSet()
       .rebuild(
-        (b) =>
-            b
-              ..map((word) => word.toLowerCase().trim())
-              ..where((word) => word.length > 2)
-              ..where((word) => re.hasMatch(word)),
+        (b) => b
+          ..map((word) => word.toLowerCase().trim())
+          ..where((word) => word.length > 2)
+          ..where((word) => re.hasMatch(word)),
       );
 }
 
@@ -86,12 +85,11 @@ Stream<model.WorkQueue> workQueue(Ref ref) async* {
   ref.read(endTimeProvider.notifier).clear();
 
   yield* wordListAsync.when(
-    data:
-        (wordList) => exploreCrosswordSolutions(
-          crossword: emptyCrossword,
-          wordList: wordList,
-          maxWorkerCount: workers.count,
-        ),
+    data: (wordList) => exploreCrosswordSolutions(
+      crossword: emptyCrossword,
+      wordList: wordList,
+      maxWorkerCount: workers.count,
+    ),
     error: (error, stackTrace) async* {
       debugPrint('Error loading word list: $error');
       yield emptyWorkQueue;

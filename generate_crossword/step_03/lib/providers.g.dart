@@ -15,8 +15,9 @@ String _$wordListHash() => r'07003444d7241448561b638500001e31610b4717';
 final wordListProvider = AutoDisposeFutureProvider<BuiltSet<String>>.internal(
   wordList,
   name: r'wordListProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$wordListHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$wordListHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

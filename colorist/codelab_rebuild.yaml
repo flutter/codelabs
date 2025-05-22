@@ -120,9 +120,9 @@ steps:
     steps:
       - name: Remove generated code
         rmdir: step_02
-      - name: Add Firebase Vertex AI dependencies
+      - name: Add Firebase AI Logic dependencies
         path: colorist
-        flutter: pub add firebase_core firebase_vertexai
+        flutter: pub add firebase_core firebase_ai
       - name: Add lib/firebase_options.dart
         path: colorist/lib/firebase_options.dart
         replace-contents: |
@@ -150,8 +150,8 @@ steps:
 
           import 'dart:async';
 
+          import 'package:firebase_ai/firebase_ai.dart';
           import 'package:firebase_core/firebase_core.dart';
-          import 'package:firebase_vertexai/firebase_vertexai.dart';
           import 'package:flutter_riverpod/flutter_riverpod.dart';
           import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -167,7 +167,7 @@ steps:
           Future<GenerativeModel> geminiModel(Ref ref) async {
             await ref.watch(firebaseAppProvider.future);
 
-            final model = FirebaseVertexAI.instance.generativeModel(
+            final model = FirebaseAI.vertexAI().generativeModel(
               model: 'gemini-2.0-flash',
             );
             return model;
@@ -191,7 +191,7 @@ steps:
           import 'dart:async';
 
           import 'package:colorist_ui/colorist_ui.dart';
-          import 'package:firebase_vertexai/firebase_vertexai.dart';
+          import 'package:firebase_ai/firebase_ai.dart';
           import 'package:flutter_riverpod/flutter_riverpod.dart';
           import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -237,6 +237,9 @@ steps:
       - name: Run build_runner
         path: colorist
         dart: run build_runner build --delete-conflicting-outputs
+      - name: dart format lib
+        path: colorist
+        dart: format lib
       - name: Patch lib/main.dart
         path: colorist/lib/main.dart
         patch-u: |
@@ -252,7 +255,7 @@ steps:
            void main() async {
              runApp(ProviderScope(child: MainApp()));
            }
-          @@ -15,26 +18,22 @@ class MainApp extends ConsumerWidget {
+          @@ -15,26 +18,21 @@ class MainApp extends ConsumerWidget {
 
              @override
              Widget build(BuildContext context, WidgetRef ref) {
@@ -267,12 +270,11 @@ steps:
           -          sendMessage(message, ref);
           -        },
           +      home: model.when(
-          +        data:
-          +            (data) => MainScreen(
-          +              sendMessage: (text) {
-          +                ref.read(geminiChatServiceProvider).sendMessage(text);
-          +              },
-          +            ),
+          +        data: (data) => MainScreen(
+          +          sendMessage: (text) {
+          +            ref.read(geminiChatServiceProvider).sendMessage(text);
+          +          },
+          +        ),
           +        loading: () => LoadingScreen(message: 'Initializing Gemini Model'),
           +        error: (err, st) => ErrorScreen(error: err),
                  ),
@@ -494,7 +496,7 @@ steps:
              await ref.watch(firebaseAppProvider.future);
           +  final systemPrompt = await ref.watch(systemPromptProvider.future);
 
-             final model = FirebaseVertexAI.instance.generativeModel(
+             final model = FirebaseAI.vertexAI().generativeModel(
                model: 'gemini-2.0-flash',
           +    systemInstruction: Content.system(systemPrompt),
              );
@@ -503,6 +505,9 @@ steps:
       - name: Run build_runner
         path: colorist
         dart: run build_runner build --delete-conflicting-outputs
+      - name: dart format lib
+        path: colorist
+        dart: format lib
       - name: Copy step_03
         copydir:
           from: colorist
@@ -522,7 +527,7 @@ steps:
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
 
-          import 'package:firebase_vertexai/firebase_vertexai.dart';
+          import 'package:firebase_ai/firebase_ai.dart';
           import 'package:flutter_riverpod/flutter_riverpod.dart';
           import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -569,7 +574,7 @@ steps:
              final systemPrompt = await ref.watch(systemPromptProvider.future);
           +  final geminiTools = ref.watch(geminiToolsProvider);
 
-             final model = FirebaseVertexAI.instance.generativeModel(
+             final model = FirebaseAI.vertexAI().generativeModel(
                model: 'gemini-2.0-flash',
                systemInstruction: Content.system(systemPrompt),
           +    tools: geminiTools.tools,
@@ -632,6 +637,9 @@ steps:
       - name: Run build_runner
         path: colorist
         dart: run build_runner build --delete-conflicting-outputs
+      - name: dart format lib
+        path: colorist
+        dart: format lib
       - name: Copy step_04
         copydir:
           from: colorist
@@ -695,10 +703,10 @@ steps:
            // found in the LICENSE file.
 
           +import 'package:colorist_ui/colorist_ui.dart';
-           import 'package:firebase_vertexai/firebase_vertexai.dart';
+           import 'package:firebase_ai/firebase_ai.dart';
            import 'package:flutter_riverpod/flutter_riverpod.dart';
            import 'package:riverpod_annotation/riverpod_annotation.dart';
-          @@ -26,6 +27,45 @@ class GeminiTools {
+          @@ -26,6 +27,44 @@ class GeminiTools {
              List<Tool> get tools => [
                Tool.functionDeclarations([setColorFuncDecl]),
              ];
@@ -722,10 +730,9 @@ steps:
           +    final blue = (arguments['blue'] as num).toDouble();
           +    final functionResults = {
           +      'success': true,
-          +      'current_color':
-          +          colorStateNotifier
-          +              .updateColor(red: red, green: green, blue: blue)
-          +              .toLLMContextMap(),
+          +      'current_color': colorStateNotifier
+          +          .updateColor(red: red, green: green, blue: blue)
+          +          .toLLMContextMap(),
           +    };
           +
           +    final logStateNotifier = ref.read(logStateNotifierProvider.notifier);
@@ -747,6 +754,9 @@ steps:
       - name: Run build_runner
         path: colorist
         dart: run build_runner build --delete-conflicting-outputs
+      - name: dart format lib
+        path: colorist
+        dart: format lib
       - name: Copy step_05
         copydir:
           from: colorist
@@ -765,9 +775,9 @@ steps:
           --- b/colorist/step_06/lib/services/gemini_chat_service.dart
           +++ a/colorist/step_06/lib/services/gemini_chat_service.dart
           @@ -14,46 +14,41 @@ import 'gemini_tools.dart';
-           
+
            part 'gemini_chat_service.g.dart';
-           
+
           +final conversationStateProvider = StateProvider(
           +  (ref) => ConversationState.idle,
           +);
@@ -775,13 +785,13 @@ steps:
            class GeminiChatService {
              GeminiChatService(this.ref);
              final Ref ref;
-           
+
              Future<void> sendMessage(String message) async {
                final chatSession = await ref.read(chatSessionProvider.future);
           +    final conversationState = ref.read(conversationStateProvider);
                final chatStateNotifier = ref.read(chatStateNotifierProvider.notifier);
                final logStateNotifier = ref.read(logStateNotifierProvider.notifier);
-           
+
           +    if (conversationState == ConversationState.busy) {
           +      logStateNotifier.logWarning(
           +        "Can't send a message while a conversation is in progress",
@@ -892,17 +902,20 @@ steps:
 
                return MaterialApp(
                  theme: ThemeData(
-          @@ -27,6 +28,7 @@ class MainApp extends ConsumerWidget {
+          @@ -26,6 +27,7 @@ class MainApp extends ConsumerWidget {
+                 ),
                  home: model.when(
-                   data:
-                       (data) => MainScreen(
-          +              conversationState: conversationState,
-                         sendMessage: (text) {
-                           ref.read(geminiChatServiceProvider).sendMessage(text);
-                         },
+                   data: (data) => MainScreen(
+          +          conversationState: conversationState,
+                     sendMessage: (text) {
+                       ref.read(geminiChatServiceProvider).sendMessage(text);
+                     },
       - name: Run build_runner
         path: colorist
         dart: run build_runner build --delete-conflicting-outputs
+      - name: dart format lib
+        path: colorist
+        dart: format lib
       - name: Copy step_06
         copydir:
           from: colorist
@@ -926,7 +939,7 @@ steps:
           +import 'dart:convert';
 
            import 'package:colorist_ui/colorist_ui.dart';
-           import 'package:firebase_vertexai/firebase_vertexai.dart';
+           import 'package:firebase_ai/firebase_ai.dart';
           @@ -22,6 +23,10 @@ class GeminiChatService {
              GeminiChatService(this.ref);
              final Ref ref;
@@ -943,16 +956,16 @@ steps:
         patch-u: |
           --- b/colorist/step_07/lib/main.dart
           +++ a/colorist/step_07/lib/main.dart
-          @@ -29,6 +29,9 @@ class MainApp extends ConsumerWidget {
-                   data:
-                       (data) => MainScreen(
-                         conversationState: conversationState,
-          +              notifyColorSelection: (color) {
-          +                ref.read(geminiChatServiceProvider).notifyColorSelection(color);
-          +              },
-                         sendMessage: (text) {
-                           ref.read(geminiChatServiceProvider).sendMessage(text);
-                         },
+          @@ -28,6 +28,9 @@ class MainApp extends ConsumerWidget {
+                 home: model.when(
+                   data: (data) => MainScreen(
+                     conversationState: conversationState,
+          +          notifyColorSelection: (color) {
+          +            ref.read(geminiChatServiceProvider).notifyColorSelection(color);
+          +          },
+                     sendMessage: (text) {
+                       ref.read(geminiChatServiceProvider).sendMessage(text);
+                     },
       - name: Patch assets/system_prompt.md
         path: colorist/assets/system_prompt.md
         patch-u: |
@@ -976,6 +989,9 @@ steps:
       - name: Run build_runner
         path: colorist
         dart: run build_runner build --delete-conflicting-outputs
+      - name: dart format lib
+        path: colorist
+        dart: format lib
       - name: Upgrade deps
         path: colorist
         flutter: pub upgrade --major-versions

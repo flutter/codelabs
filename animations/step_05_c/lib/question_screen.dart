@@ -27,10 +27,10 @@ class _QuestionScreenState extends State<QuestionScreen> {
               TextButton(
                 onPressed:
                     viewModel.hasNextQuestion && viewModel.didAnswerQuestion
-                        ? () {
-                          viewModel.getNextQuestion();
-                        }
-                        : null,
+                    ? () {
+                        viewModel.getNextQuestion();
+                      }
+                    : null,
                 child: const Text('Next'),
               ),
             ],
@@ -45,10 +45,9 @@ class _QuestionScreenState extends State<QuestionScreen> {
                     viewModel.checkAnswer(index);
                   },
                   answers: viewModel.currentQuestion?.possibleAnswers ?? [],
-                  correctAnswer:
-                      viewModel.didAnswerQuestion
-                          ? viewModel.currentQuestion?.correctAnswer
-                          : null,
+                  correctAnswer: viewModel.didAnswerQuestion
+                      ? viewModel.currentQuestion?.correctAnswer
+                      : null,
                 ),
                 StatusBar(viewModel: viewModel),
               ],

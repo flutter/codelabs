@@ -34,6 +34,20 @@ steps:
                   }
               ]
           }
+      - name: Patch example/android/app/build.gradle.kts
+        path: ffigen_app/example/android/app/build.gradle.kts
+        patch-u: |
+          --- a/ffigen_codelab/step_03/example/android/app/build.gradle.kts
+          +++ b/ffigen_codelab/step_03/example/android/app/build.gradle.kts
+          @@ -8,7 +8,7 @@ plugins {
+           android {
+               namespace = "com.example.ffigen_app_example"
+               compileSdk = flutter.compileSdkVersion
+          -    ndkVersion = flutter.ndkVersion
+          +    ndkVersion = "27.0.12077973"
+           
+               compileOptions {
+                   sourceCompatibility = JavaVersion.VERSION_11
       - name: dart format
         dart: format ffigen_app
       - name: dart fix ffigen_app
@@ -53,24 +67,24 @@ steps:
         flutter: pub upgrade --major-versions
       - name: Build iOS simulator bundle
         path: ffigen_app/example
-        platforms: [ macos ]
+        platforms: [macos]
         flutter: build ios --simulator
       - name: Build macOS app
         path: ffigen_app/example
-        platforms: [ macos ]
+        platforms: [macos]
         flutter: build macos --debug
       - name: Build Android app
         path: ffigen_app/example
-        platforms: [ macos ]
-        flutter: build apk --debug 
+        platforms: [macos]
+        flutter: build apk --debug
       - name: Build Windows app
         path: ffigen_app/example
-        platforms: [ windows ]
-        flutter: build windows --debug 
+        platforms: [windows]
+        flutter: build windows --debug
       - name: Build Linux app
         path: ffigen_app/example
-        platforms: [ linux ]
-        flutter: build linux --debug 
+        platforms: [linux]
+        flutter: build linux --debug
       - name: Flutter clean
         path: ffigen_app/example
         flutter: clean
@@ -89,22 +103,22 @@ steps:
         path: ffigen_app/src/duktape.tar.xz
         retrieve-url: https://duktape.org/duktape-2.7.0.tar.xz
       - name: Unarchive duktape.tar.xz with tar
-        platforms: [ linux, macos ]
+        platforms: [linux, macos]
         path: ffigen_app/src
         tar: xf duktape.tar.xz
       - name: Unarchive duktape.tar.xz with 7z
-        platforms: [ windows ]
+        platforms: [windows]
         path: ffigen_app/src
         7z: x duktape.tar.xz
       - name: Unarchive duktape.tar with 7z
-        platforms: [ windows ]
+        platforms: [windows]
         path: ffigen_app/src
         7z: x duktape.tar
       - name: Remove duktape.tar.xz
         path: ffigen_app/src
         rm: duktape.tar.xz
       - name: Remove duktape.tar
-        platforms: [ windows ]
+        platforms: [windows]
         path: ffigen_app/src
         rm: duktape.tar
       - name: Copy duktape-2.7.0/src/duktape.c
@@ -137,7 +151,7 @@ steps:
            description: |
           -  Bindings for `src/ffigen_app.h`.
           +  Bindings for `src/duktape.h`.
-           
+
              Regenerate bindings with `dart run ffigen --config ffigen.yaml`.
           -output: 'lib/ffigen_app_bindings_generated.dart'
           +output: 'lib/duktape_bindings_generated.dart'
@@ -311,19 +325,19 @@ steps:
           +++ a/ffigen_codelab/step_05/src/CMakeLists.txt
           @@ -6,12 +6,19 @@ cmake_minimum_required(VERSION 3.10)
            project(ffigen_app_library VERSION 0.0.1 LANGUAGES C)
-           
+
            add_library(ffigen_app SHARED
           -  "ffigen_app.c"
           +  duktape.c
            )
-           
+
            set_target_properties(ffigen_app PROPERTIES
           -  PUBLIC_HEADER ffigen_app.h
           +  PUBLIC_HEADER duktape.h
           +  PRIVATE_HEADER duk_config.h
              OUTPUT_NAME "ffigen_app"
            )
-           
+
           +if (WIN32)
           +set_target_properties(ffigen_app PROPERTIES
           +  WINDOWS_EXPORT_ALL_SYMBOLS ON
@@ -363,12 +377,12 @@ steps:
         dart: analyze --fatal-infos
       - name: Build Windows app
         path: ffigen_app/example
-        platforms: [ windows ]
-        flutter: build windows --debug 
+        platforms: [windows]
+        flutter: build windows --debug
       - name: Build Linux app
         path: ffigen_app/example
-        platforms: [ linux ]
-        flutter: build linux --debug 
+        platforms: [linux]
+        flutter: build linux --debug
       - name: Flutter clean
         path: ffigen_app/example
         flutter: clean
@@ -408,24 +422,24 @@ steps:
         dart: analyze --fatal-infos
       - name: Build iOS simulator bundle
         path: ffigen_app/example
-        platforms: [ macos ]
+        platforms: [macos]
         flutter: build ios --simulator
       - name: Build macOS app
         path: ffigen_app/example
-        platforms: [ macos ]
+        platforms: [macos]
         flutter: build macos --debug
       - name: Build Android app
         path: ffigen_app/example
-        platforms: [ macos ]
-        flutter: build apk --debug 
+        platforms: [macos]
+        flutter: build apk --debug
       - name: Build Windows app
         path: ffigen_app/example
-        platforms: [ windows ]
-        flutter: build windows --debug 
+        platforms: [windows]
+        flutter: build windows --debug
       - name: Build Linux app
         path: ffigen_app/example
-        platforms: [ linux ]
-        flutter: build linux --debug 
+        platforms: [linux]
+        flutter: build linux --debug
       - name: Flutter clean
         path: ffigen_app/example
         flutter: clean
@@ -447,9 +461,9 @@ steps:
            import 'dart:io' show Platform;
            import 'package:ffi/ffi.dart' as ffi;
           +import 'package:path/path.dart' as p;
-           
+
            import 'duktape_bindings_generated.dart';
-           
+
           @@ -13,12 +14,37 @@ const String _libName = 'ffigen_app';
            /// The dynamic library in which the symbols for [DuktapeBindings] can be found.
            final DynamicLibrary _dylib = () {
@@ -491,13 +505,13 @@ steps:
           @@ -38,13 +64,13 @@ class Duktape {
                );
              }
-           
+
           -  void evalString(String jsCode) {
           +  String evalString(String jsCode) {
                // From duktape.h:
                // #define duk_peval_string(ctx,src)  \
                // 	(duk_eval_raw((ctx), (src), 0, 0 /*args*/ | DUK_COMPILE_EVAL | DUK_COMPILE_SAFE | DUK_COMPILE_NOSOURCE | DUK_COMPILE_STRLEN | DUK_COMPILE_NOFILENAME))
-           
+
                var nativeUtf8 = jsCode.toNativeUtf8();
           -    _bindings.duk_eval_raw(
           +    final evalResult = _bindings.duk_eval_raw(
@@ -515,7 +529,7 @@ steps:
           +
           +    return _retrieveTopOfStackAsString();
              }
-           
+
           -  int getInt(int index) {
           -    return _bindings.duk_get_int(ctx, index);
           +  String _retrieveTopOfStackAsString() {
@@ -527,7 +541,7 @@ steps:
           +    ffi.calloc.free(outLengthPtr);
           +    return returnVal;
              }
-           
+
              void dispose() {
       - name: Create example/lib/duktape_message.dart
         path: ffigen_app/example/lib/duktape_message.dart
@@ -536,9 +550,9 @@ steps:
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
           import 'package:freezed_annotation/freezed_annotation.dart';
-          
+
           part 'duktape_message.freezed.dart';
-          
+
           @freezed
           class DuktapeMessage with _$DuktapeMessage {
             factory DuktapeMessage.evaluate(String code) = DuktapeMessageCode;
@@ -636,45 +650,51 @@ steps:
                           child: ListView.builder(
                             padding: const EdgeInsets.all(8.0),
                             reverse: true,
-                            itemBuilder:
-                                (context, idx) => messages[idx].when(
-                                  evaluate:
-                                      (str) => Padding(
-                                        padding: const EdgeInsets.symmetric(vertical: 2),
-                                        child: Text(
-                                          '> $str',
-                                          style: GoogleFonts.firaCode(
-                                            textStyle:
-                                                Theme.of(context).textTheme.titleMedium,
-                                          ),
-                                        ),
-                                      ),
-                                  response:
-                                      (str) => Padding(
-                                        padding: const EdgeInsets.symmetric(vertical: 2),
-                                        child: Text(
-                                          '= $str',
-                                          style: GoogleFonts.firaCode(
-                                            textStyle:
-                                                Theme.of(context).textTheme.titleMedium,
-                                            color: Colors.blue[800],
-                                          ),
-                                        ),
-                                      ),
-                                  error:
-                                      (str) => Padding(
-                                        padding: const EdgeInsets.symmetric(vertical: 2),
-                                        child: Text(
-                                          str,
-                                          style: GoogleFonts.firaCode(
-                                            textStyle:
-                                                Theme.of(context).textTheme.titleSmall,
-                                            color: Colors.red[800],
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
+                            itemBuilder: (context, idx) {
+                              return switch (messages[idx]) {
+                                DuktapeMessageCode code => Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 2),
+                                  child: Text(
+                                    '> ${code.code}',
+                                    style: GoogleFonts.firaCode(
+                                      textStyle: Theme.of(context).textTheme.titleMedium,
+                                    ),
+                                  ),
                                 ),
+                                DuktapeMessageResponse response => Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 2),
+                                  child: Text(
+                                    '= ${response.result}',
+                                    style: GoogleFonts.firaCode(
+                                      textStyle: Theme.of(context).textTheme.titleMedium,
+                                      color: Colors.blue[800],
+                                    ),
+                                  ),
+                                ),
+                                DuktapeMessageError error => Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 2),
+                                  child: Text(
+                                    error.log,
+                                    style: GoogleFonts.firaCode(
+                                      textStyle: Theme.of(context).textTheme.titleSmall,
+                                      color: Colors.red[800],
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                DuktapeMessage message => Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 2),
+                                  child: Text(
+                                    'Unhandled message $message',
+                                    style: GoogleFonts.firaCode(
+                                      textStyle: Theme.of(context).textTheme.titleSmall,
+                                      color: Colors.red[800],
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              };
+                            },
                             itemCount: messages.length,
                           ),
                         ),
@@ -719,10 +739,9 @@ steps:
                         margin: const EdgeInsets.symmetric(horizontal: 4.0),
                         child: IconButton(
                           icon: const Icon(Icons.send),
-                          onPressed:
-                              _isComposing
-                                  ? () => _handleSubmitted(_controller.text)
-                                  : null,
+                          onPressed: _isComposing
+                              ? () => _handleSubmitted(_controller.text)
+                              : null,
                         ),
                       ),
                     ],
@@ -741,16 +760,16 @@ steps:
           import 'package:ffigen_app_example/main.dart';
           import 'package:flutter_riverpod/flutter_riverpod.dart';
           import 'package:flutter_test/flutter_test.dart';
-          
+
           void main() {
             testWidgets('DuktapeApp displays the title', (tester) async {
               // Build our app and trigger a frame.
               await tester.pumpWidget(const ProviderScope(child: DuktapeApp()));
-          
+
               // Verify that our app displays the title
               expect(find.text('Duktape REPL'), findsOneWidget);
             });
-          
+
             test('Duktape.evalString', () {
               final duktape = Duktape();
               final response = duktape.evalString('1+2');
@@ -813,28 +832,28 @@ steps:
         dart: analyze --fatal-infos
       - name: Build iOS simulator bundle
         path: ffigen_app/example
-        platforms: [ macos ]
+        platforms: [macos]
         flutter: build ios --simulator
       - name: Build macOS app
         path: ffigen_app/example
-        platforms: [ macos ]
+        platforms: [macos]
         flutter: build macos --debug
       - name: Test macOS bundle
         path: ffigen_app/example
-        platforms: [ macos ]
+        platforms: [macos]
         flutter: test
       - name: Build Android app
         path: ffigen_app/example
-        platforms: [ macos ]
-        flutter: build apk --debug 
+        platforms: [macos]
+        flutter: build apk --debug
       - name: Build Windows app
         path: ffigen_app/example
-        platforms: [ windows ]
-        flutter: build windows --debug 
+        platforms: [windows]
+        flutter: build windows --debug
       - name: Build Linux app
         path: ffigen_app/example
-        platforms: [ linux ]
-        flutter: build linux --debug 
+        platforms: [linux]
+        flutter: build linux --debug
       - name: Flutter clean
         path: ffigen_app/example
         flutter: clean

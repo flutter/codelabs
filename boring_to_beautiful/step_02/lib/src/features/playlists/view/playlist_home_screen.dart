@@ -44,10 +44,8 @@ class PlaylistHomeScreen extends StatelessWidget {
                         title: playlist.title,
                         subtitle: playlist.description,
                       ),
-                      onTap:
-                          () => GoRouter.of(
-                            context,
-                          ).go('/playlists/${playlist.id}'),
+                      onTap: () =>
+                          GoRouter.of(context).go('/playlists/${playlist.id}'),
                     );
                   },
                 ),

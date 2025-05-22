@@ -25,20 +25,18 @@ class HomePage extends StatelessWidget {
           Image.asset('assets/codelab.png'),
           const SizedBox(height: 8),
           Consumer<ApplicationState>(
-            builder:
-                (context, appState, _) =>
-                    IconAndDetail(Icons.calendar_today, appState.eventDate),
+            builder: (context, appState, _) =>
+                IconAndDetail(Icons.calendar_today, appState.eventDate),
           ),
           const IconAndDetail(Icons.location_city, 'San Francisco'),
           Consumer<ApplicationState>(
-            builder:
-                (context, appState, _) => AuthFunc(
-                  loggedIn: appState.loggedIn,
-                  signOut: () {
-                    FirebaseAuth.instance.signOut();
-                  },
-                  enableFreeSwag: appState.enableFreeSwag,
-                ),
+            builder: (context, appState, _) => AuthFunc(
+              loggedIn: appState.loggedIn,
+              signOut: () {
+                FirebaseAuth.instance.signOut();
+              },
+              enableFreeSwag: appState.enableFreeSwag,
+            ),
           ),
           const Divider(
             height: 8,
@@ -52,31 +50,28 @@ class HomePage extends StatelessWidget {
             builder: (context, appState, _) => Paragraph(appState.callToAction),
           ),
           Consumer<ApplicationState>(
-            builder:
-                (context, appState, _) => Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    switch (appState.attendees) {
-                      1 => const Paragraph('1 person going'),
-                      >= 2 => Paragraph('${appState.attendees} people going'),
-                      _ => const Paragraph('No one going'),
-                    },
-                    if (appState.loggedIn) ...[
-                      YesNoSelection(
-                        state: appState.attending,
-                        onSelection:
-                            (attending) => appState.attending = attending,
-                      ),
-                      const Header('Discussion'),
-                      GuestBook(
-                        addMessage:
-                            (message) =>
-                                appState.addMessageToGuestBook(message),
-                        messages: appState.guestBookMessages,
-                      ),
-                    ],
-                  ],
-                ),
+            builder: (context, appState, _) => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                switch (appState.attendees) {
+                  1 => const Paragraph('1 person going'),
+                  >= 2 => Paragraph('${appState.attendees} people going'),
+                  _ => const Paragraph('No one going'),
+                },
+                if (appState.loggedIn) ...[
+                  YesNoSelection(
+                    state: appState.attending,
+                    onSelection: (attending) => appState.attending = attending,
+                  ),
+                  const Header('Discussion'),
+                  GuestBook(
+                    addMessage: (message) =>
+                        appState.addMessageToGuestBook(message),
+                    messages: appState.guestBookMessages,
+                  ),
+                ],
+              ],
+            ),
           ),
         ],
       ),

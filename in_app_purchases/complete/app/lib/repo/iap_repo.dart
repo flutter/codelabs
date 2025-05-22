@@ -47,17 +47,15 @@ class IAPRepo extends ChangeNotifier {
       hasUpgrade = false;
       return;
     }
-    var purchaseStream =
-        _firestore
-            .collection('purchases')
-            .where('userId', isEqualTo: user.uid)
-            .snapshots();
+    var purchaseStream = _firestore
+        .collection('purchases')
+        .where('userId', isEqualTo: user.uid)
+        .snapshots();
     _purchaseSubscription = purchaseStream.listen((snapshot) {
-      purchases =
-          snapshot.docs.map((document) {
-            var data = document.data();
-            return PastPurchase.fromJson(data);
-          }).toList();
+      purchases = snapshot.docs.map((document) {
+        var data = document.data();
+        return PastPurchase.fromJson(data);
+      }).toList();
 
       hasActiveSubscription = purchases.any(
         (element) =>

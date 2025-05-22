@@ -17,10 +17,9 @@ Blueprint _$BlueprintFromJson(Map json) =>
         name: $checkedConvert('name', (v) => v as String),
         steps: $checkedConvert(
           'steps',
-          (v) =>
-              (v as List<dynamic>)
-                  .map((e) => BlueprintStep.fromJson(e as Map))
-                  .toList(),
+          (v) => (v as List<dynamic>)
+              .map((e) => BlueprintStep.fromJson(e as Map))
+              .toList(),
         ),
       );
       return val;

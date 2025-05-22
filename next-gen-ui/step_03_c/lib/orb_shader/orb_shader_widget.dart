@@ -79,8 +79,9 @@ class OrbShaderWidgetState extends State<OrbShaderWidget>
       return ListenableBuilder(
         listenable: _heartbeatAnim,
         builder: (_, __) {
-          final heartbeatEnergy =
-              _heartbeatAnim.drive(_heartbeatSequence).value;
+          final heartbeatEnergy = _heartbeatAnim
+              .drive(_heartbeatSequence)
+              .value;
           return TweenAnimationBuilder(
             tween: Tween<double>(
               begin: widget.minEnergy,

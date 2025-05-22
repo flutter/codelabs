@@ -269,31 +269,43 @@ Future<void> _buildBlueprintStep(Directory cwd, BlueprintStep step) async {
     final macosxDeploymentTarget = step.macosxDeploymentTarget;
     late String script;
     if (xcodeAddFile != null && xcodeAddFile.isNotEmpty) {
-      script = '''
+      script =
+          '''
 require "xcodeproj"
 project = Xcodeproj::Project.open("$xcodeProjectPath")
 group = project.main_group["Runner"]
 project.targets.first.add_file_references([group.new_file("$xcodeAddFile")])
 project.save
-'''.split('\n').map((str) => "-e '$str'").join(' ');
+'''
+              .split('\n')
+              .map((str) => "-e '$str'")
+              .join(' ');
     } else if (iphoneosDeploymentTarget != null &&
         iphoneosDeploymentTarget.isNotEmpty) {
-      script = '''
+      script =
+          '''
 require "xcodeproj"
 project = Xcodeproj::Project.open("$xcodeProjectPath")
 group = project.main_group["Runner"]
 project.targets.each { |t| t.build_configurations.each { |c| c.build_settings["IPHONEOS_DEPLOYMENT_TARGET"] ||= $iphoneosDeploymentTarget } }
 project.save
-'''.split('\n').map((str) => "-e '$str'").join(' ');
+'''
+              .split('\n')
+              .map((str) => "-e '$str'")
+              .join(' ');
     } else if (macosxDeploymentTarget != null &&
         macosxDeploymentTarget.isNotEmpty) {
-      script = '''
+      script =
+          '''
 require "xcodeproj"
 project = Xcodeproj::Project.open("$xcodeProjectPath")
 group = project.main_group["Runner"]
 project.targets.each { |t| t.build_configurations.each { |c| c.build_settings["MACOSX_DEPLOYMENT_TARGET"] ||= $macosxDeploymentTarget } }
 project.save
-'''.split('\n').map((str) => "-e '$str'").join(' ');
+'''
+              .split('\n')
+              .map((str) => "-e '$str'")
+              .join(' ');
     } else {
       _logger.severe(
         'xcode-add-file requires xcode-project-path, iphoneos-deployment-target'

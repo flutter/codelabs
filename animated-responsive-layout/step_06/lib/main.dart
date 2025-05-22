@@ -84,26 +84,24 @@ class _FeedState extends State<Feed> {
           ),
         ],
       ),
-      floatingActionButton:
-          wideScreen
-              ? null
-              : FloatingActionButton(
-                backgroundColor: _colorScheme.tertiaryContainer,
-                foregroundColor: _colorScheme.onTertiaryContainer,
-                onPressed: () {},
-                child: const Icon(Icons.add),
-              ),
-      bottomNavigationBar:
-          wideScreen
-              ? null
-              : DisappearingBottomNavigationBar(
-                selectedIndex: selectedIndex,
-                onDestinationSelected: (index) {
-                  setState(() {
-                    selectedIndex = index;
-                  });
-                },
-              ),
+      floatingActionButton: wideScreen
+          ? null
+          : FloatingActionButton(
+              backgroundColor: _colorScheme.tertiaryContainer,
+              foregroundColor: _colorScheme.onTertiaryContainer,
+              onPressed: () {},
+              child: const Icon(Icons.add),
+            ),
+      bottomNavigationBar: wideScreen
+          ? null
+          : DisappearingBottomNavigationBar(
+              selectedIndex: selectedIndex,
+              onDestinationSelected: (index) {
+                setState(() {
+                  selectedIndex = index;
+                });
+              },
+            ),
     );
   }
 }
