@@ -119,8 +119,8 @@ class ThemeProvider extends InheritedWidget {
     );
   }
 
-  BottomAppBarTheme bottomAppBarTheme(ColorScheme colors) {
-    return BottomAppBarTheme(color: colors.surface, elevation: 0);
+  BottomAppBarThemeData bottomAppBarTheme(ColorScheme colors) {
+    return BottomAppBarThemeData(color: colors.surface, elevation: 0);
   }
 
   BottomNavigationBarThemeData bottomNavigationBarTheme(ColorScheme colors) {
