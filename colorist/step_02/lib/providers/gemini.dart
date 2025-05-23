@@ -21,7 +21,7 @@ Future<FirebaseApp> firebaseApp(Ref ref) =>
 Future<GenerativeModel> geminiModel(Ref ref) async {
   await ref.watch(firebaseAppProvider.future);
 
-  final model = FirebaseAI.vertexAI().generativeModel(
+  final model = FirebaseAI.googleAI().generativeModel(
     model: 'gemini-2.0-flash',
   );
   return model;
