@@ -11,7 +11,8 @@ declare -a CODELABS=(
   "animated-responsive-layout"
   "animations"
   "audio_soloud"
-  "boring_to_beautiful"
+  # TODO(DomesticMouse): The argument type 'BottomAppBarTheme' can't be assigned to the parameter type 'BottomAppBarThemeData?'.
+  # "boring_to_beautiful"
   "brick_breaker"
   "colorist"
   "dart-patterns-and-records"
