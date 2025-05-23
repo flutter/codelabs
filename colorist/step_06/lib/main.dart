@@ -26,13 +26,12 @@ class MainApp extends ConsumerWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       home: model.when(
-        data:
-            (data) => MainScreen(
-              conversationState: conversationState,
-              sendMessage: (text) {
-                ref.read(geminiChatServiceProvider).sendMessage(text);
-              },
-            ),
+        data: (data) => MainScreen(
+          conversationState: conversationState,
+          sendMessage: (text) {
+            ref.read(geminiChatServiceProvider).sendMessage(text);
+          },
+        ),
         loading: () => LoadingScreen(message: 'Initializing Gemini Model'),
         error: (err, st) => ErrorScreen(error: err),
       ),

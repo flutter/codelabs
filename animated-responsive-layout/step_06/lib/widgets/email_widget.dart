@@ -98,8 +98,9 @@ class _EmailContentState extends State<EmailContent> {
   String get lastActiveLabel {
     final DateTime now = DateTime.now();
     if (widget.email.sender.lastActive.isAfter(now)) throw ArgumentError();
-    final Duration elapsedTime =
-        widget.email.sender.lastActive.difference(now).abs();
+    final Duration elapsedTime = widget.email.sender.lastActive
+        .difference(now)
+        .abs();
     return switch (elapsedTime) {
       Duration(inSeconds: < 60) => '${elapsedTime.inSeconds}s',
       Duration(inMinutes: < 60) => '${elapsedTime.inMinutes}m',
@@ -147,27 +148,25 @@ class _EmailContentState extends State<EmailContent> {
                           widget.email.sender.name.fullName,
                           overflow: TextOverflow.fade,
                           maxLines: 1,
-                          style:
-                              widget.isSelected
-                                  ? _textTheme.labelMedium?.copyWith(
-                                    color: _colorScheme.onSecondaryContainer,
-                                  )
-                                  : _textTheme.labelMedium?.copyWith(
-                                    color: _colorScheme.onSurface,
-                                  ),
+                          style: widget.isSelected
+                              ? _textTheme.labelMedium?.copyWith(
+                                  color: _colorScheme.onSecondaryContainer,
+                                )
+                              : _textTheme.labelMedium?.copyWith(
+                                  color: _colorScheme.onSurface,
+                                ),
                         ),
                         Text(
                           lastActiveLabel,
                           overflow: TextOverflow.fade,
                           maxLines: 1,
-                          style:
-                              widget.isSelected
-                                  ? _textTheme.labelMedium?.copyWith(
-                                    color: _colorScheme.onSecondaryContainer,
-                                  )
-                                  : _textTheme.labelMedium?.copyWith(
-                                    color: _colorScheme.onSurfaceVariant,
-                                  ),
+                          style: widget.isSelected
+                              ? _textTheme.labelMedium?.copyWith(
+                                  color: _colorScheme.onSecondaryContainer,
+                                )
+                              : _textTheme.labelMedium?.copyWith(
+                                  color: _colorScheme.onSurfaceVariant,
+                                ),
                         ),
                       ],
                     ),
@@ -208,15 +207,15 @@ class _EmailContentState extends State<EmailContent> {
           const SizedBox(width: 12),
           widget.email.attachments.isNotEmpty
               ? Container(
-                height: 96,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8.0),
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: AssetImage(widget.email.attachments.first.url),
+                  height: 96,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.0),
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: AssetImage(widget.email.attachments.first.url),
+                    ),
                   ),
-                ),
-              )
+                )
               : const SizedBox.shrink(),
           if (!widget.isPreview) ...[const EmailReplyOptions()],
         ],

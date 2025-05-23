@@ -106,10 +106,9 @@ class _UpgradeWidget extends StatelessWidget {
         leading: Center(widthFactor: 1, child: Text(upgrade.count.toString())),
         title: Text(
           title,
-          style:
-              !upgrade.purchasable
-                  ? const TextStyle(color: Colors.redAccent)
-                  : null,
+          style: !upgrade.purchasable
+              ? const TextStyle(color: Colors.redAccent)
+              : null,
         ),
         subtitle: Text('Produces ${upgrade.work} dashes per second'),
         trailing: Text('${NumberFormat.compact().format(upgrade.cost)} dashes'),

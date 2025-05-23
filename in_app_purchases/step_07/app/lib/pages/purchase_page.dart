@@ -59,17 +59,16 @@ class _PurchaseList extends StatelessWidget {
     var purchases = context.watch<DashPurchases>();
     var products = purchases.products;
     return Column(
-      children:
-          products
-              .map(
-                (product) => _PurchaseWidget(
-                  product: product,
-                  onPressed: () {
-                    purchases.buy(product);
-                  },
-                ),
-              )
-              .toList(),
+      children: products
+          .map(
+            (product) => _PurchaseWidget(
+              product: product,
+              onPressed: () {
+                purchases.buy(product);
+              },
+            ),
+          )
+          .toList(),
     );
   }
 }
@@ -114,11 +113,10 @@ class PastPurchasesWidget extends StatelessWidget {
     return ListView.separated(
       shrinkWrap: true,
       itemCount: purchases.length,
-      itemBuilder:
-          (context, index) => ListTile(
-            title: Text(purchases[index].title),
-            subtitle: Text(purchases[index].status.toString()),
-          ),
+      itemBuilder: (context, index) => ListTile(
+        title: Text(purchases[index].title),
+        subtitle: Text(purchases[index].status.toString()),
+      ),
       separatorBuilder: (context, index) => const Divider(),
     );
   }

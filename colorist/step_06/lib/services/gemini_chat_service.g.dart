@@ -14,10 +14,9 @@ final geminiChatServiceProvider =
     AutoDisposeProvider<GeminiChatService>.internal(
       geminiChatService,
       name: r'geminiChatServiceProvider',
-      debugGetCreateSourceHash:
-          const bool.fromEnvironment('dart.vm.product')
-              ? null
-              : _$geminiChatServiceHash,
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$geminiChatServiceHash,
       dependencies: null,
       allTransitiveDependencies: null,
     );

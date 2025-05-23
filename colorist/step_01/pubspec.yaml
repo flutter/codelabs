@@ -4,12 +4,12 @@ publish_to: 'none'
 version: 0.1.0
 
 environment:
-  sdk: ^3.7.2
+  sdk: ^3.8.0
 
 dependencies:
   flutter:
     sdk: flutter
-  colorist_ui: ^0.2.2
+  colorist_ui: ^0.2.4
   flutter_riverpod: ^2.6.1
   riverpod_annotation: ^2.6.1
 

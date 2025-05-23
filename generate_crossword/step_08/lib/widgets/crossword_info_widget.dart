@@ -74,11 +74,10 @@ class CrosswordInfoWidget extends ConsumerWidget {
                         value: 'Not started yet',
                       ),
                       (DateTime start, null) => TickerBuilder(
-                        builder:
-                            (context) => _CrosswordInfoRichText(
-                              label: 'Time elapsed',
-                              value: DateTime.now().difference(start).formatted,
-                            ),
+                        builder: (context) => _CrosswordInfoRichText(
+                          label: 'Time elapsed',
+                          value: DateTime.now().difference(start).formatted,
+                        ),
                       ),
                       (DateTime start, DateTime end) => _CrosswordInfoRichText(
                         label: 'Completed in',

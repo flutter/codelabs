@@ -26,18 +26,16 @@ class BottomBar extends StatelessWidget implements PreferredSizeWidget {
     final bloc = BlocProvider.of<PlaybackBloc>(context);
     return BlocBuilder<PlaybackBloc, PlaybackState>(
       bloc: bloc,
-      builder:
-          (context, state) => _BottomBar(
-            artist: state.songWithProgress?.song.artist,
-            isMuted: state.isMuted,
-            isPlaying: state.isPlaying,
-            preferredSize: preferredSize,
-            progress: state.songWithProgress?.progress,
-            song: state.songWithProgress?.song,
-            togglePlayPause:
-                () => bloc.add(const PlaybackEvent.togglePlayPause()),
-            volume: state.volume,
-          ),
+      builder: (context, state) => _BottomBar(
+        artist: state.songWithProgress?.song.artist,
+        isMuted: state.isMuted,
+        isPlaying: state.isPlaying,
+        preferredSize: preferredSize,
+        progress: state.songWithProgress?.progress,
+        song: state.songWithProgress?.song,
+        togglePlayPause: () => bloc.add(const PlaybackEvent.togglePlayPause()),
+        volume: state.volume,
+      ),
     );
   }
 }
@@ -65,11 +63,9 @@ class _BottomBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => LayoutBuilder(
-    builder:
-        (context, constraints) =>
-            constraints.isTablet
-                ? _buildDesktopBar(context, constraints)
-                : _buildMobileBar(context, constraints),
+    builder: (context, constraints) => constraints.isTablet
+        ? _buildDesktopBar(context, constraints)
+        : _buildMobileBar(context, constraints),
   );
 
   Widget _buildDesktopBar(BuildContext context, BoxConstraints constraints) {
@@ -96,7 +92,9 @@ class _BottomBar extends StatelessWidget {
                     isPlaying: isPlaying,
                     togglePlayPause: togglePlayPause,
                   ),
-                  Center(child: _ProgressBar(progress: progress, song: song)),
+                  Center(
+                    child: _ProgressBar(progress: progress, song: song),
+                  ),
                 ],
               ),
             ),
@@ -110,18 +108,17 @@ class _BottomBar extends StatelessWidget {
                   final overlay = Overlay.of(context);
                   OverlayEntry? entry;
                   entry = OverlayEntry(
-                    builder:
-                        (context) => Stack(
-                          children: [
-                            Positioned(
-                              child: _FullScreenPlayer(
-                                onClose: () {
-                                  entry?.remove();
-                                },
-                              ),
-                            ),
-                          ],
+                    builder: (context) => Stack(
+                      children: [
+                        Positioned(
+                          child: _FullScreenPlayer(
+                            onClose: () {
+                              entry?.remove();
+                            },
+                          ),
                         ),
+                      ],
+                    ),
                   );
                   overlay.insert(entry);
                 },
@@ -149,18 +146,17 @@ class _BottomBar extends StatelessWidget {
             final overlay = Overlay.of(context);
             OverlayEntry? entry;
             entry = OverlayEntry(
-              builder:
-                  (context) => Stack(
-                    children: [
-                      Positioned(
-                        child: _MobilePlayer(
-                          onClose: () {
-                            entry?.remove();
-                          },
-                        ),
-                      ),
-                    ],
+              builder: (context) => Stack(
+                children: [
+                  Positioned(
+                    child: _MobilePlayer(
+                      onClose: () {
+                        entry?.remove();
+                      },
+                    ),
                   ),
+                ],
+              ),
             );
             overlay.insert(entry);
           },
@@ -244,13 +240,12 @@ class _ProgressBar extends StatelessWidget {
             children: [
               const SizedBox(width: 10),
               SizedBox(
-                child:
-                    progress != null
-                        ? Text(
-                          progress!.toHumanizedString(),
-                          style: Theme.of(context).textTheme.bodySmall,
-                        )
-                        : const Text('-'),
+                child: progress != null
+                    ? Text(
+                        progress!.toHumanizedString(),
+                        style: Theme.of(context).textTheme.bodySmall,
+                      )
+                    : const Text('-'),
               ),
               Expanded(
                 child: Slider(
@@ -271,19 +266,19 @@ class _ProgressBar extends StatelessWidget {
                       context,
                     ).add(const PlaybackEvent.togglePlayPause());
                   },
-                  activeColor:
-                      Theme.of(context).colorScheme.onTertiaryContainer,
+                  activeColor: Theme.of(
+                    context,
+                  ).colorScheme.onTertiaryContainer,
                   inactiveColor: Theme.of(context).colorScheme.onSurface,
                 ),
               ),
               SizedBox(
-                child:
-                    song != null
-                        ? Text(
-                          song!.length.toHumanizedString(),
-                          style: Theme.of(context).textTheme.bodySmall,
-                        )
-                        : const Text('-'),
+                child: song != null
+                    ? Text(
+                        song!.length.toHumanizedString(),
+                        style: Theme.of(context).textTheme.bodySmall,
+                      )
+                    : const Text('-'),
               ),
               const SizedBox(width: 10),
             ],
@@ -314,10 +309,9 @@ class _VolumeBar extends StatelessWidget {
         child: Row(
           children: [
             GestureDetector(
-              onTap:
-                  () => BlocProvider.of<PlaybackBloc>(
-                    context,
-                  ).add(const PlaybackEvent.toggleMute()),
+              onTap: () => BlocProvider.of<PlaybackBloc>(
+                context,
+              ).add(const PlaybackEvent.toggleMute()),
               child: Icon(!isMuted ? Icons.volume_mute : Icons.volume_off),
             ),
             Expanded(
@@ -326,10 +320,9 @@ class _VolumeBar extends StatelessWidget {
                 min: 0,
                 max: 1,
                 divisions: 100,
-                onChanged:
-                    (newValue) => BlocProvider.of<PlaybackBloc>(
-                      context,
-                    ).add(PlaybackEvent.setVolume(newValue)),
+                onChanged: (newValue) => BlocProvider.of<PlaybackBloc>(
+                  context,
+                ).add(PlaybackEvent.setVolume(newValue)),
                 activeColor: Theme.of(context).colorScheme.onTertiaryContainer,
                 inactiveColor: Theme.of(context).colorScheme.onSurface,
               ),
@@ -406,10 +399,9 @@ class _AlbumArt extends StatelessWidget {
       child: SizedBox(
         width: 70,
         height: 70,
-        child:
-            song != null
-                ? Image.asset(song!.image.image)
-                : Container(color: Colors.pink[100]),
+        child: song != null
+            ? Image.asset(song!.image.image)
+            : Container(color: Colors.pink[100]),
       ),
     );
   }
@@ -480,25 +472,24 @@ class _FullScreenPlayerState extends State<_FullScreenPlayer> {
     final bloc = BlocProvider.of<PlaybackBloc>(context);
     return BlocBuilder<PlaybackBloc, PlaybackState>(
       bloc: bloc,
-      builder:
-          (context, state) => Theme(
-            data: ThemeProvider.of(context).dark(),
-            child: Scaffold(
-              body: LayoutBuilder(
-                builder: (context, dimens) {
-                  return MouseRegion(
-                    onHover: (_) {
-                      setState(() {
-                        _showControls = true;
-                      });
-                      hideControls();
-                    },
-                    child: buildPlayer(context, state, dimens),
-                  );
+      builder: (context, state) => Theme(
+        data: ThemeProvider.of(context).dark(),
+        child: Scaffold(
+          body: LayoutBuilder(
+            builder: (context, dimens) {
+              return MouseRegion(
+                onHover: (_) {
+                  setState(() {
+                    _showControls = true;
+                  });
+                  hideControls();
                 },
-              ),
-            ),
+                child: buildPlayer(context, state, dimens),
+              );
+            },
           ),
+        ),
+      ),
     );
   }
 
@@ -514,25 +505,23 @@ class _FullScreenPlayerState extends State<_FullScreenPlayer> {
       fit: StackFit.expand,
       children: [
         Positioned.fill(
-          child:
-              current == null
-                  ? const Center(child: Text('No song selected'))
-                  : Container(
-                    color: context.colors.shadow,
-                    child: Opacity(
-                      opacity: 0.3,
-                      child: Image.asset(song!.image.image, fit: BoxFit.cover),
-                    ),
+          child: current == null
+              ? const Center(child: Text('No song selected'))
+              : Container(
+                  color: context.colors.shadow,
+                  child: Opacity(
+                    opacity: 0.3,
+                    child: Image.asset(song!.image.image, fit: BoxFit.cover),
                   ),
+                ),
         ),
         Positioned(
           top: 20,
           right: 20,
           child: IconButton(
-            color:
-                song != null
-                    ? context.colors.onSurface
-                    : context.colors.onSurface,
+            color: song != null
+                ? context.colors.onSurface
+                : context.colors.onSurface,
             icon: const Icon(Icons.fullscreen_exit),
             onPressed: widget.onClose,
           ),
@@ -590,8 +579,8 @@ class _FullScreenPlayerState extends State<_FullScreenPlayer> {
                 scale: 1.5,
                 child: _PlaybackControls(
                   isPlaying: state.isPlaying,
-                  togglePlayPause:
-                      () => bloc.add(const PlaybackEvent.togglePlayPause()),
+                  togglePlayPause: () =>
+                      bloc.add(const PlaybackEvent.togglePlayPause()),
                 ),
               ),
             ),
@@ -612,17 +601,16 @@ class _MobilePlayer extends StatelessWidget {
     final bloc = BlocProvider.of<PlaybackBloc>(context);
     return BlocBuilder<PlaybackBloc, PlaybackState>(
       bloc: bloc,
-      builder:
-          (context, state) => Theme(
-            data: ThemeProvider.of(context).dark(),
-            child: Scaffold(
-              body: LayoutBuilder(
-                builder: (context, dimens) {
-                  return buildPlayer(context, state, dimens);
-                },
-              ),
-            ),
+      builder: (context, state) => Theme(
+        data: ThemeProvider.of(context).dark(),
+        child: Scaffold(
+          body: LayoutBuilder(
+            builder: (context, dimens) {
+              return buildPlayer(context, state, dimens);
+            },
           ),
+        ),
+      ),
     );
   }
 
@@ -636,28 +624,26 @@ class _MobilePlayer extends StatelessWidget {
     return Stack(
       children: [
         Positioned.fill(
-          child:
-              current == null
-                  ? const Center(child: Text('No song selected'))
-                  : Container(
-                    color: context.colors.shadow,
-                    child: Opacity(
-                      opacity: 0.3,
-                      child: Image.asset(
-                        current.song.image.image,
-                        fit: BoxFit.cover,
-                      ),
+          child: current == null
+              ? const Center(child: Text('No song selected'))
+              : Container(
+                  color: context.colors.shadow,
+                  child: Opacity(
+                    opacity: 0.3,
+                    child: Image.asset(
+                      current.song.image.image,
+                      fit: BoxFit.cover,
                     ),
                   ),
+                ),
         ),
         Positioned(
           top: 20,
           left: 20,
           child: IconButton(
-            color:
-                current?.song != null
-                    ? context.colors.onSurface
-                    : context.colors.onSurface,
+            color: current?.song != null
+                ? context.colors.onSurface
+                : context.colors.onSurface,
             icon: const RotatedBox(
               quarterTurns: 1,
               child: Icon(Icons.chevron_right),
@@ -712,8 +698,8 @@ class _MobilePlayer extends StatelessWidget {
                     scale: 1.5,
                     child: _PlaybackControls(
                       isPlaying: state.isPlaying,
-                      togglePlayPause:
-                          () => bloc.add(const PlaybackEvent.togglePlayPause()),
+                      togglePlayPause: () =>
+                          bloc.add(const PlaybackEvent.togglePlayPause()),
                     ),
                   ),
                 ),

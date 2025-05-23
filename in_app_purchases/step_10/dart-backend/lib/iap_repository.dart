@@ -43,10 +43,9 @@ abstract class Purchase {
     switch (type) {
       case ProductType.subscription:
         return SubscriptionPurchase(
-          iapSource:
-              e.fields!['iapSource']!.stringValue == 'googleplay'
-                  ? IAPSource.googleplay
-                  : IAPSource.appstore,
+          iapSource: e.fields!['iapSource']!.stringValue == 'googleplay'
+              ? IAPSource.googleplay
+              : IAPSource.appstore,
           orderId: e.fields!['orderId']!.stringValue!,
           productId: e.fields!['productId']!.stringValue!,
           userId: e.fields!['userId']!.stringValue,
@@ -64,10 +63,9 @@ abstract class Purchase {
         );
       case ProductType.nonSubscription:
         return NonSubscriptionPurchase(
-          iapSource:
-              e.fields!['iapSource']!.stringValue == 'googleplay'
-                  ? IAPSource.googleplay
-                  : IAPSource.appstore,
+          iapSource: e.fields!['iapSource']!.stringValue == 'googleplay'
+              ? IAPSource.googleplay
+              : IAPSource.appstore,
           orderId: e.fields!['orderId']!.stringValue!,
           productId: e.fields!['productId']!.stringValue!,
           userId: e.fields!['userId']!.stringValue,

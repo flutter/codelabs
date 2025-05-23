@@ -48,8 +48,9 @@ class DashPurchases extends ChangeNotifier {
       storeKeyUpgrade,
     };
     final response = await iapConnection.queryProductDetails(ids);
-    products =
-        response.productDetails.map((e) => PurchasableProduct(e)).toList();
+    products = response.productDetails
+        .map((e) => PurchasableProduct(e))
+        .toList();
     storeState = StoreState.available;
     notifyListeners();
   }

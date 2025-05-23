@@ -17,10 +17,9 @@ class Brick extends RectangleComponent
     : super(
         size: Vector2(brickWidth, brickHeight),
         anchor: Anchor.center,
-        paint:
-            Paint()
-              ..color = color
-              ..style = PaintingStyle.fill,
+        paint: Paint()
+          ..color = color
+          ..style = PaintingStyle.fill,
         children: [RectangleHitbox()],
       );
 

@@ -13,8 +13,9 @@ String _$geminiToolsHash() => r'9d591f86d85cca9c1d3f6f94f773af9a3b2ee652';
 final geminiToolsProvider = AutoDisposeProvider<GeminiTools>.internal(
   geminiTools,
   name: r'geminiToolsProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$geminiToolsHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$geminiToolsHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
