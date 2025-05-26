@@ -323,19 +323,6 @@ steps:
           	<string>1:963656261848:ios:3e6776183887c3fdb237ad</string>
           </dict>
           </plist>
-      - name: ios/Podfile
-        path: start/ios/Podfile
-        patch-u: |
-          --- b/firebase-auth-flutterfire-ui/start/ios/Podfile
-          +++ a/firebase-auth-flutterfire-ui/start/ios/Podfile
-          @@ -1,5 +1,5 @@
-          -# Uncomment this line to define a global platform for your project
-          -# platform :ios, '12.0'
-          +# Native Firebase plugins require iOS 13.0 minimum, Flutter only requires 12.0
-          +platform :ios, '13.0'
-           
-           # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
-           ENV['COCOAPODS_DISABLE_STATS'] = 'true'
       - name: macos/Runner/GoogleService-Info.plist
         path: start/macos/Runner/GoogleService-Info.plist
         replace-contents: |
