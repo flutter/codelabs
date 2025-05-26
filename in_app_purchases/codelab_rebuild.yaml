@@ -76,19 +76,6 @@ steps:
           +	</array>
            </dict>
            </plist>
-      - name: Patch app/ios/Podfile
-        path: steps/app/ios/Podfile
-        patch-u: |
-          --- b/in_app_purchases/step_00/app/ios/Podfile
-          +++ a/in_app_purchases/step_00/app/ios/Podfile
-          @@ -1,5 +1,5 @@
-          -# Uncomment this line to define a global platform for your project
-          -# platform :ios, '12.0'
-          +# Per https://firebase.google.com/support/release-notes/ios cloud_firestore requires a minimum iOS version of 13.0
-          +platform :ios, '13.0'
-           
-           # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
-           ENV['COCOAPODS_DISABLE_STATS'] = 'true'
       - name: Patch app/android/app/build.gradle.kts
         path: steps/app/android/app/build.gradle.kts
         patch-u: |
