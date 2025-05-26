@@ -8,7 +8,7 @@ publish_to: 'none'
 version: 0.1.0
 
 environment:
-  sdk: ^3.8.0
+  sdk: ^3.9.0-0
 
 dependencies:
   flutter:
@@ -20,7 +20,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
-  test: ^1.25.15
+  test: ^1.26.2
   flutter_driver:
     sdk: flutter
   integration_test:
