@@ -7,6 +7,7 @@ source "$DIR/flutter_ci_script_shared.sh"
 
 declare -a CODELABS=(
   # TODO(DomesticMouse): Re-introduce once `flex_color_scheme` is updated for Flutter 3.33
+  # Tracking bug: https://github.com/rydmike/flex_color_scheme/issues/283
   # "adaptive_app"
   "animated-responsive-layout"
   "animations"
