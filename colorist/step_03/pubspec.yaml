@@ -25,6 +25,9 @@ dev_dependencies:
   json_serializable: ^6.9.5
   custom_lint: ^0.7.5
 
+dependency_overrides:
+  custom_lint_visitor: 1.0.0+7.3.0 
+
 flutter:
   uses-material-design: true
 
