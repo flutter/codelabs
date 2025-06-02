@@ -4,12 +4,12 @@ publish_to: 'none'
 version: 0.1.0
 
 environment:
-  sdk: ^3.8.0
+  sdk: ^3.9.0-0
 
 dependencies:
   flutter:
     sdk: flutter
-  flame: ^1.28.1
+  flame: ^1.29.0
   flutter_animate: ^4.5.2
   google_fonts: ^6.2.1
 
