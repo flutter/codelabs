@@ -123,20 +123,6 @@ steps:
       - name: Add Firebase AI Logic dependencies
         path: colorist
         flutter: pub add firebase_core firebase_ai
-      - name: Workaround https://github.com/dart-lang/sdk/issues/60784
-        path: colorist/pubspec.yaml
-        patch-u: |
-          --- b/colorist/step_02/pubspec.yaml
-          +++ a/colorist/step_02/pubspec.yaml
-          @@ -25,5 +25,8 @@ dev_dependencies:
-             json_serializable: ^6.9.5
-             custom_lint: ^0.7.5
-           
-          +dependency_overrides:
-          +  custom_lint_visitor: 1.0.0+7.3.0 
-          +
-           flutter:
-             uses-material-design: true
       - name: Add lib/firebase_options.dart
         path: colorist/lib/firebase_options.dart
         replace-contents: |
@@ -437,7 +423,7 @@ steps:
         patch-u: |
           --- b/colorist/step_03/pubspec.yaml
           +++ a/colorist/step_03/pubspec.yaml
-          @@ -30,3 +30,6 @@ dependency_overrides:
+          @@ -27,3 +27,6 @@ dev_dependencies:
 
            flutter:
              uses-material-design: true
