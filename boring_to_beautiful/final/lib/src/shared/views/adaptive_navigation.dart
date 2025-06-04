@@ -22,7 +22,6 @@ class AdaptiveNavigation extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, dimens) {
-        // Tablet Layout
         if (dimens.maxWidth >= 600) {
           return Scaffold(
             body: Row(
