@@ -32,6 +32,20 @@ updates:
       - "autosubmit"
   - package-ecosystem: "pub"
     versioning-strategy: "increase-if-necessary"
+    directory: "/animations/"
+    schedule:
+      interval: "daily"
+    labels:
+      - "autosubmit"
+  - package-ecosystem: "pub"
+    versioning-strategy: "increase-if-necessary"
+    directory: "/audio_soloud/"
+    schedule:
+      interval: "daily"
+    labels:
+      - "autosubmit"
+  - package-ecosystem: "pub"
+    versioning-strategy: "increase-if-necessary"
     directory: "/boring_to_beautiful/"
     schedule:
       interval: "daily"
@@ -39,7 +53,14 @@ updates:
       - "autosubmit"
   - package-ecosystem: "pub"
     versioning-strategy: "increase-if-necessary"
-    directory: "/cupertino_store/"
+    directory: "/brick_breaker/"
+    schedule:
+      interval: "daily"
+    labels:
+      - "autosubmit"
+  - package-ecosystem: "pub"
+    versioning-strategy: "increase-if-necessary"
+    directory: "/colorist/"
     schedule:
       interval: "daily"
     labels:
@@ -74,14 +95,28 @@ updates:
       - "autosubmit"
   - package-ecosystem: "pub"
     versioning-strategy: "increase-if-necessary"
-    directory: "/flame-building-doodle-dash/finished_game/"
+    directory: "/firebase-emulator-suite/"
     schedule:
       interval: "daily"
     labels:
       - "autosubmit"
   - package-ecosystem: "pub"
     versioning-strategy: "increase-if-necessary"
-    directory: "/flame-building-doodle-dash/"
+    directory: "/firebase-get-to-know-flutter/"
+    schedule:
+      interval: "daily"
+    labels:
+      - "autosubmit"
+  - package-ecosystem: "pub"
+    versioning-strategy: "increase-if-necessary"
+    directory: "/forge2d_game/"
+    schedule:
+      interval: "daily"
+    labels:
+      - "autosubmit"
+  - package-ecosystem: "pub"
+    versioning-strategy: "increase-if-necessary"
+    directory: "/generate_crossword/"
     schedule:
       interval: "daily"
     labels:
@@ -123,6 +158,13 @@ updates:
       - "autosubmit"
   - package-ecosystem: "pub"
     versioning-strategy: "increase-if-necessary"
+    directory: "/intro_flutter_gpu/"
+    schedule:
+      interval: "daily"
+    labels:
+      - "autosubmit"
+  - package-ecosystem: "pub"
+    versioning-strategy: "increase-if-necessary"
     directory: "/namer/"
     schedule:
       interval: "daily"
@@ -131,13 +173,6 @@ updates:
   - package-ecosystem: "pub"
     versioning-strategy: "increase-if-necessary"
     directory: "/next-gen-ui/"
-    schedule:
-      interval: "daily"
-    labels:
-      - "autosubmit"
-  - package-ecosystem: "pub"
-    versioning-strategy: "increase-if-necessary"
-    directory: "/star_counter/"
     schedule:
       interval: "daily"
     labels:
@@ -172,7 +207,7 @@ updates:
       - "autosubmit"
   - package-ecosystem: "pub"
     versioning-strategy: "increase-if-necessary"
-    directory: "/tooling/"
+    directory: "/tooling/codelab_rebuild/"
     schedule:
       interval: "daily"
     labels:
