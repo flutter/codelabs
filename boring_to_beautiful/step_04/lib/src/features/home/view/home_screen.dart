@@ -97,9 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.all(
-                                  2,
-                                ),
+                                padding: const EdgeInsets.all(2),
                                 child: Text(
                                   'Top Songs Today',
                                   style: context.titleLarge,
@@ -122,9 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.all(
-                                  2,
-                                ),
+                                padding: const EdgeInsets.all(2),
                                 child: Text(
                                   'New Releases',
                                   style: context.titleLarge,
