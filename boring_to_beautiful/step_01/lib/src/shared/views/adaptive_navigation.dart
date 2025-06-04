@@ -22,8 +22,6 @@ class AdaptiveNavigation extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, dimens) {
-        // Tablet Layout
-        // Add maxWidth constraint check
         return Scaffold(
           body: Row(
             children: [
@@ -45,9 +43,6 @@ class AdaptiveNavigation extends StatelessWidget {
             ],
           ),
         );
-        // Add closing curly bracket
-
-        // Add return for mobile layout
       },
     );
   }
