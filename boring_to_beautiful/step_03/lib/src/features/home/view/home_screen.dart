@@ -2,13 +2,13 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'package:adaptive_components/adaptive_components.dart';
 import 'package:flutter/material.dart';
 
 import '../../../shared/classes/classes.dart';
 import '../../../shared/extensions.dart';
 import '../../../shared/providers/providers.dart';
 import '../../../shared/views/views.dart';
+import '../../../utils/adaptive_components.dart';
 import '../../playlists/view/playlist_songs.dart';
 import 'view.dart';
 

@@ -9,9 +9,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  adaptive_breakpoints: ^0.1.7
-  adaptive_components: ^0.0.10
-  adaptive_navigation: ^0.0.10
   animations: ^2.0.11
   collection: ^1.19.1
   cupertino_icons: ^1.0.8
