@@ -22,17 +22,17 @@ final playlistsProvider = PlaylistsProvider();
 const List<NavigationDestination> destinations = [
   NavigationDestination(
     label: 'Home',
-    icon: Icon(Icons.arrow_right_rounded), // Modify this line
+    icon: Icon(Icons.arrow_right_rounded),
     route: '/',
   ),
   NavigationDestination(
     label: 'Playlists',
-    icon: Icon(Icons.arrow_right_rounded), // Modify this line
+    icon: Icon(Icons.arrow_right_rounded),
     route: '/playlists',
   ),
   NavigationDestination(
     label: 'Artists',
-    icon: Icon(Icons.arrow_right_rounded), // Modify this line
+    icon: Icon(Icons.arrow_right_rounded),
     route: '/artists',
   ),
 ];
@@ -53,7 +53,6 @@ class NavigationDestination {
 
 final appRouter = GoRouter(
   routes: [
-    // HomeScreen
     GoRoute(
       path: '/',
       pageBuilder: (context, state) => const MaterialPage<void>(
@@ -65,8 +64,6 @@ final appRouter = GoRouter(
         ),
       ),
     ),
-
-    // PlaylistHomeScreen
     GoRoute(
       path: '/playlists',
       pageBuilder: (context, state) => const MaterialPage<void>(
@@ -95,8 +92,6 @@ final appRouter = GoRouter(
         ),
       ],
     ),
-
-    // ArtistHomeScreen
     GoRoute(
       path: '/artists',
       pageBuilder: (context, state) => const MaterialPage<void>(
@@ -122,9 +117,6 @@ final appRouter = GoRouter(
               ),
             ),
           ),
-          // builder: (context, state) => ArtistScreen(
-          //   id: state.params['aid']!,
-          // ),
         ),
       ],
     ),

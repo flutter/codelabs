@@ -2,13 +2,13 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'package:adaptive_components/adaptive_components.dart';
 import 'package:flutter/material.dart';
 
 import '../../../shared/classes/classes.dart';
 import '../../../shared/extensions.dart';
 import '../../../shared/providers/providers.dart';
 import '../../../shared/views/views.dart';
+import '../../../utils/adaptive_components.dart';
 import '../../playlists/view/playlist_songs.dart';
 import 'view.dart';
 
@@ -30,8 +30,6 @@ class _HomeScreenState extends State<HomeScreen> {
     final List<Artist> artists = artistsProvider.artists;
     return LayoutBuilder(
       builder: (context, constraints) {
-        // Add conditional mobile layout
-
         return Scaffold(
           body: SingleChildScrollView(
             child: AdaptiveColumn(
@@ -39,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 AdaptiveContainer(
                   columnSpan: 12,
                   child: Padding(
-                    padding: const EdgeInsets.all(2), // Modify this line
+                    padding: const EdgeInsets.all(2),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -75,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.all(2), // Modify this line
+                        padding: const EdgeInsets.all(2),
                         child: Text(
                           'Recently played',
                           style: context.headlineSmall,
@@ -88,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 AdaptiveContainer(
                   columnSpan: 12,
                   child: Padding(
-                    padding: const EdgeInsets.all(2), // Modify this line
+                    padding: const EdgeInsets.all(2),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -99,9 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.all(
-                                  2,
-                                ), // Modify this line
+                                padding: const EdgeInsets.all(2),
                                 child: Text(
                                   'Top Songs Today',
                                   style: context.titleLarge,
@@ -117,7 +113,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             ],
                           ),
                         ),
-                        // Add spacer between tables
                         Flexible(
                           flex: 10,
                           child: Column(
@@ -125,9 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.all(
-                                  2,
-                                ), // Modify this line
+                                padding: const EdgeInsets.all(2),
                                 child: Text(
                                   'New Releases',
                                   style: context.titleLarge,

@@ -51,7 +51,7 @@ class ImageTile extends StatelessWidget {
                 child: Text(
                   subtitle,
                   overflow: TextOverflow.ellipsis,
-                  style: context.labelSmall,
+                  style: context.labelSmall!.copyWith(fontSize: 10),
                   maxLines: 2,
                   textAlign: TextAlign.center,
                 ),

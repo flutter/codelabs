@@ -60,8 +60,10 @@ class ThemeProvider extends InheritedWidget {
 
   Color blend(Color targetColor) {
     return Color(
-      // ignore: deprecated_member_use
-      Blend.harmonize(targetColor.value, settings.value.sourceColor.value),
+      Blend.harmonize(
+        targetColor.toARGB32(),
+        settings.value.sourceColor.toARGB32(),
+      ),
     );
   }
 
@@ -208,7 +210,6 @@ Color randomColor() {
   return Color(Random().nextInt(0xFFFFFFFF));
 }
 
-// Custom Colors
 const linkColor = CustomColor(name: 'Link Color', color: Color(0xFF00B0FF));
 
 class CustomColor {
