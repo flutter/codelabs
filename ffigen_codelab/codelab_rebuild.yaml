@@ -259,7 +259,6 @@ steps:
 
           const String _libName = 'ffigen_app';
 
-          /// The dynamic library in which the symbols for [DuktapeBindings] can be found.
           final DynamicLibrary _dylib = () {
             if (Platform.isMacOS || Platform.isIOS) {
               return DynamicLibrary.open('$_libName.framework/$_libName');
@@ -273,7 +272,6 @@ steps:
             throw UnsupportedError('Unknown platform: ${Platform.operatingSystem}');
           }();
 
-          /// The bindings to the native functions in [_dylib].
           final DuktapeBindings _bindings = DuktapeBindings(_dylib);
 
           class Duktape {
@@ -288,16 +286,12 @@ steps:
             }
 
             void evalString(String jsCode) {
-              // From duktape.h:
-              // #define duk_peval_string(ctx,src)  \
-              // 	(duk_eval_raw((ctx), (src), 0, 0 /*args*/ | DUK_COMPILE_EVAL | DUK_COMPILE_SAFE | DUK_COMPILE_NOSOURCE | DUK_COMPILE_STRLEN | DUK_COMPILE_NOFILENAME))
-
               var nativeUtf8 = jsCode.toNativeUtf8();
               _bindings.duk_eval_raw(
                 ctx,
                 nativeUtf8.cast<Char>(),
                 0,
-                0 /*args*/ |
+                0 |
                     DUK_COMPILE_EVAL |
                     DUK_COMPILE_SAFE |
                     DUK_COMPILE_NOSOURCE |
@@ -464,8 +458,8 @@ steps:
 
            import 'duktape_bindings_generated.dart';
 
-          @@ -13,12 +14,37 @@ const String _libName = 'ffigen_app';
-           /// The dynamic library in which the symbols for [DuktapeBindings] can be found.
+          @@ -12,12 +13,37 @@ const String _libName = 'ffigen_app';
+
            final DynamicLibrary _dylib = () {
              if (Platform.isMacOS || Platform.isIOS) {
           +    if (Platform.environment.containsKey('FLUTTER_TEST')) {
@@ -502,23 +496,19 @@ steps:
                return DynamicLibrary.open('$_libName.dll');
              }
              throw UnsupportedError('Unknown platform: ${Platform.operatingSystem}');
-          @@ -38,13 +64,13 @@ class Duktape {
+          @@ -36,9 +62,9 @@ class Duktape {
                );
              }
 
           -  void evalString(String jsCode) {
           +  String evalString(String jsCode) {
-               // From duktape.h:
-               // #define duk_peval_string(ctx,src)  \
-               // 	(duk_eval_raw((ctx), (src), 0, 0 /*args*/ | DUK_COMPILE_EVAL | DUK_COMPILE_SAFE | DUK_COMPILE_NOSOURCE | DUK_COMPILE_STRLEN | DUK_COMPILE_NOFILENAME))
-
                var nativeUtf8 = jsCode.toNativeUtf8();
           -    _bindings.duk_eval_raw(
           +    final evalResult = _bindings.duk_eval_raw(
                  ctx,
                  nativeUtf8.cast<Char>(),
                  0,
-          @@ -56,10 +82,22 @@ class Duktape {
+          @@ -50,10 +76,22 @@ class Duktape {
                      DUK_COMPILE_NOFILENAME,
                );
                ffi.malloc.free(nativeUtf8);
@@ -549,6 +539,7 @@ steps:
           // Copyright 2022 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
+
           import 'package:freezed_annotation/freezed_annotation.dart';
 
           part 'duktape_message.freezed.dart';
