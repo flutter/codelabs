@@ -60,8 +60,10 @@ class ThemeProvider extends InheritedWidget {
 
   Color blend(Color targetColor) {
     return Color(
-      // ignore: deprecated_member_use
-      Blend.harmonize(targetColor.value, settings.value.sourceColor.value),
+      Blend.harmonize(
+        targetColor.toARGB32(),
+        settings.value.sourceColor.toARGB32(),
+      ),
     );
   }
 
@@ -145,7 +147,6 @@ class ThemeProvider extends InheritedWidget {
   ThemeData light([Color? targetColor]) {
     final colorScheme = colors(Brightness.light, targetColor);
     return ThemeData.light().copyWith(
-      // Add page transitions
       colorScheme: colorScheme,
       appBarTheme: appBarTheme(colorScheme),
       cardTheme: cardTheme(),
@@ -162,7 +163,6 @@ class ThemeProvider extends InheritedWidget {
   ThemeData dark([Color? targetColor]) {
     final colorScheme = colors(Brightness.dark, targetColor);
     return ThemeData.dark().copyWith(
-      // Add page transitions
       colorScheme: colorScheme,
       appBarTheme: appBarTheme(colorScheme),
       cardTheme: cardTheme(),
@@ -208,7 +208,6 @@ Color randomColor() {
   return Color(Random().nextInt(0xFFFFFFFF));
 }
 
-// Custom Colors
 const linkColor = CustomColor(name: 'Link Color', color: Color(0xFF00B0FF));
 
 class CustomColor {

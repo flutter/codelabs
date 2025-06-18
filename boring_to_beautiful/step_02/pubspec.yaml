@@ -9,9 +9,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  adaptive_breakpoints: ^0.1.7
-  adaptive_components: ^0.0.10
-  adaptive_navigation: ^0.0.10
   animations: ^2.0.11
   collection: ^1.19.1
   cupertino_icons: ^1.0.8
@@ -20,7 +17,7 @@ dependencies:
   english_words: ^4.0.0
   flutter_bloc: ^9.1.1
   freezed_annotation: ^3.0.0
-  go_router: ^15.1.2
+  go_router: ^15.2.0
   material_color_utilities: any
   universal_platform: ^1.1.0
   url_launcher: ^6.3.1
@@ -28,8 +25,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^5.0.0
-  build_runner: ^2.4.15
+  flutter_lints: ^6.0.0
+  build_runner: ^2.5.1
   freezed: ^3.0.6
 
 flutter:

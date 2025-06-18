@@ -3,11 +3,10 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-// Add Google Fonts Package import
 
 extension TypographyUtils on BuildContext {
   ThemeData get theme => Theme.of(this);
-  TextTheme get textTheme => theme.textTheme; // Modify this line
+  TextTheme get textTheme => theme.textTheme;
   ColorScheme get colors => theme.colorScheme;
   TextStyle? get displayLarge =>
       textTheme.displayLarge?.copyWith(color: colors.onSurface);
