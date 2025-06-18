@@ -28,16 +28,14 @@ class _ArticleScreenState extends State<ArticleScreen> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
           if (_globalKey.currentContext != null) {
-            var path =
-                await HomeWidget.renderFlutterWidget(
-                      const LineChart(),
-                      key: 'filename',
-                      logicalSize: _globalKey.currentContext!.size!,
-                      pixelRatio: MediaQuery.of(
-                        _globalKey.currentContext!,
-                      ).devicePixelRatio,
-                    )
-                    as String;
+            var path = await HomeWidget.renderFlutterWidget(
+              const LineChart(),
+              key: 'filename',
+              logicalSize: _globalKey.currentContext!.size!,
+              pixelRatio: MediaQuery.of(
+                _globalKey.currentContext!,
+              ).devicePixelRatio,
+            );
             setState(() {
               imagePath = path;
             });
