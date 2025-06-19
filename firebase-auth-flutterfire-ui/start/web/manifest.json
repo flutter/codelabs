@@ -1,6 +1,6 @@
 {
-    "name": "start",
-    "short_name": "start",
+    "name": "firebase_auth_flutterfire_ui",
+    "short_name": "firebase_auth_flutterfire_ui",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
