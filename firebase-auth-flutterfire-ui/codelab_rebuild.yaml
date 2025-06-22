@@ -5195,10 +5195,10 @@ steps:
         path: step_04_d
         flutter: clean
 
-  - name: step_05
+  - name: complete
     steps:
-      - name: Remove step_05
-        rmdir: step_05
+      - name: Remove complete
+        rmdir: complete
       - name: Add dependencies
         path: firebase_auth_flutterfire_ui
         flutter: pub add firebase_ui_oauth_google google_sign_in
@@ -5280,12 +5280,12 @@ steps:
       - name: Build web
         path: firebase_auth_flutterfire_ui
         flutter: build web
-      - name: Copy to step_05
+      - name: Copy to complete
         copydir:
           from: firebase_auth_flutterfire_ui
-          to: step_05
+          to: complete
       - name: Flutter clean
-        path: step_05
+        path: complete
         flutter: clean
   - name: Cleanup
     rmdir: firebase_auth_flutterfire_ui
