@@ -6,5 +6,5 @@ import 'app.dart';
 const clientId = 'YOUR_CLIENT_ID';
 
 void main() async {
-  runApp(const MyApp());
+  runApp(const MyApp(clientId: clientId));
 }
