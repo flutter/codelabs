@@ -4536,20 +4536,7 @@ steps:
            <dict>
            	<key>com.apple.security.app-sandbox</key>
            	<true/>
-          +	<key>com.apple.security.network.client</key>
-          +	<true/>
-           </dict>
-           </plist>
-      - name: Patch macos/Runner/DebugProfile.entitlements
-        path: firebase_auth_flutterfire_ui/macos/Runner/DebugProfile.entitlements
-        patch-u: |
-          --- b/firebase-auth-flutterfire-ui/complete/macos/Runner/DebugProfile.entitlements
-          +++ a/firebase-auth-flutterfire-ui/complete/macos/Runner/DebugProfile.entitlements
-          @@ -8,5 +8,7 @@
-           	<true/>
-           	<key>com.apple.security.network.server</key>
-           	<true/>
-          +	<key>com.apple.security.network.client</key>
+          +	<key>com.apple.security.network.server</key>
           +	<true/>
            </dict>
            </plist>
