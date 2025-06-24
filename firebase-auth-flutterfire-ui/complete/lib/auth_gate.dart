@@ -4,10 +4,11 @@ import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart';
 import 'package:flutter/material.dart';
 
 import 'home.dart';
-import 'main.dart';
 
 class AuthGate extends StatelessWidget {
-  const AuthGate({super.key});
+  const AuthGate({super.key, required this.clientId});
+
+  final String clientId;
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +44,15 @@ class AuthGate extends StatelessWidget {
                 child: Text(
                   'By signing in, you agree to our terms and conditions.',
                   style: TextStyle(color: Colors.grey),
+                ),
+              );
+            },
+            sideBuilder: (context, shrinkOffset) {
+              return Padding(
+                padding: const EdgeInsets.all(20),
+                child: AspectRatio(
+                  aspectRatio: 1,
+                  child: Image.asset('flutterfire_300x.png'),
                 ),
               );
             },
