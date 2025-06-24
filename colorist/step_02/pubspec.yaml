@@ -12,14 +12,14 @@ dependencies:
   colorist_ui: ^0.2.4
   flutter_riverpod: ^2.6.1
   riverpod_annotation: ^2.6.1
-  firebase_core: ^3.13.1
-  firebase_ai: ^2.0.0
+  firebase_core: ^3.14.0
+  firebase_ai: ^2.1.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
-  build_runner: ^2.4.15
+  build_runner: ^2.5.4
   riverpod_generator: ^2.6.5
   riverpod_lint: ^2.6.5
   json_serializable: ^6.9.5

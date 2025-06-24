@@ -6,8 +6,9 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
-    labels:
-      - "autosubmit"
+    # Don't auto-submit github action updates until subosito/flutter-action update is cleared
+    # labels:
+    #   - "autosubmit"
   # Pip ecosystem.
   - package-ecosystem: "pip"
     directory: "/tfagents-flutter/"
