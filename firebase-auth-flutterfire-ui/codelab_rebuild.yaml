@@ -4626,19 +4626,6 @@ steps:
           	<string>1:963656261848:ios:3e6776183887c3fdb237ad</string>
           </dict>
           </plist>
-      - name: Patch ios/Podfile
-        path: firebase_auth_flutterfire_ui/ios/Podfile
-        patch-u: |
-          --- b/firebase-auth-flutterfire-ui/start/ios/Podfile
-          +++ a/firebase-auth-flutterfire-ui/start/ios/Podfile
-          @@ -1,5 +1,5 @@
-          -# Uncomment this line to define a global platform for your project
-          -# platform :ios, '12.0'
-          +# Native Firebase plugins require iOS 13.0 minimum, Flutter only requires 12.0
-          +platform :ios, '13.0'
-           
-           # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
-           ENV['COCOAPODS_DISABLE_STATS'] = 'true'
       - name: pod update ios
         path: firebase_auth_flutterfire_ui/ios
         pod: update
@@ -4679,18 +4666,6 @@ steps:
           	<string>1:963656261848:ios:d9e01cfe8b675dfcb237ad</string>
           </dict>
           </plist>
-      - name: Patch macos/Podfile
-        path: firebase_auth_flutterfire_ui/macos/Podfile
-        patch-u: |
-          --- b/adaptive_app/step_07/macos/Podfile
-          +++ a/adaptive_app/step_07/macos/Podfile
-          @@ -1,4 +1,5 @@
-          -platform :osx, '10.14'
-          +# Native Firebase plugins require MacOS 10.15 minimum, Flutter only requires 10.14
-          +platform :osx, '10.15'
-           
-           # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
-           ENV['COCOAPODS_DISABLE_STATS'] = 'true'
       - name: Patch macos/Runner.xcodeproj/project.pbxproj
         xcode-project-path: firebase_auth_flutterfire_ui/macos/Runner.xcodeproj
         macosx-deployment-target: '10.15'      
