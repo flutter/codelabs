@@ -2197,7 +2197,7 @@ steps:
             @override
             bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
           }
-      - name: Patch text/widget_test.dart
+      - name: Patch test/widget_test.dart
         path: intro_flutter_gpu/test/widget_test.dart
         patch-u: |
           --- b/intro_flutter_gpu/step_12/test/widget_test.dart
