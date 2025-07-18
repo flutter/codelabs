@@ -204,6 +204,9 @@ steps:
         platforms: [ windows ]
         path: adaptive_app
         flutter: build windows
+      - name: Build Web app
+        path: adaptive_app
+        flutter: build web
       - name: Copy step_03
         copydir:
           from: adaptive_app
@@ -218,6 +221,9 @@ steps:
       - name: Add googleapis http provider url_launcher flex_color_scheme go_router
         path: adaptive_app
         flutter: pub add googleapis http provider url_launcher flex_color_scheme go_router
+      - name: Update flex_color_scheme to flex_color_scheme:^8.2.1-dev.1
+        path: adaptive_app
+        flutter: pub add flex_color_scheme:^8.2.1-dev.1
       - name: Patch android/app/src/main/AndroidManifest.xml
         path: adaptive_app/android/app/src/main/AndroidManifest.xml
         patch-u: |
@@ -718,10 +724,16 @@ steps:
         platforms: [ macos ]
         path: adaptive_app/macos
         pod: install
+      - name: Build Web app
+        path: adaptive_app
+        flutter: build web
       - name: Copy step_04
         copydir:
           from: adaptive_app 
           to: step_04
+      - name: Flutter clean
+        path: step_04
+        flutter: clean
   - name: step_05
     steps:
       - name: Remove generated code
@@ -1042,10 +1054,16 @@ steps:
               );
             }
           }
+      - name: Build Web app
+        path: adaptive_app
+        flutter: build web
       - name: Copy step_05
         copydir:
           from: adaptive_app
           to: step_05
+      - name: Flutter clean
+        path: step_05
+        flutter: clean
   - name: step_06
     steps:
       - name: Remove generated code
@@ -1246,17 +1264,20 @@ steps:
               };
             }
           }
+      - name: Build Web app
+        path: adaptive_app
+        flutter: build web
       - name: Copy step_06
         copydir:
           from: adaptive_app
           to: step_06
+      - name: Flutter clean
+        path: step_06
+        flutter: clean
   - name: step_07
     steps:
       - name: Remove generated code
         rmdir: step_07
-      - name: Remove http package
-        path: adaptive_app
-        flutter: pub remove http
       - name: flutter clean
         path: adaptive_app
         flutter: clean
@@ -1265,7 +1286,7 @@ steps:
         flutter: pub get
       - name: Add googleapis_auth google_sign_in extension_google_sign_in_as_googleapis_auth
         path: adaptive_app
-        flutter: pub add googleapis_auth google_sign_in extension_google_sign_in_as_googleapis_auth http
+        flutter: pub add googleapis_auth google_sign_in:^6.3.0 extension_google_sign_in_as_googleapis_auth:^2.0.13
       - name: Patch .gitignore
         path: adaptive_app/.gitignore
         patch-u: |
@@ -1749,6 +1770,9 @@ steps:
         platforms: [ macos ]
         path: adaptive_app/macos
         pod: install
+      - name: Build Web app
+        path: adaptive_app
+        flutter: build web
       - name: Build iOS simulator bundle
         platforms: [ macos ]
         path: adaptive_app
@@ -1765,9 +1789,6 @@ steps:
         platforms: [ windows ]
         path: adaptive_app
         flutter: build windows
-      - name: Build Web app
-        path: adaptive_app
-        flutter: build web
       - name: Copy step_07
         copydir:
           from: adaptive_app
