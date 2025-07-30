@@ -6,7 +6,7 @@ environment:
   sdk: ^3.9.0-0
 
 dependencies:
-  shelf: ^1.4.0
+  shelf: ^1.4.2
   http: ^1.4.0
   shelf_cors_headers: ^0.1.5
 

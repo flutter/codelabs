@@ -19,6 +19,21 @@ steps:
               avoid_print: false
       - name: Remove README
         rm: adaptive_app/README.md
+      - name: Add .gemini directory
+        mkdir: adaptive_app/.gemini
+      - name: Add .gemini/settings.json
+        path: adaptive_app/.gemini/settings.json
+        replace-contents: |
+          {
+              "mcpServers": {
+                  "dart": {
+                      "command": "dart",
+                      "args": [
+                          "mcp-server"
+                      ]
+                  }
+              }
+          }
       - name: Add .vscode directory
         mkdir: adaptive_app/.vscode
       - name: Add .vscode/launch.json
@@ -175,10 +190,10 @@ steps:
           // utility in the flutter_test package. For example, you can send tap and scroll
           // gestures. You can also use WidgetTester to find child widgets in the widget
           // tree, read text, and verify that the values of widget properties are correct.
-          
+
           import 'package:adaptive_app/main.dart';
           import 'package:flutter_test/flutter_test.dart';
-          
+
           void main() {
             testWidgets('Counter increments smoke test', (tester) async {
               // Build our app and trigger a frame.
@@ -189,19 +204,19 @@ steps:
         path: adaptive_app
         flutter: pub upgrade --major-versions
       - name: Build iOS simulator bundle
-        platforms: [ macos ]
+        platforms: [macos]
         path: adaptive_app
         flutter: build ios --simulator
       - name: Build macOS app
-        platforms: [ macos ]
+        platforms: [macos]
         path: adaptive_app
         flutter: build macos
       - name: Build Linux app
-        platforms: [ linux ]
+        platforms: [linux]
         path: adaptive_app
         flutter: build linux
       - name: Build Windows app
-        platforms: [ windows ]
+        platforms: [windows]
         path: adaptive_app
         flutter: build windows
       - name: Build Web app
@@ -717,11 +732,11 @@ steps:
             });
           }
       - name: Rebuild ios/Podfile.lock
-        platforms: [ macos ]
+        platforms: [macos]
         path: adaptive_app/ios
         pod: install
       - name: Rebuild macos/Podfile.lock
-        platforms: [ macos ]
+        platforms: [macos]
         path: adaptive_app/macos
         pod: install
       - name: Build Web app
@@ -729,7 +744,7 @@ steps:
         flutter: build web
       - name: Copy step_04
         copydir:
-          from: adaptive_app 
+          from: adaptive_app
           to: step_04
       - name: Flutter clean
         path: step_04
@@ -749,12 +764,12 @@ steps:
           @@ -9,9 +9,9 @@ import 'package:flutter/material.dart';
            import 'package:go_router/go_router.dart';
            import 'package:provider/provider.dart';
-           
+
           +import 'src/adaptive_playlists.dart';
            import 'src/app_state.dart';
            import 'src/playlist_details.dart';
           -import 'src/playlists.dart';
-           
+
            // From https://www.youtube.com/channel/UCwXdFgeE9KYzlDdR7TG9cMw
            const flutterDevAccountId = 'UCwXdFgeE9KYzlDdR7TG9cMw';
           @@ -24,7 +24,7 @@ final _router = GoRouter(
@@ -785,20 +800,20 @@ steps:
           +++ a/adaptive_app/step_05/lib/src/playlists.dart
           @@ -3,44 +3,71 @@
            // found in the LICENSE file.
-           
+
            import 'package:flutter/material.dart';
           -import 'package:go_router/go_router.dart';
            import 'package:googleapis/youtube/v3.dart';
            import 'package:provider/provider.dart';
-           
+
            import 'app_state.dart';
-           
+
            class Playlists extends StatelessWidget {
           -  const Playlists({super.key});
           +  const Playlists({super.key, required this.playlistSelected});
           +
           +  final PlaylistsListSelected playlistSelected;
-           
+
              @override
              Widget build(BuildContext context) {
           -    return Scaffold(
@@ -815,7 +830,7 @@ steps:
           +        if (playlists.isEmpty) {
           +          return const Center(child: CircularProgressIndicator());
           +        }
-           
+
           -          return _PlaylistsListView(items: playlists);
           -        },
           -      ),
@@ -827,7 +842,7 @@ steps:
                );
              }
            }
-           
+
           -class _PlaylistsListView extends StatelessWidget {
           -  const _PlaylistsListView({required this.items});
           +typedef PlaylistsListSelected = void Function(Playlist playlist);
@@ -837,7 +852,7 @@ steps:
           +    required this.items,
           +    required this.playlistSelected,
           +  });
-           
+
              final List<Playlist> items;
           +  final PlaylistsListSelected playlistSelected;
           +
@@ -859,7 +874,7 @@ steps:
           +    _scrollController.dispose();
           +    super.dispose();
           +  }
-           
+
              @override
              Widget build(BuildContext context) {
                return ListView.builder(
@@ -894,7 +909,7 @@ steps:
           --- b/adaptive_app/step_05/lib/src/playlist_details.dart
           +++ a/adaptive_app/step_05/lib/src/playlist_details.dart
           @@ -20,32 +20,50 @@ class PlaylistDetails extends StatelessWidget {
-           
+
              @override
              Widget build(BuildContext context) {
           -    return Scaffold(
@@ -911,7 +926,7 @@ steps:
           +        if (playlistItems.isEmpty) {
           +          return const Center(child: CircularProgressIndicator());
           +        }
-           
+
           -          return _PlaylistDetailsListView(playlistItems: playlistItems);
           -        },
           -      ),
@@ -920,12 +935,12 @@ steps:
                );
              }
            }
-           
+
           -class _PlaylistDetailsListView extends StatelessWidget {
           +class _PlaylistDetailsListView extends StatefulWidget {
              const _PlaylistDetailsListView({required this.playlistItems});
              final List<PlaylistItem> playlistItems;
-           
+
           +  @override
           +  State<_PlaylistDetailsListView> createState() =>
           +      _PlaylistDetailsListViewState();
@@ -1080,6 +1095,21 @@ steps:
       - name: Upgrade dart dependencies
         path: adaptive_app/yt_cors_proxy
         dart: pub upgrade --major-versions
+      - name: Add .gemini directory
+        mkdir: adaptive_app/yt_cors_proxy/.gemini
+      - name: Add .gemini/settings.json
+        path: adaptive_app/yt_cors_proxy/.gemini/settings.json
+        replace-contents: |
+          {
+              "mcpServers": {
+                  "dart": {
+                      "command": "dart",
+                      "args": [
+                          "mcp-server"
+                      ]
+                  }
+              }
+          }
       - name: Patch yt_cors_proxy/pubspec.yaml
         path: adaptive_app/yt_cors_proxy/pubspec.yaml
         patch-u: |
@@ -1106,7 +1136,7 @@ steps:
           // Copyright 2022 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-          
+
           import 'dart:async';
           import 'dart:io';
 
@@ -1157,11 +1187,11 @@ steps:
           @@ -7,6 +7,8 @@ import 'package:googleapis/youtube/v3.dart';
            import 'package:provider/provider.dart';
            import 'package:url_launcher/link.dart';
-           
+
           +import 'adaptive_image.dart';
           +import 'adaptive_text.dart';
            import 'app_state.dart';
-           
+
            class PlaylistDetails extends StatelessWidget {
           @@ -72,7 +74,9 @@ class _PlaylistDetailsListViewState extends State<_PlaylistDetailsListView> {
                          alignment: Alignment.center,
@@ -1200,10 +1230,10 @@ steps:
           @@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
            import 'package:googleapis/youtube/v3.dart';
            import 'package:provider/provider.dart';
-           
+
           +import 'adaptive_image.dart';
            import 'app_state.dart';
-           
+
            class Playlists extends StatelessWidget {
           @@ -71,7 +72,7 @@ class _PlaylistsListViewState extends State<_PlaylistsListView> {
                    return Padding(
@@ -1479,7 +1509,7 @@ steps:
           @@ -2,22 +2,25 @@
            // Use of this source code is governed by a BSD-style license that can be
            // found in the LICENSE file.
-           
+
           -import 'dart:io';
           -
            import 'package:flex_color_scheme/flex_color_scheme.dart';
@@ -1487,17 +1517,17 @@ steps:
            import 'package:go_router/go_router.dart';
           +import 'package:googleapis_auth/googleapis_auth.dart';
            import 'package:provider/provider.dart';
-           
+
           +import 'src/adaptive_login.dart';
            import 'src/adaptive_playlists.dart';
            import 'src/app_state.dart';
            import 'src/playlist_details.dart';
-           
+
           -// From https://www.youtube.com/channel/UCwXdFgeE9KYzlDdR7TG9cMw
           -const flutterDevAccountId = 'UCwXdFgeE9KYzlDdR7TG9cMw';
           +// From https://developers.google.com/youtube/v3/guides/auth/installed-apps#identify-access-scopes
           +final scopes = ['https://www.googleapis.com/auth/youtube.readonly'];
-           
+
           -// TODO: Replace with your YouTube API Key
           -const youTubeApiKey = 'AIzaNotAnApiKey';
           +// TODO: Replace with your Client ID and Client Secret for Desktop configuration
@@ -1505,7 +1535,7 @@ steps:
           +  'TODO-Client-ID.apps.googleusercontent.com',
           +  'TODO-Client-secret',
           +);
-           
+
            final _router = GoRouter(
              routes: <RouteBase>[
           @@ -26,7 +29,24 @@ final _router = GoRouter(
@@ -1535,7 +1565,7 @@ steps:
                      builder: (context, state) {
           @@ -44,17 +64,9 @@ final _router = GoRouter(
            );
-           
+
            void main() {
           -  if (youTubeApiKey == 'AIzaNotAnApiKey') {
           -    print('youTubeApiKey has not been configured.');
@@ -1595,7 +1625,7 @@ steps:
           @@ -8,23 +8,22 @@ import 'package:flutter/foundation.dart';
            import 'package:googleapis/youtube/v3.dart';
            import 'package:http/http.dart' as http;
-           
+
           -class FlutterDevPlaylists extends ChangeNotifier {
           -  FlutterDevPlaylists({
           -    required String flutterDevAccountId,
@@ -1607,13 +1637,13 @@ steps:
           +    _api = YouTubeApi(client);
                _loadPlaylists();
              }
-           
+
           +  bool get isLoggedIn => _api != null;
           +
              Future<void> _loadPlaylists() async {
                String? nextPageToken;
                _playlists.clear();
-           
+
                do {
           -      final response = await _api.playlists.list(
           +      final response = await _api!.playlists.list(
@@ -1626,11 +1656,11 @@ steps:
           @@ -39,8 +38,7 @@ class FlutterDevPlaylists extends ChangeNotifier {
                } while (nextPageToken != null);
              }
-           
+
           -  final String _flutterDevAccountId;
           -  late final YouTubeApi _api;
           +  YouTubeApi? _api;
-           
+
              final List<Playlist> _playlists = [];
              List<Playlist> get playlists => UnmodifiableListView(_playlists);
           @@ -57,7 +55,7 @@ class FlutterDevPlaylists extends ChangeNotifier {
@@ -1671,7 +1701,7 @@ steps:
           --- b/adaptive_app/step_07/lib/src/playlist_details.dart
           +++ a/adaptive_app/step_07/lib/src/playlist_details.dart
           @@ -22,7 +22,7 @@ class PlaylistDetails extends StatelessWidget {
-           
+
              @override
              Widget build(BuildContext context) {
           -    return Consumer<FlutterDevPlaylists>(
@@ -1685,7 +1715,7 @@ steps:
           --- b/adaptive_app/step_07/lib/src/playlists.dart
           +++ a/adaptive_app/step_07/lib/src/playlists.dart
           @@ -16,7 +16,7 @@ class Playlists extends StatelessWidget {
-           
+
              @override
              Widget build(BuildContext context) {
           -    return Consumer<FlutterDevPlaylists>(
@@ -1718,14 +1748,14 @@ steps:
            import 'package:googleapis/youtube/v3.dart';
           +import 'package:http/src/client.dart';
            import 'package:provider/provider.dart';
-           
+
           -class FakeFlutterDevPlaylists extends ChangeNotifier
           -    implements FlutterDevPlaylists {
           +class FakeAuthedUserPlaylists extends ChangeNotifier
           +    implements AuthedUserPlaylists {
              @override
              List<PlaylistItem> playlistItems({required String playlistId}) => [];
-           
+
              @override
              List<Playlist> get playlists => [];
           +
@@ -1735,7 +1765,7 @@ steps:
           +  @override
           +  bool get isLoggedIn => true;
            }
-           
+
            void main() {
              testWidgets('smoke test', (tester) async {
                // Build our app and trigger a frame.
@@ -1755,7 +1785,7 @@ steps:
           @@ -29,6 +29,9 @@
              <!-- Favicon -->
              <link rel="icon" type="image/png" href="favicon.png"/>
-           
+
           +  <!-- google_sign_in_web -->
           +  <meta name="google-signin-client_id" content="YOUR_GOOGLE_SIGN_IN_OAUTH_CLIENT_ID.apps.googleusercontent.com">
           +
@@ -1763,30 +1793,30 @@ steps:
              <link rel="manifest" href="manifest.json">
            </head>
       - name: Rebuild ios/Podfile.lock
-        platforms: [ macos ]
+        platforms: [macos]
         path: adaptive_app/ios
         pod: install
       - name: Rebuild macos/Podfile.lock
-        platforms: [ macos ]
+        platforms: [macos]
         path: adaptive_app/macos
         pod: install
       - name: Build Web app
         path: adaptive_app
         flutter: build web
       - name: Build iOS simulator bundle
-        platforms: [ macos ]
+        platforms: [macos]
         path: adaptive_app
         flutter: build ios --simulator
       - name: Build macOS app
-        platforms: [ macos ]
+        platforms: [macos]
         path: adaptive_app
         flutter: build macos
       - name: Build Linux app
-        platforms: [ linux ]
+        platforms: [linux]
         path: adaptive_app
         flutter: build linux
       - name: Build Windows app
-        platforms: [ windows ]
+        platforms: [windows]
         path: adaptive_app
         flutter: build windows
       - name: Copy step_07
