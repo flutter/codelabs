@@ -32,6 +32,21 @@ steps:
         flutter: pub upgrade --major-versions
       - name: Remove README
         rm: brick_breaker/README.md
+      - name: Add .gemini directory
+        mkdir: brick_breaker/.gemini
+      - name: Add .gemini/settings.json
+        path: brick_breaker/.gemini/settings.json
+        replace-contents: |
+          {
+              "mcpServers": {
+                  "dart": {
+                      "command": "dart",
+                      "args": [
+                          "mcp-server"
+                      ]
+                  }
+              }
+          }
       - name: Add .vscode directory
         mkdir: brick_breaker/.vscode
       - name: Add .vscode/launch.json
