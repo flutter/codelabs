@@ -342,7 +342,7 @@ class DuktapeBindings {
     ffi.Pointer<ffi.Char> filename,
     int line,
     ffi.Pointer<ffi.Char> fmt,
-    ffi.Pointer<__va_list_tag> ap,
+    va_list ap,
   ) {
     return _duk_error_va_raw(ctx, err_code, filename, line, fmt, ap);
   }
@@ -356,7 +356,7 @@ class DuktapeBindings {
             ffi.Pointer<ffi.Char>,
             duk_int_t,
             ffi.Pointer<ffi.Char>,
-            ffi.Pointer<__va_list_tag>,
+            va_list,
           )
         >
       >('duk_error_va_raw');
@@ -368,7 +368,7 @@ class DuktapeBindings {
           ffi.Pointer<ffi.Char>,
           int,
           ffi.Pointer<ffi.Char>,
-          ffi.Pointer<__va_list_tag>,
+          va_list,
         )
       >();
 
@@ -904,7 +904,7 @@ class DuktapeBindings {
   ffi.Pointer<ffi.Char> duk_push_vsprintf(
     ffi.Pointer<duk_context> ctx,
     ffi.Pointer<ffi.Char> fmt,
-    ffi.Pointer<__va_list_tag> ap,
+    va_list ap,
   ) {
     return _duk_push_vsprintf(ctx, fmt, ap);
   }
@@ -915,7 +915,7 @@ class DuktapeBindings {
           ffi.Pointer<ffi.Char> Function(
             ffi.Pointer<duk_context>,
             ffi.Pointer<ffi.Char>,
-            ffi.Pointer<__va_list_tag>,
+            va_list,
           )
         >
       >('duk_push_vsprintf');
@@ -924,7 +924,7 @@ class DuktapeBindings {
         ffi.Pointer<ffi.Char> Function(
           ffi.Pointer<duk_context>,
           ffi.Pointer<ffi.Char>,
-          ffi.Pointer<__va_list_tag>,
+          va_list,
         )
       >();
 
@@ -1209,7 +1209,7 @@ class DuktapeBindings {
     ffi.Pointer<ffi.Char> filename,
     int line,
     ffi.Pointer<ffi.Char> fmt,
-    ffi.Pointer<__va_list_tag> ap,
+    va_list ap,
   ) {
     return _duk_push_error_object_va_raw(
       ctx,
@@ -1230,7 +1230,7 @@ class DuktapeBindings {
             ffi.Pointer<ffi.Char>,
             duk_int_t,
             ffi.Pointer<ffi.Char>,
-            ffi.Pointer<__va_list_tag>,
+            va_list,
           )
         >
       >('duk_push_error_object_va_raw');
@@ -1242,7 +1242,7 @@ class DuktapeBindings {
           ffi.Pointer<ffi.Char>,
           int,
           ffi.Pointer<ffi.Char>,
-          ffi.Pointer<__va_list_tag>,
+          va_list,
         )
       >();
 
@@ -5191,19 +5191,8 @@ typedef Dartduk_uint_t = int;
 /// Error codes are represented with platform int.  High bits are used
 /// for flags and such, so 32 bits are needed.
 typedef duk_errcode_t = duk_int_t;
-
-final class __va_list_tag extends ffi.Struct {
-  @ffi.UnsignedInt()
-  external int gp_offset;
-
-  @ffi.UnsignedInt()
-  external int fp_offset;
-
-  external ffi.Pointer<ffi.Void> overflow_arg_area;
-
-  external ffi.Pointer<ffi.Void> reg_save_area;
-}
-
+typedef __builtin_va_list = ffi.Pointer<ffi.Char>;
+typedef va_list = __builtin_va_list;
 typedef duk_small_uint_t = ffi.UnsignedInt;
 typedef Dartduk_small_uint_t = int;
 
