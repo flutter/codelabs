@@ -24,6 +24,21 @@ steps:
       - name: Remove README.md
         path: firebase_auth_flutterfire_ui
         rm: README.md
+      - name: Add .gemini directory
+        mkdir: firebase_auth_flutterfire_ui/.gemini
+      - name: Add .gemini/settings.json
+        path: firebase_auth_flutterfire_ui/.gemini/settings.json
+        replace-contents: |
+          {
+              "mcpServers": {
+                  "dart": {
+                      "command": "dart",
+                      "args": [
+                          "mcp-server"
+                      ]
+                  }
+              }
+          }
       - name: Patch pubspec.yaml
         path: firebase_auth_flutterfire_ui/pubspec.yaml
         patch-u: |
@@ -4504,29 +4519,6 @@ steps:
           sJAW+CGuKkfLO1v/EBbSAv9qos3R8k7XP4SFtMDPmmh6tLwX9Q9hIS3wV1wt0T++VaYmelX/EBbSAv/FpTta3rv6h7CQFoQhrZmhmpglrgepqNZDWHeENV5a
           PnxYdVlK6w6/reirorrNpnVR1b6/p6J64HuiAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAkPmfAAMA4+D7weSj8KQAAAAASUVO
           RK5CYII=
-      - name: Patch android/app/build.gradle.kts
-        path: firebase_auth_flutterfire_ui/android/app/build.gradle.kts
-        patch-u: |
-          --- b/firebase-auth-flutterfire-ui/start/android/app/build.gradle.kts
-          +++ a/firebase-auth-flutterfire-ui/start/android/app/build.gradle.kts
-          @@ -8,7 +8,7 @@ plugins {
-           android {
-               namespace = "com.example.firebase_auth_flutterfire_ui"
-               compileSdk = flutter.compileSdkVersion
-          -    ndkVersion = flutter.ndkVersion
-          +    ndkVersion = "27.0.12077973"
-
-               compileOptions {
-                   sourceCompatibility = JavaVersion.VERSION_11
-          @@ -24,7 +24,7 @@ android {
-                   applicationId = "com.example.firebase_auth_flutterfire_ui"
-                   // You can update the following values to match your application needs.
-                   // For more information, see: https://flutter.dev/to/review-gradle-config.
-          -        minSdk = flutter.minSdkVersion
-          +        minSdk = 23
-                   targetSdk = flutter.targetSdkVersion
-                   versionCode = flutter.versionCode
-                   versionName = flutter.versionName
       - name: Patch macos/Runner/Release.entitlements
         path: firebase_auth_flutterfire_ui/macos/Runner/Release.entitlements
         patch-u: |
@@ -4775,6 +4767,29 @@ steps:
           +
              runApp(const MyApp(clientId: clientId));
            }
+      - name: flutter clean
+        path: firebase_auth_flutterfire_ui
+        flutter: clean
+      - name: flutter pub get
+        path: firebase_auth_flutterfire_ui
+        flutter: pub get
+      - name: pod update ios
+        path: firebase_auth_flutterfire_ui/ios
+        pod: update
+      - name: Build iOS
+        platforms: [ macos ]
+        path: firebase_auth_flutterfire_ui
+        flutter: build ios --simulator
+      - name: pod update mac
+        path: firebase_auth_flutterfire_ui/macos
+        pod: update
+      - name: Build macOS
+        platforms: [ macos ]
+        path: firebase_auth_flutterfire_ui
+        flutter: build macos
+      - name: Build Android
+        path: firebase_auth_flutterfire_ui
+        flutter: build apk
       - name: Build web
         path: firebase_auth_flutterfire_ui
         flutter: build web
