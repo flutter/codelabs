@@ -29,6 +29,21 @@ steps:
         dart: fix --apply
       - name: Remove README
         rm: colorist/README.md
+      - name: Add .gemini directory
+        mkdir: colorist/.gemini
+      - name: Add .gemini/settings.json
+        path: colorist/.gemini/settings.json
+        replace-contents: |
+          {
+              "mcpServers": {
+                  "dart": {
+                      "command": "dart",
+                      "args": [
+                          "mcp-server"
+                      ]
+                  }
+              }
+          }
       - name: Add .vscode directory
         mkdir: colorist/.vscode
       - name: Add .vscode/launch.json
@@ -318,29 +333,22 @@ steps:
           +	<true/>
            </dict>
            </plist>
-      - name: Patch android/app/build.gradle.kts
-        path: colorist/android/app/build.gradle.kts
+      - name: Patch ios/Podfile
+        path: colorist/ios/Podfile
         patch-u: |
-          --- b/colorist/step_02/android/app/build.gradle.kts
-          +++ a/colorist/step_02/android/app/build.gradle.kts
-          @@ -8,7 +8,7 @@ plugins {
-           android {
-               namespace = "com.example.colorist"
-               compileSdk = flutter.compileSdkVersion
-          -    ndkVersion = flutter.ndkVersion
-          +    ndkVersion = "27.0.12077973"
-
-               compileOptions {
-                   sourceCompatibility = JavaVersion.VERSION_11
-          @@ -24,7 +24,7 @@ android {
-                   applicationId = "com.example.colorist"
-                   // You can update the following values to match your application needs.
-                   // For more information, see: https://flutter.dev/to/review-gradle-config.
-          -        minSdk = flutter.minSdkVersion
-          +        minSdk = 23
-                   targetSdk = flutter.targetSdkVersion
-                   versionCode = flutter.versionCode
-                   versionName = flutter.versionName
+          --- a/colorist/step_02/ios/Podfile
+          +++ b/colorist/step_02/ios/Podfile
+          @@ -1,5 +1,5 @@
+          -# Uncomment this line to define a global platform for your project
+          -# platform :ios, '13.0'
+          +# Firebase requires at least iOS 15.0
+          +platform :ios, '15.0'
+           
+           # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
+           ENV['COCOAPODS_DISABLE_STATS'] = 'true'
+      - name: Patch ios/Runner.xcodeproj/project.pbxproj
+        xcode-project-path: colorist/ios/Runner.xcodeproj
+        iphoneos-deployment-target: "15.0"
       - name: Upgrade deps
         path: colorist
         flutter: pub upgrade --major-versions

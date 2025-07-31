@@ -9,7 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  colorist_ui: ^0.2.4
+  colorist_ui: ^0.2.5
   flutter_riverpod: ^2.6.1
   riverpod_annotation: ^2.6.1
 
@@ -21,7 +21,7 @@ dev_dependencies:
   riverpod_generator: ^2.6.5
   riverpod_lint: ^2.6.5
   json_serializable: ^6.9.5
-  custom_lint: ^0.7.5
+  custom_lint: ^0.7.6
 
 flutter:
   uses-material-design: true
