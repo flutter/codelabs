@@ -19,6 +19,21 @@ steps:
       - name: Add dependencies
         path: gtk_flutter
         flutter: pub add google_fonts go_router
+      - name: Add .gemini directory
+        mkdir: gtk_flutter/.gemini
+      - name: Add .gemini/settings.json
+        path: gtk_flutter/.gemini/settings.json
+        replace-contents: |
+          {
+              "mcpServers": {
+                  "dart": {
+                      "command": "dart",
+                      "args": [
+                          "mcp-server"
+                      ]
+                  }
+              }
+          }
       - name: Patch pubspec.yaml
         path: gtk_flutter/pubspec.yaml
         patch-u: |
@@ -41,20 +56,6 @@ steps:
            
              # To add assets to your application, add an assets section, like this:
              # assets:
-      - name: Patch android/app/build.gradle.kts
-        path: gtk_flutter/android/app/build.gradle.kts
-        patch-u: |
-          --- b/firebase-get-to-know-flutter/step_02/android/app/build.gradle
-          +++ a/firebase-get-to-know-flutter/step_02/android/app/build.gradle
-          @@ -24,7 +24,7 @@ android {
-                   applicationId = "com.example.gtk_flutter"
-                   // You can update the following values to match your application needs.
-                   // For more information, see: https://flutter.dev/to/review-gradle-config.
-          -        minSdk = flutter.minSdkVersion
-          +        minSdk = 23
-                   targetSdk = flutter.targetSdkVersion
-                   versionCode = flutter.versionCode
-                   versionName = flutter.versionName
       - name: Remove the README.md
         rm: gtk_flutter/README.md
       - name: VSCode config
