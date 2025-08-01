@@ -22,6 +22,21 @@ steps:
           # Haiku generator demo app
           
           This folder contains the code for [Generative AI](https://developers.generativeai.google/) + Flutter codelab.
+      - name: Add .gemini directory
+        mkdir: haiku_generator/.gemini
+      - name: Add .gemini/settings.json
+        path: haiku_generator/.gemini/settings.json
+        replace-contents: |
+          {
+              "mcpServers": {
+                  "dart": {
+                      "command": "dart",
+                      "args": [
+                          "mcp-server"
+                      ]
+                  }
+              }
+          }
       - name: Add ui.png
         path: haiku_generator/ui.png
         base64-contents: |

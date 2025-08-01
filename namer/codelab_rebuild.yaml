@@ -9,6 +9,21 @@ steps:
       - name: Strip DEVELOPMENT_TEAM
         strip-lines-containing: DEVELOPMENT_TEAM =
         path: namer_app/ios/Runner.xcodeproj/project.pbxproj
+      - name: Add .gemini directory
+        mkdir: namer_app/.gemini
+      - name: Add .gemini/settings.json
+        path: namer_app/.gemini/settings.json
+        replace-contents: |
+          {
+              "mcpServers": {
+                  "dart": {
+                      "command": "dart",
+                      "args": [
+                          "mcp-server"
+                      ]
+                  }
+              }
+          }
       - name: Add deps
         path: namer_app
         flutter: pub add english_words provider

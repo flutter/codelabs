@@ -18,6 +18,21 @@ steps:
           include: ../../analysis_options.yaml
       - name: Remove README
         rm: webview_in_flutter/README.md
+      - name: Add .gemini directory
+        mkdir: webview_in_flutter/.gemini
+      - name: Add .gemini/settings.json
+        path: webview_in_flutter/.gemini/settings.json
+        replace-contents: |
+          {
+              "mcpServers": {
+                  "dart": {
+                      "command": "dart",
+                      "args": [
+                          "mcp-server"
+                      ]
+                  }
+              }
+          }
       - name: Add .vscode directory
         mkdir: webview_in_flutter/.vscode
       - name: Add .vscode/launch.json
@@ -42,20 +57,6 @@ steps:
       - name: Add webview_flutter
         path: webview_in_flutter
         flutter: pub add webview_flutter
-      - name: Patch android/app/build.gradle.kts
-        path: webview_in_flutter/android/app/build.gradle.kts
-        patch-u: |
-          --- b/webview_flutter/step_03/android/app/build.gradle
-          +++ a/webview_flutter/step_03/android/app/build.gradle
-          @@ -24,7 +24,7 @@ android {
-                   applicationId = "com.example.webview_in_flutter"
-                   // You can update the following values to match your application needs.
-                   // For more information, see: https://flutter.dev/to/review-gradle-config.
-          -        minSdk = flutter.minSdkVersion
-          +        minSdk = 21
-                   targetSdk = flutter.targetSdkVersion
-                   versionCode = flutter.versionCode
-                   versionName = flutter.versionName
       - name: Build iOS
         platforms: [ macos ]
         path: webview_in_flutter

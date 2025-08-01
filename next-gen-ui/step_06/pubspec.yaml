@@ -4,7 +4,7 @@ publish_to: 'none'
 version: 0.1.0
 
 environment:
-  sdk: ^3.8.0
+  sdk: ^3.9.0-0
 
 dependencies:
   flutter:
@@ -12,11 +12,11 @@ dependencies:
   extra_alignments: ^1.0.0+1
   flextras: ^1.0.0
   flutter_animate: ^4.5.2
-  focusable_control_builder: ^1.0.2+1
+  focusable_control_builder: ^1.1.0
   gap: ^3.0.1
   particle_field: ^1.0.0
   rnd: ^0.2.0
-  vector_math: ^2.1.4
+  vector_math: ^2.2.0
   cupertino_icons: ^1.0.8
   provider: ^6.1.5
   window_size:
@@ -27,7 +27,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^5.0.0
+  flutter_lints: ^6.0.0
 
 flutter:
   uses-material-design: true

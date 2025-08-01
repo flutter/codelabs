@@ -15,6 +15,21 @@ steps:
           include: ../../analysis_options.yaml
       - name: Remove README
         rm: testing_app/README.md
+      - name: Add .gemini directory
+        mkdir: testing_app/.gemini
+      - name: Add .gemini/settings.json
+        path: testing_app/.gemini/settings.json
+        replace-contents: |
+          {
+              "mcpServers": {
+                  "dart": {
+                      "command": "dart",
+                      "args": [
+                          "mcp-server"
+                      ]
+                  }
+              }
+          }
       - name: Add .vscode directory
         mkdir: testing_app/.vscode
       - name: Add .vscode/launch.json

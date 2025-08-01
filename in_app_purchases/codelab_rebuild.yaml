@@ -26,9 +26,24 @@ steps:
           +GoogleService-Info.plist
           +google-services.json
           +ios/firebase_app_id_file.json
+      - name: Add .gemini directory
+        mkdir: steps/app/.gemini
+      - name: Add .gemini/settings.json
+        path: steps/app/.gemini/settings.json
+        replace-contents: |
+          {
+              "mcpServers": {
+                  "dart": {
+                      "command": "dart",
+                      "args": [
+                          "mcp-server"
+                      ]
+                  }
+              }
+          }
       - name: Add app dependencies
         path: steps/app
-        flutter: pub add cloud_firestore cupertino_icons firebase_auth firebase_core google_sign_in http intl provider
+        flutter: pub add cloud_firestore cupertino_icons firebase_auth firebase_core google_sign_in:^6.3.0 http intl provider
       - name: Patch app/pubspec.yaml
         path: steps/app/pubspec.yaml
         patch-u: |
@@ -76,19 +91,6 @@ steps:
           +	</array>
            </dict>
            </plist>
-      - name: Patch app/ios/Podfile
-        path: steps/app/ios/Podfile
-        patch-u: |
-          --- b/in_app_purchases/step_00/app/ios/Podfile
-          +++ a/in_app_purchases/step_00/app/ios/Podfile
-          @@ -1,5 +1,5 @@
-          -# Uncomment this line to define a global platform for your project
-          -# platform :ios, '12.0'
-          +# Per https://firebase.google.com/support/release-notes/ios cloud_firestore requires a minimum iOS version of 13.0
-          +platform :ios, '13.0'
-           
-           # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
-           ENV['COCOAPODS_DISABLE_STATS'] = 'true'
       - name: Patch app/android/app/build.gradle.kts
         path: steps/app/android/app/build.gradle.kts
         patch-u: |
@@ -16670,6 +16672,21 @@ steps:
         renamedir:
           from: steps/firebase_backend_dart
           to: steps/dart-backend
+      - name: Add .gemini directory
+        mkdir: steps/dart-backend/.gemini
+      - name: Add .gemini/settings.json
+        path: steps/dart-backend/.gemini/settings.json
+        replace-contents: |
+          {
+              "mcpServers": {
+                  "dart": {
+                      "command": "dart",
+                      "args": [
+                          "mcp-server"
+                      ]
+                  }
+              }
+          }
       - name: Add dependencies
         path: steps/dart-backend
         dart: pub add googleapis googleapis_auth http app_store_server_sdk

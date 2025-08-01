@@ -26,6 +26,21 @@ steps:
       - name: Add dependencies
         path: codelab2/tfserving_flutter
         flutter: pub add http protobuf grpc fixnum
+      - name: Add .gemini directory
+        mkdir: codelab2/tfserving_flutter/.gemini
+      - name: Add .gemini/settings.json
+        path: codelab2/tfserving_flutter/.gemini/settings.json
+        replace-contents: |
+          {
+              "mcpServers": {
+                  "dart": {
+                      "command": "dart",
+                      "args": [
+                          "mcp-server"
+                      ]
+                  }
+              }
+          }
       - name: Patch pubspec.yaml
         path: codelab2/tfserving_flutter/pubspec.yaml
         patch-u: |

@@ -6,13 +6,11 @@ DIR="${BASH_SOURCE%/*}"
 source "$DIR/flutter_ci_script_shared.sh"
 
 declare -a CODELABS=(
-  # TODO(DomesticMouse): The argument type 'BottomAppBarTheme' can't be assigned to the parameter type 'BottomAppBarThemeData?'.
-  # "adaptive_app"
+  "adaptive_app"
   "animated-responsive-layout"
   "animations"
   "audio_soloud"
-  # TODO(DomesticMouse): The argument type 'BottomAppBarTheme' can't be assigned to the parameter type 'BottomAppBarThemeData?'.
-  # "boring_to_beautiful"
+  "boring_to_beautiful"
   "brick_breaker"
   "colorist"
   "dart-patterns-and-records"

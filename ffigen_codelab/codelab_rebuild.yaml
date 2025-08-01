@@ -15,6 +15,36 @@ steps:
         rm: ffigen_app/LICENSE
       - name: Remove README
         rm: ffigen_app/README.md
+      - name: Add .gemini directory
+        mkdir: ffigen_app/.gemini
+      - name: Add .gemini/settings.json
+        path: ffigen_app/.gemini/settings.json
+        replace-contents: |
+          {
+              "mcpServers": {
+                  "dart": {
+                      "command": "dart",
+                      "args": [
+                          "mcp-server"
+                      ]
+                  }
+              }
+          }
+      - name: Add .gemini directory
+        mkdir: ffigen_app/example/.gemini
+      - name: Add .gemini/settings.json
+        path: ffigen_app/example/.gemini/settings.json
+        replace-contents: |
+          {
+              "mcpServers": {
+                  "dart": {
+                      "command": "dart",
+                      "args": [
+                          "mcp-server"
+                      ]
+                  }
+              }
+          }
       - name: Add .vscode directory
         mkdir: ffigen_app/.vscode
       - name: Add .vscode/launch.json
@@ -317,7 +347,7 @@ steps:
         patch-u: |
           --- b/ffigen_codelab/step_05/src/CMakeLists.txt
           +++ a/ffigen_codelab/step_05/src/CMakeLists.txt
-          @@ -6,12 +6,19 @@ cmake_minimum_required(VERSION 3.10)
+          @@ -6,14 +6,21 @@ cmake_minimum_required(VERSION 3.10)
            project(ffigen_app_library VERSION 0.0.1 LANGUAGES C)
 
            add_library(ffigen_app SHARED
@@ -339,6 +369,8 @@ steps:
           +endif (WIN32)
           +
            target_compile_definitions(ffigen_app PUBLIC DART_SHARED_LIB)
+           
+           if (ANDROID)
       - name: Get deps in ffigen_app/example
         path: ffigen_app/example
         dart: pub get --directory .

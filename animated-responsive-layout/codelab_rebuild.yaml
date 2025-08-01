@@ -18,6 +18,21 @@ steps:
         flutter: pub upgrade --major-versions
       - name: Remove README
         rm: animated_responsive_layout/README.md
+      - name: Add .gemini directory
+        mkdir: animated_responsive_layout/.gemini
+      - name: Add .gemini/settings.json
+        path: animated_responsive_layout/.gemini/settings.json
+        replace-contents: |
+          {
+              "mcpServers": {
+                  "dart": {
+                      "command": "dart",
+                      "args": [
+                          "mcp-server"
+                      ]
+                  }
+              }
+          }
       - name: Add .vscode directory
         mkdir: animated_responsive_layout/.vscode
       - name: Add .vscode/launch.json
@@ -53,19 +68,19 @@ steps:
         path: animated_responsive_layout
         dart: format .
       - name: Build iOS simulator bundle
-        platforms: [ macos ]
+        platforms: [macos]
         path: animated_responsive_layout
         flutter: build ios --simulator
       - name: Build macOS app
-        platforms: [ macos ]
+        platforms: [macos]
         path: animated_responsive_layout
         flutter: build macos
       - name: Build Linux app
-        platforms: [ linux ]
+        platforms: [linux]
         path: animated_responsive_layout
         flutter: build linux
       - name: Build Windows app
-        platforms: [ windows ]
+        platforms: [windows]
         path: animated_responsive_layout
         flutter: build windows
       - name: Copy step_03
@@ -127,7 +142,7 @@ steps:
           --- b/material-3-codelab/step_04/pubspec.yaml
           +++ a/material-3-codelab/step_04/pubspec.yaml
           @@ -17,3 +17,13 @@ dev_dependencies:
-           
+
            flutter:
              uses-material-design: true
           +
@@ -883,15 +898,15 @@ steps:
           // Copyright 2022 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-          
+
           import 'package:flutter/material.dart';
-          
+
           class Destination {
             const Destination(this.icon, this.label);
             final IconData icon;
             final String label;
           }
-          
+
           const List<Destination> destinations = <Destination>[
             Destination(Icons.inbox_rounded, 'Inbox'),
             Destination(Icons.article_outlined, 'Articles'),
@@ -904,9 +919,9 @@ steps:
           --- b/animated-responsive-layout/step_05/lib/main.dart
           +++ a/animated-responsive-layout/step_05/lib/main.dart
           @@ -4,6 +4,7 @@
-           
+
            import 'package:flutter/material.dart';
-           
+
           +import 'destinations.dart';
            import 'models/data.dart' as data;
            import 'models/models.dart';
@@ -914,7 +929,7 @@ steps:
           @@ -40,12 +41,22 @@ class _FeedState extends State<Feed> {
                _colorScheme.surface,
              );
-           
+
           +  int selectedIndex = 0;
           +
              @override
@@ -1061,20 +1076,20 @@ steps:
           --- b/animated-responsive-layout/step_06/lib/main.dart
           +++ a/animated-responsive-layout/step_06/lib/main.dart
           @@ -4,9 +4,10 @@
-           
+
            import 'package:flutter/material.dart';
-           
+
           -import 'destinations.dart';
            import 'models/data.dart' as data;
            import 'models/models.dart';
           +import 'widgets/disappearing_bottom_navigation_bar.dart';
           +import 'widgets/disappearing_navigation_rail.dart';
            import 'widgets/email_list_view.dart';
-           
+
            void main() {
           @@ -42,41 +43,65 @@ class _FeedState extends State<Feed> {
              );
-           
+
              int selectedIndex = 0;
           +  bool wideScreen = false;
           +
@@ -1085,7 +1100,7 @@ steps:
           +    final double width = MediaQuery.of(context).size.width;
           +    wideScreen = width > 600;
           +  }
-           
+
              @override
              Widget build(BuildContext context) {
                return Scaffold(
@@ -1453,13 +1468,13 @@ steps:
           --- b/animated-responsive-layout/step_07/lib/widgets/disappearing_bottom_navigation_bar.dart
           +++ a/animated-responsive-layout/step_07/lib/widgets/disappearing_bottom_navigation_bar.dart
           @@ -4,28 +4,36 @@
-           
+
            import 'package:flutter/material.dart';
-           
+
           +import '../animations.dart';
            import '../destinations.dart';
           +import '../transitions/bottom_bar_transition.dart';
-           
+
            class DisappearingBottomNavigationBar extends StatelessWidget {
              const DisappearingBottomNavigationBar({
                super.key,
@@ -1467,11 +1482,11 @@ steps:
                required this.selectedIndex,
                this.onDestinationSelected,
              });
-           
+
           +  final BarAnimation barAnimation;
              final int selectedIndex;
              final ValueChanged<int>? onDestinationSelected;
-           
+
              @override
              Widget build(BuildContext context) {
           -    return NavigationBar(
@@ -1502,14 +1517,14 @@ steps:
           --- b/animated-responsive-layout/step_07/lib/widgets/disappearing_navigation_rail.dart
           +++ a/animated-responsive-layout/step_07/lib/widgets/disappearing_navigation_rail.dart
           @@ -4,49 +4,56 @@
-           
+
            import 'package:flutter/material.dart';
-           
+
           +import '../animations.dart';
            import '../destinations.dart';
           +import '../transitions/nav_rail_transition.dart';
           +import 'animated_floating_action_button.dart';
-           
+
            class DisappearingNavigationRail extends StatelessWidget {
              const DisappearingNavigationRail({
                super.key,
@@ -1519,13 +1534,13 @@ steps:
                required this.selectedIndex,
                this.onDestinationSelected,
              });
-           
+
           +  final RailAnimation railAnimation;
           +  final RailFabAnimation railFabAnimation;
              final Color backgroundColor;
              final int selectedIndex;
              final ValueChanged<int>? onDestinationSelected;
-           
+
              @override
              Widget build(BuildContext context) {
           -    final colorScheme = Theme.of(context).colorScheme;
@@ -1588,9 +1603,9 @@ steps:
           --- b/animated-responsive-layout/step_07/lib/main.dart
           +++ a/animated-responsive-layout/step_07/lib/main.dart
           @@ -4,8 +4,10 @@
-           
+
            import 'package:flutter/material.dart';
-           
+
           +import 'animations.dart';
            import 'models/data.dart' as data;
            import 'models/models.dart';
@@ -1601,7 +1616,7 @@ steps:
           @@ -35,73 +37,105 @@ class Feed extends StatefulWidget {
              State<Feed> createState() => _FeedState();
            }
-           
+
           -class _FeedState extends State<Feed> {
           +class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
              late final _colorScheme = Theme.of(context).colorScheme;
@@ -1618,15 +1633,15 @@ steps:
           +  late final _railAnimation = RailAnimation(parent: _controller);
           +  late final _railFabAnimation = RailFabAnimation(parent: _controller);
           +  late final _barAnimation = BarAnimation(parent: _controller);
-           
+
              int selectedIndex = 0;
           -  bool wideScreen = false;
           +  bool controllerInitialized = false;
-           
+
              @override
              void didChangeDependencies() {
                super.didChangeDependencies();
-           
+
                final double width = MediaQuery.of(context).size.width;
           -    wideScreen = width > 600;
           +    final AnimationStatus status = _controller.status;
@@ -1652,7 +1667,7 @@ steps:
           +    _controller.dispose();
           +    super.dispose();
              }
-           
+
              @override
              Widget build(BuildContext context) {
           -    return Scaffold(
@@ -1870,15 +1885,15 @@ steps:
           // Copyright 2022 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-          
+
           import 'package:flutter/material.dart';
-          
+
           import '../models/data.dart' as data;
           import 'email_widget.dart';
-          
+
           class ReplyListView extends StatelessWidget {
             const ReplyListView({super.key});
-          
+
             @override
             Widget build(BuildContext context) {
               return Padding(
@@ -1917,7 +1932,7 @@ steps:
            import 'widgets/disappearing_navigation_rail.dart';
            import 'widgets/email_list_view.dart';
           +import 'widgets/reply_list_view.dart';
-           
+
            void main() {
              runApp(const MainApp());
           @@ -107,14 +109,18 @@ class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
@@ -1948,19 +1963,19 @@ steps:
                            ),
                          ),
       - name: Build iOS simulator bundle
-        platforms: [ macos ]
+        platforms: [macos]
         path: animated_responsive_layout
         flutter: build ios --simulator
       - name: Build macOS app
-        platforms: [ macos ]
+        platforms: [macos]
         path: animated_responsive_layout
         flutter: build macos
       - name: Build Linux app
-        platforms: [ linux ]
+        platforms: [linux]
         path: animated_responsive_layout
         flutter: build linux
       - name: Build Windows app
-        platforms: [ windows ]
+        platforms: [windows]
         path: animated_responsive_layout
         flutter: build windows
       - name: Copy step_08

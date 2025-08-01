@@ -15,6 +15,21 @@ steps:
       - name: Strip DEVELOPMENT_TEAM
         strip-lines-containing: DEVELOPMENT_TEAM =
         path: frontend/ios/Runner.xcodeproj/project.pbxproj
+      - name: Add .gemini directory
+        mkdir: frontend/.gemini
+      - name: Add .gemini/settings.json
+        path: frontend/.gemini/settings.json
+        replace-contents: |
+          {
+              "mcpServers": {
+                  "dart": {
+                      "command": "dart",
+                      "args": [
+                          "mcp-server"
+                      ]
+                  }
+              }
+          }
       - name: Add deps
         path: frontend
         flutter: pub add http

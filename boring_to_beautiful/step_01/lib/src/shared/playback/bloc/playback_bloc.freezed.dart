@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -41,6 +40,166 @@ class $PlaybackEventCopyWith<$Res>  {
 $PlaybackEventCopyWith(PlaybackEvent _, $Res Function(PlaybackEvent) __);
 }
 
+
+/// Adds pattern-matching-related methods to [PlaybackEvent].
+extension PlaybackEventPatterns on PlaybackEvent {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( TogglePlayPause value)?  togglePlayPause,TResult Function( ChangeSong value)?  changeSong,TResult Function( SetVolume value)?  setVolume,TResult Function( ToggleMute value)?  toggleMute,TResult Function( MoveToInSong value)?  moveToInSong,TResult Function( SongProgress value)?  songProgress,required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case TogglePlayPause() when togglePlayPause != null:
+return togglePlayPause(_that);case ChangeSong() when changeSong != null:
+return changeSong(_that);case SetVolume() when setVolume != null:
+return setVolume(_that);case ToggleMute() when toggleMute != null:
+return toggleMute(_that);case MoveToInSong() when moveToInSong != null:
+return moveToInSong(_that);case SongProgress() when songProgress != null:
+return songProgress(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( TogglePlayPause value)  togglePlayPause,required TResult Function( ChangeSong value)  changeSong,required TResult Function( SetVolume value)  setVolume,required TResult Function( ToggleMute value)  toggleMute,required TResult Function( MoveToInSong value)  moveToInSong,required TResult Function( SongProgress value)  songProgress,}){
+final _that = this;
+switch (_that) {
+case TogglePlayPause():
+return togglePlayPause(_that);case ChangeSong():
+return changeSong(_that);case SetVolume():
+return setVolume(_that);case ToggleMute():
+return toggleMute(_that);case MoveToInSong():
+return moveToInSong(_that);case SongProgress():
+return songProgress(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( TogglePlayPause value)?  togglePlayPause,TResult? Function( ChangeSong value)?  changeSong,TResult? Function( SetVolume value)?  setVolume,TResult? Function( ToggleMute value)?  toggleMute,TResult? Function( MoveToInSong value)?  moveToInSong,TResult? Function( SongProgress value)?  songProgress,}){
+final _that = this;
+switch (_that) {
+case TogglePlayPause() when togglePlayPause != null:
+return togglePlayPause(_that);case ChangeSong() when changeSong != null:
+return changeSong(_that);case SetVolume() when setVolume != null:
+return setVolume(_that);case ToggleMute() when toggleMute != null:
+return toggleMute(_that);case MoveToInSong() when moveToInSong != null:
+return moveToInSong(_that);case SongProgress() when songProgress != null:
+return songProgress(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  togglePlayPause,TResult Function( Song song)?  changeSong,TResult Function( double value)?  setVolume,TResult Function()?  toggleMute,TResult Function( double percent)?  moveToInSong,TResult Function( Duration duration)?  songProgress,required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case TogglePlayPause() when togglePlayPause != null:
+return togglePlayPause();case ChangeSong() when changeSong != null:
+return changeSong(_that.song);case SetVolume() when setVolume != null:
+return setVolume(_that.value);case ToggleMute() when toggleMute != null:
+return toggleMute();case MoveToInSong() when moveToInSong != null:
+return moveToInSong(_that.percent);case SongProgress() when songProgress != null:
+return songProgress(_that.duration);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  togglePlayPause,required TResult Function( Song song)  changeSong,required TResult Function( double value)  setVolume,required TResult Function()  toggleMute,required TResult Function( double percent)  moveToInSong,required TResult Function( Duration duration)  songProgress,}) {final _that = this;
+switch (_that) {
+case TogglePlayPause():
+return togglePlayPause();case ChangeSong():
+return changeSong(_that.song);case SetVolume():
+return setVolume(_that.value);case ToggleMute():
+return toggleMute();case MoveToInSong():
+return moveToInSong(_that.percent);case SongProgress():
+return songProgress(_that.duration);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  togglePlayPause,TResult? Function( Song song)?  changeSong,TResult? Function( double value)?  setVolume,TResult? Function()?  toggleMute,TResult? Function( double percent)?  moveToInSong,TResult? Function( Duration duration)?  songProgress,}) {final _that = this;
+switch (_that) {
+case TogglePlayPause() when togglePlayPause != null:
+return togglePlayPause();case ChangeSong() when changeSong != null:
+return changeSong(_that.song);case SetVolume() when setVolume != null:
+return setVolume(_that.value);case ToggleMute() when toggleMute != null:
+return toggleMute();case MoveToInSong() when moveToInSong != null:
+return moveToInSong(_that.percent);case SongProgress() when songProgress != null:
+return songProgress(_that.duration);case _:
+  return null;
+
+}
+}
+
+}
 
 /// @nodoc
 
@@ -449,6 +608,136 @@ $SongWithProgressCopyWith<$Res>? get songWithProgress {
 }
 
 
+/// Adds pattern-matching-related methods to [PlaybackState].
+extension PlaybackStatePatterns on PlaybackState {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _PlaybackState value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _PlaybackState() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _PlaybackState value)  $default,){
+final _that = this;
+switch (_that) {
+case _PlaybackState():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _PlaybackState value)?  $default,){
+final _that = this;
+switch (_that) {
+case _PlaybackState() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( double volume,  double? previousVolume,  bool isMuted,  bool isPlaying,  SongWithProgress? songWithProgress)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _PlaybackState() when $default != null:
+return $default(_that.volume,_that.previousVolume,_that.isMuted,_that.isPlaying,_that.songWithProgress);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( double volume,  double? previousVolume,  bool isMuted,  bool isPlaying,  SongWithProgress? songWithProgress)  $default,) {final _that = this;
+switch (_that) {
+case _PlaybackState():
+return $default(_that.volume,_that.previousVolume,_that.isMuted,_that.isPlaying,_that.songWithProgress);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( double volume,  double? previousVolume,  bool isMuted,  bool isPlaying,  SongWithProgress? songWithProgress)?  $default,) {final _that = this;
+switch (_that) {
+case _PlaybackState() when $default != null:
+return $default(_that.volume,_that.previousVolume,_that.isMuted,_that.isPlaying,_that.songWithProgress);case _:
+  return null;
+
+}
+}
+
+}
+
 /// @nodoc
 
 
@@ -598,6 +887,136 @@ as Song,
 
 }
 
+
+/// Adds pattern-matching-related methods to [SongWithProgress].
+extension SongWithProgressPatterns on SongWithProgress {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _SongWithProgress value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _SongWithProgress() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _SongWithProgress value)  $default,){
+final _that = this;
+switch (_that) {
+case _SongWithProgress():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _SongWithProgress value)?  $default,){
+final _that = this;
+switch (_that) {
+case _SongWithProgress() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Duration progress,  Song song)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _SongWithProgress() when $default != null:
+return $default(_that.progress,_that.song);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Duration progress,  Song song)  $default,) {final _that = this;
+switch (_that) {
+case _SongWithProgress():
+return $default(_that.progress,_that.song);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Duration progress,  Song song)?  $default,) {final _that = this;
+switch (_that) {
+case _SongWithProgress() when $default != null:
+return $default(_that.progress,_that.song);case _:
+  return null;
+
+}
+}
+
+}
 
 /// @nodoc
 

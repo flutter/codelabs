@@ -13,6 +13,21 @@ steps:
       - name: Update deps
         path: complete
         flutter: pub upgrade --major-versions
+      - name: Add .gemini directory
+        mkdir: complete/.gemini
+      - name: Add .gemini/settings.json
+        path: complete/.gemini/settings.json
+        replace-contents: |
+          {
+              "mcpServers": {
+                  "dart": {
+                      "command": "dart",
+                      "args": [
+                          "mcp-server"
+                      ]
+                  }
+              }
+          }
       - name: Configure analysis_options.yaml
         path: complete/analysis_options.yaml
         replace-contents: |

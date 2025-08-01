@@ -26,6 +26,21 @@ steps:
               - prefer_final_in_for_each
       - name: Remove README
         rm: patterns_codelab/README.md
+      - name: Add .gemini directory
+        mkdir: patterns_codelab/.gemini
+      - name: Add .gemini/settings.json
+        path: patterns_codelab/.gemini/settings.json
+        replace-contents: |
+          {
+              "mcpServers": {
+                  "dart": {
+                      "command": "dart",
+                      "args": [
+                          "mcp-server"
+                      ]
+                  }
+              }
+          }
       - name: Add .vscode directory
         mkdir: patterns_codelab/.vscode
       - name: Add .vscode/launch.json
