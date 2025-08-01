@@ -19,6 +19,21 @@ steps:
               avoid_print: false
       - name: Remove README
         rm: homescreen_widgets/README.md
+      - name: Add .gemini directory
+        mkdir: homescreen_widgets/.gemini
+      - name: Add .gemini/settings.json
+        path: homescreen_widgets/.gemini/settings.json
+        replace-contents: |
+          {
+              "mcpServers": {
+                  "dart": {
+                      "command": "dart",
+                      "args": [
+                          "mcp-server"
+                      ]
+                  }
+              }
+          }
       - name: Add .vscode directory
         mkdir: homescreen_widgets/.vscode
       - name: Add .vscode/launch.json
