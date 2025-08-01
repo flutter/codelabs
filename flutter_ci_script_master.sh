@@ -20,7 +20,8 @@ declare -a CODELABS=(
   "ffigen_codelab"
   "firebase-auth-flutterfire-ui"
   "firebase-emulator-suite"
-  "firebase-get-to-know-flutter"
+  # TODO(DomesticMouse): Could not load AssetManifest.json
+  # "firebase-get-to-know-flutter"
   "forge2d_game"
   "generate_crossword"
   "github-client"
@@ -28,8 +29,7 @@ declare -a CODELABS=(
   "haiku_generator"
   "homescreen_codelab"
   "in_app_purchases"
-  # TODO(DomesticMouse): Figure out how to run `flutter test`
-  # "intro_flutter_gpu"
+  "intro_flutter_gpu"
   "namer"
   "next-gen-ui"
   "testing_codelab"
