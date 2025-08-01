@@ -274,7 +274,7 @@ steps:
             testWidgets('smoke test', (tester) async {
               // Build our app and trigger a frame.
               await tester.pumpWidget(const MainApp());
-            }, skip: true);
+            });
           }
       - name: Patch macos/Runner/Info.plist
         path: intro_flutter_gpu/macos/Runner/Info.plist
@@ -2218,7 +2218,7 @@ steps:
           +    await tester.pumpWidget(
           +      MainApp(staticResourcesInitialized: Scene.initializeStaticResources()),
           +    );
-             }, skip: true);
+             });
            }
       - name: Copy step_12
         copydir:
