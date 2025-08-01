@@ -28,6 +28,21 @@ steps:
         flutter: pub add google_maps_flutter
       - name: Remove the README.md
         rm: google_maps_in_flutter/README.md
+      - name: Add .gemini directory
+        mkdir: google_maps_in_flutter/.gemini
+      - name: Add .gemini/settings.json
+        path: google_maps_in_flutter/.gemini/settings.json
+        replace-contents: |
+          {
+              "mcpServers": {
+                  "dart": {
+                      "command": "dart",
+                      "args": [
+                          "mcp-server"
+                      ]
+                  }
+              }
+          }
       - name: VSCode config
         path: google_maps_in_flutter
         mkdir: .vscode
@@ -47,24 +62,6 @@ steps:
                   }
               ]
           }
-      - name: Patch android/app/build.gradle.kts
-        path: google_maps_in_flutter/android/app/build.gradle.kts
-        patch-u: |
-          --- b/google-maps-in-flutter/step_3/android/app/build.gradle
-          +++ a/google-maps-in-flutter/step_3/android/app/build.gradle
-          @@ -22,9 +22,9 @@ android {
-               defaultConfig {
-                   // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-                   applicationId = "com.example.google_maps_in_flutter"
-          -        // You can update the following values to match your application needs.
-          -        // For more information, see: https://flutter.dev/to/review-gradle-config.
-          -        minSdk = flutter.minSdkVersion
-          +        // Minimum Android version for Google Maps SDK
-          +        // https://developers.google.com/maps/flutter-package/config#android
-          +        minSdk = 21
-                   targetSdk = flutter.targetSdkVersion
-                   versionCode = flutter.versionCode
-                   versionName = flutter.versionName
       - name: Patch ios/Podfile
         platforms: [ macos ]
         path: google_maps_in_flutter/ios/Podfile
@@ -74,12 +71,15 @@ steps:
           @@ -1,5 +1,6 @@
           -# Uncomment this line to define a global platform for your project
           -# platform :ios, '13.0'
-          +# Google Maps SDK requires platform version 14
+          +# Google Maps SDK for iOS requires iOS 16.0
           +# https://developers.google.com/maps/flutter-package/config#ios
-          +platform :ios, '14.0'
+          +platform :ios, '16.0'
            
            # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
            ENV['COCOAPODS_DISABLE_STATS'] = 'true'
+      - name: Patch ios/Runner.xcodeproj/project.pbxproj
+        xcode-project-path: google_maps_in_flutter/ios/Runner.xcodeproj
+        iphoneos-deployment-target: "16.0"
       - name: Patch ios/Flutter/AppFrameworkInfo.plist
         path: google_maps_in_flutter/ios/Flutter/AppFrameworkInfo.plist
         patch-u: |
@@ -90,7 +90,7 @@ steps:
              <string>1.0</string>
              <key>MinimumOSVersion</key>
           -  <string>13.0</string>
-          +  <string>14.0</string>
+          +  <string>16.0</string>
            </dict>
            </plist>
       - name: Patch lib/main.dart
