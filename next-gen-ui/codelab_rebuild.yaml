@@ -23,6 +23,21 @@ steps:
               unused_element: ignore
       - name: Remove README
         rm: next_gen_ui/README.md
+      - name: Add .gemini directory
+        mkdir: next_gen_ui/.gemini
+      - name: Add .gemini/settings.json
+        path: next_gen_ui/.gemini/settings.json
+        replace-contents: |
+          {
+              "mcpServers": {
+                  "dart": {
+                      "command": "dart",
+                      "args": [
+                          "mcp-server"
+                      ]
+                  }
+              }
+          }
       - name: Add .vscode directory
         mkdir: next_gen_ui/.vscode
       - name: Add .vscode/launch.json
