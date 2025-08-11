@@ -33,8 +33,7 @@ declare -a CODELABS=(
   "testing_codelab"
   "tfagents-flutter"
   "tfrs-flutter"
-  # TODO(DomesticMouse): 'groupValue' is deprecated and shouldn't be used.
-  # "tfserving-flutter"
+  "tfserving-flutter"
   "tooling"
   "webview_flutter"
   )
