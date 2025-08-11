@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
 
 import 'logic/dash_counter.dart';
@@ -10,6 +11,11 @@ import 'pages/purchase_page.dart';
 import 'repo/iap_repo.dart';
 
 void main() {
+  Logger.root.level = Level.ALL;
+  Logger.root.onRecord.listen((record) {
+    debugPrint('${record.level.name}: ${record.time}: ${record.message}');
+  });
+
   runApp(const MyApp());
 }
 

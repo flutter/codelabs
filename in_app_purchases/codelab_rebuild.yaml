@@ -43,7 +43,7 @@ steps:
           }
       - name: Add app dependencies
         path: steps/app
-        flutter: pub add cloud_firestore cupertino_icons firebase_auth firebase_core google_sign_in:^6.3.0 http intl provider
+        flutter: pub add cloud_firestore cupertino_icons firebase_auth firebase_core google_sign_in http intl provider logging
       - name: Patch app/pubspec.yaml
         path: steps/app/pubspec.yaml
         patch-u: |
