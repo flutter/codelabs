@@ -9,7 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_soloud: ^3.2.2
+  flutter_soloud: ^3.2.5
   logging: ^1.3.0
 
 dev_dependencies:
