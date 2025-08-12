@@ -4618,6 +4618,21 @@ steps:
           	<string>1:963656261848:ios:3e6776183887c3fdb237ad</string>
           </dict>
           </plist>
+      - name: Patch ios/Podfile
+        path: firebase_auth_flutterfire_ui/ios/Podfile
+        patch-u: |
+          --- a/firebase-get-to-know-flutter/step_02/ios/Podfile
+          +++ b/firebase-get-to-know-flutter/step_02/ios/Podfile
+          @@ -1,5 +1,5 @@
+           # Uncomment this line to define a global platform for your project
+          -# platform :ios, '13.0'
+          +platform :ios, '15.0'
+           
+           # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
+           ENV['COCOAPODS_DISABLE_STATS'] = 'true'
+      - name: Patch ios/Runner.xcodeproj/project.pbxproj
+        xcode-project-path: firebase_auth_flutterfire_ui/ios/Runner.xcodeproj
+        iphoneos-deployment-target: '15.0'
       - name: pod update ios
         path: firebase_auth_flutterfire_ui/ios
         pod: update
