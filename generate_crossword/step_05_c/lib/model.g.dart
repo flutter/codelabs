@@ -7,29 +7,29 @@ part of 'model.dart';
 // **************************************************************************
 
 Serializers _$serializers =
-    (new Serializers().toBuilder()
+    (Serializers().toBuilder()
           ..add(Crossword.serializer)
           ..add(CrosswordCharacter.serializer)
           ..add(CrosswordWord.serializer)
           ..add(Location.serializer)
           ..addBuilderFactory(
             const FullType(BuiltList, const [const FullType(CrosswordWord)]),
-            () => new ListBuilder<CrosswordWord>(),
+            () => ListBuilder<CrosswordWord>(),
           )
           ..addBuilderFactory(
             const FullType(BuiltMap, const [
               const FullType(Location),
               const FullType(CrosswordCharacter),
             ]),
-            () => new MapBuilder<Location, CrosswordCharacter>(),
+            () => MapBuilder<Location, CrosswordCharacter>(),
           ))
         .build();
-Serializer<Location> _$locationSerializer = new _$LocationSerializer();
+Serializer<Location> _$locationSerializer = _$LocationSerializer();
 Serializer<CrosswordWord> _$crosswordWordSerializer =
-    new _$CrosswordWordSerializer();
+    _$CrosswordWordSerializer();
 Serializer<CrosswordCharacter> _$crosswordCharacterSerializer =
-    new _$CrosswordCharacterSerializer();
-Serializer<Crossword> _$crosswordSerializer = new _$CrosswordSerializer();
+    _$CrosswordCharacterSerializer();
+Serializer<Crossword> _$crosswordSerializer = _$CrosswordSerializer();
 
 class _$LocationSerializer implements StructuredSerializer<Location> {
   @override
@@ -59,7 +59,7 @@ class _$LocationSerializer implements StructuredSerializer<Location> {
     Iterable<Object?> serialized, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    final result = new LocationBuilder();
+    final result = LocationBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -126,7 +126,7 @@ class _$CrosswordWordSerializer implements StructuredSerializer<CrosswordWord> {
     Iterable<Object?> serialized, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    final result = new CrosswordWordBuilder();
+    final result = CrosswordWordBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -218,7 +218,7 @@ class _$CrosswordCharacterSerializer
     Iterable<Object?> serialized, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    final result = new CrosswordCharacterBuilder();
+    final result = CrosswordCharacterBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -302,7 +302,7 @@ class _$CrosswordSerializer implements StructuredSerializer<Crossword> {
     Iterable<Object?> serialized, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    final result = new CrosswordBuilder();
+    final result = CrosswordBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -362,19 +362,15 @@ class _$Location extends Location {
   final int y;
 
   factory _$Location([void Function(LocationBuilder)? updates]) =>
-      (new LocationBuilder()..update(updates))._build();
+      (LocationBuilder()..update(updates))._build();
 
-  _$Location._({required this.x, required this.y}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(x, r'Location', 'x');
-    BuiltValueNullFieldError.checkNotNull(y, r'Location', 'y');
-  }
-
+  _$Location._({required this.x, required this.y}) : super._();
   @override
   Location rebuild(void Function(LocationBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  LocationBuilder toBuilder() => new LocationBuilder()..replace(this);
+  LocationBuilder toBuilder() => LocationBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -425,7 +421,6 @@ class LocationBuilder implements Builder<Location, LocationBuilder> {
 
   @override
   void replace(Location other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$Location;
   }
 
@@ -440,7 +435,7 @@ class LocationBuilder implements Builder<Location, LocationBuilder> {
   _$Location _build() {
     final _$result =
         _$v ??
-        new _$Location._(
+        _$Location._(
           x: BuiltValueNullFieldError.checkNotNull(x, r'Location', 'x'),
           y: BuiltValueNullFieldError.checkNotNull(y, r'Location', 'y'),
         );
@@ -458,32 +453,19 @@ class _$CrosswordWord extends CrosswordWord {
   final Direction direction;
 
   factory _$CrosswordWord([void Function(CrosswordWordBuilder)? updates]) =>
-      (new CrosswordWordBuilder()..update(updates))._build();
+      (CrosswordWordBuilder()..update(updates))._build();
 
   _$CrosswordWord._({
     required this.word,
     required this.location,
     required this.direction,
-  }) : super._() {
-    BuiltValueNullFieldError.checkNotNull(word, r'CrosswordWord', 'word');
-    BuiltValueNullFieldError.checkNotNull(
-      location,
-      r'CrosswordWord',
-      'location',
-    );
-    BuiltValueNullFieldError.checkNotNull(
-      direction,
-      r'CrosswordWord',
-      'direction',
-    );
-  }
-
+  }) : super._();
   @override
   CrosswordWord rebuild(void Function(CrosswordWordBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  CrosswordWordBuilder toBuilder() => new CrosswordWordBuilder()..replace(this);
+  CrosswordWordBuilder toBuilder() => CrosswordWordBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -523,7 +505,7 @@ class CrosswordWordBuilder
   set word(String? word) => _$this._word = word;
 
   LocationBuilder? _location;
-  LocationBuilder get location => _$this._location ??= new LocationBuilder();
+  LocationBuilder get location => _$this._location ??= LocationBuilder();
   set location(LocationBuilder? location) => _$this._location = location;
 
   Direction? _direction;
@@ -545,7 +527,6 @@ class CrosswordWordBuilder
 
   @override
   void replace(CrosswordWord other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$CrosswordWord;
   }
 
@@ -562,7 +543,7 @@ class CrosswordWordBuilder
     try {
       _$result =
           _$v ??
-          new _$CrosswordWord._(
+          _$CrosswordWord._(
             word: BuiltValueNullFieldError.checkNotNull(
               word,
               r'CrosswordWord',
@@ -581,7 +562,7 @@ class CrosswordWordBuilder
         _$failedField = 'location';
         location.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
           r'CrosswordWord',
           _$failedField,
           e.toString(),
@@ -604,20 +585,13 @@ class _$CrosswordCharacter extends CrosswordCharacter {
 
   factory _$CrosswordCharacter([
     void Function(CrosswordCharacterBuilder)? updates,
-  ]) => (new CrosswordCharacterBuilder()..update(updates))._build();
+  ]) => (CrosswordCharacterBuilder()..update(updates))._build();
 
   _$CrosswordCharacter._({
     required this.character,
     this.acrossWord,
     this.downWord,
-  }) : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-      character,
-      r'CrosswordCharacter',
-      'character',
-    );
-  }
-
+  }) : super._();
   @override
   CrosswordCharacter rebuild(
     void Function(CrosswordCharacterBuilder) updates,
@@ -625,7 +599,7 @@ class _$CrosswordCharacter extends CrosswordCharacter {
 
   @override
   CrosswordCharacterBuilder toBuilder() =>
-      new CrosswordCharacterBuilder()..replace(this);
+      CrosswordCharacterBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -666,13 +640,13 @@ class CrosswordCharacterBuilder
 
   CrosswordWordBuilder? _acrossWord;
   CrosswordWordBuilder get acrossWord =>
-      _$this._acrossWord ??= new CrosswordWordBuilder();
+      _$this._acrossWord ??= CrosswordWordBuilder();
   set acrossWord(CrosswordWordBuilder? acrossWord) =>
       _$this._acrossWord = acrossWord;
 
   CrosswordWordBuilder? _downWord;
   CrosswordWordBuilder get downWord =>
-      _$this._downWord ??= new CrosswordWordBuilder();
+      _$this._downWord ??= CrosswordWordBuilder();
   set downWord(CrosswordWordBuilder? downWord) => _$this._downWord = downWord;
 
   CrosswordCharacterBuilder();
@@ -690,7 +664,6 @@ class CrosswordCharacterBuilder
 
   @override
   void replace(CrosswordCharacter other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$CrosswordCharacter;
   }
 
@@ -707,7 +680,7 @@ class CrosswordCharacterBuilder
     try {
       _$result =
           _$v ??
-          new _$CrosswordCharacter._(
+          _$CrosswordCharacter._(
             character: BuiltValueNullFieldError.checkNotNull(
               character,
               r'CrosswordCharacter',
@@ -724,7 +697,7 @@ class CrosswordCharacterBuilder
         _$failedField = 'downWord';
         _downWord?.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
           r'CrosswordCharacter',
           _$failedField,
           e.toString(),
@@ -748,30 +721,20 @@ class _$Crossword extends Crossword {
   final BuiltMap<Location, CrosswordCharacter> characters;
 
   factory _$Crossword([void Function(CrosswordBuilder)? updates]) =>
-      (new CrosswordBuilder()..update(updates))._build();
+      (CrosswordBuilder()..update(updates))._build();
 
   _$Crossword._({
     required this.width,
     required this.height,
     required this.words,
     required this.characters,
-  }) : super._() {
-    BuiltValueNullFieldError.checkNotNull(width, r'Crossword', 'width');
-    BuiltValueNullFieldError.checkNotNull(height, r'Crossword', 'height');
-    BuiltValueNullFieldError.checkNotNull(words, r'Crossword', 'words');
-    BuiltValueNullFieldError.checkNotNull(
-      characters,
-      r'Crossword',
-      'characters',
-    );
-  }
-
+  }) : super._();
   @override
   Crossword rebuild(void Function(CrosswordBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  CrosswordBuilder toBuilder() => new CrosswordBuilder()..replace(this);
+  CrosswordBuilder toBuilder() => CrosswordBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -818,12 +781,12 @@ class CrosswordBuilder implements Builder<Crossword, CrosswordBuilder> {
 
   ListBuilder<CrosswordWord>? _words;
   ListBuilder<CrosswordWord> get words =>
-      _$this._words ??= new ListBuilder<CrosswordWord>();
+      _$this._words ??= ListBuilder<CrosswordWord>();
   set words(ListBuilder<CrosswordWord>? words) => _$this._words = words;
 
   MapBuilder<Location, CrosswordCharacter>? _characters;
   MapBuilder<Location, CrosswordCharacter> get characters =>
-      _$this._characters ??= new MapBuilder<Location, CrosswordCharacter>();
+      _$this._characters ??= MapBuilder<Location, CrosswordCharacter>();
   set characters(MapBuilder<Location, CrosswordCharacter>? characters) =>
       _$this._characters = characters;
 
@@ -843,7 +806,6 @@ class CrosswordBuilder implements Builder<Crossword, CrosswordBuilder> {
 
   @override
   void replace(Crossword other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$Crossword;
   }
 
@@ -861,7 +823,7 @@ class CrosswordBuilder implements Builder<Crossword, CrosswordBuilder> {
     try {
       _$result =
           _$v ??
-          new _$Crossword._(
+          _$Crossword._(
             width: BuiltValueNullFieldError.checkNotNull(
               width,
               r'Crossword',
@@ -883,7 +845,7 @@ class CrosswordBuilder implements Builder<Crossword, CrosswordBuilder> {
         _$failedField = 'characters';
         characters.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
           r'Crossword',
           _$failedField,
           e.toString(),
