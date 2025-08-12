@@ -35,7 +35,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   google_maps_flutter: ^2.12.3
-  http: ^1.4.0
+  http: ^1.5.0
   json_annotation: ^4.9.0
   json_serializable: ^6.10.0
 
