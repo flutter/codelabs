@@ -10,7 +10,7 @@ dependencies:
   app_store_server_sdk: ^1.2.10
   googleapis: ^14.0.0
   googleapis_auth: ^2.0.0
-  http: ^1.4.0
+  http: ^1.5.0
   shelf: ^1.4.2
   shelf_router: ^1.1.2
 
