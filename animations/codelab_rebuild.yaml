@@ -11,6 +11,21 @@ steps:
         path: quiz/ios/Runner.xcodeproj/project.pbxproj
       - name: Remove README
         rm: quiz/README.md
+      - name: Add .gemini directory
+        mkdir: quiz/.gemini
+      - name: Add .gemini/settings.json
+        path: quiz/.gemini/settings.json
+        replace-contents: |
+          {
+              "mcpServers": {
+                  "dart": {
+                      "command": "dart",
+                      "args": [
+                          "mcp-server"
+                      ]
+                  }
+              }
+          }
       - name: Add deps
         path: quiz
         flutter: pub add animations

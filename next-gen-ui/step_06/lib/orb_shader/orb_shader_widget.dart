@@ -78,7 +78,7 @@ class OrbShaderWidgetState extends State<OrbShaderWidget>
       if (fragmentPrograms == null) return const SizedBox.expand();
       return ListenableBuilder(
         listenable: _heartbeatAnim,
-        builder: (_, __) {
+        builder: (_, _) {
           final heartbeatEnergy = _heartbeatAnim
               .drive(_heartbeatSequence)
               .value;

@@ -15,6 +15,21 @@ steps:
           include: ../../analysis_options.yaml
       - name: Remove README
         rm: intro_flutter_gpu/README.md
+      - name: Add .gemini directory
+        mkdir: intro_flutter_gpu/.gemini
+      - name: Add .gemini/settings.json
+        path: intro_flutter_gpu/.gemini/settings.json
+        replace-contents: |
+          {
+              "mcpServers": {
+                  "dart": {
+                      "command": "dart",
+                      "args": [
+                          "mcp-server"
+                      ]
+                  }
+              }
+          }
       - name: Add .vscode directory
         mkdir: intro_flutter_gpu/.vscode
       - name: Add .vscode/launch.json

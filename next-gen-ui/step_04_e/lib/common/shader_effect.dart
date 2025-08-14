@@ -50,7 +50,7 @@ class ShaderEffect extends Effect<double> {
     Animation<double> animation = buildAnimation(controller, entry);
     return getOptimizedBuilder<double>(
       animation: animation,
-      builder: (_, __) {
+      builder: (_, _) {
         return AnimatedSampler(
           (image, size, canvas) {
             EdgeInsets? insets;

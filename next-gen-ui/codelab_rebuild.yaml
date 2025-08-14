@@ -23,6 +23,21 @@ steps:
               unused_element: ignore
       - name: Remove README
         rm: next_gen_ui/README.md
+      - name: Add .gemini directory
+        mkdir: next_gen_ui/.gemini
+      - name: Add .gemini/settings.json
+        path: next_gen_ui/.gemini/settings.json
+        replace-contents: |
+          {
+              "mcpServers": {
+                  "dart": {
+                      "command": "dart",
+                      "args": [
+                          "mcp-server"
+                      ]
+                  }
+              }
+          }
       - name: Add .vscode directory
         mkdir: next_gen_ui/.vscode
       - name: Add .vscode/launch.json
@@ -869,7 +884,7 @@ steps:
               Animation<double> animation = buildAnimation(controller, entry);
               return getOptimizedBuilder<double>(
                 animation: animation,
-                builder: (_, __) {
+                builder: (_, _) {
                   return AnimatedSampler(
                     (image, size, canvas) {
                       EdgeInsets? insets;
@@ -1581,7 +1596,7 @@ steps:
                 if (fragmentPrograms == null) return const SizedBox.expand();
                 return ListenableBuilder(
                   listenable: _heartbeatAnim,
-                  builder: (_, __) {
+                  builder: (_, _) {
                     final heartbeatEnergy = _heartbeatAnim
                         .drive(_heartbeatSequence)
                         .value;
@@ -2863,11 +2878,11 @@ steps:
           +    return TweenAnimationBuilder(
           +      tween: ColorTween(begin: emitColor, end: emitColor),
           +      duration: duration,
-          +      builder: (_, emitColor, __) {
+          +      builder: (_, emitColor, _) {
           +        return TweenAnimationBuilder(
           +          tween: ColorTween(begin: orbColor, end: orbColor),
           +          duration: duration,
-          +          builder: (context, orbColor, __) {
+          +          builder: (context, orbColor, _) {
           +            return builder(context, orbColor!, emitColor!);
           +          },
           +        );

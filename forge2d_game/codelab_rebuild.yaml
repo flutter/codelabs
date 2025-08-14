@@ -21,6 +21,21 @@ steps:
               prefer_const_constructors: false
       - name: Remove README
         rm: forge2d_game/README.md
+      - name: Add .gemini directory
+        mkdir: forge2d_game/.gemini
+      - name: Add .gemini/settings.json
+        path: forge2d_game/.gemini/settings.json
+        replace-contents: |
+          {
+              "mcpServers": {
+                  "dart": {
+                      "command": "dart",
+                      "args": [
+                          "mcp-server"
+                      ]
+                  }
+              }
+          }
       - name: Add .vscode directory
         mkdir: forge2d_game/.vscode
       - name: Add .vscode/launch.json
