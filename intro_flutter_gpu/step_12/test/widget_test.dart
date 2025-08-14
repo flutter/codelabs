@@ -13,5 +13,5 @@ void main() {
     await tester.pumpWidget(
       MainApp(staticResourcesInitialized: Scene.initializeStaticResources()),
     );
-  });
+  }, skip: true); // https://github.com/flutter/flutter/issues/173650
 }
