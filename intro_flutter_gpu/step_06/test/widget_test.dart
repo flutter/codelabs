@@ -10,5 +10,5 @@ void main() {
   testWidgets('smoke test', (tester) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(const MainApp());
-  }, skip: true); // See https://github.com/flutter/flutter/issues/171361
+  }, skip: true); // https://github.com/flutter/flutter/issues/173650
 }
