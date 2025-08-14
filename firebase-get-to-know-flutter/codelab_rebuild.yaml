@@ -19,6 +19,21 @@ steps:
       - name: Add dependencies
         path: gtk_flutter
         flutter: pub add google_fonts go_router
+      - name: Add .gemini directory
+        mkdir: gtk_flutter/.gemini
+      - name: Add .gemini/settings.json
+        path: gtk_flutter/.gemini/settings.json
+        replace-contents: |
+          {
+              "mcpServers": {
+                  "dart": {
+                      "command": "dart",
+                      "args": [
+                          "mcp-server"
+                      ]
+                  }
+              }
+          }
       - name: Patch pubspec.yaml
         path: gtk_flutter/pubspec.yaml
         patch-u: |
@@ -41,34 +56,6 @@ steps:
            
              # To add assets to your application, add an assets section, like this:
              # assets:
-      - name: Patch android/app/build.gradle.kts
-        path: gtk_flutter/android/app/build.gradle.kts
-        patch-u: |
-          --- b/firebase-get-to-know-flutter/step_02/android/app/build.gradle
-          +++ a/firebase-get-to-know-flutter/step_02/android/app/build.gradle
-          @@ -24,7 +24,7 @@ android {
-                   applicationId = "com.example.gtk_flutter"
-                   // You can update the following values to match your application needs.
-                   // For more information, see: https://flutter.dev/to/review-gradle-config.
-          -        minSdk = flutter.minSdkVersion
-          +        minSdk = 23
-                   targetSdk = flutter.targetSdkVersion
-                   versionCode = flutter.versionCode
-                   versionName = flutter.versionName
-      - name: Patch macos/Podfile
-        path: gtk_flutter/macos/Podfile
-        patch-u: |
-          --- b/gtk_flutter/step_02/macos/Podfile
-          +++ a/gtk_flutter/step_02/macos/Podfile
-          @@ -1,4 +1,4 @@
-          -platform :osx, '10.14'
-          +platform :osx, '10.15'
-           
-           # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
-           ENV['COCOAPODS_DISABLE_STATS'] = 'true'
-      - name: Patch macos/Runner.xcodeproj/project.pbxproj
-        xcode-project-path: gtk_flutter/macos/Runner.xcodeproj
-        macosx-deployment-target: '10.15'
       - name: Patch ios/Podfile
         path: gtk_flutter/ios/Podfile
         patch-u: |
@@ -76,14 +63,14 @@ steps:
           +++ b/firebase-get-to-know-flutter/step_02/ios/Podfile
           @@ -1,5 +1,5 @@
            # Uncomment this line to define a global platform for your project
-          -# platform :ios, '12.0'
-          +platform :ios, '13.0'
+          -# platform :ios, '13.0'
+          +platform :ios, '15.0'
            
            # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
            ENV['COCOAPODS_DISABLE_STATS'] = 'true'
       - name: Patch ios/Runner.xcodeproj/project.pbxproj
         xcode-project-path: gtk_flutter/ios/Runner.xcodeproj
-        iphoneos-deployment-target: '13.0'
+        iphoneos-deployment-target: '15.0'
       - name: Remove the README.md
         rm: gtk_flutter/README.md
       - name: VSCode config

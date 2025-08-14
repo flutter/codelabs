@@ -78,33 +78,29 @@ class _TFServingDemoState extends State<TFServingDemo> {
                     hintText: 'Enter a sentence here',
                   ),
                 ),
-                Column(
-                  children: <Widget>[
-                    ListTile(
-                      title: const Text('gRPC'),
-                      leading: Radio<ConnectionModeType>(
-                        value: ConnectionModeType.grpc,
-                        groupValue: _connectionMode,
-                        onChanged: (value) {
-                          setState(() {
-                            _connectionMode = value;
-                          });
-                        },
+                RadioGroup<ConnectionModeType>(
+                  groupValue: _connectionMode,
+                  onChanged: (value) {
+                    setState(() {
+                      _connectionMode = value;
+                    });
+                  },
+                  child: Column(
+                    children: <Widget>[
+                      ListTile(
+                        title: const Text('gRPC'),
+                        leading: Radio<ConnectionModeType>(
+                          value: ConnectionModeType.grpc,
+                        ),
                       ),
-                    ),
-                    ListTile(
-                      title: const Text('REST'),
-                      leading: Radio<ConnectionModeType>(
-                        value: ConnectionModeType.rest,
-                        groupValue: _connectionMode,
-                        onChanged: (value) {
-                          setState(() {
-                            _connectionMode = value;
-                          });
-                        },
+                      ListTile(
+                        title: const Text('REST'),
+                        leading: Radio<ConnectionModeType>(
+                          value: ConnectionModeType.rest,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,

@@ -6,13 +6,13 @@ DIR="${BASH_SOURCE%/*}"
 source "$DIR/flutter_ci_script_shared.sh"
 
 declare -a CODELABS=(
-  # TODO(DomesticMouse): The argument type 'BottomAppBarTheme' can't be assigned to the parameter type 'BottomAppBarThemeData?'.
+  # TODO(DomesticMouse): Re-introduce once `flex_color_scheme` is updated for Flutter 3.33
+  # Tracking bug: https://github.com/rydmike/flex_color_scheme/issues/283
   # "adaptive_app"
   "animated-responsive-layout"
   "animations"
   "audio_soloud"
-  # TODO(DomesticMouse): The argument type 'BottomAppBarTheme' can't be assigned to the parameter type 'BottomAppBarThemeData?'.
-  # "boring_to_beautiful"
+  "boring_to_beautiful"
   "brick_breaker"
   "colorist"
   "dart-patterns-and-records"
@@ -34,8 +34,7 @@ declare -a CODELABS=(
   "testing_codelab"
   "tfagents-flutter"
   "tfrs-flutter"
-  # TODO(DomesticMouse): 'groupValue' is deprecated and shouldn't be used.
-  # "tfserving-flutter"
+  "tfserving-flutter"
   "tooling"
   "webview_flutter"
   )
