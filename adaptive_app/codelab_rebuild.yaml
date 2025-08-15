@@ -1316,7 +1316,7 @@ steps:
         flutter: pub get
       - name: Add googleapis_auth google_sign_in extension_google_sign_in_as_googleapis_auth
         path: adaptive_app
-        flutter: pub add googleapis_auth google_sign_in:^6.3.0 extension_google_sign_in_as_googleapis_auth:^2.0.13
+        flutter: pub add googleapis_auth google_sign_in extension_google_sign_in_as_googleapis_auth
       - name: Patch .gitignore
         path: adaptive_app/.gitignore
         patch-u: |
