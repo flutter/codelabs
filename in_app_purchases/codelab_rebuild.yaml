@@ -17148,7 +17148,7 @@ steps:
         rmdir: step_03
       - name: Add dependencies
         path: steps/app
-        flutter: pub add in_app_purchase dev:in_app_purchase_platform_interface
+        flutter: pub add cloud_firestore cupertino_icons firebase_auth firebase_core google_sign_in http intl provider logging
       - name: Copy to step_03
         copydir:
           from: steps
