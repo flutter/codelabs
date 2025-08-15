@@ -28,8 +28,8 @@
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
-	<!-- flutter_gpu requires Impeller -->
-	<key>FLTEnableImpeller</key>
+	<!-- Required for flutter_gpu -->
+	<key>FLTEnableFlutterGPU</key>
 	<true />
 </dict>
 </plist>

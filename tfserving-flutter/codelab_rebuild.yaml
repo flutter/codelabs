@@ -527,33 +527,29 @@ steps:
                               hintText: 'Enter a sentence here',
                             ),
                           ),
-                          Column(
-                            children: <Widget>[
-                              ListTile(
-                                title: const Text('gRPC'),
-                                leading: Radio<ConnectionModeType>(
-                                  value: ConnectionModeType.grpc,
-                                  groupValue: _connectionMode,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _connectionMode = value;
-                                    });
-                                  },
+                          RadioGroup<ConnectionModeType>(
+                            groupValue: _connectionMode,
+                            onChanged: (value) {
+                              setState(() {
+                                _connectionMode = value;
+                              });
+                            },
+                            child: Column(
+                              children: <Widget>[
+                                ListTile(
+                                  title: const Text('gRPC'),
+                                  leading: Radio<ConnectionModeType>(
+                                    value: ConnectionModeType.grpc,
+                                  ),
                                 ),
-                              ),
-                              ListTile(
-                                title: const Text('REST'),
-                                leading: Radio<ConnectionModeType>(
-                                  value: ConnectionModeType.rest,
-                                  groupValue: _connectionMode,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _connectionMode = value;
-                                    });
-                                  },
+                                ListTile(
+                                  title: const Text('REST'),
+                                  leading: Radio<ConnectionModeType>(
+                                    value: ConnectionModeType.rest,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -3908,7 +3904,6 @@ steps:
             // Unique auto-generated name of the object.
             string object_name = 2;
           }
-
       - name: Mkdir lib/proto/generated
         path: codelab2/tfserving_flutter
         mkdir: lib/proto/generated
@@ -3952,7 +3947,6 @@ steps:
         protoc:
           proto: ./tensorflow_serving/apis/classification.proto
           output: grpc:./generated
-
       - name: Generate from ./tensorflow/core/framework/graph.proto
         path: codelab2/tfserving_flutter/lib/proto
         protoc:
@@ -4048,7 +4042,6 @@ steps:
         protoc:
           proto: ./tensorflow/core/protobuf/saved_object_graph.proto
           output: grpc:./generated
-
       - name: Generate from ./google/protobuf/any.proto
         path: codelab2/tfserving_flutter/lib/proto
         protoc:
@@ -4059,11 +4052,9 @@ steps:
         protoc:
           proto: ./google/protobuf/wrappers.proto
           output: grpc:./generated
-
       - name: Dart format
         path: codelab2/tfserving_flutter/lib/proto
         dart: format .
-
       - name: Copy codelab2/starter
         copydir:
           from: codelab2/tfserving_flutter
@@ -4090,16 +4081,12 @@ steps:
 
            linter:
              rules:
-      - name: Copy codelab2/finished
-        copydir:
-          from: codelab2/tfserving_flutter
-          to: codelab2/finished
       - name: Patch lib/main.dart
-        path: codelab2/finished/lib/main.dart
+        path: codelab2/tfserving_flutter/lib/main.dart
         patch-u: |
           --- b/tfserving-flutter/codelab2/finished/lib/main.dart
           +++ a/tfserving-flutter/codelab2/finished/lib/main.dart
-          @@ -164,21 +164,107 @@ class _TFServingDemoState extends State<TFServingDemo> {
+          @@ -160,21 +160,107 @@ class _TFServingDemoState extends State<TFServingDemo> {
                  // For iOS emulator, desktop and web platforms
                  _server = '127.0.0.1';
                }
@@ -4215,6 +4202,10 @@ steps:
           -    return '';
              }
            }
+      - name: Copy codelab2/finished
+        copydir:
+          from: codelab2/tfserving_flutter
+          to: codelab2/finished
       - name: Flutter clean
         path: codelab2/finished
         flutter: clean

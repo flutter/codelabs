@@ -20,8 +20,7 @@ declare -a CODELABS=(
   "ffigen_codelab"
   "firebase-auth-flutterfire-ui"
   "firebase-emulator-suite"
-  # TODO(DomesticMouse): Could not load AssetManifest.json
-  # "firebase-get-to-know-flutter"
+  "firebase-get-to-know-flutter"
   "forge2d_game"
   "generate_crossword"
   "github-client"
@@ -35,8 +34,7 @@ declare -a CODELABS=(
   "testing_codelab"
   "tfagents-flutter"
   "tfrs-flutter"
-  # TODO(DomesticMouse): 'groupValue' is deprecated and shouldn't be used.
-  # "tfserving-flutter"
+  "tfserving-flutter"
   "tooling"
   "webview_flutter"
   )
