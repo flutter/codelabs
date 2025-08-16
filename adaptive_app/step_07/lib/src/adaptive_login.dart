@@ -2,6 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'dart:async';
 import 'dart:io' show Platform;
 
 import 'package:extension_google_sign_in_as_googleapis_auth/extension_google_sign_in_as_googleapis_auth.dart';
@@ -10,10 +11,13 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:googleapis_auth/auth_io.dart';
+import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/link.dart';
 
 import 'app_state.dart';
+
+final _log = Logger('AdaptiveLogin');
 
 typedef _AdaptiveLoginButtonWidget =
     Widget Function({required VoidCallback? onPressed});
@@ -61,21 +65,44 @@ class _GoogleSignInLoginState extends State<_GoogleSignInLogin> {
   @override
   initState() {
     super.initState();
-    _googleSignIn = GoogleSignIn(scopes: widget.scopes);
-    _googleSignIn.onCurrentUserChanged.listen((account) {
-      if (account != null) {
-        _googleSignIn.authenticatedClient().then((authClient) {
-          final context = this.context;
-          if (authClient != null && context.mounted) {
-            context.read<AuthedUserPlaylists>().authClient = authClient;
-            context.go('/');
-          }
-        });
+    _googleSignIn = GoogleSignIn.instance;
+    _googleSignIn.initialize();
+    _authEventsSubscription = _googleSignIn.authenticationEvents.listen((
+      event,
+    ) async {
+      _log.fine('Google Sign-In authentication event: $event');
+      if (event is GoogleSignInAuthenticationEventSignIn) {
+        final googleSignInClientAuthorization = await event
+            .user
+            .authorizationClient
+            .authorizationForScopes(widget.scopes);
+        if (googleSignInClientAuthorization == null) {
+          _log.warning('Google Sign-In authenticated client creation failed');
+          return;
+        }
+        _log.fine('Google Sign-In authenticated client created');
+        final context = this.context;
+        if (context.mounted) {
+          context.read<AuthedUserPlaylists>().authClient =
+              googleSignInClientAuthorization.authClient(scopes: widget.scopes);
+          context.go('/');
+        }
       }
     });
+
+    // Check if user is already authenticated
+    _log.fine('Attempting lightweight authentication');
+    _googleSignIn.attemptLightweightAuthentication();
+  }
+
+  @override
+  dispose() {
+    _authEventsSubscription.cancel();
+    super.dispose();
   }
 
   late final GoogleSignIn _googleSignIn;
+  late final StreamSubscription _authEventsSubscription;
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +110,7 @@ class _GoogleSignInLoginState extends State<_GoogleSignInLogin> {
       body: Center(
         child: widget.button(
           onPressed: () {
-            _googleSignIn.signIn();
+            _googleSignIn.authenticate();
           },
         ),
       ),
