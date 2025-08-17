@@ -6,7 +6,8 @@ DIR="${BASH_SOURCE%/*}"
 source "$DIR/flutter_ci_script_shared.sh"
 
 declare -a CODELABS=(
-  "adaptive_app"
+  # TODO(DomesticMouse): Enable once https://github.com/flutter/flutter/issues/173904 is fixed
+  # "adaptive_app"
   "animated-responsive-layout"
   "animations"
   "audio_soloud"
