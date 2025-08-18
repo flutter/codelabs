@@ -6,8 +6,7 @@ DIR="${BASH_SOURCE%/*}"
 source "$DIR/flutter_ci_script_shared.sh"
 
 declare -a CODELABS=(
-  # TODO(DomesticMouse): Re-introduce once `flex_color_scheme` is updated for Flutter 3.33
-  # Tracking bug: https://github.com/rydmike/flex_color_scheme/issues/283
+  # TODO(DomesticMouse): Enable once https://github.com/flutter/flutter/issues/173904 is fixed
   # "adaptive_app"
   "animated-responsive-layout"
   "animations"
