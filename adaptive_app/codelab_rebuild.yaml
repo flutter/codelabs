@@ -236,9 +236,6 @@ steps:
       - name: Add googleapis http provider url_launcher flex_color_scheme go_router
         path: adaptive_app
         flutter: pub add googleapis http provider url_launcher flex_color_scheme go_router
-      - name: Update flex_color_scheme to flex_color_scheme:^8.2.1-dev.1
-        path: adaptive_app
-        flutter: pub add flex_color_scheme:^8.2.1-dev.1
       - name: Patch android/app/src/main/AndroidManifest.xml
         path: adaptive_app/android/app/src/main/AndroidManifest.xml
         patch-u: |
