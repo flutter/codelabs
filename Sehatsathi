@@ -1,0 +1,127 @@
+{
+  "title": "SehatSathi",
+  "description": "Your Health Companion in Rural India",
+  "pages": [
+    {
+      "title": "Welcome / Login",
+      "fields": [
+        {
+          "type": "mobile_number",
+          "label": "Enter your mobile number",
+          "required": true
+        },
+        {
+          "type": "otp_verification",
+          "label": "Enter OTP sent to your mobile",
+          "required": true
+        }
+      ]
+    },
+    {
+      "title": "User Profile",
+      "fields": [
+        {
+          "type": "text",
+          "label": "Full Name",
+          "required": true
+        },
+        {
+          "type": "number",
+          "label": "Age",
+          "required": true
+        },
+        {
+          "type": "dropdown",
+          "label": "Gender",
+          "options": ["Male", "Female", "Other"],
+          "required": true
+        },
+        {
+          "type": "textarea",
+          "label": "Health Conditions (if any)",
+          "required": false
+        }
+      ]
+    },
+    {
+      "title": "Health Tracking",
+      "fields": [
+        {
+          "type": "number",
+          "label": "Blood Pressure (mmHg)",
+          "required": true,
+          "logic": [
+            {
+              "condition": "greater_than",
+              "value": 140,
+              "action": "show_alert",
+              "message": "High BP detected! Please consult a doctor."
+            }
+          ]
+        },
+        {
+          "type": "number",
+          "label": "Blood Sugar (mg/dL)",
+          "required": true,
+          "logic": [
+            {
+              "condition": "greater_than",
+              "value": 180,
+              "action": "show_alert",
+              "message": "High sugar detected! Please consult a doctor."
+            }
+          ]
+        },
+        {
+          "type": "number",
+          "label": "Weight (kg)",
+          "required": true
+        },
+        {
+          "type": "textarea",
+          "label": "Symptoms (if any)",
+          "required": false
+        }
+      ]
+    },
+    {
+      "title": "Daily Tips & Alerts",
+      "fields": [
+        {
+          "type": "info",
+          "label": "💡 Daily Health Tips:",
+          "dynamic_content": [
+            "Drink 8 glasses of water.",
+            "Take a 30-minute walk.",
+            "Eat fresh fruits and vegetables.",
+            "Monitor BP and sugar regularly."
+          ],
+          "reminder": {
+            "time": "08:00",
+            "repeat": "daily"
+          }
+        }
+      ]
+    },
+    {
+      "title": "Emergency Contact",
+      "fields": [
+        {
+          "type": "button",
+          "label": "Call Emergency Contact",
+          "action": "call",
+          "phone_number": "+91XXXXXXXXXX"
+        }
+      ]
+    },
+    {
+      "title": "Offline Mode",
+      "fields": [
+        {
+          "type": "info",
+          "label": "You can use the app offline. Data will sync automatically when internet is available."
+        }
+      ]
+    }
+  ]
+}
