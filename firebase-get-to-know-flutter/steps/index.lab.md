@@ -33,7 +33,7 @@ and iOS.
 
 - Familiarity with Flutter
 - [The Flutter SDK](https://flutter.dev/get-started/install/)
-- [A text editor of your choice](https://flutter.dev/get-started/editor/)
+- [A text editor of your choice](https://docs.flutter.dev/tools/editors)
 
 ### What you'll learn
 
