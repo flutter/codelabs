@@ -59,7 +59,7 @@ You also need the following:
     plugins, such as [Android Studio](https://developer.android.com/studio) or
     [Visual Studio Code](https://code.visualstudio.com/).
 -   The latest `stable` version of
-    [Flutter](https://flutter.dev/docs/get-started/web#set-up) or `beta` if you
+    [Flutter](https://docs.flutter.dev/get-started/install) or `beta` if you
     enjoy living on the edge.
 -   A Google Account for the creation and management of your Firebase project.
 -   The [`Firebase` CLI](https://firebase.google.com/docs/cli) logged in to your
