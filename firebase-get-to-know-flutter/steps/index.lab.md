@@ -1163,7 +1163,7 @@ You wrap the previous content of the `build()` method with a `Column` widget and
 then you add a [collection for][] at the tail of the `Column`'s children to
 generate a new `Paragraph` for each message in the list of messages.
 
-[collection for]: https://dart.dev/guides/language/language-tour#collection-operators
+[collection for]: https://dart.dev/language/collections#for-element
 
 8.  Update the body of `HomePage` to correctly construct `GuestBook` with the
     new `messages` parameter:
