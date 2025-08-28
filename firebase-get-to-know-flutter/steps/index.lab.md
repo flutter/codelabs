@@ -781,7 +781,7 @@ Also note the way that the widgets are laid out, you have a `Row` with a
 `TextFormField` to fill any extra space in the row. To better understand why
 this is required, see [Understanding constraints][].
 
-[Understanding constraints]: https://flutter.dev/docs/development/ui/layout/constraints
+[Understanding constraints]: https://docs.flutter.dev/ui/layout/constraints
 
 Now that you have a widget that enables the user to enter some text to add to
 the Guest Book, you need to get it on the screen.
