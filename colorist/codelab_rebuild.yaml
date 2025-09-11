@@ -96,8 +96,8 @@ steps:
 
             // A fake LLM that just echoes back what it receives.
             void sendMessage(String message, WidgetRef ref) {
-              final chatStateNotifier = ref.read(chatStateNotifierProvider.notifier);
-              final logStateNotifier = ref.read(logStateNotifierProvider.notifier);
+              final chatStateNotifier = ref.read(chatStateProvider.notifier);
+              final logStateNotifier = ref.read(logStateProvider.notifier);
 
               chatStateNotifier.addUserMessage(message);
               logStateNotifier.logUserText(message);
@@ -167,7 +167,6 @@ steps:
 
           import 'package:firebase_ai/firebase_ai.dart';
           import 'package:firebase_core/firebase_core.dart';
-          import 'package:flutter_riverpod/flutter_riverpod.dart';
           import 'package:riverpod_annotation/riverpod_annotation.dart';
 
           import '../firebase_options.dart';
@@ -207,7 +206,6 @@ steps:
 
           import 'package:colorist_ui/colorist_ui.dart';
           import 'package:firebase_ai/firebase_ai.dart';
-          import 'package:flutter_riverpod/flutter_riverpod.dart';
           import 'package:riverpod_annotation/riverpod_annotation.dart';
 
           import '../providers/gemini.dart';
@@ -220,8 +218,8 @@ steps:
 
             Future<void> sendMessage(String message) async {
               final chatSession = await ref.read(chatSessionProvider.future);
-              final chatStateNotifier = ref.read(chatStateNotifierProvider.notifier);
-              final logStateNotifier = ref.read(logStateNotifierProvider.notifier);
+              final chatStateNotifier = ref.read(chatStateProvider.notifier);
+              final logStateNotifier = ref.read(logStateProvider.notifier);
 
               chatStateNotifier.addUserMessage(message);
               logStateNotifier.logUserText(message);
@@ -298,8 +296,8 @@ steps:
           -
           -  // A fake LLM that just echoes back what it receives.
           -  void sendMessage(String message, WidgetRef ref) {
-          -    final chatStateNotifier = ref.read(chatStateNotifierProvider.notifier);
-          -    final logStateNotifier = ref.read(logStateNotifierProvider.notifier);
+          -    final chatStateNotifier = ref.read(chatStateProvider.notifier);
+          -    final logStateNotifier = ref.read(logStateProvider.notifier);
           -
           -    chatStateNotifier.addUserMessage(message);
           -    logStateNotifier.logUserText(message);
@@ -446,7 +444,6 @@ steps:
           // found in the LICENSE file.
 
           import 'package:flutter/services.dart';
-          import 'package:flutter_riverpod/flutter_riverpod.dart';
           import 'package:riverpod_annotation/riverpod_annotation.dart';
 
           part 'system_prompt.g.dart';
@@ -457,9 +454,9 @@ steps:
       - name: Patch lib/providers/gemini.dart
         path: colorist/lib/providers/gemini.dart
         patch-u: |
-          --- a/colorist/step_03/lib/providers/gemini.dart
-          +++ b/colorist/step_03/lib/providers/gemini.dart
-          @@ -10,6 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
+          --- b/colorist/step_03/lib/providers/gemini.dart
+          +++ a/colorist/step_03/lib/providers/gemini.dart
+          @@ -9,6 +9,7 @@ import 'package:firebase_core/firebase_core.dart';
            import 'package:riverpod_annotation/riverpod_annotation.dart';
 
            import '../firebase_options.dart';
@@ -467,7 +464,7 @@ steps:
 
            part 'gemini.g.dart';
 
-          @@ -20,9 +21,11 @@ Future<FirebaseApp> firebaseApp(Ref ref) =>
+          @@ -19,9 +20,11 @@ Future<FirebaseApp> firebaseApp(Ref ref) =>
            @riverpod
            Future<GenerativeModel> geminiModel(Ref ref) async {
              await ref.watch(firebaseAppProvider.future);
@@ -505,7 +502,6 @@ steps:
           // found in the LICENSE file.
 
           import 'package:firebase_ai/firebase_ai.dart';
-          import 'package:flutter_riverpod/flutter_riverpod.dart';
           import 'package:riverpod_annotation/riverpod_annotation.dart';
 
           part 'gemini_tools.g.dart';
@@ -535,9 +531,9 @@ steps:
       - name: Patch lib/providers/gemini.dart
         path: colorist/lib/providers/gemini.dart
         patch-u: |
-          --- a/colorist/step_04/lib/providers/gemini.dart
-          +++ b/colorist/step_04/lib/providers/gemini.dart
-          @@ -10,6 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
+          --- b/colorist/step_04/lib/providers/gemini.dart
+          +++ a/colorist/step_04/lib/providers/gemini.dart
+          @@ -9,6 +9,7 @@ import 'package:firebase_core/firebase_core.dart';
            import 'package:riverpod_annotation/riverpod_annotation.dart';
 
            import '../firebase_options.dart';
@@ -545,7 +541,7 @@ steps:
            import 'system_prompt.dart';
 
            part 'gemini.g.dart';
-          @@ -22,10 +23,12 @@ Future<FirebaseApp> firebaseApp(Ref ref) =>
+          @@ -21,10 +22,12 @@ Future<FirebaseApp> firebaseApp(Ref ref) =>
            Future<GenerativeModel> geminiModel(Ref ref) async {
              await ref.watch(firebaseAppProvider.future);
              final systemPrompt = await ref.watch(systemPromptProvider.future);
@@ -634,7 +630,7 @@ steps:
         patch-u: |
           --- b/colorist/step_05/lib/services/gemini_chat_service.dart
           +++ a/colorist/step_05/lib/services/gemini_chat_service.dart
-          @@ -10,6 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
+          @@ -9,6 +9,7 @@ import 'package:firebase_ai/firebase_ai.dart';
            import 'package:riverpod_annotation/riverpod_annotation.dart';
 
            import '../providers/gemini.dart';
@@ -642,7 +638,7 @@ steps:
 
            part 'gemini_chat_service.g.dart';
 
-          @@ -33,6 +34,27 @@ class GeminiChatService {
+          @@ -32,6 +33,27 @@ class GeminiChatService {
                    logStateNotifier.logLlmText(responseText);
                    chatStateNotifier.appendToMessage(llmMessage.id, responseText);
                  }
@@ -681,9 +677,9 @@ steps:
 
           +import 'package:colorist_ui/colorist_ui.dart';
            import 'package:firebase_ai/firebase_ai.dart';
-           import 'package:flutter_riverpod/flutter_riverpod.dart';
            import 'package:riverpod_annotation/riverpod_annotation.dart';
-          @@ -26,6 +27,44 @@ class GeminiTools {
+
+          @@ -25,6 +26,44 @@ class GeminiTools {
              List<Tool> get tools => [
                Tool.functionDeclarations([setColorFuncDecl]),
              ];
@@ -692,7 +688,7 @@ steps:
           +    String functionName,
           +    Map<String, Object?> arguments,
           +  ) {
-          +    final logStateNotifier = ref.read(logStateNotifierProvider.notifier);
+          +    final logStateNotifier = ref.read(logStateProvider.notifier);
           +    logStateNotifier.logFunctionCall(functionName, arguments);
           +    return switch (functionName) {
           +      'set_color' => handleSetColor(arguments),
@@ -701,7 +697,7 @@ steps:
           +  }
           +
           +  Map<String, Object?> handleSetColor(Map<String, Object?> arguments) {
-          +    final colorStateNotifier = ref.read(colorStateNotifierProvider.notifier);
+          +    final colorStateNotifier = ref.read(colorStateProvider.notifier);
           +    final red = (arguments['red'] as num).toDouble();
           +    final green = (arguments['green'] as num).toDouble();
           +    final blue = (arguments['blue'] as num).toDouble();
@@ -712,13 +708,13 @@ steps:
           +          .toLLMContextMap(),
           +    };
           +
-          +    final logStateNotifier = ref.read(logStateNotifierProvider.notifier);
+          +    final logStateNotifier = ref.read(logStateProvider.notifier);
           +    logStateNotifier.logFunctionResults(functionResults);
           +    return functionResults;
           +  }
           +
           +  Map<String, Object?> handleUnknownFunction(String functionName) {
-          +    final logStateNotifier = ref.read(logStateNotifierProvider.notifier);
+          +    final logStateNotifier = ref.read(logStateProvider.notifier);
           +    logStateNotifier.logWarning('Unsupported function call $functionName');
           +    return {
           +      'success': false,
@@ -751,7 +747,15 @@ steps:
         patch-u: |
           --- b/colorist/step_06/lib/services/gemini_chat_service.dart
           +++ a/colorist/step_06/lib/services/gemini_chat_service.dart
-          @@ -14,46 +14,41 @@ import 'gemini_tools.dart';
+          @@ -6,6 +6,7 @@ import 'dart:async';
+           
+           import 'package:colorist_ui/colorist_ui.dart';
+           import 'package:firebase_ai/firebase_ai.dart';
+          +import 'package:flutter_riverpod/legacy.dart';
+           import 'package:riverpod_annotation/riverpod_annotation.dart';
+           
+           import '../providers/gemini.dart';
+          @@ -13,46 +14,41 @@ import 'gemini_tools.dart';
 
            part 'gemini_chat_service.g.dart';
 
@@ -766,8 +770,8 @@ steps:
              Future<void> sendMessage(String message) async {
                final chatSession = await ref.read(chatSessionProvider.future);
           +    final conversationState = ref.read(conversationStateProvider);
-               final chatStateNotifier = ref.read(chatStateNotifierProvider.notifier);
-               final logStateNotifier = ref.read(logStateNotifierProvider.notifier);
+               final chatStateNotifier = ref.read(chatStateProvider.notifier);
+               final logStateNotifier = ref.read(logStateProvider.notifier);
 
           +    if (conversationState == ConversationState.busy) {
           +      logStateNotifier.logWarning(
@@ -820,7 +824,7 @@ steps:
                  }
                } catch (e, st) {
                  logStateNotifier.logError(e, st: st);
-          @@ -64,6 +59,45 @@ class GeminiChatService {
+          @@ -63,6 +59,45 @@ class GeminiChatService {
                  );
                } finally {
                  chatStateNotifier.finalizeMessage(llmMessage.id);
@@ -833,8 +837,8 @@ steps:
           +    String llmMessageId,
           +  ) async {
           +    final chatSession = await ref.read(chatSessionProvider.future);
-          +    final chatStateNotifier = ref.read(chatStateNotifierProvider.notifier);
-          +    final logStateNotifier = ref.read(logStateNotifierProvider.notifier);
+          +    final chatStateNotifier = ref.read(chatStateProvider.notifier);
+          +    final logStateNotifier = ref.read(logStateProvider.notifier);
           +    final blockText = block.text;
           +
           +    if (blockText != null) {
@@ -900,6 +904,7 @@ steps:
       - name: Flutter clean
         path: step_06
         flutter: clean
+
   - name: step_07
     steps:
       - name: Remove generated code
@@ -994,5 +999,6 @@ steps:
       - name: Flutter clean
         path: step_07
         flutter: clean
+
   - name: Cleanup
     rmdir: colorist

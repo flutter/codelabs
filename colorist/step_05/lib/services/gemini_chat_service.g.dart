@@ -6,23 +6,52 @@ part of 'gemini_chat_service.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$geminiChatServiceHash() => r'62a58e95c6112ec2cc1b4777a88270e75fe2949f';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// See also [geminiChatService].
 @ProviderFor(geminiChatService)
-final geminiChatServiceProvider =
-    AutoDisposeProvider<GeminiChatService>.internal(
-      geminiChatService,
-      name: r'geminiChatServiceProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$geminiChatServiceHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+const geminiChatServiceProvider = GeminiChatServiceProvider._();
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef GeminiChatServiceRef = AutoDisposeProviderRef<GeminiChatService>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+final class GeminiChatServiceProvider
+    extends
+        $FunctionalProvider<
+          GeminiChatService,
+          GeminiChatService,
+          GeminiChatService
+        >
+    with $Provider<GeminiChatService> {
+  const GeminiChatServiceProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'geminiChatServiceProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$geminiChatServiceHash();
+
+  @$internal
+  @override
+  $ProviderElement<GeminiChatService> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  GeminiChatService create(Ref ref) {
+    return geminiChatService(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(GeminiChatService value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<GeminiChatService>(value),
+    );
+  }
+}
+
+String _$geminiChatServiceHash() => r'62a58e95c6112ec2cc1b4777a88270e75fe2949f';

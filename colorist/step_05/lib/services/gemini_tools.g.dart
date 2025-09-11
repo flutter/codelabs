@@ -6,22 +6,46 @@ part of 'gemini_tools.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$geminiToolsHash() => r'9d591f86d85cca9c1d3f6f94f773af9a3b2ee652';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// See also [geminiTools].
 @ProviderFor(geminiTools)
-final geminiToolsProvider = AutoDisposeProvider<GeminiTools>.internal(
-  geminiTools,
-  name: r'geminiToolsProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$geminiToolsHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+const geminiToolsProvider = GeminiToolsProvider._();
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef GeminiToolsRef = AutoDisposeProviderRef<GeminiTools>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+final class GeminiToolsProvider
+    extends $FunctionalProvider<GeminiTools, GeminiTools, GeminiTools>
+    with $Provider<GeminiTools> {
+  const GeminiToolsProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'geminiToolsProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$geminiToolsHash();
+
+  @$internal
+  @override
+  $ProviderElement<GeminiTools> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  GeminiTools create(Ref ref) {
+    return geminiTools(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(GeminiTools value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<GeminiTools>(value),
+    );
+  }
+}
+
+String _$geminiToolsHash() => r'9d591f86d85cca9c1d3f6f94f773af9a3b2ee652';

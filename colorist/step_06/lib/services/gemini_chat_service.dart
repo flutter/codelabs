@@ -6,7 +6,7 @@ import 'dart:async';
 
 import 'package:colorist_ui/colorist_ui.dart';
 import 'package:firebase_ai/firebase_ai.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../providers/gemini.dart';
@@ -25,8 +25,8 @@ class GeminiChatService {
   Future<void> sendMessage(String message) async {
     final chatSession = await ref.read(chatSessionProvider.future);
     final conversationState = ref.read(conversationStateProvider);
-    final chatStateNotifier = ref.read(chatStateNotifierProvider.notifier);
-    final logStateNotifier = ref.read(logStateNotifierProvider.notifier);
+    final chatStateNotifier = ref.read(chatStateProvider.notifier);
+    final logStateNotifier = ref.read(logStateProvider.notifier);
 
     if (conversationState == ConversationState.busy) {
       logStateNotifier.logWarning(
@@ -68,8 +68,8 @@ class GeminiChatService {
     String llmMessageId,
   ) async {
     final chatSession = await ref.read(chatSessionProvider.future);
-    final chatStateNotifier = ref.read(chatStateNotifierProvider.notifier);
-    final logStateNotifier = ref.read(logStateNotifierProvider.notifier);
+    final chatStateNotifier = ref.read(chatStateProvider.notifier);
+    final logStateNotifier = ref.read(logStateProvider.notifier);
     final blockText = block.text;
 
     if (blockText != null) {
