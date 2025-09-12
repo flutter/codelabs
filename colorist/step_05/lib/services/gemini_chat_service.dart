@@ -67,5 +67,5 @@ class GeminiChatService {
   }
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 GeminiChatService geminiChatService(Ref ref) => GeminiChatService(ref);

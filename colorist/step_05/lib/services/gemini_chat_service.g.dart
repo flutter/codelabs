@@ -26,7 +26,7 @@ final class GeminiChatServiceProvider
         argument: null,
         retry: null,
         name: r'geminiChatServiceProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -54,4 +54,4 @@ final class GeminiChatServiceProvider
   }
 }
 
-String _$geminiChatServiceHash() => r'62a58e95c6112ec2cc1b4777a88270e75fe2949f';
+String _$geminiChatServiceHash() => r'4e26bc50fdc3eef30780d404d45fa39aeb0a49d6';

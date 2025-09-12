@@ -66,5 +66,5 @@ class GeminiTools {
   }
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 GeminiTools geminiTools(Ref ref) => GeminiTools(ref);
