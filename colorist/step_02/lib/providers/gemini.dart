@@ -12,11 +12,11 @@ import '../firebase_options.dart';
 
 part 'gemini.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 Future<FirebaseApp> firebaseApp(Ref ref) =>
     Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-@riverpod
+@Riverpod(keepAlive: true)
 Future<GenerativeModel> geminiModel(Ref ref) async {
   await ref.watch(firebaseAppProvider.future);
 
