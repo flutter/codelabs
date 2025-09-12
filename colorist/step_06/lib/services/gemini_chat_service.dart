@@ -6,7 +6,7 @@ import 'dart:async';
 
 import 'package:colorist_ui/colorist_ui.dart';
 import 'package:firebase_ai/firebase_ai.dart';
-import 'package:flutter_riverpod/legacy.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../providers/gemini.dart';
@@ -14,9 +14,23 @@ import 'gemini_tools.dart';
 
 part 'gemini_chat_service.g.dart';
 
-final conversationStateProvider = StateProvider(
-  (ref) => ConversationState.idle,
-);
+class ConversationStateNotifier extends Notifier<ConversationState> {
+  @override
+  ConversationState build() => ConversationState.idle;
+
+  void busy() {
+    state = ConversationState.busy;
+  }
+
+  void idle() {
+    state = ConversationState.idle;
+  }
+}
+
+final conversationStateProvider =
+    NotifierProvider<ConversationStateNotifier, ConversationState>(
+      ConversationStateNotifier.new,
+    );
 
 class GeminiChatService {
   GeminiChatService(this.ref);
@@ -39,7 +53,7 @@ class GeminiChatService {
     final conversationStateNotifier = ref.read(
       conversationStateProvider.notifier,
     );
-    conversationStateNotifier.state = ConversationState.busy;
+    conversationStateNotifier.busy();
     chatStateNotifier.addUserMessage(message);
     logStateNotifier.logUserText(message);
     final llmMessage = chatStateNotifier.createLlmMessage();
@@ -59,7 +73,7 @@ class GeminiChatService {
       );
     } finally {
       chatStateNotifier.finalizeMessage(llmMessage.id);
-      conversationStateNotifier.state = ConversationState.idle;
+      conversationStateNotifier.idle();
     }
   }
 
@@ -71,7 +85,6 @@ class GeminiChatService {
     final chatStateNotifier = ref.read(chatStateProvider.notifier);
     final logStateNotifier = ref.read(logStateProvider.notifier);
     final blockText = block.text;
-
     if (blockText != null) {
       logStateNotifier.logLlmText(blockText);
       chatStateNotifier.appendToMessage(llmMessageId, blockText);
@@ -102,5 +115,5 @@ class GeminiChatService {
   }
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 GeminiChatService geminiChatService(Ref ref) => GeminiChatService(ref);
