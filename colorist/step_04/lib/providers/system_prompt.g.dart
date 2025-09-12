@@ -21,7 +21,7 @@ final class SystemPromptProvider
         argument: null,
         retry: null,
         name: r'systemPromptProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -40,4 +40,4 @@ final class SystemPromptProvider
   }
 }
 
-String _$systemPromptHash() => r'4068d8b52f2a51db7400670fb6e17f83fe55c253';
+String _$systemPromptHash() => r'6fcb24d96c2dfec9be8d4d51e87562b191641b98';
