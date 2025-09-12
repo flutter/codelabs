@@ -47,23 +47,10 @@ function ci_codelabs () {
             if [ -d "test" ]
             then
                 if grep -q "flutter:" "pubspec.yaml"; then
-
-                    # intro_flutter_gpu only runs with Impeller
-                    if [ $CODELAB = 'intro_flutter_gpu' ]; then
-                        # Skipping Windows and Linux: https://github.com/bdero/flutter_scene/issues/55
-                        if [ $RUNNER_OS = 'macOS' ]; then
-                            flutter config --enable-native-assets
-                            flutter build `echo $RUNNER_OS | tr '[:upper:]' '[:lower:]'` --debug
-                            flutter test --enable-flutter-gpu
-                        else
-                            echo "Skipping $CODELAB on $RUNNER_OS"
-                        fi
-                    else
-                        flutter test
-                    fi
+                    flutter test
                 else
-                  # If the project is not a Flutter project, use the Dart CLI.
-                  dart test
+                    # If the project is not a Flutter project, use the Dart CLI.
+                    dart test
                 fi
             fi
 
