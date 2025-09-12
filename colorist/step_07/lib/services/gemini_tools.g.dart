@@ -21,7 +21,7 @@ final class GeminiToolsProvider
         argument: null,
         retry: null,
         name: r'geminiToolsProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -48,4 +48,4 @@ final class GeminiToolsProvider
   }
 }
 
-String _$geminiToolsHash() => r'9d591f86d85cca9c1d3f6f94f773af9a3b2ee652';
+String _$geminiToolsHash() => r'f61ae618aa3a6be31184f91b78b504b695ef0851';

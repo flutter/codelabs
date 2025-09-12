@@ -26,7 +26,7 @@ final class FirebaseAppProvider
         argument: null,
         retry: null,
         name: r'firebaseAppProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -46,7 +46,7 @@ final class FirebaseAppProvider
   }
 }
 
-String _$firebaseAppHash() => r'eaf72348ad852e52538678ec3a1b50b5c9af17ef';
+String _$firebaseAppHash() => r'7663fd816ebac4287db82a095568ee3dc843da9a';
 
 @ProviderFor(geminiModel)
 const geminiModelProvider = GeminiModelProvider._();
@@ -65,7 +65,7 @@ final class GeminiModelProvider
         argument: null,
         retry: null,
         name: r'geminiModelProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -85,7 +85,7 @@ final class GeminiModelProvider
   }
 }
 
-String _$geminiModelHash() => r'06a1c69e8231cc7058d37c8ffb3cdf33cf2c2c87';
+String _$geminiModelHash() => r'f172c92d9706bbc512831e94d1348372caed4fd9';
 
 @ProviderFor(chatSession)
 const chatSessionProvider = ChatSessionProvider._();
