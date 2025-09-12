@@ -23,6 +23,7 @@ dev_dependencies:
   riverpod_generator: ^3.0.0
   riverpod_lint: ^3.0.0
   json_serializable: ^6.11.1
+  custom_lint: ^0.8.0
 
 flutter:
   uses-material-design: true
