@@ -173,11 +173,11 @@ steps:
 
           part 'gemini.g.dart';
 
-          @riverpod
+          @Riverpod(keepAlive: true)
           Future<FirebaseApp> firebaseApp(Ref ref) =>
               Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-          @riverpod
+          @Riverpod(keepAlive: true)
           Future<GenerativeModel> geminiModel(Ref ref) async {
             await ref.watch(firebaseAppProvider.future);
 
@@ -245,7 +245,7 @@ steps:
             }
           }
 
-          @riverpod
+          @Riverpod(keepAlive: true)
           GeminiChatService geminiChatService(Ref ref) => GeminiChatService(ref);
       - name: Run build_runner
         path: colorist
@@ -448,7 +448,7 @@ steps:
 
           part 'system_prompt.g.dart';
 
-          @riverpod
+          @Riverpod(keepAlive: true)
           Future<String> systemPrompt(Ref ref) =>
               rootBundle.loadString('assets/system_prompt.md');
       - name: Patch lib/providers/gemini.dart
@@ -465,7 +465,7 @@ steps:
            part 'gemini.g.dart';
 
           @@ -19,9 +20,11 @@ Future<FirebaseApp> firebaseApp(Ref ref) =>
-           @riverpod
+           @Riverpod(keepAlive: true)
            Future<GenerativeModel> geminiModel(Ref ref) async {
              await ref.watch(firebaseAppProvider.future);
           +  final systemPrompt = await ref.watch(systemPromptProvider.future);
@@ -526,7 +526,7 @@ steps:
             ];
           }
 
-          @riverpod
+          @Riverpod(keepAlive: true)
           GeminiTools geminiTools(Ref ref) => GeminiTools(ref);
       - name: Patch lib/providers/gemini.dart
         path: colorist/lib/providers/gemini.dart
@@ -723,7 +723,7 @@ steps:
           +  }
            }
 
-           @riverpod
+           @Riverpod(keepAlive: true)
       - name: Run build_runner
         path: colorist
         dart: run build_runner build --delete-conflicting-outputs
@@ -751,17 +751,31 @@ steps:
            
            import 'package:colorist_ui/colorist_ui.dart';
            import 'package:firebase_ai/firebase_ai.dart';
-          +import 'package:flutter_riverpod/legacy.dart';
+          +import 'package:flutter_riverpod/flutter_riverpod.dart';
            import 'package:riverpod_annotation/riverpod_annotation.dart';
            
            import '../providers/gemini.dart';
-          @@ -13,46 +14,41 @@ import 'gemini_tools.dart';
+          @@ -13,46 +14,55 @@ import 'gemini_tools.dart';
 
            part 'gemini_chat_service.g.dart';
-
-          +final conversationStateProvider = StateProvider(
-          +  (ref) => ConversationState.idle,
-          +);
+           
+          +class ConversationStateNotifier extends Notifier<ConversationState> {
+          +  @override
+          +  ConversationState build() => ConversationState.idle;
+          +
+          +  void busy() {
+          +    state = ConversationState.busy;
+          +  }
+          +
+          +  void idle() {
+          +    state = ConversationState.idle;
+          +  }
+          +}
+          +
+          +final conversationStateProvider =
+          +    NotifierProvider<ConversationStateNotifier, ConversationState>(
+          +      ConversationStateNotifier.new,
+          +    );
           +
            class GeminiChatService {
              GeminiChatService(this.ref);
@@ -784,7 +798,7 @@ steps:
           +    final conversationStateNotifier = ref.read(
           +      conversationStateProvider.notifier,
           +    );
-          +    conversationStateNotifier.state = ConversationState.busy;
+          +    conversationStateNotifier.busy();
                chatStateNotifier.addUserMessage(message);
                logStateNotifier.logUserText(message);
                final llmMessage = chatStateNotifier.createLlmMessage();
@@ -824,11 +838,11 @@ steps:
                  }
                } catch (e, st) {
                  logStateNotifier.logError(e, st: st);
-          @@ -63,6 +59,45 @@ class GeminiChatService {
+          @@ -63,6 +73,44 @@ class GeminiChatService {
                  );
                } finally {
                  chatStateNotifier.finalizeMessage(llmMessage.id);
-          +      conversationStateNotifier.state = ConversationState.idle;
+          +      conversationStateNotifier.idle();
           +    }
           +  }
           +
@@ -840,7 +854,6 @@ steps:
           +    final chatStateNotifier = ref.read(chatStateProvider.notifier);
           +    final logStateNotifier = ref.read(logStateProvider.notifier);
           +    final blockText = block.text;
-          +
           +    if (blockText != null) {
           +      logStateNotifier.logLlmText(blockText);
           +      chatStateNotifier.appendToMessage(llmMessageId, blockText);
@@ -922,7 +935,7 @@ steps:
 
            import 'package:colorist_ui/colorist_ui.dart';
            import 'package:firebase_ai/firebase_ai.dart';
-          @@ -22,6 +23,10 @@ class GeminiChatService {
+          @@ -36,6 +37,10 @@ class GeminiChatService {
              GeminiChatService(this.ref);
              final Ref ref;
 
