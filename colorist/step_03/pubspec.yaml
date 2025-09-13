@@ -4,26 +4,26 @@ publish_to: 'none'
 version: 0.1.0
 
 environment:
-  sdk: ^3.9.0
+  sdk: ^3.9.2
 
 dependencies:
   flutter:
     sdk: flutter
-  colorist_ui: ^0.2.5
-  flutter_riverpod: ^2.6.1
-  riverpod_annotation: ^2.6.1
-  firebase_core: ^4.0.0
-  firebase_ai: ^3.1.0
+  colorist_ui: ^0.3.0
+  flutter_riverpod: ^3.0.0
+  riverpod_annotation: ^3.0.0
+  firebase_core: ^4.1.0
+  firebase_ai: ^3.2.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
-  build_runner: ^2.5.4
-  riverpod_generator: ^2.6.5
-  riverpod_lint: ^2.6.5
-  json_serializable: ^6.9.5
-  custom_lint: ^0.7.6
+  build_runner: ^2.7.1
+  riverpod_generator: ^3.0.0
+  riverpod_lint: ^3.0.0
+  json_serializable: ^6.11.1
+  custom_lint: ^0.8.0
 
 flutter:
   uses-material-design: true

@@ -1,8 +1,8 @@
 include: ../../analysis_options.yaml
 
-# analyzer:
-#   plugins:
-#     - custom_lint
+analyzer:
+  plugins:
+    - custom_lint
 
 linter:
   rules:

@@ -6,18 +6,17 @@ import 'dart:async';
 
 import 'package:firebase_ai/firebase_ai.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../firebase_options.dart';
 
 part 'gemini.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 Future<FirebaseApp> firebaseApp(Ref ref) =>
     Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-@riverpod
+@Riverpod(keepAlive: true)
 Future<GenerativeModel> geminiModel(Ref ref) async {
   await ref.watch(firebaseAppProvider.future);
 

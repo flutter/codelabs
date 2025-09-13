@@ -15,9 +15,23 @@ import 'gemini_tools.dart';
 
 part 'gemini_chat_service.g.dart';
 
-final conversationStateProvider = StateProvider(
-  (ref) => ConversationState.idle,
-);
+class ConversationStateNotifier extends Notifier<ConversationState> {
+  @override
+  ConversationState build() => ConversationState.idle;
+
+  void busy() {
+    state = ConversationState.busy;
+  }
+
+  void idle() {
+    state = ConversationState.idle;
+  }
+}
+
+final conversationStateProvider =
+    NotifierProvider<ConversationStateNotifier, ConversationState>(
+      ConversationStateNotifier.new,
+    );
 
 class GeminiChatService {
   GeminiChatService(this.ref);
@@ -30,8 +44,8 @@ class GeminiChatService {
   Future<void> sendMessage(String message) async {
     final chatSession = await ref.read(chatSessionProvider.future);
     final conversationState = ref.read(conversationStateProvider);
-    final chatStateNotifier = ref.read(chatStateNotifierProvider.notifier);
-    final logStateNotifier = ref.read(logStateNotifierProvider.notifier);
+    final chatStateNotifier = ref.read(chatStateProvider.notifier);
+    final logStateNotifier = ref.read(logStateProvider.notifier);
 
     if (conversationState == ConversationState.busy) {
       logStateNotifier.logWarning(
@@ -44,7 +58,7 @@ class GeminiChatService {
     final conversationStateNotifier = ref.read(
       conversationStateProvider.notifier,
     );
-    conversationStateNotifier.state = ConversationState.busy;
+    conversationStateNotifier.busy();
     chatStateNotifier.addUserMessage(message);
     logStateNotifier.logUserText(message);
     final llmMessage = chatStateNotifier.createLlmMessage();
@@ -64,7 +78,7 @@ class GeminiChatService {
       );
     } finally {
       chatStateNotifier.finalizeMessage(llmMessage.id);
-      conversationStateNotifier.state = ConversationState.idle;
+      conversationStateNotifier.idle();
     }
   }
 
@@ -73,10 +87,9 @@ class GeminiChatService {
     String llmMessageId,
   ) async {
     final chatSession = await ref.read(chatSessionProvider.future);
-    final chatStateNotifier = ref.read(chatStateNotifierProvider.notifier);
-    final logStateNotifier = ref.read(logStateNotifierProvider.notifier);
+    final chatStateNotifier = ref.read(chatStateProvider.notifier);
+    final logStateNotifier = ref.read(logStateProvider.notifier);
     final blockText = block.text;
-
     if (blockText != null) {
       logStateNotifier.logLlmText(blockText);
       chatStateNotifier.appendToMessage(llmMessageId, blockText);
@@ -107,5 +120,5 @@ class GeminiChatService {
   }
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 GeminiChatService geminiChatService(Ref ref) => GeminiChatService(ref);

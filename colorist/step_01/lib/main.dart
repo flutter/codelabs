@@ -29,8 +29,8 @@ class MainApp extends ConsumerWidget {
 
   // A fake LLM that just echoes back what it receives.
   void sendMessage(String message, WidgetRef ref) {
-    final chatStateNotifier = ref.read(chatStateNotifierProvider.notifier);
-    final logStateNotifier = ref.read(logStateNotifierProvider.notifier);
+    final chatStateNotifier = ref.read(chatStateProvider.notifier);
+    final logStateNotifier = ref.read(logStateProvider.notifier);
 
     chatStateNotifier.addUserMessage(message);
     logStateNotifier.logUserText(message);
