@@ -34,7 +34,8 @@ declare -a CODELABS=(
   "tfagents-flutter"
   "tfrs-flutter"
   "tfserving-flutter"
-  "tooling"
+  # TODO: Fix experimental_member_use warning
+  # "tooling"
   "webview_flutter"
   )
 
