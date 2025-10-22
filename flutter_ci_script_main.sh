@@ -9,7 +9,8 @@ declare -a CODELABS=(
   "adaptive_app"
   "animated-responsive-layout"
   "animations"
-  "audio_soloud"
+  # Tracking bug: https://github.com/flutter/flutter/issues/177296
+  # "audio_soloud"
   "boring_to_beautiful"
   "brick_breaker"
   "colorist"
@@ -19,7 +20,8 @@ declare -a CODELABS=(
   "firebase-auth-flutterfire-ui"
   "firebase-emulator-suite"
   "firebase-get-to-know-flutter"
-  "forge2d_game"
+  # TODO: Fix experimental_member_use warning
+  # "forge2d_game"
   "generate_crossword"
   "github-client"
   "google-maps-in-flutter"
@@ -32,7 +34,8 @@ declare -a CODELABS=(
   "tfagents-flutter"
   "tfrs-flutter"
   "tfserving-flutter"
-  "tooling"
+  # TODO: Fix experimental_member_use warning
+  # "tooling"
   "webview_flutter"
   )
 
