@@ -9,8 +9,7 @@ declare -a CODELABS=(
   "adaptive_app"
   "animated-responsive-layout"
   "animations"
-  # Tracking bug: https://github.com/flutter/flutter/issues/177296
-  # "audio_soloud"
+  "audio_soloud"
   "boring_to_beautiful"
   "brick_breaker"
   "colorist"
