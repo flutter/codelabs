@@ -202,6 +202,22 @@ steps:
               size = Vector2(game.width, game.height);
             }
           }
+      - name: Build iOS simulator bundle
+        platforms: [macos]
+        path: brick_breaker
+        flutter: build ios --simulator
+      - name: Build macOS app
+        platforms: [macos]
+        path: brick_breaker
+        flutter: build macos
+      - name: Build Linux app
+        platforms: [linux]
+        path: brick_breaker
+        flutter: build linux
+      - name: Build Windows app
+        platforms: [windows]
+        path: brick_breaker
+        flutter: build windows
       - name: Copy step_04
         copydir:
           from: brick_breaker
@@ -305,6 +321,22 @@ steps:
               position += velocity * dt;
             }
           }
+      - name: Build iOS simulator bundle
+        platforms: [macos]
+        path: brick_breaker
+        flutter: build ios --simulator
+      - name: Build macOS app
+        platforms: [macos]
+        path: brick_breaker
+        flutter: build macos
+      - name: Build Linux app
+        platforms: [linux]
+        path: brick_breaker
+        flutter: build linux
+      - name: Build Windows app
+        platforms: [windows]
+        path: brick_breaker
+        flutter: build windows
       - name: Copy step_05
         copydir:
           from: brick_breaker
@@ -411,6 +443,22 @@ steps:
 
              @override
              FutureOr<void> onLoad() async {
+      - name: Build iOS simulator bundle
+        platforms: [macos]
+        path: brick_breaker
+        flutter: build ios --simulator
+      - name: Build macOS app
+        platforms: [macos]
+        path: brick_breaker
+        flutter: build macos
+      - name: Build Linux app
+        platforms: [linux]
+        path: brick_breaker
+        flutter: build linux
+      - name: Build Windows app
+        platforms: [windows]
+        path: brick_breaker
+        flutter: build windows
       - name: Copy step_06
         copydir:
           from: brick_breaker
@@ -583,6 +631,22 @@ steps:
               );
             }
           }
+      - name: Build iOS simulator bundle
+        platforms: [macos]
+        path: brick_breaker
+        flutter: build ios --simulator
+      - name: Build macOS app
+        platforms: [macos]
+        path: brick_breaker
+        flutter: build macos
+      - name: Build Linux app
+        platforms: [linux]
+        path: brick_breaker
+        flutter: build linux
+      - name: Build Windows app
+        platforms: [windows]
+        path: brick_breaker
+        flutter: build windows
       - name: Copy step_07
         copydir:
           from: brick_breaker
@@ -762,6 +826,22 @@ steps:
               }
             }
           }
+      - name: Build iOS simulator bundle
+        platforms: [macos]
+        path: brick_breaker
+        flutter: build ios --simulator
+      - name: Build macOS app
+        platforms: [macos]
+        path: brick_breaker
+        flutter: build macos
+      - name: Build Linux app
+        platforms: [linux]
+        path: brick_breaker
+        flutter: build linux
+      - name: Build Windows app
+        platforms: [windows]
+        path: brick_breaker
+        flutter: build windows
       - name: Copy step_08
         copydir:
           from: brick_breaker
@@ -806,7 +886,7 @@ steps:
           +
            class BrickBreaker extends FlameGame
           -    with HasCollisionDetection, KeyboardEvents {
-          +    with HasCollisionDetection, KeyboardEvents, TapDetector {
+          +    with HasCollisionDetection, KeyboardEvents, TapCallbacks {
              BrickBreaker()
                : super(
                    camera: CameraComponent.withFixedResolution(
@@ -869,8 +949,8 @@ steps:
 
           -    debugMode = true;
           +  @override
-          +  void onTap() {
-          +    super.onTap();
+          +  void onTapDown(TapDownEvent event) {
+          +    super.onTapDown(event);
           +    startGame();
              }
 
@@ -1039,6 +1119,22 @@ steps:
                <application
                    android:label="brick_breaker"
                    android:name="${applicationName}"
+      - name: Build iOS simulator bundle
+        platforms: [macos]
+        path: brick_breaker
+        flutter: build ios --simulator
+      - name: Build macOS app
+        platforms: [macos]
+        path: brick_breaker
+        flutter: build macos
+      - name: Build Linux app
+        platforms: [linux]
+        path: brick_breaker
+        flutter: build linux
+      - name: Build Windows app
+        platforms: [windows]
+        path: brick_breaker
+        flutter: build windows
       - name: Copy step_09
         copydir:
           from: brick_breaker
