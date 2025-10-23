@@ -17,7 +17,7 @@ import 'config.dart';
 enum PlayState { welcome, playing, gameOver, won }
 
 class BrickBreaker extends FlameGame
-    with HasCollisionDetection, KeyboardEvents, TapDetector {
+    with HasCollisionDetection, KeyboardEvents, TapCallbacks {
   BrickBreaker()
     : super(
         camera: CameraComponent.withFixedResolution(
@@ -100,8 +100,8 @@ class BrickBreaker extends FlameGame
   }
 
   @override
-  void onTap() {
-    super.onTap();
+  void onTapDown(TapDownEvent event) {
+    super.onTapDown(event);
     startGame();
   }
 
