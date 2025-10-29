@@ -1,7 +1,3 @@
-// Copyright 2022 The Flutter Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -121,8 +117,8 @@ class ThemeProvider extends InheritedWidget {
     );
   }
 
-  BottomAppBarThemeData bottomAppBarTheme(ColorScheme colors) {
-    return BottomAppBarThemeData(color: colors.surface, elevation: 0);
+  BottomAppBarTheme bottomAppBarTheme(ColorScheme colors) {
+    return BottomAppBarTheme(color: colors.surface, elevation: 0);
   }
 
   BottomNavigationBarThemeData bottomNavigationBarTheme(ColorScheme colors) {
