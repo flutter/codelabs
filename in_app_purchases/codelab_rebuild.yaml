@@ -16761,6 +16761,9 @@ steps:
           include: package:lints/recommended.yaml
           
           analyzer:
+            errors:
+              # TODO: https://github.com/flutter/flutter/issues/178321
+              deprecated_member_use: ignore
             language:
               strict-casts: true
               strict-inference: true
