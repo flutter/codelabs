@@ -767,7 +767,7 @@ steps:
           +    ndkVersion = "27.0.12077973"
            
                compileOptions {
-                   sourceCompatibility = JavaVersion.VERSION_11
+                   sourceCompatibility = JavaVersion.VERSION_17
           @@ -37,6 +37,9 @@ android {
                        signingConfig = signingConfigs.getByName("debug")
                    }

@@ -10,7 +10,7 @@ global pub executable cache by running the following command from this
 project directory.
 
 ```console
-$ dart pub global activate --source path .
+dart pub global activate --source path .
 ```
 
 ## Usage
@@ -20,8 +20,8 @@ of these configuration files in the codelabs in this repository. To run the
 tool on the `adaptive_app` codelab, run the following commands:
 
 ```console
-$ cd ../..    # go back to the root of the flutter/codelabs checkout
-$ codelab_rebuild adaptive_app/codelab_rebuild.yaml
+cd ../..    # go back to the root of the flutter/codelabs checkout
+codelab_rebuild adaptive_app/codelab_rebuild.yaml
 ```
 
 ## Building a `codelab_rebuild.yaml` configuration

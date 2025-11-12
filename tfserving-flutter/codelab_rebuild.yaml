@@ -25,7 +25,7 @@ steps:
             rules:
       - name: Add dependencies
         path: codelab2/tfserving_flutter
-        flutter: pub add http protobuf grpc fixnum
+        flutter: pub add http protobuf:^4.1.0 grpc fixnum
       - name: Add .gemini directory
         mkdir: codelab2/tfserving_flutter/.gemini
       - name: Add .gemini/settings.json
