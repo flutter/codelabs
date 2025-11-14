@@ -1,5 +1,8 @@
 include: package:lints/recommended.yaml
 
+analyzer:
+  errors:
+    experimental_member_use: ignore
 linter:
   rules:
     avoid_types_on_closure_parameters: true
