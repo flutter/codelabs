@@ -19,8 +19,7 @@ declare -a CODELABS=(
   "firebase-auth-flutterfire-ui"
   "firebase-emulator-suite"
   "firebase-get-to-know-flutter"
-  # TODO: Fix experimental_member_use warning
-  # "forge2d_game"
+  "forge2d_game"
   "generate_crossword"
   "github-client"
   "google-maps-in-flutter"
@@ -33,8 +32,7 @@ declare -a CODELABS=(
   "tfagents-flutter"
   "tfrs-flutter"
   "tfserving-flutter"
-  # TODO: Fix experimental_member_use warning
-  # "tooling"
+  "tooling"
   "webview_flutter"
   )
 
