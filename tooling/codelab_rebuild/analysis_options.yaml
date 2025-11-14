@@ -2,7 +2,7 @@ include: package:lints/recommended.yaml
 
 analyzer:
   errors:
-    # TODO: This codelab relies on experimental APIs for modifying macOS config
+    # TODO: This tooling relies on experimental APIs for modifying macOS config
     experimental_member_use: ignore
 linter:
   rules:
