@@ -1,10 +1,10 @@
 name: forge2d_game
 description: "A new Flutter project."
 publish_to: 'none'
-version: 0.1.0
+version: 0.1.0+1
 
 environment:
-  sdk: ^3.10.0-0
+  sdk: ^3.10.0
 
 dependencies:
   flutter:

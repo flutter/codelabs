@@ -1,5 +1,9 @@
 include: package:lints/recommended.yaml
 
+analyzer:
+  errors:
+    # TODO: This tooling relies on experimental APIs for modifying macOS config
+    experimental_member_use: ignore
 linter:
   rules:
     avoid_types_on_closure_parameters: true

@@ -16,6 +16,10 @@ steps:
         replace-contents: |
           include: ../../analysis_options.yaml
           
+          analyzer:
+            # TODO: This codelab relies on experimental APIs for modifying macOS config and parsing spritesheet_elements.xml
+            errors:
+              experimental_member_use: ignore
           linter:
             rules:
               prefer_const_constructors: false
