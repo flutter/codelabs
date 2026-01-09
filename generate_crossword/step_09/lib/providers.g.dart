@@ -11,7 +11,7 @@ part of 'providers.dart';
 /// A provider for the wordlist to use when generating the crossword.
 
 @ProviderFor(wordList)
-const wordListProvider = WordListProvider._();
+final wordListProvider = WordListProvider._();
 
 /// A provider for the wordlist to use when generating the crossword.
 
@@ -24,7 +24,7 @@ final class WordListProvider
         >
     with $FutureModifier<BuiltSet<String>>, $FutureProvider<BuiltSet<String>> {
   /// A provider for the wordlist to use when generating the crossword.
-  const WordListProvider._()
+  WordListProvider._()
     : super(
         from: null,
         argument: null,
@@ -55,12 +55,12 @@ String _$wordListHash() => r'07003444d7241448561b638500001e31610b4717';
 /// A provider that holds the current size of the crossword to generate.
 
 @ProviderFor(Size)
-const sizeProvider = SizeProvider._();
+final sizeProvider = SizeProvider._();
 
 /// A provider that holds the current size of the crossword to generate.
 final class SizeProvider extends $NotifierProvider<Size, CrosswordSize> {
   /// A provider that holds the current size of the crossword to generate.
-  const SizeProvider._()
+  SizeProvider._()
     : super(
         from: null,
         argument: null,
@@ -96,7 +96,6 @@ abstract class _$Size extends $Notifier<CrosswordSize> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<CrosswordSize, CrosswordSize>;
     final element =
         ref.element
@@ -106,12 +105,12 @@ abstract class _$Size extends $Notifier<CrosswordSize> {
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(workQueue)
-const workQueueProvider = WorkQueueProvider._();
+final workQueueProvider = WorkQueueProvider._();
 
 final class WorkQueueProvider
     extends
@@ -121,7 +120,7 @@ final class WorkQueueProvider
           Stream<model.WorkQueue>
         >
     with $FutureModifier<model.WorkQueue>, $StreamProvider<model.WorkQueue> {
-  const WorkQueueProvider._()
+  WorkQueueProvider._()
     : super(
         from: null,
         argument: null,
@@ -150,11 +149,11 @@ final class WorkQueueProvider
 String _$workQueueHash() => r'297192935b85a20243519048088822c6ff30dbac';
 
 @ProviderFor(Puzzle)
-const puzzleProvider = PuzzleProvider._();
+final puzzleProvider = PuzzleProvider._();
 
 final class PuzzleProvider
     extends $NotifierProvider<Puzzle, model.CrosswordPuzzleGame> {
-  const PuzzleProvider._()
+  PuzzleProvider._()
     : super(
         from: null,
         argument: null,
@@ -188,7 +187,6 @@ abstract class _$Puzzle extends $Notifier<model.CrosswordPuzzleGame> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref =
         this.ref as $Ref<model.CrosswordPuzzleGame, model.CrosswordPuzzleGame>;
     final element =
@@ -199,6 +197,6 @@ abstract class _$Puzzle extends $Notifier<model.CrosswordPuzzleGame> {
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }

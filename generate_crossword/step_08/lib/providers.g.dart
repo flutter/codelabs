@@ -11,7 +11,7 @@ part of 'providers.dart';
 /// A provider for the wordlist to use when generating the crossword.
 
 @ProviderFor(wordList)
-const wordListProvider = WordListProvider._();
+final wordListProvider = WordListProvider._();
 
 /// A provider for the wordlist to use when generating the crossword.
 
@@ -24,7 +24,7 @@ final class WordListProvider
         >
     with $FutureModifier<BuiltSet<String>>, $FutureProvider<BuiltSet<String>> {
   /// A provider for the wordlist to use when generating the crossword.
-  const WordListProvider._()
+  WordListProvider._()
     : super(
         from: null,
         argument: null,
@@ -55,12 +55,12 @@ String _$wordListHash() => r'07003444d7241448561b638500001e31610b4717';
 /// A provider that holds the current size of the crossword to generate.
 
 @ProviderFor(Size)
-const sizeProvider = SizeProvider._();
+final sizeProvider = SizeProvider._();
 
 /// A provider that holds the current size of the crossword to generate.
 final class SizeProvider extends $NotifierProvider<Size, CrosswordSize> {
   /// A provider that holds the current size of the crossword to generate.
-  const SizeProvider._()
+  SizeProvider._()
     : super(
         from: null,
         argument: null,
@@ -96,7 +96,6 @@ abstract class _$Size extends $Notifier<CrosswordSize> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<CrosswordSize, CrosswordSize>;
     final element =
         ref.element
@@ -106,12 +105,12 @@ abstract class _$Size extends $Notifier<CrosswordSize> {
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(workQueue)
-const workQueueProvider = WorkQueueProvider._();
+final workQueueProvider = WorkQueueProvider._();
 
 final class WorkQueueProvider
     extends
@@ -121,7 +120,7 @@ final class WorkQueueProvider
           Stream<model.WorkQueue>
         >
     with $FutureModifier<model.WorkQueue>, $StreamProvider<model.WorkQueue> {
-  const WorkQueueProvider._()
+  WorkQueueProvider._()
     : super(
         from: null,
         argument: null,
@@ -150,10 +149,10 @@ final class WorkQueueProvider
 String _$workQueueHash() => r'dca73cc7fb2cef3f5dcfdcc3a0926167e88c1083';
 
 @ProviderFor(StartTime)
-const startTimeProvider = StartTimeProvider._();
+final startTimeProvider = StartTimeProvider._();
 
 final class StartTimeProvider extends $NotifierProvider<StartTime, DateTime?> {
-  const StartTimeProvider._()
+  StartTimeProvider._()
     : super(
         from: null,
         argument: null,
@@ -187,7 +186,6 @@ abstract class _$StartTime extends $Notifier<DateTime?> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<DateTime?, DateTime?>;
     final element =
         ref.element
@@ -197,15 +195,15 @@ abstract class _$StartTime extends $Notifier<DateTime?> {
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(EndTime)
-const endTimeProvider = EndTimeProvider._();
+final endTimeProvider = EndTimeProvider._();
 
 final class EndTimeProvider extends $NotifierProvider<EndTime, DateTime?> {
-  const EndTimeProvider._()
+  EndTimeProvider._()
     : super(
         from: null,
         argument: null,
@@ -239,7 +237,6 @@ abstract class _$EndTime extends $Notifier<DateTime?> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<DateTime?, DateTime?>;
     final element =
         ref.element
@@ -249,17 +246,17 @@ abstract class _$EndTime extends $Notifier<DateTime?> {
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(expectedRemainingTime)
-const expectedRemainingTimeProvider = ExpectedRemainingTimeProvider._();
+final expectedRemainingTimeProvider = ExpectedRemainingTimeProvider._();
 
 final class ExpectedRemainingTimeProvider
     extends $FunctionalProvider<Duration, Duration, Duration>
     with $Provider<Duration> {
-  const ExpectedRemainingTimeProvider._()
+  ExpectedRemainingTimeProvider._()
     : super(
         from: null,
         argument: null,
@@ -298,13 +295,13 @@ String _$expectedRemainingTimeHash() =>
 /// A provider that holds whether to display info.
 
 @ProviderFor(ShowDisplayInfo)
-const showDisplayInfoProvider = ShowDisplayInfoProvider._();
+final showDisplayInfoProvider = ShowDisplayInfoProvider._();
 
 /// A provider that holds whether to display info.
 final class ShowDisplayInfoProvider
     extends $NotifierProvider<ShowDisplayInfo, bool> {
   /// A provider that holds whether to display info.
-  const ShowDisplayInfoProvider._()
+  ShowDisplayInfoProvider._()
     : super(
         from: null,
         argument: null,
@@ -340,7 +337,6 @@ abstract class _$ShowDisplayInfo extends $Notifier<bool> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<bool, bool>;
     final element =
         ref.element
@@ -350,20 +346,20 @@ abstract class _$ShowDisplayInfo extends $Notifier<bool> {
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }
 
 /// A provider that summarise the DisplayInfo from a [model.WorkQueue].
 
 @ProviderFor(DisplayInfo)
-const displayInfoProvider = DisplayInfoProvider._();
+final displayInfoProvider = DisplayInfoProvider._();
 
 /// A provider that summarise the DisplayInfo from a [model.WorkQueue].
 final class DisplayInfoProvider
     extends $NotifierProvider<DisplayInfo, model.DisplayInfo> {
   /// A provider that summarise the DisplayInfo from a [model.WorkQueue].
-  const DisplayInfoProvider._()
+  DisplayInfoProvider._()
     : super(
         from: null,
         argument: null,
@@ -399,7 +395,6 @@ abstract class _$DisplayInfo extends $Notifier<model.DisplayInfo> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<model.DisplayInfo, model.DisplayInfo>;
     final element =
         ref.element
@@ -409,20 +404,20 @@ abstract class _$DisplayInfo extends $Notifier<model.DisplayInfo> {
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }
 
 /// A provider that holds the current number of background workers to use.
 
 @ProviderFor(WorkerCount)
-const workerCountProvider = WorkerCountProvider._();
+final workerCountProvider = WorkerCountProvider._();
 
 /// A provider that holds the current number of background workers to use.
 final class WorkerCountProvider
     extends $NotifierProvider<WorkerCount, BackgroundWorkers> {
   /// A provider that holds the current number of background workers to use.
-  const WorkerCountProvider._()
+  WorkerCountProvider._()
     : super(
         from: null,
         argument: null,
@@ -458,7 +453,6 @@ abstract class _$WorkerCount extends $Notifier<BackgroundWorkers> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<BackgroundWorkers, BackgroundWorkers>;
     final element =
         ref.element
@@ -468,6 +462,6 @@ abstract class _$WorkerCount extends $Notifier<BackgroundWorkers> {
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }

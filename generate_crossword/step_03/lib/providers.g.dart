@@ -11,7 +11,7 @@ part of 'providers.dart';
 /// A provider for the wordlist to use when generating the crossword.
 
 @ProviderFor(wordList)
-const wordListProvider = WordListProvider._();
+final wordListProvider = WordListProvider._();
 
 /// A provider for the wordlist to use when generating the crossword.
 
@@ -24,7 +24,7 @@ final class WordListProvider
         >
     with $FutureModifier<BuiltSet<String>>, $FutureProvider<BuiltSet<String>> {
   /// A provider for the wordlist to use when generating the crossword.
-  const WordListProvider._()
+  WordListProvider._()
     : super(
         from: null,
         argument: null,
