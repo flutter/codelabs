@@ -4,12 +4,12 @@ publish_to: 'none'
 version: 0.1.0
 
 environment:
-  sdk: ^3.10.0-0
+  sdk: ^3.10.7
 
 dependencies:
   flutter:
     sdk: flutter
-  flutter_soloud: ^3.4.1
+  flutter_soloud: ^3.4.8
   logging: ^1.3.0
 
 dev_dependencies:
