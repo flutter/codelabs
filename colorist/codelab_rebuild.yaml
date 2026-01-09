@@ -8,7 +8,7 @@ steps:
         flutter: create -e colorist --platforms=android,ios,macos,web,windows
       - name: Add dependencies
         path: colorist
-        flutter: pub add colorist_ui flutter_riverpod riverpod_annotation dev:build_runner dev:riverpod_generator dev:riverpod_lint dev:json_serializable dev:custom_lint
+        flutter: pub add colorist_ui flutter_riverpod riverpod_annotation dev:build_runner dev:riverpod_generator dev:json_serializable dev:custom_lint
       - name: Strip DEVELOPMENT_TEAM
         strip-lines-containing: DEVELOPMENT_TEAM =
         path: colorist/ios/Runner.xcodeproj/project.pbxproj
@@ -16,10 +16,6 @@ steps:
         path: colorist/analysis_options.yaml
         replace-contents: |
           include: ../../analysis_options.yaml
-
-          analyzer:
-            plugins:
-              - custom_lint
 
           linter:
             rules:
@@ -429,7 +425,7 @@ steps:
         patch-u: |
           --- b/colorist/step_03/pubspec.yaml
           +++ a/colorist/step_03/pubspec.yaml
-          @@ -27,3 +27,6 @@ dev_dependencies:
+          @@ -26,3 +26,6 @@ dev_dependencies:
 
            flutter:
              uses-material-design: true
