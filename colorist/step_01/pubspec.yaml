@@ -4,7 +4,7 @@ publish_to: 'none'
 version: 0.1.0
 
 environment:
-  sdk: ^3.10.0-0
+  sdk: ^3.10.7
 
 dependencies:
   flutter:
@@ -17,10 +17,9 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
-  build_runner: ^2.10.1
+  build_runner: ^2.10.4
   riverpod_generator: ^3.0.3
-  riverpod_lint: ^3.0.3
-  json_serializable: ^6.11.1
+  json_serializable: ^6.11.2
   custom_lint: ^0.8.1
 
 flutter:

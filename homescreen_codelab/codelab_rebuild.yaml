@@ -786,6 +786,24 @@ steps:
           <plist version="1.0">
           <dict/>
           </plist>
+      - name: Patch ios/Podfile
+        path: homescreen_widgets/ios/Podfile
+        patch-u: |
+          --- a/homescreen_widgets/step_03/ios/Podfile
+          +++ b/homescreen_widgets/step_03/ios/Podfile
+          @@ -1,5 +1,5 @@
+           # Uncomment this line to define a global platform for your project
+          -# platform :ios, '13.0'
+          +platform :ios, '15.0'
+
+           # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
+           ENV['COCOAPODS_DISABLE_STATS'] = 'true'
+      - name: Patch ios/Runner.xcodeproj/project.pbxproj
+        xcode-project-path: homescreen_widgets/ios/Runner.xcodeproj
+        iphoneos-deployment-target: '15.0'
+      - name: pod update ios
+        path: homescreen_widgets/ios
+        pod: update
       - name: Add lib/article_screen.dart
         path: homescreen_widgets/lib/article_screen.dart
         replace-contents: |

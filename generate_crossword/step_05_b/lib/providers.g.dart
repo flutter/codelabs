@@ -11,7 +11,7 @@ part of 'providers.dart';
 /// A provider for the wordlist to use when generating the crossword.
 
 @ProviderFor(wordList)
-const wordListProvider = WordListProvider._();
+final wordListProvider = WordListProvider._();
 
 /// A provider for the wordlist to use when generating the crossword.
 
@@ -24,7 +24,7 @@ final class WordListProvider
         >
     with $FutureModifier<BuiltSet<String>>, $FutureProvider<BuiltSet<String>> {
   /// A provider for the wordlist to use when generating the crossword.
-  const WordListProvider._()
+  WordListProvider._()
     : super(
         from: null,
         argument: null,
@@ -55,12 +55,12 @@ String _$wordListHash() => r'07003444d7241448561b638500001e31610b4717';
 /// A provider that holds the current size of the crossword to generate.
 
 @ProviderFor(Size)
-const sizeProvider = SizeProvider._();
+final sizeProvider = SizeProvider._();
 
 /// A provider that holds the current size of the crossword to generate.
 final class SizeProvider extends $NotifierProvider<Size, CrosswordSize> {
   /// A provider that holds the current size of the crossword to generate.
-  const SizeProvider._()
+  SizeProvider._()
     : super(
         from: null,
         argument: null,
@@ -96,7 +96,6 @@ abstract class _$Size extends $Notifier<CrosswordSize> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<CrosswordSize, CrosswordSize>;
     final element =
         ref.element
@@ -106,12 +105,12 @@ abstract class _$Size extends $Notifier<CrosswordSize> {
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(crossword)
-const crosswordProvider = CrosswordProvider._();
+final crosswordProvider = CrosswordProvider._();
 
 final class CrosswordProvider
     extends
@@ -121,7 +120,7 @@ final class CrosswordProvider
           Stream<model.Crossword>
         >
     with $FutureModifier<model.Crossword>, $StreamProvider<model.Crossword> {
-  const CrosswordProvider._()
+  CrosswordProvider._()
     : super(
         from: null,
         argument: null,

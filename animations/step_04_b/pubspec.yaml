@@ -4,12 +4,12 @@ publish_to: 'none'
 version: 0.1.0
 
 environment:
-  sdk: ^3.10.0-0
+  sdk: ^3.10.7
 
 dependencies:
   flutter:
     sdk: flutter
-  animations: ^2.1.0
+  animations: ^2.1.1
 
 dev_dependencies:
   flutter_test:
