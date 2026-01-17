@@ -15,7 +15,6 @@ declare -a CODELABS=(
   "colorist"
   "dart-patterns-and-records"
   "deeplink_cookbook"
-  "ffigen_codelab"
   "firebase-auth-flutterfire-ui"
   "firebase-emulator-suite"
   "firebase-get-to-know-flutter"
