@@ -9,7 +9,6 @@ declare -a CODELABS=(
   "adaptive_app"
   "animated-responsive-layout"
   "animations"
-  "audio_soloud"
   "boring_to_beautiful"
   "brick_breaker"
   "colorist"
