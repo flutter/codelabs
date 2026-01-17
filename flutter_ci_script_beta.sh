@@ -17,7 +17,6 @@ declare -a CODELABS=(
   "deeplink_cookbook"
   "ffigen_codelab"
   "firebase-auth-flutterfire-ui"
-  "firebase-emulator-suite"
   "firebase-get-to-know-flutter"
   "forge2d_game"
   "generate_crossword"
