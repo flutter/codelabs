@@ -28,7 +28,6 @@ declare -a CODELABS=(
   "in_app_purchases"
   "namer"
   "next-gen-ui"
-  "testing_codelab"
   "tfagents-flutter"
   "tfrs-flutter"
   "tfserving-flutter"
