@@ -18,7 +18,6 @@ Here is a list of the codelabs represented here:
   - [Building a board game with TensorFlow Agents and Flutter](https://codelabs.developers.google.com/tfagents-flutter) is in [`tfagents-flutter`](tfagents-flutter)
   - [Building a full-stack movie recommendation system](https://codelabs.developers.google.com/tfrecommenders-flutter) is in [`tfrs-flutter`](tfrs-flutter)
   - [Building an animated responsive app layout with Material 3](https://codelabs.developers.google.com/codelabs/flutter-animated-responsive-layout) is in [`animated-responsive-layout`](animated-responsive-layout)
-  - [Building next generation UIs in Flutter](https://codelabs.developers.google.com/codelabs/flutter-next-gen-uis?hl=en#0) is in [`next-gen-ui`](next-gen-ui)
   - [Create haikus about Google products with the PaLM API and Flutter](https://codelabs.developers.google.com/haiku-generator) is in [`haiku_generator`](haiku_generator)
   - [Dive into Dart's patterns and records](https://codelabs.developers.google.com/codelabs/dart-patterns-records) is in [`dart-patterns-and-records`](dart-patterns-and-records)
   - [Get started with text classification in Flutter apps](https://developers.google.com/learn/pathways/text-classification-flutter) pathway is in [`tfserving-flutter`](tfserving-flutter)
