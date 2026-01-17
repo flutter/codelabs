@@ -21,7 +21,6 @@ declare -a CODELABS=(
   "firebase-get-to-know-flutter"
   "forge2d_game"
   "generate_crossword"
-  "github-client"
   "google-maps-in-flutter"
   "haiku_generator"
   "homescreen_codelab"
