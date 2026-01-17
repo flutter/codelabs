@@ -19,7 +19,6 @@ declare -a CODELABS=(
   "firebase-auth-flutterfire-ui"
   "firebase-emulator-suite"
   "firebase-get-to-know-flutter"
-  "forge2d_game"
   "generate_crossword"
   "github-client"
   "google-maps-in-flutter"
