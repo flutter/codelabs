@@ -5,7 +5,6 @@
 This repository contains the code for a variety of [Flutter Codelabs](https://codelabs.developers.google.com/?product=flutter). 
 Here is a list of the codelabs represented here:
 
-  - [Adaptive Apps in Flutter](https://codelabs.developers.google.com/codelabs/flutter-adaptive-app) is in [`adaptive_app`](adaptive_app)
   - [Add a user authentication flow to a Flutter app using FirebaseUI](https://firebase.google.com/codelabs/firebase-auth-in-flutter-apps) is in [`firebase-auth-flutterfire-ui`](firebase-auth-flutterfire-ui)
   - [Add sound and music to your Flutter game](https://codelabs.developers.google.com/codelabs/flutter-codelab-soloud) is in [`audio_soloud`](audio_soloud)
   - [Adding a Home Screen widget to your Flutter App](https://codelabs.developers.google.com/flutter-home-screen-widgets) is in [`homescreen_codelab`](homescreen_codelab)
