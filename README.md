@@ -13,7 +13,6 @@ Here is a list of the codelabs represented here:
   - [Adding in-app purchases to your Flutter app](https://codelabs.developers.google.com/codelabs/flutter-in-app-purchases) is in [`in_app_purchases`](in_app_purchases)
   - [Adding WebView to your Flutter app](https://codelabs.developers.google.com/codelabs/flutter-webview) is in [`webview_flutter`](webview_flutter)
   - [Animations in Flutter](https://codelabs.developers.google.com/advanced-flutter-animations) is in [`animations`](animations)
-  - [Build a 2D physics game with Flutter and Flame](https://codelabs.developers.google.com/codelabs/flutter-flame-forge2d) is in [`forge2d_game`](forge2d_game)
   - [Build a word puzzle with Flutter](https://codelabs.developers.google.com/codelabs/flutter-word-puzzle) is in [`generate_crossword`](generate_crossword)
   - [Building a board game with TensorFlow Agents and Flutter](https://codelabs.developers.google.com/tfagents-flutter) is in [`tfagents-flutter`](tfagents-flutter)
   - [Building a full-stack movie recommendation system](https://codelabs.developers.google.com/tfrecommenders-flutter) is in [`tfrs-flutter`](tfrs-flutter)
