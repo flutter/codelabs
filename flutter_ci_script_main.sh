@@ -26,7 +26,6 @@ declare -a CODELABS=(
   "homescreen_codelab"
   "in_app_purchases"
   "namer"
-  "next-gen-ui"
   "testing_codelab"
   "tfagents-flutter"
   "tfrs-flutter"
