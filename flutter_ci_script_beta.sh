@@ -6,7 +6,6 @@ DIR="${BASH_SOURCE%/*}"
 source "$DIR/flutter_ci_script_shared.sh"
 
 declare -a CODELABS=(
-  "adaptive_app"
   "animated-responsive-layout"
   "animations"
   "brick_breaker"
