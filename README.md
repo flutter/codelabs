@@ -19,7 +19,6 @@ Here is a list of the codelabs represented here:
   - [Dive into Dart's patterns and records](https://codelabs.developers.google.com/codelabs/dart-patterns-records) is in [`dart-patterns-and-records`](dart-patterns-and-records)
   - [Get started with text classification in Flutter apps](https://developers.google.com/learn/pathways/text-classification-flutter) pathway is in [`tfserving-flutter`](tfserving-flutter)
   - [Get to know Firebase for Flutter](https://firebase.google.com/codelabs/firebase-get-to-know-flutter) is in [`firebase-get-to-know-flutter`](firebase-get-to-know-flutter)
-  - [How to test a Flutter app](https://codelabs.developers.google.com/codelabs/flutter-app-testing) is in [`testing_codelab`](testing_codelab)
   - [Introduction to Flame with Flutter](https://codelabs.developers.google.com/codelabs/flutter-flame-brick-breaker) is in [`brick_breaker`](brick_breaker)
   - [Your first Flutter app](https://codelabs.developers.google.com/codelabs/flutter-codelab-first) is in [`namer`](namer)
 
