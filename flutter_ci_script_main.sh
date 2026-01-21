@@ -13,7 +13,6 @@ declare -a CODELABS=(
   "dart-patterns-and-records"
   "deeplink_cookbook"
   "firebase-auth-flutterfire-ui"
-  "firebase-emulator-suite"
   "firebase-get-to-know-flutter"
   "generate_crossword"
   "google-maps-in-flutter"
