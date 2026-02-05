@@ -728,7 +728,7 @@ steps:
           +          alignment: Alignment.topCenter,
           +          children: <Widget>[
           +            ...previousChildren,
-          +            if (currentChild != null) currentChild,
+          +            ?currentChild,
           +          ],
           +        );
           +      },
@@ -1143,7 +1143,7 @@ steps:
           -          alignment: Alignment.topCenter,
           -          children: <Widget>[
           -            ...previousChildren,
-          -            if (currentChild != null) currentChild,
+          -            ?currentChild,
           -          ],
           -        );
           +    return PageTransitionSwitcher(

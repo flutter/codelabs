@@ -91,7 +91,7 @@ class QuestionCard extends StatelessWidget {
           alignment: Alignment.topCenter,
           children: <Widget>[
             ...previousChildren,
-            if (currentChild != null) currentChild,
+            ?currentChild,
           ],
         );
       },
