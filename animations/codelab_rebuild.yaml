@@ -719,17 +719,14 @@ steps:
         patch-u: |
           --- b/animations/step_03_d/lib/question_screen.dart
           +++ a/animations/step_03_d/lib/question_screen.dart
-          @@ -86,6 +86,15 @@ class QuestionCard extends StatelessWidget {
+          @@ -86,6 +86,12 @@ class QuestionCard extends StatelessWidget {
              @override
              Widget build(BuildContext context) {
                return AnimatedSwitcher(
           +      layoutBuilder: (currentChild, previousChildren) {
           +        return Stack(
           +          alignment: Alignment.topCenter,
-          +          children: <Widget>[
-          +            ...previousChildren,
-          +            if (currentChild != null) currentChild,
-          +          ],
+          +          children: <Widget>[...previousChildren, ?currentChild],
           +        );
           +      },
                  transitionBuilder: (child, animation) {
@@ -831,7 +828,7 @@ steps:
            import 'scoreboard.dart';
            import 'view_model.dart';
 
-          @@ -148,21 +149,24 @@ class AnswerCards extends StatelessWidget {
+          @@ -145,21 +146,24 @@ class AnswerCards extends StatelessWidget {
                    if (correctAnswer == index) {
                      color = Theme.of(context).colorScheme.tertiaryContainer;
                    }
@@ -904,7 +901,7 @@ steps:
         patch-u: |
           --- b/animations/step_04_b/lib/question_screen.dart
           +++ a/animations/step_04_b/lib/question_screen.dart
-          @@ -150,6 +150,7 @@ class AnswerCards extends StatelessWidget {
+          @@ -147,6 +147,7 @@ class AnswerCards extends StatelessWidget {
                      color = Theme.of(context).colorScheme.tertiaryContainer;
                    }
                    return CardFlipEffect(
@@ -1133,7 +1130,7 @@ steps:
            import 'package:flutter/material.dart';
            import 'flip_effect.dart';
            import 'scoreboard.dart';
-          @@ -86,28 +87,15 @@ class QuestionCard extends StatelessWidget {
+          @@ -86,25 +87,15 @@ class QuestionCard extends StatelessWidget {
 
              @override
              Widget build(BuildContext context) {
@@ -1141,10 +1138,7 @@ steps:
           -      layoutBuilder: (currentChild, previousChildren) {
           -        return Stack(
           -          alignment: Alignment.topCenter,
-          -          children: <Widget>[
-          -            ...previousChildren,
-          -            if (currentChild != null) currentChild,
-          -          ],
+          -          children: <Widget>[...previousChildren, ?currentChild],
           -        );
           +    return PageTransitionSwitcher(
           +      layoutBuilder: (entries) {
