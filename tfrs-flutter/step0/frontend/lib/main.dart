@@ -1,7 +1,9 @@
+import 'dart:convert';
 import 'dart:io' show Platform;
 
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 void main() => runApp(const RecommenderDemo());
 
@@ -33,9 +35,19 @@ class _RecommenderDemoState extends State<RecommenderDemo> {
       _server = '127.0.0.1';
     }
 
-    //TODO: add code to send request to the recommendation engine backend
+    final response = await http.post(
+      Uri.parse('http://$_server:5000/recommend'),
+      headers: <String, String>{'Content-Type': 'application/json'},
+      body: jsonEncode(<String, String>{'user_id': _userIDController.text}),
+    );
 
-    return [];
+    if (response.statusCode == 200) {
+      return List<String>.from(
+        jsonDecode(response.body)['movies'] as Iterable<dynamic>,
+      );
+    } else {
+      throw Exception('Error response');
+    }
   }
 
   @override
