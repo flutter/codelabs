@@ -1,15 +1,15 @@
 name: quiz
 description: "A quiz app for demonstrating animation effects in Flutter."
 publish_to: 'none'
-version: 0.1.0
+version: 0.1.0+1
 
 environment:
-  sdk: ^3.10.7
+  sdk: ^3.11.4
 
 dependencies:
+  animations: ^2.1.2
   flutter:
     sdk: flutter
-  animations: ^2.1.1
 
 dev_dependencies:
   flutter_test:
