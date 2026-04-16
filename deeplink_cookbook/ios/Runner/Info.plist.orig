@@ -18,8 +18,6 @@
 	<string>deeplink_cookbook</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
-	<key>FlutterDeepLinkingEnabled</key>
-	<true/>
 	<key>CFBundleShortVersionString</key>
 	<string>$(FLUTTER_BUILD_NAME)</string>
 	<key>CFBundleSignature</key>
