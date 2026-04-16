@@ -1,0 +1,162 @@
+{
+  "project_info": {
+    "project_number": "174743616791",
+    "project_id": "crossword-agent-8fad1",
+    "storage_bucket": "crossword-agent-8fad1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:174743616791:android:70194c2c65c5d963d90b52",
+        "android_client_info": {
+          "package_name": "com.example.crossword_agent"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgtoLCjFR3f9CVbH8BdWe4bcFgmVk5z1E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:174743616791:android:73daf9ff3bfdb877d90b52",
+        "android_client_info": {
+          "package_name": "com.example.crossword_companion"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgtoLCjFR3f9CVbH8BdWe4bcFgmVk5z1E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:174743616791:android:c01ee20d9e880dddd90b52",
+        "android_client_info": {
+          "package_name": "com.example.flutter_crossword_companion"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgtoLCjFR3f9CVbH8BdWe4bcFgmVk5z1E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:174743616791:android:f47d5f7c7393beb8d90b52",
+        "android_client_info": {
+          "package_name": "com.example.flutter_firebase_ai_sample"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgtoLCjFR3f9CVbH8BdWe4bcFgmVk5z1E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:174743616791:android:e6315d2cf9550002d90b52",
+        "android_client_info": {
+          "package_name": "com.example.intro_to_genui"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgtoLCjFR3f9CVbH8BdWe4bcFgmVk5z1E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:174743616791:android:008bba1bbd753fdad90b52",
+        "android_client_info": {
+          "package_name": "com.example.just_today"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgtoLCjFR3f9CVbH8BdWe4bcFgmVk5z1E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:174743616791:android:33df9a5dc398e71dd90b52",
+        "android_client_info": {
+          "package_name": "com.example.nine_demo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgtoLCjFR3f9CVbH8BdWe4bcFgmVk5z1E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:174743616791:android:7e4f5c85bb2f9e3dd90b52",
+        "android_client_info": {
+          "package_name": "com.example.workout_buddy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgtoLCjFR3f9CVbH8BdWe4bcFgmVk5z1E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
