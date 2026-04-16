@@ -10,7 +10,7 @@ part of 'gemini.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(firebaseApp)
-const firebaseAppProvider = FirebaseAppProvider._();
+final firebaseAppProvider = FirebaseAppProvider._();
 
 final class FirebaseAppProvider
     extends
@@ -20,7 +20,7 @@ final class FirebaseAppProvider
           FutureOr<FirebaseApp>
         >
     with $FutureModifier<FirebaseApp>, $FutureProvider<FirebaseApp> {
-  const FirebaseAppProvider._()
+  FirebaseAppProvider._()
     : super(
         from: null,
         argument: null,
@@ -49,7 +49,7 @@ final class FirebaseAppProvider
 String _$firebaseAppHash() => r'7663fd816ebac4287db82a095568ee3dc843da9a';
 
 @ProviderFor(geminiModel)
-const geminiModelProvider = GeminiModelProvider._();
+final geminiModelProvider = GeminiModelProvider._();
 
 final class GeminiModelProvider
     extends
@@ -59,7 +59,7 @@ final class GeminiModelProvider
           FutureOr<GenerativeModel>
         >
     with $FutureModifier<GenerativeModel>, $FutureProvider<GenerativeModel> {
-  const GeminiModelProvider._()
+  GeminiModelProvider._()
     : super(
         from: null,
         argument: null,
@@ -88,7 +88,7 @@ final class GeminiModelProvider
 String _$geminiModelHash() => r'f172c92d9706bbc512831e94d1348372caed4fd9';
 
 @ProviderFor(chatSession)
-const chatSessionProvider = ChatSessionProvider._();
+final chatSessionProvider = ChatSessionProvider._();
 
 final class ChatSessionProvider
     extends
@@ -98,7 +98,7 @@ final class ChatSessionProvider
           FutureOr<ChatSession>
         >
     with $FutureModifier<ChatSession>, $FutureProvider<ChatSession> {
-  const ChatSessionProvider._()
+  ChatSessionProvider._()
     : super(
         from: null,
         argument: null,
