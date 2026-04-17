@@ -264,17 +264,30 @@ Future<void> _buildBlueprintStep(Directory cwd, BlueprintStep step) async {
 
   final xcodeProjectPath = step.xcodeProjectPath;
   if (xcodeProjectPath != null && xcodeProjectPath.isNotEmpty) {
-    final xcodeAddFile = step.xcodeAddFile;
+    final xcodeAddSourceFile = step.xcodeAddSourceFile;
+    final xcodeAddResource = step.xcodeAddResource;
     final iphoneosDeploymentTarget = step.iphoneosDeploymentTarget;
     final macosxDeploymentTarget = step.macosxDeploymentTarget;
     late String script;
-    if (xcodeAddFile != null && xcodeAddFile.isNotEmpty) {
+    if (xcodeAddSourceFile != null && xcodeAddSourceFile.isNotEmpty) {
       script =
           '''
 require "xcodeproj"
 project = Xcodeproj::Project.open("$xcodeProjectPath")
 group = project.main_group["Runner"]
-project.targets.first.add_file_references([group.new_file("$xcodeAddFile")])
+project.targets.first.add_file_references([group.new_file("$xcodeAddSourceFile")])
+project.save
+'''
+              .split('\n')
+              .map((str) => "-e '$str'")
+              .join(' ');
+    } else if (xcodeAddResource != null && xcodeAddResource.isNotEmpty) {
+      script =
+          '''
+require "xcodeproj"
+project = Xcodeproj::Project.open("$xcodeProjectPath")
+group = project.main_group["Runner"]
+project.targets.first.add_resources([group.new_file("$xcodeAddResource")])
 project.save
 '''
               .split('\n')

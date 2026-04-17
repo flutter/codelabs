@@ -1,0 +1,1330 @@
+name: intro_to_genui rebuild script
+steps:
+  - name: step_03
+    steps:
+      - name: Remove generated code
+        rmdir: step_03
+      - name: Create project
+        flutter: create -e intro_to_genui
+      - name: Add dependencies
+        path: intro_to_genui
+        flutter: pub add firebase_ai firebase_core genui json_schema_builder
+      - name: Strip DEVELOPMENT_TEAM
+        strip-lines-containing: DEVELOPMENT_TEAM =
+        path: intro_to_genui/ios/Runner.xcodeproj/project.pbxproj
+      - name: Configure analysis_options.yaml
+        path: intro_to_genui/analysis_options.yaml
+        replace-contents: |
+          include: ../../analysis_options.yaml
+      - name: dart fix
+        path: intro_to_genui
+        dart: fix --apply
+      - name: Remove README
+        rm: intro_to_genui/README.md
+      - name: Add .gemini directory
+        mkdir: intro_to_genui/.gemini
+      - name: Add .gemini/settings.json
+        path: intro_to_genui/.gemini/settings.json
+        replace-contents: |
+          {
+              "mcpServers": {
+                  "dart": {
+                      "command": "dart",
+                      "args": [
+                          "mcp-server"
+                      ]
+                  }
+              }
+          }
+      - name: Add .vscode directory
+        mkdir: intro_to_genui/.vscode
+      - name: Add .vscode/launch.json
+        path: intro_to_genui/.vscode/launch.json
+        replace-contents: |
+          {
+              // Use IntelliSense to learn about possible attributes.
+              // Hover to view descriptions of existing attributes.
+              // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+              "version": "0.2.0",
+              "configurations": [
+                  {
+                      "name": "intro_to_genui",
+                      "request": "launch",
+                      "type": "dart"
+                  }
+              ]
+          }
+      - name: Replace lib/main.dart
+        path: intro_to_genui/lib/main.dart
+        replace-contents: |
+          import 'package:firebase_ai/firebase_ai.dart';
+          import 'package:firebase_core/firebase_core.dart';
+          import 'package:flutter/material.dart';
+
+          import 'firebase_options.dart';
+          import 'message_bubble.dart';
+
+          Future<void> main() async {
+            WidgetsFlutterBinding.ensureInitialized();
+            await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+            runApp(const MyApp());
+          }
+
+          class MyApp extends StatelessWidget {
+            const MyApp({super.key});
+
+            @override
+            Widget build(BuildContext context) {
+              return MaterialApp(
+                title: 'Just Today',
+                theme: ThemeData(
+                  colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+                ),
+                home: const MyHomePage(),
+              );
+            }
+          }
+
+          class MyHomePage extends StatefulWidget {
+            const MyHomePage({super.key});
+
+            @override
+            State<MyHomePage> createState() => _MyHomePageState();
+          }
+
+          sealed class ConversationItem {}
+
+          class TextItem extends ConversationItem {
+            final String text;
+            final bool isUser;
+            TextItem({required this.text, this.isUser = false});
+          }
+
+          class _MyHomePageState extends State<MyHomePage> {
+            final List<ConversationItem> _items = [];
+            final _textController = TextEditingController();
+            final _scrollController = ScrollController();
+            late final ChatSession _chatSession;
+
+            @override
+            void initState() {
+              super.initState();
+              final model = FirebaseAI.googleAI().generativeModel(
+                model: 'gemini-3-flash-preview',
+              );
+              _chatSession = model.startChat();
+              _chatSession.sendMessage(Content.text(systemInstruction));
+            }
+
+            void _scrollToBottom() {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (_scrollController.hasClients) {
+                  _scrollController.animateTo(
+                    _scrollController.position.maxScrollExtent,
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeOut,
+                  );
+                }
+              });
+            }
+
+            @override
+            void dispose() {
+              _textController.dispose();
+              _scrollController.dispose();
+              super.dispose();
+            }
+
+            Future<void> _addMessage() async {
+              final text = _textController.text;
+
+              if (text.trim().isEmpty) {
+                return;
+              }
+              _textController.clear();
+
+              setState(() {
+                _items.add(TextItem(text: text, isUser: true));
+              });
+
+              _scrollToBottom();
+
+              final response = await _chatSession.sendMessage(Content.text(text));
+
+              if (response.text?.isNotEmpty ?? false) {
+                setState(() {
+                  _items.add(TextItem(text: response.text!, isUser: false));
+                });
+                _scrollToBottom();
+              }
+            }
+
+            @override
+            Widget build(BuildContext context) {
+              return Scaffold(
+                appBar: AppBar(
+                  backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+                  title: const Text('Just Today'),
+                ),
+                body: Column(
+                  children: [
+                    Expanded(
+                      child: ListView(
+                        controller: _scrollController,
+                        padding: const EdgeInsets.all(16),
+                        children: [
+                          for (final item in _items)
+                            switch (item) {
+                              TextItem() => MessageBubble(
+                                text: item.text,
+                                isUser: item.isUser,
+                              ),
+                            },
+                        ],
+                      ),
+                    ),
+                    SafeArea(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: TextField(
+                                controller: _textController,
+                                onSubmitted: (_) => _addMessage(),
+                                decoration: const InputDecoration(
+                                  hintText: 'Enter a message',
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            ElevatedButton(
+                              onPressed: _addMessage,
+                              child: const Text('Send'),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }
+          }
+
+          const systemInstruction = '''
+            ## PERSONA
+            You are an expert task planner.
+
+            ## GOAL
+            Work with me to produce a list of tasks that I should do today, and then track
+            the completion status of each one.
+
+            ## RULES
+            Talk with me only about tasks that I should do today.
+            Do not engage in conversation about any other topic.
+            Do not offer suggestions unless I ask for them.
+            Do not offer encouragement unless I ask for it.
+            Do not offer advice unless I ask for it.
+            Do not offer opinions unless I ask for them.
+
+            ## PROCESS
+            ### Planning
+            * Ask me for information about tasks that I should do today.
+            * Synthesize a list of tasks from that information.
+            * Ask clarifying questions if you need to.
+            * When you have a list of tasks that you think I should do today, present it
+              to me for review.
+            * Respond to my suggestions for changes, if I have any, until I accept the
+              list.
+
+            ### Tracking
+            * Once the list is accepted, ask me to let you know when individual tasks are
+              complete.
+            * If I tell you a task is complete, mark it as complete.
+            * Once all tasks are complete, send a message acknowledging that, and then
+              end the conversation.
+          ''';
+      - name: Add lib/message_bubble.dart
+        path: intro_to_genui/lib/message_bubble.dart
+        replace-contents: |
+          import 'package:flutter/material.dart';
+
+          class MessageBubble extends StatelessWidget {
+            final String text;
+            final bool isUser;
+
+            const MessageBubble({super.key, required this.text, required this.isUser});
+
+            @override
+            Widget build(BuildContext context) {
+              final theme = Theme.of(context);
+              final colorScheme = theme.colorScheme;
+
+              final bubbleColor = isUser
+                  ? colorScheme.primary
+                  : colorScheme.surfaceContainerHighest;
+
+              final textColor = isUser
+                  ? colorScheme.onPrimary
+                  : colorScheme.onSurfaceVariant;
+
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 8.0),
+                child: Column(
+                  crossAxisAlignment: isUser
+                      ? CrossAxisAlignment.end
+                      : CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: isUser
+                          ? MainAxisAlignment.end
+                          : MainAxisAlignment.start,
+                      children: [
+                        Flexible(
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16.0,
+                              vertical: 12.0,
+                            ),
+                            decoration: BoxDecoration(
+                              color: bubbleColor,
+                              borderRadius: BorderRadius.only(
+                                topLeft: const Radius.circular(20),
+                                topRight: const Radius.circular(20),
+                                bottomLeft: Radius.circular(isUser ? 20 : 0),
+                                bottomRight: Radius.circular(isUser ? 0 : 20),
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withAlpha(20),
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                              gradient: isUser
+                                  ? LinearGradient(
+                                      colors: [
+                                        colorScheme.primary,
+                                        colorScheme.primary.withAlpha(200),
+                                      ],
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                    )
+                                  : null,
+                            ),
+                            child: Text(
+                              text,
+                              style: theme.textTheme.bodyLarge?.copyWith(
+                                color: textColor,
+                                height: 1.3,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 2),
+                  ],
+                ),
+              );
+            }
+          }
+      - name: Add lib/firebase_options.dart
+        path: intro_to_genui/lib/firebase_options.dart
+        replace-contents: |
+          // File generated by FlutterFire CLI.
+          // ignore_for_file: lines_longer_than_80_chars, avoid_classes_with_only_static_members
+          import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
+          import 'package:flutter/foundation.dart'
+              show defaultTargetPlatform, kIsWeb, TargetPlatform;
+
+          /// Default [FirebaseOptions] for use with your Firebase apps.
+          ///
+          /// Example:
+          /// ```dart
+          /// import 'firebase_options.dart';
+          /// // ...
+          /// await Firebase.initializeApp(
+          ///   options: DefaultFirebaseOptions.currentPlatform,
+          /// );
+          /// ```
+          class DefaultFirebaseOptions {
+            static FirebaseOptions get currentPlatform {
+              if (kIsWeb) {
+                return web;
+              }
+              switch (defaultTargetPlatform) {
+                case TargetPlatform.android:
+                  throw UnsupportedError(
+                    'DefaultFirebaseOptions have not been configured for Android - '
+                    'you can reconfigure this by running the FlutterFire CLI again.',
+                  );
+                case TargetPlatform.iOS:
+                  throw UnsupportedError(
+                    'DefaultFirebaseOptions have not been configured for iOS - '
+                    'you can reconfigure this by running the FlutterFire CLI again.',
+                  );
+                case TargetPlatform.macOS:
+                  throw UnsupportedError(
+                    'DefaultFirebaseOptions have not been configured for macos - '
+                    'you can reconfigure this by running the FlutterFire CLI again.',
+                  );
+                case TargetPlatform.windows:
+                  throw UnsupportedError(
+                    'DefaultFirebaseOptions have not been configured for windows - '
+                    'you can reconfigure this by running the FlutterFire CLI again.',
+                  );
+                case TargetPlatform.linux:
+                  throw UnsupportedError(
+                    'DefaultFirebaseOptions have not been configured for linux - '
+                    'you can reconfigure this by running the FlutterFire CLI again.',
+                  );
+                default:
+                  throw UnsupportedError(
+                    'DefaultFirebaseOptions are not supported for this platform.',
+                  );
+              }
+            }
+
+            static const FirebaseOptions web = FirebaseOptions(
+              apiKey: 'API KEY',
+              appId: 'APP ID',
+              messagingSenderId: 'SENDER ID',
+              projectId: 'PROJECT ID',
+              authDomain: 'example.firebaseapp.com',
+              storageBucket: 'example.firebasestorage.app',
+              measurementId: 'MEASUREMENT',
+            );
+          }
+      - name: Add android/app/google-services.json
+        path: intro_to_genui/android/app/google-services.json
+        replace-contents: |
+          {
+            "project_info": {
+              "project_number": "174743616791",
+              "project_id": "crossword-agent-8fad1",
+              "storage_bucket": "crossword-agent-8fad1.firebasestorage.app"
+            },
+            "client": [
+              {
+                "client_info": {
+                  "mobilesdk_app_id": "1:174743616791:android:70194c2c65c5d963d90b52",
+                  "android_client_info": {
+                    "package_name": "com.example.crossword_agent"
+                  }
+                },
+                "oauth_client": [],
+                "api_key": [
+                  {
+                    "current_key": "AIzaSyDgtoLCjFR3f9CVbH8BdWe4bcFgmVk5z1E"
+                  }
+                ],
+                "services": {
+                  "appinvite_service": {
+                    "other_platform_oauth_client": []
+                  }
+                }
+              },
+              {
+                "client_info": {
+                  "mobilesdk_app_id": "1:174743616791:android:73daf9ff3bfdb877d90b52",
+                  "android_client_info": {
+                    "package_name": "com.example.crossword_companion"
+                  }
+                },
+                "oauth_client": [],
+                "api_key": [
+                  {
+                    "current_key": "AIzaSyDgtoLCjFR3f9CVbH8BdWe4bcFgmVk5z1E"
+                  }
+                ],
+                "services": {
+                  "appinvite_service": {
+                    "other_platform_oauth_client": []
+                  }
+                }
+              },
+              {
+                "client_info": {
+                  "mobilesdk_app_id": "1:174743616791:android:c01ee20d9e880dddd90b52",
+                  "android_client_info": {
+                    "package_name": "com.example.flutter_crossword_companion"
+                  }
+                },
+                "oauth_client": [],
+                "api_key": [
+                  {
+                    "current_key": "AIzaSyDgtoLCjFR3f9CVbH8BdWe4bcFgmVk5z1E"
+                  }
+                ],
+                "services": {
+                  "appinvite_service": {
+                    "other_platform_oauth_client": []
+                  }
+                }
+              },
+              {
+                "client_info": {
+                  "mobilesdk_app_id": "1:174743616791:android:f47d5f7c7393beb8d90b52",
+                  "android_client_info": {
+                    "package_name": "com.example.flutter_firebase_ai_sample"
+                  }
+                },
+                "oauth_client": [],
+                "api_key": [
+                  {
+                    "current_key": "AIzaSyDgtoLCjFR3f9CVbH8BdWe4bcFgmVk5z1E"
+                  }
+                ],
+                "services": {
+                  "appinvite_service": {
+                    "other_platform_oauth_client": []
+                  }
+                }
+              },
+              {
+                "client_info": {
+                  "mobilesdk_app_id": "1:174743616791:android:e6315d2cf9550002d90b52",
+                  "android_client_info": {
+                    "package_name": "com.example.intro_to_genui"
+                  }
+                },
+                "oauth_client": [],
+                "api_key": [
+                  {
+                    "current_key": "AIzaSyDgtoLCjFR3f9CVbH8BdWe4bcFgmVk5z1E"
+                  }
+                ],
+                "services": {
+                  "appinvite_service": {
+                    "other_platform_oauth_client": []
+                  }
+                }
+              },
+              {
+                "client_info": {
+                  "mobilesdk_app_id": "1:174743616791:android:008bba1bbd753fdad90b52",
+                  "android_client_info": {
+                    "package_name": "com.example.just_today"
+                  }
+                },
+                "oauth_client": [],
+                "api_key": [
+                  {
+                    "current_key": "AIzaSyDgtoLCjFR3f9CVbH8BdWe4bcFgmVk5z1E"
+                  }
+                ],
+                "services": {
+                  "appinvite_service": {
+                    "other_platform_oauth_client": []
+                  }
+                }
+              },
+              {
+                "client_info": {
+                  "mobilesdk_app_id": "1:174743616791:android:33df9a5dc398e71dd90b52",
+                  "android_client_info": {
+                    "package_name": "com.example.nine_demo"
+                  }
+                },
+                "oauth_client": [],
+                "api_key": [
+                  {
+                    "current_key": "AIzaSyDgtoLCjFR3f9CVbH8BdWe4bcFgmVk5z1E"
+                  }
+                ],
+                "services": {
+                  "appinvite_service": {
+                    "other_platform_oauth_client": []
+                  }
+                }
+              },
+              {
+                "client_info": {
+                  "mobilesdk_app_id": "1:174743616791:android:7e4f5c85bb2f9e3dd90b52",
+                  "android_client_info": {
+                    "package_name": "com.example.workout_buddy"
+                  }
+                },
+                "oauth_client": [],
+                "api_key": [
+                  {
+                    "current_key": "AIzaSyDgtoLCjFR3f9CVbH8BdWe4bcFgmVk5z1E"
+                  }
+                ],
+                "services": {
+                  "appinvite_service": {
+                    "other_platform_oauth_client": []
+                  }
+                }
+              }
+            ],
+            "configuration_version": "1"
+          }
+      - name: Add ios/Runner/GoogleService-Info.plist
+        path: intro_to_genui/ios/Runner/GoogleService-Info.plist
+        replace-contents: |
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+            <key>API_KEY</key>
+            <string>AIzaSyCtDhXmfUgky83z-FH3BN8vLBrqLjgmcr4</string>
+            <key>GCM_SENDER_ID</key>
+            <string>174743616791</string>
+            <key>PLIST_VERSION</key>
+            <string>1</string>
+            <key>BUNDLE_ID</key>
+            <string>com.example.introToGenui</string>
+            <key>PROJECT_ID</key>
+            <string>crossword-agent-8fad1</string>
+            <key>STORAGE_BUCKET</key>
+            <string>crossword-agent-8fad1.firebasestorage.app</string>
+            <key>IS_ADS_ENABLED</key>
+            <false></false>
+            <key>IS_ANALYTICS_ENABLED</key>
+            <false></false>
+            <key>IS_APPINVITE_ENABLED</key>
+            <true></true>
+            <key>IS_GCM_ENABLED</key>
+            <true></true>
+            <key>IS_SIGNIN_ENABLED</key>
+            <true></true>
+            <key>GOOGLE_APP_ID</key>
+            <string>1:174743616791:ios:e593ba12ca180effd90b52</string>
+          </dict>
+          </plist>
+      - name: Add macos/Runner/GoogleService-Info.plist
+        path: intro_to_genui/macos/Runner/GoogleService-Info.plist
+        replace-contents: |
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+            <key>API_KEY</key>
+            <string>AIzaSyCtDhXmfUgky83z-FH3BN8vLBrqLjgmcr4</string>
+            <key>GCM_SENDER_ID</key>
+            <string>174743616791</string>
+            <key>PLIST_VERSION</key>
+            <string>1</string>
+            <key>BUNDLE_ID</key>
+            <string>com.example.introToGenui</string>
+            <key>PROJECT_ID</key>
+            <string>crossword-agent-8fad1</string>
+            <key>STORAGE_BUCKET</key>
+            <string>crossword-agent-8fad1.firebasestorage.app</string>
+            <key>IS_ADS_ENABLED</key>
+            <false></false>
+            <key>IS_ANALYTICS_ENABLED</key>
+            <false></false>
+            <key>IS_APPINVITE_ENABLED</key>
+            <true></true>
+            <key>IS_GCM_ENABLED</key>
+            <true></true>
+            <key>IS_SIGNIN_ENABLED</key>
+            <true></true>
+            <key>GOOGLE_APP_ID</key>
+            <string>1:174743616791:ios:e593ba12ca180effd90b52</string>
+          </dict>
+          </plist>
+      - name: Patch macos/Runner/DebugProfile.entitlements
+        path: intro_to_genui/macos/Runner/DebugProfile.entitlements
+        patch-u: |
+          --- b/colorist/step_02/macos/Runner/DebugProfile.entitlements
+          +++ a/colorist/step_02/macos/Runner/DebugProfile.entitlements
+          @@ -8,5 +8,7 @@
+           	<true/>
+           	<key>com.apple.security.network.server</key>
+           	<true/>
+          +	<key>com.apple.security.network.client</key>
+          +	<true/>
+           </dict>
+           </plist>
+      - name: Patch macos/Runner/Release.entitlements
+        path: intro_to_genui/macos/Runner/Release.entitlements
+        patch-u: |
+          --- b/colorist/step_02/macos/Runner/Release.entitlements
+          +++ a/colorist/step_02/macos/Runner/Release.entitlements
+          @@ -4,5 +4,7 @@
+           <dict>
+           	<key>com.apple.security.app-sandbox</key>
+           	<true/>
+          +	<key>com.apple.security.network.client</key>
+          +	<true/>
+           </dict>
+           </plist>
+      - name: Patch ios/Podfile
+        path: intro_to_genui/ios/Podfile
+        patch-u: |
+          --- a/colorist/step_02/ios/Podfile
+          +++ b/colorist/step_02/ios/Podfile
+          @@ -1,5 +1,5 @@
+          -# Uncomment this line to define a global platform for your project
+          -# platform :ios, '13.0'
+          +# Firebase requires at least iOS 15.0
+          +platform :ios, '15.0'
+           
+           # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
+           ENV['COCOAPODS_DISABLE_STATS'] = 'true'
+      - name: Set iOS deployment target version
+        xcode-project-path: intro_to_genui/ios/Runner.xcodeproj
+        iphoneos-deployment-target: "15.0"
+      - name: Add GoogleService-Info.plist to iOS project
+        xcode-project-path: intro_to_genui/ios/Runner.xcodeproj
+        xcode-add-resource: GoogleService-Info.plist
+      - name: Add GoogleService-Info.plist to macOS project
+        xcode-project-path: intro_to_genui/macos/Runner.xcodeproj
+        xcode-add-resource: GoogleService-Info.plist
+      - name: Patch android/settings.gradle.kts
+        path: intro_to_genui/android/settings.gradle.kts
+        patch-u: |
+          --- b/genui-intro/step_03/android/settings.gradle.kts
+          +++ a/genui-intro/step_03/android/settings.gradle.kts
+          @@ -20,6 +20,9 @@ pluginManagement {
+           plugins {
+               id("dev.flutter.flutter-plugin-loader") version "1.0.0"
+               id("com.android.application") version "8.11.1" apply false
+          +    // START: FlutterFire Configuration
+          +    id("com.google.gms.google-services") version("4.3.15") apply false
+          +    // END: FlutterFire Configuration
+               id("org.jetbrains.kotlin.android") version "2.2.20" apply false
+           }
+      - name: Patch android/app/build.gradle.kts
+        path: intro_to_genui/android/app/build.gradle.kts
+        patch-u: |
+          --- b/genui-intro/step_03/android/app/build.gradle.kts
+          +++ a/genui-intro/step_03/android/app/build.gradle.kts
+          @@ -1,5 +1,8 @@
+           plugins {
+               id("com.android.application")
+          +    // START: FlutterFire Configuration
+          +    id("com.google.gms.google-services")
+          +    // END: FlutterFire Configuration
+               id("kotlin-android")
+               // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
+               id("dev.flutter.flutter-gradle-plugin")
+      - name: Upgrade deps
+        path: intro_to_genui
+        flutter: pub upgrade --major-versions
+      - name: Build iOS simulator bundle
+        platforms: [macos]
+        path: intro_to_genui
+        flutter: build ios --simulator
+      - name: Build Android app
+        path: intro_to_genui
+        flutter: build apk
+      - name: Build macOS app
+        platforms: [macos]
+        path: intro_to_genui
+        flutter: build macos
+      - name: Build Windows app
+        platforms: [windows]
+        path: intro_to_genui
+        flutter: build windows
+      - name: Copy step_03
+        copydir:
+          from: intro_to_genui
+          to: step_03
+      - name: Flutter clean
+        path: step_03
+        flutter: clean
+
+  - name: step_04
+    steps:
+      - name: Remove generated code
+        rmdir: step_04
+      - name: Patch lib/main.dart
+        path: intro_to_genui/lib/main.dart
+        patch-u: |
+          --- b/genui-intro/step_04/lib/main.dart
+          +++ a/genui-intro/step_04/lib/main.dart
+          @@ -1,9 +1,11 @@
+           import 'package:firebase_ai/firebase_ai.dart';
+           import 'package:firebase_core/firebase_core.dart';
+           import 'package:flutter/material.dart';
+          +import 'package:genui/genui.dart' as genui;
+          +import 'package:genui/genui.dart' hide TextPart;
+
+           import 'firebase_options.dart';
+           import 'message_bubble.dart';
+           
+           Future<void> main() async {
+             WidgetsFlutterBinding.ensureInitialized();
+          @@ -41,12 +43,22 @@ class TextItem extends ConversationItem {
+             TextItem({required this.text, this.isUser = false});
+           }
+           
+          +class SurfaceItem extends ConversationItem {
+          +  final String surfaceId;
+          +  SurfaceItem({required this.surfaceId});
+          +}
+          +
+           class _MyHomePageState extends State<MyHomePage> {
+             final List<ConversationItem> _items = [];
+             final _textController = TextEditingController();
+             final _scrollController = ScrollController();
+             late final ChatSession _chatSession;
+           
+          +  late final SurfaceController _controller;
+          +  late final A2uiTransportAdapter _transport;
+          +  late final Conversation _conversation;
+          +  late final Catalog catalog;
+          +
+             @override
+             void initState() {
+               super.initState();
+          @@ -54,7 +66,60 @@ class _MyHomePageState extends State<MyHomePage> {
+                 model: 'gemini-3-flash-preview',
+               );
+               _chatSession = model.startChat();
+          -    _chatSession.sendMessage(Content.text(systemInstruction));
+          +
+          +    // Initialize the GenUI Catalog.
+          +    // The genui package provides a default set of primitive widgets (like text
+          +    // and basic buttons) out of the box using this class.
+          +    catalog = BasicCatalogItems.asCatalog();
+          +
+          +    // Create a SurfaceController to manage the state of generated surfaces.
+          +    _controller = SurfaceController(catalogs: [catalog]);
+          +
+          +    // Create a transport adapter that will process messages to and from the
+          +    // agent, looking for A2UI messages.
+          +    _transport = A2uiTransportAdapter(onSend: _sendAndReceive);
+          +
+          +    // Link the transport and SurfaceController together in a Conversation,
+          +    // which provides your app a unified API for interacting with the agent.
+          +    _conversation = Conversation(
+          +      controller: _controller,
+          +      transport: _transport,
+          +    );
+          +
+          +    // Listen to GenUI stream events to update the UI
+          +    _conversation.events.listen((event) {
+          +      setState(() {
+          +        switch (event) {
+          +          case ConversationSurfaceAdded added:
+          +            _items.add(SurfaceItem(surfaceId: added.surfaceId));
+          +            _scrollToBottom();
+          +          case ConversationSurfaceRemoved removed:
+          +            _items.removeWhere(
+          +              (item) =>
+          +                  item is SurfaceItem && item.surfaceId == removed.surfaceId,
+          +            );
+          +          case ConversationContentReceived content:
+          +            _items.add(TextItem(text: content.text, isUser: false));
+          +            _scrollToBottom();
+          +          case ConversationError error:
+          +            debugPrint('GenUI Error: ${error.error}');
+          +          default:
+          +        }
+          +      });
+          +    });
+          +
+          +    // Create the system prompt for the agent, which will include this app's
+          +    // system instruction as well as the schema for the catalog.
+          +    final promptBuilder = PromptBuilder.chat(
+          +      catalog: catalog,
+          +      systemPromptFragments: [systemInstruction],
+          +    );
+          +
+          +    // Send the prompt into the Conversation, which will subsequently route it
+          +    // to Firebase using the transport mechanism.
+          +    _conversation.sendRequest(
+          +      ChatMessage.system(promptBuilder.systemPromptJoined()),
+          +    );
+             }
+           
+             void _scrollToBottom() {
+          @@ -82,6 +147,7 @@ class _MyHomePageState extends State<MyHomePage> {
+               if (text.trim().isEmpty) {
+                 return;
+               }
+          +
+               _textController.clear();
+           
+               setState(() {
+          @@ -90,13 +156,34 @@ class _MyHomePageState extends State<MyHomePage> {
+           
+               _scrollToBottom();
+           
+          +    // Send the user's input through GenUI instead of directly to Firebase.
+          +    await _conversation.sendRequest(ChatMessage.user(text));
+          +  }
+          +
+          +  Future<void> _sendAndReceive(ChatMessage msg) async {
+          +    final buffer = StringBuffer();
+          +
+          +    // Reconstruct the message part fragments
+          +    for (final part in msg.parts) {
+          +      if (part.isUiInteractionPart) {
+          +        buffer.write(part.asUiInteractionPart!.interaction);
+          +      } else if (part is genui.TextPart) {
+          +        buffer.write(part.text);
+          +      }
+          +    }
+          +
+          +    if (buffer.isEmpty) {
+          +      return;
+          +    }
+          +
+          +    final text = buffer.toString();
+          +
+          +    // Send the string to Firebase AI Logic.
+               final response = await _chatSession.sendMessage(Content.text(text));
+           
+               if (response.text?.isNotEmpty ?? false) {
+          -      setState(() {
+          -        _items.add(TextItem(text: response.text!, isUser: false));
+          -      });
+          -      _scrollToBottom();
+          +      // Feed the response back into GenUI's transportation layer
+          +      _transport.addChunk(response.text!);
+               }
+             }
+
+          @@ -120,6 +207,9 @@ class _MyHomePageState extends State<MyHomePage> {
+                                 text: item.text,
+                                 isUser: item.isUser,
+                               ),
+          +                    SurfaceItem() => Surface(
+          +                      surfaceContext: _controller.contextFor(item.surfaceId),
+          +                    ),
+                             },
+                         ],
+                       ),
+
+      - name: Copy step_04
+        copydir:
+          from: intro_to_genui
+          to: step_04
+      - name: Flutter clean
+        path: step_04
+        flutter: clean
+
+  - name: step_05
+    steps:
+      - name: Remove generated code
+        rmdir: step_05
+      - name: Patch lib/main.dart
+        path: intro_to_genui/lib/main.dart
+        patch-u: |
+          --- b/genui-intro/step_05/lib/main.dart
+          +++ a/genui-intro/step_05/lib/main.dart
+          @@ -194,48 +194,72 @@ class _MyHomePageState extends State<MyHomePage> {
+                   backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+                   title: const Text('Just Today'),
+                 ),
+          -      body: Column(
+          +      body: Stack(
+          +        // New!
+                   children: [
+          -          Expanded(
+          -            child: ListView(
+          -              controller: _scrollController,
+          -              padding: const EdgeInsets.all(16),
+          -              children: [
+          -                for (final item in _items)
+          -                  switch (item) {
+          -                    TextItem() => MessageBubble(
+          -                      text: item.text,
+          -                      isUser: item.isUser,
+          -                    ),
+          -                    SurfaceItem() => Surface(
+          -                      surfaceContext: _controller.contextFor(item.surfaceId),
+          -                    ),
+          -                  },
+          -              ],
+          -            ),
+          -          ),
+          -          SafeArea(
+          -            child: Padding(
+          -              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          -              child: Row(
+          -                children: [
+          -                  Expanded(
+          -                    child: TextField(
+          -                      controller: _textController,
+          -                      onSubmitted: (_) => _addMessage(),
+          -                      decoration: const InputDecoration(
+          -                        hintText: 'Enter a message',
+          -                      ),
+          -                    ),
+          -                  ),
+          -                  const SizedBox(width: 8),
+          -                  ElevatedButton(
+          -                    onPressed: _addMessage,
+          -                    child: const Text('Send'),
+          +          Column(
+          +            children: [
+          +              Expanded(
+          +                child: ListView(
+          +                  controller: _scrollController,
+          +                  padding: const EdgeInsets.all(16),
+          +                  children: [
+          +                    for (final item in _items)
+          +                      switch (item) {
+          +                        TextItem() => MessageBubble(
+          +                          text: item.text,
+          +                          isUser: item.isUser,
+          +                        ),
+          +                        SurfaceItem() => Surface(
+          +                          surfaceContext: _controller.contextFor(
+          +                            item.surfaceId,
+          +                          ),
+          +                        ),
+          +                      },
+          +                  ],
+          +                ),
+          +              ),
+          +              SafeArea(
+          +                child: Padding(
+          +                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          +                  child: ValueListenableBuilder<ConversationState>(
+          +                    valueListenable: _conversation.state,
+          +                    builder: (context, state, child) {
+          +                      return Row(
+          +                        children: [
+          +                          Expanded(
+          +                            child: TextField(
+          +                              controller: _textController,
+          +                              onSubmitted: state.isWaiting
+          +                                  ? null
+          +                                  : (_) => _addMessage(),
+          +                              decoration: const InputDecoration(
+          +                                hintText: 'Enter a message',
+          +                              ),
+          +                            ),
+          +                          ),
+          +                          const SizedBox(width: 8),
+          +                          ElevatedButton(
+          +                            onPressed: state.isWaiting ? null : _addMessage,
+          +                            child: const Text('Send'),
+          +                          ),
+          +                        ],
+          +                      );
+          +                    },
+                             ),
+          -                ],
+          +                ),
+                         ),
+          -            ),
+          +            ],
+          +          ),
+          +          // Listen to the state again, this time to render a progress indicator
+          +          ValueListenableBuilder<ConversationState>(
+          +            valueListenable: _conversation.state,
+          +            builder: (context, state, child) {
+          +              if (state.isWaiting) {
+          +                return const LinearProgressIndicator();
+          +              }
+          +              return const SizedBox.shrink();
+          +            },
+                     ),
+                   ],
+                 ),
+
+      - name: Copy step_05
+        copydir:
+          from: intro_to_genui
+          to: step_05
+      - name: Flutter clean
+        path: step_05
+        flutter: clean
+
+  - name: step_06
+    steps:
+      - name: Remove generated code
+        rmdir: step_06
+      - name: Patch lib/main.dart
+        path: intro_to_genui/lib/main.dart
+        patch-u: |
+          --- b/genui-intro/step_06/lib/main.dart
+          +++ a/genui-intro/step_06/lib/main.dart
+          @@ -3,9 +3,11 @@ import 'package:firebase_core/firebase_core.dart';
+           import 'package:flutter/material.dart';
+           import 'package:genui/genui.dart' as genui;
+           import 'package:genui/genui.dart' hide TextPart;
+
+           import 'firebase_options.dart';
+           import 'message_bubble.dart';
+          +
+          +const taskDisplaySurfaceId = 'task_display';
+           
+           Future<void> main() async {
+             WidgetsFlutterBinding.ensureInitialized();
+          @@ -91,8 +93,10 @@ class _MyHomePageState extends State<MyHomePage> {
+                 setState(() {
+                   switch (event) {
+                     case ConversationSurfaceAdded added:
+          -            _items.add(SurfaceItem(surfaceId: added.surfaceId));
+          -            _scrollToBottom();
+          +            if (added.surfaceId != taskDisplaySurfaceId) {
+          +              _items.add(SurfaceItem(surfaceId: added.surfaceId));
+          +              _scrollToBottom();
+          +            }
+                     case ConversationSurfaceRemoved removed:
+                       _items.removeWhere(
+                         (item) =>
+          @@ -199,6 +203,19 @@ class _MyHomePageState extends State<MyHomePage> {
+                   children: [
+                     Column(
+                       children: [
+          +              AnimatedSize(
+          +                duration: const Duration(milliseconds: 300),
+          +                child: Container(
+          +                  padding: const EdgeInsets.all(16),
+          +                  alignment: Alignment.topLeft,
+          +                  child: Surface(
+          +                    surfaceContext: _controller.contextFor(
+          +                      taskDisplaySurfaceId,
+          +                    ),
+          +                  ),
+          +                ),
+          +              ),
+          +              const Divider(),
+                         Expanded(
+                           child: ListView(
+                             controller: _scrollController,
+          @@ -267,7 +284,8 @@ class _MyHomePageState extends State<MyHomePage> {
+             }
+           }
+           
+          -const systemInstruction = '''
+          +const systemInstruction =
+          +    '''
+             ## PERSONA
+             You are an expert task planner.
+
+          @@ -299,4 +317,14 @@ const systemInstruction = '''
+             * If I tell you a task is complete, mark it as complete.
+             * Once all tasks are complete, send a message acknowledging that, and then
+               end the conversation.
+          +
+          +  ## USER INTERFACE
+          +  * To display the list of tasks create one and only one instance of the
+          +    TaskDisplay catalog item. Use "$taskDisplaySurfaceId" as its surface ID.
+          +  * Update $taskDisplaySurfaceId as necessary when the list changes.
+          +  * $taskDisplaySurfaceId must include a button for each task that I can use
+          +    to mark it complete. When I use that button to mark a task complete, it
+          +    should send you a message indicating what I've done.
+          +  * Avoid repeating the same information in a single message.
+          +  * When responding with text, rather than A2UI messages, be brief.
+           ''';
+      - name: Copy step_06
+        copydir:
+          from: intro_to_genui
+          to: step_06
+      - name: Flutter clean
+        path: step_06
+        flutter: clean
+
+  - name: step_07
+    steps:
+      - name: Remove generated code
+        rmdir: step_07
+      - name: Patch lib/main.dart
+        path: intro_to_genui/lib/main.dart
+        patch-u: |
+          --- b/genui-intro/step_07/lib/main.dart
+          +++ a/genui-intro/step_07/lib/main.dart
+          @@ -6,6 +6,7 @@ import 'package:genui/genui.dart' hide TextPart;
+          
+           import 'firebase_options.dart';
+           import 'message_bubble.dart';
+          +import 'task_display.dart';
+           
+           const taskDisplaySurfaceId = 'task_display';
+           
+          @@ -72,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
+               // Initialize the GenUI Catalog.
+               // The genui package provides a default set of primitive widgets (like text
+               // and basic buttons) out of the box using this class.
+          -    catalog = BasicCatalogItems.asCatalog();
+          +    catalog = BasicCatalogItems.asCatalog().copyWith(newItems: [taskDisplay]);
+
+               // Create a SurfaceController to manage the state of generated surfaces.
+               _controller = SurfaceController(catalogs: [catalog]);
+      - name: Add lib/task_display.dart
+        path: intro_to_genui/lib/task_display.dart
+        replace-contents: |
+          import 'package:flutter/material.dart';
+          import 'package:genui/genui.dart';
+          import 'package:json_schema_builder/json_schema_builder.dart';
+
+          final taskDisplaySchema = S.object(
+            properties: {
+              'component': S.string(enumValues: ['TaskDisplay']),
+              'title': S.string(description: 'The title of the task list'),
+              'tasks': S.list(
+                description: 'A list of tasks to be completed today',
+                items: S.object(
+                  properties: {
+                    'name': S.string(description: 'The name of the task to be completed'),
+                    'isCompleted': S.boolean(
+                      description: 'Whether the task is completed',
+                    ),
+                    'completeAction': A2uiSchemas.action(
+                      description:
+                          'The action performed when the user has completed the task.',
+                    ),
+                  },
+                  required: ['name', 'isCompleted', 'completeAction'],
+                ),
+              ),
+            },
+            required: ['title', 'tasks'],
+          );
+
+          class _TaskData {
+            final String name;
+            final bool isCompleted;
+            final String actionName;
+            final JsonMap actionContext;
+
+            _TaskData({
+              required this.name,
+              required this.isCompleted,
+              required this.actionName,
+              required this.actionContext,
+            });
+
+            factory _TaskData.fromJson(Map<String, Object?> json) {
+              try {
+                final action = json['completeAction']! as JsonMap;
+                final event = action['event']! as JsonMap;
+
+                return _TaskData(
+                  name: json['name'] as String,
+                  isCompleted: json['isCompleted'] as bool,
+                  actionName: event['name'] as String,
+                  actionContext: event['context'] as JsonMap,
+                );
+              } catch (e) {
+                throw Exception('Invalid JSON for _TaskData: $e');
+              }
+            }
+          }
+
+          class _TaskDisplayData {
+            final String title;
+            final List<_TaskData> tasks;
+
+            _TaskDisplayData({required this.title, required this.tasks});
+
+            factory _TaskDisplayData.fromJson(Map<String, Object?> json) {
+              try {
+                return _TaskDisplayData(
+                  title: (json['title'] as String?) ?? 'Tasks',
+                  tasks: (json['tasks'] as List<Object?>)
+                      .map((e) => _TaskData.fromJson(e as Map<String, Object?>))
+                      .toList(),
+                );
+              } catch (e) {
+                throw Exception('Invalid JSON for _TaskDisplayData: $e');
+              }
+            }
+          }
+
+          class _TaskDisplay extends StatelessWidget {
+            final _TaskDisplayData data;
+            final void Function(_TaskData) onCompleteTask;
+
+            const _TaskDisplay({required this.data, required this.onCompleteTask});
+
+            @override
+            Widget build(BuildContext context) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text(
+                      data.title,
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                  ),
+                  ...data.tasks.map(
+                    (task) => CheckboxListTile(
+                      title: Text(
+                        task.name,
+                        style: TextStyle(
+                          decoration: task.isCompleted
+                              ? TextDecoration.lineThrough
+                              : TextDecoration.none,
+                        ),
+                      ),
+                      value: task.isCompleted,
+                      onChanged: task.isCompleted
+                          ? null
+                          : (val) {
+                              if (val == true) {
+                                onCompleteTask(task);
+                              }
+                            },
+                    ),
+                  ),
+                ],
+              );
+            }
+          }
+
+          final taskDisplay = CatalogItem(
+            name: 'TaskDisplay',
+            dataSchema: taskDisplaySchema,
+            widgetBuilder: (itemContext) {
+              final json = itemContext.data as Map<String, Object?>;
+              final data = _TaskDisplayData.fromJson(json);
+
+              return _TaskDisplay(
+                data: data,
+                onCompleteTask: (task) async {
+                  // A data context is a reference to a location in the data model. This line
+                  // turns that reference into a concrete data object that the agent can use.
+                  // It's kind of like taking a pointer and replacing it with the value it
+                  // points to.
+                  final JsonMap resolvedContext = await resolveContext(
+                    itemContext.dataContext,
+                    task.actionContext,
+                  );
+
+                  // Dispatch an event back to the agent, letting it know a task was completed.
+                  // This will be sent to the agent in an A2UI message that includes the name
+                  // of the action, the surface ID, and the resolved data context.
+                  itemContext.dispatchEvent(
+                    UserActionEvent(
+                      name: task.actionName,
+                      sourceComponentId: itemContext.id,
+                      context: resolvedContext,
+                    ),
+                  );
+                },
+              );
+            },
+          );
+      - name: Build iOS simulator bundle
+        platforms: [macos]
+        path: intro_to_genui
+        flutter: build ios --simulator
+      - name: Build Android app
+        path: intro_to_genui
+        flutter: build apk
+      - name: Build macOS app
+        platforms: [macos]
+        path: intro_to_genui
+        flutter: build macos
+      - name: Build Windows app
+        platforms: [windows]
+        path: intro_to_genui
+        flutter: build windows
+      - name: Copy step_07
+        copydir:
+          from: intro_to_genui
+          to: step_07
+      - name: Flutter clean
+        path: step_07
+        flutter: clean
+
+  - name: Cleanup
+    rmdir: intro_to_genui

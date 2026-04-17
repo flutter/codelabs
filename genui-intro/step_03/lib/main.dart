@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_ai/firebase_ai.dart';
-import 'package:intro_to_genui/message_bubble.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+
 import 'firebase_options.dart';
+import 'message_bubble.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
