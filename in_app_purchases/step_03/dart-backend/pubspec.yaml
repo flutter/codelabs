@@ -4,12 +4,12 @@ version: 1.0.0
 # repository: https://github.com/my_org/my_repo
 
 environment:
-  sdk: ^3.10.7
+  sdk: ^3.11.4
 
 dependencies:
   app_store_server_sdk: ^1.2.10
-  googleapis: ^15.0.0
-  googleapis_auth: ^2.0.0
+  googleapis: ^16.0.0
+  googleapis_auth: ^2.3.0
   http: ^1.6.0
   shelf: ^1.4.2
   shelf_router: ^1.1.2
