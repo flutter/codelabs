@@ -1,17 +1,17 @@
 name: homescreen_widgets
 description: "A new Flutter project."
 publish_to: 'none'
-version: 0.1.0
+version: 0.1.0+1
 
 environment:
-  sdk: ^3.10.7
+  sdk: ^3.12.0-0
 
 dependencies:
+  cupertino_icons: ^1.0.9
   flutter:
     sdk: flutter
-  cupertino_icons: ^1.0.8
-  shared_preferences: ^2.5.4
-  home_widget: ^0.9.0
+  home_widget: ^0.9.1
+  shared_preferences: ^2.5.5
 
 dev_dependencies:
   flutter_test:

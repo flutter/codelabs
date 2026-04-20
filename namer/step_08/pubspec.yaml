@@ -1,17 +1,17 @@
 name: namer_app
 description: "A new Flutter project."
 publish_to: 'none'
-version: 0.1.0
+version: 0.1.0+1
 
 environment:
-  sdk: ^3.10.7
+  sdk: ^3.12.0-0
 
 dependencies:
+  cupertino_icons: ^1.0.9
+  english_words: ^4.0.0
   flutter:
     sdk: flutter
-  english_words: ^4.0.0
   provider: ^6.1.5+1
-  cupertino_icons: ^1.0.8
 
 dev_dependencies:
   flutter_test:

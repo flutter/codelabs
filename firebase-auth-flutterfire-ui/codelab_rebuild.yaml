@@ -139,13 +139,21 @@ steps:
              <!-- iOS meta tags & icons -->
              <meta name="mobile-web-app-capable" content="yes">
              <meta name="apple-mobile-web-app-status-bar-style" content="black">
-          @@ -31,8 +33,33 @@
-           
+          @@ -31,16 +33,33 @@
+
              <title>firebase_auth_flutterfire_ui</title>
              <link rel="manifest" href="manifest.json">
           +  <script src="https://apis.google.com/js/platform.js" async defer></script>
            </head>
            <body>
+          -  <!--
+          -    You can customize the "flutter_bootstrap.js" script.
+          -    This is useful to provide a custom configuration to the Flutter loader
+          -    or to give the user feedback during the initialization process.
+          -
+          -    For more details:
+          -    * https://docs.flutter.dev/platform-integration/web/initialization
+          -  -->
              <script src="flutter_bootstrap.js" async></script>
           +
           +  <script type="module">

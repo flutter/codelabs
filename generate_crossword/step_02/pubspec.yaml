@@ -1,29 +1,29 @@
 name: generate_crossword
 description: "A new Flutter project."
 publish_to: 'none'
-version: 0.1.0
+version: 0.1.0+1
 
 environment:
-  sdk: ^3.10.7
+  sdk: ^3.12.0-0
 
 dependencies:
+  built_collection: ^5.1.1
+  built_value: ^8.12.5
+  characters: ^1.4.1
   flutter:
     sdk: flutter
-  built_collection: ^5.1.1
-  built_value: ^8.12.1
-  characters: ^1.4.0
   flutter_riverpod: ^3.1.0
   intl: ^0.20.2
   riverpod: ^3.1.0
   riverpod_annotation: ^4.0.0
-  two_dimensional_scrollables: ^0.3.7
+  two_dimensional_scrollables: ^0.4.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
-  build_runner: ^2.10.4
-  built_value_generator: ^8.12.1
+  build_runner: ^2.13.1
+  built_value_generator: ^8.12.2
   custom_lint: ^0.8.1
   riverpod_generator: ^4.0.0+1
   riverpod_lint: ^3.1.0

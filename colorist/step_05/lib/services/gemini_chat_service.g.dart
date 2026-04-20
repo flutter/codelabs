@@ -10,7 +10,7 @@ part of 'gemini_chat_service.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(geminiChatService)
-const geminiChatServiceProvider = GeminiChatServiceProvider._();
+final geminiChatServiceProvider = GeminiChatServiceProvider._();
 
 final class GeminiChatServiceProvider
     extends
@@ -20,7 +20,7 @@ final class GeminiChatServiceProvider
           GeminiChatService
         >
     with $Provider<GeminiChatService> {
-  const GeminiChatServiceProvider._()
+  GeminiChatServiceProvider._()
     : super(
         from: null,
         argument: null,
