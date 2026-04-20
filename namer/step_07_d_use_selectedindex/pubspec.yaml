@@ -4,7 +4,7 @@ publish_to: 'none'
 version: 0.1.0+1
 
 environment:
-  sdk: ^3.11.4
+  sdk: ^3.12.0-0
 
 dependencies:
   english_words: ^4.0.0
