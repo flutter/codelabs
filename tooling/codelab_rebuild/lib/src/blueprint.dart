@@ -321,8 +321,7 @@ class BlueprintStep {
     }
 
     // If we have a xcodeAddSourceFile, we need a path to the xcode project path
-    if (xcodeAddSourceFile != null &&
-        xcodeProjectPath == null ) {
+    if (xcodeAddSourceFile != null && xcodeProjectPath == null) {
       _logger.warning(
         'Invalid step, xcode-add-source-file with no xcode-project-path',
       );
@@ -330,8 +329,7 @@ class BlueprintStep {
     }
 
     // If we have a xcodeAddResource, we need a path to the xcode project path
-    if (xcodeAddResource != null &&
-        xcodeProjectPath == null ) {
+    if (xcodeAddResource != null && xcodeProjectPath == null) {
       _logger.warning(
         'Invalid step, xcode-add-resource with no xcode-project-path',
       );
@@ -339,8 +337,7 @@ class BlueprintStep {
     }
 
     // If we have a iphoneosDeploymentTarget, we need a path to the xcode project path
-    if (iphoneosDeploymentTarget != null &&
-        xcodeProjectPath == null ) {
+    if (iphoneosDeploymentTarget != null && xcodeProjectPath == null) {
       _logger.warning(
         'Invalid step, iphoneos-deployment-target with no xcode-project-path',
       );
@@ -348,8 +345,7 @@ class BlueprintStep {
     }
 
     // If we have a macosxDeploymentTarget, we need a path to the xcode project path
-    if (macosxDeploymentTarget != null &&
-        xcodeProjectPath == null ) {
+    if (macosxDeploymentTarget != null && xcodeProjectPath == null) {
       _logger.warning(
         'Invalid step, macosx-deployment-target with no xcode-project-path',
       );
