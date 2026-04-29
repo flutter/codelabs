@@ -121,8 +121,10 @@ class BlueprintStep {
   final bool? stop;
 
   // Xcode project maintenance
-  @JsonKey(name: 'xcode-add-file')
-  final String? xcodeAddFile;
+  @JsonKey(name: 'xcode-add-source-file')
+  final String? xcodeAddSourceFile;
+  @JsonKey(name: 'xcode-add-resource')
+  final String? xcodeAddResource;
   @JsonKey(name: 'xcode-project-path')
   final String? xcodeProjectPath;
 
@@ -169,7 +171,8 @@ class BlueprintStep {
     this.sevenZip,
     this.stripLinesContaining,
     this.stop,
-    this.xcodeAddFile,
+    this.xcodeAddSourceFile,
+    this.xcodeAddResource,
     this.xcodeProjectPath,
     this.macOsMainMenuXib,
     this.iphoneosDeploymentTarget,
@@ -214,7 +217,8 @@ class BlueprintStep {
         tar == null &&
         sevenZip == null &&
         stripLinesContaining == null &&
-        xcodeAddFile == null &&
+        xcodeAddSourceFile == null &&
+        xcodeAddResource == null &&
         xcodeProjectPath == null &&
         macOsMainMenuXib == null &&
         protoc == null) {
@@ -247,7 +251,8 @@ class BlueprintStep {
           tar != null ||
           sevenZip != null ||
           stripLinesContaining != null ||
-          xcodeAddFile != null ||
+          xcodeAddSourceFile != null ||
+          xcodeAddResource != null ||
           xcodeProjectPath != null ||
           macOsMainMenuXib != null ||
           protoc != null) {
@@ -315,13 +320,34 @@ class BlueprintStep {
       return false;
     }
 
-    // If we have a xcodeAddFile, we need a path to the xcode project path
-    if (xcodeAddFile != null &&
-        xcodeProjectPath == null &&
-        iphoneosDeploymentTarget == null &&
-        macosxDeploymentTarget == null) {
+    // If we have a xcodeAddSourceFile, we need a path to the xcode project path
+    if (xcodeAddSourceFile != null && xcodeProjectPath == null) {
       _logger.warning(
-        'Invalid step, xcode-add-file with no xcode-project-path, iphoneos-deployment-target or macosx-deployment-target: $name',
+        'Invalid step, xcode-add-source-file with no xcode-project-path',
+      );
+      return false;
+    }
+
+    // If we have a xcodeAddResource, we need a path to the xcode project path
+    if (xcodeAddResource != null && xcodeProjectPath == null) {
+      _logger.warning(
+        'Invalid step, xcode-add-resource with no xcode-project-path',
+      );
+      return false;
+    }
+
+    // If we have a iphoneosDeploymentTarget, we need a path to the xcode project path
+    if (iphoneosDeploymentTarget != null && xcodeProjectPath == null) {
+      _logger.warning(
+        'Invalid step, iphoneos-deployment-target with no xcode-project-path',
+      );
+      return false;
+    }
+
+    // If we have a macosxDeploymentTarget, we need a path to the xcode project path
+    if (macosxDeploymentTarget != null && xcodeProjectPath == null) {
+      _logger.warning(
+        'Invalid step, macosx-deployment-target with no xcode-project-path',
       );
       return false;
     }
@@ -352,7 +378,8 @@ class BlueprintStep {
             tar != null ||
             sevenZip != null ||
             stripLinesContaining != null ||
-            xcodeAddFile != null ||
+            xcodeAddSourceFile != null ||
+            xcodeAddResource != null ||
             xcodeProjectPath != null)) {
       _logger.warning(
         'Invalid step, patch with command(s), replace-contents, or base64-contents: $name',

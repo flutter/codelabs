@@ -10,12 +10,12 @@ part of 'gemini_tools.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(geminiTools)
-const geminiToolsProvider = GeminiToolsProvider._();
+final geminiToolsProvider = GeminiToolsProvider._();
 
 final class GeminiToolsProvider
     extends $FunctionalProvider<GeminiTools, GeminiTools, GeminiTools>
     with $Provider<GeminiTools> {
-  const GeminiToolsProvider._()
+  GeminiToolsProvider._()
     : super(
         from: null,
         argument: null,

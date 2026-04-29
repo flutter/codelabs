@@ -370,7 +370,7 @@ steps:
 name: Update Xcode configuration
 steps:
   - name: Add file to xcode
-    xcode-add-file: AccelerometerStreamHandler.swift
+    xcode-add-source-file: AccelerometerStreamHandler.swift
 ''';
     final blueprint = Blueprint.fromString(input);
     expect(blueprint.isValid, equals(false));
@@ -381,7 +381,30 @@ steps:
 name: Update Xcode configuration
 steps:
   - name: Add file to xcode
-    xcode-add-file: AccelerometerStreamHandler.swift
+    xcode-add-source-file: AccelerometerStreamHandler.swift
+    xcode-project-path: ios/Runner.xcodeproj
+''';
+    final blueprint = Blueprint.fromString(input);
+    expect(blueprint.isValid, equals(true));
+  });
+
+  test('Add resource to Xcode project, missing path', () {
+    final input = '''
+name: Update Xcode configuration
+steps:
+  - name: Add file to xcode
+    xcode-add-resource: foo.plist
+''';
+    final blueprint = Blueprint.fromString(input);
+    expect(blueprint.isValid, equals(false));
+  });
+
+  test('Add resource to Xcode project', () {
+    final input = '''
+name: Update Xcode configuration
+steps:
+  - name: Add resource to xcode
+    xcode-add-resource: foo.plist
     xcode-project-path: ios/Runner.xcodeproj
 ''';
     final blueprint = Blueprint.fromString(input);

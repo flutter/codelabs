@@ -10,12 +10,12 @@ part of 'system_prompt.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(systemPrompt)
-const systemPromptProvider = SystemPromptProvider._();
+final systemPromptProvider = SystemPromptProvider._();
 
 final class SystemPromptProvider
     extends $FunctionalProvider<AsyncValue<String>, String, FutureOr<String>>
     with $FutureModifier<String>, $FutureProvider<String> {
-  const SystemPromptProvider._()
+  SystemPromptProvider._()
     : super(
         from: null,
         argument: null,

@@ -39,7 +39,7 @@ steps:
           -description: "A new Flutter project."
           +description: "A quiz app for demonstrating animation effects in Flutter."
            publish_to: 'none'
-           version: 0.1.0
+           version: 0.1.0+1
       - name: Replace analysis_options.yaml
         path: quiz/analysis_options.yaml
         replace-contents: |

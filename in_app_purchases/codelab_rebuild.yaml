@@ -54,8 +54,8 @@ steps:
           -description: "A new Flutter project."
           +description: A codelab for in-app purchases
            publish_to: 'none'
-           version: 0.1.0
-           
+           version: 0.1.0+1
+
           @@ -26,3 +26,6 @@ dev_dependencies:
            
            flutter:
@@ -74,10 +74,10 @@ steps:
         patch-u: |
           --- b/in_app_purchases/step_00/app/ios/Runner/Info.plist
           +++ a/in_app_purchases/step_00/app/ios/Runner/Info.plist
-          @@ -45,5 +45,16 @@
-           	<true/>
-           	<key>UIApplicationSupportsIndirectInputEvents</key>
-           	<true/>
+          @@ -66,5 +66,16 @@
+           		<string>UIInterfaceOrientationLandscapeLeft</string>
+           		<string>UIInterfaceOrientationLandscapeRight</string>
+           	</array>
           +	<key>GIDClientID</key>
           +	<string>556020018095-tllu36cg2t30mn5baqa5c44qc7lf993l.apps.googleusercontent.com</string>
           +	<key>CFBundleURLTypes</key>
