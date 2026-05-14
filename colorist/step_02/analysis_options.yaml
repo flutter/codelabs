@@ -1,5 +1,9 @@
 include: ../../analysis_options.yaml
 
+analyzer:
+  exclude:
+    - build/**
+
 linter:
   rules:
     prefer_single_quotes: false
