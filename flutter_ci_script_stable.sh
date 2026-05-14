@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -e -o pipefail
+set -euxo pipefail
 
 DIR="${BASH_SOURCE%/*}"
 source "$DIR/flutter_ci_script_shared.sh"

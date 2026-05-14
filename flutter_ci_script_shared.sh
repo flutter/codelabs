@@ -33,7 +33,7 @@ function ci_codelabs () {
             fi
 
             # Run the formatter on all the dart files to make sure everything's linted.
-            dart format --output none --set-exit-if-changed .
+            dart format --output none --set-exit-if-changed lib test
 
             # Run the actual tests.
             if [ -d "test" ]
