@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/firebase-ios-sdk",
       "state" : {
-        "revision" : "46579c364d39b86ec9fb8f613e19f023700a929c",
-        "version" : "12.12.1"
+        "revision" : "d10045cace0b4c335c4efa8f7df7e9a9fc5a7c60",
+        "version" : "12.13.0"
       }
     },
     {
@@ -41,8 +41,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/GoogleAppMeasurement.git",
       "state" : {
-        "revision" : "5100f946bd32778662047a823bf145c6da32d85d",
-        "version" : "12.12.1"
+        "revision" : "c2c76bebcfbb90d90ea10599f934f9af160e1604",
+        "version" : "12.13.0"
       }
     },
     {
@@ -77,8 +77,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/gtm-session-fetcher.git",
       "state" : {
-        "revision" : "0be208810d2e8b90fcd2464d1816723b47819fe7",
-        "version" : "5.2.0"
+        "revision" : "c0ac7575d70050c2973ba2318bd5af47f8e8153a",
+        "version" : "5.3.0"
       }
     },
     {

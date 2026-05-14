@@ -11,7 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_animate: ^4.5.2
-  google_fonts: ^8.0.2
+  google_fonts: ^8.1.0
 
 dev_dependencies:
   flutter_test:

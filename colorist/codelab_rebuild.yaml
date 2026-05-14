@@ -979,6 +979,9 @@ steps:
       - name: Upgrade deps
         path: colorist
         flutter: pub upgrade --major-versions
+      - name: Flutter clean
+        path: colorist
+        flutter: clean
       - name: Build iOS simulator bundle
         platforms: [macos]
         path: colorist

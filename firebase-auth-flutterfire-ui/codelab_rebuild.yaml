@@ -45,7 +45,7 @@ steps:
           --- b/firebase-auth-flutterfire-ui/start/pubspec.yaml
           +++ a/firebase-auth-flutterfire-ui/start/pubspec.yaml
           @@ -17,3 +17,5 @@ dev_dependencies:
-           
+
            flutter:
              uses-material-design: true
           +  assets:
@@ -133,7 +133,7 @@ steps:
           @@ -20,6 +20,8 @@
              <meta content="IE=Edge" http-equiv="X-UA-Compatible">
              <meta name="description" content="A new Flutter project.">
-           
+
           +  <meta name="google-signin-client_id" content="963656261848-bor24o4vro2n6fo65h1tc7ktv7d3j065.apps.googleusercontent.com">
           +
              <!-- iOS meta tags & icons -->
@@ -4635,15 +4635,15 @@ steps:
            # Uncomment this line to define a global platform for your project
           -# platform :ios, '13.0'
           +platform :ios, '15.0'
-           
+
            # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
            ENV['COCOAPODS_DISABLE_STATS'] = 'true'
       - name: Patch ios/Runner.xcodeproj/project.pbxproj
         xcode-project-path: firebase_auth_flutterfire_ui/ios/Runner.xcodeproj
-        iphoneos-deployment-target: '15.0'
-      - name: pod update ios
-        path: firebase_auth_flutterfire_ui/ios
-        pod: update
+        iphoneos-deployment-target: "15.0"
+      - name: Flutter pub get
+        path: firebase_auth_flutterfire_ui
+        flutter: pub get
       - name: macos/Runner/GoogleService-Info.plist
         path: firebase_auth_flutterfire_ui/macos/Runner/GoogleService-Info.plist
         replace-contents: |
@@ -4683,7 +4683,7 @@ steps:
           </plist>
       - name: Patch macos/Runner.xcodeproj/project.pbxproj
         xcode-project-path: firebase_auth_flutterfire_ui/macos/Runner.xcodeproj
-        macosx-deployment-target: '10.15'      
+        macosx-deployment-target: "10.15"
       - name: pod update macos
         path: firebase_auth_flutterfire_ui/macos
         pod: update
@@ -4777,13 +4777,13 @@ steps:
           @@ -1,10 +1,15 @@
           +import 'package:firebase_core/firebase_core.dart';
            import 'package:flutter/material.dart';
-           
+
            import 'app.dart';
           +import 'firebase_options.dart';
-           
+
            // TODO(codelab user): Get API key
            const clientId = 'YOUR_CLIENT_ID';
-           
+
            void main() async {
           +  WidgetsFlutterBinding.ensureInitialized();
           +  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -4800,14 +4800,14 @@ steps:
         path: firebase_auth_flutterfire_ui/ios
         pod: update
       - name: Build iOS
-        platforms: [ macos ]
+        platforms: [macos]
         path: firebase_auth_flutterfire_ui
         flutter: build ios --simulator
       - name: pod update mac
         path: firebase_auth_flutterfire_ui/macos
         pod: update
       - name: Build macOS
-        platforms: [ macos ]
+        platforms: [macos]
         path: firebase_auth_flutterfire_ui
         flutter: build macos
       - name: Build Android
@@ -4837,10 +4837,10 @@ steps:
           +import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
           +import 'package:firebase_ui_auth/firebase_ui_auth.dart';
            import 'package:flutter/material.dart';
-           
+
            import 'home.dart';
           @@ -9,6 +11,15 @@ class AuthGate extends StatelessWidget {
-           
+
              @override
              Widget build(BuildContext context) {
           -    return const HomeScreen();
@@ -4883,7 +4883,7 @@ steps:
           -          return SignInScreen(providers: []);
           +          return SignInScreen(providers: [EmailAuthProvider()]);
                    }
-           
+
                    return const HomeScreen();
       - name: Build web
         path: firebase_auth_flutterfire_ui
@@ -4923,7 +4923,7 @@ steps:
           +            },
           +          );
                    }
-           
+
                    return const HomeScreen();
       - name: Build web
         path: firebase_auth_flutterfire_ui
@@ -5052,7 +5052,7 @@ steps:
           @@ -1,3 +1,4 @@
           +import 'package:firebase_ui_auth/firebase_ui_auth.dart';
            import 'package:flutter/material.dart';
-           
+
            class HomeScreen extends StatelessWidget {
           @@ -6,12 +7,28 @@ class HomeScreen extends StatelessWidget {
              @override
@@ -5212,7 +5212,7 @@ steps:
            import 'package:firebase_ui_auth/firebase_ui_auth.dart';
           +import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart';
            import 'package:flutter/material.dart';
-           
+
            import 'home.dart';
           @@ -16,7 +17,10 @@ class AuthGate extends StatelessWidget {
                  builder: (context, snapshot) {
@@ -5264,14 +5264,14 @@ steps:
         path: firebase_auth_flutterfire_ui/ios
         pod: update
       - name: Build iOS
-        platforms: [ macos ]
+        platforms: [macos]
         path: firebase_auth_flutterfire_ui
         flutter: build ios --simulator
       - name: pod update mac
         path: firebase_auth_flutterfire_ui/macos
         pod: update
       - name: Build macOS
-        platforms: [ macos ]
+        platforms: [macos]
         path: firebase_auth_flutterfire_ui
         flutter: build macos
       - name: Build Android
