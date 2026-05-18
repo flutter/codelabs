@@ -107,6 +107,12 @@ steps:
               expect(find.text('A random idea:'), findsOneWidget);
             });
           }
+      - name: Flutter clean
+        path: namer_app
+        flutter: clean
+      - name: Get deps
+        path: namer_app
+        flutter: pub get
       - name: Build iOS simulator bundle
         platforms: [macos]
         path: namer_app

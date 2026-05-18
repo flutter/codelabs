@@ -1,17 +1,17 @@
 name: intro_to_genui
 description: "A new Flutter project."
-publish_to: 'none'
+publish_to: "none"
 version: 0.1.0+1
 
 environment:
-  sdk: ^3.11.4
+  sdk: ^3.12.0-0
 
 dependencies:
-  firebase_ai: ^3.11.0
-  firebase_core: ^4.7.0
+  firebase_ai: ^3.12.0
+  firebase_core: ^4.8.0
   flutter:
     sdk: flutter
-  genui: ^0.8.0
+  genui: ^0.9.0
   json_schema_builder: ^0.1.3
 
 dev_dependencies:

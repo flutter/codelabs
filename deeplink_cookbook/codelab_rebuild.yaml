@@ -67,5 +67,9 @@ steps:
       </dict>
       </plist>
 
+  - name: Flutter clean
+    flutter: clean
+  - name: Flutter pub get
+    flutter: pub get
   - name: Build ios
     flutter: build ios --simulator

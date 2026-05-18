@@ -4,12 +4,12 @@ publish_to: 'none'
 version: 0.1.0+1
 
 environment:
-  sdk: ^3.11.4
+  sdk: ^3.12.0-0
 
 dependencies:
   colorist_ui: ^0.4.0
-  firebase_ai: ^3.11.0
-  firebase_core: ^4.7.0
+  firebase_ai: ^3.12.0
+  firebase_core: ^4.8.0
   flutter:
     sdk: flutter
   flutter_riverpod: ^3.1.0
@@ -19,7 +19,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
-  build_runner: ^2.13.1
+  build_runner: ^2.15.0
   riverpod_generator: ^4.0.0+1
   json_serializable: ^6.11.2
   custom_lint: ^0.8.1

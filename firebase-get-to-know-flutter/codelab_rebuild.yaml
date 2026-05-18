@@ -56,18 +56,6 @@ steps:
            
              # To add assets to your application, add an assets section, like this:
              # assets:
-      - name: Patch ios/Podfile
-        path: gtk_flutter/ios/Podfile
-        patch-u: |
-          --- a/firebase-get-to-know-flutter/step_02/ios/Podfile
-          +++ b/firebase-get-to-know-flutter/step_02/ios/Podfile
-          @@ -1,5 +1,5 @@
-           # Uncomment this line to define a global platform for your project
-          -# platform :ios, '13.0'
-          +platform :ios, '15.0'
-           
-           # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
-           ENV['COCOAPODS_DISABLE_STATS'] = 'true'
       - name: Patch ios/Runner.xcodeproj/project.pbxproj
         xcode-project-path: gtk_flutter/ios/Runner.xcodeproj
         iphoneos-deployment-target: '15.0'
@@ -1683,14 +1671,6 @@ steps:
     steps:
       - name: Remove generated code
         rmdir: step_04
-      - name: Update iOS podspec
-        platforms: [ macos ]
-        path: gtk_flutter/ios
-        pod: update
-      - name: Update macOS podspec 
-        platforms: [ macos ]
-        path: gtk_flutter/macos
-        pod: update
       - name: Add lib/firebase_options.dart
         path: gtk_flutter/lib/firebase_options.dart
         replace-contents: |
@@ -1789,6 +1769,29 @@ steps:
       - name: Add cloud_firestore firebase_auth firebase_core provider firebase_ui_auth
         path: gtk_flutter
         flutter: pub add cloud_firestore firebase_auth firebase_core provider firebase_ui_auth
+      - name: Patch ios/Podfile
+        path: gtk_flutter/ios/Podfile
+        patch-u: |
+          --- b/firebase-get-to-know-flutter/step_04/ios/Podfile
+          +++ a/firebase-get-to-know-flutter/step_04/ios/Podfile
+          @@ -1,5 +1,5 @@
+           # Uncomment this line to define a global platform for your project
+          -# platform :ios, '13.0'
+          +platform :ios, '15.0'
+
+           # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
+           ENV['COCOAPODS_DISABLE_STATS'] = 'true'
+      - name: Update iOS podspec
+        platforms: [ macos ]
+        path: gtk_flutter/ios
+        pod: update
+      - name: Update macOS podspec 
+        platforms: [ macos ]
+        path: gtk_flutter/macos
+        pod: update
+      - name: Flutter clean
+        path: gtk_flutter
+        flutter: clean
       - name: Build for iOS
         platforms: [ macos ]
         path: gtk_flutter
@@ -1797,10 +1800,10 @@ steps:
         platforms: [ macos ]
         path: gtk_flutter
         flutter: build apk
-      - name: Build for macOS
-        platforms: [ macos ]
-        path: gtk_flutter
-        flutter: build macos --debug
+      # - name: Build for macOS
+      #   platforms: [ macos ]
+      #   path: gtk_flutter
+      #   flutter: build macos --debug
       - name: Copy step_04
         copydir:
           from: gtk_flutter
@@ -2767,10 +2770,10 @@ steps:
         platforms: [ macos ]
         path: gtk_flutter
         flutter: build apk
-      - name: Build for macOS
-        platforms: [ macos ]
-        path: gtk_flutter
-        flutter: build macos --debug
+      # - name: Build for macOS
+      #   platforms: [ macos ]
+      #   path: gtk_flutter
+      #   flutter: build macos --debug
       - name: Build for iOS
         platforms: [ macos ]
         path: gtk_flutter

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -e -o pipefail
+set -euxo pipefail
 
 DIR="${BASH_SOURCE%/*}"
 source "$DIR/flutter_ci_script_shared.sh"
@@ -15,7 +15,7 @@ declare -a CODELABS=(
   "firebase-auth-flutterfire-ui"
   "firebase-get-to-know-flutter"
   "generate_crossword"
-  "genui_intro"
+  "genui-intro"
   "google-maps-in-flutter"
   "haiku_generator"
   "homescreen_codelab"
