@@ -1,7 +1,0 @@
-name: Gerar APK Flutter
-
- on:
-  workflow_dispatch: # Cria o botão para você gerar o APK manualmente
-   jobs:
-  build:
-    runs-on: ubuntu-latest
