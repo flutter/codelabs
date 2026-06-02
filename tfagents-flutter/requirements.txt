@@ -1,6 +1,0 @@
-tensorflow
-tf-agents
-dm-reverb
-tensorflow-probability
-Pillow
-protobuf
