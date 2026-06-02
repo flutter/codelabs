@@ -17,17 +17,13 @@ declare -a CODELABS=(
   "generate_crossword"
   "genui-intro"
   "google-maps-in-flutter"
-  "haiku_generator"
   "homescreen_codelab"
   "in_app_purchases"
   "namer"
-  "tfagents-flutter"
-  "tfrs-flutter"
-  "tfserving-flutter"
   "tooling"
   "webview_flutter"
   )
 
-ci_codelabs "master" "${CODELABS[@]}"
+ci_codelabs "main" "${CODELABS[@]}"
 
 echo "== END OF TESTS"
