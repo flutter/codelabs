@@ -7,7 +7,7 @@ environment:
   sdk: ^3.12.0-0
 
 dependencies:
-  colorist_ui: ^0.4.0
+  colorist_ui: ^0.5.0
   firebase_ai: ^3.12.0
   firebase_core: ^4.8.0
   flutter:
