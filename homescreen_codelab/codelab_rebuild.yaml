@@ -951,9 +951,8 @@ steps:
               return MaterialApp(
                 theme: ThemeData(
                   appBarTheme: AppBarTheme(
-                    backgroundColor: ColorScheme.fromSeed(
-                      seedColor: Colors.deepPurple,
-                    ).primaryContainer,
+                    backgroundColor: ColorScheme.fromSeed(seedColor: Colors.deepPurple)
+                        .primaryContainer,
                   ),
                   textTheme: const TextTheme(
                     titleMedium: TextStyle(fontFamily: 'Chewy', fontSize: 20),
@@ -987,8 +986,7 @@ steps:
             return [
               NewsArticle(
                 title: 'Flutter DAU surpasses 10 billion',
-                description:
-                    'There are more Flutter users than there are human beings. What gives?',
+                description: 'There are more Flutter users than there are human beings. What gives?',
               ),
               NewsArticle(
                 title: 'Remembering Flutter Forward',
@@ -1001,8 +999,7 @@ steps:
               ),
               NewsArticle(
                 title: 'Flutter DAU surpasses 10 billion',
-                description:
-                    'There are more Flutter users than there are human beings. What gives?',
+                description: 'There are more Flutter users than there are human beings. What gives?',
               ),
             ];
           }
@@ -1976,12 +1973,12 @@ steps:
            import 'package:flutter/material.dart';
           +// New: import the home_widget package.
           +import 'package:home_widget/home_widget.dart';
-           
+
            import 'home_screen.dart';
            import 'news_data.dart';
-          @@ -13,23 +15,31 @@ class ArticleScreen extends StatefulWidget {
+          @@ -13,23 +15,30 @@ class ArticleScreen extends StatefulWidget {
            }
-           
+
            class _ArticleScreenState extends State<ArticleScreen> {
           +  // New: add this GlobalKey
           +  final _globalKey = GlobalKey();
@@ -2013,9 +2010,8 @@ steps:
           +              const LineChart(),
           +              key: 'filename',
           +              logicalSize: _globalKey.currentContext!.size!,
-          +              pixelRatio: MediaQuery.of(
-          +                _globalKey.currentContext!,
-          +              ).devicePixelRatio,
+          +              pixelRatio: MediaQuery.of(_globalKey.currentContext!)
+          +                  .devicePixelRatio,
           +            );
           +            setState(() {
           +              imagePath = path;
@@ -2024,7 +2020,7 @@ steps:
                      updateHeadline(widget.article);
                    },
                    label: const Text('Update Homescreen'),
-          @@ -44,7 +54,11 @@ class _ArticleScreenState extends State<ArticleScreen> {
+          @@ -44,7 +53,11 @@ class _ArticleScreenState extends State<ArticleScreen> {
                      const SizedBox(height: 20.0),
                      Text(widget.article.articleText!),
                      const SizedBox(height: 20.0),
