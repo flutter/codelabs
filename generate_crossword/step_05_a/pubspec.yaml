@@ -8,7 +8,7 @@ environment:
 
 dependencies:
   built_collection: ^5.1.1
-  built_value: ^8.12.6
+  built_value: ^8.12.7
   characters: ^1.4.1
   flutter:
     sdk: flutter
