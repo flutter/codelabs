@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+
 import '../models/models.dart';
 import 'star_button.dart';
 
@@ -183,9 +184,8 @@ class _EmailContentState extends State<EmailContent> {
               if (widget.isPreview) ...[
                 Text(
                   widget.email.subject,
-                  style: const TextStyle(
-                    fontSize: 18,
-                  ).copyWith(color: _colorScheme.onSurface),
+                  style: const TextStyle(fontSize: 18)
+                      .copyWith(color: _colorScheme.onSurface),
                 ),
               ],
               if (widget.isThreaded) ...[
