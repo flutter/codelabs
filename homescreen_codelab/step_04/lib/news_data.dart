@@ -17,8 +17,7 @@ List<NewsArticle> getNewsStories() {
   return [
     NewsArticle(
       title: 'Flutter DAU surpasses 10 billion',
-      description:
-          'There are more Flutter users than there are human beings. What gives?',
+      description: 'There are more Flutter users than there are human beings. What gives?',
     ),
     NewsArticle(
       title: 'Remembering Flutter Forward',
@@ -31,8 +30,7 @@ List<NewsArticle> getNewsStories() {
     ),
     NewsArticle(
       title: 'Flutter DAU surpasses 10 billion',
-      description:
-          'There are more Flutter users than there are human beings. What gives?',
+      description: 'There are more Flutter users than there are human beings. What gives?',
     ),
   ];
 }

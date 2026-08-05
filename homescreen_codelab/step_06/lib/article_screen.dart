@@ -32,9 +32,8 @@ class _ArticleScreenState extends State<ArticleScreen> {
               const LineChart(),
               key: 'filename',
               logicalSize: _globalKey.currentContext!.size!,
-              pixelRatio: MediaQuery.of(
-                _globalKey.currentContext!,
-              ).devicePixelRatio,
+              pixelRatio: MediaQuery.of(_globalKey.currentContext!)
+                  .devicePixelRatio,
             );
             setState(() {
               imagePath = path;

@@ -30,20 +30,21 @@ Future<Map<String, PurchaseHandler>> _createPurchaseHandlers() async {
   final clientCredentialsGooglePlay = auth.ServiceAccountCredentials.fromJson(
     serviceAccountGooglePlay,
   );
-  final clientGooglePlay = await auth
-      .clientViaServiceAccount(clientCredentialsGooglePlay, [
-        ap.AndroidPublisherApi.androidpublisherScope,
-        pubsub.PubsubApi.cloudPlatformScope,
-      ]);
+  final clientGooglePlay = await auth.clientViaServiceAccount(
+    clientCredentialsGooglePlay,
+    [
+      ap.AndroidPublisherApi.androidpublisherScope,
+      pubsub.PubsubApi.cloudPlatformScope,
+    ],
+  );
   final androidPublisher = ap.AndroidPublisherApi(clientGooglePlay);
 
   // Pub/Sub API to receive on purchase events from Google Play
   final pubsubApi = pubsub.PubsubApi(clientGooglePlay);
 
   // Configure Firestore API access
-  final serviceAccountFirebase = File(
-    'assets/service-account-firebase.json',
-  ).readAsStringSync();
+  final serviceAccountFirebase = File('assets/service-account-firebase.json')
+      .readAsStringSync();
   final clientCredentialsFirebase = auth.ServiceAccountCredentials.fromJson(
     serviceAccountFirebase,
   );
@@ -56,9 +57,8 @@ Future<Map<String, PurchaseHandler>> _createPurchaseHandlers() async {
   final projectId = json['project_id'] as String;
   final iapRepository = IapRepository(firestoreApi, projectId);
 
-  final subscriptionKeyAppStore = File(
-    'assets/SubscriptionKey.p8',
-  ).readAsStringSync();
+  final subscriptionKeyAppStore = File('assets/SubscriptionKey.p8')
+      .readAsStringSync();
 
   // Configure Apple Store API access
   var appStoreEnvironment = AppStoreEnvironment.sandbox(

@@ -34,9 +34,8 @@ Future<Map<String, PurchaseHandler>> _createPurchaseHandlers() async {
   final androidPublisher = ap.AndroidPublisherApi(clientGooglePlay);
 
   // Configure Firestore API access
-  final serviceAccountFirebase = File(
-    'assets/service-account-firebase.json',
-  ).readAsStringSync();
+  final serviceAccountFirebase = File('assets/service-account-firebase.json')
+      .readAsStringSync();
   final clientCredentialsFirebase = auth.ServiceAccountCredentials.fromJson(
     serviceAccountFirebase,
   );

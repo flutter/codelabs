@@ -54,9 +54,8 @@ class _WebViewStackState extends State<WebViewStack> {
       ..addJavaScriptChannel(
         'SnackBar',
         onMessageReceived: (message) {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text(message.message)));
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(message.message)));
         },
       );
   }
