@@ -746,38 +746,6 @@ steps:
           ALUAtgC3ALgAugC7ALwBAwC+AL8AwADBAMMAxADFAMYAxwDIAMkAygDLAMwAzQDOAM8A0ADRANMA1ADV
           ANYA1wDYANkA2gDbANwA3QDeAN8A4QEEAL0A6QCTAOAHdW5pMDBBMARFdXJvCXNmdGh5cGhlbgAAAAAD
           AAgAAgAQAAH//wAD
-      - name: Patch android/app/build.gradle.kts
-        path: homescreen_widgets/android/app/build.gradle.kts
-        patch-u: |
-          --- b/homescreen_codelab/step_03/android/app/build.gradle.kts
-          +++ a/homescreen_codelab/step_03/android/app/build.gradle.kts
-          @@ -1,14 +1,14 @@
-           plugins {
-               id("com.android.application")
-               id("kotlin-android")
-          -    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
-               id("dev.flutter.flutter-gradle-plugin")
-           }
-           
-           android {
-               namespace = "com.mydomain.homescreen_widgets"
-               compileSdk = flutter.compileSdkVersion
-          -    ndkVersion = flutter.ndkVersion
-          +    // required by path_provider_android and shared_preferences_android
-          +    ndkVersion = "27.0.12077973"
-           
-               compileOptions {
-                   sourceCompatibility = JavaVersion.VERSION_17
-          @@ -37,6 +37,9 @@ android {
-                       signingConfig = signingConfigs.getByName("debug")
-                   }
-               }
-          +    buildFeatures {
-          +        viewBinding = true
-          +    }
-           }
-           
-           flutter {
       - name: Add ios/Runner/Runner.entitlements
         path: homescreen_widgets/ios/Runner/Runner.entitlements
         replace-contents: |
