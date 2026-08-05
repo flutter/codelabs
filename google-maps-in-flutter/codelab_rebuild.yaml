@@ -70,11 +70,11 @@ steps:
           +++ a/google-maps-in-flutter/step_3/ios/Podfile
           @@ -1,5 +1,6 @@
           -# Uncomment this line to define a global platform for your project
-          -# platform :ios, '13.0'
+          -# platform :ios, '15.0'
           +# Google Maps SDK for iOS requires iOS 16.0
           +# https://developers.google.com/maps/flutter-package/config#ios
           +platform :ios, '16.0'
-           
+
            # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
            ENV['COCOAPODS_DISABLE_STATS'] = 'true'
       - name: Patch ios/Runner.xcodeproj/project.pbxproj
@@ -202,7 +202,7 @@ steps:
           @@ -29,6 +29,9 @@
              <!-- Favicon -->
              <link rel="icon" type="image/png" href="favicon.png"/>
-           
+
           +  <!-- Add your Google Maps API key here -->
           +  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR-KEY-HERE"></script>
           +
