@@ -1338,15 +1338,16 @@ steps:
         patch-u: |
           --- b/google-maps-in-flutter/step_5/lib/main.dart
           +++ a/google-maps-in-flutter/step_5/lib/main.dart
-          @@ -16,6 +16,7 @@
-           
+          @@ -17,6 +17,8 @@
            import 'package:flutter/material.dart';
            import 'package:google_maps_flutter/google_maps_flutter.dart';
-          +import 'src/locations.dart' as locations;
            
+          +import 'src/locations.dart' as locations;
+          +
            void main() {
              runApp(const MyApp());
-          @@ -29,12 +30,20 @@ class MyApp extends StatefulWidget {
+           }
+          @@ -29,12 +31,20 @@ class MyApp extends StatefulWidget {
            }
            
            class _MyAppState extends State<MyApp> {
@@ -1371,9 +1372,9 @@ steps:
           +      }
           +    });
              }
-           
+
              @override
-          @@ -42,10 +51,17 @@ class _MyAppState extends State<MyApp> {
+          @@ -42,10 +52,17 @@ class _MyAppState extends State<MyApp> {
                return MaterialApp(
                  theme: ThemeData(colorSchemeSeed: Colors.green[700]),
                  home: Scaffold(
