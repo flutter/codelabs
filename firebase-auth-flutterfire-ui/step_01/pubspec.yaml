@@ -1,15 +1,15 @@
 name: firebase_auth_flutterfire_ui
 description: "A new Flutter project."
-publish_to: "none"
+publish_to: 'none'
 version: 0.1.0+1
 
 environment:
-  sdk: ^3.12.0-0
+  sdk: ^3.13.0-0
 
 dependencies:
-  firebase_auth: ^6.5.0
-  firebase_core: ^4.8.0
-  firebase_ui_auth: ^3.0.1
+  firebase_auth: ^6.5.7
+  firebase_core: ^4.13.0
+  firebase_ui_auth: ^3.1.0
   flutter:
     sdk: flutter
 

@@ -44,6 +44,9 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
+# Widget Preview related
+.widget_preview/
+
 # Configuration files
 GoogleService-Info.plist
 google-services.json

@@ -42,13 +42,13 @@ class ApplicationState extends ChangeNotifier {
       throw Exception('Must be logged in');
     }
 
-    return FirebaseFirestore.instance
-        .collection('guestbook')
-        .add(<String, dynamic>{
-          'text': message,
-          'timestamp': DateTime.now().millisecondsSinceEpoch,
-          'name': FirebaseAuth.instance.currentUser!.displayName,
-          'userId': FirebaseAuth.instance.currentUser!.uid,
-        });
+    return FirebaseFirestore.instance.collection('guestbook').add(
+      <String, dynamic>{
+        'text': message,
+        'timestamp': DateTime.now().millisecondsSinceEpoch,
+        'name': FirebaseAuth.instance.currentUser!.displayName,
+        'userId': FirebaseAuth.instance.currentUser!.uid,
+      },
+    );
   }
 }

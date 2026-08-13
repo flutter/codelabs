@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -65,9 +66,8 @@ class _MenuState extends State<Menu> {
             final userAgent = await widget.controller
                 .runJavaScriptReturningResult('navigator.userAgent');
             if (!context.mounted) return;
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text('$userAgent')));
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text('$userAgent')));
           case _MenuOptions.javascriptChannel:
             await widget.controller.runJavaScript('''
 var req = new XMLHttpRequest();
@@ -152,9 +152,9 @@ req.send();''');
   }
 
   Future<void> _onListCookies(WebViewController controller) async {
-    final String cookies =
-        await controller.runJavaScriptReturningResult('document.cookie')
-            as String;
+    final String cookies = await controller.runJavaScriptReturningResult(
+      'document.cookie',
+    ) as String;
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -170,9 +170,8 @@ req.send();''');
       message = 'There were no cookies to clear.';
     }
     if (!mounted) return;
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(message)));
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(message)));
   }
 
   Future<void> _onAddCookie(WebViewController controller) async {
@@ -180,9 +179,8 @@ req.send();''');
     date.setTime(date.getTime()+(30*24*60*60*1000));
     document.cookie = "FirstName=John; expires=" + date.toGMTString();''');
     if (!mounted) return;
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(const SnackBar(content: Text('Custom cookie added.')));
+    ScaffoldMessenger.of(context)
+        .showSnackBar(const SnackBar(content: Text('Custom cookie added.')));
   }
 
   Future<void> _onSetCookie(WebViewController controller) async {
@@ -190,9 +188,8 @@ req.send();''');
       const WebViewCookie(name: 'foo', value: 'bar', domain: 'flutter.dev'),
     );
     if (!mounted) return;
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(const SnackBar(content: Text('Custom cookie is set.')));
+    ScaffoldMessenger.of(context)
+        .showSnackBar(const SnackBar(content: Text('Custom cookie is set.')));
   }
 
   Future<void> _onRemoveCookie(WebViewController controller) async {
@@ -200,9 +197,8 @@ req.send();''');
       'document.cookie="FirstName=John; expires=Thu, 01 Jan 1970 00:00:00 UTC" ',
     );
     if (!mounted) return;
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(const SnackBar(content: Text('Custom cookie removed.')));
+    ScaffoldMessenger.of(context)
+        .showSnackBar(const SnackBar(content: Text('Custom cookie removed.')));
   }
 
   Future<void> _onLoadFlutterAssetExample(

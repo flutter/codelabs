@@ -482,7 +482,7 @@ abstract class WorkQueue implements Built<WorkQueue, WorkQueueBuilder> {
 
   /// Update the work queue from a crossword derived from the current crossword
   /// that this work queue is built from.
-  WorkQueue updateFrom(final Crossword crossword) =>
+  WorkQueue updateFrom(Crossword crossword) =>
       WorkQueue.from(
         crossword: crossword,
         candidateWords: candidateWords,

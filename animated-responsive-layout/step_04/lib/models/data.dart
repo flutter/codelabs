@@ -41,23 +41,20 @@ final List<Email> emails = [
     sender: user_2,
     recipients: [],
     subject: 'Dinner Club',
-    content:
-        'I think it’s time for us to finally try that new noodle shop downtown that doesn’t use menus. Anyone else have other suggestions for dinner club this week? I’m so intrigued by this idea of a noodle restaurant where no one gets to order for themselves - could be fun, or terrible, or both :)\n\nSo',
+    content: 'I think it’s time for us to finally try that new noodle shop downtown that doesn’t use menus. Anyone else have other suggestions for dinner club this week? I’m so intrigued by this idea of a noodle restaurant where no one gets to order for themselves - could be fun, or terrible, or both :)\n\nSo',
   ),
   Email(
     sender: user_3,
     recipients: [],
     subject: 'This food show is made for you',
-    content:
-        'Ping– you’d love this new food show I started watching. It’s produced by a Thai drummer who started getting recognized for the amazing vegan food she always brought to shows.',
+    content: 'Ping– you’d love this new food show I started watching. It’s produced by a Thai drummer who started getting recognized for the amazing vegan food she always brought to shows.',
     attachments: [const Attachment(url: 'assets/thumbnail_1.png')],
   ),
   Email(
     sender: user_4,
     recipients: [],
     subject: 'Volunteer EMT with me?',
-    content:
-        'What do you think about training to be volunteer EMTs? We could do it together for moral support. Think about it??',
+    content: 'What do you think about training to be volunteer EMTs? We could do it together for moral support. Think about it??',
   ),
 ];
 
@@ -66,14 +63,12 @@ final List<Email> replies = [
     sender: user_2,
     recipients: [user_3, user_2],
     subject: 'Dinner Club',
-    content:
-        'I think it’s time for us to finally try that new noodle shop downtown that doesn’t use menus. Anyone else have other suggestions for dinner club this week? I’m so intrigued by this idea of a noodle restaurant where no one gets to order for themselves - could be fun, or terrible, or both :)\n\nSo',
+    content: 'I think it’s time for us to finally try that new noodle shop downtown that doesn’t use menus. Anyone else have other suggestions for dinner club this week? I’m so intrigued by this idea of a noodle restaurant where no one gets to order for themselves - could be fun, or terrible, or both :)\n\nSo',
   ),
   Email(
     sender: user_0,
     recipients: [user_3, user_2],
     subject: 'Dinner Club',
-    content:
-        'Yes! I forgot about that place! I’m definitely up for taking a risk this week and handing control over to this mysterious noodle chef. I wonder what happens if you have allergies though? Lucky none of us have any otherwise I’d be a bit concerned.\n\nThis is going to be great. See you all at the usual time?',
+    content: 'Yes! I forgot about that place! I’m definitely up for taking a risk this week and handing control over to this mysterious noodle chef. I wonder what happens if you have allergies though? Lucky none of us have any otherwise I’d be a bit concerned.\n\nThis is going to be great. See you all at the usual time?',
   ),
 ];

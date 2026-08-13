@@ -104,9 +104,8 @@ steps:
               return MaterialApp(
                 title: 'Firebase Meetup',
                 theme: ThemeData(
-                  buttonTheme: Theme.of(
-                    context,
-                  ).buttonTheme.copyWith(highlightColor: Colors.deepPurple),
+                  buttonTheme: Theme.of(context).buttonTheme
+                      .copyWith(highlightColor: Colors.deepPurple),
                   colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
                   textTheme: GoogleFonts.robotoTextTheme(Theme.of(context).textTheme),
                   visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -1769,18 +1768,6 @@ steps:
       - name: Add cloud_firestore firebase_auth firebase_core provider firebase_ui_auth
         path: gtk_flutter
         flutter: pub add cloud_firestore firebase_auth firebase_core provider firebase_ui_auth
-      - name: Patch ios/Podfile
-        path: gtk_flutter/ios/Podfile
-        patch-u: |
-          --- b/firebase-get-to-know-flutter/step_04/ios/Podfile
-          +++ a/firebase-get-to-know-flutter/step_04/ios/Podfile
-          @@ -1,5 +1,5 @@
-           # Uncomment this line to define a global platform for your project
-          -# platform :ios, '13.0'
-          +platform :ios, '15.0'
-
-           # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
-           ENV['COCOAPODS_DISABLE_STATS'] = 'true'
       - name: Update iOS podspec
         platforms: [ macos ]
         path: gtk_flutter/ios
@@ -1800,10 +1787,10 @@ steps:
         platforms: [ macos ]
         path: gtk_flutter
         flutter: build apk
-      # - name: Build for macOS
-      #   platforms: [ macos ]
-      #   path: gtk_flutter
-      #   flutter: build macos --debug
+      - name: Build for macOS
+        platforms: [ macos ]
+        path: gtk_flutter
+        flutter: build macos --debug
       - name: Copy step_04
         copydir:
           from: gtk_flutter
@@ -1826,10 +1813,10 @@ steps:
           +import 'package:go_router/go_router.dart';
            import 'package:google_fonts/google_fonts.dart';
           +import 'package:provider/provider.dart';
-           
+
           +import 'app_state.dart';
            import 'home_page.dart';
-           
+
            void main() {
           -  runApp(const App());
           +  WidgetsFlutterBinding.ensureInitialized();
@@ -1841,7 +1828,7 @@ steps:
           +    ),
           +  );
            }
-           
+
           +final _router = GoRouter(
           +  routes: [
           +    GoRoute(
@@ -1919,15 +1906,15 @@ steps:
           +
            class App extends StatelessWidget {
              const App({super.key});
-           
+
              @override
              Widget build(BuildContext context) {
           -    return MaterialApp(
           +    return MaterialApp.router(
                  title: 'Firebase Meetup',
                  theme: ThemeData(
-                   buttonTheme: Theme.of(
-          @@ -26,7 +112,7 @@ class App extends StatelessWidget {
+                   buttonTheme: Theme.of(context).buttonTheme
+          @@ -25,7 +111,7 @@ class App extends StatelessWidget {
                    textTheme: GoogleFonts.robotoTextTheme(Theme.of(context).textTheme),
                    visualDensity: VisualDensity.adaptivePlatformDensity,
                  ),
@@ -2063,7 +2050,7 @@ steps:
              bool _loggedIn = false;
           +
              bool get loggedIn => _loggedIn;
-           
+
              Future<void> init() async {
           @@ -34,4 +36,19 @@ class ApplicationState extends ChangeNotifier {
                  notifyListeners();
@@ -2075,14 +2062,14 @@ steps:
           +      throw Exception('Must be logged in');
           +    }
           +
-          +    return FirebaseFirestore.instance
-          +        .collection('guestbook')
-          +        .add(<String, dynamic>{
-          +          'text': message,
-          +          'timestamp': DateTime.now().millisecondsSinceEpoch,
-          +          'name': FirebaseAuth.instance.currentUser!.displayName,
-          +          'userId': FirebaseAuth.instance.currentUser!.uid,
-          +        });
+          +    return FirebaseFirestore.instance.collection('guestbook').add(
+          +      <String, dynamic>{
+          +        'text': message,
+          +        'timestamp': DateTime.now().millisecondsSinceEpoch,
+          +        'name': FirebaseAuth.instance.currentUser!.displayName,
+          +        'userId': FirebaseAuth.instance.currentUser!.uid,
+          +      },
+          +    );
           +  }
            }
       - name: Add lib/guest_book.dart
@@ -2770,10 +2757,10 @@ steps:
         platforms: [ macos ]
         path: gtk_flutter
         flutter: build apk
-      # - name: Build for macOS
-      #   platforms: [ macos ]
-      #   path: gtk_flutter
-      #   flutter: build macos --debug
+      - name: Build for macOS
+        platforms: [ macos ]
+        path: gtk_flutter
+        flutter: build macos --debug
       - name: Build for iOS
         platforms: [ macos ]
         path: gtk_flutter

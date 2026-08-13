@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'flip_effect.dart';
 import 'scoreboard.dart';
 import 'view_model.dart';
@@ -94,9 +95,8 @@ class QuestionCard extends StatelessWidget {
         );
       },
       transitionBuilder: (child, animation) {
-        final curveAnimation = CurveTween(
-          curve: Curves.easeInCubic,
-        ).animate(animation);
+        final curveAnimation = CurveTween(curve: Curves.easeInCubic)
+            .animate(animation);
         final offsetAnimation = Tween<Offset>(
           begin: Offset(-0.1, 0.0),
           end: Offset.zero,

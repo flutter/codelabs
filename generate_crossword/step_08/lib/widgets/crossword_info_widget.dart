@@ -113,9 +113,8 @@ class _CrosswordInfoRichText extends StatelessWidget {
         TextSpan(text: '$label ', style: DefaultTextStyle.of(context).style),
         TextSpan(
           text: value,
-          style: DefaultTextStyle.of(
-            context,
-          ).style.copyWith(fontWeight: FontWeight.bold),
+          style: DefaultTextStyle.of(context).style
+              .copyWith(fontWeight: FontWeight.bold),
         ),
       ],
     ),

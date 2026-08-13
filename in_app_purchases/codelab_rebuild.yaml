@@ -17,10 +17,10 @@ steps:
         patch-u: |
           --- b/in_app_purchases/step_00/app/.gitignore
           +++ a/in_app_purchases/step_00/app/.gitignore
-          @@ -43,3 +43,8 @@ app.*.map.json
-           /android/app/debug
-           /android/app/profile
-           /android/app/release
+          @@ -46,3 +46,8 @@ app.*.map.json
+
+           # Widget Preview related
+           .widget_preview/
           +
           +# Configuration files
           +GoogleService-Info.plist
@@ -96,7 +96,7 @@ steps:
         patch-u: |
           --- b/in_app_purchases/step_00/app/android/app/build.gradle.kts
           +++ a/in_app_purchases/step_00/app/android/app/build.gradle.kts
-          @@ -22,9 +22,8 @@ android {
+          @@ -17,9 +17,8 @@ android {
                defaultConfig {
                    // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
                    applicationId = "com.example.dashclicker"
@@ -106,8 +106,8 @@ steps:
           +        // Per https://firebase.google.com/support/release-notes/android firebase_auth requires minSdk 23
           +        minSdk = 23
                    targetSdk = flutter.targetSdkVersion
-                   versionCode = flutter.versionCode
-                   versionName = flutter.versionName
+                   // Uses the version code from pubspec.yaml. When using split APKs, 1000 * ABI_VERSION
+                   // is added automatically by Flutter. (https://developer.android.com/studio/build/configure-apk-splits#configure-APK-versions)
       - name: Mkdir app/assets
         mkdir: steps/app/assets
       - name: Add app/assets/dash_old.png
@@ -17719,7 +17719,7 @@ steps:
         patch-u: |
           --- b/in_app_purchases/step_10/dart-backend/bin/server.dart
           +++ a/in_app_purchases/step_10/dart-backend/bin/server.dart
-          @@ -2,12 +2,113 @@
+          @@ -2,12 +2,112 @@
            // for details. All rights reserved. Use of this source code is governed by a
            // BSD-style license that can be found in the LICENSE file.
            
@@ -17737,7 +17737,7 @@ steps:
           +import 'package:googleapis_auth/auth_io.dart' as auth;
           +import 'package:shelf/shelf.dart';
            import 'package:shelf_router/shelf_router.dart';
-           
+
           +/// Creates the Google Play and Apple Store [PurchaseHandler]
           +/// and their dependencies
           +Future<Map<String, PurchaseHandler>> _createPurchaseHandlers() async {
@@ -17755,9 +17755,8 @@ steps:
           +  final androidPublisher = ap.AndroidPublisherApi(clientGooglePlay);
           +
           +  // Configure Firestore API access
-          +  final serviceAccountFirebase = File(
-          +    'assets/service-account-firebase.json',
-          +  ).readAsStringSync();
+          +  final serviceAccountFirebase = File('assets/service-account-firebase.json')
+          +      .readAsStringSync();
           +  final clientCredentialsFirebase = auth.ServiceAccountCredentials.fromJson(
           +    serviceAccountFirebase,
           +  );
@@ -17778,7 +17777,7 @@ steps:
           +
            Future<void> main() async {
              final router = Router();
-           
+
           +  final purchaseHandlers = await _createPurchaseHandlers();
           +
           +  /// Warning: This endpoint has no security
@@ -18309,34 +18308,30 @@ steps:
            import 'package:googleapis_auth/auth_io.dart' as auth;
            import 'package:shelf/shelf.dart';
            import 'package:shelf_router/shelf_router.dart';
-          @@ -27,12 +30,16 @@ Future<Map<String, PurchaseHandler>> _createPurchaseHandlers() async {
-             final clientCredentialsGooglePlay = auth.ServiceAccountCredentials.fromJson(
-               serviceAccountGooglePlay,
+          @@ -29,10 +32,16 @@ Future<Map<String, PurchaseHandler>> _createPurchaseHandlers() async {
              );
-          -  final clientGooglePlay = await auth.clientViaServiceAccount(
-          -    clientCredentialsGooglePlay,
+             final clientGooglePlay = await auth.clientViaServiceAccount(
+               clientCredentialsGooglePlay,
           -    [ap.AndroidPublisherApi.androidpublisherScope],
-          -  );
-          +  final clientGooglePlay = await auth
-          +      .clientViaServiceAccount(clientCredentialsGooglePlay, [
-          +        ap.AndroidPublisherApi.androidpublisherScope,
-          +        pubsub.PubsubApi.cloudPlatformScope,
-          +      ]);
+          +    [
+          +      ap.AndroidPublisherApi.androidpublisherScope,
+          +      pubsub.PubsubApi.cloudPlatformScope,
+          +    ],
+             );
              final androidPublisher = ap.AndroidPublisherApi(clientGooglePlay);
            
           +  // Pub/Sub API to receive on purchase events from Google Play
           +  final pubsubApi = pubsub.PubsubApi(clientGooglePlay);
           +
              // Configure Firestore API access
-             final serviceAccountFirebase = File(
-               'assets/service-account-firebase.json',
-          @@ -49,9 +56,42 @@ Future<Map<String, PurchaseHandler>> _createPurchaseHandlers() async {
+             final serviceAccountFirebase = File('assets/service-account-firebase.json')
+                 .readAsStringSync();
+          @@ -48,9 +57,41 @@ Future<Map<String, PurchaseHandler>> _createPurchaseHandlers() async {
              final projectId = json['project_id'] as String;
              final iapRepository = IapRepository(firestoreApi, projectId);
-           
-          +  final subscriptionKeyAppStore = File(
-          +    'assets/SubscriptionKey.p8',
-          +  ).readAsStringSync();
+
+          +  final subscriptionKeyAppStore = File('assets/SubscriptionKey.p8')
+          +      .readAsStringSync();
           +
           +  // Configure Apple Store API access
           +  var appStoreEnvironment = AppStoreEnvironment.sandbox(
