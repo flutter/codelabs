@@ -36,7 +36,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   google_fonts: ^8.2.1
-  go_router: ^17.4.0
+  go_router: ^18.0.0
   cloud_firestore: ^6.8.0
   firebase_auth: ^6.5.7
   firebase_core: ^4.13.0
