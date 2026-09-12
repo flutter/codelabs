@@ -4,7 +4,7 @@ publish_to: 'none'
 version: 0.1.0+1
 
 environment:
-  sdk: ^3.13.0-0
+  sdk: ^3.13.3
 
 dependencies:
   colorist_ui: ^0.5.0

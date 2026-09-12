@@ -6,7 +6,6 @@ analyzer:
     - web/**
     - windows/**
     - macos/**
-    - linux/**
 include: ../../analysis_options.yaml
 
 linter:
