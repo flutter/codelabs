@@ -16740,7 +16740,8 @@ steps:
           }
       - name: Add dependencies
         path: steps/dart-backend
-        dart: pub add googleapis googleapis_auth http app_store_server_sdk
+        # Googleapis v17 breaks things.
+        dart: pub add googleapis@^16.0.0 googleapis_auth http app_store_server_sdk
       - name: Replace .github
         path: steps/dart-backend/.gitignore
         replace-contents: |
