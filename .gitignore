@@ -11,9 +11,3 @@
 
 # IDEs
 .idea/
-
-# Lockfiles
-package-lock.json
-Podfile.lock
-pubspec.lock
-yarn.lock
