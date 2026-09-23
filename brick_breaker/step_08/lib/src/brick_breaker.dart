@@ -36,7 +36,7 @@ class BrickBreaker extends FlameGame
 
     await world.add(PlayArea());
 
-    world.add(
+    await world.add(
       Ball(
         difficultyModifier: difficultyModifier,
         radius: ballRadius,
@@ -48,7 +48,7 @@ class BrickBreaker extends FlameGame
       ),
     );
 
-    world.add(
+    await world.add(
       Bat(
         size: Vector2(batWidth, batHeight),
         cornerRadius: const Radius.circular(ballRadius / 2),

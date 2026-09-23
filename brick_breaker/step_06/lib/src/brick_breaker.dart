@@ -32,7 +32,7 @@ class BrickBreaker extends FlameGame with HasCollisionDetection {
 
     await world.add(PlayArea());
 
-    world.add(
+    await world.add(
       Ball(
         radius: ballRadius,
         position: size / 2,

@@ -255,7 +255,7 @@ steps:
 
                await world.add(PlayArea());
           +
-          +    world.add(
+          +    await world.add(
           +      Ball(
           +        radius: ballRadius,
           +        position: size / 2,
@@ -497,7 +497,7 @@ steps:
                  ),
                );
 
-          +    world.add(
+          +    await world.add(
           +      Bat(
           +        size: Vector2(batWidth, batHeight),
           +        cornerRadius: const Radius.circular(ballRadius / 2),
@@ -665,7 +665,7 @@ steps:
           +++ a/brick_breaker/step_08/lib/src/brick_breaker.dart
           @@ -38,6 +38,7 @@ class BrickBreaker extends FlameGame
 
-               world.add(
+               await world.add(
                  Ball(
           +        difficultyModifier: difficultyModifier,
                    radius: ballRadius,
@@ -913,10 +913,11 @@ steps:
              @override
              FutureOr<void> onLoad() async {
                await super.onLoad();
-          @@ -36,6 +54,18 @@ class BrickBreaker extends FlameGame
+          @@ -36,7 +54,19 @@ class BrickBreaker extends FlameGame
 
                await world.add(PlayArea());
 
+          -    await world.add(
           +    playState = PlayState.welcome;
           +  }
           +
@@ -929,9 +930,19 @@ steps:
           +
           +    playState = PlayState.playing;
           +
-               world.add(
+          +    world.add(
                  Ball(
                    difficultyModifier: difficultyModifier,
+                   radius: ballRadius,
+          @@ -48,7 +78,7 @@ class BrickBreaker extends FlameGame
+                 ),
+               );
+
+          -    await world.add(
+          +    world.add(
+                 Bat(
+                   size: Vector2(batWidth, batHeight),
+                   cornerRadius: const Radius.circular(ballRadius / 2),
           @@ -56,7 +86,7 @@ class BrickBreaker extends FlameGame
                  ),
                );
