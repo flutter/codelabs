@@ -95,7 +95,7 @@ abstract class _$Size extends $Notifier<CrosswordSize> {
   CrosswordSize build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<CrosswordSize, CrosswordSize>;
     final element =
         ref.element
@@ -105,7 +105,7 @@ abstract class _$Size extends $Notifier<CrosswordSize> {
               Object?,
               Object?
             >;
-    element.handleCreate(ref, build);
+    return element.handleCreate(ref, build);
   }
 }
 
@@ -185,7 +185,7 @@ abstract class _$StartTime extends $Notifier<DateTime?> {
   DateTime? build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<DateTime?, DateTime?>;
     final element =
         ref.element
@@ -195,7 +195,7 @@ abstract class _$StartTime extends $Notifier<DateTime?> {
               Object?,
               Object?
             >;
-    element.handleCreate(ref, build);
+    return element.handleCreate(ref, build);
   }
 }
 
@@ -236,7 +236,7 @@ abstract class _$EndTime extends $Notifier<DateTime?> {
   DateTime? build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<DateTime?, DateTime?>;
     final element =
         ref.element
@@ -246,7 +246,7 @@ abstract class _$EndTime extends $Notifier<DateTime?> {
               Object?,
               Object?
             >;
-    element.handleCreate(ref, build);
+    return element.handleCreate(ref, build);
   }
 }
 
@@ -336,7 +336,7 @@ abstract class _$ShowDisplayInfo extends $Notifier<bool> {
   bool build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
     final element =
         ref.element
@@ -346,7 +346,7 @@ abstract class _$ShowDisplayInfo extends $Notifier<bool> {
               Object?,
               Object?
             >;
-    element.handleCreate(ref, build);
+    return element.handleCreate(ref, build);
   }
 }
 
@@ -394,7 +394,7 @@ abstract class _$DisplayInfo extends $Notifier<model.DisplayInfo> {
   model.DisplayInfo build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<model.DisplayInfo, model.DisplayInfo>;
     final element =
         ref.element
@@ -404,7 +404,7 @@ abstract class _$DisplayInfo extends $Notifier<model.DisplayInfo> {
               Object?,
               Object?
             >;
-    element.handleCreate(ref, build);
+    return element.handleCreate(ref, build);
   }
 }
 
@@ -452,7 +452,7 @@ abstract class _$WorkerCount extends $Notifier<BackgroundWorkers> {
   BackgroundWorkers build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<BackgroundWorkers, BackgroundWorkers>;
     final element =
         ref.element
@@ -462,6 +462,6 @@ abstract class _$WorkerCount extends $Notifier<BackgroundWorkers> {
               Object?,
               Object?
             >;
-    element.handleCreate(ref, build);
+    return element.handleCreate(ref, build);
   }
 }

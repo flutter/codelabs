@@ -15,13 +15,13 @@ steps:
         path: generate_crossword/analysis_options.yaml
         replace-contents: |
           include: ../../analysis_options.yaml
-          
+
           analyzer:
             language:
               strict-inference: false
             exclude:
               - lib/*.g.dart
-          
+
           linter:
             rules:
               prefer_const_constructors: false
@@ -62,7 +62,7 @@ steps:
           }
       - name: Add dependencies
         path: generate_crossword
-        flutter: pub add built_collection built_value characters flutter_riverpod intl riverpod riverpod_annotation two_dimensional_scrollables dev:build_runner dev:built_value_generator dev:custom_lint dev:riverpod_generator dev:riverpod_lint
+        flutter: pub add built_collection built_value characters flutter_riverpod intl riverpod riverpod_annotation two_dimensional_scrollables dev:build_runner dev:built_value_generator dev:riverpod_generator
       - name: Replace lib/main.dart
         path: generate_crossword/lib/main.dart
         replace-contents: |
@@ -128,8 +128,8 @@ steps:
         patch: |
           --- b/generate_crossword/step_03/pubspec.yaml
           +++ a/generate_crossword/step_03/pubspec.yaml
-          @@ -30,3 +30,5 @@ dev_dependencies:
-           
+          @@ -28,3 +28,5 @@ dev_dependencies:
+
            flutter:
              uses-material-design: true
           +  assets:
@@ -49031,7 +49031,7 @@ steps:
           @@ -5,6 +5,8 @@
            import 'package:flutter/material.dart';
            import 'package:flutter_riverpod/flutter_riverpod.dart';
-           
+
           +import 'widgets/crossword_generator_app.dart';
           +
            void main() {
@@ -49365,12 +49365,12 @@ steps:
           // found in the LICENSE file.
 
           import 'dart:math';
-          
+
           import 'package:built_collection/built_collection.dart';
-          
+
           /// A [Random] instance for generating random numbers.
           final _random = Random();
-          
+
           /// An extension on [BuiltSet] that adds a method to get a random element.
           extension RandomElements<E> on BuiltSet<E> {
             E randomElement() {
@@ -49384,20 +49384,20 @@ steps:
           +++ a/generate_crossword/step_04/lib/providers.dart
           @@ -3,11 +3,16 @@
            // found in the LICENSE file.
-           
+
            import 'dart:convert';
           +import 'dart:math';
-           
+
            import 'package:built_collection/built_collection.dart';
           +import 'package:flutter/foundation.dart';
            import 'package:flutter/services.dart';
            import 'package:riverpod_annotation/riverpod_annotation.dart';
-           
+
           +import 'model.dart' as model;
           +import 'utils.dart';
           +
            part 'providers.g.dart';
-           
+
            /// A provider for the wordlist to use when generating the crossword.
           @@ -30,3 +35,77 @@ Future<BuiltSet<String>> wordList(Ref ref) async {
                      ..where((word) => re.hasMatch(word)),
@@ -49569,10 +49569,10 @@ steps:
           +++ a/generate_crossword/step_04/lib/widgets/crossword_generator_app.dart
           @@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
            import 'package:flutter_riverpod/flutter_riverpod.dart';
-           
+
            import '../providers.dart';
           +import 'crossword_widget.dart';
-           
+
            class CrosswordGeneratorApp extends StatelessWidget {
              const CrosswordGeneratorApp({super.key});
           @@ -15,6 +16,7 @@ class CrosswordGeneratorApp extends StatelessWidget {
@@ -50049,12 +50049,12 @@ steps:
           @@ -174,16 +174,118 @@ abstract class Crossword implements Built<Crossword, CrosswordBuilder> {
              /// The words in the crossword.
              BuiltList<CrosswordWord> get words;
-           
+
           -  /// The characters by location. Useful for displaying the crossword.
           +  /// The characters by location. Useful for displaying the crossword,
           +  /// or checking the proposed solution.
              BuiltMap<Location, CrosswordCharacter> get characters;
-           
+
           +  /// Checks if this crossword is valid.
           +  bool get valid {
           +    // Check that there are no duplicate words.
@@ -50179,7 +50179,7 @@ steps:
           +      return null;
           +    }
              }
-           
+
              /// As a finalize step, fill in the characters map.
       - name: Patch lib/providers.dart
         path: generate_crossword/lib/providers.dart
@@ -50189,7 +50189,7 @@ steps:
           @@ -89,13 +89,19 @@ Stream<model.Crossword> crossword(Ref ref) async* {
                      _random.nextInt(size.height),
                    );
-           
+
           -        crossword = crossword.addWord(
           +        var candidate = crossword.addWord(
                      word: word,
@@ -50207,7 +50207,7 @@ steps:
           +          debugPrint('Failed to add word: $word');
           +        }
                  }
-           
+
                  yield crossword;
       - name: Run build_runner
         path: generate_crossword
@@ -50346,38 +50346,38 @@ steps:
           +++ a/generate_crossword/step_05_c/lib/providers.dart
           @@ -3,15 +3,14 @@
            // found in the LICENSE file.
-           
+
            import 'dart:convert';
           -import 'dart:math';
-           
+
            import 'package:built_collection/built_collection.dart';
            import 'package:flutter/foundation.dart';
            import 'package:flutter/services.dart';
            import 'package:riverpod_annotation/riverpod_annotation.dart';
-           
+
           +import 'isolates.dart';
            import 'model.dart' as model;
           -import 'utils.dart';
-           
+
            part 'providers.g.dart';
-           
+
           @@ -65,58 +64,27 @@ class Size extends _$Size {
              }
            }
-           
+
           -final _random = Random();
           -
            @riverpod
            Stream<model.Crossword> crossword(Ref ref) async* {
              final size = ref.watch(sizeProvider);
              final wordListAsync = ref.watch(wordListProvider);
-           
+
           -  var crossword = model.Crossword.crossword(
           +  final emptyCrossword = model.Crossword.crossword(
                width: size.width,
                height: size.height,
              );
-           
+
              yield* wordListAsync.when(
           -    data: (wordList) async* {
           -      while (crossword.characters.length < size.width * size.height * 0.8) {
@@ -50455,13 +50455,13 @@ steps:
           @@ -2,6 +2,7 @@
            // Use of this source code is governed by a BSD-style license that can be
            // found in the LICENSE file.
-           
+
           +import 'package:built_collection/built_collection.dart';
            import 'package:flutter_test/flutter_test.dart';
            import 'package:generate_crossword/model.dart';
-           
+
           @@ -383,4 +384,117 @@ void main() {
-           
+
                expect(crossword.valid, false);
              });
           +
@@ -50586,7 +50586,7 @@ steps:
           @@ -396,6 +396,119 @@ abstract class Crossword implements Built<Crossword, CrosswordBuilder> {
              Crossword._();
            }
-           
+
           +/// A work queue for a worker to process. The work queue contains a crossword
           +/// and a list of locations to try, along with candidate words to add to the
           +/// crossword.
@@ -50738,16 +50738,16 @@ steps:
           @@ -2,44 +2,77 @@
            // Use of this source code is governed by a BSD-style license that can be
            // found in the LICENSE file.
-           
+
           -import 'dart:math';
           -
            import 'package:built_collection/built_collection.dart';
           +import 'package:characters/characters.dart';
            import 'package:flutter/foundation.dart';
-           
+
            import 'model.dart';
            import 'utils.dart';
-           
+
           -final _random = Random();
           -
            Stream<Crossword> exploreCrosswordSolutions({
@@ -50799,7 +50799,7 @@ steps:
           +          tryCount++;
           +          for (final (index, character) in word.characters.indexed) {
           +            if (character != target.character) continue;
-           
+
           -      if (candidate != null) {
           -        crossword = candidate;
           +            final candidate = workQueue.crossword.addWord(
@@ -50864,13 +50864,13 @@ steps:
            import 'package:built_value/serializer.dart';
            import 'package:characters/characters.dart';
           +import 'package:intl/intl.dart';
-           
+
            part 'model.g.dart';
-           
+
           @@ -503,6 +504,57 @@ abstract class WorkQueue implements Built<WorkQueue, WorkQueueBuilder> {
              WorkQueue._();
            }
-           
+
           +/// Display information for the current state of the crossword solve.
           +abstract class DisplayInfo implements Built<DisplayInfo, DisplayInfoBuilder> {
           +  static Serializer<DisplayInfo> get serializer => _$displayInfoSerializer;
@@ -50940,7 +50940,7 @@ steps:
           @@ -9,7 +9,7 @@ import 'package:flutter/foundation.dart';
            import 'model.dart';
            import 'utils.dart';
-           
+
           -Stream<Crossword> exploreCrosswordSolutions({
           +Stream<WorkQueue> exploreCrosswordSolutions({
              required Crossword crossword,
@@ -50965,15 +50965,15 @@ steps:
           +++ a/generate_crossword/step_07/lib/providers.dart
           @@ -3,6 +3,7 @@
            // found in the LICENSE file.
-           
+
            import 'dart:convert';
           +import 'dart:math';
-           
+
            import 'package:built_collection/built_collection.dart';
            import 'package:flutter/foundation.dart';
           @@ -65,14 +66,21 @@ class Size extends _$Size {
            }
-           
+
            @riverpod
           -Stream<model.Crossword> crossword(Ref ref) async* {
           +Stream<model.WorkQueue> workQueue(Ref ref) async* {
@@ -50992,7 +50992,7 @@ steps:
           +
           +  ref.read(startTimeProvider.notifier).start();
           +  ref.read(endTimeProvider.notifier).clear();
-           
+
              yield* wordListAsync.when(
                data: (wordList) => exploreCrosswordSolutions(
           @@ -81,10 +89,103 @@ Stream<model.Crossword> crossword(Ref ref) async* {
@@ -51289,11 +51289,11 @@ steps:
           +++ a/generate_crossword/step_07/lib/widgets/crossword_generator_app.dart
           @@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
            import 'package:flutter_riverpod/flutter_riverpod.dart';
-           
+
            import '../providers.dart';
           +import 'crossword_info_widget.dart';
            import 'crossword_widget.dart';
-           
+
            class CrosswordGeneratorApp extends StatelessWidget {
           @@ -24,7 +25,18 @@ class CrosswordGeneratorApp extends StatelessWidget {
                      ),
@@ -51357,7 +51357,7 @@ steps:
           @@ -41,16 +41,35 @@ class CrosswordWidget extends ConsumerWidget {
                        ),
                      );
-           
+
           +          final explorationCell = ref.watch(
           +            workQueueProvider.select(
           +              (workQueueAsync) => workQueueAsync.when(
@@ -51461,7 +51461,7 @@ steps:
           +
           +  for (final location in locations) {
           +    final direction = workQueue.locationsToTry[location]!;
-           
+
           -            final candidate = workQueue.crossword.addWord(
           -              location: switch (direction) {
           -                Direction.across => location.leftOffset(index),
@@ -51575,7 +51575,7 @@ steps:
           --- b/generate_crossword/step_08/lib/providers.dart
           +++ a/generate_crossword/step_08/lib/providers.dart
           @@ -67,6 +67,7 @@ class Size extends _$Size {
-           
+
            @riverpod
            Stream<model.WorkQueue> workQueue(Ref ref) async* {
           +  final workers = ref.watch(workerCountProvider);
@@ -51696,12 +51696,12 @@ steps:
           +++ a/generate_crossword/step_09/test/model_test.dart
           @@ -3,6 +3,7 @@
            // found in the LICENSE file.
-           
+
            import 'package:built_collection/built_collection.dart';
           +import 'package:flutter/services.dart';
            import 'package:flutter_test/flutter_test.dart';
            import 'package:generate_crossword/model.dart';
-           
+
           @@ -497,4 +498,335 @@ void main() {
                );
                expect(queue.candidateWords.length, equals(0));
@@ -52062,11 +52062,11 @@ steps:
           +    if (words.isNotEmpty && !overlap && requireOverlap) {
                  return null;
                }
-           
+
           @@ -555,6 +559,192 @@ abstract class DisplayInfo implements Built<DisplayInfo, DisplayInfoBuilder> {
              DisplayInfo._();
            }
-           
+
           +/// Creates a puzzle from a crossword and a set of candidate words.
           +abstract class CrosswordPuzzleGame
           +    implements Built<CrosswordPuzzleGame, CrosswordPuzzleGameBuilder> {
@@ -52270,23 +52270,23 @@ steps:
           +++ a/generate_crossword/step_09/lib/providers.dart
           @@ -3,7 +3,6 @@
            // found in the LICENSE file.
-           
+
            import 'dart:convert';
           -import 'dart:math';
-           
+
            import 'package:built_collection/built_collection.dart';
            import 'package:flutter/foundation.dart';
           @@ -15,6 +14,8 @@ import 'model.dart' as model;
-           
+
            part 'providers.g.dart';
-           
+
           +const backgroundWorkerCount = 4;
           +
            /// A provider for the wordlist to use when generating the crossword.
            @riverpod
            Future<BuiltSet<String>> wordList(Ref ref) async {
           @@ -67,7 +68,6 @@ class Size extends _$Size {
-           
+
            @riverpod
            Stream<model.WorkQueue> workQueue(Ref ref) async* {
           -  final workers = ref.watch(workerCountProvider);
@@ -52296,7 +52296,7 @@ steps:
           @@ -80,14 +80,11 @@ Stream<model.WorkQueue> workQueue(Ref ref) async* {
                startLocation: model.Location.at(0, 0),
              );
-           
+
           -  ref.read(startTimeProvider.notifier).start();
           -  ref.read(endTimeProvider.notifier).clear();
           -
@@ -52347,7 +52347,7 @@ steps:
           -    ref.invalidateSelf();
           -  }
            }
-           
+
           -const _estimatedTotalCoverage = 0.54;
           -
            @riverpod
@@ -52389,7 +52389,7 @@ steps:
           -@Riverpod(keepAlive: true)
           -class ShowDisplayInfo extends _$ShowDisplayInfo {
           -  var _display = true;
-           
+
              @override
           -  bool build() => _display;
           -
@@ -52432,7 +52432,7 @@ steps:
           -        loading: () => model.DisplayInfo.empty,
           -      );
           -}
-           
+
           -enum BackgroundWorkers {
           -  one(1),
           -  two(2),
@@ -52463,7 +52463,7 @@ steps:
           +      debugPrint('Invalid word selection: $word');
           +    }
           +  }
-           
+
           -  final int count;
           -  String get label => count.toString();
           +  bool canSelectWord({
@@ -52478,21 +52478,21 @@ steps:
           +    );
           +  }
            }
-           
+
           -/// A provider that holds the current number of background workers to use.
           -@Riverpod(keepAlive: true)
           -class WorkerCount extends _$WorkerCount {
           -  var _count = BackgroundWorkers.four;
           +// Trampoline functions to disentangle these Isolate target calls from the
           +// unsendable reference to the [Puzzle] provider.
-           
+
           -  @override
           -  BackgroundWorkers build() => _count;
           +Future<model.CrosswordPuzzleGame> _puzzleFromCrosswordTrampoline(
           +  (model.Crossword, BuiltSet<String>) args,
           +) async =>
           +    model.CrosswordPuzzleGame.from(crossword: args.$1, candidateWords: args.$2);
-           
+
           -  void setCount(BackgroundWorkers count) {
           -    _count = count;
           -    ref.invalidateSelf();
@@ -52933,10 +52933,10 @@ steps:
           @@ -5,19 +5,19 @@
            import 'package:flutter/material.dart';
            import 'package:flutter_riverpod/flutter_riverpod.dart';
-           
+
           -import 'widgets/crossword_generator_app.dart';
           +import 'widgets/crossword_puzzle_app.dart';
-           
+
            void main() {
              runApp(
                ProviderScope(
@@ -52969,7 +52969,7 @@ steps:
       - name: workaround pt 1
         platforms: [ macos ]
         path: generate_crossword
-        flutter: clean   
+        flutter: clean
       - name: workaround pt 2
         platforms: [ macos ]
         path: generate_crossword

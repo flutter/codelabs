@@ -95,7 +95,7 @@ abstract class _$Size extends $Notifier<CrosswordSize> {
   CrosswordSize build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<CrosswordSize, CrosswordSize>;
     final element =
         ref.element
@@ -105,7 +105,7 @@ abstract class _$Size extends $Notifier<CrosswordSize> {
               Object?,
               Object?
             >;
-    element.handleCreate(ref, build);
+    return element.handleCreate(ref, build);
   }
 }
 
@@ -186,7 +186,7 @@ abstract class _$Puzzle extends $Notifier<model.CrosswordPuzzleGame> {
   model.CrosswordPuzzleGame build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref =
         this.ref as $Ref<model.CrosswordPuzzleGame, model.CrosswordPuzzleGame>;
     final element =
@@ -197,6 +197,6 @@ abstract class _$Puzzle extends $Notifier<model.CrosswordPuzzleGame> {
               Object?,
               Object?
             >;
-    element.handleCreate(ref, build);
+    return element.handleCreate(ref, build);
   }
 }

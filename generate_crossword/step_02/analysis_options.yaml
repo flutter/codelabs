@@ -8,7 +8,6 @@ analyzer:
     - build/**
     - android/**
     - ios/**
-    - web/**
     - windows/**
     - macos/**
     - linux/**
