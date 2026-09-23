@@ -153,11 +153,11 @@ steps:
 
             @override
             FutureOr<void> onLoad() async {
-              super.onLoad();
+              await super.onLoad();
 
               camera.viewfinder.anchor = Anchor.topLeft;
 
-              world.add(PlayArea());
+              await world.add(PlayArea());
             }
           }
       - name: Add lib/src/config.dart
@@ -198,7 +198,7 @@ steps:
 
             @override
             FutureOr<void> onLoad() async {
-              super.onLoad();
+              await super.onLoad();
               size = Vector2(game.width, game.height);
             }
           }
@@ -253,7 +253,7 @@ steps:
           @@ -29,5 +31,18 @@ class BrickBreaker extends FlameGame {
                camera.viewfinder.anchor = Anchor.topLeft;
 
-               world.add(PlayArea());
+               await world.add(PlayArea());
           +
           +    world.add(
           +      Ball(
@@ -912,10 +912,10 @@ steps:
           +
              @override
              FutureOr<void> onLoad() async {
-               super.onLoad();
+               await super.onLoad();
           @@ -36,6 +54,18 @@ class BrickBreaker extends FlameGame
 
-               world.add(PlayArea());
+               await world.add(PlayArea());
 
           +    playState = PlayState.welcome;
           +  }
