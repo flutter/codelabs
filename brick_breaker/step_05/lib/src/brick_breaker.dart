@@ -26,13 +26,13 @@ class BrickBreaker extends FlameGame {
 
   @override
   FutureOr<void> onLoad() async {
-    super.onLoad();
+    await super.onLoad();
 
     camera.viewfinder.anchor = Anchor.topLeft;
 
-    world.add(PlayArea());
+    await world.add(PlayArea());
 
-    world.add(
+    await world.add(
       Ball(
         radius: ballRadius,
         position: size / 2,

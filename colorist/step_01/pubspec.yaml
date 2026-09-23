@@ -4,23 +4,22 @@ publish_to: 'none'
 version: 0.1.0+1
 
 environment:
-  sdk: ^3.13.3
+  sdk: ^3.13.4
 
 dependencies:
-  colorist_ui: ^0.5.0
+  colorist_ui: ^0.8.4
   flutter:
     sdk: flutter
-  flutter_riverpod: ^3.1.0
-  riverpod_annotation: ^4.0.0
+  flutter_riverpod: ^3.4.3
+  riverpod_annotation: ^4.0.7
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
-  build_runner: ^2.15.1
-  riverpod_generator: ^4.0.0+1
-  json_serializable: ^6.11.2
-  custom_lint: ^0.8.1
+  build_runner: ^2.16.1
+  riverpod_generator: ^4.0.9
+  json_serializable: ^6.14.1
 
 flutter:
   uses-material-design: true

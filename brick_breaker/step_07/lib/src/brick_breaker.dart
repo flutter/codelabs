@@ -30,13 +30,13 @@ class BrickBreaker extends FlameGame
 
   @override
   FutureOr<void> onLoad() async {
-    super.onLoad();
+    await super.onLoad();
 
     camera.viewfinder.anchor = Anchor.topLeft;
 
-    world.add(PlayArea());
+    await world.add(PlayArea());
 
-    world.add(
+    await world.add(
       Ball(
         radius: ballRadius,
         position: size / 2,
@@ -47,7 +47,7 @@ class BrickBreaker extends FlameGame
       ),
     );
 
-    world.add(
+    await world.add(
       Bat(
         size: Vector2(batWidth, batHeight),
         cornerRadius: const Radius.circular(ballRadius / 2),
