@@ -79,6 +79,9 @@ steps:
             final game = FlameGame();
             runApp(GameWidget(game: game));
           }
+      - name: Flutter clean
+        path: brick_breaker
+        flutter: clean --include-xcode-workspace
       - name: Build iOS simulator bundle
         platforms: [macos]
         path: brick_breaker
@@ -99,9 +102,6 @@ steps:
         copydir:
           from: brick_breaker
           to: step_03
-      - name: Flutter clean
-        path: step_03
-        flutter: clean
   - name: step_04
     steps:
       - name: Remove generated code
@@ -202,6 +202,9 @@ steps:
               size = Vector2(game.width, game.height);
             }
           }
+      - name: Flutter clean
+        path: brick_breaker
+        flutter: clean --include-xcode-workspace
       - name: Build iOS simulator bundle
         platforms: [macos]
         path: brick_breaker
@@ -222,9 +225,6 @@ steps:
         copydir:
           from: brick_breaker
           to: step_04
-      - name: Flutter clean
-        path: step_04
-        flutter: clean
   - name: step_05
     steps:
       - name: Remove generated code
@@ -321,6 +321,9 @@ steps:
               position += velocity * dt;
             }
           }
+      - name: Flutter clean
+        path: brick_breaker
+        flutter: clean --include-xcode-workspace
       - name: Build iOS simulator bundle
         platforms: [macos]
         path: brick_breaker
@@ -341,9 +344,6 @@ steps:
         copydir:
           from: brick_breaker
           to: step_05
-      - name: Flutter clean
-        path: step_05
-        flutter: clean
   - name: step_06
     steps:
       - name: Remove generated code
@@ -443,6 +443,9 @@ steps:
 
              @override
              FutureOr<void> onLoad() async {
+      - name: Flutter clean
+        path: brick_breaker
+        flutter: clean --include-xcode-workspace
       - name: Build iOS simulator bundle
         platforms: [macos]
         path: brick_breaker
@@ -463,9 +466,6 @@ steps:
         copydir:
           from: brick_breaker
           to: step_06
-      - name: Flutter clean
-        path: step_06
-        flutter: clean
   - name: step_07
     steps:
       - name: Remove generated code
@@ -631,6 +631,9 @@ steps:
               );
             }
           }
+      - name: Flutter clean
+        path: brick_breaker
+        flutter: clean --include-xcode-workspace
       - name: Build iOS simulator bundle
         platforms: [macos]
         path: brick_breaker
@@ -651,9 +654,6 @@ steps:
         copydir:
           from: brick_breaker
           to: step_07
-      - name: Flutter clean
-        path: step_07
-        flutter: clean
   - name: step_08
     steps:
       - name: Remove generated code
@@ -826,6 +826,9 @@ steps:
               }
             }
           }
+      - name: Flutter clean
+        path: brick_breaker
+        flutter: clean --include-xcode-workspace
       - name: Build iOS simulator bundle
         platforms: [macos]
         path: brick_breaker
@@ -846,9 +849,6 @@ steps:
         copydir:
           from: brick_breaker
           to: step_08
-      - name: Flutter clean
-        path: step_08
-        flutter: clean
   - name: step_09
     steps:
       - name: Remove generated code
@@ -1130,6 +1130,9 @@ steps:
                <application
                    android:label="brick_breaker"
                    android:name="${applicationName}"
+      - name: Flutter clean
+        path: brick_breaker
+        flutter: clean --include-xcode-workspace
       - name: Build iOS simulator bundle
         platforms: [macos]
         path: brick_breaker
@@ -1150,9 +1153,6 @@ steps:
         copydir:
           from: brick_breaker
           to: step_09
-      - name: Flutter clean
-        path: step_09
-        flutter: clean
   - name: step_10
     steps:
       - name: Remove generated code
@@ -1355,6 +1355,9 @@ steps:
               );
             }
           }
+      - name: Flutter clean
+        path: brick_breaker
+        flutter: clean --include-xcode-workspace
       - name: Build iOS simulator bundle
         platforms: [macos]
         path: brick_breaker
@@ -1375,8 +1378,5 @@ steps:
         copydir:
           from: brick_breaker
           to: step_10
-      - name: Flutter clean
-        path: step_10
-        flutter: clean
   - name: Cleanup
     rmdir: brick_breaker
