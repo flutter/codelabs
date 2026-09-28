@@ -110,7 +110,7 @@ steps:
             void initState() {
               super.initState();
               final model = FirebaseAI.googleAI().generativeModel(
-                model: 'gemini-3-flash-preview',
+                model: 'gemini-3.5-flash',
               );
               _chatSession = model.startChat();
               _chatSession.sendMessage(Content.text(systemInstruction));
@@ -765,7 +765,7 @@ steps:
              void initState() {
                super.initState();
           @@ -54,7 +66,60 @@ class _MyHomePageState extends State<MyHomePage> {
-                 model: 'gemini-3-flash-preview',
+                 model: 'gemini-3.5-flash',
                );
                _chatSession = model.startChat();
           -    _chatSession.sendMessage(Content.text(systemInstruction));
@@ -826,7 +826,17 @@ steps:
              }
            
              void _scrollToBottom() {
-          @@ -82,6 +147,7 @@ class _MyHomePageState extends State<MyHomePage> {
+          @@ -73,6 +138,9 @@ class _MyHomePageState extends State<MyHomePage> {
+             void dispose() {
+               _textController.dispose();
+               _scrollController.dispose();
+          +    _conversation.dispose();
+          +    _transport.dispose();
+          +    _controller.dispose();
+               super.dispose();
+             }
+           
+          @@ -82,6 +150,7 @@ class _MyHomePageState extends State<MyHomePage> {
                if (text.trim().isEmpty) {
                  return;
                }
@@ -834,7 +844,7 @@ steps:
                _textController.clear();
            
                setState(() {
-          @@ -90,13 +156,34 @@ class _MyHomePageState extends State<MyHomePage> {
+          @@ -90,13 +159,34 @@ class _MyHomePageState extends State<MyHomePage> {
            
                _scrollToBottom();
            
@@ -873,7 +883,7 @@ steps:
                }
              }
 
-          @@ -120,6 +207,9 @@ class _MyHomePageState extends State<MyHomePage> {
+          @@ -120,6 +210,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                  text: item.text,
                                  isUser: item.isUser,
                                ),
@@ -900,7 +910,7 @@ steps:
         patch-u: |
           --- b/genui-intro/step_05/lib/main.dart
           +++ a/genui-intro/step_05/lib/main.dart
-          @@ -194,48 +194,72 @@ class _MyHomePageState extends State<MyHomePage> {
+          @@ -197,48 +197,72 @@ class _MyHomePageState extends State<MyHomePage> {
                    backgroundColor: Theme.of(context).colorScheme.inversePrimary,
                    title: const Text('Just Today'),
                  ),
@@ -1054,7 +1064,7 @@ steps:
                      case ConversationSurfaceRemoved removed:
                        _items.removeWhere(
                          (item) =>
-          @@ -199,6 +203,19 @@ class _MyHomePageState extends State<MyHomePage> {
+          @@ -202,6 +206,19 @@ class _MyHomePageState extends State<MyHomePage> {
                    children: [
                      Column(
                        children: [
@@ -1074,7 +1084,7 @@ steps:
                          Expanded(
                            child: ListView(
                              controller: _scrollController,
-          @@ -267,7 +284,8 @@ class _MyHomePageState extends State<MyHomePage> {
+          @@ -270,7 +287,8 @@ class _MyHomePageState extends State<MyHomePage> {
              }
            }
            
@@ -1084,7 +1094,7 @@ steps:
              ## PERSONA
              You are an expert task planner.
 
-          @@ -299,4 +317,14 @@ const systemInstruction = '''
+          @@ -302,4 +320,14 @@ const systemInstruction = '''
              * If I tell you a task is complete, mark it as complete.
              * Once all tasks are complete, send a message acknowledging that, and then
                end the conversation.
@@ -1168,13 +1178,13 @@ steps:
             final String name;
             final bool isCompleted;
             final String actionName;
-            final JsonMap actionContext;
+            final JsonMap? actionContext;
 
             _TaskData({
               required this.name,
               required this.isCompleted,
               required this.actionName,
-              required this.actionContext,
+              this.actionContext,
             });
 
             factory _TaskData.fromJson(Map<String, Object?> json) {
@@ -1186,7 +1196,7 @@ steps:
                   name: json['name'] as String,
                   isCompleted: json['isCompleted'] as bool,
                   actionName: event['name'] as String,
-                  actionContext: event['context'] as JsonMap,
+                  actionContext: event['context'] as JsonMap?,
                 );
               } catch (e) {
                 throw Exception('Invalid JSON for _TaskData: $e');

@@ -65,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     final model = FirebaseAI.googleAI().generativeModel(
-      model: 'gemini-3-flash-preview',
+      model: 'gemini-3.5-flash',
     );
     _chatSession = model.startChat();
 
@@ -142,6 +142,9 @@ class _MyHomePageState extends State<MyHomePage> {
   void dispose() {
     _textController.dispose();
     _scrollController.dispose();
+    _conversation.dispose();
+    _transport.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
