@@ -4,7 +4,7 @@
 
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../brick_breaker.dart';
 import '../config.dart';

@@ -15,7 +15,7 @@ steps:
           include: ../../analysis_options.yaml
       - name: Add deps
         path: brick_breaker
-        flutter: pub add flame flutter_animate google_fonts
+        flutter: pub add flame flutter_animate google_fonts material_ui
       - name: Update description
         path: brick_breaker/pubspec.yaml
         patch-u: |
@@ -73,7 +73,7 @@ steps:
           // found in the LICENSE file.
 
           import 'package:flame/game.dart';
-          import 'package:flutter/material.dart';
+          import 'package:material_ui/material_ui.dart';
 
           void main() {
             final game = FlameGame();
@@ -81,7 +81,7 @@ steps:
           }
       - name: Flutter clean
         path: brick_breaker
-        flutter: clean --include-xcode-workspace
+        flutter: clean
       - name: Build iOS simulator bundle
         platforms: [macos]
         path: brick_breaker
@@ -113,7 +113,7 @@ steps:
           +++ a/brick_breaker/step_04/lib/main.dart
           @@ -5,7 +5,9 @@
            import 'package:flame/game.dart';
-           import 'package:flutter/material.dart';
+           import 'package:material_ui/material_ui.dart';
 
           +import 'src/brick_breaker.dart';
           +
@@ -189,7 +189,7 @@ steps:
           import 'dart:async';
 
           import 'package:flame/components.dart';
-          import 'package:flutter/material.dart';
+          import 'package:material_ui/material_ui.dart';
 
           import '../brick_breaker.dart';
 
@@ -204,7 +204,7 @@ steps:
           }
       - name: Flutter clean
         path: brick_breaker
-        flutter: clean --include-xcode-workspace
+        flutter: clean
       - name: Build iOS simulator bundle
         platforms: [macos]
         path: brick_breaker
@@ -298,7 +298,7 @@ steps:
           // found in the LICENSE file.
 
           import 'package:flame/components.dart';
-          import 'package:flutter/material.dart';
+          import 'package:material_ui/material_ui.dart';
 
           class Ball extends CircleComponent {
             Ball({
@@ -323,7 +323,7 @@ steps:
           }
       - name: Flutter clean
         path: brick_breaker
-        flutter: clean --include-xcode-workspace
+        flutter: clean
       - name: Build iOS simulator bundle
         platforms: [macos]
         path: brick_breaker
@@ -373,7 +373,7 @@ steps:
 
           +import 'package:flame/collisions.dart';
            import 'package:flame/components.dart';
-           import 'package:flutter/material.dart';
+           import 'package:material_ui/material_ui.dart';
 
           -class Ball extends CircleComponent {
           +import '../brick_breaker.dart';
@@ -429,7 +429,7 @@ steps:
 
           +import 'package:flame/collisions.dart';
            import 'package:flame/components.dart';
-           import 'package:flutter/material.dart';
+           import 'package:material_ui/material_ui.dart';
 
            import '../brick_breaker.dart';
 
@@ -445,7 +445,7 @@ steps:
              FutureOr<void> onLoad() async {
       - name: Flutter clean
         path: brick_breaker
-        flutter: clean --include-xcode-workspace
+        flutter: clean
       - name: Build iOS simulator bundle
         platforms: [macos]
         path: brick_breaker
@@ -481,8 +481,8 @@ steps:
            import 'package:flame/components.dart';
           +import 'package:flame/events.dart';
            import 'package:flame/game.dart';
-          +import 'package:flutter/material.dart';
           +import 'package:flutter/services.dart';
+          +import 'package:material_ui/material_ui.dart';
 
            import 'components/components.dart';
            import 'config.dart';
@@ -545,7 +545,7 @@ steps:
            import 'package:flame/collisions.dart';
            import 'package:flame/components.dart';
           +import 'package:flame/effects.dart';
-           import 'package:flutter/material.dart';
+           import 'package:material_ui/material_ui.dart';
 
            import '../brick_breaker.dart';
           +import 'bat.dart';
@@ -589,7 +589,7 @@ steps:
           import 'package:flame/components.dart';
           import 'package:flame/effects.dart';
           import 'package:flame/events.dart';
-          import 'package:flutter/material.dart';
+          import 'package:material_ui/material_ui.dart';
 
           import '../brick_breaker.dart';
 
@@ -633,7 +633,7 @@ steps:
           }
       - name: Flutter clean
         path: brick_breaker
-        flutter: clean --include-xcode-workspace
+        flutter: clean
       - name: Build iOS simulator bundle
         platforms: [macos]
         path: brick_breaker
@@ -698,7 +698,7 @@ steps:
            // Use of this source code is governed by a BSD-style license that can be
            // found in the LICENSE file.
 
-          +import 'package:flutter/material.dart';
+          +import 'package:material_ui/material_ui.dart';
           +
           +const brickColors = [
           +  Color(0xfff94144),
@@ -729,7 +729,7 @@ steps:
         patch-u: |
           --- b/brick_breaker/step_08/lib/src/components/ball.dart
           +++ a/brick_breaker/step_08/lib/src/components/ball.dart
-          @@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
+          @@ -9,6 +9,7 @@ import 'package:material_ui/material_ui.dart';
 
            import '../brick_breaker.dart';
            import 'bat.dart';
@@ -793,7 +793,7 @@ steps:
 
           import 'package:flame/collisions.dart';
           import 'package:flame/components.dart';
-          import 'package:flutter/material.dart';
+          import 'package:material_ui/material_ui.dart';
 
           import '../brick_breaker.dart';
           import '../config.dart';
@@ -828,7 +828,7 @@ steps:
           }
       - name: Flutter clean
         path: brick_breaker
-        flutter: clean --include-xcode-workspace
+        flutter: clean
       - name: Build iOS simulator bundle
         platforms: [macos]
         path: brick_breaker
@@ -863,7 +863,7 @@ steps:
            // found in the LICENSE file.
 
           -import 'package:flame/game.dart';
-           import 'package:flutter/material.dart';
+           import 'package:material_ui/material_ui.dart';
 
           -import 'src/brick_breaker.dart';
           +import 'src/widgets/game_app.dart';
@@ -1024,8 +1024,8 @@ steps:
           // found in the LICENSE file.
 
           import 'package:flame/game.dart';
-          import 'package:flutter/material.dart';
           import 'package:google_fonts/google_fonts.dart';
+          import 'package:material_ui/material_ui.dart';
 
           import '../brick_breaker.dart';
           import '../config.dart';
@@ -1132,7 +1132,7 @@ steps:
                    android:name="${applicationName}"
       - name: Flutter clean
         path: brick_breaker
-        flutter: clean --include-xcode-workspace
+        flutter: clean
       - name: Build iOS simulator bundle
         platforms: [macos]
         path: brick_breaker
@@ -1294,8 +1294,8 @@ steps:
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
 
-          import 'package:flutter/material.dart';
           import 'package:flutter_animate/flutter_animate.dart';
+          import 'package:material_ui/material_ui.dart';
 
           class OverlayScreen extends StatelessWidget {
             const OverlayScreen({super.key, required this.title, required this.subtitle});
@@ -1332,7 +1332,7 @@ steps:
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
 
-          import 'package:flutter/material.dart';
+          import 'package:material_ui/material_ui.dart';
 
           class ScoreCard extends StatelessWidget {
             const ScoreCard({super.key, required this.score});
@@ -1357,7 +1357,7 @@ steps:
           }
       - name: Flutter clean
         path: brick_breaker
-        flutter: clean --include-xcode-workspace
+        flutter: clean
       - name: Build iOS simulator bundle
         platforms: [macos]
         path: brick_breaker

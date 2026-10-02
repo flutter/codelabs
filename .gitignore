@@ -11,3 +11,4 @@
 
 # IDEs
 .idea/
+/tooling/codelab_rebuild/pubspec.lock
