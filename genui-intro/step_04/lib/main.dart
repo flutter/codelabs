@@ -1,8 +1,8 @@
 import 'package:firebase_ai/firebase_ai.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
 import 'package:genui/genui.dart' as genui;
 import 'package:genui/genui.dart' hide TextPart;
+import 'package:material_ui/material_ui.dart';
 
 import 'firebase_options.dart';
 import 'message_bubble.dart';

@@ -8,7 +8,7 @@ steps:
         flutter: create -e intro_to_genui
       - name: Add dependencies
         path: intro_to_genui
-        flutter: pub add firebase_ai firebase_core genui json_schema_builder
+        flutter: pub add firebase_ai firebase_core genui json_schema_builder material_ui
       - name: Strip DEVELOPMENT_TEAM
         strip-lines-containing: DEVELOPMENT_TEAM =
         path: intro_to_genui/ios/Runner.xcodeproj/project.pbxproj
@@ -59,7 +59,7 @@ steps:
         replace-contents: |
           import 'package:firebase_ai/firebase_ai.dart';
           import 'package:firebase_core/firebase_core.dart';
-          import 'package:flutter/material.dart';
+          import 'package:material_ui/material_ui.dart';
 
           import 'firebase_options.dart';
           import 'message_bubble.dart';
@@ -248,7 +248,7 @@ steps:
       - name: Add lib/message_bubble.dart
         path: intro_to_genui/lib/message_bubble.dart
         replace-contents: |
-          import 'package:flutter/material.dart';
+          import 'package:material_ui/material_ui.dart';
 
           class MessageBubble extends StatelessWidget {
             final String text;
@@ -732,19 +732,19 @@ steps:
           @@ -1,9 +1,11 @@
            import 'package:firebase_ai/firebase_ai.dart';
            import 'package:firebase_core/firebase_core.dart';
-           import 'package:flutter/material.dart';
           +import 'package:genui/genui.dart' as genui;
           +import 'package:genui/genui.dart' hide TextPart;
+           import 'package:material_ui/material_ui.dart';
 
            import 'firebase_options.dart';
            import 'message_bubble.dart';
-           
+
            Future<void> main() async {
              WidgetsFlutterBinding.ensureInitialized();
           @@ -41,12 +43,22 @@ class TextItem extends ConversationItem {
              TextItem({required this.text, this.isUser = false});
            }
-           
+
           +class SurfaceItem extends ConversationItem {
           +  final String surfaceId;
           +  SurfaceItem({required this.surfaceId});
@@ -755,7 +755,7 @@ steps:
              final _textController = TextEditingController();
              final _scrollController = ScrollController();
              late final ChatSession _chatSession;
-           
+
           +  late final SurfaceController _controller;
           +  late final A2uiTransportAdapter _transport;
           +  late final Conversation _conversation;
@@ -824,7 +824,7 @@ steps:
           +      ChatMessage.system(promptBuilder.systemPromptJoined()),
           +    );
              }
-           
+
              void _scrollToBottom() {
           @@ -82,6 +147,7 @@ class _MyHomePageState extends State<MyHomePage> {
                if (text.trim().isEmpty) {
@@ -832,12 +832,12 @@ steps:
                }
           +
                _textController.clear();
-           
+
                setState(() {
           @@ -90,13 +156,34 @@ class _MyHomePageState extends State<MyHomePage> {
-           
+
                _scrollToBottom();
-           
+
           +    // Send the user's input through GenUI instead of directly to Firebase.
           +    await _conversation.sendRequest(ChatMessage.user(text));
           +  }
@@ -862,7 +862,7 @@ steps:
           +
           +    // Send the string to Firebase AI Logic.
                final response = await _chatSession.sendMessage(Content.text(text));
-           
+
                if (response.text?.isNotEmpty ?? false) {
           -      setState(() {
           -        _items.add(TextItem(text: response.text!, isUser: false));
@@ -1030,15 +1030,15 @@ steps:
           --- b/genui-intro/step_06/lib/main.dart
           +++ a/genui-intro/step_06/lib/main.dart
           @@ -3,9 +3,11 @@ import 'package:firebase_core/firebase_core.dart';
-           import 'package:flutter/material.dart';
            import 'package:genui/genui.dart' as genui;
            import 'package:genui/genui.dart' hide TextPart;
+           import 'package:material_ui/material_ui.dart';
 
            import 'firebase_options.dart';
            import 'message_bubble.dart';
           +
           +const taskDisplaySurfaceId = 'task_display';
-           
+
            Future<void> main() async {
              WidgetsFlutterBinding.ensureInitialized();
           @@ -91,8 +93,10 @@ class _MyHomePageState extends State<MyHomePage> {
@@ -1077,7 +1077,7 @@ steps:
           @@ -267,7 +284,8 @@ class _MyHomePageState extends State<MyHomePage> {
              }
            }
-           
+
           -const systemInstruction = '''
           +const systemInstruction =
           +    '''
@@ -1117,13 +1117,13 @@ steps:
           --- b/genui-intro/step_07/lib/main.dart
           +++ a/genui-intro/step_07/lib/main.dart
           @@ -6,6 +6,7 @@ import 'package:genui/genui.dart' hide TextPart;
-          
+
            import 'firebase_options.dart';
            import 'message_bubble.dart';
           +import 'task_display.dart';
-           
+
            const taskDisplaySurfaceId = 'task_display';
-           
+
           @@ -72,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
                // Initialize the GenUI Catalog.
                // The genui package provides a default set of primitive widgets (like text
@@ -1136,9 +1136,9 @@ steps:
       - name: Add lib/task_display.dart
         path: intro_to_genui/lib/task_display.dart
         replace-contents: |
-          import 'package:flutter/material.dart';
           import 'package:genui/genui.dart';
           import 'package:json_schema_builder/json_schema_builder.dart';
+          import 'package:material_ui/material_ui.dart';
 
           final taskDisplaySchema = S.object(
             properties: {
