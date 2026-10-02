@@ -18,7 +18,7 @@ steps:
           include: ../../analysis_options.yaml
       - name: Add dependencies
         path: gtk_flutter
-        flutter: pub add google_fonts go_router
+        flutter: pub add google_fonts go_router material_ui
       - name: Add .gemini directory
         mkdir: gtk_flutter/.gemini
       - name: Add .gemini/settings.json
@@ -47,13 +47,13 @@ steps:
            # The following line prevents the package from being accidentally published to
            # pub.dev using `flutter pub publish`. This is preferred for private packages.
            publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-          @@ -58,6 +59,8 @@ flutter:
+          @@ -59,6 +60,8 @@ flutter:
              # included with your application, so that you can use the icons in
              # the material Icons class.
              uses-material-design: true
           +  assets:
           +    - assets/codelab.png
-           
+
              # To add assets to your application, add an assets section, like this:
              # assets:
       - name: Patch ios/Runner.xcodeproj/project.pbxproj
@@ -87,7 +87,7 @@ steps:
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
 
-          import 'package:flutter/material.dart';
+          import 'package:material_ui/material_ui.dart';
           import 'package:google_fonts/google_fonts.dart';
 
           import 'home_page.dart';
@@ -121,7 +121,7 @@ steps:
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
 
-          import 'package:flutter/material.dart';
+          import 'package:material_ui/material_ui.dart';
 
           import 'src/widgets.dart';
 
@@ -164,7 +164,7 @@ steps:
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
 
-          import 'package:flutter/material.dart';
+          import 'package:material_ui/material_ui.dart';
           import 'package:go_router/go_router.dart';
 
           import 'widgets.dart';
@@ -211,7 +211,7 @@ steps:
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
 
-          import 'package:flutter/material.dart';
+          import 'package:material_ui/material_ui.dart';
 
           class Header extends StatelessWidget {
             const Header(this.heading, {super.key});
@@ -272,7 +272,7 @@ steps:
           // Copyright 2022 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-          
+
           import 'package:flutter_test/flutter_test.dart';
           import 'package:gtk_flutter/main.dart';
 
@@ -1772,7 +1772,7 @@ steps:
         platforms: [ macos ]
         path: gtk_flutter/ios
         pod: update
-      - name: Update macOS podspec 
+      - name: Update macOS podspec
         platforms: [ macos ]
         path: gtk_flutter/macos
         pod: update
@@ -1807,9 +1807,9 @@ steps:
           @@ -2,21 +2,107 @@
            // Use of this source code is governed by a BSD-style license that can be
            // found in the LICENSE file.
-           
+
           +import 'package:firebase_ui_auth/firebase_ui_auth.dart';
-           import 'package:flutter/material.dart';
+           import 'package:material_ui/material_ui.dart';
           +import 'package:go_router/go_router.dart';
            import 'package:google_fonts/google_fonts.dart';
           +import 'package:provider/provider.dart';
@@ -1930,12 +1930,12 @@ steps:
           +++ a/firebase-get-to-know-flutter/step_05/test/widget_test.dart
           @@ -3,12 +3,19 @@
            // found in the LICENSE file.
-           
+
            import 'package:flutter_test/flutter_test.dart';
           +import 'package:gtk_flutter/app_state.dart';
            import 'package:gtk_flutter/main.dart';
           +import 'package:provider/provider.dart';
-           
+
            void main() {
              testWidgets('Basic rendering', (tester) async {
                // Build our app and trigger a frame.
@@ -1946,7 +1946,7 @@ steps:
           +        builder: (context, _) => const App(),
           +      ),
           +    );
-           
+
                // Verify that our counter starts at 0.
                expect(find.text('Firebase Meetup'), findsOneWidget);
       - name: Add lib/app_state.dart
@@ -1960,7 +1960,7 @@ steps:
               hide EmailAuthProvider, PhoneAuthProvider;
           import 'package:firebase_core/firebase_core.dart';
           import 'package:firebase_ui_auth/firebase_ui_auth.dart';
-          import 'package:flutter/material.dart';
+          import 'package:material_ui/material_ui.dart';
 
           import 'firebase_options.dart';
 
@@ -1997,16 +1997,16 @@ steps:
           @@ -2,8 +2,13 @@
            // Use of this source code is governed by a BSD-style license that can be
            // found in the LICENSE file.
-           
+
           +import 'package:firebase_auth/firebase_auth.dart'
           +    hide EmailAuthProvider, PhoneAuthProvider;
-           import 'package:flutter/material.dart';
+           import 'package:material_ui/material_ui.dart';
           +import 'package:provider/provider.dart';
-           
+
           +import 'app_state.dart';
           +import 'src/authentication.dart';
            import 'src/widgets.dart';
-           
+
            class HomePage extends StatelessWidget {
           @@ -19,6 +24,14 @@ class HomePage extends StatelessWidget {
                      const SizedBox(height: 8),
@@ -2039,14 +2039,14 @@ steps:
           @@ -2,6 +2,7 @@
            // Use of this source code is governed by a BSD-style license that can be
            // found in the LICENSE file.
-           
+
           +import 'package:cloud_firestore/cloud_firestore.dart';
            import 'package:firebase_auth/firebase_auth.dart'
                hide EmailAuthProvider, PhoneAuthProvider;
            import 'package:firebase_core/firebase_core.dart';
           @@ -16,6 +17,7 @@ class ApplicationState extends ChangeNotifier {
              }
-           
+
              bool _loggedIn = false;
           +
              bool get loggedIn => _loggedIn;
@@ -2081,7 +2081,7 @@ steps:
 
           import 'dart:async';
 
-          import 'package:flutter/material.dart';
+          import 'package:material_ui/material_ui.dart';
 
           import 'src/widgets.dart';
 
@@ -2147,14 +2147,14 @@ steps:
         patch-u: |
           --- b/firebase-get-to-know-flutter/step_06/lib/home_page.dart
           +++ a/firebase-get-to-know-flutter/step_06/lib/home_page.dart
-          @@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
+          @@ -8,6 +8,7 @@ import 'package:material_ui/material_ui.dart';
            import 'package:provider/provider.dart';
-           
+
            import 'app_state.dart';
           +import 'guest_book.dart';
            import 'src/authentication.dart';
            import 'src/widgets.dart';
-           
+
           @@ -43,6 +44,20 @@ class HomePage extends StatelessWidget {
                      const Paragraph(
                        'Join us for a day full of Firebase Workshops and Pizza!',
@@ -2192,27 +2192,27 @@ steps:
           @@ -2,6 +2,8 @@
            // Use of this source code is governed by a BSD-style license that can be
            // found in the LICENSE file.
-           
+
           +import 'dart:async';
           +
            import 'package:cloud_firestore/cloud_firestore.dart';
            import 'package:firebase_auth/firebase_auth.dart'
                hide EmailAuthProvider, PhoneAuthProvider;
           @@ -10,6 +12,7 @@ import 'package:firebase_ui_auth/firebase_ui_auth.dart';
-           import 'package:flutter/material.dart';
-           
+           import 'package:material_ui/material_ui.dart';
+
            import 'firebase_options.dart';
           +import 'guest_book_message.dart';
-           
+
            class ApplicationState extends ChangeNotifier {
              ApplicationState() {
           @@ -17,9 +20,12 @@ class ApplicationState extends ChangeNotifier {
              }
-           
+
              bool _loggedIn = false;
           -
              bool get loggedIn => _loggedIn;
-           
+
           +  StreamSubscription<QuerySnapshot>? _guestBookSubscription;
           +  List<GuestBookMessage> _guestBookMessages = [];
           +  List<GuestBookMessage> get guestBookMessages => _guestBookMessages;
@@ -2253,10 +2253,10 @@ steps:
           // Copyright 2022 The Flutter Authors. All rights reserved.
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
-          
+
           class GuestBookMessage {
             GuestBookMessage({required this.name, required this.message});
-          
+
             final String name;
             final String message;
           }
@@ -2266,12 +2266,12 @@ steps:
           --- b/firebase-get-to-know-flutter/step_07/lib/guest_book.dart
           +++ a/firebase-get-to-know-flutter/step_07/lib/guest_book.dart
           @@ -6,12 +6,18 @@ import 'dart:async';
-           
-           import 'package:flutter/material.dart';
-           
+
+           import 'package:material_ui/material_ui.dart';
+
           +import 'guest_book_message.dart';
            import 'src/widgets.dart';
-           
+
            class GuestBook extends StatefulWidget {
           -  const GuestBook({required this.addMessage, super.key});
           +  const GuestBook({
@@ -2279,14 +2279,14 @@ steps:
           +    required this.addMessage,
           +    required this.messages,
           +  });
-           
+
              final FutureOr<void> Function(String message) addMessage;
           +  final List<GuestBookMessage> messages;
-           
+
              @override
              State<GuestBook> createState() => _GuestBookState();
           @@ -23,39 +29,54 @@ class _GuestBookState extends State<GuestBook> {
-           
+
              @override
              Widget build(BuildContext context) {
           -    return Padding(
@@ -2398,7 +2398,7 @@ steps:
           +++ a/firebase-get-to-know-flutter/step_09/lib/src/authentication.dart
           @@ -8,10 +8,16 @@ import 'package:go_router/go_router.dart';
            import 'widgets.dart';
-           
+
            class AuthFunc extends StatelessWidget {
           -  const AuthFunc({super.key, required this.loggedIn, required this.signOut});
           +  const AuthFunc({
@@ -2407,11 +2407,11 @@ steps:
           +    required this.signOut,
           +    this.enableFreeSwag = false,
           +  });
-           
+
              final bool loggedIn;
              final void Function() signOut;
           +  final bool enableFreeSwag;
-           
+
              @override
              Widget build(BuildContext context) {
           @@ -38,6 +44,18 @@ class AuthFunc extends StatelessWidget {
@@ -2438,21 +2438,21 @@ steps:
         patch-u: |
           --- b/firebase-get-to-know-flutter/step_09/lib/app_state.dart
           +++ a/firebase-get-to-know-flutter/step_09/lib/app_state.dart
-          @@ -14,18 +14,69 @@ import 'package:flutter/material.dart';
+          @@ -14,18 +14,69 @@ import 'package:material_ui/material_ui.dart';
            import 'firebase_options.dart';
            import 'guest_book_message.dart';
-           
+
           +enum Attending { yes, no, unknown }
           +
            class ApplicationState extends ChangeNotifier {
              ApplicationState() {
                init();
              }
-           
+
              bool _loggedIn = false;
           +
              bool get loggedIn => _loggedIn;
-           
+
           +  bool _emailVerified = false;
           +
           +  bool get emailVerified => _emailVerified;
@@ -2461,7 +2461,7 @@ steps:
              List<GuestBookMessage> _guestBookMessages = [];
           +
              List<GuestBookMessage> get guestBookMessages => _guestBookMessages;
-           
+
           +  int _attendees = 0;
           +
           +  int get attendees => _attendees;
@@ -2509,9 +2509,9 @@ steps:
                await Firebase.initializeApp(
                  options: DefaultFirebaseOptions.currentPlatform,
           @@ -33,9 +84,19 @@ class ApplicationState extends ChangeNotifier {
-           
+
                FirebaseUIAuth.configureProviders([EmailAuthProvider()]);
-           
+
           +    FirebaseFirestore.instance
           +        .collection('attendees')
           +        .where('attending', isEqualTo: true)
@@ -2558,7 +2558,7 @@ steps:
                  notifyListeners();
                });
              }
-           
+
           +  Future<void> refreshLoggedInUser() async {
           +    final currentUser = FirebaseAuth.instance.currentUser;
           +
@@ -2582,7 +2582,7 @@ steps:
            import 'src/authentication.dart';
            import 'src/widgets.dart';
           +import 'yes_no_selection.dart';
-           
+
            class HomePage extends StatelessWidget {
              const HomePage({super.key});
           @@ -23,7 +24,10 @@ class HomePage extends StatelessWidget {
@@ -2678,7 +2678,7 @@ steps:
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
 
-          import 'package:flutter/material.dart';
+          import 'package:material_ui/material_ui.dart';
 
           import 'app_state.dart';
           import 'src/widgets.dart';
