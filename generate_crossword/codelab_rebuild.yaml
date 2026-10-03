@@ -62,7 +62,7 @@ steps:
           }
       - name: Add dependencies
         path: generate_crossword
-        flutter: pub add built_collection built_value characters flutter_riverpod intl riverpod riverpod_annotation two_dimensional_scrollables dev:build_runner dev:built_value_generator dev:riverpod_generator
+        flutter: pub add built_collection built_value characters flutter_riverpod intl riverpod riverpod_annotation two_dimensional_scrollables dev:build_runner dev:built_value_generator dev:riverpod_generator material_ui
       - name: Replace lib/main.dart
         path: generate_crossword/lib/main.dart
         replace-contents: |
@@ -70,8 +70,8 @@ steps:
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
 
-          import 'package:flutter/material.dart';
           import 'package:flutter_riverpod/flutter_riverpod.dart';
+          import 'package:material_ui/material_ui.dart';
 
           void main() {
             runApp(
@@ -128,7 +128,7 @@ steps:
         patch: |
           --- b/generate_crossword/step_03/pubspec.yaml
           +++ a/generate_crossword/step_03/pubspec.yaml
-          @@ -28,3 +28,5 @@ dev_dependencies:
+          @@ -29,3 +29,5 @@ dev_dependencies:
 
            flutter:
              uses-material-design: true
@@ -143,8 +143,8 @@ steps:
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
 
-          import 'package:flutter/material.dart';
           import 'package:flutter_riverpod/flutter_riverpod.dart';
+          import 'package:material_ui/material_ui.dart';
 
           import '../providers.dart';
 
@@ -49029,8 +49029,8 @@ steps:
           --- b/generate_crossword/step_03/lib/main.dart
           +++ a/generate_crossword/step_03/lib/main.dart
           @@ -5,6 +5,8 @@
-           import 'package:flutter/material.dart';
            import 'package:flutter_riverpod/flutter_riverpod.dart';
+           import 'package:material_ui/material_ui.dart';
 
           +import 'widgets/crossword_generator_app.dart';
           +
@@ -49484,8 +49484,8 @@ steps:
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
 
-          import 'package:flutter/material.dart';
           import 'package:flutter_riverpod/flutter_riverpod.dart';
+          import 'package:material_ui/material_ui.dart';
           import 'package:two_dimensional_scrollables/two_dimensional_scrollables.dart';
 
           import '../model.dart';
@@ -49567,8 +49567,8 @@ steps:
         patch: |
           --- b/generate_crossword/step_04/lib/widgets/crossword_generator_app.dart
           +++ a/generate_crossword/step_04/lib/widgets/crossword_generator_app.dart
-          @@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
-           import 'package:flutter_riverpod/flutter_riverpod.dart';
+          @@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
+           import 'package:material_ui/material_ui.dart';
 
            import '../providers.dart';
           +import 'crossword_widget.dart';
@@ -51126,8 +51126,8 @@ steps:
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
 
-          import 'package:flutter/material.dart';
           import 'package:flutter/scheduler.dart';
+          import 'package:material_ui/material_ui.dart';
 
           /// A Builder widget that invokes its [builder] function on every animation frame.
           class TickerBuilder extends StatefulWidget {
@@ -51169,8 +51169,8 @@ steps:
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
 
-          import 'package:flutter/material.dart';
           import 'package:flutter_riverpod/flutter_riverpod.dart';
+          import 'package:material_ui/material_ui.dart';
 
           import '../providers.dart';
           import '../utils.dart';
@@ -51287,8 +51287,8 @@ steps:
         patch: |
           --- b/generate_crossword/step_07/lib/widgets/crossword_generator_app.dart
           +++ a/generate_crossword/step_07/lib/widgets/crossword_generator_app.dart
-          @@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
-           import 'package:flutter_riverpod/flutter_riverpod.dart';
+          @@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
+           import 'package:material_ui/material_ui.dart';
 
            import '../providers.dart';
           +import 'crossword_info_widget.dart';
@@ -52512,8 +52512,8 @@ steps:
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
 
-          import 'package:flutter/material.dart';
           import 'package:flutter_riverpod/flutter_riverpod.dart';
+          import 'package:material_ui/material_ui.dart';
 
           import '../providers.dart';
           import 'crossword_generator_widget.dart';
@@ -52603,8 +52603,8 @@ steps:
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
 
-          import 'package:flutter/material.dart';
           import 'package:flutter_riverpod/flutter_riverpod.dart';
+          import 'package:material_ui/material_ui.dart';
           import 'package:two_dimensional_scrollables/two_dimensional_scrollables.dart';
 
           import '../model.dart';
@@ -52708,8 +52708,8 @@ steps:
           // found in the LICENSE file.
 
           import 'package:built_collection/built_collection.dart';
-          import 'package:flutter/material.dart';
           import 'package:flutter_riverpod/flutter_riverpod.dart';
+          import 'package:material_ui/material_ui.dart';
           import 'package:two_dimensional_scrollables/two_dimensional_scrollables.dart';
 
           import '../model.dart';
@@ -52910,7 +52910,7 @@ steps:
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
 
-          import 'package:flutter/material.dart';
+          import 'package:material_ui/material_ui.dart';
 
           class PuzzleCompletedWidget extends StatelessWidget {
             const PuzzleCompletedWidget({super.key});
@@ -52931,8 +52931,8 @@ steps:
           --- b/generate_crossword/step_09/lib/main.dart
           +++ a/generate_crossword/step_09/lib/main.dart
           @@ -5,19 +5,19 @@
-           import 'package:flutter/material.dart';
            import 'package:flutter_riverpod/flutter_riverpod.dart';
+           import 'package:material_ui/material_ui.dart';
 
           -import 'widgets/crossword_generator_app.dart';
           +import 'widgets/crossword_puzzle_app.dart';

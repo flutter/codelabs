@@ -18,14 +18,14 @@ steps:
           include: ../../analysis_options.yaml
 
           analyzer:
-            exclude: 
+            exclude:
               - lib/src/*.g.dart
       - name: dart fix
         dart: fix --apply
         path: google_maps_in_flutter
       - name: Add google_maps_flutter
         path: google_maps_in_flutter
-        flutter: pub add google_maps_flutter
+        flutter: pub add google_maps_flutter material_ui
       - name: Remove the README.md
         rm: google_maps_in_flutter/README.md
       - name: Add .gemini directory
@@ -88,13 +88,13 @@ steps:
           @@ -1,3 +1,19 @@
           +/*
           + * Copyright 2019 Google LLC
-          + * 
+          + *
           + * Licensed under the Apache License, Version 2.0 (the "License");
           + * you may not use this file except in compliance with the License.
           + * You may obtain a copy of the License at
-          + * 
+          + *
           + *     https://www.apache.org/licenses/LICENSE-2.0
-          + * 
+          + *
           + * Unless required by applicable law or agreed to in writing, software
           + * distributed under the License is distributed on an "AS IS" BASIS,
           + * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -102,8 +102,9 @@ steps:
           + * limitations under the License.
           + */
           +
-           import 'package:flutter/material.dart';
- 
+          -import 'package:flutter/material.dart';
+          +import 'package:material_ui/material_ui.dart';
+
            void main() {
       - name: Patch test/widget_test.dart
         path: google_maps_in_flutter/test/widget_test.dart
@@ -113,13 +114,13 @@ steps:
           @@ -1,3 +1,19 @@
           +/*
           + * Copyright 2019 Google LLC
-          + * 
+          + *
           + * Licensed under the Apache License, Version 2.0 (the "License");
           + * you may not use this file except in compliance with the License.
           + * You may obtain a copy of the License at
-          + * 
+          + *
           + *     https://www.apache.org/licenses/LICENSE-2.0
-          + * 
+          + *
           + * Unless required by applicable law or agreed to in writing, software
           + * distributed under the License is distributed on an "AS IS" BASIS,
           + * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -148,7 +149,7 @@ steps:
         path: google_maps_in_flutter
         flutter: build web
       - name: Copy step_3
-        copydir: 
+        copydir:
           from: google_maps_in_flutter
           to: step_3
   - name: step_4
@@ -181,7 +182,7 @@ steps:
            import Flutter
            import UIKit
           +import GoogleMaps
-           
+
            @main
            @objc class AppDelegate: FlutterAppDelegate, FlutterImplicitEngineDelegate {
           @@ -12,5 +13,9 @@ import UIKit
@@ -214,11 +215,11 @@ steps:
         replace-contents: |
           /*
            * Copyright 2019 Google LLC
-           * 
+           *
            * Licensed under the Apache License, Version 2.0 (the "License");
            * you may not use this file except in compliance with the License.
            * You may obtain a copy of the License at
-           * 
+           *
            *     https://www.apache.org/licenses/LICENSE-2.0
            *
            * Unless required by applicable law or agreed to in writing, software
@@ -227,30 +228,30 @@ steps:
            * See the License for the specific language governing permissions and
            * limitations under the License.
            */
-          
-          import 'package:flutter/material.dart';
+
           import 'package:google_maps_flutter/google_maps_flutter.dart';
-          
+          import 'package:material_ui/material_ui.dart';
+
           void main() {
             runApp(const MyApp());
           }
-          
+
           class MyApp extends StatefulWidget {
             const MyApp({super.key});
-          
+
             @override
             State<MyApp> createState() => _MyAppState();
           }
-          
+
           class _MyAppState extends State<MyApp> {
             late GoogleMapController mapController;
-          
+
             final LatLng _center = const LatLng(45.521563, -122.677433);
-          
+
             void _onMapCreated(GoogleMapController controller) {
               mapController = controller;
             }
-          
+
             @override
             Widget build(BuildContext context) {
               return MaterialApp(
@@ -270,13 +271,13 @@ steps:
         replace-contents: |
           /*
            * Copyright 2019 Google LLC
-           * 
+           *
            * Licensed under the Apache License, Version 2.0 (the "License");
            * you may not use this file except in compliance with the License.
            * You may obtain a copy of the License at
-           * 
+           *
            *     https://www.apache.org/licenses/LICENSE-2.0
-           * 
+           *
            * Unless required by applicable law or agreed to in writing, software
            * distributed under the License is distributed on an "AS IS" BASIS,
            * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -295,7 +296,7 @@ steps:
             });
           }
       - name: Copy step_4
-        copydir: 
+        copydir:
           from: google_maps_in_flutter
           to: step_4
   - name: step_5
@@ -1220,40 +1221,40 @@ steps:
         replace-contents: |
           /*
            * Copyright 2019 Google LLC
-           * 
+           *
            * Licensed under the Apache License, Version 2.0 (the "License");
            * you may not use this file except in compliance with the License.
            * You may obtain a copy of the License at
-           * 
+           *
            *     https://www.apache.org/licenses/LICENSE-2.0
-           * 
+           *
            * Unless required by applicable law or agreed to in writing, software
            * distributed under the License is distributed on an "AS IS" BASIS,
            * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
            * See the License for the specific language governing permissions and
            * limitations under the License.
            */
-          
+
           import 'dart:convert';
-          
+
           import 'package:flutter/foundation.dart';
           import 'package:flutter/services.dart' show rootBundle;
           import 'package:http/http.dart' as http;
           import 'package:json_annotation/json_annotation.dart';
-          
+
           part 'locations.g.dart';
-          
+
           @JsonSerializable()
           class LatLng {
             LatLng({required this.lat, required this.lng});
-          
+
             factory LatLng.fromJson(Map<String, dynamic> json) => _$LatLngFromJson(json);
             Map<String, dynamic> toJson() => _$LatLngToJson(this);
-          
+
             final double lat;
             final double lng;
           }
-          
+
           @JsonSerializable()
           class Region {
             Region({
@@ -1262,16 +1263,16 @@ steps:
               required this.name,
               required this.zoom,
             });
-          
+
             factory Region.fromJson(Map<String, dynamic> json) => _$RegionFromJson(json);
             Map<String, dynamic> toJson() => _$RegionToJson(this);
-          
+
             final LatLng coords;
             final String id;
             final String name;
             final double zoom;
           }
-          
+
           @JsonSerializable()
           class Office {
             Office({
@@ -1284,10 +1285,10 @@ steps:
               required this.phone,
               required this.region,
             });
-          
+
             factory Office.fromJson(Map<String, dynamic> json) => _$OfficeFromJson(json);
             Map<String, dynamic> toJson() => _$OfficeToJson(this);
-          
+
             final String address;
             final String id;
             final String image;
@@ -1297,22 +1298,22 @@ steps:
             final String phone;
             final String region;
           }
-          
+
           @JsonSerializable()
           class Locations {
             Locations({required this.offices, required this.regions});
-          
+
             factory Locations.fromJson(Map<String, dynamic> json) =>
                 _$LocationsFromJson(json);
             Map<String, dynamic> toJson() => _$LocationsToJson(this);
-          
+
             final List<Office> offices;
             final List<Region> regions;
           }
-          
+
           Future<Locations> getGoogleOffices() async {
             const googleLocationsURL = 'https://about.google/static/data/locations.json';
-          
+
             // Retrieve the locations of Google offices
             try {
               final response = await http.get(Uri.parse(googleLocationsURL));
@@ -1326,7 +1327,7 @@ steps:
                 print(e);
               }
             }
-          
+
             // Fallback for when the above HTTP request fails.
             return Locations.fromJson(
               json.decode(await rootBundle.loadString('assets/locations.json'))
@@ -1339,9 +1340,9 @@ steps:
           --- b/google-maps-in-flutter/step_5/lib/main.dart
           +++ a/google-maps-in-flutter/step_5/lib/main.dart
           @@ -17,6 +17,8 @@
-           import 'package:flutter/material.dart';
            import 'package:google_maps_flutter/google_maps_flutter.dart';
-           
+           import 'package:material_ui/material_ui.dart';
+
           +import 'src/locations.dart' as locations;
           +
            void main() {
@@ -1349,7 +1350,7 @@ steps:
            }
           @@ -29,12 +31,20 @@ class MyApp extends StatefulWidget {
            }
-           
+
            class _MyAppState extends State<MyApp> {
           -  late GoogleMapController mapController;
           -
@@ -1399,7 +1400,7 @@ steps:
         patch-u: |
           --- b/google-maps-in-flutter/step_5/pubspec.yaml
           +++ a/google-maps-in-flutter/step_5/pubspec.yaml
-          @@ -92,3 +92,5 @@ flutter:
+          @@ -93,3 +93,5 @@ flutter:
              #
              # For details regarding fonts from package dependencies,
              # see https://flutter.dev/to/font-from-package
@@ -1422,11 +1423,11 @@ steps:
           @@ -1,3 +1,19 @@
           +/*
           + * Copyright 2019 Google LLC
-          + * 
+          + *
           + * Licensed under the Apache License, Version 2.0 (the "License");
           + * you may not use this file except in compliance with the License.
           + * You may obtain a copy of the License at
-          + * 
+          + *
           + *     https://www.apache.org/licenses/LICENSE-2.0
           + *
           + * Unless required by applicable law or agreed to in writing, software
@@ -1437,7 +1438,7 @@ steps:
           + */
           +
            // GENERATED CODE - DO NOT MODIFY BY HAND
-           
+
            part of 'locations.dart';
       - name: flutter clean
         path: google_maps_in_flutter
@@ -1457,7 +1458,7 @@ steps:
         path: google_maps_in_flutter
         flutter: build web
       - name: Copy step_5
-        copydir: 
+        copydir:
           from: google_maps_in_flutter
           to: step_5
   - name: Cleanup google_maps_in_flutter

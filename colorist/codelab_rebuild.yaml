@@ -8,7 +8,7 @@ steps:
         flutter: create -e colorist --platforms=android,ios,macos,web,windows
       - name: Add dependencies
         path: colorist
-        flutter: pub add colorist_ui flutter_riverpod riverpod_annotation dev:build_runner dev:riverpod_generator dev:json_serializable
+        flutter: pub add colorist_ui flutter_riverpod riverpod_annotation dev:build_runner dev:riverpod_generator dev:json_serializable material_ui
       - name: Strip DEVELOPMENT_TEAM
         strip-lines-containing: DEVELOPMENT_TEAM =
         path: colorist/ios/Runner.xcodeproj/project.pbxproj
@@ -66,8 +66,8 @@ steps:
           // found in the LICENSE file.
 
           import 'package:colorist_ui/colorist_ui.dart';
-          import 'package:flutter/material.dart';
           import 'package:flutter_riverpod/flutter_riverpod.dart';
+          import 'package:material_ui/material_ui.dart';
 
           void main() async {
             runApp(ProviderScope(child: MainApp()));
@@ -258,8 +258,8 @@ steps:
           --- b/colorist/step_02/lib/main.dart
           +++ a/colorist/step_02/lib/main.dart
           @@ -6,6 +6,9 @@ import 'package:colorist_ui/colorist_ui.dart';
-           import 'package:flutter/material.dart';
            import 'package:flutter_riverpod/flutter_riverpod.dart';
+           import 'package:material_ui/material_ui.dart';
 
           +import 'providers/gemini.dart';
           +import 'services/gemini_chat_service.dart';
@@ -418,7 +418,7 @@ steps:
         patch-u: |
           --- b/colorist/step_03/pubspec.yaml
           +++ a/colorist/step_03/pubspec.yaml
-          @@ -25,3 +25,6 @@ dev_dependencies:
+          @@ -26,3 +26,6 @@ dev_dependencies:
 
            flutter:
              uses-material-design: true
@@ -737,17 +737,17 @@ steps:
           --- b/colorist/step_06/lib/services/gemini_chat_service.dart
           +++ a/colorist/step_06/lib/services/gemini_chat_service.dart
           @@ -6,6 +6,7 @@ import 'dart:async';
-           
+
            import 'package:colorist_ui/colorist_ui.dart';
            import 'package:firebase_ai/firebase_ai.dart';
           +import 'package:flutter_riverpod/flutter_riverpod.dart';
            import 'package:riverpod_annotation/riverpod_annotation.dart';
-           
+
            import '../providers/gemini.dart';
           @@ -13,46 +14,55 @@ import 'gemini_tools.dart';
 
            part 'gemini_chat_service.g.dart';
-           
+
           +class ConversationStateNotifier extends Notifier<ConversationState> {
           +  @override
           +  ConversationState build() => ConversationState.idle;

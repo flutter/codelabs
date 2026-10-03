@@ -4,20 +4,21 @@ publish_to: 'none'
 version: 0.1.0+1
 
 environment:
-  sdk: ^3.13.3
+  sdk: ^3.13.5
 
 dependencies:
-  cloud_firestore: ^6.9.0
+  cloud_firestore: ^6.10.0
   cupertino_icons: ^2.0.0
-  firebase_auth: ^6.6.1
-  firebase_core: ^4.14.0
+  firebase_auth: ^6.7.0
+  firebase_core: ^4.15.0
   flutter:
     sdk: flutter
   google_sign_in: ^7.2.0
   http: ^1.6.0
-  in_app_purchase: ^3.3.0
+  in_app_purchase: ^3.3.1
   intl: ^0.20.3
   logging: ^1.3.0
+  material_ui: ^1.5.0
   provider: ^6.1.5+1
 
 dev_dependencies:

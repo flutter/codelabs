@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 // New: import the updateHeadline function
 import 'home_screen.dart';

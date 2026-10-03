@@ -3,8 +3,8 @@
 // found in the LICENSE file.
 
 import 'package:built_collection/built_collection.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:two_dimensional_scrollables/two_dimensional_scrollables.dart';
 
 import '../model.dart';

@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:flame/game.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'src/brick_breaker.dart';
 

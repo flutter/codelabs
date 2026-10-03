@@ -28,7 +28,7 @@ steps:
           }
       - name: Add deps
         path: quiz
-        flutter: pub add animations
+        flutter: pub add animations material_ui
       - name: Patch pubspec.yaml
         path: quiz/pubspec.yaml
         patch-u: |
@@ -59,7 +59,7 @@ steps:
       - name: Add lib/home_screen.dart
         path: quiz/lib/home_screen.dart
         replace-contents: |
-          import 'package:flutter/material.dart';
+          import 'package:material_ui/material_ui.dart';
 
           import 'question_screen.dart';
 
@@ -104,7 +104,7 @@ steps:
       - name: Add lib/main.dart
         path: quiz/lib/main.dart
         replace-contents: |
-          import 'package:flutter/material.dart';
+          import 'package:material_ui/material_ui.dart';
 
           import 'home_screen.dart';
 
@@ -231,7 +231,7 @@ steps:
       - name: Add lib/question_screen.dart
         path: quiz/lib/question_screen.dart
         replace-contents: |
-          import 'package:flutter/material.dart';
+          import 'package:material_ui/material_ui.dart';
 
           import 'view_model.dart';
 
@@ -422,7 +422,7 @@ steps:
       - name: Add lib/scoreboard.dart
         path: quiz/lib/scoreboard.dart
         replace-contents: |
-          import 'package:flutter/material.dart';
+          import 'package:material_ui/material_ui.dart';
 
           class Scoreboard extends StatelessWidget {
             final int score;
@@ -469,7 +469,7 @@ steps:
           --- b/animations/step_02_b/lib/question_screen.dart
           +++ a/animations/step_02_b/lib/question_screen.dart
           @@ -1,5 +1,6 @@
-           import 'package:flutter/material.dart';
+           import 'package:material_ui/material_ui.dart';
 
           +import 'scoreboard.dart';
            import 'view_model.dart';
@@ -826,7 +826,7 @@ steps:
           --- b/animations/step_04_a/lib/question_screen.dart
           +++ a/animations/step_04_a/lib/question_screen.dart
           @@ -1,5 +1,6 @@
-           import 'package:flutter/material.dart';
+           import 'package:material_ui/material_ui.dart';
 
           +import 'flip_effect.dart';
            import 'scoreboard.dart';
@@ -1043,7 +1043,7 @@ steps:
           +++ a/animations/step_05_b/lib/home_screen.dart
           @@ -1,3 +1,4 @@
           +import 'package:animations/animations.dart';
-           import 'package:flutter/material.dart';
+           import 'package:material_ui/material_ui.dart';
 
            import 'question_screen.dart';
           @@ -31,8 +32,9 @@ class HomeScreen extends StatelessWidget {
@@ -1065,7 +1065,7 @@ steps:
           +++ a/animations/step_05_b/lib/main.dart
           @@ -1,3 +1,4 @@
           +import 'package:animations/animations.dart';
-           import 'package:flutter/material.dart';
+           import 'package:material_ui/material_ui.dart';
 
            import 'home_screen.dart';
           @@ -15,6 +16,15 @@ class MainApp extends StatelessWidget {
@@ -1100,7 +1100,7 @@ steps:
           +++ a/animations/step_05_c/lib/home_screen.dart
           @@ -1,4 +1,3 @@
           -import 'package:animations/animations.dart';
-           import 'package:flutter/material.dart';
+           import 'package:material_ui/material_ui.dart';
 
            import 'question_screen.dart';
           @@ -26,18 +25,10 @@ class HomeScreen extends StatelessWidget {
@@ -1131,7 +1131,7 @@ steps:
           +++ a/animations/step_05_c/lib/question_screen.dart
           @@ -1,3 +1,4 @@
           +import 'package:animations/animations.dart';
-           import 'package:flutter/material.dart';
+           import 'package:material_ui/material_ui.dart';
 
            import 'flip_effect.dart';
           @@ -87,24 +88,15 @@ class QuestionCard extends StatelessWidget {
@@ -1186,7 +1186,7 @@ steps:
                onGameOver: _handleGameOver,
              );
           +  VoidCallback? _showGameOverScreen;
-           
+
              @override
              Widget build(BuildContext context) {
           @@ -39,7 +40,11 @@ class _QuestionScreenState extends State<QuestionScreen> {
@@ -1205,7 +1205,7 @@ steps:
           @@ -59,24 +64,47 @@ class _QuestionScreenState extends State<QuestionScreen> {
                );
              }
-           
+
           +  void _handleChangeOpenContainer(VoidCallback openContainer) {
           +    _showGameOverScreen = openContainer;
           +  }
@@ -1265,7 +1265,7 @@ steps:
           @@ -84,14 +112,22 @@ class _QuestionScreenState extends State<QuestionScreen> {
            class QuestionCard extends StatelessWidget {
              final String? question;
-           
+
           -  const QuestionCard({required this.question, super.key});
           +  const QuestionCard({
           +    required this.onChangeOpenContainer,

@@ -54,14 +54,14 @@ steps:
           }
       - name: Add deps
         path: homescreen_widgets
-        flutter: pub add cupertino_icons shared_preferences home_widget
+        flutter: pub add cupertino_icons shared_preferences home_widget material_ui
       - name: Patch pubspec.yaml
         path: homescreen_widgets/pubspec.yaml
         patch-u: |
           --- b/homescreen_codelab/step_03/pubspec.yaml
           +++ a/homescreen_codelab/step_03/pubspec.yaml
-          @@ -20,3 +20,8 @@ dev_dependencies:
-           
+          @@ -21,3 +21,8 @@ dev_dependencies:
+
            flutter:
              uses-material-design: true
           +
@@ -760,7 +760,7 @@ steps:
       - name: Add lib/article_screen.dart
         path: homescreen_widgets/lib/article_screen.dart
         replace-contents: |
-          import 'package:flutter/material.dart';
+          import 'package:material_ui/material_ui.dart';
 
           import 'news_data.dart';
 
@@ -881,7 +881,7 @@ steps:
       - name: Add lib/home_screen.dart
         path: homescreen_widgets/lib/home_screen.dart
         replace-contents: |
-          import 'package:flutter/material.dart';
+          import 'package:material_ui/material_ui.dart';
 
           import 'article_screen.dart';
           import 'news_data.dart';
@@ -934,7 +934,7 @@ steps:
       - name: Replace lib/main.dart
         path: homescreen_widgets/lib/main.dart
         replace-contents: |
-          import 'package:flutter/material.dart';
+          import 'package:material_ui/material_ui.dart';
 
           import 'home_screen.dart';
 
@@ -1032,16 +1032,16 @@ steps:
         replace-contents: |
           // Import will depend on App ID.
           package com.mydomain.homescreen_widgets
-          
+
           import android.appwidget.AppWidgetManager
           import android.appwidget.AppWidgetProvider
           import android.content.Context
           import android.widget.RemoteViews
-          
+
           // New import.
           import es.antonborri.home_widget.HomeWidgetPlugin
-          
-          
+
+
           /**
            * Implementation of App Widget functionality.
            */
@@ -1055,14 +1055,14 @@ steps:
                       // Get reference to SharedPreferences.
                       val widgetData = HomeWidgetPlugin.getData(context)
                       val views = RemoteViews(context.packageName, R.layout.news_widget).apply {
-          
+
                           val title = widgetData.getString("headline_title", null)
                           setTextViewText(R.id.headline_title, title ?: "No title set")
-          
+
                           val description = widgetData.getString("headline_description", null)
                           setTextViewText(R.id.headline_description, description ?: "No description set")
                       }
-          
+
                       appWidgetManager.updateAppWidget(appWidgetId, views)
                   }
               }
@@ -1113,12 +1113,12 @@ steps:
           --- b/homescreen_codelab/step_04/lib/article_screen.dart
           +++ a/homescreen_codelab/step_04/lib/article_screen.dart
           @@ -1,5 +1,7 @@
-           import 'package:flutter/material.dart';
-           
+           import 'package:material_ui/material_ui.dart';
+
           +// New: import the updateHeadline function
           +import 'home_screen.dart';
            import 'news_data.dart';
-           
+
            class ArticleScreen extends StatefulWidget {
           @@ -28,6 +30,8 @@ class _ArticleScreenState extends State<ArticleScreen> {
                      ScaffoldMessenger.of(context).showSnackBar(
@@ -1135,13 +1135,13 @@ steps:
           --- b/homescreen_codelab/step_04/lib/home_screen.dart
           +++ a/homescreen_codelab/step_04/lib/home_screen.dart
           @@ -1,15 +1,50 @@
-           import 'package:flutter/material.dart';
           +// New: Add this import
           +import 'package:home_widget/home_widget.dart';
-           
+           import 'package:material_ui/material_ui.dart';
+
            import 'article_screen.dart';
            import 'news_data.dart';
-           
+
           +// New: Add these constants
           +// TO DO: Replace with your App Group ID
           +const String appGroupId = '<YOUR APP GROUP>';
@@ -1153,7 +1153,7 @@ steps:
              @override
              State<MyHomePage> createState() => _MyHomePageState();
            }
-           
+
           +// New: add this function
           +void updateHeadline(NewsArticle newHeadline) {
           +  // Save the headline data to the widget
@@ -1195,7 +1195,7 @@ steps:
              final String description;
              final String? articleText;
           -  final String? image;
-           
+
              NewsArticle({
                required this.title,
                required this.description,
@@ -1300,7 +1300,7 @@ steps:
           -->
           <shape xmlns:android="http://schemas.android.com/apk/res/android"
               android:shape="rectangle">
-          
+
               <corners android:radius="?attr/appWidgetRadius" />
               <solid android:color="?android:attr/colorBackground" />
           </shape>
@@ -1313,7 +1313,7 @@ steps:
           -->
           <shape xmlns:android="http://schemas.android.com/apk/res/android"
               android:shape="rectangle">
-          
+
               <corners android:radius="?attr/appWidgetInnerRadius" />
               <solid android:color="?android:attr/colorAccent" />
           </shape>
@@ -1332,7 +1332,7 @@ steps:
               android:layout_height="match_parent"
               android:background="@android:color/white"
               android:theme="@style/Theme.Android.AppWidgetContainer">
-          
+
               <TextView
                   android:id="@+id/headline_title"
                   style="@style/Widget.Android.AppWidget.InnerView"
@@ -1346,7 +1346,7 @@ steps:
                   android:text="Title"
                   android:textSize="20sp"
                   android:textStyle="bold" />
-          
+
               <TextView
                   android:id="@+id/headline_description"
                   style="@style/Widget.Android.AppWidget.InnerView"
@@ -1361,7 +1361,7 @@ steps:
                   android:background="@android:color/white"
                   android:text="Title"
                   android:textSize="16sp" />
-          
+
           </RelativeLayout>
       - name: Mkdir android/app/src/main/res/values-night-v31
         path: homescreen_widgets
@@ -1386,13 +1386,13 @@ steps:
         path: homescreen_widgets/android/app/src/main/res/values-v21/styles.xml
         replace-contents: |
           <resources>
-          
+
               <style name="Widget.Android.AppWidget.Container" parent="android:Widget">
                   <item name="android:id">@android:id/background</item>
                   <item name="android:padding">?attr/appWidgetPadding</item>
                   <item name="android:background">@drawable/app_widget_background</item>
               </style>
-          
+
               <style name="Widget.Android.AppWidget.InnerView" parent="android:Widget">
                   <item name="android:padding">?attr/appWidgetPadding</item>
                   <item name="android:background">@drawable/app_widget_inner_view_background</item>
@@ -1406,14 +1406,14 @@ steps:
         path: homescreen_widgets/android/app/src/main/res/values-v31/styles.xml
         replace-contents: |
           <resources>
-          
+
               <style name="Widget.Android.AppWidget.Container" parent="android:Widget">
                   <item name="android:id">@android:id/background</item>
                   <item name="android:padding">?attr/appWidgetPadding</item>
                   <item name="android:background">@drawable/app_widget_background</item>
                   <item name="android:clipToOutline">true</item>
               </style>
-          
+
               <style name="Widget.Android.AppWidget.InnerView" parent="android:Widget">
                   <item name="android:padding">?attr/appWidgetPadding</item>
                   <item name="android:background">@drawable/app_widget_inner_view_background</item>
@@ -1459,13 +1459,13 @@ steps:
         replace-contents: |
           <?xml version="1.0" encoding="utf-8"?>
           <resources>
-          
+
               <!--
           Refer to App Widget Documentation for margin information
           http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
               -->
               <dimen name="widget_margin">0dp</dimen>
-          
+
           </resources>
       - name: Add android/app/src/main/res/values/strings.xml
         path: homescreen_widgets/android/app/src/main/res/values/strings.xml
@@ -1502,7 +1502,7 @@ steps:
         path: homescreen_widgets/android/app/src/main/res/values/themes.xml
         replace-contents: |
           <resources>
-          
+
               <style name="Theme.Android.AppWidgetContainerParent" parent="@android:style/Theme.DeviceDefault">
                   <!-- Radius of the outer bound of widgets to make the rounded corners -->
                   <item name="appWidgetRadius">16dp</item>
@@ -1512,7 +1512,7 @@ steps:
                   -->
                   <item name="appWidgetInnerRadius">8dp</item>
               </style>
-          
+
               <style name="Theme.Android.AppWidgetContainer" parent="Theme.Android.AppWidgetContainerParent">
                   <!-- Apply padding to avoid the content of the widget colliding with the rounded corners -->
                   <item name="appWidgetPadding">16dp</item>
@@ -1606,16 +1606,16 @@ steps:
         replace-contents: |
           import WidgetKit
           import SwiftUI
-          
+
           // TimelineProvider has three methods
           struct Provider: TimelineProvider {
-          
+
           // Placeholder is used as a placeholder when the widget is first displayed
               func placeholder(in context: Context) -> NewsArticleEntry {
           //      Add some placeholder title and description, and get the current date
                 NewsArticleEntry(date: Date(), title: "Placeholder Title", description: "Placeholder description")
               }
-          
+
           // Snapshot entry represents the current time and state
               func getSnapshot(in context: Context, completion: @escaping (NewsArticleEntry) -> ()) {
                 let entry: NewsArticleEntry
@@ -1631,7 +1631,7 @@ steps:
                 }
                   completion(entry)
               }
-          
+
           //    getTimeline is called for the current and optionally future times to update the widget
               func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
           //      This just uses the snapshot function you defined earlier
@@ -1642,18 +1642,18 @@ steps:
                         }
               }
           }
-          
+
           // The date and any data you want to pass into your app must conform to TimelineEntry
           struct NewsArticleEntry: TimelineEntry {
               let date: Date
               let title: String
               let description:String
           }
-          
+
           //View that holds the contents of the widget
           struct NewsWidgetsEntryView : View {
               var entry: Provider.Entry
-          
+
               var body: some View {
                 VStack {
                   Text(entry.title)
@@ -1661,13 +1661,13 @@ steps:
                 }
               }
           }
-          
-          
-          
+
+
+
           struct NewsWidgets: Widget {
           //  Identifier for the widget
               let kind: String = "NewsWidgets"
-          
+
           // Configuration for the widget
               var body: some WidgetConfiguration {
                   StaticConfiguration(kind: kind, provider: Provider()) { entry in
@@ -1677,7 +1677,7 @@ steps:
                   .description("This is an example widget.")
               }
           }
-          
+
           //struct NewsWidgets_Previews: PreviewProvider {
           //    static var previews: some View {
           //        NewsWidgetsEntryView(entry: NewsArticleEntry(date: Date(), title: "Preview Title", description: "Preview description", filename: "No Screenshot available"))
@@ -1689,7 +1689,7 @@ steps:
         replace-contents: |
           import WidgetKit
           import SwiftUI
-          
+
           @main
           struct NewsWidgetsBundle: WidgetBundle {
               var body: some Widget {
@@ -1726,8 +1726,8 @@ steps:
           --- b/homescreen_codelab/step_05/lib/article_screen.dart
           +++ a/homescreen_codelab/step_05/lib/article_screen.dart
           @@ -1,6 +1,5 @@
-           import 'package:flutter/material.dart';
-           
+           import 'package:material_ui/material_ui.dart';
+
           -// New: import the updateHeadline function
            import 'home_screen.dart';
            import 'news_data.dart';
@@ -1737,13 +1737,13 @@ steps:
           --- b/homescreen_codelab/step_05/lib/home_screen.dart
           +++ a/homescreen_codelab/step_05/lib/home_screen.dart
           @@ -1,11 +1,9 @@
-           import 'package:flutter/material.dart';
           -// New: Add this import
            import 'package:home_widget/home_widget.dart';
-           
+           import 'package:material_ui/material_ui.dart';
+
            import 'article_screen.dart';
            import 'news_data.dart';
-           
+
           -// New: Add these constants
            // TO DO: Replace with your App Group ID
            const String appGroupId = '<YOUR APP GROUP>';
@@ -1751,7 +1751,7 @@ steps:
           @@ -17,9 +15,7 @@ class MyHomePage extends StatefulWidget {
              State<MyHomePage> createState() => _MyHomePageState();
            }
-           
+
           -// New: add this function
            void updateHeadline(NewsArticle newHeadline) {
           -  // Save the headline data to the widget
@@ -1760,16 +1760,16 @@ steps:
                'headline_description',
           @@ -32,15 +28,12 @@ void updateHeadline(NewsArticle newHeadline) {
            }
-           
+
            class _MyHomePageState extends State<MyHomePage> {
           -  // New: Add initState
              @override
              void initState() {
                super.initState();
-           
+
           -    // Set the group ID
                HomeWidget.setAppGroupId(appGroupId);
-           
+
           -    // Mock read in some data and update the headline
                final newHeadline = getNewsStories()[0];
                updateHeadline(newHeadline);
@@ -1784,7 +1784,7 @@ steps:
              final String description;
              final String? articleText;
           +  final String? image;
-           
+
              NewsArticle({
                required this.title,
                required this.description,
@@ -1800,7 +1800,7 @@ steps:
           @@ -1,24 +1,19 @@
            import WidgetKit
            import SwiftUI
-           
+
           -// TimelineProvider has three methods
            struct Provider: TimelineProvider {
           -
@@ -1809,7 +1809,7 @@ steps:
           -//      Add some placeholder title and description, and get the current date
                  NewsArticleEntry(date: Date(), title: "Placeholder Title", description: "Placeholder description")
                }
-           
+
           -// Snapshot entry represents the current time and state
                func getSnapshot(in context: Context, completion: @escaping (NewsArticleEntry) -> ()) {
                  let entry: NewsArticleEntry
@@ -1827,7 +1827,7 @@ steps:
           @@ -26,43 +21,53 @@ struct Provider: TimelineProvider {
                    completion(entry)
                }
-           
+
           -//    getTimeline is called for the current and optionally future times to update the widget
                func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
           -//      This just uses the snapshot function you defined earlier
@@ -1838,25 +1838,25 @@ steps:
                          }
                }
            }
-           
+
           -// The date and any data you want to pass into your app must conform to TimelineEntry
            struct NewsArticleEntry: TimelineEntry {
                let date: Date
                let title: String
                let description:String
            }
-           
+
           -//View that holds the contents of the widget
            struct NewsWidgetsEntryView : View {
           -    var entry: Provider.Entry
           +  var entry: Provider.Entry
-          +    
+          +
           +    // New: Register the font.
           +    init(entry: Provider.Entry){
           +            self.entry = entry
           +            CTFontManagerRegisterFontsForURL(bundle.appending(path: "/fonts/Chewy-Regular.ttf") as CFURL, CTFontManagerScope.process, nil)
           +        }
-          +    
+          +
           +    // New: Add the helper function.
           +    var bundle: URL {
           +            let bundle = Bundle.main
@@ -1868,7 +1868,7 @@ steps:
           +            }
           +            return bundle.bundleURL
           +        }
-           
+
           -    var body: some View {
           -      VStack {
           -        Text(entry.title)
@@ -1881,13 +1881,13 @@ steps:
                }
           +  }
            }
-           
+
           -
           -
            struct NewsWidgets: Widget {
           -//  Identifier for the widget
                let kind: String = "NewsWidgets"
-           
+
           -// Configuration for the widget
                var body: some WidgetConfiguration {
                    StaticConfiguration(kind: kind, provider: Provider()) { entry in
@@ -1895,7 +1895,7 @@ steps:
           @@ -72,9 +77,3 @@ struct NewsWidgets: Widget {
                }
            }
-           
+
           -//struct NewsWidgets_Previews: PreviewProvider {
           -//    static var previews: some View {
           -//        NewsWidgetsEntryView(entry: NewsArticleEntry(date: Date(), title: "Preview Title", description: "Preview description", filename: "No Screenshot available"))
@@ -1929,8 +1929,8 @@ steps:
           -// New import.
           +import java.io.File
            import es.antonborri.home_widget.HomeWidgetPlugin
-           
-           
+
+
           @@ -20,7 +21,6 @@ class NewsWidget : AppWidgetProvider() {
                        appWidgetIds: IntArray,
                ) {
@@ -1938,9 +1938,9 @@ steps:
           -            // Get reference to SharedPreferences.
                        val widgetData = HomeWidgetPlugin.getData(context)
                        val views = RemoteViews(context.packageName, R.layout.news_widget).apply {
-           
+
           @@ -29,9 +29,24 @@ class NewsWidget : AppWidgetProvider() {
-           
+
                            val description = widgetData.getString("headline_description", null)
                            setTextViewText(R.id.headline_description, description ?: "No description set")
           +
@@ -1957,7 +1957,7 @@ steps:
           +                }
           +                // End new code
                        }
-           
+
                        appWidgetManager.updateAppWidget(appWidgetId, views)
                    }
                }
@@ -1970,9 +1970,9 @@ steps:
           --- b/homescreen_codelab/step_06/lib/article_screen.dart
           +++ a/homescreen_codelab/step_06/lib/article_screen.dart
           @@ -1,4 +1,6 @@
-           import 'package:flutter/material.dart';
           +// New: import the home_widget package.
           +import 'package:home_widget/home_widget.dart';
+           import 'package:material_ui/material_ui.dart';
 
            import 'home_screen.dart';
            import 'news_data.dart';
@@ -2043,7 +2043,7 @@ steps:
              final String description;
              final String? articleText;
           -  final String? image;
-           
+
              NewsArticle({
                required this.title,
                required this.description,
@@ -2059,7 +2059,7 @@ steps:
           @@ -37,4 +37,25 @@
                    android:text="Title"
                    android:textSize="16sp" />
-           
+
           -</RelativeLayout>
           +    <!--New: add this image view -->
           +    <ImageView
@@ -2089,13 +2089,13 @@ steps:
           --- b/homescreen_codelab/step_06/ios/NewsWidgets/NewsWidgets.swift
           +++ a/homescreen_codelab/step_06/ios/NewsWidgets/NewsWidgets.swift
           @@ -3,7 +3,7 @@ import SwiftUI
-           
+
            struct Provider: TimelineProvider {
                func placeholder(in context: Context) -> NewsArticleEntry {
           -      NewsArticleEntry(date: Date(), title: "Placeholder Title", description: "Placeholder description")
           +      NewsArticleEntry(date: Date(), title: "Placeholder Title", description: "Placeholder description", filename: "No screenshot available",  displaySize: context.displaySize)
                }
-           
+
                func getSnapshot(in context: Context, completion: @escaping (NewsArticleEntry) -> ()) {
           @@ -12,11 +12,13 @@ struct Provider: TimelineProvider {
                    entry = placeholder(in: context)
@@ -2106,7 +2106,7 @@ steps:
                    let title = userDefaults?.string(forKey: "headline_title") ?? "No Title Set"
                    let description = userDefaults?.string(forKey: "headline_description") ?? "No Description Set"
           -        entry = NewsArticleEntry(date: Date(), title: title, description: description)
-          +        // New: get fileName from key/value store 
+          +        // New: get fileName from key/value store
           +        let filename = userDefaults?.string(forKey: "filename") ?? "No screenshot available"
           +        print(filename)
           +        entry = NewsArticleEntry(date: Date(), title: title, description: description, filename: filename,  displaySize: context.displaySize)
@@ -2121,16 +2121,16 @@ steps:
           +    let filename: String
           +    let displaySize: CGSize
            }
-           
+
            struct NewsWidgetsEntryView : View {
              var entry: Provider.Entry
-               
+
           -    // New: Register the font.
                init(entry: Provider.Entry){
                        self.entry = entry
                        CTFontManagerRegisterFontsForURL(bundle.appending(path: "/fonts/Chewy-Regular.ttf") as CFURL, CTFontManagerScope.process, nil)
                    }
-               
+
           -    // New: Add the helper function.
                var bundle: URL {
                        let bundle = Bundle.main
@@ -2151,7 +2151,7 @@ steps:
           +        return AnyView(EmptyView())
           +    }
           +
-           
+
              var body: some View {
                VStack {
           -        // Update the following line.

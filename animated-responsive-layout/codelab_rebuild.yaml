@@ -13,6 +13,9 @@ steps:
         path: animated_responsive_layout/analysis_options.yaml
         replace-contents: |
           include: ../../analysis_options.yaml
+      - name: Add material_ui
+        path: animated_responsive_layout
+        flutter: pub add material_ui
       - name: Update dependencies
         path: animated_responsive_layout
         flutter: pub upgrade --major-versions
@@ -139,9 +142,9 @@ steps:
       - name: Patch pubspec.yaml
         path: animated_responsive_layout/pubspec.yaml
         patch-u: |
-          --- b/material-3-codelab/step_04/pubspec.yaml
-          +++ a/material-3-codelab/step_04/pubspec.yaml
-          @@ -17,3 +17,13 @@ dev_dependencies:
+          --- b/animated-responsive-layout/step_04/pubspec.yaml
+          +++ a/animated-responsive-layout/step_04/pubspec.yaml
+          @@ -18,3 +18,13 @@ dev_dependencies:
 
            flutter:
              uses-material-design: true
@@ -293,7 +296,7 @@ steps:
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
 
-          import 'package:flutter/material.dart';
+          import 'package:material_ui/material_ui.dart';
 
           import '../models/data.dart' as data;
           import '../models/models.dart';
@@ -347,7 +350,7 @@ steps:
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
 
-          import 'package:flutter/material.dart';
+          import 'package:material_ui/material_ui.dart';
 
           import '../models/models.dart';
           import 'star_button.dart';
@@ -723,7 +726,7 @@ steps:
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
 
-          import 'package:flutter/material.dart';
+          import 'package:material_ui/material_ui.dart';
 
           import '../models/models.dart';
 
@@ -772,7 +775,7 @@ steps:
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
 
-          import 'package:flutter/material.dart';
+          import 'package:material_ui/material_ui.dart';
 
           class StarButton extends StatefulWidget {
             const StarButton({super.key});
@@ -822,7 +825,7 @@ steps:
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
 
-          import 'package:flutter/material.dart';
+          import 'package:material_ui/material_ui.dart';
 
           import 'models/data.dart' as data;
           import 'models/models.dart';
@@ -894,7 +897,7 @@ steps:
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
 
-          import 'package:flutter/material.dart';
+          import 'package:material_ui/material_ui.dart';
 
           class Destination {
             const Destination(this.icon, this.label);
@@ -915,7 +918,7 @@ steps:
           +++ a/animated-responsive-layout/step_05/lib/main.dart
           @@ -4,6 +4,7 @@
 
-           import 'package:flutter/material.dart';
+           import 'package:material_ui/material_ui.dart';
 
           +import 'destinations.dart';
            import 'models/data.dart' as data;
@@ -983,7 +986,7 @@ steps:
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
 
-          import 'package:flutter/material.dart';
+          import 'package:material_ui/material_ui.dart';
 
           import '../destinations.dart';
 
@@ -1017,7 +1020,7 @@ steps:
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
 
-          import 'package:flutter/material.dart';
+          import 'package:material_ui/material_ui.dart';
 
           import '../destinations.dart';
 
@@ -1072,7 +1075,7 @@ steps:
           +++ a/animated-responsive-layout/step_06/lib/main.dart
           @@ -4,9 +4,10 @@
 
-           import 'package:flutter/material.dart';
+           import 'package:material_ui/material_ui.dart';
 
           -import 'destinations.dart';
            import 'models/data.dart' as data;
@@ -1289,7 +1292,7 @@ steps:
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
 
-          import 'package:flutter/material.dart';
+          import 'package:material_ui/material_ui.dart';
 
           import '../animations.dart';
 
@@ -1344,7 +1347,7 @@ steps:
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
 
-          import 'package:flutter/material.dart';
+          import 'package:material_ui/material_ui.dart';
 
           import '../animations.dart';
 
@@ -1408,7 +1411,7 @@ steps:
 
           import 'dart:ui';
 
-          import 'package:flutter/material.dart';
+          import 'package:material_ui/material_ui.dart';
 
           import '../animations.dart';
 
@@ -1467,7 +1470,7 @@ steps:
           +++ a/animated-responsive-layout/step_07/lib/widgets/disappearing_bottom_navigation_bar.dart
           @@ -4,28 +4,36 @@
 
-           import 'package:flutter/material.dart';
+           import 'package:material_ui/material_ui.dart';
 
           +import '../animations.dart';
            import '../destinations.dart';
@@ -1516,7 +1519,7 @@ steps:
           +++ a/animated-responsive-layout/step_07/lib/widgets/disappearing_navigation_rail.dart
           @@ -4,49 +4,56 @@
 
-           import 'package:flutter/material.dart';
+           import 'package:material_ui/material_ui.dart';
 
           +import '../animations.dart';
            import '../destinations.dart';
@@ -1602,7 +1605,7 @@ steps:
           +++ a/animated-responsive-layout/step_07/lib/main.dart
           @@ -4,8 +4,10 @@
 
-           import 'package:flutter/material.dart';
+           import 'package:material_ui/material_ui.dart';
 
           +import 'animations.dart';
            import 'models/data.dart' as data;
@@ -1780,7 +1783,7 @@ steps:
 
           import 'dart:ui';
 
-          import 'package:flutter/material.dart';
+          import 'package:material_ui/material_ui.dart';
 
           import '../animations.dart';
 
@@ -1885,7 +1888,7 @@ steps:
           // Use of this source code is governed by a BSD-style license that can be
           // found in the LICENSE file.
 
-          import 'package:flutter/material.dart';
+          import 'package:material_ui/material_ui.dart';
 
           import '../models/data.dart' as data;
           import 'email_widget.dart';
@@ -1921,7 +1924,7 @@ steps:
         patch-u: |
           --- b/animated-responsive-layout/step_08/lib/main.dart
           +++ a/animated-responsive-layout/step_08/lib/main.dart
-          @@ -7,10 +7,12 @@ import 'package:flutter/material.dart';
+          @@ -7,10 +7,12 @@ import 'package:material_ui/material_ui.dart';
            import 'animations.dart';
            import 'models/data.dart' as data;
            import 'models/models.dart';
