@@ -15,7 +15,7 @@ struct Provider: TimelineProvider {
         let userDefaults = UserDefaults(suiteName: "<YOUR APP GROUP>")
         let title = userDefaults?.string(forKey: "headline_title") ?? "No Title Set"
         let description = userDefaults?.string(forKey: "headline_description") ?? "No Description Set"
-        // New: get fileName from key/value store 
+        // New: get fileName from key/value store
         let filename = userDefaults?.string(forKey: "filename") ?? "No screenshot available"
         print(filename)
         entry = NewsArticleEntry(date: Date(), title: title, description: description, filename: filename,  displaySize: context.displaySize)
@@ -42,12 +42,12 @@ struct NewsArticleEntry: TimelineEntry {
 
 struct NewsWidgetsEntryView : View {
   var entry: Provider.Entry
-    
+
     init(entry: Provider.Entry){
             self.entry = entry
             CTFontManagerRegisterFontsForURL(bundle.appending(path: "/fonts/Chewy-Regular.ttf") as CFURL, CTFontManagerScope.process, nil)
         }
-    
+
     var bundle: URL {
             let bundle = Bundle.main
             if bundle.bundleURL.pathExtension == "appex" {

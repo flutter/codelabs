@@ -37,13 +37,13 @@ struct NewsArticleEntry: TimelineEntry {
 
 struct NewsWidgetsEntryView : View {
   var entry: Provider.Entry
-    
+
     // New: Register the font.
     init(entry: Provider.Entry){
             self.entry = entry
             CTFontManagerRegisterFontsForURL(bundle.appending(path: "/fonts/Chewy-Regular.ttf") as CFURL, CTFontManagerScope.process, nil)
         }
-    
+
     // New: Add the helper function.
     var bundle: URL {
             let bundle = Bundle.main

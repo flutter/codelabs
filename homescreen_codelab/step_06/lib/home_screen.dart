@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:home_widget/home_widget.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'article_screen.dart';
 import 'news_data.dart';
