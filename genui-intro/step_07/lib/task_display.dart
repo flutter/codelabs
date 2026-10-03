@@ -30,13 +30,13 @@ class _TaskData {
   final String name;
   final bool isCompleted;
   final String actionName;
-  final JsonMap actionContext;
+  final JsonMap? actionContext;
 
   _TaskData({
     required this.name,
     required this.isCompleted,
     required this.actionName,
-    required this.actionContext,
+    this.actionContext,
   });
 
   factory _TaskData.fromJson(Map<String, Object?> json) {
@@ -48,7 +48,7 @@ class _TaskData {
         name: json['name'] as String,
         isCompleted: json['isCompleted'] as bool,
         actionName: event['name'] as String,
-        actionContext: event['context'] as JsonMap,
+        actionContext: event['context'] as JsonMap?,
       );
     } catch (e) {
       throw Exception('Invalid JSON for _TaskData: $e');
