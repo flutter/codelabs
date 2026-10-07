@@ -43,7 +43,7 @@ steps:
           }
       - name: Add app dependencies
         path: steps/app
-        flutter: pub add cloud_firestore cupertino_icons firebase_auth firebase_core google_sign_in http intl provider logging
+        flutter: pub add cloud_firestore cupertino_icons firebase_auth firebase_core google_sign_in http intl provider logging material_ui
       - name: Patch app/pubspec.yaml
         path: steps/app/pubspec.yaml
         patch-u: |
@@ -56,8 +56,8 @@ steps:
            publish_to: 'none'
            version: 0.1.0+1
 
-          @@ -26,3 +26,6 @@ dev_dependencies:
-           
+          @@ -27,3 +27,6 @@ dev_dependencies:
+
            flutter:
              uses-material-design: true
           +
@@ -15748,7 +15748,7 @@ steps:
           const storeKeyConsumable = 'dash_consumable_2k';
           const storeKeyUpgrade = 'dash_upgrade_3d';
           const storeKeySubscription = 'dash_subscription_doubler';
-          
+
           // TODO: Replace by your own server IP
           const serverIp = '192.168.178.46';
       - name: Add app/lib/firebase_options.dart
@@ -15826,7 +15826,7 @@ steps:
       - name: Replace app/lib/main.dart
         path: steps/app/lib/main.dart
         replace-contents: |
-          import 'package:flutter/material.dart';
+          import 'package:material_ui/material_ui.dart';
           import 'package:provider/provider.dart';
 
           import 'logic/dash_counter.dart';
@@ -15993,7 +15993,7 @@ steps:
           import 'dart:async';
 
           import 'package:flutter/foundation.dart';
-          import 'package:flutter/material.dart';
+          import 'package:material_ui/material_ui.dart';
 
           import '../model/purchasable_product.dart';
           import '../model/store_state.dart';
@@ -16345,8 +16345,8 @@ steps:
       - name: Add app/lib/pages/home_page.dart
         path: steps/app/lib/pages/home_page.dart
         replace-contents: |
-          import 'package:flutter/material.dart';
           import 'package:intl/intl.dart';
+          import 'package:material_ui/material_ui.dart';
           import 'package:provider/provider.dart';
 
           import '../logic/dash_counter.dart';
@@ -16466,7 +16466,7 @@ steps:
       - name: Add app/lib/pages/login_page.dart
         path: steps/app/lib/pages/login_page.dart
         replace-contents: |
-          import 'package:flutter/material.dart';
+          import 'package:material_ui/material_ui.dart';
           import 'package:provider/provider.dart';
 
           import '../logic/firebase_notifier.dart';
@@ -16494,7 +16494,7 @@ steps:
       - name: Add app/lib/pages/purchase_page.dart
         path: steps/app/lib/pages/purchase_page.dart
         replace-contents: |
-          import 'package:flutter/material.dart';
+          import 'package:material_ui/material_ui.dart';
           import 'package:provider/provider.dart';
 
           import '../logic/dash_purchases.dart';
@@ -16748,10 +16748,10 @@ steps:
           # https://dart.dev/guides/libraries/private-files
           # Created by `dart pub`
           .dart_tool/
-          
+
           # Conventional directory for build output.
           build/
-          
+
           # Keys
           assets/*.p8
           assets/appstore.token
@@ -16760,7 +16760,7 @@ steps:
         path: steps/dart-backend/analysis_options.yaml
         replace-contents: |
           include: package:lints/recommended.yaml
-          
+
           analyzer:
             errors:
               # TODO: https://github.com/flutter/flutter/issues/178321
@@ -16768,7 +16768,7 @@ steps:
             language:
               strict-casts: true
               strict-inference: true
-          
+
           linter:
             rules:
               avoid_types_on_closure_parameters: true
@@ -16825,7 +16825,7 @@ steps:
         path: steps/dart-backend/assets/README.md
         replace-contents: |
           Copy here the service account keys for Firebase and Google Play as:
-          
+
           - `service-account-firebase.json`: With permissions for Firestore
           - `service-account-google-play.json`: with permissions for Google Play Developer API
       - name: Replace steps/dart-backend/bin/server.dart
@@ -17219,15 +17219,15 @@ steps:
           --- b/in_app_purchases/step_07/app/lib/main.dart
           +++ a/in_app_purchases/step_07/app/lib/main.dart
           @@ -1,4 +1,5 @@
-           import 'package:flutter/material.dart';
           +import 'package:in_app_purchase/in_app_purchase.dart';
+           import 'package:material_ui/material_ui.dart';
            import 'package:provider/provider.dart';
-           
+
            import 'logic/dash_counter.dart';
           @@ -9,6 +10,19 @@ import 'pages/home_page.dart';
            import 'pages/purchase_page.dart';
            import 'repo/iap_repo.dart';
-           
+
           +// Gives the option to override in tests.
           +class IAPConnection {
           +  static InAppPurchase? _instance;
@@ -17258,16 +17258,16 @@ steps:
           --- b/in_app_purchases/step_07/app/lib/logic/dash_purchases.dart
           +++ a/in_app_purchases/step_07/app/lib/logic/dash_purchases.dart
           @@ -2,14 +2,17 @@ import 'dart:async';
-           
+
            import 'package:flutter/foundation.dart';
-           import 'package:flutter/material.dart';
           +import 'package:in_app_purchase/in_app_purchase.dart';
-           
+           import 'package:material_ui/material_ui.dart';
+
           +import '../main.dart';
            import '../model/purchasable_product.dart';
            import '../model/store_state.dart';
            import 'dash_counter.dart';
-           
+
            class DashPurchases extends ChangeNotifier {
              DashCounter counter;
           -  StoreState storeState = StoreState.available;
@@ -17277,9 +17277,9 @@ steps:
                PurchasableProduct(
                  'Spring is in the air',
           @@ -25,7 +28,22 @@ class DashPurchases extends ChangeNotifier {
-           
+
              bool get beautifiedDash => false;
-           
+
           -  DashPurchases(this.counter);
           +  final iapConnection = IAPConnection.instance;
           +
@@ -17297,7 +17297,7 @@ steps:
           +    _subscription.cancel();
           +    super.dispose();
           +  }
-           
+
              Future<void> buy(PurchasableProduct product) async {
                product.status = ProductStatus.pending;
           @@ -37,4 +55,16 @@ class DashPurchases extends ChangeNotifier {
@@ -17327,7 +17327,7 @@ steps:
            import 'package:flutter_test/flutter_test.dart';
           +import 'package:in_app_purchase/in_app_purchase.dart';
           +import 'package:in_app_purchase_platform_interface/src/in_app_purchase_platform_addition.dart';
-           
+
            void main() {
              testWidgets('App starts', (tester) async {
           +    IAPConnection.instance = TestIAPConnection();
@@ -17404,15 +17404,15 @@ steps:
           --- b/in_app_purchases/step_08/app/lib/logic/dash_purchases.dart
           +++ a/in_app_purchases/step_08/app/lib/logic/dash_purchases.dart
           @@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
-           import 'package:flutter/material.dart';
            import 'package:in_app_purchase/in_app_purchase.dart';
-           
+           import 'package:material_ui/material_ui.dart';
+
           +import '../constants.dart';
            import '../main.dart';
            import '../model/purchasable_product.dart';
            import '../model/store_state.dart';
           @@ -11,22 +12,12 @@ import 'dash_counter.dart';
-           
+
            class DashPurchases extends ChangeNotifier {
              DashCounter counter;
           -  StoreState storeState = StoreState.notAvailable;
@@ -17431,13 +17431,13 @@ steps:
           -    ),
           -  ];
           +  List<PurchasableProduct> products = [];
-           
+
           -  bool get beautifiedDash => false;
           +  bool get beautifiedDash => _beautifiedDashUpgrade;
           +  bool _beautifiedDashUpgrade = false;
-           
+
              final iapConnection = IAPConnection.instance;
-           
+
           @@ -37,6 +28,27 @@ class DashPurchases extends ChangeNotifier {
                  onDone: _updateStreamOnDone,
                  onError: _updateStreamOnError,
@@ -17464,11 +17464,11 @@ steps:
           +    storeState = StoreState.available;
           +    notifyListeners();
              }
-           
+
              @override
           @@ -46,18 +58,45 @@ class DashPurchases extends ChangeNotifier {
              }
-           
+
              Future<void> buy(PurchasableProduct product) async {
           -    product.status = ProductStatus.pending;
           -    notifyListeners();
@@ -17500,7 +17500,7 @@ steps:
           +    }
                notifyListeners();
              }
-           
+
           -  void _onPurchaseUpdate(List<PurchaseDetails> purchaseDetailsList) {
           -    // Handle purchases here
           +  Future<void> _handlePurchase(PurchaseDetails purchaseDetails) async {
@@ -17519,7 +17519,7 @@ steps:
           +      await iapConnection.completePurchase(purchaseDetails);
           +    }
              }
-           
+
              void _updateStreamOnDone() {
       - name: Patch app/lib/model/purchasable_product.dart
         path: steps/app/lib/model/purchasable_product.dart
@@ -17530,7 +17530,7 @@ steps:
           +import 'package:in_app_purchase/in_app_purchase.dart';
           +
            enum ProductStatus { purchasable, purchased, pending }
-           
+
            class PurchasableProduct {
           -  final String title;
           -  final String description;
@@ -17541,7 +17541,7 @@ steps:
           +  String get price => productDetails.price;
              ProductStatus status;
           +  ProductDetails productDetails;
-           
+
           -  PurchasableProduct(this.title, this.description, this.price)
           -    : status = ProductStatus.purchasable;
           +  PurchasableProduct(this.productDetails) : status = ProductStatus.purchasable;
@@ -17580,19 +17580,19 @@ steps:
           @@ -1,7 +1,9 @@
            import 'dart:async';
           +import 'dart:convert';
-           
+
            import 'package:flutter/foundation.dart';
-           import 'package:flutter/material.dart';
           +import 'package:http/http.dart' as http;
            import 'package:in_app_purchase/in_app_purchase.dart';
-           
+           import 'package:material_ui/material_ui.dart';
+
            import '../constants.dart';
           @@ -9,9 +11,11 @@ import '../main.dart';
            import '../model/purchasable_product.dart';
            import '../model/store_state.dart';
            import 'dash_counter.dart';
           +import 'firebase_notifier.dart';
-           
+
            class DashPurchases extends ChangeNotifier {
              DashCounter counter;
           +  FirebaseNotifier firebaseNotifier;
@@ -17600,16 +17600,16 @@ steps:
              late StreamSubscription<List<PurchaseDetails>> _subscription;
              List<PurchasableProduct> products = [];
           @@ -21,7 +25,7 @@ class DashPurchases extends ChangeNotifier {
-           
+
              final iapConnection = IAPConnection.instance;
-           
+
           -  DashPurchases(this.counter) {
           +  DashPurchases(this.counter, this.firebaseNotifier) {
                final purchaseUpdated = iapConnection.purchaseStream;
                _subscription = purchaseUpdated.listen(
                  _onPurchaseUpdate,
           @@ -84,13 +88,19 @@ class DashPurchases extends ChangeNotifier {
-           
+
              Future<void> _handlePurchase(PurchaseDetails purchaseDetails) async {
                if (purchaseDetails.status == PurchaseStatus.purchased) {
           -      switch (purchaseDetails.productID) {
@@ -17634,11 +17634,11 @@ steps:
           +        }
                  }
                }
-           
+
           @@ -99,6 +109,30 @@ class DashPurchases extends ChangeNotifier {
                }
              }
-           
+
           +  Future<bool> _verifyPurchase(PurchaseDetails purchaseDetails) async {
           +    final url = Uri.parse('http://$serverIp:8080/verifypurchase');
           +    const headers = {
@@ -17674,7 +17674,7 @@ steps:
           @@ -41,6 +41,8 @@ class FirebaseNotifier extends ChangeNotifier {
                return FirebaseFirestore.instance;
              }
-           
+
           +  User? get user => FirebaseAuth.instance.currentUser;
           +
              Future<void> load() async {
@@ -17685,9 +17685,9 @@ steps:
         patch-u: |
           --- b/in_app_purchases/step_10/app/lib/pages/purchase_page.dart
           +++ a/in_app_purchases/step_10/app/lib/pages/purchase_page.dart
-          @@ -2,15 +2,29 @@ import 'package:flutter/material.dart';
+          @@ -2,15 +2,29 @@ import 'package:material_ui/material_ui.dart';
            import 'package:provider/provider.dart';
-           
+
            import '../logic/dash_purchases.dart';
           +import '../logic/firebase_notifier.dart';
           +import '../model/firebase_state.dart';
@@ -17695,10 +17695,10 @@ steps:
            import '../model/store_state.dart';
            import '../repo/iap_repo.dart';
           +import 'login_page.dart';
-           
+
            class PurchasePage extends StatelessWidget {
              const PurchasePage({super.key});
-           
+
              @override
              Widget build(BuildContext context) {
           +    var firebaseNotifier = context.watch<FirebaseNotifier>();
@@ -17713,7 +17713,7 @@ steps:
           +    }
           +
                var upgrades = context.watch<DashPurchases>();
-           
+
                Widget storeWidget;
       - name: Patch dart-backend/bin/server.dart
         path: steps/dart-backend/bin/server.dart
@@ -17723,7 +17723,7 @@ steps:
           @@ -2,12 +2,112 @@
            // for details. All rights reserved. Use of this source code is governed by a
            // BSD-style license that can be found in the LICENSE file.
-           
+
           +import 'dart:convert';
           +import 'dart:io';
           +
@@ -18198,18 +18198,18 @@ steps:
           +import '../repo/iap_repo.dart';
            import 'dash_counter.dart';
            import 'firebase_notifier.dart';
-           
+
           @@ -19,19 +20,20 @@ class DashPurchases extends ChangeNotifier {
              StoreState storeState = StoreState.loading;
              late StreamSubscription<List<PurchaseDetails>> _subscription;
              List<PurchasableProduct> products = [];
           +  IAPRepo iapRepo;
-           
+
              bool get beautifiedDash => _beautifiedDashUpgrade;
              bool _beautifiedDashUpgrade = false;
           -
              final iapConnection = IAPConnection.instance;
-           
+
           -  DashPurchases(this.counter, this.firebaseNotifier) {
           +  DashPurchases(this.counter, this.firebaseNotifier, this.iapRepo) {
                final purchaseUpdated = iapConnection.purchaseStream;
@@ -18221,7 +18221,7 @@ steps:
           +    iapRepo.addListener(purchasesUpdate);
                loadPurchases();
              }
-           
+
           @@ -58,6 +60,7 @@ class DashPurchases extends ChangeNotifier {
              @override
              void dispose() {
@@ -18229,7 +18229,7 @@ steps:
           +    iapRepo.removeListener(purchasesUpdate);
                super.dispose();
              }
-           
+
           @@ -140,4 +143,55 @@ class DashPurchases extends ChangeNotifier {
              void _updateStreamOnError(dynamic error) {
                //Handle error here
@@ -18294,7 +18294,7 @@ steps:
           @@ -5,7 +5,9 @@
            import 'dart:convert';
            import 'dart:io';
-           
+
           +import 'package:app_store_server_sdk/app_store_server_sdk.dart';
            import 'package:firebase_backend_dart/app_store_purchase_handler.dart';
           +import 'package:firebase_backend_dart/constants.dart';
@@ -18320,7 +18320,7 @@ steps:
           +    ],
              );
              final androidPublisher = ap.AndroidPublisherApi(clientGooglePlay);
-           
+
           +  // Pub/Sub API to receive on purchase events from Google Play
           +  final pubsubApi = pubsub.PubsubApi(clientGooglePlay);
           +
@@ -18378,14 +18378,14 @@ steps:
           @@ -7,10 +7,19 @@ import 'iap_repository.dart';
            import 'products.dart';
            import 'purchase_handler.dart';
-           
+
           +/// Handles App Store purchases.
           +/// Uses the ITunes API to validate purchases.
           +/// Uses the App Store Server SDK to obtain the latest subscription status.
            class AppStorePurchaseHandler extends PurchaseHandler {
              final IapRepository iapRepository;
           +  final AppStoreServerAPI appStoreServerAPI;
-           
+
           -  AppStorePurchaseHandler(this.iapRepository);
           +  AppStorePurchaseHandler(this.iapRepository, this.appStoreServerAPI) {
           +    // Poll Subscription status every 10 seconds.
@@ -18393,7 +18393,7 @@ steps:
           +      _pullStatus();
           +    });
           +  }
-           
+
              final _iTunesAPI = ITunesApi(
                ITunesHttpClient(ITunesEnvironment.sandbox(), loggingEnabled: true),
           @@ -96,4 +105,52 @@ class AppStorePurchaseHandler extends PurchaseHandler {
@@ -18457,10 +18457,10 @@ steps:
           @@ -1,6 +1,8 @@
            import 'dart:async';
           +import 'dart:convert';
-           
+
            import 'package:googleapis/androidpublisher/v3.dart' as ap;
           +import 'package:googleapis/pubsub/v1.dart' as pubsub;
-           
+
            import 'constants.dart';
            import 'iap_repository.dart';
           @@ -10,8 +12,18 @@ import 'purchase_handler.dart';
@@ -18468,7 +18468,7 @@ steps:
              final ap.AndroidPublisherApi androidPublisher;
              final IapRepository iapRepository;
           +  final pubsub.PubsubApi pubsubApi;
-           
+
           -  GooglePlayPurchaseHandler(this.androidPublisher, this.iapRepository);
           +  GooglePlayPurchaseHandler(
           +    this.androidPublisher,
@@ -18480,7 +18480,7 @@ steps:
           +      _pullMessageFromPubSub();
           +    });
           +  }
-           
+
              /// Handle non-subscription purchases (one time purchases).
              ///
           @@ -145,6 +157,85 @@ class GooglePlayPurchaseHandler extends PurchaseHandler {
@@ -18567,7 +18567,7 @@ steps:
           +    );
           +  }
            }
-           
+
            NonSubscriptionStatus _nonSubscriptionStatusFrom(int? state) {
       - name: Copy to step_11
         copydir:
@@ -18585,7 +18585,7 @@ steps:
           +++ a/in_app_purchases/complete/app/lib/logic/dash_purchases.dart
           @@ -189,8 +189,8 @@ class DashPurchases extends ChangeNotifier {
              }
-           
+
              void _updateStatus(PurchasableProduct product, ProductStatus status) {
           -    if (product.status != ProductStatus.purchased) {
           -      product.status = ProductStatus.purchased;
@@ -18602,24 +18602,24 @@ steps:
           import 'package:firebase_backend_dart/google_play_purchase_handler.dart';
           import 'package:firebase_backend_dart/products.dart';
           import 'package:test/test.dart';
-          
+
           import '../bin/server.dart';
-          
+
           void main() {
             test('extractOrderId with subscription suffix', () {
               final orderId = extractOrderId('googleplay_GPA.3391-7354-8735-85865..0');
               expect(orderId, 'googleplay_GPA.3391-7354-8735-85865');
             });
-          
+
             test('extractOrderId without subscription suffix', () {
               final orderId = extractOrderId('googleplay_GPA.3391-7354-8735-85865');
               expect(orderId, 'googleplay_GPA.3391-7354-8735-85865');
             });
-          
+
             test('Parse Purchase data should fail', () {
               expect(() => getPurchaseData('{}'), throwsFormatException);
             });
-          
+
             test('Parse Purchase data should succeed', () {
               final (
                 :userId,
@@ -18643,7 +18643,7 @@ steps:
         copydir:
           from: steps
           to: complete
-             
+
   - name: Cleanup
     steps:
       - name: Remove steps

@@ -3,8 +3,8 @@
 // found in the LICENSE file.
 
 import 'package:colorist_ui/colorist_ui.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'providers/gemini.dart';
 import 'services/gemini_chat_service.dart';

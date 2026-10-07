@@ -1,0 +1,22 @@
+PODS:
+  - desktop_webview_auth (0.0.1):
+    - Flutter
+  - Flutter (1.0.0)
+
+DEPENDENCIES:
+  - desktop_webview_auth (from `.symlinks/plugins/desktop_webview_auth/ios`)
+  - Flutter (from `Flutter`)
+
+EXTERNAL SOURCES:
+  desktop_webview_auth:
+    :path: ".symlinks/plugins/desktop_webview_auth/ios"
+  Flutter:
+    :path: Flutter
+
+SPEC CHECKSUMS:
+  desktop_webview_auth: 4cf620136c3d79796496eef85e59508e3a1a003d
+  Flutter: 71a624a5bc0c04062bf19101d501e466baf2fb47
+
+PODFILE CHECKSUM: 3ba3a73b1b12adcf321a227a745625fe0888cc82
+
+COCOAPODS: 1.17.0

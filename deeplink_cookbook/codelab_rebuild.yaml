@@ -13,7 +13,7 @@ steps:
   - name: Flutter recreate
     flutter: create .
   - name: Add deps
-    flutter: pub add go_router
+    flutter: pub add go_router material_ui
   - name: Strip DEVELOPMENT_TEAM
     strip-lines-containing: DEVELOPMENT_TEAM =
     path: ios/Runner.xcodeproj/project.pbxproj

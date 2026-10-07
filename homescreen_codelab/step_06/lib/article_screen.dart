@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 // New: import the home_widget package.
 import 'package:home_widget/home_widget.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'home_screen.dart';
 import 'news_data.dart';

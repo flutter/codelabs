@@ -1,5 +1,5 @@
 import 'package:animations/animations.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'flip_effect.dart';
 import 'scoreboard.dart';

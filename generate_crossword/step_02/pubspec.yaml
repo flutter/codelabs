@@ -4,19 +4,20 @@ publish_to: 'none'
 version: 0.1.0+1
 
 environment:
-  sdk: ^3.13.4
+  sdk: ^3.13.5
 
 dependencies:
-  built_collection: ^5.1.1
+  built_collection: ^5.1.2
   built_value: ^8.13.0
   characters: ^1.4.1
   flutter:
     sdk: flutter
   flutter_riverpod: ^3.4.3
   intl: ^0.20.3
+  material_ui: ^1.5.0
   riverpod: ^3.4.3
   riverpod_annotation: ^4.0.7
-  two_dimensional_scrollables: ^0.5.4
+  two_dimensional_scrollables: ^0.5.5
 
 dev_dependencies:
   flutter_test:
