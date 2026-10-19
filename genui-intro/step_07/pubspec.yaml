@@ -7,8 +7,8 @@ environment:
   sdk: ^3.13.5
 
 dependencies:
-  firebase_ai: ^4.0.0
-  firebase_core: ^4.15.0
+  firebase_ai: ^5.0.0
+  firebase_core: ^5.0.0
   flutter:
     sdk: flutter
   genui: ^0.10.4
