@@ -23,7 +23,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        flutter_version: [stable, beta]
+        # flutter_version: [stable, beta] Disable beta until fully migrated to material_ui and cupertino_ui
+        flutter_version: [stable]
         os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1

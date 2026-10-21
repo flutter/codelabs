@@ -373,10 +373,10 @@ packages:
     dependency: "direct main"
     description:
       name: shelf_router
-      sha256: f5e5d492440a7fb165fe1e2e1a623f31f734d3370900070b2b1e0d0428d59864
+      sha256: "2b3eb66f2e7651c9f0af28538e0de53bc02dc102d965d55b13e6ffceafad10e3"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.4"
+    version: "1.1.5"
   shelf_static:
     dependency: transitive
     description:
