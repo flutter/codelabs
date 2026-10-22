@@ -4,12 +4,12 @@ publish_to: 'none'
 version: 0.1.0+1
 
 environment:
-  sdk: ^3.13.0-0
+  sdk: ^3.13.5
 
 dependencies:
-  firebase_auth: ^6.5.7
-  firebase_core: ^4.13.0
-  firebase_ui_auth: ^3.1.0
+  firebase_auth: ^6.7.0
+  firebase_core: ^4.15.0
+  firebase_ui_auth: ^3.1.1
   flutter:
     sdk: flutter
 

@@ -53,7 +53,7 @@ steps:
       - name: Replace lib/main.dart
         path: firebase_auth_flutterfire_ui/lib/main.dart
         replace-contents: |
-          import 'package:flutter/material.dart';
+          import 'package:material_ui/material_ui.dart';
 
           import 'app.dart';
 
@@ -66,7 +66,7 @@ steps:
       - name: Add lib/app.dart
         path: firebase_auth_flutterfire_ui/lib/app.dart
         replace-contents: |
-          import 'package:flutter/material.dart';
+          import 'package:material_ui/material_ui.dart';
 
           import 'auth_gate.dart';
 
@@ -88,7 +88,7 @@ steps:
       - name: Add lib/auth_gate.dart
         path: firebase_auth_flutterfire_ui/lib/auth_gate.dart
         replace-contents: |
-          import 'package:flutter/material.dart';
+          import 'package:material_ui/material_ui.dart';
 
           import 'home.dart';
 
@@ -105,7 +105,7 @@ steps:
       - name: Add lib/home.dart
         path: firebase_auth_flutterfire_ui/lib/home.dart
         replace-contents: |
-          import 'package:flutter/material.dart';
+          import 'package:material_ui/material_ui.dart';
 
           class HomeScreen extends StatelessWidget {
             const HomeScreen({super.key});
@@ -4560,7 +4560,7 @@ steps:
         rmdir: step_01
       - name: Add dependencies
         path: firebase_auth_flutterfire_ui
-        flutter: pub add firebase_auth firebase_core firebase_auth firebase_ui_auth
+        flutter: pub add firebase_auth firebase_core firebase_auth firebase_ui_auth material_ui
       - name: firebase.json
         path: firebase_auth_flutterfire_ui/firebase.json
         replace-contents: |
@@ -4626,9 +4626,6 @@ steps:
           	<string>1:963656261848:ios:3e6776183887c3fdb237ad</string>
           </dict>
           </plist>
-      - name: Patch ios/Runner.xcodeproj/project.pbxproj
-        xcode-project-path: firebase_auth_flutterfire_ui/ios/Runner.xcodeproj
-        iphoneos-deployment-target: "15.0"
       - name: Flutter pub get
         path: firebase_auth_flutterfire_ui
         flutter: pub get
@@ -4669,9 +4666,6 @@ steps:
           	<string>1:963656261848:ios:d9e01cfe8b675dfcb237ad</string>
           </dict>
           </plist>
-      - name: Patch macos/Runner.xcodeproj/project.pbxproj
-        xcode-project-path: firebase_auth_flutterfire_ui/macos/Runner.xcodeproj
-        macosx-deployment-target: "10.15"
       - name: pod update macos
         path: firebase_auth_flutterfire_ui/macos
         pod: update
@@ -4764,7 +4758,7 @@ steps:
           +++ a/firebase-auth-flutterfire-ui/complete/lib/main.dart
           @@ -1,10 +1,15 @@
           +import 'package:firebase_core/firebase_core.dart';
-           import 'package:flutter/material.dart';
+           import 'package:material_ui/material_ui.dart';
 
            import 'app.dart';
           +import 'firebase_options.dart';
@@ -4824,7 +4818,7 @@ steps:
           @@ -1,3 +1,5 @@
           +import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
           +import 'package:firebase_ui_auth/firebase_ui_auth.dart';
-           import 'package:flutter/material.dart';
+           import 'package:material_ui/material_ui.dart';
 
            import 'home.dart';
           @@ -9,6 +11,15 @@ class AuthGate extends StatelessWidget {
@@ -5039,7 +5033,7 @@ steps:
           +++ a/firebase-auth-flutterfire-ui/step_04_a/lib/home.dart
           @@ -1,3 +1,4 @@
           +import 'package:firebase_ui_auth/firebase_ui_auth.dart';
-           import 'package:flutter/material.dart';
+           import 'package:material_ui/material_ui.dart';
 
            class HomeScreen extends StatelessWidget {
           @@ -6,12 +7,28 @@ class HomeScreen extends StatelessWidget {
@@ -5199,7 +5193,7 @@ steps:
            import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
            import 'package:firebase_ui_auth/firebase_ui_auth.dart';
           +import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart';
-           import 'package:flutter/material.dart';
+           import 'package:material_ui/material_ui.dart';
 
            import 'home.dart';
           @@ -16,7 +17,10 @@ class AuthGate extends StatelessWidget {
