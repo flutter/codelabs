@@ -8,8 +8,8 @@ environment:
 
 dependencies:
   app_store_server_sdk: ^1.2.10
-  googleapis: ^17.0.0
-  googleapis_auth: ^2.3.4
+  googleapis: ^16.0.0
+  googleapis_auth: ^2.3.5
   http: ^1.6.0
   shelf: ^1.4.2
   shelf_router: ^1.1.2
