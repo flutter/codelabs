@@ -35,7 +35,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^2.0.0
   webview_flutter: ^4.14.1
-  material_ui: ^1.5.0
+  material_ui: ^1.8.0
   path_provider: ^2.1.6
 
 dev_dependencies:
