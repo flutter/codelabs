@@ -70,6 +70,9 @@ steps:
       - name: Dart format
         path: animated_responsive_layout
         dart: format .
+      - name: Flutter clean
+        path: animated_responsive_layout
+        flutter: clean
       - name: Build iOS simulator bundle
         platforms: [macos]
         path: animated_responsive_layout
