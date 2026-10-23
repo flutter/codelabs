@@ -22,9 +22,8 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:material_ui/material_ui.dart';
-
 import 'package:google_maps_in_flutter/main.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (tester) async {
