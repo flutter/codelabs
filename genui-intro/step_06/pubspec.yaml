@@ -7,13 +7,13 @@ environment:
   sdk: ^3.13.5
 
 dependencies:
-  firebase_ai: ^4.0.0
-  firebase_core: ^4.15.0
+  firebase_ai: ^5.0.0
+  firebase_core: ^5.0.0
   flutter:
     sdk: flutter
   genui: ^0.10.4
   json_schema_builder: ^0.1.7
-  material_ui: ^1.5.0
+  material_ui: ^1.8.0
 
 dev_dependencies:
   flutter_test:
