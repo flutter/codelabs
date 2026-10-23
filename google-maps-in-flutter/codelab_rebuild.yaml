@@ -77,9 +77,6 @@ steps:
 
            # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
            ENV['COCOAPODS_DISABLE_STATS'] = 'true'
-      - name: Patch ios/Runner.xcodeproj/project.pbxproj
-        xcode-project-path: google_maps_in_flutter/ios/Runner.xcodeproj
-        iphoneos-deployment-target: "16.0"
       - name: Patch lib/main.dart
         path: google_maps_in_flutter/lib/main.dart
         patch-u: |
