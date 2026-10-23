@@ -5,7 +5,6 @@
 This repository contains the code for a variety of [Flutter Codelabs](https://codelabs.developers.google.com/?product=flutter).
 Here is a list of the codelabs represented here:
 
-- [Add a user authentication flow to a Flutter app using FirebaseUI](https://firebase.google.com/codelabs/firebase-auth-in-flutter-apps) is in [`firebase-auth-flutterfire-ui`](firebase-auth-flutterfire-ui)
 - [Adding a Home Screen widget to your Flutter App](https://codelabs.developers.google.com/flutter-home-screen-widgets) is in [`homescreen_codelab`](homescreen_codelab)
 - [Adding Google Maps to a Flutter app](https://codelabs.developers.google.com/codelabs/google-maps-in-flutter) is in [`google-maps-in-flutter`](google-maps-in-flutter)
 - [Adding in-app purchases to your Flutter app](https://codelabs.developers.google.com/codelabs/flutter-in-app-purchases) is in [`in_app_purchases`](in_app_purchases)
