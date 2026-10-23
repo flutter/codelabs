@@ -82,13 +82,13 @@ packages:
     source: hosted
     version: "2.0.0"
   cupertino_ui:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: cupertino_ui
-      sha256: c23816577a1280cff409e989541767887011f8f1d8c1863a794ed308af46f2a9
+      sha256: a47c4e7c66fd7444a063a602597fceb238f705c3f6b1322bc0053d0a2638ee6e
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.1"
+    version: "1.1.4"
   fake_async:
     dependency: transitive
     description:
@@ -193,18 +193,18 @@ packages:
     dependency: transitive
     description:
       name: google_sign_in_android
-      sha256: c403315d87aba1f815a0a401093f97808cab6cb2bdd11ca431ff8587fd7f1c00
+      sha256: "312e74b3e839896ff30ed98310da4cc24dbfa19ad060b1612f7718d5afa66480"
       url: "https://pub.dev"
     source: hosted
-    version: "7.2.17"
+    version: "7.2.18"
   google_sign_in_ios:
     dependency: transitive
     description:
       name: google_sign_in_ios
-      sha256: "55e8b7ea216d671f81dd17b0ef535d0a7d239ef1aea4f6f79fbf14abaa9c3687"
+      sha256: b8efb315c778390f1b1c4fc14d74c42784dd9ee0c1d0c26b13f30b46826319ad
       url: "https://pub.dev"
     source: hosted
-    version: "6.3.6"
+    version: "6.3.8"
   google_sign_in_platform_interface:
     dependency: transitive
     description:
@@ -249,10 +249,10 @@ packages:
     dependency: transitive
     description:
       name: in_app_purchase_android
-      sha256: f7327b5fd70d8dc1b419fb4cd5c17520175c4059441afd985e8a9c3fa2cefed9
+      sha256: b76ab601573f8a848e72d015496257235066ba3479bef6300482239f417e0d72
       url: "https://pub.dev"
     source: hosted
-    version: "0.5.3"
+    version: "0.5.5"
   in_app_purchase_platform_interface:
     dependency: "direct dev"
     description:
@@ -265,10 +265,10 @@ packages:
     dependency: transitive
     description:
       name: in_app_purchase_storekit
-      sha256: bb87b9003fd77da6f23f82c09b1891b28f7bf2520cfa1881a266a9601e675bf0
+      sha256: de4f86b7bed848cd60a32c93affad868ba06a5276c007e23878855558094ff43
       url: "https://pub.dev"
     source: hosted
-    version: "0.4.13"
+    version: "0.4.15"
   intl:
     dependency: "direct main"
     description:
@@ -345,10 +345,10 @@ packages:
     dependency: "direct main"
     description:
       name: material_ui
-      sha256: "98ab9eda579ecae623e4b376c603035c5def78ce706f735f30bd632af5814695"
+      sha256: e4031746f96c8316864d9b92bce375f1320a36ed56e166307e1e1bda9d90b4ab
       url: "https://pub.dev"
     source: hosted
-    version: "1.6.0"
+    version: "1.8.0"
   meta:
     dependency: transitive
     description:
@@ -462,10 +462,10 @@ packages:
     dependency: transitive
     description:
       name: vm_service
-      sha256: "5f37239c4851efcef929cea7824e76df7f2f0970aef85d66bbc430afa40e72f0"
+      sha256: "89b11d62e1040ee681af3b4f1c97a803ecbf010c6e8b9c5896ee5b08c3bf7b78"
       url: "https://pub.dev"
     source: hosted
-    version: "15.3.0"
+    version: "15.4.0"
   web:
     dependency: transitive
     description:
