@@ -8,9 +8,10 @@ environment:
 
 dependencies:
   animations: ^3.0.0
+  cupertino_ui: ^1.1.4
   flutter:
     sdk: flutter
-  material_ui: ^1.5.0
+  material_ui: ^1.8.0
 
 dev_dependencies:
   flutter_test:

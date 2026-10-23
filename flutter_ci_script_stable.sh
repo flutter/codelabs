@@ -12,7 +12,6 @@ declare -a CODELABS=(
   "colorist"
   "dart-patterns-and-records"
   "deeplink_cookbook"
-  "firebase-auth-flutterfire-ui"
   "firebase-get-to-know-flutter"
   "generate_crossword"
   "genui-intro"
