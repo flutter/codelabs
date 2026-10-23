@@ -43,7 +43,7 @@ steps:
           }
       - name: Add app dependencies
         path: steps/app
-        flutter: pub add cloud_firestore cupertino_icons firebase_auth firebase_core google_sign_in http intl provider logging material_ui
+        flutter: pub add cloud_firestore cupertino_icons firebase_auth firebase_core google_sign_in http intl provider logging material_ui cupertino_ui
       - name: Patch app/pubspec.yaml
         path: steps/app/pubspec.yaml
         patch-u: |
@@ -56,7 +56,7 @@ steps:
            publish_to: 'none'
            version: 0.1.0+1
 
-          @@ -27,3 +27,6 @@ dev_dependencies:
+          @@ -28,3 +28,6 @@ dev_dependencies:
 
            flutter:
              uses-material-design: true
@@ -16033,7 +16033,7 @@ steps:
       - name: Add app/lib/logic/dash_upgrades.dart
         path: steps/app/lib/logic/dash_upgrades.dart
         replace-contents: |
-          import 'package:flutter/cupertino.dart';
+          import 'package:cupertino_ui/cupertino_ui.dart';
 
           import 'dash_counter.dart';
           import 'firebase_notifier.dart';
@@ -16121,9 +16121,9 @@ steps:
           import 'dart:async';
 
           import 'package:cloud_firestore/cloud_firestore.dart';
+          import 'package:cupertino_ui/cupertino_ui.dart';
           import 'package:firebase_auth/firebase_auth.dart';
           import 'package:firebase_core/firebase_core.dart';
-          import 'package:flutter/cupertino.dart';
           import 'package:flutter/foundation.dart';
           import 'package:google_sign_in/google_sign_in.dart';
           import 'package:logging/logging.dart';
@@ -16625,8 +16625,8 @@ steps:
           import 'dart:async';
 
           import 'package:cloud_firestore/cloud_firestore.dart';
+          import 'package:cupertino_ui/cupertino_ui.dart';
           import 'package:firebase_auth/firebase_auth.dart';
-          import 'package:flutter/cupertino.dart';
 
           import '../constants.dart';
           import '../logic/firebase_notifier.dart';

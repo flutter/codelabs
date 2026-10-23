@@ -330,9 +330,6 @@ steps:
           +	<true/>
            </dict>
            </plist>
-      - name: Patch ios/Runner.xcodeproj/project.pbxproj
-        xcode-project-path: colorist/ios/Runner.xcodeproj
-        iphoneos-deployment-target: "15.0"
       - name: Upgrade deps
         path: colorist
         flutter: pub upgrade --major-versions
