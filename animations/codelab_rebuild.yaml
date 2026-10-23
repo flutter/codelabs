@@ -28,7 +28,7 @@ steps:
           }
       - name: Add deps
         path: quiz
-        flutter: pub add animations material_ui
+        flutter: pub add animations material_ui cupertino_ui
       - name: Patch pubspec.yaml
         path: quiz/pubspec.yaml
         patch-u: |
@@ -184,7 +184,7 @@ steps:
       - name: Add lib/view_model.dart
         path: quiz/lib/view_model.dart
         replace-contents: |
-          import 'package:flutter/cupertino.dart';
+          import 'package:cupertino_ui/cupertino_ui.dart';
 
           import 'model.dart';
 
