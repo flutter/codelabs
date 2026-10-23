@@ -8,21 +8,21 @@ environment:
 
 dependencies:
   colorist_ui: ^0.8.4
-  firebase_ai: ^4.0.0
-  firebase_core: ^4.15.0
+  firebase_ai: ^5.0.0
+  firebase_core: ^5.0.0
   flutter:
     sdk: flutter
   flutter_riverpod: ^3.4.3
-  material_ui: ^1.5.0
+  material_ui: ^1.8.0
   riverpod_annotation: ^4.0.7
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
-  build_runner: ^2.16.1
+  build_runner: ^2.16.2
   riverpod_generator: ^4.0.9
-  json_serializable: ^6.14.1
+  json_serializable: ^6.15.2
 
 flutter:
   uses-material-design: true
