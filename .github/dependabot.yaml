@@ -5,6 +5,8 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+    cooldown:
+      default-days: 7
     # Don't auto-submit GitHub Action updates until
     # subosito/flutter-action update is cleared.
     # labels:
@@ -17,6 +19,8 @@ updates:
       - "/animated-responsive-layout/step_*"
     schedule:
       interval: "daily"
+    cooldown:
+      default-days: 7
     labels:
       - "autosubmit"
     groups:
@@ -29,6 +33,8 @@ updates:
       - "/animations/step_*"
     schedule:
       interval: "daily"
+    cooldown:
+      default-days: 7
     labels:
       - "autosubmit"
     groups:
@@ -41,6 +47,8 @@ updates:
       - "/brick_breaker/step_*"
     schedule:
       interval: "daily"
+    cooldown:
+      default-days: 7
     labels:
       - "autosubmit"
     groups:
@@ -53,6 +61,8 @@ updates:
       - "/colorist/step_*"
     schedule:
       interval: "daily"
+    cooldown:
+      default-days: 7
     labels:
       - "autosubmit"
     groups:
@@ -65,6 +75,8 @@ updates:
       - "/dart-patterns-and-records/step_*"
     schedule:
       interval: "daily"
+    cooldown:
+      default-days: 7
     labels:
       - "autosubmit"
     groups:
@@ -76,6 +88,8 @@ updates:
     directory: "/deeplink_cookbook/"
     schedule:
       interval: "daily"
+    cooldown:
+      default-days: 7
     labels:
       - "autosubmit"
 
@@ -85,6 +99,8 @@ updates:
       - "/firebase-get-to-know-flutter/step_*"
     schedule:
       interval: "daily"
+    cooldown:
+      default-days: 7
     labels:
       - "autosubmit"
     groups:
@@ -97,6 +113,8 @@ updates:
       - "/generate_crossword/step_*"
     schedule:
       interval: "daily"
+    cooldown:
+      default-days: 7
     labels:
       - "autosubmit"
     groups:
@@ -109,6 +127,8 @@ updates:
       - "/genui-intro/step_*"
     schedule:
       interval: "daily"
+    cooldown:
+      default-days: 7
     labels:
       - "autosubmit"
     groups:
@@ -121,6 +141,8 @@ updates:
       - "/google-maps-in-flutter/step_*"
     schedule:
       interval: "daily"
+    cooldown:
+      default-days: 7
     labels:
       - "autosubmit"
     groups:
@@ -133,6 +155,8 @@ updates:
       - "/homescreen_codelab/step_*"
     schedule:
       interval: "daily"
+    cooldown:
+      default-days: 7
     labels:
       - "autosubmit"
     groups:
@@ -146,6 +170,8 @@ updates:
       - "/in_app_purchases/*/dart-backend"
     schedule:
       interval: "daily"
+    cooldown:
+      default-days: 7
     labels:
       - "autosubmit"
     groups:
@@ -158,6 +184,8 @@ updates:
       - "/namer/step_*"
     schedule:
       interval: "daily"
+    cooldown:
+      default-days: 7
     labels:
       - "autosubmit"
     groups:
@@ -169,6 +197,8 @@ updates:
     directory: "/tooling/codelab_rebuild/"
     schedule:
       interval: "daily"
+    cooldown:
+      default-days: 7
     labels:
       - "autosubmit"
 
@@ -178,6 +208,8 @@ updates:
       - "/webview_flutter/step_*"
     schedule:
       interval: "daily"
+    cooldown:
+      default-days: 7
     labels:
       - "autosubmit"
     groups:
