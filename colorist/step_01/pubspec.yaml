@@ -7,7 +7,7 @@ environment:
   sdk: ^3.13.5
 
 dependencies:
-  colorist_ui: ^0.8.4
+  colorist_ui: ^0.9.0
   flutter:
     sdk: flutter
   flutter_riverpod: ^3.4.3
