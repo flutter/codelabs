@@ -72,6 +72,15 @@ A typical `codelab_rebuild.yaml` maintains a single scratch project directory (e
 
 For the complete list of supported YAML keys, types, and validation rules, read the [Blueprint Schema Reference](./references/blueprint-schema.md).
 
+### Recovering from a Failed Rebuild
+Each step in `codelab_rebuild.yaml` typically starts with `rmdir: step_XX`, which calls `deleteSync(recursive: true)` and throws a `PathNotFoundException` if `step_XX` does not exist on disk. When a rebuild fails mid-way through a step (after `rmdir: step_XX` has already run):
+1. Recreate any missing `step_XX` directory before re-running (e.g., `mkdir -p <codelab_dir>/step_XX` or `git checkout -- <codelab_dir>/step_XX`).
+2. Remove the leftover scratch project directory (`rm -rf <codelab_dir>/<app_name>`) so the next run starts from a clean state without leftover `.rej`/`.orig` patch artifacts.
+
+### Adapting to `flutter create` Template Changes
+When upgrading a codelab for a newer Flutter SDK, `flutter create` output may differ from when the blueprint was written:
+- **`material_ui` default import**: Recent Flutter SDKs include `material_ui` in `pubspec.yaml` and generate `import 'package:material_ui/material_ui.dart';` (instead of `import 'package:flutter/material.dart';`) in `lib/main.dart`, including with `flutter create --empty`. Update any initial `patch-u` hunks on `lib/main.dart` that still expect `package:flutter/material.dart`, and remove redundant `flutter: pub add material_ui` steps if no longer needed.
+
 ### Incremental Debugging with `stop: true`
 When a step fails (for example, a `patch-u` hunk no longer applies cleanly after a `flutter create` template change or package upgrade):
 1. Insert a temporary stop step right before or after the failing step:
@@ -123,6 +132,6 @@ After rebuilding a codelab or modifying `tooling/codelab_rebuild`:
    Match the checks in [`flutter_ci_script_shared.sh`](../../../flutter_ci_script_shared.sh) for every generated project in `<codelab_dir>`:
    - `flutter pub get`
    - `dart analyze --fatal-infos --fatal-warnings`
-   - `dart format --output none --set-exit-if-changed lib test`
+   - `dart format --output none --set-exit-if-changed lib` (and include `test` if a `test/` directory exists; note that `flutter create --empty` omits `test/`)
    - `flutter test` (or `dart test` for pure Dart projects, if a `test/` directory exists)
    - Ensure `git status` shows no leftover scratch directory (e.g., `<app_name>/` was cleaned up by the final step).
