@@ -79,7 +79,7 @@ Each step in `codelab_rebuild.yaml` typically starts with `rmdir: step_XX`, whic
 
 ### Adapting to `flutter create` Template Changes
 When upgrading a codelab for a newer Flutter SDK, `flutter create` output may differ from when the blueprint was written:
-- **`material_ui` default import**: Recent Flutter SDKs include `material_ui` in `pubspec.yaml` and generate `import 'package:material_ui/material_ui.dart';` (instead of `import 'package:flutter/material.dart';`) in `lib/main.dart`, including with `flutter create --empty`. Update any initial `patch-u` hunks on `lib/main.dart` that still expect `package:flutter/material.dart`, and remove redundant `flutter: pub add material_ui` steps if no longer needed.
+- **`material_ui` default import and version constraint**: Recent Flutter SDKs include `material_ui` in `pubspec.yaml` and generate `import 'package:material_ui/material_ui.dart';` (instead of `import 'package:flutter/material.dart';`) in `lib/main.dart`, including with `flutter create --empty`. Update any initial `patch-u` hunks on `lib/main.dart` that still expect `package:flutter/material.dart`. **Do not remove** `flutter: pub add material_ui` (or `flutter: pub upgrade --major-versions`) from the blueprint: `flutter create` writes an older template constraint (e.g., `material_ui: ^1.1.0`) in `pubspec.yaml` even when `pubspec.lock` resolves to a newer version (e.g., `1.11.0`), so `flutter pub add material_ui` or `flutter pub upgrade --major-versions` is still needed to update the `pubspec.yaml` constraint to the latest version.
 
 ### Incremental Debugging with `stop: true`
 When a step fails (for example, a `patch-u` hunk no longer applies cleanly after a `flutter create` template change or package upgrade):
