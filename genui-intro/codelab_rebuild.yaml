@@ -8,7 +8,7 @@ steps:
         flutter: create -e intro_to_genui
       - name: Add dependencies
         path: intro_to_genui
-        flutter: pub add firebase_ai firebase_core genui json_schema_builder
+        flutter: pub add firebase_ai firebase_core genui json_schema_builder material_ui
       - name: Strip DEVELOPMENT_TEAM
         strip-lines-containing: DEVELOPMENT_TEAM =
         path: intro_to_genui/ios/Runner.xcodeproj/project.pbxproj
