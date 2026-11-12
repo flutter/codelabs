@@ -98,6 +98,20 @@ Always prefer `patch-u` over `patch` or `patch-c`.
 - Note that `codelab_rebuild` invokes `patch -u <fullPath>` directly on the target file specified by `path:`, so the `---` / `+++` header paths in the diff are ignored by `patch` in favor of `path:`, but keeping them accurate improves readability.
 - If a file is small or changes almost entirely between steps, using `replace-contents: |` is often less brittle across Flutter SDK upgrades than `patch-u`.
 
+### Detecting and Fixing `.orig` and `.rej` Patch Artifacts
+When `patch -u` runs during a rebuild:
+- **`.orig` files** are created by `patch` (notably BSD `patch` on macOS) when a hunk succeeds with a **line offset or fuzz** because upstream template files (e.g., `web/index.html`, `pubspec.yaml`, `Info.plist`) gained or lost lines in a newer Flutter SDK. Because `patch` still exits with `0`, the rebuild succeeds, and `copydir` copies the leftover `<file>.orig` into `step_XX/` and all subsequent steps.
+- **`.rej` files** (along with `.orig` files) are created when a hunk fails to apply altogether.
+
+To correct `.orig` or `.rej` files:
+1. Check for any `.orig` or `.rej` files in the codelab directory:
+   ```sh
+   find <codelab_dir> -name "*.orig" -o -name "*.rej"
+   ```
+2. Locate the `patch-u` step in `codelab_rebuild.yaml` targeting the base file (e.g., `web/index.html` for `web/index.html.orig`).
+3. Regenerate the unified diff (`diff -u` or `git diff -U3`) against the actual file state prior to that patch—or update the `@@ -start,count +start,count @@` hunk header and context lines so the hunk applies at the exact line number with zero offset and zero fuzz.
+4. Re-run `codelab_rebuild <codelab_dir>/codelab_rebuild.yaml` (do not just delete the `.orig` file manually, or the next rebuild will recreate it) and confirm `find <codelab_dir> -name "*.orig" -o -name "*.rej"` returns nothing.
+
 ### Encoding Binary Assets (`base64-contents`)
 To embed fonts, images, or other binary files in `codelab_rebuild.yaml`, encode the file and wrap lines at 76 characters (note that `codelab_rebuild` strips all newlines before decoding, so wrapping is purely for YAML readability):
 ```sh
@@ -134,4 +148,5 @@ After rebuilding a codelab or modifying `tooling/codelab_rebuild`:
    - `dart analyze --fatal-infos --fatal-warnings`
    - `dart format --output none --set-exit-if-changed lib` (and include `test` if a `test/` directory exists; note that `flutter create --empty` omits `test/`)
    - `flutter test` (or `dart test` for pure Dart projects, if a `test/` directory exists)
+   - Ensure no `.orig` or `.rej` files were left behind by fuzzy/offset patches (`find <codelab_dir> -name "*.orig" -o -name "*.rej"` should return no results).
    - Ensure `git status` shows no leftover scratch directory (e.g., `<app_name>/` was cleaned up by the final step).
