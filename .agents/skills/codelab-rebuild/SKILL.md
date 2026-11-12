@@ -90,9 +90,14 @@ Always prefer `patch-u` over `patch` or `patch-c`.
 - If a file is small or changes almost entirely between steps, using `replace-contents: |` is often less brittle across Flutter SDK upgrades than `patch-u`.
 
 ### Encoding Binary Assets (`base64-contents`)
-To embed fonts, images, or other binary files in `codelab_rebuild.yaml`:
+To embed fonts, images, or other binary files in `codelab_rebuild.yaml`, encode the file and wrap lines at 76 characters (note that `codelab_rebuild` strips all newlines before decoding, so wrapping is purely for YAML readability):
 ```sh
-base64 -b 76 < path/to/asset.png
+# Cross-platform (macOS & Linux):
+fold -w 76 <(base64 < path/to/asset.png)
+
+# Or using platform-specific flags:
+base64 -b 76 < path/to/asset.png   # macOS (BSD base64)
+base64 -w 76 < path/to/asset.png   # Linux (GNU base64; 76 is also the default)
 ```
 Paste the multi-line base64 string into a step with `path` and `base64-contents: |`.
 
