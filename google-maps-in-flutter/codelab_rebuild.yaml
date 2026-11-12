@@ -25,7 +25,7 @@ steps:
         path: google_maps_in_flutter
       - name: Add google_maps_flutter
         path: google_maps_in_flutter
-        flutter: pub add google_maps_flutter material_ui
+        flutter: pub add google_maps_flutter
       - name: Remove the README.md
         rm: google_maps_in_flutter/README.md
       - name: Add .gemini directory
@@ -99,8 +99,7 @@ steps:
           + * limitations under the License.
           + */
           +
-          -import 'package:flutter/material.dart';
-          +import 'package:material_ui/material_ui.dart';
+           import 'package:material_ui/material_ui.dart';
 
            void main() {
       - name: Patch test/widget_test.dart
