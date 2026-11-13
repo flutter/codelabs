@@ -14,6 +14,8 @@ steps:
     flutter: create .
   - name: Add deps
     flutter: pub add go_router material_ui
+  - name: Upgrade deps
+    flutter: pub upgrade --major-versions
   - name: Strip DEVELOPMENT_TEAM
     strip-lines-containing: DEVELOPMENT_TEAM =
     path: ios/Runner.xcodeproj/project.pbxproj

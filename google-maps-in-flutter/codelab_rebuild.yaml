@@ -99,8 +99,7 @@ steps:
           + * limitations under the License.
           + */
           +
-          -import 'package:flutter/material.dart';
-          +import 'package:material_ui/material_ui.dart';
+           import 'package:material_ui/material_ui.dart';
 
            void main() {
       - name: Patch test/widget_test.dart
@@ -197,7 +196,7 @@ steps:
         patch-u: |
           --- b/google-maps-in-flutter/step_4/web/index.html
           +++ a/google-maps-in-flutter/step_4/web/index.html
-          @@ -29,6 +29,9 @@
+          @@ -41,6 +41,9 @@
              <!-- Favicon -->
              <link rel="icon" type="image/png" href="favicon.png"/>
 

@@ -66,6 +66,11 @@ steps:
       - name: Replace app/analysis_options.yaml
         path: steps/app/analysis_options.yaml
         replace-contents: |
+          analyzer:
+            exclude:
+              - build/**
+              - android/**
+              - ios/**
           include: ../../../analysis_options.yaml
       - name: Remove app/README.md
         rm: steps/app/README.md
