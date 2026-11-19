@@ -189,10 +189,10 @@ packages:
     dependency: "direct main"
     description:
       name: googleapis
-      sha256: "62b5988f228b774448ebd99b53fe8069becb55840f1b28948bb84160373dc0b6"
+      sha256: "48200d0b604fc49ed87053bd8c42711a110e958dd80d52db03cbe723f8fb44dc"
       url: "https://pub.dev"
     source: hosted
-    version: "16.0.0"
+    version: "19.0.0"
   googleapis_auth:
     dependency: "direct main"
     description:
