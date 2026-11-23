@@ -197,10 +197,10 @@ packages:
     dependency: "direct main"
     description:
       name: firebase_ai
-      sha256: "553e67c34daa51a3b9917d6431de71eab42a3f88110315d0819d4a006185453d"
+      sha256: "39e33cd488b620460f7d56b25a9a53f690f20e8d2aafd568a82987c88973805b"
       url: "https://pub.dev"
     source: hosted
-    version: "5.1.0"
+    version: "5.2.0"
   firebase_app_check:
     dependency: transitive
     description:
